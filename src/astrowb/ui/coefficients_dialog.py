@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from .files import images_filter
 from .workspaces import PlotCanvas
 
 BANDS = ("B", "V", "R", "I", "SG", "SR", "SI")
@@ -52,7 +53,7 @@ class CoefficientsDialog(QDialog):
             self.band[r].setCurrentText(default)
             pick = QPushButton(self.tr("Plate-solved image…"), self)
             pick.clicked.connect(
-                lambda _=False, i=r: self.set_image(i, QFileDialog.getOpenFileName(self, "", "", FITS)[0])
+                lambda _=False, i=r: self.set_image(i, QFileDialog.getOpenFileName(self, "", "", images_filter())[0])
             )
             g.addWidget(QLabel(self.tr("Filter {n}").format(n=r + 1), self), r, 0)
             g.addWidget(self.band[r], r, 1)
@@ -104,6 +105,9 @@ class CoefficientsDialog(QDialog):
         from pathlib import Path
 
         if path:
+            from ..io.bayer import fits_copy
+
+            path = str(fits_copy(path))  # a camera raw file or picture: its FITS copy
             self.paths[i] = path
             self.file_labels[i].setText(Path(path).name)
         self.tr_button.setEnabled(all(self.paths))

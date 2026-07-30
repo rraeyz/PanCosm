@@ -1628,15 +1628,18 @@ class PhotometryPage(QWidget):
         return w
 
     def _choose_images(self):
-        paths, _ = QFileDialog.getOpenFileNames(
-            self, self.tr("Choose images"), "", "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
-        )
+        from .files import images_filter
+
+        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Choose images"), "", images_filter())
         if paths:
             self.set_images(paths)
 
     def set_images(self, paths):
         from .. import timing
+        from ..io.bayer import fits_paths
         from ..io.fits import read_image
+
+        paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
 
         self.quality_button.setEnabled(True)
         self.images = timing.chronological(paths)  # stars are clicked on the first frame in time

@@ -75,7 +75,10 @@ class MovingObjectDialog(QDialog):
 
     def set_images(self, paths):
         from .. import timing
+        from ..io.bayer import fits_paths
         from ..io.fits import read_image
+
+        paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
 
         self.images = timing.chronological(paths)
         self.first = self.last = None
@@ -83,7 +86,9 @@ class MovingObjectDialog(QDialog):
         self.hint.setText(self.tr("Click the object on the first frame."))
 
     def _choose(self):
-        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Choose frames"), "", "FITS (*.fits *.fit *.fts)")
+        from .files import images_filter
+
+        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Choose frames"), "", images_filter())
         if len(paths) >= 2:
             self.set_images(paths)
 

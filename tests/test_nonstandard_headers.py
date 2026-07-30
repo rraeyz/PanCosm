@@ -95,3 +95,27 @@ def test_longitude_written_in_hours_is_recognised():
     assert where.lon.deg == pytest.approx(30.3355, abs=1e-3) and where.height.value == pytest.approx(2496)
     del h["SIDEREAL"]  # without the sidereal time: degrees, as the FITS conventions say
     assert timing.location(h).lon.deg == pytest.approx(2.0224, abs=1e-3)
+
+
+def test_star_patterns_match_with_bright_edges_and_holes():
+    """Real frames: a bright rim at the edges, pixels the flat could not correct (NaN) and a saturated star made
+    "sources" that are not stars, and star-pattern alignment failed."""
+    from astrowb.calibration import starmatch
+
+    rng = np.random.default_rng(5)
+    stars = rng.uniform(80, 420, (30, 2))
+    flux = rng.uniform(2e3, 3e4, 30)
+    yy, xx = np.mgrid[:500, :500]
+
+    def frame(shift):
+        img = 500 + rng.normal(0, 5, (500, 500))
+        for (x, y), f in zip(stars + shift, flux, strict=True):
+            img += f / (2 * np.pi * 4) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / 8)
+        img[:4, :] = img[-3:, :] = 30000  # bright rows at the edges
+        img[:, :2] = 25000
+        img[200:203, 100:400] = np.nan  # a strip the flat could not correct
+        img[300:306, 300:306] = 65535  # a saturated star
+        return img
+
+    m, t, n, rms = starmatch.match(starmatch.stars(frame((0, 0))), starmatch.stars(frame((7.5, -4.0))))
+    assert n >= 10 and rms < 0.5 and t == pytest.approx([7.5, -4.0], abs=0.3)
