@@ -49,7 +49,7 @@ def _frames(dicts):
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
-    outputs=("masters", "calibrated", "missing"),
+    outputs=("masters", "calibrated", "missing", "failed_masters"),
     sigma=3.0,
     temp_tol=2.0,
     cosmic_rays=False,
@@ -89,18 +89,23 @@ def _run(inputs, params, ctx):
 
     temp_tol = params["temp_tol"]
     order = sorted(plan.groups, key=lambda k: ("bias", "dark", "flat").index(kinds[k]))  # flats need bias + dark
+    failed = []  # masters that could not be made: their frames are left out, the lights calibrated without them
     for n, key in enumerate(order):
         ctx.check()
         ctx.progress(0.5 * n / max(1, len(order)), f"master {kinds[key]}")
         paths, rep = plan.groups[key], reps[key]
         bias = best("bias", rep)[0]
-        if kinds[key] == "bias":
-            data, h = masters.master_bias(paths, params["sigma"])
-        elif kinds[key] == "dark":
-            data, h = masters.master_dark(paths, bias, params["sigma"])
-        else:  # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
-            dark, dh, _ = best("dark", rep)
-            data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"])
+        try:
+            if kinds[key] == "bias":
+                data, h = masters.master_bias(paths, params["sigma"])
+            elif kinds[key] == "dark":
+                data, h = masters.master_dark(paths, bias, params["sigma"])
+            else:  # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
+                dark, dh, _ = best("dark", rep)
+                data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"])
+        except masters.CalibrationError as e:  # one bad group (e.g. flats that are not flats) must not stop the night
+            failed.append({"kind": kinds[key], "frames": len(paths), "file": Path(paths[0]).name, "reason": str(e)})
+            continue
         name = f"master_{kinds[key]}_{n:02d}.fits"
         built[key] = (data, h, masters.save(out / "masters" / name, data, h))
 
@@ -110,6 +115,7 @@ def _run(inputs, params, ctx):
         ctx.check()
         ctx.progress(0.5 + 0.5 * n / max(1, len(lights)), "calibrating")
         light, header = masters.load(entry["light"])
+        entry = {k: (v if k == "light" or v in built else None) for k, v in entry.items()}  # failed masters
         b = built[entry["bias"]][0] if entry["bias"] else None
         d, dh = (built[entry["dark"]][0], built[entry["dark"]][1]) if entry["dark"] else (None, None)
         # spectra: an echelle / long-slit flat is not a sensitivity map (its gaps between orders are near zero);
@@ -152,7 +158,7 @@ def _run(inputs, params, ctx):
                 plane = _remove_cosmic_rays(plane, h, params["read_noise"])
             calibrated.append(masters.save(out / f"{stem}{'_' + colour if colour else ''}.fits", plane, h))
     written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
-    return {"masters": written, "calibrated": calibrated, "missing": plan.missing}
+    return {"masters": written, "calibrated": calibrated, "missing": plan.missing, "failed_masters": failed}
 
 
 def _remove_cosmic_rays(data, header, read_noise):

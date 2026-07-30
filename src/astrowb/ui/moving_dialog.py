@@ -47,6 +47,7 @@ class MovingObjectDialog(QDialog):
         lay.addWidget(self.hint)
         self.viewer = ImageViewer(self)
         self.viewer.clicked.connect(self._clicked)
+        self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
         lay.addWidget(self.viewer, 3)
         self.table = QTableWidget(0, 4, self)
         self.table.setHorizontalHeaderLabels(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])

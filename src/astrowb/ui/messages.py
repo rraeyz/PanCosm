@@ -69,6 +69,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the first image has no sky coordinates: plate-solve it first (Image menu)"),
     # engine/builtin.py
     QT_TRANSLATE_NOOP("Messages", "the image has no sky coordinates: plate-solve it first (Image menu)"),
+    # photometry/steps.py (period search)
+    QT_TRANSLATE_NOOP("Messages", "the light curve spans {hours} h: too short to search for periods"),
     # photometry/coefficients.py
     QT_TRANSLATE_NOOP("Messages", "fewer than 3 usable stars"),
     QT_TRANSLATE_NOOP("Messages", "the airmass hardly changed during the series: no extinction from it"),

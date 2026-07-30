@@ -271,9 +271,12 @@ def convert_raw_folder(folder, out_dir=None, clock_utc_offset_h=0.0, progress=No
     Returns (written paths, problems)."""
     folder = Path(folder)
     out_dir = Path(out_dir) if out_dir else folder / "fits_from_raw"
-    suffixes = RAW_SUFFIXES + PICTURE_SUFFIXES
-    files = sorted(p for p in folder.rglob("*") if p.is_file() and p.suffix.lower() in suffixes)
-    files = [p for p in files if out_dir not in p.parents]
+    found = [p for p in folder.rglob("*") if p.is_file() and out_dir not in p.parents]
+    has_frames = any(is_fits(p) or p.suffix.lower() in RAW_SUFFIXES for p in found)
+    # pictures are frames only in a night of pictures (a phone): next to FITS or raw frames they are previews and
+    # exports (the application's own PNG / JPEG among them), which must not be calibrated as frames
+    suffixes = RAW_SUFFIXES if has_frames else RAW_SUFFIXES + PICTURE_SUFFIXES
+    files = sorted(p for p in found if p.suffix.lower() in suffixes)
     written, problems = [], []
     for n, p in enumerate(files):
         if progress:
