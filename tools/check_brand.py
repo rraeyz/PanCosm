@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BRAND_DIR = "src/astrowb/resources/brand/"
-ALLOWED = {"README.md"}
+ALLOWED = {"README.md", "packaging/install.sh"}
 
 
 def brand_terms() -> list[str]:

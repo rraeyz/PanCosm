@@ -89,7 +89,18 @@ Uninstall from *Settings → Apps → Installed apps*. Settings, plugins and aut
 
 Uninstall by moving it to the Bin. Settings are in `~/Library/Application Support/pancosm`.
 
-### Linux (AppImage — every distribution)
+### Linux
+
+One command installs PanCosm for your user, with an entry in the application menu (no root, no FUSE needed).
+Run it again to update:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rraeyz/PanCosm/main/packaging/install.sh | sh
+```
+
+To remove it: `curl -fsSL https://raw.githubusercontent.com/rraeyz/PanCosm/main/packaging/install.sh | sh -s -- --uninstall`
+
+Or download the AppImage yourself and run it:
 
 ```bash
 chmod +x PanCosm-*-linux-*.AppImage
@@ -106,9 +117,8 @@ AppImages need **FUSE 2**; if the file does not start and the terminal mentions 
 | Fedora | `sudo dnf install fuse fuse-libs` |
 | Arch / CachyOS / Manjaro | `sudo pacman -S fuse2` |
 
-Without FUSE it still runs with `--appimage-extract-and-run`. For a menu entry use *Gear Lever* or
-*AppImageLauncher*. Settings are in `~/.config/pancosm`. Tested on Ubuntu 22.04 and 24.04, Debian 12, Fedora
-and Arch Linux.
+Without FUSE it still runs with `--appimage-extract-and-run`. Settings are in `~/.config/pancosm`. Tested on
+Ubuntu 22.04 and 24.04, Debian 12, Fedora and Arch Linux.
 
 ### Graphics card
 
