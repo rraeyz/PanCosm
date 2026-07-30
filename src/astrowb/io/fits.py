@@ -15,14 +15,26 @@ def find_image_hdu(hdul) -> int:
     raise ValueError("no image data in file")
 
 
+def plane(data) -> np.ndarray:
+    """The 2-D image of a FITS data array: itself, the first plane of a cube, or the brightness
+    (0.2126 R + 0.7152 G + 0.0722 B) of a colour cube with 3 or 4 planes (as some capture programs save)."""
+    a = np.asarray(data)
+    while a.ndim > 3:
+        a = a[0]
+    if a.ndim == 3:
+        if a.shape[0] in (3, 4):
+            p = a[:3].astype(np.float32)
+            return p[0] * np.float32(0.2126) + p[1] * np.float32(0.7152) + p[2] * np.float32(0.0722)
+        return a[0]
+    return a
+
+
 def read_image(path: Path):
     """Return (data, header, hdu_index). data is the first 2-D plane as float32; header is that HDU's header."""
     with fits.open(path, memmap=False) as hdul:
         i = find_image_hdu(hdul)
         data, header = hdul[i].data, hdul[i].header.copy()
-    while data.ndim > 2:  # cubes: show the first plane
-        data = data[0]
-    return np.asarray(data, dtype=np.float32), header, i
+    return np.asarray(plane(data), dtype=np.float32), header, i
 
 
 def thumbnail(path, size=64):

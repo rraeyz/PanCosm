@@ -92,6 +92,8 @@ def save_picture(path, data, interval="zscale", stretch="linear", limits=None, c
     from pathlib import Path
 
     path = Path(path)
+    if path.suffix.lower() not in (".tif", ".tiff", ".png", ".jpg", ".jpeg", ".bmp", ".webp"):
+        path = path.with_name(path.name + ".png")  # a name without a picture type (or e.g. .fits): PNG
     if path.suffix.lower() in (".tif", ".tiff"):
         import tifffile
 

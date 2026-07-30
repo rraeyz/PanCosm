@@ -70,6 +70,11 @@ def read_frame(path: Path) -> Frame:
         hdu = hdul[find_image_hdu(hdul)]
         h = hdu.header
         shape = tuple(int(n) for n in hdu.shape[-2:])
+        cube = len(hdu.shape) > 2
+    if cube:  # colour cubes and one-plane cubes: calibrated as their 2-D image (a copy in fits_from_raw)
+        from ..io.bayer import fits_copy
+
+        return read_frame(fits_copy(path))
     readout = "/".join(f"{k}={h[k]}" for k in ("GAIN", "EGAIN", "OFFSET", "READOUTM", "READMODE") if k in h)
     filt = _first(h, "FILTER", "FILTER1", "FILTNAME", "FILTERS")
     return Frame(
@@ -79,8 +84,8 @@ def read_frame(path: Path) -> Frame:
         filter=str(filt).strip() if filt is not None else None,
         temperature=_float(_first(h, "CCD-TEMP", "CCD_TEMP", "SENSOR-T", "DET-TEMP", "SET-TEMP")),
         binning=(
-            int(_first(h, "XBINNING", "BINX", "CCDXBIN") or 1),
-            int(_first(h, "YBINNING", "BINY", "CCDYBIN") or 1),
+            int(_float(_first(h, "XBINNING", "BINX", "CCDXBIN")) or 1),
+            int(_float(_first(h, "YBINNING", "BINY", "CCDYBIN")) or 1),
         ),
         shape=shape,
         readout=readout,

@@ -102,6 +102,13 @@ def export_for_phoebe(folder, t, flux, err, fit=None, rv=None, absolute=None):
 
 def read_model_curve(path):
     """Two columns (time or phase, flux) from a modelling program, e.g. PHOEBE's computed fluxes."""
-    data = np.genfromtxt(path, comments="#", invalid_raise=False)
+    try:
+        data = np.atleast_2d(np.genfromtxt(path, comments="#", invalid_raise=False))
+    except (UnicodeDecodeError, ValueError):  # a binary file, not a table
+        data = np.empty((0, 0))
+    if data.ndim != 2 or data.shape[1] < 2:
+        raise ValueError("not a table with two columns (time or phase, flux)")
     data = data[np.isfinite(data[:, :2]).all(axis=1)]
+    if not len(data):
+        raise ValueError("not a table with two columns (time or phase, flux)")
     return data[:, 0], data[:, 1]

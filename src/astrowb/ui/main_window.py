@@ -130,6 +130,7 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.progress)
 
         self._build_menus()
+        self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         self._fill_image_toolbar()
         self._update_title()
         for key in self.settings.get("ui.panels", []):  # the panels of the last session
@@ -1123,14 +1124,20 @@ class MainWindow(QMainWindow):
             self.open_project(Path(path))
 
     def open_project(self, path: Path):
+        try:
+            project = Project(path)  # first the new one: a file that is not a project must not close the open one
+        except Exception as e:  # not a project file, damaged, no permission
+            QMessageBox.warning(self, self.tr("Cannot open project"), f"{path}\n\n{e}")
+            return False
         if self.engine.project:
             self.engine.project.close()
-        self.engine.project = Project(path)
+        self.engine.project = project
         self.project_page.name_label.setText(f"<b>{path}</b>")
         recent = [str(path)] + [p for p in self.settings.get("recent_projects", []) if p != str(path)]
         self.settings.set("recent_projects", recent[:10])
         self._refresh_files()
         self._update_title()
+        return True
 
     def _refresh_files(self):
         self.files_list.clear()
@@ -1695,6 +1702,21 @@ class MainWindow(QMainWindow):
             f"<b>{BRAND.display_name}</b> {__version__}<br>{BRAND.organization}<br>"
             f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{compute.describe()}",
         )
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        """Files dropped on the window: a project opens as the project, everything else as images."""
+        paths = [u.toLocalFile() for u in event.mimeData().urls() if u.isLocalFile()]
+        projects = [p for p in paths if p.endswith(EXTENSION)]
+        if projects:
+            self.open_project(Path(projects[0]))
+        images = [p for p in paths if not p.endswith(EXTENSION) and Path(p).is_file()]
+        if images:
+            self.open_many(images)
+        event.acceptProposedAction()
 
     def closeEvent(self, event):
         self.engine.shutdown()

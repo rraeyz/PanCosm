@@ -28,7 +28,11 @@ def _rows(text):
     lines = [ln for ln in text.splitlines() if ln.strip() and not ln.lstrip().startswith("#")]
     dialect = "excel-tab" if lines and "\t" in lines[0] and "," not in lines[0] else "excel"
     reader = csv.DictReader(io.StringIO("\n".join(lines)), dialect=dialect)
-    return [{(k or "").strip().lower(): (v or "").strip() for k, v in row.items()} for row in reader]
+    # extra cells (a row longer than the header, trailing commas) come as a list under the key None: left out
+    return [
+        {k.strip().lower(): (v or "").strip() for k, v in row.items() if isinstance(k, str) and not isinstance(v, list)}
+        for row in reader
+    ]
 
 
 def _pick(row, *names):

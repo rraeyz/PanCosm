@@ -98,3 +98,23 @@ def test_main_window_and_photometry_open_pictures(qtbot, tmp_path):
         assert all(p.endswith(".fits") for p in win.photometry_page.images)
     finally:
         win.engine.shutdown()
+
+
+def test_files_dropped_on_the_window_open(qtbot, tmp_path):
+    from PySide6.QtCore import QMimeData, QPointF, Qt, QUrl
+    from PySide6.QtGui import QDropEvent
+
+    from astrowb.settings import Settings
+    from astrowb.ui.main_window import MainWindow
+
+    p = tmp_path / "IMG_0001.jpg"
+    phone_picture(p)
+    win = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(win)
+    try:
+        mime = QMimeData()
+        mime.setUrls([QUrl.fromLocalFile(str(p)), QUrl.fromLocalFile(str(tmp_path / "night.astroproj"))])
+        win.dropEvent(QDropEvent(QPointF(10, 10), Qt.CopyAction, mime, Qt.LeftButton, Qt.NoModifier))
+        assert win.current_path.name == "IMG_0001.fits" and win.engine.project is not None
+    finally:
+        win.engine.shutdown()

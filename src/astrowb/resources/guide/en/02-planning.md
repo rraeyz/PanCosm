@@ -4,6 +4,8 @@ The **Plan** page tells you when your targets can be observed tonight and which 
 ## Your site
 Enter the **latitude** (degrees, north positive), **longitude** (degrees, east positive) and **height** (metres) of the observatory. These are remembered. They are also used for the barycentric correction of radial velocities and for twilight times.
 
+Type the name of a known observatory in **Site** (for example *TUG*, *Roque de los Muchachos*, *Kitt Peak*): a list of about 380 observatories appears while you type, and choosing one fills in the latitude, longitude and height. The list comes from astropy and works offline.
+
 ## The night and the altitude limit
 - **Night starting on:** the date of the evening the night begins.
 - **Lowest altitude (°):** below this a target counts as not observable (trees, buildings, thick air). 20–30° is typical.

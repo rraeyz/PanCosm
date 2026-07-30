@@ -4,6 +4,8 @@
 ## Gözlem yeriniz
 Gözlemevinin **enlemini** (derece, kuzey artı), **boylamını** (derece, doğu artı) ve **yüksekliğini** (metre) girin. Bunlar hatırlanır. Dikine hızların barisentrik düzeltmesinde ve alacakaranlık zamanlarında da kullanılır.
 
+**Gözlem yeri** alanına bilinen bir gözlemevinin adını yazın (örneğin *TUG*, *Roque de los Muchachos*, *Kitt Peak*): yazarken yaklaşık 380 gözlemevinin listesi açılır, birini seçmek enlem, boylam ve yüksekliği doldurur. Liste astropy'den gelir ve internetsiz çalışır.
+
 ## Gece ve yükseklik sınırı
 - **Gece başlangıcı:** gecenin başladığı akşamın tarihi.
 - **En düşük yükseklik (°):** bunun altındaki hedef gözlenemez sayılır (ağaçlar, binalar, kalın hava). 20–30° tipiktir.

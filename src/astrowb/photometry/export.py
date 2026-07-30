@@ -44,8 +44,8 @@ def aavso_extended(
         "#NAME,DATE,MAG,MERR,FILT,TRANS,MTYPE,CNAME,CMAG,KNAME,KMAG,AIRMASS,GROUP,CHART,NOTES",
     ]
     for i, (jd, m, e, am) in enumerate(zip(lc["jd_utc"], mag, merr, airmass, strict=True)):
-        if not (np.isfinite(m) and np.isfinite(e)):
-            continue  # a lost star or a bad frame is not reported
+        if not (np.isfinite(m) and np.isfinite(e) and np.isfinite(jd)):
+            continue  # a lost star, a bad frame or a frame without its time is not reported
         am_text = f"{am:.4f}" if isinstance(am, float) else "na"
         k = f"{check_name or 'check'},{kmag[i]:.3f}" if kmag is not None and np.isfinite(kmag[i]) else "na,na"
         lines.append(f"{star_name},{jd:.5f},{m:.3f},{e:.3f},{filt},NO,STD,ENSEMBLE,na,{k},{am_text},na,{chart},{notes}")

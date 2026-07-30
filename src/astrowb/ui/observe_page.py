@@ -416,7 +416,13 @@ class ObservePage(QWidget):
 
     def start_with(self, path):
         if path:
-            url, token, _ = launch_observatory(Path(path))
+            try:
+                url, token, _ = launch_observatory(Path(path))
+            except (OSError, ValueError) as e:  # not a configuration file (wrong file, damaged JSON)
+                from PySide6.QtWidgets import QMessageBox
+
+                QMessageBox.warning(self, self.tr("Observatory configuration"), f"{path}\n\n{e}")
+                return None
             self.url.setText(url)
             self.token.setText(token)
             self.fingerprint.setText(json.loads(Path(path).read_text(encoding="utf-8")).get("tls_fingerprint", ""))

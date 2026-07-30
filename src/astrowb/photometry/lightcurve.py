@@ -101,16 +101,23 @@ def light_curve(
         else:
             flux, err, skylev = measure(data, xy, *radii[-1], g)
         peaks.append(_peaks(data, xy, radii[-1][0]))
-        t = timing.mid_time(h)
+        try:
+            t = timing.mid_time(h)
+        except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
+            t = None
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0)))
-    times = timing.Time([r[1] for r in rows])
-    if sky is not None:
-        tvals, scale = timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
+    if any(r[1] is None for r in rows):  # without times the light curve is against the frame number
+        times, tvals, scale = None, np.arange(len(rows), dtype=float), "frame number"
     else:
-        tvals, scale = times.utc.jd, "JD_UTC"
+        times = timing.Time([r[1] for r in rows])
+        if sky is not None:
+            tvals, scale = timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
+        else:
+            tvals, scale = times.utc.jd, "JD_UTC"
     flux = np.array([r[2] for r in rows])
     err = np.array([r[3] for r in rows])
-    airmass = [timing.airmass(t, sky, where) for t in times] if where is not None and sky is not None else None
+    known = times is not None and where is not None and sky is not None
+    airmass = [timing.airmass(t, sky, where) for t in times] if known else None
     if aperture_m is None and get(h0, "APTDIA"):
         aperture_m = get(h0, "APTDIA") / 1000.0  # APTDIA is in millimetres (MaxIm DL, SGP, NINA)
     scint = None
@@ -124,7 +131,7 @@ def light_curve(
         "file": [Path(r[0]).name for r in rows],
         "time": tvals.tolist(),
         "time_scale": scale,
-        "jd_utc": times.utc.jd.tolist(),  # mid-exposure; AAVSO reports want JD (UTC)
+        "jd_utc": times.utc.jd.tolist() if times is not None else [float("nan")] * len(rows),  # AAVSO wants JD UTC
         "rel_flux": rel.tolist(),
         "rel_flux_err": rel_err.tolist(),
         "target_flux": flux[:, 0].tolist(),

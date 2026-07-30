@@ -4,6 +4,8 @@ La página **Planificar** indica cuándo pueden observarse sus objetivos esta no
 ## Su lugar
 Introduzca la **latitud** (grados, norte positivo), la **longitud** (grados, este positivo) y la **altura** (metros) del observatorio. Se recuerdan. También se usan para la corrección baricéntrica de las velocidades radiales y para los crepúsculos.
 
+Escriba en **Lugar** el nombre de un observatorio conocido (por ejemplo *TUG*, *Roque de los Muchachos*, *Kitt Peak*): mientras escribe aparece una lista de unos 380 observatorios y al elegir uno se rellenan la latitud, la longitud y la altura. La lista viene de astropy y funciona sin conexión.
+
 ## La noche y el límite de altura
 - **Noche que empieza el:** la fecha de la tarde en que empieza la noche.
 - **Altura mínima (°):** por debajo, un objetivo se considera no observable (árboles, edificios, aire denso). Lo habitual es 20–30°.
