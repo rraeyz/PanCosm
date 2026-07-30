@@ -1344,8 +1344,8 @@ class MainWindow(QMainWindow):
         text = f"{task.name} — {states[task.state]} {int(task.progress * 100)}% {translate(task.message)}"
         if task.id not in self._task_items:
             self.tasks_list.addItem(text)
-            self._task_items[task.id] = (task, self.tasks_list.item(self.tasks_list.count() - 1))
-        self._task_items[task.id][1].setText(text)
+            self._task_items[task.id] = (task, self.tasks_list.count() - 1)
+        self.tasks_list.item(self._task_items[task.id][1]).setText(text)
         self.progress.setVisible(any(not t.finished for t, _ in self._task_items.values()))
         self.progress.setValue(int(task.progress * 100))
         if task.finished:
