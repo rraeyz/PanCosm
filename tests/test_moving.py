@@ -90,3 +90,27 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
         assert win.settings.get("mpc")["code"] == "A84"  # remembered for the next object
     finally:
         win.engine.shutdown()
+
+
+def test_frames_without_a_solution_are_solved_or_left_out(tmp_path, monkeypatch):
+    """Unsolved frames are plate-solved first (here: one is solved, one cannot be); the rest still counts."""
+    from astrowb.engine import builtin
+
+    paths, truth = make_frames(tmp_path)
+    solved = {}
+    for i in (2, 4):  # strip the solution from two frames, keep it aside as the "solver's answer"
+        with fits.open(paths[i], mode="update") as hdul:
+            solved[paths[i]] = hdul[0].header.copy()
+            for key in HEADER:
+                del hdul[0].header[key]
+
+    def fake_solver(p, radius_deg=30.0):
+        if p == paths[4]:
+            raise RuntimeError("no solution found")
+        out = tmp_path / "a2_wcs.fits"
+        fits.PrimaryHDU(fits.getdata(p), solved[p]).writeto(out, overwrite=True)
+        return out
+
+    monkeypatch.setattr(builtin, "solved_copy", fake_solver)
+    out = execute("astrometry.moving", {"images": paths, "first_xy": [21.0, 29.0], "last_xy": [91.0, 61.0]}, {}, Ctx())
+    assert len(out["positions"]) == 5 and out["unsolved"] == [paths[4]]

@@ -56,6 +56,8 @@ All positions are in FITS pixels (the first pixel is 1, 1), as in the status bar
 ## Asteroids and comets
 **Image → Asteroid and comet astrometry…** measures a moving object for the Minor Planet Center. Choose the frames (calibrated and plate-solved), click the object on the first frame, then on the last one; every frame is measured at the position predicted from that motion and re-centred, and its RA/Dec comes from the frame's own plate solution, at mid-exposure UTC. The residual column shows how far each position lies from a straight-line motion: more than about 1″ means a blended star or a poor solution in that frame. Fill in the object (provisional designation, number, or your own name for a new object), your MPC observatory code and the observers, then **Write MPC report (ADES)…**: the file is in the MPC's ADES PSV format, ready to send.
 
+Frames without a plate solution are solved first (ASTAP or astrometry.net must be installed; the pointing and the pixel scale are read from the header); a frame the solver cannot solve is left out and the window says how many.
+
 ## Saving
 **File → Save FITS as…** writes the current image to a new file; the header is kept and a history line is added.
 

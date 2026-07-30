@@ -3619,12 +3619,17 @@
         <translation>{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="151"/>
+        <location filename="../../ui/moving_dialog.py" line="124"/>
+        <source>{k} frames could not be plate-solved and were left out.</source>
+        <translation>{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>MPC report</source>
         <translation>MPC-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="155"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
     </message>
