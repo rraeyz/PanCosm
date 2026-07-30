@@ -8,6 +8,7 @@ import numpy as np
 from .. import timing
 from ..calibration.masters import load
 from ..engine.steps import step
+from ..hdr import get
 from . import bf, echelle, longslit, orbit, rv, sb2, spectrum_io, telluric, wavecal
 
 
@@ -47,7 +48,7 @@ def reduce_step(inputs, params, ctx):
     data, header = _load(inputs["science"], params)
     ctx.progress(0.1, "trace")
     coef = longslit.trace(data, params["guess_row"])
-    gain = float(params["gain"] or header.get("EGAIN", header.get("GAIN", 1.0)) or 1.0)
+    gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
     w, so, sw = params["width"], params["sky_offset"], params["sky_width"]
     ctx.progress(0.4, "extraction")
     if params["optimal"]:
@@ -125,7 +126,7 @@ def echelle_step(inputs, params, ctx):
         if flat is not None:
             flat = flat - echelle.scattered_light(flat, coefs)
         header["SCATSUB"] = (True, "scattered light subtracted (inter-order fit)")
-    gain = float(params["gain"] or header.get("EGAIN", header.get("GAIN", 1.0)) or 1.0)
+    gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
     ctx.progress(0.3, "extraction")
     method = "optimal" if params["optimal"] else "boxcar"
     flux, err = echelle.extract(
@@ -269,7 +270,7 @@ def _write_orders(output, waves, flux, err, orders, header):
     h["ORDERS"] = (",".join(str(o) for o in orders), "absolute order number of each row")
     hdus = [fits.PrimaryHDU(np.asarray(flux, np.float32), h)]
     hdus += [fits.ImageHDU(np.asarray(err, np.float32), name="ERROR"), fits.ImageHDU(np.asarray(waves), name="WAVE")]
-    fits.HDUList(hdus).writeto(path, overwrite=True)
+    fits.HDUList(hdus).writeto(path, overwrite=True, output_verify="silentfix")
     return str(path)
 
 

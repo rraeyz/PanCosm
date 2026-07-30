@@ -61,7 +61,9 @@ def image_process(inputs, params, ctx):
     k = 2
     while not inputs.get("output") and dest.exists():  # never overwrite an earlier result
         dest, k = src.with_name(f"{stem}_{op}_{k}.fits"), k + 1
-    fits.PrimaryHDU(np.asarray(out, np.float32), h).writeto(dest, overwrite=bool(inputs.get("output")))
+    fits.PrimaryHDU(np.asarray(out, np.float32), h).writeto(
+        dest, overwrite=bool(inputs.get("output")), output_verify="silentfix"
+    )
     return {"image": str(dest)}
 
 

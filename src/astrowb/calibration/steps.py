@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .. import __version__
 from ..engine.steps import step
+from ..hdr import get
 from ..io import bayer
 from . import masters
 from .frames import Frame, scan
@@ -16,14 +17,29 @@ def scan_step(inputs, params, ctx):
     """Camera raw files (DSLR, mirrorless) in the folder are first written as FITS to folder/fits_from_raw."""
     from ..io.bayer import convert_raw_folder
 
-    if not Path(inputs["folder"]).is_dir():
-        raise ValueError(f"folder not found: {inputs['folder']}")
-    raw, raw_problems = convert_raw_folder(
-        inputs["folder"], clock_utc_offset_h=params["clock_utc_offset"], progress=lambda f, n: ctx.progress(0.5 * f, n)
-    )
-    ctx.progress(0.5, "reading headers")
-    frames, problems = scan(Path(inputs["folder"]))
-    return {"frames": [f.as_dict() for f in frames], "problems": raw_problems + problems, "raw_converted": len(raw)}
+    # several folders separated by ";" (e.g. tonight's lights and a calibration library kept elsewhere)
+    folders = [f.strip() for f in str(inputs["folder"]).split(";") if f.strip()]
+    for folder in folders or [""]:
+        if not Path(folder).is_dir():
+            raise ValueError(f"folder not found: {folder}")
+    frames, problems, raw = {}, [], []
+    for i, folder in enumerate(folders):
+        part = (i, len(folders))
+        converted, raw_problems = convert_raw_folder(
+            folder,
+            clock_utc_offset_h=params["clock_utc_offset"],
+            progress=lambda f, n, p=part: ctx.progress(0.5 * (p[0] + f) / p[1], n),
+        )
+        raw += converted
+        ctx.progress(0.5 + 0.5 * i / len(folders), "reading headers")
+        found, bad = scan(Path(folder))
+        frames |= {str(Path(f.path).resolve()): f for f in found}  # a folder inside another one is read once
+        problems += raw_problems + bad
+    return {
+        "frames": [frames[p].as_dict() for p in sorted(frames)],
+        "problems": problems,
+        "raw_converted": len(raw),
+    }
 
 
 def _frames(dicts):
@@ -99,7 +115,7 @@ def _run(inputs, params, ctx):
         # spectra: an echelle / long-slit flat is not a sensitivity map (its gaps between orders are near zero);
         # it is built as a master and used by the spectroscopy page for tracing and the blaze instead
         f = built[entry["flat"]][0] if entry["flat"] and params["divide_flat"] else None
-        exptime = float(header.get("EXPTIME", 0))
+        exptime = get(header, "EXPTIME", "EXPOSURE", default=0.0)
         k, defects = 1.0, None
         if params["optimize_dark"] and d is not None:
             signal = masters.dark_for(exptime, b, d, dh)
@@ -143,7 +159,7 @@ def _remove_cosmic_rays(data, header, read_noise):
     import astroscrappy
     import numpy as np
 
-    gain = float(header.get("EGAIN", header.get("GAIN", 1.0)) or 1.0)
+    gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     mask, clean = astroscrappy.detect_cosmics(np.nan_to_num(data), gain=gain, readnoise=read_noise)
     header["CRCLEAN"] = (int(mask.sum()), "pixels replaced by astroscrappy")
     return np.where(np.isnan(data), np.nan, clean).astype(np.float32)
@@ -167,7 +183,7 @@ def drizzle_step(inputs, params, ctx):
     header["DRIZSCAL"], header["DRIZPIXF"] = (params["scale"], "output pixels per input pixel"), params["pixfrac"]
     header.add_history(f"drizzled by astrowb {__version__}")
     fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(weight, name="WEIGHT")]).writeto(
-        inputs["output"], overwrite=True
+        inputs["output"], overwrite=True, output_verify="silentfix"
     )
     return {"stack": str(inputs["output"])}
 

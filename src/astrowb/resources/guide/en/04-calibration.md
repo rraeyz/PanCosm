@@ -8,6 +8,8 @@ Choose the folder with your raw frames (lights, bias, darks and flats may be mix
 - Files that cannot be read and files of unknown type are listed under the table and ignored.
 - The same list says which calibration frames are **missing**, for example "no flat for filter 'R'" — those lights are still calibrated, without that correction, and you are told so.
 
+Sub-folders are read too. If the lights and the calibration frames are in separate folders (for example *Light* and *BDF*), choose the folder that holds both. Frames kept somewhere else, such as a calibration library, are added with **Add folder…** (several folders are separated by `;`). When no light frame is found the list below the table says so, and **Calibrate** stays off until there is one.
+
 ## How masters are matched
 - **Bias:** same binning and size.
 - **Dark:** same binning, the same exposure time and a temperature within 2 °C. A dark of another exposure is scaled to the light's exposure only when bias frames exist (dark current is proportional to time once the bias is removed).

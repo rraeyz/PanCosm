@@ -14,6 +14,7 @@ import numpy as np
 
 from .. import timing
 from ..calibration.masters import load
+from ..hdr import get
 from .aperture import choose_apertures, despike, frame_shift, measure, recenter, seeing_fwhm
 
 
@@ -77,7 +78,7 @@ def field_photometry(paths, max_stars=300, method="aperture", ctx=None):
 
     paths = timing.chronological([str(p) for p in paths])
     ref, h0 = load(paths[0])
-    gain = float(h0.get("EGAIN", h0.get("GAIN", 1.0)) or 1.0)
+    gain = get(h0, "EGAIN", "GAIN", default=1.0) or 1.0
     xy0 = detect_stars(ref, max_stars, saturation=saturation_level(h0, ref))
     if len(xy0) < 5:
         raise ValueError("fewer than 5 stars found on the first frame")

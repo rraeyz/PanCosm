@@ -465,18 +465,14 @@ class ImagePage(QWidget):
         self.viewer.show_selection(None, 0, 0, 0, 0)
 
     def _gain(self):
-        h = self.header or {}
-        try:
-            return float(h.get("EGAIN", h.get("GAIN", 1.0)) or 1.0)
-        except (TypeError, ValueError):
-            return 1.0
+        from ..hdr import get
+
+        return get(self.header or {}, "EGAIN", "GAIN", default=1.0) or 1.0
 
     def _exptime(self):
-        h = self.header or {}
-        try:
-            return float(h.get("EXPTIME", h.get("EXPOSURE", 0)) or 0) or None
-        except (TypeError, ValueError):
-            return None
+        from ..hdr import get
+
+        return get(self.header or {}, "EXPTIME", "EXPOSURE") or None
 
     def _scale(self):
         """Arcseconds per pixel from the WCS, or None."""
@@ -821,10 +817,27 @@ class CalibratePage(QWidget):
         lay = QVBoxLayout(self)
         lay.addWidget(_title(self.tr("Calibrate"), self))
         lay.addWidget(QLabel(self.tr("1. Choose the folder with your raw frames (lights, bias, darks, flats)."), self))
+        hint = QLabel(
+            self.tr(
+                "Sub-folders are read too: if the lights and the calibration frames are in separate folders "
+                "(e.g. Light and BDF), choose the folder that holds both. Frames kept elsewhere (a calibration "
+                "library) are added with “Add folder…”."
+            ),
+            self,
+        )
+        hint.setWordWrap(True)
+        hint.setProperty("muted", True)
+        lay.addWidget(hint)
         row = QHBoxLayout()
         self.folder = QLineEdit(self)
+        self.folder.setPlaceholderText(self.tr("folder; another folder; …"))
         browse = QPushButton(self.tr("Browse…"), self)
         browse.clicked.connect(lambda: self._pick(self.folder))
+        add_folder = QPushButton(self.tr("Add folder…"), self)
+        add_folder.setToolTip(
+            self.tr("Read frames from one more folder, e.g. master or calibration frames kept elsewhere")
+        )
+        add_folder.clicked.connect(self._add_folder)
         self.scan_button = QPushButton(self.tr("Scan"), self)
         self.scan_button.clicked.connect(lambda: self.scan_requested.emit(self.folder.text()))
         self.clock_offset = QDoubleSpinBox(self)
@@ -839,7 +852,7 @@ class CalibratePage(QWidget):
                 "and check the clock against a time signal — timing errors go straight into minima and O−C."
             )
         )
-        for w in (self.folder, browse, self.clock_offset, self.scan_button):
+        for w in (self.folder, browse, add_folder, self.clock_offset, self.scan_button):
             row.addWidget(w)
         lay.addLayout(row)
         self.summary = QLabel(self)
@@ -1007,16 +1020,31 @@ class CalibratePage(QWidget):
             self.stack_requested.emit(paths, str(Path(self.output.text()) / f"{name}{suffix}.fits"), params)
 
     def _pick(self, line_edit):
-        folder = QFileDialog.getExistingDirectory(self, self.tr("Choose folder"), line_edit.text())
+        folder = QFileDialog.getExistingDirectory(self, self.tr("Choose folder"), self._first(line_edit.text()))
         if folder:
             line_edit.setText(folder)
             if line_edit is self.folder and not self.output.text():
                 self.output.setText(str(Path(folder) / "calibrated"))
 
+    @staticmethod
+    def _first(text):
+        return next((f.strip() for f in text.split(";") if f.strip()), "")
+
+    def _add_folder(self, folder=None):
+        """One more folder to read frames from (several folders are separated by ";")."""
+        folder = folder or QFileDialog.getExistingDirectory(
+            self, self.tr("Add folder"), self._first(self.folder.text())
+        )
+        if folder:
+            current = [f.strip() for f in self.folder.text().split(";") if f.strip()]
+            self.folder.setText("; ".join(current + [folder]))
+            if not self.output.text():
+                self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
+
     def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
         self.frames = frames
         if not self.output.text() and self.folder.text():
-            self.output.setText(str(Path(self.folder.text()) / "calibrated"))
+            self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
         kinds = {
             "bias": self.tr("bias"),
             "dark": self.tr("dark"),
@@ -1031,7 +1059,7 @@ class CalibratePage(QWidget):
                 kinds[f["kind"]],
                 f["exptime"],
                 f["filter"],
-                f["temperature"],
+                None if f["temperature"] is None else f"{f['temperature']:.1f}",
                 "×".join(map(str, f["binning"])),
             )
             for c, v in enumerate(values):
@@ -1047,8 +1075,17 @@ class CalibratePage(QWidget):
         lines = [self.tr("Cannot read {file}: {error}").format(file=Path(p).name, error=e) for p, e in problems]
         lines += [self.tr("Type unknown, ignored: {file}").format(file=Path(p).name) for p in plan.unknown]
         lines += [f"{Path(p).name}: {self._missing_text(k, why)}" for p, k, why in plan.missing]
+        if frames and not counts["light"]:
+            lines.insert(
+                0,
+                self.tr(
+                    "No light frames found, so there is nothing to calibrate yet. If the lights are in another "
+                    "folder, choose the folder that holds both (sub-folders are read) or add it with “Add folder…”."
+                ),
+            )
         self.warnings.setPlainText("\n".join(lines))
         self.run_button.setEnabled(counts["light"] > 0)
+        self.run_button.setToolTip("" if counts["light"] else self.tr("Needs at least one light frame"))
 
     def _missing_text(self, kind, w):
         size = f"{w['shape'][1]}×{w['shape'][0]}, bin {w['binning'][0]}×{w['binning'][1]}"
@@ -1187,7 +1224,10 @@ class PhotometryPage(QWidget):
         self.drop_bad.hide()
         self.drop_bad.clicked.connect(self._drop_bad)
         side.addWidget(self.drop_bad)
-        hint = QLabel(self.tr("Click the target star, then one or more comparison stars."), self)
+        hint = QLabel(
+            self.tr("Click the target star, then one or more comparison stars. A click on a marked star takes it off."),
+            self,
+        )
         hint.setWordWrap(True)
         side.addWidget(hint)
         role_row = QHBoxLayout()
@@ -1196,6 +1236,7 @@ class PhotometryPage(QWidget):
         self.click_role.addItem(self.tr("target, then comparison stars"), "auto")
         self.click_role.addItem(self.tr("check stars"), "check")
         self.click_role.addItem(self.tr("more targets"), "target")
+        self.click_role.currentIndexChanged.connect(lambda *_: self._draw_markers())
         self.click_role.setToolTip(
             self.tr("Check stars and further targets are measured against the same comparison stars, not used in them")
         )
@@ -1328,6 +1369,8 @@ class PhotometryPage(QWidget):
         plot_tab = QWidget(self)
         pl = QVBoxLayout(plot_tab)
         self.show_what = QComboBox(self)
+        self.show_what.setPlaceholderText(self.tr("Measure a light curve to choose what to plot"))
+        self.show_what.setEnabled(False)
         self.show_what.currentIndexChanged.connect(lambda *_: self._plot_current())
         pl.addWidget(self.show_what)
         edit_row = QHBoxLayout()
@@ -1614,6 +1657,16 @@ class PhotometryPage(QWidget):
         self._clear()
 
     def _clicked(self, x, y):
+        near = [xy for _, _, xy in self._star_names() if (xy[0] - x) ** 2 + (xy[1] - y) ** 2 <= self.r_ap.value() ** 2]
+        if near:  # a click on a marked star takes it off again, instead of marking it twice
+            xy = near[0]
+            self.target = None if self.target == xy else self.target
+            self.comps = [c for c in self.comps if c != xy]
+            self.extras = [e for e in self.extras if e[0] != xy]
+            if self.target is None and self.comps:  # the first comparison is not promoted: say it
+                self.result.setText(self.tr("The target was removed: click the new target."))
+            self._draw_markers()
+            return
         role = self.click_role.currentData()
         if role in ("check", "target") and self.target is not None:
             self.extras.append(((x, y), role))
@@ -1688,6 +1741,10 @@ class PhotometryPage(QWidget):
         for xy, colour, label in stars:
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
         self.viewer.set_markers(marks)
+        role = self.click_role.currentData()
+        nxt = "target" if self.target is None or role == "target" else "check" if role == "check" else "comparison"
+        # the rings of the next click follow the mouse, in the colour of the star it will mark
+        self.viewer.set_pick(True, [(r, False), (r_in, True), (r_out, True)], colours[nxt])
         self.apertures_button.setEnabled(bool(self.images and self.target))
         self.measure_button.setEnabled(bool(self.images and self.target and self.comps))
         self.catalog_button.setEnabled(bool(self.images and self.target and self.comps))
@@ -1835,6 +1892,7 @@ class PhotometryPage(QWidget):
     def _fill_show_choices(self):
         current = self.show_what.currentData()
         self.show_what.blockSignals(True)
+        self.show_what.setEnabled(True)
         self.show_what.clear()
         self.show_what.addItem(self.tr("T1: relative flux"), "rel")
         self.show_what.addItem(self.tr("T1: differential magnitude (Δm)"), "dmag")

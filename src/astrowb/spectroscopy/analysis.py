@@ -288,5 +288,5 @@ def write_bess(path, wave, flux, meta, step=None):
     hdu.header["CDELT1"] = (step, "Angstrom per pixel")
     hdu.header["CTYPE1"] = "Wavelength"
     hdu.header["CUNIT1"] = "Angstrom"
-    hdu.writeto(path, overwrite=True)
+    hdu.writeto(path, overwrite=True, output_verify="silentfix")
     return str(path)

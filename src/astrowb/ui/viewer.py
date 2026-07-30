@@ -38,6 +38,7 @@ class ImageViewer(QGraphicsView):
         self._overlays = {}  # name -> graphics items (contours, grid, catalogue, regions)
         self.tool = "pan"  # pan | aperture (clicks) | area | line (drags)
         self._drag_start, self._rubber = None, None
+        self._pick, self._hover_rings, self._hover_items = False, [], []
 
     def set_image(self, data: np.ndarray):
         for name in list(self._overlays):  # overlays belong to the previous image
@@ -165,6 +166,39 @@ class ImageViewer(QGraphicsView):
     def overlay_names(self):
         return sorted(self._overlays)
 
+    def set_pick(self, on, rings=(), colour="lime"):
+        """Clicking marks stars (photometry): a cross cursor instead of the hand, and the rings that a click would
+        place drawn under the mouse, [(radius in pixels, dashed)]. Dragging still moves the image."""
+        self._pick, self._hover_rings, self._hover_colour = on, list(rings), colour
+        self.viewport().setCursor(Qt.CrossCursor if on else Qt.OpenHandCursor)
+        self._clear_hover()
+
+    def _clear_hover(self):
+        for item in self._hover_items:
+            self.scene().removeItem(item)
+        self._hover_items = []
+
+    def _draw_hover(self, sx, sy):
+        from PySide6.QtGui import QColor, QPen
+        from PySide6.QtWidgets import QGraphicsEllipseItem
+
+        if not self._hover_items:
+            for r, dashed in self._hover_rings:
+                item = QGraphicsEllipseItem(-r, -r, 2 * r, 2 * r)
+                pen = QPen(QColor(self._hover_colour))
+                pen.setCosmetic(True)
+                pen.setStyle(Qt.DashLine if dashed else Qt.SolidLine)
+                item.setPen(pen)
+                item.setOpacity(0.7)
+                self.scene().addItem(item)
+                self._hover_items.append(item)
+        for item in self._hover_items:
+            item.setPos(sx, sy)
+
+    def leaveEvent(self, event):
+        self._clear_hover()
+        super().leaveEvent(event)
+
     def set_tool(self, tool):
         """pan: drag moves the image; aperture: clicks; area / line: drag draws a rectangle / line."""
         self.tool = tool
@@ -221,6 +255,8 @@ class ImageViewer(QGraphicsView):
                 self.line_selected.emit(x0, y0, x1, y1)
             return
         super().mouseReleaseEvent(event)
+        if self._pick:  # the hand drag put its own cursor back
+            self.viewport().setCursor(Qt.CrossCursor)
         if self._press is not None and self.data is not None and event.button() == Qt.LeftButton:
             if (event.position() - self._press).manhattanLength() < 4:  # a click, not a pan
                 p = self.mapToScene(event.position().toPoint())
@@ -234,6 +270,8 @@ class ImageViewer(QGraphicsView):
         if self._drag_start is not None:  # rubber band while dragging
             self.show_selection(self.tool, *self._drag_start, *self._array_xy(event.position()))
         p: QPointF = self.mapToScene(event.position().toPoint())
+        if self._pick and self._hover_rings and not event.buttons():
+            self._draw_hover(p.x(), p.y())
         h, w = self.data.shape
         col, row_from_top = int(p.x()), int(p.y())
         if 0 <= col < w and 0 <= row_from_top < h:

@@ -4,6 +4,8 @@ Problemas frecuentes y qué hacer.
 ## Una tarea ha fallado
 El panel de tareas muestra *fallida* y una ventana da el error. Causas típicas: un archivo que no se puede leer, una entrada que falta (el mensaje la nombra), demasiadas pocas estrellas o tomas. La ventana sigue siendo usable; corrija la entrada y ejecute el paso de nuevo. El historial del proyecto conserva la ejecución fallida con sus ajustes.
 
+La ventana de error muestra el error en sí; **Mostrar detalles…** contiene el informe completo. Para comprobar la instalación y cada servicio web que usa la aplicación (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …), ejecútela una vez desde un terminal con `--check-online`: cada línea dice OK o FAIL y por qué. Un FAIL en un servicio suele deberse a ese servicio o a su red; un FAIL en las primeras líneas significa que falta parte de la instalación: por favor, infórmelo.
+
 ## La calibración dice que faltan tomas
 «no flat for filter …», «no dark for … s», «no bias» — esos lights se calibran igualmente, sin esa corrección. Tome las tomas que faltan (mismo filtro, agrupamiento, exposición y temperatura) o acepte el resultado. Los darks de otra exposición solo pueden usarse si hay tomas bias.
 

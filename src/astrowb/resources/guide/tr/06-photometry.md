@@ -8,6 +8,8 @@
 
 İyi karşılaştırma yıldızlarının rengi ve parlaklığı hedefe benzer ve değişken değildir. Birkaç tane kullanın: toplamları (topluluk) tek yıldızdan daha az gürültülüdür.
 
+Görüntünün üzerinde imleç artı işaretidir; bir sonraki tıklamanın koyacağı açıklık ve gök halkası, işaretleyeceği yıldızın renginde (yeşil hedef, kırmızı karşılaştırma, turuncu kontrol yıldızı) imleci izler. Zaten işaretli bir yıldıza tıklamak işareti kaldırır. Görüntüyü kaydırmak için sürükleyin, yakınlaştırmak için tekerleği kullanın.
+
 ## Diferansiyel fotometri: hedefler, mukayese ve kontrol yıldızları
 **Tıklamalar ekler** sonraki tıklamaların ne olacağını seçer: *hedef, sonra mukayese yıldızları* (ilk tıklama hedef T1, sonrakiler mukayese yıldızları C1, C2…), *kontrol yıldızları* (K1, K2…) ya da *başka hedefler* (T2, T3…). Kontrol yıldızları ve diğer hedefler her karede aynı mukayese yıldızlarına göre ölçülür ama onlara katılmaz — MaxIm DL, VPhot ya da AIJ'deki kontrol yıldızı gibi. Sabit bir kontrol yıldızı fotometrinin gerçekte ne kadar iyi olduğunu gösterir: saçılması (mmag) grafiğin altında yazılır.
 

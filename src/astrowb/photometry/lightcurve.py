@@ -13,6 +13,7 @@ from astropy.coordinates import SkyCoord
 
 from .. import timing
 from ..calibration.masters import load
+from ..hdr import get, number
 from ..io.inspect import saturation_level
 from .aperture import choose_apertures, frame_shift, measure, recenter, scintillation, seeing_fwhm
 from .differential import ensemble
@@ -25,9 +26,12 @@ def target_coord(header, given: str | None = None) -> SkyCoord | None:
     for ra_key, dec_key in (("OBJCTRA", "OBJCTDEC"), ("RA", "DEC")):
         if ra_key in header and dec_key in header:
             ra, dec = header[ra_key], header[dec_key]
-            if isinstance(ra, str):
-                return SkyCoord(ra, dec, unit=(u.hourangle, u.deg))
-            return SkyCoord(float(ra) * u.deg, float(dec) * u.deg)
+            try:
+                if isinstance(ra, str) and any(c in ra.strip() for c in ": hH"):  # '13:39:01.3', '13 39 01'
+                    return SkyCoord(ra, dec, unit=(u.hourangle, u.deg))
+                return SkyCoord(number(ra) * u.deg, number(dec) * u.deg)  # degrees, also written as text
+            except (TypeError, ValueError):  # unreadable: the next pair, else the user types the position
+                continue
     return None
 
 
@@ -63,7 +67,7 @@ def light_curve(
     ref, h0 = load(paths[0])
     sky = target_coord(h0, coord)
     where = timing.location(h0)
-    g = float(gain or h0.get("EGAIN", h0.get("GAIN", 1.0)) or 1.0)
+    g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
     rows = []
     prev, xy = ref, stars0
     chosen = None
@@ -98,7 +102,7 @@ def light_curve(
             flux, err, skylev = measure(data, xy, *radii[-1], g)
         peaks.append(_peaks(data, xy, radii[-1][0]))
         t = timing.mid_time(h)
-        rows.append((p, t, flux, err, skylev, xy, float(h.get("EXPTIME", h.get("EXPOSURE", 0)) or 0)))
+        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0)))
     times = timing.Time([r[1] for r in rows])
     if sky is not None:
         tvals, scale = timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
@@ -107,8 +111,8 @@ def light_curve(
     flux = np.array([r[2] for r in rows])
     err = np.array([r[3] for r in rows])
     airmass = [timing.airmass(t, sky, where) for t in times] if where is not None and sky is not None else None
-    if aperture_m is None and h0.get("APTDIA"):
-        aperture_m = float(h0["APTDIA"]) / 1000.0  # APTDIA is in millimetres (MaxIm DL, SGP, NINA)
+    if aperture_m is None and get(h0, "APTDIA"):
+        aperture_m = get(h0, "APTDIA") / 1000.0  # APTDIA is in millimetres (MaxIm DL, SGP, NINA)
     scint = None
     exptimes = np.array([r[6] for r in rows])
     if aperture_m and airmass is not None and (exptimes > 0).all():

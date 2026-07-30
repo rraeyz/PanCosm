@@ -101,3 +101,13 @@ def test_every_progress_word_has_a_template():
     found |= {f"master {k}" for k in ("bias", "dark", "flat")}  # f"master {kinds[key]}"
     assert {"reading headers", "calibrating", "stacking"} <= found
     assert found - set(TEMPLATES) <= {"MCMC", "MAST", "k-means"}  # names, the same in every language
+
+
+def test_task_error_keeps_a_message_over_several_lines():
+    trace = (
+        'Traceback (most recent call last):\n  File "x.py", line 1, in f\n    write()\n'
+        "astropy.io.fits.verify.VerifyError: \nVerification reported errors:\nHDU 0:\n    Card 7:\n"
+        "        Card keyword 'exptime' is not upper case.\nNote: astropy.io.fits uses zero-based indexing.\n"
+    )
+    text = task_error(trace)
+    assert text.startswith("astropy.io.fits.verify.VerifyError:") and "'exptime' is not upper case" in text

@@ -43,6 +43,7 @@ import numpy as np
 from astropy.io import fits
 
 from ..compute.combine import clipped_mean
+from ..hdr import get, number
 from ..io.fits import find_image_hdu
 
 MEMORY_BUDGET = 512 * 2**20  # bytes of float32 stack per block
@@ -143,8 +144,8 @@ def _corrected_header(header, layout):
         out["OVERSCAN"] = (float(np.mean(layout[2])), f"mean overscan level subtracted ({header['BIASSEC']})")
     r0, c0 = layout[0].start or 0, layout[1].start or 0
     if (r0 or c0) and "BAYERPAT" in out:  # the colour pattern now starts at the first kept pixel
-        out["XBAYROFF"] = (int(out.get("XBAYROFF", 0) or 0) + c0) % 2
-        out["YBAYROFF"] = (int(out.get("YBAYROFF", 0) or 0) + r0) % 2
+        out["XBAYROFF"] = (int(get(out, "XBAYROFF", default=0)) + c0) % 2
+        out["YBAYROFF"] = (int(get(out, "YBAYROFF", default=0)) + r0) % 2
     for axis, start in ((1, c0), (2, r0)):
         if start and f"CRPIX{axis}" in out:
             out[f"CRPIX{axis}"] = float(out[f"CRPIX{axis}"]) - start
@@ -222,10 +223,10 @@ def _header(paths, kind, extra):
 def _exptime(path):
     with fits.open(path) as hdul:
         h = hdul[find_image_hdu(hdul)].header
-        t = h.get("EXPTIME", h.get("EXPOSURE"))
+        t = get(h, "EXPTIME", "EXPOSURE")
     if t is None:
         raise CalibrationError(f"{Path(path).name}: no EXPTIME")
-    return float(t)
+    return t
 
 
 def load(path):
@@ -263,7 +264,7 @@ def dark_for(exptime, bias, dark, dark_header):
     """The dark signal (bias excluded) for an exposure time, or None. Raises if it cannot be made."""
     if dark is None:
         return None
-    t_dark = float(dark_header["EXPTIME"])
+    t_dark = number(dark_header["EXPTIME"], 0.0)
     if dark_header.get("BIASSUB", False):
         return dark * np.float32(exptime / t_dark) if t_dark > 0 else None
     if abs(exptime - t_dark) <= EXPTIME_RTOL * max(exptime, t_dark):
@@ -359,5 +360,7 @@ def calibrate(light, exptime, bias=None, dark=None, dark_header=None, flat=None,
 
 
 def save(path, data, header):
-    fits.PrimaryHDU(np.asarray(data, np.float32), header).writeto(path, overwrite=True)
+    # headers come from the camera files, and some capture programs break the FITS rules (lower-case keywords,
+    # values like NaN or 1.0.0): astropy refuses to write those unless told to fix them
+    fits.PrimaryHDU(np.asarray(data, np.float32), header).writeto(path, overwrite=True, output_verify="silentfix")
     return str(path)

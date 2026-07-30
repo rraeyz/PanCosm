@@ -4,6 +4,7 @@ import numpy as np
 
 from .. import timing
 from ..engine.steps import step
+from ..hdr import get, number
 from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
 from .lightcurve import light_curve
 
@@ -66,7 +67,7 @@ def apertures_step(inputs, params, ctx):
 
     data, header = load(timing.chronological(inputs["images"])[0])
     ctx.progress(0.2, "photometry")
-    gain = float(header.get("EGAIN", header.get("GAIN", 1.0)) or 1.0)
+    gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     stars = [inputs["target_xy"], *(inputs.get("comps_xy") or [])]
     return {"apertures": choose_apertures(data, stars, gain)}
 
@@ -164,7 +165,7 @@ def polarimetry_step(inputs, params, ctx):
             angles = None
             break
         source = key
-        angles.append(float(h[key]))
+        angles.append(number(h[key], 0.0))
     if angles is None:
         angles, source = [(22.5 * i) % 90 for i in range(len(paths))], "assumed 0/22.5/45/67.5"
     fo = np.array(lc["target_flux"])

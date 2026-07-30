@@ -13,6 +13,7 @@ import numpy as np
 from .. import timing
 from ..calibration.frames import classify
 from ..calibration.masters import calibrate, load
+from ..hdr import get
 from .aperture import frame_shift, measure, recenter
 from .lightcurve import target_coord
 
@@ -60,7 +61,7 @@ class LiveLightCurve:
     def _frame(self, path):
         data, h = load(path)
         if self.masters:
-            exptime = float(h.get("EXPTIME", h.get("EXPOSURE", 0.0)))
+            exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0)
             dark = self.masters.get("dark")
             data = calibrate(
                 data,
@@ -79,7 +80,7 @@ class LiveLightCurve:
             if self.prev is None:  # the first frame: positions are the clicked ones
                 self.sky = target_coord(h, self.coord)
                 self.where = timing.location(h)
-                g = self.gain or h.get("EGAIN", h.get("GAIN", 1.0)) or 1.0
+                g = self.gain or get(h, "EGAIN", "GAIN", default=1.0) or 1.0
                 self.gain = float(g)
                 shift = (0.0, 0.0)
             else:

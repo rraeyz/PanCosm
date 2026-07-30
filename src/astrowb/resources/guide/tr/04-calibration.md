@@ -8,6 +8,8 @@ Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık 
 - Okunamayan ve türü bilinmeyen dosyalar tablonun altında listelenir ve atlanır.
 - Aynı liste hangi kalibrasyon karelerinin **eksik** olduğunu söyler, ör. "no flat for filter 'R'" — o light'lar yine kalibre edilir, yalnızca o düzeltme olmadan; bu size bildirilir.
 
+Alt klasörler de okunur. Light'lar ve kalibrasyon kareleri ayrı klasörlerdeyse (örneğin *Light* ve *BDF*) ikisini birden içeren klasörü seçin. Başka bir yerde duran kareler, örneğin bir kalibrasyon arşivi, **Klasör ekle…** ile eklenir (birden çok klasör `;` ile ayrılır). Hiç light karesi bulunamazsa tablonun altındaki liste bunu söyler ve **Kalibre et** bir light olana kadar kapalı kalır.
+
 ## Master'lar nasıl eşlenir
 - **Bias:** aynı binning ve boyut.
 - **Dark:** aynı binning, aynı poz süresi ve 2 °C içinde sıcaklık. Başka pozdaki bir dark, light'ın pozuna yalnızca bias kareleri varsa ölçeklenir (bias çıkarılınca karanlık akım süreyle orantılıdır).

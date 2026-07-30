@@ -8,6 +8,8 @@ Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar 
 - Los archivos que no se pueden leer y los de tipo desconocido se listan bajo la tabla y se ignoran.
 - La misma lista dice qué tomas de calibración **faltan**, por ejemplo «no flat for filter 'R'» — esos lights se calibran igualmente, sin esa corrección, y se le avisa.
 
+También se leen las subcarpetas. Si las lights y las tomas de calibración están en carpetas separadas (por ejemplo *Light* y *BDF*), elija la carpeta que contiene ambas. Las tomas guardadas en otro lugar, como una biblioteca de calibración, se añaden con **Añadir carpeta…** (varias carpetas se separan con `;`). Si no se encuentra ninguna light, la lista bajo la tabla lo indica y **Calibrar** queda desactivado hasta que haya una.
+
 ## Cómo se asignan los másteres
 - **Bias:** mismo agrupamiento y tamaño.
 - **Dark:** mismo agrupamiento, mismo tiempo de exposición y una temperatura dentro de 2 °C. Un dark de otra exposición se escala a la exposición del light solo si hay tomas bias (la corriente oscura es proporcional al tiempo una vez restado el bias).

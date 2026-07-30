@@ -11,6 +11,7 @@ from pathlib import Path
 
 from astropy.io import fits
 
+from ..hdr import number
 from ..io.fits import find_image_hdu
 
 KINDS = ("bias", "dark", "flat", "light")
@@ -50,10 +51,7 @@ def _first(header, *keys):
 
 
 def _float(v):
-    try:
-        return float(v)
-    except (TypeError, ValueError):
-        return None
+    return number(v)  # '10 s', '-95.5 C' ... as some capture programs write them
 
 
 def classify(header, filename: str = "") -> str:

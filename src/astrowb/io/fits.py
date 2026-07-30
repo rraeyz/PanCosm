@@ -75,7 +75,7 @@ def extract_extension(path, index):
         for key in ("XTENSION", "PCOUNT", "GCOUNT", "EXTNAME", "EXTVER"):
             header.remove(key, ignore_missing=True)
         header.add_history(f"extension {index} of {path.name}")
-        fits.PrimaryHDU(hdu.data, header).writeto(dest, overwrite=True)
+        fits.PrimaryHDU(hdu.data, header).writeto(dest, overwrite=True, output_verify="silentfix")
     return dest
 
 
@@ -116,5 +116,5 @@ def save_as(
             header[key.upper()] = (value, comment or None)
         if history:
             header.add_history(history)
-        hdul.writeto(destination, overwrite=overwrite, output_verify="fix")
+        hdul.writeto(destination, overwrite=overwrite, output_verify="silentfix")
     return Path(destination)
