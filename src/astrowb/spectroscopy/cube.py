@@ -15,12 +15,20 @@ def read_cube(path):
     """(data[wave, y, x], wavelengths in Angstrom, header). The data stay memory-mapped (changes never
     reach the file): a cube larger than the RAM works, and images or line maps read only the planes they
     need. Scaled integer cubes (BSCALE/BZERO) cannot be mapped and are read whole."""
-    with fits.open(path, memmap=True) as hdul:  # the mapping outlives the file object while data is used
-        hdu = next((h for h in hdul if h.data is not None and h.data.ndim == 3), None)
-        if hdu is None:
-            raise ValueError("no 3-D data cube in this file")
-        data = hdu.data
-        h = hdu.header.copy()
+
+    def first_cube(memmap):
+        with fits.open(path, memmap=memmap) as hdul:  # the mapping outlives the file object while data is used
+            hdu = next((h for h in hdul if h.header.get("NAXIS", 0) == 3), None)
+            if hdu is None:
+                raise ValueError("no 3-D data cube in this file")
+            return hdu.data, hdu.header.copy()
+
+    try:
+        data, h = first_cube(True)
+    except ValueError as e:
+        if "memory-mapped" not in str(e):
+            raise
+        data, h = first_cube(False)  # BSCALE / BZERO: read whole (astropy cannot map scaled data)
     n = data.shape[0]
     step = h.get("CDELT3", h.get("CD3_3"))
     if step is None or "CRVAL3" not in h:
