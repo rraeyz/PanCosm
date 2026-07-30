@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# Neutral, permanent distribution name; the product name lives in src/astrowb/resources/brand/brand.toml.
+name = "astrowb"
+dynamic = ["version"]
+description = "Unified astronomy and image-processing workbench"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "astropy>=6.1",
+    "platformdirs>=4",
+    "wgpu>=0.30",
+    "astroscrappy>=1.2",
+    "photutils>=3.0",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+    "astroquery>=0.4.7",
+    "alpyca>=3.0",
+    "tifffile>=2024.1",
+    "pyproj>=3.6",
+    "cryptography>=42",
+    "emcee>=3.1",  # MCMC uncertainties of model fits (MIT)
+    "h5py>=3.10",  # HDF5 / NetCDF-4 rasters (BSD-3)
+    "rawpy>=0.21",  # DSLR / mirrorless raw files (MIT; bundles LibRaw, LGPL-2.1 or CDDL-1.0)
+    "imagecodecs>=2024.1",  # JPEG2000 rasters, e.g. Sentinel-2 bands (BSD-3)  # self-signed certificate for the observatory's HTTPS (Apache-2.0 / BSD)
+]
+
+[project.optional-dependencies]
+gui = ["PySide6-Essentials>=6.7"]
+dev = ["pytest>=8", "pytest-qt>=4.4", "ruff>=0.6", "ccdproc>=2.4", "specreduce>=1.5"]  # references in tests only
+build = ["pyinstaller>=6.10", "pillow>=10"]
+
+[project.scripts]
+astrowb-cli = "astrowb.__main__:main"
+
+[project.gui-scripts]
+astrowb = "astrowb.__main__:main"
+
+[tool.hatch.version]
+path = "src/astrowb/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/astrowb"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+qt_api = "pyside6"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/fake_indi.py" = ["E501"]  # INDI XML messages
+"tests/test_indi.py" = ["E501"]

@@ -1,0 +1,75 @@
+# Espectroscopía
+La página **Espectroscopía** reduce espectros y mide velocidades radiales. Sus pestañas siguen el trabajo: **Reducir** (rendija larga y sin rendija), **Echelle**, **Telúrica**, **Velocidad radial y órbita** y **Cubo IFU**.
+
+## Perfiles de instrumento
+Los ajustes propios de un espectrógrafo (orientación, anchuras de apertura y de cielo, lista de líneas, ganancia, ruido de lectura…) pueden guardarse como **Perfil del instrumento**: elija un perfil arriba, cambie los ajustes, **Guardar como…** con un nombre como «telescopio de 1 m + Shelyak LHIRES», o **Eliminar**. Los perfiles se guardan en su configuración, así que están en todos los proyectos.
+
+## Orientación
+**Dispersión a lo largo de** filas (x) o columnas (y), y **azul a la derecha** cuando las longitudes de onda disminuyen de izquierda a derecha. Ajústelo una vez por instrumento; todo lo demás se deriva de ello.
+
+## Reducción de rendija larga (Reducir)
+1. Elija la **Imagen científica** (imagen 2-D calibrada) y, para las longitudes de onda, la toma de la **Lámpara de arco**.
+2. **Extracción óptima (Horne)** pondera cada píxel según el perfil espacial — mejor relación señal-ruido para estrellas débiles. **Anchura de apertura**, **Separación del cielo** y **Anchura del cielo** (píxeles) fijan la ventana de extracción y las dos bandas de cielo a ambos lados de la traza.
+3. **1. Extraer**: el espectro se traza a lo largo de la dispersión y se extrae; el arco se extrae con la misma traza y se encuentran sus líneas.
+4. **2. Pulse las líneas del arco** en el gráfico inferior y escriba sus longitudes de onda (Å) en la tabla. Dos líneas son el mínimo; 4–6 repartidas por todo el rango son mucho mejores. Elija la **Lista de líneas del arco** de su lámpara (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…): las demás líneas se identifican automáticamente con ella.
+5. **3. Resolver longitudes de onda y guardar**: se ajusta una solución polinómica de longitud de onda; se muestran su rms (Å) y el número de líneas. El espectro 1-D se guarda como FITS con longitudes de onda.
+
+## Echelle
+Calibre antes las tomas en la página Calibrar con **Espectros: no dividir por el flat** marcado (solo bias, dark y rayos cósmicos) y luego indique aquí el flat maestro.
+
+1. Elija la **Imagen científica**, el **Flat** (traza los órdenes y da el blaze) y la **Lámpara de arco (ThAr)**. Marque **Alimentado por fibra** si no hay cielo entre los órdenes.
+2. **Número del orden más bajo:** el número absoluto del orden más bajo de la imagen, según el manual del espectrógrafo. Si no se conoce: m = λ2 / (λ2 − λ1), con λ1, λ2 las longitudes de onda en el mismo píxel de dos órdenes vecinos (λ2 la mayor). Indique si los **Números de orden** aumentan o disminuyen hacia arriba.
+3. **1. Trazar y extraer los órdenes**. **Mostrar orden** elige qué orden del arco se muestra.
+   **Revisar los órdenes (opcional):** **Mostrar los órdenes sobre el flat** dibuja las trazas encontradas sobre el flat. Con buenos datos son correctas y no hay nada que hacer. Para quitar una traza errónea (un fantasma, un defecto, medio orden en el borde) haga clic sobre ella; para añadir un orden que faltó, haga clic en cualquier punto de él: se lleva a la columna central siguiendo la curvatura de los órdenes vecinos y se traza. Los órdenes que no se pueden trazar aparecen como cruces rojas y se dejan fuera. La extracción usa exactamente los órdenes mostrados. A diferencia de IRAF apfind/aptrace no hay nada que ajustar: la ventana de búsqueda sigue la separación de los órdenes.
+4. **2. Pulse las líneas del arco** — al menos tres por orden en al menos dos órdenes — y escriba sus longitudes de onda.
+5. **3. Resolver, unir y guardar:** se ajusta una solución global 2-D (píxel y orden), los órdenes se dividen por el blaze y se unen en un solo espectro, que se guarda.
+6. **Compruebe el ajuste como en IRAF ecidentify:** el gráfico inferior muestra el residuo (mÅ) de cada línea del arco frente a su píxel, coloreado por orden; las líneas rechazadas por el recorte 3σ son cruces grises. Pulse un punto para excluir esa línea (una mezcla, una identificación errónea) y luego **Reajustar sin las líneas excluidas**; **Usar de nuevo todas las líneas** las olvida.
+7. Además del espectro unido, cada orden se guarda por separado en `<nombre>_orders.fits` (imágenes de flujo, error y longitud de onda, una fila por orden; la palabra clave ORDERS da los números de orden), para trabajar orden a orden.
+
+**Restar la luz dispersa** (como IRAF apscatter) ajusta la luz de los huecos entre los órdenes — a lo largo de la dirección perpendicular a la dispersión con un polinomio con recorte, luego suavizada a lo largo de ella — y la resta de la imagen científica y del flat antes de extraer. Úsela con estrellas brillantes y espectrógrafos cuyos órdenes están sobre un halo; necesita huecos de al menos 3 píxeles (no para órdenes de fibra muy juntos).
+
+## Corrección telúrica
+Elija el **Espectro (1-D)** y el espectro de una **estándar telúrica** (una estrella caliente de rotación rápida observada cerca en tiempo y en masa de aire). La estándar da la transmisión atmosférica; su intensidad (masa de aire, vapor de agua) y un pequeño desplazamiento en longitud de onda se ajustan dentro de las bandas telúricas. **Corregir y guardar** escribe el espectro corregido y muestra el gráfico antes/después.
+
+## Velocidad radial y órbita
+1. **Añadir…** los espectros 1-D (tablas FITS, FITS 1-D con WCS de longitud de onda o archivos de texto).
+2. Elija una **Plantilla** (el espectro de una estrella parecida, o uno sintético). Para una **binaria de doble línea**, añada una **Segunda plantilla**: entonces ambas estrellas se miden con TODCOR.
+3. **Método:** *Correlación cruzada* para estrellas de líneas finas (TODCOR si hay una segunda plantilla); *Función de ensanchamiento* para rotadoras rápidas (una estrella) y binarias de contacto o cercanas (dos estrellas). La función de ensanchamiento es el propio perfil Doppler, de modo que cada estrella aparece como su propio perfil de rotación aunque las líneas sean muy anchas; da las velocidades, la **v sin i** de cada estrella y su cociente de luz. Use una plantilla de líneas finas de un tipo espectral parecido y un rango de velocidad más ancho que ambos perfiles.
+4. **AR Dec del objeto** (vacío: de la cabecera), el **rango de velocidad** y, opcionalmente, una **ventana de longitudes de onda** (evite las bandas telúricas).
+5. **Medir velocidades radiales:** cada espectro se correlaciona con la plantilla. La tabla da la VR observada, su error, la **corrección baricéntrica** y la VR corregida. La corrección necesita la hora de observación, la posición del objetivo y el lugar (página Planificar); si no, muestra «not applied».
+6. **Estimación del período (d)** (p. ej. de la búsqueda de períodos) y **Ajustar órbita:** P, e, ω, K, γ con errores y el rms. Para binarias de doble línea también K2, el cociente de masas q, M sin³i de ambas estrellas y a sin i; para las de línea simple, la función de masa f(m).
+
+## Separar los espectros de una binaria de doble línea
+Tras medir las velocidades de ambas estrellas (TODCOR o la función de ensanchamiento), **Separar los espectros de las dos estrellas (disentangling)** recupera el espectro propio de cada estrella a partir de la serie (desplazar y sumar iterativo, González & Levato 2006). Usa las velocidades medidas en estos espectros y el cociente de luz, y escribe `star1.fits` y `star2.fits`. Use al menos cuatro espectros repartidos por la órbita, idealmente varios cerca de ambas cuadraturas; los espectros separados son las mejores plantillas para una segunda medida de velocidad más precisa y muestran las líneas de cada estrella para clasificarla.
+
+## Tipo espectral y plantillas
+**Tipo espectral del primer espectro (y una plantilla)** en la pestaña de velocidad radial compara el primer espectro con la biblioteca de Pickles (1998) de 131 estrellas, de O5 a M6 en todas las clases de luminosidad (se descarga de STScI la primera vez, unos 6 MB, y luego se guarda en la carpeta de configuración). Ambos espectros se dividen por su propio continuo suave, así que la respuesta de color del instrumento no importa; la plantilla se suaviza a su resolución y se dejan fuera las bandas telúricas. Se listan los tres tipos más cercanos y el mejor pasa a ser la plantilla para las velocidades radiales. También puede poner sus propios espectros (con SPTYPE en la cabecera o el tipo en el nombre del archivo) en la carpeta `templates`.
+
+## Parámetros estelares (Teff, log g, [Fe/H])
+**Herramientas de espectro → Parámetros estelares** ajusta espectros sintéticos al espectro abierto de una estrella FGK y da la temperatura efectiva, la gravedad superficial, la metalicidad, v sin i y la velocidad radial, con errores.
+
+1. Abra el espectro (calibrado en longitud de onda; no hace falta calibrarlo en flujo ni normalizarlo: cada trozo de 100 Å recibe su propio continuo suave).
+2. Indique la **resolución R** = λ / Δλ de su espectrógrafo (λ dividida por la FWHM de una línea del arco).
+3. Opcionalmente elija un **espectro solar tomado con el mismo espectrógrafo** (cielo crepuscular, la Luna o un asteroide). Es la mejor referencia; sin él se usa el atlas de flujo solar de Kurucz (2005).
+4. **Determinar Teff, log g, [Fe/H], v sin i.** La primera vez se descargan los espectros modelo: la biblioteca PHOENIX (Husser et al. 2013), solo los puntos necesarios (unos 6 MB cada uno, guardados como 1 MB), y el atlas solar (30 MB, una vez). Después tarda segundos.
+
+**Cómo se mantiene honesto.** Los espectros modelo no reproducen las estrellas reales línea a línea: ajustado al Sol real, PHOENIX solo da, según el rango y la resolución, una Teff hasta 250 K demasiado baja y [Fe/H] hasta 0,4 dex demasiado bajo. Por eso el programa hace lo que hacen los espectroscopistas cuidadosos: ajusta el Sol exactamente igual (mismos píxeles, misma resolución), deja fuera las longitudes de onda donde los modelos no reproducen el Sol y da la estrella **relativa al Sol**. Probado con el Sol real a R = 20 000 da 5738 ± 21 K, log g 4,40 ± 0,05, [Fe/H] −0,02 ± 0,02 (verdaderos: 5772 K, 4,44, 0,00). Los errores incluyen el ruido, la referencia solar y la interpolación entre puntos de la malla.
+
+**Límites.** Pensado para estrellas FGK; para estrellas lejos del Sol (el resultado lo indica) la referencia solar es menos fiable. Hasta ahora el método se ha comprobado solo con el Sol: antes de publicar parámetros, compruébelo con algunas estrellas de referencia de parámetros conocidos (estrellas de referencia FGK de Gaia) observadas con su espectrógrafo, o al menos use un espectro solar de su propio espectrógrafo.
+
+## Cubos de datos IFU
+**Cargar cubo** abre un cubo FITS 3-D (x, y, longitud de onda).
+
+- **Media sobre una ventana de longitudes de onda** muestra una imagen; **Mapa de línea (continuo restado)** muestra la emisión de una línea: indique su **Centro (Å)** y su **Anchura (Å)** y luego **Mostrar imagen**.
+- **Pulse un spaxel** para ver su espectro; **Radio de apertura del spaxel** suma los spaxels de alrededor. **Guardar espectro…** lo escribe.
+
+## Herramientas de espectro
+La pestaña **Herramientas de espectro** trabaja sobre un espectro 1-D, como IRAF splot, BASS o ISIS. **Abrir espectro…** lee los espectros propios de la aplicación, imágenes FITS 1-D con solución en longitud de onda (ISIS, BASS, IRAF) y archivos de texto.
+
+- **Marcas de líneas:** H, He I/II, Ca II, Na D, Mg b, Fe, O I, C, N y líneas prohibidas; se desplazan con una velocidad radial para coincidir con la estrella.
+- **Medir una línea:** arrastre sobre la línea en la gráfica (o escriba los límites) y pulse **Medir**. El continuo es una recta por los dos extremos de la ventana; deje algo de continuo a ambos lados. Se obtiene la anchura equivalente por integración con su error (ruido de píxel y colocación del continuo), el centro, FWHM, profundidad y EW de un ajuste **gaussiano** o **Voigt**, el flujo integrado de la línea y la S/R del continuo. La EW es positiva en absorción y negativa en emisión. Cada medida es una fila de la tabla (clic derecho: CSV o LaTeX).
+- **V/R:** para emisión de doble pico (estrellas Be) en un espectro normalizado: (I_V − 1) / (I_R − 1) con las velocidades de los picos.
+- **Medir en varios espectros…:** la misma ventana en muchos archivos; cada fila con archivo, DATE-OBS, EW y V/R — la serie de seguimiento de Hα de una estrella Be con un clic.
+- **Cambiar el espectro:** suavizado (gaussiano, caja, mediana), aritmética con un número o con el **espectro B** (remuestreado sobre este), remuestreo a paso constante, normalización automática o un continuo por puntos que usted marca (**Elegir puntos del continuo** y luego **Normalizar por puntos**). **Deshacer** vuelve un paso atrás.
+- **Respuesta instrumental:** abra el espectro de una estrella de referencia, pulse **Respuesta instrumental…** y elija su distribución de flujo conocida (un espectro Pickles del mismo tipo — la biblioteca que descarga la herramienta de tipo espectral — o un estándar espectrofotométrico). Se excluyen las líneas estelares y las bandas telúricas y el cociente se suaviza con un spline. Luego abra el objeto (misma configuración, misma noche) y pulse **Dividir por la respuesta**: el resultado está en flujo relativo.
+- **Guardar como…** escribe el resultado; **Exportar para BeSS / ARAS…** escribe el FITS 1-D con las palabras clave que pide la base BeSS (objeto, observador, fecha, exposición, instrumento, lugar, corrección heliocéntrica, indicadores telúrico y cósmico) a paso constante. Compruebe el archivo con el verificador de BeSS antes de enviarlo.

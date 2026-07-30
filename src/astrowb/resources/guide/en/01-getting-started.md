@@ -1,0 +1,61 @@
+# Getting started
+The application covers the whole observing workflow in one window: choose targets, plan the night, observe, calibrate, measure, model and report. You can enter at any step with the data you already have.
+
+## The first start
+The first time the application opens it shows a short welcome window in English with three choices:
+
+- **Language** — the interface language. It is applied at once; you can change it later in **Settings → Language**.
+- **Computations run on** — *Automatic* uses the graphics card when it is faster than the processor (recommended), *Graphics card* always uses it, *Processor (CPU) only* never does.
+- **Look** — *Dark* (blue-black, the default) or *Light*.
+
+Press **Start**. The choices are saved and never asked again. A one-minute **quick tour** follows; you can skip it and open it again from **Help → Quick tour**.
+
+## Your first night (practice data)
+A complete exercise with simulated data whose answer is known: from raw frames to the time of minimum of an eclipsing binary.
+
+1. **Help → Practice data for a first night…** and choose an empty folder. A `raw` folder appears with 7 bias, 7 dark (60 s), 7 V flat and 48 V light frames of a binary going through a primary eclipse, and `truth.json` with the right answers.
+2. **Calibrate:** choose the `raw` folder and press **Scan**: the table shows 7 bias, 7 dark, 7 flat and 48 light frames, nothing missing. Choose an output folder (e.g. `cal`) and press **Calibrate**.
+
+![Calibrate page after Scan](images/en/first-night-calibrate.png)
+
+3. **Photometry:** **Choose images…** and select the calibrated `light_V_*.fits`. Press **Check frame quality**: all frames are good. Click the star in the middle of the image (the binary, at x = 100, y = 80), then **Suggest comparison stars** (or click the three other stars). Type the position `02:04:10.3 +46:41:16` into *Target RA Dec* so the times are in BJD_TDB, and press **Measure light curve**: an eclipse about 45 % deep appears.
+4. Tick **Kwee–van Woerden** and press **Time of minimum**. Compare it with `t_min_bjd_tdb` in `truth.json`: the two agree within a minute or two.
+
+![Photometry page with the light curve and the time of minimum](images/en/first-night-photometry.png)
+
+5. **The same in one go:** on the **Automation** page choose *Eclipsing binary night*, give the `raw` folder, a new output folder and the target position `100 80`, and press **Run**. Calibration, frame quality, comparison stars, light curve and minimum run one after the other; the result appears at the bottom.
+
+![The Eclipsing binary night automation ready to run](images/en/first-night-automation.png)
+
+6. To go further: paste the minimum into the **O-C** tab with your own reference T0 and period, export the light curve (**Export CSV…**), or fit it on the **Orbits & models** page.
+
+## The window
+- **Sidebar (left):** the pages in the order of an observing night — Start, Plan, Observe, Calibrate, Images, Photometry, Light curves & O-C, Spectroscopy, Orbits & models, Remote sensing, Automation, Project and this Guide.
+- **Tasks panel (bottom):** every long job (calibration, photometry, fits, spectra…) runs in the background in its own process. The panel shows its progress and state (queued, running, done, failed, cancelled). You can keep working while tasks run, and a crashing task never takes the window down.
+- **Status bar:** the pixel value and sky coordinates under the mouse when an image is open, and a progress bar while tasks run.
+- **Menus:** File (projects, FITS), View (zoom and display stretch), Image (plate solving, processing), Plugins, Settings and Help.
+
+## The Start page
+Start from what you have:
+
+- **New project / Open project…** keep frames, settings and results together.
+- **Open a FITS image** to look at an image and its header.
+- **I have raw frames** → Calibrate. **I have calibrated images** → Photometry. **I have spectra** → Spectroscopy. **I have minima or RV lists** → Light curves & O-C. **I want to plan a night** → Plan.
+
+## Projects
+A project is one file with the extension `.astroproj`. It records every file you added and every step you ran: which step, its settings, when it started, whether it succeeded, and its results, together with the versions of the libraries used. This makes the work reproducible: months later you can see exactly how a number was obtained.
+
+- **File → New project…** creates the file; **File → Open project…** continues earlier work.
+- File paths are stored relative to the project file, so you can move the project folder together with its data to another computer.
+- The **Project** page lists the files (with their type) and the history of runs with their settings.
+- Select a row of the history to see everything about that run: its inputs, settings, results (or error) and the versions of the libraries. **Run again with the same inputs and settings** repeats it exactly; the repeat is recorded as a new run.
+- Without a project you can still work; nothing is recorded then.
+
+## Settings
+- **Settings → Language:** English, Turkish, German or Spanish. A restart may be needed for every text to change.
+- **Settings → Look:** Dark or Light. Plots already on screen follow the new colours. **Publication figure…** in every plot's toolbar saves it black on white (PDF, SVG, EPS or 300 dpi PNG) whatever the look; right-click any table to export it as CSV or LaTeX.
+- **Settings → Processing device:** Automatic, CPU only or GPU. The status bar shows which device is in use. Run the application with `--benchmark` to measure the speed of both.
+- Settings are stored in a small JSON file in your user settings folder; plugins and your own automations live next to it.
+
+## Graphics card (GPU)
+Heavy array work (for example sigma-clipped stacking) can run on the graphics card through Vulkan, Metal or DirectX 12. Every GPU calculation has a CPU twin that gives the same result, and *Automatic* only uses the card when it is actually faster. If no usable graphics driver is found, the processor is used and nothing else changes.

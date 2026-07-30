@@ -1,0 +1,93 @@
+{
+  "name": {
+    "en": "Spectroscopy night → RV → orbit",
+    "tr": "Tayf gecesi → RV → yörünge",
+    "de": "Spektroskopie-Nacht → RV → Bahn",
+    "es": "Noche de espectroscopía → VR → órbita"
+  },
+  "description": {
+    "en": "Reduce every long-slit frame with the arc (wavelengths from at least two identified lines), measure the barycentric radial velocity of each spectrum against a template, and fit a single-lined orbit.",
+    "tr": "Her uzun yarık karesini ark ile indirge (en az iki tanımlanmış çizgiden dalga boyu), her tayfın barisentrik dikine hızını bir şablona göre ölç ve tek çizgili yörünge fit et.",
+    "de": "Jede Langspalt-Aufnahme mit dem Vergleichsspektrum reduzieren (Wellenlängen aus mindestens zwei identifizierten Linien), die baryzentrische Radialgeschwindigkeit jedes Spektrums gegen ein Vorlagespektrum messen und eine einlinige Bahn anpassen.",
+    "es": "Reduce cada toma de rendija larga con el arco (longitudes de onda a partir de al menos dos líneas identificadas), mide la velocidad radial baricéntrica de cada espectro frente a una plantilla y ajusta una órbita de líneas simples."
+  },
+  "inputs": {
+    "science": {
+      "kind": "files",
+      "label": {
+        "en": "Science frames (2-D)",
+        "tr": "Bilim kareleri (2-B)",
+        "de": "Wissenschaftsaufnahmen (2-D)",
+        "es": "Tomas de ciencia (2-D)"
+      }
+    },
+    "arc": {
+      "kind": "file",
+      "label": {
+        "en": "Arc frame",
+        "tr": "Ark karesi",
+        "de": "Vergleichslampen-Aufnahme",
+        "es": "Toma de arco"
+      }
+    },
+    "guesses": {
+      "kind": "pairs",
+      "label": {
+        "en": "Identified arc lines: pixel wavelength; pixel wavelength; …",
+        "tr": "Tanımlanan ark çizgileri: piksel dalgaboyu; piksel dalgaboyu; …",
+        "de": "Identifizierte Linien: Pixel Wellenlänge; Pixel Wellenlänge; …",
+        "es": "Líneas de arco identificadas: píxel longitud de onda; píxel longitud de onda; …"
+      }
+    },
+    "output_dir": {
+      "kind": "folder",
+      "label": {
+        "en": "Folder for the 1-D spectra",
+        "tr": "1-B tayflar için klasör",
+        "de": "Ordner für die 1-D-Spektren",
+        "es": "Carpeta para los espectros 1-D"
+      }
+    },
+    "template": {
+      "kind": "file",
+      "label": {
+        "en": "Template spectrum",
+        "tr": "Şablon tayf",
+        "de": "Vorlagespektrum",
+        "es": "Espectro plantilla"
+      }
+    },
+    "site": {
+      "kind": "site",
+      "label": {
+        "en": "Observatory: latitude longitude height(m)",
+        "tr": "Gözlemevi: enlem boylam yükseklik(m)",
+        "de": "Sternwarte: Breite Länge Höhe (m)",
+        "es": "Observatorio: latitud longitud altura (m)"
+      }
+    }
+  },
+  "steps": [
+    {
+      "step": "spectroscopy.reduce",
+      "each": "science",
+      "inputs": {
+        "output": "{output_dir}/{item}_1d.fits"
+      }
+    },
+    {
+      "step": "spectroscopy.rv",
+      "inputs": {
+        "spectra": "spectrum.path"
+      }
+    },
+    {
+      "step": "spectroscopy.orbit",
+      "inputs": {
+        "time": "rvs.bjd",
+        "rv": "rvs.rv",
+        "error": "rvs.rv_err"
+      }
+    }
+  ]
+}

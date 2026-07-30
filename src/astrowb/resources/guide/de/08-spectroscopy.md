@@ -1,0 +1,75 @@
+# Spektroskopie
+Die Seite **Spektroskopie** reduziert Spektren und misst Radialgeschwindigkeiten. Ihre Reiter folgen der Arbeit: **Reduktion** (Langspalt und spaltlos), **Echelle**, **Tellurisch**, **Radialgeschwindigkeit & Bahn** und **IFU-Würfel**.
+
+## Instrumentprofile
+Einstellungen, die zu einem Spektrographen gehören (Ausrichtung, Blenden- und Himmelsbreiten, Linienliste, Gain, Ausleserauschen…), lassen sich als **Instrumentprofil** speichern: oben ein Profil wählen, die Einstellungen ändern, **Speichern unter…** mit einem Namen wie „1-m-Teleskop + Shelyak LHIRES“ oder **Löschen**. Profile liegen in Ihren Einstellungen und sind daher in jedem Projekt verfügbar.
+
+## Ausrichtung
+**Dispersion entlang** Zeilen (x) oder Spalten (y), und **Blau rechts**, wenn die Wellenlängen von links nach rechts abnehmen. Einmal pro Instrument einstellen; alles andere folgt daraus.
+
+## Langspalt-Reduktion (Reduktion)
+1. Das **Wissenschaftsbild** (kalibriertes 2-D-Bild) und, für die Wellenlängen, die Aufnahme der **Bogenlampe** wählen.
+2. **Optimale Extraktion (Horne)** gewichtet jedes Pixel mit dem räumlichen Profil — besseres Signal-Rausch-Verhältnis bei schwachen Sternen. **Blendenbreite**, **Himmelsabstand** und **Himmelsbreite** (Pixel) legen das Extraktionsfenster und die beiden Himmelsbänder zu beiden Seiten der Spur fest.
+3. **1. Extrahieren**: Das Spektrum wird entlang der Dispersion verfolgt und extrahiert; die Bogenlampe wird mit derselben Spur extrahiert, und ihre Linien werden gefunden.
+4. **2. Bogenlinien anklicken** im unteren Diagramm und ihre Wellenlängen (Å) in die Tabelle eintragen. Zwei Linien sind das Minimum; 4–6 über den ganzen Bereich verteilt sind viel besser. Wählen Sie die **Bogenlinienliste** Ihrer Lampe (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…): Die übrigen Linien werden daraus automatisch identifiziert.
+5. **3. Wellenlängen lösen und speichern**: Eine polynomiale Wellenlängenlösung wird angepasst; ihr rms (Å) und die Zahl der Linien werden angezeigt. Das 1-D-Spektrum wird als FITS mit Wellenlängen gespeichert.
+
+## Echelle
+Die Aufnahmen zuerst auf der Seite Kalibrieren mit angekreuztem **Spektren: nicht durch das Flat teilen** kalibrieren (nur Bias, Dark und kosmische Strahlen), dann hier das Master-Flat angeben.
+
+1. Das **Wissenschaftsbild**, das **Flat** (verfolgt die Ordnungen und liefert den Blaze) und die **Bogenlampe (ThAr)** wählen. **Fasergekoppelt** ankreuzen, wenn zwischen den Ordnungen kein Himmel liegt.
+2. **Niedrigste Ordnungsnummer:** die absolute Ordnungsnummer der niedrigsten Ordnung im Bild, aus dem Handbuch des Spektrographen. Falls unbekannt: m = λ2 / (λ2 − λ1), mit λ1, λ2 den Wellenlängen am selben Pixel in zwei benachbarten Ordnungen (λ2 die längere). Angeben, ob die **Ordnungsnummern** nach oben zu- oder abnehmen.
+3. **1. Ordnungen verfolgen und extrahieren**. **Ordnung zeigen** wählt, welche Ordnung der Bogenlampe gezeigt wird.
+   **Ordnungen prüfen (optional):** **Ordnungen auf dem Flat zeigen** zeichnet die gefundenen Spuren auf das Flat. Bei guten Daten stimmen sie, und es ist nichts zu tun. Eine falsche Spur (Geist, Defekt, halbe Ordnung am Rand) entfernen Sie durch Klick darauf; eine übersehene Ordnung fügen Sie durch Klick irgendwo auf sie hinzu: Sie wird entlang der Krümmung der Nachbarordnungen zur Mittelspalte verschoben und verfolgt. Ordnungen, die nicht verfolgt werden können, erscheinen als rote Kreuze und bleiben weg. Die Extraktion verwendet genau die gezeigten Ordnungen. Anders als bei IRAF apfind/aptrace ist nichts einzustellen: Das Suchfenster folgt dem Ordnungsabstand.
+4. **2. Bogenlinien anklicken** — mindestens drei je Ordnung in mindestens zwei Ordnungen — und ihre Wellenlängen eintragen.
+5. **3. Lösen, zusammenfügen und speichern:** Eine globale 2-D-Lösung (Pixel und Ordnung) wird angepasst, die Ordnungen werden durch den Blaze geteilt und zu einem Spektrum zusammengefügt, das gespeichert wird.
+6. **Die Anpassung wie in IRAF ecidentify prüfen:** Das untere Diagramm zeigt das Residuum (mÅ) jeder Linie über ihrem Pixel, nach Ordnung eingefärbt; durch das 3σ-Clipping verworfene Linien sind graue Kreuze. Einen Punkt anklicken, um diese Linie auszulassen (Blend, falsche Zuordnung), dann **Ohne die ausgelassenen Linien neu anpassen**; **Wieder alle Linien verwenden** vergisst sie.
+7. Neben dem zusammengefügten Spektrum wird jede Ordnung einzeln in `<Name>_orders.fits` gespeichert (Fluss-, Fehler- und Wellenlängenbild, eine Zeile je Ordnung; das Schlüsselwort ORDERS nennt die Ordnungsnummern), für die Arbeit Ordnung für Ordnung.
+
+**Streulicht abziehen** (wie IRAF apscatter) passt das Licht in den Lücken zwischen den Ordnungen an — quer zur Dispersion mit einem geclippten Polynom, dann entlang der Dispersion geglättet — und zieht es vor der Extraktion von Wissenschaftsbild und Flat ab. Verwenden Sie es bei hellen Sternen und bei Spektrographen, deren Ordnungen auf einem Schleier liegen; es braucht Lücken von mindestens 3 Pixeln (nicht für dicht gepackte Faserordnungen).
+
+## Tellurische Korrektur
+Das **Spektrum (1-D)** und das Spektrum eines **tellurischen Standards** wählen (ein heißer, schnell rotierender Stern, zeitlich und in der Luftmasse nahe beobachtet). Der Standard liefert die atmosphärische Transmission; ihre Stärke (Luftmasse, Wasserdampf) und eine kleine Wellenlängenverschiebung werden innerhalb der tellurischen Bänder angepasst. **Korrigieren und speichern** schreibt das korrigierte Spektrum und zeigt das Vorher-Nachher-Diagramm.
+
+## Radialgeschwindigkeit und Bahn
+1. Die 1-D-Spektren **Hinzufügen…** (FITS-Tabellen, 1-D-FITS mit Wellenlängen-WCS oder Textdateien).
+2. Eine **Vorlage** wählen (das Spektrum eines ähnlichen Sterns oder ein synthetisches). Für einen **doppellinigen Doppelstern** eine **Zweite Vorlage** hinzufügen: Dann werden beide Sterne mit TODCOR gemessen.
+3. **Methode:** *Kreuzkorrelation* für Sterne mit scharfen Linien (TODCOR, wenn eine zweite Vorlage angegeben ist); *Verbreiterungsfunktion* für schnelle Rotatoren (ein Stern) und Kontakt- oder enge Doppelsterne (zwei Sterne). Die Verbreiterungsfunktion ist das Doppler-Profil selbst, sodass jeder Stern als eigenes Rotationsprofil erscheint, selbst wenn die Linien sehr breit sind; sie liefert die Geschwindigkeiten, **v sin i** jedes Sterns und ihr Lichtverhältnis. Verwenden Sie eine Vorlage mit scharfen Linien und ähnlichem Spektraltyp und einen Geschwindigkeitsbereich, der breiter als beide Profile ist.
+4. **Ziel RA Dek** (leer: aus dem Header), der **Geschwindigkeitsbereich** und optional ein **Wellenlängenfenster** (tellurische Bänder meiden).
+5. **Radialgeschwindigkeiten messen:** Jedes Spektrum wird mit der Vorlage kreuzkorreliert. Die Tabelle zeigt die beobachtete RV, ihren Fehler, die **baryzentrische Korrektur** und die korrigierte RV. Die Korrektur braucht Beobachtungszeit, Zielposition und Standort (Seite Planen); sonst steht dort „not applied“.
+6. **Periodenschätzung (d)** (z. B. aus der Periodensuche) und **Bahn anpassen:** P, e, ω, K, γ mit Fehlern und dem rms. Für doppellinige Doppelsterne zusätzlich K2, das Massenverhältnis q, M sin³i beider Sterne und a sin i; für einlinige die Massenfunktion f(m).
+
+## Disentangling eines doppellinigen Doppelsterns
+Nachdem die Geschwindigkeiten beider Sterne gemessen sind (TODCOR oder Verbreiterungsfunktion), gewinnt **Die Spektren der beiden Sterne trennen (Disentangling)** aus der Reihe das eigene Spektrum jedes Sterns zurück (iteratives Verschieben und Addieren, González & Levato 2006). Es verwendet die an diesen Spektren gemessenen Geschwindigkeiten und das Lichtverhältnis und schreibt `star1.fits` und `star2.fits`. Verwenden Sie mindestens vier über die Bahn verteilte Spektren, am besten mehrere nahe beiden Quadraturen; die getrennten Spektren sind die besten Vorlagen für eine zweite, genauere Geschwindigkeitsmessung und zeigen die Linien jedes Sterns für die Klassifikation.
+
+## Spektraltyp und Vorlagen
+**Spektraltyp des ersten Spektrums (und eine Vorlage)** im Reiter Radialgeschwindigkeit vergleicht das erste Spektrum mit der Pickles-Bibliothek (1998) von 131 Sternen, O5 bis M6 in allen Leuchtkraftklassen (beim ersten Mal von STScI heruntergeladen, etwa 6 MB, dann im Einstellungsordner aufbewahrt). Beide Spektren werden durch ihr eigenes glattes Kontinuum geteilt, sodass die Farbempfindlichkeit des Instruments keine Rolle spielt; die Vorlage wird auf Ihre Auflösung geglättet, und die tellurischen Bänder bleiben außen vor. Die drei nächsten Typen werden aufgelistet, und der beste wird zur Vorlage für die Radialgeschwindigkeiten. Sie können auch eigene Spektren (mit SPTYPE im Header oder dem Typ im Dateinamen) in den Ordner `templates` legen.
+
+## Sternparameter (Teff, log g, [Fe/H])
+**Spektrenwerkzeuge → Sternparameter** passt synthetische Spektren an das geöffnete Spektrum eines FGK-Sterns an und liefert effektive Temperatur, Schwerebeschleunigung, Metallizität, v sin i und Radialgeschwindigkeit mit Fehlern.
+
+1. Das Spektrum öffnen (wellenlängenkalibriert; Flusskalibrierung und Normierung sind nicht nötig: jedes 100-Å-Stück erhält sein eigenes glattes Kontinuum).
+2. Die **Auflösung R** = λ / Δλ des Spektrographen angeben (λ geteilt durch die FWHM einer Bogenlinie).
+3. Wahlweise ein **mit demselben Spektrographen aufgenommenes Sonnenspektrum** wählen (Dämmerungshimmel, Mond oder ein Asteroid). Es ist die beste Referenz; ohne es wird der Kurucz-Sonnenatlas (2005) verwendet.
+4. **Teff, log g, [Fe/H], v sin i bestimmen.** Beim ersten Mal werden die Modellspektren heruntergeladen: die PHOENIX-Bibliothek (Husser et al. 2013), nur die benötigten Punkte (je etwa 6 MB, gespeichert als 1 MB), und der Sonnenatlas (30 MB, einmal). Spätere Läufe dauern Sekunden.
+
+**Warum das Ergebnis ehrlich bleibt.** Modellspektren geben reale Sterne nicht Linie für Linie wieder: An die echte Sonne angepasst liefert PHOENIX allein je nach Wellenlängenbereich und Auflösung eine bis zu 250 K zu niedrige Teff und ein bis zu 0,4 dex zu niedriges [Fe/H]. Deshalb tut das Programm, was sorgfältige Spektroskopiker tun: Es passt die Sonne genauso an (gleiche Pixel, gleiche Auflösung), lässt die Wellenlängen weg, in denen die Modelle die Sonne nicht wiedergeben, und gibt den Stern **relativ zur Sonne** an. An der echten Sonne bei R = 20 000 getestet liefert es 5738 ± 21 K, log g 4,40 ± 0,05, [Fe/H] −0,02 ± 0,02 (wahr: 5772 K, 4,44, 0,00). Die Fehler enthalten das Rauschen, die Sonnenreferenz und die Interpolation zwischen den Gitterpunkten.
+
+**Grenzen.** Gedacht für FGK-Sterne; für Sterne weit von der Sonne (das Ergebnis sagt es) ist die Sonnenreferenz weniger zuverlässig. Bisher wurde die Methode nur an der Sonne geprüft: Vor einer Veröffentlichung an einigen Referenzsternen mit bekannten Parametern (Gaia-FGK-Benchmarksterne) prüfen, die mit dem eigenen Spektrographen beobachtet wurden, oder zumindest ein Sonnenspektrum des eigenen Spektrographen verwenden.
+
+## IFU-Datenwürfel
+**Würfel laden** öffnet einen 3-D-FITS-Würfel (x, y, Wellenlänge).
+
+- **Mittel über ein Wellenlängenfenster** zeigt ein Bild; **Linienkarte (Kontinuum abgezogen)** zeigt die Emission einer Linie: deren **Mitte (Å)** und **Breite (Å)** angeben, dann **Bild zeigen**.
+- **Ein Spaxel anklicken**, um sein Spektrum zu sehen; **Spaxel-Blendenradius** summiert die Spaxel ringsum. **Spektrum speichern…** schreibt es.
+
+## Spektrenwerkzeuge
+Der Reiter **Spektrenwerkzeuge** arbeitet an einem 1-D-Spektrum, wie IRAF splot, BASS oder ISIS. **Spektrum öffnen…** liest die eigenen Spektren der Anwendung, 1-D-FITS-Bilder mit Wellenlängenlösung (ISIS, BASS, IRAF) und Textdateien.
+
+- **Linienmarken:** H, He I/II, Ca II, Na D, Mg b, Fe, O I, C, N und verbotene Linien; um eine Radialgeschwindigkeit verschiebbar.
+- **Linie messen:** in der Grafik über die Linie ziehen (oder Grenzen eingeben) und **Messen** drücken. Das Kontinuum ist eine Gerade durch die beiden Fensterenden; lassen Sie auf beiden Seiten etwas Kontinuum. Ergebnis: Äquivalentbreite durch Integration mit Fehler (Pixelrauschen und Kontinuumslage), Mitte, FWHM, Tiefe und EW eines **Gauß**- oder **Voigt**-Fits, integrierter Linienfluss und S/N des Kontinuums. EW ist positiv für Absorption, negativ für Emission. Jede Messung ist eine Tabellenzeile (Rechtsklick: CSV oder LaTeX).
+- **V/R:** für doppelgipflige Emission (Be-Sterne) im normierten Spektrum: (I_V − 1) / (I_R − 1) mit den Gipfelgeschwindigkeiten.
+- **In mehreren Spektren messen…:** dasselbe Fenster in vielen Dateien; jede Zeile mit Datei, DATE-OBS, EW und V/R — die Hα-Überwachungsreihe eines Be-Sterns mit einem Klick.
+- **Spektrum ändern:** Glätten (Gauß, Rechteck, Median), Arithmetik mit einer Zahl oder mit **Spektrum B** (auf dieses abgetastet), Neuabtastung mit gleichem Schritt, automatische Normierung oder ein Kontinuum durch angeklickte Punkte (**Kontinuumspunkte wählen**, dann **Durch Punkte normieren**). **Rückgängig** geht einen Schritt zurück.
+- **Instrumentenantwort:** Spektrum eines Referenzsterns öffnen, **Instrumentenantwort…** drücken und seine bekannte Flussverteilung wählen (ein Pickles-Spektrum gleichen Typs — die Bibliothek, die das Spektraltyp-Werkzeug lädt — oder ein spektrophotometrischer Standard). Sternlinien und tellurische Banden werden ausgelassen, das Verhältnis mit einem Spline geglättet. Dann das Ziel öffnen (gleicher Aufbau, gleiche Nacht) und **Durch Antwort teilen**: das Ergebnis ist relativer Fluss.
+- **Speichern unter…** schreibt das Ergebnis; **Export für BeSS / ARAS…** schreibt das 1-D-FITS mit den Schlüsselwörtern der BeSS-Datenbank (Objekt, Beobachter, Datum, Belichtung, Instrument, Standort, heliozentrische Korrektur, Tellur- und Kosmik-Flags) mit gleichem Wellenlängenschritt. Prüfen Sie die Datei vor dem Einreichen mit dem Prüfprogramm von BeSS.

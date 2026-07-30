@@ -1,0 +1,237 @@
+"""One data model for images from the sky and from orbit: bands + coordinate system + metadata.
+
+GeoTIFF / Cloud-Optimised GeoTIFF are read and written with tifffile; the GeoTIFF tags (pixel scale,
+tie point or transformation matrix, GeoKey directory, nodata) are copied unchanged to every product,
+so results stay georeferenced exactly like the input. FITS images and cubes read into the same model
+(no map projection). Map coordinates follow the GeoTIFF affine model; latitude/longitude come from
+pyproj when the EPSG code is known.
+"""
+
+from dataclasses import dataclass, field
+from pathlib import Path
+
+import numpy as np
+
+GEO_TAGS = (33550, 33922, 34264, 34735, 34736, 34737)  # scale, tiepoint, transformation, GeoKeys, doubles, ascii
+NODATA_TAG = 42113  # GDAL_NODATA (ASCII)
+
+
+@dataclass
+class Raster:
+    bands: np.ndarray  # (n_bands, ny, nx) float32
+    names: list = field(default_factory=list)
+    transform: tuple | None = None  # (c, a, b, f, d, e): X = c + a*col + b*row, Y = f + d*col + e*row
+    epsg: int | None = None
+    nodata: float | None = None
+    tags: dict = field(default_factory=dict)  # raw GeoTIFF tags {code: (dtype, count, value)}
+    source: str = ""
+
+    @property
+    def shape(self):
+        return self.bands.shape[1:]
+
+    def band(self, i):
+        b = self.bands[i]
+        return np.where(b == self.nodata, np.nan, b) if self.nodata is not None else b
+
+    def map_xy(self, col, row):
+        """Map coordinates of a pixel position (pixel centres at integer + 0.5 in the GeoTIFF area model)."""
+        if self.transform is None:
+            return None
+        c, a, b, f, d, e = self.transform
+        return c + a * col + b * row, f + d * col + e * row
+
+    def lonlat(self, col, row):
+        xy = self.map_xy(col, row)
+        if xy is None or self.epsg is None:
+            return None
+        if self.epsg == 4326:
+            return xy
+        from pyproj import Transformer
+
+        return Transformer.from_crs(self.epsg, 4326, always_xy=True).transform(*xy)
+
+
+def _geokeys(directory):
+    """{key id: value} from a GeoKeyDirectory (values stored inline only, which covers EPSG codes)."""
+    keys = {}
+    d = list(directory)
+    for i in range(4, 4 + 4 * d[3], 4):
+        key, location, _, value = d[i : i + 4]
+        if location == 0:
+            keys[key] = value
+    return keys
+
+
+HDF_SUFFIXES = (".h5", ".hdf5", ".he5", ".hdf", ".nc", ".nc4", ".cdf")
+JP2_SUFFIXES = (".jp2", ".j2k", ".jpx")
+
+
+def _regular(axis):
+    """(start, step) of an evenly spaced coordinate axis, else None."""
+    axis = np.asarray(axis, float).ravel()
+    if len(axis) < 2:
+        return None
+    step = np.diff(axis)
+    return (float(axis[0]), float(step.mean())) if np.allclose(step, step.mean(), rtol=1e-4) else None
+
+
+def _cf_grid(lat, lon):
+    """Raster transform (EPSG:4326) from 1-D CF latitude / longitude coordinate variables of cell centres."""
+    la, lo = _regular(lat), _regular(lon)
+    if la is None or lo is None:
+        return None
+    return (lo[0] - lo[1] / 2, lo[1], 0.0, la[0] - la[1] / 2, 0.0, la[1])
+
+
+def _read_hdf(path):
+    """HDF5 / NetCDF-4 (h5py), NetCDF-3 (scipy): every 2-D numeric variable of the largest common shape is a
+    band (3-D variables: one band per plane); CF lat / lon coordinates give the map position."""
+    arrays, coords = {}, {}
+    try:
+        import h5py
+
+        with h5py.File(path, "r") as f:
+
+            def visit(name, obj):
+                if isinstance(obj, h5py.Dataset) and obj.dtype.kind in "fiu" and obj.ndim in (1, 2, 3):
+                    key = name.split("/")[-1]
+                    (coords if obj.ndim == 1 else arrays)[key] = np.asarray(obj[()], np.float32)
+                    fill = obj.attrs.get("_FillValue")
+                    if fill is not None and obj.ndim > 1:
+                        arrays[key][arrays[key] == np.float32(np.ravel(fill)[0])] = np.nan
+
+            f.visititems(visit)
+    except OSError:  # not HDF5: a classic NetCDF-3 file
+        from scipy.io import netcdf_file
+
+        with netcdf_file(path, "r", mmap=False) as f:
+            for key, var in f.variables.items():
+                a = np.asarray(var.data, np.float32)
+                fill = getattr(var, "_FillValue", None)
+                if fill is not None:
+                    a[a == np.float32(fill)] = np.nan
+                (coords if a.ndim == 1 else arrays)[key] = a
+    if not arrays:
+        raise ValueError("no image (2-D variable) in this file")
+    planes = {}
+    for key, a in arrays.items():
+        if a.ndim == 2:
+            planes[key] = a
+        else:
+            planes.update({f"{key}[{i}]": a[i] for i in range(a.shape[0])})
+    shape = max({p.shape for p in planes.values()}, key=lambda s: s[0] * s[1])
+    names = [k for k, p in planes.items() if p.shape == shape]
+    lat = next((coords[k] for k in ("lat", "latitude", "y") if k in coords and len(coords[k]) == shape[0]), None)
+    lon = next((coords[k] for k in ("lon", "longitude", "x") if k in coords and len(coords[k]) == shape[1]), None)
+    transform = _cf_grid(lat, lon) if lat is not None and lon is not None else None
+    return Raster(np.stack([planes[k] for k in names]), names, transform, 4326 if transform else None, source=str(path))
+
+
+def read(path) -> Raster:
+    path = Path(path)
+    if path.suffix.lower() in HDF_SUFFIXES:
+        return _read_hdf(path)
+    if path.suffix.lower() in JP2_SUFFIXES:  # Sentinel-2 bands: one band per file
+        import imagecodecs
+
+        data = np.asarray(imagecodecs.imread(str(path)), np.float32)
+        bands = data[None] if data.ndim == 2 else np.moveaxis(data, -1, 0)
+        # shortcut: the GeoJP2 / GML map position is not read; convert with GDAL when map coordinates matter
+        return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], source=str(path))
+    if path.suffix.lower() in (".fits", ".fit", ".fts"):
+        from astropy.io import fits
+
+        from ..io.fits import find_image_hdu
+
+        with fits.open(path) as hdul:
+            data = np.asarray(hdul[find_image_hdu(hdul)].data, np.float32)
+        bands = data[None] if data.ndim == 2 else data.reshape(-1, *data.shape[-2:])
+        return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], source=str(path))
+    import tifffile
+
+    with tifffile.TiffFile(path) as tif:
+        page = tif.pages[0]
+        data = page.asarray()
+        tags = {}
+        for code in (*GEO_TAGS, NODATA_TAG):
+            if code in page.tags:
+                t = page.tags[code]
+                tags[code] = (t.dtype, t.count, t.value)
+        planar = page.planarconfig == 2 or (data.ndim == 3 and data.shape[0] < data.shape[-1] and data.shape[0] <= 16)
+        if data.ndim == 2:
+            bands = data[None]
+        elif planar:
+            bands = data
+        else:
+            bands = np.moveaxis(data, -1, 0)
+    bands = bands.astype(np.float32)
+    transform = None
+    if 34264 in tags:  # full transformation matrix (4x4, row-major)
+        m = tags[34264][2]
+        transform = (m[3], m[0], m[1], m[7], m[4], m[5])
+    elif 33550 in tags and 33922 in tags:
+        sx, sy = tags[33550][2][:2]
+        i, j, _, x, y, _ = tags[33922][2][:6]
+        transform = (x - i * sx, sx, 0.0, y + j * sy, 0.0, -sy)
+    epsg = None
+    if 34735 in tags:
+        keys = _geokeys(tags[34735][2])
+        code = keys.get(3072) or keys.get(2048)  # ProjectedCSType, else GeographicType
+        epsg = int(code) if code and code != 32767 else None
+    nodata = None
+    if NODATA_TAG in tags:
+        try:
+            nodata = float(str(tags[NODATA_TAG][2]).strip("\x00 "))
+        except ValueError:
+            nodata = None
+    return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], transform, epsg, nodata, tags, str(path))
+
+
+def write(path, like: Raster, data, nodata=None):
+    """Write a band (2-D) or bands (3-D) as GeoTIFF with the georeferencing of `like`."""
+    import tifffile
+
+    data = np.asarray(data, np.float32)
+    extratags = [(code, dt, cnt, val, True) for code, (dt, cnt, val) in like.tags.items() if code in GEO_TAGS]
+    if not extratags and like.transform and like.epsg:  # e.g. from NetCDF: write GeoTIFF tags of our own
+        c, a, _, f, _, e = like.transform
+        geographic = like.epsg == 4326
+        keys = [
+            1,
+            1,
+            0,
+            3,
+            1024,
+            0,
+            1,
+            2 if geographic else 1,
+            1025,
+            0,
+            1,
+            1,
+            2048 if geographic else 3072,
+            0,
+            1,
+            like.epsg,
+        ]
+        if e > 0:  # rows going north (CF grids): GeoTIFF wants the tie point at the top row
+            data = data[..., ::-1, :]
+            f, e = f + e * data.shape[-2], -e
+        extratags = [
+            (33550, "d", 3, (a, -e, 0.0), True),
+            (33922, "d", 6, (0.0, 0.0, 0.0, c, f, 0.0), True),
+            (34735, "H", len(keys), tuple(keys), True),
+        ]
+    nd = nodata if nodata is not None else (np.nan if np.isnan(data).any() else None)
+    if nd is not None:
+        extratags.append((NODATA_TAG, "s", 0, str(nd), True))
+    tifffile.imwrite(
+        path,
+        data,
+        photometric="minisblack",
+        planarconfig="separate" if data.ndim == 3 else None,
+        extratags=extratags,
+        compression="zlib",
+    )
+    return str(path)

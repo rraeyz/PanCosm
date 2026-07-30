@@ -1,0 +1,59 @@
+# Calibración
+La página **Calibrar** convierte las tomas brutas en imágenes calibradas: reconoce las tomas bias, dark, flat y de ciencia (light), crea los másteres, asigna a cada toma de ciencia los másteres adecuados y los aplica. Opcionalmente alinea y apila el resultado.
+
+## 1. Explorar las tomas brutas
+Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar mezclados, subcarpetas incluidas) y pulse **Explorar**. La tabla lista cada archivo con su **tipo**, **exposición**, **filtro**, **temperatura** y **agrupamiento** (binning).
+
+- El tipo sale de la cabecera `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) y, si falta, del nombre del archivo.
+- Los archivos que no se pueden leer y los de tipo desconocido se listan bajo la tabla y se ignoran.
+- La misma lista dice qué tomas de calibración **faltan**, por ejemplo «no flat for filter 'R'» — esos lights se calibran igualmente, sin esa corrección, y se le avisa.
+
+## Cómo se asignan los másteres
+- **Bias:** mismo agrupamiento y tamaño.
+- **Dark:** mismo agrupamiento, mismo tiempo de exposición y una temperatura dentro de 2 °C. Un dark de otra exposición se escala a la exposición del light solo si hay tomas bias (la corriente oscura es proporcional al tiempo una vez restado el bias).
+- **Flat:** mismo filtro y agrupamiento; a los flats se les resta bias/dark y se normalizan a una mediana de 1.
+- Cada máster es la media con recorte sigma de sus tomas; **Rechazo (sigma)** (3 por defecto) elimina satélites, rayos cósmicos y píxeles calientes que solo aparecen en algunas tomas.
+
+## 2. Carpeta de salida y opciones
+Elija dónde se escriben los másteres y las imágenes calibradas. Los archivos brutos nunca se modifican.
+
+- **Quitar rayos cósmicos de los lights** limpia los impactos de un solo píxel con el método L.A.Cosmic (astroscrappy). Úselo en exposiciones largas; no hace falta en series fotométricas cortas.
+
+- **Escalar el dark a cada toma (optimización del dark):** encuentra, para cada toma de ciencia, la escala del dark que deja menos ruido (mínimos cuadrados: los píxeles calientes deben desaparecer; las estrellas y el cielo no se correlacionan con el dark), como la autooptimización de MaxIm DL. Úsela si la temperatura de la cámara varió o los darks se tomaron a otra temperatura; la escala queda en la cabecera (DARKSCAL).
+- **Reparar píxeles calientes y muertos (mapa de defectos a partir de los másteres):** los píxeles muy por encima del nivel del dark maestro (calientes) o por debajo de la mitad del flat maestro (muertos, sombras de polvo demasiado profundas) se sustituyen en cada toma calibrada por la mediana de sus vecinos buenos. El mapa se guarda junto a los másteres (`defects_00.fits`) y se nombra en la cabecera (CALDEF).
+- **El overscan y el recorte** se hacen solos cuando las cabeceras de las tomas tienen BIASSEC (la franja de overscan: su nivel se ajusta fila a fila — una cúbica con recorte a lo largo de la lectura, como el ajuste de overscan de IRAF — y se resta, de modo que también desaparece la estructura del bias a lo largo de la lectura) y TRIMSEC o DATASEC (solo se conserva esa parte), como hace IRAF ccdproc con los CCD profesionales.
+- **Corrección de linealidad** (en Más opciones de calibración): escriba los coeficientes c0 c1 c2 … de la no linealidad de su cámara, p. ej. `0 1 4e-6`; cada valor bruto v pasa a c0 + c1·v + c2·v² + … antes del overscan, bias, dark y flat, como en AstroImageJ. Tómelos de la hoja del fabricante o de flats de exposición creciente (las cuentas por segundo deben mantenerse). Déjelo vacío con una cámara lineal. Las tomas corregidas llevan LINCORR en la cabecera.
+
+- **Espectros: no dividir por el flat:** márquelo para tomas echelle y de rendija larga. Su flat es casi cero entre los órdenes y dividir por él dispararía el ruido (en IRAF ese flat se normaliza antes con apflatten / apnormalize). El bias y el dark se siguen restando; el flat maestro se sigue creando — páselo a la página Espectroscopía, que traza los órdenes sobre él y divide por su blaze. El mapa de defectos sale entonces solo del dark.
+
+## 3. Calibrar
+Pulse **Calibrar**. La tarea se ejecuta en segundo plano; al terminar verá cuántas imágenes se calibraron y cuántos másteres se escribieron. Cada imagen calibrada registra en su cabecera qué másteres se usaron (`CALB`, `CALD`, `CALF`), así que siempre puede comprobarlo.
+
+## 4. Alinear y apilar
+**Alinear y apilar…** alinea las imágenes calibradas sobre las estrellas (desplazamiento hallado por correlación cruzada) y las combina con una media con recorte sigma en una sola imagen profunda. Un mapa de cobertura, guardado como segunda extensión del archivo, indica cuántas tomas contribuyeron a cada píxel. Apile solo tomas del mismo filtro.
+
+## Opciones de apilado
+Las opciones junto al botón de apilar funcionan como en Siril, PixInsight o MaxIm DL:
+
+- **Combinar:** *media* (menor ruido), *mediana* (robusta, un 25 % más ruidosa) o *suma* (la media por el número de tomas, de modo que el nivel es el de una exposición larga aunque alguna toma no cubra el píxel).
+- **Rechazar** los valores que no corresponden (satélites, aviones, rayos cósmicos, píxeles calientes) antes de combinar: *recorte sigma* (fuera de mediana ± σ × dispersión robusta, repetido), *recorte sigma winsorizado* (la dispersión se mide con los valores atípicos acercados, mejor con pocas tomas), *mín / máx* (descarta los **Bajo** valores más bajos y los **Alto** más altos de cada píxel) o *recorte por percentil* (fuera de mediana × (1 − bajo) … mediana × (1 + alto), en porcentaje; para 3–6 tomas). *ninguno* lo conserva todo. **Rechazo (sigma)** arriba fija σ.
+- **Normalizar** las tomas hechas con un cielo cambiante antes de combinar: *multiplicativa* escala el cielo de cada toma al de la primera (nubes finas, masa de aire), *aditiva* lo desplaza (Luna, nivel del crepúsculo).
+- **Pesos:** *según el ruido* da a cada toma el peso 1 / σ² de su ruido de cielo, así que las tomas malas cuentan menos.
+
+- **Alinear:** *solo desplazamiento* (correlación cruzada, rápido) para tomas de una noche con la montura en una sola orientación; *patrones de estrellas* cuando las tomas están giradas o escaladas — tras un giro de meridiano, con una montura altacimutal o un rotador, o de otro telescopio. Se emparejan triángulos de las estrellas más brillantes (sus cocientes de lados no cambian con la rotación ni la escala; Groth 1986, Valdes et al. 1995) y se ajustan la rotación, la escala y el desplazamiento de cada toma; el historial de la cabecera los lista.
+
+La cabecera del apilado registra las opciones (STACKMTH, STACKNRM, STACKWGT) y el peso de cada toma.
+
+## Drizzle
+Para imágenes submuestreadas (estrellas de solo uno o dos píxeles de ancho) tomadas con pequeños desplazamientos (dither) entre tomas, marque **Drizzle sobre una rejilla 2× más fina** antes de apilar. Cada píxel se reduce al 60 % de su tamaño y se deposita, en su posición alineada, sobre una rejilla con el doble de píxeles (Fruchter & Hook 2002); con ocho o más tomas con dither las estrellas salen más nítidas que en un apilado normal. El flujo se conserva, las coordenadas celestes (WCS) se escalan y el peso de cada píxel de salida se guarda como segunda extensión. Quite antes los rayos cósmicos durante la calibración: drizzle no rechaza valores atípicos.
+
+## Cámaras en color y archivos raw de DSLR
+- Los **archivos raw de cámara** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) de la carpeta elegida se convierten al pulsar **Explorar**: cada uno pasa a ser un FITS en la subcarpeta `fits_from_raw`, con los valores del sensor intactos (sin balance de blancos, sin gamma, sin interpolación). Póngalos en carpetas llamadas `bias`, `darks`, `flats`, `lights`: el nombre de la carpeta da el tipo de toma. El tiempo de exposición, el ISO y los niveles de negro y blanco se leen del archivo. Los sensores Fujifilm X-Trans y Foveon no son Bayer 2 × 2 y se rechazan.
+- **Hora**: una DSLR guarda su propio reloj, a menudo en hora local y desviado minutos. Indique **Reloj de la DSLR − UTC** antes de explorar (p. ej. 1 para un reloj en hora de España peninsular en invierno) y compare el reloj de la cámara con una señal horaria: un error de tiempo pasa directamente a los mínimos y al O−C. La lectura original se guarda como DATE-CAM.
+- Las **cámaras en color (one-shot-color)** escriben BAYERPAT; los archivos DSLR lo toman del raw. Con **Cámara en color: cada color como imagen propia** (activado por defecto) el mosaico se calibra tal cual y luego cada light se escribe como tres imágenes de mitad de tamaño `_R`, `_G`, `_B` (filtros TR, TG, TB): un valor por celda de 2 × 2, el verde como media de los dos píxeles verdes, sin interpolación que mezclaría píxeles y cambiaría los perfiles estelares. Los píxeles calientes y muertos se reparan con píxeles del mismo color. Es el método del AAVSO DSLR Observing Manual; el canal verde (TG) es el más cercano a Johnson V, por eso va a la página Fotometría.
+- **Las pilas se hacen por filtro**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (y en cámaras monocromas, una por filtro). Combínelas en una imagen en color con **Imagen → Imagen en color con tres filtros…**.
+
+## Consejos
+- Tome al menos 20 bias y 10–20 darks a la misma temperatura que los lights; 10–20 flats por filtro, con la media en torno a la mitad de la capacidad del pozo.
+- No mueva el enfocador ni gire la cámara entre flats y lights: los anillos de polvo se desplazan con ellos.
+- La automatización *Calibración y apilado al final de la noche* explora, calibra y apila de una vez.

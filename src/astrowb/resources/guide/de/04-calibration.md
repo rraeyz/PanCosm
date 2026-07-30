@@ -1,0 +1,59 @@
+# Kalibrierung
+Die Seite **Kalibrieren** macht aus Rohaufnahmen kalibrierte Bilder: Sie erkennt Bias-, Dark-, Flat- und Light-Aufnahmen, erstellt Master, ordnet jeder Light-Aufnahme die passenden Master zu und wendet sie an. Auf Wunsch richtet sie das Ergebnis aus und stapelt es.
+
+## 1. Die Rohaufnahmen einlesen
+Wählen Sie den Ordner mit Ihren Rohaufnahmen (Lights, Bias, Darks und Flats dürfen gemischt sein, Unterordner eingeschlossen) und drücken Sie **Einlesen**. Die Tabelle listet jede Datei mit **Typ**, **Belichtung**, **Filter**, **Temperatur** und **Binning**.
+
+- Der Typ stammt aus dem Header `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) und, wenn er fehlt, aus dem Dateinamen.
+- Unlesbare Dateien und Dateien unbekannten Typs werden unter der Tabelle aufgeführt und ignoriert.
+- Dieselbe Liste nennt **fehlende** Kalibrieraufnahmen, zum Beispiel „no flat for filter 'R'“ — diese Lights werden trotzdem kalibriert, nur ohne diese Korrektur, und Sie erfahren es.
+
+## Wie Master zugeordnet werden
+- **Bias:** gleiches Binning und gleiche Größe.
+- **Dark:** gleiches Binning, gleiche Belichtungszeit und eine Temperatur innerhalb von 2 °C. Ein Dark anderer Belichtung wird nur dann auf die Belichtung des Lights skaliert, wenn Bias-Aufnahmen vorhanden sind (der Dunkelstrom ist nach Abzug des Bias proportional zur Zeit).
+- **Flat:** gleicher Filter und gleiches Binning; Flats werden um Bias/Dark bereinigt und auf einen Median von 1 normiert.
+- Jeder Master ist der sigma-geclippte Mittelwert seiner Aufnahmen; **Verwerfung (Sigma)** (Voreinstellung 3) entfernt Satelliten, kosmische Strahlen und Hotpixel, die nur in einigen Aufnahmen vorkommen.
+
+## 2. Ausgabeordner und Optionen
+Wählen Sie, wohin Master und kalibrierte Bilder geschrieben werden. Rohdateien werden nie verändert.
+
+- **Kosmische Strahlen aus Lights entfernen** beseitigt Einzelpixel-Treffer mit der L.A.Cosmic-Methode (astroscrappy). Verwenden Sie es für lange Belichtungen; für kurze photometrische Reihen ist es nicht nötig.
+
+- **Dark an jede Aufnahme anpassen (Dark-Optimierung):** findet für jede Light-Aufnahme den Dark-Faktor, der das geringste Rauschen lässt (kleinste Quadrate: Hotpixel müssen verschwinden; Sterne und Himmel korrelieren nicht mit dem Dark), wie die automatische Optimierung von MaxIm DL. Verwenden Sie es, wenn die Kameratemperatur geschwankt hat oder die Darks bei einer anderen Temperatur aufgenommen wurden; der Faktor steht im Header (DARKSCAL).
+- **Heiße und tote Pixel reparieren (Defektkarte aus den Mastern):** Pixel weit über dem Niveau des Master-Darks (heiß) oder unter der Hälfte des Master-Flats (tot, zu tiefe Staubschatten) werden in jeder kalibrierten Aufnahme durch den Median ihrer guten Nachbarn ersetzt. Die Karte wird neben den Mastern gespeichert (`defects_00.fits`) und im Header genannt (CALDEF).
+- **Overscan und Beschneiden** geschehen von selbst, wenn die Header der Aufnahmen BIASSEC (der Overscan-Streifen: sein Niveau wird Zeile für Zeile angepasst — eine geclippte kubische Funktion entlang der Auslese, wie IRAFs Overscan-Fit — und abgezogen, sodass auch Bias-Struktur entlang der Auslese verschwindet) und TRIMSEC oder DATASEC (nur dieser Teil bleibt) enthalten, wie IRAF ccdproc es bei professionellen CCDs tut.
+- **Linearitätskorrektur** (unter Weitere Kalibrieroptionen): die Koeffizienten c0 c1 c2 … der Nichtlinearität Ihrer Kamera eingeben, z. B. `0 1 4e-6`; jeder Rohwert v wird vor Overscan, Bias, Dark und Flat zu c0 + c1·v + c2·v² + …, wie in AstroImageJ. Aus dem Datenblatt oder aus Flats steigender Belichtung (die Zählrate muss konstant bleiben). Für eine lineare Kamera leer lassen. Korrigierte Bilder tragen LINCORR im Header.
+
+- **Spektren: nicht durch das Flat teilen:** für Echelle- und Langspalt-Aufnahmen ankreuzen. Deren Flat ist zwischen den Ordnungen fast null; Teilen würde das Rauschen explodieren lassen (IRAF-Nutzer normieren ein solches Flat erst mit apflatten / apnormalize). Bias und Dark werden weiter abgezogen; das Master-Flat wird trotzdem erstellt — geben Sie es der Seite Spektroskopie, die darauf die Ordnungen verfolgt und durch ihren Blaze teilt. Die Defektkarte stammt dann nur aus dem Dark.
+
+## 3. Kalibrieren
+Drücken Sie **Kalibrieren**. Die Aufgabe läuft im Hintergrund; am Ende sehen Sie, wie viele Bilder kalibriert und wie viele Master geschrieben wurden. Jedes kalibrierte Bild hält in seinem Header fest, welche Master benutzt wurden (`CALB`, `CALD`, `CALF`), sodass Sie es jederzeit prüfen können.
+
+## 4. Ausrichten und stapeln
+**Ausrichten und stapeln…** richtet die kalibrierten Bilder an den Sternen aus (Verschiebung per Kreuzkorrelation) und kombiniert sie mit einem sigma-geclippten Mittelwert zu einem tiefen Bild. Eine Abdeckungskarte, als zweite Erweiterung der Datei gespeichert, zeigt, wie viele Aufnahmen zu jedem Pixel beigetragen haben. Stapeln Sie nur Aufnahmen desselben Filters.
+
+## Stapeloptionen
+Die Auswahl neben der Stapel-Schaltfläche funktioniert wie in Siril, PixInsight oder MaxIm DL:
+
+- **Kombinieren:** *Mittelwert* (geringstes Rauschen), *Median* (robust, etwa 25 % mehr Rauschen) oder *Summe* (Mittelwert mal Zahl der Aufnahmen, sodass das Niveau dem einer langen Belichtung entspricht, auch wo eine Aufnahme das Pixel nicht abdeckt).
+- **Verwerfen** von Werten, die nicht dazugehören (Satelliten, Flugzeuge, kosmische Strahlen, Hotpixel), vor dem Kombinieren: *Sigma-Clipping* (außerhalb Median ± σ × robuste Streuung, wiederholt), *winsorisiertes Sigma-Clipping* (die Streuung wird mit hereingezogenen Ausreißern gemessen, besser bei wenigen Aufnahmen), *Min / Max* (verwirft die **Unten** niedrigsten und **Oben** höchsten Werte jedes Pixels) oder *Perzentil-Clipping* (außerhalb Median × (1 − unten) … Median × (1 + oben), in Prozent; für 3–6 Aufnahmen). *keine* behält alles. **Verwerfung (Sigma)** oben setzt σ.
+- **Normieren** von Aufnahmen unter wechselndem Himmel vor dem Kombinieren: *multiplikativ* skaliert den Himmel jeder Aufnahme auf den der ersten (dünne Wolken, Luftmasse), *additiv* verschiebt ihn (Mond, Dämmerungsniveau).
+- **Gewichte:** *nach Rauschen* gibt jeder Aufnahme das Gewicht 1 / σ² ihres Himmelsrauschens, sodass schlechte Aufnahmen weniger zählen.
+
+- **Ausrichten:** *nur Verschiebung* (Kreuzkorrelation, schnell) für Aufnahmen einer Nacht mit einer Montierungslage; *Sternmuster*, wenn Aufnahmen gedreht oder skaliert sind — nach einem Meridian-Flip, von einer Alt-Az-Montierung oder einem Rotator oder von einem anderen Teleskop. Dreiecke der hellsten Sterne werden zugeordnet (ihre Seitenverhältnisse ändern sich nicht mit Drehung oder Maßstab; Groth 1986, Valdes et al. 1995), und Drehung, Maßstab und Verschiebung jeder Aufnahme werden angepasst; die History im Header nennt sie.
+
+Der Header des Stapels hält die Auswahl (STACKMTH, STACKNRM, STACKWGT) und das Gewicht jeder Aufnahme fest.
+
+## Drizzle
+Für unterabgetastete Bilder (Sterne nur ein oder zwei Pixel breit), die mit kleinen Dither-Versätzen zwischen den Aufnahmen gemacht wurden, kreuzen Sie vor dem Stapeln **Drizzle auf ein 2× feineres Raster** an. Jedes Pixel wird auf 60 % seiner Größe verkleinert und an seiner ausgerichteten Position auf ein Raster mit doppelt so vielen Pixeln gelegt (Fruchter & Hook 2002); mit acht oder mehr geditherten Aufnahmen werden die Sterne schärfer als in einem normalen Stapel. Der Fluss bleibt erhalten, die Himmelskoordinaten (WCS) werden mitskaliert, und das Gewicht jedes Ausgabepixels wird als zweite Erweiterung gespeichert. Entfernen Sie vorher bei der Kalibrierung die kosmischen Strahlen: Drizzle verwirft keine Ausreißer.
+
+## Farbkameras und DSLR-Rohdateien
+- **Kamera-Rohdateien** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) im gewählten Ordner werden beim **Einlesen** umgewandelt: Jede wird zu einer FITS-Datei im Unterordner `fits_from_raw`, die Sensorwerte bleiben unverändert (kein Weißabgleich, kein Gamma, keine Interpolation). Legen Sie sie in Ordner mit Namen wie `bias`, `darks`, `flats`, `lights`: Der Ordnername gibt den Aufnahmetyp. Belichtungszeit, ISO, Schwarz- und Weißwert werden aus der Datei gelesen. Fujifilm-X-Trans- und Foveon-Sensoren sind keine 2 × 2-Bayer-Sensoren und werden abgelehnt.
+- **Zeit**: Eine DSLR speichert ihre eigene Uhr, oft Ortszeit und um Minuten falsch. Stellen Sie vor dem Einlesen **DSLR-Uhr − UTC** ein (z. B. 1 für eine Uhr auf MEZ) und vergleichen Sie die Kamerauhr mit einem Zeitsignal: Ein Zeitfehler geht direkt in Minima und O−C ein. Der ursprüngliche Wert bleibt als DATE-CAM erhalten.
+- **Farbkameras (One-Shot-Color)** schreiben BAYERPAT; DSLR-Dateien erhalten es aus der Rohdatei. Mit **Farbkamera: jede Farbe als eigenes Bild** (standardmäßig an) wird das Mosaik unverändert kalibriert, dann wird jedes Light als drei Bilder halber Größe `_R`, `_G`, `_B` geschrieben (Filter TR, TG, TB): ein Wert pro 2 × 2-Zelle, Grün als Mittel der beiden grünen Pixel, ohne Interpolation, die Pixel mischen und die Sternprofile verändern würde. Heiße und tote Pixel werden aus Pixeln derselben Farbe repariert. Das ist die Methode des AAVSO DSLR Observing Manual; der Grünkanal (TG) liegt Johnson V am nächsten und geht daher an die Seite Photometrie.
+- **Stapel entstehen pro Filter**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (bei Monochromkameras einer pro Filter). Zu einem Farbbild fügen Sie sie mit **Bild → Farbbild aus drei Filtern…** zusammen.
+
+## Tipps
+- Nehmen Sie mindestens 20 Bias und 10–20 Darks bei derselben Temperatur wie die Lights auf; 10–20 Flats pro Filter, mit einem Mittelwert um die halbe Full-Well-Kapazität.
+- Zwischen Flats und Lights weder den Fokussierer bewegen noch die Kamera drehen: Staubringe wandern mit.
+- Die Automatisierung *Kalibrierung und Stacking am Ende der Nacht* erledigt Einlesen, Kalibrieren und Stapeln in einem Durchgang.

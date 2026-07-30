@@ -1,0 +1,101 @@
+{
+  "name": {
+    "en": "Eclipsing binary night",
+    "tr": "Örten çift gecesi",
+    "de": "Nacht eines Bedeckungsveränderlichen",
+    "es": "Noche de una binaria eclipsante"
+  },
+  "description": {
+    "en": "Observe the binary from dusk to dawn, then calibrate the frames, pick comparison stars, measure the light curve, time the minimum and compute O-C. Enter T0 and the period in the minimum step's settings to get O-C. Frames with blurred stars, clouds or a bright sky are left out.",
+    "tr": "Çifti akşam karanlığından şafağa kadar gözle; sonra kareleri kalibre et, mukayese yıldızlarını seç, ışık eğrisini ölç, minimum zamanını bul ve O-C'yi hesapla. O-C için minimum adımının ayarlarına T0 ve periyodu girin. Bulanık yıldızlı, bulutlu ya da gökyüzü parlak kareler dışarıda bırakılır.",
+    "de": "Den Doppelstern von der Abend- bis zur Morgendämmerung beobachten, dann die Aufnahmen kalibrieren, Vergleichssterne wählen, die Lichtkurve messen, das Minimum bestimmen und O-C berechnen. Für O-C T0 und die Periode in den Einstellungen des Minimum-Schritts eintragen. Aufnahmen mit unscharfen Sternen, Wolken oder hellem Himmel werden weggelassen.",
+    "es": "Observa la binaria desde el anochecer hasta el amanecer; después calibra las tomas, elige estrellas de comparación, mide la curva de luz, determina el instante del mínimo y calcula O-C. Para obtener O-C, introduce T0 y el periodo en los ajustes del paso del mínimo. Se descartan las tomas con estrellas borrosas, nubes o cielo brillante."
+  },
+  "inputs": {
+    "folder": {
+      "kind": "folder",
+      "label": {
+        "en": "Folder with the night's frames (lights, bias, darks, flats)",
+        "tr": "Gecenin kareleri (ışık, bias, dark, flat)",
+        "de": "Ordner mit den Aufnahmen der Nacht (Lights, Bias, Darks, Flats)",
+        "es": "Carpeta con las tomas de la noche (lights, bias, darks, flats)"
+      }
+    },
+    "output_dir": {
+      "kind": "folder",
+      "label": {
+        "en": "Folder for masters and calibrated frames",
+        "tr": "Master ve kalibre kareler için klasör",
+        "de": "Ordner für Master und kalibrierte Aufnahmen",
+        "es": "Carpeta para los másteres y las tomas calibradas"
+      }
+    },
+    "target_xy": {
+      "kind": "xy",
+      "label": {
+        "en": "Target position in the first frame (x y, pixels)",
+        "tr": "İlk karede hedefin konumu (x y, piksel)",
+        "de": "Position des Ziels in der ersten Aufnahme (x y, Pixel)",
+        "es": "Posición del objetivo en la primera toma (x y, píxeles)"
+      }
+    }
+  },
+  "sequence": {
+    "name": "binary",
+    "start": "dusk",
+    "end": "dawn",
+    "dither_every": 0,
+    "exposures": [
+      {
+        "kind": "light",
+        "filter": "V",
+        "exptime": 60,
+        "count": 1,
+        "binning": 1
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": "calibration.scan"
+    },
+    {
+      "step": "calibration.run",
+      "params": {
+        "cosmic_rays": true
+      }
+    },
+    {
+      "step": "photometry.quality",
+      "inputs": {
+        "images": "calibrated"
+      }
+    },
+    {
+      "step": "photometry.suggest_comparisons",
+      "inputs": {
+        "images": "good"
+      },
+      "params": {
+        "n": 4
+      }
+    },
+    {
+      "step": "photometry.light_curve",
+      "inputs": {
+        "images": "good"
+      },
+      "params": {
+        "auto_apertures": true
+      }
+    },
+    {
+      "step": "timeseries.minimum",
+      "params": {
+        "method": "kvw",
+        "t0": null,
+        "period": null
+      }
+    }
+  ]
+}

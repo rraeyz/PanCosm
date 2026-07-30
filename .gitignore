@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+*.qm
+packaging/out/
+
+# output of running the application in the repository folder (sample night, downloaded templates)
+/raw/
+/truth.json
+/*.fits

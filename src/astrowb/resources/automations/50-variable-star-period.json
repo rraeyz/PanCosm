@@ -1,0 +1,55 @@
+{
+  "name": {
+    "en": "Variable star: light curve → period",
+    "tr": "Değişen yıldız: ışık eğrisi → periyot",
+    "de": "Veränderlicher Stern: Lichtkurve → Periode",
+    "es": "Estrella variable: curva de luz → periodo"
+  },
+  "description": {
+    "en": "Measure the light curve of a variable on calibrated frames against automatically chosen comparison stars and search the period with Lomb–Scargle (change the method to bls or pdm in the step's settings).",
+    "tr": "Kalibre karelerde değişen yıldızın ışık eğrisini otomatik seçilen mukayese yıldızlarına göre ölç ve periyodu Lomb–Scargle ile ara (adım ayarlarında yöntem bls ya da pdm yapılabilir).",
+    "de": "Die Lichtkurve eines Veränderlichen auf kalibrierten Aufnahmen gegen automatisch gewählte Vergleichssterne messen und die Periode mit Lomb–Scargle suchen (in den Einstellungen des Schritts die Methode auf bls oder pdm ändern).",
+    "es": "Mide la curva de luz de una variable en tomas calibradas frente a estrellas de comparación elegidas automáticamente y busca el periodo con Lomb–Scargle (cambia el método a bls o pdm en los ajustes del paso)."
+  },
+  "inputs": {
+    "images": {
+      "kind": "files",
+      "label": {
+        "en": "Calibrated frames",
+        "tr": "Kalibre kareler",
+        "de": "Kalibrierte Aufnahmen",
+        "es": "Tomas calibradas"
+      }
+    },
+    "target_xy": {
+      "kind": "xy",
+      "label": {
+        "en": "Target position in the first frame (x y, pixels)",
+        "tr": "İlk karede hedefin konumu (x y, piksel)",
+        "de": "Position des Ziels in der ersten Aufnahme (x y, Pixel)",
+        "es": "Posición del objetivo en la primera toma (x y, píxeles)"
+      }
+    }
+  },
+  "steps": [
+    {
+      "step": "photometry.suggest_comparisons"
+    },
+    {
+      "step": "photometry.light_curve",
+      "params": {
+        "auto_apertures": true
+      }
+    },
+    {
+      "step": "timeseries.period",
+      "inputs": {
+        "time": "light_curve.time",
+        "flux": "light_curve.rel_flux"
+      },
+      "params": {
+        "method": "lomb-scargle"
+      }
+    }
+  ]
+}

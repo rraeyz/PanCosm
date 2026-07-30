@@ -1,0 +1,21 @@
+# The ONLY place the product name may appear (enforced by tools/check_brand.py).
+# To rename the product, edit this file and follow CONTRIBUTING.md (Renaming the product).
+
+[brand]
+display_name = "Pancosm"            # shown in window titles, About box, installers
+short_name = "Pancosm"              # executable / installer file name (no spaces)
+organization = "Pancosm Project"    # vendor shown by installers
+app_id = "pancosm"                  # lowercase id: settings/data folder names, Linux desktop id
+bundle_id = "org.pancosm.desktop"   # macOS CFBundleIdentifier
+windows_app_user_model_id = "Pancosm.Desktop"
+homepage = "https://github.com/rraeyz/PanCosm"
+issues_url = "https://github.com/rraeyz/PanCosm/issues"
+icon = "icon.png"                   # relative to this folder; .ico/.icns are generated at build time
+
+# Older app_id values. On start-up their settings/data folders are copied to the
+# new location if the new one does not exist yet, so nothing is lost on rename.
+previous_app_ids = []
+
+[stable]
+# Never change these on a rename: they let installers upgrade an existing install.
+windows_installer_guid = "0F679B0E-986F-4BCB-A23C-C48E8C48F22F"
