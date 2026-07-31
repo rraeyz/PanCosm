@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
         self._dock("tasks", self.tr("Tasks"), self.tasks_list, Qt.BottomDockWidgetArea)
         self.taskUpdated.connect(self._on_task)
         self._task_items = {}
-        self._on_done = {}
+        self._on_done, self._on_fail = {}, {}
 
         self.pixel_label = QLabel(self)
         self.progress = QProgressBar(self)
@@ -1326,11 +1326,15 @@ class MainWindow(QMainWindow):
         )
 
     # --- tasks --------------------------------------------------------------
-    def run_step(self, step_id, inputs, params=None, on_done=None):
-        """Run a step as a task; on_done(outputs) is called on the GUI thread when it succeeds."""
+    def run_step(self, step_id, inputs, params=None, on_done=None, on_fail=None):
+        """Run a step as a task; on_done(outputs) is called on the GUI thread when it succeeds, on_fail(message)
+        (instead of the error box) when it fails. Never touch widgets from task.add_callback: that runs on a
+        background thread."""
         task = self.engine.run_step(step_id, inputs, params)
         if on_done:
             self._on_done[task.id] = on_done
+        if on_fail:
+            self._on_fail[task.id] = on_fail
         task.add_callback(self.taskUpdated.emit)
         self.taskUpdated.emit(task)
         return task
@@ -1375,9 +1379,13 @@ class MainWindow(QMainWindow):
         self.progress.setValue(int(task.progress * 100))
         if task.finished:
             done = self._on_done.pop(task.id, None)
+            fail = self._on_fail.pop(task.id, None)
             if done and task.state == "done":
                 done(task.result())
             self._refresh_files()
+            if fail and task.state == "failed":
+                fail(task_error(task.error))
+                return
         if task.state == "failed":
             box = QMessageBox(
                 QMessageBox.Warning, self.tr("Task failed"), f"{task.name}\n\n{task_error(task.error)}", parent=self
@@ -1465,26 +1473,20 @@ class MainWindow(QMainWindow):
     def resolve_target(self, name):
         from ..settings import config_dir
 
-        task = self.run_step(
+        return self.run_step(
             "planning.resolve",
             {"name": name, "cache_file": str(config_dir() / "targets.json")},
             on_done=lambda out: self.plan_page.add_target(out["target"]),
+            on_fail=self.plan_page.status.setText,
         )
-        task.add_callback(
-            lambda t: t.state == "failed" and self.plan_page.status.setText(t.error.strip().splitlines()[-1])
-        )
-        return task
 
     def lookup_ephemeris(self, name):
-        from .messages import translate
-
-        task = self.run_step(
-            "planning.ephemeris", {"name": name}, on_done=lambda out: self.plan_page.add_target(out["target"])
+        return self.run_step(
+            "planning.ephemeris",
+            {"name": name},
+            on_done=lambda out: self.plan_page.add_target(out["target"]),
+            on_fail=self.plan_page.status.setText,
         )
-        task.add_callback(
-            lambda t: t.state == "failed" and self.plan_page.status.setText(translate(t.error.strip().splitlines()[-1]))
-        )
-        return task
 
     # --- photometry ---------------------------------------------------------
     def measure_light_curve(self, images, target, comps, coord, params):
