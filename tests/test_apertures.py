@@ -77,7 +77,8 @@ def test_photometry_page_draws_three_rings_and_the_profile(qtbot):
     a = choose_apertures(field(4.0), [(60.3, 70.6), (140.2, 60.1)])
     page.show_apertures(a)
     assert (page.r_ap.value(), page.r_in.value(), page.r_out.value()) == (a["r_ap"], a["r_in"], a["r_out"])
-    assert len(page.viewer._markers) == 2 * 3 * 2  # two stars x three rings, each a circle and a label
+    real = [m for m in page.viewer._markers if m.data(0) is None]  # without the fixed-size rings
+    assert len(real) == 2 * 3 * 2  # two stars x three rings, each a circle and a label
     assert "FWHM" in page.result.text() and page.plot.figure.axes
 
 

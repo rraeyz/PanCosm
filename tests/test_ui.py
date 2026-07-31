@@ -915,7 +915,9 @@ def test_photometry_star_picking(window, tmp_path):
     pos = viewer.mapFromScene(QPointF(31, 40))
     viewer.mouseMoveEvent(QMouseEvent(QMouseEvent.MouseMove, QPointF(pos), Qt.NoButton, Qt.NoButton, Qt.NoModifier))
     # the rings sit under the mouse (to the pixel rounding of the view)
-    assert len(viewer._hover_items) == 3 and viewer._hover_items[0].pos().x() == pytest.approx(31, abs=3)
+    assert len([m for m in viewer._hover_items if m.data(0) is None]) == 3 and viewer._hover_items[
+        0
+    ].pos().x() == pytest.approx(31, abs=3)
     page._clicked(30.0, 20.0)
     page._clicked(60.0, 40.0)
     assert page.target == (30.0, 20.0) and page.comps == [(60.0, 40.0)]

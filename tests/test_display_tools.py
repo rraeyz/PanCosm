@@ -105,3 +105,23 @@ def test_blink_aligns_the_frames(qtbot, tmp_path):
     assert dlg.timer.isActive() and dlg.label.text().startswith("3 / 3")
     dlg.close()
     assert not dlg.timer.isActive()
+
+
+def test_marked_stars_stay_visible_on_a_zoomed_out_frame(qtbot):
+    """On a large frame fitted to the window a 4-pixel aperture is a dot: a ring of fixed screen size shows each
+    marked star until the real rings are big enough on screen (zoomed in)."""
+    import numpy as np
+
+    from astrowb.ui.viewer import RETICLE, ImageViewer
+
+    v = ImageViewer()
+    qtbot.addWidget(v)
+    v.resize(400, 400)
+    v.show()
+    v.set_image(np.random.default_rng(1).normal(100, 5, (2048, 2048)).astype(np.float32))
+    v.fit()
+    v.set_markers([(1000.0, 900.0, 4.0, "lime", "T1"), (1000.0, 900.0, 10.0, "lime", "", "dash")])
+    reticles = [m for m in v._markers if m.data(0) is not None]
+    assert len(reticles) == 1 and reticles[0].isVisible()  # 4 px of 2048 shown in 400: under one screen pixel
+    v.zoom(2 * RETICLE / (10 * abs(v.transform().m11())))  # the real outer ring now wider than the fixed one
+    assert not reticles[0].isVisible()
