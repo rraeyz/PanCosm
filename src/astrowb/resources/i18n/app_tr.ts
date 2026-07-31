@@ -218,67 +218,67 @@
 <context>
     <name>BessDialog</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="584"/>
+        <location filename="../../ui/spectrum_tools.py" line="592"/>
         <source>Export for BeSS / ARAS</source>
         <translation>BeSS / ARAS için dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="587"/>
+        <location filename="../../ui/spectrum_tools.py" line="595"/>
         <source>Object (Simbad name)</source>
         <translation>Cisim (Simbad adı)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="588"/>
+        <location filename="../../ui/spectrum_tools.py" line="596"/>
         <source>Observer</source>
         <translation>Gözlemci</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="589"/>
+        <location filename="../../ui/spectrum_tools.py" line="597"/>
         <source>Start of exposure (UTC)</source>
         <translation>Poz başlangıcı (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="590"/>
+        <location filename="../../ui/spectrum_tools.py" line="598"/>
         <source>Exposure (s)</source>
         <translation>Poz (sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="591"/>
+        <location filename="../../ui/spectrum_tools.py" line="599"/>
         <source>Telescope + spectrograph + camera</source>
         <translation>Teleskop + spektrograf + kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="592"/>
+        <location filename="../../ui/spectrum_tools.py" line="600"/>
         <source>Site</source>
         <translation>Gözlem yeri</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="593"/>
+        <location filename="../../ui/spectrum_tools.py" line="601"/>
         <source>Latitude (°)</source>
         <translation>Enlem (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="594"/>
+        <location filename="../../ui/spectrum_tools.py" line="602"/>
         <source>Longitude (°)</source>
         <translation>Boylam (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="595"/>
+        <location filename="../../ui/spectrum_tools.py" line="603"/>
         <source>Elevation (m)</source>
         <translation>Yükseklik (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="602"/>
+        <location filename="../../ui/spectrum_tools.py" line="610"/>
         <source>Telluric lines removed</source>
         <translation>Tellürik çizgiler giderildi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="603"/>
+        <location filename="../../ui/spectrum_tools.py" line="611"/>
         <source>Cosmic rays removed</source>
         <translation>Kozmik ışınlar giderildi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="607"/>
+        <location filename="../../ui/spectrum_tools.py" line="615"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Uygulanan güneş merkezli düzeltme (km/sn)</translation>
     </message>
@@ -3306,21 +3306,26 @@
     </message>
     <message>
         <location filename="../../ui/messages.py" line="130"/>
+        <source>{key} holds a date but no time of day, and no time keyword was found</source>
+        <translation>{key} yalnızca tarih içeriyor, saat yok; saati veren bir başlık da bulunamadı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="131"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>hedefin adını ya da koordinatlarını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="131"/>
+        <location filename="../../ui/messages.py" line="132"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>spektrografın ayırma gücünü girin: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="132"/>
+        <location filename="../../ui/messages.py" line="133"/>
         <source>the Sun</source>
         <translation>Güneş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="133"/>
+        <location filename="../../ui/messages.py" line="134"/>
         <source>first estimate</source>
         <translation>ilk tahmin</translation>
     </message>
@@ -6303,84 +6308,84 @@
         <translation>Merkez {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/G {s:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="404"/>
+        <location filename="../../ui/spectrum_tools.py" line="412"/>
         <source>The line reaches the edge of the window: widen it so both sides show continuum.</source>
         <translation>Çizgi pencerenin kenarına ulaşıyor: iki yanda süreklilik görünecek kadar genişletin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="420"/>
+        <location filename="../../ui/spectrum_tools.py" line="428"/>
         <source>V/R = {vr:.3f}; peaks at {vv:.0f} and {rv:.0f} km/s</source>
         <translation>V/R = {vr:.3f}; tepeler {vv:.0f} ve {rv:.0f} km/sn&apos;de</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="450"/>
+        <location filename="../../ui/spectrum_tools.py" line="458"/>
         <source>{n} spectra measured.</source>
         <translation>{n} tayf ölçüldü.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="454"/>
+        <location filename="../../ui/spectrum_tools.py" line="462"/>
         <source>Spectra</source>
         <translation>Tayflar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="464"/>
+        <location filename="../../ui/spectrum_tools.py" line="472"/>
         <source>Smoothed.</source>
         <translation>Yumuşatıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="478"/>
+        <location filename="../../ui/spectrum_tools.py" line="486"/>
         <source>Not a number: {text}</source>
         <translation>Sayı değil: {text}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="481"/>
+        <location filename="../../ui/spectrum_tools.py" line="489"/>
         <source>Open spectrum B first, or type a number.</source>
         <translation>Önce B tayfını açın ya da bir sayı yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="485"/>
+        <location filename="../../ui/spectrum_tools.py" line="493"/>
         <source>Done.</source>
         <translation>Tamam.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="493"/>
+        <location filename="../../ui/spectrum_tools.py" line="501"/>
         <source>Resampled.</source>
         <translation>Yeniden örneklendi.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="500"/>
-        <location filename="../../ui/spectrum_tools.py" line="514"/>
+        <location filename="../../ui/spectrum_tools.py" line="508"/>
+        <location filename="../../ui/spectrum_tools.py" line="522"/>
         <source>Normalised.</source>
         <translation>Normalize edildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="528"/>
+        <location filename="../../ui/spectrum_tools.py" line="536"/>
         <source>Response computed; open a target spectrum and press Divide by response.</source>
         <translation>Tepki hesaplandı; bir hedef tayfı açıp Tepkiye böl&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="532"/>
+        <location filename="../../ui/spectrum_tools.py" line="540"/>
         <source>Reference flux distribution</source>
         <translation>Referans akı dağılımı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="540"/>
+        <location filename="../../ui/spectrum_tools.py" line="548"/>
         <source>Relative flux (response removed).</source>
         <translation>Göreli akı (tepki giderildi).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="553"/>
+        <location filename="../../ui/spectrum_tools.py" line="561"/>
         <source>Save spectrum</source>
         <translation>Tayfı kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="556"/>
-        <location filename="../../ui/spectrum_tools.py" line="572"/>
+        <location filename="../../ui/spectrum_tools.py" line="564"/>
+        <location filename="../../ui/spectrum_tools.py" line="580"/>
         <source>Saved: {path}</source>
         <translation>Kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="569"/>
+        <location filename="../../ui/spectrum_tools.py" line="577"/>
         <source>BeSS file</source>
         <translation>BeSS dosyası</translation>
     </message>

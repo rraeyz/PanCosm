@@ -218,67 +218,67 @@
 <context>
     <name>BessDialog</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="584"/>
+        <location filename="../../ui/spectrum_tools.py" line="592"/>
         <source>Export for BeSS / ARAS</source>
         <translation>Exportar para BeSS / ARAS</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="587"/>
+        <location filename="../../ui/spectrum_tools.py" line="595"/>
         <source>Object (Simbad name)</source>
         <translation>Objeto (nombre Simbad)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="588"/>
+        <location filename="../../ui/spectrum_tools.py" line="596"/>
         <source>Observer</source>
         <translation>Observador</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="589"/>
+        <location filename="../../ui/spectrum_tools.py" line="597"/>
         <source>Start of exposure (UTC)</source>
         <translation>Inicio de la exposición (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="590"/>
+        <location filename="../../ui/spectrum_tools.py" line="598"/>
         <source>Exposure (s)</source>
         <translation>Exposición (s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="591"/>
+        <location filename="../../ui/spectrum_tools.py" line="599"/>
         <source>Telescope + spectrograph + camera</source>
         <translation>Telescopio + espectrógrafo + cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="592"/>
+        <location filename="../../ui/spectrum_tools.py" line="600"/>
         <source>Site</source>
         <translation>Lugar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="593"/>
+        <location filename="../../ui/spectrum_tools.py" line="601"/>
         <source>Latitude (°)</source>
         <translation>Latitud (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="594"/>
+        <location filename="../../ui/spectrum_tools.py" line="602"/>
         <source>Longitude (°)</source>
         <translation>Longitud (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="595"/>
+        <location filename="../../ui/spectrum_tools.py" line="603"/>
         <source>Elevation (m)</source>
         <translation>Altitud (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="602"/>
+        <location filename="../../ui/spectrum_tools.py" line="610"/>
         <source>Telluric lines removed</source>
         <translation>Líneas telúricas eliminadas</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="603"/>
+        <location filename="../../ui/spectrum_tools.py" line="611"/>
         <source>Cosmic rays removed</source>
         <translation>Rayos cósmicos eliminados</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="607"/>
+        <location filename="../../ui/spectrum_tools.py" line="615"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Corrección heliocéntrica aplicada (km/s)</translation>
     </message>
@@ -3306,21 +3306,26 @@
     </message>
     <message>
         <location filename="../../ui/messages.py" line="130"/>
+        <source>{key} holds a date but no time of day, and no time keyword was found</source>
+        <translation>{key} contiene una fecha pero no la hora, y no se encontró ninguna palabra clave de hora</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="131"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>indique el nombre o las coordenadas del objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="131"/>
+        <location filename="../../ui/messages.py" line="132"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>indique la resolución del espectrógrafo: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="132"/>
+        <location filename="../../ui/messages.py" line="133"/>
         <source>the Sun</source>
         <translation>el Sol</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="133"/>
+        <location filename="../../ui/messages.py" line="134"/>
         <source>first estimate</source>
         <translation>primera estimación</translation>
     </message>
@@ -6303,84 +6308,84 @@
         <translation>Centro {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (ajuste {ef:.4f}), S/R {s:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="404"/>
+        <location filename="../../ui/spectrum_tools.py" line="412"/>
         <source>The line reaches the edge of the window: widen it so both sides show continuum.</source>
         <translation>La línea llega al borde de la ventana: ensánchela hasta que se vea continuo a ambos lados.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="420"/>
+        <location filename="../../ui/spectrum_tools.py" line="428"/>
         <source>V/R = {vr:.3f}; peaks at {vv:.0f} and {rv:.0f} km/s</source>
         <translation>V/R = {vr:.3f}; picos en {vv:.0f} y {rv:.0f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="450"/>
+        <location filename="../../ui/spectrum_tools.py" line="458"/>
         <source>{n} spectra measured.</source>
         <translation>{n} espectros medidos.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="454"/>
+        <location filename="../../ui/spectrum_tools.py" line="462"/>
         <source>Spectra</source>
         <translation>Espectros</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="464"/>
+        <location filename="../../ui/spectrum_tools.py" line="472"/>
         <source>Smoothed.</source>
         <translation>Suavizado.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="478"/>
+        <location filename="../../ui/spectrum_tools.py" line="486"/>
         <source>Not a number: {text}</source>
         <translation>No es un número: {text}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="481"/>
+        <location filename="../../ui/spectrum_tools.py" line="489"/>
         <source>Open spectrum B first, or type a number.</source>
         <translation>Abra primero el espectro B o escriba un número.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="485"/>
+        <location filename="../../ui/spectrum_tools.py" line="493"/>
         <source>Done.</source>
         <translation>Hecho.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="493"/>
+        <location filename="../../ui/spectrum_tools.py" line="501"/>
         <source>Resampled.</source>
         <translation>Remuestreado.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="500"/>
-        <location filename="../../ui/spectrum_tools.py" line="514"/>
+        <location filename="../../ui/spectrum_tools.py" line="508"/>
+        <location filename="../../ui/spectrum_tools.py" line="522"/>
         <source>Normalised.</source>
         <translation>Normalizado.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="528"/>
+        <location filename="../../ui/spectrum_tools.py" line="536"/>
         <source>Response computed; open a target spectrum and press Divide by response.</source>
         <translation>Respuesta calculada; abra un espectro del objeto y pulse Dividir por la respuesta.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="532"/>
+        <location filename="../../ui/spectrum_tools.py" line="540"/>
         <source>Reference flux distribution</source>
         <translation>Distribución de flujo de referencia</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="540"/>
+        <location filename="../../ui/spectrum_tools.py" line="548"/>
         <source>Relative flux (response removed).</source>
         <translation>Flujo relativo (respuesta eliminada).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="553"/>
+        <location filename="../../ui/spectrum_tools.py" line="561"/>
         <source>Save spectrum</source>
         <translation>Guardar espectro</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="556"/>
-        <location filename="../../ui/spectrum_tools.py" line="572"/>
+        <location filename="../../ui/spectrum_tools.py" line="564"/>
+        <location filename="../../ui/spectrum_tools.py" line="580"/>
         <source>Saved: {path}</source>
         <translation>Guardado: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="569"/>
+        <location filename="../../ui/spectrum_tools.py" line="577"/>
         <source>BeSS file</source>
         <translation>Archivo BeSS</translation>
     </message>

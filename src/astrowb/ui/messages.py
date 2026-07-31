@@ -127,6 +127,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "disentangling"),
     QT_TRANSLATE_NOOP("Messages", "band math"),
     QT_TRANSLATE_NOOP("Messages", "folder not found: {path}"),
+    QT_TRANSLATE_NOOP("Messages", "{key} holds a date but no time of day, and no time keyword was found"),
     QT_TRANSLATE_NOOP("Messages", "give the target's name or coordinates"),
     QT_TRANSLATE_NOOP("Messages", "give the spectrograph's resolution R = lambda / delta lambda"),
     QT_TRANSLATE_NOOP("Messages", "the Sun"),
