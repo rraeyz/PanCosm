@@ -635,7 +635,7 @@ class ImagePage(QWidget):
             ax.stairs(h["counts"], h["edges"], fill=True, alpha=0.6)
             ax.set_yscale("log")
             labels = (self.tr("Counts"), self.tr("Number of pixels"))
-            xs, ys = (np.array(h["edges"][:-1]) + np.array(h["edges"][1:])) / 2, h["counts"]
+            cols = ((np.array(h["edges"][:-1]) + np.array(h["edges"][1:])) / 2, h["counts"])
         elif kind == "surface":
             box = np.asarray(data[a["y0"] : a["y1"] + 1, a["x0"] : a["x1"] + 1], float)
             step = max(1, int(np.ceil(max(box.shape) / 150)))  # at most ~150 x 150 facets: drawing stays quick
@@ -645,21 +645,22 @@ class ImagePage(QWidget):
             ax.plot_surface(a["x0"] + 1 + xx * step, a["y0"] + 1 + yy * step, sub, cmap="viridis", linewidth=0)
             ax.set_xlabel("x")
             ax.set_ylabel("y")
-            labels, xs, ys = None, None, None
+            labels = (self.tr("x (FITS pixels)"), self.tr("y (FITS pixels)"), self.tr("Counts"))
+            cols = (a["x0"] + 1 + xx * step, a["y0"] + 1 + yy * step, sub)
         else:
             prof = box_profile(data, *self._area, axis="x" if kind == "row" else "y")
             ax = g.figure.subplots()
-            xs, ys = np.array(prof["position"]) + 1, prof["values"]
-            ax.plot(xs, ys, "-", lw=0.9)
+            cols = (np.array(prof["position"]) + 1, prof["values"])
+            ax.plot(*cols, "-", lw=0.9)
             labels = (
                 self.tr("x (FITS pixels)") if kind == "row" else self.tr("y (FITS pixels)"),
                 self.tr("Mean counts"),
             )
-        if labels:
+        if kind != "surface":
             ax.set_xlabel(labels[0])
             ax.set_ylabel(labels[1])
         g.draw()
-        self._graph_data = (labels, xs, ys) if labels else None
+        self._graph_data = (labels, *cols)
 
     def measure_line(self, x0, y0, x1, y1):
         from ..io.inspect import line_profile
@@ -710,11 +711,11 @@ class ImagePage(QWidget):
             return None
         import csv
 
-        (xl, yl), xs, ys = self._graph_data
+        labels, *cols = self._graph_data  # a surface has three columns: x, y, counts
         with open(path, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)
-            w.writerow([xl, yl])
-            w.writerows(zip(np.asarray(xs).tolist(), np.asarray(ys).tolist(), strict=True))
+            w.writerow(labels)
+            w.writerows(zip(*(np.ravel(c).tolist() for c in cols), strict=True))
         return path
 
 
@@ -2373,8 +2374,12 @@ class OCPage(QWidget):
         from .messages import translate
 
         try:
-            minima = parse_minima(self.text.toPlainText())
             t0, period = float(self.t0.text()), float(self.period.text())
+        except ValueError:
+            self.result.setText(self.tr("Give the reference T0 and the period in days."))
+            return None
+        try:
+            minima = parse_minima(self.text.toPlainText())
             if self.ltte.isChecked():
                 f = fit_ltte(minima, t0, period)
             elif self.apsidal.isChecked():
@@ -2572,7 +2577,8 @@ class PeriodPage(QWidget):
 
     def _fetch(self):
         if self.archive_target.text().strip():
-            self.source.setText(self.tr("Downloading from MAST…"))
+            source = {"ZTF": "IRSA", "AAVSO": "AAVSO"}.get(self.mission.currentText(), "MAST")
+            self.source.setText(self.tr("Downloading from {source}…").format(source=source))
             self.archive_requested.emit(self.archive_target.text().strip(), self.mission.currentText())
 
     def set_light_curve(self, time, flux, label, keep_original=False):
@@ -2589,7 +2595,7 @@ class PeriodPage(QWidget):
 
     def _clip(self):
         if self.time:
-            keep = fourier_edit().sigma_clip(self.flux, self.clip_sigma.value())
+            keep = fourier_edit().sigma_clip(self.flux, self.clip_sigma.value(), self.time, self.best)
             self._edited(np.asarray(self.time)[keep], np.asarray(self.flux)[keep], self.tr("outliers removed"))
 
     def _bin(self):

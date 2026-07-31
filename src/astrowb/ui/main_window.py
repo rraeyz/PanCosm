@@ -584,12 +584,20 @@ class MainWindow(QMainWindow):
         page = ModelsPage(self)
         page.fit_requested.connect(
             lambda inputs, params: self.run_step(
-                "models.eb_fit", inputs, params, on_done=lambda out: page.show_fit(out["model"])
+                "models.eb_fit",
+                inputs,
+                params,
+                on_done=lambda out: page.show_fit(out["model"]),
+                on_fail=page.status.setText,
             )
         )
         page.visual_tab.fit_requested.connect(
             lambda inputs, params: self.run_step(
-                "models.visual_orbit", inputs, params, on_done=lambda out: page.visual_tab.show_orbit(out["orbit"])
+                "models.visual_orbit",
+                inputs,
+                params,
+                on_done=lambda out: page.visual_tab.show_orbit(out["orbit"]),
+                on_fail=page.visual_tab.status.setText,
             )
         )
         return page
@@ -669,9 +677,13 @@ class MainWindow(QMainWindow):
 
             if mission in ("ZTF", "AAVSO"):
                 inputs = {"target": target, "cache_file": str(config_dir() / "targets.json")}
-                return self.run_step("timeseries.survey_lc", inputs, {"source": mission}, on_done=done)
+                return self.run_step(
+                    "timeseries.survey_lc", inputs, {"source": mission}, on_done=done, on_fail=pp.source.setText
+                )
             inputs = {"target": target, "folder": str(self.settings.path.parent / "archive")}
-            return self.run_step("timeseries.mission_lc", inputs, {"mission": mission}, on_done=done)
+            return self.run_step(
+                "timeseries.mission_lc", inputs, {"mission": mission}, on_done=done, on_fail=pp.source.setText
+            )
 
         pp.archive_requested.connect(fetch)
         return page

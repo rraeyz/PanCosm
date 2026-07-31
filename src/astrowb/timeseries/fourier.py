@@ -207,11 +207,47 @@ def times_of_maximum(t, y, fit, window=0.15, min_points=7, magnitudes=False):
     return out
 
 
-def sigma_clip(y, n_sigma=4.0):
-    """Mask of points kept: within n_sigma robust standard deviations of the median."""
+def _neighbour_median(y, wrap=False):
+    """Median of the 3 values on either side of each point, without the point itself. A series' ends are extended
+    point-symmetrically about the median of its first (last) three points, so a slope continues and an outlier at
+    the very end is judged like any other point; a phase-folded curve wraps around."""
+    from numpy.lib.stride_tricks import sliding_window_view
+
+    if y.size < 7:
+        return np.full(y.size, np.median(y))
+    if wrap:
+        padded = np.pad(y, 3, mode="wrap")
+    else:
+        lo, hi = np.median(y[:3]), np.median(y[-3:])
+        padded = np.r_[2 * lo - y[5:2:-1], y, 2 * hi - y[-4:-7:-1]]
+    return np.median(np.delete(sliding_window_view(padded, 7), 3, axis=1), axis=1)
+
+
+def sigma_clip(y, n_sigma=4.0, t=None, period=None):
+    """Mask of points kept: within n_sigma robust standard deviations of the median or, given the times, of the
+    median of their neighbours in time (one night at a time), so that eclipses and pulsations stay as signal. With
+    a period a point is also kept when it agrees with its neighbours in phase (sparse sharp eclipses), and a wrong
+    period (half the true one) removes nothing that agrees in time."""
     y = np.asarray(y, float)
-    mad = 1.4826 * np.median(np.abs(y - np.median(y)))
-    return np.abs(y - np.median(y)) <= n_sigma * mad if mad > 0 else np.ones(y.size, bool)
+    if t is None:
+        return _within(y - np.median(y), n_sigma)
+    t = np.asarray(t, float)
+    order = np.argsort(t)
+    gaps = np.flatnonzero(np.diff(t[order]) > 10 * np.median(np.diff(t[order]))) + 1
+    ref = np.empty_like(y)
+    ref[order] = np.concatenate([_neighbour_median(p) for p in np.split(y[order], gaps)])
+    keep = _within(y - ref, n_sigma)
+    if period:
+        order = np.argsort(t % period)
+        ref[order] = _neighbour_median(y[order], wrap=True)
+        keep |= _within(y - ref, n_sigma)
+    return keep
+
+
+def _within(d, n_sigma):
+    d = d - np.median(d)
+    mad = 1.4826 * np.median(np.abs(d))
+    return np.abs(d) <= n_sigma * mad if mad > 0 else np.ones(d.size, bool)
 
 
 def bin_time(t, y, width):

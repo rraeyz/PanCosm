@@ -52,6 +52,12 @@ def real_messages():
     out += ["the image has no sky coordinates: plate-solve it first (Image menu)"]  # engine/builtin.py
     out += ["the light curve spans 0.12 h: too short to search for periods"]  # photometry/steps.py
     out += ["the keyword NAXIS1 describes the data and cannot be edited"]  # io/fits.py
+    from astrowb.timeseries.ephemeris import fit, parse_minima
+
+    for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):
+        with pytest.raises(ValueError) as e:
+            call()
+        out.append(str(e.value))
     out += ["the value of SITE must be plain ASCII text (FITS standard)"]
     from astrowb.photometry.catalog import calibrate
 

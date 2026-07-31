@@ -188,7 +188,7 @@ def test_oc_page_fit_and_errors(window):
     assert f is not None and abs(f.period - p) < 3 * f.period_err
     assert "P = 2.150008" in page.result.text() and len(page.plot.figure.axes) == 2
     page.period.setText("abc")
-    assert page.run_fit() is None and page.result.text().startswith("Cannot fit")
+    assert page.run_fit() is None and page.result.text().startswith("Give the reference T0")
 
 
 def test_stack_from_calibrate_page(window, qtbot, tmp_path):
@@ -234,6 +234,27 @@ def test_period_search_tab(window, qtbot):
     assert window.lightcurve_page.count() == 4
     page.phase_bins.setValue(20)  # binned mean curve drawn over the folded points
     assert len(window.period_page.plot.figure.axes[1].containers) == 1
+
+    rng = np.random.default_rng(3)  # an eclipsing binary: with the period known, outliers are judged in phase
+    t = np.sort(np.concatenate([n * 1.7 + rng.uniform(0, 0.3, 120) for n in range(25)]))
+    ph = (t / 0.8137 + 0.5) % 1 - 0.5
+    y = 1 - 0.4 * np.exp(-0.5 * (ph / 0.025) ** 2) + rng.normal(0, 0.005, t.size)
+    y[17] = 1.3
+    page.set_light_curve(t, y, "binary")
+    page.best, page.periodogram = 0.8137, {"periods": [0.8137], "power": [1.0]}
+    page._clip()
+    assert 1.3 not in page.flux and len(page.time) >= t.size - 10  # the eclipses stay
+
+
+def test_oc_asks_for_the_ephemeris(window):
+    oc = window.oc_page
+    oc.text.setPlainText("2460500.31 0.001 I\n2460510.08 0.001 I\n2460520.66 0.001 I")
+    oc.fit_button.click()
+    assert oc.result.text() == "Give the reference T0 and the period in days." and oc.fit_result is None
+    oc.t0.setText("2460500.31")
+    oc.period.setText("0.8137")
+    oc.fit_button.click()
+    assert oc.fit_result is not None
 
 
 def test_frequency_analysis_and_light_curve_editing(window, qtbot):
@@ -369,11 +390,17 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     assert page.overlay is not None and np.all(np.isfinite(page.overlay[1]))  # a curve to draw, not NaN
     samples = np.random.default_rng(1).normal([86.0, 0.3], [0.2, 0.01], (500, 2)).tolist()
     mcmc = {"params": {"incl": (86.0, 0.2, 0.2), "r_sum": (0.3, 0.01, 0.01)}, "names": ["incl", "r_sum"]}
+    mcmc["params"]["t0"] = (2459500.251234, 3e-5, 3e-5)
     page.show_fit(page.result | {"mcmc": mcmc | {"samples": samples, "acceptance": 0.4}})
     assert "MCMC (acceptance 0.40)" in page.status.text() and page.posterior_button.isVisibleTo(page)
+    assert "t0 = 2459500.251234" in page.status.text()
     dlg = page.show_posterior()
     assert len(dlg.findChildren(type(page.plot))[0].figure.axes) == 4
     dlg.close()
+    path.write_text("not a light curve\n")  # a failed fit says why on the page, not "Fitting…" for ever
+    page.fit_button.click()
+    qtbot.waitUntil(lambda: page.status.text() != "Fitting…", timeout=60000)
+    assert "i = " not in page.status.text()
 
 
 def test_spectroscopy_instrument_profiles(window):

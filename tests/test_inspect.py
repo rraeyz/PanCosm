@@ -1,5 +1,7 @@
 """Image-information tools: counts in a rectangle, along a line, in a star's aperture; known answers."""
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 from test_apertures import field
@@ -94,6 +96,9 @@ def test_images_page_tools(qtbot, tmp_path):
     page.graph_kind.setCurrentIndex(1)
     out = page.export_graph(tmp_path / "row.csv")
     assert (tmp_path / "row.csv").read_text(encoding="utf-8").splitlines()[0].startswith("x (FITS pixels)") and out
+    page.graph_kind.setCurrentIndex(3)  # the surface is exported too: x, y, counts for every pixel drawn
+    rows = Path(page.export_graph(tmp_path / "surface.csv")).read_text(encoding="utf-8").splitlines()
+    assert rows[0].count(",") == 2 and len(rows) == 1 + 200
     page.set_tool("line")
     page.viewer.line_selected.emit(0.0, 70.6, 199.0, 70.6)
     values = {page.info.item(i, 0).text(): page.info.item(i, 1).text() for i in range(page.info.rowCount())}

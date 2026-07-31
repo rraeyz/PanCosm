@@ -86,7 +86,7 @@ def test_period_page_downloads_through_the_main_window(qtbot, tmp_path, monkeypa
     try:
         sent = []
         monkeypatch.setattr(
-            win, "run_step", lambda sid, inputs, params, on_done: sent.append((sid, inputs, params, on_done))
+            win, "run_step", lambda sid, inputs, params, on_done, on_fail: sent.append((sid, inputs, params, on_done))
         )
         page = win.period_page
         page.archive_target.setText("AI Dra")
@@ -98,5 +98,8 @@ def test_period_page_downloads_through_the_main_window(qtbot, tmp_path, monkeypa
         )
         on_done({"light_curve": {"time": list(range(20)), "rel_flux": [1.0] * 20, "source": "Kepler 3"}})
         assert page.source.text() == "20 points from AI Dra (Kepler 3)" and page.search_button.isEnabled()
+        page.mission.setCurrentText("ZTF")
+        page._fetch()
+        assert page.source.text() == "Downloading from IRSA…"  # not MAST; a failure replaces it with the error
     finally:
         win.engine.shutdown()

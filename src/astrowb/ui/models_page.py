@@ -281,7 +281,9 @@ class ModelsPage(QWidget):
         m = r.get("mcmc")
         if m:
             text += "\n" + self.tr("MCMC (acceptance {a:.2f}): ").format(a=m["acceptance"])
-            text += ", ".join(f"{n} = {v[0]:.6g} −{v[1]:.2g} +{v[2]:.2g}" for n, v in m["params"].items())
+            text += ", ".join(  # a BJD needs its decimals: "2.4605e+06" says nothing
+                f"{n} = {v[0]:{'.6f' if n == 't0' else '.6g'}} −{v[1]:.2g} +{v[2]:.2g}" for n, v in m["params"].items()
+            )
         self.status.setText(text)
         self._draw()
         self.posterior_button.setVisible(bool(m))

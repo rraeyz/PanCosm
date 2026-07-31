@@ -15,7 +15,7 @@ Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; o
 
 Stellen Sie **Kürzeste Periode** und **Längste Periode** ein (die längste ist voreingestellt auf die halbe Zeitspanne) und drücken Sie **Suchen**. Das Periodogramm und die mit der besten Periode gefaltete Lichtkurve werden gezeigt. Prüfen Sie die gefaltete Kurve: die halbe oder doppelte Periode ist ein häufiger Alias, besonders bei Bedeckungsveränderlichen mit gleich tiefen Minima.
 
-**Phasenintervalle** zeichnet die mittlere Kurve über die gefalteten Punkte. **Lichtkurve bearbeiten:** *Ausreißer entfernen (σ)*, *Zeitlich mitteln (min)*, *Punkte per Klick löschen* (dann einen Punkt in der Grafik anklicken), *Fluss ↔ Magnitude* und *Bearbeitungen rückgängig*. Periodensuche und Frequenzanalyse verwenden die bearbeitete Kurve.
+**Phasenintervalle** zeichnet die mittlere Kurve über die gefalteten Punkte. **Lichtkurve bearbeiten:** *Ausreißer entfernen (σ)*, *Zeitlich mitteln (min)*, *Punkte per Klick löschen* (dann einen Punkt in der Grafik anklicken), *Fluss ↔ Magnitude* und *Bearbeitungen rückgängig*. Periodensuche und Frequenzanalyse verwenden die bearbeitete Kurve. *Ausreißer entfernen* vergleicht jeden Punkt mit seinen zeitlichen Nachbarn (und, sobald eine Periode gefunden ist, mit seinen Nachbarn in der gefalteten Kurve); Bedeckungen und Pulsationen bleiben erhalten.
 
 ## Frequenzanalyse
 Für pulsierende Sterne mit mehreren Moden (δ Scuti, γ Dor, β Cep), wie Period04. Geben Sie die **höchste Frequenz** (Zyklen pro Tag) ein und drücken Sie **Frequenzen analysieren**:

@@ -77,6 +77,16 @@ def test_phase_binning_and_editing():
     assert len(c) == 20 and n.sum() == 1000 and np.allclose(mean, np.cos(2 * np.pi * c), atol=0.02)
     y = np.r_[np.zeros(99), 50.0]
     assert fourier.sigma_clip(y + np.random.default_rng(0).normal(0, 1, 100)).sum() == 99
+    t = np.linspace(0, 3, 3000)  # an eclipsing binary: the eclipses are signal, only the spike goes
+    y = 1 - 0.4 * np.exp(-0.5 * (((t % 0.8) - 0.4) / 0.02) ** 2) + np.random.default_rng(1).normal(0, 0.005, t.size)
+    y[17] = 1.3
+    keep = fourier.sigma_clip(y, 4, t, 0.8)  # in phase
+    assert not keep[17] and keep.sum() >= 2990
+    keep = fourier.sigma_clip(y, 4, t)  # in time: a slope or a well-sampled eclipse is not clipped either
+    assert not keep[17] and keep.sum() >= 2985
+    y = 0.1 * np.r_[np.arange(8.0), 80, 9, 10, 11, 12, 13, 14] + np.random.default_rng(0).normal(0, 0.1, 15)
+    keep = fourier.sigma_clip(y, 4, np.r_[np.arange(8), np.arange(100, 107)])  # an outlier opening a night
+    assert keep.tolist() == [True] * 8 + [False] + [True] * 6
     tb, yb = fourier.bin_time(np.arange(10.0), np.arange(10.0), 5)
     assert tb.tolist() == [2.0, 7.0] and yb.tolist() == [2.0, 7.0]
     assert np.allclose(fourier.mag_to_flux(fourier.flux_to_mag([0.5, 2])), [0.5, 2])
