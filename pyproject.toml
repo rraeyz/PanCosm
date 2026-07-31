@@ -25,6 +25,8 @@ dependencies = [
     "tifffile>=2024.1",
     "pyproj>=3.6",
     "cryptography>=42",
+    # from 49 there is no Intel-Mac wheel: a source build links Homebrew OpenSSL and breaks in the app
+    "cryptography<49; sys_platform == 'darwin' and platform_machine == 'x86_64'",
     "emcee>=3.1",  # MCMC uncertainties of model fits (MIT)
     "h5py>=3.10",  # HDF5 / NetCDF-4 rasters (BSD-3)
     "rawpy>=0.21",  # DSLR / mirrorless raw files (MIT; bundles LibRaw, LGPL-2.1 or CDDL-1.0)
