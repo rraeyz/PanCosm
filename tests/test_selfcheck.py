@@ -30,3 +30,29 @@ def test_offline_checks_pass_in_a_source_install():
     results = selfcheck.offline()
     assert all(ok for _, ok, _ in results), selfcheck.report(results)
     assert "OK" in selfcheck.report(results)
+
+
+def test_help_menu_check_shows_the_report(qtbot, tmp_path, monkeypatch):
+    """Help -> Check the installation: the report in a window (no terminal needed, e.g. on Windows)."""
+    from PySide6.QtWidgets import QMessageBox
+
+    from astrowb.engine.steps import execute
+    from astrowb.settings import Settings
+    from astrowb.ui.main_window import MainWindow
+
+    monkeypatch.setattr(selfcheck, "online", lambda: [("SIMBAD (target names)", False, "ConnectionError: no network")])
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    out = execute("app.check", {}, {}, Ctx())
+    assert out["ok"] is False and "FAIL  SIMBAD" in out["report"] and "OK    application modules" in out["report"]
+    win = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(win)
+    shown = []
+    monkeypatch.setattr(QMessageBox, "exec", lambda box: shown.append(box.detailedText()))
+    monkeypatch.setattr(win, "run_step", lambda step, inputs, params, on_done: on_done(out))
+    win.check_installation()
+    assert shown and "SIMBAD" in shown[0]
+    win.engine.shutdown()

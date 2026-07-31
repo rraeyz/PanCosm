@@ -2355,449 +2355,474 @@
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="884"/>
+        <source>Check the &amp;installation and internet services</source>
+        <translation>&amp;Kurulumu ve internet servislerini denetle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="885"/>
         <source>Check for &amp;updates…</source>
         <translation>&amp;Güncellemeleri denetle…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="885"/>
+        <location filename="../../ui/main_window.py" line="886"/>
         <source>&amp;About {app}</source>
         <translation>{app} &amp;hakkında</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="896"/>
+        <location filename="../../ui/main_window.py" line="897"/>
         <source>Other images, named B, C, … (optional)</source>
         <translation>Diğer görüntüler, B, C, … adlarıyla (isteğe bağlı)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="899"/>
+        <location filename="../../ui/main_window.py" line="900"/>
         <source>Pixel math</source>
         <translation>Piksel matematiği</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="899"/>
+        <location filename="../../ui/main_window.py" line="900"/>
         <source>Expression (A is this image), e.g. A - 0.95 * B:</source>
         <translation>İfade (A bu görüntü), ör. A - 0.95 * B:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="906"/>
+        <location filename="../../ui/main_window.py" line="907"/>
         <source>Crop</source>
         <translation>Kırp</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="906"/>
+        <location filename="../../ui/main_window.py" line="907"/>
         <source>x0 x1 y0 y1 (pixels, 0-based, end excluded):</source>
         <translation>x0 x1 y0 y1 (piksel, 0&apos;dan başlar, son hariç):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="919"/>
+        <location filename="../../ui/main_window.py" line="920"/>
         <source>Reference image</source>
         <translation>Referans görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="925"/>
+        <location filename="../../ui/main_window.py" line="926"/>
         <source>Low pass (smooth)</source>
         <translation>Alçak geçiren (yumuşat)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="926"/>
+        <location filename="../../ui/main_window.py" line="927"/>
         <source>High pass (sharpen)</source>
         <translation>Yüksek geçiren (keskinleştir)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="927"/>
+        <location filename="../../ui/main_window.py" line="928"/>
         <source>Laplacian</source>
         <translation>Laplace</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="928"/>
+        <location filename="../../ui/main_window.py" line="929"/>
         <source>Edges (Sobel)</source>
         <translation>Kenarlar (Sobel)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="929"/>
+        <location filename="../../ui/main_window.py" line="930"/>
         <source>Vertical edges</source>
         <translation>Dikey kenarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="930"/>
+        <location filename="../../ui/main_window.py" line="931"/>
         <source>Horizontal edges</source>
         <translation>Yatay kenarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="932"/>
+        <location filename="../../ui/main_window.py" line="933"/>
         <source>Kernel filter</source>
         <translation>Çekirdek filtresi</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="932"/>
+        <location filename="../../ui/main_window.py" line="933"/>
         <source>Filter:</source>
         <translation>Filtre:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="937"/>
-        <location filename="../../ui/main_window.py" line="946"/>
+        <location filename="../../ui/main_window.py" line="938"/>
+        <location filename="../../ui/main_window.py" line="947"/>
         <source>Deconvolution</source>
         <translation>Dekonvolüsyon</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="938"/>
+        <location filename="../../ui/main_window.py" line="939"/>
         <source>Star FWHM (pixels; measure it with the Star tool):</source>
         <translation>Yıldız FWHM&apos;si (piksel; Yıldız aracıyla ölçün):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="946"/>
+        <location filename="../../ui/main_window.py" line="947"/>
         <source>Iterations:</source>
         <translation>Yineleme:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="915"/>
+        <location filename="../../ui/main_window.py" line="916"/>
         <source>Rotate</source>
         <translation>Döndür</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="915"/>
+        <location filename="../../ui/main_window.py" line="916"/>
         <source>Angle (degrees, counter-clockwise):</source>
         <translation>Açı (derece, saat yönünün tersine):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="949"/>
+        <location filename="../../ui/main_window.py" line="950"/>
         <source>Factor (2: twice as many pixels across, 0.5: half):</source>
         <translation>Çarpan (2: bir kenarda iki kat piksel, 0,5: yarısı):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="950"/>
-        <location filename="../../ui/main_window.py" line="952"/>
+        <location filename="../../ui/main_window.py" line="951"/>
+        <location filename="../../ui/main_window.py" line="953"/>
         <source>Sigma (pixels):</source>
         <translation>Sigma (piksel):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="951"/>
+        <location filename="../../ui/main_window.py" line="952"/>
         <source>Box size (pixels, odd):</source>
         <translation>Kutu boyutu (piksel, tek sayı):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="953"/>
+        <location filename="../../ui/main_window.py" line="954"/>
         <source>Box size (pixels):</source>
         <translation>Kutu boyutu (piksel):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="956"/>
+        <location filename="../../ui/main_window.py" line="957"/>
         <source>Process</source>
         <translation>İşle</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="989"/>
+        <location filename="../../ui/main_window.py" line="990"/>
         <source>Red frame</source>
         <translation>Kırmızı kare</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="989"/>
+        <location filename="../../ui/main_window.py" line="990"/>
         <source>Green frame</source>
         <translation>Yeşil kare</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="989"/>
+        <location filename="../../ui/main_window.py" line="990"/>
         <source>Blue frame</source>
         <translation>Mavi kare</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="994"/>
+        <location filename="../../ui/main_window.py" line="995"/>
         <source>Colour image</source>
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1062"/>
+        <location filename="../../ui/main_window.py" line="1063"/>
         <source>No plugins installed</source>
         <translation>Kurulu eklenti yok</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1064"/>
+        <location filename="../../ui/main_window.py" line="1065"/>
         <source>Failed to load: {f}</source>
         <translation>Yüklenemedi: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1066"/>
+        <location filename="../../ui/main_window.py" line="1067"/>
         <source>Plugin error</source>
         <translation>Eklenti hatası</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1069"/>
+        <location filename="../../ui/main_window.py" line="1070"/>
         <source>Open plugins folder</source>
         <translation>Eklenti klasörünü aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1117"/>
+        <location filename="../../ui/main_window.py" line="1118"/>
         <source>New project</source>
         <translation>Yeni proje</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1122"/>
+        <location filename="../../ui/main_window.py" line="1123"/>
         <source>Open project</source>
         <translation>Proje aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1162"/>
+        <location filename="../../ui/main_window.py" line="1163"/>
         <source>Open FITS</source>
         <translation>FITS aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1216"/>
+        <location filename="../../ui/main_window.py" line="1217"/>
         <source>Cannot open file</source>
         <translation>Dosya açılamadı</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="438"/>
-        <location filename="../../ui/main_window.py" line="1317"/>
+        <location filename="../../ui/main_window.py" line="1318"/>
         <source>Save FITS as</source>
         <translation>FITS&apos;i farklı kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1068"/>
+        <location filename="../../ui/main_window.py" line="1069"/>
         <source>Install the example plugins</source>
         <translation>Örnek eklentileri kur</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1070"/>
+        <location filename="../../ui/main_window.py" line="1071"/>
         <source>What are plugins?</source>
         <translation>Eklenti nedir?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1079"/>
+        <location filename="../../ui/main_window.py" line="1080"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Kuruldu: {names}. Artık Eklentiler menüsündeler.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1081"/>
+        <location filename="../../ui/main_window.py" line="1082"/>
         <source>The example plugins are already installed.</source>
         <translation>Örnek eklentiler zaten kurulu.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1130"/>
+        <location filename="../../ui/main_window.py" line="1131"/>
         <source>Cannot open project</source>
         <translation>Proje açılamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1207"/>
+        <location filename="../../ui/main_window.py" line="1208"/>
         <source>Image extension</source>
         <translation>Görüntü uzantısı</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1207"/>
+        <location filename="../../ui/main_window.py" line="1208"/>
         <source>This file holds several images:</source>
         <translation>Bu dosyada birden çok görüntü var:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1276"/>
+        <location filename="../../ui/main_window.py" line="1277"/>
         <source>Save picture</source>
         <translation>Resmi kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1288"/>
+        <location filename="../../ui/main_window.py" line="1289"/>
         <source>Images to convert</source>
         <translation>Dönüştürülecek görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1295"/>
+        <location filename="../../ui/main_window.py" line="1296"/>
         <source>TIFF, 32-bit data</source>
         <translation>TIFF, 32 bit veri</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1297"/>
+        <location filename="../../ui/main_window.py" line="1298"/>
         <source>Convert images</source>
         <translation>Görüntüleri dönüştür</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1297"/>
+        <location filename="../../ui/main_window.py" line="1298"/>
         <source>Format:</source>
         <translation>Biçim:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1303"/>
+        <location filename="../../ui/main_window.py" line="1304"/>
         <source>Folder for the pictures</source>
         <translation>Resimler için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1312"/>
+        <location filename="../../ui/main_window.py" line="1313"/>
         <source>{n} pictures written to {folder}.</source>
         <translation>{folder} klasörüne {n} resim yazıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1362"/>
+        <location filename="../../ui/main_window.py" line="1363"/>
         <source>queued</source>
         <translation>sırada</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1363"/>
+        <location filename="../../ui/main_window.py" line="1364"/>
         <source>running</source>
         <translation>çalışıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1364"/>
+        <location filename="../../ui/main_window.py" line="1365"/>
         <source>done</source>
         <translation>bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1365"/>
+        <location filename="../../ui/main_window.py" line="1366"/>
         <source>failed</source>
         <translation>başarısız</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1366"/>
+        <location filename="../../ui/main_window.py" line="1367"/>
         <source>cancelled</source>
         <translation>iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1382"/>
+        <location filename="../../ui/main_window.py" line="1383"/>
         <source>Task failed</source>
         <translation>Görev başarısız</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1393"/>
+        <location filename="../../ui/main_window.py" line="1394"/>
         <source>No plate solver</source>
         <translation>Plaka çözücü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1395"/>
+        <location filename="../../ui/main_window.py" line="1396"/>
         <source>Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, then try again. Nothing is sent over the internet.</source>
         <translation>ASTAP&apos;ı ve yıldız veritabanlarından birini (hnsky.org/astap.htm) ya da astrometry.net&apos;i kurup tekrar deneyin. İnternete hiçbir şey gönderilmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1438"/>
+        <location filename="../../ui/main_window.py" line="1439"/>
         <source>Stack written: {path}</source>
         <translation>Birleştirilmiş görüntü yazıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1501"/>
+        <location filename="../../ui/main_window.py" line="1502"/>
         <source>the Photometry page</source>
         <translation>Fotometri sayfası</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1523"/>
+        <location filename="../../ui/main_window.py" line="1524"/>
         <source>value</source>
         <translation>değer</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1542"/>
+        <location filename="../../ui/main_window.py" line="1543"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1543"/>
+        <location filename="../../ui/main_window.py" line="1544"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>Yeni dil, {app} yeniden başlatıldığında kullanılacak.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1563"/>
+        <location filename="../../ui/main_window.py" line="1564"/>
         <source>Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.</source>
         <translation>Hoş geldiniz! Bu bir dakikalık tur neyin nerede olduğunu gösterir. İleri&apos;ye basın ya da istediğiniz an Atla&apos;ya.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1566"/>
+        <location filename="../../ui/main_window.py" line="1567"/>
         <source>The pages, in the order of an observing night. Click one to open it.</source>
         <translation>Sayfalar, bir gözlem gecesinin sırasıyla. Açmak için birine tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1571"/>
+        <location filename="../../ui/main_window.py" line="1572"/>
         <source>Start here: pick what you have — raw frames, images, spectra, a list of minima — and you are taken to the right page.</source>
         <translation>Buradan başlayın: elinizde ne varsa seçin — ham kareler, görüntüler, tayflar, minimum listesi — doğru sayfaya götürülürsünüz.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1576"/>
+        <location filename="../../ui/main_window.py" line="1577"/>
         <source>Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits.</source>
         <translation>Planla: hedefleriniz ne zaman görünür, hava kütlesi, Ay, öngörülen tutulmalar ve geçişler.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1581"/>
+        <location filename="../../ui/main_window.py" line="1582"/>
         <source>Observe: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.</source>
         <translation>Gözlem: teleskop ve kamerayı bağlayın, sekansları ve bütün geceleri çalıştırın. Bir sorun olduğunda güvenlik denetçisi teleskobu park eder.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1587"/>
+        <location filename="../../ui/main_window.py" line="1588"/>
         <source>Calibrate: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.</source>
         <translation>Kalibrasyon: bias, dark ve flat kareleri otomatik eşleştirilip uygulanır; kareler hizalanıp yığılabilir.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1593"/>
+        <location filename="../../ui/main_window.py" line="1594"/>
         <source>Photometry and Light curves &amp; O-C: measure stars, get light curves, minima, O-C diagrams and periods.</source>
         <translation>Fotometri ve Işık eğrileri &amp; O-C: yıldızları ölçün; ışık eğrisi, minimum, O-C diyagramı ve periyot elde edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1599"/>
+        <location filename="../../ui/main_window.py" line="1600"/>
         <source>Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.</source>
         <translation>Tayf: uzun yarık ve eşel indirgeme, tellürik düzeltme, dikine hızlar, IFU küpleri.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1604"/>
+        <location filename="../../ui/main_window.py" line="1605"/>
         <source>Orbits &amp; models: radial-velocity orbits and eclipsing-binary or transit models.</source>
         <translation>Yörüngeler &amp; modeller: dikine hız yörüngeleri, örten çift ve geçiş modelleri.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1609"/>
+        <location filename="../../ui/main_window.py" line="1610"/>
         <source>Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.</source>
         <translation>Uzaktan algılama: uydu ve hava görüntüleri — bant matematiği, bitki örtüsü ve su indisleri, sınıflar.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1615"/>
+        <location filename="../../ui/main_window.py" line="1616"/>
         <source>Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.</source>
         <translation>Otomasyon: adımları zincirleyip kendi iş akışınızı kurun ya da hazır bir şablondan (örten çift gecesi, geçiş, kalibrasyon, tayftan RV) başlayın ve tek seferde çalıştırın.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1621"/>
+        <location filename="../../ui/main_window.py" line="1622"/>
         <source>Guide: every page explained step by step, by category, with search. Help → Training guide opens it too.</source>
         <translation>Kılavuz: her sayfa adım adım, kategorilere ayrılmış ve aranabilir biçimde anlatılır. Yardım → Eğitim kılavuzu ile de açılır.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1626"/>
+        <location filename="../../ui/main_window.py" line="1627"/>
         <source>Tasks: long jobs run here in the background with their progress; you can keep working.</source>
         <translation>Görevler: uzun işler burada arka planda ilerlemeleriyle çalışır; siz çalışmaya devam edebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1631"/>
+        <location filename="../../ui/main_window.py" line="1632"/>
         <source>Menus: Image → Process for image operations, Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages.</source>
         <translation>Menüler: görüntü işlemleri için Görüntü → İşle, kendi araçlarınız için Eklentiler, dil, görünüm ve CPU/GPU için Ayarlar, bu tur ve eğitim sayfaları için Yardım.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1659"/>
+        <location filename="../../ui/main_window.py" line="1663"/>
+        <source>Installation and internet services</source>
+        <translation>Kurulum ve internet servisleri</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="1665"/>
+        <source>Everything works.</source>
+        <translation>Her şey çalışıyor.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="1668"/>
+        <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
+        <translation>Bazı denetimler başarısız (aşağıya bakın). Başarısız bir web servisi çoğu zaman ağdan ya da servisin kendisinden kaynaklanır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="1674"/>
+        <source>Checking the installation and the internet services…</source>
+        <translation>Kurulum ve internet servisleri denetleniyor…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="1679"/>
         <source>Folder for the practice data</source>
         <translation>Alıştırma verisi için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1665"/>
+        <location filename="../../ui/main_window.py" line="1685"/>
         <source>practice</source>
         <translation>alıştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1667"/>
+        <location filename="../../ui/main_window.py" line="1687"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Alıştırma verisi {f} içinde: Kılavuz&apos;daki &apos;İlk geceniz&apos; adımlarını izleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1686"/>
+        <location filename="../../ui/main_window.py" line="1706"/>
         <source>Could not check for updates: {e}</source>
         <translation>Güncellemeler denetlenemedi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1688"/>
+        <location filename="../../ui/main_window.py" line="1708"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>{v} sürümü çıktı (sizdeki: {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1689"/>
+        <location filename="../../ui/main_window.py" line="1709"/>
         <source>Open the download page</source>
         <translation>İndirme sayfasını aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1692"/>
+        <location filename="../../ui/main_window.py" line="1712"/>
         <source>You have the latest version ({c}).</source>
         <translation>En son sürümü kullanıyorsunuz ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1693"/>
+        <location filename="../../ui/main_window.py" line="1713"/>
         <source>Updates</source>
         <translation>Güncellemeler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1701"/>
+        <location filename="../../ui/main_window.py" line="1721"/>
         <source>About {app}</source>
         <translation>{app} hakkında</translation>
     </message>
@@ -3196,101 +3221,106 @@
     </message>
     <message>
         <location filename="../../ui/messages.py" line="113"/>
+        <source>checking</source>
+        <translation>denetleniyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="114"/>
         <source>simulating</source>
         <translation>benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="114"/>
+        <location filename="../../ui/messages.py" line="115"/>
         <source>photometry</source>
         <translation>fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="115"/>
+        <location filename="../../ui/messages.py" line="116"/>
         <source>quality</source>
         <translation>kalite</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="116"/>
+        <location filename="../../ui/messages.py" line="117"/>
         <source>catalogue</source>
         <translation>katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="117"/>
+        <location filename="../../ui/messages.py" line="118"/>
         <source>astrometry</source>
         <translation>astrometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="118"/>
+        <location filename="../../ui/messages.py" line="119"/>
         <source>fit</source>
         <translation>uydurma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="119"/>
+        <location filename="../../ui/messages.py" line="120"/>
         <source>trace</source>
         <translation>iz</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="120"/>
+        <location filename="../../ui/messages.py" line="121"/>
         <source>trace orders</source>
         <translation>sıraların izi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="121"/>
+        <location filename="../../ui/messages.py" line="122"/>
         <source>extraction</source>
         <translation>çıkarma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="122"/>
+        <location filename="../../ui/messages.py" line="123"/>
         <source>arc</source>
         <translation>ark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="123"/>
+        <location filename="../../ui/messages.py" line="124"/>
         <source>wavelength solution</source>
         <translation>dalga boyu çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="124"/>
+        <location filename="../../ui/messages.py" line="125"/>
         <source>downloading the template library</source>
         <translation>şablon kütüphanesi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="125"/>
+        <location filename="../../ui/messages.py" line="126"/>
         <source>comparing</source>
         <translation>karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="126"/>
+        <location filename="../../ui/messages.py" line="127"/>
         <source>disentangling</source>
         <translation>ayrıştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="127"/>
+        <location filename="../../ui/messages.py" line="128"/>
         <source>band math</source>
         <translation>bant hesabı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="128"/>
+        <location filename="../../ui/messages.py" line="129"/>
         <source>folder not found: {path}</source>
         <translation>klasör bulunamadı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="129"/>
+        <location filename="../../ui/messages.py" line="130"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>hedefin adını ya da koordinatlarını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="130"/>
+        <location filename="../../ui/messages.py" line="131"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>spektrografın ayırma gücünü girin: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="131"/>
+        <location filename="../../ui/messages.py" line="132"/>
         <source>the Sun</source>
         <translation>Güneş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="132"/>
+        <location filename="../../ui/messages.py" line="133"/>
         <source>first estimate</source>
         <translation>ilk tahmin</translation>
     </message>

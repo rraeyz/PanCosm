@@ -814,7 +814,7 @@ def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
     monkeypatch.setattr(QDialog, "exec", lambda self: 0)
     monkeypatch.setattr(QDesktopServices, "openUrl", staticmethod(lambda *a, **k: True))
     monkeypatch.setattr(subprocess, "Popen", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("no processes")))
-    skip = ("Quit", "Exit", "Restart", "Tour", "tour", "Check for updates")
+    skip = ("Quit", "Exit", "Restart", "Tour", "tour", "Check for updates", "installation")
     clicked = 0
     for key, (_, page) in window.workspaces.items():
         window.show_workspace(key)

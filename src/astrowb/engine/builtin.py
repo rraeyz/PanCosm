@@ -233,6 +233,16 @@ def image_rgb(inputs, params, ctx):
     return {"rgb": str(inputs["output"])}
 
 
+@step("app.check", outputs=("report", "ok"))
+def app_check(inputs, params, ctx):
+    """The installation (every module, library and data file) and every web service the application uses."""
+    from .. import selfcheck
+
+    ctx.progress(0.1, "checking")
+    results = selfcheck.offline() + selfcheck.online()
+    return {"report": selfcheck.report(results), "ok": all(ok for _, ok, _ in results)}
+
+
 @step("sample.night", inputs=("folder",), outputs=("truth",))
 def sample_night(inputs, params, ctx):
     """Practice data: a simulated night of an eclipsing binary with calibration frames (see the Guide)."""
