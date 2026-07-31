@@ -125,3 +125,42 @@ def test_marked_stars_stay_visible_on_a_zoomed_out_frame(qtbot):
     assert len(reticles) == 1 and reticles[0].isVisible()  # 4 px of 2048 shown in 400: under one screen pixel
     v.zoom(2 * RETICLE / (10 * abs(v.transform().m11())))  # the real outer ring now wider than the fixed one
     assert not reticles[0].isVisible()
+
+
+def test_eight_bit_pictures_are_not_shown_black_and_white():
+    """A night picture from a phone: the sky noise is below one 8-bit level, zscale alone gave a range one level
+    wide (two grey levels on screen). Now it shows the sky and the stars; 16-bit frames keep zscale exactly."""
+    import numpy as np
+
+    from astrowb import display
+
+    rng = np.random.default_rng(2)
+    yy, xx = np.mgrid[:300, :400]
+    sky = 300 + 20000 * np.exp(-((xx - 200) ** 2 + (yy - 150) ** 2) / 8) + rng.normal(0, 10, yy.shape)
+    eight = np.clip(sky / 80, 0, 255).astype(np.uint8).astype(np.float32)  # the sky is one level: 3
+    shown = display.to_display(eight)
+    assert len(np.unique(shown)) > 16
+    assert int(shown[150, 200]) - int(np.median(shown)) > 150 and np.median(shown) < 60  # white star, dark sky
+    sixteen = np.clip(sky, 0, 65535).astype(np.uint16).astype(np.float32)
+    from astropy.visualization import ZScaleInterval
+
+    assert display.display_limits(sixteen) == tuple(
+        float(v) for v in ZScaleInterval().get_limits(display._sample(sixteen))
+    )
+
+
+def test_thumbnail_of_a_gzipped_file_is_quick(tmp_path):
+    import time
+
+    import numpy as np
+    from astropy.io import fits
+
+    from astrowb.io.fits import thumbnail
+
+    img = np.random.default_rng(3).normal(300, 10, (1200, 1600)).astype(np.float32)
+    fits.PrimaryHDU(img).writeto(tmp_path / "a.fits")
+    fits.PrimaryHDU(img).writeto(tmp_path / "a.fits.gz")
+    t = time.perf_counter()
+    small = thumbnail(tmp_path / "a.fits.gz")
+    assert time.perf_counter() - t < 3  # row by row it took minutes
+    assert np.array_equal(small, thumbnail(tmp_path / "a.fits"))
