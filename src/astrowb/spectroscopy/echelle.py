@@ -203,11 +203,13 @@ def _fit_2d(x, m, mlam, deg_x, deg_m, xs, ms, clip=3.0):
     for _ in range(6):
         sol, *_ = np.linalg.lstsq(a[keep], mlam[keep], rcond=None)
         resid = (mlam - a @ sol) / m  # Angstrom
-        sd = np.std(resid[keep])
-        new = np.abs(resid) < clip * max(sd, 1e-6)
+        r = resid[keep]
+        scale = 1.4826 * np.median(np.abs(r - np.median(r)))  # robust: wrong pairs do not widen the clip
+        new = np.abs(resid) < clip * max(scale, 1e-6)
         if np.array_equal(new, keep) or new.sum() <= len(terms):
             break
         keep = new
+    sd = float(np.std(resid[keep]))
     c = np.zeros((deg_x + 1, deg_m + 1))
     for (i, j), s in zip(terms, sol, strict=True):
         c[i, j] = s
@@ -240,12 +242,16 @@ def solve_2d(peaks, orders, catalogue, guesses, deg_x=4, deg_m=3, clip=3.0, nx=N
     xs = (nx / 2, nx / 2)
     ms = (orders.mean(), max(np.ptp(orders) / 2, 1.0))
 
+    # a catalogue line with a neighbour closer than twice the tolerance is ambiguous: a dense list (ThAr has a
+    # line every ~2 A) otherwise lets wrong pairs into the fit, which then drifts by tenths of an Angstrom
+    gap = np.minimum(np.diff(catalogue, prepend=-np.inf), np.diff(catalogue, append=np.inf))
+
     def match(sol, tol, window):
         pred = sol(all_x, all_m)
         idx = np.clip(np.searchsorted(catalogue, pred), 1, len(catalogue) - 1)
         near = np.where(np.abs(catalogue[idx - 1] - pred) < np.abs(catalogue[idx] - pred), idx - 1, idx)
         dist = np.abs(catalogue[near] - pred)
-        ok = (dist < tol) & window
+        ok = (dist < tol) & (gap[near] > 2 * tol) & window
         key = near * 10000 + all_m.astype(int)  # one peak per catalogue line and order: the closest
         for k in np.unique(key[ok]):
             same = ok & (key == k)
@@ -265,16 +271,22 @@ def solve_2d(peaks, orders, catalogue, guesses, deg_x=4, deg_m=3, clip=3.0, nx=N
     sol = EchelleSolution(c, xs, ms, 0.0, len(g), orders)
     disp = abs(float(np.diff(sol(np.array([nx / 2, nx / 2 + 1]), orders.mean()))[0]))
     tol = 2 * disp
-    # matching starts between the identified lines, where the first solution is good, and grows outwards
+    # matching starts between the identified lines, where the first solution is good, and grows outwards: along
+    # the orders and across them (a solution from three orders does not reach forty)
     lo, hi = g[:, 1].min(), g[:, 1].max()
+    m_lo, m_hi = g[:, 0].min() - 1, g[:, 0].max() + 1
     while True:
-        near, ok = match(sol, tol, (all_x >= lo) & (all_x <= hi))
+        near, ok = match(sol, tol, (all_x >= lo) & (all_x <= hi) & (all_m >= m_lo) & (all_m <= m_hi))
+        n_m = len(np.unique(all_m[ok]))
         dx = int(min(deg_x, max(1, ok.sum() // 10)))
-        dm = int(min(deg_m, len(orders) - 1, max(1, ok.sum() // 30)))
+        # few terms in m while few orders are matched: a cubic in m from a handful of orders runs off in the next
+        dm = int(min(deg_m, n_m - 1, 1 if n_m < 12 else 2 if n_m < 25 else deg_m))
         sol, keep, sd = fit(near, ok, dx, dm)
-        if lo <= all_x.min() and hi >= all_x.max():
+        tol = min(tol, max(4 * sd, disp))  # tighter as the solution improves, never below a pixel
+        if lo <= all_x.min() and hi >= all_x.max() and m_lo <= orders.min() and m_hi >= orders.max():
             break
         lo, hi = lo - 0.15 * nx, hi + 0.15 * nx
+        m_lo, m_hi = m_lo - 1, m_hi + 1  # one order at a time: each new order is predicted from its neighbour
     everywhere = np.ones(len(all_x), bool)
     for _ in range(3):  # final passes over all lines with a tightened tolerance and the full degrees
         near, ok = match(sol, max(3 * sd, 0.3 * disp), everywhere)

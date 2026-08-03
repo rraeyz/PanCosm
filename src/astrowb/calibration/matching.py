@@ -96,21 +96,22 @@ def make_plan(frames: list[Frame], temp_tol=TEMP_TOL) -> Plan:
     for f in frames:
         if f.kind == "unknown":
             plan.unknown.append(f.path)
-        elif f.kind != "light":
+        elif f.kind not in ("light", "arc"):  # masters are made of bias, darks and flats only
             groups[group_key(f)].append(f)
     plan.groups = {k: [f.path for f in v] for k, v in groups.items()}
     by_kind = defaultdict(list)
     for members in groups.values():
         by_kind[members[0].kind].append(members[0])  # representative frame of each group
     have_bias = bool(by_kind["bias"])
-    for light in (f for f in frames if f.kind == "light"):
+    for light in (f for f in frames if f.kind in ("light", "arc")):
         entry = {"light": light.path}
         b = best_bias(light, by_kind["bias"])
         d = best_dark(light, by_kind["dark"], temp_tol, can_scale=lambda _: have_bias)
-        f = best_flat(light, by_kind["flat"])
-        for kind, match in (("bias", b), ("dark", d), ("flat", f)):
+        f = best_flat(light, by_kind["flat"]) if light.kind == "light" else None  # a lamp is never flat-fielded
+        entry["flat"] = None
+        for kind, match in (("bias", b), ("dark", d)) + ((("flat", f),) if light.kind == "light" else ()):
             entry[kind] = group_key(match) if match else None
-            if match is None:
+            if match is None and light.kind == "light":  # a lamp's line positions do not need its dark
                 plan.missing.append((light.path, kind, _why(light, temp_tol)))
         plan.lights.append(entry)
     return plan

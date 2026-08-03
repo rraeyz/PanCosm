@@ -49,7 +49,7 @@ def _frames(dicts):
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
-    outputs=("masters", "calibrated", "missing", "failed_masters"),
+    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs"),
     sigma=3.0,
     temp_tol=2.0,
     cosmic_rays=False,
@@ -109,7 +109,8 @@ def _run(inputs, params, ctx):
         name = f"master_{kinds[key]}_{n:02d}.fits"
         built[key] = (data, h, masters.save(out / "masters" / name, data, h))
 
-    calibrated, defect_maps = [], {}
+    calibrated, arcs, defect_maps = [], [], {}
+    lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
     lights = plan.lights
     for n, entry in enumerate(lights):
         ctx.check()
@@ -156,9 +157,16 @@ def _run(inputs, params, ctx):
             h = bayer.channel_header(header, pattern, colour) if pattern else header
             if params["cosmic_rays"]:
                 plane = _remove_cosmic_rays(plane, h, params["read_noise"])
-            calibrated.append(masters.save(out / f"{stem}{'_' + colour if colour else ''}.fits", plane, h))
+            saved = masters.save(out / f"{stem}{'_' + colour if colour else ''}.fits", plane, h)
+            (arcs if entry["light"] in lamps else calibrated).append(saved)
     written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
-    return {"masters": written, "calibrated": calibrated, "missing": plan.missing, "failed_masters": failed}
+    return {
+        "masters": written,
+        "calibrated": calibrated,
+        "missing": plan.missing,
+        "failed_masters": failed,
+        "arcs": arcs,
+    }
 
 
 def _remove_cosmic_rays(data, header, read_noise):
