@@ -313,3 +313,13 @@ def test_spectra_are_not_divided_by_the_flat(night, tmp_path):
     sky = fits.getdata(tmp_path / "cal" / "light_0.fits")
     quiet = stars < 1
     assert np.median(sky[quiet] / (SKY * flat[quiet])) == pytest.approx(1.0, abs=0.02)  # bias and dark only
+
+
+def test_dead_flat_pixels_become_nan_not_huge():
+    """A real master flat (Palomar LFC) has dead columns at 1e-5 of the median: dividing gave values of 1e8."""
+    light = np.full((20, 30), 1000.0, np.float32)
+    flat = np.ones((20, 30), np.float32)
+    flat[:, 5] = 2e-5  # dead column
+    flat[3, 7] = 0.3  # deep vignetting is still light
+    out = masters.calibrate(light, 10.0, flat=flat)
+    assert np.isnan(out[:, 5]).all() and np.nanmax(out) == pytest.approx(1000 / 0.3, rel=1e-5)

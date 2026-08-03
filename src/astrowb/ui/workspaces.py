@@ -1012,11 +1012,21 @@ class CalibratePage(QWidget):
     def _stack(self):
         """One stack per filter (a colour camera's R, G, B channels are filters TR, TG, TB): frames taken through
         different filters must never be combined."""
-        self.result.setText(self.tr("Stacking…"))
         name = "drizzle" if self.drizzle.isChecked() else "stack"
         groups = by_filter(self.calibrated)
+        single = [filt or "—" for filt, paths in groups.items() if len(paths) < 2]
+        self.result.setText(
+            self.tr("Stacking…")
+            + (
+                " " + self.tr("Only one frame through {f}: nothing to stack.").format(f=", ".join(single))
+                if single
+                else ""
+            )
+        )
         for filt, paths in groups.items():
-            suffix = f"_{re.sub(r'[^A-Za-z0-9.+-]', '_', filt)}" if len(groups) > 1 else ""
+            if len(paths) < 2:
+                continue
+            suffix = f"_{re.sub(r'[^A-Za-z0-9.+-]+', '_', filt).strip('_')}" if len(groups) > 1 else ""
             params = {"drizzle": True} if self.drizzle.isChecked() else self.stack_params()
             self.stack_requested.emit(paths, str(Path(self.output.text()) / f"{name}{suffix}.fits"), params)
 

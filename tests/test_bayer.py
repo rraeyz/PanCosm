@@ -145,7 +145,7 @@ def test_calibrate_page_stacks_each_filter_apart(qtbot, tmp_path):
     from astrowb.ui.workspaces import CalibratePage
 
     paths = []
-    for i, f in enumerate(["TR", "TG", "TB", "TR", "TG", "TB"]):
+    for i, f in enumerate(["TR", "TG", "TB", "TR", "TG", "TB", "g'", "g'", "i'"]):
         p = tmp_path / f"c{i}.fits"
         fits.PrimaryHDU(np.zeros((4, 4), np.float32), fits.Header({"FILTER": f})).writeto(p)
         paths.append(str(p))
@@ -156,5 +156,6 @@ def test_calibrate_page_stacks_each_filter_apart(qtbot, tmp_path):
     got = []
     page.stack_requested.connect(lambda imgs, out, params: got.append((len(imgs), Path(out).name)))
     page._stack()
-    assert got == [(2, "stack_TR.fits"), (2, "stack_TG.fits"), (2, "stack_TB.fits")]
+    assert got == [(2, "stack_TR.fits"), (2, "stack_TG.fits"), (2, "stack_TB.fits"), (2, "stack_g.fits")]
+    assert "Only one frame through i'" in page.result.text()  # one frame is not a stack (Palomar night)
     assert page.split_colour.isChecked() and page.clock_offset.value() == 0
