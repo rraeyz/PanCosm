@@ -76,12 +76,16 @@ class CalibrationError(ValueError):
 
 
 def section(text):
-    """A FITS / IRAF section '[x1:x2,y1:y2]' (1-based, inclusive) as numpy (row, column) slices, or None."""
-    m = re.fullmatch(r"\s*\[\s*(\d+)\s*:\s*(\d+)\s*,\s*(\d+)\s*:\s*(\d+)\s*\]\s*", str(text))
+    """A FITS / IRAF section '[x1:x2,y1:y2]' (1-based, inclusive) as numpy (row, column) slices, or None. An axis
+    written '*' or ':' is the whole axis (MaxIm DL writes TRIMSEC '[1:4096, :]'); a section with one axis only
+    ('[4096:4109]') says nothing about the other and is not used."""
+    axis = r"\s*(?:(\d+)\s*:\s*(\d+)|\*|:)\s*"
+    m = re.fullmatch(rf"\s*\[{axis},{axis}\]\s*", str(text))
     if not m:
         return None
-    x1, x2, y1, y2 = map(int, m.groups())
-    return slice(min(y1, y2) - 1, max(y1, y2)), slice(min(x1, x2) - 1, max(x1, x2))
+    x1, x2, y1, y2 = (None if v is None else int(v) for v in m.groups())
+    rows = slice(None) if y1 is None else slice(min(y1, y2) - 1, max(y1, y2))
+    return rows, slice(None) if x1 is None else slice(min(x1, x2) - 1, max(x1, x2))
 
 
 def overscan_level(strip, over, trim, order=3, clip=3.0):
@@ -133,8 +137,12 @@ def _layout(hdu):
     0 or an array that broadcasts over the trimmed frame (see overscan_level)."""
     h = hdu.header
     ny, nx = hdu.shape[-2:]
-    trim = section(h.get("TRIMSEC", h.get("DATASEC", ""))) or (slice(0, ny), slice(0, nx))
-    over = section(h.get("BIASSEC", ""))
+
+    def whole(sec):  # "the whole axis" made concrete: the code below reads .start and .stop
+        return sec and (slice(*sec[0].indices(ny)[:2]), slice(*sec[1].indices(nx)[:2]))
+
+    trim = whole(section(h.get("TRIMSEC", h.get("DATASEC", "")))) or (slice(0, ny), slice(0, nx))
+    over = whole(section(h.get("BIASSEC", "")))
     level = overscan_level(_linear(np.asarray(hdu.section[over], np.float32)), over, trim) if over else np.float32(0.0)
     return trim[0], trim[1], level
 

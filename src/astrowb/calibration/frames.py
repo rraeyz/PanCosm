@@ -75,7 +75,9 @@ def read_frame(path: Path) -> Frame:
         from ..io.bayer import fits_copy
 
         return read_frame(fits_copy(path))
-    readout = "/".join(f"{k}={h[k]}" for k in ("GAIN", "EGAIN", "OFFSET", "READOUTM", "READMODE") if k in h)
+    mode = h.get("READOUTM", h.get("READMODE"))  # the same setting under two names (MaxIm writes both to lights)
+    settings = {"GAIN": h.get("GAIN"), "EGAIN": h.get("EGAIN"), "OFFSET": h.get("OFFSET"), "MODE": mode}
+    readout = "|".join(f"{k}={v}" for k, v in settings.items() if v is not None)
     filt = _first(h, "FILTER", "FILTER1", "FILTNAME", "FILTERS")
     return Frame(
         path=str(path),

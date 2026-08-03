@@ -19,8 +19,15 @@ from .frames import Frame
 TEMP_TOL = 2.0  # deg C
 
 
+def _settings_agree(a: str, b: str) -> bool:
+    """Gain, offset and read-out mode agree where both headers state them: a setting one program does not
+    write is no conflict (the real night's lights had READMODE, its bias, darks and flats did not)."""
+    da, db = (dict(part.split("=", 1) for part in s.split("|") if part) for s in (a, b))
+    return all(da[k] == db[k] for k in da.keys() & db.keys())
+
+
 def _compatible(a: Frame, b: Frame) -> bool:
-    return a.shape == b.shape and a.binning == b.binning and a.readout == b.readout
+    return a.shape == b.shape and a.binning == b.binning and _settings_agree(a.readout, b.readout)
 
 
 def _temp_diff(a, b):
