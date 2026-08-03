@@ -214,9 +214,15 @@ def _is_cube(path):
         return int(hdul[find_image_hdu(hdul)].header.get("NAXIS", 2)) > 2
 
 
-def fits_copy(path, clock_utc_offset_h=0.0):
+CLOCK_UTC_OFFSET_H = 0.0  # camera clock - UTC for files opened in the interface (set from the user's settings)
+
+
+def fits_copy(path, clock_utc_offset_h=None):
     """The file itself when it is FITS; for a camera raw file or a picture, a FITS copy in fits_from_raw next to
-    it (made once, kept while the original is unchanged), so every tool can work on it."""
+    it (made once, kept while the original is unchanged), so every tool can work on it. The time is the camera
+    clock minus clock_utc_offset_h (default: CLOCK_UTC_OFFSET_H)."""
+    if clock_utc_offset_h is None:
+        clock_utc_offset_h = CLOCK_UTC_OFFSET_H
     path = Path(path)
     cube = is_fits(path) and _is_cube(path)
     if is_fits(path) and not cube:
@@ -249,7 +255,7 @@ def fits_copy(path, clock_utc_offset_h=0.0):
     return target
 
 
-def fits_paths(paths, clock_utc_offset_h=0.0):
+def fits_paths(paths, clock_utc_offset_h=None):
     """FITS paths for a selection of files of any kind (see fits_copy); a file that cannot be read is left out
     with a warning instead of stopping the rest."""
     import warnings

@@ -1667,9 +1667,12 @@ class PhotometryPage(QWidget):
             pass
         if sky is not None and not self.coord.text():
             self.coord.setText(sky.to_string("hmsdms", sep=":", precision=1))
-        self.images_label.setText(
-            self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
-        )
+        text = self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
+        if "DATE-CAM" in header:  # a phone or camera picture: its time is the camera clock, often local time
+            text += "\n" + self.tr(
+                "Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC on the Calibrate page."
+            ).format(h=f"{header.get('CLKOFFS', 0):g}")
+        self.images_label.setText(text)
         self._clear()
 
     def _clicked(self, x, y):
