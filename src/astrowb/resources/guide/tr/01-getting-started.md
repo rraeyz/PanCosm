@@ -34,6 +34,7 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 - **Görevler paneli (alt):** her uzun iş (kalibrasyon, fotometri, fit, tayf…) arka planda kendi sürecinde çalışır. Panel ilerlemesini ve durumunu gösterir (sırada, çalışıyor, bitti, başarısız, iptal). Görevler çalışırken çalışmaya devam edebilirsiniz; çöken bir görev pencereyi düşürmez.
 - **Durum çubuğu:** görüntü açıkken farenin altındaki pikselin değeri ve gök koordinatları; görevler çalışırken ilerleme çubuğu.
 - **Menüler:** Dosya (projeler, FITS), Görünüm (yakınlaştırma ve görüntü germe), Görüntü (plaka çözümü, işlemler), Eklentiler, Ayarlar ve Yardım.
+- **Geri al ve ileri al:** Düzen → Geri al (Ctrl+Z) gösterilen sayfadaki son değişikliği geri alır — işaretlenen ya da kaldırılan bir yıldız, silinen noktalar, bir detrend, atılan aykırı noktalar, bir görüntü işlemi, bir başlık değişikliği, tanımlanan ya da dışlanan bir ark çizgisi — Düzen → İleri al (Ctrl+Y ya da Ctrl+Shift+Z) adım adım yeniden yapar. Menü, adımın adını gösterir. Bir metin alanında Ctrl+Z o alandaki yazmayı geri alır.
 
 ## Başlangıç sayfası
 Elinizde ne varsa oradan başlayın:

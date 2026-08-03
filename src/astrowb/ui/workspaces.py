@@ -41,6 +41,7 @@ from PySide6.QtWidgets import (
 from ..brand import BRAND
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
+from .undo import Undoable
 from .viewer import ImageViewer
 
 
@@ -108,7 +109,7 @@ class StartPage(QWidget):
         lay.addStretch(1)
 
 
-class ImagePage(QWidget):
+class ImagePage(Undoable, QWidget):
     """Image viewer with its FITS header and the measuring tools of an image-information window: a star's counts
     in an aperture, the counts in a rectangle, the pixels along a line, with their graphs."""
 
@@ -118,6 +119,7 @@ class ImagePage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         from PySide6.QtWidgets import QButtonGroup
 
         self.header, self.wcs, self.graph, self._graph_data, self._area = None, None, None, None, None
@@ -385,6 +387,30 @@ class ImagePage(QWidget):
         win.raise_()
 
     # --- state ------------------------------------------------------------
+    def undo_state(self):
+        win = self.window()
+        path = getattr(win, "current_path", None)
+        return {
+            "path": None if path is None else str(path),
+            "set": {k: list(v) for k, v in self.header_set.items()},
+            "delete": list(self.header_delete),
+        }
+
+    def set_undo_state(self, st):
+        """The image that was shown (an operation taken back) and its header changes not yet saved."""
+        win = self.window()
+        current = getattr(win, "current_path", None)
+        if st["path"] and str(current) != st["path"] and hasattr(win, "open_fits"):
+            win.open_fits(Path(st["path"]))
+        elif self.header is not None and hasattr(win, "_show_header"):
+            win._show_header(self.header)  # the file's own header, then the changes of that state
+        self.header_set, self.header_delete = {}, []
+        for key, (value, comment) in st["set"].items():
+            self.set_keyword(key, value, comment)
+        for key in st["delete"]:
+            self.delete_keyword(key)
+        self._header_changed()
+
     def set_header(self, header, wcs=None):
         self.header, self.wcs = header, wcs
         self.header_set, self.header_delete = {}, []
@@ -431,7 +457,7 @@ class ImagePage(QWidget):
     def delete_selected_keyword(self):
         row = self.header_table.currentRow()
         if row >= 0:
-            self.delete_keyword(self.header_table.item(row, 0).text())
+            self.edit(self.tr("delete a keyword"), self.delete_keyword, self.header_table.item(row, 0).text())
 
     def edit_keyword_dialog(self):
         from ..io.fits import parse_value
@@ -450,7 +476,8 @@ class ImagePage(QWidget):
         buttons.rejected.connect(dlg.reject)
         form.addRow(buttons)
         if dlg.exec() == QDialog.Accepted:
-            self.set_keyword(edits[0].text(), parse_value(edits[1].text()), edits[2].text().strip())
+            value = parse_value(edits[1].text())
+            self.edit(self.tr("change a keyword"), self.set_keyword, edits[0].text(), value, edits[2].text().strip())
 
     def _header_changed(self):
         n = len(self.header_set) + len(self.header_delete)
@@ -1207,7 +1234,7 @@ class PlotCanvas(QWidget):
         return save_publication(self.figure, path) if path else None
 
 
-class PhotometryPage(QWidget):
+class PhotometryPage(Undoable, QWidget):
     """Pick target and comparison stars on the first image, measure, plot, time the minimum."""
 
     measure_requested = Signal(list, list, list, str, dict)  # images, target_xy, comps_xy, coord, params
@@ -1221,6 +1248,7 @@ class PhotometryPage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.images, self.target, self.comps, self.light_curve = [], None, [], None
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
@@ -1272,7 +1300,7 @@ class PhotometryPage(QWidget):
         role_row.addWidget(self.click_role, 1)
         side.addLayout(role_row)
         clear = QPushButton(self.tr("Clear stars"), self)
-        clear.clicked.connect(self._clear)
+        clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
         side.addWidget(clear)
         self.suggest_button = QPushButton(self.tr("Suggest comparison stars"), self)
         self.suggest_button.setEnabled(False)
@@ -1694,8 +1722,29 @@ class PhotometryPage(QWidget):
             ).format(h=f"{header.get('CLKOFFS', 0):g}")
         self.images_label.setText(text)
         self._clear()
+        self.undo_stack.clear()  # stars marked on other frames: their history goes with them
+
+    def undo_state(self):
+        return {
+            "target": self.target,
+            "comps": list(self.comps),
+            "extras": list(self.extras),
+            "excluded": sorted(self.excluded),
+            "detrend": self.detrend_cfg,
+        }
+
+    def set_undo_state(self, st):
+        self.target, self.comps, self.extras = st["target"], list(st["comps"]), list(st["extras"])
+        self._draw_markers()
+        if (set(st["excluded"]), st["detrend"]) != (self.excluded, self.detrend_cfg):
+            self.excluded, self.detrend_cfg = set(st["excluded"]), st["detrend"]
+            if self.lc_raw is not None:
+                self._recompute()
 
     def _clicked(self, x, y):
+        self.edit(self.tr("mark or unmark a star"), self._mark, x, y)
+
+    def _mark(self, x, y):
         near = [xy for _, _, xy in self._star_names() if (xy[0] - x) ** 2 + (xy[1] - y) ** 2 <= self.r_ap.value() ** 2]
         if near:  # a click on a marked star takes it off again, instead of marking it twice
             xy = near[0]
@@ -1790,7 +1839,10 @@ class PhotometryPage(QWidget):
         self.suggest_button.setEnabled(bool(self.images and self.target))
 
     def set_comparisons(self, comps):
-        self.comps = [tuple(c) for c in comps]
+        self.edit(self.tr("suggested comparison stars"), self._set_comps, [tuple(c) for c in comps])
+
+    def _set_comps(self, comps):
+        self.comps = comps
         self._draw_markers()
         if not comps:
             self.result.setText(self.tr("No suitable comparison star found; click them by hand."))
@@ -2154,11 +2206,13 @@ class PhotometryPage(QWidget):
 
     def delete_point(self, i):
         """Leave out the i-th point of the light curve now shown (and its frame from every result)."""
-        self.excluded.add(self._frame_ids[i])
-        self._recompute()
+        self.edit(self.tr("delete a point"), self._exclude, self.excluded | {self._frame_ids[i]})
 
     def restore_points(self):
-        self.excluded = set()
+        self.edit(self.tr("restore deleted points"), self._exclude, set())
+
+    def _exclude(self, frames):
+        self.excluded = frames
         self._recompute()
 
     def _detrend(self):
@@ -2187,6 +2241,9 @@ class PhotometryPage(QWidget):
         self._set_detrend((names, exclude, self.trend_degree.value()))
 
     def _set_detrend(self, cfg):
+        self.edit(self.tr("detrending") if cfg else self.tr("undo detrending"), self._apply_detrend, cfg)
+
+    def _apply_detrend(self, cfg):
         from .messages import translate
 
         old, self.detrend_cfg = self.detrend_cfg, cfg
@@ -2524,7 +2581,7 @@ class OCPage(QWidget):
         return f
 
 
-class PeriodPage(QWidget):
+class PeriodPage(Undoable, QWidget):
     """Period search on a light curve (from the Photometry page or a CSV file) and phase folding."""
 
     search_requested = Signal(list, list, dict)  # time, flux, params
@@ -2532,6 +2589,7 @@ class PeriodPage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.time, self.flux, self.best, self.periodogram = None, None, None, None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
@@ -2591,19 +2649,19 @@ class PeriodPage(QWidget):
         self.clip_sigma.setRange(1.0, 20.0)
         self.clip_sigma.setValue(4.0)
         clip = QPushButton(self.tr("Remove outliers (σ)"), self)
-        clip.clicked.connect(self._clip)
+        clip.clicked.connect(lambda: self.edit(self.tr("remove outliers"), self._clip))
         self.bin_minutes = QDoubleSpinBox(self)
         self.bin_minutes.setRange(0.1, 10000)
         self.bin_minutes.setValue(5.0)
         binb = QPushButton(self.tr("Bin in time (min)"), self)
-        binb.clicked.connect(self._bin)
+        binb.clicked.connect(lambda: self.edit(self.tr("bin in time"), self._bin))
         self.delete_mode = QPushButton(self.tr("Delete points by clicking"), self)
         self.delete_mode.setCheckable(True)
         self.delete_mode.setToolTip(self.tr("Click a point on the light-curve plot to remove it"))
         units = QPushButton(self.tr("Flux ↔ magnitude"), self)
-        units.clicked.connect(self._convert)
+        units.clicked.connect(lambda: self.edit(self.tr("flux / magnitude"), self._convert))
         undo = QPushButton(self.tr("Undo edits"), self)
-        undo.clicked.connect(self._undo)
+        undo.clicked.connect(lambda: self.edit(self.tr("undo edits"), self._undo))
         edit.addWidget(clip, 0, 0)
         edit.addWidget(self.clip_sigma, 0, 1)
         edit.addWidget(binb, 1, 0)
@@ -2635,9 +2693,19 @@ class PeriodPage(QWidget):
             self.source.setText(self.tr("Downloading from {source}…").format(source=source))
             self.archive_requested.emit(self.archive_target.text().strip(), self.mission.currentText())
 
+    def undo_state(self):
+        return {"time": self.time, "flux": self.flux, "mag": self.magnitudes, "source": self.source.text()}
+
+    def set_undo_state(self, st):
+        self.time, self.flux, self.magnitudes = st["time"], st["flux"], st["mag"]
+        self.source.setText(st["source"])
+        self.search_button.setEnabled(bool(self.time) and len(self.time) > 10)
+        self._plot_light_curve()
+
     def set_light_curve(self, time, flux, label, keep_original=False):
         self.time, self.flux = list(time), list(flux)
         if not keep_original:
+            self.undo_stack.clear()  # another star: the edits of the last one do not apply
             self.original, self.magnitudes, self.label = (self.time, self.flux), False, label
             self.best = None  # a new star: the old period does not apply
         self.source.setText(self.tr("{n} points from {source}").format(n=len(self.time), source=label))
@@ -2685,7 +2753,9 @@ class PeriodPage(QWidget):
         d = np.hypot((x - event.xdata) / (x1 - x0), (y - event.ydata) / (y1 - y0))
         i = int(np.argmin(d))
         if d[i] < 0.02:
-            self._edited(np.delete(t, i), np.delete(y, i), self.tr("points deleted"))
+            self.edit(
+                self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted")
+            )
 
     def _t0(self):
         t, f = np.asarray(self.time), np.asarray(self.flux)

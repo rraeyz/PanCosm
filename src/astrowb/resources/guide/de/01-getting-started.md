@@ -34,6 +34,7 @@ Eine vollständige Übung mit simulierten Daten, deren Lösung bekannt ist: von 
 - **Aufgabenbereich (unten):** Jede lange Arbeit (Kalibrierung, Photometrie, Anpassungen, Spektren…) läuft im Hintergrund in einem eigenen Prozess. Der Bereich zeigt Fortschritt und Zustand (wartend, läuft, fertig, fehlgeschlagen, abgebrochen). Sie können weiterarbeiten, während Aufgaben laufen, und eine abstürzende Aufgabe reißt nie das Fenster mit.
 - **Statusleiste:** Pixelwert und Himmelskoordinaten unter der Maus, wenn ein Bild offen ist, und ein Fortschrittsbalken, während Aufgaben laufen.
 - **Menüs:** Datei (Projekte, FITS), Ansicht (Zoom und Darstellungsstreckung), Bild (astrometrische Lösung, Bearbeitung), Plugins, Einstellungen und Hilfe.
+- **Rückgängig und Wiederholen:** Bearbeiten → Rückgängig (Strg+Z) nimmt die letzte Änderung auf der gezeigten Seite zurück — ein markierter oder entfernter Stern, gelöschte Punkte, eine Trendbereinigung, entfernte Ausreißer, eine Bildoperation, eine Header-Änderung, eine identifizierte oder ausgelassene Bogenlinie — und Bearbeiten → Wiederholen (Strg+Y oder Strg+Umschalt+Z) stellt sie Schritt für Schritt wieder her. Das Menü nennt den Schritt. In einem Textfeld macht Strg+Z die Eingabe in diesem Feld rückgängig.
 
 ## Die Startseite
 Beginnen Sie mit dem, was Sie haben:

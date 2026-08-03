@@ -34,6 +34,7 @@ A complete exercise with simulated data whose answer is known: from raw frames t
 - **Tasks panel (bottom):** every long job (calibration, photometry, fits, spectra…) runs in the background in its own process. The panel shows its progress and state (queued, running, done, failed, cancelled). You can keep working while tasks run, and a crashing task never takes the window down.
 - **Status bar:** the pixel value and sky coordinates under the mouse when an image is open, and a progress bar while tasks run.
 - **Menus:** File (projects, FITS), View (zoom and display stretch), Image (plate solving, processing), Plugins, Settings and Help.
+- **Undo and redo:** Edit → Undo (Ctrl+Z) takes back the last change on the page shown — a star marked or removed, points deleted, a detrending, outliers removed, an image operation, a header change, an arc line identified or left out — and Edit → Redo (Ctrl+Y or Ctrl+Shift+Z) does it again, step by step. The menu names the step. In a text field Ctrl+Z undoes the typing in that field.
 
 ## The Start page
 Start from what you have:
