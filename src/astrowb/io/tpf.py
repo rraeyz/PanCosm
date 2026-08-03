@@ -87,6 +87,7 @@ def frames(path) -> list[str]:
         h["GAIN"] = (1.0, "the pixels are electrons")
         h["IMAGETYP"] = "Light Frame"
         h["TPFROW"] = (int(rows[i]), "row of the target pixel file")
+        h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")
         h["BJD_TDB"] = (float(bjd[i].jd), "mid-exposure time from the archive")
         name = f"{path.name.split('.fits')[0]}_{int(rows[i]):06d}.fits"
         fits.PrimaryHDU(np.nan_to_num(flux[i] * np.float32(exptime), nan=0.0), h).writeto(folder / name, overwrite=True)

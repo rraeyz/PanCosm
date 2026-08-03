@@ -54,6 +54,7 @@ def test_a_target_pixel_file_becomes_frames_with_the_archive_times(tmp_path):
     back = timing.bjd_tdb(timing.mid_time(h), target_coord(h)).jd
     assert abs(back - bjd[11]) * 86400 < 0.001  # the application's BJD_TDB is the archive's
     assert h["EXPTIME"] == pytest.approx(1800 * 0.792) and h["CTYPE1"] == "RA---TAN"
+    assert h["TPFSKIP"] == 1  # the flagged cadence, told to the user on the Photometry page
     assert str(bayer.fits_copy(path)) == frames[0]  # opened as one image: its first good cadence
 
 

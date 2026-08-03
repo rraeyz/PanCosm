@@ -358,6 +358,7 @@ def rv_step(inputs, params, ctx):
             "bjd": None,
             "v_corr": None,
             "rv": None,
+            "site": None,  # where the barycentric correction was computed for, shown to the user
         } | r2
         try:
             t = timing.mid_time(h)
@@ -368,6 +369,12 @@ def rv_step(inputs, params, ctx):
                 row["bjd"] = timing.bjd_tdb(t, sky, where).jd
                 if where is not None:
                     row["v_corr"] = rv.barycentric_correction(t, sky, where)
+                    geo = where.to_geodetic()
+                    row["site"] = {
+                        "lat": float(geo.lat.deg),
+                        "lon": float(geo.lon.deg),
+                        "from": "plan" if site is not None else "header",
+                    }
                     row["rv"] = rv.to_barycentric(r["rv"], row["v_corr"])
                     if r2:
                         row["rv2"] = rv.to_barycentric(r2["rv2_obs"], row["v_corr"])
