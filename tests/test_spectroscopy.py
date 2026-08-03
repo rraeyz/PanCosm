@@ -215,6 +215,17 @@ def test_reduce_rv_orbit_steps(frames, tmp_path):
         )["rvs"][0]
     assert abs(r["rv_obs"] - V_TRUE) < 3 * r["rv_err"] + 0.5
     assert r["v_corr"] is not None and abs(r["rv"] - (r["rv_obs"] + r["v_corr"])) < 0.01
+    with fits.open(spec["path"], mode="update") as hdul:  # the site in the spectrum's own header (TOFES)
+        hdul[0].header["LATITUDE"], hdul[0].header["LONGITUD"] = 36.82, (30.34, "[deg] Longitude (E+)")
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        own = steps.execute(
+            "spectroscopy.rv",
+            {"spectra": [spec["path"]], "template": str(tmp_path / "template.fits")},
+            {"v_min": -200, "v_max": 200},
+            Ctx(),
+        )["rvs"][0]
+    assert own["v_corr"] == pytest.approx(r["v_corr"], abs=0.01)  # it was 'not applied' without the Plan page
     with pytest.raises(ValueError, match="period guess"):
         steps.execute("spectroscopy.orbit", {"time": [1, 2, 3], "rv": [1, 2, 3]}, {}, Ctx())
 

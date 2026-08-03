@@ -363,10 +363,11 @@ def rv_step(inputs, params, ctx):
             t = timing.mid_time(h)
             sky = target_coord(h, inputs.get("coord"))
             row["time_jd"] = t.utc.jd
+            where = site if site is not None else timing.location(h)  # the Plan page's site, else the header
             if sky is not None:
-                row["bjd"] = timing.bjd_tdb(t, sky, site).jd
-                if site is not None:
-                    row["v_corr"] = rv.barycentric_correction(t, sky, site)
+                row["bjd"] = timing.bjd_tdb(t, sky, where).jd
+                if where is not None:
+                    row["v_corr"] = rv.barycentric_correction(t, sky, where)
                     row["rv"] = rv.to_barycentric(r["rv"], row["v_corr"])
                     if r2:
                         row["rv2"] = rv.to_barycentric(r2["rv2_obs"], row["v_corr"])

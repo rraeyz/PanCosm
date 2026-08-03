@@ -64,19 +64,32 @@ def _normalise(wave, flux, order=5):
 
 
 def classify(wave, flux, library, fwhm=None, top=5):
-    """[(spectral type, rms, path)] best first. fwhm: resolution of the observed spectrum in A (default:
-    two pixels, at least the library's 5 A)."""
+    """[(spectral type, rms, path)] best first. fwhm: resolution of the observed spectrum in A (default: two
+    pixels). Both spectra are compared at the coarser of it and the library's 5 A, each divided by its local
+    continuum, where the star's signal is clear."""
     from scipy.ndimage import gaussian_filter1d
 
     wave, flux = np.asarray(wave, float), np.asarray(flux, float)
     ok = np.isfinite(wave) & np.isfinite(flux)
     wave, flux = wave[ok], flux[ok]
     step = float(np.median(np.diff(wave)))
-    fwhm = fwhm or max(5.0, 2 * step)
+    # only where the star dominates: a short exposure of a red star is noise around zero in the blue (a merged
+    # echelle spectrum of Arcturus went from -400 to +1000 there), and the continuum fit then follows the noise
+    from scipy.ndimage import median_filter
+
+    level = median_filter(flux, size=max(5, int(50 / step)) | 1)  # the 50 A running median
+    strong = (flux > 0) & (level > 0.2 * np.nanpercentile(level, 90))
+    if strong.sum() < 50:
+        raise ValueError("the spectrum has no part with a clear signal to compare")
+    wave, flux = wave[strong], flux[strong]
+    fwhm = fwhm or 2 * step  # unknown: two pixels
     keep = np.ones(len(wave), bool)
     for lo, hi in TELLURIC:
         keep &= ~((wave > lo) & (wave < hi))
-    obs = _normalise(wave, flux)
+    if fwhm < 5.0:  # a sharper spectrum than the library (an echelle): compared at the library's 5 A
+        flux = gaussian_filter1d(flux, (5.0**2 - fwhm**2) ** 0.5 / 2.355 / step)
+    window = max(5, int(60 / step)) | 1  # a local continuum (60 A): blaze ripples and the instrument's response
+    obs = flux / median_filter(flux, size=window)  # do not count, only the lines' depths and shapes
     out = []
     for path in library:
         tw, tf, sptype = read_template(path)
@@ -91,7 +104,8 @@ def classify(wave, flux, library, fwhm=None, top=5):
         sigma = max(fwhm**2 - 5.0**2, 0.0) ** 0.5 / 2.355 / (grid[1] - grid[0])  # on top of the library's 5 A
         if sigma > 0.3:
             tg = gaussian_filter1d(tg, sigma)
-        t = _normalise(wave, np.interp(wave, grid, tg))
+        t = np.interp(wave, grid, tg)
+        t = t / median_filter(t, size=window)
         rms = float(np.sqrt(np.nanmean((obs[keep] - t[keep]) ** 2)))
         out.append((sptype, rms, str(path)))
     out.sort(key=lambda r: r[1])

@@ -21,10 +21,10 @@ def spectrum(balmer, metal, wave=WAVE, width=4.0):
     return f * (1 + 2e-4 * (wave - 5000))  # a continuum slope
 
 
-def pickles_like(path, sptype, balmer, metal):
+def pickles_like(path, sptype, balmer, metal, width=4.0):
     cols = [
         fits.Column(name="WAVELENGTH", format="E", array=WAVE),
-        fits.Column(name="FLUX", format="E", array=spectrum(balmer, metal)),
+        fits.Column(name="FLUX", format="E", array=spectrum(balmer, metal, width=width)),
     ]
     head = fits.Header({"COMMENT1": f"spectral type: {sptype}"})
     fits.HDUList([fits.PrimaryHDU(header=head), fits.BinTableHDU.from_columns(cols)]).writeto(path)
@@ -85,3 +85,24 @@ def test_velocity_tab_shows_the_type_and_takes_the_template(qtbot):
         [{"type": "G2V", "rms": 0.01, "template": "/lib/g2v.fits"}, {"type": "G5V", "rms": 0.02, "template": "x"}]
     )
     assert "G2V (0.010), G5V" in tab.status.text() and tab.template.text() == "/lib/g2v.fits"
+
+
+def test_a_noisy_echelle_spectrum_is_classified_at_the_library_resolution(tmp_path):
+    """The TOFES spectrum of Arcturus (R 32000, 5 s on a 20 cm telescope): sharp lines with noise, and noise around
+    zero in the blue. Compared at its own resolution, smooth hot-star templates won (Arcturus came out B2IV)."""
+    for i, (t, (b, m)) in enumerate(TYPES.items()):  # a library at Pickles' 5 A resolution
+        pickles_like(tmp_path / f"pickles_uk_{i + 1}.fits", t, b, m, width=5 / 2.355)
+    wave = np.arange(3900.0, 7300.0, 0.08)
+    for sptype in ("G2V", "A0V"):
+        balmer, metal = TYPES[sptype]
+        flux = np.ones_like(wave)  # Balmer lines broad by nature (as in the library), metal lines sharp
+        for lam in (6563, 4861, 4341, 4102, 3970):
+            flux -= balmer * np.exp(-0.5 * ((wave - lam) / (3 * 5 / 2.355)) ** 2)
+        for lam in METALS:  # the library's equivalent widths
+            flux -= metal * 0.5 * np.exp(-0.5 * ((wave - lam) / 0.8) ** 2) * (5 / 2.355) / 0.8
+        rng = np.random.default_rng(3)
+        flux = 300 * flux * (1 + 2e-4 * (wave - 5000)) * (1 + 0.3 * np.sin(wave / 40))  # merged-order ripples
+        flux += rng.normal(0, 30, wave.size)
+        flux[wave < 4500] = rng.normal(0, 100, (wave < 4500).sum())  # the blue: noise around zero
+        ranked = templates.classify(wave, flux, sorted(tmp_path.glob("*.fits")))
+        assert ranked[0][0] == sptype

@@ -241,6 +241,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)"),
     # spectroscopy/steps.py
     QT_TRANSLATE_NOOP("Messages", "give a period guess (e.g. from the period search)"),
+    # spectroscopy/templates.py
+    QT_TRANSLATE_NOOP("Messages", "the spectrum has no part with a clear signal to compare"),
     # spectroscopy/telluric.py
     QT_TRANSLATE_NOOP("Messages", "the spectrum does not cover a telluric band"),
     # spectroscopy/wavecal.py
