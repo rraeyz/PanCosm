@@ -205,7 +205,7 @@ def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None,
     r_in = r_in or r_out / 2
     yy, xx = np.mgrid[:ny, :nx]
     picks = []
-    for i in np.argsort(np.abs(np.log(flux / flux[t]))):  # most similar brightness first
+    for i in np.argsort(np.abs(np.log(np.clip(flux / flux[t], 1e-12, None)))):  # most similar brightness first
         px, py = x[i] + off[:, 0], y[i] + off[:, 1]
         inside = np.all((px >= margin) & (px < nx - margin) & (py >= margin) & (py < ny - margin))
         if not inside:

@@ -3059,776 +3059,786 @@
     </message>
     <message>
         <location filename="../../ui/messages.py" line="68"/>
+        <source>the target position {x}, {y} is outside the image ({nx} × {ny} px)</source>
+        <translation>die Zielposition {x}, {y} liegt außerhalb des Bildes ({nx} × {ny} px)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="69"/>
+        <source>comparison star {n} at {x}, {y} is outside the image ({nx} × {ny} px)</source>
+        <translation>Vergleichsstern {n} bei {x}, {y} liegt außerhalb des Bildes ({nx} × {ny} px)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="71"/>
         <source>no comparison star has a catalogue magnitude</source>
         <translation>kein Vergleichsstern hat eine Katalog-Helligkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="69"/>
+        <location filename="../../ui/messages.py" line="72"/>
         <source>the first image has no sky coordinates: plate-solve it first (Image menu)</source>
         <translation>das erste Bild hat keine Himmelskoordinaten: zuerst astrometrisch lösen (Menü Bild)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="71"/>
+        <location filename="../../ui/messages.py" line="74"/>
         <source>the image has no sky coordinates: plate-solve it first (Image menu)</source>
         <translation>das Bild hat keine Himmelskoordinaten: zuerst astrometrisch lösen (Menü Bild)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="73"/>
+        <location filename="../../ui/messages.py" line="76"/>
         <source>the light curve spans {hours} h: too short to search for periods</source>
         <translation>die Lichtkurve umfasst {hours} h: zu kurz für eine Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="75"/>
+        <location filename="../../ui/messages.py" line="78"/>
         <source>fewer than 3 usable stars</source>
         <translation>weniger als 3 brauchbare Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="76"/>
+        <location filename="../../ui/messages.py" line="79"/>
         <source>the airmass hardly changed during the series: no extinction from it</source>
         <translation>die Luftmasse hat sich in der Serie kaum geändert: daraus keine Extinktion</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="78"/>
+        <location filename="../../ui/messages.py" line="81"/>
         <source>fewer than 5 stars found on the first frame</source>
         <translation>weniger als 5 Sterne im ersten Bild gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="80"/>
+        <location filename="../../ui/messages.py" line="83"/>
         <source>designation, observatory code and observer names are required</source>
         <translation>Bezeichnung, Sternwartencode und Beobachternamen sind nötig</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="82"/>
+        <location filename="../../ui/messages.py" line="85"/>
         <source>VSX does not know &apos;{name}&apos;</source>
         <translation>VSX kennt &apos;{name}&apos; nicht</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="83"/>
+        <location filename="../../ui/messages.py" line="86"/>
         <source>the NASA Exoplanet Archive does not know &apos;{planet}&apos;</source>
         <translation>das NASA Exoplanet Archive kennt &apos;{planet}&apos; nicht</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="85"/>
+        <location filename="../../ui/messages.py" line="88"/>
         <source>no {mission} light curves for {target}</source>
         <translation>keine {mission}-Lichtkurven für {target}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="87"/>
+        <location filename="../../ui/messages.py" line="90"/>
         <source>no measurements in the file</source>
         <translation>keine Messungen in der Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="88"/>
+        <location filename="../../ui/messages.py" line="91"/>
         <source>fewer than 3 measurements in band {band}</source>
         <translation>weniger als 3 Messungen im Band {band}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="90"/>
+        <location filename="../../ui/messages.py" line="93"/>
         <source>need at least 8 minima for a third-body orbit</source>
         <translation>eine Bahn eines dritten Körpers braucht mindestens 8 Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="91"/>
+        <location filename="../../ui/messages.py" line="94"/>
         <source>apsidal motion needs at least 3 primary and 3 secondary minima</source>
         <translation>Apsidendrehung braucht mindestens 3 Haupt- und 3 Nebenminima</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="93"/>
+        <location filename="../../ui/messages.py" line="96"/>
         <source>line {n}: &apos;{value}&apos; is not a time</source>
         <translation>Zeile {n}: &apos;{value}&apos; ist keine Zeitangabe</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="94"/>
+        <location filename="../../ui/messages.py" line="97"/>
         <source>need at least {n} minima</source>
         <translation>mindestens {n} Minima nötig</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="96"/>
+        <location filename="../../ui/messages.py" line="99"/>
         <source>{step}: missing input(s): {names}</source>
         <translation>{step}: fehlende Eingabe(n): {names}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="97"/>
+        <location filename="../../ui/messages.py" line="100"/>
         <source>the automation has no steps</source>
         <translation>die Automatisierung hat keine Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="98"/>
+        <location filename="../../ui/messages.py" line="101"/>
         <source>unknown step {step} (a plugin that is not installed?)</source>
         <translation>unbekannter Schritt {step} (ein nicht installiertes Plugin?)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="99"/>
+        <location filename="../../ui/messages.py" line="102"/>
         <source>no plate solver installed: install ASTAP (with a star database) or astrometry.net</source>
         <translation>kein Astrometrie-Löser installiert: ASTAP (mit einer Sterndatenbank) oder astrometry.net installieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="101"/>
+        <location filename="../../ui/messages.py" line="104"/>
         <source>the keyword {key} describes the data and cannot be edited</source>
         <translation>das Schlüsselwort {key} beschreibt die Daten und kann nicht bearbeitet werden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="102"/>
+        <location filename="../../ui/messages.py" line="105"/>
         <source>the value of {key} must be plain ASCII text (FITS standard)</source>
         <translation>der Wert von {key} muss einfacher ASCII-Text sein (FITS-Standard)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="105"/>
+        <location filename="../../ui/messages.py" line="108"/>
         <source>the solver&apos;s output has no celestial WCS</source>
         <translation>die Ausgabe des Lösers hat kein Himmels-WCS</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="106"/>
+        <location filename="../../ui/messages.py" line="109"/>
         <source>solver did not finish within {timeout} s</source>
         <translation>der Löser wurde nicht innerhalb von {timeout} s fertig</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="108"/>
+        <location filename="../../ui/messages.py" line="111"/>
         <source>dark ({t_dark} s) without bias subtraction cannot be scaled to {exptime} s; add bias frames or darks with the same exposure</source>
         <translation>Dark ({t_dark} s) ohne Bias-Abzug kann nicht auf {exptime} s skaliert werden; Bias-Aufnahmen oder Darks mit gleicher Belichtung hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="112"/>
+        <location filename="../../ui/messages.py" line="115"/>
         <source>linearity coefficients: give at least c0 and c1, with c1 &gt; 0</source>
         <translation>Linearitätskoeffizienten: mindestens c0 und c1 angeben, mit c1 &gt; 0</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="113"/>
+        <location filename="../../ui/messages.py" line="116"/>
         <source>frames have different sizes: {shapes}</source>
         <translation>die Aufnahmen haben unterschiedliche Größen: {shapes}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="114"/>
+        <location filename="../../ui/messages.py" line="117"/>
         <source>no frames to combine</source>
         <translation>keine Aufnahmen zum Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="115"/>
+        <location filename="../../ui/messages.py" line="118"/>
         <source>{name}: no EXPTIME</source>
         <translation>{name}: kein EXPTIME</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="116"/>
+        <location filename="../../ui/messages.py" line="119"/>
         <source>darks with different exposure times cannot be combined: {times}</source>
         <translation>Darks mit unterschiedlichen Belichtungszeiten können nicht kombiniert werden: {times}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="117"/>
+        <location filename="../../ui/messages.py" line="120"/>
         <source>{name}: flat level {level} is not positive</source>
         <translation>{name}: Flat-Niveau {level} ist nicht positiv</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="119"/>
+        <location filename="../../ui/messages.py" line="122"/>
         <source>too few stars to match the frames</source>
         <translation>zu wenige Sterne, um die Aufnahmen abzugleichen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="120"/>
+        <location filename="../../ui/messages.py" line="123"/>
         <source>the star patterns of the frames do not match</source>
         <translation>die Sternmuster der Aufnahmen passen nicht zusammen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="122"/>
+        <location filename="../../ui/messages.py" line="125"/>
         <source>no GPU adapter</source>
         <translation>kein GPU-Adapter</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="123"/>
+        <location filename="../../ui/messages.py" line="126"/>
         <source>only a software adapter: {device}</source>
         <translation>nur ein Software-Adapter: {device}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="125"/>
+        <location filename="../../ui/messages.py" line="128"/>
         <source>too few focus measurements</source>
         <translation>zu wenige Fokusmessungen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="127"/>
+        <location filename="../../ui/messages.py" line="130"/>
         <source>INDI server connection lost</source>
         <translation>Verbindung zum INDI-Server verloren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="128"/>
+        <location filename="../../ui/messages.py" line="131"/>
         <source>pier side not reported</source>
         <translation>Pierseite nicht gemeldet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="129"/>
+        <location filename="../../ui/messages.py" line="132"/>
         <source>{device} cannot bin</source>
         <translation>{device} kann nicht binnen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="130"/>
+        <location filename="../../ui/messages.py" line="133"/>
         <source>{device}: property {name} not available</source>
         <translation>{device}: Eigenschaft {name} nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="131"/>
+        <location filename="../../ui/messages.py" line="134"/>
         <source>{device}: {name} did not reach {states}</source>
         <translation>{device}: {name} hat {states} nicht erreicht</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="133"/>
+        <location filename="../../ui/messages.py" line="136"/>
         <source>PHD2 closed the connection</source>
         <translation>PHD2 hat die Verbindung geschlossen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="134"/>
+        <location filename="../../ui/messages.py" line="137"/>
         <source>PHD2 did not answer in time</source>
         <translation>PHD2 hat nicht rechtzeitig geantwortet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="135"/>
+        <location filename="../../ui/messages.py" line="138"/>
         <source>PHD2 connection lost: {error}</source>
         <translation>Verbindung zu PHD2 verloren: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="136"/>
+        <location filename="../../ui/messages.py" line="139"/>
         <source>guiding did not settle: {error}</source>
         <translation>die Nachführung hat sich nicht beruhigt: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="138"/>
+        <location filename="../../ui/messages.py" line="141"/>
         <source>not centred after {n} images ({error} arcsec off)</source>
         <translation>nach {n} Aufnahmen nicht zentriert ({error} Bogensekunden daneben)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="139"/>
+        <location filename="../../ui/messages.py" line="142"/>
         <source>the three positions are too close together: turn the RA axis further</source>
         <translation>die drei Positionen liegen zu dicht beieinander: die RA-Achse weiter drehen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="141"/>
+        <location filename="../../ui/messages.py" line="144"/>
         <source>filter {name} is not in the wheel {names}</source>
         <translation>Filter {name} ist nicht im Rad {names}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="142"/>
+        <location filename="../../ui/messages.py" line="145"/>
         <source>camera did not deliver the image in time</source>
         <translation>die Kamera hat das Bild nicht rechtzeitig geliefert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="144"/>
+        <location filename="../../ui/messages.py" line="147"/>
         <source>no {what} tonight at this site</source>
         <translation>heute Nacht an diesem Ort kein(e) {what}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="145"/>
+        <location filename="../../ui/messages.py" line="148"/>
         <source>request too large</source>
         <translation>Anfrage zu groß</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="147"/>
+        <location filename="../../ui/messages.py" line="150"/>
         <source>{path}: not an automation (no step list)</source>
         <translation>{path}: keine Automatisierung (keine Schrittliste)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="148"/>
+        <location filename="../../ui/messages.py" line="151"/>
         <source>two numbers expected: x y</source>
         <translation>zwei Zahlen erwartet: x y</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="149"/>
+        <location filename="../../ui/messages.py" line="152"/>
         <source>pairs expected: a b; c d; ...</source>
         <translation>Paare erwartet: a b; c d; ...</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="150"/>
+        <location filename="../../ui/messages.py" line="153"/>
         <source>latitude longitude [height in m] expected</source>
         <translation>Breite Länge [Höhe in m] erwartet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="152"/>
+        <location filename="../../ui/messages.py" line="155"/>
         <source>unknown operation {op}</source>
         <translation>unbekannte Operation {op}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="154"/>
+        <location filename="../../ui/messages.py" line="157"/>
         <source>project file must end with {extension}</source>
         <translation>die Projektdatei muss auf {extension} enden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="155"/>
+        <location filename="../../ui/messages.py" line="158"/>
         <source>project was written by a newer version (schema {version})</source>
         <translation>das Projekt wurde mit einer neueren Version geschrieben (Schema {version})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="157"/>
+        <location filename="../../ui/messages.py" line="160"/>
         <source>{name}: not a 2-D picture (shape {shape})</source>
         <translation>{name}: kein 2-D-Bild (Form {shape})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="158"/>
+        <location filename="../../ui/messages.py" line="161"/>
         <source>{name}: not a 2 x 2 Bayer sensor (e.g. Fujifilm X-Trans, Foveon)</source>
         <translation>{name}: kein 2-x-2-Bayer-Sensor (z. B. Fujifilm X-Trans, Foveon)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="160"/>
+        <location filename="../../ui/messages.py" line="163"/>
         <source>no image data in file</source>
         <translation>keine Bilddaten in der Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="161"/>
+        <location filename="../../ui/messages.py" line="164"/>
         <source>destination must differ from source</source>
         <translation>das Ziel muss sich von der Quelle unterscheiden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="163"/>
+        <location filename="../../ui/messages.py" line="166"/>
         <source>the rectangle is outside the image</source>
         <translation>das Rechteck liegt außerhalb des Bildes</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="164"/>
+        <location filename="../../ui/messages.py" line="167"/>
         <source>the rectangle has no valid pixels</source>
         <translation>das Rechteck hat keine gültigen Pixel</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="166"/>
+        <location filename="../../ui/messages.py" line="169"/>
         <source>empty crop region</source>
         <translation>leerer Zuschneidebereich</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="167"/>
+        <location filename="../../ui/messages.py" line="170"/>
         <source>the factor must be positive</source>
         <translation>der Faktor muss positiv sein</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="168"/>
+        <location filename="../../ui/messages.py" line="171"/>
         <source>the image has no valid pixels</source>
         <translation>das Bild hat keine gültigen Pixel</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="169"/>
+        <location filename="../../ui/messages.py" line="172"/>
         <source>image too small for this box size</source>
         <translation>das Bild ist für diese Boxgröße zu klein</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="170"/>
+        <location filename="../../ui/messages.py" line="173"/>
         <source>the images do not have the same size</source>
         <translation>die Bilder sind nicht gleich groß</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="172"/>
+        <location filename="../../ui/messages.py" line="175"/>
         <source>{name}: need at least a time and a value column</source>
         <translation>{name}: mindestens eine Zeit- und eine Wertspalte nötig</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="173"/>
+        <location filename="../../ui/messages.py" line="176"/>
         <source>not a table with two columns (time or phase, flux)</source>
         <translation>keine Tabelle mit zwei Spalten (Zeit oder Phase, Fluss)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="175"/>
+        <location filename="../../ui/messages.py" line="178"/>
         <source>give the period and the time of primary minimum</source>
         <translation>Periode und Zeit des Hauptminimums angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="177"/>
+        <location filename="../../ui/messages.py" line="180"/>
         <source>a visual orbit needs at least 7 measures (seven elements)</source>
         <translation>eine visuelle Bahn braucht mindestens 7 Messungen (sieben Elemente)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="178"/>
+        <location filename="../../ui/messages.py" line="181"/>
         <source>no measures</source>
         <translation>keine Messungen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="179"/>
+        <location filename="../../ui/messages.py" line="182"/>
         <source>each line needs epoch, position angle and separation</source>
         <translation>jede Zeile braucht Epoche, Positionswinkel und Abstand</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="181"/>
+        <location filename="../../ui/messages.py" line="184"/>
         <source>the telescope aperture and the exposure time must be positive</source>
         <translation>Teleskopöffnung und Belichtungszeit müssen positiv sein</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="183"/>
+        <location filename="../../ui/messages.py" line="186"/>
         <source>too few points outside the left-out range to detrend</source>
         <translation>zu wenige Punkte außerhalb des ausgelassenen Bereichs, um den Trend zu entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="185"/>
+        <location filename="../../ui/messages.py" line="188"/>
         <source>give one catalogue magnitude per comparison star</source>
         <translation>für jeden Vergleichsstern eine Katalog-Magnitude angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="186"/>
+        <location filename="../../ui/messages.py" line="189"/>
         <source>star name, observer code and filter are required</source>
         <translation>Sternname, Beobachtercode und Filter sind erforderlich</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="188"/>
+        <location filename="../../ui/messages.py" line="191"/>
         <source>need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)</source>
         <translation>unterschiedliche Winkel der Halbwellenplatte nötig (z. B. 0, 22,5, 45, 67,5)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="190"/>
+        <location filename="../../ui/messages.py" line="193"/>
         <source>SIMBAD does not know &apos;{name}&apos;</source>
         <translation>SIMBAD kennt &apos;{name}&apos; nicht</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="191"/>
+        <location filename="../../ui/messages.py" line="194"/>
         <source>cannot reach SIMBAD and &apos;{name}&apos; is not in the local cache ({error})</source>
         <translation>SIMBAD ist nicht erreichbar und &apos;{name}&apos; ist nicht im lokalen Zwischenspeicher ({error})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="193"/>
+        <location filename="../../ui/messages.py" line="196"/>
         <source>not allowed in an expression: {expr}</source>
         <translation>in einem Ausdruck nicht erlaubt: {expr}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="194"/>
+        <location filename="../../ui/messages.py" line="197"/>
         <source>the two images are not on the same pixel grid</source>
         <translation>die beiden Bilder liegen nicht auf demselben Pixelraster</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="195"/>
+        <location filename="../../ui/messages.py" line="198"/>
         <source>cannot read the expression: {error}</source>
         <translation>der Ausdruck ist nicht lesbar: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="196"/>
+        <location filename="../../ui/messages.py" line="199"/>
         <source>unknown band {band}; available: {bands}</source>
         <translation>unbekanntes Band {band}; vorhanden: {bands}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="198"/>
+        <location filename="../../ui/messages.py" line="201"/>
         <source>no image (2-D variable) in this file</source>
         <translation>kein Bild (2-D-Variable) in dieser Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="200"/>
+        <location filename="../../ui/messages.py" line="203"/>
         <source>too few points in the window</source>
         <translation>zu wenige Punkte im Fenster</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="201"/>
+        <location filename="../../ui/messages.py" line="204"/>
         <source>too few points on one side of the line</source>
         <translation>zu wenige Punkte auf einer Seite der Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="202"/>
+        <location filename="../../ui/messages.py" line="205"/>
         <source>no red emission peak above the continuum</source>
         <translation>kein roter Emissionsgipfel über dem Kontinuum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="203"/>
+        <location filename="../../ui/messages.py" line="206"/>
         <source>pick at least two continuum points</source>
         <translation>mindestens zwei Kontinuumspunkte wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="204"/>
+        <location filename="../../ui/messages.py" line="207"/>
         <source>the reference spectrum does not cover the observed one</source>
         <translation>das Referenzspektrum deckt das beobachtete nicht ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="206"/>
+        <location filename="../../ui/messages.py" line="209"/>
         <source>no grid spectra</source>
         <translation>keine Gitterspektren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="207"/>
+        <location filename="../../ui/messages.py" line="210"/>
         <source>the grid does not cover this spectrum&apos;s wavelengths</source>
         <translation>das Gitter deckt die Wellenlängen dieses Spektrums nicht ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="208"/>
+        <location filename="../../ui/messages.py" line="211"/>
         <source>the grid has no complete box of points</source>
         <translation>das Gitter hat keine vollständige Punktbox</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="210"/>
+        <location filename="../../ui/messages.py" line="213"/>
         <source>observed and template spectra hardly overlap for this velocity range</source>
         <translation>beobachtetes und Vorlagenspektrum überlappen sich für diesen Geschwindigkeitsbereich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="211"/>
+        <location filename="../../ui/messages.py" line="214"/>
         <source>the broadening function shows fewer than {n} peaks</source>
         <translation>die Verbreiterungsfunktion zeigt weniger als {n} Gipfel</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="213"/>
+        <location filename="../../ui/messages.py" line="216"/>
         <source>the cube has no wavelength axis (CRVAL3 / CDELT3)</source>
         <translation>der Würfel hat keine Wellenlängenachse (CRVAL3 / CDELT3)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="214"/>
+        <location filename="../../ui/messages.py" line="217"/>
         <source>unknown wavelength unit {unit}</source>
         <translation>unbekannte Wellenlängeneinheit {unit}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="215"/>
+        <location filename="../../ui/messages.py" line="218"/>
         <source>no 3-D data cube in this file</source>
         <translation>kein 3-D-Datenwürfel in dieser Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="217"/>
+        <location filename="../../ui/messages.py" line="220"/>
         <source>the spectra hardly overlap</source>
         <translation>die Spektren überlappen sich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="219"/>
+        <location filename="../../ui/messages.py" line="222"/>
         <source>no orders found</source>
         <translation>keine Ordnungen gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="220"/>
+        <location filename="../../ui/messages.py" line="223"/>
         <source>identify at least four lines in at least two orders</source>
         <translation>mindestens vier Linien in mindestens zwei Ordnungen identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="221"/>
+        <location filename="../../ui/messages.py" line="224"/>
         <source>order at row {row} could not be traced</source>
         <translation>die Ordnung in Zeile {row} ließ sich nicht verfolgen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="222"/>
+        <location filename="../../ui/messages.py" line="225"/>
         <source>too few lines matched: check the identified lines, order numbers and line list</source>
         <translation>zu wenige Linien zugeordnet: identifizierte Linien, Ordnungsnummern und Linienliste prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="223"/>
+        <location filename="../../ui/messages.py" line="226"/>
         <source>at least two orders are needed to measure the scattered light</source>
         <translation>mindestens zwei Ordnungen sind nötig, um das Streulicht zu messen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="225"/>
+        <location filename="../../ui/messages.py" line="228"/>
         <source>observed and template spectra hardly overlap</source>
         <translation>beobachtetes und Vorlagenspektrum überlappen sich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="226"/>
+        <location filename="../../ui/messages.py" line="229"/>
         <source>CCF peak at the edge of the velocity range: widen the range</source>
         <translation>CCF-Gipfel am Rand des Geschwindigkeitsbereichs: den Bereich erweitern</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="228"/>
+        <location filename="../../ui/messages.py" line="231"/>
         <source>TODCOR peak at the edge of the velocity range: widen the range</source>
         <translation>TODCOR-Gipfel am Rand des Geschwindigkeitsbereichs: den Bereich erweitern</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="230"/>
+        <location filename="../../ui/messages.py" line="233"/>
         <source>{name}: no spectrum found</source>
         <translation>{name}: kein Spektrum gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="231"/>
+        <location filename="../../ui/messages.py" line="234"/>
         <source>{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)</source>
         <translation>{name}: 1-D-Bild ohne Wellenlängenlösung (CRVAL1/CDELT1)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="233"/>
+        <location filename="../../ui/messages.py" line="236"/>
         <source>give a period guess (e.g. from the period search)</source>
         <translation>eine Periodenschätzung angeben (z. B. aus der Periodensuche)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="235"/>
+        <location filename="../../ui/messages.py" line="238"/>
         <source>the spectrum does not cover a telluric band</source>
         <translation>das Spektrum deckt kein tellurisches Band ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="237"/>
+        <location filename="../../ui/messages.py" line="240"/>
         <source>identify at least two lines</source>
         <translation>mindestens zwei Linien identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="238"/>
+        <location filename="../../ui/messages.py" line="241"/>
         <source>too few lines matched: check the identified lines and the line list</source>
         <translation>zu wenige Linien zugeordnet: identifizierte Linien und Linienliste prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="240"/>
+        <location filename="../../ui/messages.py" line="243"/>
         <source>the minimum must have data on both sides</source>
         <translation>das Minimum braucht Daten auf beiden Seiten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="241"/>
+        <location filename="../../ui/messages.py" line="244"/>
         <source>no minimum found</source>
         <translation>kein Minimum gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="243"/>
+        <location filename="../../ui/messages.py" line="246"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)</source>
         <translation>keine Beobachtungszeit im Header (DATE-OBS, UT-OBS, JD, MJD-OBS)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="244"/>
+        <location filename="../../ui/messages.py" line="247"/>
         <source>not an angle: {value}</source>
         <translation>kein Winkel: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="246"/>
+        <location filename="../../ui/messages.py" line="249"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>kein GitHub-Repository für die Update-Prüfung eingestellt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="248"/>
+        <location filename="../../ui/messages.py" line="251"/>
         <source>reading headers</source>
         <translation>Header werden gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="249"/>
+        <location filename="../../ui/messages.py" line="252"/>
         <source>master bias</source>
         <translation>Master-Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="250"/>
+        <location filename="../../ui/messages.py" line="253"/>
         <source>master dark</source>
         <translation>Master-Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="251"/>
+        <location filename="../../ui/messages.py" line="254"/>
         <source>master flat</source>
         <translation>Master-Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="252"/>
+        <location filename="../../ui/messages.py" line="255"/>
         <source>calibrating</source>
         <translation>wird kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="253"/>
+        <location filename="../../ui/messages.py" line="256"/>
         <source>combining</source>
         <translation>wird kombiniert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="254"/>
+        <location filename="../../ui/messages.py" line="257"/>
         <source>aligning</source>
         <translation>wird ausgerichtet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="255"/>
+        <location filename="../../ui/messages.py" line="258"/>
         <source>stacking</source>
         <translation>wird gestapelt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="256"/>
+        <location filename="../../ui/messages.py" line="259"/>
         <source>drizzle</source>
         <translation>Drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="257"/>
+        <location filename="../../ui/messages.py" line="260"/>
         <source>reading</source>
         <translation>wird gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="258"/>
+        <location filename="../../ui/messages.py" line="261"/>
         <source>writing</source>
         <translation>wird geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="259"/>
+        <location filename="../../ui/messages.py" line="262"/>
         <source>plate solving</source>
         <translation>Astrometrische Lösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="260"/>
+        <location filename="../../ui/messages.py" line="263"/>
         <source>checking</source>
         <translation>wird geprüft</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="261"/>
+        <location filename="../../ui/messages.py" line="264"/>
         <source>simulating</source>
         <translation>wird simuliert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="262"/>
+        <location filename="../../ui/messages.py" line="265"/>
         <source>photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="263"/>
+        <location filename="../../ui/messages.py" line="266"/>
         <source>quality</source>
         <translation>Qualität</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="264"/>
+        <location filename="../../ui/messages.py" line="267"/>
         <source>catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="265"/>
+        <location filename="../../ui/messages.py" line="268"/>
         <source>astrometry</source>
         <translation>Astrometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="266"/>
+        <location filename="../../ui/messages.py" line="269"/>
         <source>fit</source>
         <translation>Anpassung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="267"/>
+        <location filename="../../ui/messages.py" line="270"/>
         <source>trace</source>
         <translation>Spur</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="268"/>
+        <location filename="../../ui/messages.py" line="271"/>
         <source>trace orders</source>
         <translation>Ordnungen verfolgen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="269"/>
+        <location filename="../../ui/messages.py" line="272"/>
         <source>extraction</source>
         <translation>Extraktion</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="270"/>
+        <location filename="../../ui/messages.py" line="273"/>
         <source>arc</source>
         <translation>Vergleichsspektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="271"/>
+        <location filename="../../ui/messages.py" line="274"/>
         <source>wavelength solution</source>
         <translation>Wellenlängenlösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="272"/>
+        <location filename="../../ui/messages.py" line="275"/>
         <source>downloading the template library</source>
         <translation>Vorlagenbibliothek wird heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="273"/>
+        <location filename="../../ui/messages.py" line="276"/>
         <source>comparing</source>
         <translation>wird verglichen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="274"/>
+        <location filename="../../ui/messages.py" line="277"/>
         <source>disentangling</source>
         <translation>wird entflochten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="275"/>
+        <location filename="../../ui/messages.py" line="278"/>
         <source>band math</source>
         <translation>Bandrechnung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="276"/>
+        <location filename="../../ui/messages.py" line="279"/>
         <source>folder not found: {path}</source>
         <translation>Ordner nicht gefunden: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="277"/>
+        <location filename="../../ui/messages.py" line="280"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} enthält ein Datum, aber keine Uhrzeit, und kein Zeit-Schlüsselwort wurde gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="278"/>
+        <location filename="../../ui/messages.py" line="281"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>Namen oder Koordinaten des Ziels angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="279"/>
+        <location filename="../../ui/messages.py" line="282"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>die Auflösung des Spektrographen angeben: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="280"/>
+        <location filename="../../ui/messages.py" line="283"/>
         <source>the Sun</source>
         <translation>die Sonne</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="281"/>
+        <location filename="../../ui/messages.py" line="284"/>
         <source>first estimate</source>
         <translation>erste Schätzung</translation>
     </message>
