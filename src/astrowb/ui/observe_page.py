@@ -470,13 +470,15 @@ class ObservePage(QWidget):
             )
         job = st["job"]
         if job["name"]:
-            text = f"{job['name']}: {int(100 * job['progress'])}% {job['message']}"
+            done = not job["running"] and not job["error"]  # a slew or park reports no progress of its own
+            text = f"{job['name']}: {100 if done else int(100 * job['progress'])}% {job['message']}"
             if job["error"]:
                 text += "\n" + self.tr("Stopped: {e}").format(e=translate(job["error"]))
             elif not job["running"] and job.get("result"):
                 text += "\n" + self.result_text(job["result"])
             elif not job["running"]:
-                text += "\n" + self.tr("Finished, {n} frames.").format(n=len(job["written"]))
+                n = len(job["written"])
+                text += "\n" + (self.tr("Finished, {n} frames.").format(n=n) if n else self.tr("Finished."))
             self.job.setText(text)
         self.log.setPlainText("\n".join(st["log"]))
         self._show_devices(st)

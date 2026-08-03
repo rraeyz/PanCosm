@@ -48,6 +48,21 @@ def test_connect_slew_sequence_and_safety_display(page, qtbot, tmp_path):
     p.target.setText(target.to_string("hmsdms", sep=":"))
     p._slew()
     qtbot.waitUntil(lambda: not obs.devices["mount"].AtPark, timeout=10000)
+    p._show_status(
+        p.status
+        | {
+            "job": {
+                "name": "slew",
+                "running": False,
+                "progress": 0.0,
+                "message": "",
+                "error": None,
+                "written": [],
+                "result": None,
+            }
+        }
+    )
+    assert p.job.text() == "slew: 100% \nFinished."  # not "0 %" and "0 frames" after a slew
     p.seq_name.setText("darks")
     p.exposures.cellWidget(0, 0).setCurrentText("dark")
     p.exposures.cellWidget(0, 2).setValue(0.01)
