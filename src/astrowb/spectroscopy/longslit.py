@@ -2,8 +2,10 @@
 
 Dispersion runs along x (columns), the slit along y. Every function takes plain arrays.
 
-trace:   the spectrum's centre in bins of columns (flux-weighted centroid of the sky-subtracted
-         cross-section), then a polynomial fitted with sigma clipping.
+trace:   as IRAF apextract's aptrace: from a starting column the spectrum is followed in steps of `step`
+         columns (sums of `nsum` columns), each centre found near the previous one (flux-weighted centroid of
+         the background-subtracted cross-section within `half_window`), the trace given up after `nlost`
+         steps in a row without a clear signal; then a polynomial fitted with sigma clipping.
 boxcar:  sum over +-width/2 around the trace minus the sky (median of two side bands).
 optimal: Horne (1986, PASP 98, 609): the spatial profile P (normalised, smoothed along x) and
          per-pixel variance V = (read_noise^2 + max(data,0)/gain) give
@@ -21,28 +23,57 @@ def find_spectrum(image) -> float:
     return float(np.nanargmax(profile - np.nanmedian(profile)))
 
 
-def trace(image, guess_row=None, half_window=10, n_bins=40, order=3, clip=3.0):
-    """Return polynomial coefficients y(x) (numpy.polyval order) of the spectrum's centre."""
+def trace(image, guess_row=None, half_window=10, step=10, nsum=10, nlost=3, order=3, clip=3.0):
+    """Return polynomial coefficients y(x) (numpy.polyval order) of the spectrum's centre.
+    guess_row: a row the spectrum crosses (the user's choice when several spectra are on the frame); default:
+    the brightest spectrum. Tracing starts at the column where it is brightest and goes both ways."""
     ny, nx = image.shape
-    guess = find_spectrum(image) if guess_row is None else float(guess_row)
-    edges = np.linspace(0, nx, n_bins + 1).astype(int)
+    cols = np.arange(0, nx - nsum + 1, step)
+
+    def cut(c):  # the cross-section at column c: nsum columns, background (median) taken off
+        v = np.nanmedian(image[:, c : c + nsum], axis=1)
+        return v - np.nanmedian(v)
+
+    if guess_row is None:
+        peaks = [np.nanmax(cut(c)) for c in cols]
+        k0 = int(np.nanargmax(peaks))  # the column where the spectrum is brightest
+        y0 = float(np.nanargmax(cut(cols[k0])))
+    else:
+        lo, hi = int(max(0, guess_row - half_window)), int(min(ny, guess_row + half_window + 1))
+        k0 = int(np.nanargmax([np.nanmax(cut(c)[lo:hi]) for c in cols]))
+        y0 = lo + float(np.nanargmax(cut(cols[k0])[lo:hi]))
+
+    def centre(c, y):
+        v = cut(c)
+        noise = 1.4826 * np.nanmedian(np.abs(v - np.nanmedian(v)))
+        lo, hi = int(max(0, round(y) - half_window)), int(min(ny, round(y) + half_window + 1))
+        w = np.clip(v[lo:hi], 0, None)
+        if hi - lo < 3 or np.nanmax(w) < 5 * max(noise, 1e-9):
+            return None  # no clear signal here
+        return lo + float(np.sum(np.arange(hi - lo) * w) / np.sum(w))
+
     xs, ys = [], []
-    for a, b in zip(edges[:-1], edges[1:], strict=True):
-        lo, hi = int(max(0, guess - half_window)), int(min(ny, guess + half_window + 1))
-        cut = np.nanmedian(image[lo:hi, a:b], axis=1)
-        cut = cut - np.nanmedian(cut)
-        cut[cut < 0] = 0
-        if cut.sum() <= 0:
-            continue
-        xs.append((a + b - 1) / 2)
-        ys.append(lo + np.sum(np.arange(len(cut)) * cut) / cut.sum())
+    for direction in (range(k0, len(cols)), range(k0 - 1, -1, -1)):
+        y, lost = y0, 0
+        for k in direction:
+            new = centre(cols[k], y)
+            if new is None or abs(new - y) > half_window:
+                lost += 1
+                if lost >= nlost:
+                    break  # lost: the rest of this side is left to the polynomial
+                continue
+            lost, y = 0, new
+            xs.append(cols[k] + (nsum - 1) / 2)
+            ys.append(y)
+    if len(xs) < order + 2:
+        raise ValueError("the spectrum could not be followed along the frame")
     xs, ys = np.array(xs), np.array(ys)
     keep = np.ones(len(xs), bool)
     for _ in range(5):  # sigma-clipped polynomial
         coef = np.polyfit(xs[keep], ys[keep], min(order, keep.sum() - 1))
         resid = ys - np.polyval(coef, xs)
         new = np.abs(resid) < clip * max(np.std(resid[keep]), 1e-3)
-        if np.array_equal(new, keep):
+        if np.array_equal(new, keep) or new.sum() < order + 2:
             break
         keep = new
     return coef
@@ -60,8 +91,12 @@ def _windows(shape, coef, half_width, sky_offset, sky_width):
 
 def sky_model(image, coef, half_width, sky_offset, sky_width):
     """Per-column sky level: median of the two side bands (robust to stars and cosmic rays)."""
+    import warnings
+
     _, sky = _windows(image.shape, coef, half_width, sky_offset, sky_width)
-    return np.nanmedian(np.where(sky, image, np.nan), axis=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)  # columns where the trace leaves the frame: no sky (NaN)
+        return np.nanmedian(np.where(sky, image, np.nan), axis=0)
 
 
 def boxcar(image, coef, width=10.0, sky_offset=15.0, sky_width=10.0, subtract_sky=True):

@@ -9,7 +9,7 @@ Settings that belong to a spectrograph (orientation, aperture and sky widths, li
 
 ## Long-slit reduction (Reduce)
 1. Choose the **Science frame** (calibrated 2-D image) and, for wavelengths, the **Arc lamp** frame.
-2. **Optimal extraction (Horne)** weights each pixel by the spatial profile — better signal-to-noise for faint stars. **Aperture width**, **Sky offset** and **Sky width** (pixels) set the extraction window and the two sky bands on both sides of the trace.
+2. **Optimal extraction (Horne)** weights each pixel by the spatial profile — better signal-to-noise for faint stars. **Aperture width**, **Sky offset** and **Sky width** (pixels) set the extraction window and the two sky bands on both sides of the trace. The spectrum is followed along the frame step by step from where it is brightest, so curved traces are kept (as IRAF's aptrace). When the frame holds several spectra (the two orders of a cross-dispersed spectrograph, a second star), give **Spectrum at row**, a row it crosses. The traced line and the aperture are drawn on the frame under the plots: check them before going on.
 3. **1. Extract**: the spectrum is traced along the dispersion and extracted; the arc is extracted with the same trace and its lines are found.
 4. **2. Click arc lines** in the lower plot and type their wavelengths (Å) in the table. Two lines are the minimum; 4–6 spread over the whole range are much better. Choose the **Arc line list** of your lamp (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…): the remaining lines are identified automatically from it.
 5. **3. Solve wavelengths and save**: a polynomial wavelength solution is fitted; its rms (Å) and the number of lines are shown. The 1-D spectrum is saved as FITS with wavelengths.

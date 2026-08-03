@@ -62,6 +62,24 @@ def test_trace(frames):
     assert np.max(np.abs(np.polyval(coef, x) - trace_y(x))) < 0.1
 
 
+def test_curved_traces_of_two_orders_are_followed():
+    """LCO FLOYDS: two orders on one frame, each bending by ~200 rows. A fixed window around one row lost the
+    trace (it was extracted from the sky); now it is followed step by step (IRAF aptrace), the brightest by default
+    and the other from a row the user gives."""
+    rng = np.random.default_rng(2)
+    ny, nx = 512, 2048
+    yy, xx = np.mgrid[:ny, :nx]
+    red = 95 + 0.8e-4 * (xx[0] - 350) ** 2  # rises to ~325 at the right edge, below the other order
+    blue = 385 + 1.2e-4 * (xx[0] - 1150) ** 2
+    img = rng.normal(0, 5, (ny, nx))
+    img += 3000 * np.exp(-0.5 * ((yy - red) / 2.0) ** 2) * (red < ny)
+    img += 800 * np.exp(-0.5 * ((yy - blue) / 2.0) ** 2) * (xx > 400)  # the fainter order starts at x 400
+    x = np.arange(400, 1700)
+    assert np.max(np.abs(np.polyval(longslit.trace(img), x) - red[400:1700])) < 1.0
+    coef = longslit.trace(img, guess_row=400)
+    assert np.max(np.abs(np.polyval(coef, x[200:]) - blue[600:1700])) < 1.0
+
+
 def test_boxcar_and_optimal_extraction(frames):
     coef = longslit.trace(frames["obj"])
     box, _ = longslit.boxcar(frames["obj"], coef, width=14, sky_offset=14, sky_width=12)

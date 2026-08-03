@@ -180,13 +180,22 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## Next steps (in this order)
 
-1. **Long slit, curved traces (FLOYDS):** `longslit.trace` searches a fixed ±10-row window around one row, so a
-   trace bending by ~200 rows is lost (extraction follows the sky; flux down to −7500). A rewrite that follows the
-   trace bin by bin with a slope prediction (as `echelle.trace_orders` and IRAF `aptrace` with `step`) was written
-   and **reverted untested** on the owner's instruction: first read IRAF apextract (apfind / aptrace), specreduce
-   `FitTrace` and PypeIt's tracing, then implement, with a synthetic curved-trace test and the FLOYDS frames. Also
-   for FLOYDS: TRIMSEC 'UNKNOWN' and a DATASEC that includes the BIASSEC columns (trim the overscan strip off the
-   data section), the second (blue) order, and a HgAr line list.
+1. **Long slit, curved traces (FLOYDS) — DONE (commit after `331d620`):** read first: IRAF apextract `aptrace.x`
+   (`git clone --sparse https://github.com/iraf-community/iraf`, `noao/twodspec/apextract`: steps of `step`
+   columns summing `nsum`, each centre found from the previous one with `center1d`, lost after `nlost` steps, then
+   an interactive Legendre fit) and specreduce 1.9 `FitTrace` (fixed window around one guess, so it does not follow
+   a bend either). `longslit.trace` now does what aptrace does; the Reduce tab has **Spectrum at row** (0 = the
+   brightest) so the user chooses which spectrum, and the traced line with the aperture is drawn on the frame under
+   the plots, so the user checks it (as aptrace shows its fit). Both FLOYDS orders are followed (within 1 px of the
+   ridge over the illuminated part); the extracted blue order of BD+28 4211 shows its Balmer lines.
+   Still open for FLOYDS: TRIMSEC 'UNKNOWN' and a DATASEC that includes the BIASSEC columns (trim the overscan strip
+   off the data section); wavelengths. **The LCO FLOYDS pipeline** (`git clone https://github.com/LCOGT/floyds_pipeline`,
+   `src/floyds/archive/<tel>/en06/arc/{red,blu}/<slit>/`) keeps, per telescope, arm and slit width, a reference arc
+   spectrum and an IRAF `identify` database (`database/idftn_red_2.0`: pixel, fitted and user wavelength, line name;
+   Hg 5460.75 and Ar I lines) — exactly the instrument "atlas" the owner remembers. Their pixels are on their
+   rectified, trimmed frame, so they do not map onto ours by a shift and scale (tried). Idea to discuss with the
+   owner: **"Load identifications from an IRAF database"** in the Reduce / Echelle tabs, filling the editable table
+   of identified lines (the user checks and corrects them; a shift search like IRAF reidentify as an option).
 2. **Spectral classification:** read MKCLASS (rules on line ratios at a known resolution) and iSpec; decide with
    the owner whether to show it only as a ranked suggestion with scores (keep the user's choice of template).
 3. **User control review, page by page** (owner: nothing silently automatic): list every automatic choice

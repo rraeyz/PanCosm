@@ -9,7 +9,7 @@ Bir spektrografa ait ayarlar (yön, açıklık ve gök genişlikleri, çizgi lis
 
 ## Uzun yarık indirgeme (İndirgeme)
 1. **Bilim karesini** (kalibre 2-B görüntü) ve dalga boyları için **Ark lambası** karesini seçin.
-2. **Optimal çıkarım (Horne)** her pikseli uzaysal profile göre ağırlıklandırır — sönük yıldızlarda daha iyi sinyal/gürültü. **Açıklık genişliği**, **Gök uzaklığı** ve **Gök genişliği** (piksel) çıkarım penceresini ve izin iki yanındaki gök bantlarını belirler.
+2. **Optimal çıkarım (Horne)** her pikseli uzaysal profile göre ağırlıklandırır — sönük yıldızlarda daha iyi sinyal/gürültü. **Açıklık genişliği**, **Gök uzaklığı** ve **Gök genişliği** (piksel) çıkarım penceresini ve izin iki yanındaki gök bantlarını belirler. Tayf, en parlak olduğu yerden başlayarak kare boyunca adım adım izlenir; böylece kavisli izler de takip edilir (IRAF aptrace gibi). Karede birden çok tayf varsa (çapraz dağıtıcılı bir tayfçekerin iki mertebesi, ikinci bir yıldız) **Tayfın satırı** alanına tayfın geçtiği bir satırı girin. İzlenen çizgi ve açıklık, grafiklerin altında karenin üzerine çizilir: devam etmeden önce denetleyin.
 3. **1. Çıkar**: tayf dağılma yönü boyunca izlenir ve çıkarılır; ark da aynı izle çıkarılır ve çizgileri bulunur.
 4. **2. Ark çizgilerine** alttaki grafikte tıklayın ve dalga boylarını (Å) tabloya yazın. En az iki çizgi gerekir; bütün aralığa yayılmış 4–6 çizgi çok daha iyidir. Lambanıza uygun **Ark çizgi listesini** (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…) seçin: kalan çizgiler ondan kendiliğinden tanımlanır.
 5. **3. Dalga boyunu çöz ve kaydet**: bir polinom dalga boyu çözümü fit edilir; rms'i (Å) ve çizgi sayısı gösterilir. 1-B tayf dalga boylarıyla FITS olarak kaydedilir.
