@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..remotesensing import analysis
+from .messages import translate
 from .viewer import ImageViewer
 from .workspaces import PlotCanvas, _title
 
@@ -123,7 +124,7 @@ class RemoteSensingPage(QWidget):
         try:
             self.raster = raster.read(path)
         except Exception as e:  # not an image we can read: say so, keep the page usable
-            self.status.setText(self.tr("Cannot open: {e}").format(e=e))
+            self.status.setText(self.tr("Cannot open: {e}").format(e=translate(str(e))))
             return
         r = self.raster
         self.products = {}
@@ -185,7 +186,7 @@ class RemoteSensingPage(QWidget):
         try:  # check it here so typing errors are reported at once
             analysis.evaluate(expr, {n: np.zeros(1) for n in self.raster.names})
         except analysis.ExpressionError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(str(e)))
             return
         name = getattr(self, "_product_name", None)
         if name and analysis.index_expression(name, {r: c.currentText() for r, c in self.roles.items()}) != expr:

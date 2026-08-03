@@ -126,3 +126,40 @@ def test_task_errors_do_not_show_module_paths():
         "astrowb.planning.targets.TargetError: cannot reach SIMBAD and 'Vega' is not in the local cache\n"
     )
     assert task_error(trace).startswith("TargetError: cannot reach SIMBAD")
+
+
+def test_every_engine_error_has_a_template():
+    """A task that fails shows its error in the interface language: every message raised in the engine (literal
+    or f-string) matches a template; developer errors (step definitions, plugin ids) and messages that are mostly
+    values are left out."""
+    import ast
+    import re
+    from pathlib import Path
+
+    from astrowb.ui.messages import _patterns
+
+    src = Path(__file__).parents[1] / "src" / "astrowb"
+    skip = {"engine/steps.py", "engine/plugins.py"}
+    untranslated = []
+    for path in src.rglob("*.py"):
+        rel = path.relative_to(src).as_posix()
+        if rel.startswith("ui/") or rel in skip:
+            continue
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+            if not (isinstance(node, ast.Raise) and isinstance(node.exc, ast.Call) and node.exc.args):
+                continue
+            kind = getattr(node.exc.func, "id", getattr(node.exc.func, "attr", ""))
+            if kind in ("NotImplementedError", "AssertionError", "KeyError", "TypeError", "SystemExit"):
+                continue
+            arg = node.exc.args[0]
+            if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+                text = arg.value
+            elif isinstance(arg, ast.JoinedStr):
+                text = "".join(v.value if isinstance(v, ast.Constant) else "X" for v in arg.values)
+            else:
+                continue
+            if len(re.sub(r"[^A-Za-z]", "", text.replace("X", ""))) < 8:
+                continue
+            if not any(regex.fullmatch(text) for regex, _ in _patterns()):
+                untranslated.append(f"{rel}:{node.lineno}: {text}")
+    assert not untranslated, "\n".join(untranslated)

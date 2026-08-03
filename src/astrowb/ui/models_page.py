@@ -221,7 +221,9 @@ class ModelsPage(QWidget):
         except Exception as e:  # not a table of phase (or time) and flux
             from PySide6.QtWidgets import QMessageBox
 
-            QMessageBox.warning(self, self.tr("Model curve"), f"{path}\n\n{e}")
+            from .messages import translate
+
+            QMessageBox.warning(self, self.tr("Model curve"), f"{path}\n\n{translate(str(e))}")
             return None
         if self.result and np.nanmax(np.abs(x)) > 2:  # times: fold with the fitted ephemeris
             p = self.result["params"]
