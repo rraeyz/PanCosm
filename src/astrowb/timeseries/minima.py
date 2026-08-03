@@ -140,3 +140,49 @@ def o_minus_c(times, t0, period):
     times = np.asarray(times, float)
     epoch = np.round((times - t0) / period)
     return epoch.astype(int), times - (t0 + epoch * period)
+
+
+def dips(t, y):
+    """How many separate dips (eclipses, transits) a normalised light curve shows: runs of points below half
+    the deepest dip, split where the time between two such points is long."""
+    t, y = np.asarray(t, float), np.asarray(y, float)
+    order = np.argsort(t)
+    t, ys = t[order], _smooth(y[order])
+    floor = np.nanpercentile(ys, 1)
+    low = t[ys < 1 - 0.5 * (1 - floor)]
+    if low.size < 2:
+        return int(low.size)
+    gap = max(10 * np.median(np.diff(t)), 0.05 * np.ptp(t))
+    return 1 + int(np.sum(np.diff(low) > gap))
+
+
+def each_minimum(t, y, t0, period, timer, window=0.1):
+    """Time every primary (I) and secondary (II) minimum the light curve covers, each in the points within
+    window x period of its predicted time, with timer(t, y) -> (time, error). Minima that the data do not cover
+    on both sides, or that show no dip there, are left out. Returns [(time, error, kind)] and the count left out."""
+    t, y = np.asarray(t, float), np.asarray(y, float)
+    found, skipped = [], 0
+    scatter = 1.4826 * np.nanmedian(np.abs(np.diff(y))) / np.sqrt(2)
+    for shift, kind in ((0.0, "I"), (0.5, "II")):
+        first = np.ceil((t.min() - t0) / period - shift - window)
+        last = np.floor((t.max() - t0) / period - shift + window)
+        for e in np.arange(first, last + 1):
+            centre = t0 + (e + shift) * period
+            sel = np.abs(t - centre) <= window * period
+            if sel.sum() < 8:
+                continue
+            tw, yw = t[sel], y[sel]
+            edge = np.median(np.r_[yw[: max(2, sel.sum() // 8)], yw[-max(2, sel.sum() // 8) :]])
+            if edge - np.min(_smooth(yw)) < 5 * scatter:  # no eclipse here (a shallow secondary, a gap)
+                skipped += 1
+                continue
+            try:
+                tm, err = timer(tw, yw)
+            except ValueError:  # the window cuts the minimum: only one branch observed
+                skipped += 1
+                continue
+            if not (np.isfinite(tm) and np.isfinite(err) and err > 0):  # a fit without an error is no timing
+                skipped += 1
+                continue
+            found.append((float(tm), float(err), kind))
+    return sorted(found), skipped

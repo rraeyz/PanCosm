@@ -10,6 +10,8 @@
 
 Görüntünün üzerinde imleç artı işaretidir; bir sonraki tıklamanın koyacağı açıklık ve gök halkası, işaretleyeceği yıldızın renginde (yeşil hedef, kırmızı karşılaştırma, turuncu kontrol yıldızı) imleci izler. Zaten işaretli bir yıldıza tıklamak işareti kaldırır. Görüntüyü kaydırmak için sürükleyin, yakınlaştırmak için tekerleği kullanın.
 
+TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri olduğu gibi seçilebilir: her kadans bir kare olur (görevin işe yaramaz diye işaretlediği kadanslar dışarıda kalır) ve arşivin BJD_TDB zamanını taşır. Bölünecek bir atmosfer olmadığından hedef **karşılaştırma yıldızı olmadan** ölçülebilir: bağıl akı o zaman hedefin kendi akısının medyanına oranıdır.
+
 ## Diferansiyel fotometri: hedefler, mukayese ve kontrol yıldızları
 **Tıklamalar ekler** sonraki tıklamaların ne olacağını seçer: *hedef, sonra mukayese yıldızları* (ilk tıklama hedef T1, sonrakiler mukayese yıldızları C1, C2…), *kontrol yıldızları* (K1, K2…) ya da *başka hedefler* (T2, T3…). Kontrol yıldızları ve diğer hedefler her karede aynı mukayese yıldızlarına göre ölçülür ama onlara katılmaz — MaxIm DL, VPhot ya da AIJ'deki kontrol yıldızı gibi. Sabit bir kontrol yıldızı fotometrinin gerçekte ne kadar iyi olduğunu gösterir: saçılması (mmag) grafiğin altında yazılır.
 
@@ -66,6 +68,7 @@ Yıldızın kendisinden gelmeyen yavaş değişimler — hava kütlesiyle deği�
 - Biliyorsanız **Efemeris T0 (BJD)** ve **Periyot (gün)** girin (isteğe bağlı): o zaman çevrim ve O-C de verilir.
 - Örten çiftler için **Kwee–van Woerden**'i işaretleyin; geçişlere ve düz tabanlı örtmelere uyan ve derinlik ile süreyi de veren **yamuk fiti** için boş bırakın.
 - **Minimum zamanı** zamanı hatasıyla (KvW için KvW ve bootstrap hatalarının büyüğü) gün ve dakika olarak verir.
+- Işık eğrisi birden çok tutulmayı kapsıyorsa (TESS, birkaç gece) T0'ı ve dönemi girin — bu ışık eğrisinde **Dönem arama** yaptıysanız kendiliğinden dolar — her birincil ve ikincil minimum kendi penceresinde zamanlanır ve türüyle O-C sayfasına gönderilir; bunlar verilmezse sayfa anlamsız tek bir zaman vermek yerine onları ister.
 
 ## Standart kadirler
 İlk görüntü plaka çözümlüyse (Görüntü → Plaka çözümü), görüntülerinizin filtresini seçip **Standart kadirler (APASS / Gaia)**'ya basın. Mukayese yıldızları internetten aranır: B, V, g′, r′, i′ APASS DR9'dan gelir; R ve I (ve APASS'ta değeri olmayan V) Gaia DR3'ten yayımlanmış Gaia–Johnson-Cousins bağıntılarıyla hesaplanır (yaklaşık 0,03 kadir saçılım); G Gaia'nın kendi kadiridir. Işık eğrisi bunun üzerine standart sistemde kadire döner: her kare için bütün mukayese yıldızlarından bir sıfır noktası ve, üç ya da daha çok mukayese yıldızının rengi varsa, gece için fit edilen bir renk terimi. Katalogla 0,1 kadirden fazla uyuşmayan bir mukayese yıldızı (değişken, karışmış ya da hatalı katalog değeri) bildirilir ve dışarıda bırakılır. Kadirler çizilir (parlak yukarıda), CSV çıktısına girer ve AAVSO raporundaki mukayese kadirlerini doldurur.

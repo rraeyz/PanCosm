@@ -10,6 +10,8 @@ Good comparison stars have a similar colour and brightness to the target and are
 
 Over the image the pointer is a cross, and the aperture and sky-annulus rings that the next click will place follow it, in the colour of the star it will mark (green target, red comparison, orange check star). A click on a star that is already marked takes it off. Drag to move the image, wheel to zoom.
 
+TESS and Kepler / K2 target pixel files, also TESScut cut-outs from MAST, can be chosen as they are: every cadence becomes a frame (cadences the mission flags as useless are left out) with the archive's BJD_TDB. With no atmosphere to divide out, the target can be measured **without comparison stars**: the relative flux is then the target's own flux over its median.
+
 ## Differential photometry: targets, comparison and check stars
 **Clicks add** chooses what the next clicks are: *target, then comparison stars* (the first click is the target T1, the next ones comparison stars C1, C2…), *check stars* (K1, K2…) or *more targets* (T2, T3…). Check stars and further targets are measured on every frame against the same comparison stars but are not part of them — as the check star of MaxIm DL, VPhot or AIJ. A constant check star shows how good the photometry really is: its scatter (in mmag) is listed under the plot.
 
@@ -66,6 +68,7 @@ Slow changes that are not the star's — extinction changing with airmass, a dri
 - Enter the **Ephemeris T0 (BJD)** and **Period (d)** if you know them (optional): then the epoch and O-C are given too.
 - Tick **Kwee–van Woerden** for eclipsing binaries; leave it for the **trapezoid fit**, which suits transits and flat-bottomed eclipses and also gives depth and duration.
 - **Time of minimum** gives the time with its error (for KvW the larger of the KvW and bootstrap errors), in days and minutes.
+- When the light curve covers several eclipses (TESS, several nights), give T0 and the period — after a **Period search** on this light curve they are filled in for you — and every primary and secondary minimum is timed in its own window and sent to the O-C page with its type; without them the page asks for them instead of giving one meaningless time.
 
 ## Standard magnitudes
 With a plate-solved first image (Image → Plate solve), choose the filter of your images and press **Standard magnitudes (APASS / Gaia)**. The comparison stars are looked up on the internet: B, V, g′, r′, i′ come from APASS DR9; R and I (and V where APASS has no value) are computed from Gaia DR3 with the published Gaia-to-Johnson-Cousins relations (about 0.03 mag scatter); G is Gaia's own. The light curve then becomes magnitudes in the standard system: a zero point for every frame from all comparison stars and, when three or more comparison stars have colours, a colour term fitted for the night. A comparison star that disagrees with the catalogue by more than 0.1 mag (variable, blended, or a bad catalogue value) is reported and left out. The magnitudes are drawn (brighter up), go into the CSV export, and fill the comparison magnitudes of the AAVSO report.

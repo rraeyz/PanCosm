@@ -10,6 +10,8 @@ Gute Vergleichssterne haben eine ähnliche Farbe und Helligkeit wie das Ziel und
 
 Über dem Bild ist der Zeiger ein Kreuz, und die Blenden- und Himmelsringe, die der nächste Klick setzt, folgen ihm in der Farbe des Sterns, den er markiert (grün Ziel, rot Vergleich, orange Prüfstern). Ein Klick auf einen schon markierten Stern entfernt ihn. Ziehen verschiebt das Bild, das Mausrad zoomt.
 
+TESS- und Kepler/K2-Target-Pixel-Dateien, auch TESScut-Ausschnitte von MAST, können unverändert gewählt werden: jede Kadenz wird eine Aufnahme (Kadenzen, die die Mission als unbrauchbar markiert, bleiben weg) mit der BJD_TDB des Archivs. Ohne Atmosphäre, die herauszurechnen wäre, kann das Ziel **ohne Vergleichssterne** gemessen werden: der relative Fluss ist dann der eigene Fluss des Ziels durch seinen Median.
+
 ## Differentielle Photometrie: Ziele, Vergleichs- und Prüfsterne
 **Klicks fügen hinzu** wählt, was die nächsten Klicks sind: *Ziel, dann Vergleichssterne* (der erste Klick ist das Ziel T1, die nächsten die Vergleichssterne C1, C2…), *Prüfsterne* (K1, K2…) oder *weitere Ziele* (T2, T3…). Prüfsterne und weitere Ziele werden auf jeder Aufnahme gegen dieselben Vergleichssterne gemessen, gehören aber nicht dazu — wie der Prüfstern in MaxIm DL, VPhot oder AIJ. Ein konstanter Prüfstern zeigt, wie gut die Photometrie wirklich ist: seine Streuung (in mmag) steht unter dem Diagramm.
 
@@ -66,6 +68,7 @@ Langsame Änderungen, die nicht vom Stern stammen — Extinktion, die sich mit d
 - Tragen Sie **Ephemeride T0 (BJD)** und **Periode (d)** ein, wenn Sie sie kennen (optional): Dann werden auch Epoche und O-C angegeben.
 - Kreuzen Sie **Kwee–van Woerden** für Bedeckungsveränderliche an; ohne Häkchen gilt die **Trapez-Anpassung**, die zu Transits und Bedeckungen mit flachem Boden passt und auch Tiefe und Dauer liefert.
 - **Minimumszeit** gibt die Zeit mit ihrem Fehler (bei KvW der größere von KvW- und Bootstrap-Fehler) in Tagen und Minuten an.
+- Umfasst die Lichtkurve mehrere Bedeckungen (TESS, mehrere Nächte), T0 und die Periode angeben — nach einer **Periodensuche** auf dieser Lichtkurve werden sie eingetragen —, dann wird jedes Haupt- und Nebenminimum in seinem eigenen Fenster bestimmt und mit seiner Art auf die O-C-Seite geschickt; ohne sie fragt die Seite danach, statt eine sinnlose Zeit zu geben.
 
 ## Standardhelligkeiten
 Mit einem astrometrisch gelösten ersten Bild (Bild → Astrometrische Lösung) wählen Sie den Filter Ihrer Bilder und drücken **Standardhelligkeiten (APASS / Gaia)**. Die Vergleichssterne werden im Internet nachgeschlagen: B, V, g′, r′, i′ stammen aus APASS DR9; R und I (und V, wo APASS keinen Wert hat) werden mit den veröffentlichten Gaia-zu-Johnson-Cousins-Beziehungen aus Gaia DR3 berechnet (etwa 0,03 mag Streuung); G ist Gaias eigenes. Die Lichtkurve wird dann zu Helligkeiten im Standardsystem: ein Nullpunkt für jede Aufnahme aus allen Vergleichssternen und, wenn drei oder mehr Vergleichssterne Farben haben, ein für die Nacht angepasster Farbterm. Ein Vergleichsstern, der um mehr als 0,1 mag vom Katalog abweicht (veränderlich, verschmolzen oder ein schlechter Katalogwert), wird gemeldet und weggelassen. Die Helligkeiten werden gezeichnet (heller nach oben), gehen in den CSV-Export ein und füllen die Vergleichshelligkeiten des AAVSO-Berichts.

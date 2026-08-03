@@ -1541,10 +1541,17 @@ class MainWindow(QMainWindow):
         )
 
     def time_minimum(self, light_curve, params):
+        pp, page = self.period_page, self.photometry_page
+        if "period" not in params and pp.best and pp.time and len(pp.time) == len(light_curve["time"]):
+            params = params | {"period": float(pp.best), "t0": float(pp._t0())}  # from the period search just made
+            page.period.setText(f"{params['period']:.8f}")
+            page.t0.setText(f"{params['t0']:.6f}")
+
         def done(out):
             m = out["minimum"]
-            self.photometry_page.show_minimum(m)
-            self.oc_page.add_minimum(m["time"], m["error"], "this work")  # ready for the O-C diagram
+            page.show_minimum(m)
+            for x in m.get("minima", [m]):  # ready for the O-C diagram
+                self.oc_page.add_minimum(x["time"], x["error"], "this work", x.get("kind", "I"))
             if params.get("t0") and not self.oc_page.t0.text():
                 self.oc_page.t0.setText(repr(params["t0"]))
                 self.oc_page.period.setText(repr(params["period"]))

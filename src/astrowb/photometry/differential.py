@@ -59,6 +59,9 @@ def ensemble(flux_t, err_t, comp_flux, comp_err, weights=None):
     """Relative flux of a star against the (weighted) sum of the comparison stars, with its error."""
     f, s = np.asarray(flux_t, float), np.asarray(err_t, float)
     c, ce = np.asarray(comp_flux, float), np.asarray(comp_err, float)
+    if c.ndim < 2 or c.shape[1] == 0:  # no comparison star (space photometry): the target's flux over its median
+        norm = np.nanmedian(f)
+        return f / norm, np.abs(s / norm)
     w = np.ones(c.shape[1]) if weights is None else np.asarray(weights, float)
     e = (c * w).sum(axis=1)
     with np.errstate(divide="ignore", invalid="ignore"):
