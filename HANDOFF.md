@@ -225,8 +225,8 @@ Status of everything so far:
 | T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | DONE (see notes) |
 | T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | DONE (see notes) |
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
-| T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | TODO |
-| T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | TODO |
+| T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
+| T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | CLAIMED by agent session 01RxUU (2026-11-04) |
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | TODO |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
@@ -258,6 +258,11 @@ set-up incl. its device rows, display levels, blink, transformation coefficients
 first-run welcome — English only there, the owner's rule) has a tooltip, translated.
 `tests/test_tooltips.py::test_every_dialog_control_has_a_tooltip` keeps it so. Facts checked against the code
 (e.g. the astrometry fits a straight motion, `photometry/moving.py`).
+
+**T5 (done).** `calibration/masters.py::_layout`: the data section is the first *readable* of TRIMSEC, DATASEC
+(LCO writes TRIMSEC = 'UNKNOWN'; before, DATASEC was then never looked at and nothing was trimmed), and
+`_without_overscan()` cuts a BIASSEC strip off the side it is on when the data section covers it (FLOYDS:
+DATASEC [1:2079,1:512], BIASSEC [2049:2079,1:512] → 512 x 2048 now). Test in `test_section_overscan_and_trim`.
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 

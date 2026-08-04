@@ -132,6 +132,26 @@ def _linear(values):
     return values if poly is None else np.polyval(poly, values).astype(np.float32)
 
 
+def _without_overscan(trim, over):
+    """The data section without the overscan strip, when a header's DATASEC also covers the BIASSEC columns
+    (or rows): the strip is cut off the side it is on, as the frame's own TRIMSEC would."""
+    if not over:
+        return trim
+    rows, cols = trim
+    (o_r, o_c), n_r, n_c = over, rows.stop - rows.start, cols.stop - cols.start
+    if o_r.stop - o_r.start >= n_r / 2:  # a strip of columns
+        if cols.start < o_c.start < cols.stop:  # on the right
+            cols = slice(cols.start, o_c.start)
+        elif o_c.start <= cols.start < o_c.stop < cols.stop:  # on the left
+            cols = slice(o_c.stop, cols.stop)
+    elif o_c.stop - o_c.start >= n_c / 2:  # a strip of rows
+        if rows.start < o_r.start < rows.stop:  # at the top
+            rows = slice(rows.start, o_r.start)
+        elif o_r.start <= rows.start < o_r.stop < rows.stop:  # at the bottom
+            rows = slice(o_r.stop, rows.stop)
+    return rows, cols
+
+
 def _layout(hdu):
     """(rows, columns, overscan level) of a frame from BIASSEC and TRIMSEC / DATASEC in its header; the level is
     0 or an array that broadcasts over the trimmed frame (see overscan_level)."""
@@ -141,8 +161,10 @@ def _layout(hdu):
     def whole(sec):  # "the whole axis" made concrete: the code below reads .start and .stop
         return sec and (slice(*sec[0].indices(ny)[:2]), slice(*sec[1].indices(nx)[:2]))
 
-    trim = whole(section(h.get("TRIMSEC", h.get("DATASEC", "")))) or (slice(0, ny), slice(0, nx))
     over = whole(section(h.get("BIASSEC", "")))
+    # the first section that can be read: some pipelines write TRIMSEC = 'UNKNOWN' (LCO FLOYDS)
+    trim = next((t for t in (whole(section(h.get(k, ""))) for k in ("TRIMSEC", "DATASEC")) if t), None)
+    trim = _without_overscan(trim or (slice(0, ny), slice(0, nx)), over)
     level = overscan_level(_linear(np.asarray(hdu.section[over], np.float32)), over, trim) if over else np.float32(0.0)
     return trim[0], trim[1], level
 
