@@ -1775,7 +1775,7 @@ class MainWindow(QMainWindow):
 
     def _show_update(self, release, error):
         if error:
-            text = self.tr("Could not check for updates: {e}").format(e=error)
+            text = self.tr("Could not check for updates: {e}").format(e=translate(error))
         elif release:
             text = self.tr("Version {v} is available (you have {c}).").format(v=release["version"], c=__version__)
             link = self.tr("Open the download page")

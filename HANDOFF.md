@@ -313,8 +313,8 @@ Status of everything so far:
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
-| T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | CLAIMED by agent session 019Lu3, 2026-11-05 |
-| T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
+| T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
+| T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | CLAIMED by agent session 019Lu3, 2026-11-05 |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
@@ -340,6 +340,16 @@ start: "Order/mertebe numaraları"); later uses in the same text stay Turkish on
 izler" (order mistranslated as "düzen") is "Order/mertebeleri…". Unit texts stay short ("kadir / hava kütlesi").
 Kept in English already: flat, bias, dark, light, arc, blaze, FWHM, detrend. The script used: first match of
 `(?<![/\w])([Mm])ertebe`, `([Gg])örüş(?!me|ler)`, `([Hh])ava kütle` per `<translation>` and per guide line.
+
+**T8 (done).** Every error text shown in the interface now goes through `messages.translate()` (it passes unknown
+text through unchanged): Models, Plan, Spectrum tools, Observe (connection, copying, configuration), observatory
+search, update check, Calibrate scan problems, Images statistics, AAVSO report, Period page file reading. Ten common
+engine errors got the remedy after a colon, with templates and tr / de / es translations naming the real page and
+option names: no frames to combine, too few stars / star patterns do not match (→ Align "shift only"), no image data,
+images of different size, no observation time (→ add DATE-OBS on the Images page's Header tab), no minimum found,
+no orders found (→ add them by hand on the flat), no whole eclipse at the predicted times (→ check T0, P, time scale),
+no catalogue magnitude (→ plate-solve, APASS / Gaia). Left: library errors (astropy, OSError) stay in English; the
+other observatory / device messages name their cause and were judged clear enough.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

@@ -1451,7 +1451,7 @@ class CubeTab(QWidget):
         try:  # shortcut: the cube is read into memory; very large cubes (> RAM) need memory-mapped slices
             self.data, self.wave, self.header = cube.read_cube(path)
         except Exception as e:  # not a cube: say so, keep the tab usable
-            self.status.setText(self.tr("Cannot open: {e}").format(e=e))
+            self.status.setText(self.tr("Cannot open: {e}").format(e=translate(e)))
             return
         self.cube_path = path
         nw, ny, nx = self.data.shape

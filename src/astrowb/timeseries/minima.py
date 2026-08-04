@@ -49,11 +49,11 @@ def kwee_van_woerden(t, y, n_trials=61, bootstrap=200, seed=0):
         j = int(np.argmin(s))
         if not 4 <= j <= n_trials - 5:  # minimum at the grid edge: move the grid there and retry
             if tries == 0:
-                raise ValueError("no minimum found")
+                raise ValueError("no minimum found: the window must hold one whole minimum with points on both sides")
             return solve(yy, trials[j], tries - 1)
         a, b, c = np.polyfit(trials[j - 4 : j + 5] - centre, s[j - 4 : j + 5], 2)
         if a <= 0:
-            raise ValueError("no minimum found")
+            raise ValueError("no minimum found: the window must hold one whole minimum with points on both sides")
         z = np.sum(np.abs(t - centre) <= hw) / 4  # independent pairs (KvW: N/4)
         var = (4 * a * c - b * b) / (4 * a * a * (z - 1))
         return centre - b / (2 * a), np.sqrt(max(var, 0.0))

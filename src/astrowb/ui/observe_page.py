@@ -533,7 +533,7 @@ class ObservePage(Undoable, QWidget):
             except (OSError, ValueError) as e:  # not a configuration file (wrong file, damaged JSON)
                 from PySide6.QtWidgets import QMessageBox
 
-                QMessageBox.warning(self, self.tr("Observatory configuration"), f"{path}\n\n{e}")
+                QMessageBox.warning(self, self.tr("Observatory configuration"), f"{path}\n\n{translate(e)}")
                 return None
             self.url.setText(url)
             self.token.setText(token)
@@ -559,7 +559,7 @@ class ObservePage(Undoable, QWidget):
     def _show_status(self, st):
         self.status = st
         if "error" in st:
-            self.safety.setText(self.tr("No connection to the observatory: {e}").format(e=st["error"]))
+            self.safety.setText(self.tr("No connection to the observatory: {e}").format(e=translate(st["error"])))
             self.safety.setStyleSheet("font-weight: bold; padding: 6px; background: #c62828; color: white;")
             return
         if st["safe"] and not st["aborted"]:
@@ -619,7 +619,7 @@ class ObservePage(Undoable, QWidget):
         try:
             c = self._coord(self.target.text())
         except ValueError as e:
-            self.job.setText(str(e))
+            self.job.setText(translate(e))
             return False
         return self._post(
             "/center", {"ra": c.ra.deg, "dec": c.dec.deg, "exptime": 5.0, "out_dir": self.out_dir.text().strip()}
@@ -643,7 +643,7 @@ class ObservePage(Undoable, QWidget):
         try:
             c = self._coord(self.target.text())
         except ValueError as e:
-            self.job.setText(str(e))
+            self.job.setText(translate(e))
             return
         self._post("/slew", {"ra": c.ra.deg, "dec": c.dec.deg})
 
@@ -817,7 +817,7 @@ class ObservePage(Undoable, QWidget):
         try:
             spec = self.sequence_spec()
         except ValueError as e:
-            self.job.setText(str(e))
+            self.job.setText(translate(e))
             return
         if self._post("/sequence", spec):
             self._sequence_dir = spec["out_dir"]

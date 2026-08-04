@@ -41,6 +41,7 @@ from PySide6.QtWidgets import (
 from ..brand import BRAND
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
+from .messages import translate
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -561,7 +562,7 @@ class ImagePage(Undoable, QWidget):
                 saturation=saturation_level(self.header, data),
             )
         except Exception as e:  # no star there, at the edge, …
-            self._show_rows([(self.tr("Error"), str(e))])
+            self._show_rows([(self.tr("Error"), translate(e))])
             return None
         self.viewer.set_markers(
             [
@@ -628,7 +629,7 @@ class ImagePage(Undoable, QWidget):
         try:
             a = area_stats(data, x0, y0, x1, y1, gain=self._gain())
         except ValueError as e:
-            self._show_rows([(self.tr("Error"), str(e))])
+            self._show_rows([(self.tr("Error"), translate(e))])
             return None
         rows = [
             (self.tr("Corners x, y (FITS pixels)"), f"{a['x0'] + 1}, {a['y0'] + 1} – {a['x1'] + 1}, {a['y1'] + 1}"),
@@ -1197,7 +1198,8 @@ class CalibratePage(QWidget):
             )
         self.summary.setText(text)
         plan = make_plan([Frame(**f | {"binning": tuple(f["binning"]), "shape": tuple(f["shape"])}) for f in frames])
-        lines = [self.tr("Cannot read {file}: {error}").format(file=Path(p).name, error=e) for p, e in problems]
+        cannot = self.tr("Cannot read {file}: {error}")
+        lines = [cannot.format(file=Path(p).name, error=translate(e)) for p, e in problems]
         lines += [self.tr("Type unknown, ignored: {file}").format(file=Path(p).name) for p in plan.unknown]
         lines += [f"{Path(p).name}: {self._missing_text(k, why)}" for p, k, why in plan.missing]
         if frames and not counts["light"]:
@@ -2532,7 +2534,7 @@ class PhotometryPage(Undoable, QWidget):
         try:
             text = aavso_extended(self.light_curve, software_name=BRAND.display_name, **dialog.values(), **extra)
         except ValueError as e:
-            QMessageBox.warning(self, self.tr("AAVSO report"), str(e))
+            QMessageBox.warning(self, self.tr("AAVSO report"), translate(e))
             return
         path, _ = QFileDialog.getSaveFileName(self, self.tr("AAVSO report"), "aavso.txt", "Text (*.txt)")
         if path:
@@ -3132,7 +3134,7 @@ class PeriodPage(Undoable, QWidget):
             )
             self.set_light_curve(data[:, 0], data[:, 1], Path(path).name)
         except (ValueError, IndexError) as e:
-            self.source.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=e))
+            self.source.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
 
     def _search(self):
         self.result.setText(self.tr("Searching…"))

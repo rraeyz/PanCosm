@@ -68,7 +68,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the target position {x}, {y} is outside the image ({nx} × {ny} px)"),
     QT_TRANSLATE_NOOP("Messages", "comparison star {n} at {x}, {y} is outside the image ({nx} × {ny} px)"),
     # photometry/catalog.py, steps.py
-    QT_TRANSLATE_NOOP("Messages", "no comparison star has a catalogue magnitude"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia",
+    ),
     QT_TRANSLATE_NOOP("Messages", "the first image has no sky coordinates: plate-solve it first (Image menu)"),
     # engine/builtin.py
     QT_TRANSLATE_NOOP("Messages", "the image has no sky coordinates: plate-solve it first (Image menu)"),
@@ -97,7 +100,10 @@ TEMPLATES = (
         "Messages",
         "the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one",
     ),
-    QT_TRANSLATE_NOOP("Messages", "no whole eclipse at the times predicted by T0 and the period"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no whole eclipse at the times predicted by T0 and the period: check T0, the period and the time scale",
+    ),
     QT_TRANSLATE_NOOP("Messages", "{name}: no cadence with a time and good quality"),
     # timeseries/ephemeris.py
     QT_TRANSLATE_NOOP("Messages", "line {n}: '{value}' is not a time"),
@@ -121,13 +127,22 @@ TEMPLATES = (
     ),
     QT_TRANSLATE_NOOP("Messages", "linearity coefficients: give at least c0 and c1, with c1 > 0"),
     QT_TRANSLATE_NOOP("Messages", "frames have different sizes: {shapes}"),
-    QT_TRANSLATE_NOOP("Messages", "no frames to combine"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no frames to combine: check the folder and the frame types listed on the Calibrate page",
+    ),
     QT_TRANSLATE_NOOP("Messages", "{name}: no EXPTIME"),
     QT_TRANSLATE_NOOP("Messages", "darks with different exposure times cannot be combined: {times}"),
     QT_TRANSLATE_NOOP("Messages", "{name}: flat level {level} is not positive"),
     # calibration/starmatch.py
-    QT_TRANSLATE_NOOP("Messages", "too few stars to match the frames"),
-    QT_TRANSLATE_NOOP("Messages", "the star patterns of the frames do not match"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "too few stars to match the frames: choose Align 'shift only', or use frames with more stars",
+    ),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the star patterns of the frames do not match: check that all frames show one field, or align by shift only",
+    ),
     # compute/__init__.py
     QT_TRANSLATE_NOOP("Messages", "no GPU adapter"),
     QT_TRANSLATE_NOOP("Messages", "only a software adapter: {device}"),
@@ -167,7 +182,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "{name}: not a 2-D picture (shape {shape})"),
     QT_TRANSLATE_NOOP("Messages", "{name}: not a 2 x 2 Bayer sensor (e.g. Fujifilm X-Trans, Foveon)"),
     # io/fits.py
-    QT_TRANSLATE_NOOP("Messages", "no image data in file"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no image data in file: open a FITS image, a picture or a camera raw file",
+    ),
     QT_TRANSLATE_NOOP("Messages", "destination must differ from source"),
     # io/inspect.py
     QT_TRANSLATE_NOOP("Messages", "the rectangle is outside the image"),
@@ -177,7 +195,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the factor must be positive"),
     QT_TRANSLATE_NOOP("Messages", "the image has no valid pixels"),
     QT_TRANSLATE_NOOP("Messages", "image too small for this box size"),
-    QT_TRANSLATE_NOOP("Messages", "the images do not have the same size"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the images do not have the same size: use frames of one camera and binning, or crop / bin them first",
+    ),
     # models/data.py
     QT_TRANSLATE_NOOP("Messages", "{name}: need at least a time and a value column"),
     QT_TRANSLATE_NOOP("Messages", "not a table with two columns (time or phase, flux)"),
@@ -226,7 +247,10 @@ TEMPLATES = (
     # spectroscopy/disentangle.py
     QT_TRANSLATE_NOOP("Messages", "the spectra hardly overlap"),
     # spectroscopy/echelle.py
-    QT_TRANSLATE_NOOP("Messages", "no orders found"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no orders found: check that the flat shows the orders as bright stripes, or add them by hand on the flat",
+    ),
     QT_TRANSLATE_NOOP("Messages", "identify at least four lines in at least two orders"),
     QT_TRANSLATE_NOOP("Messages", "order at row {row} could not be traced"),
     QT_TRANSLATE_NOOP("Messages", "too few lines matched: check the identified lines, order numbers and line list"),
@@ -259,9 +283,15 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "no IRAF database {name} next to it: choose the database file itself"),
     # timeseries/minima.py
     QT_TRANSLATE_NOOP("Messages", "the minimum must have data on both sides"),
-    QT_TRANSLATE_NOOP("Messages", "no minimum found"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no minimum found: the window must hold one whole minimum with points on both sides",
+    ),
     # timing.py
-    QT_TRANSLATE_NOOP("Messages", "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS on the Images page's Header tab",
+    ),
     QT_TRANSLATE_NOOP("Messages", "not an angle: {value}"),
     # updates.py
     QT_TRANSLATE_NOOP("Messages", "no GitHub repository configured for update checks"),

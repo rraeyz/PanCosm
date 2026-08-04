@@ -263,7 +263,9 @@ def pixel_math(expression, images: dict, header):
 
     shapes = {np.shape(v) for v in images.values()}
     if len(shapes) > 1:
-        raise ValueError("the images do not have the same size")
+        raise ValueError(
+            "the images do not have the same size: use frames of one camera and binning, or crop / bin them first"
+        )
     return evaluate(expression, images), header.copy()
 
 

@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..models.fit import DEFAULT_FREE, NAMES
+from .messages import translate
 from .spectro_page import _FileRow
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas
@@ -223,7 +224,7 @@ class ModelsPage(Undoable, QWidget):
         try:
             start = self._start()
         except ValueError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return
         if start["period"] <= 0:
             self.status.setText(self.tr("Give the period and the time of primary minimum (O-C page)."))

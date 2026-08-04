@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
 
@@ -289,7 +290,7 @@ class PlanPage(Undoable, QWidget):
         try:
             targets = self.targets()
         except ValueError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return
         self.settings.set("site", self.site())
         self.status.setText(self.tr("Computing…"))

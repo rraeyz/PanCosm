@@ -203,7 +203,7 @@ class ObservatoryDialog(QDialog):
     def _show_found(self, found):
         self.find_button.setEnabled(True)
         if isinstance(found, str):
-            self.status.setText(self.tr("Search failed: {e}").format(e=found))
+            self.status.setText(self.tr("Search failed: {e}").format(e=translate(found)))
             return
         have = {(d["address"], d.get("number")) for d in self.devices() if d["protocol"] == "alpaca"}
         new = [d for d in found if (d["address"], d["number"]) not in have]

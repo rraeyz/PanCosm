@@ -72,11 +72,11 @@ def match(ref_xy, img_xy, tolerance=0.01, max_error=2.0, rng=None):
     from scipy.spatial import cKDTree
 
     if len(ref_xy) < 4 or len(img_xy) < 4:
-        raise ValueError("too few stars to match the frames")
+        raise ValueError("too few stars to match the frames: choose Align 'shift only', or use frames with more stars")
     inv_r, cor_r = _triangles(ref_xy)
     inv_i, cor_i = _triangles(img_xy)
     if not len(inv_r) or not len(inv_i):
-        raise ValueError("too few stars to match the frames")
+        raise ValueError("too few stars to match the frames: choose Align 'shift only', or use frames with more stars")
     votes = np.zeros((len(ref_xy), len(img_xy)), int)
     for r, cand in enumerate(cKDTree(inv_i).query_ball_point(inv_r, tolerance)):
         for c in cand:
@@ -85,7 +85,9 @@ def match(ref_xy, img_xy, tolerance=0.01, max_error=2.0, rng=None):
         (i, int(np.argmax(v))) for i, v in enumerate(votes) if v.max() >= 2 and np.argmax(votes[:, np.argmax(v)]) == i
     ]
     if len(pairs) < 3:
-        raise ValueError("the star patterns of the frames do not match")
+        raise ValueError(
+            "the star patterns of the frames do not match: check that all frames show one field, or align by shift only"
+        )
     pr, pi = ref_xy[[p[0] for p in pairs]], img_xy[[p[1] for p in pairs]]
     rng = rng or np.random.default_rng(0)
     best = np.zeros(len(pairs), bool)
@@ -97,7 +99,9 @@ def match(ref_xy, img_xy, tolerance=0.01, max_error=2.0, rng=None):
         if ok.sum() > best.sum():
             best = ok
     if best.sum() < 3:
-        raise ValueError("the star patterns of the frames do not match")
+        raise ValueError(
+            "the star patterns of the frames do not match: check that all frames show one field, or align by shift only"
+        )
     a, b = similarity(pr[best], pi[best])
     m, t = as_matrix(a, b)
     rms = float(np.sqrt(np.mean(np.sum((pr[best] @ m.T + t - pi[best]) ** 2, axis=1))))
