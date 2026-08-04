@@ -146,9 +146,7 @@ def results_button(parent, rows_and_caption):
         got = rows_and_caption()
         if not got:
             return
-        path, _ = QFileDialog.getSaveFileName(
-            parent, tr("Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)"
-        )
+        path, _ = QFileDialog.getSaveFileName(parent, tr("Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)")
         if path:
             save_results(path, *got)
 

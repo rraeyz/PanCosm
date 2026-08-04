@@ -163,7 +163,9 @@ class FrequencyPage(QWidget):
             ax1.legend(loc="upper right", fontsize="small")
         for row in rows:
             ax1.axvline(row["freq"], color="r", lw=0.6, alpha=0.6)
-        ax1.set_ylabel(self.tr("Amplitude"))
+        ax1.set_ylabel(
+            self.tr("Amplitude (mag)") if self.magnitudes.isChecked() else self.tr("Amplitude (relative flux)")
+        )
         ax2.plot(grid, out["residual_spectrum"], lw=0.6)
         ax2.plot(grid, self.snr_min.value() * _running_mean(np.asarray(out["residual_spectrum"]), grid), lw=0.8)
         ax2.set_ylabel(self.tr("Residuals"))

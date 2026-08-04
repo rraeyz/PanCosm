@@ -394,6 +394,10 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     page.show_fit(page.result | {"mcmc": mcmc | {"samples": samples, "acceptance": 0.4}})
     assert "MCMC (acceptance 0.40)" in page.status.text() and page.posterior_button.isVisibleTo(page)
     assert "t0 = 2459500.251234" in page.status.text()
+    rows, caption = page.fit_table()  # MCMC values where sampled, the covariance elsewhere, fixed ones marked
+    names = {r[0]: r for r in rows}
+    assert names["incl"][1:3] == (86.0, 0.2) and names["t0"][1] == 2459500.251234 and "MCMC" in caption
+    assert names["l3 (fixed)"][2] is None and "800 points" in caption and "r1" in names
     dlg = page.show_posterior()
     assert len(dlg.findChildren(type(page.plot))[0].figure.axes) == 4
     dlg.close()
