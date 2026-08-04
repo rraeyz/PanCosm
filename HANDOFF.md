@@ -32,6 +32,11 @@ and commits in English. Delete this file once the work is finished.
     off when not); **every control shows a short, explanatory tooltip** ("not everyone understands"); **undo / redo
     with Ctrl+Z / Ctrl+Y** (the owner's biggest problem with IRAF). The goal stays: IRAF-quality results, easier
     than IRAF. Keep this file up to date.
+  - Latest (2026-11-04, evening): on the Minimum tab both methods stay, the user chooses by what they study,
+    Kwee–van Woerden (eclipsing binaries) is the default, shown so a user understands it. **Do every open item**
+    (task board below), write each step into this file *before* starting it (claimed) and after finishing it (done),
+    so another agent can continue when this one's quota ends. The aim: a complete, high-quality program whose
+    output is at the level of a journal paper — a professor working with it must see that.
 
 ## Rules of the repository
 
@@ -201,7 +206,40 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   tr / de / es). `tests/test_tooltips.py` fails when a new control has none, and checks one Turkish tooltip.
   Not covered by the test: dialogs (exposure, AAVSO, BeSS, observatory set-up) — most of their fields have tips.
 
-## Next steps (in this order)
+## Task board (keep this up to date: it is how agents hand work over)
+
+**Protocol.** Before starting a task, change its status to `CLAIMED by <agent / session>, <date>` and push that
+change at once, so that a second agent does not take the same task and break half-done work. While working, add
+what was done and found under the task (commits, files, results, what is left). When finished, set
+`DONE (<commits>)`. A task claimed by an agent whose quota ended may be taken over: read its notes first, check
+`git log`, and continue from there. The owner's quota for one agent may end at any moment: push small, finished
+steps (each passing `tools/precommit.sh`), never a large unpushed change.
+
+Status of everything so far:
+
+| # | Task | Status |
+|---|---|---|
+| 1-4 | Campaigns 1-3 (sections above) and the fourth round (undo / redo, defaults audit, tooltips on pages) | DONE (up to `433f6f2`) |
+| A | Long slit, curved traces (FLOYDS): trace followed as IRAF aptrace, "Spectrum at row", traced line drawn | DONE (`c4168a9`) |
+| T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | CLAIMED by agent session 01RxUU (2026-11-04) |
+| T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | TODO |
+| T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | TODO |
+| T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
+| T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | TODO |
+| T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | TODO |
+| T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | TODO |
+| T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
+| T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
+| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | TODO |
+| T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
+
+### Notes per task
+
+(Each agent adds its notes here under the task number.)
+
+## Earlier "next steps" list (kept for its details; superseded by the task board)
+
 
 1. **Long slit, curved traces (FLOYDS) — DONE (commit after `331d620`):** read first: IRAF apextract `aptrace.x`
    (`git clone --sparse https://github.com/iraf-community/iraf`, `noao/twodspec/apextract`: steps of `step`
