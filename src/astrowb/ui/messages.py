@@ -250,6 +250,9 @@ TEMPLATES = (
     # spectroscopy/wavecal.py
     QT_TRANSLATE_NOOP("Messages", "identify at least two lines"),
     QT_TRANSLATE_NOOP("Messages", "too few lines matched: check the identified lines and the line list"),
+    # spectroscopy/reidentify.py and the Reduce tab
+    QT_TRANSLATE_NOOP("Messages", "{name}: no identified lines (not an IRAF identify / ecidentify database?)"),
+    QT_TRANSLATE_NOOP("Messages", "no IRAF database {name} next to it: choose the database file itself"),
     # timeseries/minima.py
     QT_TRANSLATE_NOOP("Messages", "the minimum must have data on both sides"),
     QT_TRANSLATE_NOOP("Messages", "no minimum found"),

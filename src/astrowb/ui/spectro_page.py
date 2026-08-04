@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas
 
@@ -47,6 +48,20 @@ def _set_rows(table, rows):
 
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
+
+
+def _database_and_reference(path):
+    """(IRAF database, reference arc or None) from either of the two files chosen by the user."""
+    from ..spectroscopy import reidentify
+
+    path = Path(path)
+    if path.suffix.lower() in (".fits", ".fit", ".fts", ".fz"):
+        stem = path.name.split(".fit")[0]
+        for db in (path.parent / "database" / f"id{stem}", path.parent / f"id{stem}"):
+            if db.exists():
+                return db, path
+        raise ValueError(f"no IRAF database id{stem} next to it: choose the database file itself")
+    return path, reidentify.find_reference(path)
 
 
 def _spin(parent, value, lo=0.5, hi=500.0, decimals=1):
@@ -205,6 +220,17 @@ class ReduceTab(Undoable, QWidget):
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         track_typing(self, self.guesses, self.tr("type a wavelength"))
         lay.addWidget(self.guesses, 1)
+        self.reference_button = QPushButton(self.tr("Lines from a reference arc / IRAF database…"), self)
+        self.reference_button.setToolTip(
+            self.tr(
+                "For a spectrograph whose arc was identified before (an IRAF identify database, with its reference "
+                "arc spectrum, e.g. from the observatory's pipeline): this arc is matched to the reference "
+                "(stretch and shift, as PypeIt and IRAF reidentify) and the known lines are placed on its peaks. "
+                "They fill the table for you to check before solving."
+            )
+        )
+        self.reference_button.clicked.connect(lambda: self.lines_from_reference())
+        lay.addWidget(self.reference_button)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
@@ -346,6 +372,57 @@ class ReduceTab(Undoable, QWidget):
     def _add_line(self, row):
         _set_rows(self.guesses, _rows(self.guesses) + [row])
 
+    def lines_from_reference(self, path=None, record=0):
+        """Identifications from an IRAF database (and the reference arc it was made on) placed on this arc."""
+        from ..spectroscopy import reidentify
+
+        if not self.result or not self.result.get("arc"):
+            self.status.setText(self.tr("Extract with an arc first (1. Extract): its lines are matched."))
+            return None
+        path = (
+            path
+            or QFileDialog.getOpenFileName(
+                self, self.tr("IRAF database or reference arc"), "", self.tr("IRAF databases and spectra (*)")
+            )[0]
+        )
+        if not path:
+            return None
+        try:
+            database, reference = _database_and_reference(path)
+            features = reidentify.read_database(database)[record]["features"]
+            peaks = self.result["arc_peaks"]
+            if reference is not None:
+                wave, flux = reidentify.reference_arc(reference)
+                lines = [(f["wave"], f["label"]) for f in features]
+                r = reidentify.from_reference(self.result["arc"], peaks, wave, flux, lines)
+                rows = [[f"{p:.2f}", f"{w:.4f}"] for p, w, _ in r["pairs"]]
+                text = self.tr(
+                    "{m} of {n} lines of {ref} found in this arc (correlation {c:.2f}; rms {rms:.2f} Å against the "
+                    "reference's lines). Check them on the arc plot, delete wrong rows, then 3. Solve."
+                ).format(m=r["matched"], n=r["of"], ref=Path(reference).name, c=r["correlation"], rms=r["rms"])
+                doubtful = r["correlation"] < 0.3 or r["matched"] < 3
+            else:
+                shift, found = reidentify.shift_features(peaks, features)
+                rows = [[f"{p:.2f}", f"{f['wave']:.4f}"] for p, f in found]
+                text = self.tr(
+                    "{m} of {n} lines of {db} found in this arc, shifted by {s:+.1f} px (the database's pixels are "
+                    "taken as this spectrograph's). Check them on the arc plot, delete wrong rows, then 3. Solve."
+                ).format(m=len(found), n=len(features), db=Path(database).name, s=shift)
+                doubtful = len(found) < 3
+        except (OSError, ValueError, IndexError, KeyError) as e:
+            self.status.setText(
+                self.tr("Cannot use {file}: {error}").format(file=Path(path).name, error=translate(str(e)))
+            )
+            return None
+        if doubtful:
+            text += " " + self.tr(
+                "Few lines agree: is the reference from the same spectrograph, grating, slit and lamp? "
+                "Identify the lines by hand instead."
+            )
+        self.edit(self.tr("lines from a reference"), _set_rows, self.guesses, rows)
+        self.status.setText(text)
+        return rows
+
     def undo_state(self):
         return {"guesses": _rows(self.guesses)}
 
@@ -467,6 +544,15 @@ class EchelleTab(Undoable, QWidget):
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         track_typing(self, self.guesses, self.tr("type a wavelength"))
         lay.addWidget(self.guesses, 1)
+        self.database_button = QPushButton(self.tr("Lines from an IRAF ecidentify database…"), self)
+        self.database_button.setToolTip(
+            self.tr(
+                "Lines identified before on this spectrograph with IRAF ecidentify (database/ec…): placed on this "
+                "arc's peaks after the common shift (as IRAF ecreidentify); they fill the table for you to check"
+            )
+        )
+        self.database_button.clicked.connect(lambda: self.lines_from_database())
+        lay.addWidget(self.database_button)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
@@ -687,6 +773,42 @@ class EchelleTab(Undoable, QWidget):
             self.plot.figure.colorbar(sc, ax=ax, label=self.tr("Order"))
             self._resid_ax, self._resid_points = ax, a
         self.plot.draw()
+
+    def lines_from_database(self, path=None):
+        """Identifications from an IRAF ecidentify database, shifted onto this arc's peaks order by order."""
+        from ..spectroscopy import reidentify
+
+        orders = self._orders()
+        if not self.result or not self.result.get("arc_peaks") or orders is None:
+            self.status.setText(
+                self.tr("Extract with an arc first and give the lowest order number: the database names orders.")
+            )
+            return None
+        path = path or QFileDialog.getOpenFileName(self, self.tr("IRAF ecidentify database"), "", "*")[0]
+        if not path:
+            return None
+        try:
+            features = [f for rec in reidentify.read_database(path) for f in rec["features"] if "order" in f]
+            if not features:
+                raise ValueError(self.tr("no echelle orders in it (an identify database is for the Reduce tab)"))
+            pooled = [p for k, peaks in enumerate(self.result["arc_peaks"]) for p in np.asarray(peaks) + 1e5 * k]
+            index = {m: k for k, m in enumerate(orders)}
+            mine = [f | {"pixel": f["pixel"] + 1e5 * index[f["order"]]} for f in features if f["order"] in index]
+            shift, found = reidentify.shift_features(pooled, mine)
+        except (OSError, ValueError, KeyError) as e:
+            self.status.setText(
+                self.tr("Cannot use {file}: {error}").format(file=Path(path).name, error=translate(str(e)))
+            )
+            return None
+        rows = [[str(f["order"]), f"{p % 1e5:.2f}", f"{f['wave']:.4f}"] for p, f in found]
+        self.edit(self.tr("lines from a database"), _set_rows, self.guesses, rows)
+        self.status.setText(
+            self.tr(
+                "{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 3. "
+                "Solve."
+            ).format(m=len(rows), n=len(features), s=shift)
+        )
+        return rows
 
     def forget_excluded(self):
         self.excluded_lines = []

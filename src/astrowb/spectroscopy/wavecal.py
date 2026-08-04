@@ -145,6 +145,10 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.1
     for _ in range(3):  # final passes over all lines with a tightened tolerance
         nearest, ok = _match(np.polyval(coef, peaks), catalogue, max(3 * sd, 0.3 * disp))
         px, wv = peaks[ok], catalogue[nearest[ok]]
-        coef, keep, sd = _clipped_fit(px, wv, order, clip)
+        # as many terms as the lines carry: a cubic through four lines has no residual and says nothing
+        deg = int(min(order, max(1, len(px) // 4)))
+        if len(px) <= deg + 1:
+            raise ValueError("too few lines matched: check the identified lines and the line list")
+        coef, keep, sd = _clipped_fit(px, wv, deg, clip)
     resid = wv[keep] - np.polyval(coef, px[keep])
     return Solution(coef, float(np.sqrt(np.mean(resid**2))), px[keep], wv[keep])

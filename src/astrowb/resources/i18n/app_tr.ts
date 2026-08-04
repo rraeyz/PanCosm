@@ -1048,127 +1048,127 @@
 <context>
     <name>CubeTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1200"/>
+        <location filename="../../ui/spectro_page.py" line="1322"/>
         <source>Data cube</source>
         <translation>Veri küpü</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1203"/>
+        <location filename="../../ui/spectro_page.py" line="1325"/>
         <source>Load cube</source>
         <translation>Küpü yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1206"/>
+        <location filename="../../ui/spectro_page.py" line="1328"/>
         <source>Opens a 3-D cube (two sky axes and wavelength), e.g. from MUSE or another integral-field unit</source>
         <translation>3-B bir küpü açar (iki gökyüzü ekseni ve dalga boyu), örneğin MUSE ya da başka bir integral alan biriminden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1214"/>
+        <location filename="../../ui/spectro_page.py" line="1336"/>
         <source>Mean over a wavelength window</source>
         <translation>Bir dalgaboyu aralığında ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1214"/>
+        <location filename="../../ui/spectro_page.py" line="1336"/>
         <source>Line map (continuum subtracted)</source>
         <translation>Çizgi haritası (süreklilik çıkarılmış)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1217"/>
+        <location filename="../../ui/spectro_page.py" line="1339"/>
         <source>Mean: the picture in a wavelength window; line map: the same with the continuum on both sides subtracted, to show where a line shines</source>
         <translation>Ortalama: bir dalga boyu penceresindeki görüntü; çizgi haritası: aynısı, iki yandaki süreklilik çıkarılmış olarak, bir çizginin nerede parladığını göstermek için</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1223"/>
+        <location filename="../../ui/spectro_page.py" line="1345"/>
         <source>A click sums the spectra of the spaxels within this radius</source>
         <translation>Bir tıklama bu yarıçap içindeki spaksellerin tayflarını toplar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1224"/>
+        <location filename="../../ui/spectro_page.py" line="1346"/>
         <source>Width of the wavelength window</source>
         <translation>Dalga boyu penceresinin genişliği</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1225"/>
+        <location filename="../../ui/spectro_page.py" line="1347"/>
         <source>Centre of the wavelength window, e.g. 6563 for Hα</source>
         <translation>Dalga boyu penceresinin merkezi, örneğin Hα için 6563</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1228"/>
+        <location filename="../../ui/spectro_page.py" line="1350"/>
         <source>Image</source>
         <translation>Görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1229"/>
+        <location filename="../../ui/spectro_page.py" line="1351"/>
         <source>Centre (Å)</source>
         <translation>Merkez (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1230"/>
+        <location filename="../../ui/spectro_page.py" line="1352"/>
         <source>Width (Å)</source>
         <translation>Genişlik (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1231"/>
+        <location filename="../../ui/spectro_page.py" line="1353"/>
         <source>Spaxel aperture radius (px)</source>
         <translation>Spaksel açıklık yarıçapı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1237"/>
+        <location filename="../../ui/spectro_page.py" line="1359"/>
         <source>Show image</source>
         <translation>Görüntüyü göster</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1239"/>
+        <location filename="../../ui/spectro_page.py" line="1361"/>
         <source>Draws the image of the chosen window; click on it to see a spectrum</source>
         <translation>Seçilen pencerenin görüntüsünü çizer; bir tayf görmek için üstüne tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1241"/>
+        <location filename="../../ui/spectro_page.py" line="1363"/>
         <source>Save spectrum…</source>
         <translation>Tayfı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1244"/>
+        <location filename="../../ui/spectro_page.py" line="1366"/>
         <source>Saves the spectrum of the clicked spaxels as a 1-D FITS file</source>
         <translation>Tıklanan spaksellerin tayfını 1-B FITS dosyası olarak kaydeder</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1246"/>
+        <location filename="../../ui/spectro_page.py" line="1368"/>
         <source>Click a spaxel to see its spectrum.</source>
         <translation>Tayfını görmek için bir spaksele tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1263"/>
+        <location filename="../../ui/spectro_page.py" line="1385"/>
         <source>Cannot open: {e}</source>
         <translation>Açılamadı: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1268"/>
+        <location filename="../../ui/spectro_page.py" line="1390"/>
         <source>{nx} × {ny} spaxels, {nw} wavelengths {lo:.1f}–{hi:.1f} Å</source>
         <translation>{nx} × {ny} spaksel, {nw} dalgaboyu {lo:.1f}–{hi:.1f} Å</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1298"/>
+        <location filename="../../ui/spectro_page.py" line="1420"/>
         <source>Wavelength (Å)</source>
         <translation>Dalgaboyu (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1299"/>
+        <location filename="../../ui/spectro_page.py" line="1421"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1300"/>
+        <location filename="../../ui/spectro_page.py" line="1422"/>
         <source>Spaxel {x:.0f}, {y:.0f}</source>
         <translation>Spaksel {x:.0f}, {y:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1305"/>
+        <location filename="../../ui/spectro_page.py" line="1427"/>
         <source>Save spectrum</source>
         <translation>Tayfı kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1318"/>
+        <location filename="../../ui/spectro_page.py" line="1440"/>
         <source>Saved: {p}</source>
         <translation>Kaydedildi: {p}</translation>
     </message>
@@ -1176,300 +1176,340 @@
 <context>
     <name>EchelleTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="371"/>
+        <location filename="../../ui/spectro_page.py" line="448"/>
         <source>Science frame</source>
         <translation>Bilim karesi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="372"/>
+        <location filename="../../ui/spectro_page.py" line="449"/>
         <source>Flat (orders and blaze)</source>
         <translation>Flat (kırınım mertebeleri ve blaze)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="373"/>
+        <location filename="../../ui/spectro_page.py" line="450"/>
         <source>Arc lamp (ThAr)</source>
         <translation>Ark lambası (ThAr)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="377"/>
+        <location filename="../../ui/spectro_page.py" line="454"/>
         <source>Fibre-fed: no sky between the orders</source>
         <translation>Fiber beslemeli: mertebeler arasında gökyüzü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="380"/>
+        <location filename="../../ui/spectro_page.py" line="457"/>
         <source>Tick for a spectrograph fed by an optical fibre: there is no sky beside the orders, so none is subtracted</source>
-        <translation>Optik lifle beslenen bir tayfçeker için işaretleyin: kırınım düzenlerinin yanında gökyüzü yoktur, bu yüzden çıkarılmaz</translation>
+        <translation>Optik lifle beslenen bir tayfçeker için işaretleyin: mertebelerin yanında gökyüzü yoktur, bu yüzden çıkarılmaz</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="385"/>
+        <location filename="../../ui/spectro_page.py" line="462"/>
         <source>Subtract scattered light (fitted in the gaps between the orders)</source>
         <translation>Saçılmış ışığı çıkar (mertebeler arası boşluklarda fitlenir)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="386"/>
+        <location filename="../../ui/spectro_page.py" line="463"/>
         <source>As IRAF apscatter: for the science frame and the flat, before extraction</source>
         <translation>IRAF apscatter gibi: bilim karesi ve flat için, çıkarmadan önce</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="391"/>
+        <location filename="../../ui/spectro_page.py" line="468"/>
         <source>unknown</source>
         <translation>bilinmiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="394"/>
+        <location filename="../../ui/spectro_page.py" line="471"/>
         <source>Absolute order number of the lowest order in the image (from the spectrograph manual). If unknown: m = λ2 / (λ2 − λ1) with λ1, λ2 the wavelengths at the same pixel in two neighbouring orders (λ2 the longer).</source>
         <translation>Görüntüdeki en alt mertebenin mutlak mertebe numarası (spektrograf kılavuzundan). Bilinmiyorsa: m = λ2 / (λ2 − λ1); λ1, λ2 komşu iki mertebede aynı pikseldeki dalgaboyları (λ2 uzun olanı).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="400"/>
+        <location filename="../../ui/spectro_page.py" line="477"/>
         <source>increase upwards</source>
         <translation>yukarı doğru artar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="400"/>
+        <location filename="../../ui/spectro_page.py" line="477"/>
         <source>decrease upwards</source>
         <translation>yukarı doğru azalır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="403"/>
+        <location filename="../../ui/spectro_page.py" line="480"/>
         <source>Whether the absolute order number grows towards the top of the image or towards the bottom (red orders have lower numbers)</source>
-        <translation>Mutlak düzen numarasının görüntünün üstüne doğru mu altına doğru mu arttığı (kırmızı düzenlerin numarası küçüktür)</translation>
+        <translation>Mutlak mertebe numarasının görüntünün üstüne doğru mu altına doğru mu arttığı (kırmızı mertebelerin numarası küçüktür)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="412"/>
+        <location filename="../../ui/spectro_page.py" line="489"/>
         <source>The gas of the arc lamp (ThAr for most echelles): after your identified lines, further lines of this list are found in every order</source>
-        <translation>Ark lambasının gazı (çoğu eşel için ThAr): sizin tanımladığınız çizgilerden sonra bu listedeki başka çizgiler her düzende bulunur</translation>
+        <translation>Ark lambasının gazı (çoğu eşel için ThAr): sizin tanımladığınız çizgilerden sonra bu listedeki başka çizgiler her mertebede bulunur</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="416"/>
+        <location filename="../../ui/spectro_page.py" line="493"/>
         <source>Optimal extraction (Horne)</source>
         <translation>Optimal çıkarım (Horne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="420"/>
+        <location filename="../../ui/spectro_page.py" line="497"/>
         <source>Horne (1986): each pixel counts by the spectrum&apos;s profile and its noise; more signal-to-noise for faint spectra. Turn off for saturated or very bright spectra.</source>
         <translation>Horne (1986): her piksel tayfın profiline ve gürültüsüne göre ağırlıklandırılır; sönük tayflarda daha yüksek sinyal/gürültü. Doymuş ya da çok parlak tayflarda kapatın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="429"/>
+        <location filename="../../ui/spectro_page.py" line="506"/>
         <source>Which extracted order to show in the plots (counted from the first one found, not the absolute number)</source>
-        <translation>Grafiklerde hangi çıkarılmış düzenin gösterileceği (mutlak numara değil, bulunan ilkinden itibaren sayılır)</translation>
+        <translation>Grafiklerde hangi çıkarılmış mertebenin gösterileceği (mutlak numara değil, bulunan ilkinden itibaren sayılır)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="434"/>
+        <location filename="../../ui/spectro_page.py" line="511"/>
         <source>Lowest order number</source>
         <translation>En alt mertebe numarası</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="435"/>
+        <location filename="../../ui/spectro_page.py" line="512"/>
         <source>Order numbers</source>
         <translation>Mertebe numaraları</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="436"/>
+        <location filename="../../ui/spectro_page.py" line="513"/>
         <source>Arc line list</source>
         <translation>Ark çizgi listesi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="437"/>
+        <location filename="../../ui/spectro_page.py" line="514"/>
         <source>Show order (index)</source>
         <translation>Gösterilen mertebe (sıra)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="444"/>
+        <location filename="../../ui/spectro_page.py" line="521"/>
         <source>Show the orders on the flat (check, remove, add)</source>
         <translation>Mertebeleri flat üzerinde göster (denetle, sil, ekle)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="447"/>
+        <location filename="../../ui/spectro_page.py" line="524"/>
         <source>Optional: the orders found automatically are drawn on the flat. Click a wrong trace to remove it, click on an order that was missed to add it. Without this step the orders are found automatically.</source>
         <translation>İsteğe bağlı: otomatik bulunan mertebeler flat üzerine çizilir. Yanlış bir izi silmek için üzerine, kaçan bir mertebeyi eklemek için onun üzerine tıklayın. Bu adım atlanırsa mertebeler otomatik bulunur.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="453"/>
+        <location filename="../../ui/spectro_page.py" line="530"/>
         <source>1. Trace and extract orders</source>
         <translation>1. Mertebeleri izle ve çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="457"/>
+        <location filename="../../ui/spectro_page.py" line="534"/>
         <source>Traces the orders on the flat, extracts science and arc along them and divides by the flat&apos;s blaze; then identify arc lines</source>
         <translation>Düzenleri flat üzerinde izler, bilim ve ark tayflarını bunlar boyunca çıkarır ve flat&apos;ın blaze&apos;ine böler; sonra ark çizgilerini tanımlayın</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="463"/>
+        <location filename="../../ui/spectro_page.py" line="540"/>
         <source>2. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):</source>
         <translation>2. Ark çizgilerine tıklayın (en az 2 mertebede, mertebe başına 3+) ve dalgaboylarını yazın (Å):</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="466"/>
-        <location filename="../../ui/spectro_page.py" line="687"/>
+        <location filename="../../ui/spectro_page.py" line="543"/>
+        <location filename="../../ui/spectro_page.py" line="773"/>
         <source>Order</source>
         <translation>Mertebe</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="466"/>
-        <location filename="../../ui/spectro_page.py" line="666"/>
+        <location filename="../../ui/spectro_page.py" line="543"/>
+        <location filename="../../ui/spectro_page.py" line="752"/>
         <source>Pixel</source>
         <translation>Piksel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="466"/>
-        <location filename="../../ui/spectro_page.py" line="663"/>
+        <location filename="../../ui/spectro_page.py" line="543"/>
+        <location filename="../../ui/spectro_page.py" line="749"/>
         <source>Wavelength (Å)</source>
         <translation>Dalgaboyu (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="468"/>
+        <location filename="../../ui/spectro_page.py" line="545"/>
         <source>type a wavelength</source>
         <translation>dalga boyu yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="471"/>
+        <location filename="../../ui/spectro_page.py" line="547"/>
+        <source>Lines from an IRAF ecidentify database…</source>
+        <translation>IRAF ecidentify veritabanından çizgiler…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="550"/>
+        <source>Lines identified before on this spectrograph with IRAF ecidentify (database/ec…): placed on this arc&apos;s peaks after the common shift (as IRAF ecreidentify); they fill the table for you to check</source>
+        <translation>Bu tayfçekerde daha önce IRAF ecidentify ile tanımlanmış çizgiler (database/ec…): ortak kaymadan sonra bu arkın tepelerine yerleştirilir (IRAF ecreidentify'daki gibi); kontrol etmeniz için tabloyu doldururlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="557"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="472"/>
+        <location filename="../../ui/spectro_page.py" line="558"/>
         <source>clear the lines</source>
         <translation>çizgileri temizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="473"/>
+        <location filename="../../ui/spectro_page.py" line="559"/>
         <source>Removes every identified line (Ctrl+Z brings them back)</source>
         <translation>Tanımlanan bütün çizgileri siler (Ctrl+Z geri getirir)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="474"/>
+        <location filename="../../ui/spectro_page.py" line="560"/>
         <source>3. Solve, merge and save</source>
         <translation>3. Çöz, birleştir ve kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="478"/>
+        <location filename="../../ui/spectro_page.py" line="564"/>
         <source>One wavelength solution for all orders together (λ·m as a polynomial in pixel and order), then the orders are merged into one spectrum and saved</source>
-        <translation>Tüm düzenler için birlikte tek bir dalga boyu çözümü (λ·m, piksel ve düzenin polinomu); sonra düzenler tek bir tayfta birleştirilip kaydedilir</translation>
+        <translation>Tüm mertebeler için birlikte tek bir dalga boyu çözümü (λ·m, piksel ve mertebenin polinomu); sonra mertebeler tek bir tayfta birleştirilip kaydedilir</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="486"/>
+        <location filename="../../ui/spectro_page.py" line="572"/>
         <source>Refit without the left-out lines</source>
         <translation>Dışarıda bırakılan çizgiler olmadan yeniden fitle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="488"/>
+        <location filename="../../ui/spectro_page.py" line="574"/>
         <source>Click points in the residual plot (bottom) to leave those arc lines out, then refit</source>
         <translation>O ark çizgilerini dışarıda bırakmak için artık grafiğinde (altta) noktalara tıklayın, sonra yeniden fitleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="491"/>
+        <location filename="../../ui/spectro_page.py" line="577"/>
         <source>Use all lines again</source>
         <translation>Bütün çizgileri yeniden kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="492"/>
+        <location filename="../../ui/spectro_page.py" line="578"/>
         <source>use all lines again</source>
         <translation>tüm çizgileri yeniden kullanma</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="493"/>
+        <location filename="../../ui/spectro_page.py" line="579"/>
         <source>Takes back every line left out in the residual plot</source>
         <translation>Artık grafiğinde dışarıda bırakılan bütün çizgileri geri alır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="524"/>
+        <location filename="../../ui/spectro_page.py" line="610"/>
         <source>Choose a science frame.</source>
         <translation>Bir bilim karesi seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="548"/>
+        <location filename="../../ui/spectro_page.py" line="634"/>
         <source>An arc, the lowest order number and at least four lines in two orders are needed.</source>
         <translation>Bir ark, en alt mertebe numarası ve iki mertebede en az dört çizgi gerekli.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="552"/>
+        <location filename="../../ui/spectro_page.py" line="638"/>
         <source>Working…</source>
         <translation>Çalışıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="561"/>
+        <location filename="../../ui/spectro_page.py" line="647"/>
         <source>Choose a flat (or the science frame) first.</source>
         <translation>Önce bir flat (ya da bilim karesi) seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="564"/>
+        <location filename="../../ui/spectro_page.py" line="650"/>
         <source>Tracing the orders…</source>
         <translation>Mertebeler izleniyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="594"/>
+        <location filename="../../ui/spectro_page.py" line="680"/>
         <source>{n} orders. Click a trace to remove it; click on a missed order to add it.</source>
         <translation>{n} mertebe. Silmek için bir izin üzerine, eklemek için kaçan bir mertebenin üzerine tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="601"/>
+        <location filename="../../ui/spectro_page.py" line="687"/>
         <source>{n} orders traced.</source>
         <translation>{n} mertebe izlendi.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="603"/>
+        <location filename="../../ui/spectro_page.py" line="689"/>
         <source>{k} could not be traced (red crosses) and are left out.</source>
         <translation>{k} tanesi izlenemedi (kırmızı çarpılar) ve dışarıda bırakıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="613"/>
+        <location filename="../../ui/spectro_page.py" line="699"/>
         <source>remove an order</source>
         <translation>mertebe kaldırma</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="644"/>
+        <location filename="../../ui/spectro_page.py" line="730"/>
         <source>{k} orders merged; wavelength solution: {n} lines, rms {rms:.4f} Å. Saved: {path}</source>
         <translation>{k} mertebe birleştirildi; dalgaboyu çözümü: {n} çizgi, rms {rms:.4f} Å. Kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="649"/>
+        <location filename="../../ui/spectro_page.py" line="735"/>
         <source>{k} orders traced and extracted.</source>
         <translation>{k} mertebe izlendi ve çıkarıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="667"/>
+        <location filename="../../ui/spectro_page.py" line="753"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="675"/>
+        <location filename="../../ui/spectro_page.py" line="761"/>
         <source>Arc, order {m}: pixel (click a line to identify it)</source>
         <translation>Ark, mertebe {m}: piksel (tanımlamak için bir çizgiye tıklayın)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="683"/>
+        <location filename="../../ui/spectro_page.py" line="769"/>
         <source>rejected (3σ)</source>
         <translation>reddedildi (3σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="685"/>
+        <location filename="../../ui/spectro_page.py" line="771"/>
         <source>Pixel (click a point to leave that arc line out)</source>
         <translation>Piksel (o ark çizgisini dışarıda bırakmak için noktaya tıklayın)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="686"/>
+        <location filename="../../ui/spectro_page.py" line="772"/>
         <source>Residual (mÅ)</source>
         <translation>Artık (mÅ)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="693"/>
+        <location filename="../../ui/spectro_page.py" line="784"/>
+        <source>Extract with an arc first and give the lowest order number: the database names orders.</source>
+        <translation>Önce bir arkla çıkarın ve en alt mertebe numarasını verin: veritabanı mertebeleri numarasıyla anar.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="787"/>
+        <source>IRAF ecidentify database</source>
+        <translation>IRAF ecidentify veritabanı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="793"/>
+        <source>no echelle orders in it (an identify database is for the Reduce tab)</source>
+        <translation>içinde eşel mertebesi yok (identify veritabanı İndirgeme sekmesi içindir)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="800"/>
+        <source>Cannot use {file}: {error}</source>
+        <translation>{file} kullanılamıyor: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="804"/>
+        <source>lines from a database</source>
+        <translation>veritabanından çizgiler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="807"/>
+        <source>{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 3. Solve.</source>
+        <translation>{n} çizginin {m} tanesi bu arkta bulundu, {s:+.1f} piksel kaydırıldı. Kontrol edin, yanlış satırları silin, sonra 3. Çöz.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="815"/>
         <source>All arc lines will be used again at the next fit.</source>
         <translation>Sonraki fitte bütün ark çizgileri yeniden kullanılacak.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="705"/>
+        <location filename="../../ui/spectro_page.py" line="827"/>
         <source>leave out an arc line</source>
         <translation>ark çizgisi dışlama</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="709"/>
+        <location filename="../../ui/spectro_page.py" line="831"/>
         <source>{n} arc line(s) left out; press Refit without the left-out lines.</source>
         <translation>{n} ark çizgisi dışarıda bırakıldı; Dışarıda bırakılan çizgiler olmadan yeniden fitle&apos;ye basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="722"/>
+        <location filename="../../ui/spectro_page.py" line="844"/>
         <source>identify a line</source>
         <translation>çizgi tanımlama</translation>
     </message>
@@ -4188,196 +4228,206 @@
     </message>
     <message>
         <location filename="../../ui/messages.py" line="254"/>
+        <source>{name}: no identified lines (not an IRAF identify / ecidentify database?)</source>
+        <translation>{name}: tanımlı çizgi yok (bir IRAF identify / ecidentify veritabanı değil mi?)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="255"/>
+        <source>no IRAF database {name} next to it: choose the database file itself</source>
+        <translation>yanında {name} IRAF veritabanı yok: veritabanı dosyasının kendisini seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="257"/>
         <source>the minimum must have data on both sides</source>
         <translation>minimumun iki yanında da veri olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="255"/>
+        <location filename="../../ui/messages.py" line="258"/>
         <source>no minimum found</source>
         <translation>minimum bulunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="257"/>
+        <location filename="../../ui/messages.py" line="260"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)</source>
         <translation>başlıkta gözlem zamanı yok (DATE-OBS, UT-OBS, JD, MJD-OBS)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="258"/>
+        <location filename="../../ui/messages.py" line="261"/>
         <source>not an angle: {value}</source>
         <translation>bir açı değil: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="260"/>
+        <location filename="../../ui/messages.py" line="263"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>güncelleme denetimi için GitHub deposu ayarlanmamış</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="262"/>
+        <location filename="../../ui/messages.py" line="265"/>
         <source>reading headers</source>
         <translation>başlıklar okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="263"/>
+        <location filename="../../ui/messages.py" line="266"/>
         <source>master bias</source>
         <translation>master bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="264"/>
+        <location filename="../../ui/messages.py" line="267"/>
         <source>master dark</source>
         <translation>master dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="265"/>
+        <location filename="../../ui/messages.py" line="268"/>
         <source>master flat</source>
         <translation>master flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="266"/>
+        <location filename="../../ui/messages.py" line="269"/>
         <source>calibrating</source>
         <translation>kalibre ediliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="267"/>
+        <location filename="../../ui/messages.py" line="270"/>
         <source>combining</source>
         <translation>birleştiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="268"/>
+        <location filename="../../ui/messages.py" line="271"/>
         <source>aligning</source>
         <translation>hizalanıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="269"/>
+        <location filename="../../ui/messages.py" line="272"/>
         <source>stacking</source>
         <translation>yığılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="270"/>
+        <location filename="../../ui/messages.py" line="273"/>
         <source>drizzle</source>
         <translation>drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="271"/>
+        <location filename="../../ui/messages.py" line="274"/>
         <source>reading</source>
         <translation>okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="272"/>
+        <location filename="../../ui/messages.py" line="275"/>
         <source>writing</source>
         <translation>yazılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="273"/>
+        <location filename="../../ui/messages.py" line="276"/>
         <source>plate solving</source>
         <translation>plaka çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="274"/>
+        <location filename="../../ui/messages.py" line="277"/>
         <source>checking</source>
         <translation>denetleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="275"/>
+        <location filename="../../ui/messages.py" line="278"/>
         <source>simulating</source>
         <translation>benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="276"/>
+        <location filename="../../ui/messages.py" line="279"/>
         <source>photometry</source>
         <translation>fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="277"/>
+        <location filename="../../ui/messages.py" line="280"/>
         <source>quality</source>
         <translation>kalite</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="278"/>
+        <location filename="../../ui/messages.py" line="281"/>
         <source>catalogue</source>
         <translation>katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="279"/>
+        <location filename="../../ui/messages.py" line="282"/>
         <source>astrometry</source>
         <translation>astrometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="280"/>
+        <location filename="../../ui/messages.py" line="283"/>
         <source>fit</source>
         <translation>uydurma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="281"/>
+        <location filename="../../ui/messages.py" line="284"/>
         <source>trace</source>
         <translation>iz</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="282"/>
+        <location filename="../../ui/messages.py" line="285"/>
         <source>trace orders</source>
         <translation>sıraların izi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="283"/>
+        <location filename="../../ui/messages.py" line="286"/>
         <source>extraction</source>
         <translation>çıkarma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="284"/>
+        <location filename="../../ui/messages.py" line="287"/>
         <source>arc</source>
         <translation>ark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="285"/>
+        <location filename="../../ui/messages.py" line="288"/>
         <source>wavelength solution</source>
         <translation>dalga boyu çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="286"/>
+        <location filename="../../ui/messages.py" line="289"/>
         <source>downloading the template library</source>
         <translation>şablon kütüphanesi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="287"/>
+        <location filename="../../ui/messages.py" line="290"/>
         <source>comparing</source>
         <translation>karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="288"/>
+        <location filename="../../ui/messages.py" line="291"/>
         <source>disentangling</source>
         <translation>ayrıştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="289"/>
+        <location filename="../../ui/messages.py" line="292"/>
         <source>band math</source>
         <translation>bant hesabı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="290"/>
+        <location filename="../../ui/messages.py" line="293"/>
         <source>folder not found: {path}</source>
         <translation>klasör bulunamadı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="291"/>
+        <location filename="../../ui/messages.py" line="294"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} yalnızca tarih içeriyor, saat yok; saati veren bir başlık da bulunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="292"/>
+        <location filename="../../ui/messages.py" line="295"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>hedefin adını ya da koordinatlarını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="293"/>
+        <location filename="../../ui/messages.py" line="296"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>spektrografın ayırma gücünü girin: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="294"/>
+        <location filename="../../ui/messages.py" line="297"/>
         <source>the Sun</source>
         <translation>Güneş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="295"/>
+        <location filename="../../ui/messages.py" line="298"/>
         <source>first estimate</source>
         <translation>ilk tahmin</translation>
     </message>
@@ -7557,181 +7607,231 @@
 <context>
     <name>ReduceTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="134"/>
+        <location filename="../../ui/spectro_page.py" line="149"/>
         <source>Science frame</source>
         <translation>Bilimsel kare</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="135"/>
+        <location filename="../../ui/spectro_page.py" line="150"/>
         <source>Arc lamp (optional)</source>
         <translation>Ark lambası (isteğe bağlı)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="144"/>
+        <location filename="../../ui/spectro_page.py" line="159"/>
         <source>Width of each sky strip; the sky under the spectrum is fitted from them, row by row along the slit</source>
         <translation>Her gökyüzü şeridinin genişliği; tayfın altındaki gökyüzü bunlardan, yarık boyunca satır satır fit edilir</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="148"/>
+        <location filename="../../ui/spectro_page.py" line="163"/>
         <source>Distance from the spectrum&apos;s centre to the sky strips on both sides; beyond the star&apos;s light</source>
         <translation>Tayfın merkezinden iki yandaki gökyüzü şeritlerine uzaklık; yıldızın ışığının ötesinde</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="152"/>
+        <location filename="../../ui/spectro_page.py" line="167"/>
         <source>Width of the strip across the spectrum that is added up; about two to three times the spectrum&apos;s FWHM</source>
         <translation>Tayf boyunca toplanan şeridin genişliği; tayfın FWHM&apos;sinin yaklaşık iki üç katı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="156"/>
+        <location filename="../../ui/spectro_page.py" line="171"/>
         <source>the brightest</source>
         <translation>en parlak</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="159"/>
+        <location filename="../../ui/spectro_page.py" line="174"/>
         <source>A row the spectrum crosses, when the frame holds several (two orders, a second star): it is followed from there along the frame. Check the traced line drawn on the frame after extracting.</source>
         <translation>Karede birden çok tayf varsa (iki mertebe, ikinci bir yıldız) tayfın geçtiği bir satır: tayf oradan kare boyunca izlenir. Çıkarımdan sonra karenin üzerine çizilen izi denetleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="163"/>
+        <location filename="../../ui/spectro_page.py" line="178"/>
         <source>Optimal extraction (Horne)</source>
         <translation>Optimal çıkarma (Horne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="167"/>
+        <location filename="../../ui/spectro_page.py" line="182"/>
         <source>Horne (1986): each pixel counts by the spectrum&apos;s profile and its noise; more signal-to-noise for faint spectra. Turn off for saturated or very bright spectra.</source>
         <translation>Horne (1986): her piksel tayfın profiline ve gürültüsüne göre ağırlıklandırılır; sönük tayflarda daha yüksek sinyal/gürültü. Doymuş ya da çok parlak tayflarda kapatın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="176"/>
+        <location filename="../../ui/spectro_page.py" line="191"/>
         <source>The gas of your arc lamp: after your identified lines, further lines of this list are found and added to the fit, as IRAF identify does</source>
         <translation>Ark lambanızın gazı: sizin tanımladığınız çizgilerden sonra bu listedeki başka çizgiler de bulunur ve fite eklenir, IRAF identify&apos;daki gibi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="182"/>
+        <location filename="../../ui/spectro_page.py" line="197"/>
         <source>Spectrum at row</source>
         <translation>Tayfın satırı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="183"/>
+        <location filename="../../ui/spectro_page.py" line="198"/>
         <source>Aperture width (px)</source>
         <translation>Açıklık genişliği (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="184"/>
+        <location filename="../../ui/spectro_page.py" line="199"/>
         <source>Sky offset (px)</source>
         <translation>Gök uzaklığı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="185"/>
+        <location filename="../../ui/spectro_page.py" line="200"/>
         <source>Sky width (px)</source>
         <translation>Gök genişliği (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="186"/>
+        <location filename="../../ui/spectro_page.py" line="201"/>
         <source>Arc line list</source>
         <translation>Ark çizgi listesi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="193"/>
+        <location filename="../../ui/spectro_page.py" line="208"/>
         <source>1. Extract</source>
         <translation>1. Çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="197"/>
+        <location filename="../../ui/spectro_page.py" line="212"/>
         <source>Follows the spectrum along the frame, subtracts the sky and adds it up across the slit; the arc is extracted along the same trace</source>
         <translation>Tayfı kare boyunca izler, gökyüzünü çıkarır ve yarık boyunca toplar; ark aynı iz boyunca çıkarılır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="202"/>
+        <location filename="../../ui/spectro_page.py" line="217"/>
         <source>2. Click arc lines in the lower plot, type their wavelengths (Å):</source>
         <translation>2. Alttaki grafikte ark çizgilerine tıklayın, dalga boylarını (Å) yazın:</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="204"/>
-        <location filename="../../ui/spectro_page.py" line="298"/>
+        <location filename="../../ui/spectro_page.py" line="219"/>
+        <location filename="../../ui/spectro_page.py" line="324"/>
         <source>Pixel</source>
         <translation>Piksel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="204"/>
-        <location filename="../../ui/spectro_page.py" line="298"/>
+        <location filename="../../ui/spectro_page.py" line="219"/>
+        <location filename="../../ui/spectro_page.py" line="324"/>
         <source>Wavelength (Å)</source>
         <translation>Dalga boyu (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="206"/>
+        <location filename="../../ui/spectro_page.py" line="221"/>
         <source>type a wavelength</source>
         <translation>dalga boyu yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="209"/>
+        <location filename="../../ui/spectro_page.py" line="223"/>
+        <source>Lines from a reference arc / IRAF database…</source>
+        <translation>Referans arktan / IRAF veritabanından çizgiler…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="226"/>
+        <source>For a spectrograph whose arc was identified before (an IRAF identify database, with its reference arc spectrum, e.g. from the observatory&apos;s pipeline): this arc is matched to the reference (stretch and shift, as PypeIt and IRAF reidentify) and the known lines are placed on its peaks. They fill the table for you to check before solving.</source>
+        <translation>Arkı daha önce tanımlanmış bir tayfçeker için (referans ark tayfıyla birlikte bir IRAF identify veritabanı, örneğin gözlemevinin indirgeme hattından): bu ark referansla eşleştirilir (germe ve kaydırma, PypeIt ve IRAF reidentify'daki gibi) ve bilinen çizgiler tepelerine yerleştirilir. Çözmeden önce kontrol etmeniz için tabloyu doldururlar.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="235"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="210"/>
+        <location filename="../../ui/spectro_page.py" line="236"/>
         <source>clear the lines</source>
         <translation>çizgileri temizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="211"/>
+        <location filename="../../ui/spectro_page.py" line="237"/>
         <source>Removes every identified line (Ctrl+Z brings them back)</source>
         <translation>Tanımlanan bütün çizgileri siler (Ctrl+Z geri getirir)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="212"/>
+        <location filename="../../ui/spectro_page.py" line="238"/>
         <source>3. Solve wavelengths and save</source>
         <translation>3. Dalga boyunu çöz ve kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="216"/>
+        <location filename="../../ui/spectro_page.py" line="242"/>
         <source>Fits pixel → wavelength through the identified lines (at least three), shows the residual of every line and saves the calibrated spectrum</source>
         <translation>Tanımlanan çizgilerden (en az üç) piksel → dalga boyu ilişkisini fit eder, her çizginin artığını gösterir ve kalibre edilmiş tayfı kaydeder</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="244"/>
+        <location filename="../../ui/spectro_page.py" line="270"/>
         <source>Choose a science frame.</source>
         <translation>Bilimsel bir kare seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="254"/>
+        <location filename="../../ui/spectro_page.py" line="280"/>
         <source>An arc and at least two identified lines are needed.</source>
         <translation>Bir ark karesi ve en az iki tanımlanmış çizgi gerekli.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="268"/>
+        <location filename="../../ui/spectro_page.py" line="294"/>
         <source>Working…</source>
         <translation>Çalışıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="299"/>
+        <location filename="../../ui/spectro_page.py" line="325"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="304"/>
+        <location filename="../../ui/spectro_page.py" line="330"/>
         <source>Pixel (click a line to identify it)</source>
         <translation>Piksel (tanımlamak için çizgiye tıklayın)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="309"/>
+        <location filename="../../ui/spectro_page.py" line="335"/>
         <source>Wavelength solution: {n} lines, rms {rms:.3f} Å. Saved: {path}</source>
         <translation>Dalga boyu çözümü: {n} çizgi, rms {rms:.3f} Å. Kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="315"/>
+        <location filename="../../ui/spectro_page.py" line="341"/>
         <source>Extracted {n} columns; {m} arc lines found.</source>
         <translation>{n} sütun çıkarıldı; {m} ark çizgisi bulundu.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="334"/>
+        <location filename="../../ui/spectro_page.py" line="360"/>
         <source>Traced spectrum and aperture (choose another row if this is not your star)</source>
         <translation>İzlenen tayf ve açıklık (yıldızınız bu değilse başka bir satır seçin)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="343"/>
+        <location filename="../../ui/spectro_page.py" line="369"/>
         <source>identify a line</source>
         <translation>çizgi tanımlama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="380"/>
+        <source>Extract with an arc first (1. Extract): its lines are matched.</source>
+        <translation>Önce bir arkla çıkarın (1. Çıkar): onun çizgileri eşleştirilir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="385"/>
+        <source>IRAF database or reference arc</source>
+        <translation>IRAF veritabanı ya da referans ark</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="385"/>
+        <source>IRAF databases and spectra (*)</source>
+        <translation>IRAF veritabanları ve tayflar (*)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="400"/>
+        <source>{m} of {n} lines of {ref} found in this arc (correlation {c:.2f}; rms {rms:.2f} Å against the reference&apos;s lines). Check them on the arc plot, delete wrong rows, then 3. Solve.</source>
+        <translation>{ref} dosyasının {n} çizgisinden {m} tanesi bu arkta bulundu (ilinti {c:.2f}; referansın çizgilerine göre rms {rms:.2f} Å). Ark grafiğinde kontrol edin, yanlış satırları silin, sonra 3. Çöz.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="408"/>
+        <source>{m} of {n} lines of {db} found in this arc, shifted by {s:+.1f} px (the database&apos;s pixels are taken as this spectrograph&apos;s). Check them on the arc plot, delete wrong rows, then 3. Solve.</source>
+        <translation>{db} dosyasının {n} çizgisinden {m} tanesi bu arkta bulundu, {s:+.1f} piksel kaydırıldı (veritabanının pikselleri bu tayfçekerinkiler olarak alındı). Ark grafiğinde kontrol edin, yanlış satırları silin, sonra 3. Çöz.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="414"/>
+        <source>Cannot use {file}: {error}</source>
+        <translation>{file} kullanılamıyor: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="419"/>
+        <source>Few lines agree: is the reference from the same spectrograph, grating, slit and lamp? Identify the lines by hand instead.</source>
+        <translation>Az çizgi uyuşuyor: referans aynı tayfçeker, ağ, yarık ve lambadan mı? Bunun yerine çizgileri elle tanımlayın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="422"/>
+        <source>lines from a reference</source>
+        <translation>referanstan çizgiler</translation>
     </message>
 </context>
 <context>
@@ -7900,68 +8000,68 @@
 <context>
     <name>SpectroscopyPage</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1337"/>
+        <location filename="../../ui/spectro_page.py" line="1459"/>
         <source>Reduce</source>
         <translation>İndirgeme</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1338"/>
+        <location filename="../../ui/spectro_page.py" line="1460"/>
         <source>Echelle</source>
         <translation>Eşel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1339"/>
+        <location filename="../../ui/spectro_page.py" line="1461"/>
         <source>Telluric</source>
         <translation>Tellürik</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1340"/>
+        <location filename="../../ui/spectro_page.py" line="1462"/>
         <source>Radial velocity &amp;&amp; orbit</source>
         <translation>Radyal hız ve yörünge</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1341"/>
+        <location filename="../../ui/spectro_page.py" line="1463"/>
         <source>IFU cube</source>
         <translation>IFU küpü</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1345"/>
+        <location filename="../../ui/spectro_page.py" line="1467"/>
         <source>Spectrum tools</source>
         <translation>Tayf araçları</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1348"/>
-        <location filename="../../ui/spectro_page.py" line="1404"/>
+        <location filename="../../ui/spectro_page.py" line="1470"/>
+        <location filename="../../ui/spectro_page.py" line="1526"/>
         <source>Instrument profile</source>
         <translation>Cihaz profili</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1354"/>
+        <location filename="../../ui/spectro_page.py" line="1476"/>
         <source>Saved settings of a spectrograph (orientation, widths, line list, order numbers…): choose one to fill the Reduce and Echelle tabs</source>
-        <translation>Bir tayfçekerin kaydedilmiş ayarları (yönelim, genişlikler, çizgi listesi, düzen numaraları…): İndirgeme ve Eşel sekmelerini doldurmak için birini seçin</translation>
+        <translation>Bir tayfçekerin kaydedilmiş ayarları (yönelim, genişlikler, çizgi listesi, mertebe numaraları…): İndirgeme ve Eşel sekmelerini doldurmak için birini seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1358"/>
+        <location filename="../../ui/spectro_page.py" line="1480"/>
         <source>Save as…</source>
         <translation>Farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1362"/>
+        <location filename="../../ui/spectro_page.py" line="1484"/>
         <source>Saves the present settings of the Reduce and Echelle tabs under a name, for the next night with this spectrograph</source>
         <translation>İndirgeme ve Eşel sekmelerinin şimdiki ayarlarını bir adla kaydeder, bu tayfçekerle bir sonraki gece için</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1366"/>
+        <location filename="../../ui/spectro_page.py" line="1488"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1368"/>
+        <location filename="../../ui/spectro_page.py" line="1490"/>
         <source>Deletes the chosen instrument profile</source>
         <translation>Seçilen cihaz profilini siler</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1404"/>
+        <location filename="../../ui/spectro_page.py" line="1526"/>
         <source>Name (e.g. telescope + spectrograph):</source>
         <translation>Ad (ör. teleskop + spektrograf):</translation>
     </message>
@@ -8631,67 +8731,67 @@
 <context>
     <name>TelluricTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="760"/>
+        <location filename="../../ui/spectro_page.py" line="882"/>
         <source>Spectrum (1-D)</source>
         <translation>Tayf (1-B)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="761"/>
+        <location filename="../../ui/spectro_page.py" line="883"/>
         <source>Telluric standard (hot, fast-rotating star)</source>
         <translation>Tellürik standart (sıcak, hızlı dönen yıldız)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="767"/>
+        <location filename="../../ui/spectro_page.py" line="889"/>
         <source>The standard&apos;s spectrum gives the atmospheric transmission. Its strength (airmass, water vapour) and a small wavelength shift are fitted inside the telluric bands.</source>
         <translation>Standardın tayfı atmosferin geçirgenliğini verir. Gücü (hava kütlesi, su buharı) ve küçük bir dalgaboyu kayması tellürik bantlarda fit edilir.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="774"/>
+        <location filename="../../ui/spectro_page.py" line="896"/>
         <source>Correct and save</source>
         <translation>Düzelt ve kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="778"/>
+        <location filename="../../ui/spectro_page.py" line="900"/>
         <source>Divides the spectrum by the standard&apos;s atmospheric lines, fitted in strength and shift, and saves the result next to the spectrum</source>
         <translation>Tayfı, şiddeti ve kayması fit edilmiş standardın atmosfer çizgilerine böler ve sonucu tayfın yanına kaydeder</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="795"/>
+        <location filename="../../ui/spectro_page.py" line="917"/>
         <source>Choose the spectrum and the standard.</source>
         <translation>Tayfı ve standardı seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="799"/>
+        <location filename="../../ui/spectro_page.py" line="921"/>
         <source>Working…</source>
         <translation>Çalışıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="805"/>
+        <location filename="../../ui/spectro_page.py" line="927"/>
         <source>before</source>
         <translation>önce</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="806"/>
+        <location filename="../../ui/spectro_page.py" line="928"/>
         <source>corrected</source>
         <translation>düzeltilmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="808"/>
+        <location filename="../../ui/spectro_page.py" line="930"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="810"/>
+        <location filename="../../ui/spectro_page.py" line="932"/>
         <source>Transmission</source>
         <translation>Geçirgenlik</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="811"/>
+        <location filename="../../ui/spectro_page.py" line="933"/>
         <source>Wavelength (Å)</source>
         <translation>Dalgaboyu (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="814"/>
+        <location filename="../../ui/spectro_page.py" line="936"/>
         <source>Optical depth scale {s:.3f}, shift {v:.2f} km/s. Saved: {path}</source>
         <translation>Optik derinlik ölçeği {s:.3f}, kayma {v:.2f} km/sn. Kaydedildi: {path}</translation>
     </message>
@@ -8868,316 +8968,316 @@
 <context>
     <name>VelocityTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="832"/>
+        <location filename="../../ui/spectro_page.py" line="954"/>
         <source>1-D spectra (FITS table, 1-D FITS with wavelength WCS, or text)</source>
         <translation>1B tayflar (FITS tablosu, dalga boyu WCS&apos;li 1B FITS veya metin)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="836"/>
+        <location filename="../../ui/spectro_page.py" line="958"/>
         <source>Add…</source>
         <translation>Ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="838"/>
+        <location filename="../../ui/spectro_page.py" line="960"/>
         <source>Adds wavelength-calibrated 1-D spectra of the same star, one per night or exposure</source>
         <translation>Aynı yıldızın dalga boyu kalibre edilmiş 1-B tayflarını ekler, her gece ya da poz için bir tane</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="839"/>
+        <location filename="../../ui/spectro_page.py" line="961"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="841"/>
+        <location filename="../../ui/spectro_page.py" line="963"/>
         <source>Empties the list of spectra</source>
         <translation>Tayf listesini boşaltır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="845"/>
+        <location filename="../../ui/spectro_page.py" line="967"/>
         <source>Template</source>
         <translation>Şablon</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="848"/>
+        <location filename="../../ui/spectro_page.py" line="970"/>
         <source>Second template (double-lined binary, optional)</source>
         <translation>İkinci şablon (çift çizgili çift yıldız, isteğe bağlı)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="853"/>
+        <location filename="../../ui/spectro_page.py" line="975"/>
         <source>from the header if empty</source>
         <translation>boşsa başlıktan alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="854"/>
+        <location filename="../../ui/spectro_page.py" line="976"/>
         <source>Needed for the barycentric correction; empty: taken from the header</source>
         <translation>Barisentrik düzeltme için gerekir; boşsa başlıktan alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="858"/>
-        <location filename="../../ui/spectro_page.py" line="864"/>
+        <location filename="../../ui/spectro_page.py" line="980"/>
+        <location filename="../../ui/spectro_page.py" line="986"/>
         <source>Velocities searched (km/s): wide enough for the star&apos;s motion and orbit; narrower is faster and safer from false peaks</source>
         <translation>Aranan hızlar (km/s): yıldızın hareketi ve yörüngesi için yeterince geniş; daha dar hem hızlı hem de sahte tepelere karşı daha güvenli</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="871"/>
-        <location filename="../../ui/spectro_page.py" line="877"/>
+        <location filename="../../ui/spectro_page.py" line="993"/>
+        <location filename="../../ui/spectro_page.py" line="999"/>
         <source>Only this wavelength range is used: leave out telluric bands, broad Balmer lines and noisy ends; 0 and 0: everything</source>
         <translation>Yalnızca bu dalga boyu aralığı kullanılır: tellürik bantları, geniş Balmer çizgilerini ve gürültülü uçları dışarıda bırakın; 0 ve 0: hepsi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="882"/>
+        <location filename="../../ui/spectro_page.py" line="1004"/>
         <source>Starting value for the orbit fit (days); 0: searched from the velocities</source>
         <translation>Yörünge fiti için başlangıç değeri (gün); 0: hızlardan aranır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="885"/>
+        <location filename="../../ui/spectro_page.py" line="1007"/>
         <source>Cross-correlation (TODCOR with a second template)</source>
         <translation>Çapraz ilişki (ikinci şablonla TODCOR)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="886"/>
+        <location filename="../../ui/spectro_page.py" line="1008"/>
         <source>Broadening function, one star (fast rotators)</source>
         <translation>Genişleme fonksiyonu, tek yıldız (hızlı dönenler)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="887"/>
+        <location filename="../../ui/spectro_page.py" line="1009"/>
         <source>Broadening function, two stars (contact binaries)</source>
         <translation>Genişleme fonksiyonu, iki yıldız (temaslı çiftler)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="894"/>
+        <location filename="../../ui/spectro_page.py" line="1016"/>
         <source>Cross-correlation for most stars (with a second template: both stars of a double-lined binary, TODCOR); broadening function for fast rotators and contact binaries</source>
         <translation>Çoğu yıldız için çapraz ilinti (ikinci bir şablonla: çift çizgili bir çiftin iki yıldızı, TODCOR); hızlı dönenler ve değen çiftler için genişleme fonksiyonu</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="900"/>
+        <location filename="../../ui/spectro_page.py" line="1022"/>
         <source>Method</source>
         <translation>Yöntem</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="901"/>
+        <location filename="../../ui/spectro_page.py" line="1023"/>
         <source>Target RA Dec</source>
         <translation>Hedef RA Dec</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="902"/>
+        <location filename="../../ui/spectro_page.py" line="1024"/>
         <source>Velocity range from (km/s)</source>
         <translation>Hız aralığı, başlangıç (km/sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="903"/>
+        <location filename="../../ui/spectro_page.py" line="1025"/>
         <source>to (km/s)</source>
         <translation>bitiş (km/sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="904"/>
+        <location filename="../../ui/spectro_page.py" line="1026"/>
         <source>Wavelengths from (Å, 0 = all)</source>
         <translation>Dalga boyu, başlangıç (Å, 0 = tümü)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="905"/>
+        <location filename="../../ui/spectro_page.py" line="1027"/>
         <source>to (Å, 0 = all)</source>
         <translation>bitiş (Å, 0 = tümü)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="906"/>
+        <location filename="../../ui/spectro_page.py" line="1028"/>
         <source>Period guess (d)</source>
         <translation>Periyot tahmini (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="912"/>
+        <location filename="../../ui/spectro_page.py" line="1034"/>
         <source>Spectral type of the first spectrum (and a template)</source>
         <translation>İlk tayfın tayf türü (ve şablon)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="915"/>
+        <location filename="../../ui/spectro_page.py" line="1037"/>
         <source>Compared with the Pickles library of 131 stars (downloaded once); the best match becomes the template</source>
         <translation>131 yıldızlık Pickles kütüphanesiyle karşılaştırılır (bir kez indirilir); en iyi eşleşme şablon olur</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="920"/>
+        <location filename="../../ui/spectro_page.py" line="1042"/>
         <source>Measure radial velocities</source>
         <translation>Radyal hızları ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="923"/>
+        <location filename="../../ui/spectro_page.py" line="1045"/>
         <source>Velocity of every spectrum against the template, corrected to the barycentre, with its error</source>
         <translation>Her tayfın şablona göre hızı, barisentre düzeltilmiş, hatasıyla birlikte</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="925"/>
+        <location filename="../../ui/spectro_page.py" line="1047"/>
         <source>Fit orbit</source>
         <translation>Yörünge fit et</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="930"/>
+        <location filename="../../ui/spectro_page.py" line="1052"/>
         <source>Fits a Keplerian orbit to the velocities: period, eccentricity, K, γ (both stars for a double-lined binary)</source>
         <translation>Hızlara bir Kepler yörüngesi fit eder: dönem, dış merkezlik, K, γ (çift çizgili çiftte iki yıldız)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="936"/>
+        <location filename="../../ui/spectro_page.py" line="1058"/>
         <source>Separate the two stars&apos; spectra (disentangling)</source>
         <translation>İki yıldızın tayfını ayır (disentangling)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="941"/>
+        <location filename="../../ui/spectro_page.py" line="1063"/>
         <source>With the two stars&apos; velocities in every spectrum, finds each star&apos;s own spectrum (disentangling); needs spectra at many orbital phases</source>
         <translation>Her tayftaki iki yıldızın hızlarıyla her yıldızın kendi tayfını bulur (ayrıştırma); birçok yörünge evresinde tayf gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="955"/>
+        <location filename="../../ui/spectro_page.py" line="1077"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="957"/>
-        <location filename="../../ui/spectro_page.py" line="1177"/>
+        <location filename="../../ui/spectro_page.py" line="1079"/>
+        <location filename="../../ui/spectro_page.py" line="1299"/>
         <source>RV (km/s)</source>
         <translation>RV (km/sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="958"/>
+        <location filename="../../ui/spectro_page.py" line="1080"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="959"/>
+        <location filename="../../ui/spectro_page.py" line="1081"/>
         <source>RV 2 (km/s)</source>
         <translation>RV 2 (km/sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="960"/>
+        <location filename="../../ui/spectro_page.py" line="1082"/>
         <source>Error 2</source>
         <translation>Hata 2</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="961"/>
+        <location filename="../../ui/spectro_page.py" line="1083"/>
         <source>Barycentric corr.</source>
         <translation>Barisentrik düz.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="975"/>
+        <location filename="../../ui/spectro_page.py" line="1097"/>
         <source>Add spectra</source>
         <translation>Tayf ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="986"/>
-        <location filename="../../ui/spectro_page.py" line="1005"/>
+        <location filename="../../ui/spectro_page.py" line="1108"/>
+        <location filename="../../ui/spectro_page.py" line="1127"/>
         <source>Add spectra and choose a template.</source>
         <translation>Tayf ekleyin ve bir şablon seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1000"/>
+        <location filename="../../ui/spectro_page.py" line="1122"/>
         <source>Measuring…</source>
         <translation>Ölçülüyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1007"/>
+        <location filename="../../ui/spectro_page.py" line="1129"/>
         <source>Comparing with the template library…</source>
         <translation>Şablon kütüphanesiyle karşılaştırılıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1012"/>
+        <location filename="../../ui/spectro_page.py" line="1134"/>
         <source>No library spectrum covers these wavelengths.</source>
         <translation>Bu dalga boylarını kapsayan kütüphane tayfı yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1015"/>
+        <location filename="../../ui/spectro_page.py" line="1137"/>
         <source>Closest spectral types: {t}. The best one is now the template.</source>
         <translation>En yakın tayf türleri: {t}. En iyisi artık şablon.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1020"/>
+        <location filename="../../ui/spectro_page.py" line="1142"/>
         <source>Folder for the two spectra</source>
         <translation>İki tayf için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1035"/>
+        <location filename="../../ui/spectro_page.py" line="1157"/>
         <source>Separating the two spectra…</source>
         <translation>İki tayf ayrılıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1041"/>
+        <location filename="../../ui/spectro_page.py" line="1163"/>
         <source>Star 1</source>
         <translation>Yıldız 1</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1042"/>
+        <location filename="../../ui/spectro_page.py" line="1164"/>
         <source>Star 2 (shifted down by 0.5)</source>
         <translation>Yıldız 2 (0,5 aşağı kaydırılmış)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1043"/>
+        <location filename="../../ui/spectro_page.py" line="1165"/>
         <source>Wavelength (Å)</source>
         <translation>Dalgaboyu (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1044"/>
+        <location filename="../../ui/spectro_page.py" line="1166"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1047"/>
+        <location filename="../../ui/spectro_page.py" line="1169"/>
         <source>Written: {a} and {b}</source>
         <translation>Yazıldı: {a} ve {b}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1062"/>
+        <location filename="../../ui/spectro_page.py" line="1184"/>
         <source>not applied</source>
         <translation>uygulanmadı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1070"/>
+        <location filename="../../ui/spectro_page.py" line="1192"/>
         <source>v sin i = {v:.1f} km/s</source>
         <translation>v sin i = {v:.1f} km/sn</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1078"/>
+        <location filename="../../ui/spectro_page.py" line="1200"/>
         <source>site from the Plan page</source>
         <translation>Plan sayfasındaki yer</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1078"/>
+        <location filename="../../ui/spectro_page.py" line="1200"/>
         <source>site from the file header</source>
         <translation>dosya başlığındaki yer</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1083"/>
+        <location filename="../../ui/spectro_page.py" line="1205"/>
         <source>{n} velocities.</source>
         <translation>{n} hız.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1085"/>
+        <location filename="../../ui/spectro_page.py" line="1207"/>
         <source>Barycentric correction for: {w}.</source>
         <translation>Barisentrik düzeltme için kullanılan: {w}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1090"/>
+        <location filename="../../ui/spectro_page.py" line="1212"/>
         <source>Barycentric correction needs the time, the target position and the site (Plan page).</source>
         <translation>Barisentrik düzeltme için zaman, hedef konumu ve gözlem yeri (Planla sayfası) gerekir.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1108"/>
+        <location filename="../../ui/spectro_page.py" line="1230"/>
         <source>Give a period guess (e.g. from the period search).</source>
         <translation>Bir periyot tahmini girin (örn. periyot aramasından).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1122"/>
+        <location filename="../../ui/spectro_page.py" line="1244"/>
         <source>P = {p:.6f} ± {pe:.6f} d, e = {e:.3f} ± {ee:.3f}, ω = {w:.1f} ± {we:.1f}°, K = {k:.3f} ± {ke:.3f} km/s, γ = {g:.3f} ± {ge:.3f} km/s, rms = {rms:.3f} km/s</source>
         <translation>P = {p:.6f} ± {pe:.6f} g, e = {e:.3f} ± {ee:.3f}, ω = {w:.1f} ± {we:.1f}°, K = {k:.3f} ± {ke:.3f} km/sn, γ = {g:.3f} ± {ge:.3f} km/sn, rms = {rms:.3f} km/sn</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1139"/>
+        <location filename="../../ui/spectro_page.py" line="1261"/>
         <source>K2 = {k2:.3f} ± {k2e:.3f} km/s, q = M2/M1 = {q:.4f} ± {qe:.4f}, M1 sin³i = {m1:.4f} ± {m1e:.4f} M☉, M2 sin³i = {m2:.4f} ± {m2e:.4f} M☉, a sin i = {a:.3f} ± {ae:.3f} R☉, rms 2 = {rms2:.3f} km/s</source>
         <translation>K2 = {k2:.3f} ± {k2e:.3f} km/sn, q = M2/M1 = {q:.4f} ± {qe:.4f}, M1 sin³i = {m1:.4f} ± {m1e:.4f} M☉, M2 sin³i = {m2:.4f} ± {m2e:.4f} M☉, a sin i = {a:.3f} ± {ae:.3f} R☉, rms 2 = {rms2:.3f} km/sn</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1156"/>
+        <location filename="../../ui/spectro_page.py" line="1278"/>
         <source>f(m) = {fm:.4g} M☉, a sin i = {a:.3f} R☉</source>
         <translation>f(m) = {fm:.4g} M☉, a sin i = {a:.3f} R☉</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1176"/>
+        <location filename="../../ui/spectro_page.py" line="1298"/>
         <source>Phase (from periastron)</source>
         <translation>Evre (enberiden)</translation>
     </message>
@@ -9354,17 +9454,17 @@
 <context>
     <name>_FileRow</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="109"/>
+        <location filename="../../ui/spectro_page.py" line="124"/>
         <source>Path of the file: type it or choose it with Browse…</source>
         <translation>Dosyanın yolu: yazın ya da Gözat… ile seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="110"/>
+        <location filename="../../ui/spectro_page.py" line="125"/>
         <source>Browse…</source>
         <translation>Gözat…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="112"/>
+        <location filename="../../ui/spectro_page.py" line="127"/>
         <source>Choose the file in a dialog</source>
         <translation>Dosyayı bir pencereden seçin</translation>
     </message>
@@ -9372,32 +9472,32 @@
 <context>
     <name>_Orientation</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="73"/>
+        <location filename="../../ui/spectro_page.py" line="88"/>
         <source>Dispersion along</source>
         <translation>Dağılma yönü</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="75"/>
+        <location filename="../../ui/spectro_page.py" line="90"/>
         <source>rows (x)</source>
         <translation>satırlar (x)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="75"/>
+        <location filename="../../ui/spectro_page.py" line="90"/>
         <source>columns (y)</source>
         <translation>sütunlar (y)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="78"/>
+        <location filename="../../ui/spectro_page.py" line="93"/>
         <source>Along which axis of the detector the wavelength changes; many coudé spectrographs disperse along the columns</source>
         <translation>Dalga boyunun algılayıcının hangi ekseni boyunca değiştiği; birçok coudé tayfçeker sütunlar boyunca dağıtır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="82"/>
+        <location filename="../../ui/spectro_page.py" line="97"/>
         <source>blue on the right</source>
         <translation>mavi sağda</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="84"/>
+        <location filename="../../ui/spectro_page.py" line="99"/>
         <source>Tick when the wavelength decreases along the axis (blue on the right, or at the top)</source>
         <translation>Dalga boyu eksen boyunca azalıyorsa işaretleyin (mavi sağda ya da üstte)</translation>
     </message>
