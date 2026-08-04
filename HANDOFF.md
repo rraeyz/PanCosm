@@ -222,7 +222,7 @@ Status of everything so far:
 | 1-4 | Campaigns 1-3 (sections above) and the fourth round (undo / redo, defaults audit, tooltips on pages) | DONE (up to `433f6f2`) |
 | A | Long slit, curved traces (FLOYDS): trace followed as IRAF aptrace, "Spectrum at row", traced line drawn | DONE (`c4168a9`) |
 | T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | CLAIMED by agent session 01RxUU (2026-11-04) |
-| T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | TODO |
+| T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | CLAIMED by agent session 01RxUU (2026-11-04) |
 | T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | TODO |
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | TODO |
@@ -237,6 +237,12 @@ Status of everything so far:
 ### Notes per task
 
 (Each agent adds its notes here under the task number.)
+
+**T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
+"Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on
+how to choose, a tooltip on each. `self.kvw` / `self.trapezoid` in `PhotometryPage`. The engine step
+`timeseries.minimum` defaults to `method="kvw"` too (both automations set the method explicitly). Guide pages
+01 and 06 in four languages updated. Test: `tests/test_ui.py::test_minimum_method_is_a_visible_choice_with_kvw_first`.
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 

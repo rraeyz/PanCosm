@@ -1673,15 +1673,41 @@ class PhotometryPage(Undoable, QWidget):
         ml.addLayout(grid)
         self.period.setToolTip(self.tr("Optional: with T0 and the period the minimum gets its cycle number and O−C"))
         self.t0.setToolTip(self.tr("Optional: with T0 and the period the minimum gets its cycle number and O−C"))
-        self.kvw = QCheckBox(self.tr("Kwee–van Woerden (eclipses) instead of trapezoid fit (transits)"), self)
-        self.kvw.setChecked(False)
+        from PySide6.QtWidgets import QButtonGroup, QGroupBox
+
+        method_box = QGroupBox(self.tr("What kind of minimum is it?"), self)
+        mb = QVBoxLayout(method_box)
+        self.kvw = QRadioButton(self.tr("Eclipsing binary: Kwee–van Woerden method"), self)
         self.kvw.setToolTip(
             self.tr(
-                "On: Kwee & van Woerden (1956), for the V-shaped, symmetric minimum of an eclipsing binary."
-                " Off: a trapezoid is fitted, for flat-bottomed exoplanet transits."
+                "Kwee & van Woerden (1956), the standard method for minima of eclipsing binaries and the times "
+                "collected in O−C databases: the time about which the descending and ascending branches are most "
+                "symmetric, with its error"
             )
         )
-        ml.addWidget(self.kvw)
+        self.trapezoid = QRadioButton(self.tr("Exoplanet transit: trapezoid fit"), self)
+        self.trapezoid.setToolTip(
+            self.tr(
+                "A trapezoid (ingress, flat bottom, egress) fitted to the dip: mid-transit time with its error, "
+                "depth and duration, as the ExoClock and ETD projects use"
+            )
+        )
+        self.kvw.setChecked(True)
+        group = QButtonGroup(method_box)
+        for b in (self.kvw, self.trapezoid):
+            group.addButton(b)
+            mb.addWidget(b)
+        note = QLabel(
+            self.tr(
+                "Choose by what you observe: a V-shaped or rounded minimum of a binary star, or the flat-bottomed "
+                "dip of a planet passing in front of its star."
+            ),
+            self,
+        )
+        note.setWordWrap(True)
+        note.setProperty("muted", True)
+        mb.addWidget(note)
+        ml.addWidget(method_box)
         self.minimum_button = QPushButton(self.tr("Time of minimum"), self)
         self.minimum_button.setEnabled(False)
         self.minimum_button.clicked.connect(self._minimum)

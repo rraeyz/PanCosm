@@ -66,7 +66,7 @@ Slow changes that are not the star's — extinction changing with airmass, a dri
 
 ## Time of minimum
 - Enter the **Ephemeris T0 (BJD)** and **Period (d)** if you know them (optional): then the epoch and O-C are given too.
-- Tick **Kwee–van Woerden** for eclipsing binaries; leave it for the **trapezoid fit**, which suits transits and flat-bottomed eclipses and also gives depth and duration.
+- Under **What kind of minimum is it?** choose **Eclipsing binary: Kwee–van Woerden method** (the default; Kwee & van Woerden 1956, the method of O−C databases) or **Exoplanet transit: trapezoid fit**, which suits flat-bottomed dips and also gives depth and duration.
 - **Time of minimum** gives the time with its error (for KvW the larger of the KvW and bootstrap errors), in days and minutes.
 - When the light curve covers several eclipses (TESS, several nights), give T0 and the period — after a **Period search** on this light curve they are filled in for you — and every primary and secondary minimum is timed in its own window and sent to the O-C page with its type; without them the page asks for them instead of giving one meaningless time.
 

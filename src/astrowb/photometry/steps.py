@@ -89,7 +89,7 @@ def apertures_step(inputs, params, ctx):
     return {"apertures": choose_apertures(data, stars, gain)}
 
 
-@step("timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="trapezoid", t0=None, period=None)
+@step("timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="kvw", t0=None, period=None)
 def minimum_step(inputs, params, ctx):
     """Time of minimum of a light curve; with t0 and period also epoch and O-C (days)."""
     from ..timeseries.minima import dips, each_minimum

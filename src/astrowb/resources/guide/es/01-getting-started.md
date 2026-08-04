@@ -19,7 +19,7 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 ![Página Calibrar después de Explorar](images/es/first-night-calibrate.png)
 
 3. **Fotometría:** **Elegir imágenes…** y seleccione los `light_V_*.fits` calibrados. Pulse **Comprobar la calidad de las imágenes**: todas las tomas son buenas. Haga clic en la estrella del centro de la imagen (la binaria, en x = 100, y = 80) y luego en **Sugerir estrellas de comparación** (o haga clic en las otras tres estrellas). Escriba la posición `02:04:10.3 +46:41:16` en *AR Dec del objeto* para que los tiempos estén en BJD_TDB y pulse **Medir curva de luz**: aparece un eclipse de unos 45 % de profundidad.
-4. Marque **Kwee–van Woerden** y pulse **Instante del mínimo**. Compárelo con `t_min_bjd_tdb` de `truth.json`: ambos coinciden en uno o dos minutos.
+4. Deje **Binaria eclipsante: método de Kwee–van Woerden** (la opción por defecto) y pulse **Instante del mínimo**. Compárelo con `t_min_bjd_tdb` de `truth.json`: ambos coinciden en uno o dos minutos.
 
 ![Página Fotometría con la curva de luz y el instante del mínimo](images/es/first-night-photometry.png)
 

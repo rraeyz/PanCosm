@@ -19,7 +19,7 @@ A complete exercise with simulated data whose answer is known: from raw frames t
 ![Calibrate page after Scan](images/en/first-night-calibrate.png)
 
 3. **Photometry:** **Choose images…** and select the calibrated `light_V_*.fits`. Press **Check frame quality**: all frames are good. Click the star in the middle of the image (the binary, at x = 100, y = 80), then **Suggest comparison stars** (or click the three other stars). Type the position `02:04:10.3 +46:41:16` into *Target RA Dec* so the times are in BJD_TDB, and press **Measure light curve**: an eclipse about 45 % deep appears.
-4. Tick **Kwee–van Woerden** and press **Time of minimum**. Compare it with `t_min_bjd_tdb` in `truth.json`: the two agree within a minute or two.
+4. Keep **Eclipsing binary: Kwee–van Woerden method** (the default) and press **Time of minimum**. Compare it with `t_min_bjd_tdb` in `truth.json`: the two agree within a minute or two.
 
 ![Photometry page with the light curve and the time of minimum](images/en/first-night-photometry.png)
 

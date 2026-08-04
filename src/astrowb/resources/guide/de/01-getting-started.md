@@ -19,7 +19,7 @@ Eine vollständige Übung mit simulierten Daten, deren Lösung bekannt ist: von 
 ![Seite Kalibrieren nach dem Einlesen](images/de/first-night-calibrate.png)
 
 3. **Photometrie:** **Bilder wählen…** und die kalibrierten `light_V_*.fits` auswählen. **Bildqualität prüfen** drücken: Alle Aufnahmen sind gut. Den Stern in der Bildmitte anklicken (den Doppelstern bei x = 100, y = 80), dann **Vergleichssterne vorschlagen** (oder die drei anderen Sterne anklicken). Die Position `02:04:10.3 +46:41:16` in *Ziel RA Dek* eintragen, damit die Zeiten in BJD_TDB sind, und **Lichtkurve messen** drücken: Eine etwa 45 % tiefe Bedeckung erscheint.
-4. **Kwee–van Woerden** ankreuzen und **Minimumszeit** drücken. Mit `t_min_bjd_tdb` in `truth.json` vergleichen: Beide stimmen auf ein bis zwei Minuten überein.
+4. **Bedeckungsveränderlicher: Methode von Kwee–van Woerden** (die Voreinstellung) lassen und **Minimumszeit** drücken. Mit `t_min_bjd_tdb` in `truth.json` vergleichen: Beide stimmen auf ein bis zwei Minuten überein.
 
 ![Seite Photometrie mit Lichtkurve und Minimumszeit](images/de/first-night-photometry.png)
 
