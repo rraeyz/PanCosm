@@ -1034,7 +1034,8 @@ class VelocityTab(QWidget):
         self.type_button = QPushButton(self.tr("Spectral type of the first spectrum (and a template)"), self)
         self.type_button.setToolTip(
             self.tr(
-                "Compared with the Pickles library of 131 stars (downloaded once); the best match becomes the template"
+                "MK type against the MK standard stars of Gray & Corbally (as MKCLASS; 3800–5600 Å, both downloaded "
+                "once), ranked with scores; and the closest of the Pickles library's 131 stars becomes the template"
             )
         )
         self.type_button.clicked.connect(self._classify)
@@ -1129,13 +1130,30 @@ class VelocityTab(QWidget):
         self.status.setText(self.tr("Comparing with the template library…"))
         self.classify_requested.emit(self.files.item(0).text())
 
-    def show_classes(self, classes):
-        if not classes:
+    def show_classes(self, classes, mk=None, mk_note=None):
+        """The MK type from the MK standards (a ranked suggestion with scores) and the template for the velocities
+        (the closest library spectrum, which also covers the red)."""
+        if not classes and not mk:
             self.status.setText(self.tr("No library spectrum covers these wavelengths."))
             return
-        best = ", ".join(f"{c['type']} ({c['rms']:.3f})" for c in classes[:3])
-        self.status.setText(self.tr("Closest spectral types: {t}. The best one is now the template.").format(t=best))
-        self.template.edit.setText(classes[0]["template"])
+        lines = []
+        if mk:
+            ranked = ", ".join(f"{c['type']} ({c['score']:.4f})" for c in mk[:4])
+            lines.append(
+                self.tr(
+                    "MK type against the MK standard stars (Gray & Corbally's libnor36, 3800–5600 Å; smaller is "
+                    "better): {t}. A suggestion: check the spectrum against the standards before using it."
+                ).format(t=ranked)
+            )
+        elif mk_note:
+            lines.append(self.tr("No MK type: {why}.").format(why=translate(mk_note)))
+        if classes:
+            best = ", ".join(f"{c['type']} ({c['rms']:.3f})" for c in classes[:3])
+            lines.append(
+                self.tr("Closest library spectra (Pickles): {t}. The best one is now the template.").format(t=best)
+            )
+            self.template.edit.setText(classes[0]["template"])
+        self.status.setText("\n".join(lines))
 
     def separate(self, folder=None):
         """Disentangle with the velocities measured on these spectra (observed frame) and their light ratio."""

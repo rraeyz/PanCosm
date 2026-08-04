@@ -227,11 +227,11 @@ Status of everything so far:
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
-| T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | CLAIMED by agent session 01RxUU (2026-11-04) |
+| T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
-| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | TODO |
+| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | CLAIMED by agent session 01RxUU (2026-11-04) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
 
 ### Notes per task
@@ -288,6 +288,25 @@ DATASEC [1:2079,1:512], BIASSEC [2049:2079,1:512] → 512 x 2048 now). Test in `
   only 4 lines there (database 4), 3 found, linear solution rms 1.9 Å — not enough lines for a good blue solution;
   the status says so. Tests: `tests/test_reidentify.py` (8). Guide 08 updated in four languages.
 - Turkish terminology fixed on the way: echelle "order" is "mertebe" (as in the guide), not "düzen".
+
+**T7 (done).** Read: MKCLASS paper (Gray & Corbally 2014, AJ 147, 80), its documentation and v1.07 C source
+(`https://www.appstate.edu/~grayro/mkclass/`: mkclassv107.tar.gz, mklib.tar.gz, mkclassdoc.pdf). MKCLASS has no
+licence (and Numerical Recipes code inside), so **nothing of it is copied or bundled**; building and running it
+here was refused by the session's safety check (code from outside), so it was validated against published MK
+types instead. New `spectroscopy/mkstandards.py`: the libnor36 MK standards (174 usable spectra, O6–M5, all
+luminosity classes, 3800–5600 Å, 3.6 Å) are downloaded once from the authors' page (the server refuses Python's
+default client name; the request says "astronomy-workbench (MK standards download)" — an honest name, not a
+browser imitation), only `libnor36/t*l*p00.rbn` kept. Method = MKCLASS's matching step: smooth to 3.6 Å, standards
+interpolated in temperature (running numbers) within each luminosity class, × quadratic response, ranked by rms.
+- Benchmarks: leave-one-out on the standards with S/N 50 and a random response tilt: 86 % within one subclass,
+  100 % within two, luminosity class 90 % exact (with a 61 Å local-continuum comparison instead: only 34 %).
+  Pickles stars (inhomogeneous types, as Gray warns) 62 % within one subclass. TOFES: Sun G0 V (G2 V), Vega A0 V
+  (A0 Va), Arcturus K1 III (K1.5 III) — the old Pickles ranking gave G0 III / A2 V / G8 V.
+- `spectroscopy.classify` returns `mk` (ranked, with scores) and `mk_note` (why not: offline, outside 3800–5600 Å)
+  besides the Pickles ranking that still chooses the RV template (it covers the red). Velocity tab shows both;
+  the MK line says it is a suggestion. Guide 08 (four languages), THIRD_PARTY.md, tests `tests/test_mkstandards.py`.
+- Not done: MKCLASS's rule-based refinement (line-ratio criteria, peculiarity flags such as Am/Ap/Ba); a plot of the
+  star over the best standard (the step already returns `mk_model` for it).
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 

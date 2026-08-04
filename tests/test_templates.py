@@ -64,11 +64,18 @@ def test_classify_step_downloads_an_empty_library(tmp_path, monkeypatch, library
         "download_pickles",
         lambda folder: real(folder, fetch=lambda url: sources[int(url.split("_")[-1][:-5]) - 1].read_bytes()),
     )
+    from astrowb.spectroscopy import mkstandards
+
+    def offline(folder):
+        raise OSError("no internet")
+
+    monkeypatch.setattr(mkstandards, "download", offline)  # the MK standards: tested in test_mkstandards.py
     spectrum_io.write(tmp_path / "star.fits", WAVE, spectrum(*TYPES["K5V"]), np.full(len(WAVE), 0.01))
     out = execute(
         "spectroscopy.classify", {"spectrum": str(tmp_path / "star.fits"), "library": str(tmp_path / "new")}, {}, Ctx()
     )
     assert out["classes"][0]["type"] == "K5V" and len(list((tmp_path / "new").glob("*.fits"))) == 4
+    assert out["mk"] is None and out["mk_note"] == "no internet"  # the library ranking stays
 
 
 def test_velocity_tab_shows_the_type_and_takes_the_template(qtbot):

@@ -250,6 +250,10 @@ TEMPLATES = (
     # spectroscopy/wavecal.py
     QT_TRANSLATE_NOOP("Messages", "identify at least two lines"),
     QT_TRANSLATE_NOOP("Messages", "too few lines matched: check the identified lines and the line list"),
+    # spectroscopy/mkstandards.py
+    QT_TRANSLATE_NOOP("Messages", "the MK standards cover 3800-5600 A: the spectrum has too little of that range"),
+    QT_TRANSLATE_NOOP("Messages", "the MK standards could not be read from the download"),
+    QT_TRANSLATE_NOOP("Messages", "no MK standards in the library folder"),
     # spectroscopy/reidentify.py and the Reduce tab
     QT_TRANSLATE_NOOP("Messages", "{name}: no identified lines (not an IRAF identify / ecidentify database?)"),
     QT_TRANSLATE_NOOP("Messages", "no IRAF database {name} next to it: choose the database file itself"),
@@ -288,6 +292,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "wavelength solution"),
     QT_TRANSLATE_NOOP("Messages", "downloading the template library"),
     QT_TRANSLATE_NOOP("Messages", "comparing"),
+    QT_TRANSLATE_NOOP("Messages", "comparing with the MK standards"),
     QT_TRANSLATE_NOOP("Messages", "disentangling"),
     QT_TRANSLATE_NOOP("Messages", "band math"),
     QT_TRANSLATE_NOOP("Messages", "folder not found: {path}"),
