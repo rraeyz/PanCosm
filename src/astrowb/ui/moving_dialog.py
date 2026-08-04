@@ -34,10 +34,22 @@ class MovingObjectDialog(QDialog):
         row = QHBoxLayout()
         choose = QPushButton(self.tr("Choose plate-solved frames…"), self)
         choose.clicked.connect(self._choose)
+        choose.setToolTip(
+            self.tr(
+                "Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so"
+                " the object moves"
+            )
+        )
         self.measure_button = QPushButton(self.tr("Measure positions"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(
             lambda: self.measure_requested.emit(self.images, list(self.first), list(self.last))
+        )
+        self.measure_button.setToolTip(
+            self.tr(
+                "After clicking the object on the first and the last frame: its position is measured on "
+                "every frame and fitted with a straight motion; residuals show bad points"
+            )
         )
         row.addWidget(choose)
         row.addWidget(self.measure_button)
@@ -58,10 +70,23 @@ class MovingObjectDialog(QDialog):
         form = QFormLayout()
         self.designation = QLineEdit(self)
         self.designation.setPlaceholderText(self.tr("e.g. 2026 VA12, 433, or your own name for a new object"))
+        self.designation.setToolTip(
+            self.tr(
+                "The object's designation as the Minor Planet Center knows it, or a temporary name of your "
+                "own for a new object"
+            )
+        )
         self.code = QLineEdit(saved.get("code", ""), self)
         self.code.setPlaceholderText(self.tr("MPC observatory code, e.g. A84"))
+        self.code.setToolTip(
+            self.tr(
+                "Your observatory's three-character code from the Minor Planet Center (ask them for one "
+                "before the first report)"
+            )
+        )
         self.observers = QLineEdit(saved.get("observers", ""), self)
         self.observers.setPlaceholderText(self.tr("names, separated by commas"))
+        self.observers.setToolTip(self.tr("Names of the observers, written into the report"))
         self.catalog = QLineEdit(saved.get("catalog", "Gaia3"), self)
         self.catalog.setToolTip(self.tr("Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)"))
         form.addRow(self.tr("Object"), self.designation)
@@ -72,6 +97,9 @@ class MovingObjectDialog(QDialog):
         self.export_button = QPushButton(self.tr("Write MPC report (ADES)…"), self)
         self.export_button.setEnabled(False)
         self.export_button.clicked.connect(lambda: self.export())
+        self.export_button.setToolTip(
+            self.tr("Writes the positions in the MPC's ADES format, ready to send to the Minor Planet Center")
+        )
         lay.addWidget(self.export_button)
 
     def set_images(self, paths):

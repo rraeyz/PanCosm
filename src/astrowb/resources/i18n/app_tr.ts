@@ -15,41 +15,76 @@
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2561"/>
+        <source>Anything a reader of the data should know (clouds, Moon, instrument)</source>
+        <translation>Verinin okuyucusunun bilmesi gereken her şey (bulut, Ay, alet)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2562"/>
+        <source>The identifier of the AAVSO chart (VSP) the comparison magnitudes come from</source>
+        <translation>Mukayese kadirlerinin alındığı AAVSO haritasının (VSP) kimliği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2563"/>
+        <source>Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)</source>
+        <translation>Görüntülerin filtresi, AAVSO&apos;nun adlandırdığı gibi (CV: filtresiz, V&apos;ye indirgenmiş)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2564"/>
+        <source>Your AAVSO observer code</source>
+        <translation>AAVSO gözlemci kodunuz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2565"/>
+        <source>The variable&apos;s name as in AAVSO&apos;s VSX, e.g. AI DRA</source>
+        <translation>Değişenin AAVSO VSX&apos;teki adı, örneğin AI DRA</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2567"/>
+        <source>The comparison stars&apos; magnitudes from the AAVSO chart (VSP), in the order the stars were marked</source>
+        <translation>Mukayese yıldızlarının AAVSO haritasındaki (VSP) kadirleri, yıldızların işaretlendiği sırayla</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2569"/>
         <source>Star name (AAVSO VSX)</source>
         <translation>Yıldız adı (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2562"/>
+        <location filename="../../ui/workspaces.py" line="2570"/>
         <source>Observer code</source>
         <translation>Gözlemci kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2563"/>
+        <location filename="../../ui/workspaces.py" line="2571"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2564"/>
+        <location filename="../../ui/workspaces.py" line="2572"/>
         <source>Catalogue magnitudes of the comparison stars</source>
         <translation>Karşılaştırma yıldızlarının katalog kadirleri</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2566"/>
+        <location filename="../../ui/workspaces.py" line="2574"/>
         <source>label on the chart, e.g. 123</source>
         <translation>haritadaki etiketi, ör. 123</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2567"/>
+        <location filename="../../ui/workspaces.py" line="2577"/>
+        <source>The first check star&apos;s label on the chart; its magnitude goes into the report as a test of the comparison stars</source>
+        <translation>İlk kontrol yıldızının haritadaki etiketi; kadiri mukayese yıldızlarının bir sınaması olarak rapora girer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2581"/>
         <source>Check star (KNAME)</source>
         <translation>Kontrol yıldızı (KNAME)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2568"/>
+        <location filename="../../ui/workspaces.py" line="2582"/>
         <source>Chart ID</source>
         <translation>Harita kimliği (Chart ID)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2569"/>
+        <location filename="../../ui/workspaces.py" line="2583"/>
         <source>Notes</source>
         <translation>Notlar</translation>
     </message>
@@ -318,17 +353,37 @@
         <translation>Yükseklik (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="706"/>
+        <location filename="../../ui/spectrum_tools.py" line="705"/>
+        <source>A keyword BeSS requires; filled from the spectrum&apos;s header when it has it</source>
+        <translation>BeSS&apos;in istediği bir anahtar sözcük; tayfın başlığında varsa oradan doldurulur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="707"/>
         <source>Telluric lines removed</source>
         <translation>Tellürik çizgiler giderildi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="707"/>
+        <location filename="../../ui/spectrum_tools.py" line="708"/>
         <source>Cosmic rays removed</source>
         <translation>Kozmik ışınlar giderildi</translation>
     </message>
     <message>
+        <location filename="../../ui/spectrum_tools.py" line="709"/>
+        <source>Tick if cosmic-ray hits were removed; written into the header for BeSS</source>
+        <translation>Kozmik ışın izleri silindiyse işaretleyin; BeSS için başlığa yazılır</translation>
+    </message>
+    <message>
         <location filename="../../ui/spectrum_tools.py" line="711"/>
+        <source>Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS</source>
+        <translation>Tellürik (atmosferik) çizgiler bölünerek çıkarıldıysa işaretleyin; BeSS için başlığa yazılır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="716"/>
+        <source>The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS needs it to compare spectra</source>
+        <translation>Dalga boylarına zaten uygulanmış heliosentrik hız düzeltmesi (yoksa 0); BeSS tayfları karşılaştırmak için buna ihtiyaç duyar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="722"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Uygulanan güneş merkezli düzeltme (km/sn)</translation>
     </message>
@@ -346,33 +401,58 @@
         <translation>Görüntüleri seç…</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="34"/>
+        <location filename="../../ui/blink_dialog.py" line="33"/>
+        <source>Two or more images of the same field, e.g. taken on different nights</source>
+        <translation>Aynı alanın iki ya da daha fazla görüntüsü, örneğin farklı gecelerde çekilmiş</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="35"/>
         <source>Align on the stars</source>
         <translation>Yıldızlara göre hizala</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="38"/>
+        <location filename="../../ui/blink_dialog.py" line="40"/>
+        <source>Shifts the images so the stars stay in place: anything that moved or changed brightness then jumps out</source>
+        <translation>Görüntüleri yıldızlar yerinde kalacak biçimde kaydırır: hareket eden ya da parlaklığı değişen her şey hemen göze çarpar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="44"/>
         <source>Interval (ms)</source>
         <translation>Aralık (ms)</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="44"/>
-        <location filename="../../ui/blink_dialog.py" line="122"/>
+        <location filename="../../ui/blink_dialog.py" line="49"/>
+        <source>How long each image is shown while playing</source>
+        <translation>Oynatırken her görüntünün ne kadar gösterileceği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="51"/>
+        <location filename="../../ui/blink_dialog.py" line="131"/>
         <source>Play</source>
         <translation>Oynat</translation>
     </message>
     <message>
+        <location filename="../../ui/blink_dialog.py" line="54"/>
+        <source>Shows the images one after the other, again and again (blinking)</source>
+        <translation>Görüntüleri tekrar tekrar birbiri ardına gösterir (kırpıştırma)</translation>
+    </message>
+    <message>
         <location filename="../../ui/blink_dialog.py" line="59"/>
+        <source>Previous or next image</source>
+        <translation>Önceki ya da sonraki görüntü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="68"/>
         <source>Choose two or more images.</source>
         <translation>İki ya da daha fazla görüntü seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="68"/>
+        <location filename="../../ui/blink_dialog.py" line="77"/>
         <source>Choose images</source>
         <translation>Görüntüleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="122"/>
+        <location filename="../../ui/blink_dialog.py" line="131"/>
         <source>Pause</source>
         <translation>Duraklat</translation>
     </message>
@@ -890,46 +970,61 @@
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="54"/>
+        <source>Filter of this image of the standard field</source>
+        <translation>Standart alanın bu görüntüsünün filtresi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="55"/>
         <source>Plate-solved image…</source>
         <translation>Plaka çözülmüş görüntü…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="58"/>
+        <location filename="../../ui/coefficients_dialog.py" line="59"/>
         <source>Filter {n}</source>
         <translation>Filtre {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="62"/>
+        <location filename="../../ui/coefficients_dialog.py" line="64"/>
+        <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
+        <translation>Bu filtreden çekilmiş, başlığında plaka çözümü olan bir standart alan görüntüsü (örneğin Landolt)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="69"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Hesapla (katalog kadirleri VizieR&apos;den)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="86"/>
+        <location filename="../../ui/coefficients_dialog.py" line="74"/>
+        <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
+        <translation>İki görüntüdeki yıldızları ölçer, katalog kadirlerini bulur ve standart sisteme dönüşümün renk terimlerini fit eder (internet gerekir)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="99"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} kadir / hava kütlesi ({n} ölçüm, rms {r:.3f} kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="99"/>
+        <location filename="../../ui/coefficients_dialog.py" line="112"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="100"/>
+        <location filename="../../ui/coefficients_dialog.py" line="113"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Aletsel kadir − ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="130"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Ölçülüyor ve katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="125"/>
+        <location filename="../../ui/coefficients_dialog.py" line="138"/>
         <source>{n} standard stars</source>
         <translation>{n} standart yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="133"/>
+        <location filename="../../ui/coefficients_dialog.py" line="146"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (sıfır noktası {z:.3f}, rms {r:.3f}, {u} yıldız)</translation>
     </message>
@@ -1387,67 +1482,107 @@
         <translation>Poz süresi</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="18"/>
+        <location filename="../../ui/exposure_dialog.py" line="20"/>
         <source>Star magnitude</source>
         <translation>Yıldızın kadiri</translation>
     </message>
     <message>
         <location filename="../../ui/exposure_dialog.py" line="21"/>
+        <source>Brightness of the star in the filter used</source>
+        <translation>Kullanılan filtrede yıldızın parlaklığı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="29"/>
         <source>Zero point (mag)</source>
         <translation>Sıfır noktası (kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="23"/>
+        <location filename="../../ui/exposure_dialog.py" line="31"/>
         <source>The magnitude that gives one electron per second with your telescope, camera and filter; measure it once on a star of known magnitude (Photometry gives counts per second)</source>
         <translation>Teleskobunuz, kameranız ve filtrenizle saniyede bir elektron veren kadir; parlaklığı bilinen bir yıldızda bir kez ölçün (Fotometri saniyedeki sayımı verir)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="31"/>
+        <location filename="../../ui/exposure_dialog.py" line="41"/>
         <source>Wanted signal-to-noise</source>
         <translation>İstenen sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="32"/>
+        <location filename="../../ui/exposure_dialog.py" line="42"/>
+        <source>In one frame; 100 gives an error of about 0.01 mag</source>
+        <translation>Tek karede; 100 yaklaşık 0,01 kadirlik hata verir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="50"/>
         <source>Sky (e⁻ / pixel / s)</source>
         <translation>Gökyüzü (e⁻ / piksel / sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="33"/>
+        <location filename="../../ui/exposure_dialog.py" line="51"/>
+        <source>Sky brightness measured on a frame of your site; less with the Moon down</source>
+        <translation>Gözlem yerinizin bir karesinde ölçülen gökyüzü parlaklığı; Ay batmışken daha az</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="57"/>
         <source>Read noise (e⁻)</source>
         <translation>Okuma gürültüsü (e⁻)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="34"/>
+        <location filename="../../ui/exposure_dialog.py" line="57"/>
+        <source>From the camera&apos;s data sheet</source>
+        <translation>Kameranın teknik belgesinden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="60"/>
         <source>Dark current (e⁻ / pixel / s)</source>
         <translation>Karanlık akım (e⁻ / piksel / sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="35"/>
+        <location filename="../../ui/exposure_dialog.py" line="61"/>
+        <source>At the camera&apos;s temperature; close to 0 for a cooled camera</source>
+        <translation>Kameranın sıcaklığında; soğutmalı kamerada 0&apos;a yakın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="69"/>
         <source>Aperture radius (px)</source>
         <translation>Açıklık yarıçapı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="36"/>
+        <location filename="../../ui/exposure_dialog.py" line="70"/>
+        <source>Radius used for the photometry, about 1 to 2 times the FWHM</source>
+        <translation>Fotometride kullanılan yarıçap, FWHM&apos;nin yaklaşık 1–2 katı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="78"/>
         <source>Star FWHM (px)</source>
         <translation>Yıldızın FWHM&apos;si (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="37"/>
+        <location filename="../../ui/exposure_dialog.py" line="79"/>
+        <source>Size of the star images (seeing and focus): sets how fast the brightest pixel fills</source>
+        <translation>Yıldız görüntülerinin boyutu (görüş ve odak): en parlak pikselin ne kadar hızlı dolacağını belirler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="87"/>
         <source>Full well / saturation (e⁻)</source>
         <translation>Tam kuyu / doyma (e⁻)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="68"/>
+        <location filename="../../ui/exposure_dialog.py" line="88"/>
+        <source>Where the camera stops being linear (data sheet, or a series of flats)</source>
+        <translation>Kameranın doğrusallığını yitirdiği düzey (teknik belge ya da bir flat dizisi)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="124"/>
         <source>Exposure for S/N {snr:g}: {t:.1f} s</source>
         <translation>S/N {snr:g} için poz: {t:.1f} sn</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="69"/>
+        <location filename="../../ui/exposure_dialog.py" line="125"/>
         <source>The star&apos;s brightest pixel saturates after {s:.1f} s.</source>
         <translation>Yıldızın en parlak pikseli {s:.1f} sn sonra doyuma ulaşır.</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="71"/>
+        <location filename="../../ui/exposure_dialog.py" line="127"/>
         <source>Too long for one frame: take several shorter frames and add them, or defocus.</source>
         <translation>Tek kare için fazla uzun: birkaç kısa kare alıp toplayın ya da odağı biraz açın.</translation>
     </message>
@@ -2125,47 +2260,72 @@
         <translation>Beyaz düzeyi</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="41"/>
+        <location filename="../../ui/levels_dialog.py" line="43"/>
+        <source>Pixel value shown as white; higher values are white too. Only the display changes, never the data.</source>
+        <translation>Beyaz gösterilen piksel değeri; daha yüksek değerler de beyazdır. Yalnızca görüntüleme değişir, veri asla değişmez.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="46"/>
+        <source>Pixel value shown as black; lower values are black too</source>
+        <translation>Siyah gösterilen piksel değeri; daha düşük değerler de siyahtır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="47"/>
         <source>Automatic (from the interval)</source>
         <translation>Otomatik (aralıktan)</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="45"/>
+        <location filename="../../ui/levels_dialog.py" line="50"/>
+        <source>Black and white levels chosen from the image (zscale or the interval set in the View menu)</source>
+        <translation>Siyah ve beyaz düzeyleri görüntüden seçilir (zscale ya da Görünüm menüsünde ayarlanan aralık)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="54"/>
         <source>Grey</source>
         <translation>Gri</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="46"/>
+        <location filename="../../ui/levels_dialog.py" line="55"/>
         <source>Heat</source>
         <translation>Isı</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="51"/>
+        <location filename="../../ui/levels_dialog.py" line="60"/>
         <source>Cool</source>
         <translation>Soğuk</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="52"/>
+        <location filename="../../ui/levels_dialog.py" line="61"/>
         <source>Rainbow</source>
         <translation>Gökkuşağı</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="59"/>
+        <location filename="../../ui/levels_dialog.py" line="70"/>
+        <source>Colour table of the display; grey is best for judging faint detail, others make small differences stand out</source>
+        <translation>Görüntünün renk tablosu; sönük ayrıntıyı değerlendirmek için en iyisi gri, diğerleri küçük farkları öne çıkarır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="74"/>
         <source>Colours</source>
         <translation>Renkler</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="61"/>
+        <location filename="../../ui/levels_dialog.py" line="76"/>
         <source>Inverted (black stars on white)</source>
         <translation>Ters (beyaz üstüne siyah yıldızlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="84"/>
+        <location filename="../../ui/levels_dialog.py" line="81"/>
+        <source>Black stars on a white sky, as on photographic plates and finding charts; faint objects are often easier to see</source>
+        <translation>Beyaz gök üzerinde siyah yıldızlar, fotoğraf plakalarında ve bulma haritalarında olduğu gibi; sönük cisimler çoğu zaman daha kolay görülür</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="105"/>
         <source>Pixel value</source>
         <translation>Piksel değeri</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="85"/>
+        <location filename="../../ui/levels_dialog.py" line="106"/>
         <source>Number of pixels</source>
         <translation>Piksel sayısı</translation>
     </message>
@@ -2173,22 +2333,22 @@
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="3133"/>
+        <location filename="../../ui/workspaces.py" line="3147"/>
         <source>Period search</source>
         <translation>Periyot arama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3134"/>
+        <location filename="../../ui/workspaces.py" line="3148"/>
         <source>Frequency analysis</source>
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3135"/>
+        <location filename="../../ui/workspaces.py" line="3149"/>
         <source>Variable star search</source>
         <translation>Değişen yıldız arama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3136"/>
+        <location filename="../../ui/workspaces.py" line="3150"/>
         <source>O-C diagram</source>
         <translation>O-C diyagramı</translation>
     </message>
@@ -4534,102 +4694,132 @@
         <translation>Plaka çözümlü kareleri seç…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="37"/>
+        <location filename="../../ui/moving_dialog.py" line="39"/>
+        <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
+        <translation>Başlığında plaka çözümü (WCS) olan, cismin hareket edebilmesi için bir saat ya da daha uzun sürede çekilmiş kalibre edilmiş kareler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="43"/>
         <source>Measure positions</source>
         <translation>Konumları ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="45"/>
+        <location filename="../../ui/moving_dialog.py" line="50"/>
+        <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
+        <translation>Cisme ilk ve son karede tıkladıktan sonra: konumu her karede ölçülür ve düzgün bir hareketle fit edilir; artıklar kötü noktaları gösterir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="57"/>
         <source>Choose the frames (calibrated and plate-solved), in any order.</source>
         <translation>Kareleri seçin (kalibre ve plaka çözümlü), sırası önemsiz.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="53"/>
+        <location filename="../../ui/moving_dialog.py" line="65"/>
         <source>Residual (″)</source>
         <translation>Artık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="60"/>
+        <location filename="../../ui/moving_dialog.py" line="72"/>
         <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
         <translation>ör. 2026 VA12, 433 ya da yeni bir cisim için kendi verdiğiniz ad</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="62"/>
+        <location filename="../../ui/moving_dialog.py" line="75"/>
+        <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
+        <translation>Cismin Küçük Gezegen Merkezi&apos;ndeki adı, ya da yeni bir cisim için kendi geçici adınız</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="80"/>
         <source>MPC observatory code, e.g. A84</source>
         <translation>MPC gözlemevi kodu, ör. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="64"/>
+        <location filename="../../ui/moving_dialog.py" line="83"/>
+        <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
+        <translation>Gözlemevinizin Küçük Gezegen Merkezi&apos;nden alınan üç karakterli kodu (ilk rapordan önce isteyin)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="88"/>
         <source>names, separated by commas</source>
         <translation>adlar, virgülle ayrılmış</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="66"/>
+        <location filename="../../ui/moving_dialog.py" line="89"/>
+        <source>Names of the observers, written into the report</source>
+        <translation>Gözlemcilerin adları, rapora yazılır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="91"/>
         <source>Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)</source>
         <translation>Plaka çözümlerinin yıldız kataloğu (ASTAP ve astrometry.net: Gaia)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="67"/>
+        <location filename="../../ui/moving_dialog.py" line="92"/>
         <source>Object</source>
         <translation>Cisim</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="68"/>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
         <source>Observatory code</source>
         <translation>Gözlemevi kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="69"/>
+        <location filename="../../ui/moving_dialog.py" line="94"/>
         <source>Observers</source>
         <translation>Gözlemciler</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="70"/>
+        <location filename="../../ui/moving_dialog.py" line="95"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="72"/>
+        <location filename="../../ui/moving_dialog.py" line="97"/>
         <source>Write MPC report (ADES)…</source>
         <translation>MPC raporunu yaz (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="87"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
+        <translation>Konumları MPC&apos;nin ADES biçiminde, Küçük Gezegen Merkezi&apos;ne gönderilmeye hazır olarak yazar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="115"/>
         <source>Click the object on the first frame.</source>
         <translation>İlk karede cisme tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <location filename="../../ui/moving_dialog.py" line="120"/>
         <source>Choose frames</source>
         <translation>Kareleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="105"/>
+        <location filename="../../ui/moving_dialog.py" line="133"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Şimdi son karede cisme tıklayın (ilk konum işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="109"/>
+        <location filename="../../ui/moving_dialog.py" line="137"/>
         <source>Press Measure positions.</source>
         <translation>Konumları ölç&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="121"/>
+        <location filename="../../ui/moving_dialog.py" line="149"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} konum. En büyük artık {w:.2f}″ (~1″&apos;den büyükse o kareyi kontrol edin).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="125"/>
+        <location filename="../../ui/moving_dialog.py" line="153"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} kare plaka çözümü yapılamadığı için dışarıda bırakıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="157"/>
+        <location filename="../../ui/moving_dialog.py" line="185"/>
         <source>MPC report</source>
         <translation>MPC raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="161"/>
+        <location filename="../../ui/moving_dialog.py" line="189"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Rapor yazıldı: {p}. MPC&apos;ye gönderin (obs@minorplanetcenter.net ya da web formu).</translation>
     </message>
@@ -4637,182 +4827,182 @@
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2639"/>
+        <location filename="../../ui/workspaces.py" line="2653"/>
         <source>Light curves &amp; O-C</source>
         <translation>Işık eğrisi ve O-C</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2640"/>
+        <location filename="../../ui/workspaces.py" line="2654"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimum zamanları, her satıra bir tane: zaman [hata] [I/II] [kaynak]</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2645"/>
+        <location filename="../../ui/workspaces.py" line="2659"/>
         <source>Load file…</source>
         <translation>Dosya yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2649"/>
+        <location filename="../../ui/workspaces.py" line="2663"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Minimum ya da maksimum zamanlarının metin dosyası: zaman, hata, tür (I / II), kaynak; her satıra bir tane</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2656"/>
+        <location filename="../../ui/workspaces.py" line="2670"/>
         <source>Reference T0</source>
         <translation>Referans T0</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2657"/>
+        <location filename="../../ui/workspaces.py" line="2671"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Çevrimleri saymak için kullanılan efemerik dönemi; fit onu iyileştirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2658"/>
+        <location filename="../../ui/workspaces.py" line="2672"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Efemeriğin sıfır anı (zamanlarla aynı biçimde BJD ya da HJD); boşsa ilk minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2660"/>
+        <location filename="../../ui/workspaces.py" line="2674"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2663"/>
+        <location filename="../../ui/workspaces.py" line="2677"/>
         <source>Linear ephemeris</source>
         <translation>Doğrusal efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2664"/>
+        <location filename="../../ui/workspaces.py" line="2678"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Sabit dönem: O−C bir doğru üzerinde (T0 ve dönemi düzeltir)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2665"/>
+        <location filename="../../ui/workspaces.py" line="2679"/>
         <source>Quadratic (period change)</source>
         <translation>İkinci derece (dönem değişimi)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2667"/>
+        <location filename="../../ui/workspaces.py" line="2681"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Düzenli değişen dönem (kütle aktarımı, kütle kaybı): O−C bir parabol üzerinde; dP/dt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2669"/>
+        <location filename="../../ui/workspaces.py" line="2683"/>
         <source>Third body (light-travel time)</source>
         <translation>Üçüncü cisim (ışık-zaman etkisi)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2672"/>
+        <location filename="../../ui/workspaces.py" line="2686"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Üçüncü bir yıldız çifti dolandırır: O−C üçüncü cismin yörüngesiyle dalgalanır (Irwin 1952); dalganın birden fazla çevrimini kapsayan minimumlar gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2676"/>
+        <location filename="../../ui/workspaces.py" line="2690"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidal hareket (dış merkezli yörünge, birincil ve ikincil)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2679"/>
+        <location filename="../../ui/workspaces.py" line="2693"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Basık bir yörünge döner: birincil ve ikincil minimumlar zıt yönlerde kayar; iki tür minimum da gerekir (tür I ve II)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2686"/>
+        <location filename="../../ui/workspaces.py" line="2700"/>
         <source>Fit and draw O-C</source>
         <translation>Fit et ve O-C çiz</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2689"/>
+        <location filename="../../ui/workspaces.py" line="2703"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Seçilen modeli zamanlara fit eder ve O−C&apos;yi (gözlenen eksi hesaplanan) çevrim numarasına karşı çizer</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2704"/>
+        <location filename="../../ui/workspaces.py" line="2718"/>
         <source>Load minimum times</source>
         <translation>Minimum zamanlarını yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2704"/>
+        <location filename="../../ui/workspaces.py" line="2718"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Metin (*.txt *.csv *.dat);;Tümü (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2720"/>
+        <location filename="../../ui/workspaces.py" line="2734"/>
         <source>Give the reference T0 and the period in days.</source>
         <translation>Başlangıç T0&apos;ını ve dönemi gün olarak girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2731"/>
+        <location filename="../../ui/workspaces.py" line="2745"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2737"/>
+        <location filename="../../ui/workspaces.py" line="2751"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2738"/>
+        <location filename="../../ui/workspaces.py" line="2752"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2742"/>
+        <location filename="../../ui/workspaces.py" line="2756"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} gün, dP/dt = {dp:.3g} ± {dpe:.2g} sn/yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2746"/>
+        <location filename="../../ui/workspaces.py" line="2760"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2752"/>
-        <location filename="../../ui/workspaces.py" line="2800"/>
+        <location filename="../../ui/workspaces.py" line="2766"/>
+        <location filename="../../ui/workspaces.py" line="2814"/>
         <source>primary</source>
         <translation>birincil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2752"/>
-        <location filename="../../ui/workspaces.py" line="2800"/>
+        <location filename="../../ui/workspaces.py" line="2766"/>
+        <location filename="../../ui/workspaces.py" line="2814"/>
         <source>secondary</source>
         <translation>ikincil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2757"/>
-        <location filename="../../ui/workspaces.py" line="2804"/>
+        <location filename="../../ui/workspaces.py" line="2771"/>
+        <location filename="../../ui/workspaces.py" line="2818"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2761"/>
-        <location filename="../../ui/workspaces.py" line="2808"/>
+        <location filename="../../ui/workspaces.py" line="2775"/>
+        <location filename="../../ui/workspaces.py" line="2822"/>
         <source>Epoch</source>
         <translation>Çevrim (E)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2762"/>
-        <location filename="../../ui/workspaces.py" line="2809"/>
+        <location filename="../../ui/workspaces.py" line="2776"/>
+        <location filename="../../ui/workspaces.py" line="2823"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2770"/>
+        <location filename="../../ui/workspaces.py" line="2784"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Üçüncü cisim: P3 = {p:.2f} ± {pe:.2f} yıl, A = {a:.2f} ± {ae:.2f} dk, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2779"/>
+        <location filename="../../ui/workspaces.py" line="2793"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2785"/>
+        <location filename="../../ui/workspaces.py" line="2799"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidal hareket: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/çevrim, U = {u:.1f} yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2787"/>
+        <location filename="../../ui/workspaces.py" line="2801"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
@@ -4840,158 +5030,248 @@
         <translation>Yükseklik (m)</translation>
     </message>
     <message>
+        <location filename="../../ui/observatory_dialog.py" line="56"/>
+        <source>Height above sea level in metres</source>
+        <translation>Deniz seviyesinden yükseklik, metre</translation>
+    </message>
+    <message>
         <location filename="../../ui/observatory_dialog.py" line="58"/>
+        <source>Longitude of the telescope in degrees, east positive (west of Greenwich is negative)</source>
+        <translation>Teleskobun boylamı, derece, doğu artı (Greenwich&apos;in batısı eksi)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="60"/>
+        <source>Latitude of the telescope in degrees, north positive</source>
+        <translation>Teleskobun enlemi, derece, kuzey artı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="63"/>
         <source>Devices</source>
         <translation>Cihazlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Device</source>
         <translation>Cihaz</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Protocol</source>
         <translation>Protokol</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Address (host:port)</source>
         <translation>Adres (sunucu:port)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Number or INDI name</source>
         <translation>Numara ya da INDI adı</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="66"/>
+        <location filename="../../ui/observatory_dialog.py" line="71"/>
         <source>Find Alpaca devices on the network</source>
         <translation>Ağdaki Alpaca cihazlarını bul</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="68"/>
+        <location filename="../../ui/observatory_dialog.py" line="74"/>
+        <source>Asks the local network which ASCOM Alpaca devices are there and adds them to the list</source>
+        <translation>Yerel ağa hangi ASCOM Alpaca cihazlarının olduğunu sorar ve onları listeye ekler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="76"/>
         <source>Add device</source>
         <translation>Cihaz ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="70"/>
+        <location filename="../../ui/observatory_dialog.py" line="79"/>
+        <source>A row for a device by hand: kind, protocol (Alpaca or INDI), address and number or name</source>
+        <translation>Elle bir cihaz satırı: tür, protokol (Alpaca ya da INDI), adres ve numara ya da ad</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="81"/>
         <source>Remove device</source>
         <translation>Cihazı kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="84"/>
+        <location filename="../../ui/observatory_dialog.py" line="83"/>
+        <source>Removes the selected device</source>
+        <translation>Seçili cihazı siler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="96"/>
         <source>Lowest altitude</source>
         <translation>En düşük irtifa</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="85"/>
+        <location filename="../../ui/observatory_dialog.py" line="97"/>
         <source>The night ends when the Sun is above</source>
         <translation>Güneş şunun üstüne çıkınca gece biter</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="86"/>
+        <location filename="../../ui/observatory_dialog.py" line="98"/>
         <source>Highest humidity</source>
         <translation>En yüksek nem</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="87"/>
+        <location filename="../../ui/observatory_dialog.py" line="99"/>
         <source>Highest wind speed</source>
         <translation>En yüksek rüzgâr hızı</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="89"/>
+        <location filename="../../ui/observatory_dialog.py" line="100"/>
+        <source>Above this wind speed (from the weather station) the observatory closes</source>
+        <translation>Bu rüzgâr hızının üstünde (hava istasyonundan) gözlemevi kapanır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="103"/>
+        <source>Above this humidity (from the weather station) the observatory closes, before dew forms on the optics</source>
+        <translation>Bu nemin üstünde (hava istasyonundan) gözlemevi, optiklerde çiy oluşmadan kapanır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="108"/>
+        <source>Observing stops and the telescope parks when the Sun rises above this altitude (−6°: civil twilight, −12°: nautical)</source>
+        <translation>Güneş bu yüksekliğin üstüne çıkınca gözlem durur ve teleskop park eder (−6°: sivil alacakaranlık, −12°: denizci)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="112"/>
+        <source>The mount never points lower than this</source>
+        <translation>Kundak asla bundan daha alçağa yönelmez</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="114"/>
         <source>empty: no guiding; or host:port, e.g. 127.0.0.1:4400</source>
         <translation>boş: kılavuzlama yok; ya da sunucu:port, ör. 127.0.0.1:4400</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="90"/>
+        <location filename="../../ui/observatory_dialog.py" line="115"/>
         <source>PHD2 guiding</source>
         <translation>PHD2 kılavuzlama</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="92"/>
+        <location filename="../../ui/observatory_dialog.py" line="116"/>
+        <source>Address of a running PHD2 for guiding and dithering during sequences</source>
+        <translation>Diziler sırasında rehberlik ve kaydırma (dithering) için çalışan bir PHD2&apos;nin adresi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="118"/>
         <source>e.g. L=0, B=-30, V=15 (focuser steps)</source>
         <translation>ör. L=0, B=-30, V=15 (odaklayıcı adımı)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="93"/>
+        <location filename="../../ui/observatory_dialog.py" line="119"/>
         <source>The focuser moves by the difference when the filter changes</source>
         <translation>Filtre değişince odaklayıcı farkı kadar hareket eder</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="94"/>
+        <location filename="../../ui/observatory_dialog.py" line="120"/>
         <source>Filter focus offsets</source>
         <translation>Filtre odak ofsetleri</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="95"/>
+        <location filename="../../ui/observatory_dialog.py" line="121"/>
         <source> steps/°C</source>
         <translation> adım/°C</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="97"/>
+        <location filename="../../ui/observatory_dialog.py" line="123"/>
         <source>Focuser steps per degree; during a sequence the focus follows the focuser&apos;s temperature (0: off)</source>
         <translation>Derece başına odaklayıcı adımı; sekans sırasında odak, odaklayıcının sıcaklığını izler (0: kapalı)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="99"/>
+        <location filename="../../ui/observatory_dialog.py" line="125"/>
         <source>Temperature compensation</source>
         <translation>Sıcaklık düzeltmesi</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="100"/>
+        <location filename="../../ui/observatory_dialog.py" line="126"/>
         <source>Other computers may connect (protected by the token)</source>
         <translation>Başka bilgisayarlar bağlanabilir (erişim anahtarıyla korunur)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="102"/>
+        <location filename="../../ui/observatory_dialog.py" line="129"/>
+        <source>Off: only this computer can control the telescope. On: others on the network can, with the token.</source>
+        <translation>Kapalı: teleskobu yalnızca bu bilgisayar denetler. Açık: ağdaki diğerleri de token ile denetleyebilir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="131"/>
         <source>Encrypt the connection (HTTPS; recommended when others may connect)</source>
         <translation>Bağlantıyı şifrele (HTTPS; başkaları bağlanabilecekse önerilir)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="108"/>
+        <location filename="../../ui/observatory_dialog.py" line="135"/>
+        <source>The connection is encrypted, so the token and commands cannot be read on the network</source>
+        <translation>Bağlantı şifrelenir; böylece token ve komutlar ağda okunamaz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="140"/>
         <source>Open…</source>
         <translation>Aç…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="110"/>
+        <location filename="../../ui/observatory_dialog.py" line="142"/>
+        <source>Loads a saved observatory configuration</source>
+        <translation>Kaydedilmiş bir gözlemevi yapılandırmasını yükler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="143"/>
         <source>Save…</source>
         <translation>Kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="112"/>
+        <location filename="../../ui/observatory_dialog.py" line="145"/>
+        <source>Saves this configuration to a file</source>
+        <translation>Bu yapılandırmayı bir dosyaya kaydeder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="146"/>
         <source>Save and start</source>
         <translation>Kaydet ve başlat</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="151"/>
+        <location filename="../../ui/observatory_dialog.py" line="149"/>
+        <source>Saves the configuration and starts the observatory program on this computer</source>
+        <translation>Yapılandırmayı kaydeder ve gözlemevi programını bu bilgisayarda başlatır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="171"/>
+        <source>What the device is: mount, camera, focuser, filter wheel, dome, safety monitor, weather station, rotator, flat panel</source>
+        <translation>Cihazın ne olduğu: kundak, kamera, odaklayıcı, filtre tekerleği, kubbe, güvenlik izleyicisi, hava istasyonu, döndürücü, flat paneli</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="175"/>
+        <source>ASCOM Alpaca (Windows drivers, network devices) or INDI (Linux, Raspberry Pi)</source>
+        <translation>ASCOM Alpaca (Windows sürücüleri, ağ cihazları) ya da INDI (Linux, Raspberry Pi)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="193"/>
         <source>Searching the network…</source>
         <translation>Ağ taranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="164"/>
+        <location filename="../../ui/observatory_dialog.py" line="206"/>
         <source>Search failed: {e}</source>
         <translation>Arama başarısız: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="171"/>
+        <location filename="../../ui/observatory_dialog.py" line="213"/>
         <source>{n} devices found, {m} added. Check the list: one device of each kind.</source>
         <translation>{n} cihaz bulundu, {m} tanesi eklendi. Listeyi kontrol edin: her türden bir cihaz.</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="199"/>
+        <location filename="../../ui/observatory_dialog.py" line="241"/>
         <source>Filter focus offsets: write name=steps, e.g. B=-30</source>
         <translation>Filtre odak ofsetleri: ad=adım yazın, ör. B=-30</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="233"/>
-        <location filename="../../ui/observatory_dialog.py" line="256"/>
+        <location filename="../../ui/observatory_dialog.py" line="275"/>
+        <location filename="../../ui/observatory_dialog.py" line="298"/>
         <source>Observatory configuration</source>
         <translation>Gözlemevi yapılandırması</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="248"/>
+        <location filename="../../ui/observatory_dialog.py" line="290"/>
         <source>Saved: {p}</source>
         <translation>Kaydedildi: {p}</translation>
     </message>
@@ -5275,7 +5555,7 @@
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="282"/>
-        <location filename="../../ui/observe_page.py" line="420"/>
+        <location filename="../../ui/observe_page.py" line="418"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
@@ -5340,318 +5620,318 @@
         <translation>Satırı kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="309"/>
+        <location filename="../../ui/observe_page.py" line="308"/>
         <source>remove an exposure row</source>
         <translation>poz satırını sil</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="312"/>
+        <location filename="../../ui/observe_page.py" line="310"/>
         <source>Removes the selected exposure row</source>
         <translation>Seçili poz satırını siler</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="313"/>
+        <location filename="../../ui/observe_page.py" line="311"/>
         <source>Start sequence</source>
         <translation>Çekim sırasını başlat</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="316"/>
+        <location filename="../../ui/observe_page.py" line="314"/>
         <source>Sends the sequence to the observatory, which runs it on its own; Abort stops it</source>
         <translation>Diziyi gözlemevine gönderir, gözlemevi onu kendi başına yürütür; Durdur onu durdurur</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="318"/>
+        <location filename="../../ui/observe_page.py" line="316"/>
         <source>Sky flats</source>
         <translation>Gökyüzü flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="321"/>
+        <location filename="../../ui/observe_page.py" line="319"/>
         <source>Twilight flats with the filter and count of the selected row; exposure times follow the sky brightness. Point the telescope at the flat spot first, tracking off.</source>
         <translation>Seçili satırın filtresi ve sayısıyla alacakaram flatları; poz süreleri gökyüzü parlaklığını izler. Önce teleskopu flat noktasına çevirin, izleme kapalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="326"/>
+        <location filename="../../ui/observe_page.py" line="324"/>
         <source>Panel flats</source>
         <translation>Panel flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="329"/>
+        <location filename="../../ui/observe_page.py" line="327"/>
         <source>Flats on the flat panel (cover closed, panel lit, exposure adjusted to the target level), with the filter and count of the selected row; the panel is switched off afterwards</source>
         <translation>Düz alan panelinde flatlar (kapak kapalı, panel yanık, poz hedef düzeye göre ayarlanır), seçili satırın filtresi ve sayısıyla; sonra panel kapatılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="345"/>
+        <location filename="../../ui/observe_page.py" line="343"/>
         <source>type a value</source>
         <translation>değer yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="350"/>
+        <location filename="../../ui/observe_page.py" line="348"/>
         <source>Copying the frames failed: {e}</source>
         <translation>Kareler kopyalanamadı: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="364"/>
+        <location filename="../../ui/observe_page.py" line="362"/>
         <source>Exposure time of a single test frame (not saved with the sequence)</source>
         <translation>Tek bir deneme karesinin poz süresi (diziyle birlikte kaydedilmez)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="371"/>
+        <location filename="../../ui/observe_page.py" line="369"/>
         <source>Target temperature of the camera sensor; darks must be taken at the same temperature as the lights</source>
         <translation>Kamera algılayıcısının hedef sıcaklığı; dark&apos;lar light&apos;larla aynı sıcaklıkta alınmalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="376"/>
+        <location filename="../../ui/observe_page.py" line="374"/>
         <source>Focuser position in steps</source>
         <translation>Odaklayıcı konumu, adım</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="379"/>
+        <location filename="../../ui/observe_page.py" line="377"/>
         <source>Filter of the filter wheel by its name</source>
         <translation>Filtre tekerleğindeki filtre, adıyla</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="390"/>
+        <location filename="../../ui/observe_page.py" line="388"/>
         <source>Preview</source>
         <translation>Önizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="393"/>
+        <location filename="../../ui/observe_page.py" line="391"/>
         <source>Take preview</source>
         <translation>Önizleme çek</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="395"/>
+        <location filename="../../ui/observe_page.py" line="393"/>
         <source>One frame with this exposure, shown on the Images page (to check pointing and focus)</source>
         <translation>Bu poz süresiyle tek kare; Görüntüler sayfasında gösterilir (yönelimi ve odağı kontrol etmek için)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="400"/>
+        <location filename="../../ui/observe_page.py" line="398"/>
         <source>Cooler</source>
         <translation>Soğutucu</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="402"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Cool to</source>
         <translation>Soğut</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="402"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Switches the cooler on and sets this temperature</source>
         <translation>Soğutucuyu açar ve bu sıcaklığı ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="404"/>
+        <location filename="../../ui/observe_page.py" line="402"/>
         <source>Off</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="406"/>
+        <location filename="../../ui/observe_page.py" line="404"/>
         <source>Switches the cooler off (do it slowly at the end of the night)</source>
         <translation>Soğutucuyu kapatır (gece sonunda yavaşça yapın)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="410"/>
+        <location filename="../../ui/observe_page.py" line="408"/>
         <source>Focuser</source>
         <translation>Odaklayıcı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="413"/>
+        <location filename="../../ui/observe_page.py" line="411"/>
         <source>Move</source>
         <translation>Taşı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="415"/>
+        <location filename="../../ui/observe_page.py" line="413"/>
         <source>Moves the focuser to this position</source>
         <translation>Odaklayıcıyı bu konuma götürür</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="423"/>
+        <location filename="../../ui/observe_page.py" line="421"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="425"/>
+        <location filename="../../ui/observe_page.py" line="423"/>
         <source>Turns the filter wheel to this filter</source>
         <translation>Filtre tekerleğini bu filtreye çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="459"/>
+        <location filename="../../ui/observe_page.py" line="457"/>
         <source>on</source>
         <translation>açık</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="459"/>
+        <location filename="../../ui/observe_page.py" line="457"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="460"/>
+        <location filename="../../ui/observe_page.py" line="458"/>
         <source>Camera {t:.1f} °C, cooler {on}</source>
         <translation>Kamera {t:.1f} °C, soğutucu {on}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="462"/>
+        <location filename="../../ui/observe_page.py" line="460"/>
         <source>focuser at {p}</source>
         <translation>odaklayıcı {p} konumunda</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="468"/>
+        <location filename="../../ui/observe_page.py" line="466"/>
         <source>filter {f}</source>
         <translation>filtre {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="497"/>
+        <location filename="../../ui/observe_page.py" line="495"/>
         <source>Copying {n} frames to {f}…</source>
         <translation>{n} kare {f} klasörüne kopyalanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="527"/>
-        <location filename="../../ui/observe_page.py" line="538"/>
+        <location filename="../../ui/observe_page.py" line="525"/>
+        <location filename="../../ui/observe_page.py" line="536"/>
         <source>Observatory configuration</source>
         <translation>Gözlemevi yapılandırması</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="564"/>
+        <location filename="../../ui/observe_page.py" line="562"/>
         <source>No connection to the observatory: {e}</source>
         <translation>Gözlemeviyle bağlantı yok: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="568"/>
+        <location filename="../../ui/observe_page.py" line="566"/>
         <source>Safe</source>
         <translation>Güvenli</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="571"/>
+        <location filename="../../ui/observe_page.py" line="569"/>
         <source>aborted — press Resume when ready</source>
         <translation>durduruldu — hazır olunca Devam et&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="572"/>
+        <location filename="../../ui/observe_page.py" line="570"/>
         <source>NOT SAFE: {r}</source>
         <translation>GÜVENLİ DEĞİL: {r}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="577"/>
+        <location filename="../../ui/observe_page.py" line="575"/>
         <source>Mount: alt {alt:.1f}°, az {az:.1f}°, {state}</source>
         <translation>Kundak: irtifa {alt:.1f}°, azimut {az:.1f}°, {state}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="580"/>
+        <location filename="../../ui/observe_page.py" line="578"/>
         <source>parked</source>
         <translation>park hâlinde</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="582"/>
+        <location filename="../../ui/observe_page.py" line="580"/>
         <source>tracking</source>
         <translation>izliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="582"/>
+        <location filename="../../ui/observe_page.py" line="580"/>
         <source>not tracking</source>
         <translation>izlemiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="590"/>
+        <location filename="../../ui/observe_page.py" line="588"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="595"/>
+        <location filename="../../ui/observe_page.py" line="593"/>
         <source>Finished, {n} frames.</source>
         <translation>Bitti, {n} kare.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="595"/>
+        <location filename="../../ui/observe_page.py" line="593"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="602"/>
+        <location filename="../../ui/observe_page.py" line="600"/>
         <source>Connect first.</source>
         <translation>Önce bağlanın.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="609"/>
+        <location filename="../../ui/observe_page.py" line="607"/>
         <source>Refused: {e}</source>
         <translation>Reddedildi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="617"/>
+        <location filename="../../ui/observe_page.py" line="615"/>
         <source>Coordinates not understood: {t}</source>
         <translation>Koordinat anlaşılamadı: {t}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="634"/>
         <source>Centred to {e:.0f} arcsec after {n} frames.</source>
         <translation>{n} karede {e:.0f} yay saniyesine kadar ortalandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="638"/>
+        <location filename="../../ui/observe_page.py" line="636"/>
         <source>lower the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ indirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="638"/>
+        <location filename="../../ui/observe_page.py" line="636"/>
         <source>raise the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ yükseltin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="639"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>turn it west by {v:.1f}′</source>
         <translation>{v:.1f}′ batıya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="639"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>turn it east by {v:.1f}′</source>
         <translation>{v:.1f}′ doğuya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="640"/>
+        <location filename="../../ui/observe_page.py" line="638"/>
         <source>Polar axis off by {t:.1f}′: {alt}, {az}.</source>
         <translation>Kutup ekseni {t:.1f}′ kaymış: {alt}, {az}.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="660"/>
+        <location filename="../../ui/observe_page.py" line="658"/>
         <source>light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, shutter closed; flat: an evenly lit field</source>
         <translation>light: gökyüzü; dark: örtücü kapalı, light&apos;lar kadar uzun; bias: en kısa poz, örtücü kapalı; flat: düzgün aydınlatılmış alan</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="671"/>
+        <location filename="../../ui/observe_page.py" line="669"/>
         <source>Exposure time of each frame in seconds</source>
         <translation>Her karenin poz süresi, saniye</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="679"/>
+        <location filename="../../ui/observe_page.py" line="677"/>
         <source>How many frames</source>
         <translation>Kaç kare</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="679"/>
+        <location filename="../../ui/observe_page.py" line="677"/>
         <source>Binning: 1 is full resolution, 2 adds 2×2 pixels</source>
         <translation>Binning: 1 tam çözünürlük, 2 ise 2×2 pikseli toplar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="715"/>
+        <location filename="../../ui/observe_page.py" line="713"/>
         <source>change an exposure row</source>
         <translation>poz satırını değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="725"/>
+        <location filename="../../ui/observe_page.py" line="723"/>
         <source>Row {row}: gain, offset and read-out mode are whole numbers</source>
         <translation>Satır {row}: kazanç, ofset ve okuma modu tam sayıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="732"/>
+        <location filename="../../ui/observe_page.py" line="730"/>
         <source>Row {row}: sub-frame is x, y, width, height in pixels</source>
         <translation>Satır {row}: alt kare piksel cinsinden x, y, genişlik, yükseklik olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="765"/>
+        <location filename="../../ui/observe_page.py" line="763"/>
         <source>The rotator angle must be a number of degrees.</source>
         <translation>Rotator açısı derece cinsinden bir sayı olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="801"/>
+        <location filename="../../ui/observe_page.py" line="799"/>
         <source>load a sequence</source>
         <translation>dizi yükle</translation>
     </message>
@@ -5659,294 +5939,294 @@
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2828"/>
+        <location filename="../../ui/workspaces.py" line="2842"/>
         <source>No light curve yet: measure one on the Photometry page or load a CSV file.</source>
         <translation>Henüz ışık eğrisi yok: Fotometri sayfasında ölçün ya da bir CSV dosyası yükleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2843"/>
+        <location filename="../../ui/workspaces.py" line="2857"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>yıldız adı, ör. AI Dra ya da TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2850"/>
+        <location filename="../../ui/workspaces.py" line="2864"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2832"/>
+        <location filename="../../ui/workspaces.py" line="2846"/>
         <source>Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…</source>
         <translation>CSV yükle (zaman, akı; ya da AAVSO / ZTF / ASAS-SN dosyaları)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2835"/>
+        <location filename="../../ui/workspaces.py" line="2849"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Zaman sütunu ve parlaklık sütunu olan herhangi bir tablo; AAVSO, ZTF ve ASAS-SN&apos;den indirilen dosyalar tanınır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2845"/>
+        <location filename="../../ui/workspaces.py" line="2859"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Yıldızın arşivdeki adı ya da katalog numarası; Enter indirmeyi başlatır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2849"/>
+        <location filename="../../ui/workspaces.py" line="2863"/>
         <source>The archive to download the light curve from</source>
         <translation>Işık eğrisinin indirileceği arşiv</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2852"/>
+        <location filename="../../ui/workspaces.py" line="2866"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>MAST&apos;tan TESS / Kepler / K2, IRSA&apos;dan ZTF, AAVSO gözlemleri (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2861"/>
+        <location filename="../../ui/workspaces.py" line="2875"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (zonklayan yıldızlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2862"/>
+        <location filename="../../ui/workspaces.py" line="2876"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (geçişler, Algol türü örtmeler)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2863"/>
+        <location filename="../../ui/workspaces.py" line="2877"/>
         <source>PDM (any shape)</source>
         <translation>PDM (her biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2864"/>
+        <location filename="../../ui/workspaces.py" line="2878"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (çok harmonikli, her düzgün biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2867"/>
+        <location filename="../../ui/workspaces.py" line="2881"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima</source>
         <translation>Lomb–Scargle: sinüse benzer eğriler (zonklama, lekeler); BLS: kısa, kutu biçimli düşüşler; PDM ve ANOVA: her biçimde eğri, örneğin iki minimumlu örten çiftler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2876"/>
+        <location filename="../../ui/workspaces.py" line="2890"/>
         <source>Method</source>
         <translation>Yöntem</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2878"/>
+        <location filename="../../ui/workspaces.py" line="2892"/>
         <source>Shortest period (d)</source>
         <translation>En kısa periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2881"/>
+        <location filename="../../ui/workspaces.py" line="2895"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Aranan en kısa dönem; noktalar arası sürenin iki katından kısa dönemler bulunamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2883"/>
+        <location filename="../../ui/workspaces.py" line="2897"/>
         <source>Longest period (d)</source>
         <translation>En uzun periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2885"/>
+        <location filename="../../ui/workspaces.py" line="2899"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Aranan en uzun dönem; veri bunun en az iki çevrimini kapsamalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2891"/>
+        <location filename="../../ui/workspaces.py" line="2905"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2892"/>
+        <location filename="../../ui/workspaces.py" line="2906"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Katlanmış grafikte bu kadar evre aralığında ortalama eğri</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2894"/>
+        <location filename="../../ui/workspaces.py" line="2908"/>
         <source>Phase bins</source>
         <translation>Evre aralıkları</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2901"/>
+        <location filename="../../ui/workspaces.py" line="2915"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Aykırı noktaları at için standart sapma cinsinden sınır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2902"/>
+        <location filename="../../ui/workspaces.py" line="2916"/>
         <source>Remove outliers (σ)</source>
         <translation>Aykırı noktaları at (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2903"/>
+        <location filename="../../ui/workspaces.py" line="2917"/>
         <source>remove outliers</source>
         <translation>aykırı noktaları atma</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2906"/>
+        <location filename="../../ui/workspaces.py" line="2920"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Zamandaki komşularının medyanından bu kadar standart sapmadan uzak noktaları siler (kozmik ışın, kötü kare); Ctrl+Z geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2913"/>
+        <location filename="../../ui/workspaces.py" line="2927"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Zamanda grupla için bir zaman aralığının dakika cinsinden uzunluğu</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2914"/>
+        <location filename="../../ui/workspaces.py" line="2928"/>
         <source>Bin in time (min)</source>
         <translation>Zamanda grupla (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2915"/>
+        <location filename="../../ui/workspaces.py" line="2929"/>
         <source>bin in time</source>
         <translation>zamanda gruplama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2918"/>
+        <location filename="../../ui/workspaces.py" line="2932"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Noktaları bu uzunluktaki zaman aralıklarında ortalar: daha az gürültü, daha az nokta; aralıklar bir tutulmadan çok daha kısa olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2922"/>
+        <location filename="../../ui/workspaces.py" line="2936"/>
         <source>Delete points by clicking</source>
         <translation>Tıklayarak nokta sil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2924"/>
+        <location filename="../../ui/workspaces.py" line="2938"/>
         <source>Click a point on the light-curve plot to remove it</source>
         <translation>Kaldırmak için ışık eğrisi grafiğinde bir noktaya tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2925"/>
+        <location filename="../../ui/workspaces.py" line="2939"/>
         <source>Flux ↔ magnitude</source>
         <translation>Akı ↔ kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2926"/>
+        <location filename="../../ui/workspaces.py" line="2940"/>
         <source>flux / magnitude</source>
         <translation>akı / kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2927"/>
+        <location filename="../../ui/workspaces.py" line="2941"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Göreli akıyı kadire (−2,5 log) ya da tersine çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2928"/>
+        <location filename="../../ui/workspaces.py" line="2942"/>
         <source>Undo edits</source>
         <translation>Düzenlemeleri geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2929"/>
+        <location filename="../../ui/workspaces.py" line="2943"/>
         <source>undo edits</source>
         <translation>düzenlemeleri geri alma</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2930"/>
+        <location filename="../../ui/workspaces.py" line="2944"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Işık eğrisinin yüklendiği hâline döner (Ctrl+Z her seferinde bir adım geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2939"/>
+        <location filename="../../ui/workspaces.py" line="2953"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2944"/>
+        <location filename="../../ui/workspaces.py" line="2958"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>En kısa ve en uzun dönem arasında periyodogramı hesaplar ve eğriyi en iyi döneme göre katlar; katlanmış grafiği gözle kontrol edin</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2965"/>
+        <location filename="../../ui/workspaces.py" line="2979"/>
         <source>Downloading from {source}…</source>
         <translation>{source} kaynağından indiriliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2983"/>
+        <location filename="../../ui/workspaces.py" line="2997"/>
         <source>{n} points from {source}</source>
         <translation>{n} nokta, kaynak: {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2993"/>
+        <location filename="../../ui/workspaces.py" line="3007"/>
         <source>outliers removed</source>
         <translation>aykırılar atıldı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2998"/>
+        <location filename="../../ui/workspaces.py" line="3012"/>
         <source>binned</source>
         <translation>gruplandı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3005"/>
+        <location filename="../../ui/workspaces.py" line="3019"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Kadire çevirmek için akılar pozitif olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3009"/>
+        <location filename="../../ui/workspaces.py" line="3023"/>
         <source>magnitudes</source>
         <translation>kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3009"/>
+        <location filename="../../ui/workspaces.py" line="3023"/>
         <source>flux</source>
         <translation>akı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3029"/>
+        <location filename="../../ui/workspaces.py" line="3043"/>
         <source>points deleted</source>
         <translation>noktalar silindi</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3029"/>
+        <location filename="../../ui/workspaces.py" line="3043"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3043"/>
+        <location filename="../../ui/workspaces.py" line="3057"/>
         <source>Time</source>
         <translation>Zaman</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3044"/>
-        <location filename="../../ui/workspaces.py" line="3103"/>
+        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3117"/>
         <source>Magnitude</source>
         <translation>Kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3050"/>
+        <location filename="../../ui/workspaces.py" line="3064"/>
         <source>Load light curve</source>
         <translation>Işık eğrisi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3074"/>
+        <location filename="../../ui/workspaces.py" line="3088"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3077"/>
+        <location filename="../../ui/workspaces.py" line="3091"/>
         <source>Searching…</source>
         <translation>Aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3083"/>
+        <location filename="../../ui/workspaces.py" line="3097"/>
         <source>Best period: {p:.6f} d</source>
         <translation>En iyi periyot: {p:.6f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3093"/>
+        <location filename="../../ui/workspaces.py" line="3107"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3094"/>
+        <location filename="../../ui/workspaces.py" line="3108"/>
         <source>Power</source>
         <translation>Güç</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3102"/>
+        <location filename="../../ui/workspaces.py" line="3116"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3044"/>
-        <location filename="../../ui/workspaces.py" line="3103"/>
+        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3117"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
@@ -7193,6 +7473,16 @@
         <location filename="../../ui/plugin_dialog.py" line="32"/>
         <source>optional</source>
         <translation>isteğe bağlı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plugin_dialog.py" line="33"/>
+        <source>An input of the step: a file, a folder or a value</source>
+        <translation>Adımın bir girdisi: bir dosya, klasör ya da değer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plugin_dialog.py" line="39"/>
+        <source>A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON</source>
+        <translation>Adımın bir ayarı; sayılar, true / false, listeler [ ] ve tablolar { } JSON&apos;daki gibi</translation>
     </message>
 </context>
 <context>

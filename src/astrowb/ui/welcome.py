@@ -36,6 +36,9 @@ class WelcomeDialog(QDialog):
         for code, label in (("dark", "Dark"), ("light", "Light")):
             self.look.addItem(label, code)
         self.look.currentIndexChanged.connect(self._preview)
+        self.language.setToolTip("Language of the menus, messages and guide")
+        self.device.setToolTip("Long computations (stacking, photometry of many frames) can use the graphics card")
+        self.look.setToolTip("Dark or light colours for the window")
         form.addRow("Language", self.language)
         form.addRow("Computations run on", self.device)
         form.addRow("Look", self.look)

@@ -30,10 +30,14 @@ class PluginDialog(QDialog):
         for name in step.inputs + step.optional:
             edit = QLineEdit(self)
             edit.setPlaceholderText(self.tr("required") if name in step.inputs else self.tr("optional"))
+            edit.setToolTip(self.tr("An input of the step: a file, a folder or a value"))
             form.addRow(name, edit)
             self.fields[("in", name)] = edit
         for name, default in step.defaults.items():
             edit = QLineEdit(json.dumps(default) if not isinstance(default, str) else default, self)
+            edit.setToolTip(
+                self.tr("A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON")
+            )
             form.addRow(name, edit)
             self.fields[("param", name)] = edit
         lay.addLayout(form)

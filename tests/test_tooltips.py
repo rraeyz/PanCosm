@@ -1,7 +1,7 @@
 """Every control on every page says what it does when the pointer rests on it (not everyone knows the terms)."""
 
 import pytest
-from PySide6.QtWidgets import QAbstractButton, QAbstractSpinBox, QComboBox, QLineEdit, QTabBar
+from PySide6.QtWidgets import QAbstractButton, QAbstractSpinBox, QComboBox, QDialogButtonBox, QLineEdit, QTabBar
 
 from astrowb.settings import Settings
 
@@ -25,8 +25,10 @@ def _without_tooltip(page):
             parent = w.parent()
             if isinstance(w, QLineEdit) and isinstance(parent, (QComboBox, QAbstractSpinBox)):
                 continue  # the text field inside a combo or spin box
-            if isinstance(w, QTabBar) or isinstance(parent, (QTabBar, QLineEdit)):
-                continue  # Qt's own scroll arrows and clear buttons
+            if isinstance(w, QTabBar) or isinstance(parent, (QTabBar, QLineEdit, QDialogButtonBox)):
+                continue  # Qt's own scroll arrows, clear buttons, OK / Cancel
+            if type(w).__name__ == "QTableCornerButton":
+                continue
             missing.append(f"{type(w).__name__} {getattr(w, 'text', lambda: '')()!r}")
     return missing
 
@@ -51,3 +53,37 @@ def test_tooltips_are_translated(qtbot, tmp_path):
     finally:
         for t in loaded:
             app.removeTranslator(t)
+
+
+def test_every_dialog_control_has_a_tooltip(window, tmp_path):
+    from astrowb.engine import steps
+    from astrowb.ui.blink_dialog import BlinkDialog
+    from astrowb.ui.coefficients_dialog import CoefficientsDialog
+    from astrowb.ui.exposure_dialog import ExposureDialog
+    from astrowb.ui.levels_dialog import LevelsDialog
+    from astrowb.ui.moving_dialog import MovingObjectDialog
+    from astrowb.ui.observatory_dialog import ObservatoryDialog
+    from astrowb.ui.plugin_dialog import PluginDialog
+    from astrowb.ui.spectrum_tools import BessDialog
+    from astrowb.ui.welcome import WelcomeDialog
+    from astrowb.ui.workspaces import AavsoDialog
+
+    settings = Settings(tmp_path)
+    observatory = ObservatoryDialog(settings)
+    observatory.add_device()
+    dialogs = {
+        "blink": BlinkDialog(),
+        "coefficients": CoefficientsDialog(),
+        "exposure": ExposureDialog(settings),
+        "levels": LevelsDialog(window.image_page.viewer),
+        "moving": MovingObjectDialog(settings),
+        "observatory": observatory,
+        "plugin": PluginDialog(steps.get("fits.save_as")),
+        "bess": BessDialog(),
+        "welcome": WelcomeDialog(),
+        "aavso": AavsoDialog(2),
+    }
+    missing = {name: m for name, d in dialogs.items() if (m := _without_tooltip(d))}
+    for d in dialogs.values():
+        d.deleteLater()
+    assert not missing

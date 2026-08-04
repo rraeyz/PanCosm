@@ -15,41 +15,76 @@
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2561"/>
+        <source>Anything a reader of the data should know (clouds, Moon, instrument)</source>
+        <translation>Alles, was ein Nutzer der Daten wissen sollte (Wolken, Mond, Instrument)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2562"/>
+        <source>The identifier of the AAVSO chart (VSP) the comparison magnitudes come from</source>
+        <translation>Die Kennung der AAVSO-Karte (VSP), aus der die Vergleichshelligkeiten stammen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2563"/>
+        <source>Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)</source>
+        <translation>Filter der Bilder, wie die AAVSO ihn nennt (CV: ungefiltert, auf V reduziert)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2564"/>
+        <source>Your AAVSO observer code</source>
+        <translation>Ihr AAVSO-Beobachtercode</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2565"/>
+        <source>The variable&apos;s name as in AAVSO&apos;s VSX, e.g. AI DRA</source>
+        <translation>Der Name des Veränderlichen wie im VSX der AAVSO, z. B. AI DRA</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2567"/>
+        <source>The comparison stars&apos; magnitudes from the AAVSO chart (VSP), in the order the stars were marked</source>
+        <translation>Die Helligkeiten der Vergleichssterne aus der AAVSO-Karte (VSP), in der Reihenfolge, in der die Sterne markiert wurden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2569"/>
         <source>Star name (AAVSO VSX)</source>
         <translation>Sternname (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2562"/>
+        <location filename="../../ui/workspaces.py" line="2570"/>
         <source>Observer code</source>
         <translation>Beobachtercode</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2563"/>
+        <location filename="../../ui/workspaces.py" line="2571"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2564"/>
+        <location filename="../../ui/workspaces.py" line="2572"/>
         <source>Catalogue magnitudes of the comparison stars</source>
         <translation>Katalog-Helligkeiten der Vergleichssterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2566"/>
+        <location filename="../../ui/workspaces.py" line="2574"/>
         <source>label on the chart, e.g. 123</source>
         <translation>Beschriftung auf der Karte, z. B. 123</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2567"/>
+        <location filename="../../ui/workspaces.py" line="2577"/>
+        <source>The first check star&apos;s label on the chart; its magnitude goes into the report as a test of the comparison stars</source>
+        <translation>Die Bezeichnung des ersten Prüfsterns auf der Karte; seine Helligkeit geht als Test der Vergleichssterne in den Bericht</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2581"/>
         <source>Check star (KNAME)</source>
         <translation>Prüfstern (KNAME)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2568"/>
+        <location filename="../../ui/workspaces.py" line="2582"/>
         <source>Chart ID</source>
         <translation>Karten-ID (Chart ID)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2569"/>
+        <location filename="../../ui/workspaces.py" line="2583"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
@@ -318,17 +353,37 @@
         <translation>Höhe (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="706"/>
+        <location filename="../../ui/spectrum_tools.py" line="705"/>
+        <source>A keyword BeSS requires; filled from the spectrum&apos;s header when it has it</source>
+        <translation>Ein von BeSS verlangtes Schlüsselwort; aus dem Header des Spektrums gefüllt, wenn vorhanden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="707"/>
         <source>Telluric lines removed</source>
         <translation>Tellurische Linien entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="707"/>
+        <location filename="../../ui/spectrum_tools.py" line="708"/>
         <source>Cosmic rays removed</source>
         <translation>Kosmische Strahlen entfernt</translation>
     </message>
     <message>
+        <location filename="../../ui/spectrum_tools.py" line="709"/>
+        <source>Tick if cosmic-ray hits were removed; written into the header for BeSS</source>
+        <translation>Ankreuzen, wenn Treffer kosmischer Strahlung entfernt wurden; wird für BeSS in den Header geschrieben</translation>
+    </message>
+    <message>
         <location filename="../../ui/spectrum_tools.py" line="711"/>
+        <source>Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS</source>
+        <translation>Ankreuzen, wenn die tellurischen (atmosphärischen) Linien herausgeteilt wurden; wird für BeSS in den Header geschrieben</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="716"/>
+        <source>The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS needs it to compare spectra</source>
+        <translation>Die bereits auf die Wellenlängen angewandte heliozentrische Geschwindigkeitskorrektur (0, falls keine); BeSS braucht sie zum Vergleich der Spektren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="722"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Angewandte heliozentrische Korrektur (km/s)</translation>
     </message>
@@ -346,33 +401,58 @@
         <translation>Bilder wählen…</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="34"/>
+        <location filename="../../ui/blink_dialog.py" line="33"/>
+        <source>Two or more images of the same field, e.g. taken on different nights</source>
+        <translation>Zwei oder mehr Bilder desselben Feldes, z. B. aus verschiedenen Nächten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="35"/>
         <source>Align on the stars</source>
         <translation>An den Sternen ausrichten</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="38"/>
+        <location filename="../../ui/blink_dialog.py" line="40"/>
+        <source>Shifts the images so the stars stay in place: anything that moved or changed brightness then jumps out</source>
+        <translation>Verschiebt die Bilder so, dass die Sterne stillstehen: alles, was sich bewegt oder seine Helligkeit ändert, fällt dann auf</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="44"/>
         <source>Interval (ms)</source>
         <translation>Intervall (ms)</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="44"/>
-        <location filename="../../ui/blink_dialog.py" line="122"/>
+        <location filename="../../ui/blink_dialog.py" line="49"/>
+        <source>How long each image is shown while playing</source>
+        <translation>Wie lange jedes Bild beim Abspielen gezeigt wird</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="51"/>
+        <location filename="../../ui/blink_dialog.py" line="131"/>
         <source>Play</source>
         <translation>Abspielen</translation>
     </message>
     <message>
+        <location filename="../../ui/blink_dialog.py" line="54"/>
+        <source>Shows the images one after the other, again and again (blinking)</source>
+        <translation>Zeigt die Bilder immer wieder nacheinander (Blinken)</translation>
+    </message>
+    <message>
         <location filename="../../ui/blink_dialog.py" line="59"/>
+        <source>Previous or next image</source>
+        <translation>Vorheriges oder nächstes Bild</translation>
+    </message>
+    <message>
+        <location filename="../../ui/blink_dialog.py" line="68"/>
         <source>Choose two or more images.</source>
         <translation>Zwei oder mehr Bilder wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="68"/>
+        <location filename="../../ui/blink_dialog.py" line="77"/>
         <source>Choose images</source>
         <translation>Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/blink_dialog.py" line="122"/>
+        <location filename="../../ui/blink_dialog.py" line="131"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
@@ -890,46 +970,61 @@
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="54"/>
+        <source>Filter of this image of the standard field</source>
+        <translation>Filter dieses Bildes des Standardfeldes</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="55"/>
         <source>Plate-solved image…</source>
         <translation>Astrometrisch gelöstes Bild…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="58"/>
+        <location filename="../../ui/coefficients_dialog.py" line="59"/>
         <source>Filter {n}</source>
         <translation>Filter {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="62"/>
+        <location filename="../../ui/coefficients_dialog.py" line="64"/>
+        <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
+        <translation>Ein Bild eines Standardfeldes (z. B. Landolt) durch diesen Filter, mit Astrometrie im Header</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="69"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Berechnen (Katalogwerte aus VizieR)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="86"/>
+        <location filename="../../ui/coefficients_dialog.py" line="74"/>
+        <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
+        <translation>Misst die Sterne beider Bilder, sucht ihre Katalogwerte und passt die Farbterme der Transformation ins Standardsystem an (braucht Internet)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="99"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} mag pro Luftmasse ({n} Messungen, rms {r:.3f} mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="99"/>
+        <location filename="../../ui/coefficients_dialog.py" line="112"/>
         <source>Airmass</source>
         <translation>Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="100"/>
+        <location filename="../../ui/coefficients_dialog.py" line="113"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Instrumentelle Helligkeit − Mittel</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="130"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Messen und Katalog abfragen…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="125"/>
+        <location filename="../../ui/coefficients_dialog.py" line="138"/>
         <source>{n} standard stars</source>
         <translation>{n} Standardsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="133"/>
+        <location filename="../../ui/coefficients_dialog.py" line="146"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (Nullpunkt {z:.3f}, rms {r:.3f}, {u} Sterne)</translation>
     </message>
@@ -1387,67 +1482,107 @@
         <translation>Belichtungszeit</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="18"/>
+        <location filename="../../ui/exposure_dialog.py" line="20"/>
         <source>Star magnitude</source>
         <translation>Helligkeit des Sterns (mag)</translation>
     </message>
     <message>
         <location filename="../../ui/exposure_dialog.py" line="21"/>
+        <source>Brightness of the star in the filter used</source>
+        <translation>Helligkeit des Sterns im verwendeten Filter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="29"/>
         <source>Zero point (mag)</source>
         <translation>Nullpunkt (mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="23"/>
+        <location filename="../../ui/exposure_dialog.py" line="31"/>
         <source>The magnitude that gives one electron per second with your telescope, camera and filter; measure it once on a star of known magnitude (Photometry gives counts per second)</source>
         <translation>Die Helligkeit, die mit Ihrem Teleskop, Ihrer Kamera und Ihrem Filter ein Elektron pro Sekunde liefert; einmal an einem Stern bekannter Helligkeit messen (Photometrie liefert Zählungen pro Sekunde)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="31"/>
+        <location filename="../../ui/exposure_dialog.py" line="41"/>
         <source>Wanted signal-to-noise</source>
         <translation>Gewünschtes Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="32"/>
+        <location filename="../../ui/exposure_dialog.py" line="42"/>
+        <source>In one frame; 100 gives an error of about 0.01 mag</source>
+        <translation>In einem Bild; 100 ergibt einen Fehler von etwa 0,01 mag</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="50"/>
         <source>Sky (e⁻ / pixel / s)</source>
         <translation>Himmel (e⁻ / Pixel / s)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="33"/>
+        <location filename="../../ui/exposure_dialog.py" line="51"/>
+        <source>Sky brightness measured on a frame of your site; less with the Moon down</source>
+        <translation>Himmelshelligkeit, gemessen auf einem Bild Ihres Standorts; weniger, wenn der Mond untergegangen ist</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="57"/>
         <source>Read noise (e⁻)</source>
         <translation>Ausleserauschen (e⁻)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="34"/>
+        <location filename="../../ui/exposure_dialog.py" line="57"/>
+        <source>From the camera&apos;s data sheet</source>
+        <translation>Aus dem Datenblatt der Kamera</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="60"/>
         <source>Dark current (e⁻ / pixel / s)</source>
         <translation>Dunkelstrom (e⁻ / Pixel / s)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="35"/>
+        <location filename="../../ui/exposure_dialog.py" line="61"/>
+        <source>At the camera&apos;s temperature; close to 0 for a cooled camera</source>
+        <translation>Bei der Temperatur der Kamera; nahe 0 bei einer gekühlten Kamera</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="69"/>
         <source>Aperture radius (px)</source>
         <translation>Blendenradius (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="36"/>
+        <location filename="../../ui/exposure_dialog.py" line="70"/>
+        <source>Radius used for the photometry, about 1 to 2 times the FWHM</source>
+        <translation>Für die Photometrie verwendeter Radius, etwa das 1- bis 2-Fache der FWHM</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="78"/>
         <source>Star FWHM (px)</source>
         <translation>FWHM des Sterns (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="37"/>
+        <location filename="../../ui/exposure_dialog.py" line="79"/>
+        <source>Size of the star images (seeing and focus): sets how fast the brightest pixel fills</source>
+        <translation>Größe der Sternbilder (Seeing und Fokus): bestimmt, wie schnell sich das hellste Pixel füllt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="87"/>
         <source>Full well / saturation (e⁻)</source>
         <translation>Full Well / Sättigung (e⁻)</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="68"/>
+        <location filename="../../ui/exposure_dialog.py" line="88"/>
+        <source>Where the camera stops being linear (data sheet, or a series of flats)</source>
+        <translation>Wo die Kamera nicht mehr linear ist (Datenblatt oder eine Flatserie)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exposure_dialog.py" line="124"/>
         <source>Exposure for S/N {snr:g}: {t:.1f} s</source>
         <translation>Belichtung für S/N {snr:g}: {t:.1f} s</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="69"/>
+        <location filename="../../ui/exposure_dialog.py" line="125"/>
         <source>The star&apos;s brightest pixel saturates after {s:.1f} s.</source>
         <translation>Das hellste Pixel des Sterns sättigt nach {s:.1f} s.</translation>
     </message>
     <message>
-        <location filename="../../ui/exposure_dialog.py" line="71"/>
+        <location filename="../../ui/exposure_dialog.py" line="127"/>
         <source>Too long for one frame: take several shorter frames and add them, or defocus.</source>
         <translation>Zu lang für ein Bild: mehrere kürzere Bilder aufnehmen und addieren, oder defokussieren.</translation>
     </message>
@@ -2125,47 +2260,72 @@
         <translation>Weißwert</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="41"/>
+        <location filename="../../ui/levels_dialog.py" line="43"/>
+        <source>Pixel value shown as white; higher values are white too. Only the display changes, never the data.</source>
+        <translation>Pixelwert, der weiß gezeigt wird; höhere Werte sind ebenfalls weiß. Nur die Anzeige ändert sich, nie die Daten.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="46"/>
+        <source>Pixel value shown as black; lower values are black too</source>
+        <translation>Pixelwert, der schwarz gezeigt wird; niedrigere Werte sind ebenfalls schwarz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="47"/>
         <source>Automatic (from the interval)</source>
         <translation>Automatisch (aus dem Intervall)</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="45"/>
+        <location filename="../../ui/levels_dialog.py" line="50"/>
+        <source>Black and white levels chosen from the image (zscale or the interval set in the View menu)</source>
+        <translation>Schwarz- und Weißwert werden aus dem Bild gewählt (zscale oder das im Menü Ansicht eingestellte Intervall)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="54"/>
         <source>Grey</source>
         <translation>Grau</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="46"/>
+        <location filename="../../ui/levels_dialog.py" line="55"/>
         <source>Heat</source>
         <translation>Wärme</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="51"/>
+        <location filename="../../ui/levels_dialog.py" line="60"/>
         <source>Cool</source>
         <translation>Kühl</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="52"/>
+        <location filename="../../ui/levels_dialog.py" line="61"/>
         <source>Rainbow</source>
         <translation>Regenbogen</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="59"/>
+        <location filename="../../ui/levels_dialog.py" line="70"/>
+        <source>Colour table of the display; grey is best for judging faint detail, others make small differences stand out</source>
+        <translation>Farbtabelle der Anzeige; Grau ist am besten, um schwache Details zu beurteilen, andere heben kleine Unterschiede hervor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="74"/>
         <source>Colours</source>
         <translation>Farben</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="61"/>
+        <location filename="../../ui/levels_dialog.py" line="76"/>
         <source>Inverted (black stars on white)</source>
         <translation>Invertiert (schwarze Sterne auf Weiß)</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="84"/>
+        <location filename="../../ui/levels_dialog.py" line="81"/>
+        <source>Black stars on a white sky, as on photographic plates and finding charts; faint objects are often easier to see</source>
+        <translation>Schwarze Sterne auf weißem Himmel wie auf Fotoplatten und Aufsuchkarten; schwache Objekte sind oft leichter zu sehen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/levels_dialog.py" line="105"/>
         <source>Pixel value</source>
         <translation>Pixelwert</translation>
     </message>
     <message>
-        <location filename="../../ui/levels_dialog.py" line="85"/>
+        <location filename="../../ui/levels_dialog.py" line="106"/>
         <source>Number of pixels</source>
         <translation>Anzahl der Pixel</translation>
     </message>
@@ -2173,22 +2333,22 @@
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="3133"/>
+        <location filename="../../ui/workspaces.py" line="3147"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3134"/>
+        <location filename="../../ui/workspaces.py" line="3148"/>
         <source>Frequency analysis</source>
         <translation>Frequenzanalyse</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3135"/>
+        <location filename="../../ui/workspaces.py" line="3149"/>
         <source>Variable star search</source>
         <translation>Suche nach Veränderlichen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3136"/>
+        <location filename="../../ui/workspaces.py" line="3150"/>
         <source>O-C diagram</source>
         <translation>O-C-Diagramm</translation>
     </message>
@@ -4534,102 +4694,132 @@
         <translation>Astrometrisch gelöste Bilder wählen…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="37"/>
+        <location filename="../../ui/moving_dialog.py" line="39"/>
+        <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
+        <translation>Kalibrierte Bilder mit Astrometrie (WCS) im Header, über eine Stunde oder länger aufgenommen, damit sich das Objekt bewegt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="43"/>
         <source>Measure positions</source>
         <translation>Positionen messen</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="45"/>
+        <location filename="../../ui/moving_dialog.py" line="50"/>
+        <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
+        <translation>Nachdem Sie das Objekt im ersten und letzten Bild angeklickt haben: seine Position wird in jedem Bild gemessen und mit einer gleichförmigen Bewegung angepasst; die Residuen zeigen schlechte Punkte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="57"/>
         <source>Choose the frames (calibrated and plate-solved), in any order.</source>
         <translation>Wählen Sie die Bilder (kalibriert und astrometrisch gelöst), in beliebiger Reihenfolge.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="53"/>
+        <location filename="../../ui/moving_dialog.py" line="65"/>
         <source>Residual (″)</source>
         <translation>Residuum (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="60"/>
+        <location filename="../../ui/moving_dialog.py" line="72"/>
         <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
         <translation>z. B. 2026 VA12, 433 oder Ihr eigener Name für ein neues Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="62"/>
+        <location filename="../../ui/moving_dialog.py" line="75"/>
+        <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
+        <translation>Die Bezeichnung des Objekts beim Minor Planet Center oder ein eigener vorläufiger Name für ein neues Objekt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="80"/>
         <source>MPC observatory code, e.g. A84</source>
         <translation>MPC-Sternwartencode, z. B. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="64"/>
+        <location filename="../../ui/moving_dialog.py" line="83"/>
+        <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
+        <translation>Der dreistellige Code Ihrer Sternwarte vom Minor Planet Center (vor dem ersten Bericht beantragen)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="88"/>
         <source>names, separated by commas</source>
         <translation>Namen, durch Kommas getrennt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="66"/>
+        <location filename="../../ui/moving_dialog.py" line="89"/>
+        <source>Names of the observers, written into the report</source>
+        <translation>Namen der Beobachter, werden in den Bericht geschrieben</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="91"/>
         <source>Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)</source>
         <translation>Sternkatalog der astrometrischen Lösungen (ASTAP und astrometry.net: Gaia)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="67"/>
+        <location filename="../../ui/moving_dialog.py" line="92"/>
         <source>Object</source>
         <translation>Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="68"/>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
         <source>Observatory code</source>
         <translation>Sternwartencode</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="69"/>
+        <location filename="../../ui/moving_dialog.py" line="94"/>
         <source>Observers</source>
         <translation>Beobachter</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="70"/>
+        <location filename="../../ui/moving_dialog.py" line="95"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="72"/>
+        <location filename="../../ui/moving_dialog.py" line="97"/>
         <source>Write MPC report (ADES)…</source>
         <translation>MPC-Bericht schreiben (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="87"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
+        <translation>Schreibt die Positionen im ADES-Format des MPC, bereit zum Senden an das Minor Planet Center</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="115"/>
         <source>Click the object on the first frame.</source>
         <translation>Klicken Sie im ersten Bild auf das Objekt.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <location filename="../../ui/moving_dialog.py" line="120"/>
         <source>Choose frames</source>
         <translation>Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="105"/>
+        <location filename="../../ui/moving_dialog.py" line="133"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Klicken Sie jetzt im letzten Bild auf das Objekt (die erste Position ist markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="109"/>
+        <location filename="../../ui/moving_dialog.py" line="137"/>
         <source>Press Measure positions.</source>
         <translation>Drücken Sie „Positionen messen“.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="121"/>
+        <location filename="../../ui/moving_dialog.py" line="149"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="125"/>
+        <location filename="../../ui/moving_dialog.py" line="153"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="157"/>
+        <location filename="../../ui/moving_dialog.py" line="185"/>
         <source>MPC report</source>
         <translation>MPC-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="161"/>
+        <location filename="../../ui/moving_dialog.py" line="189"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
     </message>
@@ -4637,182 +4827,182 @@
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2639"/>
+        <location filename="../../ui/workspaces.py" line="2653"/>
         <source>Light curves &amp; O-C</source>
         <translation>Lichtkurven &amp; O-C</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2640"/>
+        <location filename="../../ui/workspaces.py" line="2654"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimumszeiten, eine pro Zeile: Zeit [Fehler] [I/II] [Quelle]</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2645"/>
+        <location filename="../../ui/workspaces.py" line="2659"/>
         <source>Load file…</source>
         <translation>Datei laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2649"/>
+        <location filename="../../ui/workspaces.py" line="2663"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Eine Textdatei mit Minimums- oder Maximumszeiten: Zeit, Fehler, Art (I / II), Quelle; eine pro Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2656"/>
+        <location filename="../../ui/workspaces.py" line="2670"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2657"/>
+        <location filename="../../ui/workspaces.py" line="2671"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Periode der Ephemeride zum Zählen der Epochen; die Anpassung verbessert sie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2658"/>
+        <location filename="../../ui/workspaces.py" line="2672"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Nullepoche der Ephemeride (BJD oder HJD, wie die Zeiten); leer: das erste Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2660"/>
+        <location filename="../../ui/workspaces.py" line="2674"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2663"/>
+        <location filename="../../ui/workspaces.py" line="2677"/>
         <source>Linear ephemeris</source>
         <translation>Lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2664"/>
+        <location filename="../../ui/workspaces.py" line="2678"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Konstante Periode: O−C auf einer Geraden (korrigiert T0 und Periode)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2665"/>
+        <location filename="../../ui/workspaces.py" line="2679"/>
         <source>Quadratic (period change)</source>
         <translation>Quadratisch (Periodenänderung)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2667"/>
+        <location filename="../../ui/workspaces.py" line="2681"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Gleichmäßig sich ändernde Periode (Massenaustausch, Massenverlust): O−C auf einer Parabel; liefert dP/dt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2669"/>
+        <location filename="../../ui/workspaces.py" line="2683"/>
         <source>Third body (light-travel time)</source>
         <translation>Dritter Körper (Lichtlaufzeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2672"/>
+        <location filename="../../ui/workspaces.py" line="2686"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Ein dritter Stern bewegt das Paar: O−C schwankt mit der Bahn des dritten Körpers (Irwin 1952); braucht Minima über mehr als einen Zyklus der Welle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2676"/>
+        <location filename="../../ui/workspaces.py" line="2690"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidendrehung (exzentrische Bahn, Haupt- und Nebenminima)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2679"/>
+        <location filename="../../ui/workspaces.py" line="2693"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Eine exzentrische Bahn dreht sich: Haupt- und Nebenminima wandern gegenläufig; braucht beide Arten von Minima (Typ I und II)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2686"/>
+        <location filename="../../ui/workspaces.py" line="2700"/>
         <source>Fit and draw O-C</source>
         <translation>Anpassen und O-C zeichnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2689"/>
+        <location filename="../../ui/workspaces.py" line="2703"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Passt das gewählte Modell an die Zeiten an und zeichnet O−C (beobachtet minus berechnet) gegen die Epochennummer</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2704"/>
+        <location filename="../../ui/workspaces.py" line="2718"/>
         <source>Load minimum times</source>
         <translation>Minimumszeiten laden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2704"/>
+        <location filename="../../ui/workspaces.py" line="2718"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Text (*.txt *.csv *.dat);;Alle (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2720"/>
+        <location filename="../../ui/workspaces.py" line="2734"/>
         <source>Give the reference T0 and the period in days.</source>
         <translation>Geben Sie die Referenzepoche T0 und die Periode in Tagen ein.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2731"/>
+        <location filename="../../ui/workspaces.py" line="2745"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2737"/>
+        <location filename="../../ui/workspaces.py" line="2751"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2738"/>
+        <location filename="../../ui/workspaces.py" line="2752"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2742"/>
+        <location filename="../../ui/workspaces.py" line="2756"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/a</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2746"/>
+        <location filename="../../ui/workspaces.py" line="2760"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2752"/>
-        <location filename="../../ui/workspaces.py" line="2800"/>
+        <location filename="../../ui/workspaces.py" line="2766"/>
+        <location filename="../../ui/workspaces.py" line="2814"/>
         <source>primary</source>
         <translation>Hauptminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2752"/>
-        <location filename="../../ui/workspaces.py" line="2800"/>
+        <location filename="../../ui/workspaces.py" line="2766"/>
+        <location filename="../../ui/workspaces.py" line="2814"/>
         <source>secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2757"/>
-        <location filename="../../ui/workspaces.py" line="2804"/>
+        <location filename="../../ui/workspaces.py" line="2771"/>
+        <location filename="../../ui/workspaces.py" line="2818"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2761"/>
-        <location filename="../../ui/workspaces.py" line="2808"/>
+        <location filename="../../ui/workspaces.py" line="2775"/>
+        <location filename="../../ui/workspaces.py" line="2822"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2762"/>
-        <location filename="../../ui/workspaces.py" line="2809"/>
+        <location filename="../../ui/workspaces.py" line="2776"/>
+        <location filename="../../ui/workspaces.py" line="2823"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2770"/>
+        <location filename="../../ui/workspaces.py" line="2784"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Dritter Körper: P3 = {p:.2f} ± {pe:.2f} a, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2779"/>
+        <location filename="../../ui/workspaces.py" line="2793"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2785"/>
+        <location filename="../../ui/workspaces.py" line="2799"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidendrehung: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/Zyklus, U = {u:.1f} a</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2787"/>
+        <location filename="../../ui/workspaces.py" line="2801"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
@@ -4840,158 +5030,248 @@
         <translation>Höhe (m)</translation>
     </message>
     <message>
+        <location filename="../../ui/observatory_dialog.py" line="56"/>
+        <source>Height above sea level in metres</source>
+        <translation>Höhe über dem Meeresspiegel in Metern</translation>
+    </message>
+    <message>
         <location filename="../../ui/observatory_dialog.py" line="58"/>
+        <source>Longitude of the telescope in degrees, east positive (west of Greenwich is negative)</source>
+        <translation>Länge des Teleskops in Grad, Ost positiv (westlich von Greenwich negativ)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="60"/>
+        <source>Latitude of the telescope in degrees, north positive</source>
+        <translation>Breite des Teleskops in Grad, Nord positiv</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="63"/>
         <source>Devices</source>
         <translation>Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Device</source>
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Protocol</source>
         <translation>Protokoll</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Address (host:port)</source>
         <translation>Adresse (Host:Port)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Number or INDI name</source>
         <translation>Nummer oder INDI-Name</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="66"/>
+        <location filename="../../ui/observatory_dialog.py" line="71"/>
         <source>Find Alpaca devices on the network</source>
         <translation>Alpaca-Geräte im Netzwerk suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="68"/>
+        <location filename="../../ui/observatory_dialog.py" line="74"/>
+        <source>Asks the local network which ASCOM Alpaca devices are there and adds them to the list</source>
+        <translation>Fragt das lokale Netz, welche ASCOM-Alpaca-Geräte es gibt, und fügt sie der Liste hinzu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="76"/>
         <source>Add device</source>
         <translation>Gerät hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="70"/>
+        <location filename="../../ui/observatory_dialog.py" line="79"/>
+        <source>A row for a device by hand: kind, protocol (Alpaca or INDI), address and number or name</source>
+        <translation>Eine Zeile für ein Gerät von Hand: Art, Protokoll (Alpaca oder INDI), Adresse und Nummer oder Name</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="81"/>
         <source>Remove device</source>
         <translation>Gerät entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="84"/>
+        <location filename="../../ui/observatory_dialog.py" line="83"/>
+        <source>Removes the selected device</source>
+        <translation>Entfernt das gewählte Gerät</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="96"/>
         <source>Lowest altitude</source>
         <translation>Niedrigste Höhe</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="85"/>
+        <location filename="../../ui/observatory_dialog.py" line="97"/>
         <source>The night ends when the Sun is above</source>
         <translation>Die Nacht endet, wenn die Sonne höher steht als</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="86"/>
+        <location filename="../../ui/observatory_dialog.py" line="98"/>
         <source>Highest humidity</source>
         <translation>Höchste Luftfeuchte</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="87"/>
+        <location filename="../../ui/observatory_dialog.py" line="99"/>
         <source>Highest wind speed</source>
         <translation>Höchste Windgeschwindigkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="89"/>
+        <location filename="../../ui/observatory_dialog.py" line="100"/>
+        <source>Above this wind speed (from the weather station) the observatory closes</source>
+        <translation>Über dieser Windgeschwindigkeit (von der Wetterstation) schließt die Sternwarte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="103"/>
+        <source>Above this humidity (from the weather station) the observatory closes, before dew forms on the optics</source>
+        <translation>Über dieser Feuchte (von der Wetterstation) schließt die Sternwarte, bevor sich Tau auf der Optik bildet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="108"/>
+        <source>Observing stops and the telescope parks when the Sun rises above this altitude (−6°: civil twilight, −12°: nautical)</source>
+        <translation>Die Beobachtung endet und das Teleskop parkt, wenn die Sonne über diese Höhe steigt (−6°: bürgerliche, −12°: nautische Dämmerung)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="112"/>
+        <source>The mount never points lower than this</source>
+        <translation>Die Montierung zeigt nie tiefer als dies</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="114"/>
         <source>empty: no guiding; or host:port, e.g. 127.0.0.1:4400</source>
         <translation>leer: keine Nachführung; oder Host:Port, z. B. 127.0.0.1:4400</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="90"/>
+        <location filename="../../ui/observatory_dialog.py" line="115"/>
         <source>PHD2 guiding</source>
         <translation>PHD2-Nachführung</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="92"/>
+        <location filename="../../ui/observatory_dialog.py" line="116"/>
+        <source>Address of a running PHD2 for guiding and dithering during sequences</source>
+        <translation>Adresse eines laufenden PHD2 für Nachführung und Dithering während der Folgen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="118"/>
         <source>e.g. L=0, B=-30, V=15 (focuser steps)</source>
         <translation>z. B. L=0, B=-30, V=15 (Fokussiererschritte)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="93"/>
+        <location filename="../../ui/observatory_dialog.py" line="119"/>
         <source>The focuser moves by the difference when the filter changes</source>
         <translation>Beim Filterwechsel fährt der Fokussierer um die Differenz</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="94"/>
+        <location filename="../../ui/observatory_dialog.py" line="120"/>
         <source>Filter focus offsets</source>
         <translation>Filter-Fokusversätze</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="95"/>
+        <location filename="../../ui/observatory_dialog.py" line="121"/>
         <source> steps/°C</source>
         <translation> Schritte/°C</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="97"/>
+        <location filename="../../ui/observatory_dialog.py" line="123"/>
         <source>Focuser steps per degree; during a sequence the focus follows the focuser&apos;s temperature (0: off)</source>
         <translation>Fokussiererschritte pro Grad; während einer Sequenz folgt der Fokus der Temperatur des Fokussierers (0: aus)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="99"/>
+        <location filename="../../ui/observatory_dialog.py" line="125"/>
         <source>Temperature compensation</source>
         <translation>Temperaturkompensation</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="100"/>
+        <location filename="../../ui/observatory_dialog.py" line="126"/>
         <source>Other computers may connect (protected by the token)</source>
         <translation>Andere Computer dürfen sich verbinden (durch das Token geschützt)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="102"/>
+        <location filename="../../ui/observatory_dialog.py" line="129"/>
+        <source>Off: only this computer can control the telescope. On: others on the network can, with the token.</source>
+        <translation>Aus: nur dieser Rechner steuert das Teleskop. Ein: andere im Netz können es mit dem Token.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="131"/>
         <source>Encrypt the connection (HTTPS; recommended when others may connect)</source>
         <translation>Verbindung verschlüsseln (HTTPS; empfohlen, wenn andere sich verbinden dürfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="108"/>
+        <location filename="../../ui/observatory_dialog.py" line="135"/>
+        <source>The connection is encrypted, so the token and commands cannot be read on the network</source>
+        <translation>Die Verbindung wird verschlüsselt, damit Token und Befehle im Netz nicht mitgelesen werden können</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="140"/>
         <source>Open…</source>
         <translation>Öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="110"/>
+        <location filename="../../ui/observatory_dialog.py" line="142"/>
+        <source>Loads a saved observatory configuration</source>
+        <translation>Lädt eine gespeicherte Sternwartenkonfiguration</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="143"/>
         <source>Save…</source>
         <translation>Speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="112"/>
+        <location filename="../../ui/observatory_dialog.py" line="145"/>
+        <source>Saves this configuration to a file</source>
+        <translation>Speichert diese Konfiguration in einer Datei</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="146"/>
         <source>Save and start</source>
         <translation>Speichern und starten</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="151"/>
+        <location filename="../../ui/observatory_dialog.py" line="149"/>
+        <source>Saves the configuration and starts the observatory program on this computer</source>
+        <translation>Speichert die Konfiguration und startet das Sternwartenprogramm auf diesem Rechner</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="171"/>
+        <source>What the device is: mount, camera, focuser, filter wheel, dome, safety monitor, weather station, rotator, flat panel</source>
+        <translation>Was das Gerät ist: Montierung, Kamera, Fokussierer, Filterrad, Kuppel, Sicherheitsmonitor, Wetterstation, Rotator, Flatpanel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="175"/>
+        <source>ASCOM Alpaca (Windows drivers, network devices) or INDI (Linux, Raspberry Pi)</source>
+        <translation>ASCOM Alpaca (Windows-Treiber, Netzwerkgeräte) oder INDI (Linux, Raspberry Pi)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observatory_dialog.py" line="193"/>
         <source>Searching the network…</source>
         <translation>Durchsuche das Netzwerk…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="164"/>
+        <location filename="../../ui/observatory_dialog.py" line="206"/>
         <source>Search failed: {e}</source>
         <translation>Suche fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="171"/>
+        <location filename="../../ui/observatory_dialog.py" line="213"/>
         <source>{n} devices found, {m} added. Check the list: one device of each kind.</source>
         <translation>{n} Geräte gefunden, {m} hinzugefügt. Liste prüfen: ein Gerät jeder Art.</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="199"/>
+        <location filename="../../ui/observatory_dialog.py" line="241"/>
         <source>Filter focus offsets: write name=steps, e.g. B=-30</source>
         <translation>Filter-Fokusversätze: Name=Schritte schreiben, z. B. B=-30</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="233"/>
-        <location filename="../../ui/observatory_dialog.py" line="256"/>
+        <location filename="../../ui/observatory_dialog.py" line="275"/>
+        <location filename="../../ui/observatory_dialog.py" line="298"/>
         <source>Observatory configuration</source>
         <translation>Observatoriumskonfiguration</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="248"/>
+        <location filename="../../ui/observatory_dialog.py" line="290"/>
         <source>Saved: {p}</source>
         <translation>Gespeichert: {p}</translation>
     </message>
@@ -5275,7 +5555,7 @@
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="282"/>
-        <location filename="../../ui/observe_page.py" line="420"/>
+        <location filename="../../ui/observe_page.py" line="418"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
@@ -5340,318 +5620,318 @@
         <translation>Zeile entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="309"/>
+        <location filename="../../ui/observe_page.py" line="308"/>
         <source>remove an exposure row</source>
         <translation>Belichtungszeile entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="312"/>
+        <location filename="../../ui/observe_page.py" line="310"/>
         <source>Removes the selected exposure row</source>
         <translation>Entfernt die gewählte Belichtungszeile</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="313"/>
+        <location filename="../../ui/observe_page.py" line="311"/>
         <source>Start sequence</source>
         <translation>Sequenz starten</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="316"/>
+        <location filename="../../ui/observe_page.py" line="314"/>
         <source>Sends the sequence to the observatory, which runs it on its own; Abort stops it</source>
         <translation>Schickt die Folge an die Sternwarte, die sie selbstständig ausführt; Abbrechen stoppt sie</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="318"/>
+        <location filename="../../ui/observe_page.py" line="316"/>
         <source>Sky flats</source>
         <translation>Himmelsflats</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="321"/>
+        <location filename="../../ui/observe_page.py" line="319"/>
         <source>Twilight flats with the filter and count of the selected row; exposure times follow the sky brightness. Point the telescope at the flat spot first, tracking off.</source>
         <translation>Dämmerungsflats mit Filter und Anzahl der gewählten Zeile; die Belichtungszeiten folgen der Himmelshelligkeit. Zuerst auf die Flat-Stelle zeigen, Nachführung aus.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="326"/>
+        <location filename="../../ui/observe_page.py" line="324"/>
         <source>Panel flats</source>
         <translation>Panel-Flats</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="329"/>
+        <location filename="../../ui/observe_page.py" line="327"/>
         <source>Flats on the flat panel (cover closed, panel lit, exposure adjusted to the target level), with the filter and count of the selected row; the panel is switched off afterwards</source>
         <translation>Flats am Flatpanel (Abdeckung zu, Panel an, Belichtung auf den Zielpegel geregelt) mit Filter und Anzahl der gewählten Zeile; danach wird das Panel ausgeschaltet</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="345"/>
+        <location filename="../../ui/observe_page.py" line="343"/>
         <source>type a value</source>
         <translation>Wert eingeben</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="350"/>
+        <location filename="../../ui/observe_page.py" line="348"/>
         <source>Copying the frames failed: {e}</source>
         <translation>Kopieren der Bilder fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="364"/>
+        <location filename="../../ui/observe_page.py" line="362"/>
         <source>Exposure time of a single test frame (not saved with the sequence)</source>
         <translation>Belichtungszeit eines einzelnen Testbilds (wird nicht mit der Folge gespeichert)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="371"/>
+        <location filename="../../ui/observe_page.py" line="369"/>
         <source>Target temperature of the camera sensor; darks must be taken at the same temperature as the lights</source>
         <translation>Zieltemperatur des Kamerasensors; Darks müssen bei derselben Temperatur wie die Lights aufgenommen werden</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="376"/>
+        <location filename="../../ui/observe_page.py" line="374"/>
         <source>Focuser position in steps</source>
         <translation>Fokussiererposition in Schritten</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="379"/>
+        <location filename="../../ui/observe_page.py" line="377"/>
         <source>Filter of the filter wheel by its name</source>
         <translation>Filter des Filterrads nach seinem Namen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="390"/>
+        <location filename="../../ui/observe_page.py" line="388"/>
         <source>Preview</source>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="393"/>
+        <location filename="../../ui/observe_page.py" line="391"/>
         <source>Take preview</source>
         <translation>Vorschau aufnehmen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="395"/>
+        <location filename="../../ui/observe_page.py" line="393"/>
         <source>One frame with this exposure, shown on the Images page (to check pointing and focus)</source>
         <translation>Ein Bild mit dieser Belichtung, gezeigt auf der Seite Bilder (um Ausrichtung und Fokus zu prüfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="400"/>
+        <location filename="../../ui/observe_page.py" line="398"/>
         <source>Cooler</source>
         <translation>Kühlung</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="402"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Cool to</source>
         <translation>Kühlen auf</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="402"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Switches the cooler on and sets this temperature</source>
         <translation>Schaltet die Kühlung ein und stellt diese Temperatur ein</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="404"/>
+        <location filename="../../ui/observe_page.py" line="402"/>
         <source>Off</source>
         <translation>Aus</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="406"/>
+        <location filename="../../ui/observe_page.py" line="404"/>
         <source>Switches the cooler off (do it slowly at the end of the night)</source>
         <translation>Schaltet die Kühlung aus (am Ende der Nacht langsam)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="410"/>
+        <location filename="../../ui/observe_page.py" line="408"/>
         <source>Focuser</source>
         <translation>Fokussierer</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="413"/>
+        <location filename="../../ui/observe_page.py" line="411"/>
         <source>Move</source>
         <translation>Fahren</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="415"/>
+        <location filename="../../ui/observe_page.py" line="413"/>
         <source>Moves the focuser to this position</source>
         <translation>Fährt den Fokussierer auf diese Position</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="423"/>
+        <location filename="../../ui/observe_page.py" line="421"/>
         <source>Change</source>
         <translation>Wechseln</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="425"/>
+        <location filename="../../ui/observe_page.py" line="423"/>
         <source>Turns the filter wheel to this filter</source>
         <translation>Dreht das Filterrad auf diesen Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="459"/>
+        <location filename="../../ui/observe_page.py" line="457"/>
         <source>on</source>
         <translation>an</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="459"/>
+        <location filename="../../ui/observe_page.py" line="457"/>
         <source>off</source>
         <translation>aus</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="460"/>
+        <location filename="../../ui/observe_page.py" line="458"/>
         <source>Camera {t:.1f} °C, cooler {on}</source>
         <translation>Kamera {t:.1f} °C, Kühlung {on}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="462"/>
+        <location filename="../../ui/observe_page.py" line="460"/>
         <source>focuser at {p}</source>
         <translation>Fokussierer bei {p}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="468"/>
+        <location filename="../../ui/observe_page.py" line="466"/>
         <source>filter {f}</source>
         <translation>Filter {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="497"/>
+        <location filename="../../ui/observe_page.py" line="495"/>
         <source>Copying {n} frames to {f}…</source>
         <translation>Kopiere {n} Bilder nach {f}…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="527"/>
-        <location filename="../../ui/observe_page.py" line="538"/>
+        <location filename="../../ui/observe_page.py" line="525"/>
+        <location filename="../../ui/observe_page.py" line="536"/>
         <source>Observatory configuration</source>
         <translation>Observatoriumskonfiguration</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="564"/>
+        <location filename="../../ui/observe_page.py" line="562"/>
         <source>No connection to the observatory: {e}</source>
         <translation>Keine Verbindung zum Observatorium: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="568"/>
+        <location filename="../../ui/observe_page.py" line="566"/>
         <source>Safe</source>
         <translation>Sicher</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="571"/>
+        <location filename="../../ui/observe_page.py" line="569"/>
         <source>aborted — press Resume when ready</source>
         <translation>abgebrochen — Fortsetzen drücken, wenn bereit</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="572"/>
+        <location filename="../../ui/observe_page.py" line="570"/>
         <source>NOT SAFE: {r}</source>
         <translation>NICHT SICHER: {r}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="577"/>
+        <location filename="../../ui/observe_page.py" line="575"/>
         <source>Mount: alt {alt:.1f}°, az {az:.1f}°, {state}</source>
         <translation>Montierung: Höhe {alt:.1f}°, Azimut {az:.1f}°, {state}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="580"/>
+        <location filename="../../ui/observe_page.py" line="578"/>
         <source>parked</source>
         <translation>geparkt</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="582"/>
+        <location filename="../../ui/observe_page.py" line="580"/>
         <source>tracking</source>
         <translation>Nachführung an</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="582"/>
+        <location filename="../../ui/observe_page.py" line="580"/>
         <source>not tracking</source>
         <translation>keine Nachführung</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="590"/>
+        <location filename="../../ui/observe_page.py" line="588"/>
         <source>Stopped: {e}</source>
         <translation>Gestoppt: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="595"/>
+        <location filename="../../ui/observe_page.py" line="593"/>
         <source>Finished, {n} frames.</source>
         <translation>Fertig, {n} Bilder.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="595"/>
+        <location filename="../../ui/observe_page.py" line="593"/>
         <source>Finished.</source>
         <translation>Fertig.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="602"/>
+        <location filename="../../ui/observe_page.py" line="600"/>
         <source>Connect first.</source>
         <translation>Zuerst verbinden.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="609"/>
+        <location filename="../../ui/observe_page.py" line="607"/>
         <source>Refused: {e}</source>
         <translation>Abgelehnt: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="617"/>
+        <location filename="../../ui/observe_page.py" line="615"/>
         <source>Coordinates not understood: {t}</source>
         <translation>Koordinaten nicht verstanden: {t}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="634"/>
         <source>Centred to {e:.0f} arcsec after {n} frames.</source>
         <translation>Nach {n} Bildern auf {e:.0f} Bogensekunden zentriert.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="638"/>
+        <location filename="../../ui/observe_page.py" line="636"/>
         <source>lower the axis by {v:.1f}′</source>
         <translation>Achse um {v:.1f}′ senken</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="638"/>
+        <location filename="../../ui/observe_page.py" line="636"/>
         <source>raise the axis by {v:.1f}′</source>
         <translation>Achse um {v:.1f}′ anheben</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="639"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>turn it west by {v:.1f}′</source>
         <translation>um {v:.1f}′ nach Westen drehen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="639"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>turn it east by {v:.1f}′</source>
         <translation>um {v:.1f}′ nach Osten drehen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="640"/>
+        <location filename="../../ui/observe_page.py" line="638"/>
         <source>Polar axis off by {t:.1f}′: {alt}, {az}.</source>
         <translation>Polachse um {t:.1f}′ daneben: {alt}, {az}.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="660"/>
+        <location filename="../../ui/observe_page.py" line="658"/>
         <source>light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, shutter closed; flat: an evenly lit field</source>
         <translation>light: der Himmel; dark: Verschluss zu, so lang wie die Lights; bias: die kürzeste Belichtung, Verschluss zu; flat: ein gleichmäßig beleuchtetes Feld</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="671"/>
+        <location filename="../../ui/observe_page.py" line="669"/>
         <source>Exposure time of each frame in seconds</source>
         <translation>Belichtungszeit jedes Bildes in Sekunden</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="679"/>
+        <location filename="../../ui/observe_page.py" line="677"/>
         <source>How many frames</source>
         <translation>Wie viele Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="679"/>
+        <location filename="../../ui/observe_page.py" line="677"/>
         <source>Binning: 1 is full resolution, 2 adds 2×2 pixels</source>
         <translation>Binning: 1 ist volle Auflösung, 2 fasst 2×2 Pixel zusammen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="715"/>
+        <location filename="../../ui/observe_page.py" line="713"/>
         <source>change an exposure row</source>
         <translation>Belichtungszeile ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="725"/>
+        <location filename="../../ui/observe_page.py" line="723"/>
         <source>Row {row}: gain, offset and read-out mode are whole numbers</source>
         <translation>Zeile {row}: Gain, Offset und Auslesemodus sind ganze Zahlen</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="732"/>
+        <location filename="../../ui/observe_page.py" line="730"/>
         <source>Row {row}: sub-frame is x, y, width, height in pixels</source>
         <translation>Zeile {row}: Teilbild ist x, y, Breite, Höhe in Pixeln</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="765"/>
+        <location filename="../../ui/observe_page.py" line="763"/>
         <source>The rotator angle must be a number of degrees.</source>
         <translation>Der Rotatorwinkel muss eine Gradzahl sein.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="801"/>
+        <location filename="../../ui/observe_page.py" line="799"/>
         <source>load a sequence</source>
         <translation>Folge laden</translation>
     </message>
@@ -5659,294 +5939,294 @@
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2828"/>
+        <location filename="../../ui/workspaces.py" line="2842"/>
         <source>No light curve yet: measure one on the Photometry page or load a CSV file.</source>
         <translation>Noch keine Lichtkurve: auf der Seite Photometrie messen oder eine CSV-Datei laden.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2843"/>
+        <location filename="../../ui/workspaces.py" line="2857"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>Sternname, z. B. AI Dra oder TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2850"/>
+        <location filename="../../ui/workspaces.py" line="2864"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2832"/>
+        <location filename="../../ui/workspaces.py" line="2846"/>
         <source>Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…</source>
         <translation>CSV laden (Zeit, Fluss; oder AAVSO- / ZTF- / ASAS-SN-Dateien)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2835"/>
+        <location filename="../../ui/workspaces.py" line="2849"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Jede Tabelle mit einer Zeit- und einer Helligkeitsspalte; Dateien von AAVSO, ZTF und ASAS-SN werden erkannt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2845"/>
+        <location filename="../../ui/workspaces.py" line="2859"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Name oder Katalognummer des Sterns, wie das Archiv ihn kennt; Eingabe startet den Download</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2849"/>
+        <location filename="../../ui/workspaces.py" line="2863"/>
         <source>The archive to download the light curve from</source>
         <translation>Das Archiv, aus dem die Lichtkurve geladen wird</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2852"/>
+        <location filename="../../ui/workspaces.py" line="2866"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>TESS / Kepler / K2 von MAST, ZTF von IRSA, AAVSO-Beobachtungen (braucht Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2861"/>
+        <location filename="../../ui/workspaces.py" line="2875"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (pulsierende Sterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2862"/>
+        <location filename="../../ui/workspaces.py" line="2876"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (Transits, Bedeckungen vom Algol-Typ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2863"/>
+        <location filename="../../ui/workspaces.py" line="2877"/>
         <source>PDM (any shape)</source>
         <translation>PDM (beliebige Form)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2864"/>
+        <location filename="../../ui/workspaces.py" line="2878"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (mehrharmonisch, jede glatte Form)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2867"/>
+        <location filename="../../ui/workspaces.py" line="2881"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima</source>
         <translation>Lomb–Scargle: sinusähnliche Kurven (Pulsationen, Flecken); BLS: kurze, kastenförmige Einbrüche; PDM und ANOVA: Kurven jeder Form, z. B. Bedeckungsveränderliche mit zwei Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2876"/>
+        <location filename="../../ui/workspaces.py" line="2890"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2878"/>
+        <location filename="../../ui/workspaces.py" line="2892"/>
         <source>Shortest period (d)</source>
         <translation>Kürzeste Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2881"/>
+        <location filename="../../ui/workspaces.py" line="2895"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Kürzeste gesuchte Periode; kürzer als der doppelte Punktabstand kann nicht gefunden werden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2883"/>
+        <location filename="../../ui/workspaces.py" line="2897"/>
         <source>Longest period (d)</source>
         <translation>Längste Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2885"/>
+        <location filename="../../ui/workspaces.py" line="2899"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Längste gesuchte Periode; die Daten sollten mindestens zwei Zyklen davon abdecken</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2891"/>
+        <location filename="../../ui/workspaces.py" line="2905"/>
         <source>off</source>
         <translation>aus</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2892"/>
+        <location filename="../../ui/workspaces.py" line="2906"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Mittlere Kurve in so vielen Phasenintervallen in der gefalteten Darstellung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2894"/>
+        <location filename="../../ui/workspaces.py" line="2908"/>
         <source>Phase bins</source>
         <translation>Phasenintervalle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2901"/>
+        <location filename="../../ui/workspaces.py" line="2915"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Grenze in Standardabweichungen für Ausreißer entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2902"/>
+        <location filename="../../ui/workspaces.py" line="2916"/>
         <source>Remove outliers (σ)</source>
         <translation>Ausreißer entfernen (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2903"/>
+        <location filename="../../ui/workspaces.py" line="2917"/>
         <source>remove outliers</source>
         <translation>Ausreißer entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2906"/>
+        <location filename="../../ui/workspaces.py" line="2920"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Entfernt Punkte, die um mehr als so viele Standardabweichungen vom Median ihrer zeitlichen Nachbarn abweichen (kosmische Strahlung, schlechte Bilder); Strg+Z holt sie zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2913"/>
+        <location filename="../../ui/workspaces.py" line="2927"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Länge eines Zeitintervalls in Minuten für Zeitlich mitteln</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2914"/>
+        <location filename="../../ui/workspaces.py" line="2928"/>
         <source>Bin in time (min)</source>
         <translation>Zeitlich mitteln (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2915"/>
+        <location filename="../../ui/workspaces.py" line="2929"/>
         <source>bin in time</source>
         <translation>zeitlich mitteln</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2918"/>
+        <location filename="../../ui/workspaces.py" line="2932"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Mittelt die Punkte in Zeitintervallen dieser Länge: weniger Rauschen, weniger Punkte; die Intervalle viel kürzer als eine Bedeckung halten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2922"/>
+        <location filename="../../ui/workspaces.py" line="2936"/>
         <source>Delete points by clicking</source>
         <translation>Punkte per Klick löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2924"/>
+        <location filename="../../ui/workspaces.py" line="2938"/>
         <source>Click a point on the light-curve plot to remove it</source>
         <translation>Klicken Sie auf einen Punkt der Lichtkurve, um ihn zu entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2925"/>
+        <location filename="../../ui/workspaces.py" line="2939"/>
         <source>Flux ↔ magnitude</source>
         <translation>Fluss ↔ Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2926"/>
+        <location filename="../../ui/workspaces.py" line="2940"/>
         <source>flux / magnitude</source>
         <translation>Fluss / Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2927"/>
+        <location filename="../../ui/workspaces.py" line="2941"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Rechnet relativen Fluss in Größenklassen (−2,5 log) um oder zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2928"/>
+        <location filename="../../ui/workspaces.py" line="2942"/>
         <source>Undo edits</source>
         <translation>Bearbeitungen rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2929"/>
+        <location filename="../../ui/workspaces.py" line="2943"/>
         <source>undo edits</source>
         <translation>Bearbeitungen rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2930"/>
+        <location filename="../../ui/workspaces.py" line="2944"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Zurück zur Lichtkurve wie geladen (Strg+Z nimmt jeweils einen Schritt zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2939"/>
+        <location filename="../../ui/workspaces.py" line="2953"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2944"/>
+        <location filename="../../ui/workspaces.py" line="2958"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>Berechnet das Periodogramm zwischen kürzester und längster Periode und faltet die Kurve mit der besten Periode; prüfen Sie die gefaltete Kurve mit dem Auge</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2965"/>
+        <location filename="../../ui/workspaces.py" line="2979"/>
         <source>Downloading from {source}…</source>
         <translation>Wird von {source} heruntergeladen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2983"/>
+        <location filename="../../ui/workspaces.py" line="2997"/>
         <source>{n} points from {source}</source>
         <translation>{n} Punkte aus {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2993"/>
+        <location filename="../../ui/workspaces.py" line="3007"/>
         <source>outliers removed</source>
         <translation>Ausreißer entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2998"/>
+        <location filename="../../ui/workspaces.py" line="3012"/>
         <source>binned</source>
         <translation>gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3005"/>
+        <location filename="../../ui/workspaces.py" line="3019"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Flüsse müssen positiv sein, um in Magnituden umzurechnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3009"/>
+        <location filename="../../ui/workspaces.py" line="3023"/>
         <source>magnitudes</source>
         <translation>Magnituden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3009"/>
+        <location filename="../../ui/workspaces.py" line="3023"/>
         <source>flux</source>
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3029"/>
+        <location filename="../../ui/workspaces.py" line="3043"/>
         <source>points deleted</source>
         <translation>Punkte gelöscht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3029"/>
+        <location filename="../../ui/workspaces.py" line="3043"/>
         <source>delete a point</source>
         <translation>Punkt löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3043"/>
+        <location filename="../../ui/workspaces.py" line="3057"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3044"/>
-        <location filename="../../ui/workspaces.py" line="3103"/>
+        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3117"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3050"/>
+        <location filename="../../ui/workspaces.py" line="3064"/>
         <source>Load light curve</source>
         <translation>Lichtkurve laden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3074"/>
+        <location filename="../../ui/workspaces.py" line="3088"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3077"/>
+        <location filename="../../ui/workspaces.py" line="3091"/>
         <source>Searching…</source>
         <translation>Suche…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3083"/>
+        <location filename="../../ui/workspaces.py" line="3097"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Beste Periode: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3093"/>
+        <location filename="../../ui/workspaces.py" line="3107"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3094"/>
+        <location filename="../../ui/workspaces.py" line="3108"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3102"/>
+        <location filename="../../ui/workspaces.py" line="3116"/>
         <source>Phase</source>
         <translation>Phase</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3044"/>
-        <location filename="../../ui/workspaces.py" line="3103"/>
+        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3117"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>
@@ -7193,6 +7473,16 @@
         <location filename="../../ui/plugin_dialog.py" line="32"/>
         <source>optional</source>
         <translation>optional</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plugin_dialog.py" line="33"/>
+        <source>An input of the step: a file, a folder or a value</source>
+        <translation>Eine Eingabe des Schritts: eine Datei, ein Ordner oder ein Wert</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plugin_dialog.py" line="39"/>
+        <source>A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON</source>
+        <translation>Eine Einstellung des Schritts; Zahlen, true / false, Listen [ ] und Tabellen { } wie in JSON</translation>
     </message>
 </context>
 <context>
