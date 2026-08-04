@@ -315,7 +315,7 @@ Status of everything so far:
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
-| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | CLAIMED by agent session 019Lu3, 2026-11-05 |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
@@ -375,12 +375,13 @@ Found and fixed (each with a test):
 Result with the defaults: transit at 2461347.608994 ± 0.000595 BJD_TDB, O−C −3.1 ± 0.9 min against ExoClock (with a
 fixed 14 px aperture −0.5 min; KvW −2.3 to −4.5 min); depth 3.1 % (r = 10 px) / 2.4 % (r = 14 px), literature
 2.3–2.5 %. BJD_TDB of the frames checked against astropy (same frame: identical).
-**Open finding (not fixed):** "Radii follow the seeing" (off by default) gave −22 min on this night and doubled the
-scatter (1.32 % vs 0.59 %). Cause found in part: the per-frame FWHM (`aperture.seeing_fwhm`, median of the 5 marked
-stars' Moffat FWHM) jitters by 0.41 px (~9 %) frame to frame at 30 s cadence, and the radii jump with it; a running
-median of 5 frames halved the scatter but the timing stayed at −22 min, and keeping the sky annulus fixed (as
-AstroImageJ) did not change it either (both reverted). Next step: a more precise per-frame FWHM (more stars, or
-the image's own FWHM such as BANZAI's L1FWHM), then compare again with fixed apertures on this night.
+**Finding on "Radii follow the seeing"** (off by default): on this night it gave −22 min and twice the scatter
+(1.32 % vs 0.59 %). The per-frame FWHM is not the problem: BANZAI's own L1FWHM jitters even more (0.57 px frame to
+frame, r = 0.87 with ours), so the seeing really changes that fast at 30 s. With identical star images the ratio
+would cancel (the synthetic test shows it); in this crowded field it does not, most likely because a sky bias per
+pixel scales with the aperture area and differs from star to star. Tried and reverted: a running median of the FWHM
+(halved the scatter, timing unchanged) and a fixed sky annulus (no change). Done: the checkbox's tooltip now says
+that in a crowded field a changing aperture can add trends and to compare with fixed radii (4 languages).
 Not done: AAVSO report and standard magnitudes (need VizieR / APASS, blocked here); the ExoClock / ETD export from
 the Models page with this light curve.
 
