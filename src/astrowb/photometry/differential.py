@@ -98,6 +98,13 @@ def detrend(rel, covariates, exclude=None, time=None, degree=1):
     degree = int(degree)
     if use.sum() < degree * len(names) + 3:
         raise ValueError("too few points outside the left-out range to detrend")
+    left_out = ~use & np.isfinite(rel) & np.all(np.isfinite(z), axis=1)
+    for i, k in enumerate(names):  # a trend carried far beyond the values it was fitted on is a guess
+        lo, hi = z[use, i].min(), z[use, i].max()
+        if left_out.any() and np.any(np.abs(z[left_out, i] - (lo + hi) / 2) > 1.5 * (hi - lo) + 1e-12):
+            raise ValueError(
+                f"{k} in the left-out range is far from its values at the fitted points: leave out only the eclipse"
+            )
     centre = z[use].mean(axis=0)
     zc = z - centre
     terms = np.column_stack([zc**p for p in range(1, degree + 1)]) if names else zc  # columns: z, z^2, ...

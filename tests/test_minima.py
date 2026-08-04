@@ -79,3 +79,17 @@ def test_kvw_rarely_fails_on_flat_bottomed_transits():
         except ValueError:
             fails += 1
     assert fails <= 5  # reported as "no minimum found"; the trapezoid fit is the tool for transits
+
+
+def test_one_noisy_transit_is_one_dip_and_two_eclipses_are_two():
+    # a real LCO night of Qatar-1 b (2.4 % deep, 1.3 % scatter, a slow drift) was counted as 3-4 "eclipses"
+    from astrowb.timeseries.minima import dips
+
+    rng = np.random.default_rng(7)
+    t = np.linspace(0, 0.1, 265)
+    inside = np.abs(t - 0.052) < 0.0346
+    y = 1 + 0.15 * (t - 0.05) - 0.024 * inside + rng.normal(0, 0.013, t.size)
+    assert dips(t, y) == 1
+    t2 = np.linspace(0, 1, 600)
+    y2 = 1 - 0.3 * ((np.abs(t2 - 0.25) < 0.04) | (np.abs(t2 - 0.75) < 0.04)) + rng.normal(0, 0.01, t2.size)
+    assert dips(t2, y2) == 2

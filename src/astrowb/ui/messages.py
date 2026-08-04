@@ -212,6 +212,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the telescope aperture and the exposure time must be positive"),
     # photometry/differential.py
     QT_TRANSLATE_NOOP("Messages", "too few points outside the left-out range to detrend"),
+    QT_TRANSLATE_NOOP(
+        "Messages", "{k} in the left-out range is far from its values at the fitted points: leave out only the eclipse"
+    ),
     # photometry/export.py
     QT_TRANSLATE_NOOP("Messages", "give one catalogue magnitude per comparison star"),
     QT_TRANSLATE_NOOP("Messages", "star name, observer code and filter are required"),

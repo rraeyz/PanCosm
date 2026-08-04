@@ -186,7 +186,9 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0):
 def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None, offsets=((0.0, 0.0),)):
     """Up to n comparison stars (0-based x, y): similar brightness (0.5-2x the target), not saturated,
     no neighbour inside the sky annulus, and inside the frame (with the annulus) in every frame of the
-    series, given the frame offsets relative to this one. Best match first."""
+    series, given the frame offsets relative to this one. Best match first: similar brightness and near the
+    target (as AstroImageJ users are advised: the star image changes across a wide field, and comparisons at the
+    frame's edge followed the seeing unlike the target on a real LCO night, shifting a transit by 20 min)."""
     from photutils.detection import DAOStarFinder
 
     clean = despike(data)
@@ -205,7 +207,8 @@ def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None,
     r_in = r_in or r_out / 2
     yy, xx = np.mgrid[:ny, :nx]
     picks = []
-    for i in np.argsort(np.abs(np.log(np.clip(flux / flux[t], 1e-12, None)))):  # most similar brightness first
+    score = np.abs(np.log(np.clip(flux / flux[t], 1e-12, None))) + np.hypot(x - x[t], y - y[t]) / np.hypot(nx, ny) * 2
+    for i in np.argsort(score):  # similar brightness and close to the target first
         px, py = x[i] + off[:, 0], y[i] + off[:, 1]
         inside = np.all((px >= margin) & (px < nx - margin) & (py >= margin) & (py < ny - margin))
         if not inside:

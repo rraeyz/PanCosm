@@ -84,6 +84,11 @@ def test_detrend_removes_an_airmass_trend_outside_the_eclipse():
     assert np.std(flat - true["t"]) < 0.01  # what is left is photon noise
     with pytest.raises(ValueError):
         d.detrend(trended, {"airmass": airmass}, exclude=(-1, 1), time=T)
+    # a real night (Qatar-1 b, LCO): a range that left only the first minutes outside carried the airmass trend
+    # 100 times beyond the airmass it was fitted on, and the curve ran off to 2.8; now refused
+    rising = 1.23 + 2.2 * (T - T.min())
+    with pytest.raises(ValueError, match="airmass in the left-out range is far"):
+        d.detrend(trended, {"airmass": rising}, exclude=(T.min() + 0.01, T.max() + 1), time=T)
 
 
 def test_light_curve_measures_check_stars_and_flags_saturation(tmp_path):

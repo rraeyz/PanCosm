@@ -314,7 +314,7 @@ Status of everything so far:
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
-| T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | CLAIMED by agent session 019Lu3, 2026-11-05 |
+| T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
@@ -350,6 +350,39 @@ images of different size, no observation time (→ add DATE-OBS on the Images pa
 no orders found (→ add them by hand on the flat), no whole eclipse at the predicted times (→ check T0, P, time scale),
 no catalogue magnitude (→ plate-solve, APASS / Gaia). Left: library errors (astropy, OSError) stay in English; the
 other observatory / device messages name their cause and were judged clear enough.
+
+**T9 (photometry and timing done; agent session 019Lu3).** Data: LCO public archive, 265 BANZAI-reduced frames
+(e91, `.fits.fz`, SCI + CAT + BPM + ERR extensions) of Qatar-1 b, 0.4 m at McDonald (elp, sq41), 2026-11-03
+01:21–03:45 UTC, 30 s, Astrodon-Exo filter, 13.6 MB each:
+`https://archive-api.lco.global/frames/?RLEVEL=91&public=true&OBJECT=Qatar-1&start=2026-11-02&end=2026-11-04&limit=100`
+(anonymous users: limit ≤ 100, use `&offset=100`, `&offset=200`; the JSON's `url` fields are signed S3 links valid
+48 h). Reference ephemeris: ExoClock `https://www.exoclock.space/database/planets_json` → Qatar-1b T0 2457980.733187
+± 0.000031 BJD_TDB, P 1.420024447 d, duration 1.66 h, depth 25.4 mmag: predicted mid-transit epoch 2371 =
+2461347.611151 BJD_TDB (02:38:54 UTC). The NASA Exoplanet Archive answered with a Cloudflare block this time.
+Driving script (GUI, real clicks): open the 265 files, quality check, click the target (its pixel from the WCS),
+Suggest comparison stars, radii from the profiles, Measure, detrend (airmass, transit left out), Time of minimum.
+Found and fixed (each with a test):
+- Detrending with a left-out range that left only 7 points at the start (airmass 1.2332–1.2355 fitted, 1.24–1.45
+  left out) carried the trend 100× beyond its data: the curve ran off to 2.8 while the page said "scatter 0.70 % →
+  0.46 %". Now refused with "airmass in the left-out range is far from its values at the fitted points: leave out
+  only the eclipse"; the success line says the scatter is that of the N points fitted.
+- Time of minimum with T0 and P given still counted dips and answered "the light curve shows 3 eclipses: give T0
+  and the period" — the ephemeris now says which eclipse it is. `minima.dips()` counted one noisy 2.4 % transit as 3–4
+  dips: now smoothed for the noise, baseline from the upper half (the median of all points lies inside a long
+  transit), and low runs merge unless the curve stays out of the dip longer than the dips last.
+- Suggested comparison stars were ranked by brightness only and came out at the frame's extreme edges
+  (y = 52 and 2378 of 2400): now similar brightness *and* near the target (AstroImageJ practice).
+Result with the defaults: transit at 2461347.608994 ± 0.000595 BJD_TDB, O−C −3.1 ± 0.9 min against ExoClock (with a
+fixed 14 px aperture −0.5 min; KvW −2.3 to −4.5 min); depth 3.1 % (r = 10 px) / 2.4 % (r = 14 px), literature
+2.3–2.5 %. BJD_TDB of the frames checked against astropy (same frame: identical).
+**Open finding (not fixed):** "Radii follow the seeing" (off by default) gave −22 min on this night and doubled the
+scatter (1.32 % vs 0.59 %). Cause found in part: the per-frame FWHM (`aperture.seeing_fwhm`, median of the 5 marked
+stars' Moffat FWHM) jitters by 0.41 px (~9 %) frame to frame at 30 s cadence, and the radii jump with it; a running
+median of 5 frames halved the scatter but the timing stayed at −22 min, and keeping the sky annulus fixed (as
+AstroImageJ) did not change it either (both reverted). Next step: a more precise per-frame FWHM (more stars, or
+the image's own FWHM such as BANZAI's L1FWHM), then compare again with fixed apertures on this night.
+Not done: AAVSO report and standard magnitudes (need VizieR / APASS, blocked here); the ExoClock / ETD export from
+the Models page with this light curve.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on
