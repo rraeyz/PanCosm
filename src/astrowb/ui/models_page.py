@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
 
 from ..models.fit import DEFAULT_FREE, NAMES
 from .spectro_page import _FileRow
+from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas
 
 START = {
@@ -40,11 +41,12 @@ START = {
 }
 
 
-class ModelsPage(QWidget):
+class ModelsPage(Undoable, QWidget):
     fit_requested = Signal(dict, dict)
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.setObjectName("orbits")
         self.result, self.orbit, self.overlay = None, None, None
         split = QSplitter(Qt.Horizontal, self)
@@ -89,6 +91,7 @@ class ModelsPage(QWidget):
                 s.setDecimals(3)
                 s.setSingleStep(0.05)
                 s.setValue(v)
+                s.valueChanged.connect(lambda _v: self.record(self.tr("limb darkening"), self._typed_from))
                 s.setToolTip(
                     self.tr(
                         "Quadratic limb darkening, e.g. from Claret's tables for the star's temperature and the filter"
@@ -98,6 +101,9 @@ class ModelsPage(QWidget):
                 pair.append(s)
             self.ld.append(pair)
         lay.addLayout(grid)
+        track_typing(self, self.table, self.tr("type a value"))
+        for box in self.checks.values():
+            box.toggled.connect(lambda _on: self.record(self.tr("free or fixed"), self._typed_from))
         self.use_orbit = QCheckBox(self.tr("Absolute dimensions with the double-lined orbit from Spectroscopy"), self)
         self.use_orbit.setEnabled(False)
         self.use_orbit.setToolTip(
@@ -267,10 +273,33 @@ class ModelsPage(QWidget):
         self.overlay = (x, f / np.nanmedian(f[f >= np.nanpercentile(f, 50)]))  # >=: a flat out-of-eclipse part
         self._draw()
 
+    # --- undo / redo of the parameters (Edit menu, Ctrl+Z / Ctrl+Y) -----------
+    def undo_state(self):
+        values = tuple(self.table.item(r, 1).text() for r in range(len(NAMES)))
+        free = tuple(self.checks[n].isChecked() for n in NAMES)
+        return values, free, tuple(s.value() for pair in self.ld for s in pair)
+
+    def set_undo_state(self, state):
+        values, free, ld = state
+        widgets = [*self.checks.values(), *(s for pair in self.ld for s in pair)]
+        for w in (self.table, *widgets):
+            w.blockSignals(True)
+        for r, text in enumerate(values):
+            self.table.item(r, 1).setText(text)
+        for n, on in zip(NAMES, free, strict=True):
+            self.checks[n].setChecked(on)
+        for s, v in zip((s for pair in self.ld for s in pair), ld, strict=True):
+            s.setValue(v)
+        for w in (self.table, *widgets):
+            w.blockSignals(False)
+
+    def _fill_values(self, params):
+        for row, name in enumerate(NAMES):
+            self.table.item(row, 1).setText(f"{params[name]:.8g}")
+
     def show_fit(self, r):
         self.result = r
-        for row, name in enumerate(NAMES):
-            self.table.item(row, 1).setText(f"{r['params'][name]:.8g}")
+        self.edit(self.tr("fitted values"), self._fill_values, r["params"])
         p, e, d, de = r["params"], r["errors"], r["derived"], r["derived_err"]
         text = self.tr(
             "i = {i:.3f} ± {ie:.3f}°, r1 = {r1:.5f} ± {r1e:.5f}, r2 = {r2:.5f} ± {r2e:.5f}, "

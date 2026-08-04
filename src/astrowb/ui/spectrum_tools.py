@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .undo import Undoable
 from .workspaces import PlotCanvas
 
 SPECTRA = "Spectra (*.fits *.fit *.fts *.txt *.dat *.csv *.asc)"
@@ -41,11 +42,12 @@ def _spin(parent, value, lo, hi, decimals=2):
     return w
 
 
-class SpectrumToolsTab(QWidget):
+class SpectrumToolsTab(Undoable, QWidget):
     atmosphere_requested = Signal(dict, dict)  # inputs (spectrum, optional solar spectrum), params
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.wave = self.flux = self.header = None
         self.history, self.b, self.resp, self.points, self.last = [], None, None, [], None
         self.path = ""
@@ -371,6 +373,7 @@ class SpectrumToolsTab(QWidget):
         self.wave, self.flux, _, self.header = got
         self.wave, self.flux = np.asarray(self.wave, float), np.asarray(self.flux, float)
         self.path, self.history, self.points, self.last = path, [], [], None
+        self.undo_stack.clear()  # another spectrum: earlier steps do not apply to it
         self.source.setText(
             self.tr("{file}: {n} points, {a:.1f}–{b:.1f} Å").format(
                 file=Path(path).name, n=self.wave.size, a=self.wave.min(), b=self.wave.max()
@@ -386,8 +389,20 @@ class SpectrumToolsTab(QWidget):
             self.b = (np.asarray(got[0], float), np.asarray(got[1], float))
             self.status.setText(self.tr("Spectrum B: {file}").format(file=Path(path).name))
 
-    def _change(self, flux, what):
-        self.history.append(self.flux)
+    # --- undo / redo (Edit menu, Ctrl+Z / Ctrl+Y) -----------------------------
+    def undo_state(self):
+        return {"wave": self.wave, "flux": self.flux, "points": tuple(self.points)}
+
+    def set_undo_state(self, state):
+        self.wave, self.flux, self.points = state["wave"], state["flux"], list(state["points"])
+        self.last = None
+        self._plot()
+
+    def _change(self, flux, what, step=None):
+        self.edit(step or what.rstrip("."), self._set_flux, flux, what)
+
+    def _set_flux(self, flux, what):
+        self.history.append(self.flux)  # marks the spectrum as changed here (the stellar-parameter fit uses it)
         self.flux = np.asarray(flux, float)
         self.status.setText(what)
         self.last = None
@@ -446,8 +461,11 @@ class SpectrumToolsTab(QWidget):
 
     def _clicked(self, event):
         if self.pick.isChecked() and event.inaxes is not None and event.xdata is not None:
-            self.points.append(float(event.xdata))
-            self._plot()
+            self.edit(self.tr("pick a continuum point"), self._add_point, float(event.xdata))
+
+    def _add_point(self, x):
+        self.points.append(x)
+        self._plot()
 
     # --- measurements --------------------------------------------------------
     def _add_row(self, label, m):
@@ -564,16 +582,20 @@ class SpectrumToolsTab(QWidget):
             return
         else:
             other = self.b
-        self._change(arithmetic(self.wave, self.flux, *other, op), self.tr("Done."))
+        self._change(arithmetic(self.wave, self.flux, *other, op), self.tr("Done."), self.tr("arithmetic"))
 
     def _resample(self):
         from ..spectroscopy.analysis import resample
 
         if self._ready():
-            self.wave, self.flux = resample(self.wave, self.flux, self.step.value())
-            self.history = []  # the grid changed: older fluxes no longer match it
-            self.status.setText(self.tr("Resampled."))
-            self._plot()
+            self.edit(self.tr("resample"), self._set_grid, *resample(self.wave, self.flux, self.step.value()))
+
+    def _set_grid(self, wave, flux):
+        self.history.append(self.flux)
+        self.wave, self.flux = wave, flux
+        self.status.setText(self.tr("Resampled."))
+        self.last = None
+        self._plot()
 
     def _normalise(self):
         from ..spectroscopy.rv import continuum_normalise
@@ -591,8 +613,11 @@ class SpectrumToolsTab(QWidget):
         except ValueError as e:
             self.status.setText(str(e))
             return
-        self.points = []
         self.pick.setChecked(False)
+        self.edit(self.tr("normalise through points"), self._through_points, cont)
+
+    def _through_points(self, cont):
+        self.points = []
         self._change(self.flux / cont, self.tr("Normalised."))
 
     def compute_response(self, reference_path):
@@ -622,10 +647,7 @@ class SpectrumToolsTab(QWidget):
             self._change(self.flux / resample_onto(self.wave, *self.resp), self.tr("Relative flux (response removed)."))
 
     def _undo(self):
-        if self.history:
-            self.flux = self.history.pop()
-            self.last = None
-            self._plot()
+        self.undo_stack.undo()
 
     def _save(self, path=None):
         from ..spectroscopy import spectrum_io

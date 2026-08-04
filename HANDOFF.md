@@ -222,8 +222,8 @@ Status of everything so far:
 | 1-4 | Campaigns 1-3 (sections above) and the fourth round (undo / redo, defaults audit, tooltips on pages) | DONE (up to `433f6f2`) |
 | A | Long slit, curved traces (FLOYDS): trace followed as IRAF aptrace, "Spectrum at row", traced line drawn | DONE (`c4168a9`) |
 | T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | CLAIMED by agent session 01RxUU (2026-11-04) |
-| T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | CLAIMED by agent session 01RxUU (2026-11-04) |
-| T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | TODO |
+| T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | DONE (see notes) |
+| T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | CLAIMED by agent session 01RxUU (2026-11-04) |
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | TODO |
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | TODO |
@@ -243,6 +243,15 @@ Status of everything so far:
 how to choose, a tooltip on each. `self.kvw` / `self.trapezoid` in `PhotometryPage`. The engine step
 `timeseries.minimum` defaults to `method="kvw"` too (both automations set the method explicitly). Guide pages
 01 and 06 in four languages updated. Test: `tests/test_ui.py::test_minimum_method_is_a_visible_choice_with_kvw_first`.
+
+**T2 (done).** `ui/undo.py` gained `same()` (state equality that also compares numpy arrays) and
+`track_typing(page, table, text)` (moved from `spectro_page.py`; changes made inside an `edit()` are part of that
+step, not separate "typed" steps — `Undoable._editing`). Now in Ctrl+Z / Ctrl+Y: Spectrum tools (every change of
+the spectrum, resampling, continuum points; the tab's own Undo button is the same stack; a newly opened spectrum
+clears it), Plan (targets added, removed, typed, the Secondary box), Observe (exposure rows added, removed, typed,
+their type / time / count / binning; a loaded sequence), Models (parameters typed, free / fixed, limb darkening,
+the fitted values written into the table). Tests: `tests/test_undo.py` (8 tests, real key presses).
+Not done (deliberately): the line-edit fields (they keep Qt's own Ctrl+Z while they have the keyboard).
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 
