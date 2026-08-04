@@ -1056,6 +1056,10 @@ class VelocityTab(QWidget):
         )
         lay.addWidget(self.rv_button)
         lay.addWidget(self.orbit_button)
+        from .export import results_button
+
+        self.orbit_result = None
+        lay.addWidget(results_button(self, self.orbit_table))
         self.separate_button = QPushButton(self.tr("Separate the two stars' spectra (disentangling)"), self)
         self.separate_button.setEnabled(False)
         self.separate_button.clicked.connect(lambda: self.separate())
@@ -1254,10 +1258,48 @@ class VelocityTab(QWidget):
             inputs |= {"rv2": v2, "error2": e2}
         self.orbit_requested.emit(inputs, {"period": self.period.value()})
 
+    def orbit_table(self):
+        """(rows, caption) of the fitted orbit for the results export."""
+        o = self.orbit_result
+        if not o:
+            self.status.setText(self.tr("Fit an orbit first."))
+            return None
+        rows = [
+            ("P", o["period"], o["period_err"] or None, "d"),
+            ("T_peri", o["t_peri"], o["t_peri_err"], "BJD_TDB"),
+            ("e", o["e"], o["e_err"], ""),
+            ("omega", o["omega"], o["omega_err"], "deg"),
+            ("K1", o["k"], o["k_err"], "km/s"),
+            ("gamma", o["gamma"], o["gamma_err"], "km/s"),
+        ]
+        if "k2" in o:
+            rows += [
+                ("K2", o["k2"], o["k2_err"], "km/s"),
+                ("q = M2/M1", o["q"], o["q_err"], ""),
+                ("M1 sin^3 i", o["m1_sin3i"], o["m1_sin3i_err"], "Msun"),
+                ("M2 sin^3 i", o["m2_sin3i"], o["m2_sin3i_err"], "Msun"),
+                ("a sin i", o["a_sini_rsun"], o["a_sini_err"], "Rsun"),
+                ("rms (primary)", o["rms"], None, "km/s"),
+                ("rms (secondary)", o["rms2"], None, "km/s"),
+            ]
+        else:
+            rows += [
+                ("f(m)", o["mass_function"], None, "Msun"),
+                ("a1 sin i", o["a_sini_rsun"], None, "Rsun"),
+                ("rms", o["rms"], None, "km/s"),
+            ]
+        caption = self.tr(
+            "Spectroscopic orbit: Keplerian least-squares fit to {n} radial velocities; 1σ errors from the "
+            "covariance matrix (e and ω from its draws)."
+        ).format(n=len(self._series()[0]))
+        return rows, caption
+
     def show_orbit(self, o):
         from ..spectroscopy.orbit import rv_model
 
-        t, v, e = (np.asarray(a) for a in self._series())
+        self.orbit_result = o
+
+        t, v, e = (np.asarray(a, float) for a in self._series())
         text = self.tr(
             "P = {p:.6f} ± {pe:.6f} d, e = {e:.3f} ± {ee:.3f}, ω = {w:.1f} ± {we:.1f}°, "
             "K = {k:.3f} ± {ke:.3f} km/s, γ = {g:.3f} ± {ge:.3f} km/s, rms = {rms:.3f} km/s"
@@ -1303,17 +1345,26 @@ class VelocityTab(QWidget):
             o["t_peri"] + ph * o["period"], o["period"], o["t_peri"], o["e"], o["omega"], o["k"], o["gamma"]
         )
         self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.errorbar(phase, v, e, fmt="o", ms=4)
+        # velocities with the orbit above, residuals below (the usual figure of an orbit paper)
+        ax, res = self.plot.figure.subplots(2, 1, sharex=True, gridspec_kw={"height_ratios": (3, 1), "hspace": 0})
+        args = (o["period"], o["t_peri"], o["e"])
+        ax.axhline(o["gamma"], color="0.5", lw=0.6, ls=":")
+        ax.errorbar(phase, v, e, fmt="o", ms=4, label=self.tr("primary"))
         ax.plot(ph, model, "r-", lw=1)
+        res.errorbar(phase, v - rv_model(t, *args, o["omega"], o["k"], o["gamma"]), e, fmt="o", ms=3)
         if "k2" in o:
-            _, v2, e2 = (np.asarray(a, float) for a in self._series(2))
-            model2 = rv_model(
-                o["t_peri"] + ph * o["period"], o["period"], o["t_peri"], o["e"], o["omega"] + 180, o["k2"], o["gamma"]
-            )
-            ax.errorbar(phase, v2, e2, fmt="s", ms=4, color="tab:orange")
+            t2, v2, e2 = (np.asarray(a, float) for a in self._series(2))
+            model2 = rv_model(o["t_peri"] + ph * o["period"], *args, o["omega"] + 180, o["k2"], o["gamma"])
+            phase2 = ((t2 - o["t_peri"]) / o["period"]) % 1
+            ax.errorbar(phase2, v2, e2, fmt="s", ms=4, color="tab:orange", label=self.tr("secondary"))
             ax.plot(ph, model2, "-", color="tab:orange", lw=1)
-        ax.set_xlabel(self.tr("Phase (from periastron)"))
+            resid2 = v2 - rv_model(t2, *args, o["omega"] + 180, o["k2"], o["gamma"])
+            res.errorbar(phase2, resid2, e2, fmt="s", ms=3, color="tab:orange")
+            ax.legend(fontsize="small")
+        res.axhline(0, color="0.5", lw=0.6)
+        res.set_ylabel(self.tr("O−C (km/s)"))
+        res.set_xlabel(self.tr("Phase (from periastron)"))
+        res.set_xlim(0, 1)
         ax.set_ylabel(self.tr("RV (km/s)"))
         self.plot.draw()
 

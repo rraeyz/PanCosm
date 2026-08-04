@@ -88,3 +88,69 @@ def export_table(table, path):
         with open(path, "w", encoding="utf-8", newline="") as f:
             csv.writer(f).writerows([header, *rows])
     return path
+
+
+def rounded(value, error):
+    """(value, error) as texts for a paper: the error to two significant digits, the value to the same decimal
+    place (e.g. 1.234567 ± 0.000123 -> '1.23457', '0.00012'); without an error, six significant digits."""
+    import math
+
+    if error is None or not math.isfinite(error) or error <= 0:
+        return f"{value:.6g}", ""
+    digits = max(0, 1 - math.floor(math.log10(error)))
+    return f"{value:.{digits}f}", f"{error:.{digits}f}"
+
+
+def save_results(path, rows, caption=""):
+    """Fitted values as a table: rows of (parameter, value, error or None, unit). CSV (parameter, value, error,
+    unit) for .csv, otherwise a LaTeX table (booktabs) with the caption."""
+    import csv
+
+    cells = [(name, *rounded(value, error), unit) for name, value, error, unit in rows]
+    if str(path).endswith(".tex"):
+        lines = [r"\begin{table}", r"\centering"]
+        if caption:
+            lines.append(r"\caption{" + _latex_escape(caption) + "}")
+        lines += [r"\begin{tabular}{lll}", r"\toprule", r"Parameter & Value & Unit \\", r"\midrule"]
+        for name, v, e, unit in cells:
+            value = f"${v} \\pm {e}$" if e else f"${v}$"
+            lines.append(f"{_latex_escape(name)} & {value} & {_latex_escape(unit)} \\\\")
+        lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+        Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    else:
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            if caption:
+                w.writerow([f"# {caption}"])
+            w.writerows([("parameter", "value", "error", "unit"), *cells])
+    return str(path)
+
+
+def results_button(parent, rows_and_caption):
+    """A button 'Export results (CSV / LaTeX)…' that writes rows_and_caption() -> (rows, caption) to a file."""
+    from PySide6.QtCore import QCoreApplication
+    from PySide6.QtWidgets import QFileDialog, QPushButton
+
+    def tr(text):
+        return QCoreApplication.translate("Export", text)
+
+    button = QPushButton(tr("Export results (CSV / LaTeX)…"), parent)
+    button.setToolTip(
+        tr(
+            "The fitted values with their 1σ errors, rounded as in a paper (the error to two significant digits), "
+            "as CSV or as a LaTeX table ready for a manuscript"
+        )
+    )
+
+    def save():
+        got = rows_and_caption()
+        if not got:
+            return
+        path, _ = QFileDialog.getSaveFileName(
+            parent, tr("Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)"
+        )
+        if path:
+            save_results(path, *got)
+
+    button.clicked.connect(save)
+    return button
