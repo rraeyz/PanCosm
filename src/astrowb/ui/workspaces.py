@@ -64,6 +64,7 @@ class Collapsible(QWidget):
         self.button.setCheckable(True)
         self.button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         self.button.setAutoRaise(True)
+        self.button.setToolTip(self.tr("Click to show or hide these options"))
         self.content = QWidget(self)
         self.body = QVBoxLayout(self.content)
         self.body.setContentsMargins(18, 0, 0, 0)
@@ -103,6 +104,7 @@ class StartPage(QWidget):
             button = QPushButton(f"{title}\n{hint}", self)
             button.setMinimumHeight(56)
             button.setObjectName(f"start_{key}")
+            button.setToolTip(hint)
             button.clicked.connect(lambda _=False, k=key: self.action.emit(k))
             grid.addWidget(button, i // 2, i % 2)
         lay.addLayout(grid)
@@ -164,6 +166,9 @@ class ImagePage(Undoable, QWidget):
         self.line_width = QDoubleSpinBox(self)
         self.line_width.setRange(1, 101)
         self.line_width.setDecimals(0)
+        self.line_width.setToolTip(
+            self.tr("Pixels across the line that are averaged for its profile; wider is less noisy")
+        )
         bar.addWidget(self.line_width)
         whole = QPushButton(self.tr("Whole image"), self)
         whole.setToolTip(self.tr("Statistics and histogram of the whole image"))
@@ -215,6 +220,7 @@ class ImagePage(Undoable, QWidget):
         row.addWidget(self.graph_kind, 1)
         export = QPushButton(self.tr("Export data (CSV)…"), self)
         export.clicked.connect(lambda: self.export_graph())
+        export.setToolTip(self.tr("The numbers of the graph shown, as a table for a spreadsheet"))
         row.addWidget(export)
         gl.addLayout(row)
         self.tabs = QTabWidget(self)
@@ -228,6 +234,7 @@ class ImagePage(Undoable, QWidget):
             (self.tr("Delete keyword"), self.delete_selected_keyword),
         ):
             b = QPushButton(text, self)
+            b.setToolTip(self.tr("Only in this window until you save a copy; Ctrl+Z takes it back"))
             b.clicked.connect(slot)
             hrow.addWidget(b)
         hl.addLayout(hrow)
@@ -236,6 +243,12 @@ class ImagePage(Undoable, QWidget):
         hl.addWidget(self.header_note)
         self.header_save = QPushButton(self.tr("Save a copy with these header changes…"), self)
         self.header_save.setEnabled(False)
+        self.header_save.setToolTip(
+            self.tr(
+                "The original file is not changed: a copy with the new header is written (Ctrl+Z takes back"
+                " a change before that)"
+            )
+        )
         self.header_save.clicked.connect(
             lambda: self.header_save_requested.emit(dict(self.header_set), list(self.header_delete))
         )
@@ -774,6 +787,9 @@ class ProjectPage(QWidget):
         row = QHBoxLayout()
         self.rerun_button = QPushButton(self.tr("Run again with the same inputs and settings"), self)
         self.rerun_button.setEnabled(False)
+        self.rerun_button.setToolTip(
+            self.tr("Runs the selected step again exactly as before, e.g. after the input files changed")
+        )
         self.rerun_button.clicked.connect(lambda: self.rerun_requested.emit(self.selected_run()))
         row.addWidget(self.rerun_button)
         row.addStretch(1)
@@ -859,8 +875,10 @@ class CalibratePage(QWidget):
         row = QHBoxLayout()
         self.folder = QLineEdit(self)
         self.folder.setPlaceholderText(self.tr("folder; another folder; …"))
+        self.folder.setToolTip(self.tr("One or more folders, separated by ';'. Sub-folders are read too."))
         browse = QPushButton(self.tr("Browse…"), self)
         browse.clicked.connect(lambda: self._pick(self.folder))
+        browse.setToolTip(self.tr("Choose the folder in a dialog"))
         add_folder = QPushButton(self.tr("Add folder…"), self)
         add_folder.setToolTip(
             self.tr("Read frames from one more folder, e.g. master or calibration frames kept elsewhere")
@@ -868,6 +886,12 @@ class CalibratePage(QWidget):
         add_folder.clicked.connect(self._add_folder)
         self.scan_button = QPushButton(self.tr("Scan"), self)
         self.scan_button.clicked.connect(lambda: self.scan_requested.emit(self.folder.text()))
+        self.scan_button.setToolTip(
+            self.tr(
+                "Reads every frame and sorts it by its header into bias, dark, flat, arc and light; nothing"
+                " is changed yet, check the table"
+            )
+        )
         self.clock_offset = QDoubleSpinBox(self)
         self.clock_offset.setRange(-14, 14)
         self.clock_offset.setDecimals(2)
@@ -910,6 +934,13 @@ class CalibratePage(QWidget):
         self.output = QLineEdit(self)
         browse_out = QPushButton(self.tr("Browse…"), self)
         browse_out.clicked.connect(lambda: self._pick(self.output))
+        self.output.setToolTip(
+            self.tr(
+                "Folder for the master frames and the calibrated images; created if it does not exist. The "
+                "raw frames are never changed."
+            )
+        )
+        browse_out.setToolTip(self.tr("Choose the folder in a dialog"))
         row.addWidget(self.output)
         row.addWidget(browse_out)
         lay.addLayout(row)
@@ -919,14 +950,33 @@ class CalibratePage(QWidget):
         self.sigma.setRange(1.5, 10.0)
         self.sigma.setSingleStep(0.5)
         self.sigma.setValue(3.0)
+        self.sigma.setToolTip(
+            self.tr(
+                "A pixel further than this many standard deviations from the other frames' values is left "
+                "out when the masters are combined and when images are stacked; 3 is the usual value"
+            )
+        )
         row.addWidget(self.sigma)
         self.cosmics = QCheckBox(self.tr("Remove cosmic rays from lights"), self)
+        self.cosmics.setToolTip(
+            self.tr(
+                "Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and "
+                "replaces them. Useful for long exposures and spectra; when many frames are stacked with "
+                "rejection it is not needed."
+            )
+        )
         row.addWidget(self.cosmics)
         self.optimize_dark = QCheckBox(self.tr("Scale the dark to each light (dark optimisation)"), self)
         self.optimize_dark.setToolTip(
             self.tr("Finds the dark scale that leaves the least noise; useful when the camera temperature drifted")
         )
         self.fix_defects = QCheckBox(self.tr("Repair hot and dead pixels (defect map from the masters)"), self)
+        self.fix_defects.setToolTip(
+            self.tr(
+                "Hot pixels (from the master dark) and dead pixels (from the master flat) are replaced by "
+                "the median of their neighbours in every light; the map is saved with the masters"
+            )
+        )
         self.spectra = QCheckBox(self.tr("Spectra: do not divide by the flat"), self)
         self.spectra.setToolTip(
             self.tr(
@@ -947,6 +997,12 @@ class CalibratePage(QWidget):
         self.run_button = QPushButton(self.tr("3. Calibrate"), self)
         self.run_button.setEnabled(False)
         self.run_button.clicked.connect(self._run)
+        self.run_button.setToolTip(
+            self.tr(
+                "Makes the master bias, dark and flat and writes every light as (light − bias − dark) / "
+                "flat into the output folder"
+            )
+        )
         row.addWidget(self.run_button)
         lay.addLayout(row)
         self.linearity = QLineEdit(self)
@@ -967,6 +1023,12 @@ class CalibratePage(QWidget):
         self.stack_button = QPushButton(self.tr("4. Align and stack the calibrated images (optional)"), self)
         self.stack_button.setEnabled(False)
         self.stack_button.clicked.connect(self._stack)
+        self.stack_button.setToolTip(
+            self.tr(
+                "Aligns the calibrated images on their stars and combines them, one stack per filter. For a"
+                " light curve measure the single images on the Photometry page instead."
+            )
+        )
         lay.addWidget(self.stack_button)
         opts = QGridLayout()
         self.stack_opts = {}
@@ -1002,11 +1064,28 @@ class CalibratePage(QWidget):
                 },
             ),
         }
+        tips = {
+            "method": self.tr("mean: the least noise; median: robust without rejection; sum: keeps the counts"),
+            "rejection": self.tr(
+                "Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; "
+                "sigma clipping needs about ten frames or more, min / max works with fewer"
+            ),
+            "normalize": self.tr(
+                "Brings the frames to the same level before rejection: multiplicative when the transparency "
+                "changed, additive when the sky background changed"
+            ),
+            "weighting": self.tr("By noise: noisier frames (thin cloud, twilight) count less"),
+            "align": self.tr(
+                "Shift only: an equatorial mount without field rotation; star patterns: the field rotates or the "
+                "scale differs (alt-az mount, meridian flip, another telescope)"
+            ),
+        }
         for i, (key, (label, items)) in enumerate(choices.items()):
             box = QComboBox(self)
             for value, text in items.items():
                 box.addItem(text, value)
             self.stack_opts[key] = box
+            box.setToolTip(tips[key])
             opts.addWidget(QLabel(label, self), i // 2, 2 * (i % 2))
             opts.addWidget(box, i // 2, 2 * (i % 2) + 1)
         self.clip_low, self.clip_high = QDoubleSpinBox(self), QDoubleSpinBox(self)
@@ -1023,6 +1102,13 @@ class CalibratePage(QWidget):
         self.stack_options = Collapsible(self.tr("Stacking options"), self)
         self.stack_options.body.addLayout(opts)
         self.drizzle = QCheckBox(self.tr("Drizzle onto a 2× finer grid (undersampled, dithered frames)"), self)
+        self.drizzle.setToolTip(
+            self.tr(
+                "For stars only one or two pixels wide (FWHM under about 2 px) in frames shifted a little "
+                "between exposures: recovers detail on a grid twice as fine (Fruchter & Hook 2002). Needs "
+                "many frames; otherwise leave it off."
+            )
+        )
         self.stack_options.body.addWidget(self.drizzle)
         lay.addWidget(self.stack_options)
         self.calibrated = []
@@ -1266,6 +1352,12 @@ class PhotometryPage(Undoable, QWidget):
         side.addWidget(_title(self.tr("Photometry"), self))
         self.load_button = QPushButton(self.tr("Choose images…"), self)
         self.load_button.clicked.connect(self._choose_images)
+        self.load_button.setToolTip(
+            self.tr(
+                "The calibrated frames of one field (FITS, also TESS / Kepler target pixel files); they are"
+                " sorted by time"
+            )
+        )
         side.addWidget(self.load_button)
         self.images_label = QLabel(self.tr("No images"), self)
         self.images_label.setWordWrap(True)
@@ -1280,6 +1372,9 @@ class PhotometryPage(Undoable, QWidget):
         self.drop_bad = QPushButton(self.tr("Leave out the bad frames"), self)
         self.drop_bad.hide()
         self.drop_bad.clicked.connect(self._drop_bad)
+        self.drop_bad.setToolTip(
+            self.tr("Takes the frames the quality check marked as bad out of the list; the files stay on disk")
+        )
         side.addWidget(self.drop_bad)
         hint = QLabel(
             self.tr("Click the target star, then one or more comparison stars. A click on a marked star takes it off."),
@@ -1301,6 +1396,7 @@ class PhotometryPage(Undoable, QWidget):
         side.addLayout(role_row)
         clear = QPushButton(self.tr("Clear stars"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
+        clear.setToolTip(self.tr("Takes off every marked star (Ctrl+Z brings them back)"))
         side.addWidget(clear)
         self.suggest_button = QPushButton(self.tr("Suggest comparison stars"), self)
         self.suggest_button.setEnabled(False)
@@ -1313,6 +1409,21 @@ class PhotometryPage(Undoable, QWidget):
         side.addWidget(self.suggest_button)
         grid = QGridLayout()
         self.r_ap, self.r_in, self.r_out = (self._spin(v) for v in (4.0, 10.0, 16.0))
+        self.r_out.setToolTip(
+            self.tr("Outer edge of the sky ring; the ring should hold several times as many pixels as the aperture")
+        )
+        self.r_in.setToolTip(
+            self.tr(
+                "The sky is measured in a ring around the star starting at this radius, where the star's "
+                "light has ended (at least 3 FWHM)"
+            )
+        )
+        self.r_ap.setToolTip(
+            self.tr(
+                "Radius of the circle in which the star's light is added up; about 1 to 2 times the FWHM "
+                "gives the best signal-to-noise"
+            )
+        )
         for row, (label, w) in enumerate(
             (
                 (self.tr("Aperture radius (px)"), self.r_ap),
@@ -1336,11 +1447,29 @@ class PhotometryPage(Undoable, QWidget):
         )
         side.addWidget(self.apertures_button)
         self.follow_seeing = QCheckBox(self.tr("Radii follow the seeing (scaled by each frame's FWHM)"), self)
+        self.follow_seeing.setToolTip(
+            self.tr(
+                "Each frame's radii are scaled by its FWHM over the first frame's, so the aperture holds "
+                "the same part of the light when the seeing changes during the night"
+            )
+        )
         side.addWidget(self.follow_seeing)
         self.psf = QCheckBox(self.tr("PSF photometry (crowded fields: blended stars fitted together)"), self)
+        self.psf.setToolTip(
+            self.tr(
+                "For crowded fields: stars that overlap are fitted together with the image's star profile "
+                "instead of being added up in a circle. Slower; for isolated stars the aperture is as good."
+            )
+        )
         side.addWidget(self.psf)
         side.addWidget(QLabel(self.tr("Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16"), self))
         self.coord = QLineEdit(self)
+        self.coord.setToolTip(
+            self.tr(
+                "Needed to turn the times into BJD (barycentric). Empty: taken from the header (OBJCTRA / "
+                "OBJCTDEC or RA / DEC)."
+            )
+        )
         side.addWidget(self.coord)
         tel = QHBoxLayout()
         tel.addWidget(QLabel(self.tr("Telescope aperture (m)"), self))
@@ -1360,6 +1489,12 @@ class PhotometryPage(Undoable, QWidget):
         self.measure_button = QPushButton(self.tr("Measure light curve"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(self._measure)
+        self.measure_button.setToolTip(
+            self.tr(
+                "Measures the marked stars in every image and draws the differential light curve (target "
+                "against the comparison stars)"
+            )
+        )
         side.addWidget(self.measure_button)
         self.live_button = QPushButton(self.tr("Live: follow a folder during the night…"), self)
         self.live_button.setCheckable(True)
@@ -1429,6 +1564,12 @@ class PhotometryPage(Undoable, QWidget):
         self.show_what.setPlaceholderText(self.tr("Measure a light curve to choose what to plot"))
         self.show_what.setEnabled(False)
         self.show_what.currentIndexChanged.connect(lambda *_: self._plot_current())
+        self.show_what.setToolTip(
+            self.tr(
+                "Which curve to draw: the target against the comparison stars, the checks, the comparison "
+                "stars against each other, sky, FWHM, airmass…"
+            )
+        )
         pl.addWidget(self.show_what)
         edit_row = QHBoxLayout()
         self.delete_mode = QCheckBox(self.tr("Click a point to delete it"), self)
@@ -1438,6 +1579,7 @@ class PhotometryPage(Undoable, QWidget):
         edit_row.addWidget(self.delete_mode)
         restore = QPushButton(self.tr("Restore deleted points"), self)
         restore.clicked.connect(self.restore_points)
+        restore.setToolTip(self.tr("Brings back every point deleted by clicking"))
         edit_row.addWidget(restore)
         pl.addLayout(edit_row)
         space_row = QHBoxLayout()
@@ -1462,8 +1604,17 @@ class PhotometryPage(Undoable, QWidget):
             "y": "y",
             "time": self.tr("time"),
         }
+        trend_tips = {
+            "airmass": self.tr("Extinction: the stars change with their height above the horizon"),
+            "fwhm": self.tr("Seeing: larger star images lose more light outside the aperture"),
+            "sky": self.tr("Sky brightness: twilight, moonlight, thin cloud"),
+            "x": self.tr("Position on the chip: the stars drift over pixels of different sensitivity"),
+            "y": self.tr("Position on the chip: the stars drift over pixels of different sensitivity"),
+            "time": self.tr("A slow change with time"),
+        }
         for i, (key, text) in enumerate(names.items()):
             box = QCheckBox(text, self)
+            box.setToolTip(trend_tips[key])
             self.trend_boxes[key] = box
             trend_row.addWidget(box, i // 3, i % 3)
         pl.addLayout(trend_row)
@@ -1483,6 +1634,12 @@ class PhotometryPage(Undoable, QWidget):
         self.exclude_to = QLineEdit(self)
         for w in (self.exclude_from, self.exclude_to):
             w.setPlaceholderText(self.tr("time"))
+            w.setToolTip(
+                self.tr(
+                    "Points in this time range (the eclipse or transit itself) are left out of the trend fit, "
+                    "then corrected with it"
+                )
+            )
         ex_row.addWidget(self.exclude_from)
         ex_row.addWidget(QLabel(self.tr("to"), self))
         ex_row.addWidget(self.exclude_to)
@@ -1495,6 +1652,7 @@ class PhotometryPage(Undoable, QWidget):
         self.detrend_button.clicked.connect(self._detrend)
         self.undo_detrend = QPushButton(self.tr("Undo detrending"), self)
         self.undo_detrend.clicked.connect(lambda: self._set_detrend(None))
+        self.undo_detrend.setToolTip(self.tr("Back to the light curve before detrending"))
         d_row.addWidget(self.detrend_button)
         d_row.addWidget(self.undo_detrend)
         pl.addLayout(d_row)
@@ -1513,12 +1671,25 @@ class PhotometryPage(Undoable, QWidget):
         grid.addWidget(QLabel(self.tr("Period (d)"), self), 1, 0)
         grid.addWidget(self.period, 1, 1)
         ml.addLayout(grid)
+        self.period.setToolTip(self.tr("Optional: with T0 and the period the minimum gets its cycle number and O−C"))
+        self.t0.setToolTip(self.tr("Optional: with T0 and the period the minimum gets its cycle number and O−C"))
         self.kvw = QCheckBox(self.tr("Kwee–van Woerden (eclipses) instead of trapezoid fit (transits)"), self)
         self.kvw.setChecked(False)
+        self.kvw.setToolTip(
+            self.tr(
+                "On: Kwee & van Woerden (1956), for the V-shaped, symmetric minimum of an eclipsing binary."
+                " Off: a trapezoid is fitted, for flat-bottomed exoplanet transits."
+            )
+        )
         ml.addWidget(self.kvw)
         self.minimum_button = QPushButton(self.tr("Time of minimum"), self)
         self.minimum_button.setEnabled(False)
         self.minimum_button.clicked.connect(self._minimum)
+        self.minimum_button.setToolTip(
+            self.tr(
+                "Time of minimum of the curve shown, with its error (every minimum if the night holds more than one)"
+            )
+        )
         ml.addWidget(self.minimum_button)
         ml.addStretch(1)
         self.res_tabs.addTab(min_tab, self.tr("Minimum"))
@@ -1528,6 +1699,9 @@ class PhotometryPage(Undoable, QWidget):
         self.export_button = QPushButton(self.tr("Export CSV…"), self)
         self.export_button.setEnabled(False)
         self.export_button.clicked.connect(self._export)
+        self.export_button.setToolTip(
+            self.tr("Time, flux, magnitude and error of every star as a table for a spreadsheet or another program")
+        )
         ol.addWidget(self.export_button)
         row = QHBoxLayout()
         self.band = QComboBox(self)
@@ -1549,6 +1723,12 @@ class PhotometryPage(Undoable, QWidget):
         self.aavso_button = QPushButton(self.tr("Export AAVSO report…"), self)
         self.aavso_button.setEnabled(False)
         self.aavso_button.clicked.connect(self._export_aavso)
+        self.aavso_button.setToolTip(
+            self.tr(
+                "A report in AAVSO's Extended File Format to submit through WebObs; the comparison stars' "
+                "magnitudes are asked for"
+            )
+        )
         ol.addWidget(self.aavso_button)
         ol.addStretch(1)
         self.res_tabs.addTab(out_tab, self.tr("Export"))
@@ -2439,25 +2619,49 @@ class OCPage(QWidget):
         load = QPushButton(self.tr("Load file…"), self)
         load.clicked.connect(self._load)
         row.addWidget(load)
+        load.setToolTip(
+            self.tr("A text file of times of minimum or maximum: time, error, type (I / II), source; one per line")
+        )
         row.addStretch(1)
         lay.addLayout(row)
         grid = QGridLayout()
         self.t0 = QLineEdit(self)
         self.period = QLineEdit(self)
         grid.addWidget(QLabel(self.tr("Reference T0"), self), 0, 0)
+        self.period.setToolTip(self.tr("Period of the ephemeris used to count the cycles; the fit improves it"))
+        self.t0.setToolTip(self.tr("Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum"))
         grid.addWidget(self.t0, 0, 1)
         grid.addWidget(QLabel(self.tr("Period (d)"), self), 1, 0)
         grid.addWidget(self.period, 1, 1)
         lay.addLayout(grid)
         self.linear = QRadioButton(self.tr("Linear ephemeris"), self)
+        self.linear.setToolTip(self.tr("A constant period: O−C on a straight line (corrects T0 and the period)"))
         self.quadratic = QRadioButton(self.tr("Quadratic (period change)"), self)
+        self.quadratic.setToolTip(
+            self.tr("A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt")
+        )
         self.ltte = QRadioButton(self.tr("Third body (light-travel time)"), self)
+        self.ltte.setToolTip(
+            self.tr(
+                "A third star moves the pair around: O−C waves with the third body's orbit (Irwin 1952); "
+                "needs minima over more than one cycle of the wave"
+            )
+        )
         self.apsidal = QRadioButton(self.tr("Apsidal motion (eccentric orbit, primary and secondary)"), self)
+        self.apsidal.setToolTip(
+            self.tr(
+                "An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs"
+                " both kinds of minimum (type I and II)"
+            )
+        )
         self.linear.setChecked(True)
         for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
             lay.addWidget(b)
         self.fit_button = QPushButton(self.tr("Fit and draw O-C"), self)
         self.fit_button.clicked.connect(self.run_fit)
+        self.fit_button.setToolTip(
+            self.tr("Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number")
+        )
         lay.addWidget(self.fit_button)
         self.result = QLabel(self)
         self.result.setWordWrap(True)
@@ -2600,13 +2804,23 @@ class PeriodPage(Undoable, QWidget):
         self.source.setWordWrap(True)
         lay.addWidget(self.source)
         load = QPushButton(self.tr("Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…"), self)
+        load.setToolTip(
+            self.tr(
+                "Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and"
+                " ASAS-SN are recognised"
+            )
+        )
         load.clicked.connect(self._load)
         lay.addWidget(load)
         row = QHBoxLayout()
         self.archive_target = QLineEdit(self)
         self.archive_target.setPlaceholderText(self.tr("star name, e.g. AI Dra or TIC 12345678"))
+        self.archive_target.setToolTip(
+            self.tr("The star's name or catalogue number as the archive knows it; Enter starts the download")
+        )
         self.mission = QComboBox(self)
         self.mission.addItems(("TESS", "Kepler", "K2", "ZTF", "AAVSO"))
+        self.mission.setToolTip(self.tr("The archive to download the light curve from"))
         fetch = QPushButton(self.tr("Download"), self)
         fetch.setToolTip(
             self.tr("TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)")
@@ -2622,6 +2836,12 @@ class PeriodPage(Undoable, QWidget):
         self.method.addItem(self.tr("BLS (transits, Algol-type eclipses)"), "bls")
         self.method.addItem(self.tr("PDM (any shape)"), "pdm")
         self.method.addItem(self.tr("ANOVA (multi-harmonic, any smooth shape)"), "anova")
+        self.method.setToolTip(
+            self.tr(
+                "Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and "
+                "ANOVA: curves of any shape, e.g. eclipsing binaries with two minima"
+            )
+        )
         self.p_min, self.p_max = QDoubleSpinBox(self), QDoubleSpinBox(self)
         for w, v in ((self.p_min, 0.05), (self.p_max, 10.0)):
             w.setDecimals(4)
@@ -2631,8 +2851,12 @@ class PeriodPage(Undoable, QWidget):
         grid.addWidget(self.method, 0, 1)
         grid.addWidget(QLabel(self.tr("Shortest period (d)"), self), 1, 0)
         grid.addWidget(self.p_min, 1, 1)
+        self.p_min.setToolTip(
+            self.tr("Shortest period searched; shorter than twice the time between points cannot be found")
+        )
         grid.addWidget(QLabel(self.tr("Longest period (d)"), self), 2, 0)
         grid.addWidget(self.p_max, 2, 1)
+        self.p_max.setToolTip(self.tr("Longest period searched; the data should cover at least two cycles of it"))
         from PySide6.QtWidgets import QSpinBox
 
         self.phase_bins = QSpinBox(self)
@@ -2648,20 +2872,36 @@ class PeriodPage(Undoable, QWidget):
         self.clip_sigma = QDoubleSpinBox(self)
         self.clip_sigma.setRange(1.0, 20.0)
         self.clip_sigma.setValue(4.0)
+        self.clip_sigma.setToolTip(self.tr("Limit in standard deviations for Remove outliers"))
         clip = QPushButton(self.tr("Remove outliers (σ)"), self)
         clip.clicked.connect(lambda: self.edit(self.tr("remove outliers"), self._clip))
+        clip.setToolTip(
+            self.tr(
+                "Removes points further than this many standard deviations from the median of their "
+                "neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back"
+            )
+        )
         self.bin_minutes = QDoubleSpinBox(self)
         self.bin_minutes.setRange(0.1, 10000)
         self.bin_minutes.setValue(5.0)
+        self.bin_minutes.setToolTip(self.tr("Length of a time bin in minutes for Bin in time"))
         binb = QPushButton(self.tr("Bin in time (min)"), self)
         binb.clicked.connect(lambda: self.edit(self.tr("bin in time"), self._bin))
+        binb.setToolTip(
+            self.tr(
+                "Averages the points in time bins of this length: less noise, fewer points; keep the bins "
+                "much shorter than an eclipse"
+            )
+        )
         self.delete_mode = QPushButton(self.tr("Delete points by clicking"), self)
         self.delete_mode.setCheckable(True)
         self.delete_mode.setToolTip(self.tr("Click a point on the light-curve plot to remove it"))
         units = QPushButton(self.tr("Flux ↔ magnitude"), self)
         units.clicked.connect(lambda: self.edit(self.tr("flux / magnitude"), self._convert))
+        units.setToolTip(self.tr("Converts relative flux to magnitudes (−2.5 log) or back"))
         undo = QPushButton(self.tr("Undo edits"), self)
         undo.clicked.connect(lambda: self.edit(self.tr("undo edits"), self._undo))
+        undo.setToolTip(self.tr("Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)"))
         edit.addWidget(clip, 0, 0)
         edit.addWidget(self.clip_sigma, 0, 1)
         edit.addWidget(binb, 1, 0)
@@ -2673,6 +2913,12 @@ class PeriodPage(Undoable, QWidget):
         self.search_button = QPushButton(self.tr("Search"), self)
         self.search_button.setEnabled(False)
         self.search_button.clicked.connect(self._search)
+        self.search_button.setToolTip(
+            self.tr(
+                "Computes the periodogram between the shortest and longest period and folds the curve on "
+                "the best period; check the folded plot by eye"
+            )
+        )
         lay.addWidget(self.search_button)
         self.result = QLabel(self)
         self.result.setWordWrap(True)

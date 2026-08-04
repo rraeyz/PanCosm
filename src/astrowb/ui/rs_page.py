@@ -45,6 +45,11 @@ class RemoteSensingPage(QWidget):
         lay.addWidget(_title(self.tr("Remote sensing"), self))
         open_button = QPushButton(self.tr("Open image (GeoTIFF, FITS, JPEG2000, NetCDF, HDF5)…"), self)
         open_button.clicked.connect(self._open)
+        open_button.setToolTip(
+            self.tr(
+                "A satellite or aerial image with one or more bands; every band can be shown and used in the formulas"
+            )
+        )
         lay.addWidget(open_button)
         self.info = QLabel(self.tr("No image"), self)
         self.info.setWordWrap(True)
@@ -53,6 +58,7 @@ class RemoteSensingPage(QWidget):
         row.addWidget(QLabel(self.tr("Show"), self))
         self.show_combo = QComboBox(self)
         self.show_combo.currentTextChanged.connect(self._show)
+        self.show_combo.setToolTip(self.tr("Which band or result to show"))
         row.addWidget(self.show_combo, 1)
         lay.addLayout(row)
         lay.addWidget(QLabel(self.tr("Band roles (for the indices)"), self))
@@ -62,6 +68,7 @@ class RemoteSensingPage(QWidget):
             grid.addWidget(QLabel(role, self), i // 3, 2 * (i % 3))
             combo = QComboBox(self)
             self.roles[role] = combo
+            combo.setToolTip(self.tr("Which band of the image holds this colour; the indices (NDVI…) use these roles"))
             grid.addWidget(combo, i // 3, 2 * (i % 3) + 1)
         lay.addLayout(grid)
         row = QHBoxLayout()
@@ -71,22 +78,35 @@ class RemoteSensingPage(QWidget):
             self.index.addItem(name)
             self.index.setItemData(self.index.count() - 1, about, Qt.ToolTipRole)
         self.index.activated.connect(self._preset)
+        self.index.setToolTip(self.tr("A known index (NDVI, NDWI…) fills in its formula with the bands of the roles"))
         row.addWidget(self.index)
         self.expression = QLineEdit(self)
         self.expression.setPlaceholderText(self.tr("band math, e.g. (B4 - B3) / (B4 + B3)"))
+        self.expression.setToolTip(self.tr("A formula of the bands B1, B2…: + − * / ** and numbers"))
         row.addWidget(self.expression, 1)
         lay.addLayout(row)
         self.compute_button = QPushButton(self.tr("Compute"), self)
         self.compute_button.clicked.connect(self._compute)
+        self.compute_button.setToolTip(self.tr("Computes the formula for every pixel and shows the result"))
         lay.addWidget(self.compute_button)
         row = QHBoxLayout()
         self.k = QSpinBox(self)
         self.k.setRange(2, 30)
         self.k.setValue(5)
+        self.k.setToolTip(self.tr("How many classes k-means divides the pixels into"))
         classify = QPushButton(self.tr("Classify (k-means)"), self)
         classify.clicked.connect(lambda: self._run("rs.classify", {}, {"k": self.k.value()}))
+        classify.setToolTip(
+            self.tr("Groups the pixels by their values in all bands into this many classes, without training data")
+        )
         pca = QPushButton(self.tr("Principal components"), self)
         pca.clicked.connect(lambda: self._run("rs.pca", {}, {}))
+        pca.setToolTip(
+            self.tr(
+                "New bands that are combinations of the old ones, the first holding the most variation; "
+                "useful to see differences hidden in many bands"
+            )
+        )
         row.addWidget(QLabel(self.tr("classes"), self))
         row.addWidget(self.k)
         row.addWidget(classify)

@@ -48,6 +48,7 @@ class VarFindPage(QWidget):
         choose.clicked.connect(
             lambda: self.set_images(QFileDialog.getOpenFileNames(self, self.tr("Frames"), "", images_filter())[0])
         )
+        choose.setToolTip(self.tr("The calibrated frames of one field, taken over a night or more"))
         lay.addWidget(choose)
         self.source = QLabel(self.tr("No frames."), self)
         lay.addWidget(self.source)
@@ -55,9 +56,15 @@ class VarFindPage(QWidget):
         self.method = QComboBox(self)
         self.method.addItem(self.tr("Aperture photometry"), "aperture")
         self.method.addItem(self.tr("PSF photometry (crowded fields)"), "psf")
+        self.method.setToolTip(
+            self.tr("Aperture photometry for most fields; PSF photometry where the stars overlap (slower)")
+        )
         self.max_stars = QSpinBox(self)
         self.max_stars.setRange(10, 5000)
         self.max_stars.setValue(300)
+        self.max_stars.setToolTip(
+            self.tr("How many of the brightest stars in the field are measured; more stars take longer")
+        )
         self.threshold = QDoubleSpinBox(self)
         self.threshold.setRange(1, 50)
         self.threshold.setValue(3.0)
@@ -69,6 +76,12 @@ class VarFindPage(QWidget):
         self.button = QPushButton(self.tr("Search for variables"), self)
         self.button.setEnabled(False)
         self.button.clicked.connect(self._search)
+        self.button.setToolTip(
+            self.tr(
+                "Measures every star in every frame against all the others and lists those that vary more "
+                "than stars of the same brightness"
+            )
+        )
         lay.addWidget(self.button)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -82,6 +95,7 @@ class VarFindPage(QWidget):
         self.send = QPushButton(self.tr("Send this star to Period search"), self)
         self.send.setEnabled(False)
         self.send.clicked.connect(self._send)
+        self.send.setToolTip(self.tr("The chosen star's light curve goes to the Period search tab"))
         lay.addWidget(self.send)
         split.addWidget(left)
         self.plot = PlotCanvas(self)

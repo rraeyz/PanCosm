@@ -28,6 +28,10 @@ and commits in English. Delete this file once the work is finished.
     identify / ecidentify leave the identification to the user, then reidentify / autoidentify with the line list.
     Keep that model: the user identifies, the application fits and matches, and shows every line it used.)
   - Write everything done, downloaded and planned into this file so another agent can continue.
+  - Newest (2026-11-04, after the third campaign): the most correct choice must be the default (on when right,
+    off when not); **every control shows a short, explanatory tooltip** ("not everyone understands"); **undo / redo
+    with Ctrl+Z / Ctrl+Y** (the owner's biggest problem with IRAF). The goal stays: IRAF-quality results, easier
+    than IRAF. Keep this file up to date.
 
 ## Rules of the repository
 
@@ -178,6 +182,25 @@ order 57: 857.72 5973.6649, 1011.27 5987.3016, 1053.47 5991.0071, 1089.25 5994.1
 order 59: 1073.55 5789.6451, 1106.59 5792.4304, 1149.88 5796.0683, 1206.94 5800.8297, 1246.84 5804.1412.
 The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
+## Fourth round: undo / redo, defaults, tooltips
+
+- `7cd4187` **Undo / redo**: Edit menu, Ctrl+Z, Ctrl+Y (and Ctrl+Shift+Z). `ui/undo.py`: a page that takes part
+  mixes in `Undoable`, calls `init_undo()`, gives `undo_state()` (plain values) and `set_undo_state(state)`, and
+  wraps each edit in `self.edit(text, function, ...)`; a value typed into a table is recorded with `record()`
+  (`_track_typing` in `spectro_page.py`). The main window's `QUndoGroup` follows the page shown and its open tab.
+  Covered: Photometry (stars marked / removed / suggested, deleted and restored points, detrending), Period search
+  (outliers, binning, flux / magnitude, points), Images (image operations go back to the image before; header
+  changes), Spectroscopy Reduce and Echelle (lines identified, typed, left out; orders removed on the flat).
+  Tests: `tests/test_undo.py` (real key presses). Not yet covered: Spectrum tools has its own Undo button (history
+  list), the Plan and Observe tables, the Models parameter table.
+- **Defaults audit** (every checkbox and choice with its default, `/tmp` script listing them): all were judged right
+  (e.g. optimal extraction on, cosmic-ray removal off because stacking with rejection does it, drizzle off, colour
+  split on, fibre-fed off). One question for the owner: on the Photometry page's Minimum tab, Kwee–van Woerden
+  (eclipsing binaries) or the trapezoid (exoplanet transits) as default — now the trapezoid.
+- **Tooltips**: every button, box, list and field on every page has a short explanation (≈180 new strings, all in
+  tr / de / es). `tests/test_tooltips.py` fails when a new control has none, and checks one Turkish tooltip.
+  Not covered by the test: dialogs (exposure, AAVSO, BeSS, observatory set-up) — most of their fields have tips.
+
 ## Next steps (in this order)
 
 1. **Long slit, curved traces (FLOYDS) — DONE (commit after `331d620`):** read first: IRAF apextract `aptrace.x`
@@ -206,4 +229,5 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 5. Photometry with real ground data and many frames (the two Zenodo nights have only 1-2 science frames): a
    public time series (e.g. LCO or an AAVSO-style night) through the whole Photometry page, the AAVSO export and the
    standard magnitudes (needs CDS, blocked here).
-6. CI: confirm green for the latest commits (`a60d3c1` and later). Release only after asking the owner.
+6. CI: confirm green for the latest commits. Release only after asking the owner.
+7. Undo / redo for the remaining editors (Spectrum tools into the same Ctrl+Z; Plan / Observe / Models tables).

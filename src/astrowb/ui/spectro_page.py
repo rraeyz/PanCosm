@@ -85,7 +85,16 @@ class _Orientation(QWidget):
         lay.addWidget(QLabel(self.tr("Dispersion along"), self))
         self.axis = QComboBox(self)
         self.axis.addItems([self.tr("rows (x)"), self.tr("columns (y)")])
+        self.axis.setToolTip(
+            self.tr(
+                "Along which axis of the detector the wavelength changes; many coudé spectrographs disperse"
+                " along the columns"
+            )
+        )
         self.reverse = QCheckBox(self.tr("blue on the right"), self)
+        self.reverse.setToolTip(
+            self.tr("Tick when the wavelength decreases along the axis (blue on the right, or at the top)")
+        )
         lay.addWidget(self.axis)
         lay.addWidget(self.reverse)
         lay.addStretch(1)
@@ -109,8 +118,10 @@ class _FileRow(QWidget):
         lay.addWidget(QLabel(label, self))
         self.edit = QLineEdit(self)
         lay.addWidget(self.edit, 1)
+        self.edit.setToolTip(self.tr("Path of the file: type it or choose it with Browse…"))
         b = QPushButton(self.tr("Browse…"), self)
         b.clicked.connect(lambda: self._pick(pattern))
+        b.setToolTip(self.tr("Choose the file in a dialog"))
         lay.addWidget(b)
 
     def _pick(self, pattern):
@@ -140,6 +151,19 @@ class ReduceTab(Undoable, QWidget):
         lay.addWidget(self.orientation)
         grid = QGridLayout()
         self.width, self.sky_offset, self.sky_width = _spin(self, 10), _spin(self, 15), _spin(self, 10)
+        self.sky_width.setToolTip(
+            self.tr(
+                "Width of each sky strip; the sky under the spectrum is fitted from them, row by row along the slit"
+            )
+        )
+        self.sky_offset.setToolTip(
+            self.tr("Distance from the spectrum's centre to the sky strips on both sides; beyond the star's light")
+        )
+        self.width.setToolTip(
+            self.tr(
+                "Width of the strip across the spectrum that is added up; about two to three times the spectrum's FWHM"
+            )
+        )
         self.row = _spin(self, 0, 0, 100000, 0)
         self.row.setSpecialValueText(self.tr("the brightest"))
         self.row.setToolTip(
@@ -150,9 +174,21 @@ class ReduceTab(Undoable, QWidget):
         )
         self.optimal = QCheckBox(self.tr("Optimal extraction (Horne)"), self)
         self.optimal.setChecked(True)
+        self.optimal.setToolTip(
+            self.tr(
+                "Horne (1986): each pixel counts by the spectrum's profile and its noise; more signal-to-noise for "
+                "faint spectra. Turn off for saturated or very bright spectra."
+            )
+        )
         self.line_list = QComboBox(self)
         self.line_list.addItems(_line_lists())
         self.line_list.setCurrentText("henear")
+        self.line_list.setToolTip(
+            self.tr(
+                "The gas of your arc lamp: after your identified lines, further lines of this list are "
+                "found and added to the fit, as IRAF identify does"
+            )
+        )
         for r, (label, w) in enumerate(
             (
                 (self.tr("Spectrum at row"), self.row),
@@ -168,6 +204,12 @@ class ReduceTab(Undoable, QWidget):
         lay.addWidget(self.optimal)
         self.extract_button = QPushButton(self.tr("1. Extract"), self)
         self.extract_button.clicked.connect(lambda: self._run(with_guesses=False))
+        self.extract_button.setToolTip(
+            self.tr(
+                "Follows the spectrum along the frame, subtracts the sky and adds it up across the slit; "
+                "the arc is extracted along the same trace"
+            )
+        )
         lay.addWidget(self.extract_button)
         lay.addWidget(QLabel(self.tr("2. Click arc lines in the lower plot, type their wavelengths (Å):"), self))
         self.guesses = QTableWidget(0, 2, self)
@@ -178,8 +220,15 @@ class ReduceTab(Undoable, QWidget):
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
+        clear.setToolTip(self.tr("Removes every identified line (Ctrl+Z brings them back)"))
         self.solve_button = QPushButton(self.tr("3. Solve wavelengths and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(with_guesses=True))
+        self.solve_button.setToolTip(
+            self.tr(
+                "Fits pixel → wavelength through the identified lines (at least three), shows the residual "
+                "of every line and saves the calibrated spectrum"
+            )
+        )
         row.addWidget(clear)
         row.addWidget(self.solve_button)
         lay.addLayout(row)
@@ -338,6 +387,12 @@ class EchelleTab(Undoable, QWidget):
         for w in (self.science, self.flat, self.arc, self.orientation):
             lay.addWidget(w)
         self.fibre = QCheckBox(self.tr("Fibre-fed: no sky between the orders"), self)
+        self.fibre.setToolTip(
+            self.tr(
+                "Tick for a spectrograph fed by an optical fibre: there is no sky beside the orders, so "
+                "none is subtracted"
+            )
+        )
         lay.addWidget(self.fibre)
         self.scatter = QCheckBox(self.tr("Subtract scattered light (fitted in the gaps between the orders)"), self)
         self.scatter.setToolTip(self.tr("As IRAF apscatter: for the science frame and the flat, before extraction"))
@@ -355,14 +410,37 @@ class EchelleTab(Undoable, QWidget):
         )
         self.direction = QComboBox(self)
         self.direction.addItems([self.tr("increase upwards"), self.tr("decrease upwards")])
+        self.direction.setToolTip(
+            self.tr(
+                "Whether the absolute order number grows towards the top of the image or towards the bottom"
+                " (red orders have lower numbers)"
+            )
+        )
         self.line_list = QComboBox(self)
         self.line_list.addItems(_line_lists())
         self.line_list.setCurrentText("thar")
+        self.line_list.setToolTip(
+            self.tr(
+                "The gas of the arc lamp (ThAr for most echelles): after your identified lines, further "
+                "lines of this list are found in every order"
+            )
+        )
         self.optimal = QCheckBox(self.tr("Optimal extraction (Horne)"), self)
         self.optimal.setChecked(True)
+        self.optimal.setToolTip(
+            self.tr(
+                "Horne (1986): each pixel counts by the spectrum's profile and its noise; more signal-to-noise for "
+                "faint spectra. Turn off for saturated or very bright spectra."
+            )
+        )
         self.order_view = QSpinBox(self)
         self.order_view.setRange(0, 0)
         self.order_view.valueChanged.connect(self._draw)
+        self.order_view.setToolTip(
+            self.tr(
+                "Which extracted order to show in the plots (counted from the first one found, not the absolute number)"
+            )
+        )
         for r, (label, w) in enumerate(
             (
                 (self.tr("Lowest order number"), self.first_order),
@@ -386,6 +464,12 @@ class EchelleTab(Undoable, QWidget):
         lay.addWidget(self.find_button)
         self.extract_button = QPushButton(self.tr("1. Trace and extract orders"), self)
         self.extract_button.clicked.connect(lambda: self._run(False))
+        self.extract_button.setToolTip(
+            self.tr(
+                "Traces the orders on the flat, extracts science and arc along them and divides by the "
+                "flat's blaze; then identify arc lines"
+            )
+        )
         lay.addWidget(self.extract_button)
         lay.addWidget(
             QLabel(self.tr("2. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):"), self)
@@ -398,8 +482,15 @@ class EchelleTab(Undoable, QWidget):
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
+        clear.setToolTip(self.tr("Removes every identified line (Ctrl+Z brings them back)"))
         self.solve_button = QPushButton(self.tr("3. Solve, merge and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(True))
+        self.solve_button.setToolTip(
+            self.tr(
+                "One wavelength solution for all orders together (λ·m as a polynomial in pixel and order), "
+                "then the orders are merged into one spectrum and saved"
+            )
+        )
         row.addWidget(clear)
         row.addWidget(self.solve_button)
         lay.addLayout(row)
@@ -411,6 +502,7 @@ class EchelleTab(Undoable, QWidget):
         self.refit_button.clicked.connect(lambda: self._run(True))
         forget = QPushButton(self.tr("Use all lines again"), self)
         forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.forget_excluded))
+        forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
         row.addWidget(self.refit_button)
         row.addWidget(forget)
         lay.addLayout(row)
@@ -693,6 +785,12 @@ class TelluricTab(QWidget):
         )
         self.button = QPushButton(self.tr("Correct and save"), self)
         self.button.clicked.connect(self._run)
+        self.button.setToolTip(
+            self.tr(
+                "Divides the spectrum by the standard's atmospheric lines, fitted in strength and shift, "
+                "and saves the result next to the spectrum"
+            )
+        )
         lay.addWidget(self.button)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -749,8 +847,10 @@ class VelocityTab(QWidget):
         row = QHBoxLayout()
         add = QPushButton(self.tr("Add…"), self)
         add.clicked.connect(self._add)
+        add.setToolTip(self.tr("Adds wavelength-calibrated 1-D spectra of the same star, one per night or exposure"))
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(self.files.clear)
+        clear.setToolTip(self.tr("Empties the list of spectra"))
         row.addWidget(add)
         row.addWidget(clear)
         lay.addLayout(row)
@@ -763,9 +863,35 @@ class VelocityTab(QWidget):
         grid = QGridLayout()
         self.coord = QLineEdit(self)
         self.coord.setPlaceholderText(self.tr("from the header if empty"))
+        self.coord.setToolTip(self.tr("Needed for the barycentric correction; empty: taken from the header"))
         self.v_min, self.v_max = _spin(self, -300, -3000, 3000), _spin(self, 300, -3000, 3000)
+        self.v_max.setToolTip(
+            self.tr(
+                "Velocities searched (km/s): wide enough for the star's motion and orbit; narrower is "
+                "faster and safer from false peaks"
+            )
+        )
+        self.v_min.setToolTip(
+            self.tr(
+                "Velocities searched (km/s): wide enough for the star's motion and orbit; narrower is "
+                "faster and safer from false peaks"
+            )
+        )
         self.w_min, self.w_max = _spin(self, 0, 0, 30000), _spin(self, 0, 0, 30000)
+        self.w_max.setToolTip(
+            self.tr(
+                "Only this wavelength range is used: leave out telluric bands, broad Balmer lines and noisy"
+                " ends; 0 and 0: everything"
+            )
+        )
+        self.w_min.setToolTip(
+            self.tr(
+                "Only this wavelength range is used: leave out telluric bands, broad Balmer lines and noisy"
+                " ends; 0 and 0: everything"
+            )
+        )
         self.period = _spin(self, 0, 0, 100000, 6)
+        self.period.setToolTip(self.tr("Starting value for the orbit fit (days); 0: searched from the velocities"))
         self.method = QComboBox(self)
         for text, data in (
             (self.tr("Cross-correlation (TODCOR with a second template)"), ("ccf", 1)),
@@ -775,6 +901,12 @@ class VelocityTab(QWidget):
             self.method.addItem(text, data)
         self.method.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.method.setMinimumContentsLength(24)  # long choices do not widen the page; the list shows them whole
+        self.method.setToolTip(
+            self.tr(
+                "Cross-correlation for most stars (with a second template: both stars of a double-lined "
+                "binary, TODCOR); broadening function for fast rotators and contact binaries"
+            )
+        )
         for r, (label, w) in enumerate(
             (
                 (self.tr("Method"), self.method),
@@ -799,14 +931,29 @@ class VelocityTab(QWidget):
         lay.addWidget(self.type_button)
         self.rv_button = QPushButton(self.tr("Measure radial velocities"), self)
         self.rv_button.clicked.connect(self._measure)
+        self.rv_button.setToolTip(
+            self.tr("Velocity of every spectrum against the template, corrected to the barycentre, with its error")
+        )
         self.orbit_button = QPushButton(self.tr("Fit orbit"), self)
         self.orbit_button.setEnabled(False)
         self.orbit_button.clicked.connect(self._orbit)
+        self.orbit_button.setToolTip(
+            self.tr(
+                "Fits a Keplerian orbit to the velocities: period, eccentricity, K, γ (both stars for a "
+                "double-lined binary)"
+            )
+        )
         lay.addWidget(self.rv_button)
         lay.addWidget(self.orbit_button)
         self.separate_button = QPushButton(self.tr("Separate the two stars' spectra (disentangling)"), self)
         self.separate_button.setEnabled(False)
         self.separate_button.clicked.connect(lambda: self.separate())
+        self.separate_button.setToolTip(
+            self.tr(
+                "With the two stars' velocities in every spectrum, finds each star's own spectrum "
+                "(disentangling); needs spectra at many orbital phases"
+            )
+        )
         lay.addWidget(self.separate_button)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -1067,6 +1214,9 @@ class CubeTab(QWidget):
         lay.addWidget(self.file)
         load = QPushButton(self.tr("Load cube"), self)
         load.clicked.connect(lambda: self.open(self.file.text()))
+        load.setToolTip(
+            self.tr("Opens a 3-D cube (two sky axes and wavelength), e.g. from MUSE or another integral-field unit")
+        )
         lay.addWidget(load)
         self.info = QLabel(self)
         self.info.setWordWrap(True)
@@ -1074,8 +1224,17 @@ class CubeTab(QWidget):
         grid = QGridLayout()
         self.mode = QComboBox(self)
         self.mode.addItems([self.tr("Mean over a wavelength window"), self.tr("Line map (continuum subtracted)")])
+        self.mode.setToolTip(
+            self.tr(
+                "Mean: the picture in a wavelength window; line map: the same with the continuum on both "
+                "sides subtracted, to show where a line shines"
+            )
+        )
         self.centre, self.width = _spin(self, 6563, 1, 300000, 2), _spin(self, 10, 0.01, 100000, 2)
         self.radius = _spin(self, 1.5, 0.5, 50, 1)
+        self.radius.setToolTip(self.tr("A click sums the spectra of the spaxels within this radius"))
+        self.width.setToolTip(self.tr("Width of the wavelength window"))
+        self.centre.setToolTip(self.tr("Centre of the wavelength window, e.g. 6563 for Hα"))
         for r, (label, w) in enumerate(
             (
                 (self.tr("Image"), self.mode),
@@ -1089,10 +1248,12 @@ class CubeTab(QWidget):
         lay.addLayout(grid)
         show = QPushButton(self.tr("Show image"), self)
         show.clicked.connect(self.show_image)
+        show.setToolTip(self.tr("Draws the image of the chosen window; click on it to see a spectrum"))
         lay.addWidget(show)
         self.save_button = QPushButton(self.tr("Save spectrum…"), self)
         self.save_button.setEnabled(False)
         self.save_button.clicked.connect(self._save)
+        self.save_button.setToolTip(self.tr("Saves the spectrum of the clicked spaxels as a 1-D FITS file"))
         lay.addWidget(self.save_button)
         self.status = QLabel(self.tr("Click a spaxel to see its spectrum."), self)
         self.status.setWordWrap(True)
@@ -1200,10 +1361,23 @@ class SpectroscopyPage(QWidget):
         self.profile = QComboBox(self)
         self.profile.setMinimumWidth(200)
         self.profile.activated.connect(lambda _: self.apply_profile(self.profile.currentText()))
+        self.profile.setToolTip(
+            self.tr(
+                "Saved settings of a spectrograph (orientation, widths, line list, order numbers…): choose "
+                "one to fill the Reduce and Echelle tabs"
+            )
+        )
         save = QPushButton(self.tr("Save as…"), self)
         save.clicked.connect(self._save_profile)
+        save.setToolTip(
+            self.tr(
+                "Saves the present settings of the Reduce and Echelle tabs under a name, for the next night"
+                " with this spectrograph"
+            )
+        )
         delete = QPushButton(self.tr("Delete"), self)
         delete.clicked.connect(self._delete_profile)
+        delete.setToolTip(self.tr("Deletes the chosen instrument profile"))
         for w in (self.profile, save, delete):
             bar.addWidget(w)
         bar.addStretch(1)

@@ -91,6 +91,17 @@ class ObservePage(QWidget):
         grid = QGridLayout()
         self.url, self.token = QLineEdit(conn["url"], self), QLineEdit(conn["token"], self)
         self.token.setEchoMode(QLineEdit.Password)
+        self.token.setToolTip(
+            self.tr(
+                "The password shown when the observatory program starts; without it nobody else can move the telescope"
+            )
+        )
+        self.url.setToolTip(
+            self.tr(
+                "Address of the observatory program: on this computer http://127.0.0.1:11112, otherwise the"
+                " observatory computer's address"
+            )
+        )
         grid.addWidget(QLabel(self.tr("Observatory address"), self), 0, 0)
         grid.addWidget(self.url, 0, 1)
         grid.addWidget(QLabel(self.tr("Token"), self), 1, 0)
@@ -99,14 +110,30 @@ class ObservePage(QWidget):
         self.fingerprint.setPlaceholderText(self.tr("only for https: shown when the observatory starts"))
         grid.addWidget(QLabel(self.tr("Certificate fingerprint"), self), 2, 0)
         grid.addWidget(self.fingerprint, 2, 1)
+        self.fingerprint.setToolTip(
+            self.tr(
+                "Checks that the https connection really goes to your observatory; copy it from the "
+                "observatory computer"
+            )
+        )
         lay.addLayout(grid)
         row = QGridLayout()  # two rows: fits narrow windows in every language
         connect = QPushButton(self.tr("Connect"), self)
         connect.clicked.connect(self.connect_to)
+        connect.setToolTip(
+            self.tr("Connects to the observatory program at this address and shows its status every two seconds")
+        )
         start = QPushButton(self.tr("Start observatory on this computer…"), self)
         start.clicked.connect(self._start_local)
+        start.setToolTip(
+            self.tr(
+                "Starts the observatory program here with a saved configuration file (devices connected to "
+                "this computer)"
+            )
+        )
         wizard = QPushButton(self.tr("Set up observatory…"), self)
         wizard.clicked.connect(self.set_up)
+        wizard.setToolTip(self.tr("Site, devices (ASCOM Alpaca or INDI) and safety limits, step by step"))
         row.addWidget(connect, 0, 0)
         row.addWidget(wizard, 0, 1)
         row.addWidget(start, 1, 0, 1, 2)
@@ -120,8 +147,12 @@ class ObservePage(QWidget):
         row = QHBoxLayout()
         self.target = QLineEdit(self)
         self.target.setPlaceholderText(self.tr("RA Dec, e.g. 02:04:10 +46:41:16"))
+        self.target.setToolTip(self.tr("Where to point the telescope (J2000)"))
         slew = QPushButton(self.tr("Slew"), self)
         slew.clicked.connect(self._slew)
+        slew.setToolTip(
+            self.tr("Moves the telescope to these coordinates; refused below the altitude limit or while unsafe")
+        )
         centre = QPushButton(self.tr("Centre"), self)
         centre.setToolTip(
             self.tr("Slew, take a frame, plate-solve it, correct the mount and repeat until the target is centred")
@@ -141,15 +172,31 @@ class ObservePage(QWidget):
         row.addWidget(polar)
         lay.addLayout(row)
         row = QGridLayout()
-        for i, (text, path) in enumerate(
+        for i, (text, path, tip) in enumerate(
             (
-                (self.tr("Park"), "/park"),
-                (self.tr("Abort"), "/abort"),
-                (self.tr("Resume"), "/resume"),
-                (self.tr("Autofocus"), "/autofocus"),
+                (self.tr("Park"), "/park", self.tr("Stops any slew and sends the mount to its park position")),
+                (
+                    self.tr("Abort"),
+                    "/abort",
+                    self.tr("Stops the running sequence, exposure or slew at once; the mount is not parked"),
+                ),
+                (
+                    self.tr("Resume"),
+                    "/resume",
+                    self.tr("After a safety stop: allows sequences again, refused while anything is still unsafe"),
+                ),
+                (
+                    self.tr("Autofocus"),
+                    "/autofocus",
+                    self.tr(
+                        "Frames at nine focuser positions around the present one; the star size (HFR) against "
+                        "position is fitted and the focuser moved to the best"
+                    ),
+                ),
             )
         ):
             b = QPushButton(text, self)
+            b.setToolTip(tip)
             b.clicked.connect(lambda _=False, p=path: self._post(p))
             row.addWidget(b, i // 2, i % 2)
         lay.addLayout(row)
@@ -168,12 +215,34 @@ class ObservePage(QWidget):
         self.seq_coord.setPlaceholderText(self.tr("empty for darks/bias (no slew)"))
         self.dither = QSpinBox(self)
         self.dither.setRange(0, 1000)
+        self.dither.setToolTip(
+            self.tr(
+                "Moves the telescope a few pixels through the guider (PHD2) every N frames, so hot pixels "
+                "and noise patterns do not stay on the stars; 0: never"
+            )
+        )
         self.out_dir = QLineEdit(str(Path.home() / "observations"), self)
         self.seq_start, self.seq_end = QLineEdit(self), QLineEdit(self)
         self.seq_start.setPlaceholderText(self.tr("now; or dusk, or a UTC time 2026-11-15T21:30"))
         self.seq_end.setPlaceholderText(self.tr("after the counts; or dawn, or a UTC time (repeats until then)"))
         self.rotation = QLineEdit(self)
         self.rotation.setPlaceholderText(self.tr("empty: leave the rotator where it is"))
+        self.rotation.setToolTip(self.tr("Sky position angle for the camera rotator in degrees, if there is one"))
+        self.seq_end.setToolTip(
+            self.tr(
+                "When the sequence ends: after the counts of the rows, or it repeats the rows until dawn or a UTC time"
+            )
+        )
+        self.seq_start.setToolTip(
+            self.tr("When the sequence begins: now, at dusk (the Sun below the observatory's limit) or at a UTC time")
+        )
+        self.seq_coord.setToolTip(
+            self.tr("Coordinates of the target (J2000); the telescope slews there before the first frame")
+        )
+        self.seq_name.setToolTip(self.tr("Written into the frames' OBJECT keyword and their file names"))
+        self.out_dir.setToolTip(
+            self.tr("Folder on the observatory computer where the frames are written; they are copied here afterwards")
+        )
         for r, (label, w) in enumerate(
             (
                 (self.tr("Target name"), self.seq_name),
@@ -199,6 +268,7 @@ class ObservePage(QWidget):
         pl.addWidget(self.plan_list)
         clear = QPushButton(self.tr("Clear the night plan"), self)
         clear.clicked.connect(lambda: self.load_schedule([]))
+        clear.setToolTip(self.tr("Forgets the night plan sent from the Plan page; the exposure rows stay"))
         pl.addWidget(clear)
         self.plan_box.hide()
         self.plan = []
@@ -228,10 +298,17 @@ class ObservePage(QWidget):
         row = QHBoxLayout()
         add = QPushButton(self.tr("Add exposure row"), self)
         add.clicked.connect(self.add_exposure_row)
+        add.setToolTip(
+            self.tr("A new row: type, filter, exposure time, count, binning (gain, offset and the rest may stay empty)")
+        )
         remove = QPushButton(self.tr("Remove row"), self)
         remove.clicked.connect(lambda: self.exposures.removeRow(self.exposures.currentRow()))
+        remove.setToolTip(self.tr("Removes the selected exposure row"))
         self.start_button = QPushButton(self.tr("Start sequence"), self)
         self.start_button.clicked.connect(self._start_sequence)
+        self.start_button.setToolTip(
+            self.tr("Sends the sequence to the observatory, which runs it on its own; Abort stops it")
+        )
         flats = QPushButton(self.tr("Sky flats"), self)
         flats.setToolTip(
             self.tr(
@@ -277,39 +354,69 @@ class ObservePage(QWidget):
         self.preview_exp.setDecimals(3)
         self.preview_exp.setValue(2)
         self.preview_exp.setSuffix(" s")
+        self.preview_exp.setToolTip(self.tr("Exposure time of a single test frame (not saved with the sequence)"))
         self.cooler_temp = QDoubleSpinBox(self)
         self.cooler_temp.setRange(-60, 30)
         self.cooler_temp.setValue(-10)
         self.cooler_temp.setSuffix(" °C")
+        self.cooler_temp.setToolTip(
+            self.tr(
+                "Target temperature of the camera sensor; darks must be taken at the same temperature as the lights"
+            )
+        )
         self.focus_pos = QSpinBox(self)
         self.focus_pos.setRange(0, 1_000_000)
+        self.focus_pos.setToolTip(self.tr("Focuser position in steps"))
         self.filter_name = QComboBox(self)
         self.filter_name.setEditable(True)
+        self.filter_name.setToolTip(self.tr("Filter of the filter wheel by its name"))
         self._shown_preview = None
 
-        def button(text, slot):
+        def button(text, slot, tip):
             b = QPushButton(text, self)
+            b.setToolTip(tip)
             b.clicked.connect(slot)
             return b
 
         rows = (
-            (self.tr("Preview"), self.preview_exp, button(self.tr("Take preview"), self.take_preview), None),
+            (
+                self.tr("Preview"),
+                self.preview_exp,
+                button(
+                    self.tr("Take preview"),
+                    self.take_preview,
+                    self.tr("One frame with this exposure, shown on the Images page (to check pointing and focus)"),
+                ),
+                None,
+            ),
             (
                 self.tr("Cooler"),
                 self.cooler_temp,
-                button(self.tr("Cool to"), self._cool),
-                button(self.tr("Off"), lambda: self._post("/cooler", {"on": False})),
+                button(self.tr("Cool to"), self._cool, self.tr("Switches the cooler on and sets this temperature")),
+                button(
+                    self.tr("Off"),
+                    lambda: self._post("/cooler", {"on": False}),
+                    self.tr("Switches the cooler off (do it slowly at the end of the night)"),
+                ),
             ),
             (
                 self.tr("Focuser"),
                 self.focus_pos,
-                button(self.tr("Move"), lambda: self._post("/focuser", {"position": self.focus_pos.value()})),
+                button(
+                    self.tr("Move"),
+                    lambda: self._post("/focuser", {"position": self.focus_pos.value()}),
+                    self.tr("Moves the focuser to this position"),
+                ),
                 None,
             ),
             (
                 self.tr("Filter"),
                 self.filter_name,
-                button(self.tr("Change"), lambda: self._post("/filter", {"name": self.filter_name.currentText()})),
+                button(
+                    self.tr("Change"),
+                    lambda: self._post("/filter", {"name": self.filter_name.currentText()}),
+                    self.tr("Turns the filter wheel to this filter"),
+                ),
                 None,
             ),
         )
@@ -541,17 +648,27 @@ class ObservePage(QWidget):
         self.exposures.insertRow(r)
         kind = QComboBox(self.exposures)
         kind.addItems(KINDS)
+        kind.setToolTip(
+            self.tr(
+                "light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, "
+                "shutter closed; flat: an evenly lit field"
+            )
+        )
         self.exposures.setCellWidget(r, 0, kind)
         self.exposures.setItem(r, 1, QTableWidgetItem(""))
         exp = QDoubleSpinBox(self.exposures)
         exp.setRange(0, 36000)
         exp.setDecimals(3)
         exp.setValue(60)
+        exp.setToolTip(self.tr("Exposure time of each frame in seconds"))
         self.exposures.setCellWidget(r, 2, exp)
         for c, (lo, hi, v) in ((3, (1, 10000, 10)), (4, (1, 8, 1))):
             s = QSpinBox(self.exposures)
             s.setRange(lo, hi)
             s.setValue(v)
+            s.setToolTip(
+                self.tr("How many frames") if c == 3 else self.tr("Binning: 1 is full resolution, 2 adds 2×2 pixels")
+            )
             self.exposures.setCellWidget(r, c, s)
         for c in range(5, 9):
             self.exposures.setItem(r, c, QTableWidgetItem(""))

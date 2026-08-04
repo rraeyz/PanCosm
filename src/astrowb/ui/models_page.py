@@ -74,6 +74,7 @@ class ModelsPage(QWidget):
             self.table.setItem(r, 1, QTableWidgetItem(f"{START[name]:g}"))
             box = QCheckBox(self.table)
             box.setChecked(name in DEFAULT_FREE)
+            box.setToolTip(self.tr("Ticked: fitted; empty: kept at the value in the table"))
             self.table.setCellWidget(r, 2, box)
             self.checks[name] = box
         lay.addWidget(self.table, 1)
@@ -88,28 +89,57 @@ class ModelsPage(QWidget):
                 s.setDecimals(3)
                 s.setSingleStep(0.05)
                 s.setValue(v)
+                s.setToolTip(
+                    self.tr(
+                        "Quadratic limb darkening, e.g. from Claret's tables for the star's temperature and the filter"
+                    )
+                )
                 grid.addWidget(s, r, c + 1)
                 pair.append(s)
             self.ld.append(pair)
         lay.addLayout(grid)
         self.use_orbit = QCheckBox(self.tr("Absolute dimensions with the double-lined orbit from Spectroscopy"), self)
         self.use_orbit.setEnabled(False)
+        self.use_orbit.setToolTip(
+            self.tr(
+                "With the velocities' K1, K2 and the light curve's radii and inclination: masses and radii "
+                "of both stars in solar units (needs a double-lined orbit fitted on the Spectroscopy page)"
+            )
+        )
         lay.addWidget(self.use_orbit)
         row = QHBoxLayout()
         self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
+        self.use_mcmc.setToolTip(
+            self.tr(
+                "After the fit, a Markov chain explores the parameters: honest errors when they depend on "
+                "each other (e.g. radii and inclination in partial eclipses). Slower."
+            )
+        )
         self.mcmc_steps = QSpinBox(self)
         self.mcmc_steps.setRange(200, 20000)
         self.mcmc_steps.setSingleStep(500)
         self.mcmc_steps.setValue(2000)
         self.mcmc_steps.setSuffix(self.tr(" steps"))
+        self.mcmc_steps.setToolTip(self.tr("Length of the Markov chain; more steps give steadier errors"))
         row.addWidget(self.use_mcmc, 1)
         row.addWidget(self.mcmc_steps)
         lay.addLayout(row)
         row = QHBoxLayout()
         self.fit_button = QPushButton(self.tr("Fit"), self)
         self.fit_button.clicked.connect(lambda: self._run(None))
+        self.fit_button.setToolTip(
+            self.tr(
+                "Fits two limb-darkened spheres on a Keplerian orbit (as EBOP / JKTEBOP) to the light "
+                "curve; the ticked parameters are free, the others fixed at their values"
+            )
+        )
         export = QPushButton(self.tr("Fit and export for PHOEBE…"), self)
         export.clicked.connect(self._export)
+        export.setToolTip(
+            self.tr(
+                "Fits, then writes the light curve and the fitted values as starting values for a full model in PHOEBE"
+            )
+        )
         wd = QPushButton(self.tr("Fit and export for WD…"), self)
         wd.setToolTip(self.tr("Observations in WD's columns and the starting values under WD's names"))
         wd.clicked.connect(lambda: self._export("wd"))
@@ -123,6 +153,12 @@ class ModelsPage(QWidget):
         overlay.clicked.connect(self._load_overlay)
         self.posterior_button = QPushButton(self.tr("Posterior…"), self)
         self.posterior_button.clicked.connect(self.show_posterior)
+        self.posterior_button.setToolTip(
+            self.tr(
+                "The MCMC samples: each parameter's distribution and how the parameters depend on each "
+                "other (corner plot)"
+            )
+        )
         self.posterior_button.hide()
         buttons = QGridLayout()  # two per row: the page fits narrow windows in every language
         for i, b in enumerate((self.fit_button, export, wd, transit, overlay, self.posterior_button)):

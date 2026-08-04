@@ -47,13 +47,33 @@ class FrequencyPage(QWidget):
         self.f_max.setRange(0.01, 10000)
         self.f_max.setDecimals(3)
         self.f_max.setValue(50.0)
+        self.f_max.setToolTip(
+            self.tr("Frequencies are searched up to this value (cycles per day); for TESS 2-minute data up to 360")
+        )
         self.n_max = QSpinBox(self)
         self.n_max.setRange(1, 100)
         self.n_max.setValue(10)
+        self.n_max.setToolTip(
+            self.tr(
+                "The strongest frequency is fitted and subtracted, then the next one is searched "
+                "(prewhitening, as Period04); at most this many"
+            )
+        )
         self.snr_min = QDoubleSpinBox(self)
         self.snr_min.setRange(1, 100)
         self.snr_min.setValue(4.0)
+        self.snr_min.setToolTip(
+            self.tr(
+                "The search stops when the next peak is less than this many times the noise around it; 4 is"
+                " the usual limit (Breger et al. 1993)"
+            )
+        )
         self.magnitudes = QCheckBox(self.tr("Values are magnitudes (maximum = brightest = smallest)"), self)
+        self.magnitudes.setToolTip(
+            self.tr(
+                "Tick when the values are magnitudes, so that a maximum (the brightest moment) is the smallest value"
+            )
+        )
         form.addRow(self.tr("Highest frequency (c/d)"), self.f_max)
         form.addRow(self.tr("At most this many frequencies"), self.n_max)
         form.addRow(self.tr("Stop below S/N"), self.snr_min)
@@ -64,6 +84,9 @@ class FrequencyPage(QWidget):
         lay.addWidget(self.clean)
         self.button = QPushButton(self.tr("Analyse frequencies"), self)
         self.button.clicked.connect(self._analyse)
+        self.button.setToolTip(
+            self.tr("Amplitude spectrum, the frequencies with their errors and S/N, and the times of maximum")
+        )
         lay.addWidget(self.button)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -89,6 +112,9 @@ class FrequencyPage(QWidget):
         lay.addWidget(self.maxima, 1)
         self.to_oc = QPushButton(self.tr("Send maxima to the O-C diagram"), self)
         self.to_oc.setEnabled(False)
+        self.to_oc.setToolTip(
+            self.tr("The times of maximum go to the O−C tab, for a period change of a pulsating star")
+        )
         lay.addWidget(self.to_oc)
         split.addWidget(left)
         self.plot = PlotCanvas(self)

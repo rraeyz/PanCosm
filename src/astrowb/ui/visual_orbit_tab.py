@@ -41,6 +41,7 @@ class VisualOrbitTab(QWidget):
         lay.addWidget(self.measures, 1)
         load = QPushButton(self.tr("Load measures…"), self)
         load.clicked.connect(self._load)
+        load.setToolTip(self.tr("A text file of measures (e.g. from the WDS / Sixth Orbit Catalog), one per line"))
         lay.addWidget(load)
         grid = QGridLayout()
         self.p_min, self.p_max, self.parallax = QDoubleSpinBox(self), QDoubleSpinBox(self), QDoubleSpinBox(self)
@@ -49,6 +50,11 @@ class VisualOrbitTab(QWidget):
             w.setDecimals(3)
             w.setSpecialValueText(self.tr("automatic"))
         self.parallax.setSpecialValueText(self.tr("not given"))
+        self.parallax.setToolTip(
+            self.tr("With the parallax (e.g. from Gaia) the total mass of the pair follows from Kepler's third law")
+        )
+        self.p_max.setToolTip(self.tr("Range of periods searched; automatic: from the time span of the measures"))
+        self.p_min.setToolTip(self.tr("Range of periods searched; automatic: from the time span of the measures"))
         for r, (label, w) in enumerate(
             (
                 (self.tr("Shortest period (years)"), self.p_min),
@@ -61,6 +67,11 @@ class VisualOrbitTab(QWidget):
         lay.addLayout(grid)
         self.fit_button = QPushButton(self.tr("Fit the orbit"), self)
         self.fit_button.clicked.connect(self._fit)
+        self.fit_button.setToolTip(
+            self.tr(
+                "Fits the seven orbital elements (P, T, e, a, i, Ω, ω) to the measures and draws the apparent orbit"
+            )
+        )
         lay.addWidget(self.fit_button)
         self.table = QTableWidget(0, 2, self)
         self.table.setHorizontalHeaderLabels([self.tr("Element"), self.tr("Value")])
