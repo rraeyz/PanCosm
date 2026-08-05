@@ -96,3 +96,44 @@ def test_velocity_tab_shows_the_mk_type_as_a_suggestion(qtbot):
     assert "K1 III (0.0624), K2 III" in text and "suggestion" in text and tab.template.text() == "/lib/k2iii.fits"
     tab.show_classes([{"type": "K2III", "rms": 0.02, "template": "x"}], None, "no internet")
     assert "No MK type: no internet" in tab.status.text()
+
+
+def test_quality_words_and_peculiar_a_star_hint(qtbot):
+    from astrowb.spectroscopy.mkstandards import quality
+    from astrowb.ui.spectro_page import VelocityTab
+
+    assert [quality(s) for s in (0.012, 0.025, 0.05, 0.09, 0.2)] == ["excellent", "vgood", "good", "fair", "poor"]
+    tab = VelocityTab()
+    qtbot.addWidget(tab)
+    w = np.linspace(3800, 5600, 300)
+    model = {"wave": w.tolist(), "star": np.ones(300).tolist(), "model": np.ones(300).tolist()}
+    model["peculiarity"] = {"k": "A1", "h": "A1", "metal": "F0", "hint": "Am"}
+    tab.show_classes([], [{"type": "A2 III", "score": 0.025, "quality": "vgood"}], None, model)
+    text = tab.status.text()
+    assert "very good" in text and "K line A1, the hydrogen lines A1, the metal lines F0" in text and "(Am)" in text
+
+
+def test_peculiarity_from_separate_k_hydrogen_and_metal_types():
+    grid = np.arange(3800.0, 5600.0, 1.0)
+
+    def lines(centres, depth):
+        f = np.zeros_like(grid)
+        for c in centres:
+            f += depth * np.exp(-0.5 * ((grid - c) / 2.0) ** 2)
+        return f
+
+    def star(tk, th, tm):  # K line deepens to later types, hydrogen peaks at A2 (18), metals deepen
+        return (
+            1.0
+            - lines([3933.7], 0.05 * (tk - 14))
+            - lines([4101.7, 4340.5, 4861.3], 0.6 - (0.03 if th < 18 else 0.05) * abs(th - 18))
+            - lines([4226.7, 4271.8, 4383.5, 4404.8, 4415.1, 4549.6, 5167.3, 5172.7, 5183.6, 5269.5], 0.03 * (tm - 14))
+        )
+
+    lib = {(float(t), 5.0): star(t, t, t) for t in range(14, 30)}
+    assert mkstandards.peculiarity(star(20, 20, 20), grid, lib, 20.0, 5.0)["hint"] is None
+    am = mkstandards.peculiarity(star(17, 18, 23), grid, lib, 19.0, 5.0)
+    assert am["hint"] == "Am" and am["metal"] in ("F0", "F2") and am["k"] in ("A0", "A1", "A2")
+    weak = mkstandards.peculiarity(star(16, 20, 16), grid, lib, 19.0, 5.0)
+    assert weak["hint"] == "metal-weak"
+    assert mkstandards.peculiarity(star(33, 33, 33), grid, lib, 33.0, 5.0) is None  # G8: not an A-F star

@@ -535,7 +535,16 @@ interpolated in temperature (running numbers) within each luminosity class, × q
 - `spectroscopy.classify` returns `mk` (ranked, with scores) and `mk_note` (why not: offline, outside 3800–5600 Å)
   besides the Pickles ranking that still chooses the RV template (it covers the red). Velocity tab shows both;
   the MK line says it is a suggestion. Guide 08 (four languages), THIRD_PARTY.md, tests `tests/test_mkstandards.py`.
-- Not done: MKCLASS's rule-based refinement (line-ratio criteria, peculiarity flags such as Am/Ap/Ba).
+- MKCLASS's rule-based refinement, part done (agent session 019Lu3, from Gray & Corbally 2014 sections 3.4 and the
+  MKCLASS documentation, `https://www.appstate.edu/~grayro/mkclass/mkclass.pdf`, `mkclassdoc.pdf`; no code copied):
+  (1) the quality word MKCLASS gives (excellent / vgood / good / fair / poor) from the match score, thresholds from
+  the library itself (every third standard left out with noise: score ≈ sqrt(0.012² + (1/SNR)²)); (2) for B9–F5 stars
+  the separate types from the Ca II K line, the hydrogen lines and the metal lines (each region compared alone with
+  the standards, within ±6 running numbers of the overall type, as a classifier brackets), with the hints "Am" (metals
+  ≥ 3 later than hydrogen, K earlier than metals) and "metal-weak" (K and metals ≥ 3 earlier). Validated: 0 of 23
+  normal A–F standards (left out, S/N 50) get a hint; synthetic Am (kA1 hA2 mF0) and metal-weak (kA0 hA5 mA0) stars are
+  recognised. Tests in `tests/test_mkstandards.py`. Still not done: Ap (Sr II 4077, Si II 4128-30), Ba, CN, CH flags
+  and the luminosity criteria of late-type stars.
 - Follow-up done (agent session 019Lu3): the Velocity tab draws the star over the best MK standard after "Spectral
   type…" (the user judges the suggestion by eye, as MK classification is done); the standard is drawn only where it
   has flux. The MK type no longer fails when the Pickles library cannot be downloaded (it did in this container,

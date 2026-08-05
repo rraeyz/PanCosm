@@ -1153,6 +1153,34 @@ class VelocityTab(QWidget):
                     "better): {t}. A suggestion: check the spectrum against the standards before using it."
                 ).format(t=ranked)
             )
+            words = {
+                "excellent": self.tr("excellent"),
+                "vgood": self.tr("very good"),
+                "good": self.tr("good"),
+                "fair": self.tr("fair"),
+                "poor": self.tr("poor"),
+            }
+            if mk[0].get("quality"):
+                lines.append(
+                    self.tr("Quality of the match (as MKCLASS rates it, from the S/N and the fit): {q}.").format(
+                        q=words[mk[0]["quality"]]
+                    )
+                )
+            pec = (mk_model or {}).get("peculiarity")
+            if pec:
+                hints = {
+                    "Am": self.tr("the metal lines are later than the hydrogen lines: a metallic-line (Am) star?"),
+                    "metal-weak": self.tr(
+                        "the K line and the metal lines are earlier than the hydrogen lines: a metal-weak star "
+                        "(λ Boo, horizontal branch)?"
+                    ),
+                }
+                lines.append(
+                    self.tr("Types from the K line {k}, the hydrogen lines {h}, the metal lines {m}").format(
+                        k=pec["k"], h=pec["h"], m=pec["metal"]
+                    )
+                    + (": " + hints[pec["hint"]] if pec.get("hint") else ".")
+                )
         elif mk_note:
             lines.append(self.tr("No MK type: {why}.").format(why=translate(mk_note)))
         if classes:
