@@ -157,3 +157,21 @@ def test_suggestion_says_what_it_chose(qtbot):
     assert page.result.text().startswith("2 comparison stars suggested") and "take it off" in page.result.text()
     page.set_comparisons([])
     assert page.result.text().startswith("No suitable comparison star")
+
+
+def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):
+    # Qatar-1 b (LCO): light next to the target made radii that follow the seeing move the transit by 20 min
+    stars = [(100.0, 100.0, 2e5), (300.0, 120.0, 2e5), (140.0, 300.0, 2e5), (320.0, 310.0, 2e5)]
+    clean = choose_apertures(field(4.5, stars=stars, shape=(420, 420)), [s[:2] for s in stars])
+    blended = choose_apertures(
+        field(4.5, stars=stars + [(106.0, 105.0, 1.5e4)], shape=(420, 420)), [s[:2] for s in stars]
+    )
+    assert abs(clean["target_excess"]) < 0.005 and blended["target_excess"] > 0.01
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.show_apertures(blended)
+    assert "something faint is next to it" in page.result.text()
+    page.show_apertures(clean)
+    assert "something faint" not in page.result.text()

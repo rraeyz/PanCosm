@@ -2115,6 +2115,16 @@ class PhotometryPage(Undoable, QWidget):
                 i=a["r_in"],
                 o=a["r_out"],
             )
+            + (
+                "\n"
+                + self.tr(
+                    "The target's light grows {x:.1f} % more than the comparison stars' between 1 and 1.5 apertures: "
+                    "something faint is next to it. Keep the radii fixed (not following the seeing); its light then "
+                    "only dilutes the depth a little."
+                ).format(x=100 * a["target_excess"])
+                if a.get("target_excess", 0) > 0.01
+                else ""
+            )
         )
 
     def show_quality(self, rows):
