@@ -500,3 +500,15 @@ def test_chunk_error_reflects_disagreeing_parts():
     obs = np.where(w < 5400, lines(w, -150.0), lines(w, -120.0))  # two halves 30 km/s apart
     assert rv.chunk_error(w, obs, w, lines(w, 0.0), -400, 100) > 5
     assert rv.chunk_error(w, lines(w, -150.0), w, lines(w, 0.0), -400, 100) < 0.5  # agreeing parts: small
+
+
+def test_emission_lines_are_masked_against_an_absorption_template():
+    rng = np.random.default_rng(8)
+    w = np.linspace(5000, 5800, 4000)
+    t = star_spectrum(w)
+    obs = star_spectrum(w) + rng.normal(0, 0.005, w.size)
+    obs += 0.8 * np.exp(-0.5 * ((w - 5411.5) / 1.5) ** 2)  # He II 5411 in emission (symbiotic star)
+    masked, n = rv.mask_emission(obs, t)
+    assert n > 5 and masked[np.argmin(np.abs(w - 5411.5))] == 1.0
+    _, n_emission_template = rv.mask_emission(obs, obs)  # the template itself in emission: nothing masked
+    assert n_emission_template == 0
