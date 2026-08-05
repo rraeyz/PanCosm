@@ -25,7 +25,8 @@ between B9 and F5 the same direct comparison is made in three regions alone — 
 Hgamma, Hbeta) and metal-line regions between them — within the best luminosity class. Metal lines three or more
 running numbers later than the hydrogen lines, with the K line earlier, suggest an Am star; the K line and the metal
 lines both three or more earlier than the hydrogen lines suggest a metal-weak star (lambda Boo, horizontal branch).
-These are shown as hints with the three types, as a classifier would write kA1hA5mF0.
+These are shown as hints with the three types, as a classifier would write kA1hA5mF0. Lines that mark Ap and barium
+stars are checked against the best standard (LINES below).
 
 Checked: (1) every third standard left out of the library, tilted by a random response and given S/N 50, is
 classified from the others: 86 % within one subclass, all within two; luminosity class right in 90 %. (2) TOFES
@@ -183,6 +184,41 @@ def peculiarity(obs, grid, lib, t, lum):
     return {"k": letter["k"], "h": letter["h"], "metal": letter["metal"], "hint": hint, "t": types}
 
 
+# Lines that mark peculiar stars (Gray & Corbally 2014, section 3.4: "MKCLASS also examines certain specific spectral
+# lines, such as Sr II 4077, Si II 4128-30, etc. to detect an Ap star"; barium stars by Ba II 4554): the equivalent
+# width in the star minus that in its best-matching standard, both over the same local continuum. On normal
+# standards (every second one left out, S/N 50) the difference scatters by 0.07-0.10 A, at most 0.29 A: a line
+# stronger by more than 0.35 A is pointed out. (centre, continuum bands, applies to (t_min, t_max, lum_max), hint)
+LINES = {
+    "Sr II 4077": (4077.7, (4068.0, 4073.0), (4083.0, 4088.0), (15.0, 26.0, 5.0), "Ap (Sr)"),
+    "Si II 4128-30": (4130.0, (4118.0, 4123.0), (4137.0, 4142.0), (15.0, 26.0, 5.0), "Ap (Si)"),
+    "Ba II 4554": (4554.0, (4545.0, 4549.0), (4559.0, 4563.0), (32.0, 39.0, 3.5), "Ba star"),
+}
+LINE_LIMIT = 0.35  # A
+
+
+def _ew(grid, f, centre, c1, c2, half=2.5):
+    def level(band):
+        return np.nanmedian(f[(grid >= band[0]) & (grid <= band[1])])
+
+    m = (grid >= centre - half) & (grid <= centre + half)
+    x1, x2 = np.mean(c1), np.mean(c2)
+    cont = level(c1) + (level(c2) - level(c1)) * (grid[m] - x1) / (x2 - x1)
+    return float(np.nansum(1 - f[m] / cont))
+
+
+def strong_lines(star, model, grid, t, lum):
+    """[{line, excess (A), hint}] for the lines of LINES that are much stronger than in the best standard."""
+    out = []
+    for name, (centre, c1, c2, (t0, t1, lum_max), hint) in LINES.items():
+        if not (t0 <= t <= t1 and lum <= lum_max):
+            continue
+        excess = _ew(grid, star, centre, c1, c2) - _ew(grid, model, centre, c1, c2)
+        if np.isfinite(excess) and excess > LINE_LIMIT:
+            out.append({"line": name, "excess": excess, "hint": hint})
+    return out
+
+
 def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
     """[{type, score, t, lum}] best first (score: rms of the relative residual), and the best model on the
     library's wavelengths ({wave, star, model}). fwhm: resolution of the spectrum in A (default two pixels)."""
@@ -227,4 +263,5 @@ def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
     model = ((1 - w) * lib[(a, lum)] + w * lib[(b, lum)]) * np.polyval(coef[::-1], x)
     best = {"wave": grid.tolist(), "star": np.where(np.isfinite(obs), obs, np.nan).tolist(), "model": model.tolist()}
     best["peculiarity"] = peculiarity(obs, grid, lib, t, lum)
+    best["strong_lines"] = strong_lines(obs, model, grid, t, lum)
     return out, best

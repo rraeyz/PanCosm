@@ -543,8 +543,10 @@ interpolated in temperature (running numbers) within each luminosity class, × q
   the standards, within ±6 running numbers of the overall type, as a classifier brackets), with the hints "Am" (metals
   ≥ 3 later than hydrogen, K earlier than metals) and "metal-weak" (K and metals ≥ 3 earlier). Validated: 0 of 23
   normal A–F standards (left out, S/N 50) get a hint; synthetic Am (kA1 hA2 mF0) and metal-weak (kA0 hA5 mA0) stars are
-  recognised. Tests in `tests/test_mkstandards.py`. Still not done: Ap (Sr II 4077, Si II 4128-30), Ba, CN, CH flags
-  and the luminosity criteria of late-type stars.
+  recognised. (3) Lines of peculiar stars, each measured in the star and in its best standard over the same continuum:
+  Sr II 4077 and Si II 4128-30 for B9–F5 (Ap), Ba II 4554 for G5–K5 giants (barium stars); flagged above 0.35 Å
+  excess (normal standards: scatter 0.07–0.10 Å, max 0.29 Å). Validated: 0 of 174 standards flagged, +0.5 Å lines found.
+  Tests in `tests/test_mkstandards.py`. Still not done: CN / CH flags and the luminosity criteria of late-type stars.
 - Follow-up done (agent session 019Lu3): the Velocity tab draws the star over the best MK standard after "Spectral
   type…" (the user judges the suggestion by eye, as MK classification is done); the standard is drawn only where it
   has flux. The MK type no longer fails when the Pickles library cannot be downloaded (it did in this container,
