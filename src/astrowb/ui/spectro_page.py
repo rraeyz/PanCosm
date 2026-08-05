@@ -1236,6 +1236,16 @@ class VelocityTab(QWidget):
                 else ""
             )
             + (
+                " " + self.tr("The template was smoothed to the spectra's resolution (it is much finer).")
+                if any(r.get("template_matched") for r in rows)
+                else ""
+            )
+            + (
+                " " + self.tr("Vacuum wavelengths converted to air (VACUUM in the header).")
+                if any(r.get("vacuum_to_air") for r in rows)
+                else ""
+            )
+            + (
                 ""
                 if all(r["v_corr"] is not None for r in rows)
                 else " "

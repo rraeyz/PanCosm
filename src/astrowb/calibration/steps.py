@@ -49,7 +49,7 @@ def _frames(dicts):
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
-    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs"),
+    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs", "dark_scales"),
     sigma=3.0,
     temp_tol=2.0,
     cosmic_rays=False,
@@ -109,7 +109,7 @@ def _run(inputs, params, ctx):
         name = f"master_{kinds[key]}_{n:02d}.fits"
         built[key] = (data, h, masters.save(out / "masters" / name, data, h))
 
-    calibrated, arcs, defect_maps = [], [], {}
+    calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
     lights = plan.lights
     for n, entry in enumerate(lights):
@@ -128,6 +128,7 @@ def _run(inputs, params, ctx):
             signal = masters.dark_for(exptime, b, d, dh)
             k = masters.dark_scale(light - (b if b is not None else 0), signal)
             header["DARKSCAL"] = (round(k, 4), "dark scale that minimised the noise")
+            dark_scales.append(float(k))
         if params["fix_defects"] and (d is not None or f is not None):
             pair = (entry["dark"], entry["flat"])
             if pair not in defect_maps:  # one map per dark / flat pair, saved next to the masters
@@ -166,6 +167,7 @@ def _run(inputs, params, ctx):
         "missing": plan.missing,
         "failed_masters": failed,
         "arcs": arcs,
+        "dark_scales": dark_scales,  # shown to the user: a scale far from 1 points to a wrong dark
     }
 
 

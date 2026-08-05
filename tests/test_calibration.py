@@ -300,6 +300,9 @@ def test_calibration_with_dark_optimisation_and_defect_repair(night, tmp_path):
     assert any(Path(m).name.startswith("defects_") for m in out["masters"])
     h = fits.getheader(tmp_path / "cal" / "light_0.fits")
     assert h["DARKSCAL"] == pytest.approx(1.0, abs=0.05) and "repaired" in h.comments["CALDEF"]
+    assert len(out["dark_scales"]) == len(out["calibrated"]) and h["DARKSCAL"] in [
+        round(k, 4) for k in out["dark_scales"]
+    ]
     sky = fits.getdata(tmp_path / "cal" / "light_0.fits")
     _, dark_rate, _, _ = _truth()
     hot = dark_rate == HOT_RATE

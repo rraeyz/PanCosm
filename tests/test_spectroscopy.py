@@ -397,3 +397,18 @@ def test_fine_template_is_matched_to_a_low_resolution_spectrum():
     assert got["rv"] == pytest.approx(v, abs=2.0)
     same = rv.match_template(tw[::2], tw, tf)  # a template not much finer (HARPS against the atlas) is left as it is
     assert same[0] is tw and same[1] is tf
+
+
+def test_velocity_tab_says_what_was_done_for_the_user(qtbot):
+    from astrowb.ui.spectro_page import VelocityTab
+
+    tab = VelocityTab()
+    qtbot.addWidget(tab)
+    row = {"file": "a.fits", "bjd": 2455859.0, "rv_obs": -39.3, "rv_err": 8.5, "rv": -39.3, "v_corr": 0.0}
+    tab.show_rvs([row | {"already_barycentric": True, "template_matched": True, "vacuum_to_air": True}])
+    text = tab.status.text()
+    assert (
+        "already barycentric" in text and "smoothed to the spectra's resolution" in text and "converted to air" in text
+    )
+    tab.show_rvs([row])
+    assert "smoothed" not in tab.status.text() and "air" not in tab.status.text()

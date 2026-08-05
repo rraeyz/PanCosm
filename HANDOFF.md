@@ -309,7 +309,7 @@ Status of everything so far:
 | T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | DONE (`aeb876e`) |
 | T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | DONE (see notes) |
 | T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | DONE (see notes) |
-| T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
+| T4 | User-control review, page by page: every automatic choice visible, explained, overridable | DONE (see notes) |
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
@@ -420,6 +420,28 @@ S/N > 20 (F6–K3): median difference to the LAMOST pipeline +2.5 km/s, robust s
 ≈ 7 km/s); one F6 at S/N 23 off by −20. MK types (libnor36 standards) against LAMOST's subclasses: 9 of 13 within
 2 subclasses (G0→G0, F6→F6, K3→K4, G7→G8, G2→G0 ×3, …), three 5 subclasses off (two F9→G8, G7→K2) — not tuned
 (owner's rule); worth a look with more stars and with MKCLASS's own rules (T7 follow-up).
+
+**T4 (done; agent session 019Lu3).** Every automatic choice, how the user sees it and overrides it:
+
+| Automatic choice | Shown | Overridden by |
+|---|---|---|
+| Suggested comparison stars | new: "{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame…" + rings on the image | clicking a star off / others on; Ctrl+Z |
+| Radii from the star profiles | the radii, FWHM, S/N and light fraction in the result line, rings drawn | the three spin boxes |
+| Variable apertures | off by default; tooltip warns about crowded fields | checkbox |
+| Comparison weights | "Weights: C1 …" line | checkbox "Weight comparison stars by their scatter" |
+| Detrending | "Detrended (k): scatter of the N points fitted a → b %"; refused with the reason when it would extrapolate | boxes, range, degree; "Undo detrending"; Ctrl+Z |
+| Outlier clipping (Period page) | a step of its own, "outliers removed" in the source line | σ box; Ctrl+Z |
+| Camera clock offset | Photometry page line "Times: camera clock − h" | Calibrate page setting |
+| Dark optimisation | new: "Dark scaled by lo–hi (DARKSCAL in each file's header)" | checkbox (off by default) |
+| Master that cannot be made | warnings box: which, from how many frames, why | — (frames) |
+| Plate-solving for asteroid astrometry | "k frames could not be plate-solved and were left out" | choose solved frames |
+| Arc lines matched from a reference / database | filled into the editable table, agreement stated | table edits, "left out" clicks; Ctrl+Z |
+| Orders traced on the flat | drawn on the flat | click to delete / add |
+| Barycentric site | "Barycentric correction for: site from the Plan page / file header (lat, lon)" | Plan page site |
+| Spectra already barycentric (SPECSYS, HELIO) | new: "{n} spectra are already barycentric … not corrected again" | — (the file's statement) |
+| Template smoothed to the spectrum's resolution | new: "The template was smoothed to the spectra's resolution" | choose a template of similar resolution |
+| Vacuum → air | new: Velocity tab and Spectrum tools source line say so | — (the file's statement) |
+| MK type / Pickles template | ranked list with scores, "suggestion" | template field |
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

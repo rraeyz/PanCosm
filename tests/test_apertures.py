@@ -143,3 +143,17 @@ def test_suggested_comparisons_near_the_target_first():
     img = field(4.0, stars=stars, shape=(400, 400))
     picks = suggest_comparisons(img, (100.0, 100.0), r_out=20)
     assert len(picks) == 2 and picks[0] == pytest.approx((130.0, 120.0), abs=0.5)
+
+
+def test_suggestion_says_what_it_chose(qtbot):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.viewer.set_image(field(4.0))
+    page.images = ["x.fits"]
+    page._clicked(60.3, 70.6)
+    page.set_comparisons([(140.2, 60.1), (100.7, 150.4)])
+    assert page.result.text().startswith("2 comparison stars suggested") and "take it off" in page.result.text()
+    page.set_comparisons([])
+    assert page.result.text().startswith("No suitable comparison star")

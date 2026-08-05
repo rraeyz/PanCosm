@@ -1252,6 +1252,14 @@ class CalibratePage(QWidget):
                 if out.get("arcs")
                 else ""
             )
+            + (
+                " "
+                + self.tr("Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file's header).").format(
+                    lo=min(out["dark_scales"]), hi=max(out["dark_scales"])
+                )
+                if out.get("dark_scales")
+                else ""
+            )
         )
         from .messages import translate
 
@@ -2055,6 +2063,13 @@ class PhotometryPage(Undoable, QWidget):
         self._draw_markers()
         if not comps:
             self.result.setText(self.tr("No suitable comparison star found; click them by hand."))
+        else:
+            self.result.setText(
+                self.tr(
+                    "{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour "
+                    "in the sky ring, inside every frame. Click one to take it off, or click others to add them."
+                ).format(n=len(comps))
+            )
 
     def _measure(self):
         params = {"r_ap": self.r_ap.value(), "r_in": self.r_in.value(), "r_out": self.r_out.value()}
