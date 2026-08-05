@@ -34,7 +34,7 @@ O-C (gözlenen eksi hesaplanan), minimum zamanlarının sabit bir periyottan nas
 
 1. **Minimum zamanlarını** her satıra bir tane olmak üzere yazın ya da yapıştırın: `zaman [hata] [I/II] [kaynak]` — ör. `2459876.43215 0.00021 I TESS`. Ya da **Dosya yükle…**. Zamanlar BJD ya da HJD olabilir; karıştırmayın.
 2. Bir **Referans T0** ve **Periyot (gün)** verin: her minimumun çevrimi bunlardan hesaplanır.
-3. **Doğrusal efemeris** ya da **İkinci derece (dönem değişimi)** seçin ve **Fit et ve O-C çiz**'e basın.
+3. **Doğrusal efemeris** ya da **İkinci derece (dönem değişimi)** seçin ve **Fit et ve O-C çiz**'e basın. **Sonuçları dışa aktar (CSV / LaTeX)…** uydurulan değerleri 1σ hatalarıyla, makaledeki gibi yuvarlanmış olarak ve modeli adlandıran bir başlıkla yazar.
 
 Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl olarak periyot değişim hızı dP/dt'yi ve indirgenmiş χ²'yi verir. Birincil minimumlar daire, ikinciller kare ile çizilir; alttaki grafik artıkları gösterir.
 

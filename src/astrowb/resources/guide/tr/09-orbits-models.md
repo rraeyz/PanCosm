@@ -8,7 +8,7 @@ Keplerci bir yörüngede kenar kararmalı iki küre. Ayrık çiftlere ve geçiş
 1. **Işık eğrisini** seçin (Fotometri sayfasından ya da başka bir kaynaktan CSV; bir zaman sütunu ve göreli akı ya da kadir).
 2. **Periyot (gün)** ve **Birincil minimum (BJD)** verin (O-C sayfasından).
 3. Başlangıç değerleri: **r1 + r2** (yarıçaplar toplamı, a cinsinden), **k = r2 / r1**, **Yörünge eğimi (°)**, **Yüzey parlaklığı oranı J**, **Üçüncü ışık**, dış merkezlilik terimleri ve her yıldızın kenar kararması **u1, u2**. Fit edilecek parametreleri işaretleyin.
-4. **Fit**: sonuç i, r1, r2, ışık oranı L2/L1 ve e'yi hatalarıyla, rms'i ve χ²ᵣ'yi verir. Grafik veriyi, modeli ve artıkları (O−C) evreye karşı gösterir.
+4. **Fit**: sonuç i, r1, r2, ışık oranı L2/L1 ve e'yi hatalarıyla, rms'i ve χ²ᵣ'yi verir. Grafik veriyi, modeli ve artıkları (O−C) evreye karşı gösterir. **Sonuçları dışa aktar (CSV / LaTeX)…** tüm parametreleri (serbestler hatalarıyla, sabitler işaretli, örneklenmişse MCMC değerleri), türetilen ve mutlak büyüklükleri makaleye hazır bir tablo olarak yazar.
 
 ## MCMC belirsizlikleri
 En küçük kareler fitinin hataları parametrelerin bağımsız olduğunu varsayar; örten çiftlerde ve geçişlerde değildirler (eğim, yarıçaplar ve kenar kararması birbirinin yerini tutar). **MCMC belirsizlikleri**'ni işaretleyin; fitin çevresinde sonsal dağılım, seçtiğiniz **adım** sayısıyla örneklenir (afin değişmez topluluk örnekleyicisi, emcee): her serbest parametre medyan −/+ 16. ve 84. yüzdelikleriyle verilir; **Sonsal dağılım…** köşe grafiğini (histogramlar ve çiftler) gösterir, ilişkiler bir bakışta görünür. 2000 adım için 1000 nokta başına yaklaşık bir dakika sürer; arka planda çalışır ve iptal edilebilir.
