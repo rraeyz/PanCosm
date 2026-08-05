@@ -317,3 +317,59 @@ def test_spectroscopy_page_end_to_end(frames, tmp_path, qtbot):
         assert abs(vt.rvs[0]["rv_obs"] - V_TRUE) < 2 and vt.rvs[0]["v_corr"] is not None
     finally:
         win.engine.shutdown()
+
+
+def test_eso_archive_spectrum_already_barycentric(tmp_path):
+    # ESO Phase 3 spectra (HARPS, UVES, FEROS): one table row whose cells are whole arrays, ERR, SPECSYS =
+    # 'BARYCENT' and the site in ESO TEL GEO*. Six real HARPS spectra of tau Ceti read as 1 x N arrays, and
+    # correcting them again would have put a constant star up to 27 km/s off
+    from astropy.io import fits
+
+    from astrowb.engine import steps
+    from astrowb.spectroscopy import spectrum_io
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    tw = np.linspace(3900, 7200, 40000)
+    spectrum_io.write(tmp_path / "template.fits", tw, star_spectrum(tw), np.zeros_like(tw))
+    w = np.linspace(4000, 7000, 30000)
+    h = fits.Header({"DATE-OBS": "2009-01-16T01:12:48", "EXPTIME": 300.0, "RA": 26.01824, "DEC": -15.93568})
+    h["HIERARCH ESO TEL GEOLAT"], h["HIERARCH ESO TEL GEOLON"], h["HIERARCH ESO TEL GEOELEV"] = (
+        -29.2584,
+        -70.7345,
+        2400.0,
+    )
+    h["SPECSYS"] = "BARYCENT"
+    cols = [
+        fits.Column(name=n, format=f"{w.size}D", array=a[None, :])
+        for n, a in (("WAVE", w), ("FLUX", star_spectrum(w, -16.7)), ("ERR", np.full(w.size, 0.01)))
+    ]
+    fits.HDUList([fits.PrimaryHDU(header=h), fits.BinTableHDU.from_columns(cols, name="SPECTRUM")]).writeto(
+        tmp_path / "eso.fits"
+    )
+    wave, flux, err, hdr = spectrum_io.read(tmp_path / "eso.fits")
+    assert wave.shape == flux.shape == err.shape == (w.size,) and hdr["SPECSYS"] == "BARYCENT"
+
+    def measure():
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            return steps.execute(
+                "spectroscopy.rv",
+                {"spectra": [str(tmp_path / "eso.fits")], "template": str(tmp_path / "template.fits")},
+                {"v_min": -100, "v_max": 100},
+                Ctx(),
+            )["rvs"][0]
+
+    r = measure()
+    assert r["already_barycentric"] and r["v_corr"] == 0.0 and r["rv"] == r["rv_obs"]
+    assert r["rv"] == pytest.approx(-16.7, abs=0.5) and r["bjd"] is not None
+    with fits.open(tmp_path / "eso.fits", mode="update") as hdul:  # a topocentric ESO spectrum: corrected
+        del hdul[0].header["SPECSYS"]
+    r = measure()
+    assert r["site"]["from"] == "header" and r["site"]["lat"] == pytest.approx(-29.2584)
+    assert abs(r["v_corr"]) > 1 and r["rv"] == pytest.approx(r["rv_obs"] + r["v_corr"], abs=0.05)

@@ -2,9 +2,9 @@
 
 Written: a FITS binary table (WAVE [Angstrom, air], FLUX, ERROR) with the science frame's
 header in the primary HDU (times, object, site), readable by specutils and TOPCAT.
-Read: that table; a 1-D image with a linear or log-linear wavelength WCS (CRVAL1/CDELT1 or
-CD1_1, CRPIX1, CTYPE1; the format of ISIS, BASS, IRAF onedspec); or a text file with
-wavelength and flux columns.
+Read: that table (also ESO Phase 3 spectra: one row of WAVE / FLUX / ERR arrays); a 1-D image with a
+linear or log-linear wavelength WCS (CRVAL1/CDELT1 or CD1_1, CRPIX1, CTYPE1; the format of ISIS, BASS,
+IRAF onedspec); or a text file with wavelength and flux columns.
 """
 
 from pathlib import Path
@@ -47,13 +47,14 @@ def read(path):
             if isinstance(hdu, fits.BinTableHDU) and "WAVE" in [c.upper() for c in hdu.columns.names]:
                 d = hdu.data
                 names = {c.upper(): c for c in hdu.columns.names}
-                err = np.asarray(d[names["ERROR"]], float) if "ERROR" in names else None
-                return (
-                    np.asarray(d[names["WAVE"]], float),
-                    np.asarray(d[names["FLUX"]], float),
-                    err,
-                    hdul[0].header.copy(),
-                )
+                err_name = next((names[k] for k in ("ERROR", "ERR") if k in names), None)
+
+                def column(name, d=d):  # ESO Phase 3 spectra: one row whose cells are the whole arrays
+                    return np.asarray(d[name], float).ravel()
+
+                header = hdul[0].header.copy()
+                header.update((k, v) for k, v in hdu.header.items() if k == "SPECSYS")
+                return (column(names["WAVE"]), column(names["FLUX"]), column(err_name) if err_name else None, header)
         hdu = hdul[0]
         if hdu.data is None or hdu.data.ndim < 1:
             raise ValueError(f"{path.name}: no spectrum found")

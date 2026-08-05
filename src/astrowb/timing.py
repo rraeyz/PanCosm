@@ -102,16 +102,22 @@ def mid_time(header) -> Time:
 
 
 def location(header) -> EarthLocation | None:
-    """Observatory from SITELAT/SITELONG (or LAT-OBS/LONG-OBS, OBSGEO-*). Longitude east-positive.
+    """Observatory from SITELAT/SITELONG (or LAT-OBS/LONG-OBS, OBSGEO-*, ESO TEL GEOLAT/GEOLON). Longitude
+    east-positive.
 
     Plain LATITUDE/LONGITUD are not trusted: some cameras write west-positive longitudes."""
     if all(k in header for k in ("OBSGEO-X", "OBSGEO-Y", "OBSGEO-Z")):
         return EarthLocation.from_geocentric(header["OBSGEO-X"], header["OBSGEO-Y"], header["OBSGEO-Z"], unit=u.m)
-    for lat_key, lon_key in (("SITELAT", "SITELONG"), ("LAT-OBS", "LONG-OBS"), ("OBSGEO-B", "OBSGEO-L")):
+    for lat_key, lon_key in (
+        ("SITELAT", "SITELONG"),
+        ("LAT-OBS", "LONG-OBS"),
+        ("OBSGEO-B", "OBSGEO-L"),
+        ("HIERARCH ESO TEL GEOLAT", "HIERARCH ESO TEL GEOLON"),  # ESO: east-positive degrees
+    ):
         if lat_key in header and lon_key in header:
             lat = _angle(header[lat_key])
             lon = _longitude(header, _angle(header[lon_key]))
-            height = get(header, "SITEELEV", "ALT-OBS", "OBSGEO-H", default=0.0)  # e.g. '2496.00 / Meters'
+            height = get(header, "SITEELEV", "ALT-OBS", "OBSGEO-H", "HIERARCH ESO TEL GEOELEV", default=0.0)
             return EarthLocation.from_geodetic(lon * u.deg, lat * u.deg, height * u.m)
     if "LATITUDE" in header and "LONGITUD" in header:  # used when the sign of the longitude is known
         lon = _angle(header["LONGITUD"])
