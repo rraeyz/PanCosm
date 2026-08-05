@@ -1213,7 +1213,7 @@ class VelocityTab(QWidget):
         self.plot.draw()
         self.status.setText(self.tr("Written: {a} and {b}").format(a=c["paths"][0], b=c["paths"][1]))
 
-    def show_rvs(self, rows):
+    def show_rvs(self, rows, skipped=None):
         self.rvs = rows
         self.table.setRowCount(len(rows))
         for r, row in enumerate(rows):
@@ -1267,6 +1267,13 @@ class VelocityTab(QWidget):
                 " " + self.tr("Vacuum wavelengths converted to air (VACUUM in the header).")
                 if any(r.get("vacuum_to_air") for r in rows)
                 else ""
+            )
+            + "".join(
+                " "
+                + self.tr("{file} left out: it covers {a:.0f}–{b:.0f} Å, outside the chosen wavelengths.").format(
+                    file=k["file"], a=k["from"], b=k["to"]
+                )
+                for k in skipped or []
             )
             + (
                 ""
