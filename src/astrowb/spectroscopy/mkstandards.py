@@ -186,35 +186,36 @@ def peculiarity(obs, grid, lib, t, lum):
 
 # Lines that mark peculiar stars (Gray & Corbally 2014, section 3.4: "MKCLASS also examines certain specific spectral
 # lines, such as Sr II 4077, Si II 4128-30, etc. to detect an Ap star"; barium stars by Ba II 4554): the equivalent
-# width in the star minus that in its best-matching standard, both over the same local continuum. On normal
-# standards (every second one left out, S/N 50) the difference scatters by 0.07-0.10 A, at most 0.29 A: a line
-# stronger by more than 0.35 A is pointed out. (centre, continuum bands, applies to (t_min, t_max, lum_max), hint)
+# width in the star minus that in its best-matching standard, over the same local continuum. Limit from normal
+# standards (every second one left out, S/N 50): they differ by 0.07-0.10 A, at most 0.29 A -> 0.35 A.
+# Not done: CN-strong and CH giants. Over the Lick windows CN1 and G4300 (Worthey et al. 1994) the band strength of
+# normal standards differs from their best match by 3-4 A, as much as a CN-strong star differs from a normal one.
+# name: (feature band, continuum bands, applies to (t_min, t_max, lum_max), hint, limit in A)
 LINES = {
-    "Sr II 4077": (4077.7, (4068.0, 4073.0), (4083.0, 4088.0), (15.0, 26.0, 5.0), "Ap (Sr)"),
-    "Si II 4128-30": (4130.0, (4118.0, 4123.0), (4137.0, 4142.0), (15.0, 26.0, 5.0), "Ap (Si)"),
-    "Ba II 4554": (4554.0, (4545.0, 4549.0), (4559.0, 4563.0), (32.0, 39.0, 3.5), "Ba star"),
+    "Sr II 4077": ((4075.2, 4080.2), (4068.0, 4073.0), (4083.0, 4088.0), (15.0, 26.0, 5.0), "Ap (Sr)", 0.35),
+    "Si II 4128-30": ((4127.5, 4132.5), (4118.0, 4123.0), (4137.0, 4142.0), (15.0, 26.0, 5.0), "Ap (Si)", 0.35),
+    "Ba II 4554": ((4551.5, 4556.5), (4545.0, 4549.0), (4559.0, 4563.0), (32.0, 39.0, 3.5), "Ba star", 0.35),
 }
-LINE_LIMIT = 0.35  # A
 
 
-def _ew(grid, f, centre, c1, c2, half=2.5):
-    def level(band):
-        return np.nanmedian(f[(grid >= band[0]) & (grid <= band[1])])
+def _ew(grid, f, band, c1, c2):
+    def level(b):
+        return np.nanmedian(f[(grid >= b[0]) & (grid <= b[1])])
 
-    m = (grid >= centre - half) & (grid <= centre + half)
+    m = (grid >= band[0]) & (grid <= band[1])
     x1, x2 = np.mean(c1), np.mean(c2)
     cont = level(c1) + (level(c2) - level(c1)) * (grid[m] - x1) / (x2 - x1)
     return float(np.nansum(1 - f[m] / cont))
 
 
 def strong_lines(star, model, grid, t, lum):
-    """[{line, excess (A), hint}] for the lines of LINES that are much stronger than in the best standard."""
+    """[{line, excess (A), hint}] for the lines and bands of LINES much stronger than in the best standard."""
     out = []
-    for name, (centre, c1, c2, (t0, t1, lum_max), hint) in LINES.items():
+    for name, (band, c1, c2, (t0, t1, lum_max), hint, limit) in LINES.items():
         if not (t0 <= t <= t1 and lum <= lum_max):
             continue
-        excess = _ew(grid, star, centre, c1, c2) - _ew(grid, model, centre, c1, c2)
-        if np.isfinite(excess) and excess > LINE_LIMIT:
+        excess = _ew(grid, star, band, c1, c2) - _ew(grid, model, band, c1, c2)
+        if np.isfinite(excess) and excess > limit:
             out.append({"line": name, "excess": excess, "hint": hint})
     return out
 
