@@ -97,6 +97,9 @@ def mid_time(header) -> Time:
         return _parse_iso(header["DATE-AVG"])
     if number(header.get("JD-MID")) is not None:
         return Time(number(header["JD-MID"]), format="jd", scale="utc")
+    note = header.comments["DATE-OBS"] if hasattr(header, "comments") and "DATE-OBS" in header else ""
+    if re.search(r"\b(median|mid|middle)\b", note, re.I) and "T" in str(header["DATE-OBS"]):
+        return _parse_iso(header["DATE-OBS"])  # LAMOST: 'The observation median UTC'
     exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
     return start_time(header) + TimeDelta(exptime / 2, format="sec")
 

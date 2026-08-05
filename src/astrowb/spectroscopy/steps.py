@@ -321,8 +321,8 @@ def rv_step(inputs, params, ctx):
     from ..photometry.lightcurve import target_coord
     from ..planning.visibility import Site
 
-    tw, tf, _, _ = spectrum_io.read(inputs["template"])
-    tf = rv.continuum_normalise(tw, tf)
+    tw0, tf0, _, _ = spectrum_io.read(inputs["template"])
+    tf0 = rv.continuum_normalise(tw0, tf0)
     t2 = None
     if inputs.get("template2"):
         t2w, t2f, _, _ = spectrum_io.read(inputs["template2"])
@@ -335,6 +335,7 @@ def rv_step(inputs, params, ctx):
         w, f, _, h = spectrum_io.read(path)
         sel = np.isfinite(f) & (w >= (params["wave_min"] or -np.inf)) & (w <= (params["wave_max"] or np.inf))
         w, f = w[sel], rv.continuum_normalise(w[sel], f[sel])
+        tw, tf = rv.match_template(w, tw0, tf0)  # a much finer template is brought to this spectrum's resolution
         if params["method"] == "bf":
             b = bf.broadening_function(w, f, tw, tf, params["v_min"], params["v_max"], components=params["components"])
             c = b["components"]
@@ -348,7 +349,7 @@ def rv_step(inputs, params, ctx):
             r = rv.ccf(w, f, tw, tf, params["v_min"], params["v_max"])
             r2 = {}
         else:
-            d = sb2.todcor(w, f, tw, tf, *t2, params["v_min"], params["v_max"])
+            d = sb2.todcor(w, f, tw, tf, *rv.match_template(w, *t2), params["v_min"], params["v_max"])
             r = {"rv": d["rv1"], "rv_err": d["rv1_err"], "peak": d["peak"]}
             r2 = {"rv2_obs": d["rv2"], "rv2_err": d["rv2_err"], "flux_ratio": d["flux_ratio"], "rv2": None}
         row = {
@@ -362,9 +363,11 @@ def rv_step(inputs, params, ctx):
             "rv": None,
             "site": None,  # where the barycentric correction was computed for, shown to the user
         } | r2
-        # archive spectra (ESO Phase 3, many pipelines) may already be on the barycentric wavelength scale:
-        # correcting them again put a constant star 27 km/s off
-        already = str(h.get("SPECSYS", "")).strip().upper().startswith("BARYCENT")
+        # archive spectra (ESO Phase 3, LAMOST's HELIO, many pipelines) may already be on the barycentric (or
+        # heliocentric, within 12 m/s) wavelength scale: correcting them again put a constant star 27 km/s off
+        already = (
+            str(h.get("SPECSYS", "")).strip().upper().startswith(("BARYCENT", "HELIOCEN")) or h.get("HELIO") is True
+        )
         if already:
             row |= {"v_corr": 0.0, "rv": r["rv"], "already_barycentric": True}
             if r2:

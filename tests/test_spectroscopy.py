@@ -373,3 +373,27 @@ def test_eso_archive_spectrum_already_barycentric(tmp_path):
     r = measure()
     assert r["site"]["from"] == "header" and r["site"]["lat"] == pytest.approx(-29.2584)
     assert abs(r["v_corr"]) > 1 and r["rv"] == pytest.approx(r["rv_obs"] + r["v_corr"], abs=0.05)
+
+
+def test_fine_template_is_matched_to_a_low_resolution_spectrum():
+    # LAMOST (R 1800, 1 A pixels) against the Kurucz solar atlas (0.007 A): sampled at the coarse pixels the sharp
+    # template aliased and real stars came out 30-60 km/s off; matched to the resolution they agree with LAMOST
+    from scipy.ndimage import gaussian_filter1d
+
+    rng = np.random.default_rng(3)
+    tw = np.exp(np.arange(np.log(4800), np.log(6900), 1.2e-6))  # 0.36 km/s steps
+    tf = np.ones_like(tw)
+    for lam, depth in zip(rng.uniform(4850, 6850, 1500), rng.uniform(0.05, 0.6, 1500), strict=True):
+        tf -= depth * np.exp(-0.5 * ((tw - lam) / 0.04) ** 2)
+    tf = np.clip(tf, 0.02, None)
+    v = -40.0
+    ln_obs = np.arange(np.log(4900), np.log(6800), 1e-4 * np.log(10))  # LAMOST's log10 step 1e-4
+    smooth = gaussian_filter1d(tf, 2.5 * 1e-4 * np.log(10) / 2.3548 / 1.2e-6)
+    obs = np.interp(ln_obs - np.log1p(v / C), np.log(tw), smooth) + rng.normal(0, 0.01, ln_obs.size)
+    w = np.exp(ln_obs)
+    mw, mf = rv.match_template(w, tw, tf)
+    assert mw.size < tw.size * 1.01 and np.std(mf) < np.std(tf)  # smoothed
+    got = rv.ccf(w, obs, mw, mf, -300, 300)
+    assert got["rv"] == pytest.approx(v, abs=2.0)
+    same = rv.match_template(tw[::2], tw, tf)  # a template not much finer (HARPS against the atlas) is left as it is
+    assert same[0] is tw and same[1] is tf

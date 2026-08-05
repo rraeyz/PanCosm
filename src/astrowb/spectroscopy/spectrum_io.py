@@ -4,7 +4,8 @@ Written: a FITS binary table (WAVE [Angstrom, air], FLUX, ERROR) with the scienc
 header in the primary HDU (times, object, site), readable by specutils and TOPCAT.
 Read: that table (also ESO Phase 3 spectra: one row of WAVE / FLUX / ERR arrays); a 1-D image with a
 linear or log-linear wavelength WCS (CRVAL1/CDELT1 or CD1_1, CRPIX1, CTYPE1; the format of ISIS, BASS,
-IRAF onedspec); or a text file with wavelength and flux columns.
+IRAF onedspec, LAMOST); or a text file with wavelength and flux columns. Vacuum wavelengths (VACUUM = T)
+are converted to air.
 """
 
 from pathlib import Path
@@ -53,8 +54,9 @@ def read(path):
                     return np.asarray(d[name], float).ravel()
 
                 header = hdul[0].header.copy()
-                header.update((k, v) for k, v in hdu.header.items() if k == "SPECSYS")
-                return (column(names["WAVE"]), column(names["FLUX"]), column(err_name) if err_name else None, header)
+                header.update((k, v) for k, v in hdu.header.items() if k in ("SPECSYS", "VACUUM"))
+                wave = _air(column(names["WAVE"]), header)
+                return (wave, column(names["FLUX"]), column(err_name) if err_name else None, header)
         hdu = hdul[0]
         if hdu.data is None or hdu.data.ndim < 1:
             raise ValueError(f"{path.name}: no spectrum found")
@@ -67,4 +69,17 @@ def read(path):
         wave = h["CRVAL1"] + step * pix
         if str(h.get("CTYPE1", "")).upper().startswith(("AWAV-LOG", "WAVE-LOG")) or h.get("DC-FLAG") == 1:
             wave = 10**wave if wave.max() < 10 else np.exp(wave)  # log10 (IRAF) or natural log
-        return wave, flux, None, h.copy()
+        h = h.copy()
+        return _air(wave, h), flux, None, h
+
+
+def _air(wave, header):
+    """Air wavelengths, as everything here uses (line lists, templates, the files written). Vacuum is converted
+    only when the file says so (VACUUM = T: LAMOST, SDSS-style files; one LAMOST star would have been 83 km/s
+    off); the header is changed to say the wavelengths are now in air."""
+    if header.get("VACUUM") is not True:
+        return wave
+    from .atmosphere import vac_to_air
+
+    header["VACUUM"] = (False, "converted to air on reading (Morton 2000)")
+    return vac_to_air(wave)

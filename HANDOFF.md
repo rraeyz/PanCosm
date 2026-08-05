@@ -315,7 +315,7 @@ Status of everything so far:
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
-| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | ESO part DONE (see notes); LAMOST and raw long-slit of a small spectrograph still open |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | ESO and LAMOST DONE (see notes); raw long-slit data of a small spectrograph still open |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
@@ -403,8 +403,23 @@ template zero-point (gravitational redshift / convective blueshift of the templa
 points: opens in 0.2 s; equivalent widths Fe I 6173 62.0 ± 0.6 mÅ (direct integration 62.3), Fe I 6151 44.5 (44.8),
 centres at the star's velocity. Not done: the spectral type of these spectra (the library download from
 ssb.stsci.edu failed with an SSL error in this container, also with curl: the container's proxy or the server's
-chain; it worked the day before); LAMOST spectra (`https://dr7.lamost.org/` is reachable); raw long-slit data of a
-small spectrograph (none found on Zenodo; specreduce-data holds only reference files).
+chain; it worked the day before); raw long-slit data of a small spectrograph (none found on Zenodo;
+specreduce-data holds only reference files).
+LAMOST (low resolution, R ≈ 1800, the level of a small spectrograph): `https://dr7.lamost.org/v2.0/spectrum/fits/<obsid>`
+(gzipped FITS, e.g. obsids 101001–101070, plate F5902 of 2011-10-24; the server resets some connections when many
+are fetched at once). Format: a 5 × N primary image (flux, inverse variance, wavelength, masks), log10-linear WCS
+(DC-FLAG 1), `VACUUM = T`, `HELIO = T` (already heliocentric, HELIO_RV given), DATE-OBS = "the observation median
+UTC". Found and fixed (tests in `tests/test_spectroscopy.py`): vacuum wavelengths were used as air (83 km/s) →
+`spectrum_io._air` converts when VACUUM = T (only then: some amateur programs write CTYPE1 'WAVE' for air data);
+HELIO = T is treated as already corrected like SPECSYS; a DATE-OBS whose comment says median / mid is the mid-time
+(not + EXPTIME/2, 45 min here). **Main finding:** a template much finer than the spectrum was point-sampled at the
+observed pixels and aliased (LAMOST against the Kurucz atlas: +21 instead of −42 km/s); `rv.match_template` now
+smooths it to the spectrum's resolution (Gaussian of 2.5 observed pixels, only when the template is > 4× finer;
+HARPS against the atlas is unchanged), for CCF, broadening function and TODCOR. Result on 13 LAMOST stars with
+S/N > 20 (F6–K3): median difference to the LAMOST pipeline +2.5 km/s, robust scatter 1.7 km/s (LAMOST's own errors
+≈ 7 km/s); one F6 at S/N 23 off by −20. MK types (libnor36 standards) against LAMOST's subclasses: 9 of 13 within
+2 subclasses (G0→G0, F6→F6, K3→K4, G7→G8, G2→G0 ×3, …), three 5 subclasses off (two F9→G8, G7→K2) — not tuned
+(owner's rule); worth a look with more stars and with MKCLASS's own rules (T7 follow-up).
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

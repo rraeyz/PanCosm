@@ -9370,8 +9370,8 @@
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1233"/>
-        <source>{n} spectra are already on the barycentric scale (SPECSYS in the header): not corrected again.</source>
-        <translation>{n} espectros ya están en la escala baricéntrica (SPECSYS en la cabecera): no se corrigen de nuevo.</translation>
+        <source>{n} spectra are already barycentric (SPECSYS or HELIO in the header): not corrected again.</source>
+        <translation>{n} espectros ya son baricéntricos (SPECSYS o HELIO en la cabecera): no se corrigen de nuevo.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1242"/>
