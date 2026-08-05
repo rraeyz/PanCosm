@@ -412,3 +412,18 @@ def test_velocity_tab_says_what_was_done_for_the_user(qtbot):
     )
     tab.show_rvs([row])
     assert "smoothed" not in tab.status.text() and "air" not in tab.status.text()
+
+
+def test_mk_suggestion_is_drawn_and_survives_without_the_template_library(qtbot):
+    # the Pickles download failed (SSL in a container) and took the MK type down with it; now the MK type is
+    # shown, the star drawn over the best standard, and the user told to choose a template
+    from astrowb.ui.spectro_page import VelocityTab
+
+    tab = VelocityTab()
+    qtbot.addWidget(tab)
+    wave = np.linspace(3800, 5600, 500)
+    model = {"wave": wave.tolist(), "star": np.ones(500).tolist(), "model": np.r_[np.zeros(10), np.ones(490)].tolist()}
+    tab.show_classes([], [{"type": "G0 V", "score": 0.05}], None, model, "SSL: CERTIFICATE_VERIFY_FAILED")
+    assert "G0 V" in tab.status.text() and "choose a template yourself" in tab.status.text()
+    ax = tab.plot.figure.axes[0]
+    assert len(ax.lines) == 2 and np.isnan(ax.lines[1].get_ydata()[:10]).all()  # no fake drop where it has no data

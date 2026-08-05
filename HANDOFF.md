@@ -317,7 +317,7 @@ Status of everything so far:
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | ESO and LAMOST DONE (see notes); raw long-slit data of a small spectrograph still open |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
-| T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
+| T12 | CI green for the latest commits; a release only after asking the owner | green at `e7b79a7` (2026-11-05); keep checking after each push |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
 
 ### Notes per task
@@ -510,8 +510,12 @@ interpolated in temperature (running numbers) within each luminosity class, × q
 - `spectroscopy.classify` returns `mk` (ranked, with scores) and `mk_note` (why not: offline, outside 3800–5600 Å)
   besides the Pickles ranking that still chooses the RV template (it covers the red). Velocity tab shows both;
   the MK line says it is a suggestion. Guide 08 (four languages), THIRD_PARTY.md, tests `tests/test_mkstandards.py`.
-- Not done: MKCLASS's rule-based refinement (line-ratio criteria, peculiarity flags such as Am/Ap/Ba); a plot of the
-  star over the best standard (the step already returns `mk_model` for it).
+- Not done: MKCLASS's rule-based refinement (line-ratio criteria, peculiarity flags such as Am/Ap/Ba).
+- Follow-up done (agent session 019Lu3): the Velocity tab draws the star over the best MK standard after "Spectral
+  type…" (the user judges the suggestion by eye, as MK classification is done); the standard is drawn only where it
+  has flux. The MK type no longer fails when the Pickles library cannot be downloaded (it did in this container,
+  SSL error from ssb.stsci.edu): the page shows the MK type and says to choose a template. Test:
+  `test_mk_suggestion_is_drawn_and_survives_without_the_template_library`.
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 

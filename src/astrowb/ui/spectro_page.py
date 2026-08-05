@@ -1134,11 +1134,15 @@ class VelocityTab(QWidget):
         self.status.setText(self.tr("Comparing with the template library…"))
         self.classify_requested.emit(self.files.item(0).text())
 
-    def show_classes(self, classes, mk=None, mk_note=None):
+    def show_classes(self, classes, mk=None, mk_note=None, mk_model=None, classes_note=None):
         """The MK type from the MK standards (a ranked suggestion with scores) and the template for the velocities
-        (the closest library spectrum, which also covers the red)."""
+        (the closest library spectrum, which also covers the red). The star is drawn over the best standard, so the
+        user judges the suggestion with their own eyes, as MK classification is done."""
         if not classes and not mk:
-            self.status.setText(self.tr("No library spectrum covers these wavelengths."))
+            self.status.setText(
+                self.tr("No library spectrum covers these wavelengths.")
+                + (" " + translate(classes_note) if classes_note else "")
+            )
             return
         lines = []
         if mk:
@@ -1157,7 +1161,26 @@ class VelocityTab(QWidget):
                 self.tr("Closest library spectra (Pickles): {t}. The best one is now the template.").format(t=best)
             )
             self.template.edit.setText(classes[0]["template"])
+        elif classes_note:
+            lines.append(
+                self.tr("The template library could not be fetched ({why}): choose a template yourself.").format(
+                    why=translate(classes_note)
+                )
+            )
         self.status.setText("\n".join(lines))
+        if mk and mk_model:
+            self.plot.figure.clear()
+            ax = self.plot.figure.add_subplot()
+            ax.plot(mk_model["wave"], mk_model["star"], lw=0.8, color="k", label=self.tr("this star"))
+            star = np.asarray(mk_model["star"], float)
+            model = np.asarray(mk_model["model"], float)
+            model = np.where(np.isfinite(star) & (model > 0), model, np.nan)  # only where both have data
+            ax.plot(mk_model["wave"], model, lw=0.8, color="C3", label=mk[0]["type"])
+            ax.set_xlabel(self.tr("Wavelength (Å)"))
+            ax.set_ylabel(self.tr("Relative flux"))
+            ax.set_title(self.tr("The star over the best MK standard"), fontsize="medium")
+            ax.legend(loc="lower right", fontsize="small")
+            self.plot.draw()
 
     def separate(self, folder=None):
         """Disentangle with the velocities measured on these spectra (observed frame) and their light ratio."""

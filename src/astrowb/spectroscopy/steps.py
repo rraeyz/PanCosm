@@ -444,12 +444,16 @@ def classify_step(inputs, params, ctx):
     w, f, _, _ = spectrum_io.read(inputs["spectrum"])  # a wrong file fails now, not after a long download
     folder = Path(inputs["library"])
     paths = sorted(folder.glob("*.fits")) + sorted(folder.glob("*.fit"))
-    if not paths:
-        ctx.progress(0.05, "downloading the template library")
-        paths = templates.download_pickles(folder)
-    ctx.progress(0.5, "comparing")
-    ranked = templates.classify(w, f, paths, params["fwhm"])
-    out = {"classes": [{"type": t, "rms": r, "template": p} for t, r, p in ranked], "mk": None, "mk_note": None}
+    out = {"classes": [], "mk": None, "mk_note": None, "mk_model": None, "classes_note": None}
+    try:
+        if not paths:
+            ctx.progress(0.05, "downloading the template library")
+            paths = templates.download_pickles(folder)
+        ctx.progress(0.5, "comparing")
+        ranked = templates.classify(w, f, paths, params["fwhm"])
+        out["classes"] = [{"type": t, "rms": r, "template": p} for t, r, p in ranked]
+    except OSError as e:  # the library could not be fetched: the MK type below does not need it
+        out["classes_note"] = str(e)
     # the MK type against the MK standards themselves (Gray & Corbally), as a ranked suggestion
     from . import mkstandards
 
