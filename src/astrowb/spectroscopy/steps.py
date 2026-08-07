@@ -31,6 +31,7 @@ def _load(path, params):
     outputs=("spectrum",),
     optional=("arc", "guesses", "output"),
     guess_row=None,
+    trace_row=None,  # a brighter spectrum's row whose trace shape is used for a faint one (IRAF apall reference)
     width=10.0,
     sky_offset=15.0,
     sky_width=10.0,
@@ -48,7 +49,10 @@ def reduce_step(inputs, params, ctx):
     when an arc and at least two identified (pixel, wavelength) pairs are given."""
     data, header = _load(inputs["science"], params)
     ctx.progress(0.1, "trace")
-    coef = longslit.trace(data, params["guess_row"])
+    if params["trace_row"] and params["guess_row"]:  # a faint spectrum: the shape of a brighter one, moved to it
+        coef = longslit.shifted_trace(data, longslit.trace(data, params["trace_row"]), params["guess_row"])
+    else:
+        coef = longslit.trace(data, params["guess_row"])
     gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
     w, so, sw = params["width"], params["sky_offset"], params["sky_width"]
     ctx.progress(0.4, "extraction")

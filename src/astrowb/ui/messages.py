@@ -274,7 +274,10 @@ TEMPLATES = (
     # spectroscopy/steps.py
     QT_TRANSLATE_NOOP("Messages", "give a period guess (e.g. from the period search)"),
     # spectroscopy/longslit.py
-    QT_TRANSLATE_NOOP("Messages", "the spectrum could not be followed along the frame"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the spectrum could not be followed: for a faint one, give a brighter spectrum's row for its trace shape",
+    ),
     # spectroscopy/templates.py
     QT_TRANSLATE_NOOP("Messages", "the spectrum has no part with a clear signal to compare"),
     # spectroscopy/telluric.py

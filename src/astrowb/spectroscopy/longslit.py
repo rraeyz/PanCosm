@@ -66,7 +66,9 @@ def trace(image, guess_row=None, half_window=10, step=10, nsum=10, nlost=3, orde
             xs.append(cols[k] + (nsum - 1) / 2)
             ys.append(y)
     if len(xs) < order + 2:
-        raise ValueError("the spectrum could not be followed along the frame")
+        raise ValueError(
+            "the spectrum could not be followed: for a faint one, give a brighter spectrum's row for its trace shape"
+        )
     xs, ys = np.array(xs), np.array(ys)
     keep = np.ones(len(xs), bool)
     for _ in range(5):  # sigma-clipped polynomial
@@ -76,6 +78,31 @@ def trace(image, guess_row=None, half_window=10, step=10, nsum=10, nlost=3, orde
         if np.array_equal(new, keep) or new.sum() < order + 2:
             break
         keep = new
+    return coef
+
+
+def shifted_trace(image, coef_ref, row, half_window=10):
+    """The trace of a spectrum too faint to follow, with the shape of a brighter one (coef_ref) moved to it, as
+    IRAF apall's reference aperture: `row` is the faint spectrum's row at the middle column; its exact offset is the
+    peak of the frame summed along the reference shape (a supernova of a few counts per pixel next to a host star,
+    real EFOSC2 night)."""
+    from scipy.ndimage import map_coordinates
+
+    ny, nx = image.shape
+    x = np.arange(nx)
+    y_ref = np.polyval(coef_ref, x)
+    d0 = row - np.polyval(coef_ref, nx / 2)
+    offsets = np.arange(d0 - half_window, d0 + half_window + 0.01, 0.25)
+    profile = np.array(
+        [np.nanmedian(map_coordinates(np.nan_to_num(image), [y_ref + d, x], order=1, mode="nearest")) for d in offsets]
+    )
+    profile -= np.median(profile)
+    k = int(np.argmax(profile))
+    w = np.clip(profile[max(0, k - 8) : k + 9], 0, None)
+    d = offsets[max(0, k - 8) : k + 9]
+    shift = float(np.sum(d * w) / np.sum(w)) if w.sum() > 0 else float(offsets[k])
+    coef = np.array(coef_ref, float).copy()
+    coef[-1] += shift
     return coef
 
 
