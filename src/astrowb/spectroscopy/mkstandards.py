@@ -188,8 +188,9 @@ def peculiarity(obs, grid, lib, t, lum):
 # lines, such as Sr II 4077, Si II 4128-30, etc. to detect an Ap star"; barium stars by Ba II 4554): the equivalent
 # width in the star minus that in its best-matching standard, over the same local continuum. Limit from normal
 # standards (every second one left out, S/N 50): they differ by 0.07-0.10 A, at most 0.29 A -> 0.35 A.
-# Not done: CN-strong and CH giants. Over the Lick windows CN1 and G4300 (Worthey et al. 1994) the band strength of
-# normal standards differs from their best match by 3-4 A, as much as a CN-strong star differs from a normal one.
+# CN-strong and CH giants: not as equivalent widths (over the Lick windows normal standards differ from their best
+# match by 3-4 A, as much as a CN-strong star does) but as the star divided by its best standard, band against the
+# nearby continuum (BANDS below).
 # name: (feature band, continuum bands, applies to (t_min, t_max, lum_max), hint, limit in A)
 LINES = {
     "Sr II 4077": ((4075.2, 4080.2), (4068.0, 4073.0), (4083.0, 4088.0), (15.0, 26.0, 5.0), "Ap (Sr)", 0.35),
@@ -208,6 +209,63 @@ def _ew(grid, f, band, c1, c2):
     return float(np.nansum(1 - f[m] / cont))
 
 
+# Bands of CN-strong and CH giants (G5-K7, III and brighter), over the Lick windows CN1 and G4300 (Worthey et al. 1994,
+# ApJS 94, 687): mean of star / best standard in the band over that in the continuum windows. Normal giants (each left
+# out, S/N 50): CN 0.985 +- 0.032, never below 0.917; G band 0.998 +- 0.014, never below 0.971. Limits below those:
+# a G band 10 % deeper than the standard's is always found, a CN band 20 % deeper always (10 % deeper: half).
+BANDS = {
+    "CN 4142-4177": ((4142.1, 4177.1), ((4080.1, 4117.6), (4244.1, 4284.1)), 0.87, "CN-strong"),
+    "G band (CH) 4281-4316": ((4281.4, 4316.4), ((4266.4, 4282.6), (4318.9, 4335.1)), 0.945, "CH star"),
+}
+
+
+def _model_without(obs, grid, lib, lum, near, masked, step=0.25):
+    """The best standard of class lum (within 6 types of `near`) times a quadratic response, fitted with the masked
+    wavelengths left out: a strong band must not pull the type that the band is then compared with."""
+    use = np.isfinite(obs) & ~masked
+    x = (grid - grid.mean()) / np.ptp(grid)
+    temps = sorted(t for t, lc in lib if lc == lum and abs(t - near) <= 6.01)
+    best = None
+    for a, b in zip(temps[:-1], temps[1:], strict=True):
+        if b - a > 4.01:
+            continue
+        for t in np.arange(a, b + 1e-6, step):
+            w = (t - a) / (b - a)
+            s = (1 - w) * lib[(a, lum)] + w * lib[(b, lum)]
+            m = use & (s > 0)
+            design = np.vstack([s[m] * x[m] ** j for j in range(3)]).T
+            coef, *_ = np.linalg.lstsq(design, obs[m], rcond=None)
+            score = float(np.mean((obs[m] - design @ coef) ** 2))
+            if best is None or score < best[0]:
+                best = (score, s * np.polyval(coef[::-1], x))
+    return None if best is None else best[1]
+
+
+def strong_bands(star, grid, lib, t, lum):
+    """[{band, ratio, hint}] for the CN and CH bands much deeper than in the best standard (G0-K7, IV-I); the
+    standard is fitted without the band region, as a classifier types the star by its other lines first."""
+    if not (30.0 <= t <= 40.5 and lum <= 4.0):  # G0-K7, subgiants to supergiants (CH subgiants exist)
+        return []
+    star = np.asarray(star, float)
+    model = _model_without(star, grid, lib, lum, t, (grid >= 4140.0) & (grid <= 4340.0))
+    if model is None:
+        return []
+    ok = np.isfinite(star) & (model > 0)
+    r = np.where(ok, star / np.where(model > 0, model, 1.0), np.nan)
+    out = []
+    for name, (band, conts, limit, hint) in BANDS.items():
+        inside = (grid >= band[0]) & (grid <= band[1])
+        cont = np.zeros(grid.size, bool)
+        for a, b in conts:
+            cont |= (grid >= a) & (grid <= b)
+        if np.isfinite(r[inside]).sum() < 10 or np.isfinite(r[cont]).sum() < 10:
+            continue
+        ratio = float(np.nanmean(r[inside]) / np.nanmean(r[cont]))
+        if ratio < limit:
+            out.append({"band": name, "ratio": ratio, "hint": hint})
+    return out
+
+
 def strong_lines(star, model, grid, t, lum):
     """[{line, excess (A), hint}] for the lines and bands of LINES much stronger than in the best standard."""
     out = []
@@ -218,6 +276,49 @@ def strong_lines(star, model, grid, t, lum):
         if np.isfinite(excess) and excess > limit:
             out.append({"line": name, "excess": excess, "hint": hint})
     return out
+
+
+# Luminosity of G5-M stars from the lines a classifier uses for it (Gray & Corbally 2009): Sr II 4077 and 4216
+# (with the CN band and Ca I 4226), the Fe II / Ti II blend 4172-4179, Y II 4376 / Fe I 4383, Mg b and the MgH band
+# 4780 (strong in K-M dwarfs), with Fe I 4045 for reference; the standards of every class at the star's temperature
+# type are compared in these regions alone. Every late standard left out of the library (S/N 50 and 20): luminosity
+# class right in 48 of 56, against 45 from the whole-spectrum match (mixing the two scores did worse).
+LATE = 32.0  # G5
+GRAVITY_REGIONS = ((4070, 4082), (4210, 4232), (4166, 4182), (4370, 4392), (5160, 5190), (4040, 4050), (4760, 4800))
+
+
+def _standard_at(lib, t, lum):
+    temps = sorted(x for x, lc in lib if lc == lum)
+    if t in temps:
+        return lib[(t, lum)]
+    for a, b in zip(temps[:-1], temps[1:], strict=True):
+        if a <= t <= b and b - a <= 4.01:
+            w = (t - a) / (b - a)
+            return (1 - w) * lib[(a, lum)] + w * lib[(b, lum)]
+    return None
+
+
+def luminosity_from_lines(obs, grid, lib, t):
+    """The luminosity class whose standard at temperature type t matches obs best in GRAVITY_REGIONS (each region
+    with its own straight response), or None."""
+    scores = {}
+    for lum in sorted({lc for _, lc in lib}):
+        s = _standard_at(lib, t, lum)
+        if s is None:
+            continue
+        total, n = 0.0, 0
+        for a, b in GRAVITY_REGIONS:
+            m = (grid >= a) & (grid <= b) & np.isfinite(obs) & (s > 0)
+            if m.sum() < 5:
+                continue
+            x = (grid[m] - grid[m].mean()) / 10
+            design = np.vstack([s[m], s[m] * x]).T
+            coef, *_ = np.linalg.lstsq(design, obs[m], rcond=None)
+            total += float(np.sum(((obs[m] - design @ coef) / np.median(obs[m])) ** 2))
+            n += int(m.sum())
+        if n >= 40:
+            scores[lum] = total / n
+    return min(scores, key=scores.get) if scores else None
 
 
 def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
@@ -251,6 +352,13 @@ def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
     if not results:
         raise ValueError("the MK standards cover 3800-5600 A: the spectrum has too little of that range")
     ranked = sorted(results.items(), key=lambda kv: kv[1][0])
+    lines_lum = None
+    (t0, lum0), _ = ranked[0]
+    if t0 >= LATE:  # G5 and later: the luminosity class from the gravity-sensitive lines at this temperature type
+        lines_lum = luminosity_from_lines(obs, grid, lib, t0)
+        if lines_lum is not None and lines_lum != lum0 and (t0, lines_lum) in results:
+            first = ((t0, lines_lum), results[(t0, lines_lum)])
+            ranked = [first] + [kv for kv in ranked if kv[0] != (t0, lines_lum)]
     out, seen = [], set()
     for (t, lum), (score, *_rest) in ranked:
         name = type_name(t, lum)
@@ -263,6 +371,8 @@ def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
     w = (t - a) / (b - a)
     model = ((1 - w) * lib[(a, lum)] + w * lib[(b, lum)]) * np.polyval(coef[::-1], x)
     best = {"wave": grid.tolist(), "star": np.where(np.isfinite(obs), obs, np.nan).tolist(), "model": model.tolist()}
+    best["luminosity_from_lines"] = lines_lum is not None and t >= LATE
     best["peculiarity"] = peculiarity(obs, grid, lib, t, lum)
     best["strong_lines"] = strong_lines(obs, model, grid, t, lum)
+    best["strong_bands"] = strong_bands(obs, grid, lib, t, lum)
     return out, best
