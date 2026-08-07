@@ -160,7 +160,7 @@ def test_suggestion_says_what_it_chose(qtbot):
 
 
 def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):
-    # Qatar-1 b (LCO): light next to the target made radii that follow the seeing move the transit by 20 min
+    # a faint neighbour in the target's wings: radii that follow the seeing take a varying share of its light
     stars = [(100.0, 100.0, 2e5), (300.0, 120.0, 2e5), (140.0, 300.0, 2e5), (320.0, 310.0, 2e5)]
     clean = choose_apertures(field(4.5, stars=stars, shape=(420, 420)), [s[:2] for s in stars])
     blended = choose_apertures(
@@ -175,3 +175,18 @@ def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):
     assert "something faint is next to it" in page.result.text()
     page.show_apertures(clean)
     assert "something faint" not in page.result.text()
+
+
+def test_a_click_three_pixels_off_is_snapped_onto_the_star(tmp_path):
+    # real LCO night: a position 2.7 px off Qatar-1 was kept (the 2.5 px limit between frames) and the aperture sat
+    # off the star all night: 0.7 % differences against an independent photutils run, a transit 3-22 min off
+    paths = []
+    for i in range(3):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(field(4.5, seed=20 + i).astype(np.float32), h).writeto(tmp_path / f"f{i}.fits")
+        paths.append(tmp_path / f"f{i}.fits")
+    stars = [s[:2] for s in STARS]
+    off = (stars[0][0] + 0.5, stars[0][1] + 2.8)
+    lc = light_curve(paths, off, stars[1:3], 8, 16, 24)
+    for xy in lc["xy"]:
+        assert np.hypot(xy[0][0] - stars[0][0], xy[0][1] - stars[0][1]) < 0.3

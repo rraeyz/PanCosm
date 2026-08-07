@@ -290,7 +290,7 @@ def choose_apertures(data, stars_xy, gain=1.0):
     """The three radii for the stars at stars_xy (target first, then the comparison stars), with the
     measurements behind them: FWHM, the S/N curve, the encircled energy and the profile to plot."""
     data = np.asarray(data, float)
-    xy = recenter(data, stars_xy)
+    xy = recenter(data, stars_xy, max_move=5.5)  # clicked positions: snapped onto the stars within half the box
     fwhm = seeing_fwhm(data, xy)
     r_max = max(25.0, 8 * fwhm)  # sky for the profile far beyond the wings
     profiles = [star_profile(data, x, y, r_max) for x, y in xy]
@@ -323,8 +323,8 @@ def choose_apertures(data, stars_xy, gain=1.0):
     r_out = float(np.sqrt(r_in**2 + SKY_RATIO * r_ap**2))
     centres, binned = profiles[b]["bins"]
     # a target whose light grows faster outside the aperture than the comparisons' has something next to it (a faint
-    # neighbour in its wings): radii that follow the seeing then take a varying share of it (Qatar-1 b, LCO: +0.5 %
-    # at 1.5 apertures, the transit moved by 20 min with variable radii)
+    # neighbour in its wings): radii that follow the seeing then take a varying share of it (tested on a synthetic
+    # blend; on stars without one the value stays within +-0.4 %)
     with np.errstate(divide="ignore", invalid="ignore"):
         g = np.interp(1.5 * r_ap, radii, growth[0]) / np.interp(r_ap, radii, growth[0])
         others = [np.interp(1.5 * r_ap, radii, gr) / np.interp(r_ap, radii, gr) for gr in growth[1:]]
