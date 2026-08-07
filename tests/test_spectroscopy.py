@@ -530,3 +530,34 @@ def test_wavelength_solution_degree_chosen_by_the_lines():
     assert sol.degree == 4 and sol.rms < 0.3
     flat = wavecal.solve(peaks, 3000 + 4.4 * peaks, [[p, 3000 + 4.4 * p] for p in peaks[::4]], order=5)
     assert flat.degree == 1
+
+
+def test_zero_point_from_night_sky_lines():
+    # EFOSC2, 45 min: [O I] 5577 and 6300 both -6.95 A off (flexure since the arc); an 80 s exposure: too weak
+    rng = np.random.default_rng(6)
+    w = np.linspace(4000, 7400, 1400)
+
+    def sky(amplitude, shift):
+        s = np.full(w.size, 100.0)
+        for line, a in zip(wavecal.SKY_LINES, amplitude, strict=True):
+            s += a * np.exp(-0.5 * ((w - line - shift) / 5.0) ** 2)
+        return s + rng.normal(0, 1.0, w.size)
+
+    shift, lines = wavecal.sky_shift(w, sky((60, 25, 9), -6.95))
+    assert shift == pytest.approx(-6.95, abs=0.4) and len(lines) >= 2
+    weak, _ = wavecal.sky_shift(w, sky((7, 2, 1), -6.95))
+    assert weak is None  # one weak line does not move the zero point
+
+
+def test_reduce_tab_reports_the_sky_zero_point(qtbot):
+    from astrowb.ui.spectro_page import ReduceTab
+
+    tab = ReduceTab()
+    qtbot.addWidget(tab)
+    assert tab.sky_lines.isChecked() and tab.state()["sky_lines"]
+    assert "-6.95" not in tab._sky_text({"shift": None, "lines": []}) and "kept" in tab._sky_text(
+        {"shift": None, "lines": []}
+    )
+    assert "+6.95 Å" in tab._sky_text(
+        {"shift": -6.95, "lines": [[5577.338, -6.94, 0.1, 46], [6300.304, -6.96, 0.1, 21]]}
+    )

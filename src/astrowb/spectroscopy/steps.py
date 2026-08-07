@@ -41,6 +41,7 @@ def _load(path, params):
     order=5,  # the highest degree; the lines choose (leave-one-out)
     orientation="x",
     reverse=False,
+    sky_lines=True,
 )
 def reduce_step(inputs, params, ctx):
     """2-D long-slit/slitless frame (dispersion along x) -> 1-D spectrum; wavelengths from an arc
@@ -76,8 +77,15 @@ def reduce_step(inputs, params, ctx):
             # the user's identified wavelengths are lines of the lamp too (e.g. Hg in an HgAr lamp, not in the list)
             catalogue = np.union1d(wavecal.load_line_list(params["line_list"]), [g[1] for g in inputs["guesses"]])
             sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"])
-            out["wave"] = sol(np.arange(len(flux))).tolist()
+            wave = sol(np.arange(len(flux)))
             out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines, "degree": sol.degree}
+            if params["sky_lines"]:  # the zero point from the night-sky lines (flexure since the arc)
+                shift, lines = wavecal.sky_shift(wave, np.asarray(sky, float))
+                out["sky_shift"] = {"shift": shift, "lines": [list(x) for x in lines]}
+                if shift is not None:
+                    wave = wave - shift
+                    header["WAVSKYSH"] = (round(-shift, 3), "zero point from night-sky lines (Angstrom)")
+            out["wave"] = wave.tolist()
     if inputs.get("output") and out["wave"] is not None:
         header["WAVSOLRM"] = (out["solution"]["rms"], "wavelength solution rms (Angstrom)")
         header["WAVSOLN"] = (out["solution"]["n_lines"], "arc lines used")
