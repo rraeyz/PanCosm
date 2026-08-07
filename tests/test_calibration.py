@@ -402,3 +402,32 @@ def test_arc_lamps_are_calibrated_without_flat_and_kept_apart(tmp_path):
     h = fits.getheader(out["arcs"][0])
     assert h["CALF"] == "none" and h["CALB"].startswith("master_bias")  # bias taken off, never flat-fielded
     assert not [m for m in out["missing"] if "thar" in m[0]]  # no "no flat" warning for a lamp
+
+
+def test_eso_raw_frames_are_classified_with_their_grism():
+    # ESO writes no IMAGETYP: DPR TYPE says BIAS, FLAT, STD, WAVE, OBJECT; a flat of grism 16 must not be used for a
+    # spectrum of grism 11; binning in DET WIN1 BINX (a real EFOSC2 night, PESSTO, 2019-01-01)
+    from astropy.io import fits as _fits
+
+    from astrowb.calibration.frames import classify, read_frame
+
+    def header(kind, grism, filt="Free"):
+        h = _fits.Header()
+        h["HIERARCH ESO DPR TYPE"] = kind
+        h["HIERARCH ESO INS GRIS1 NAME"] = grism
+        h["HIERARCH ESO INS FILT1 NAME"] = filt
+        h["HIERARCH ESO DET WIN1 BINX"], h["HIERARCH ESO DET WIN1 BINY"] = 2, 2
+        h["EXPTIME"] = 80.0
+        return h
+
+    assert [classify(header(k, "Gr#11")) for k in ("BIAS", "FLAT", "STD", "WAVE", "OBJECT")] == [
+        "bias", "flat", "light", "arc", "light"
+    ]  # fmt: skip
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as tmp:
+        p = Path(tmp) / "f.fits"
+        _fits.PrimaryHDU(np.zeros((10, 10), np.float32), header("FLAT", "Gr#16", "OG530")).writeto(p)
+        f = read_frame(p)
+        assert f.filter == "OG530 / Gr#16" and f.binning == (2, 2) and f.kind == "flat"

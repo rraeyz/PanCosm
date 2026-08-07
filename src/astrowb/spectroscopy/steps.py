@@ -38,7 +38,7 @@ def _load(path, params):
     gain=None,
     read_noise=5.0,
     line_list="henear",
-    order=3,
+    order=5,  # the highest degree; the lines choose (leave-one-out)
     orientation="x",
     reverse=False,
 )
@@ -77,7 +77,7 @@ def reduce_step(inputs, params, ctx):
             catalogue = np.union1d(wavecal.load_line_list(params["line_list"]), [g[1] for g in inputs["guesses"]])
             sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"])
             out["wave"] = sol(np.arange(len(flux))).tolist()
-            out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines}
+            out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines, "degree": sol.degree}
     if inputs.get("output") and out["wave"] is not None:
         header["WAVSOLRM"] = (out["solution"]["rms"], "wavelength solution rms (Angstrom)")
         header["WAVSOLN"] = (out["solution"]["n_lines"], "arc lines used")

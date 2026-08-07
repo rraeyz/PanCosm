@@ -315,9 +315,9 @@ Status of everything so far:
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
-| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | DONE: ESO, LAMOST and 30 reduced amateur spectra (ARAS); raw (unreduced) amateur frames still not found |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | DONE: ESO, LAMOST, 30 ARAS amateur spectra, and a raw ESO EFOSC2 night (see notes); raw amateur frames not found |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
-| T12 | CI green for the latest commits; a release only after asking the owner | green at `e7b79a7` (2026-11-05); keep checking after each push |
+| T12 | CI green for the latest commits; a release only after asking the owner | green at `c9bef3b` (2026-11-05); keep checking after each push |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
 
 ### Notes per task
@@ -467,6 +467,31 @@ spectrum with one chunk at the continuum), because the chunks' own scatter overs
 (telluric / arm-join chunks are far off alone but hardly move the whole). LAMOST: agreement unchanged (scatter 1.9
 km/s), errors ~5 km/s; HARPS 14–48 m/s; ARAS R ≥ 9000 0.5–2 km/s. Several R ≈ 500 spectra stay 30–100 km/s off
 with ±6–35 km/s: most likely their own wavelength calibration (1 Å = 55 km/s at 5500 Å), a data limit.
+
+**T10, raw low-resolution long-slit night: ESO EFOSC2 (agent session 019Lu3).** The closest professional analogue of
+a small spectrograph (R ≈ 300–1000). ESO raw frames are public without a login:
+TAP `https://archive.eso.org/tap_obs/sync`, `SELECT ... FROM dbo.raw WHERE instrument='EFOSC' AND exp_start > '...'`
+(dates as 'YYYY-MM-DD'), file `https://dataportal.eso.org/dataportal_new/file/<dp_id>` → `.fits.Z`. Night used:
+PESSTO, 2018-12-31/2019-01-01 (5 biases 19:21–19:23, flats Gr#16 03:00–06:36, LTT 3864 in Gr#11/16/13 07:49–07:55,
+He-Ar arc Gr#11 08:35). Reference identifications: the PESSTO pipeline (MIT,
+`git clone --depth 1 https://github.com/svalenti/pessto`, `trunk/src/ntt/archive/efosc/arc/Gr11/Free/slit1.0/`:
+reference arc + IRAF database, 9 lines He I 3888.7 … Ar I 7383.9). Found and fixed (tests `tests/test_lzw.py`,
+`test_eso_raw_frames_are_classified_with_their_grism`, `test_wavelength_solution_degree_chosen_by_the_lines`):
+- `.fits.Z` (Unix compress, how ESO and older archives deliver raw frames) could not be opened (astropy needs an extra
+  package; installing it was refused here): `io/lzw.py` decodes it (written from the format's description, checked
+  byte for byte against `gzip -dc` on four real frames, 0.3–0.5 s each); `readable()` in `read_image`,
+  `masters.load`, `fits_copy`; the Calibrate scan decompresses `.fits.Z` into fits_from_raw; open dialogs list it.
+- ESO frames have no IMAGETYP: `ESO DPR TYPE` is read (STD = science, WAVE = arc); the grism / grating
+  (`GRISM`, `GRATING`, `DISPERSR`, `ESO INS GRIS1/GRAT1 NAME`) is part of the filter, so a Gr#16 flat is never used
+  for a Gr#11 spectrum (before, all four flats would have been); binning from `ESO DET WIN1 BINX/Y` and `CCDSUM`.
+- Wavelength solution: the degree was capped at n_lines // 4 (a quadratic for nine lines: 1–3 Å rms) and the Reduce
+  tab offers no degree at all — now the lines choose it by leave-one-out up to 5 (the step's `order`), shown on the
+  page; catalogue lines with a neighbour closer than the tolerance are not auto-matched (blended Ar lines at 4 Å/px).
+  Result with the nine identified lines: 13 lines, 0.21 Å rms (PESSTO's own solution uses order 5).
+- Open: the four Balmer lines of LTT 3864 all sit 3.1–3.7 Å blue of their laboratory wavelengths (a constant shift
+  in Å, not a velocity): most likely flexure between the arc (08:35) and the star (07:49); the night-sky [O I] 5577
+  line points the same way (−7.7 ± 0.8 Å, the only sky line detected in 80 s). A zero-point correction from
+  night-sky lines (as pipelines do) is a candidate feature; it needs longer exposures to validate.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

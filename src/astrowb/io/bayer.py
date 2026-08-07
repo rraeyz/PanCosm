@@ -25,8 +25,11 @@ FILTER_CODE = {"R": "TR", "G": "TG", "B": "TB"}  # AAVSO codes for DSLR / colour
 # ordinary pictures: phones, compact cameras, programs that save JPEG / PNG / TIFF
 PICTURE_SUFFIXES = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp")
 FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
+FITS_Z = (".fits.z", ".fit.z", ".fts.z")  # Unix compress (ESO raw frames): decompressed into fits_from_raw
 # for file dialogs: everything the application can open as an image
-OPEN_PATTERNS = " ".join(f"*{s} *{s.upper()}" for s in FITS_SUFFIXES + RAW_SUFFIXES + PICTURE_SUFFIXES)
+OPEN_PATTERNS = " ".join(
+    f"*{s} *{s.upper()}" for s in FITS_SUFFIXES + (".fits.Z", ".fit.Z") + RAW_SUFFIXES + PICTURE_SUFFIXES
+)
 
 
 def pattern_of(header):
@@ -224,6 +227,10 @@ def fits_copy(path, clock_utc_offset_h=None):
     if clock_utc_offset_h is None:
         clock_utc_offset_h = CLOCK_UTC_OFFSET_H
     path = Path(path)
+    if path.name.lower().endswith(FITS_Z):
+        from .lzw import readable
+
+        path = readable(path)
     if is_fits(path):
         from . import tpf
 
@@ -280,18 +287,27 @@ def fits_paths(paths, clock_utc_offset_h=None):
 
 
 def convert_raw_folder(folder, out_dir=None, clock_utc_offset_h=0.0, progress=None):
-    """Every camera raw file and picture under folder -> FITS under out_dir (default folder/fits_from_raw), keeping the
-    sub-folders; IMAGETYP from the folder names. Files already converted with the same clock offset are kept.
-    Returns (written paths, problems)."""
+    """Every camera raw file, picture and compressed (.Z) FITS frame under folder -> FITS under out_dir (default
+    folder/fits_from_raw), keeping the sub-folders; IMAGETYP from the folder names. Files already converted with the
+    same clock offset are kept. Returns (written paths, problems)."""
     folder = Path(folder)
     out_dir = Path(out_dir) if out_dir else folder / "fits_from_raw"
     found = [p for p in folder.rglob("*") if p.is_file() and out_dir not in p.parents]
-    has_frames = any(is_fits(p) or p.suffix.lower() in RAW_SUFFIXES for p in found)
+    has_frames = any(is_fits(p) or p.name.lower().endswith(FITS_Z) or p.suffix.lower() in RAW_SUFFIXES for p in found)
     # pictures are frames only in a night of pictures (a phone): next to FITS or raw frames they are previews and
     # exports (the application's own PNG / JPEG among them), which must not be calibrated as frames
     suffixes = RAW_SUFFIXES if has_frames else RAW_SUFFIXES + PICTURE_SUFFIXES
     files = sorted(p for p in found if p.suffix.lower() in suffixes)
     written, problems = [], []
+    from .lzw import decompressed_copy
+
+    for p in (p for p in found if p.name.lower().endswith(FITS_Z)):  # ESO raw frames: decompressed, kept as they are
+        try:
+            target_dir = out_dir / p.relative_to(folder).parent
+            target_dir.mkdir(parents=True, exist_ok=True)
+            written.append(str(decompressed_copy(p, target_dir)))
+        except Exception as e:  # one damaged file must not stop the night
+            problems.append((str(p), f"{type(e).__name__}: {e}"))
     for n, p in enumerate(files):
         if progress:
             progress(n / max(1, len(files)), p.name)

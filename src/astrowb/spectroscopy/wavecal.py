@@ -78,6 +78,7 @@ class Solution:
     rms: float  # Angstrom
     pixels: np.ndarray = field(default_factory=lambda: np.array([]))
     waves: np.ndarray = field(default_factory=lambda: np.array([]))
+    degree: int | None = None  # chosen from the lines (leave-one-out)
 
     def __call__(self, pixel):
         return np.polyval(self.coef, pixel)
@@ -100,6 +101,12 @@ def _match(pred, catalogue, tol):
             ok[same] = False
             ok[np.where(same)[0][np.argmin(dist[same])]] = True
     return nearest, ok
+
+
+def _degree(order, n):
+    """As many terms as the lines carry: at least four more lines than coefficients (a cubic through four lines has
+    no residual and says nothing; nine EFOSC2 He-Ar lines need the quartic, 0.2 A rms against 1 A for a cubic)."""
+    return int(min(order, max(1, n - 4)))
 
 
 def _clipped_fit(px, wv, deg, clip):
@@ -128,13 +135,19 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.1
     coef = np.polyfit(g[:, 0], g[:, 1], min(len(g) - 1, order))
     disp = abs(np.polyval(np.polyder(coef), g[:, 0].mean()))
     tol = tolerance or 2 * disp  # Angstrom
+    # catalogue lines with a neighbour closer than the tolerance cannot be told apart at this resolution (a He-Ar
+    # list at 4 A per pixel: blended Ar lines were matched as single ones and the EFOSC2 solution had 1.1 A rms);
+    # the lines the user identified are always kept
+    gap = np.diff(catalogue)
+    alone = np.r_[True, gap > tol] & np.r_[gap > tol, True]
+    catalogue = np.unique(np.r_[catalogue[alone], g[:, 1]])
     lo, hi = g[:, 0].min(), g[:, 0].max()
     span = peaks.max() - peaks.min()
     while True:
         inside = (peaks >= lo) & (peaks <= hi)
         nearest, ok = _match(np.polyval(coef, peaks), catalogue, tol)
         ok &= inside
-        deg = int(min(order, max(1, ok.sum() // 4)))
+        deg = _degree(order, ok.sum())
         if ok.sum() <= deg + 1:
             raise ValueError("too few lines matched: check the identified lines and the line list")
         px, wv = peaks[ok], catalogue[nearest[ok]]
@@ -145,10 +158,25 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.1
     for _ in range(3):  # final passes over all lines with a tightened tolerance
         nearest, ok = _match(np.polyval(coef, peaks), catalogue, max(3 * sd, 0.3 * disp))
         px, wv = peaks[ok], catalogue[nearest[ok]]
-        # as many terms as the lines carry: a cubic through four lines has no residual and says nothing
-        deg = int(min(order, max(1, len(px) // 4)))
+        deg = _best_degree(px, wv, _degree(order, len(px)))
         if len(px) <= deg + 1:
             raise ValueError("too few lines matched: check the identified lines and the line list")
         coef, keep, sd = _clipped_fit(px, wv, deg, clip)
     resid = wv[keep] - np.polyval(coef, px[keep])
-    return Solution(coef, float(np.sqrt(np.mean(resid**2))), px[keep], wv[keep])
+    return Solution(coef, float(np.sqrt(np.mean(resid**2))), px[keep], wv[keep], len(coef) - 1)
+
+
+def _best_degree(px, wv, highest):
+    """The degree whose fit predicts each line best from the others (leave-one-out), up to `highest`: a quartic
+    only when it really does better (EFOSC2 grism 11: 0.21 A against 0.97 A for the cubic), a straight line for a
+    grating that is straight."""
+    best, best_err = 1, np.inf
+    for d in range(1, highest + 1):
+        err = []
+        for i in range(len(px)):
+            rest = np.arange(len(px)) != i
+            err.append(wv[i] - np.polyval(np.polyfit(px[rest], wv[rest], d), px[i]))
+        loo = float(np.sqrt(np.mean(np.square(err))))
+        if loo < 0.95 * best_err:  # a higher degree must do clearly better
+            best, best_err = d, loo
+    return best

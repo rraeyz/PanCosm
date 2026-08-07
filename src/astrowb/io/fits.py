@@ -31,7 +31,9 @@ def plane(data) -> np.ndarray:
 
 def read_image(path: Path):
     """Return (data, header, hdu_index). data is the first 2-D plane as float32; header is that HDU's header."""
-    with fits.open(path, memmap=False) as hdul:
+    from .lzw import readable
+
+    with fits.open(readable(path), memmap=False) as hdul:
         i = find_image_hdu(hdul)
         data, header = hdul[i].data, hdul[i].header.copy()
     return np.asarray(plane(data), dtype=np.float32), header, i

@@ -264,7 +264,9 @@ def _exptime(path):
 
 def load(path):
     """The frame as float32, overscan-subtracted and trimmed when its header says how (BIASSEC, TRIMSEC)."""
-    with fits.open(path) as hdul:
+    from ..io.lzw import readable
+
+    with fits.open(readable(path)) as hdul:
         hdu = hdul[find_image_hdu(hdul)]
         rows, cols, level = lay = _layout(hdu)
         data = _linear(np.asarray(hdu.data, dtype=np.float32)[..., rows, cols]) - level
