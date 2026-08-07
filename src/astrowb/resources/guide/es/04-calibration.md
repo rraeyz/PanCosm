@@ -10,6 +10,8 @@ Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar 
 
 También se leen las subcarpetas. Si las lights y las tomas de calibración están en carpetas separadas (por ejemplo *Light* y *BDF*), elija la carpeta que contiene ambas. Las tomas guardadas en otro lugar, como una biblioteca de calibración, se añaden con **Añadir carpeta…** (varias carpetas se separan con `;`). Si no se encuentra ninguna light, la lista bajo la tabla lo indica y **Calibrar** queda desactivado hasta que haya una.
 
+Los fotogramas brutos de archivos funcionan tal como llegan: los `.fits.Z` de ESO (Unix compress) se descomprimen en fits_from_raw, se reconocen los tipos de ESO (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT), y el grisma o la red de un espectrógrafo forma parte del filtro, de modo que nunca se usa un flat tomado con otro grisma.
+
 ## Cómo se asignan los másteres
 - **Bias:** mismo agrupamiento y tamaño.
 - **Dark:** mismo agrupamiento, mismo tiempo de exposición y una temperatura dentro de 2 °C. Un dark de otra exposición se escala a la exposición del light solo si hay tomas bias (la corriente oscura es proporcional al tiempo una vez restado el bias).
