@@ -43,12 +43,24 @@ class ExpressionError(ValueError):
     pass
 
 
-def evaluate(expression: str, bands: dict):
-    """Evaluate e.g. "(B8 - B4) / (B8 + B4)" with bands = {"B8": array, "B4": array, ...}."""
+def evaluate(expression: str, bands: dict, rows=1024):
+    """Evaluate e.g. "(B8 - B4) / (B8 + B4)" with bands = {"B8": array, "B4": array, ...}, in float32 and, for large
+    images, in blocks of rows (two Sentinel-2 bands of 10980 x 10980 px took 5.3 GB in float64 at once)."""
     try:
         tree = ast.parse(expression, mode="eval")
     except SyntaxError as e:
         raise ExpressionError(f"cannot read the expression: {e.msg}") from None
+    arrays = [np.asarray(b) for b in bands.values()]
+    if arrays and all(a.ndim == 2 and a.shape == arrays[0].shape for a in arrays) and arrays[0].shape[0] > rows:
+        ny = arrays[0].shape[0]
+        out = np.empty(arrays[0].shape, np.float32)
+        for r0 in range(0, ny, rows):
+            out[r0 : r0 + rows] = _evaluate(tree, {n: np.asarray(b)[r0 : r0 + rows] for n, b in bands.items()})
+        return out
+    return _evaluate(tree, bands)
+
+
+def _evaluate(tree, bands):
 
     def ev(node):
         if isinstance(node, ast.Expression):
@@ -58,14 +70,14 @@ def evaluate(expression: str, bands: dict):
         if isinstance(node, ast.Name):
             if node.id not in bands:
                 raise ExpressionError(f"unknown band {node.id}; available: {', '.join(bands)}")
-            return np.asarray(bands[node.id], np.float64)
+            return np.asarray(bands[node.id], np.float32)
         if isinstance(node, ast.BinOp) and type(node.op) in _BIN:
             return _BIN[type(node.op)](ev(node.left), ev(node.right))
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.USub, ast.UAdd)):
             v = ev(node.operand)
             return -v if isinstance(node.op, ast.USub) else v
         if isinstance(node, ast.Compare) and len(node.ops) == 1 and type(node.ops[0]) in _CMP:
-            return _CMP[type(node.ops[0])](ev(node.left), ev(node.comparators[0])).astype(np.float64)
+            return _CMP[type(node.ops[0])](ev(node.left), ev(node.comparators[0])).astype(np.float32)
         if (
             isinstance(node, ast.Call)
             and isinstance(node.func, ast.Name)
@@ -76,10 +88,9 @@ def evaluate(expression: str, bands: dict):
         raise ExpressionError(f"not allowed in an expression: {ast.unparse(node)}")
 
     with np.errstate(divide="ignore", invalid="ignore"):
-        out = ev(tree)
-    out = np.asarray(out, np.float64)
+        out = np.array(ev(tree), np.float32)  # a copy: never a view of a band
     out[~np.isfinite(out)] = np.nan
-    return out.astype(np.float32)
+    return out
 
 
 def index_expression(name, roles: dict):
@@ -90,18 +101,24 @@ def index_expression(name, roles: dict):
     return expr
 
 
-def statistics(band):
-    v = np.asarray(band, np.float64)
-    v = v[np.isfinite(v)]
-    if v.size == 0:
+def statistics(band, sample=4_000_000):
+    """Count and extremes of every finite pixel; mean, std and percentiles from an even sample of at most `sample`
+    pixels (sorting 120 million Sentinel-2 pixels took 11 s and 1.4 GB; the sample differs by far less than a
+    pixel's noise)."""
+    a = np.asarray(band, np.float32)
+    n = int(np.count_nonzero(np.isfinite(a)))
+    if n == 0:
         return {"n": 0}
+    flat = a.ravel()
+    v = flat[:: max(1, flat.size // sample)]
+    v = v[np.isfinite(v)] if np.isfinite(v).any() else flat[np.isfinite(flat)]
     p = np.percentile(v, [2, 25, 50, 75, 98])
     return {
-        "n": int(v.size),
-        "min": float(v.min()),
-        "max": float(v.max()),
-        "mean": float(v.mean()),
-        "std": float(v.std()),
+        "n": n,
+        "min": float(np.nanmin(a)),
+        "max": float(np.nanmax(a)),
+        "mean": float(v.mean(dtype=np.float64)),
+        "std": float(v.std(dtype=np.float64)),
         "p2": float(p[0]),
         "p25": float(p[1]),
         "median": float(p[2]),
@@ -111,40 +128,56 @@ def statistics(band):
 
 
 def _pixels(bands):
-    """(n_valid, n_bands) standardised pixel vectors and the validity mask."""
-    cube = np.asarray(bands, np.float64)
+    """(n_bands, n_valid) standardised pixel values - bands as contiguous rows, fast and one copy for a whole
+    scene (a pixels x bands view took 28 s on two Sentinel-2 bands) - and the validity mask."""
+    cube = np.asarray(bands, np.float32)
     valid = np.all(np.isfinite(cube), axis=0)
-    x = cube[:, valid].T
-    mu, sd = x.mean(axis=0), x.std(axis=0)
-    return (x - mu) / np.where(sd > 0, sd, 1.0), valid
+    x = cube[:, valid]
+    del cube
+    for row in x:  # in place
+        row -= np.float32(row.mean(dtype=np.float64))
+        sd = row.std(dtype=np.float64)
+        row /= np.float32(sd if sd > 0 else 1.0)
+    return x, valid
+
+
+def _nearest(x, centres, cols=2_000_000):
+    """Index of the nearest centre (k, n_bands) for every column of x, in blocks."""
+    out = np.empty(x.shape[1], np.int64)
+    for i in range(0, x.shape[1], cols):
+        d = ((x[:, i : i + cols].T[:, None, :] - centres[None]) ** 2).sum(axis=2)
+        out[i : i + cols] = np.argmin(d, axis=1)
+    return out
 
 
 def kmeans(bands, k=5, seed=0, sample=200_000):
     """Unsupervised classes 0..k-1 (NaN where any band is missing); classes ordered by the mean of the
     first band so the labels are stable from run to run."""
-    from scipy.cluster.vq import kmeans2, vq
+    from scipy.cluster.vq import kmeans2
 
     x, valid = _pixels(bands)
+    n = x.shape[1]
     rng = np.random.default_rng(seed)
-    train = x[rng.choice(len(x), min(sample, len(x)), replace=False)] if len(x) > sample else x
-    centres, _ = kmeans2(train, k, minit="++", seed=seed)
+    train = (x[:, rng.choice(n, sample, replace=False)] if n > sample else x).T
+    centres, _ = kmeans2(np.asarray(train, np.float64), k, minit="++", seed=seed)
     order = np.argsort(centres[:, 0])
-    labels, _ = vq(x, centres[order])
     out = np.full(valid.shape, np.nan, np.float32)
-    out[valid] = labels
+    out[valid] = _nearest(x, centres[order].astype(np.float32))
     return out
 
 
-def pca(bands, n=3):
-    """Principal components (n, ny, nx) of the standardised bands and the explained variance fractions."""
+def pca(bands, n=3, sample=4_000_000):
+    """Principal components (n, ny, nx) of the standardised bands and the explained variance fractions: the
+    eigenvectors of the bands' covariance from an even sample of at most `sample` pixels (an SVD of every pixel
+    needs a second pixels x bands matrix: a Sentinel-2 scene ran out of memory), every pixel projected on them."""
     x, valid = _pixels(bands)
-    _, s, vt = np.linalg.svd(x - x.mean(axis=0), full_matrices=False)
-    comps = x @ vt[:n].T
+    var, vec = np.linalg.eigh(np.atleast_2d(np.cov(x[:, :: max(1, x.shape[1] // sample)].astype(np.float64))))
+    order = np.argsort(var)[::-1]
+    var, vec = var[order], vec[:, order]
     out = np.full((n, *valid.shape), np.nan, np.float32)
     for i in range(n):
-        out[i][valid] = comps[:, i]
-    var = s**2 / np.sum(s**2)
-    return out, var[:n].tolist()
+        out[i][valid] = vec[:, i].astype(np.float32) @ x
+    return out, (var[:n] / var.sum()).tolist()
 
 
 def change(before, after, threshold=None):

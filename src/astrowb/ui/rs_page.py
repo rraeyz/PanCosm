@@ -25,6 +25,7 @@ from .viewer import ImageViewer
 from .workspaces import PlotCanvas, _title
 
 ROLES = ("BLUE", "GREEN", "RED", "NIR", "SWIR")
+SENTINEL2 = {"B02": "BLUE", "B03": "GREEN", "B04": "RED", "B08": "NIR", "B11": "SWIR"}
 
 
 class RemoteSensingPage(QWidget):
@@ -47,7 +48,8 @@ class RemoteSensingPage(QWidget):
         open_button.clicked.connect(self._open)
         open_button.setToolTip(
             self.tr(
-                "A satellite or aerial image with one or more bands; every band can be shown and used in the formulas"
+                "A satellite or aerial image with one or more bands; every band can be shown and used in the formulas."
+                " Select several files at once for the bands of one scene that come one per file (Sentinel-2, Landsat)"
             )
         )
         lay.addWidget(open_button)
@@ -128,15 +130,15 @@ class RemoteSensingPage(QWidget):
 
     # --- data ---------------------------------------------------------------
     def _open(self):
-        path, _ = QFileDialog.getOpenFileName(
+        paths, _ = QFileDialog.getOpenFileNames(
             self,
             "",
             "",
             "Images (*.tif *.tiff *.TIF *.fits *.fit *.fts *.jp2 *.j2k *.nc *.nc4 *.h5 *.hdf5 *.he5 *.hdf)"
             ";;All files (*)",
         )
-        if path:
-            self.open(path)
+        if paths:
+            self.open(";".join(paths))  # several: the bands of one scene (Sentinel-2, Landsat: a file per band)
 
     def open(self, path):
         from ..remotesensing import raster
@@ -157,12 +159,18 @@ class RemoteSensingPage(QWidget):
             combo.clear()
             combo.addItems(r.names)
             default = {4: [0, 1, 2, 3, None], 5: [0, 1, 2, 3, 4]}.get(len(r.names), [None] * 5)[i]
-            if default is not None:
-                combo.setCurrentIndex(default)
+            s2 = [n for n in r.names if SENTINEL2.get(n.upper()) == role]  # Sentinel-2 band files: their own roles
+            default = r.names.index(s2[0]) if s2 else default
+            # no band for this role: left empty (it showed the first band, and an index silently used the wrong one)
+            combo.setCurrentIndex(-1 if default is None else default)
         crs = f"EPSG:{r.epsg}" if r.epsg else self.tr("no map projection")
         self.info.setText(
             self.tr("{name}: {n} bands, {nx} × {ny} px, {crs}").format(
-                name=Path(path).name, n=len(r.names), nx=r.shape[1], ny=r.shape[0], crs=crs
+                name=" + ".join(Path(p).name for p in str(path).split(";")),
+                n=len(r.names),
+                nx=r.shape[1],
+                ny=r.shape[0],
+                crs=crs,
             )
         )
         self._show(r.names[0])
