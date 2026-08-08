@@ -41,6 +41,7 @@ Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl
 ## Üçüncü cisim ve apsidal hareket
 - **Üçüncü cisim (ışık-zaman etkisi):** örten çift üçüncü bir yıldızla ortak kütle merkezi etrafında döner; örtmeler bu yörünge boyunca erken ve geç gelir (Irwin 1952). Fit üçüncü cismin periyodunu P3 (yıl), yarı genliği A (dakika), dış merkezliliği e, ω açısını ve üçüncü yıldızın kütlesi için alt sınır olan kütle fonksiyonunu f(m3) verir. Birden fazla P3'e yayılmış en az 8 minimum gerekir.
 - **Apsidal hareket:** dış merkezli yörüngede apsis çizgisi döner; birincil ve ikincil minimumlar zıt yönlerde salınır. İki türü de (I ve II) girin; fit e'yi, 0. çevrimdeki ω'yı, dω/dE'yi (çevrim başına derece) ve apsidal periyodu U (yıl) verir. Model e'de birinci derecedir (e ≲ 0,1 için iyi).
+- **MCMC belirsizlikleri:** bu iki modelde kutuyu işaretlerseniz fitten sonra bir Markov zinciri (emcee) çalışır: e ve ω dahil her parametrenin, f(m3) ve U'nun %68 aralığı; parametreler birbirine bağlı olduğunda dürüst hatalar (OCFit'teki gibi). Birkaç saniye sürer; daha çok adım daha kararlı hatalar verir. Doğrusal ve kuadratik efemeris doğrusal problemlerdir; en küçük kareler hataları zaten kesindir, kutu kapalıdır.
 
 ## O-C diyagramını okumak
 - Eğimli düz bir çizgi: periyot biraz yanlış — fit onu düzeltir.

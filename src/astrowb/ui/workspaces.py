@@ -11,6 +11,7 @@ import numpy as np
 from PySide6.QtCore import QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
+    QApplication,
     QCheckBox,
     QComboBox,
     QDialog,
@@ -28,6 +29,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton,
     QRadioButton,
+    QSpinBox,
     QSplitter,
     QTableWidget,
     QTableWidgetItem,
@@ -2672,6 +2674,11 @@ def export_csv(lc, path):
     return path
 
 
+def _decimals(err):
+    """Decimals that show a value to the second significant digit of its error."""
+    return max(0, 1 - int(np.floor(np.log10(err)))) if err > 0 and np.isfinite(err) else 4
+
+
 class OCPage(QWidget):
     """Minimum times -> epochs, linear or quadratic ephemeris, O-C diagram."""
 
@@ -2728,6 +2735,32 @@ class OCPage(QWidget):
         self.linear.setChecked(True)
         for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
             lay.addWidget(b)
+        row = QHBoxLayout()
+        self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
+        self.use_mcmc.setToolTip(
+            self.tr(
+                "After the fit, a Markov chain (emcee) explores the third-body or apsidal parameters: 68 % "
+                "intervals of every parameter, e and ω included, when they depend on each other. A linear or "
+                "quadratic ephemeris is a linear problem: its least-squares errors are already exact."
+            )
+        )
+        self.mcmc_steps = QSpinBox(self)
+        self.mcmc_steps.setRange(200, 20000)
+        self.mcmc_steps.setSingleStep(500)
+        self.mcmc_steps.setValue(2000)
+        self.mcmc_steps.setSuffix(self.tr(" steps"))
+        self.mcmc_steps.setToolTip(self.tr("Length of the Markov chain; more steps give steadier errors"))
+        row.addWidget(self.use_mcmc, 1)
+        row.addWidget(self.mcmc_steps)
+        lay.addLayout(row)
+
+        def mcmc_allowed():
+            self.use_mcmc.setEnabled(self.ltte.isChecked() or self.apsidal.isChecked())
+            self.mcmc_steps.setEnabled(self.use_mcmc.isEnabled())
+
+        for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
+            b.toggled.connect(mcmc_allowed)
+        mcmc_allowed()
         self.fit_button = QPushButton(self.tr("Fit and draw O-C"), self)
         self.fit_button.clicked.connect(self.run_fit)
         self.fit_button.setToolTip(
@@ -2773,19 +2806,19 @@ class OCPage(QWidget):
                 ("A (semi-amplitude)", f.amplitude * 1440, e["amplitude"] * 1440, "min"),
                 ("P3", f.p3 / 365.25, e["p3"] / 365.25, "yr"),
                 ("T3 (periastron)", f.t3, e["t3"], "d"),
-                ("e3", f.e, None, ""),
-                ("omega3", f.omega, None, "deg"),
-                ("f(m3)", f.mass_function, None, "Msun"),
+                ("e3", f.e, e.get("e"), ""),
+                ("omega3", f.omega, e.get("omega"), "deg"),
+                ("f(m3)", f.mass_function, e.get("f_m3"), "Msun"),
             ]
             model = self.tr("light-travel time in a third-body orbit (Irwin 1952)")
         elif hasattr(f, "d_omega"):  # apsidal motion
             rows = [
                 ("T0", f.t0, f.errors["t0"], "d"),
                 ("Ps (sidereal)", f.period, f.errors["period"], "d"),
-                ("e", f.e, None, ""),
-                ("omega0", f.omega0, None, "deg"),
+                ("e", f.e, f.errors.get("e"), ""),
+                ("omega0", f.omega0, f.errors.get("omega0"), "deg"),
                 ("d omega / dE", f.d_omega, f.errors["d_omega"], "deg/cycle"),
-                ("U", f.u_years, None, "yr"),
+                ("U", f.u_years, f.errors.get("u_years"), "yr"),
             ]
             model = self.tr("apsidal motion of an eccentric orbit")
         else:
@@ -2797,6 +2830,10 @@ class OCPage(QWidget):
         caption = self.tr(
             "O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ > 1)."
         ).format(n=n, model=model)
+        if getattr(f, "mcmc", None):
+            caption += " " + self.tr("Errors: the larger side of the MCMC 68 % intervals (emcee, {s} steps).").format(
+                s=self.mcmc_steps.value()
+            )
         return rows, caption
 
     def run_fit(self):
@@ -2811,12 +2848,17 @@ class OCPage(QWidget):
             return None
         try:
             minima = parse_minima(self.text.toPlainText())
-            if self.ltte.isChecked():
-                f = fit_ltte(minima, t0, period)
-            elif self.apsidal.isChecked():
-                f = fit_apsidal(minima, t0, period)
-            else:
-                f = fit(minima, t0, period, order=2 if self.quadratic.isChecked() else 1)
+            steps = self.mcmc_steps.value() if self.use_mcmc.isChecked() and self.use_mcmc.isEnabled() else 0
+            QApplication.setOverrideCursor(Qt.WaitCursor)  # an MCMC takes a few seconds
+            try:
+                if self.ltte.isChecked():
+                    f = fit_ltte(minima, t0, period, mcmc_steps=steps)
+                elif self.apsidal.isChecked():
+                    f = fit_apsidal(minima, t0, period, mcmc_steps=steps)
+                else:
+                    f = fit(minima, t0, period, order=2 if self.quadratic.isChecked() else 1)
+            finally:
+                QApplication.restoreOverrideCursor()
         except ValueError as e:
             self.result.setText(self.tr("Cannot fit: {error}").format(error=translate(str(e))))
             return None
@@ -2881,7 +2923,20 @@ class OCPage(QWidget):
 
     def _show_oc_model(self, f, minima):
         """Third body or apsidal motion: the curve(s) over the O-C points, residuals below."""
-        self.result.setText("\n".join(self._oc_model_text(f, len(minima))))
+        lines = self._oc_model_text(f, len(minima))
+        if f.mcmc:
+            p = f.mcmc["params"]
+            shown = [("e", "e", 1), ("ω", "omega", 1), ("ω0", "omega0", 1), ("U", "u_years", 1)]
+            shown += [("P3", "p3", 1 / 365.25), ("A", "amplitude", 1440), ("f(m3)", "f_m3", 1)]
+            lines.append(
+                self.tr("MCMC (acceptance {a:.2f}): ").format(a=f.mcmc["acceptance"])
+                + ", ".join(
+                    f"{label} = {p[k][0] * u:.{_decimals(min(p[k][1:]) * u)}f} −{p[k][1] * u:.2g} +{p[k][2] * u:.2g}"
+                    for label, k, u in shown
+                    if k in p
+                )
+            )
+        self.result.setText("\n".join(lines))
         errs = np.array([m.error or np.nan for m in minima])
         prim = np.array([m.kind == "I" for m in minima])
         self.plot.figure.clear()
