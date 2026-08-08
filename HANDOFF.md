@@ -346,7 +346,7 @@ Status of everything so far:
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-05): automatic sweep DONE in 4 languages; real-data use per page in progress |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
-| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-05): U8a DONE; U8d (IRAF installed) next |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-05): U8a, U8d DONE; U8b, U8c, U8e next |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
 | U10 | Re-run the tests touched by every fix; CI green | open |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
@@ -412,6 +412,20 @@ and flats had to agree in gain / offset; flats now match on the read-out mode on
 the offset is the bias), bias and darks still on every setting. Result: our calibrated frames = BANZAI's x 1.2678
 (constant: e- vs ADU, gain 0.78) to 0.92 ADU per pixel (sky noise 9.7 ADU; our 30-bias / 20-dark masters' own noise
 ~0.74 ADU); light curves of Qatar-1 from both sets of frames differ by 0.021 % rms (each scatters 0.679 %).
+**U8d (done): IRAF.** Community IRAF 2.17.1 from Ubuntu (`apt-get install iraf iraf-noao`; `export USER=root`,
+`mkiraf`; IRAF cannot open long paths: short symlinks in its working folder; it reads plain FITS only: the .fz
+frames unpacked with astropy, LCO's DATASEC / TRIMSEC / BIASSEC / CCDSEC / DETSEC removed, which IRAF cannot parse).
+Scripts `scratchpad/real/u8d_iraf_phot.py`, `u8d_iraf_ccdproc.py`. (1) **apphot.phot** on our 40 calibrated frames
+(centroid, cbox 11, mode sky, same radii, IRAF given starts 1.5 px off): centres agree to 0.038 px (median), target
+flux IRAF / ours = 1.00056 +- 0.00048, light curves 0.700 % (IRAF) and 0.679 % (ours) rms, difference 0.063 % rms.
+(2) **ccdred** (zerocombine avsigclip, darkcombine scale=exposure, ccdproc zero+dark+flat) on the same raw frames:
+master bias and dark identical to ours (0.000 ADU); calibrated frames identical up to the flat normalisation
+(IRAF divides by the flat's mean, we by its median: x 1.00139 everywhere), light curves differ by 0.012 % rms.
+IRAF pitfall met: ccdproc bias-subtracts a finished master flat unless its header says ZEROCOR / DARKCOR /
+CCDPROC done (our Calibrate page used BANZAI's master flat correctly). Found on the way (fixed): half the LCO bias /
+darks of that night were full-chip (6422 x 9600) next to the lights' 2400 x 2400 crop and all were combined: groups
+no light needs are no longer combined (the page says so; without lights every group is still made): 40 lights
+110 s -> 18.4 s (IRAF 11 s + unpacking). Test `test_groups_no_light_needs_are_not_combined`.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -440,8 +454,9 @@ Users are not affected (certifi has it).
 | Photometry: light curve, 60 frames (same data, script) | Qatar-1 | before 35.2 s, now 13.6 s | 2x2-binned frame shift + reading ahead; same fluxes |
 | Photometry: standard magnitudes (APASS / Gaia, mirror) | 4 comparison stars + target | 19.5 s | acceptable (network) |
 | Every button of every page with no data (sweep) | 273 clicks per language | all < 1 s except "Plan the night" 4.2 s | fine |
+| IRAF apphot.phot, 40 frames (positions given per frame) | same | 1.0 s (ours 8.9 s, which also tracks the field) | fine |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
-| Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | 110 s (2.75 s per light) | slow-ish: to be profiled (U9) |
+| Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
 
 ### Notes per task
 
