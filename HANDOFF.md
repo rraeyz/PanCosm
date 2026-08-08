@@ -479,6 +479,21 @@ of fitting noise. Checked on real data: the full night (265 frames) still 1 dip,
 transit mid-time 2461347.61134 BJD_TDB against ExoClock's prediction 2461347.61115 (O−C +0.27 min), depth 2.24 %
 (literature 2.3–2.5 %), T14 1.57 h. Observe page: `tests/test_indi_simulators.py` passes against the real INDI
 simulators (`apt-get install indi-bin`): mount, CCD, filter wheel, focuser.
+**U8b (open, prepared).** Raw HARPS of tau Ceti exist with their night's calibrations (ESO TAP `dbo.raw`:
+`instrument='HARPS' AND object LIKE '%10700%'`; e.g. HARPS.2010-08-27T05:33:35.086 "STAR,WAVE,G8"; same night
+1 BIAS, LAMP,DARK,TUN (fibre-A order flat), DARK,LAMP,TUN, 5 LAMP,LAMP,TUN, 2 WAVE,WAVE,THAR2 between 21:53 and
+22:06 UT on 2010-08-26) and ESO's reduced spectra of that sequence (ivoa.ObsCore, t_min 55435.2316…:
+ADP.2014-09-24T09:43:29.897 and four more). Not done: HARPS raw frames carry two CCDs (one extension each) and two
+fibres (star + simultaneous ThAr), and the Echelle tab needs ThAr identifications for which no HARPS atlas is at hand.
+Plan: reduce the blue chip with the fibre-A order flat, anchor a few orders with the stellar lines of ESO's own 1-D
+spectrum (shifted by its DRS RV and BERV), then compare the merged spectrum and the RV with ESO's.
+**U6e Images page (done).** Every Image > Process operation on a real calibrated LCO frame (2400 x 2400), dialogs
+accepted with their defaults: 0 errors; flip / rotate / bin / Gaussian / unsharp 1.0–1.8 s, median 2.0 s, background
+2.6 s, resample (to 4800 x 4800) 7.8 s. Made faster: Richardson–Lucy 20 iterations (two FFT convolutions per
+iteration, the PSF's transform recomputed each time) now with the separable Gaussian filter, same zero-padded edges:
+19 s -> 7.3 s (on the page 8.4 s); histogram matching interpolates directly on its two even grids instead of
+searching (np.interp): 7.8 s -> 2.9 s, identical result (page 3.9 s). (A first run looked slow because the test had
+switched on "Apply to all open images" - the program behaved correctly.)
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -515,6 +530,7 @@ Users are not affected (certifi has it).
 | Remote sensing: PCA / k-means (steps) | same | 44 s / 56 s (PCA before: out of memory) | acceptable; reading and GeoTIFF writing are half of it |
 | Automation "Exoplanet transit", one click | 40 raw LCO frames + flat / 265 BANZAI frames | 81 s / 378 s | fine |
 | Frequency analysis (TESS, 15 988 points, to 50 c/d) | FG Vir | 7.5 s | fine |
+| Images: every Process operation on 2400 x 2400 | LCO frame | 1–8 s each (RL deconvolution before ~22 s, histogram match before ~10 s) | fine |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
 

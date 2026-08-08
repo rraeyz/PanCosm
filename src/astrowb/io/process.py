@@ -174,17 +174,19 @@ def deconvolve(data, header, fwhm=3.0, iterations=20):
     """Richardson-Lucy deconvolution (Richardson 1972, Lucy 1974) with a Gaussian PSF of the given FWHM
     (pixels; measure it on the stars). The image is shifted to be positive first and back afterwards, so
     the sky level and the total counts are kept. More iterations sharpen more and amplify noise."""
-    from scipy.signal import fftconvolve
+    from scipy.ndimage import gaussian_filter
 
     d = np.nan_to_num(np.asarray(data, float), nan=float(np.nanmedian(data)))
     floor = float(d.min()) - 1.0
     d = d - floor
-    psf = gaussian_psf(fwhm)
-    flipped = psf[::-1, ::-1]
+    sigma = fwhm / 2.3548
+
+    def blur(a):  # the Gaussian PSF (symmetric: it is its own mirror), separable: 2400 x 2400 x 20 iterations
+        return gaussian_filter(a, sigma, mode="constant", truncate=4.0)  # took 80 s as two FFTs per iteration
+
     u = np.full_like(d, d.mean())
     for _ in range(int(iterations)):
-        ratio = d / np.maximum(fftconvolve(u, psf, mode="same"), 1e-12)
-        u *= fftconvolve(ratio, flipped, mode="same")
+        u *= blur(d / np.maximum(blur(u), 1e-12))
     return (u + floor).astype(np.float32), header.copy()
 
 
@@ -200,11 +202,17 @@ def match_histogram(data, header, reference):
     good = np.isfinite(d)
     if not ref.size or not good.any():
         raise ValueError("the image has no valid pixels")
-    order = np.argsort(d[good], kind="stable")
-    quant = np.empty(order.size)
-    quant[order] = (np.arange(order.size) + 0.5) / order.size  # each pixel's rank as a quantile
+    order = np.argsort(d[good])  # ties keep any order: equal values get neighbouring quantiles either way
+    n, m = order.size, ref.size
+    # rank k sits at quantile (k + 0.5) / n, i.e. at position (k + 0.5) m / n - 0.5 of the sorted reference: both
+    # grids are even, so the interpolation is direct (np.interp's search took 5.5 s of 7.8 on 2400 x 2400)
+    pos = np.clip((np.arange(n) + 0.5) * (m / n) - 0.5, 0, m - 1)
+    i = np.minimum(pos.astype(np.int64), max(m - 2, 0))
+    j = np.minimum(i + 1, m - 1)
+    ranked = np.empty(n)
+    ranked[order] = ref[i] + (pos - i) * (ref[j] - ref[i])
     out = np.full(d.shape, np.nan)
-    out[good] = np.interp(quant, (np.arange(ref.size) + 0.5) / ref.size, ref)
+    out[good] = ranked
     return out.astype(np.float32), header.copy()
 
 
