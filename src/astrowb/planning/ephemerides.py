@@ -29,9 +29,49 @@ def _float(value):
         return None
 
 
+def _vsx_vizier(name):
+    """The VSX entry from its copy in VizieR (B/vsx/vsx, kept up to date with VSX; no eclipse duration), shaped
+    like the VSX API's answer: used when aavso.org does not answer. A name VSX does not list (an alias such as
+    Algol) is looked up in SIMBAD and the VSX star within 10" taken, as the VSX API does."""
+    import astropy.units as u
+    from astroquery.vizier import Vizier
+
+    from ..mirrors import cds
+    from .targets import _simbad
+
+    def ask(server, **where):
+        v = Vizier(columns=["**"], row_limit=5, vizier_server=server)
+        if "coord" in where:
+            return v.query_region(where["coord"], radius=10 * u.arcsec, catalog="B/vsx/vsx")
+        return v.query_constraints(catalog="B/vsx/vsx", Name=name)
+
+    def same(a):
+        return " ".join(str(a).lower().split()) == " ".join(name.lower().split())
+
+    tables = cds("vizier", ask)
+    rows = [r for r in (tables[0] if len(tables) else []) if same(r["Name"])]
+    if not rows:
+        tables = cds("vizier", lambda server: ask(server, coord=_simbad(name).coord))
+        rows = list(tables[0]) if len(tables) else []
+    if not rows:
+        return {}
+    r = rows[0]
+
+    def value(col):
+        v = r[col]
+        return None if v is None or str(v).strip() in ("", "--") else v
+
+    keys = {"RA2000": "RAJ2000", "Declination2000": "DEJ2000", "MaxMag": "max", "Period": "Period", "Epoch": "Epoch"}
+    obj = {k: value(c) for k, c in keys.items()}
+    return {"VSXObject": obj | {"Name": str(r["Name"]).strip(), "VariabilityType": str(r["Type"]).strip()}}
+
+
 def vsx(name, fetch=_get):
     """{name, ra, dec, t0, period, duration (d), secondary, type, vmag, source} from VSX."""
-    data = fetch(VSX_URL, {"view": "api.object", "ident": name, "format": "json"})
+    try:
+        data = fetch(VSX_URL, {"view": "api.object", "ident": name, "format": "json"})
+    except OSError:  # aavso.org down or blocked: the same catalogue through VizieR
+        data = _vsx_vizier(name)
     obj = data.get("VSXObject") if isinstance(data, dict) else None
     if not obj or not isinstance(obj, dict):
         raise TargetError(f"VSX does not know '{name}'")

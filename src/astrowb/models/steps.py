@@ -41,13 +41,14 @@ def eb_fit_step(inputs, params, ctx):
         out["mcmc"] = fit.mcmc(t, flux, err, r, params["free"], params["ld1"], params["ld2"], params["mcmc_steps"], ctx)
     if inputs.get("orbit"):
         out["absolute"] = fit.absolute_dimensions(r, inputs["orbit"])
+    orbit, absolute = inputs.get("orbit") or {}, out["absolute"] or {}
+    q = absolute["m2"] / absolute["m1"] if absolute.get("m1") else None
+    if q is None and orbit.get("k") and orbit.get("k2"):
+        q = orbit["k"] / orbit["k2"]  # M2/M1 = K1/K2
+    out["roche"] = fit.roche_check(r["derived"]["r1"], r["derived"]["r2"], q)
     if inputs.get("export_dir") and params["export_format"] == "wd":
         from .wd import write_wd_files
 
-        orbit, absolute = inputs.get("orbit") or {}, out["absolute"] or {}
-        q = absolute["m2"] / absolute["m1"] if absolute.get("m1") else None
-        if q is None and orbit.get("k") and orbit.get("k2"):
-            q = orbit["k"] / orbit["k2"]  # M2/M1 = K1/K2
         orbit_info = {"gamma": orbit.get("gamma", 0.0), "a": absolute.get("a")} if orbit else None
         out["exported"] = write_wd_files(inputs["export_dir"], t, flux, err, r, q, orbit=orbit_info)
     elif inputs.get("export_dir") and params["export_format"] == "transit":

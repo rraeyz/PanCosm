@@ -33,13 +33,19 @@ def vizier_fetch(coord, radius_arcsec=3.0):
     import astropy.units as u
     from astroquery.vizier import Vizier
 
+    from ..mirrors import cds
+
     out = {}
     for key, cat, cols in (
         ("apass", "II/336/apass9", ["Bmag", "e_Bmag", "Vmag", "e_Vmag", "g'mag", "r'mag", "i'mag"]),
         ("gaia", "I/355/gaiadr3", ["Gmag", "e_Gmag", "BPmag", "RPmag"]),
     ):
-        viz = Vizier(columns=["+_r", *cols], row_limit=5)  # "+_r": nearest first
-        tables = viz.query_region(coord, radius=radius_arcsec * u.arcsec, catalog=cat)
+        tables = cds(  # "+_r": nearest first
+            "vizier",
+            lambda server, cat=cat, cols=cols: Vizier(
+                columns=["+_r", *cols], row_limit=5, vizier_server=server
+            ).query_region(coord, radius=radius_arcsec * u.arcsec, catalog=cat),
+        )
         row = tables[0][0] if len(tables) and len(tables[0]) else None
         out[key] = None if row is None else {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
     return out

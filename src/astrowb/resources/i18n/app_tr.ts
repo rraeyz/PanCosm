@@ -2405,22 +2405,22 @@
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="3275"/>
+        <location filename="../../ui/workspaces.py" line="3320"/>
         <source>Period search</source>
         <translation>Periyot arama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3276"/>
+        <location filename="../../ui/workspaces.py" line="3321"/>
         <source>Frequency analysis</source>
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3277"/>
+        <location filename="../../ui/workspaces.py" line="3322"/>
         <source>Variable star search</source>
         <translation>Değişen yıldız arama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3278"/>
+        <location filename="../../ui/workspaces.py" line="3323"/>
         <source>O-C diagram</source>
         <translation>O-C diyagramı</translation>
     </message>
@@ -4759,71 +4759,81 @@
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="329"/>
+        <source>⚠ A star fills {f:.0f} % of its Roche lobe (lobe radius {l1:.3f} and {l2:.3f} for q = {q:.2f}): a semi-detached or contact (W UMa-type) binary. This model treats the stars as spheres and does not hold for it: the radii and the inclination are not reliable. Export the PHOEBE or Wilson–Devinney files and fit a Roche model there. Times of minimum and O−C are not affected.</source>
+        <translation>⚠ Bir yıldız Roche lobunun %{f:.0f}&apos;ini dolduruyor (q = {q:.2f} için lob yarıçapları {l1:.3f} ve {l2:.3f}): yarı-ayrık ya da değen (W UMa türü) bir çift. Bu model yıldızları küre kabul eder ve bu sistem için geçerli değildir: yarıçaplar ve eğiklik güvenilir değildir. PHOEBE ya da Wilson–Devinney dosyalarını dışa aktarıp Roche modelini orada uydurun. Minimum zamanları ve O−C bundan etkilenmez.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="336"/>
+        <source>Note: a radius above 0.25 of the separation: the stars are tidally flattened by a few per cent and the spheres model is only approximate (its errors are too small). Check the result with PHOEBE.</source>
+        <translation>Not: yarıçap, yıldızlar arası uzaklığın 0,25&apos;inden büyük: yıldızlar gelgitle yüzde birkaç basıklaşır, küre modeli yalnızca yaklaşıktır (hataları gerçekte daha büyüktür). Sonucu PHOEBE ile kontrol edin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="342"/>
         <source>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</source>
         <translation>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="348"/>
+        <location filename="../../ui/models_page.py" line="361"/>
         <source>Transit: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (epoch {n}), depth {d:.5f}, T14 {h:.3f} h</source>
         <translation>Geçiş: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (çevrim {n}), derinlik {d:.5f}, T14 {h:.3f} sa</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="351"/>
+        <location filename="../../ui/models_page.py" line="364"/>
         <source>Files written: {f}</source>
         <translation>Dosyalar yazıldı: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="354"/>
+        <location filename="../../ui/models_page.py" line="367"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="366"/>
+        <location filename="../../ui/models_page.py" line="379"/>
         <source>Fit the light curve first.</source>
         <translation>Önce ışık eğrisini uydurun.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="397"/>
+        <location filename="../../ui/models_page.py" line="410"/>
         <source>medians and 68 % intervals of the MCMC posterior (the larger side)</source>
         <translation>MCMC sonsal dağılımının medyanları ve %68 aralıkları (büyük olan taraf)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="399"/>
+        <location filename="../../ui/models_page.py" line="412"/>
         <source>1σ errors from the covariance matrix, derived quantities from its draws</source>
         <translation>1σ hatalar kovaryans matrisinden, türetilen büyüklükler ondan çekilen örneklerden</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="402"/>
+        <location filename="../../ui/models_page.py" line="415"/>
         <source>Light-curve fit to {n} points: two limb-darkened spheres on a Keplerian orbit (EBOP / JKTEBOP approximation), least squares; {errors}.</source>
         <translation>{n} noktaya ışık eğrisi uydurması: Kepler yörüngesinde kenar kararmalı iki küre (EBOP / JKTEBOP yaklaşımı), en küçük kareler; {errors}.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="415"/>
+        <location filename="../../ui/models_page.py" line="428"/>
         <source>Posterior</source>
         <translation>Sonsal dağılım</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="448"/>
+        <location filename="../../ui/models_page.py" line="461"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="450"/>
+        <location filename="../../ui/models_page.py" line="463"/>
         <source>external model</source>
         <translation>dış model</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="452"/>
+        <location filename="../../ui/models_page.py" line="465"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="455"/>
+        <location filename="../../ui/models_page.py" line="468"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="456"/>
+        <location filename="../../ui/models_page.py" line="469"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
@@ -4974,242 +4984,242 @@
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2686"/>
+        <location filename="../../ui/workspaces.py" line="2691"/>
         <source>Light curves &amp; O-C</source>
         <translation>Işık eğrisi ve O-C</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2687"/>
+        <location filename="../../ui/workspaces.py" line="2692"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimum zamanları, her satıra bir tane: zaman [hata] [I/II] [kaynak]</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2692"/>
+        <location filename="../../ui/workspaces.py" line="2697"/>
         <source>Load file…</source>
         <translation>Dosya yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2696"/>
+        <location filename="../../ui/workspaces.py" line="2701"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Minimum ya da maksimum zamanlarının metin dosyası: zaman, hata, tür (I / II), kaynak; her satıra bir tane</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2703"/>
+        <location filename="../../ui/workspaces.py" line="2708"/>
         <source>Reference T0</source>
         <translation>Referans T0</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2704"/>
+        <location filename="../../ui/workspaces.py" line="2709"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Çevrimleri saymak için kullanılan efemerik dönemi; fit onu iyileştirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2705"/>
+        <location filename="../../ui/workspaces.py" line="2710"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Efemeriğin sıfır anı (zamanlarla aynı biçimde BJD ya da HJD); boşsa ilk minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2707"/>
+        <location filename="../../ui/workspaces.py" line="2712"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2710"/>
+        <location filename="../../ui/workspaces.py" line="2715"/>
         <source>Linear ephemeris</source>
         <translation>Doğrusal efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2711"/>
+        <location filename="../../ui/workspaces.py" line="2716"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Sabit dönem: O−C bir doğru üzerinde (T0 ve dönemi düzeltir)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2712"/>
+        <location filename="../../ui/workspaces.py" line="2717"/>
         <source>Quadratic (period change)</source>
         <translation>İkinci derece (dönem değişimi)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2714"/>
+        <location filename="../../ui/workspaces.py" line="2719"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Düzenli değişen dönem (kütle aktarımı, kütle kaybı): O−C bir parabol üzerinde; dP/dt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2716"/>
+        <location filename="../../ui/workspaces.py" line="2721"/>
         <source>Third body (light-travel time)</source>
         <translation>Üçüncü cisim (ışık-zaman etkisi)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2719"/>
+        <location filename="../../ui/workspaces.py" line="2724"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Üçüncü bir yıldız çifti dolandırır: O−C üçüncü cismin yörüngesiyle dalgalanır (Irwin 1952); dalganın birden fazla çevrimini kapsayan minimumlar gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2723"/>
+        <location filename="../../ui/workspaces.py" line="2728"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidal hareket (dış merkezli yörünge, birincil ve ikincil)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2726"/>
+        <location filename="../../ui/workspaces.py" line="2731"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Basık bir yörünge döner: birincil ve ikincil minimumlar zıt yönlerde kayar; iki tür minimum da gerekir (tür I ve II)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2734"/>
+        <location filename="../../ui/workspaces.py" line="2739"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC belirsizlikleri (daha yavaş, ilişkili parametreler için)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2737"/>
+        <location filename="../../ui/workspaces.py" line="2742"/>
         <source>After the fit, a Markov chain (emcee) explores the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation>Uydurmadan sonra bir Markov zinciri (emcee) üçüncü cisim ya da apsidal hareket parametrelerini tarar: parametreler birbirine bağlı olduğunda e ve ω dahil her parametrenin %68 aralığı. Doğrusal ya da kuadratik efemeris doğrusal bir problemdir: en küçük kareler hataları zaten kesindir.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2746"/>
+        <location filename="../../ui/workspaces.py" line="2751"/>
         <source> steps</source>
         <translation> adım</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2747"/>
+        <location filename="../../ui/workspaces.py" line="2752"/>
         <source>Length of the Markov chain; more steps give steadier errors</source>
         <translation>Markov zincirinin uzunluğu; daha çok adım daha kararlı hatalar verir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2759"/>
+        <location filename="../../ui/workspaces.py" line="2764"/>
         <source>Fit and draw O-C</source>
         <translation>Fit et ve O-C çiz</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2762"/>
+        <location filename="../../ui/workspaces.py" line="2767"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Seçilen modeli zamanlara fit eder ve O−C&apos;yi (gözlenen eksi hesaplanan) çevrim numarasına karşı çizer</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2781"/>
+        <location filename="../../ui/workspaces.py" line="2786"/>
         <source>Load minimum times</source>
         <translation>Minimum zamanlarını yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2781"/>
+        <location filename="../../ui/workspaces.py" line="2786"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Metin (*.txt *.csv *.dat);;Tümü (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2793"/>
+        <location filename="../../ui/workspaces.py" line="2798"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Önce O−C diyagramını uydurun.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2808"/>
+        <location filename="../../ui/workspaces.py" line="2813"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>üçüncü cisim yörüngesinde ışık-zaman etkisi (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2818"/>
+        <location filename="../../ui/workspaces.py" line="2823"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>dış merkezli yörüngenin apsis hareketi</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2823"/>
+        <location filename="../../ui/workspaces.py" line="2828"/>
         <source>quadratic ephemeris</source>
         <translation>kuadratik ışık öğeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2823"/>
+        <location filename="../../ui/workspaces.py" line="2828"/>
         <source>linear ephemeris</source>
         <translation>doğrusal ışık öğeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2826"/>
+        <location filename="../../ui/workspaces.py" line="2831"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>{n} minimum zamanına O−C uydurması: {model}; ağırlıklı en küçük kareler, 1σ hatalar (χ²ᵣ &gt; 1 ise √χ²ᵣ ile ölçeklenmiş).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2829"/>
+        <location filename="../../ui/workspaces.py" line="2834"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (emcee, {s} steps).</source>
         <translation>Hatalar: MCMC %68 aralıklarının büyük olan tarafı (emcee, {s} adım).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2842"/>
+        <location filename="../../ui/workspaces.py" line="2847"/>
         <source>Give the reference T0 and the period in days.</source>
         <translation>Başlangıç T0&apos;ını ve dönemi gün olarak girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2858"/>
+        <location filename="../../ui/workspaces.py" line="2863"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2864"/>
+        <location filename="../../ui/workspaces.py" line="2869"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2865"/>
+        <location filename="../../ui/workspaces.py" line="2870"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2869"/>
+        <location filename="../../ui/workspaces.py" line="2874"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} gün, dP/dt = {dp:.3g} ± {dpe:.2g} sn/yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2873"/>
+        <location filename="../../ui/workspaces.py" line="2878"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2879"/>
-        <location filename="../../ui/workspaces.py" line="2940"/>
+        <location filename="../../ui/workspaces.py" line="2884"/>
+        <location filename="../../ui/workspaces.py" line="2945"/>
         <source>primary</source>
         <translation>birincil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2879"/>
-        <location filename="../../ui/workspaces.py" line="2940"/>
+        <location filename="../../ui/workspaces.py" line="2884"/>
+        <location filename="../../ui/workspaces.py" line="2945"/>
         <source>secondary</source>
         <translation>ikincil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2884"/>
-        <location filename="../../ui/workspaces.py" line="2944"/>
+        <location filename="../../ui/workspaces.py" line="2889"/>
+        <location filename="../../ui/workspaces.py" line="2949"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2888"/>
-        <location filename="../../ui/workspaces.py" line="2948"/>
+        <location filename="../../ui/workspaces.py" line="2893"/>
+        <location filename="../../ui/workspaces.py" line="2953"/>
         <source>Epoch</source>
         <translation>Çevrim (E)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2889"/>
-        <location filename="../../ui/workspaces.py" line="2949"/>
+        <location filename="../../ui/workspaces.py" line="2894"/>
+        <location filename="../../ui/workspaces.py" line="2954"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2897"/>
+        <location filename="../../ui/workspaces.py" line="2902"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Üçüncü cisim: P3 = {p:.2f} ± {pe:.2f} yıl, A = {a:.2f} ± {ae:.2f} dk, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2906"/>
+        <location filename="../../ui/workspaces.py" line="2911"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2912"/>
+        <location filename="../../ui/workspaces.py" line="2917"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidal hareket: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/çevrim, U = {u:.1f} yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2914"/>
+        <location filename="../../ui/workspaces.py" line="2919"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2927"/>
+        <location filename="../../ui/workspaces.py" line="2932"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
@@ -6146,299 +6156,329 @@
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2968"/>
+        <location filename="../../ui/workspaces.py" line="2973"/>
         <source>No light curve yet: measure one on the Photometry page or load a CSV file.</source>
         <translation>Henüz ışık eğrisi yok: Fotometri sayfasında ölçün ya da bir CSV dosyası yükleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2983"/>
+        <location filename="../../ui/workspaces.py" line="2999"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>yıldız adı, ör. AI Dra ya da TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2990"/>
+        <location filename="../../ui/workspaces.py" line="3006"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2972"/>
+        <location filename="../../ui/workspaces.py" line="2977"/>
         <source>Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…</source>
         <translation>CSV yükle (zaman, akı; ya da AAVSO / ZTF / ASAS-SN dosyaları)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2975"/>
+        <location filename="../../ui/workspaces.py" line="2980"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Zaman sütunu ve parlaklık sütunu olan herhangi bir tablo; AAVSO, ZTF ve ASAS-SN&apos;den indirilen dosyalar tanınır</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2985"/>
+        <source>Save light curve (CSV)…</source>
+        <translation>Işık eğrisini kaydet (CSV)…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2988"/>
+        <source>The light curve as shown (downloaded, edited) in a CSV file: open it on the Orbits &amp; models page or in another program</source>
+        <translation>Işık eğrisi gösterildiği haliyle (indirilmiş, düzenlenmiş) bir CSV dosyasına: Yörünge ve modeller sayfasında ya da başka bir programda açın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="3001"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Yıldızın arşivdeki adı ya da katalog numarası; Enter indirmeyi başlatır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2989"/>
+        <location filename="../../ui/workspaces.py" line="3005"/>
         <source>The archive to download the light curve from</source>
         <translation>Işık eğrisinin indirileceği arşiv</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2992"/>
+        <location filename="../../ui/workspaces.py" line="3008"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>MAST&apos;tan TESS / Kepler / K2, IRSA&apos;dan ZTF, AAVSO gözlemleri (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3001"/>
+        <location filename="../../ui/workspaces.py" line="3017"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (zonklayan yıldızlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3002"/>
+        <location filename="../../ui/workspaces.py" line="3018"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (geçişler, Algol türü örtmeler)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3003"/>
+        <location filename="../../ui/workspaces.py" line="3019"/>
         <source>PDM (any shape)</source>
         <translation>PDM (her biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3004"/>
+        <location filename="../../ui/workspaces.py" line="3020"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (çok harmonikli, her düzgün biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3007"/>
+        <location filename="../../ui/workspaces.py" line="3023"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima</source>
         <translation>Lomb–Scargle: sinüse benzer eğriler (zonklama, lekeler); BLS: kısa, kutu biçimli düşüşler; PDM ve ANOVA: her biçimde eğri, örneğin iki minimumlu örten çiftler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3016"/>
+        <location filename="../../ui/workspaces.py" line="3032"/>
         <source>Method</source>
         <translation>Yöntem</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3018"/>
+        <location filename="../../ui/workspaces.py" line="3034"/>
         <source>Shortest period (d)</source>
         <translation>En kısa periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3021"/>
+        <location filename="../../ui/workspaces.py" line="3037"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Aranan en kısa dönem; noktalar arası sürenin iki katından kısa dönemler bulunamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3023"/>
+        <location filename="../../ui/workspaces.py" line="3039"/>
         <source>Longest period (d)</source>
         <translation>En uzun periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3025"/>
+        <location filename="../../ui/workspaces.py" line="3041"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Aranan en uzun dönem; veri bunun en az iki çevrimini kapsamalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3031"/>
+        <location filename="../../ui/workspaces.py" line="3047"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3032"/>
+        <location filename="../../ui/workspaces.py" line="3048"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Katlanmış grafikte bu kadar evre aralığında ortalama eğri</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3034"/>
+        <location filename="../../ui/workspaces.py" line="3050"/>
         <source>Phase bins</source>
         <translation>Evre aralıkları</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3041"/>
+        <location filename="../../ui/workspaces.py" line="3057"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Aykırı noktaları at için standart sapma cinsinden sınır</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3042"/>
+        <location filename="../../ui/workspaces.py" line="3058"/>
         <source>Remove outliers (σ)</source>
         <translation>Aykırı noktaları at (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3043"/>
+        <location filename="../../ui/workspaces.py" line="3059"/>
         <source>remove outliers</source>
         <translation>aykırı noktaları atma</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3046"/>
+        <location filename="../../ui/workspaces.py" line="3062"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Zamandaki komşularının medyanından bu kadar standart sapmadan uzak noktaları siler (kozmik ışın, kötü kare); Ctrl+Z geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3053"/>
+        <location filename="../../ui/workspaces.py" line="3069"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Zamanda grupla için bir zaman aralığının dakika cinsinden uzunluğu</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3054"/>
+        <location filename="../../ui/workspaces.py" line="3070"/>
         <source>Bin in time (min)</source>
         <translation>Zamanda grupla (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3055"/>
+        <location filename="../../ui/workspaces.py" line="3071"/>
         <source>bin in time</source>
         <translation>zamanda gruplama</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3074"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Noktaları bu uzunluktaki zaman aralıklarında ortalar: daha az gürültü, daha az nokta; aralıklar bir tutulmadan çok daha kısa olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3062"/>
+        <location filename="../../ui/workspaces.py" line="3078"/>
         <source>Delete points by clicking</source>
         <translation>Tıklayarak nokta sil</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3064"/>
+        <location filename="../../ui/workspaces.py" line="3080"/>
         <source>Click a point on the light-curve plot to remove it</source>
         <translation>Kaldırmak için ışık eğrisi grafiğinde bir noktaya tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3065"/>
+        <location filename="../../ui/workspaces.py" line="3081"/>
         <source>Flux ↔ magnitude</source>
         <translation>Akı ↔ kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3066"/>
+        <location filename="../../ui/workspaces.py" line="3082"/>
         <source>flux / magnitude</source>
         <translation>akı / kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3067"/>
+        <location filename="../../ui/workspaces.py" line="3083"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Göreli akıyı kadire (−2,5 log) ya da tersine çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3068"/>
+        <location filename="../../ui/workspaces.py" line="3084"/>
         <source>Undo edits</source>
         <translation>Düzenlemeleri geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3069"/>
+        <location filename="../../ui/workspaces.py" line="3085"/>
         <source>undo edits</source>
         <translation>düzenlemeleri geri alma</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3070"/>
+        <location filename="../../ui/workspaces.py" line="3086"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Işık eğrisinin yüklendiği hâline döner (Ctrl+Z her seferinde bir adım geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3079"/>
+        <location filename="../../ui/workspaces.py" line="3095"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3084"/>
+        <location filename="../../ui/workspaces.py" line="3100"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>En kısa ve en uzun dönem arasında periyodogramı hesaplar ve eğriyi en iyi döneme göre katlar; katlanmış grafiği gözle kontrol edin</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3105"/>
+        <location filename="../../ui/workspaces.py" line="3121"/>
         <source>Downloading from {source}…</source>
         <translation>{source} kaynağından indiriliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3123"/>
+        <location filename="../../ui/workspaces.py" line="3139"/>
         <source>{n} points from {source}</source>
         <translation>{n} nokta, kaynak: {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3133"/>
+        <location filename="../../ui/workspaces.py" line="3149"/>
         <source>outliers removed</source>
         <translation>aykırılar atıldı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3138"/>
+        <location filename="../../ui/workspaces.py" line="3154"/>
         <source>binned</source>
         <translation>gruplandı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3145"/>
+        <location filename="../../ui/workspaces.py" line="3161"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Kadire çevirmek için akılar pozitif olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3149"/>
+        <location filename="../../ui/workspaces.py" line="3165"/>
         <source>magnitudes</source>
         <translation>kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3149"/>
+        <location filename="../../ui/workspaces.py" line="3165"/>
         <source>flux</source>
         <translation>akı</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3169"/>
+        <location filename="../../ui/workspaces.py" line="3185"/>
         <source>points deleted</source>
         <translation>noktalar silindi</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3169"/>
+        <location filename="../../ui/workspaces.py" line="3185"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3185"/>
+        <location filename="../../ui/workspaces.py" line="3201"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zaman − {t:.0f} (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3185"/>
+        <location filename="../../ui/workspaces.py" line="3201"/>
         <source>Time (d)</source>
         <translation>Zaman (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3186"/>
-        <location filename="../../ui/workspaces.py" line="3245"/>
+        <location filename="../../ui/workspaces.py" line="3202"/>
+        <location filename="../../ui/workspaces.py" line="3290"/>
         <source>Magnitude</source>
         <translation>Kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3192"/>
+        <location filename="../../ui/workspaces.py" line="3208"/>
         <source>Load light curve</source>
         <translation>Işık eğrisi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3216"/>
+        <location filename="../../ui/workspaces.py" line="3232"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3219"/>
+        <location filename="../../ui/workspaces.py" line="3242"/>
+        <source>No light curve to save yet.</source>
+        <translation>Henüz kaydedilecek ışık eğrisi yok.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="3245"/>
+        <source>Save light curve</source>
+        <translation>Işık eğrisini kaydet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="3248"/>
+        <source>Saved {n} points to {file}</source>
+        <translation>{n} nokta {file} dosyasına kaydedildi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="3251"/>
         <source>Searching…</source>
         <translation>Aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3225"/>
+        <location filename="../../ui/workspaces.py" line="3257"/>
         <source>Best period: {p:.6f} d</source>
         <translation>En iyi periyot: {p:.6f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3235"/>
+        <location filename="../../ui/workspaces.py" line="3267"/>
+        <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
+        <translation>Veri birbirinden {g:.0f} gün uzak parçalardan oluşuyor: boşluk boyunca bir döngü fazla ya da eksik sayan periyotlar ({p1:.6f} ya da {p2:.6f} gün) neredeyse aynı iyilikte uyar. Minimum zamanlarıyla (O−C) kontrol edin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="3280"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3236"/>
+        <location filename="../../ui/workspaces.py" line="3281"/>
         <source>Power</source>
         <translation>Güç</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3244"/>
+        <location filename="../../ui/workspaces.py" line="3289"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3186"/>
-        <location filename="../../ui/workspaces.py" line="3245"/>
+        <location filename="../../ui/workspaces.py" line="3202"/>
+        <location filename="../../ui/workspaces.py" line="3290"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
@@ -7402,261 +7442,266 @@
         <translation>Gözlem yerinin enlemi, derece, kuzey artı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="93"/>
-        <source>Targets: name (looked up in SIMBAD) or coordinates</source>
-        <translation>Hedefler: ad (SIMBAD&apos;da aranır) veya koordinat</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="99"/>
-        <source>A star name (looked up in SIMBAD, needs the internet) or coordinates RA Dec; Enter adds it</source>
-        <translation>Bir yıldız adı (SIMBAD&apos;da aranır, internet gerekir) ya da RA Dec koordinatları; Enter ekler</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="101"/>
+        <location filename="../../ui/plan_page.py" line="104"/>
         <source>Add</source>
         <translation>Ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="103"/>
-        <source>Adds the target to the list with its coordinates only</source>
-        <translation>Hedefi yalnızca koordinatlarıyla listeye ekler</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="104"/>
+        <location filename="../../ui/plan_page.py" line="112"/>
         <source>Add with ephemeris</source>
         <translation>Efemerisle ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="106"/>
-        <source>Coordinates, period, epoch and duration from VSX (variable stars) or the NASA Exoplanet Archive</source>
-        <translation>Koordinat, periyot, başlangıç zamanı ve süre VSX&apos;ten (değişen yıldızlar) ya da NASA Ötegezegen Arşivi&apos;nden</translation>
+        <location filename="../../ui/plan_page.py" line="93"/>
+        <source>Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon</source>
+        <translation>Hedefler: ad (SIMBAD&apos;da aranır), koordinat ya da bir gezegen / Ay</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="116"/>
+        <location filename="../../ui/plan_page.py" line="100"/>
+        <source>A star name (looked up in SIMBAD, needs the internet), coordinates RA Dec, or a planet / the Moon (followed through the night, works offline); Enter adds it</source>
+        <translation>Bir yıldız adı (SIMBAD&apos;da aranır, internet gerekir), RA Dec koordinatı ya da bir gezegen / Ay (gece boyunca izlenir, internetsiz çalışır); Enter ekler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="108"/>
+        <source>Adds the target with its coordinates only: enough to see when it is high in the sky. Several targets (stars, planets, the Moon) are drawn together in one chart</source>
+        <translation>Hedefi yalnızca koordinatlarıyla ekler: gökyüzünde ne zaman yüksekte olduğunu görmek için yeterli. Birden çok hedef (yıldızlar, gezegenler, Ay) aynı grafikte birlikte çizilir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="115"/>
+        <source>An ephemeris is the timetable of a variable star or planet: the time of one minimum or transit (T0) and the period, from which every later one is computed. This button adds the target with its coordinates and its T0, period and duration from VSX (variable stars) or the NASA Exoplanet Archive; the night plan then lists the eclipses / transits you can observe</source>
+        <translation>Efemeris, bir değişen yıldızın ya da gezegenin zaman çizelgesidir: bir minimumun ya da geçişin zamanı (T0) ve periyot; sonraki tüm minimumlar bunlardan hesaplanır. Bu düğme hedefi koordinatlarıyla birlikte T0, periyot ve süresiyle VSX&apos;ten (değişen yıldızlar) ya da NASA Ötegezegen Arşivi&apos;nden ekler; gece planı da gözleyebileceğiniz örtmeleri / geçişleri listeler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="128"/>
+        <source>Add: position only (when is it high?). Add with ephemeris: also the times of its eclipses or transits (an ephemeris = T0 and period of a variable star or planet).</source>
+        <translation>Ekle: yalnızca konum (ne zaman yüksekte?). Efemerisle ekle: örtme ya da geçiş zamanlarıyla birlikte (efemeris = bir değişen yıldızın ya da gezegenin T0&apos;ı ve periyodu).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="138"/>
         <source>Name</source>
         <translation>Ad</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="119"/>
+        <location filename="../../ui/plan_page.py" line="141"/>
         <source>T0 (BJD)</source>
         <translation>T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="120"/>
+        <location filename="../../ui/plan_page.py" line="142"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="121"/>
+        <location filename="../../ui/plan_page.py" line="143"/>
         <source>Duration (d)</source>
         <translation>Süre (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="122"/>
+        <location filename="../../ui/plan_page.py" line="144"/>
         <source>Secondary</source>
         <translation>İkincil</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="126"/>
+        <location filename="../../ui/plan_page.py" line="148"/>
         <source>Enter T0 and period to list minima / transits of the night.</source>
         <translation>Gecenin minimum/geçişlerini listelemek için T0 ve periyot girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="128"/>
+        <location filename="../../ui/plan_page.py" line="150"/>
         <source>type a value</source>
         <translation>değer yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="129"/>
+        <location filename="../../ui/plan_page.py" line="151"/>
         <source>Remove selected</source>
         <translation>Seçileni kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="131"/>
+        <location filename="../../ui/plan_page.py" line="153"/>
         <source>remove a target</source>
         <translation>hedefi sil</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="133"/>
+        <location filename="../../ui/plan_page.py" line="155"/>
         <source>Removes the selected target from the list</source>
         <translation>Seçili hedefi listeden çıkarır</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="134"/>
+        <location filename="../../ui/plan_page.py" line="156"/>
         <source>Exposure time…</source>
         <translation>Poz süresi…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="135"/>
+        <location filename="../../ui/plan_page.py" line="157"/>
         <source>How long to expose for a wanted signal-to-noise, and when a star saturates</source>
         <translation>İstenen sinyal/gürültü için ne kadar poz verileceği ve bir yıldızın ne zaman doyuma ulaşacağı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="141"/>
+        <location filename="../../ui/plan_page.py" line="163"/>
         <source>Plan the night</source>
         <translation>Geceyi planla</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="145"/>
+        <location filename="../../ui/plan_page.py" line="167"/>
         <source>Altitude of every target through the night with twilight and the Moon, and the minima / transits that fall in the dark hours</source>
         <translation>Gece boyunca her hedefin yüksekliği, alacakaranlık ve Ay ile birlikte, ve karanlık saatlere düşen minimumlar / geçişler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="151"/>
+        <location filename="../../ui/plan_page.py" line="173"/>
         <source>Make a schedule</source>
         <translation>Program yap</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="153"/>
+        <location filename="../../ui/plan_page.py" line="175"/>
         <source>Eclipses and transits first, then the highest target in each hour of the night</source>
         <translation>Önce örtmeler ve geçişler, sonra gecenin her saatinde en yüksekteki hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="156"/>
+        <location filename="../../ui/plan_page.py" line="178"/>
         <source>Send to the Observe page</source>
         <translation>Gözlem sayfasına gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="159"/>
+        <location filename="../../ui/plan_page.py" line="181"/>
         <source>The schedule becomes the night plan of the Observe page; you still check it and start it there</source>
         <translation>Program, Gözlem sayfasının gece planı olur; yine de orada kontrol edip siz başlatırsınız</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="176"/>
-        <location filename="../../ui/plan_page.py" line="189"/>
+        <location filename="../../ui/plan_page.py" line="198"/>
+        <location filename="../../ui/plan_page.py" line="211"/>
         <source>Target</source>
         <translation>Hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="177"/>
+        <location filename="../../ui/plan_page.py" line="199"/>
         <source>Event</source>
         <translation>Olay</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="178"/>
-        <location filename="../../ui/plan_page.py" line="189"/>
+        <location filename="../../ui/plan_page.py" line="200"/>
+        <location filename="../../ui/plan_page.py" line="211"/>
         <source>Start (UTC)</source>
         <translation>Başlangıç (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="179"/>
+        <location filename="../../ui/plan_page.py" line="201"/>
         <source>Middle (UTC)</source>
         <translation>Orta (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="180"/>
-        <location filename="../../ui/plan_page.py" line="189"/>
+        <location filename="../../ui/plan_page.py" line="202"/>
+        <location filename="../../ui/plan_page.py" line="211"/>
         <source>End (UTC)</source>
         <translation>Bitiş (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="181"/>
+        <location filename="../../ui/plan_page.py" line="203"/>
         <source>Observable</source>
         <translation>Gözlenebilir</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="189"/>
+        <location filename="../../ui/plan_page.py" line="211"/>
         <source>Why</source>
         <translation>Neden</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="218"/>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="240"/>
+        <location filename="../../ui/plan_page.py" line="288"/>
         <source>Looking up {name}…</source>
         <translation>{name} aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="243"/>
+        <location filename="../../ui/plan_page.py" line="265"/>
         <source>Also list the secondary minima (half a period after the primary)</source>
         <translation>İkincil minimumları da listele (birincilden yarım dönem sonra)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="244"/>
+        <location filename="../../ui/plan_page.py" line="266"/>
         <source>secondary minima</source>
         <translation>ikincil minimumlar</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="248"/>
+        <location filename="../../ui/plan_page.py" line="270"/>
         <source>add a target</source>
         <translation>hedef ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="261"/>
+        <location filename="../../ui/plan_page.py" line="283"/>
         <source>{name} added ({source}).</source>
         <translation>{name} eklendi ({source}).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="284"/>
+        <location filename="../../ui/plan_page.py" line="306"/>
         <source>Row {row}: T0, period and duration must be numbers</source>
         <translation>Satır {row}: T0, periyot ve süre sayı olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="296"/>
+        <location filename="../../ui/plan_page.py" line="318"/>
         <source>Computing…</source>
         <translation>Hesaplanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="325"/>
+        <location filename="../../ui/plan_page.py" line="347"/>
         <source>eclipse / transit</source>
         <translation>örtme / geçiş</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="325"/>
+        <location filename="../../ui/plan_page.py" line="347"/>
         <source>highest target</source>
         <translation>en yüksek hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="338"/>
+        <location filename="../../ui/plan_page.py" line="360"/>
         <source>No target is high enough during the dark hours.</source>
         <translation>Karanlık saatlerde yeterince yüksek bir hedef yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="365"/>
+        <location filename="../../ui/plan_page.py" line="388"/>
         <source>Moon ({p:.0f} %)</source>
         <translation>Ay (%{p:.0f})</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="370"/>
+        <location filename="../../ui/plan_page.py" line="394"/>
         <source>UTC (hours)</source>
         <translation>UTC (saat)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="371"/>
+        <location filename="../../ui/plan_page.py" line="395"/>
         <source>Altitude (°)</source>
         <translation>İrtifa (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="374"/>
+        <location filename="../../ui/plan_page.py" line="398"/>
         <source>Airmass</source>
         <translation>Airmass/hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="380"/>
+        <location filename="../../ui/plan_page.py" line="404"/>
         <source>minimum I / transit</source>
         <translation>minimum I / geçiş</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="380"/>
+        <location filename="../../ui/plan_page.py" line="404"/>
         <source>minimum II</source>
         <translation>minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="393"/>
+        <location filename="../../ui/plan_page.py" line="417"/>
         <source>yes</source>
         <translation>evet</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="393"/>
+        <location filename="../../ui/plan_page.py" line="417"/>
         <source>partly</source>
         <translation>kısmen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="397"/>
+        <location filename="../../ui/plan_page.py" line="421"/>
         <source>no astronomical night</source>
         <translation>astronomik gece yok</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="399"/>
+        <location filename="../../ui/plan_page.py" line="423"/>
         <source>Astronomical night: {dusk} – {dawn} UTC; {n} events.</source>
         <translation>Astronomik gece: {dusk} – {dawn} UTC; {n} olay.</translation>
     </message>

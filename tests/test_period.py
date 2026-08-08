@@ -39,3 +39,24 @@ def test_pdm_finds_eclipsing_binary(sampling):
 
 def test_fold_phase_zero_at_t0():
     assert fold([10.0, 10.5, 11.0], 1.0, t0=10.0).tolist() == [0.0, -0.5, 0.0]
+
+
+@pytest.mark.parametrize("method", ["pdm", "bls", "anova"])
+def test_two_seasons_two_years_apart_are_searched_quickly(method):
+    """Two TESS-like sectors 700 d apart: before, PDM ran for hours and BLS for minutes on such data."""
+    import time
+
+    from astrowb.timeseries.fourier import anova
+
+    rng = np.random.default_rng(2)
+    p = 0.3336330  # W UMa-like
+    t = np.concatenate([np.arange(0, 27, 2 / 1440), np.arange(700, 727, 2 / 1440)])
+    phase = (t / p) % 1
+    secondary = 0.2 * np.exp(-0.5 * ((phase - 0.5) / 0.04) ** 2)
+    y = 1 - secondary - 0.25 * np.exp(-0.5 * (np.minimum(phase, 1 - phase) / 0.04) ** 2)
+    y += rng.normal(0, 0.002, len(t))
+    start = time.time()
+    _, _, best = {"pdm": pdm, "bls": bls, "anova": anova}[method](t, y, p_min=0.1, p_max=2.0)
+    assert time.time() - start < 60
+    found = best if method == "bls" else best * (2 if best < 0.2 else 1)  # equal minima: P/2 is as good
+    assert found == pytest.approx(p, abs=3e-6)  # the right cycle count across the 700-day gap

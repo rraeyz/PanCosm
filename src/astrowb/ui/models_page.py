@@ -323,6 +323,19 @@ class ModelsPage(Undoable, QWidget):
             chi=r["chi2r"],
             n=r["n"],
         )
+        roche = r.get("roche") or {}
+        if roche.get("level") == "contact":
+            text += "\n" + self.tr(
+                "⚠ A star fills {f:.0f} % of its Roche lobe (lobe radius {l1:.3f} and {l2:.3f} for q = {q:.2f}): "
+                "a semi-detached or contact (W UMa-type) binary. This model treats the stars as spheres and does "
+                "not hold for it: the radii and the inclination are not reliable. Export the PHOEBE or "
+                "Wilson–Devinney files and fit a Roche model there. Times of minimum and O−C are not affected."
+            ).format(f=100 * roche["fill"], l1=roche["lobe1"], l2=roche["lobe2"], q=roche["q"])
+        elif roche.get("level") == "distorted":
+            text += "\n" + self.tr(
+                "Note: a radius above 0.25 of the separation: the stars are tidally flattened by a few per cent and "
+                "the spheres model is only approximate (its errors are too small). Check the result with PHOEBE."
+            )
         a = r.get("absolute")
         if a:
             text += "\n" + self.tr(

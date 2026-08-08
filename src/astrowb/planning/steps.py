@@ -3,9 +3,10 @@
 from dataclasses import asdict
 
 import numpy as np
+from astropy.coordinates import get_body
 
 from ..engine.steps import step
-from .targets import Resolver, Target
+from .targets import Resolver, Target, body_of
 from .visibility import Site, airmass, altitudes, events, moon, night, night_grid, sun_altitude
 
 
@@ -34,17 +35,20 @@ def night_step(inputs, params, ctx):
     }
     for i, t in enumerate(inputs["targets"]):
         ctx.progress(i / max(1, len(inputs["targets"])), t["name"])
-        target = Target(t["name"], t["ra"], t["dec"])
-        alt = altitudes(target.coord, times, site)
-        sep = moon(times, site, target.coord)["separation"]
+        body = body_of(t["name"])
+        coord = get_body(body, times, site.location) if body else Target(t["name"], t["ra"], t["dec"]).coord
+        alt = altitudes(coord, times, site)
+        sep = moon(times, site, coord)["separation"]
         entry = {
             "name": t["name"],
             "alt": alt.tolist(),
             "airmass": np.nan_to_num(airmass(alt), nan=-1).tolist(),
             "moon_sep_min": float(np.min(sep)),
             "events": [],
+            "body": body,
         }
-        if t.get("t0") and t.get("period"):
+        if t.get("t0") and t.get("period") and not body:
+            target = Target(t["name"], t["ra"], t["dec"])
             for e in events(
                 t["t0"],
                 t["period"],

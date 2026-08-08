@@ -53,3 +53,39 @@ def test_exoplanet_archive_and_lookup_order():
     assert ephemerides.lookup("AI Dra", fetch=fake)["source"] == "VSX"
     with pytest.raises(TargetError, match="VSX does not know"):
         ephemerides.lookup("nothing", fetch=fake)
+
+
+def test_vsx_falls_back_to_vizier_when_aavso_does_not_answer(monkeypatch):
+    def blocked(url, params):
+        raise OSError("HTTP Error 403: Forbidden")
+
+    monkeypatch.setattr(ephemerides, "_vsx_vizier", lambda name: VSX_AI_DRA if name == "AI Dra" else {})
+    star = ephemerides.vsx("AI Dra", fetch=blocked)
+    assert star["t0"] == pytest.approx(2443300.444) and star["period"] == pytest.approx(1.1988146)
+    with pytest.raises(TargetError, match="VSX does not know"):
+        ephemerides.vsx("nobody", fetch=blocked)
+
+
+def test_cds_mirrors_are_tried_in_turn_and_remembered(tmp_path, monkeypatch):
+    from astrowb import mirrors
+
+    monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    monkeypatch.setattr(mirrors, "_working", {})
+    asked = []
+
+    def query(server):
+        asked.append(server)
+        if "unistra" in server:
+            raise ConnectionError("tunnel closed")
+        return server
+
+    assert mirrors.cds("simbad", query) == "simbad.harvard.edu"
+    monkeypatch.setattr(mirrors, "_working", {})  # a new worker process: read back from the file
+    asked.clear()
+    assert mirrors.cds("simbad", query) == "simbad.harvard.edu" and asked == ["simbad.harvard.edu"]
+
+    def missing(server):
+        raise TargetError("SIMBAD does not know 'x'")
+
+    with pytest.raises(TargetError):  # an answer, not a failure: not retried elsewhere
+        mirrors.cds("simbad", missing)

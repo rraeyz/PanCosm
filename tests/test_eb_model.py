@@ -264,3 +264,12 @@ def test_small_planet_transit_depth_follows_mandel_agol():
     k, u1, u2 = 0.02, 0.4, 0.25
     depth = eb.eclipsed_fraction(np.array([0.0]), k, 1.0, u1, u2)[0]
     assert depth == pytest.approx(k * k / (1 - u1 / 3 - u2 / 6), rel=1e-3)
+
+
+def test_roche_check_flags_contact_and_distorted_binaries():
+    assert fit.roche_check(0.15, 0.10)["level"] is None  # well detached (Algol-like radii)
+    c = fit.roche_check(0.36, 0.36)  # W UMa radii, q = 1: lobe 0.379 (Eggleton 1983)
+    assert c["level"] == "contact" and c["lobe1"] == pytest.approx(0.3789, abs=1e-4)
+    assert fit.roche_check(0.27, 0.12)["level"] == "distorted"
+    semi = fit.roche_check(0.22, 0.27, q=0.3)  # the light secondary fills its small lobe (0.281)
+    assert semi["level"] == "contact" and semi["lobe2"] == pytest.approx(0.2810, abs=1e-3)

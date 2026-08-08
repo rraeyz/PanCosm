@@ -29,12 +29,14 @@ def read_mission_lc(path, flux="PDCSAP"):
     ok = np.isfinite(t) & np.isfinite(f) & np.isfinite(e) & (q == 0)
     med = np.median(f[ok]) if ok.any() else np.nan
     part = head.get("SECTOR", head.get("QUARTER", head.get("CAMPAIGN", "")))
+    if "CAMPAIGN" in head:  # K2 files say TELESCOP = Kepler, MISSION = K2
+        part = f"C{part}"
     return {
         "time": t[ok].tolist(),
         "rel_flux": (f[ok] / med).tolist(),
         "rel_flux_err": (e[ok] / med).tolist(),
         "time_scale": "BJD_TDB",
-        "source": f"{head.get('TELESCOP', head.get('MISSION', '')).strip()} {part}".strip(),
+        "source": f"{head.get('MISSION', head.get('TELESCOP', '')).strip()} {part}".strip(),
     }
 
 
@@ -68,8 +70,10 @@ def download(target, mission, folder, author=None, observations=None, max_files=
     if len(obs) == 0:
         raise ValueError(f"no {mission} light curves for {target}")
     products = observations.get_product_list(obs)
-    lcs = products[products["productSubGroupDescription"] == "LC"]
-    names = np.asarray(lcs["provenance_name"], str)
+    # light curves: "LC" (TESS), "LLC" (Kepler / K2 long cadence); the product list names the pipeline in
+    # "project" (astroquery 0.4.11, 2026; "provenance_name" before)
+    lcs = products[np.isin(np.asarray(products["productSubGroupDescription"], str), ["LC", "LLC"])]
+    names = np.asarray(lcs["provenance_name" if "provenance_name" in lcs.colnames else "project"], str)
     # TESS: the 2-min SPOC light curves; the full-frame TESS-SPOC ones only when there are none (same sectors)
     for wanted in [author] if author else {"TESS": ["SPOC", "TESS-SPOC"], "Kepler": ["Kepler"], "K2": ["K2"]}[mission]:
         products = lcs[names == wanted]

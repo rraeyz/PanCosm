@@ -162,6 +162,24 @@ def absolute_dimensions(lc, orbit, n=5000, seed=1):
     return out
 
 
+def roche_check(r1, r2, q=None):
+    """How far the spheres model holds for fractional radii r1, r2 (q = M2/M1; 1 when unknown).
+    "contact": a star fills at least 90 % of its Roche lobe (Eggleton 1983, volume-equivalent radius) - a
+    semi-detached or contact (W UMa) binary, which needs a Roche model (PHOEBE, Wilson-Devinney);
+    "distorted": a radius above 0.25 a, where tidal flattening of a few per cent makes EBOP-type sphere models
+    approximate (Popper & Etzel 1981; Southworth 2008); otherwise None."""
+
+    def lobe(x):  # lobe radius / a of a star with mass ratio x = M_this / M_other
+        c = x ** (2 / 3)
+        return 0.49 * c / (0.6 * c + np.log1p(x ** (1 / 3)))
+
+    q = q or 1.0
+    lobe1, lobe2 = lobe(1 / q), lobe(q)
+    fill = max(r1 / lobe1, r2 / lobe2)
+    level = "contact" if fill >= 0.9 else "distorted" if max(r1, r2) > 0.25 else None
+    return {"level": level, "fill": float(fill), "lobe1": float(lobe1), "lobe2": float(lobe2), "q": float(q)}
+
+
 def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=2000, ctx=None, seed=1):
     """Posterior of the free parameters around a least-squares result (affine-invariant ensemble sampler,
     emcee; Goodman & Weare 2010). Flat priors inside BOUNDS. Without errors the noise is taken from the

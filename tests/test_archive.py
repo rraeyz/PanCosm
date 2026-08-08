@@ -52,9 +52,7 @@ class FakeObservations:
         return Table({"obsid": [1]})
 
     def get_product_list(self, obs):
-        return Table(
-            {"productSubGroupDescription": ["LC", "TPF", "LC"], "provenance_name": ["SPOC", "SPOC", "TESS-SPOC"]}
-        )
+        return Table({"productSubGroupDescription": ["LC", "TPF", "LC"], "project": ["SPOC", "SPOC", "TESS-SPOC"]})
 
     def download_products(self, products, download_dir, cache):
         self.folder = download_dir
