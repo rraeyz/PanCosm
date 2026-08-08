@@ -88,3 +88,16 @@ def survey_lc_step(inputs, params, ctx):
     if not rows:
         raise ValueError(f"no {params['source']} light curves for {inputs['target']}")
     return {"light_curve": surveys.to_light_curve(rows, coord, params["band"], params["source"])}
+
+
+@step("timeseries.oc_fit", inputs=("minima",), outputs=("fit",), model="ltte", t0=0.0, period=1.0, mcmc_steps=0)
+def oc_fit_step(inputs, params, ctx):
+    """Third-body or apsidal-motion fit to "time [error] [I/II]" lines, with MCMC errors when mcmc_steps > 0: a task,
+    so the page stays usable during the chain and it can be cancelled."""
+    from .ephemeris import parse_minima
+    from .oc_models import fit_apsidal, fit_ltte
+
+    minima = parse_minima(inputs["minima"])
+    fit = {"ltte": fit_ltte, "apsidal": fit_apsidal}[params["model"]]
+    ctx.progress(0.02, "fit")
+    return {"fit": fit(minima, params["t0"], params["period"], mcmc_steps=params["mcmc_steps"], ctx=ctx)}

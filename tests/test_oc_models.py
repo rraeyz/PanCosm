@@ -95,3 +95,41 @@ def test_oc_page_fits_both_models(qtbot):
     assert page.run_fit() is None and "8 minima" in page.result.text()
     page.linear.setChecked(True)
     assert not page.use_mcmc.isEnabled()  # a linear problem: least squares are exact
+
+
+def test_mcmc_runs_as_a_task_and_reports_progress(qtbot):
+    from astrowb.timeseries.steps import oc_fit_step
+    from astrowb.ui.workspaces import OCPage
+
+    rng = np.random.default_rng(6)
+    ps, e = 2.5, np.arange(0, 3000, 75.0)
+    kinds = np.array(["I", "II"] * (len(e) // 2))
+    t = _apsidal(e, kinds, T0, ps, 0.05, 60.0, 0.1) + rng.normal(0, 0.0002, len(e))
+    text = "\n".join(f"{x:.6f} 0.0002 {k}" for x, k in zip(t, kinds, strict=True))
+    page = OCPage()
+    qtbot.addWidget(page)
+    calls = []
+    page.background = lambda *args: calls.append(args)
+    page.text.setPlainText(text)
+    page.t0.setText(str(T0))
+    page.period.setText(str(ps))
+    page.apsidal.setChecked(True)
+    page.use_mcmc.setChecked(True)
+    page.mcmc_steps.setValue(200)
+    assert page.run_fit() is None and calls[0][:2] == ("apsidal", text) and calls[0][4] == 200
+
+    class Ctx:
+        seen = []
+
+        def progress(self, f, word=""):
+            self.seen.append(word)
+
+        def check(self):
+            pass
+
+    ctx = Ctx()
+    params = {"model": "apsidal", "t0": T0, "period": ps, "mcmc_steps": 200}
+    fit = oc_fit_step({"minima": text}, params, ctx)["fit"]
+    assert fit.mcmc and "MCMC" in ctx.seen
+    page.show_fit(fit, calls[0][5])  # the task's answer drawn on the page
+    assert "MCMC" in page.result.text() and page.fit_result is fit
