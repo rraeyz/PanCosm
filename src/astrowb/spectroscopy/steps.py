@@ -49,10 +49,22 @@ def reduce_step(inputs, params, ctx):
     when an arc and at least two identified (pixel, wavelength) pairs are given."""
     data, header = _load(inputs["science"], params)
     ctx.progress(0.1, "trace")
-    if params["trace_row"] and params["guess_row"]:  # a faint spectrum: the shape of a brighter one, moved to it
-        coef = longslit.shifted_trace(data, longslit.trace(data, params["trace_row"]), params["guess_row"])
-    else:
-        coef = longslit.trace(data, params["guess_row"])
+    try:
+        if params["trace_row"] and params["guess_row"]:  # a faint spectrum: the shape of a brighter one, moved to it
+            coef = longslit.shifted_trace(data, longslit.trace(data, params["trace_row"]), params["guess_row"])
+        else:
+            coef = longslit.trace(data, params["guess_row"])
+    except ValueError:
+        if params["guess_row"] is None:  # the frame turned the other way? (ESO EFOSC2 disperses along y)
+            try:
+                longslit.trace(data.T)
+            except ValueError:
+                pass
+            else:
+                raise ValueError(
+                    "the spectrum runs the other way on this frame: change 'Dispersion along' (rows / columns)"
+                ) from None
+        raise
     gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
     w, so, sw = params["width"], params["sky_offset"], params["sky_width"]
     ctx.progress(0.4, "extraction")

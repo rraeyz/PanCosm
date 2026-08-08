@@ -168,6 +168,18 @@ def reference_arc(path):
     return np.asarray(wave, float), np.asarray(flux, float)
 
 
+def is_frame(path):
+    """True for a 2-D frame: the raw arc an IRAF database's pixels were measured on (PESSTO's EFOSC2 references),
+    which is matched by a pixel shift, not as a calibrated 1-D spectrum."""
+    from astropy.io import fits
+
+    try:
+        with fits.open(path) as h:
+            return any(x.is_image and x.data is not None and x.data.ndim == 2 for x in h)
+    except (OSError, ValueError):
+        return False
+
+
 def find_reference(database):
     """The reference arc an IRAF database was made on: database/id<name> -> <name>.fits next to the folder."""
     path = Path(database)

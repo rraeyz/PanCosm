@@ -534,22 +534,38 @@ class MainWindow(QMainWindow):
         rt, vt, et, tt = page.reduce_tab, page.velocity_tab, page.echelle_tab, page.telluric_tab
         rt.reduce_requested.connect(
             lambda inputs, params: self.run_step(
-                "spectroscopy.reduce", inputs, params, on_done=lambda out: self._spectrum_done(out["spectrum"])
+                "spectroscopy.reduce",
+                inputs,
+                params,
+                on_done=lambda out: self._spectrum_done(out["spectrum"]),
+                on_fail=rt.status.setText,  # not "Working…" behind an error box
             )
         )
         et.reduce_requested.connect(
             lambda inputs, params: self.run_step(
-                "spectroscopy.echelle", inputs, params, on_done=lambda out: self._echelle_done(out["echelle"])
+                "spectroscopy.echelle",
+                inputs,
+                params,
+                on_done=lambda out: self._echelle_done(out["echelle"]),
+                on_fail=et.status.setText,
             )
         )
         et.orders_requested.connect(
             lambda inputs, params: self.run_step(
-                "spectroscopy.orders", inputs, params, on_done=lambda out: et.show_orders(out["orders"])
+                "spectroscopy.orders",
+                inputs,
+                params,
+                on_done=lambda out: et.show_orders(out["orders"]),
+                on_fail=et.status.setText,
             )
         )
         tt.correct_requested.connect(
             lambda inputs, params: self.run_step(
-                "spectroscopy.telluric", inputs, params, on_done=lambda out: self._telluric_done(out["telluric"])
+                "spectroscopy.telluric",
+                inputs,
+                params,
+                on_done=lambda out: self._telluric_done(out["telluric"]),
+                on_fail=tt.status.setText,
             )
         )
         vt.rv_requested.connect(
@@ -558,11 +574,16 @@ class MainWindow(QMainWindow):
                 inputs | ({"site": self.settings.get("site")} if self.settings.get("site") else {}),
                 params,
                 on_done=lambda out: vt.show_rvs(out["rvs"], out.get("skipped")),
+                on_fail=vt.status.setText,
             )
         )
         vt.disentangle_requested.connect(
             lambda inputs, params: self.run_step(
-                "spectroscopy.disentangle", inputs, params, on_done=lambda out: vt.show_components(out["components"])
+                "spectroscopy.disentangle",
+                inputs,
+                params,
+                on_done=lambda out: vt.show_components(out["components"]),
+                on_fail=vt.status.setText,
             )
         )
         page.tools_tab.atmosphere_requested.connect(
@@ -589,6 +610,7 @@ class MainWindow(QMainWindow):
                 inputs,
                 params,
                 on_done=lambda out: (vt.show_orbit(out["orbit"]), self.models_page.set_orbit(out["orbit"])),
+                on_fail=vt.status.setText,
             )
         )
         return page
@@ -599,7 +621,7 @@ class MainWindow(QMainWindow):
         page = RemoteSensingPage(self)
         page.step_requested.connect(
             lambda sid, inputs, params: self.run_step(
-                sid, inputs, params, on_done=lambda out: page.show_product(out["product"])
+                sid, inputs, params, on_done=lambda out: page.show_product(out["product"]), on_fail=page.status.setText
             )
         )
         return page
