@@ -163,3 +163,16 @@ def test_every_engine_error_has_a_template():
             if not any(regex.fullmatch(text) for regex, _ in _patterns()):
                 untranslated.append(f"{rel}:{node.lineno}: {text}")
     assert not untranslated, "\n".join(untranslated)
+
+
+def test_no_translation_is_filed_without_a_context():
+    """A tr() helper at module level made the translation tool file texts under an empty context, which the
+    program never asks for: the 'Export results' button stayed English in every language."""
+    import xml.etree.ElementTree as ET
+    from pathlib import Path
+
+    import astrowb
+
+    for ts in (Path(astrowb.__file__).parent / "resources" / "i18n").glob("*.ts"):
+        names = [c.findtext("name") for c in ET.parse(ts).getroot().iter("context")]
+        assert all(names), ts.name

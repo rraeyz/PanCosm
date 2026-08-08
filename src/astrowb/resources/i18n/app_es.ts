@@ -2,24 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es">
 <context>
-    <name></name>
-    <message>
-        <location filename="../../ui/export.py" line="137"/>
-        <source>Export results (CSV / LaTeX)…</source>
-        <translation>Exportar resultados (CSV / LaTeX)…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/export.py" line="140"/>
-        <source>The fitted values with their 1σ errors, rounded as in a paper (the error to two significant digits), as CSV or as a LaTeX table ready for a manuscript</source>
-        <translation>Los valores ajustados con sus errores 1σ, redondeados como en un artículo (el error a dos cifras significativas), como CSV o como tabla LaTeX lista para un manuscrito</translation>
-    </message>
-    <message>
-        <location filename="../../ui/export.py" line="149"/>
-        <source>Export results</source>
-        <translation>Exportar resultados</translation>
-    </message>
-</context>
-<context>
     <name>AavsoDialog</name>
     <message>
         <location filename="../../ui/workspaces.py" line="2586"/>
@@ -1535,6 +1517,24 @@
         <location filename="../../ui/spectro_page.py" line="883"/>
         <source>identify a line</source>
         <translation>identificar una línea</translation>
+    </message>
+</context>
+<context>
+    <name>Export</name>
+    <message>
+        <location filename="../../ui/export.py" line="134"/>
+        <source>Export results (CSV / LaTeX)…</source>
+        <translation>Exportar resultados (CSV / LaTeX)…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/export.py" line="136"/>
+        <source>The fitted values with their 1σ errors, rounded as in a paper (the error to two significant digits), as CSV or as a LaTeX table ready for a manuscript</source>
+        <translation>Los valores ajustados con sus errores 1σ, redondeados como en un artículo (el error a dos cifras significativas), como CSV o como tabla LaTeX lista para un manuscrito</translation>
+    </message>
+    <message>
+        <location filename="../../ui/export.py" line="148"/>
+        <source>Export results</source>
+        <translation>Exportar resultados</translation>
     </message>
 </context>
 <context>

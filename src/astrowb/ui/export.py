@@ -131,14 +131,12 @@ def results_button(parent, rows_and_caption):
     from PySide6.QtCore import QCoreApplication
     from PySide6.QtWidgets import QFileDialog, QPushButton
 
-    def tr(text):
-        return QCoreApplication.translate("Export", text)
-
-    button = QPushButton(tr("Export results (CSV / LaTeX)…"), parent)
-    button.setToolTip(
-        tr(
+    button = QPushButton(QCoreApplication.translate("Export", "Export results (CSV / LaTeX)…"), parent)
+    button.setToolTip(  # translate("Export", ...) written out: the translation tool files it under "Export"
+        QCoreApplication.translate(
+            "Export",
             "The fitted values with their 1σ errors, rounded as in a paper (the error to two significant digits), "
-            "as CSV or as a LaTeX table ready for a manuscript"
+            "as CSV or as a LaTeX table ready for a manuscript",
         )
     )
 
@@ -146,7 +144,9 @@ def results_button(parent, rows_and_caption):
         got = rows_and_caption()
         if not got:
             return
-        path, _ = QFileDialog.getSaveFileName(parent, tr("Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)")
+        path, _ = QFileDialog.getSaveFileName(
+            parent, QCoreApplication.translate("Export", "Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)"
+        )
         if path:
             save_results(path, *got)
 

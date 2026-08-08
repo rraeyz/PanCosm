@@ -190,3 +190,21 @@ def test_a_click_three_pixels_off_is_snapped_onto_the_star(tmp_path):
     lc = light_curve(paths, off, stars[1:3], 8, 16, 24)
     for xy in lc["xy"]:
         assert np.hypot(xy[0][0] - stars[0][0], xy[0][1] - stars[0][1]) < 0.3
+
+
+def test_binned_frame_shift_is_close_enough_for_re_centring():
+    from astrowb.photometry.aperture import frame_shift
+
+    rng = np.random.default_rng(3)
+    yy, xx = np.mgrid[0:1200, 0:1200]
+    stars = rng.uniform(50, 1150, (60, 2))
+
+    def field(dx, dy):
+        img = rng.normal(100, 3, (1200, 1200)).astype(np.float32)
+        for x, y in stars:
+            img += 3000 * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.0**2))
+        return img
+
+    a, b = field(0, 0), field(12.3, -7.6)
+    dx, dy = frame_shift(a, b, binning=2)
+    assert abs(dx - 12.3) < 0.3 and abs(dy + 7.6) < 0.3  # recenter (max 2.5 px) does the rest
