@@ -208,3 +208,14 @@ def test_binned_frame_shift_is_close_enough_for_re_centring():
     a, b = field(0, 0), field(12.3, -7.6)
     dx, dy = frame_shift(a, b, binning=2)
     assert abs(dx - 12.3) < 0.3 and abs(dy + 7.6) < 0.3  # recenter (max 2.5 px) does the rest
+
+
+def test_apertures_fit_a_small_tess_stamp():
+    """A TESS target pixel file is 13 x 11 px: the profile had no sky 25 px away and the radii came out 200 px."""
+    from astrowb.photometry.aperture import choose_apertures
+
+    yy, xx = np.mgrid[0:13, 0:11]
+    rng = np.random.default_rng(1)
+    stamp = 2e5 * np.exp(-((xx - 5.8) ** 2 + (yy - 6.1) ** 2) / (2 * (1.6 / 2.355) ** 2)) + rng.normal(0, 30, (13, 11))
+    c = choose_apertures(stamp, [(5.8, 6.1)], 1.0)
+    assert 1.0 < c["fwhm"] < 2.5 and 1.5 <= c["r_ap"] <= 4.5 and c["r_ap"] < c["r_in"] < c["r_out"] <= 8.5

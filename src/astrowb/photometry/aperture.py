@@ -297,8 +297,11 @@ def choose_apertures(data, stars_xy, gain=1.0):
     measurements behind them: FWHM, the S/N curve, the encircled energy and the profile to plot."""
     data = np.asarray(data, float)
     xy = recenter(data, stars_xy, max_move=5.5)  # clicked positions: snapped onto the stars within half the box
-    fwhm = seeing_fwhm(data, xy)
-    r_max = max(25.0, 8 * fwhm)  # sky for the profile far beyond the wings
+    # a small stamp (a TESS / Kepler pixel file, 13 x 11 px) has no pixels 25 px away: profiles end in its corners
+    ny, nx = data.shape
+    corner = 0.95 * min(np.hypot(max(x, nx - 1 - x), max(y, ny - 1 - y)) for x, y in xy)
+    fwhm = seeing_fwhm(data, xy, min(25.0, corner))
+    r_max = min(max(25.0, 8 * fwhm), corner)  # sky for the profile far beyond the wings
     profiles = [star_profile(data, x, y, r_max) for x, y in xy]
     fwhm = float(np.median([p["fwhm"] for p in profiles]))
     radii = np.arange(0.5, 0.6 * r_max, 0.25)
@@ -327,6 +330,9 @@ def choose_apertures(data, stars_xy, gain=1.0):
     r_in = float(radii[enough[0]]) if len(enough) else 3.0 * fwhm
     r_in = max(r_in, 3.0 * fwhm, r_ap + 1.0)
     r_out = float(np.sqrt(r_in**2 + SKY_RATIO * r_ap**2))
+    if r_out > r_max:  # a small stamp: the sky ring in the corners that exist, after the aperture
+        r_in = max(min(r_in, 0.75 * r_max), r_ap + 0.5)
+        r_out = max(r_max, r_in + 1.0)
     centres, binned = profiles[b]["bins"]
     # a target whose light grows faster outside the aperture than the comparisons' has something next to it (a faint
     # neighbour in its wings): radii that follow the seeing then take a varying share of it (tested on a synthetic

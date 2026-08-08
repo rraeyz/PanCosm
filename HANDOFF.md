@@ -346,7 +346,7 @@ Status of everything so far:
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-05): automatic sweep DONE in 4 languages; real-data use per page in progress |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
-| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-05): U8a, U8d DONE; U8b, U8c, U8e next |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-06): U8a, U8c, U8d DONE; U8b, U8e next |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
 | U10 | Re-run the tests touched by every fix; CI green | open |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
@@ -426,6 +426,14 @@ CCDPROC done (our Calibrate page used BANZAI's master flat correctly). Found on 
 darks of that night were full-chip (6422 x 9600) next to the lights' 2400 x 2400 crop and all were combined: groups
 no light needs are no longer combined (the page says so; without lights every group is still made): 40 lights
 110 s -> 18.4 s (IRAF 11 s + unpacking). Test `test_groups_no_light_needs_are_not_combined`.
+**U8c (done): TESS pixels vs SPOC.** W UMa, sector 21: the SPOC target pixel file (13 x 11 px, 19 694 cadences)
+opened on the Photometry page (18 758 frames kept, 936 flagged left out), star clicked at SPOC's aperture centre,
+"Choose apertures", measure. Found and fixed: on a 13 x 11 stamp the aperture chooser gave FWHM 200 px and radii
+200 / 600 / 721 px (its profile looked for sky 17–25 px away): radii are now limited to the stamp (FWHM 1.65 px,
+aperture 2.5 px = 94 % of the light, sky in the corners 4.9–7.0 px); test `test_apertures_fit_a_small_tess_stamp`.
+Result: ours = SPOC SAP_FLUX to 0.020 % rms (correlation 1.00000, amplitude 0.5402 vs 0.5403). PDCSAP's amplitude
+is larger (0.755) because SPOC removes the light of neighbouring stars (CROWDSAP) - the application's light curve
+is the SAP kind.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -455,6 +463,8 @@ Users are not affected (certifi has it).
 | Photometry: standard magnitudes (APASS / Gaia, mirror) | 4 comparison stars + target | 19.5 s | acceptable (network) |
 | Every button of every page with no data (sweep) | 273 clicks per language | all < 1 s except "Plan the night" 4.2 s | fine |
 | IRAF apphot.phot, 40 frames (positions given per frame) | same | 1.0 s (ours 8.9 s, which also tracks the field) | fine |
+| Photometry: open a TESS target pixel file (19 694 cadences) | W UMa s21 | 17 s | fine |
+| Photometry: measure 18 758 TESS cadences (13 x 11 px) | W UMa s21 | 235 s (12.5 ms each) | acceptable |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
 
