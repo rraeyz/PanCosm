@@ -108,7 +108,7 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
         return float(np.sqrt(cov[k, k]) * dln * C_KMS * np.exp(shifts[k]))  # d v / d shift = c e^shift
 
     a_best = float(alphas[i, j])
-    return {
+    out = {
         "rv1": float(v_from_ln(shifts[0])),
         "rv2": float(v_from_ln(shifts[1])),
         "rv1_err": err(0),
@@ -118,3 +118,9 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
         "flux_ratio": a_best * n1 / n2,  # f - 1 = A n1 g1 + B n2 g2 and alpha = B n2 / (A n1)
         "v": v_from_ln(lags * dln).tolist(),
     }
+    same = np.array_equal(t1_wave, t2_wave) and np.array_equal(t1_flux, t2_flux)
+    if same and a_best > 1:  # one template for both stars: (v1, v2, alpha) and (v2, v1, 1 / alpha) fit equally well
+        # and noise chose, so the stars swapped between spectra (AI Phe); component 1 is the brighter one
+        out |= {"rv1": out["rv2"], "rv2": out["rv1"], "rv1_err": out["rv2_err"], "rv2_err": out["rv1_err"]}
+        out |= {"alpha": 1 / a_best, "flux_ratio": 1 / out["flux_ratio"]}
+    return out

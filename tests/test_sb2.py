@@ -177,3 +177,14 @@ def test_velocity_errors_are_honest():
             for _ in range(16)]  # fmt: skip
     v = np.array([o["rv"] for o in ones])
     assert 0.6 < v.std() / np.median([o["rv_err"] for o in ones]) < 1.6
+
+
+def test_one_template_for_both_stars_keeps_the_brighter_as_component_one():
+    """With the same template twice, (v1, v2) and (v2, v1) fit equally and noise chose: on ten real AI Phe spectra
+    the two stars swapped in three, which ruined the mass ratio (K1/K2 0.99 against 0.96)."""
+    rng = np.random.default_rng(7)
+    for v_bright, v_faint in ((60.0, -50.0), (-45.0, 40.0), (25.0, -30.0), (-70.0, 65.0)):
+        f = (template(LINES1, DEPTH1, 0.08, v_bright) + 0.6 * template(LINES1, DEPTH1, 0.08, v_faint)) / 1.6
+        r = sb2.todcor(WAVE, f + rng.normal(0, 0.01, f.size), WAVE, T1, WAVE, T1, -200, 200)
+        assert r["rv1"] == pytest.approx(v_bright, abs=0.5) and r["rv2"] == pytest.approx(v_faint, abs=0.5)
+        assert r["alpha"] < 1 and r["flux_ratio"] == pytest.approx(0.6, rel=0.15)
