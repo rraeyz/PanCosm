@@ -80,3 +80,29 @@ def test_rv_step_and_velocity_tab_with_broadening_function(tmp_path, qtbot):
     assert rows[0]["flux_ratio"] == pytest.approx(0.3 / 0.7, rel=0.12)
     tab.show_rvs(rows)
     assert "v sin i = 120" in tab.status.text() or "v sin i = 119" in tab.status.text()
+
+
+def test_rv_step_single_fast_rotator_with_a_dated_archive_spectrum(tmp_path):
+    """One star, from a spectrum with a date and sky position (every archive spectrum): the step took the single
+    star's v sin i for a second star's velocity and stopped (KeyError 'rv2_obs'), on a real HARPS beta Pic."""
+    from astropy.io import fits
+    from test_sb2 import _Ctx
+
+    from astrowb.engine.steps import execute
+    from astrowb.spectroscopy import spectrum_io
+
+    err = np.full(len(WAVE), 0.003)
+    spectrum_io.write(tmp_path / "t.fits", WAVE, SHARP, err)
+    rows = []
+    for specsys in ("BARYCENT", "TOPOCENT"):  # already barycentric, and corrected here (site from the header)
+        cards = {"DATE-OBS": "2019-01-22T03:44:00", "EXPTIME": 60.0, "RA": 86.82, "DEC": -51.07, "SPECSYS": specsys}
+        header = fits.Header(cards | {"LATITUDE": -29.26, "LONGITUD": -70.73})
+        header.comments["LONGITUD"] = "E+"
+        path = spectrum_io.write(tmp_path / f"{specsys}.fits", WAVE, broadened([(20.0, 120.0, 1.0)]), err, header)
+        params = {"method": "bf", "components": 1, "v_min": -300, "v_max": 300}
+        [row] = execute(
+            "spectroscopy.rv", {"spectra": [str(path)], "template": str(tmp_path / "t.fits")}, params, _Ctx()
+        )["rvs"]
+        rows.append(row)
+        assert row["vsini"] == pytest.approx(120, rel=0.06) and row.get("rv2") is None and row["rv"] is not None
+    assert rows[0]["already_barycentric"] and rows[1]["v_corr"] is not None

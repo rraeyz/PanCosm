@@ -357,8 +357,21 @@ the work to the next agent with this file. State at that moment:
      and renormalise each component) plus input normalisation differences. To do: disentangle in windows of a few
      hundred A with a renormalisation of each component per window, clip spikes; then re-run this check (expect
      F7 V and K0 IV from the MK standards; the plot script is in the notes below).
-   - Not started yet from this list: v sin i / broadening function on a fast rotator, telluric correction on a real
-     red spectrum, asteroid photometry, drizzle on real dithered frames, offline plate solving.
+   - **v sin i / broadening function on a real fast rotator — found and fixed a crash.** beta Pic (A6 V), HARPS s1d
+     ADP.2025-09-11T01:01:26.555 (S/N 571); template a PHOENIX-ACES model 8000 K / log g 4.0 / [Fe/H] 0 fetched with
+     `atmosphere.download_phoenix` and converted to air wavelengths (`vac_to_air`; checked: tau Ceti with a 5400 K
+     PHOENIX template gives −16.22 km/s in air, −99.7 if left in vacuum). **Bug:** the RV step with method "bf" and
+     one component stopped with KeyError 'rv2_obs' on every spectrum with a date and sky position (the single star's
+     v sin i made `r2` non-empty, read as a second star) — i.e. on every archive spectrum; fixed in `rv_step`
+     (test `test_rv_step_single_fast_rotator_with_a_dated_archive_spectrum`, fails without the fix). Result: BF over
+     4400–4800 A: RV +20.9 km/s, v sin i 123.7 ± 0.7 km/s; 4150–4320 A: +20.7, 119.9 ± 0.4; literature RV +20 km/s,
+     v sin i 122–130 km/s (Wikipedia 130; Royer et al. 2007 not checked). CCF fails on this star (peak 0.02–0.2), as
+     expected for a fast rotator. 5000–5400 A has too few lines in an A star (BF nonsense): use the blue.
+     **Data caveat found:** the older ESO product ADP.2019-01-22T01:15:12.551 of the same star (HARPS DRS 3.8) has
+     an uncorrected blaze ripple (±40 %, period ~33 A) — no line measurement is possible on it; the 2025 product
+     of the same DRS version is clean (spread 0.89–1.11). Not handled in the code (a user would see it on the plot).
+   - Not started yet from this list: telluric correction on a real red spectrum, asteroid photometry, drizzle on
+     real dithered frames, offline plate solving.
    Original text: **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
    disentangling (`spectroscopy.disentangle`) and SB2 / TODCOR on a real double-lined binary with published
    velocities (e.g. HARPS or FEROS ADP spectra of a known SB2 from the ESO archive, compare K1, K2 with the
