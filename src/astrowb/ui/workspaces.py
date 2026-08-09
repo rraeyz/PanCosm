@@ -830,17 +830,6 @@ class ProjectPage(QWidget):
         self.details.setPlainText("\n\n".join(parts))
 
 
-class ComingSoonPage(QWidget):
-    def __init__(self, title, description, parent=None):
-        super().__init__(parent)
-        lay = QVBoxLayout(self)
-        lay.addWidget(_title(title, self))
-        text = QLabel(description + "\n\n" + self.tr("This part is planned for a later version."), self)
-        text.setWordWrap(True)
-        lay.addWidget(text)
-        lay.addStretch(1)
-
-
 def by_filter(paths):
     """{filter name: paths} in the order met (FILTER keyword; "" when there is none)."""
     from astropy.io import fits
@@ -2532,6 +2521,8 @@ class PhotometryPage(Undoable, QWidget):
                     n=m["skipped"]
                 )
             self.result.setText(text + "\n" + self.tr("All of them are on the O-C page."))
+            if not self.plot.figure.axes or not self.light_curve:  # the plot was cleared meanwhile: nothing to mark
+                return
             ax = self.plot.figure.axes[0]
             t_ref = np.floor(min(self.light_curve["time"]))
             for x in ms:
@@ -2548,6 +2539,8 @@ class PhotometryPage(Undoable, QWidget):
         if "o_minus_c" in m:
             text += "\n" + self.tr("Epoch {n}, O−C = {oc:+.2f} min").format(n=m["epoch"], oc=m["o_minus_c"] * 1440)
         self.result.setText(text)
+        if not self.plot.figure.axes or not self.light_curve:  # (an intermittent CI failure)
+            return
         ax = self.plot.figure.axes[0]
         t_ref = np.floor(min(self.light_curve["time"]))
         ax.axvline(m["time"] - t_ref, color="red", lw=1)

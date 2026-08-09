@@ -344,7 +344,7 @@ Status of everything so far:
 | U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | DONE (see notes) |
 | U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | DONE (see notes) |
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
-| U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-06): sweep in 4 languages DONE; real-data use DONE for Plan, Calibrate, Images, Photometry, Light curves & O−C, Spectroscopy (long slit), Orbits & models, Remote sensing, Automation, Observe (INDI simulators); left: Project and Guide pages by hand, visual-binary orbit on real measures, Echelle on raw HARPS (U8b) |
+| U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | DONE (session 019Lu3, 2026-11-06): sweep in 4 languages; real-data use of every page (Plan, Observe with INDI simulators, Calibrate, Images, Photometry, Light curves & O−C, Spectroscopy long slit, Orbits & models incl. a visual orbit on real measures, Remote sensing, Automation, Project, Guide); the echelle on raw HARPS is U8b |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | PARTLY: real data so far: LCO (raw + BANZAI), TESS (W UMa, FG Vir), Kepler (KIC 6525196, KIC 8462852), K2, ESO EFOSC2 raw, Sentinel-2 L2A, SIMBAD / VizieR / VSX / Exoplanet Archive through mirrors |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-06): U8a, U8c, U8d, U8e DONE; U8b (ESO echelle raw vs reduced) open |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS: period search, light curves, calibration, remote sensing, deconvolution and histogram matching made faster (speed log) |
@@ -494,9 +494,19 @@ iteration, the PSF's transform recomputed each time) now with the separable Gaus
 19 s -> 7.3 s (on the page 8.4 s); histogram matching interpolates directly on its two even grids instead of
 searching (np.interp): 7.8 s -> 2.9 s, identical result (page 3.9 s). (A first run looked slow because the test had
 switched on "Apply to all open images" - the program behaved correctly.)
+**U6i visual binary (checked, nothing to fix).** eta CrB AB (WDS 15232+3017, STF1937AB): 227 measures 1934–2015
+from the Fourth Interferometric Catalog (`http://www.astro.gsu.edu/wds/int4/int4_15.html`; https and ORB6 on VizieR
+do not answer here, `http://www.astro.gsu.edu/wds/orb6/orb6orbits.html` does) on the Visual-orbit tab, parallax
+55.6 mas: P 41.66 +- 0.27 yr, e 0.287 +- 0.012, a 0.852 +- 0.014", i 59.7 +- 1.0 deg, Omega 20.3 / omega 225.0 deg
+(+180 deg: 200.3 / 45.0), T 1975.86 +- 0.30, total mass 2.08 +- 0.10 Msun, 5.7 s - ORB6's grade-1 orbit (Muterspaugh
+et al. 2010): 41.63 yr, 0.279, 0.862", 58.1, 202.8 / 39.9, 1975.55: all within 1–2 sigma (unweighted measures).
+**CI (fixed).** Run 80 failed once: a minimum arriving after the Photometry plot was cleared (IndexError in
+show_minimum); the marker is skipped then, test extended.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
+
+**U6l / U6m Project and Guide (checked, nothing to fix).** New project 0.02 s; the quality step on 12 real LCO frames (9.1 s) lands in the history with its inputs in the details; "Run again" 8.1 s adds a second row; the project reopened after a restart shows both. Guide: 12 categories and 103 topics in each of the four languages, no file missing. The unused "planned for a later version" page class was removed (no page used it).
 
 ### Speed log (fifth campaign; machine: the agent's cloud container, 4 cores, no GPU)
 

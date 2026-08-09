@@ -984,6 +984,9 @@ def test_minimum_method_is_a_visible_choice_with_kvw_first(window):
     assert not page.kvw.isChecked()
     page._minimum()
     assert sent == ["kvw", "trapezoid"]
+    page.plot.figure.clear()  # a result arriving when nothing is plotted (an intermittent CI failure)
+    page.show_minimum({"time": 0.5, "error": 0.001, "time_scale": "BJD_TDB", "method": "kvw"})
+    assert "Minimum: 0.500000" in page.result.text()
 
 
 def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbot, tmp_path):
