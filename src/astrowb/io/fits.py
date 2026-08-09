@@ -29,13 +29,24 @@ def plane(data) -> np.ndarray:
     return a
 
 
+def inherited(hdul, index):
+    """A copy of HDU `index`'s header with the primary header's keywords it does not set: multi-extension raw
+    frames (HARPS, mosaics) keep the target, time and telescope in the primary header only."""
+    header = hdul[index].header.copy()
+    for card in hdul[0].header.cards if index else []:
+        if card.keyword not in STRUCTURAL + ("COMMENT", "HISTORY", "") and card.keyword not in header:
+            header.append(card)  # the card itself: a HIERARCH keyword set by name warns for every card
+    return header
+
+
 def read_image(path: Path):
-    """Return (data, header, hdu_index). data is the first 2-D plane as float32; header is that HDU's header."""
+    """Return (data, header, hdu_index). data is the first 2-D plane as float32; header is that HDU's header with
+    the primary header's keywords it does not set."""
     from .lzw import readable
 
     with fits.open(readable(path), memmap=False) as hdul:
         i = find_image_hdu(hdul)
-        data, header = hdul[i].data, hdul[i].header.copy()
+        data, header = hdul[i].data, inherited(hdul, i)
     return np.asarray(plane(data), dtype=np.float32), header, i
 
 
@@ -83,11 +94,7 @@ def extract_extension(path, index):
         dest = path.with_name(f"{path.stem}_{name}_{index}.fits")
         if dest.exists() and dest.stat().st_mtime >= path.stat().st_mtime:
             return dest
-        header = hdu.header.copy()
-        for card in hdul[0].header.cards if index else []:
-            skip = STRUCTURAL + ("COMMENT", "HISTORY", "")
-            if card.keyword not in skip and card.keyword not in header:
-                header[card.keyword] = (card.value, card.comment)
+        header = inherited(hdul, index)
         for key in ("XTENSION", "PCOUNT", "GCOUNT", "EXTNAME", "EXTVER"):
             header.remove(key, ignore_missing=True)
         header.add_history(f"extension {index} of {path.name}")

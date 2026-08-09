@@ -44,7 +44,7 @@ from astropy.io import fits
 
 from ..compute.combine import clipped_mean
 from ..hdr import get, number
-from ..io.fits import find_image_hdu
+from ..io.fits import find_image_hdu, inherited
 
 MEMORY_BUDGET = 512 * 2**20  # bytes of float32 stack per block
 EXPTIME_RTOL = 0.01  # exposure times within 1 % count as equal
@@ -164,15 +164,33 @@ def _layout(hdu):
     over = whole(section(h.get("BIASSEC", "")))
     # the first section that can be read: some pipelines write TRIMSEC = 'UNKNOWN' (LCO FLOYDS)
     trim = next((t for t in (whole(section(h.get(k, ""))) for k in ("TRIMSEC", "DATASEC")) if t), None)
+    if not over and not trim:
+        over, trim = _eso_sections(h, ny, nx) or (None, None)
     trim = _without_overscan(trim or (slice(0, ny), slice(0, nx)), over)
     level = overscan_level(_linear(np.asarray(hdu.section[over], np.float32)), over, trim) if over else np.float32(0.0)
     return trim[0], trim[1], level
+
+
+def _eso_sections(h, ny, nx):
+    """(overscan, data) sections of a single-output ESO detector from its prescan / overscan sizes (HARPS, FEROS,
+    UVES and EFOSC2 write no BIASSEC; a raw HARPS chip carries 245 ADU of bias), or None when they do not add up
+    to this frame."""
+    px, ox, py, oy = (int(get(h, f"ESO DET OUT1 {k}", default=0)) for k in ("PRSCX", "OVSCX", "PRSCY", "OVSCY"))
+    dx, dy = get(h, "ESO DET OUT1 NX"), get(h, "ESO DET OUT1 NY")
+    if dx is None or dy is None or px + int(dx) + ox != nx or py + int(dy) + oy != ny or not (px or ox or py or oy):
+        return None
+    rows, cols = slice(py, ny - oy), slice(px, nx - ox)
+    if ox or px:  # a strip of columns, the overscan preferred
+        return (rows, slice(nx - ox, nx) if ox else slice(0, px)), (rows, cols)
+    return (slice(ny - oy, ny) if oy else slice(0, py), cols), (rows, cols)
 
 
 def _corrected_header(header, layout):
     out = header.copy()
     if "BIASSEC" in header:
         out["OVERSCAN"] = (float(np.mean(layout[2])), f"mean overscan level subtracted ({header['BIASSEC']})")
+    elif np.any(layout[2]):
+        out["OVERSCAN"] = (float(np.mean(layout[2])), "mean ESO prescan / overscan level subtracted")
     r0, c0 = layout[0].start or 0, layout[1].start or 0
     if (r0 or c0) and "BAYERPAT" in out:  # the colour pattern now starts at the first kept pixel
         out["XBAYROFF"] = (int(get(out, "XBAYROFF", default=0)) + c0) % 2
@@ -238,7 +256,7 @@ def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None):
 
 def _header(paths, kind, extra):
     with fits.open(paths[0]) as hdul:
-        src = hdul[find_image_hdu(hdul)].header
+        src = inherited(hdul, find_image_hdu(hdul))
     h = fits.Header()
     for k in _COPY_KEYS:
         if k in src:
@@ -255,7 +273,7 @@ def _header(paths, kind, extra):
 
 def _exptime(path):
     with fits.open(path) as hdul:
-        h = hdul[find_image_hdu(hdul)].header
+        h = inherited(hdul, find_image_hdu(hdul))
         t = get(h, "EXPTIME", "EXPOSURE")
     if t is None:
         raise CalibrationError(f"{Path(path).name}: no EXPTIME")
@@ -267,10 +285,11 @@ def load(path):
     from ..io.lzw import readable
 
     with fits.open(readable(path)) as hdul:
-        hdu = hdul[find_image_hdu(hdul)]
+        i = find_image_hdu(hdul)
+        hdu = hdul[i]
         rows, cols, level = lay = _layout(hdu)
         data = _linear(np.asarray(hdu.data, dtype=np.float32)[..., rows, cols]) - level
-        header = _corrected_header(hdu.header, lay)
+        header = _corrected_header(inherited(hdul, i), lay)
         if _LINEARITY.get() is not None:
             header["LINCORR"] = (True, "linearity correction applied to the raw counts")
         return data, header
