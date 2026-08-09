@@ -338,7 +338,7 @@ the work to the next agent with this file. State at that moment:
    correction on a real red spectrum with a telluric standard; moving-object (asteroid) photometry on real frames
    (LCO archive has asteroid programmes); drizzle / stacking on real dithered frames; plate solving offline on a real
    frame. Record each source and comparison in the notes and the speed log.
-5. **U9 speed:** the echelle step takes ~60 s per HARPS chip (46 orders x 4096 columns); profile it (likely the
+5. **DONE (session 01RxUU, 2026-11-06):** profiled with cProfile on the raw tau Ceti HARPS frames: the extraction built whole-frame masks per order (now only the rows around each trace, `longslit._band`: 54.6 s -> 5.7 s, sky on 183.6 s -> 9.8 s, identical arrays) and the .Z decoder took 20 s per frame (now 3.8 s, byte-identical); speed log. Original text: **U9 speed:** the echelle step takes ~60 s per HARPS chip (46 orders x 4096 columns); profile it (likely the
    optimal / boxcar extraction loops in `spectroscopy/longslit.py` and `echelle.extract`) and vectorise if it is
    clearly the bottleneck; measure again. Everything else in the speed log is "fine" or fixed.
 6. **At the very end, the owner asked for a detailed explanation in plain Turkish** (owner, 2026-11-05: "BLS, ANOVA,
@@ -389,7 +389,7 @@ Status of everything so far:
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | DONE (session 019Lu3, 2026-11-06): sweep in 4 languages; real-data use of every page (Plan, Observe with INDI simulators, Calibrate, Images, Photometry, Light curves & O−C, Spectroscopy long slit, Orbits & models incl. a visual orbit on real measures, Remote sensing, Automation, Project, Guide); the echelle on raw HARPS is U8b |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | PARTLY: real data so far: LCO (raw + BANZAI), TESS (W UMa, FG Vir), Kepler (KIC 6525196, KIC 8462852), K2, ESO EFOSC2 raw, ESO HARPS raw + DRS products, WDS INT4 / ORB6 (eta CrB), Sentinel-2 L2A, SIMBAD / VizieR / VSX / Exoplanet Archive through mirrors; left: see 'Still to do' 4 |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | DONE (session 019Lu3, 2026-11-06): U8a, U8b (raw HARPS vs ESO DRS: 22 m/s), U8c, U8d, U8e |
-| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS: period search, light curves, calibration, remote sensing, deconvolution and histogram matching made faster (speed log); left: echelle step ~60 s per HARPS chip (see 'Still to do' 5) |
+| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | DONE: period search, light curves, calibration, remote sensing, deconvolution, histogram matching, echelle extraction (54.6 -> 5.7 s) and .Z decompression (20 -> 3.8 s) made faster (speed log) |
 | U10 | Re-run the tests touched by every fix; CI green | each fix re-tested on its real data; CI green up to 9b6ba9d; aa311ae … 339bb16 not checked yet (see 'Still to do' 1) |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
 
@@ -600,7 +600,8 @@ Users are not affected (certifi has it).
 | Images: every Process operation on 2400 x 2400 | LCO frame | 1–8 s each (RL deconvolution before ~22 s, histogram match before ~10 s) | fine |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
-| Echelle reduction (Echelle tab, engine step) | raw HARPS blue chip 4096 x 2048, 46 orders, flat + ThAr | 60 s orders + extraction + arc; 61 s again with the wavelength solution | acceptable for a once-per-frame step (optimal extraction of 46 x 4096 columns dominates); not changed |
+| Echelle reduction (Echelle tab, engine step) | raw HARPS blue chip 4096 x 2048, 46 orders, flat + ThAr | before 54.6 s (sky off) / 183.6 s (sky on), now 5.7 s / 9.8 s, identical output (session 01RxUU) | fixed: every order's windows were built over the whole frame; now only over the rows around its trace (`longslit._band`) |
+| Opening a .fits.Z (ESO raw, LZW) | HARPS frame, 20 MB -> 35 MB | before 20 s, now 3.8 s, byte-identical to gzip -dc (session 01RxUU) | fixed: the decoder keeps each code's whole string instead of rebuilding it byte by byte; done once per file anyway (the copy in fits_from_raw is reused) |
 | Velocity of a merged echelle spectrum (CCF, ESO s1d as template) | 124 k pixels, 3783–5304 A | 3–6 s | fine |
 
 ### Notes per task

@@ -106,6 +106,18 @@ def shifted_trace(image, coef_ref, row, half_window=10):
     return coef
 
 
+def _band(image, coef, reach):
+    """(first row, the rows a window `reach` around the trace can touch, the trace in them): masks over the whole
+    frame for every order were most of an echelle reduction's time (46 orders x 8 Mpix on HARPS)."""
+    ny, nx = image.shape
+    yc = np.polyval(coef, np.arange(nx))
+    lo = int(min(max(0, np.floor(np.nanmin(yc) - reach)), ny))
+    hi = int(max(lo, min(ny, np.ceil(np.nanmax(yc) + reach) + 1)))
+    c = np.array(coef, float).copy()
+    c[-1] -= lo
+    return lo, image[lo:hi], c
+
+
 def _windows(shape, coef, half_width, sky_offset, sky_width):
     ny, nx = shape
     yc = np.polyval(coef, np.arange(nx))
@@ -120,6 +132,7 @@ def sky_model(image, coef, half_width, sky_offset, sky_width):
     """Per-column sky level: median of the two side bands (robust to stars and cosmic rays)."""
     import warnings
 
+    _, image, coef = _band(image, coef, sky_offset + sky_width)
     _, sky = _windows(image.shape, coef, half_width, sky_offset, sky_width)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)  # columns where the trace leaves the frame: no sky (NaN)
@@ -128,6 +141,7 @@ def sky_model(image, coef, half_width, sky_offset, sky_width):
 
 def boxcar(image, coef, width=10.0, sky_offset=15.0, sky_width=10.0, subtract_sky=True):
     """Return (flux per column, sky per pixel per column). Arcs fill the slit: subtract_sky=False."""
+    _, image, coef = _band(image, coef, max(width / 2, sky_offset + sky_width))
     obj, _ = _windows(image.shape, coef, width / 2, sky_offset, sky_width)
     if subtract_sky:
         sky = sky_model(image, coef, width / 2, sky_offset, sky_width)
@@ -140,6 +154,8 @@ def boxcar(image, coef, width=10.0, sky_offset=15.0, sky_width=10.0, subtract_sk
 def optimal(image, coef, width=10.0, sky_offset=15.0, sky_width=10.0, gain=1.0, read_noise=5.0, clip=5.0, smooth=31):
     """Horne optimal extraction. Return (flux, flux_error, sky, rejected-pixel mask)."""
     image = np.asarray(image, float)
+    shape = image.shape
+    lo, image, coef = _band(image, coef, max(width / 2, sky_offset + sky_width))
     obj, _ = _windows(image.shape, coef, width / 2, sky_offset, sky_width)
     sky = sky_model(image, coef, width / 2, sky_offset, sky_width)
     data = np.where(obj, image - sky[None, :], 0.0)
@@ -165,4 +181,6 @@ def optimal(image, coef, width=10.0, sky_offset=15.0, sky_width=10.0, gain=1.0, 
     norm = np.maximum(np.sum(w * prof, axis=0), 1e-12)
     flux = np.sum(w * data, axis=0) / norm
     err = np.sqrt(np.sum(np.where(good, prof, 0), axis=0) / norm)
-    return flux, err, sky, obj & ~good
+    rejected = np.zeros(shape, bool)
+    rejected[lo : lo + image.shape[0]] = obj & ~good
+    return flux, err, sky, rejected
