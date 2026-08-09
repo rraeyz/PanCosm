@@ -315,7 +315,9 @@ def telluric_step(inputs, params, ctx):
     out = {
         "wave": w.tolist(),
         "flux": f.tolist(),
-        "corrected": r["flux"].tolist(),
+        "corrected": np.where(
+            r["bad"], np.nan, r["flux"]
+        ).tolist(),  # saturated cores: no information (they spiked to ±10)
         "transmission": r["transmission"].tolist(),
         "power": r["power"],
         "shift_kms": r["shift_kms"],
