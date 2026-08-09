@@ -237,7 +237,7 @@ the work to the next agent with this file. State at that moment:
   `3748b5a` raw HARPS echelle fixes, `41f4dfb` `show_minimum` CI fix + Project / Guide checked, `aa311ae`, `f3f2d17`,
   `9b6ba9d`, `1ed1bcd`, `6303702`, `5de120e`, `75ca8ab`, `a2b0113`, `1f9fa16`, `97b70ab`, `f8d523a`, `44948e5`.
 - **CI:** green up to `9b6ba9d` (run 81). Runs for `aa311ae`, `41f4dfb`, `3748b5a`, `339bb16` were NOT checked yet —
-  check them first (GitHub MCP `actions_list`, method `list_workflow_runs`, owner `rraeyz`, repo `pancosm`; on a red
+  check them first (GitHub MCP `actions_list`, method `list_workflow_runs`, owner and repo of this repository; on a red
   run `get_job_logs` with `failed_only`). Run 80 (`1ed1bcd`) was red from an intermittent `IndexError` in
   `ui/workspaces.py show_minimum` (marker drawn on a figure with no axes); fixed in `41f4dfb` (guard + test).
   Cancelled runs are normal: a newer push cancels the older run.
@@ -264,7 +264,7 @@ the work to the next agent with this file. State at that moment:
   done and what the methods are (see "Still to do" item 6).
 
 ### Environment of the agent container (only matters if the next agent runs in a similar container)
-- Venv: `/home/user/PanCosm/.venv` (`export PATH=/home/user/PanCosm/.venv/bin:$PATH`); GUI tests with
+- Venv: `<checkout>/.venv` (`export PATH=<checkout>/.venv/bin:$PATH`); GUI tests with
   `QT_QPA_PLATFORM=offscreen`. Engine `@step` functions run in spawn worker processes: driver scripts need
   `if __name__ == "__main__":` and must be files. To run a step directly in one process:
   `import astrowb.spectroscopy.steps; from astrowb.engine.steps import execute; execute(step_id, inputs, params, ctx)`
