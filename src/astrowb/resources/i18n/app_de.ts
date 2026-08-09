@@ -7389,338 +7389,338 @@
 <context>
     <name>PlanPage</name>
     <message>
-        <location filename="../../ui/plan_page.py" line="43"/>
+        <location filename="../../ui/plan_page.py" line="46"/>
         <source>Plan</source>
         <translation>Planen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="48"/>
+        <location filename="../../ui/plan_page.py" line="51"/>
         <source>observatory name, e.g. TUG, Roque de los Muchachos</source>
         <translation>Name der Sternwarte, z. B. TUG, Roque de los Muchachos</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="49"/>
+        <location filename="../../ui/plan_page.py" line="52"/>
         <source>Type the name of a known observatory to fill in its position</source>
         <translation>Geben Sie den Namen einer bekannten Sternwarte ein, um ihre Position einzutragen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="66"/>
+        <location filename="../../ui/plan_page.py" line="69"/>
         <source>Site</source>
         <translation>Standort</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="67"/>
+        <location filename="../../ui/plan_page.py" line="70"/>
         <source>Latitude (°, N+)</source>
         <translation>Breite (°, N+)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="68"/>
+        <location filename="../../ui/plan_page.py" line="71"/>
         <source>Longitude (°, E+)</source>
         <translation>Länge (°, O+)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="69"/>
+        <location filename="../../ui/plan_page.py" line="72"/>
         <source>Height (m)</source>
         <translation>Höhe (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="77"/>
+        <location filename="../../ui/plan_page.py" line="80"/>
         <source>Night starting on</source>
         <translation>Nacht beginnend am</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="80"/>
+        <location filename="../../ui/plan_page.py" line="83"/>
         <source>Lowest altitude (°)</source>
         <translation>Niedrigste Höhe (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="83"/>
+        <location filename="../../ui/plan_page.py" line="86"/>
         <source>Targets below this altitude count as not observable (trees, buildings, thick air near the horizon)</source>
         <translation>Ziele unter dieser Höhe gelten als nicht beobachtbar (Bäume, Gebäude, dicke Luft am Horizont)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="86"/>
+        <location filename="../../ui/plan_page.py" line="89"/>
         <source>The evening on which the night begins (local date)</source>
         <translation>Der Abend, an dem die Nacht beginnt (Ortsdatum)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="87"/>
+        <location filename="../../ui/plan_page.py" line="90"/>
         <source>Height above sea level in metres</source>
         <translation>Höhe über dem Meeresspiegel in Metern</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="88"/>
+        <location filename="../../ui/plan_page.py" line="91"/>
         <source>Longitude of the site in degrees, east positive (west of Greenwich is negative)</source>
         <translation>Länge des Standorts in Grad, Ost positiv (westlich von Greenwich negativ)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="89"/>
+        <location filename="../../ui/plan_page.py" line="92"/>
         <source>Latitude of the site in degrees, north positive</source>
         <translation>Breite des Standorts in Grad, Nord positiv</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="104"/>
+        <location filename="../../ui/plan_page.py" line="119"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="112"/>
+        <location filename="../../ui/plan_page.py" line="127"/>
         <source>Add with ephemeris</source>
         <translation>Mit Ephemeride hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="93"/>
+        <location filename="../../ui/plan_page.py" line="108"/>
         <source>Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon</source>
         <translation>Ziele: Name (in SIMBAD gesucht), Koordinaten oder ein Planet / der Mond</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="100"/>
+        <location filename="../../ui/plan_page.py" line="96"/>
+        <source>Auto</source>
+        <translation>Automatisch</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="99"/>
+        <source>Hours to add to UTC for the local time shown above the chart and in the events (Turkey: 3). Auto: this computer&apos;s time zone on the night&apos;s date, summer time included; type the offset for an observatory in another time zone</source>
+        <translation>Stunden, die zu UTC addiert werden, für die Ortszeit über dem Diagramm und bei den Ereignissen (Türkei: 3). Automatisch: die Zeitzone dieses Computers am Datum der Nacht, Sommerzeit eingeschlossen; für eine Sternwarte in einer anderen Zeitzone den Unterschied eingeben</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="104"/>
+        <source>Local time (hours from UTC)</source>
+        <translation>Ortszeit (Stunden zu UTC)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="115"/>
         <source>A star name (looked up in SIMBAD, needs the internet), coordinates RA Dec, or a planet / the Moon (followed through the night, works offline); Enter adds it</source>
         <translation>Ein Sternname (in SIMBAD gesucht, braucht Internet), Koordinaten RA Dec oder ein Planet / der Mond (durch die Nacht verfolgt, offline); Enter fügt hinzu</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="108"/>
+        <location filename="../../ui/plan_page.py" line="123"/>
         <source>Adds the target with its coordinates only: enough to see when it is high in the sky. Several targets (stars, planets, the Moon) are drawn together in one chart</source>
         <translation>Fügt das Ziel nur mit seinen Koordinaten hinzu: genug, um zu sehen, wann es hoch steht. Mehrere Ziele (Sterne, Planeten, der Mond) werden zusammen in einem Diagramm gezeichnet</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="115"/>
+        <location filename="../../ui/plan_page.py" line="130"/>
         <source>An ephemeris is the timetable of a variable star or planet: the time of one minimum or transit (T0) and the period, from which every later one is computed. This button adds the target with its coordinates and its T0, period and duration from VSX (variable stars) or the NASA Exoplanet Archive; the night plan then lists the eclipses / transits you can observe</source>
         <translation>Eine Ephemeride ist der Fahrplan eines Veränderlichen oder Planeten: die Zeit eines Minimums oder Transits (T0) und die Periode, aus denen jedes spätere berechnet wird. Diese Schaltfläche fügt das Ziel mit Koordinaten und T0, Periode und Dauer aus dem VSX (Veränderliche) oder dem NASA Exoplanet Archive hinzu; der Nachtplan listet dann die beobachtbaren Bedeckungen / Transits</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="128"/>
+        <location filename="../../ui/plan_page.py" line="143"/>
         <source>Add: position only (when is it high?). Add with ephemeris: also the times of its eclipses or transits (an ephemeris = T0 and period of a variable star or planet).</source>
         <translation>Hinzufügen: nur die Position (wann steht es hoch?). Mit Ephemeride hinzufügen: auch die Zeiten seiner Bedeckungen oder Transits (Ephemeride = T0 und Periode eines Veränderlichen oder Planeten).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="138"/>
+        <location filename="../../ui/plan_page.py" line="153"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="141"/>
+        <location filename="../../ui/plan_page.py" line="156"/>
         <source>T0 (BJD)</source>
         <translation>T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="142"/>
+        <location filename="../../ui/plan_page.py" line="157"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="143"/>
+        <location filename="../../ui/plan_page.py" line="158"/>
         <source>Duration (d)</source>
         <translation>Dauer (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="144"/>
+        <location filename="../../ui/plan_page.py" line="159"/>
         <source>Secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="148"/>
+        <location filename="../../ui/plan_page.py" line="163"/>
         <source>Enter T0 and period to list minima / transits of the night.</source>
         <translation>T0 und Periode eingeben, um die Minima / Transits der Nacht aufzulisten.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="150"/>
+        <location filename="../../ui/plan_page.py" line="165"/>
         <source>type a value</source>
         <translation>Wert eingeben</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="151"/>
+        <location filename="../../ui/plan_page.py" line="166"/>
         <source>Remove selected</source>
         <translation>Auswahl entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="153"/>
+        <location filename="../../ui/plan_page.py" line="168"/>
         <source>remove a target</source>
         <translation>Ziel entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="155"/>
+        <location filename="../../ui/plan_page.py" line="170"/>
         <source>Removes the selected target from the list</source>
         <translation>Entfernt das gewählte Ziel aus der Liste</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="156"/>
+        <location filename="../../ui/plan_page.py" line="171"/>
         <source>Exposure time…</source>
         <translation>Belichtungszeit…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="157"/>
+        <location filename="../../ui/plan_page.py" line="172"/>
         <source>How long to expose for a wanted signal-to-noise, and when a star saturates</source>
         <translation>Wie lange für ein gewünschtes Signal-Rausch-Verhältnis zu belichten ist, und wann ein Stern sättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="163"/>
+        <location filename="../../ui/plan_page.py" line="178"/>
         <source>Plan the night</source>
         <translation>Die Nacht planen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="167"/>
+        <location filename="../../ui/plan_page.py" line="182"/>
         <source>Altitude of every target through the night with twilight and the Moon, and the minima / transits that fall in the dark hours</source>
         <translation>Höhe jedes Ziels über die Nacht mit Dämmerung und Mond, und die Minima / Transits, die in die dunklen Stunden fallen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="173"/>
+        <location filename="../../ui/plan_page.py" line="188"/>
         <source>Make a schedule</source>
         <translation>Zeitplan erstellen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="175"/>
+        <location filename="../../ui/plan_page.py" line="190"/>
         <source>Eclipses and transits first, then the highest target in each hour of the night</source>
         <translation>Zuerst Bedeckungen und Transits, dann in jeder Stunde der Nacht das höchste Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="178"/>
+        <location filename="../../ui/plan_page.py" line="193"/>
         <source>Send to the Observe page</source>
         <translation>An die Seite Beobachten senden</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="181"/>
+        <location filename="../../ui/plan_page.py" line="196"/>
         <source>The schedule becomes the night plan of the Observe page; you still check it and start it there</source>
         <translation>Der Zeitplan wird zum Nachtplan der Seite Beobachten; Sie prüfen und starten ihn dort selbst</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="198"/>
-        <location filename="../../ui/plan_page.py" line="211"/>
+        <location filename="../../ui/plan_page.py" line="213"/>
+        <location filename="../../ui/plan_page.py" line="227"/>
         <source>Target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="199"/>
+        <location filename="../../ui/plan_page.py" line="214"/>
         <source>Event</source>
         <translation>Ereignis</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="200"/>
-        <location filename="../../ui/plan_page.py" line="211"/>
+        <location filename="../../ui/plan_page.py" line="215"/>
+        <location filename="../../ui/plan_page.py" line="227"/>
         <source>Start (UTC)</source>
         <translation>Beginn (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="201"/>
+        <location filename="../../ui/plan_page.py" line="216"/>
         <source>Middle (UTC)</source>
         <translation>Mitte (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="202"/>
-        <location filename="../../ui/plan_page.py" line="211"/>
+        <location filename="../../ui/plan_page.py" line="217"/>
+        <source>Middle (local)</source>
+        <translation>Mitte (Ortszeit)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="218"/>
+        <location filename="../../ui/plan_page.py" line="227"/>
         <source>End (UTC)</source>
         <translation>Ende (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="203"/>
+        <location filename="../../ui/plan_page.py" line="219"/>
         <source>Observable</source>
         <translation>Beobachtbar</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="211"/>
+        <location filename="../../ui/plan_page.py" line="227"/>
         <source>Why</source>
         <translation>Warum</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="240"/>
-        <location filename="../../ui/plan_page.py" line="288"/>
+        <location filename="../../ui/plan_page.py" line="256"/>
+        <location filename="../../ui/plan_page.py" line="304"/>
         <source>Looking up {name}…</source>
         <translation>Suche {name}…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="265"/>
+        <location filename="../../ui/plan_page.py" line="281"/>
         <source>Also list the secondary minima (half a period after the primary)</source>
         <translation>Auch die Nebenminima auflisten (eine halbe Periode nach dem Hauptminimum)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="282"/>
         <source>secondary minima</source>
         <translation>Nebenminima</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="270"/>
+        <location filename="../../ui/plan_page.py" line="286"/>
         <source>add a target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="283"/>
+        <location filename="../../ui/plan_page.py" line="299"/>
         <source>{name} added ({source}).</source>
         <translation>{name} hinzugefügt ({source}).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="306"/>
+        <location filename="../../ui/plan_page.py" line="322"/>
         <source>Row {row}: T0, period and duration must be numbers</source>
         <translation>Zeile {row}: T0, Periode und Dauer müssen Zahlen sein</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="318"/>
+        <location filename="../../ui/plan_page.py" line="335"/>
         <source>Computing…</source>
         <translation>Berechne…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="347"/>
+        <location filename="../../ui/plan_page.py" line="364"/>
         <source>eclipse / transit</source>
         <translation>Bedeckung / Transit</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="347"/>
+        <location filename="../../ui/plan_page.py" line="364"/>
         <source>highest target</source>
         <translation>höchstes Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="360"/>
+        <location filename="../../ui/plan_page.py" line="377"/>
         <source>No target is high enough during the dark hours.</source>
         <translation>Kein Ziel steht in den dunklen Stunden hoch genug.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="388"/>
-        <source>Moon ({p:.0f} %)</source>
-        <translation>Mond ({p:.0f} %)</translation>
+        <location filename="../../ui/plan_page.py" line="456"/>
+        <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
+        <translation>Astronomische Nacht: {dusk} – {dawn} UTC ({ldusk} – {ldawn} Ortszeit, UTC{off}); {n} Ereignisse.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="394"/>
-        <source>UTC (hours)</source>
-        <translation>UTC (Stunden)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="395"/>
-        <source>Altitude (°)</source>
-        <translation>Höhe (°)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="398"/>
-        <source>Airmass</source>
-        <translation>Luftmasse</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="404"/>
+        <location filename="../../ui/plan_page.py" line="433"/>
         <source>minimum I / transit</source>
         <translation>Minimum I / Transit</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="404"/>
+        <location filename="../../ui/plan_page.py" line="433"/>
         <source>minimum II</source>
         <translation>Minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="417"/>
+        <location filename="../../ui/plan_page.py" line="450"/>
         <source>yes</source>
         <translation>ja</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="417"/>
+        <location filename="../../ui/plan_page.py" line="450"/>
         <source>partly</source>
         <translation>teilweise</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="421"/>
+        <location filename="../../ui/plan_page.py" line="454"/>
         <source>no astronomical night</source>
         <translation>keine astronomische Nacht</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="423"/>
-        <source>Astronomical night: {dusk} – {dawn} UTC; {n} events.</source>
-        <translation>Astronomische Nacht: {dusk} – {dawn} UTC; {n} Ereignisse.</translation>
     </message>
 </context>
 <context>

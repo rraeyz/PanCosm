@@ -28,7 +28,7 @@ Para binarias eclipsantes y exoplanetas, rellene las columnas de la tabla de obj
 El plan lista entonces cada evento de la noche con su inicio, centro y final en UTC y si es **observable** (*sí*, *en parte* o en absoluto) según el límite de altura y la oscuridad.
 
 ## Leer el gráfico
-**Planificar la noche** dibuja la altura de cada objetivo frente al tiempo UTC durante toda la noche:
+**Planificar la noche** dibuja la altura de cada objetivo frente al tiempo UTC durante toda la noche, con la hora local en el eje superior (**Hora local (horas desde UTC)**: *Automático* toma la zona horaria de este ordenador en esa fecha, con horario de verano; escriba la diferencia para un observatorio en otro lugar, p. ej. 1 para La Palma en verano). Los textos del gráfico están en inglés sea cual sea el idioma de la interfaz, para que pueda ir tal cual a un artículo o informe:
 
 - el sombreado azul se oscurece paso a paso desde la puesta de sol por los crepúsculos civil (−6°), náutico (−12°) y astronómico (−18°); la parte más oscura es la noche astronómica;
 - la curva gris discontinua es la **Luna**, con su fracción iluminada en la leyenda;
@@ -36,7 +36,7 @@ El plan lista entonces cada evento de la noche con su inicio, centro y final en 
 - el eje derecho da la **masa de aire**; la fotometría es mejor por debajo de masa de aire 2 (altura superior a 30°);
 - los triángulos rojos marcan el centro de cada eclipse o tránsito sobre la curva del objetivo.
 
-La línea bajo el gráfico da el inicio y el final de la noche astronómica en UTC y el número de eventos. Cerca de los polos en verano puede no haber noche astronómica; entonces la línea dice **sin noche astronómica**.
+La línea bajo el gráfico da el inicio y el final de la noche astronómica en UTC y en hora local, y el número de eventos; la tabla de eventos da también el centro de cada evento en hora local. Cerca de los polos en verano puede no haber noche astronómica; entonces la línea dice **sin noche astronómica**.
 
 ## Del plan a la observación
 **Crear un programa** (después de *Planificar la noche*) convierte la noche en un programa para varios objetivos: primero cada eclipse o tránsito observable, con 30 minutos de línea base antes y después (si dos se solapan, gana el objetivo que esté más arriba en su lista); el resto del tiempo oscuro en bloques de una hora, cada uno para el objetivo que se mantenga más alto sobre su límite de altura. **Enviar a la página Observar** pasa cada bloque a la secuencia, con su inicio y su final; las filas de exposición que ajuste allí se usan para todos los objetivos.

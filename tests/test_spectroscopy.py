@@ -143,6 +143,28 @@ def test_continuum_normalise():
     assert abs(np.median(n) - 1) < 0.01 and n.min() < 0.6
 
 
+def test_a_merged_echelle_spectrum_is_normalised_in_pieces():
+    # 1500 A of HARPS at 0.012 A per pixel whose first order fades out at the blue end: one clipped cubic over all of
+    # it lost the faint end and went through zero there (normalised flux -13000 ... +3800), the CCF of a real
+    # spectrum against ESO's own fell to 0.009 and its velocity 5.6 km/s off
+    rng = np.random.default_rng(3)
+    wave = np.exp(np.arange(np.log(3780.0), np.log(5300.0), np.log(1 + 0.012 / 4500)))
+    lines, depth = rng.uniform(3790, 5290, 1500), rng.uniform(0.1, 0.7, 1500)
+
+    def star(w):
+        f = np.ones_like(w)
+        for c, d in zip(lines, depth, strict=True):
+            lo, hi = np.searchsorted(w, [c - 0.3, c + 0.3])
+            f[lo:hi] -= d * np.exp(-0.5 * ((w[lo:hi] - c) / 0.04) ** 2)
+        return f
+
+    v = 12.3
+    cont = 0.03 + 0.97 / (1 + np.exp(-(wave - 3880) / 15.0)) * (wave / 3800) ** 3
+    f = star(wave / (1 + v / rv.C_KMS)) * cont + rng.normal(0, 0.002, len(wave))
+    r = rv.ccf(wave, rv.continuum_normalise(wave, f), wave, star(wave), -50, 50)
+    assert r["rv"] == pytest.approx(v, abs=0.02) and r["peak"] > 0.9  # 0.41 with one cubic
+
+
 def test_barycentric_correction_physics():
     loc = EarthLocation.from_geodetic(30.34 * u.deg, 36.82 * u.deg, 2500 * u.m)
     star = SkyCoord(270 * u.deg, 66.56 * u.deg)  # north ecliptic pole: Earth's orbital motion is perpendicular

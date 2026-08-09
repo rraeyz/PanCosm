@@ -28,7 +28,7 @@ Für Bedeckungsveränderliche und Exoplaneten füllen Sie die Spalten der Zielta
 Der Plan listet dann jedes Ereignis der Nacht mit Beginn, Mitte und Ende in UTC und ob es angesichts von Höhengrenze und Dunkelheit **beobachtbar** ist (*ja*, *teilweise* oder gar nicht).
 
 ## Das Diagramm lesen
-**Die Nacht planen** zeichnet die Höhe jedes Ziels über der UTC-Zeit für die ganze Nacht:
+**Die Nacht planen** zeichnet die Höhe jedes Ziels über der UTC-Zeit für die ganze Nacht, mit der Ortszeit auf der oberen Achse (**Ortszeit (Stunden zu UTC)**: *Automatisch* nimmt die Zeitzone dieses Computers an diesem Datum, Sommerzeit eingeschlossen; für eine Sternwarte anderswo den Unterschied eingeben, z. B. 1 für La Palma im Sommer). Die Texte des Diagramms sind unabhängig von der Sprache der Oberfläche englisch, damit es so in einen Artikel oder Bericht passt:
 
 - die blaue Schattierung wird von Sonnenuntergang über bürgerliche (−6°), nautische (−12°) und astronomische (−18°) Dämmerung schrittweise dunkler; der dunkelste Teil ist die astronomische Nacht;
 - die gestrichelte graue Kurve ist der **Mond**, mit seinem beleuchteten Anteil in der Legende;
@@ -36,7 +36,7 @@ Der Plan listet dann jedes Ereignis der Nacht mit Beginn, Mitte und Ende in UTC 
 - die rechte Achse zeigt die **Luftmasse**; Photometrie gelingt am besten unter Luftmasse 2 (Höhe über 30°);
 - rote Dreiecke markieren die Mitte jeder Bedeckung oder jedes Transits auf der Kurve des Ziels.
 
-Die Zeile unter dem Diagramm nennt Beginn und Ende der astronomischen Nacht in UTC und die Zahl der Ereignisse. In Polnähe gibt es im Sommer womöglich **keine astronomische Nacht**.
+Die Zeile unter dem Diagramm nennt Beginn und Ende der astronomischen Nacht in UTC und in Ortszeit und die Zahl der Ereignisse; die Ereignistabelle gibt die Mitte jedes Ereignisses auch in Ortszeit an. In Polnähe gibt es im Sommer womöglich **keine astronomische Nacht**.
 
 ## Vom Plan zur Beobachtung
 **Zeitplan erstellen** (nach *Die Nacht planen*) macht aus der Nacht ein Programm für mehrere Ziele: zuerst jede beobachtbare Bedeckung oder jeder Transit mit 30 Minuten Grundlinie davor und danach (überschneiden sich zwei, gewinnt das Ziel, das in Ihrer Liste weiter oben steht); der Rest der dunklen Zeit in Blöcken von einer Stunde, jeder für das Ziel, das am höchsten über Ihrer Höhengrenze bleibt. **An die Seite Beobachten senden** übergibt jeden Block mit Beginn und Ende an die Sequenz; die dort eingestellten Belichtungszeilen gelten für jedes Ziel.

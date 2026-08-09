@@ -346,7 +346,7 @@ Status of everything so far:
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | DONE (session 019Lu3, 2026-11-06): sweep in 4 languages; real-data use of every page (Plan, Observe with INDI simulators, Calibrate, Images, Photometry, Light curves & O−C, Spectroscopy long slit, Orbits & models incl. a visual orbit on real measures, Remote sensing, Automation, Project, Guide); the echelle on raw HARPS is U8b |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | PARTLY: real data so far: LCO (raw + BANZAI), TESS (W UMa, FG Vir), Kepler (KIC 6525196, KIC 8462852), K2, ESO EFOSC2 raw, Sentinel-2 L2A, SIMBAD / VizieR / VSX / Exoplanet Archive through mirrors |
-| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-06): U8a, U8c, U8d, U8e DONE; U8b (ESO echelle raw vs reduced) open |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | DONE (session 019Lu3, 2026-11-06): U8a, U8b (raw HARPS vs ESO DRS: 22 m/s), U8c, U8d, U8e |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS: period search, light curves, calibration, remote sensing, deconvolution and histogram matching made faster (speed log) |
 | U10 | Re-run the tests touched by every fix; CI green | each fix re-tested on its real data; CI green up to f3f2d17 (check after every push) |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
@@ -479,14 +479,29 @@ of fitting noise. Checked on real data: the full night (265 frames) still 1 dip,
 transit mid-time 2461347.61134 BJD_TDB against ExoClock's prediction 2461347.61115 (O−C +0.27 min), depth 2.24 %
 (literature 2.3–2.5 %), T14 1.57 h. Observe page: `tests/test_indi_simulators.py` passes against the real INDI
 simulators (`apt-get install indi-bin`): mount, CCD, filter wheel, focuser.
-**U8b (open, prepared).** Raw HARPS of tau Ceti exist with their night's calibrations (ESO TAP `dbo.raw`:
-`instrument='HARPS' AND object LIKE '%10700%'`; e.g. HARPS.2010-08-27T05:33:35.086 "STAR,WAVE,G8"; same night
-1 BIAS, LAMP,DARK,TUN (fibre-A order flat), DARK,LAMP,TUN, 5 LAMP,LAMP,TUN, 2 WAVE,WAVE,THAR2 between 21:53 and
-22:06 UT on 2010-08-26) and ESO's reduced spectra of that sequence (ivoa.ObsCore, t_min 55435.2316…:
-ADP.2014-09-24T09:43:29.897 and four more). Not done: HARPS raw frames carry two CCDs (one extension each) and two
-fibres (star + simultaneous ThAr), and the Echelle tab needs ThAr identifications for which no HARPS atlas is at hand.
-Plan: reduce the blue chip with the fibre-A order flat, anchor a few orders with the stellar lines of ESO's own 1-D
-spectrum (shifted by its DRS RV and BERV), then compare the merged spectrum and the RV with ESO's.
+**U8b raw HARPS echelle vs ESO's DRS (done).** tau Ceti, HARPS.2010-08-27T05:33:35 (60 s) with the evening's bias,
+fibre-A tungsten flat (LAMP,DARK,TUN) and ThAr (WAVE,WAVE,THAR2), raw from the ESO archive
+(`https://dataportal.eso.org/dataportal_new/file/<dp_id>`), against ESO's reduction of the same exposure (DRS 3.5:
+e2ds_A with its per-order wavelength polynomials, s1d, CCF; ADP.2014-09-24T09:43:29.897 + ancillary tar). Blue chip
+on the Echelle tab's step (orientation y, reverse, no sky, first order 161 decreasing). Found and fixed: (1) faint
+bumps beside the orders on the flat (fibre B leak / ghost, 33–119 ADU next to 2000–25000) counted as orders and
+tracing failed -> a peak a tenth of its neighbour or fainter is not an order (46 orders, as ESO); (2) the extraction
+width (70 % of the order spacing) took in fibre B's simultaneous ThAr 17 px away (emission spikes in the star, flux
+correlation with s1d 0.31) -> 3 x the orders' FWHM measured on the flat (0.996); (3) 245 ADU of bias stayed in: ESO
+writes prescan / overscan sizes (DET OUT1 PRSCX/OVSCX/NX), not BIASSEC -> used when they add up to the frame (EFOSC2
+frames are now trimmed to 1024 x 1024 too); (4) a multi-extension frame lost the primary header (no RA / site: no
+barycentric correction) -> the primary's keywords are inherited (read_image, masters.load, read_frame); (5) HARPS
+frame types per fibre (STAR,WAVE = light; LAMP,DARK,TUN = flat; DARK,LAMP,TUN = unknown); (6) the velocity over the
+whole merged spectrum was 5.6 km/s off (CCF peak 0.009): one clipped cubic over 1500 A went through zero at the faint
+blue end -> spectra of more than 8000 pixels are normalised in pieces. Result, 9 ThAr lines identified by hand in 3
+orders: 1591 lines, 0.0004 A rms; our wavelengths minus ESO's over all 46 x 4096 pixels: median 0.0 m/s, rms 21.6
+m/s (per order medians -22 ... +36 m/s; ESO fits each order alone, we fit one 2-D polynomial); barycentric correction
+18.607 vs ESO's BERV 18.602 km/s; velocity against ESO's s1d +9 +- 8 m/s over 3783–5304 A (-1 m/s over 4000–5000 A),
+i.e. the same tau Ceti RV as ESO's CCF (-16.532 km/s) to about 10 m/s. Not done: the red chip (same steps).
+**Plan chart in English with local time (owner's request, done).** The chart's texts are English whatever the
+interface language (for papers), planets and the Moon by their English names; the top axis gives the local time;
+"Local time (hours from UTC)" box (Auto = this computer's time zone on the night's date, summer time included);
+the events table has the middle in local time and the status line the night in UTC and local time. Guide (4 languages).
 **U6e Images page (done).** Every Image > Process operation on a real calibrated LCO frame (2400 x 2400), dialogs
 accepted with their defaults: 0 errors; flip / rotate / bin / Gaussian / unsharp 1.0–1.8 s, median 2.0 s, background
 2.6 s, resample (to 4800 x 4800) 7.8 s. Made faster: Richardson–Lucy 20 iterations (two FFT convolutions per
@@ -543,6 +558,8 @@ Users are not affected (certifi has it).
 | Images: every Process operation on 2400 x 2400 | LCO frame | 1–8 s each (RL deconvolution before ~22 s, histogram match before ~10 s) | fine |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
+| Echelle reduction (Echelle tab, engine step) | raw HARPS blue chip 4096 x 2048, 46 orders, flat + ThAr | 60 s orders + extraction + arc; 61 s again with the wavelength solution | acceptable for a once-per-frame step (optimal extraction of 46 x 4096 columns dominates); not changed |
+| Velocity of a merged echelle spectrum (CCF, ESO s1d as template) | 124 k pixels, 3783–5304 A | 3–6 s | fine |
 
 ### Notes per task
 

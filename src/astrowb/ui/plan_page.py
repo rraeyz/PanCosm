@@ -1,5 +1,7 @@
 """Plan: observing site, date, targets (SIMBAD or coordinates, optional ephemeris), altitude chart, events."""
 
+from datetime import UTC, datetime
+
 import numpy as np
 from PySide6.QtCore import QDate, Qt, Signal
 from PySide6.QtWidgets import (
@@ -23,6 +25,7 @@ from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
 
+AUTO = -13.0  # the UTC offset box's lowest value, shown as "Auto": this computer's time zone
 TARGET_COLUMNS = ("name", "ra", "dec", "t0", "period", "duration", "secondary")
 
 
@@ -88,6 +91,18 @@ class PlanPage(Undoable, QWidget):
         self.lon.setToolTip(self.tr("Longitude of the site in degrees, east positive (west of Greenwich is negative)"))
         self.lat.setToolTip(self.tr("Latitude of the site in degrees, north positive"))
         grid.addWidget(self.min_alt, 5, 1)
+        self.utc_offset = self._spin(self.settings.get("plan.utc_offset", AUTO), AUTO, 14, 1)
+        self.utc_offset.setSingleStep(0.5)
+        self.utc_offset.setSpecialValueText(self.tr("Auto"))
+        self.utc_offset.setToolTip(
+            self.tr(
+                "Hours to add to UTC for the local time shown above the chart and in the events (Turkey: 3). Auto: "
+                "this computer's time zone on the night's date, summer time included; type the offset for an "
+                "observatory in another time zone"
+            )
+        )
+        grid.addWidget(QLabel(self.tr("Local time (hours from UTC)"), self), 6, 0)
+        grid.addWidget(self.utc_offset, 6, 1)
         lay.addLayout(grid)
 
         lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon"), self))
@@ -192,13 +207,14 @@ class PlanPage(Undoable, QWidget):
         right = QSplitter(Qt.Vertical, self)
         self.plot = PlotCanvas(self)
         right.addWidget(self.plot)
-        self.events = QTableWidget(0, 6, self)
+        self.events = QTableWidget(0, 7, self)
         self.events.setHorizontalHeaderLabels(
             [
                 self.tr("Target"),
                 self.tr("Event"),
                 self.tr("Start (UTC)"),
                 self.tr("Middle (UTC)"),
+                self.tr("Middle (local)"),
                 self.tr("End (UTC)"),
                 self.tr("Observable"),
             ]
@@ -315,6 +331,7 @@ class PlanPage(Undoable, QWidget):
             self.status.setText(translate(e))
             return
         self.settings.set("site", self.site())
+        self.settings.set("plan.utc_offset", self.utc_offset.value())
         self.status.setText(self.tr("Computing…"))
         self._planned = targets
         self.plan_requested.emit(
@@ -360,6 +377,13 @@ class PlanPage(Undoable, QWidget):
             self.status.setText(self.tr("No target is high enough during the dark hours."))
         return self.blocks
 
+    def local_offset(self, jd):
+        """Hours from UTC to the local time: the typed offset, or this computer's on that date (Auto)."""
+        if self.utc_offset.value() > AUTO:
+            return self.utc_offset.value()
+        when = datetime.fromtimestamp((jd - 2440587.5) * 86400, UTC).astimezone()
+        return when.utcoffset().total_seconds() / 3600
+
     def show_night(self, n):
         from astropy.time import Time
 
@@ -373,8 +397,10 @@ class PlanPage(Undoable, QWidget):
         sun = np.asarray(n["sun_alt"])
         for level, shade in ((-0.8, 0.08), (-6, 0.15), (-12, 0.22), (-18, 0.3)):
             ax.fill_between(hours, 0, 90, where=sun < level, color="navy", alpha=shade, lw=0)
+        off = self.local_offset(jd[len(jd) // 2])
+        # the chart is in English whatever the interface language: it goes into papers and reports
         for t in n["targets"]:
-            ax.plot(hours, t["alt"], label=t["name"])
+            ax.plot(hours, t["alt"], label=t["body"].capitalize() if t.get("body") else t["name"])
             for e in t["events"]:
                 h = (e["mid"] - midnight) * 24
                 ax.plot([h], [e["alt_mid"]], "v", color="red", ms=8)
@@ -385,17 +411,20 @@ class PlanPage(Undoable, QWidget):
                 "--",
                 color="gray",
                 lw=1,
-                label=self.tr("Moon ({p:.0f} %)").format(p=100 * n["moon_illumination"]),
+                label=f"Moon ({100 * n['moon_illumination']:.0f} %)",
             )
         ax.axhline(self.min_alt.value(), color="red", lw=0.6, ls=":")
         ax.set_ylim(0, 90)
         ax.set_xlim(hours[0], hours[-1])
         ax.xaxis.set_major_formatter(lambda h, _pos: f"{h % 24:g}")  # 25 h is 1 h UTC the next day
-        ax.set_xlabel(self.tr("UTC (hours)"))
-        ax.set_ylabel(self.tr("Altitude (°)"))
+        ax.set_xlabel("UTC (hours)")
+        ax.set_ylabel("Altitude (°)")
+        top = ax.secondary_xaxis("top", functions=(lambda h: h + off, lambda h: h - off))
+        top.xaxis.set_major_formatter(lambda h, _pos: f"{h % 24:g}")
+        top.set_xlabel(f"Local time (UTC{off:+g}, hours)")
         secax = ax.secondary_yaxis("right", functions=(_alt_to_airmass, _airmass_to_alt))
         secax.set_ticks([1.0, 1.2, 1.5, 2.0, 3.0])
-        secax.set_ylabel(self.tr("Airmass"))
+        secax.set_ylabel("Airmass")
         ax.legend(fontsize="small", loc="upper right")
         self.plot.draw()
 
@@ -406,6 +435,9 @@ class PlanPage(Undoable, QWidget):
         def fmt(jd_value):
             return Time(jd_value, format="jd").iso[:16] if jd_value else "—"
 
+        def local(jd_value):
+            return Time(jd_value + off / 24, format="jd").iso[11:16] if jd_value else "—"
+
         for r, (name, e) in enumerate(rows):
             for c, v in enumerate(
                 (
@@ -413,6 +445,7 @@ class PlanPage(Undoable, QWidget):
                     kinds[e["kind"]],
                     fmt(e["start"]),
                     fmt(e["mid"]),
+                    local(e["mid"]),
                     fmt(e["end"]),
                     self.tr("yes") if e["full"] else self.tr("partly"),
                 )
@@ -420,8 +453,13 @@ class PlanPage(Undoable, QWidget):
                 self.events.setItem(r, c, QTableWidgetItem(v))
         dusk = fmt(n["dusk"]) if n["dusk"] else self.tr("no astronomical night")
         self.status.setText(
-            self.tr("Astronomical night: {dusk} – {dawn} UTC; {n} events.").format(
-                dusk=dusk, dawn=fmt(n["dawn"]) if n["dawn"] else "—", n=len(rows)
+            self.tr("Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.").format(
+                dusk=dusk,
+                dawn=fmt(n["dawn"]) if n["dawn"] else "—",
+                ldusk=local(n["dusk"]),
+                ldawn=local(n["dawn"]),
+                off=f"{off:+g}",
+                n=len(rows),
             )
         )
 
