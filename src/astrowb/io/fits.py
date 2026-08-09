@@ -33,8 +33,10 @@ def inherited(hdul, index):
     """A copy of HDU `index`'s header with the primary header's keywords it does not set: multi-extension raw
     frames (HARPS, mosaics) keep the target, time and telescope in the primary header only."""
     header = hdul[index].header.copy()
+    for key in CHECKSUMS:  # they describe the file's bytes: a copy saved with them fails every checksum test
+        header.remove(key, ignore_missing=True, remove_all=True)
     for card in hdul[0].header.cards if index else []:
-        if card.keyword not in STRUCTURAL + ("COMMENT", "HISTORY", "") and card.keyword not in header:
+        if card.keyword not in STRUCTURAL + CHECKSUMS + ("COMMENT", "HISTORY", "") and card.keyword not in header:
             header.append(card)  # the card itself: a HIERARCH keyword set by name warns for every card
     return header
 
@@ -103,6 +105,7 @@ def extract_extension(path, index):
 
 
 STRUCTURAL = ("SIMPLE", "BITPIX", "NAXIS", "EXTEND", "BZERO", "BSCALE", "PCOUNT", "GCOUNT", "XTENSION", "END")
+CHECKSUMS = ("CHECKSUM", "DATASUM")
 
 
 def parse_value(text: str):

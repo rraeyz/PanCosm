@@ -501,3 +501,22 @@ def test_groups_no_light_needs_are_not_combined():
     assert sorted((k[0], k[1]) for k in unused) == [("bias", chip), ("dark", chip), ("flat", crop)]
     assert [k[-1] for k in unused if k[0] == "flat"] == ["r"]  # the R flat: no R light
     assert _unused_groups(make_plan([f for f in frames if f.kind != "light"]), reps, 2.0) == []  # masters only
+
+
+def test_a_copied_header_drops_the_checksums(tmp_path):
+    """CHECKSUM / DATASUM describe the original file's bytes: an image saved from a read header kept them and failed
+    every checksum test (astropy: "Checksum verification failed")."""
+    import warnings
+
+    from astrowb.io.fits import read_image
+
+    primary = fits.PrimaryHDU(header=fits.Header({"TELESCOP": "HST", "EXPTIME": 100.0}))
+    sci = fits.ImageHDU(np.ones((20, 30), np.float32), name="SCI")
+    fits.HDUList([primary, sci]).writeto(tmp_path / "mef.fits", checksum=True)
+    data, header, index = read_image(tmp_path / "mef.fits")
+    assert index == 1 and header["EXPTIME"] == 100.0 and "CHECKSUM" not in header and "DATASUM" not in header
+    fits.PrimaryHDU(data, header).writeto(tmp_path / "saved.fits")
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        with fits.open(tmp_path / "saved.fits", checksum=True) as hdul:
+            hdul.verify("exception")
