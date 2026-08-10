@@ -4,7 +4,7 @@ La página **Calibrar** convierte las tomas brutas en imágenes calibradas: reco
 ## 1. Explorar las tomas brutas
 Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar mezclados, subcarpetas incluidas) y pulse **Explorar**. La tabla lista cada archivo con su **tipo**, **exposición**, **filtro**, **temperatura** y **agrupamiento** (binning).
 
-- El tipo sale de la cabecera `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) y, si falta, del nombre del archivo.
+- El tipo sale de la cabecera `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) y, si falta, del nombre del archivo. Palabras del nombre: bias / zero / offset, dark, flat / twilight, light / object / science; una imagen de 0 s es un bias. Una imagen que no coincide con ninguna es **desconocida** y se deja fuera (se lista bajo la tabla): *no* se toma como light. **Doble clic en un tipo** de la tabla para cambiarlo; los archivos no cambian.
 - Los archivos que no se pueden leer y los de tipo desconocido se listan bajo la tabla y se ignoran.
 - La misma lista dice qué tomas de calibración **faltan**, por ejemplo «no flat for filter 'R'» — esos lights se calibran igualmente, sin esa corrección, y se le avisa.
 
@@ -31,10 +31,10 @@ Elija dónde se escriben los másteres y las imágenes calibradas. Los archivos 
 - **Espectros: no dividir por el flat:** márquelo para tomas echelle y de rendija larga. Su flat es casi cero entre los órdenes y dividir por él dispararía el ruido (en IRAF ese flat se normaliza antes con apflatten / apnormalize). El bias y el dark se siguen restando; el flat maestro se sigue creando — páselo a la página Espectroscopía, que traza los órdenes sobre él y divide por su blaze. El mapa de defectos sale entonces solo del dark.
 
 ## 3. Calibrar
-Pulse **Calibrar**. La tarea se ejecuta en segundo plano; al terminar verá cuántas imágenes se calibraron y cuántos másteres se escribieron. Cada imagen calibrada registra en su cabecera qué másteres se usaron (`CALB`, `CALD`, `CALF`), así que siempre puede comprobarlo.
+Pulse **Calibrar**. La tarea se ejecuta en segundo plano; al terminar verá cuántas imágenes se calibraron y cuántos másteres se escribieron. Cada imagen calibrada registra en su cabecera qué másteres se usaron (`CALB`, `CALD`, `CALF`), así que siempre puede comprobarlo. Después, **4. Medirlas en la página Fotometría →** envía allí los lights calibrados y abre la página (con varios filtros se elige uno: una curva de luz se mide en un solo filtro). El menú del botón derecho de la página Imágenes tiene lo mismo: **Enviar las imágenes abiertas a Fotometría**.
 
 ## 4. Alinear y apilar
-**Alinear y apilar…** alinea las imágenes calibradas sobre las estrellas (desplazamiento hallado por correlación cruzada) y las combina con una media con recorte sigma en una sola imagen profunda. Un mapa de cobertura, guardado como segunda extensión del archivo, indica cuántas tomas contribuyeron a cada píxel. Apile solo tomas del mismo filtro.
+**Alinear y apilar…** alinea las imágenes calibradas sobre las estrellas (desplazamiento hallado por correlación cruzada) y las combina con una media con recorte sigma en una sola imagen profunda. Un mapa de cobertura, guardado como segunda extensión del archivo, indica cuántas tomas contribuyeron a cada píxel. Apile solo tomas del mismo filtro. Apilar es opcional y **no sirve para una curva de luz**: una pila tiene un solo tiempo, mientras que la fotometría mide cada imagen. Apile para una imagen profunda, astrometría de objetos débiles o una imagen en color.
 
 ## Opciones de apilado
 Las opciones junto al botón de apilar funcionan como en Siril, PixInsight o MaxIm DL:

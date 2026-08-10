@@ -847,10 +847,11 @@ class CalibratePage(QWidget):
     scan_requested = Signal(str)  # folder
     run_requested = Signal(list, str, dict)  # frames, output folder, params
     stack_requested = Signal(list, str, dict)  # calibrated images, output file, params
+    photometry_requested = Signal(list)  # calibrated lights to measure
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.frames = []
+        self.frames, self._problems, self._raw_converted, self.calibrated = [], [], 0, []
         lay = QVBoxLayout(self)
         lay.addWidget(_title(self.tr("Calibrate"), self))
         lay.addWidget(QLabel(self.tr("1. Choose the folder with your raw frames (lights, bias, darks, flats)."), self))
@@ -916,7 +917,21 @@ class CalibratePage(QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table.cellDoubleClicked.connect(self._edit_kind)
+        self.table.setToolTip(self.tr("Double-click a frame's type to change it"))
         lay.addWidget(self.table, 1)
+        how = QLabel(
+            self.tr(
+                "How the type is found: the header (IMAGETYP, FRAME, OBSTYPE…) first; without it a word in the file "
+                "name — bias / zero / offset, dark, flat / twilight, light / object / science; a frame of 0 s "
+                "is a bias. Anything else is “unknown” and left out (it is not taken as a light). Double-click a "
+                "type to change it."
+            ),
+            self,
+        )
+        how.setWordWrap(True)
+        how.setProperty("muted", True)
+        lay.addWidget(how)
         self.warnings = QPlainTextEdit(self)
         self.warnings.setReadOnly(True)
         self.warnings.setMaximumHeight(90)
@@ -1013,13 +1028,21 @@ class CalibratePage(QWidget):
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         lay.addWidget(self.result)
-        self.stack_button = QPushButton(self.tr("4. Align and stack the calibrated images (optional)"), self)
+        self.photometry_button = QPushButton(self.tr("4. Measure them on the Photometry page →"), self)
+        self.photometry_button.setEnabled(False)
+        self.photometry_button.setToolTip(
+            self.tr("Sends the calibrated lights to the Photometry page and opens it (a light curve, a variable star)")
+        )
+        self.photometry_button.clicked.connect(lambda: self.photometry_requested.emit(list(self.calibrated)))
+        lay.addWidget(self.photometry_button)
+        self.stack_button = QPushButton(self.tr("Or: stack them into one deep picture (not for a light curve)"), self)
         self.stack_button.setEnabled(False)
         self.stack_button.clicked.connect(self._stack)
         self.stack_button.setToolTip(
             self.tr(
-                "Aligns the calibrated images on their stars and combines them, one stack per filter. For a"
-                " light curve measure the single images on the Photometry page instead."
+                "Aligns the calibrated images on their stars and adds them into one image per filter: fainter stars "
+                "and nebulae show, for a picture, astrometry or a colour image. Not needed for photometry: a light "
+                "curve measures every single image (a stack has one time only)."
             )
         )
         lay.addWidget(self.stack_button)
@@ -1158,11 +1181,27 @@ class CalibratePage(QWidget):
             if not self.output.text():
                 self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
 
-    def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
-        self.frames = frames
-        if not self.output.text() and self.folder.text():
-            self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
-        kinds = {
+    def _edit_kind(self, row, col):
+        """Double-click on a type: a list of the types; the choice is used for the calibration (the files are not
+        changed)."""
+        if col != 1 or row >= len(self.frames):
+            return
+        names = self._kind_names()
+        box = QComboBox(self.table)
+        for key, text in names.items():
+            box.addItem(text, key)
+        box.setCurrentIndex(max(0, box.findData(self.frames[row]["kind"])))
+
+        def chosen(i):
+            self.frames[row] = dict(self.frames[row]) | {"kind": box.itemData(i)}
+            self.show_frames(self.frames, self._problems, self._raw_converted)
+
+        box.activated.connect(chosen)
+        self.table.setCellWidget(row, 1, box)
+        box.showPopup()
+
+    def _kind_names(self):
+        return {
             "bias": self.tr("bias"),
             "dark": self.tr("dark"),
             "flat": self.tr("flat"),
@@ -1170,6 +1209,13 @@ class CalibratePage(QWidget):
             "arc": self.tr("arc lamp"),
             "unknown": self.tr("unknown"),
         }
+
+    def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
+        self.frames, self._problems, self._raw_converted = frames, problems, raw_converted
+        self.table.clearContents()
+        if not self.output.text() and self.folder.text():
+            self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
+        kinds = self._kind_names()
         self.table.setRowCount(len(frames))
         for r, f in enumerate(frames):
             values = (
@@ -1235,6 +1281,7 @@ class CalibratePage(QWidget):
     def show_result(self, out: dict):
         self.calibrated = out["calibrated"]
         self.stack_button.setEnabled(len(self.calibrated) > 1)
+        self.photometry_button.setEnabled(bool(self.calibrated))
         self.result.setText(
             self.tr("Done: {n} images calibrated, {m} master frames written to {folder}.").format(
                 n=len(out["calibrated"]), m=len(out["masters"]), folder=self.output.text()

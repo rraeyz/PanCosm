@@ -140,6 +140,16 @@ def test_calibrate_page_scan_and_run(window, qtbot, tmp_path):
     kinds = sorted(f["kind"] for f in window.engine.project.files())
     assert kinds == ["calibrated"] * 3 + ["master"]
     assert abs(np.median(fits.getdata(raw / "calibrated" / "l0.fits")) - 1000) < 5
+    # step 4: the calibrated lights go to the Photometry page, which opens
+    assert page.photometry_button.isEnabled()
+    page.photometry_button.click()
+    assert window.current_workspace() == "photometry" and len(window.photometry_page.images) == 3
+    # a frame's type can be changed on the page: a light taken for a bias is not calibrated as a light
+    page._edit_kind(3, 1)
+    box = page.table.cellWidget(3, 1)
+    box.activated.emit(box.findData("unknown"))
+    assert page.frames[3]["kind"] == "unknown" and "unknown" in page.table.item(3, 1).text()
+    assert "ignored" in page.warnings.toPlainText()
 
 
 def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
@@ -816,6 +826,10 @@ def test_image_right_click_menu(window, tmp_path):
     menu = window.image_menu(30.0, 20.0)
     texts = [a.text() for a in menu.actions()]
     assert "Measure this star" in texts and "Zoom to &fit" in texts
+    assert texts[0] == "Send the open images to Photometry"  # the plain way first, no star to choose
+    menu.actions()[0].trigger()
+    assert window.photometry_page.images == paths and window.current_workspace() == "photometry"
+    window.photometry_page._clear()
     comp = next(a for a in menu.actions() if a.text() == "Photometry: add as a comparison star")
     assert not comp.isEnabled()  # no target yet
     next(a for a in menu.actions() if a.text() == "Measure this star").trigger()
