@@ -231,6 +231,28 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+**Second update by agent session 01RxUU (2026-11-06, ~07:30 UTC).** The owner asked (in Turkish): (1) a release now
+to try the program; (2) are Lomb–Scargle / BLS / PDM / ANOVA explained in the guide, and do buttons / boxes have hover
+explanations; (3) do all fits follow real mathematical models (not made up) — document their mathematics; (4) do the
+open items; (5) then another release.
+- (1) **DONE.** Version 0.2.0 (`e95a636`). Tag pushes from the agent container are cut off by its proxy, so the `ci`
+  workflow got a `release` input (`9147928`): run `ci` by hand on `main` with release = true (GitHub MCP
+  `actions_run_trigger`, method run_workflow, workflow_id ci.yml, ref main, inputs {"release": true}); the release
+  job creates tag v<version> at that commit and uploads the installers. Run 97 was started for v0.2.0. Do not push to
+  `main` while such a run is going: the push cancels it (same concurrency group).
+- (2) **DONE.** The guide had one line per method; now each says how it works (07-lightcurves, 4 languages) and each
+  item of the method list has its own tooltip with the paper (Lomb 1976 / Scargle 1982, Kovács et al. 2002,
+  Stellingwerf 1978, Schwarzenberg-Czerny 1996). Every control already has a tooltip (`tests/test_tooltips.py`).
+- (3) **DONE.** New guide chapter `13-methods.md` "Mathematics of the methods" (en/tr/de/es, 11 sections): least
+  squares / errors / MCMC, the four period searches, Fourier + prewhitening + CLEAN, KvW / polynomial / trapezoid
+  minima, ephemeris + dP/dt, LTTE and apsidal motion, the EB sphere model, CCF / TODCOR / BF / Keplerian orbits /
+  absolute dimensions, visual orbits, wavelength / atmosphere / telluric / disentangling, aperture photometry /
+  extinction / transformation. Every formula was checked against the code (module docstrings and functions), not
+  written from memory; corrections made on the way: CLEAN gain is 0.2, third light is a fraction of the total,
+  `oc_models` cited Irwin 1952 as AJ 57, 211 — it is ApJ 116, 211 (fixed). Result: every fit is a published model.
+- (4) **CLAIMED, IN PROGRESS:** disentangling on real data (item 4 below): median combination + per-window
+  disentangling with renormalisation, a synthetic test with spikes and a continuum tilt, then AI Phe again.
+
 **Update by agent session 01RxUU (2026-11-06, after 019Lu3).** Continued "Still to do" below in order; each item
 there now says DONE / IN PROGRESS with its results. Commits: `e2a8d69` (brand check), `95714a4` (CHECKSUM fix,
 side-effect checks), `c5985a4` (echelle 10x faster, .Z 5x), `70a42b0` (TODCOR star swap with one template),
