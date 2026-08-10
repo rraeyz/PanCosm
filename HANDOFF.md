@@ -283,7 +283,22 @@ open items; (5) then another release.
   `scaled_header` scaled CD / CRPIX but not the SIP distortion terms our plate solver writes; A_p_q, B_p_q, AP, BP now
   scale as scale^(1-p-q) (test `test_scaled_header_keeps_the_distortion`, fails without). Not checked: frames with a
   rotation between them (drizzle, like stacking, aligns by translation only — documented shortcut).
-- (4c) Offline plate solving on real frames: next.
+- (4c) **DONE — offline plate solving on a real frame; one reporting bug fixed.** astrometry.net 0.93 from Ubuntu
+  (`apt-get install astrometry.net astrometry-data-tycho2-07-littleendian astrometry-data-tycho2-08-littleendian`) +
+  `index-4205-06.fits` / `index-4206-06.fits` from data.astrometry.net/4200/ (2MASS, healpix 6 = RA 135–225,
+  |Dec| < 41.8; `get-healpix -N 1 -- ra dec` names the tile) copied to /usr/share/astrometry. Frame: the LCO Eros
+  frame 0080 with its WCS removed (2400 x 2400, 0.74"/px, 29.6'). With the Tycho-2 indexes only (quads 22–42', too
+  large for a 30' field): no solution (hint) / timeout (blind, 300 s). With 4205/4206: blind 7 s, with hint 4 s, SIP
+  written. Against Gaia DR3 (64 stars G < 15, VizieR): ours median 0.60" (rms 0.80), BANZAI's own WCS 0.43" (0.76);
+  the two WCS differ by 0.45" median, 1.3" at the corners — 2MASS (epoch ~2000) limits ours. **Bug fixed:** the MPC
+  report always wrote astCat = Gaia3 (the dialog's default, its tooltip said "ASTAP and astrometry.net: Gaia"), but
+  an astrometry.net solution rests on the index's catalogue. Now `astrometry.solve` reads "index id: NNNN" from the
+  solution and writes ASTCAT (4100 Tyc2, 4200 2MASS, 5000/5200 Gaia2; ASTAP: not set, its databases are Gaia-based
+  but the release is not recorded); `moving.track` carries it and the dialog fills the Catalogue field and says so
+  (or warns when frames disagree). Guide (05-images, 4 languages): which index files a field needs, and the
+  catalogue field. Tests in `test_astrometry.py` / `test_moving.py`. Possible next step (not done): refit the WCS
+  against Gaia DR3 when online (astropy `fit_wcs_from_points`) to reach ~0.1" and report Gaia3 honestly.
+- (5) Next: full local check, push, CI green, then release v0.2.1 by the manual `release` run.
 
 **Update by agent session 01RxUU (2026-11-06, after 019Lu3).** Continued "Still to do" below in order; each item
 there now says DONE / IN PROGRESS with its results. Commits: `e2a8d69` (brand check), `95714a4` (CHECKSUM fix,

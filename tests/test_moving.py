@@ -70,6 +70,8 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
     from astrowb.ui.main_window import MainWindow
 
     paths, _ = make_frames(tmp_path)
+    for p in paths:  # solved by astrometry.net with Tycho-2 indexes: the report must not say Gaia
+        fits.setval(p, "ASTCAT", value="Tyc2")
     win = MainWindow(Settings(tmp_path))
     qtbot.addWidget(win)
     try:
@@ -80,6 +82,7 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
         assert dlg.measure_button.isEnabled()
         dlg.measure_button.click()
         qtbot.waitUntil(lambda: dlg.table.rowCount() == 6, timeout=60000)
+        assert "Catalogue set to Tyc2" in dlg.hint.text()
         dlg.designation.setText("2026 VA12")
         assert dlg.export(str(tmp_path / "r.psv")) is None and "required" in dlg.hint.text()  # no code yet
         dlg.code.setText("a84")
@@ -87,6 +90,7 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
         dlg.export(str(tmp_path / "r.psv"))
         text = (tmp_path / "r.psv").read_text(encoding="utf-8")
         assert text.count("|2026 VA12||CCD|A84|") == 6 and "! name B. Yardımcı" in text
+        assert dlg.catalog.text() == "Tyc2" and text.count("|Tyc2") == 6 and "Gaia3" not in text
         assert win.settings.get("mpc")["code"] == "A84"  # remembered for the next object
     finally:
         win.engine.shutdown()

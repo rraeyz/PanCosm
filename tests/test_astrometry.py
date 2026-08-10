@@ -24,6 +24,8 @@ FAKE = textwrap.dedent(
     h = fits.Header({{"CTYPE1": "RA---TAN", "CTYPE2": "DEC--TAN", "CRPIX1": 40.0, "CRPIX2": 30.0,
                       "CRVAL1": 31.04, "CRVAL2": 46.69, "CD1_1": -0.00145, "CD1_2": 0.0, "CD2_1": 0.0,
                       "CD2_2": 0.00145, "EQUINOX": 2000.0, "NOTAWCS": 1}})
+    if kind == "astrometry":
+        h["COMMENT"] = "index id: 4206"  # as astrometry.net records the index that solved it
     h.tofile(out, overwrite=True)
     """
 )
@@ -47,6 +49,7 @@ def test_solve_and_apply(tmp_path, image, kind):
     solver = fake(tmp_path, kind)
     wcs = astrometry.solve(image, solver, ra_deg=31.0, dec_deg=46.7, radius_deg=5)
     assert "NOTAWCS" not in wcs and WCS(wcs).has_celestial
+    assert wcs.get("ASTCAT") == (None if kind == "astap" else "2MASS")  # the 4200 indexes are built from 2MASS
     args = (tmp_path / f"fake_{kind}.py.args").read_text().split()
     if kind == "astap":
         assert args[args.index("-ra") + 1].startswith("2.0666") and args[args.index("-spd") + 1] == "136.7"

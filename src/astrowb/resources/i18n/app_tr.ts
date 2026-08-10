@@ -4918,77 +4918,87 @@
         <translation>Gözlemcilerin adları, rapora yazılır</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="91"/>
-        <source>Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)</source>
-        <translation>Plaka çözümlerinin yıldız kataloğu (ASTAP ve astrometry.net: Gaia)</translation>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
+        <translation>Plaka çözümlerinin dayandığı yıldız kataloğu (ADES astCat). Çözücü kaydetmişse karelerden doldurulur: astrometry.net'in 4100 indeksleri Tycho-2 (Tyc2), 4200 indeksleri 2MASS, 5200 indeksleri Gaia DR2'dir (Gaia2); ASTAP'ın yıldız veritabanları Gaia'dan gelir (sizinkinin hangi sürüm olduğuna bakın)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <location filename="../../ui/moving_dialog.py" line="98"/>
         <source>Object</source>
         <translation>Cisim</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <location filename="../../ui/moving_dialog.py" line="99"/>
         <source>Observatory code</source>
         <translation>Gözlemevi kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="100"/>
         <source>Observers</source>
         <translation>Gözlemciler</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="95"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="97"/>
+        <location filename="../../ui/moving_dialog.py" line="103"/>
         <source>Write MPC report (ADES)…</source>
         <translation>MPC raporunu yaz (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="107"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation>Konumları MPC&apos;nin ADES biçiminde, Küçük Gezegen Merkezi&apos;ne gönderilmeye hazır olarak yazar</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="115"/>
+        <location filename="../../ui/moving_dialog.py" line="121"/>
         <source>Click the object on the first frame.</source>
         <translation>İlk karede cisme tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="120"/>
+        <location filename="../../ui/moving_dialog.py" line="126"/>
         <source>Choose frames</source>
         <translation>Kareleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="133"/>
+        <location filename="../../ui/moving_dialog.py" line="139"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Şimdi son karede cisme tıklayın (ilk konum işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="137"/>
+        <location filename="../../ui/moving_dialog.py" line="143"/>
         <source>Press Measure positions.</source>
         <translation>Konumları ölç&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="149"/>
+        <location filename="../../ui/moving_dialog.py" line="152"/>
+        <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
+        <translation>Katalog {c} yapıldı: karelerin plaka çözümleri buna dayanıyor.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="154"/>
+        <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
+        <translation>Kareler farklı kataloglara göre çözülmüş ({c}): hepsini aynı biçimde çözün.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="164"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} konum. En büyük artık {w:.2f}″ (~1″&apos;den büyükse o kareyi kontrol edin).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="168"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} kare plaka çözümü yapılamadığı için dışarıda bırakıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="185"/>
+        <location filename="../../ui/moving_dialog.py" line="201"/>
         <source>MPC report</source>
         <translation>MPC raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="189"/>
+        <location filename="../../ui/moving_dialog.py" line="205"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Rapor yazıldı: {p}. MPC&apos;ye gönderin (obs@minorplanetcenter.net ya da web formu).</translation>
     </message>
@@ -9634,7 +9644,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="1316"/>
         <source>The two stars&apos; velocity separation changes by {v:.0f} km/s across these spectra: features narrower than about {a:.1f} Å are separated; broader ones (Balmer-line wings, the continuum) are not set by the data, so do not read them — or a spectral type that rests on them — from the two spectra. More spectra over the whole orbit widen this.</source>
-        <translation>İki yıldızın hız farkı bu tayflar boyunca {v:.0f} km/s değişiyor: yaklaşık {a:.1f} Å'dan dar özellikler ayrılır; daha genişleri (Balmer çizgilerinin kanatları, süreklilik) veriyle belirlenmez, bu yüzden onları — ya da onlara dayanan bir tayf türünü — iki tayftan okumayın. Yörüngenin tamamına yayılmış daha çok tayf bu sınırı genişletir.</translation>
+        <translation>İki yıldızın hız farkı bu tayflar boyunca {v:.0f} km/s değişiyor: yaklaşık {a:.1f} Å&apos;dan dar özellikler ayrılır; daha genişleri (Balmer çizgilerinin kanatları, süreklilik) veriyle belirlenmez, bu yüzden onları — ya da onlara dayanan bir tayf türünü — iki tayftan okumayın. Yörüngenin tamamına yayılmış daha çok tayf bu sınırı genişletir.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1336"/>
