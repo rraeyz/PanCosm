@@ -1342,6 +1342,7 @@ class PhotometryPage(Undoable, QWidget):
     quality_requested = Signal(list)  # images
     catalog_requested = Signal(dict, dict)  # inputs, params
     apertures_requested = Signal(list, list, list)  # images, target_xy, comps_xy
+    next_requested = Signal(str, str)  # the page to go on to ("timeseries" / "orbits"), the light curve file or ""
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1812,6 +1813,30 @@ class PhotometryPage(Undoable, QWidget):
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
         res.addWidget(self.result)
+        # photometry only measures; the fits are on the next pages — say so where the result appears
+        self.next_box = QWidget(self)
+        nb = QVBoxLayout(self.next_box)
+        nb.setContentsMargins(0, 0, 0, 0)
+        note = QLabel(
+            self.tr(
+                "Photometry measures the brightness; the fits come next: the period and the times of minimum "
+                "(O−C) on Light curves & O−C, a physical model of an eclipsing binary or a transit on Orbits & "
+                "models (formulas: Guide, Mathematics of the methods)."
+            ),
+            self,
+        )
+        note.setWordWrap(True)
+        nb.addWidget(note)
+        go_period = QPushButton(self.tr("Period search and O−C →"), self)
+        go_period.setToolTip(self.tr("Opens Light curves & O−C, which already has this light curve"))
+        go_period.clicked.connect(lambda: self.next_requested.emit("timeseries", ""))
+        go_model = QPushButton(self.tr("Fit an eclipse or transit model →"), self)
+        go_model.setToolTip(self.tr("Saves the light curve as a CSV file and opens it on Orbits & models"))
+        go_model.clicked.connect(self._to_models)
+        nb.addWidget(go_period)
+        nb.addWidget(go_model)
+        self.next_box.setVisible(False)
+        res.addWidget(self.next_box)
         widest = max(self.res_tabs.widget(i).minimumSizeHint().width() for i in range(self.res_tabs.count()))
         self.res_tabs.setMinimumWidth(widest + 30)  # scrolling only up and down: never cut a control's text
         for i in range(self.res_tabs.count()):  # a tab's controls scroll rather than take the image's height
@@ -2362,6 +2387,7 @@ class PhotometryPage(Undoable, QWidget):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.lc_raw, self.detrend_cfg, self.excluded = lc, None, set()
         self._show_lower(True)
+        self.next_box.setVisible(True)
         self.minimum_button.setEnabled(True)
         self.export_button.setEnabled(True)
         self.aavso_button.setEnabled(True)
@@ -2373,6 +2399,7 @@ class PhotometryPage(Undoable, QWidget):
         self.show_what.blockSignals(True)
         self.show_what.setEnabled(True)
         self.show_what.clear()
+        self.show_what.addItem(self.tr("Differential: target − comparison, the check star above it"), "diff")
         self.show_what.addItem(self.tr("T1: relative flux"), "rel")
         self.show_what.addItem(self.tr("T1: differential magnitude (Δm)"), "dmag")
         self.show_what.addItem(self.tr("T1: magnitude (needs known magnitudes)"), "mag")
@@ -2532,7 +2559,9 @@ class PhotometryPage(Undoable, QWidget):
             self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
             self._click_hooked = True
         ax = self.plot.figure.add_subplot()
-        if what in ("rel", "dmag", "mag") or what.startswith("extra"):
+        if what == "diff":
+            label = self._plot_differential(ax, lc, x, sat)
+        elif what in ("rel", "dmag", "mag") or what.startswith("extra"):
             src = lc if not what.startswith("extra") else lc["extra"][int(what[5:])]
             f, e = np.asarray(src["rel_flux"], float), np.asarray(src["rel_flux_err"], float)
             if what == "mag" and "mag" in lc:
@@ -2583,6 +2612,38 @@ class PhotometryPage(Undoable, QWidget):
         ax.set_xlabel(f"{lc['time_scale']} − {t_ref:.0f}")
         ax.set_ylabel(label)
         self.plot.draw()
+
+    def _plot_differential(self, ax, lc, x, sat):
+        """The classic differential plot: Δm of the target against the comparison (ensemble) and, offset from it,
+        the check star against the same comparison — or C1 − C2 when there is no check star. A flat check curve
+        says the comparison is constant; its scatter (mmag) is the precision the target can be trusted to."""
+        from ..photometry import differential as d
+
+        y, ye = d.delta_mag(np.asarray(lc["rel_flux"], float), np.asarray(lc["rel_flux_err"], float))
+        y = y - np.nanmedian(y)
+        ax.errorbar(x, y, ye, fmt=".", ms=3, lw=0.5, alpha=0.8, label=self.tr("T1 − comparison"))
+        self._plotted = (ax, x, y)
+        if sat.any():
+            ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
+        check = next((e for e in lc.get("extra", []) if e.get("role") == "check"), None)
+        comp = np.asarray(lc.get("comp_flux") or [[]], float)
+        if check is not None:
+            k, _ = d.delta_mag(np.asarray(check["rel_flux"], float), np.asarray(check["rel_flux_err"], float))
+            name = self.tr("{k} (check) − comparison").format(k=check["name"])
+        elif comp.ndim == 2 and comp.shape[1] >= 2:
+            with np.errstate(divide="ignore", invalid="ignore"):
+                k = -2.5 * np.log10(comp[:, 0] / comp[:, 1])
+            name = "C1 − C2"
+        else:
+            k = None
+        if k is not None:
+            k = k - np.nanmedian(k)
+            rms = 1000 * np.nanstd(k)
+            gap = max(self.spacing.value(), 4 * np.nanstd(y), 4 * np.nanstd(k), 0.02)
+            ax.plot(x, k - gap, ".", ms=3, color="#8e8e93", label=f"{name}: {rms:.1f} mmag")  # above: axis inverted
+        ax.invert_yaxis()
+        ax.legend(fontsize=7, loc="best")
+        return self.tr("Δm (mag)")
 
     def _plot_clicked(self, event):
         """With "Click a point to delete it": the point nearest the click (within 10 screen pixels) is left out."""
@@ -2731,6 +2792,16 @@ class PhotometryPage(Undoable, QWidget):
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Export light curve"), "lightcurve.csv", "CSV (*.csv)")
         if path:
             export_csv(self.light_curve, path)
+
+    def _to_models(self, path=None):
+        """The light curve as a CSV file (the user chooses where; next to the frames by default), opened on the
+        Orbits & models page."""
+        default = str(Path(self.images[0]).with_name("lightcurve.csv")) if self.images else "lightcurve.csv"
+        path = path or QFileDialog.getSaveFileName(self, self.tr("Save the light curve for the model"), default,
+                                                   "CSV (*.csv)")[0]  # fmt: skip
+        if path:
+            export_csv(self.light_curve, path)
+            self.next_requested.emit("orbits", str(path))
 
 
 class AavsoDialog(QDialog):
