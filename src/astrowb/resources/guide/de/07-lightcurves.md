@@ -4,10 +4,12 @@ Die Seite **Lichtkurven & O-C** hat drei Reiter: **Periodensuche**, **Frequenzan
 ## Periodensuche
 Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
 
-- **Lomb–Scargle** — für sinusförmige Änderungen (pulsierende Sterne, Rotation).
-- **BLS** (Box Least Squares) — für kurze Einbrüche: Transits und Bedeckungen vom Algol-Typ.
-- **PDM** (Phasendispersionsminimierung) — für jede Form der Lichtkurve.
-- **ANOVA** (mehrharmonische Varianzanalyse) — für glatte, nicht sinusförmige Formen wie RR Lyrae und Cepheiden.
+- **Lomb–Scargle** — passt bei jeder Testperiode eine Sinuswelle an und wählt die, die den größten Teil der Änderung erklärt. Für sinusförmige Änderungen: pulsierende Sterne, Rotation und Flecken.
+- **BLS** (Box Least Squares) — passt bei jeder Testperiode einen kurzen, kastenförmigen Einbruch an. Für Planetentransits und Bedeckungen vom Algol-Typ.
+- **PDM** (Phasendispersionsminimierung) — setzt keine Form voraus: faltet die Daten mit jeder Testperiode und wählt die, bei der die Punkte am saubersten übereinanderliegen. Für jede Form der Lichtkurve, z. B. Bedeckungsveränderliche mit zwei Minima.
+- **ANOVA** (mehrharmonische Varianzanalyse) — passt bei jeder Testperiode eine Kurve aus zwei Harmonischen an und prüft sie statistisch. Für glatte, nicht sinusförmige Formen wie RR Lyrae und Cepheiden.
+
+Wie jede Methode arbeitet, mit Formeln und Quellen: **Mathematik der Methoden** (das letzte Kapitel dieser Anleitung). Fährt man mit der Maus über die Methodenliste, erscheint zu jeder eine einzeilige Zusammenfassung.
 
 **TESS und Kepler:** einen Sternnamen (oder eine TIC-/KIC-Nummer) eintippen, TESS, Kepler oder K2 wählen und **Herunterladen** drücken. Die eigenen Lichtkurven der Mission (PDCSAP-Fluss, um instrumentelle Trends korrigiert) kommen aus dem MAST-Archiv; markierte Punkte werden verworfen, jeder Sektor oder jedes Quartal wird normiert, und alle werden zusammengefügt, mit Zeiten in BJD_TDB. Sie werden im Einstellungsordner aufbewahrt, sodass ein zweiter Abruf sofort geht. Dann die Periode wie unten suchen.
 

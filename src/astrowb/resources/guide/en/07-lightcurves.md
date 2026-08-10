@@ -4,10 +4,12 @@ The **Light curves & O-C** page has three tabs: **Period search**, **Frequency a
 ## Period search
 The light curve measured on the Photometry page is used automatically; or **Load CSV (time, flux)…**.
 
-- **Lomb–Scargle** — for sinusoidal variations (pulsating stars, rotation).
-- **BLS** (box least squares) — for short dips: transits and Algol-type eclipses.
-- **PDM** (phase dispersion minimisation) — for any light-curve shape.
-- **ANOVA** (multi-harmonic analysis of variance) — for smooth non-sinusoidal shapes such as RR Lyrae and Cepheids.
+- **Lomb–Scargle** — fits a sine wave at every trial period and keeps the one that explains most of the variation. For sine-like variations: pulsating stars, rotation and spots.
+- **BLS** (box least squares) — fits a short, box-shaped dip at every trial period. For transits of planets and Algol-type eclipses.
+- **PDM** (phase dispersion minimisation) — assumes no shape: it folds the data on every trial period and keeps the one where the points lie most neatly on top of each other. For any light-curve shape, e.g. eclipsing binaries with two minima.
+- **ANOVA** (multi-harmonic analysis of variance) — fits a curve of two harmonics at every trial period and tests it statistically. For smooth non-sinusoidal shapes such as RR Lyrae and Cepheids.
+
+How each method works, with its formulas and references: **Mathematics of the methods** (the last chapter of this guide). Hover over the method list for a one-line summary of each.
 
 **TESS and Kepler:** type a star name (or TIC / KIC number), choose TESS, Kepler or K2 and press **Download**. The mission's own light curves (PDCSAP flux, corrected for instrumental trends) come from the MAST archive, flagged points are dropped, each sector or quarter is normalised and all are joined, with times in BJD_TDB. They are kept in the settings folder, so a second download is instant. Then search the period as below.
 

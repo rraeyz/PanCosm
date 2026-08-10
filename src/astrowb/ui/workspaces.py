@@ -3026,10 +3026,24 @@ class PeriodPage(Undoable, QWidget):
         self.method.addItem(self.tr("BLS (transits, Algol-type eclipses)"), "bls")
         self.method.addItem(self.tr("PDM (any shape)"), "pdm")
         self.method.addItem(self.tr("ANOVA (multi-harmonic, any smooth shape)"), "anova")
+        for i, about in enumerate(
+            (
+                self.tr("Fits a sine wave at every trial period; the power is the share of the variance the sine "
+                        "explains (Lomb 1976, Scargle 1982)."),
+                self.tr("Fits a box-shaped dip (depth, duration, phase) at every trial period (Kovács, Zucker & "
+                        "Mazeh 2002)."),
+                self.tr("Folds the data on every trial period and compares the scatter inside phase bins with the "
+                        "total scatter (Stellingwerf 1978)."),
+                self.tr("Fits a Fourier series of two harmonics at every trial period; the F statistic of that fit "
+                        "(Schwarzenberg-Czerny 1996)."),
+            )
+        ):  # fmt: skip
+            self.method.setItemData(i, about, Qt.ToolTipRole)
         self.method.setToolTip(
             self.tr(
                 "Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and "
-                "ANOVA: curves of any shape, e.g. eclipsing binaries with two minima"
+                "ANOVA: curves of any shape, e.g. eclipsing binaries with two minima. The formulas: Guide, "
+                "Mathematics of the methods"
             )
         )
         self.p_min, self.p_max = QDoubleSpinBox(self), QDoubleSpinBox(self)
