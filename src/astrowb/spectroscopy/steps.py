@@ -521,7 +521,7 @@ def classify_step(inputs, params, ctx):
 )
 def disentangle_step(inputs, params, ctx):
     """The two stars' spectra of a double-lined binary from the series and its observed velocities."""
-    from .disentangle import disentangle
+    from .disentangle import disentangle, separable_width
 
     waves, fluxes = [], []
     for i, p in enumerate(inputs["spectra"]):
@@ -544,4 +544,8 @@ def disentangle_step(inputs, params, ctx):
     paths = []
     for name, s in (("star1", s1), ("star2", s2)):
         paths.append(str(spectrum_io.write(out / f"{name}.fits", wave, s, np.full(len(wave), np.nan))))
-    return {"components": {"paths": paths, "wave": wave.tolist(), "star1": s1.tolist(), "star2": s2.tolist()}}
+    width = separable_width(inputs["rv1"], inputs["rv2"])
+    return {
+        "components": {"paths": paths, "wave": wave.tolist(), "star1": s1.tolist(), "star2": s2.tolist(),
+                       "separable_kms": width, "separable_a": width / rv.C_KMS * float(np.median(wave))}
+    }  # fmt: skip

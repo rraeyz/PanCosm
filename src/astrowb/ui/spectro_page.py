@@ -1310,7 +1310,15 @@ class VelocityTab(QWidget):
         ax.set_ylabel(self.tr("Flux"))
         ax.legend(fontsize="small")
         self.plot.draw()
-        self.status.setText(self.tr("Written: {a} and {b}").format(a=c["paths"][0], b=c["paths"][1]))
+        text = self.tr("Written: {a} and {b}").format(a=c["paths"][0], b=c["paths"][1])
+        if c.get("separable_kms") is not None:
+            text += " " + self.tr(
+                "The two stars' velocity separation changes by {v:.0f} km/s across these spectra: features narrower "
+                "than about {a:.1f} Å are separated; broader ones (Balmer-line wings, the continuum) are not set by "
+                "the data, so do not read them — or a spectral type that rests on them — from the two spectra. More "
+                "spectra over the whole orbit widen this."
+            ).format(v=c["separable_kms"], a=c["separable_a"])
+        self.status.setText(text)
 
     def show_rvs(self, rows, skipped=None):
         self.rvs = rows

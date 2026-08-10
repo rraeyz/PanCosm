@@ -250,8 +250,29 @@ open items; (5) then another release.
   extinction / transformation. Every formula was checked against the code (module docstrings and functions), not
   written from memory; corrections made on the way: CLEAN gain is 0.2, third light is a fraction of the total,
   `oc_models` cited Irwin 1952 as AJ 57, 211 — it is ApJ 116, 211 (fixed). Result: every fit is a published model.
-- (4) **CLAIMED, IN PROGRESS:** disentangling on real data (item 4 below): median combination + per-window
-  disentangling with renormalisation, a synthetic test with spikes and a continuum tilt, then AI Phe again.
+- (4a) **DONE — disentangling on real data, with the cause found.** Synthetic AI Phe built from PHOENIX K (5000/4.5)
+  and F (6000/4.0) spectra at R 48000, the real ESO epochs and Gallenne's orbit, light ratio 0.32, S/N 70, with and
+  without spikes and continuum waves (script `synth_dis.py`, text below). Findings: (i) even without noise the F
+  component is off by 0.04 rms, almost all of it in broad features (≥ 9 A): the velocity separation v1 − v2 changes
+  by only 58 km/s across these spectra (≈ 1 A), so broader features (Balmer wings) are not set by the data. The true
+  F spectrum is typed F9 III / G0 V by the MK standards, the disentangled one B1 Ia — exactly the real result. With
+  ten epochs over the whole orbit (separation changes by 199 km/s) both types come out right (K2 V, F8 III / G0 V).
+  (ii) An exact sparse least-squares solution (LSQR, Simon & Sturm 1994 style) does not help: with AI Phe's
+  coverage it amplifies noise in those undetermined modes (F rms 0.098 vs 0.044); the iteration's early stop acts as
+  regularisation. (iii) A median combination drifts with more iterations (0.033 at 40 → 0.146 at 400): rejected.
+  (iv) Spikes did leak: F rms 0.052 / max error 0.82 with spikes against 0.044 / 0.37 without.
+  **Changed** (`spectroscopy/disentangle.py`): every 10 iterations pixels more than 5 robust sigma above the model are
+  masked (bright spikes only; a line core the model misses is not masked), each mean is over the spectra that see
+  the pixel (the plain mean where the mask would leave none), NaN are ignored; result with spikes = result without.
+  New `separable_width(v1, v2)`; the step returns `separable_kms` / `separable_a` and the Velocity tab says which
+  feature widths the series separates and not to read broader ones (or a type resting on them), translated.
+  Test `test_spikes_and_gaps_stay_out_of_the_components` (fails without the change).
+  Real AI Phe again (10 spectra, TODCOR with tau Ceti for both, 4500–6500 A): separable 57.9 km/s = 0.99 A; K star
+  F8 III / G0 V (score 0.08), F star B1 Ia — as the synthetic test predicts for this coverage. FEROS alone (7):
+  same; HARPS alone (3): 12 km/s. Also seen: TODCOR's light ratio is 0.33 on FEROS and 0.66 on HARPS for the same
+  stars (template = HARPS tau Ceti for both; resolution or normalisation difference) — not investigated; a mixed
+  series breaks the constant-light-ratio assumption of disentangling. Conclusion for the owner: the code is right,
+  these archive data cannot give the components' types; a series over the whole orbit can.
 
 **Update by agent session 01RxUU (2026-11-06, after 019Lu3).** Continued "Still to do" below in order; each item
 there now says DONE / IN PROGRESS with its results. Commits: `e2a8d69` (brand check), `95714a4` (CHECKSUM fix,
