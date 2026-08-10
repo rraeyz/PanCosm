@@ -10,6 +10,9 @@ and commits in English. Delete this file once the work is finished.
   phone pictures (JPEG/PNG/TIFF), DSLR raw, cubes, compressed FITS, odd headers, other observatories.
 - Problems that only show up on one distribution (Arch / CachyOS) must be fixed too. The owner also tests on Windows.
 - Push straight to `main`. A new release only after CI is fully green, and only after asking the owner.
+  How: raise `__version__` in `src/astrowb/__init__.py`, push, then run the `ci` workflow by hand on `main` with
+  `release` ticked (GitHub MCP `actions_run_trigger` run_workflow, inputs {"release": true}); the release job makes
+  the tag v<version> itself. Pushing a tag from the agent's container is cut off by its proxy.
 - Latest (2026-11-04), in the owner's words, summarised:
   - Use the newest `main`, never the v0.1.0 release (its errors are known).
   - After the work is done, test again from the start **like a scientist**: download real observations and spectra
