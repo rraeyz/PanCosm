@@ -1352,8 +1352,10 @@ class PhotometryPage(Undoable, QWidget):
         # the image above the light curve on the left, the controls the whole height on the right: a light-curve
         # band across the page squeezed the controls into a strip whose buttons were only found by scrolling
         split = QSplitter(Qt.Vertical, self)
+        self._split = split
         self.viewer = ImageViewer(self)
         self.viewer.clicked.connect(self._clicked)
+        self.viewer.rings_wheel.connect(self._rings_wheel)
         split.addWidget(self.viewer)
         from PySide6.QtWidgets import QScrollArea
 
@@ -1436,14 +1438,24 @@ class PhotometryPage(Undoable, QWidget):
         )
         for row, (label, w) in enumerate(
             (
-                (self.tr("Aperture radius (px)"), self.r_ap),
-                (self.tr("Sky annulus inner (px)"), self.r_in),
-                (self.tr("Sky annulus outer (px)"), self.r_out),
+                (self.tr("Ring 1 — the star's light inside (px)"), self.r_ap),
+                (self.tr("Ring 2 — the sky starts (px)"), self.r_in),
+                (self.tr("Ring 3 — the sky ends (px)"), self.r_out),
             )
         ):
             grid.addWidget(QLabel(label, self), row, 0)
             grid.addWidget(w, row, 1)
         side.addLayout(grid)
+        rings_note = QLabel(
+            self.tr(
+                "Radii in image pixels: the rings grow with the zoom. Between rings 1 and 2 nothing is measured "
+                "(the star's faint wings); between 2 and 3 the sky. Shift + mouse wheel on the image makes them "
+                "larger or smaller."
+            ),
+            self,
+        )
+        rings_note.setWordWrap(True)
+        side.addWidget(rings_note)
         self.apertures_button = QPushButton(self.tr("Choose the radii from the star profiles"), self)
         self.apertures_button.setToolTip(
             self.tr(
@@ -1786,7 +1798,8 @@ class PhotometryPage(Undoable, QWidget):
         self.res_tabs.setCurrentIndex(0)
         b_lay.addLayout(res, 1)
         split.addWidget(bottom)
-        split.setSizes([3000, 2000])  # proportions: the image 3/5 of the height until the user drags the divider
+        self._lower = bottom  # the light curve and the star table: shown once a star is marked
+        bottom.setVisible(False)
         page = QSplitter(Qt.Horizontal, self)
         page.addWidget(split)
         page.addWidget(scroll)
@@ -2052,12 +2065,32 @@ class PhotometryPage(Undoable, QWidget):
                 out.append(cat[i]["mag"] if i < len(cat) and cat[i] else None)
         return out
 
+    def _show_lower(self, on):
+        """The lower panel (light curve, star table) only when there is something in it: until then the image has
+        the whole height (the owner found the empty band in the way)."""
+        if on and self._lower.isHidden():
+            self._lower.setVisible(True)
+            total = max(sum(self._split.sizes()), 500)
+            self._split.setSizes([total * 3 // 5, total * 2 // 5])
+        elif not on:
+            self._lower.setVisible(False)
+
+    def _rings_wheel(self, step):
+        """Shift + wheel on the image: all three rings 0.5 px larger / smaller, the gap and the sky ring keep their
+        widths; ring 1 never below 1 px."""
+        d = 0.5 * step
+        if self.r_ap.value() + d < 1:
+            return
+        for w in (self.r_out, self.r_in, self.r_ap) if d > 0 else (self.r_ap, self.r_in, self.r_out):
+            w.setValue(w.value() + d)
+
     def _draw_markers(self):
         """Three rings per star: the aperture (solid), the inner and outer edge of the sky annulus (dashed); the
         gap between the aperture and the annulus is measured by neither."""
         r, r_in, r_out = self.r_ap.value(), self.r_in.value(), self.r_out.value()
         colours = {"target": "lime", "comparison": "red", "check": "#ffb224"}
         stars = [(xy, colours[role], name) for name, role, xy in self._star_names()]
+        self._show_lower(bool(stars) or self.lc_raw is not None)
         self._fill_star_table()
         marks = []
         for xy, colour, label in stars:
@@ -2225,6 +2258,7 @@ class PhotometryPage(Undoable, QWidget):
     def show_light_curve(self, lc):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.lc_raw, self.detrend_cfg, self.excluded = lc, None, set()
+        self._show_lower(True)
         self.minimum_button.setEnabled(True)
         self.export_button.setEnabled(True)
         self.aavso_button.setEnabled(True)

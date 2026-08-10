@@ -950,6 +950,7 @@ def test_photometry_star_picking(window, tmp_path):
     page = window.photometry_page
     page.set_images([str(p)])
     viewer = page.viewer
+    assert page._lower.isHidden()  # nothing to show below the image yet: it has the whole height
     assert viewer.viewport().cursor().shape() == Qt.CrossCursor and len(viewer._hover_rings) == 3
     window.show()
     viewer.resize(400, 300)
@@ -964,6 +965,19 @@ def test_photometry_star_picking(window, tmp_path):
     assert page.target == (30.0, 20.0) and page.comps == [(60.0, 40.0)]
     page._clicked(61.0, 40.5)  # on the comparison again: taken off, not marked twice
     assert page.comps == [] and len(viewer.marker_list) == 3
+    # the lower panel (star table, light curve) came with the first star; Shift + wheel resizes the three rings
+    assert not page._lower.isHidden()
+    from PySide6.QtCore import QPoint
+    from PySide6.QtGui import QWheelEvent
+
+    r = (page.r_ap.value(), page.r_in.value(), page.r_out.value())
+    wheel = QWheelEvent(QPointF(pos), QPointF(pos), QPoint(), QPoint(0, 120), Qt.NoButton, Qt.ShiftModifier,
+                        Qt.NoScrollPhase, False)  # fmt: skip
+    zoom = viewer.transform().m11()
+    viewer.wheelEvent(wheel)
+    assert (page.r_ap.value(), page.r_in.value(), page.r_out.value()) == tuple(v + 0.5 for v in r)
+    assert viewer.transform().m11() == zoom  # the image kept its zoom
+    assert viewer.marker_list[0][2] == r[0] + 0.5  # redrawn at the new size
     assert not page.show_what.isEnabled() and page.show_what.placeholderText()
 
 

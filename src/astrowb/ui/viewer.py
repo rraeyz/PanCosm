@@ -7,7 +7,8 @@ from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import render
 
-RETICLE = 9  # screen pixels: radius of the fixed-size ring around a marked star on a zoomed-out frame
+RETICLE = 9  # screen pixels: arm of the fixed-size cross on a marked star on a zoomed-out frame
+TINY = 4  # screen pixels: below this ring radius the rings cannot be seen and the cross shows the star instead
 
 
 class ImageViewer(QGraphicsView):
@@ -19,6 +20,8 @@ class ImageViewer(QGraphicsView):
     # with the "area" or "line" tool: the two ends of the drag, 0-based array coordinates
     region_selected = Signal(float, float, float, float)
     line_selected = Signal(float, float, float, float)
+    # Shift + wheel while marking stars: +1 / -1 to make the measuring rings larger / smaller (the image keeps its zoom)
+    rings_wheel = Signal(int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -97,18 +100,36 @@ class ImageViewer(QGraphicsView):
         self._update_reticles()
 
     def _update_reticles(self):
-        """Fixed-size rings only where the real rings are small on screen; zoomed in, the real rings speak."""
+        """The fixed-size cross only where the real rings are too small to see; otherwise the rings, drawn in image
+        pixels, grow and shrink with the zoom (a fixed-size ring here was taken for the aperture by a user)."""
         scale = abs(self.transform().m11()) or 1.0
-        for item in getattr(self, "_markers", []):
+        for item in [*getattr(self, "_markers", []), *getattr(self, "_hover_items", [])]:
             r = item.data(0)
             if r is not None:
-                item.setVisible(r * scale < RETICLE)
-        for item in getattr(self, "_hover_items", []):
-            r = item.data(0)
-            if r is not None:
-                item.setVisible(r * scale < RETICLE)
+                item.setVisible(r * scale < TINY)
+
+    def _reticle(self, colour):
+        """A cross of fixed screen size (with a gap at the star) that cannot be mistaken for a measuring ring."""
+        from PySide6.QtGui import QColor, QPainterPath, QPen
+        from PySide6.QtWidgets import QGraphicsItem, QGraphicsPathItem
+
+        path = QPainterPath()
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            path.moveTo(3 * dx, 3 * dy)
+            path.lineTo(RETICLE * dx, RETICLE * dy)
+        item = QGraphicsPathItem(path)
+        pen = QPen(QColor(colour))
+        pen.setWidth(2)
+        pen.setCosmetic(True)
+        item.setPen(pen)
+        item.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        return item
 
     def wheelEvent(self, event):
+        if self._pick and event.modifiers() & Qt.ShiftModifier:
+            delta = event.angleDelta().y() or event.angleDelta().x()  # some systems turn Shift + wheel sideways
+            self.rings_wheel.emit(1 if delta > 0 else -1)
+            return
         self.zoom(1.25 if event.angleDelta().y() > 0 else 0.8)
 
     def _to_scene(self, x, y):
@@ -130,16 +151,11 @@ class ImageViewer(QGraphicsView):
         for x, y, r, colour, *_ in markers:
             biggest[(x, y)] = (max(r, biggest.get((x, y), (0, ""))[0]), colour)
         for (x, y), (r, colour) in biggest.items():
-            # a ring of fixed screen size around each marked star, shown while its real rings are only a few screen
-            # pixels across (a large frame fitted to the window): the user always sees which stars are marked
+            # a cross of fixed screen size on each marked star, shown while its real rings are too small to see (a
+            # large frame fitted to the window): the user always sees which stars are marked
             sx, sy = self._to_scene(x, y)
-            reticle = QGraphicsEllipseItem(-RETICLE, -RETICLE, 2 * RETICLE, 2 * RETICLE)
-            pen = QPen(QColor(colour))
-            pen.setWidth(2)
-            pen.setCosmetic(True)
-            reticle.setPen(pen)
+            reticle = self._reticle(colour)
             reticle.setPos(sx, sy)
-            reticle.setFlag(QGraphicsEllipseItem.ItemIgnoresTransformations)
             reticle.setData(0, r)
             self.scene().addItem(reticle)
             self._markers.append(reticle)
@@ -229,12 +245,7 @@ class ImageViewer(QGraphicsView):
                 self.scene().addItem(item)
                 self._hover_items.append(item)
             if self._hover_rings:  # the fixed-size ring that shows where a click lands on a zoomed-out frame
-                reticle = QGraphicsEllipseItem(-RETICLE, -RETICLE, 2 * RETICLE, 2 * RETICLE)
-                pen = QPen(QColor(self._hover_colour))
-                pen.setWidth(2)
-                pen.setCosmetic(True)
-                reticle.setPen(pen)
-                reticle.setFlag(QGraphicsEllipseItem.ItemIgnoresTransformations)
+                reticle = self._reticle(self._hover_colour)
                 reticle.setData(0, max(r for r, _ in self._hover_rings))
                 self.scene().addItem(reticle)
                 self._hover_items.append(reticle)
