@@ -231,6 +231,36 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+**Owner's feedback of 2026-11-06 (~09:00 UTC), after trying v0.2.0 — the plan, in this order (claim each before
+starting, mark DONE with results):**
+- O1 **DONE** SIMBAD: a slow mirror is left after 15 s for the next (`mirrors._within`, `patience`); SIMBAD now has
+  four addresses (CDS, Harvard, CfA Harvard, the old Strasbourg name). Measured here: CDS did not answer in 15 s,
+  Harvard in 0.7 s; 'AI Phe' resolved in 16.8 s on the first try, then Harvard is remembered and asked first.
+  Test `test_a_slow_cds_server_is_left_for_the_next`.
+- O2 **IN PROGRESS** Photometry page layout: the light-curve band across the page hid the controls (buttons only
+  found by scrolling). Done so far: controls the whole height on the right; image above the light curve on the left
+  (3:2, draggable); the result tabs scroll instead of taking height. Still to do: the owner finds the lower plot
+  in the way — show it only when there is a light curve (the image takes the whole left until then).
+- O3 Photometry: see every frame, not only one — a frame browser (previous / next / slider, the frame's name and
+  time), stars may be picked on any frame (positions carried to the others by the alignment), a frame can be left
+  out from there.
+- O4 Aperture rings must be drawn in image pixels (they kept their screen size when zooming — a bug); label the
+  three radii plainly (1: star aperture, 1–2: gap left out, 2–3: sky); let the radii be changed on the image too.
+- O5 Differential photometry plot as the owner knows it: target − comparison below, comparison − check above (a
+  flat line shows the comparisons are constant). Check what the Plot tab already offers; make it the default view.
+- O6 "Where is the fit?": photometry only measures; say on the page what comes next (period search, time of
+  minimum, models) with buttons that send the light curve there; explain PSF vs aperture photometry in one line.
+- O7 Calibration page: say how frames are classified (header IMAGETYP / FRAME first, then words in the file name;
+  what becomes a light) and let the user change a frame's type; explain "optional stacking" (for a deep picture,
+  not for a light curve) — off by default for photometry.
+- O8 From calibration to photometry: the calibrated lights go to the Photometry page with one button (and appear
+  there); the image's right-click menu says "Send to photometry" plainly.
+- O9 Plan page: "Open in a new window" does nothing (bug); the altitude chart must show the whole curve (not cut at
+  20°).
+- O10 "Check frame quality": say what it does on the button / tooltip.
+- O11 Spectroscopy: the owner is not sure what he did — a short guided order of steps on the page (later).
+- Then: full local check, push, CI green, release v0.2.1 (manual `release` run).
+
 **Second update by agent session 01RxUU (2026-11-06, ~07:30 UTC).** The owner asked (in Turkish): (1) a release now
 to try the program; (2) are Lomb–Scargle / BLS / PDM / ANOVA explained in the guide, and do buttons / boxes have hover
 explanations; (3) do all fits follow real mathematical models (not made up) — document their mathematics; (4) do the

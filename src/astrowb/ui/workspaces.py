@@ -1349,12 +1349,12 @@ class PhotometryPage(Undoable, QWidget):
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
         self.live, self.live_folder, self.live_seen, self._live_busy = None, None, set(), False
+        # the image above the light curve on the left, the controls the whole height on the right: a light-curve
+        # band across the page squeezed the controls into a strip whose buttons were only found by scrolling
         split = QSplitter(Qt.Vertical, self)
-        top = QWidget(self)
-        top_lay = QHBoxLayout(top)
-        self.viewer = ImageViewer(top)
+        self.viewer = ImageViewer(self)
         self.viewer.clicked.connect(self._clicked)
-        top_lay.addWidget(self.viewer, 3)
+        split.addWidget(self.viewer)
         from PySide6.QtWidgets import QScrollArea
 
         side_box = QWidget(self)
@@ -1536,8 +1536,6 @@ class PhotometryPage(Undoable, QWidget):
         scroll.setFrameShape(QScrollArea.NoFrame)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setMinimumWidth(side_box.sizeHint().width() + 20)
-        top_lay.addWidget(scroll, 1)
-        split.addWidget(top)
 
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
@@ -1774,9 +1772,28 @@ class PhotometryPage(Undoable, QWidget):
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
         res.addWidget(self.result)
+        widest = max(self.res_tabs.widget(i).minimumSizeHint().width() for i in range(self.res_tabs.count()))
+        self.res_tabs.setMinimumWidth(widest + 30)  # scrolling only up and down: never cut a control's text
+        for i in range(self.res_tabs.count()):  # a tab's controls scroll rather than take the image's height
+            text, inner = self.res_tabs.tabText(i), self.res_tabs.widget(i)
+            box = QScrollArea(self)
+            box.setWidgetResizable(True)
+            box.setFrameShape(QScrollArea.NoFrame)
+            box.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self.res_tabs.removeTab(i)
+            box.setWidget(inner)
+            self.res_tabs.insertTab(i, box, text)
+        self.res_tabs.setCurrentIndex(0)
         b_lay.addLayout(res, 1)
         split.addWidget(bottom)
-        QVBoxLayout(self).addWidget(split)
+        split.setSizes([3000, 2000])  # proportions: the image 3/5 of the height until the user drags the divider
+        page = QSplitter(Qt.Horizontal, self)
+        page.addWidget(split)
+        page.addWidget(scroll)
+        page.setStretchFactor(0, 1)
+        page.setStretchFactor(1, 0)
+        page.setChildrenCollapsible(False)
+        QVBoxLayout(self).addWidget(page)
 
     def _polarimetry(self):
         if not (self.images and self.target and self.comps):

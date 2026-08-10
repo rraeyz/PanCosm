@@ -123,6 +123,7 @@ TEMPLATES = (
     # astrometry.py
     QT_TRANSLATE_NOOP("Messages", "the solver's output has no celestial WCS"),
     QT_TRANSLATE_NOOP("Messages", "solver did not finish within {timeout} s"),
+    QT_TRANSLATE_NOOP("Messages", "{server} did not answer within {seconds} s"),  # mirrors.py
     # calibration/masters.py
     QT_TRANSLATE_NOOP(
         "Messages",
