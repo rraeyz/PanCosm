@@ -324,7 +324,14 @@ the work to the next agent with this file. State at that moment:
      `.fits.fz` (LCO) open, save and process as before (header size, no duplicated keywords).
    - `echelle.find_orders` drops a peak a tenth of its neighbour or fainter; check the synthetic TOFES-like data /
      any real slit echelle still finds all orders (tests pass).
-3. **U8b leftovers (optional):** the HARPS red chip (extension 2; same procedure, absolute orders 114 … 89 in ESO's
+3. **DONE for the red chip (session 01RxUU, 2026-11-06):** the raw .fits.Z frames opened as a user would (Images
+   page: `fits_copy`, then `extract_extension` of image HDU 2 -> `<name>_CCD-44_2.fits` in fits_from_raw); Echelle
+   step, orientation y, reverse, no sky, first order 114 decreasing: 26 orders found (ESO's e2ds_A rows 46–71: 26),
+   ~100 ThAr peaks per order, 3.5 s. Nine lines identified in orders 110, 102, 94 (wavelengths read from ESO's e2ds
+   polynomial at our pixels, as a user identifies lines; e2ds_A from ADP.2014-09-24T09:42:58.973, same pixel
+   direction as ours): 770 lines, rms 0.0005 A; our wavelengths minus ESO's over all 26 x 4096 pixels: median
+   0.2 m/s, rms 15.1 m/s (blue chip: 21.6 m/s). Not done: the drift between the evening's two ThAr frames.
+   Original text: **U8b leftovers (optional):** the HARPS red chip (extension 2; same procedure, absolute orders 114 … 89 in ESO's
    e2ds rows 46–71); the two raw ThAr arcs of the evening could be compared with each other (drift). The tau Ceti
    files: science HARPS.2010-08-27T05:33:35.086, flat HARPS.2010-08-26T21:53:56.126 (LAMP,DARK,TUN), bias
    HARPS.2010-08-26T21:53:03.653, ThAr HARPS.2010-08-26T21:59:48.245; ESO products ADP.2014-09-24T09:43:29.897
