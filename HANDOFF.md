@@ -248,9 +248,14 @@ starting, mark DONE with results):**
   the sky ends" with a note (1–2 not measured, 2–3 sky, rings grow with zoom); Shift + wheel on the image changes
   all three by 0.5 px. Guide 06 (4 languages). Tests: `test_marked_stars_stay_visible_on_a_zoomed_out_frame`
   (cross, rings scale with zoom), `test_photometry_star_picking` (lower panel hidden until a star, Shift + wheel).
-- O3 Photometry: see every frame, not only one — a frame browser (previous / next / slider, the frame's name and
-  time), stars may be picked on any frame (positions carried to the others by the alignment), a frame can be left
-  out from there.
+- O3 **DONE** Photometry: every frame can be seen — arrows and a slider under the image count, the frame's name and
+  UTC; stars are marked on any frame (that frame becomes the reference: `PhotometryPage.ref`, kept in undo), drawn
+  on that frame only, marking on another frame is refused with the reason; "Use this frame" leaves a frame out.
+  The page sends the reference frame first (`_series`); `photometry.light_curve` has an optional input
+  `ref_image` and `lightcurve.light_curve(..., ref_path=)` re-centres there and carries the positions to the first
+  frame in time by `frame_shift`; apertures / suggestion / polarimetry steps take the first frame given (the
+  reference) instead of re-sorting. Test `test_stars_marked_on_a_later_frame_are_carried_to_the_others` (frames
+  drifting 7 px: marking on frame 4 gives the same fluxes as on frame 1 to 1e-6). Guide 06 (4 languages).
 - O5 Differential photometry plot as the owner knows it: target − comparison below, comparison − check above (a
   flat line shows the comparisons are constant). Check what the Plot tab already offers; make it the default view.
 - O6 "Where is the fit?": photometry only measures; say on the page what comes next (period search, time of

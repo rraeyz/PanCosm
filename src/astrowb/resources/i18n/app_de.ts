@@ -4,87 +4,87 @@
 <context>
     <name>AavsoDialog</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2640"/>
+        <location filename="../../ui/workspaces.py" line="2743"/>
         <source>AAVSO report</source>
         <translation>AAVSO-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2646"/>
+        <location filename="../../ui/workspaces.py" line="2749"/>
         <source>{n} values, e.g. 11.20, 11.85</source>
         <translation>{n} Werte, z. B. 11.20, 11.85</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2647"/>
+        <location filename="../../ui/workspaces.py" line="2750"/>
         <source>Anything a reader of the data should know (clouds, Moon, instrument)</source>
         <translation>Alles, was ein Nutzer der Daten wissen sollte (Wolken, Mond, Instrument)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2648"/>
+        <location filename="../../ui/workspaces.py" line="2751"/>
         <source>The identifier of the AAVSO chart (VSP) the comparison magnitudes come from</source>
         <translation>Die Kennung der AAVSO-Karte (VSP), aus der die Vergleichshelligkeiten stammen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2649"/>
+        <location filename="../../ui/workspaces.py" line="2752"/>
         <source>Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)</source>
         <translation>Filter der Bilder, wie die AAVSO ihn nennt (CV: ungefiltert, auf V reduziert)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2650"/>
+        <location filename="../../ui/workspaces.py" line="2753"/>
         <source>Your AAVSO observer code</source>
         <translation>Ihr AAVSO-Beobachtercode</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2651"/>
+        <location filename="../../ui/workspaces.py" line="2754"/>
         <source>The variable&apos;s name as in AAVSO&apos;s VSX, e.g. AI DRA</source>
         <translation>Der Name des Veränderlichen wie im VSX der AAVSO, z. B. AI DRA</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2653"/>
+        <location filename="../../ui/workspaces.py" line="2756"/>
         <source>The comparison stars&apos; magnitudes from the AAVSO chart (VSP), in the order the stars were marked</source>
         <translation>Die Helligkeiten der Vergleichssterne aus der AAVSO-Karte (VSP), in der Reihenfolge, in der die Sterne markiert wurden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2655"/>
+        <location filename="../../ui/workspaces.py" line="2758"/>
         <source>Star name (AAVSO VSX)</source>
         <translation>Sternname (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2656"/>
+        <location filename="../../ui/workspaces.py" line="2759"/>
         <source>Observer code</source>
         <translation>Beobachtercode</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2657"/>
+        <location filename="../../ui/workspaces.py" line="2760"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2658"/>
+        <location filename="../../ui/workspaces.py" line="2761"/>
         <source>Catalogue magnitudes of the comparison stars</source>
         <translation>Katalog-Helligkeiten der Vergleichssterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2660"/>
+        <location filename="../../ui/workspaces.py" line="2763"/>
         <source>label on the chart, e.g. 123</source>
         <translation>Beschriftung auf der Karte, z. B. 123</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2663"/>
+        <location filename="../../ui/workspaces.py" line="2766"/>
         <source>The first check star&apos;s label on the chart; its magnitude goes into the report as a test of the comparison stars</source>
         <translation>Die Bezeichnung des ersten Prüfsterns auf der Karte; seine Helligkeit geht als Test der Vergleichssterne in den Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2667"/>
+        <location filename="../../ui/workspaces.py" line="2770"/>
         <source>Check star (KNAME)</source>
         <translation>Prüfstern (KNAME)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2668"/>
+        <location filename="../../ui/workspaces.py" line="2771"/>
         <source>Chart ID</source>
         <translation>Karten-ID (Chart ID)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2669"/>
+        <location filename="../../ui/workspaces.py" line="2772"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
@@ -460,488 +460,488 @@
 <context>
     <name>CalibratePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="854"/>
+        <location filename="../../ui/workspaces.py" line="855"/>
         <source>Calibrate</source>
         <translation>Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="855"/>
+        <location filename="../../ui/workspaces.py" line="856"/>
         <source>1. Choose the folder with your raw frames (lights, bias, darks, flats).</source>
         <translation>1. Wählen Sie den Ordner mit den Rohbildern (Lights, Bias, Darks, Flats).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="858"/>
+        <location filename="../../ui/workspaces.py" line="859"/>
         <source>Sub-folders are read too: if the lights and the calibration frames are in separate folders (e.g. Light and BDF), choose the folder that holds both. Frames kept elsewhere (a calibration library) are added with “Add folder…”.</source>
         <translation>Unterordner werden mitgelesen: liegen die Lights und die Kalibrierbilder in getrennten Ordnern (z. B. Light und BDF), wählen Sie den Ordner, der beide enthält. Bilder an anderer Stelle (eine Kalibrierbibliothek) kommen mit „Ordner hinzufügen…“ dazu.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="869"/>
+        <location filename="../../ui/workspaces.py" line="870"/>
         <source>folder; another folder; …</source>
         <translation>Ordner; weiterer Ordner; …</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="870"/>
+        <location filename="../../ui/workspaces.py" line="871"/>
         <source>One or more folders, separated by &apos;;&apos;. Sub-folders are read too.</source>
         <translation>Ein oder mehrere Ordner, durch &apos;;&apos; getrennt. Unterordner werden mitgelesen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="871"/>
-        <location filename="../../ui/workspaces.py" line="927"/>
+        <location filename="../../ui/workspaces.py" line="872"/>
+        <location filename="../../ui/workspaces.py" line="928"/>
         <source>Browse…</source>
         <translation>Durchsuchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="873"/>
-        <location filename="../../ui/workspaces.py" line="935"/>
+        <location filename="../../ui/workspaces.py" line="874"/>
+        <location filename="../../ui/workspaces.py" line="936"/>
         <source>Choose the folder in a dialog</source>
         <translation>Den Ordner in einem Dialog wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="874"/>
+        <location filename="../../ui/workspaces.py" line="875"/>
         <source>Add folder…</source>
         <translation>Ordner hinzufügen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="876"/>
+        <location filename="../../ui/workspaces.py" line="877"/>
         <source>Read frames from one more folder, e.g. master or calibration frames kept elsewhere</source>
         <translation>Bilder aus einem weiteren Ordner lesen, z. B. Master- oder Kalibrierbilder an anderer Stelle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="879"/>
+        <location filename="../../ui/workspaces.py" line="880"/>
         <source>Scan</source>
         <translation>Einlesen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="883"/>
+        <location filename="../../ui/workspaces.py" line="884"/>
         <source>Reads every frame and sorts it by its header into bias, dark, flat, arc and light; nothing is changed yet, check the table</source>
         <translation>Liest jedes Bild und ordnet es nach seinem Header als Bias, Dark, Flat, Arc und Light ein; noch wird nichts verändert, prüfen Sie die Tabelle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="890"/>
+        <location filename="../../ui/workspaces.py" line="891"/>
         <source>DSLR clock − UTC: </source>
         <translation>DSLR-Uhr − UTC: </translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="891"/>
+        <location filename="../../ui/workspaces.py" line="892"/>
         <source> h</source>
         <translation> h</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="894"/>
+        <location filename="../../ui/workspaces.py" line="895"/>
         <source>Camera raw files (CR2, NEF, ARW, DNG…) are converted to FITS in the folder fits_from_raw. Their time is the camera clock: give how many hours it is ahead of UTC (0 if the camera is set to UTC), and check the clock against a time signal — timing errors go straight into minima and O−C.</source>
         <translation>Kamera-Rohdateien (CR2, NEF, ARW, DNG…) werden im Ordner fits_from_raw in FITS umgewandelt. Ihre Zeit ist die Kamerauhr: Geben Sie an, wie viele Stunden sie UTC voraus ist (0, wenn die Kamera auf UTC steht), und prüfen Sie die Uhr mit einem Zeitsignal — Zeitfehler gehen direkt in Minima und O−C ein.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="907"/>
+        <location filename="../../ui/workspaces.py" line="908"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="908"/>
+        <location filename="../../ui/workspaces.py" line="909"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="909"/>
+        <location filename="../../ui/workspaces.py" line="910"/>
         <source>Exposure (s)</source>
         <translation>Belichtung (s)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="910"/>
+        <location filename="../../ui/workspaces.py" line="911"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="911"/>
+        <location filename="../../ui/workspaces.py" line="912"/>
         <source>Temp. (°C)</source>
         <translation>Temp. (°C)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="912"/>
+        <location filename="../../ui/workspaces.py" line="913"/>
         <source>Binning</source>
         <translation>Binning</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="922"/>
+        <location filename="../../ui/workspaces.py" line="923"/>
         <source>Problems and missing calibration frames are listed here.</source>
         <translation>Probleme und fehlende Kalibrierbilder werden hier aufgelistet.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="924"/>
+        <location filename="../../ui/workspaces.py" line="925"/>
         <source>2. Choose where to write master frames and calibrated images.</source>
         <translation>2. Wählen Sie, wohin Masterbilder und kalibrierte Bilder geschrieben werden.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="931"/>
+        <location filename="../../ui/workspaces.py" line="932"/>
         <source>Folder for the master frames and the calibrated images; created if it does not exist. The raw frames are never changed.</source>
         <translation>Ordner für die Masterbilder und die kalibrierten Bilder; wird angelegt, falls er fehlt. Die Rohbilder werden nie verändert.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="940"/>
+        <location filename="../../ui/workspaces.py" line="941"/>
         <source>Rejection (sigma):</source>
         <translation>Verwerfung (Sigma):</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="947"/>
+        <location filename="../../ui/workspaces.py" line="948"/>
         <source>A pixel further than this many standard deviations from the other frames&apos; values is left out when the masters are combined and when images are stacked; 3 is the usual value</source>
         <translation>Ein Pixel, das um mehr als so viele Standardabweichungen von den anderen Bildern abweicht, wird beim Kombinieren der Master und beim Stacken weggelassen; 3 ist der übliche Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="952"/>
+        <location filename="../../ui/workspaces.py" line="953"/>
         <source>Remove cosmic rays from lights</source>
         <translation>Kosmische Strahlen aus Lights entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="955"/>
+        <location filename="../../ui/workspaces.py" line="956"/>
         <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; when many frames are stacked with rejection it is not needed.</source>
         <translation>Findet Treffer kosmischer Strahlung in jedem Light an ihren scharfen Kanten (L.A.Cosmic, astroscrappy) und ersetzt sie. Nützlich bei langen Belichtungen und Spektren; beim Stacken vieler Bilder mit Ausreißerverwerfung nicht nötig.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="961"/>
+        <location filename="../../ui/workspaces.py" line="962"/>
         <source>Scale the dark to each light (dark optimisation)</source>
         <translation>Dark an jede Aufnahme anpassen (Dark-Optimierung)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="963"/>
+        <location filename="../../ui/workspaces.py" line="964"/>
         <source>Finds the dark scale that leaves the least noise; useful when the camera temperature drifted</source>
         <translation>Findet den Dark-Faktor, der das geringste Rauschen lässt; nützlich, wenn die Kameratemperatur geschwankt hat</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="965"/>
+        <location filename="../../ui/workspaces.py" line="966"/>
         <source>Repair hot and dead pixels (defect map from the masters)</source>
         <translation>Heiße und tote Pixel reparieren (Defektkarte aus den Mastern)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="968"/>
+        <location filename="../../ui/workspaces.py" line="969"/>
         <source>Hot pixels (from the master dark) and dead pixels (from the master flat) are replaced by the median of their neighbours in every light; the map is saved with the masters</source>
         <translation>Heiße Pixel (aus dem Master-Dark) und tote Pixel (aus dem Master-Flat) werden in jedem Light durch den Median ihrer Nachbarn ersetzt; die Karte wird bei den Mastern gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="972"/>
+        <location filename="../../ui/workspaces.py" line="973"/>
         <source>Spectra: do not divide by the flat</source>
         <translation>Spektren: nicht durch das Flat teilen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="975"/>
+        <location filename="../../ui/workspaces.py" line="976"/>
         <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy page.</source>
         <translation>Für Echelle- und Langspalt-Aufnahmen: Das Flat ist zwischen den Ordnungen fast null, Teilen würde das Rauschen explodieren lassen. Das Master-Flat wird trotzdem erstellt; geben Sie es der Seite Spektroskopie.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="979"/>
+        <location filename="../../ui/workspaces.py" line="980"/>
         <source>Colour camera: each colour as its own image</source>
         <translation>Farbkamera: jede Farbe als eigenes Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="983"/>
+        <location filename="../../ui/workspaces.py" line="984"/>
         <source>Frames with a Bayer pattern (BAYERPAT) are calibrated as a mosaic, then written as three half-size images R, G, B (filters TR, TG, TB) without interpolation; G is closest to V. Monochrome frames are not affected.</source>
         <translation>Aufnahmen mit Bayer-Muster (BAYERPAT) werden als Mosaik kalibriert und dann ohne Interpolation als drei Bilder halber Größe R, G, B (Filter TR, TG, TB) geschrieben; G liegt V am nächsten. Monochrome Aufnahmen sind nicht betroffen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="989"/>
+        <location filename="../../ui/workspaces.py" line="990"/>
         <source>3. Calibrate</source>
         <translation>3. Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="994"/>
+        <location filename="../../ui/workspaces.py" line="995"/>
         <source>Makes the master bias, dark and flat and writes every light as (light − bias − dark) / flat into the output folder</source>
         <translation>Erstellt Master-Bias, -Dark und -Flat und schreibt jedes Light als (Light − Bias − Dark) / Flat in den Ausgabeordner</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1001"/>
+        <location filename="../../ui/workspaces.py" line="1002"/>
         <source>linearity correction c0 c1 c2 … (empty: none)</source>
         <translation>Linearitätskorrektur c0 c1 c2 … (leer: keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1004"/>
+        <location filename="../../ui/workspaces.py" line="1005"/>
         <source>The camera&apos;s non-linearity: every raw value v becomes c0 + c1·v + c2·v² + … before calibration (from the maker&apos;s sheet or a series of flats of rising exposure)</source>
         <translation>Die Nichtlinearität der Kamera: jeder Rohwert v wird vor der Kalibrierung zu c0 + c1·v + c2·v² + … (aus dem Datenblatt des Herstellers oder einer Flat-Serie mit steigender Belichtung)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1008"/>
+        <location filename="../../ui/workspaces.py" line="1009"/>
         <source>More calibration options</source>
         <translation>Weitere Kalibrierungsoptionen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1015"/>
+        <location filename="../../ui/workspaces.py" line="1016"/>
         <source>4. Align and stack the calibrated images (optional)</source>
         <translation>4. Kalibrierte Bilder ausrichten und stapeln (optional)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1020"/>
+        <location filename="../../ui/workspaces.py" line="1021"/>
         <source>Aligns the calibrated images on their stars and combines them, one stack per filter. For a light curve measure the single images on the Photometry page instead.</source>
         <translation>Richtet die kalibrierten Bilder an ihren Sternen aus und kombiniert sie, ein Stack pro Filter. Für eine Lichtkurve messen Sie stattdessen die Einzelbilder auf der Seite Photometrie.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1029"/>
+        <location filename="../../ui/workspaces.py" line="1030"/>
         <source>Combine</source>
         <translation>Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1030"/>
+        <location filename="../../ui/workspaces.py" line="1031"/>
         <source>mean</source>
         <translation>Mittelwert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1030"/>
+        <location filename="../../ui/workspaces.py" line="1031"/>
         <source>median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1030"/>
+        <location filename="../../ui/workspaces.py" line="1031"/>
         <source>sum</source>
         <translation>Summe</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1033"/>
+        <location filename="../../ui/workspaces.py" line="1034"/>
         <source>Reject</source>
         <translation>Verwerfen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1035"/>
+        <location filename="../../ui/workspaces.py" line="1036"/>
         <source>sigma clipping</source>
         <translation>Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1036"/>
+        <location filename="../../ui/workspaces.py" line="1037"/>
         <source>winsorized sigma clipping</source>
         <translation>winsorisiertes Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1037"/>
+        <location filename="../../ui/workspaces.py" line="1038"/>
         <source>min / max (drop lowest and highest)</source>
         <translation>Min / Max (niedrigste und höchste verwerfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1038"/>
+        <location filename="../../ui/workspaces.py" line="1039"/>
         <source>percentile clipping</source>
         <translation>Perzentil-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1039"/>
-        <location filename="../../ui/workspaces.py" line="1045"/>
+        <location filename="../../ui/workspaces.py" line="1040"/>
+        <location filename="../../ui/workspaces.py" line="1046"/>
         <source>none</source>
         <translation>keine</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1043"/>
+        <location filename="../../ui/workspaces.py" line="1044"/>
         <source>Normalise</source>
         <translation>Normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1046"/>
+        <location filename="../../ui/workspaces.py" line="1047"/>
         <source>multiplicative (scale to the first frame)</source>
         <translation>multiplikativ (auf das erste Bild skalieren)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1047"/>
+        <location filename="../../ui/workspaces.py" line="1048"/>
         <source>additive (shift to the first frame)</source>
         <translation>additiv (auf das erste Bild verschieben)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1050"/>
+        <location filename="../../ui/workspaces.py" line="1051"/>
         <source>Weights</source>
         <translation>Gewichte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1050"/>
+        <location filename="../../ui/workspaces.py" line="1051"/>
         <source>equal</source>
         <translation>gleich</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1050"/>
+        <location filename="../../ui/workspaces.py" line="1051"/>
         <source>by noise (1 / σ²)</source>
         <translation>nach Rauschen (1 / σ²)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1052"/>
+        <location filename="../../ui/workspaces.py" line="1053"/>
         <source>Align</source>
         <translation>Ausrichten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1054"/>
+        <location filename="../../ui/workspaces.py" line="1055"/>
         <source>shift only</source>
         <translation>nur Verschiebung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1055"/>
+        <location filename="../../ui/workspaces.py" line="1056"/>
         <source>star patterns (rotation and scale too)</source>
         <translation>Sternmuster (auch Drehung und Maßstab)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1060"/>
+        <location filename="../../ui/workspaces.py" line="1061"/>
         <source>mean: the least noise; median: robust without rejection; sum: keeps the counts</source>
         <translation>Mittelwert: am wenigsten Rauschen; Median: robust auch ohne Verwerfung; Summe: behält die Zählwerte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1062"/>
+        <location filename="../../ui/workspaces.py" line="1063"/>
         <source>Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; sigma clipping needs about ten frames or more, min / max works with fewer</source>
         <translation>Pixel, die von den anderen abweichen (Satelliten, kosmische Strahlung, heiße Pixel), werden vor dem Kombinieren weggelassen; Sigma-Clipping braucht etwa zehn Bilder oder mehr, Min / Max geht mit weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1066"/>
+        <location filename="../../ui/workspaces.py" line="1067"/>
         <source>Brings the frames to the same level before rejection: multiplicative when the transparency changed, additive when the sky background changed</source>
         <translation>Bringt die Bilder vor der Verwerfung auf dasselbe Niveau: multiplikativ, wenn sich die Durchsicht änderte, additiv, wenn sich der Himmelshintergrund änderte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1069"/>
+        <location filename="../../ui/workspaces.py" line="1070"/>
         <source>By noise: noisier frames (thin cloud, twilight) count less</source>
         <translation>Nach Rauschen: verrauschtere Bilder (dünne Wolken, Dämmerung) zählen weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1071"/>
+        <location filename="../../ui/workspaces.py" line="1072"/>
         <source>Shift only: an equatorial mount without field rotation; star patterns: the field rotates or the scale differs (alt-az mount, meridian flip, another telescope)</source>
         <translation>Nur Verschiebung: parallaktische Montierung ohne Bildfelddrehung; Sternmuster: das Feld dreht sich oder der Maßstab weicht ab (Alt-Az-Montierung, Meridian-Flip, anderes Teleskop)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1088"/>
+        <location filename="../../ui/workspaces.py" line="1089"/>
         <source>min / max: how many values to drop; percentile: the fraction of the median</source>
         <translation>Min / Max: wie viele Werte verworfen werden; Perzentil: Anteil des Medians</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1089"/>
+        <location filename="../../ui/workspaces.py" line="1090"/>
         <source>Low / high</source>
         <translation>Unten / oben</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1094"/>
+        <location filename="../../ui/workspaces.py" line="1095"/>
         <source>Stacking options</source>
         <translation>Stapeloptionen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1096"/>
+        <location filename="../../ui/workspaces.py" line="1097"/>
         <source>Drizzle onto a 2× finer grid (undersampled, dithered frames)</source>
         <translation>Drizzle auf ein 2× feineres Raster (unterabgetastete, geditherte Bilder)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1099"/>
+        <location filename="../../ui/workspaces.py" line="1100"/>
         <source>For stars only one or two pixels wide (FWHM under about 2 px) in frames shifted a little between exposures: recovers detail on a grid twice as fine (Fruchter &amp; Hook 2002). Needs many frames; otherwise leave it off.</source>
         <translation>Für Sterne, die nur ein bis zwei Pixel breit sind (FWHM unter etwa 2 px), in leicht gegeneinander versetzten Bildern: gewinnt Details auf einem doppelt so feinen Raster zurück (Fruchter &amp; Hook 2002). Braucht viele Bilder; sonst ausgeschaltet lassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1124"/>
+        <location filename="../../ui/workspaces.py" line="1125"/>
         <source>Stacking…</source>
         <translation>Ausrichten und stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1126"/>
+        <location filename="../../ui/workspaces.py" line="1127"/>
         <source>Only one frame through {f}: nothing to stack.</source>
         <translation>Nur eine Aufnahme mit {f}: nichts zu stapeln.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1139"/>
+        <location filename="../../ui/workspaces.py" line="1140"/>
         <source>Choose folder</source>
         <translation>Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1152"/>
+        <location filename="../../ui/workspaces.py" line="1153"/>
         <source>Add folder</source>
         <translation>Ordner hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1165"/>
-        <location filename="../../ui/workspaces.py" line="1268"/>
+        <location filename="../../ui/workspaces.py" line="1166"/>
+        <location filename="../../ui/workspaces.py" line="1269"/>
         <source>bias</source>
         <translation>Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1166"/>
-        <location filename="../../ui/workspaces.py" line="1268"/>
+        <location filename="../../ui/workspaces.py" line="1167"/>
+        <location filename="../../ui/workspaces.py" line="1269"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1167"/>
-        <location filename="../../ui/workspaces.py" line="1268"/>
+        <location filename="../../ui/workspaces.py" line="1168"/>
+        <location filename="../../ui/workspaces.py" line="1269"/>
         <source>flat</source>
         <translation>Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1168"/>
+        <location filename="../../ui/workspaces.py" line="1169"/>
         <source>light</source>
         <translation>Light</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1169"/>
+        <location filename="../../ui/workspaces.py" line="1170"/>
         <source>arc lamp</source>
         <translation>Bogenlampe</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1170"/>
+        <location filename="../../ui/workspaces.py" line="1171"/>
         <source>unknown</source>
         <translation>unbekannt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1187"/>
+        <location filename="../../ui/workspaces.py" line="1188"/>
         <source>({n} camera raw files read; times: camera clock − {h} h)</source>
         <translation>({n} Kamera-Rohdateien gelesen; Zeiten: Kamerauhr − {h} h)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1192"/>
+        <location filename="../../ui/workspaces.py" line="1193"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1194"/>
+        <location filename="../../ui/workspaces.py" line="1195"/>
         <source>Type unknown, ignored: {file}</source>
         <translation>Typ unbekannt, ignoriert: {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1200"/>
+        <location filename="../../ui/workspaces.py" line="1201"/>
         <source>No light frames found, so there is nothing to calibrate yet. If the lights are in another folder, choose the folder that holds both (sub-folders are read) or add it with “Add folder…”.</source>
         <translation>Keine Light-Bilder gefunden, es gibt also noch nichts zu kalibrieren. Liegen die Lights in einem anderen Ordner, wählen Sie den Ordner, der beide enthält (Unterordner werden gelesen), oder fügen Sie ihn mit „Ordner hinzufügen…“ hinzu.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1206"/>
+        <location filename="../../ui/workspaces.py" line="1207"/>
         <source>Needs at least one light frame</source>
         <translation>Braucht mindestens ein Light-Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1211"/>
+        <location filename="../../ui/workspaces.py" line="1212"/>
         <source>no flat for filter &apos;{filter}&apos; ({size}); will be calibrated without flat</source>
         <translation>kein Flat für Filter &apos;{filter}&apos; ({size}); wird ohne Flat kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1216"/>
+        <location filename="../../ui/workspaces.py" line="1217"/>
         <source>no dark for {t} s within {tol} °C of {temp} °C (darks of another exposure need bias frames to be scaled); will be calibrated without dark</source>
         <translation>kein Dark für {t} s innerhalb {tol} °C von {temp} °C (Darks anderer Belichtung brauchen Bias zum Skalieren); wird ohne Dark kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1219"/>
+        <location filename="../../ui/workspaces.py" line="1220"/>
         <source>no bias ({size}); will be calibrated without bias</source>
         <translation>kein Bias ({size}); wird ohne Bias kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1222"/>
+        <location filename="../../ui/workspaces.py" line="1223"/>
         <source>Calibrating…</source>
         <translation>Kalibriere…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1230"/>
+        <location filename="../../ui/workspaces.py" line="1231"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Linearitätskorrektur: Zahlen c0 c1 c2 … schreiben, z. B. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1238"/>
+        <location filename="../../ui/workspaces.py" line="1239"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Fertig: {n} Bilder kalibriert, {m} Masterbilder nach {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1242"/>
+        <location filename="../../ui/workspaces.py" line="1243"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} Bogenlampen-Aufnahmen kalibriert (nur Bias und Dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1248"/>
+        <location filename="../../ui/workspaces.py" line="1249"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark mit {lo:.3f}–{hi:.3f} skaliert (DARKSCAL im Header jeder Datei).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1262"/>
+        <location filename="../../ui/workspaces.py" line="1263"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} Gruppen von Kalibrationsbildern passen zu keinem Bild und wurden nicht kombiniert (z. B. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1270"/>
+        <location filename="../../ui/workspaces.py" line="1271"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>Master-{kind} aus {n} Bildern (z. B. {file}) nicht erstellt, ohne ihn kalibriert: {why}</translation>
     </message>
@@ -1042,7 +1042,7 @@
 <context>
     <name>Collapsible</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="69"/>
+        <location filename="../../ui/workspaces.py" line="70"/>
         <source>Click to show or hide these options</source>
         <translation>Klicken, um diese Optionen zu zeigen oder auszublenden</translation>
     </message>
@@ -1857,456 +1857,456 @@
 <context>
     <name>ImagePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="138"/>
+        <location filename="../../ui/workspaces.py" line="139"/>
         <source>Move</source>
         <translation>Verschieben</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="138"/>
+        <location filename="../../ui/workspaces.py" line="139"/>
         <source>Drag to move the image, wheel to zoom</source>
         <translation>Ziehen verschiebt das Bild, das Mausrad zoomt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="140"/>
+        <location filename="../../ui/workspaces.py" line="141"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="141"/>
+        <location filename="../../ui/workspaces.py" line="142"/>
         <source>Click a star: counts in an aperture, background, signal-to-noise, FWHM, HFD, shape</source>
         <translation>Einen Stern anklicken: Zählwerte in einer Blende, Hintergrund, Signal-Rausch-Verhältnis, FWHM, HFD, Form</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="143"/>
+        <location filename="../../ui/workspaces.py" line="144"/>
         <source>Area</source>
         <translation>Fläche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="143"/>
+        <location filename="../../ui/workspaces.py" line="144"/>
         <source>Drag a rectangle: pixel count, sum, mean, median, std, min, max</source>
         <translation>Rechteck ziehen: Pixelzahl, Summe, Mittelwert, Median, Std.-Abw., Min., Max.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="144"/>
+        <location filename="../../ui/workspaces.py" line="145"/>
         <source>Line</source>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="144"/>
+        <location filename="../../ui/workspaces.py" line="145"/>
         <source>Drag a line: pixel values along it, length and angle</source>
         <translation>Linie ziehen: Pixelwerte entlang der Linie, Länge und Winkel</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="160"/>
+        <location filename="../../ui/workspaces.py" line="161"/>
         <source>Aperture radius (px)</source>
         <translation>Blendenradius (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="164"/>
+        <location filename="../../ui/workspaces.py" line="165"/>
         <source>from the star</source>
         <translation>aus dem Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="165"/>
+        <location filename="../../ui/workspaces.py" line="166"/>
         <source>0: aperture and sky annulus chosen from the star&apos;s profile</source>
         <translation>0: Blende und Himmelsring aus dem Sternprofil gewählt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="167"/>
+        <location filename="../../ui/workspaces.py" line="168"/>
         <source>Line width (px)</source>
         <translation>Linienbreite (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="172"/>
+        <location filename="../../ui/workspaces.py" line="173"/>
         <source>Pixels across the line that are averaged for its profile; wider is less noisy</source>
         <translation>Pixel quer zur Linie, die für ihr Profil gemittelt werden; breiter ist weniger verrauscht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="175"/>
+        <location filename="../../ui/workspaces.py" line="176"/>
         <source>Whole image</source>
         <translation>Ganzes Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="176"/>
+        <location filename="../../ui/workspaces.py" line="177"/>
         <source>Statistics and histogram of the whole image</source>
         <translation>Statistik und Histogramm des ganzen Bildes</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="182"/>
+        <location filename="../../ui/workspaces.py" line="183"/>
         <source>Open images: click one or use the arrow keys to show it</source>
         <translation>Geöffnete Bilder: zum Anzeigen eines anklicken oder die Pfeiltasten benutzen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="199"/>
-        <location filename="../../ui/workspaces.py" line="488"/>
+        <location filename="../../ui/workspaces.py" line="200"/>
+        <location filename="../../ui/workspaces.py" line="489"/>
         <source>Keyword</source>
         <translation>Schlüsselwort</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="199"/>
-        <location filename="../../ui/workspaces.py" line="203"/>
-        <location filename="../../ui/workspaces.py" line="488"/>
+        <location filename="../../ui/workspaces.py" line="200"/>
+        <location filename="../../ui/workspaces.py" line="204"/>
+        <location filename="../../ui/workspaces.py" line="489"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="199"/>
-        <location filename="../../ui/workspaces.py" line="488"/>
+        <location filename="../../ui/workspaces.py" line="200"/>
+        <location filename="../../ui/workspaces.py" line="489"/>
         <source>Comment</source>
         <translation>Kommentar</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="203"/>
+        <location filename="../../ui/workspaces.py" line="204"/>
         <source>Quantity</source>
         <translation>Größe</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="213"/>
+        <location filename="../../ui/workspaces.py" line="214"/>
         <source>Histogram</source>
         <translation>Histogramm</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="214"/>
+        <location filename="../../ui/workspaces.py" line="215"/>
         <source>Profile along x (column means)</source>
         <translation>Profil entlang x (Spaltenmittel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="215"/>
+        <location filename="../../ui/workspaces.py" line="216"/>
         <source>Profile along y (row means)</source>
         <translation>Profil entlang y (Zeilenmittel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="216"/>
+        <location filename="../../ui/workspaces.py" line="217"/>
         <source>3-D surface</source>
         <translation>3-D-Oberfläche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="219"/>
+        <location filename="../../ui/workspaces.py" line="220"/>
         <source>What to draw for a rectangle</source>
         <translation>Was für ein Rechteck gezeichnet wird</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="223"/>
+        <location filename="../../ui/workspaces.py" line="224"/>
         <source>Export data (CSV)…</source>
         <translation>Daten exportieren (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="225"/>
+        <location filename="../../ui/workspaces.py" line="226"/>
         <source>The numbers of the graph shown, as a table for a spreadsheet</source>
         <translation>Die Zahlen der gezeigten Grafik als Tabelle für eine Tabellenkalkulation</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="236"/>
+        <location filename="../../ui/workspaces.py" line="237"/>
         <source>Add or change keyword…</source>
         <translation>Schlüsselwort hinzufügen oder ändern…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="237"/>
+        <location filename="../../ui/workspaces.py" line="238"/>
         <source>Delete keyword</source>
         <translation>Schlüsselwort löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="240"/>
+        <location filename="../../ui/workspaces.py" line="241"/>
         <source>Only in this window until you save a copy; Ctrl+Z takes it back</source>
         <translation>Nur in diesem Fenster, bis Sie eine Kopie speichern; Strg+Z nimmt es zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="247"/>
+        <location filename="../../ui/workspaces.py" line="248"/>
         <source>Save a copy with these header changes…</source>
         <translation>Eine Kopie mit diesen Header-Änderungen speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="251"/>
+        <location filename="../../ui/workspaces.py" line="252"/>
         <source>The original file is not changed: a copy with the new header is written (Ctrl+Z takes back a change before that)</source>
         <translation>Die Originaldatei bleibt unverändert: eine Kopie mit dem neuen Header wird geschrieben (Strg+Z nimmt vorher eine Änderung zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="259"/>
+        <location filename="../../ui/workspaces.py" line="260"/>
         <source>Header</source>
         <translation>Header</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="260"/>
-        <location filename="../../ui/workspaces.py" line="369"/>
+        <location filename="../../ui/workspaces.py" line="261"/>
+        <location filename="../../ui/workspaces.py" line="370"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="261"/>
-        <location filename="../../ui/workspaces.py" line="370"/>
+        <location filename="../../ui/workspaces.py" line="262"/>
+        <location filename="../../ui/workspaces.py" line="371"/>
         <source>Graph</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="267"/>
+        <location filename="../../ui/workspaces.py" line="268"/>
         <source>Results in small floating windows over the image (as MaxIm DL&apos;s Information and Graph windows); off: in these tabs</source>
         <translation>Ergebnisse in kleinen schwebenden Fenstern über dem Bild (wie die Fenster Information und Graph von MaxIm DL); aus: in diesen Reitern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="441"/>
-        <location filename="../../ui/workspaces.py" line="462"/>
+        <location filename="../../ui/workspaces.py" line="442"/>
+        <location filename="../../ui/workspaces.py" line="463"/>
         <source>{key}: not a keyword that can be edited.</source>
         <translation>{key}: kein bearbeitbares Schlüsselwort.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="444"/>
+        <location filename="../../ui/workspaces.py" line="445"/>
         <source>{key}: FITS headers take plain ASCII text only.</source>
         <translation>{key}: FITS-Header nehmen nur einfachen ASCII-Text auf.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="476"/>
+        <location filename="../../ui/workspaces.py" line="477"/>
         <source>delete a keyword</source>
         <translation>Schlüsselwort löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="484"/>
+        <location filename="../../ui/workspaces.py" line="485"/>
         <source>Add or change keyword</source>
         <translation>Schlüsselwort hinzufügen oder ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="487"/>
+        <location filename="../../ui/workspaces.py" line="488"/>
         <source>text, number, or T / F</source>
         <translation>Text, Zahl oder T / F</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="496"/>
+        <location filename="../../ui/workspaces.py" line="497"/>
         <source>change a keyword</source>
         <translation>Schlüsselwort ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="502"/>
+        <location filename="../../ui/workspaces.py" line="503"/>
         <source>{n} change(s) not saved yet; the file itself is never changed.</source>
         <translation>{n} Änderung(en) noch nicht gespeichert; die Datei selbst wird nie verändert.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="567"/>
-        <location filename="../../ui/workspaces.py" line="634"/>
+        <location filename="../../ui/workspaces.py" line="568"/>
+        <location filename="../../ui/workspaces.py" line="635"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="577"/>
+        <location filename="../../ui/workspaces.py" line="578"/>
         <source>Centroid x, y (FITS pixels)</source>
         <translation>Schwerpunkt x, y (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="583"/>
+        <location filename="../../ui/workspaces.py" line="584"/>
         <source>RA, Dec</source>
         <translation>RA, Dek</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="586"/>
+        <location filename="../../ui/workspaces.py" line="587"/>
         <source>Peak pixel (counts)</source>
         <translation>Spitzenpixel (Zählwerte)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="587"/>
+        <location filename="../../ui/workspaces.py" line="588"/>
         <source>saturated</source>
         <translation>gesättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="589"/>
+        <location filename="../../ui/workspaces.py" line="590"/>
         <source>Background per pixel (counts)</source>
         <translation>Hintergrund pro Pixel (Zählwerte)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="590"/>
+        <location filename="../../ui/workspaces.py" line="591"/>
         <source>Net counts in the aperture</source>
         <translation>Netto-Zählwerte in der Blende</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="593"/>
+        <location filename="../../ui/workspaces.py" line="594"/>
         <source>Net electrons</source>
         <translation>Netto-Elektronen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="594"/>
+        <location filename="../../ui/workspaces.py" line="595"/>
         <source>Signal-to-noise</source>
         <translation>Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="596"/>
+        <location filename="../../ui/workspaces.py" line="597"/>
         <source>per second</source>
         <translation>pro Sekunde</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="596"/>
+        <location filename="../../ui/workspaces.py" line="597"/>
         <source>per frame</source>
         <translation>pro Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="599"/>
+        <location filename="../../ui/workspaces.py" line="600"/>
         <source>Instrumental magnitude ({unit})</source>
         <translation>Instrumentelle Helligkeit ({unit})</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="604"/>
+        <location filename="../../ui/workspaces.py" line="605"/>
         <source>FWHM (px)</source>
         <translation>FWHM (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="605"/>
+        <location filename="../../ui/workspaces.py" line="606"/>
         <source>Half-flux diameter (px)</source>
         <translation>Halbflussdurchmesser (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="606"/>
+        <location filename="../../ui/workspaces.py" line="607"/>
         <source>Ellipticity, position angle (°)</source>
         <translation>Elliptizität, Positionswinkel (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="607"/>
+        <location filename="../../ui/workspaces.py" line="608"/>
         <source>Aperture; sky annulus (px)</source>
         <translation>Blende; Himmelsring (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="608"/>
+        <location filename="../../ui/workspaces.py" line="609"/>
         <source>Pixels in the aperture</source>
         <translation>Pixel in der Blende</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="619"/>
-        <location filename="../../ui/workspaces.py" line="622"/>
+        <location filename="../../ui/workspaces.py" line="620"/>
+        <location filename="../../ui/workspaces.py" line="623"/>
         <source>Radius (px)</source>
         <translation>Radius (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="620"/>
-        <location filename="../../ui/workspaces.py" line="622"/>
+        <location filename="../../ui/workspaces.py" line="621"/>
+        <location filename="../../ui/workspaces.py" line="623"/>
         <source>Counts above background</source>
         <translation>Zählwerte über dem Hintergrund</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="637"/>
+        <location filename="../../ui/workspaces.py" line="638"/>
         <source>Corners x, y (FITS pixels)</source>
         <translation>Ecken x, y (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="638"/>
+        <location filename="../../ui/workspaces.py" line="639"/>
         <source>Size (px)</source>
         <translation>Größe (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="639"/>
+        <location filename="../../ui/workspaces.py" line="640"/>
         <source>Pixels</source>
         <translation>Pixel</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="640"/>
+        <location filename="../../ui/workspaces.py" line="641"/>
         <source>Sum (counts)</source>
         <translation>Summe (Zählwerte)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="643"/>
+        <location filename="../../ui/workspaces.py" line="644"/>
         <source>Sum (electrons)</source>
         <translation>Summe (Elektronen)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="645"/>
+        <location filename="../../ui/workspaces.py" line="646"/>
         <source>Mean</source>
         <translation>Mittelwert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="646"/>
+        <location filename="../../ui/workspaces.py" line="647"/>
         <source>Median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="647"/>
+        <location filename="../../ui/workspaces.py" line="648"/>
         <source>Standard deviation</source>
         <translation>Standardabweichung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="648"/>
+        <location filename="../../ui/workspaces.py" line="649"/>
         <source>Robust standard deviation (MAD)</source>
         <translation>Robuste Standardabweichung (MAD)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="649"/>
+        <location filename="../../ui/workspaces.py" line="650"/>
         <source>Minimum (at x, y)</source>
         <translation>Minimum (bei x, y)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="650"/>
+        <location filename="../../ui/workspaces.py" line="651"/>
         <source>Maximum (at x, y)</source>
         <translation>Maximum (bei x, y)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="680"/>
-        <location filename="../../ui/workspaces.py" line="691"/>
-        <location filename="../../ui/workspaces.py" line="740"/>
+        <location filename="../../ui/workspaces.py" line="681"/>
+        <location filename="../../ui/workspaces.py" line="692"/>
+        <location filename="../../ui/workspaces.py" line="741"/>
         <source>Counts</source>
         <translation>Zählwerte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="680"/>
+        <location filename="../../ui/workspaces.py" line="681"/>
         <source>Number of pixels</source>
         <translation>Anzahl der Pixel</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="691"/>
-        <location filename="../../ui/workspaces.py" line="699"/>
+        <location filename="../../ui/workspaces.py" line="692"/>
+        <location filename="../../ui/workspaces.py" line="700"/>
         <source>x (FITS pixels)</source>
         <translation>x (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="691"/>
-        <location filename="../../ui/workspaces.py" line="699"/>
+        <location filename="../../ui/workspaces.py" line="692"/>
+        <location filename="../../ui/workspaces.py" line="700"/>
         <source>y (FITS pixels)</source>
         <translation>y (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="700"/>
+        <location filename="../../ui/workspaces.py" line="701"/>
         <source>Mean counts</source>
         <translation>Mittlere Zählwerte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="718"/>
+        <location filename="../../ui/workspaces.py" line="719"/>
         <source>Start x, y (FITS pixels)</source>
         <translation>Anfang x, y (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="719"/>
+        <location filename="../../ui/workspaces.py" line="720"/>
         <source>End x, y (FITS pixels)</source>
         <translation>Ende x, y (FITS-Pixel)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="720"/>
+        <location filename="../../ui/workspaces.py" line="721"/>
         <source>Length (px)</source>
         <translation>Länge (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="721"/>
+        <location filename="../../ui/workspaces.py" line="722"/>
         <source>Angle from +x (°)</source>
         <translation>Winkel zu +x (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="729"/>
+        <location filename="../../ui/workspaces.py" line="730"/>
         <source>Separation on the sky (″)</source>
         <translation>Abstand am Himmel (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="730"/>
+        <location filename="../../ui/workspaces.py" line="731"/>
         <source>Position angle on the sky (°, N through E)</source>
         <translation>Positionswinkel am Himmel (°, N über O)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="733"/>
+        <location filename="../../ui/workspaces.py" line="734"/>
         <source>Minimum, maximum along the line</source>
         <translation>Minimum, Maximum entlang der Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="734"/>
+        <location filename="../../ui/workspaces.py" line="735"/>
         <source>Mean along the line</source>
         <translation>Mittelwert entlang der Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="740"/>
+        <location filename="../../ui/workspaces.py" line="741"/>
         <source>Distance along the line (px)</source>
         <translation>Abstand entlang der Linie (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="752"/>
+        <location filename="../../ui/workspaces.py" line="753"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
@@ -2402,22 +2402,22 @@
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="3393"/>
+        <location filename="../../ui/workspaces.py" line="3496"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3394"/>
+        <location filename="../../ui/workspaces.py" line="3497"/>
         <source>Frequency analysis</source>
         <translation>Frequenzanalyse</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3395"/>
+        <location filename="../../ui/workspaces.py" line="3498"/>
         <source>Variable star search</source>
         <translation>Suche nach Veränderlichen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3396"/>
+        <location filename="../../ui/workspaces.py" line="3499"/>
         <source>O-C diagram</source>
         <translation>O-C-Diagramm</translation>
     </message>
@@ -3258,157 +3258,157 @@
         <translation>Stapel geschrieben: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1607"/>
+        <location filename="../../ui/main_window.py" line="1610"/>
         <source>the Photometry page</source>
         <translation>die Seite Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1636"/>
+        <location filename="../../ui/main_window.py" line="1639"/>
         <source>value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1655"/>
+        <location filename="../../ui/main_window.py" line="1658"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1656"/>
+        <location filename="../../ui/main_window.py" line="1659"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>Die neue Sprache wird nach dem Neustart von {app} verwendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1676"/>
+        <location filename="../../ui/main_window.py" line="1679"/>
         <source>Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.</source>
         <translation>Willkommen! Diese einminütige Tour zeigt, wo sich was befindet. Drücken Sie Weiter oder jederzeit Überspringen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1679"/>
+        <location filename="../../ui/main_window.py" line="1682"/>
         <source>The pages, in the order of an observing night. Click one to open it.</source>
         <translation>Die Seiten in der Reihenfolge einer Beobachtungsnacht. Zum Öffnen anklicken.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1684"/>
+        <location filename="../../ui/main_window.py" line="1687"/>
         <source>Start here: pick what you have — raw frames, images, spectra, a list of minima — and you are taken to the right page.</source>
         <translation>Hier beginnen: wählen Sie, was Sie haben — Rohbilder, Bilder, Spektren, eine Minimaliste — und Sie kommen zur richtigen Seite.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1689"/>
+        <location filename="../../ui/main_window.py" line="1692"/>
         <source>Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits.</source>
         <translation>Planen: wann Ihre Ziele sichtbar sind, Luftmasse, der Mond, vorhergesagte Bedeckungen und Transits.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1694"/>
+        <location filename="../../ui/main_window.py" line="1697"/>
         <source>Observe: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.</source>
         <translation>Beobachten: Teleskop und Kamera verbinden, Sequenzen und ganze Nächte ausführen. Die Sicherheitsüberwachung parkt das Teleskop, wenn etwas nicht stimmt.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1700"/>
+        <location filename="../../ui/main_window.py" line="1703"/>
         <source>Calibrate: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.</source>
         <translation>Kalibrieren: Bias-, Dark- und Flatbilder werden automatisch zugeordnet und angewandt; Bilder lassen sich ausrichten und stapeln.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1706"/>
+        <location filename="../../ui/main_window.py" line="1709"/>
         <source>Photometry and Light curves &amp; O-C: measure stars, get light curves, minima, O-C diagrams and periods.</source>
         <translation>Photometrie und Lichtkurven &amp; O-C: Sterne messen, Lichtkurven, Minima, O-C-Diagramme und Perioden erhalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1712"/>
+        <location filename="../../ui/main_window.py" line="1715"/>
         <source>Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.</source>
         <translation>Spektroskopie: Langspalt- und Echelle-Reduktion, tellurische Korrektur, Radialgeschwindigkeiten, IFU-Würfel.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1717"/>
+        <location filename="../../ui/main_window.py" line="1720"/>
         <source>Orbits &amp; models: radial-velocity orbits and eclipsing-binary or transit models.</source>
         <translation>Bahnen &amp; Modelle: Radialgeschwindigkeitsbahnen und Modelle für Bedeckungsveränderliche oder Transits.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1722"/>
+        <location filename="../../ui/main_window.py" line="1725"/>
         <source>Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.</source>
         <translation>Fernerkundung: Satelliten- und Luftbilder — Bandrechnung, Vegetations- und Wasserindizes, Klassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1728"/>
+        <location filename="../../ui/main_window.py" line="1731"/>
         <source>Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.</source>
         <translation>Automatisierung: Schritte zu einer eigenen Kette verbinden oder mit einer fertigen Vorlage beginnen (Bedeckungsveränderlichen-Nacht, Transit, Kalibrierung, Spektren zu RV) und in einem Durchgang ausführen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1734"/>
+        <location filename="../../ui/main_window.py" line="1737"/>
         <source>Guide: every page explained step by step, by category, with search. Help → Training guide opens it too.</source>
         <translation>Anleitung: jede Seite Schritt für Schritt erklärt, nach Kategorien, mit Suche. Auch über Hilfe → Schulungsanleitung.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1739"/>
+        <location filename="../../ui/main_window.py" line="1742"/>
         <source>Tasks: long jobs run here in the background with their progress; you can keep working.</source>
         <translation>Aufgaben: lange Arbeiten laufen hier im Hintergrund mit ihrem Fortschritt; Sie können weiterarbeiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1744"/>
+        <location filename="../../ui/main_window.py" line="1747"/>
         <source>Menus: Image → Process for image operations, Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages.</source>
         <translation>Menüs: Bild → Bearbeiten für Bildoperationen, Plugins für eigene Werkzeuge, Einstellungen für Sprache, Aussehen und CPU/GPU, Hilfe für diese Tour und die Schulungsseiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1775"/>
+        <location filename="../../ui/main_window.py" line="1778"/>
         <source>Installation and internet services</source>
         <translation>Installation und Internetdienste</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1777"/>
+        <location filename="../../ui/main_window.py" line="1780"/>
         <source>Everything works.</source>
         <translation>Alles funktioniert.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1780"/>
+        <location filename="../../ui/main_window.py" line="1783"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Einige Prüfungen sind fehlgeschlagen (siehe unten). Ein fehlgeschlagener Webdienst liegt oft am Netz oder am Dienst selbst.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1786"/>
+        <location filename="../../ui/main_window.py" line="1789"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Installation und Internetdienste werden geprüft…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1791"/>
+        <location filename="../../ui/main_window.py" line="1794"/>
         <source>Folder for the practice data</source>
         <translation>Ordner für die Übungsdaten</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1797"/>
+        <location filename="../../ui/main_window.py" line="1800"/>
         <source>practice</source>
         <translation>Übung</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1799"/>
+        <location filename="../../ui/main_window.py" line="1802"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Übungsdaten in {f}: folgen Sie „Ihre erste Nacht“ in der Anleitung.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1818"/>
+        <location filename="../../ui/main_window.py" line="1821"/>
         <source>Could not check for updates: {e}</source>
         <translation>Suche nach Updates fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1820"/>
+        <location filename="../../ui/main_window.py" line="1823"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>Version {v} ist verfügbar (Sie haben {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1821"/>
+        <location filename="../../ui/main_window.py" line="1824"/>
         <source>Open the download page</source>
         <translation>Download-Seite öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1824"/>
+        <location filename="../../ui/main_window.py" line="1827"/>
         <source>You have the latest version ({c}).</source>
         <translation>Sie haben die neueste Version ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1825"/>
+        <location filename="../../ui/main_window.py" line="1828"/>
         <source>Updates</source>
         <translation>Updates</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1833"/>
+        <location filename="../../ui/main_window.py" line="1836"/>
         <source>About {app}</source>
         <translation>Über {app}</translation>
     </message>
@@ -5011,247 +5011,247 @@
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="2744"/>
+        <location filename="../../ui/workspaces.py" line="2847"/>
         <source>Light curves &amp; O-C</source>
         <translation>Lichtkurven &amp; O-C</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2745"/>
+        <location filename="../../ui/workspaces.py" line="2848"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimumszeiten, eine pro Zeile: Zeit [Fehler] [I/II] [Quelle]</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2750"/>
+        <location filename="../../ui/workspaces.py" line="2853"/>
         <source>Load file…</source>
         <translation>Datei laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2754"/>
+        <location filename="../../ui/workspaces.py" line="2857"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Eine Textdatei mit Minimums- oder Maximumszeiten: Zeit, Fehler, Art (I / II), Quelle; eine pro Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2761"/>
+        <location filename="../../ui/workspaces.py" line="2864"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2762"/>
+        <location filename="../../ui/workspaces.py" line="2865"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Periode der Ephemeride zum Zählen der Epochen; die Anpassung verbessert sie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2763"/>
+        <location filename="../../ui/workspaces.py" line="2866"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Nullepoche der Ephemeride (BJD oder HJD, wie die Zeiten); leer: das erste Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2765"/>
+        <location filename="../../ui/workspaces.py" line="2868"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2768"/>
+        <location filename="../../ui/workspaces.py" line="2871"/>
         <source>Linear ephemeris</source>
         <translation>Lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2769"/>
+        <location filename="../../ui/workspaces.py" line="2872"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Konstante Periode: O−C auf einer Geraden (korrigiert T0 und Periode)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2770"/>
+        <location filename="../../ui/workspaces.py" line="2873"/>
         <source>Quadratic (period change)</source>
         <translation>Quadratisch (Periodenänderung)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2772"/>
+        <location filename="../../ui/workspaces.py" line="2875"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Gleichmäßig sich ändernde Periode (Massenaustausch, Massenverlust): O−C auf einer Parabel; liefert dP/dt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2774"/>
+        <location filename="../../ui/workspaces.py" line="2877"/>
         <source>Third body (light-travel time)</source>
         <translation>Dritter Körper (Lichtlaufzeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2777"/>
+        <location filename="../../ui/workspaces.py" line="2880"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Ein dritter Stern bewegt das Paar: O−C schwankt mit der Bahn des dritten Körpers (Irwin 1952); braucht Minima über mehr als einen Zyklus der Welle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2781"/>
+        <location filename="../../ui/workspaces.py" line="2884"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidendrehung (exzentrische Bahn, Haupt- und Nebenminima)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2784"/>
+        <location filename="../../ui/workspaces.py" line="2887"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Eine exzentrische Bahn dreht sich: Haupt- und Nebenminima wandern gegenläufig; braucht beide Arten von Minima (Typ I und II)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2792"/>
+        <location filename="../../ui/workspaces.py" line="2895"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC-Unsicherheiten (langsamer, für korrelierte Parameter)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2795"/>
+        <location filename="../../ui/workspaces.py" line="2898"/>
         <source>After the fit, a Markov chain (emcee) explores the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation>Nach dem Fit erkundet eine Markow-Kette (emcee) die Parameter des dritten Körpers oder der Apsidendrehung: 68-%-Intervalle jedes Parameters, e und ω eingeschlossen, wenn sie voneinander abhängen. Eine lineare oder quadratische Ephemeride ist ein lineares Problem: ihre Fehler aus kleinsten Quadraten sind bereits exakt.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2804"/>
+        <location filename="../../ui/workspaces.py" line="2907"/>
         <source> steps</source>
         <translation> Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2805"/>
+        <location filename="../../ui/workspaces.py" line="2908"/>
         <source>Length of the Markov chain; more steps give steadier errors</source>
         <translation>Länge der Markow-Kette; mehr Schritte geben stabilere Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2817"/>
+        <location filename="../../ui/workspaces.py" line="2920"/>
         <source>Fit and draw O-C</source>
         <translation>Anpassen und O-C zeichnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2820"/>
+        <location filename="../../ui/workspaces.py" line="2923"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Passt das gewählte Modell an die Zeiten an und zeichnet O−C (beobachtet minus berechnet) gegen die Epochennummer</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2840"/>
+        <location filename="../../ui/workspaces.py" line="2943"/>
         <source>Load minimum times</source>
         <translation>Minimumszeiten laden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2840"/>
+        <location filename="../../ui/workspaces.py" line="2943"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Text (*.txt *.csv *.dat);;Alle (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2852"/>
+        <location filename="../../ui/workspaces.py" line="2955"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Zuerst das O−C-Diagramm anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2867"/>
+        <location filename="../../ui/workspaces.py" line="2970"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>Lichtlaufzeiteffekt in einer Drittkörperbahn (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2877"/>
+        <location filename="../../ui/workspaces.py" line="2980"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>Apsidendrehung einer exzentrischen Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2882"/>
+        <location filename="../../ui/workspaces.py" line="2985"/>
         <source>quadratic ephemeris</source>
         <translation>quadratische Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2882"/>
+        <location filename="../../ui/workspaces.py" line="2985"/>
         <source>linear ephemeris</source>
         <translation>lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2885"/>
+        <location filename="../../ui/workspaces.py" line="2988"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>O−C-Anpassung an {n} Minimumszeiten: {model}; gewichtete kleinste Quadrate, 1σ-Fehler (mit √χ²ᵣ skaliert, wenn χ²ᵣ &gt; 1).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2888"/>
+        <location filename="../../ui/workspaces.py" line="2991"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (emcee, {s} steps).</source>
         <translation>Fehler: die größere Seite der MCMC-68-%-Intervalle (emcee, {s} Schritte).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2901"/>
+        <location filename="../../ui/workspaces.py" line="3004"/>
         <source>Give the reference T0 and the period in days.</source>
         <translation>Geben Sie die Referenzepoche T0 und die Periode in Tagen ein.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2908"/>
+        <location filename="../../ui/workspaces.py" line="3011"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Anpassung, danach läuft die MCMC ({s} Schritte) als Aufgabe…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2918"/>
+        <location filename="../../ui/workspaces.py" line="3021"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2928"/>
+        <location filename="../../ui/workspaces.py" line="3031"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2929"/>
+        <location filename="../../ui/workspaces.py" line="3032"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2933"/>
+        <location filename="../../ui/workspaces.py" line="3036"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/a</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2937"/>
+        <location filename="../../ui/workspaces.py" line="3040"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2943"/>
-        <location filename="../../ui/workspaces.py" line="3004"/>
+        <location filename="../../ui/workspaces.py" line="3046"/>
+        <location filename="../../ui/workspaces.py" line="3107"/>
         <source>primary</source>
         <translation>Hauptminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2943"/>
-        <location filename="../../ui/workspaces.py" line="3004"/>
+        <location filename="../../ui/workspaces.py" line="3046"/>
+        <location filename="../../ui/workspaces.py" line="3107"/>
         <source>secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2948"/>
-        <location filename="../../ui/workspaces.py" line="3008"/>
+        <location filename="../../ui/workspaces.py" line="3051"/>
+        <location filename="../../ui/workspaces.py" line="3111"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2952"/>
-        <location filename="../../ui/workspaces.py" line="3012"/>
+        <location filename="../../ui/workspaces.py" line="3055"/>
+        <location filename="../../ui/workspaces.py" line="3115"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2953"/>
-        <location filename="../../ui/workspaces.py" line="3013"/>
+        <location filename="../../ui/workspaces.py" line="3056"/>
+        <location filename="../../ui/workspaces.py" line="3116"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2961"/>
+        <location filename="../../ui/workspaces.py" line="3064"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Dritter Körper: P3 = {p:.2f} ± {pe:.2f} a, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2970"/>
+        <location filename="../../ui/workspaces.py" line="3073"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2976"/>
+        <location filename="../../ui/workspaces.py" line="3079"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidendrehung: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/Zyklus, U = {u:.1f} a</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2978"/>
+        <location filename="../../ui/workspaces.py" line="3081"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2991"/>
+        <location filename="../../ui/workspaces.py" line="3094"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (Akzeptanz {a:.2f}): </translation>
     </message>
@@ -6188,349 +6188,349 @@
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="3032"/>
+        <location filename="../../ui/workspaces.py" line="3135"/>
         <source>No light curve yet: measure one on the Photometry page or load a CSV file.</source>
         <translation>Noch keine Lichtkurve: auf der Seite Photometrie messen oder eine CSV-Datei laden.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3058"/>
+        <location filename="../../ui/workspaces.py" line="3161"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>Sternname, z. B. AI Dra oder TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3065"/>
+        <location filename="../../ui/workspaces.py" line="3168"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3036"/>
+        <location filename="../../ui/workspaces.py" line="3139"/>
         <source>Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…</source>
         <translation>CSV laden (Zeit, Fluss; oder AAVSO- / ZTF- / ASAS-SN-Dateien)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3039"/>
+        <location filename="../../ui/workspaces.py" line="3142"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Jede Tabelle mit einer Zeit- und einer Helligkeitsspalte; Dateien von AAVSO, ZTF und ASAS-SN werden erkannt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3044"/>
+        <location filename="../../ui/workspaces.py" line="3147"/>
         <source>Save light curve (CSV)…</source>
         <translation>Lichtkurve speichern (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3047"/>
+        <location filename="../../ui/workspaces.py" line="3150"/>
         <source>The light curve as shown (downloaded, edited) in a CSV file: open it on the Orbits &amp; models page or in another program</source>
         <translation>Die Lichtkurve wie angezeigt (heruntergeladen, bearbeitet) als CSV-Datei: auf der Seite Bahnen &amp; Modelle oder in einem anderen Programm öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3060"/>
+        <location filename="../../ui/workspaces.py" line="3163"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Name oder Katalognummer des Sterns, wie das Archiv ihn kennt; Eingabe startet den Download</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3064"/>
+        <location filename="../../ui/workspaces.py" line="3167"/>
         <source>The archive to download the light curve from</source>
         <translation>Das Archiv, aus dem die Lichtkurve geladen wird</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3067"/>
+        <location filename="../../ui/workspaces.py" line="3170"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>TESS / Kepler / K2 von MAST, ZTF von IRSA, AAVSO-Beobachtungen (braucht Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3076"/>
+        <location filename="../../ui/workspaces.py" line="3179"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (pulsierende Sterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3077"/>
+        <location filename="../../ui/workspaces.py" line="3180"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (Transits, Bedeckungen vom Algol-Typ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3078"/>
+        <location filename="../../ui/workspaces.py" line="3181"/>
         <source>PDM (any shape)</source>
         <translation>PDM (beliebige Form)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3079"/>
+        <location filename="../../ui/workspaces.py" line="3182"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (mehrharmonisch, jede glatte Form)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3082"/>
+        <location filename="../../ui/workspaces.py" line="3185"/>
         <source>Fits a sine wave at every trial period; the power is the share of the variance the sine explains (Lomb 1976, Scargle 1982).</source>
         <translation>Passt bei jeder Testperiode eine Sinuswelle an; die Leistung ist der Anteil der Varianz, den der Sinus erklärt (Lomb 1976, Scargle 1982).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3084"/>
+        <location filename="../../ui/workspaces.py" line="3187"/>
         <source>Fits a box-shaped dip (depth, duration, phase) at every trial period (Kovács, Zucker &amp; Mazeh 2002).</source>
         <translation>Passt bei jeder Testperiode einen kastenförmigen Einbruch an (Tiefe, Dauer, Phase) (Kovács, Zucker &amp; Mazeh 2002).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3086"/>
+        <location filename="../../ui/workspaces.py" line="3189"/>
         <source>Folds the data on every trial period and compares the scatter inside phase bins with the total scatter (Stellingwerf 1978).</source>
         <translation>Faltet die Daten mit jeder Testperiode und vergleicht die Streuung in den Phasenintervallen mit der Gesamtstreuung (Stellingwerf 1978).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3088"/>
+        <location filename="../../ui/workspaces.py" line="3191"/>
         <source>Fits a Fourier series of two harmonics at every trial period; the F statistic of that fit (Schwarzenberg-Czerny 1996).</source>
         <translation>Passt bei jeder Testperiode eine Fourier-Reihe aus zwei Harmonischen an; die F-Statistik dieser Anpassung (Schwarzenberg-Czerny 1996).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3095"/>
+        <location filename="../../ui/workspaces.py" line="3198"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima. The formulas: Guide, Mathematics of the methods</source>
         <translation>Lomb–Scargle: sinusartige Kurven (Pulsationen, Flecken); BLS: kurze, kastenförmige Einbrüche; PDM und ANOVA: Kurven jeder Form, z. B. Bedeckungsveränderliche mit zwei Minima. Die Formeln: Anleitung, Mathematik der Methoden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3105"/>
+        <location filename="../../ui/workspaces.py" line="3208"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3107"/>
+        <location filename="../../ui/workspaces.py" line="3210"/>
         <source>Shortest period (d)</source>
         <translation>Kürzeste Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3110"/>
+        <location filename="../../ui/workspaces.py" line="3213"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Kürzeste gesuchte Periode; kürzer als der doppelte Punktabstand kann nicht gefunden werden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3112"/>
+        <location filename="../../ui/workspaces.py" line="3215"/>
         <source>Longest period (d)</source>
         <translation>Längste Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3114"/>
+        <location filename="../../ui/workspaces.py" line="3217"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Längste gesuchte Periode; die Daten sollten mindestens zwei Zyklen davon abdecken</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3120"/>
+        <location filename="../../ui/workspaces.py" line="3223"/>
         <source>off</source>
         <translation>aus</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3121"/>
+        <location filename="../../ui/workspaces.py" line="3224"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Mittlere Kurve in so vielen Phasenintervallen in der gefalteten Darstellung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3123"/>
+        <location filename="../../ui/workspaces.py" line="3226"/>
         <source>Phase bins</source>
         <translation>Phasenintervalle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3130"/>
+        <location filename="../../ui/workspaces.py" line="3233"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Grenze in Standardabweichungen für Ausreißer entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3131"/>
+        <location filename="../../ui/workspaces.py" line="3234"/>
         <source>Remove outliers (σ)</source>
         <translation>Ausreißer entfernen (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3132"/>
+        <location filename="../../ui/workspaces.py" line="3235"/>
         <source>remove outliers</source>
         <translation>Ausreißer entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3135"/>
+        <location filename="../../ui/workspaces.py" line="3238"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Entfernt Punkte, die um mehr als so viele Standardabweichungen vom Median ihrer zeitlichen Nachbarn abweichen (kosmische Strahlung, schlechte Bilder); Strg+Z holt sie zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3142"/>
+        <location filename="../../ui/workspaces.py" line="3245"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Länge eines Zeitintervalls in Minuten für Zeitlich mitteln</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3143"/>
+        <location filename="../../ui/workspaces.py" line="3246"/>
         <source>Bin in time (min)</source>
         <translation>Zeitlich mitteln (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3144"/>
+        <location filename="../../ui/workspaces.py" line="3247"/>
         <source>bin in time</source>
         <translation>zeitlich mitteln</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3147"/>
+        <location filename="../../ui/workspaces.py" line="3250"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Mittelt die Punkte in Zeitintervallen dieser Länge: weniger Rauschen, weniger Punkte; die Intervalle viel kürzer als eine Bedeckung halten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3151"/>
+        <location filename="../../ui/workspaces.py" line="3254"/>
         <source>Delete points by clicking</source>
         <translation>Punkte per Klick löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3153"/>
+        <location filename="../../ui/workspaces.py" line="3256"/>
         <source>Click a point on the light-curve plot to remove it</source>
         <translation>Klicken Sie auf einen Punkt der Lichtkurve, um ihn zu entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3154"/>
+        <location filename="../../ui/workspaces.py" line="3257"/>
         <source>Flux ↔ magnitude</source>
         <translation>Fluss ↔ Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3155"/>
+        <location filename="../../ui/workspaces.py" line="3258"/>
         <source>flux / magnitude</source>
         <translation>Fluss / Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3156"/>
+        <location filename="../../ui/workspaces.py" line="3259"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Rechnet relativen Fluss in Größenklassen (−2,5 log) um oder zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3157"/>
+        <location filename="../../ui/workspaces.py" line="3260"/>
         <source>Undo edits</source>
         <translation>Bearbeitungen rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3158"/>
+        <location filename="../../ui/workspaces.py" line="3261"/>
         <source>undo edits</source>
         <translation>Bearbeitungen rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3159"/>
+        <location filename="../../ui/workspaces.py" line="3262"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Zurück zur Lichtkurve wie geladen (Strg+Z nimmt jeweils einen Schritt zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3168"/>
+        <location filename="../../ui/workspaces.py" line="3271"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3173"/>
+        <location filename="../../ui/workspaces.py" line="3276"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>Berechnet das Periodogramm zwischen kürzester und längster Periode und faltet die Kurve mit der besten Periode; prüfen Sie die gefaltete Kurve mit dem Auge</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3194"/>
+        <location filename="../../ui/workspaces.py" line="3297"/>
         <source>Downloading from {source}…</source>
         <translation>Wird von {source} heruntergeladen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3212"/>
+        <location filename="../../ui/workspaces.py" line="3315"/>
         <source>{n} points from {source}</source>
         <translation>{n} Punkte aus {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3222"/>
+        <location filename="../../ui/workspaces.py" line="3325"/>
         <source>outliers removed</source>
         <translation>Ausreißer entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3227"/>
+        <location filename="../../ui/workspaces.py" line="3330"/>
         <source>binned</source>
         <translation>gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3234"/>
+        <location filename="../../ui/workspaces.py" line="3337"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Flüsse müssen positiv sein, um in Magnituden umzurechnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3238"/>
+        <location filename="../../ui/workspaces.py" line="3341"/>
         <source>magnitudes</source>
         <translation>Magnituden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3238"/>
+        <location filename="../../ui/workspaces.py" line="3341"/>
         <source>flux</source>
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3258"/>
+        <location filename="../../ui/workspaces.py" line="3361"/>
         <source>points deleted</source>
         <translation>Punkte gelöscht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3258"/>
+        <location filename="../../ui/workspaces.py" line="3361"/>
         <source>delete a point</source>
         <translation>Punkt löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3274"/>
+        <location filename="../../ui/workspaces.py" line="3377"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zeit − {t:.0f} (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3274"/>
+        <location filename="../../ui/workspaces.py" line="3377"/>
         <source>Time (d)</source>
         <translation>Zeit (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3275"/>
-        <location filename="../../ui/workspaces.py" line="3363"/>
+        <location filename="../../ui/workspaces.py" line="3378"/>
+        <location filename="../../ui/workspaces.py" line="3466"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3281"/>
+        <location filename="../../ui/workspaces.py" line="3384"/>
         <source>Load light curve</source>
         <translation>Lichtkurve laden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3305"/>
+        <location filename="../../ui/workspaces.py" line="3408"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3315"/>
+        <location filename="../../ui/workspaces.py" line="3418"/>
         <source>No light curve to save yet.</source>
         <translation>Noch keine Lichtkurve zum Speichern.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3318"/>
+        <location filename="../../ui/workspaces.py" line="3421"/>
         <source>Save light curve</source>
         <translation>Lichtkurve speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3321"/>
+        <location filename="../../ui/workspaces.py" line="3424"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} Punkte in {file} gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3324"/>
+        <location filename="../../ui/workspaces.py" line="3427"/>
         <source>Searching…</source>
         <translation>Suche…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3330"/>
+        <location filename="../../ui/workspaces.py" line="3433"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Beste Periode: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3340"/>
+        <location filename="../../ui/workspaces.py" line="3443"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Die Daten bestehen aus Abschnitten im Abstand von {g:.0f} d: ein Zyklus mehr oder weniger über die Lücke ({p1:.6f} oder {p2:.6f} d) passt fast ebenso gut. Prüfen Sie mit den Minimumszeiten (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3353"/>
+        <location filename="../../ui/workspaces.py" line="3456"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3354"/>
+        <location filename="../../ui/workspaces.py" line="3457"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3362"/>
+        <location filename="../../ui/workspaces.py" line="3465"/>
         <source>Phase</source>
         <translation>Phase</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="3275"/>
-        <location filename="../../ui/workspaces.py" line="3363"/>
+        <location filename="../../ui/workspaces.py" line="3378"/>
+        <location filename="../../ui/workspaces.py" line="3466"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>
@@ -6538,890 +6538,940 @@
 <context>
     <name>PhotometryPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="1364"/>
+        <location filename="../../ui/workspaces.py" line="1366"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1365"/>
+        <location filename="../../ui/workspaces.py" line="1367"/>
         <source>Choose images…</source>
         <translation>Bilder wählen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1369"/>
+        <location filename="../../ui/workspaces.py" line="1371"/>
         <source>The calibrated frames of one field (FITS, also TESS / Kepler target pixel files); they are sorted by time</source>
         <translation>Die kalibrierten Bilder eines Feldes (FITS, auch TESS- / Kepler-Target-Pixel-Dateien); sie werden nach Zeit sortiert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1374"/>
+        <location filename="../../ui/workspaces.py" line="1376"/>
         <source>No images</source>
         <translation>Keine Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1377"/>
+        <location filename="../../ui/workspaces.py" line="1384"/>
+        <source>Previous frame (in time)</source>
+        <translation>Vorheriges Bild (zeitlich)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="1385"/>
+        <source>Next frame (in time)</source>
+        <translation>Nächstes Bild (zeitlich)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="1387"/>
+        <source>Go through the frames of the series</source>
+        <translation>Die Bilder der Serie durchgehen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="1397"/>
+        <source>Use this frame</source>
+        <translation>Dieses Bild verwenden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="1399"/>
+        <source>Untick to leave this frame out of the light curve (clouds, a satellite trail, a bad focus)</source>
+        <translation>Häkchen entfernen, um dieses Bild aus der Lichtkurve zu lassen (Wolken, eine Satellitenspur, schlechter Fokus)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="1405"/>
         <source>Check frame quality</source>
         <translation>Bildqualität prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1379"/>
+        <location filename="../../ui/workspaces.py" line="1407"/>
         <source>Star size, sky brightness and number of stars in every frame; bad frames can be left out</source>
         <translation>Sterngröße, Himmelshelligkeit und Anzahl der Sterne in jedem Bild; schlechte Bilder können weggelassen werden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1384"/>
+        <location filename="../../ui/workspaces.py" line="1412"/>
         <source>Leave out the bad frames</source>
         <translation>Schlechte Bilder weglassen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1388"/>
+        <location filename="../../ui/workspaces.py" line="1416"/>
         <source>Takes the frames the quality check marked as bad out of the list; the files stay on disk</source>
         <translation>Nimmt die von der Qualitätsprüfung als schlecht markierten Bilder aus der Liste; die Dateien bleiben auf der Festplatte</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1398"/>
+        <location filename="../../ui/workspaces.py" line="1426"/>
         <source>Clicks add:</source>
         <translation>Klicks fügen hinzu:</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1400"/>
+        <location filename="../../ui/workspaces.py" line="1428"/>
         <source>target, then comparison stars</source>
         <translation>Ziel, dann Vergleichssterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1401"/>
+        <location filename="../../ui/workspaces.py" line="1429"/>
         <source>check stars</source>
         <translation>Prüfsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1402"/>
+        <location filename="../../ui/workspaces.py" line="1430"/>
         <source>more targets</source>
         <translation>weitere Ziele</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1405"/>
+        <location filename="../../ui/workspaces.py" line="1433"/>
         <source>Check stars and further targets are measured against the same comparison stars, not used in them</source>
         <translation>Prüfsterne und weitere Ziele werden gegen dieselben Vergleichssterne gemessen und nicht in ihnen verwendet</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1409"/>
+        <location filename="../../ui/workspaces.py" line="1437"/>
         <source>Clear stars</source>
         <translation>Sterne löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1410"/>
+        <location filename="../../ui/workspaces.py" line="1438"/>
         <source>clear the stars</source>
         <translation>Sterne leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1411"/>
+        <location filename="../../ui/workspaces.py" line="1439"/>
         <source>Takes off every marked star (Ctrl+Z brings them back)</source>
         <translation>Entfernt alle markierten Sterne (Strg+Z holt sie zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1413"/>
+        <location filename="../../ui/workspaces.py" line="1441"/>
         <source>Suggest comparison stars</source>
         <translation>Vergleichssterne vorschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1416"/>
+        <location filename="../../ui/workspaces.py" line="1444"/>
         <source>Similar brightness, not saturated, no bright neighbour, inside the frame in every image</source>
         <translation>Ähnliche Helligkeit, nicht gesättigt, kein heller Nachbar, in jedem Bild im Feld</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1425"/>
+        <location filename="../../ui/workspaces.py" line="1453"/>
         <source>Outer edge of the sky ring; the ring should hold several times as many pixels as the aperture</source>
         <translation>Außenrand des Himmelsrings; der Ring sollte ein Mehrfaches der Pixel der Apertur enthalten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1429"/>
+        <location filename="../../ui/workspaces.py" line="1457"/>
         <source>The sky is measured in a ring around the star starting at this radius, where the star&apos;s light has ended (at least 3 FWHM)</source>
         <translation>Der Himmel wird in einem Ring um den Stern ab diesem Radius gemessen, wo das Sternlicht zu Ende ist (mindestens 3 FWHM)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1435"/>
+        <location filename="../../ui/workspaces.py" line="1463"/>
         <source>Radius of the circle in which the star&apos;s light is added up; about 1 to 2 times the FWHM gives the best signal-to-noise</source>
         <translation>Radius des Kreises, in dem das Licht des Sterns aufsummiert wird; etwa das 1- bis 2-Fache der FWHM gibt das beste Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1459"/>
+        <location filename="../../ui/workspaces.py" line="1487"/>
         <source>Choose the radii from the star profiles</source>
         <translation>Radien aus den Sternprofilen wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1462"/>
+        <location filename="../../ui/workspaces.py" line="1490"/>
         <source>Measures the stars&apos; FWHM; aperture = best signal-to-noise (1–3 FWHM), sky from where the star&apos;s light has ended (at least 3 FWHM) with four times as many pixels as the aperture</source>
         <translation>Misst die FWHM der Sterne; Blende = bestes Signal-Rausch-Verhältnis (1–3 FWHM), Himmel ab dort, wo das Sternlicht endet (mindestens 3 FWHM), mit viermal so vielen Pixeln wie die Blende</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1471"/>
+        <location filename="../../ui/workspaces.py" line="1499"/>
         <source>Radii follow the seeing (scaled by each frame&apos;s FWHM)</source>
         <translation>Radien folgen dem Seeing (mit der FWHM jedes Bildes skaliert)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1480"/>
+        <location filename="../../ui/workspaces.py" line="1508"/>
         <source>PSF photometry (crowded fields: blended stars fitted together)</source>
         <translation>PSF-Photometrie (dichte Felder: verschmolzene Sterne gemeinsam angepasst)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1483"/>
+        <location filename="../../ui/workspaces.py" line="1511"/>
         <source>For crowded fields: stars that overlap are fitted together with the image&apos;s star profile instead of being added up in a circle. Slower; for isolated stars the aperture is as good.</source>
         <translation>Für dichte Felder: überlappende Sterne werden gemeinsam mit dem Sternprofil des Bildes angepasst, statt in einem Kreis aufsummiert zu werden. Langsamer; bei isolierten Sternen ist die Apertur ebenso gut.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1488"/>
+        <location filename="../../ui/workspaces.py" line="1516"/>
         <source>Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16</source>
         <translation>Ziel RA Dek (für BJD), z. B. 02:04:10.3 +46:41:16</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1492"/>
+        <location filename="../../ui/workspaces.py" line="1520"/>
         <source>Needed to turn the times into BJD (barycentric). Empty: taken from the header (OBJCTRA / OBJCTDEC or RA / DEC).</source>
         <translation>Nötig, um die Zeiten in BJD (baryzentrisch) umzurechnen. Leer: aus dem Header (OBJCTRA / OBJCTDEC oder RA / DEC).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1498"/>
+        <location filename="../../ui/workspaces.py" line="1526"/>
         <source>Telescope aperture (m)</source>
         <translation>Teleskopöffnung (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1503"/>
+        <location filename="../../ui/workspaces.py" line="1531"/>
         <source>from the header</source>
         <translation>aus dem Header</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1506"/>
+        <location filename="../../ui/workspaces.py" line="1534"/>
         <source>For the scintillation noise in the error bars (Osborn et al. 2015). 0: APTDIA from the header; without it, scintillation is not included</source>
         <translation>Für das Szintillationsrauschen in den Fehlerbalken (Osborn et al. 2015). 0: APTDIA aus dem Header; ohne sie wird keine Szintillation einbezogen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1512"/>
+        <location filename="../../ui/workspaces.py" line="1540"/>
         <source>Measure light curve</source>
         <translation>Lichtkurve messen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1517"/>
+        <location filename="../../ui/workspaces.py" line="1545"/>
         <source>Measures the marked stars in every image and draws the differential light curve (target against the comparison stars)</source>
         <translation>Misst die markierten Sterne in jedem Bild und zeichnet die differentielle Lichtkurve (Ziel gegen die Vergleichssterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1522"/>
+        <location filename="../../ui/workspaces.py" line="1550"/>
         <source>Live: follow a folder during the night…</source>
         <translation>Live: einem Ordner während der Nacht folgen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1526"/>
+        <location filename="../../ui/workspaces.py" line="1554"/>
         <source>Each new frame in the folder is calibrated (optional masters) and measured as it arrives; the light curve grows on its own.</source>
         <translation>Jedes neue Bild im Ordner wird beim Eintreffen kalibriert (optionale Master) und gemessen; die Lichtkurve wächst von selbst.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1532"/>
+        <location filename="../../ui/workspaces.py" line="1560"/>
         <source>Other tools: live light curve, polarimetry</source>
         <translation>Weitere Werkzeuge: Live-Lichtkurve, Polarimetrie</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1534"/>
+        <location filename="../../ui/workspaces.py" line="1562"/>
         <source>Polarimetry (dual beam)</source>
         <translation>Polarimetrie (Zweistrahl)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1537"/>
+        <location filename="../../ui/workspaces.py" line="1565"/>
         <source>Click the ordinary image of the star as target and its extraordinary image as the first comparison; the half-wave-plate angle is read from the header.</source>
         <translation>Das ordentliche Bild des Sterns als Ziel und das außerordentliche als ersten Vergleich anklicken; der Winkel der Halbwellenplatte wird aus dem Header gelesen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1563"/>
+        <location filename="../../ui/workspaces.py" line="1591"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1563"/>
+        <location filename="../../ui/workspaces.py" line="1591"/>
         <source>Role</source>
         <translation>Rolle</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1563"/>
+        <location filename="../../ui/workspaces.py" line="1591"/>
         <source>Known magnitude</source>
         <translation>Bekannte Helligkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1570"/>
+        <location filename="../../ui/workspaces.py" line="1598"/>
         <source>Type the comparison stars&apos; magnitudes (from a chart or catalogue) to get the target&apos;s magnitude</source>
         <translation>Die Helligkeiten der Vergleichssterne (aus einer Karte oder einem Katalog) eintragen, um die Helligkeit des Ziels zu erhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1574"/>
+        <location filename="../../ui/workspaces.py" line="1602"/>
         <source>Weight comparison stars by their scatter</source>
         <translation>Vergleichssterne nach ihrer Streuung gewichten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1576"/>
+        <location filename="../../ui/workspaces.py" line="1604"/>
         <source>Each comparison star is measured against the others; noisy or variable ones count less</source>
         <translation>Jeder Vergleichsstern wird gegen die anderen gemessen; verrauschte oder veränderliche zählen weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1585"/>
+        <location filename="../../ui/workspaces.py" line="1613"/>
         <source>Measure a light curve to choose what to plot</source>
         <translation>Messen Sie eine Lichtkurve, um zu wählen, was gezeichnet wird</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1590"/>
+        <location filename="../../ui/workspaces.py" line="1618"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
         <translation>Welche Kurve gezeichnet wird: das Ziel gegen die Vergleichssterne, die Prüfsterne, die Vergleichssterne untereinander, Himmel, FWHM, Luftmasse…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1596"/>
+        <location filename="../../ui/workspaces.py" line="1624"/>
         <source>Click a point to delete it</source>
         <translation>Zum Löschen auf einen Punkt klicken</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1598"/>
+        <location filename="../../ui/workspaces.py" line="1626"/>
         <source>For a bad frame (cloud, satellite, wrong star): it is left out of every result, export included</source>
         <translation>Für ein schlechtes Bild (Wolke, Satellit, falscher Stern): Es fehlt dann in jedem Ergebnis, auch im Export</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1601"/>
+        <location filename="../../ui/workspaces.py" line="1629"/>
         <source>Restore deleted points</source>
         <translation>Gelöschte Punkte wiederherstellen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1603"/>
+        <location filename="../../ui/workspaces.py" line="1631"/>
         <source>Brings back every point deleted by clicking</source>
         <translation>Holt alle durch Klicken gelöschten Punkte zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1607"/>
+        <location filename="../../ui/workspaces.py" line="1635"/>
         <source>Spacing between curves</source>
         <translation>Abstand zwischen den Kurven</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1613"/>
+        <location filename="../../ui/workspaces.py" line="1641"/>
         <source>For the views with several curves; 0 puts them on top of each other</source>
         <translation>Für Ansichten mit mehreren Kurven; 0 legt sie übereinander</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1617"/>
+        <location filename="../../ui/workspaces.py" line="1645"/>
         <source>Detrend against:</source>
         <translation>Trendbereinigung gegen:</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1621"/>
+        <location filename="../../ui/workspaces.py" line="1649"/>
         <source>airmass</source>
         <translation>Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1622"/>
+        <location filename="../../ui/workspaces.py" line="1650"/>
         <source>FWHM</source>
         <translation>FWHM</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1623"/>
+        <location filename="../../ui/workspaces.py" line="1651"/>
         <source>sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1626"/>
-        <location filename="../../ui/workspaces.py" line="1657"/>
+        <location filename="../../ui/workspaces.py" line="1654"/>
+        <location filename="../../ui/workspaces.py" line="1685"/>
         <source>time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1629"/>
+        <location filename="../../ui/workspaces.py" line="1657"/>
         <source>Extinction: the stars change with their height above the horizon</source>
         <translation>Extinktion: die Sterne ändern sich mit ihrer Höhe über dem Horizont</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1630"/>
+        <location filename="../../ui/workspaces.py" line="1658"/>
         <source>Seeing: larger star images lose more light outside the aperture</source>
         <translation>Seeing: größere Sternbilder verlieren mehr Licht außerhalb der Apertur</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1631"/>
+        <location filename="../../ui/workspaces.py" line="1659"/>
         <source>Sky brightness: twilight, moonlight, thin cloud</source>
         <translation>Himmelshelligkeit: Dämmerung, Mondlicht, dünne Wolken</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1632"/>
-        <location filename="../../ui/workspaces.py" line="1633"/>
+        <location filename="../../ui/workspaces.py" line="1660"/>
+        <location filename="../../ui/workspaces.py" line="1661"/>
         <source>Position on the chip: the stars drift over pixels of different sensitivity</source>
         <translation>Position auf dem Chip: die Sterne wandern über Pixel unterschiedlicher Empfindlichkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1634"/>
+        <location filename="../../ui/workspaces.py" line="1662"/>
         <source>A slow change with time</source>
         <translation>Eine langsame Änderung mit der Zeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1647"/>
+        <location filename="../../ui/workspaces.py" line="1675"/>
         <source>1: linear; 2 or 3: curved trends (a polynomial in each quantity)</source>
         <translation>1: linear; 2 oder 3: gekrümmte Trends (ein Polynom in jeder Größe)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1648"/>
+        <location filename="../../ui/workspaces.py" line="1676"/>
         <source>Trend degree</source>
         <translation>Trendgrad</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1653"/>
+        <location filename="../../ui/workspaces.py" line="1681"/>
         <source>Leave out from</source>
         <translation>Auslassen von</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1660"/>
+        <location filename="../../ui/workspaces.py" line="1688"/>
         <source>Points in this time range (the eclipse or transit itself) are left out of the trend fit, then corrected with it</source>
         <translation>Punkte in diesem Zeitbereich (die Bedeckung oder der Transit selbst) bleiben bei der Trendanpassung außen vor und werden danach mit ihr korrigiert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1665"/>
+        <location filename="../../ui/workspaces.py" line="1693"/>
         <source>to</source>
         <translation>bis</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1669"/>
+        <location filename="../../ui/workspaces.py" line="1697"/>
         <source>Detrend</source>
         <translation>Trend entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1671"/>
+        <location filename="../../ui/workspaces.py" line="1699"/>
         <source>Fits ln(flux) linearly in the ticked quantities on the points outside the left-out range</source>
         <translation>Passt ln(Fluss) linear in den angekreuzten Größen an die Punkte außerhalb des ausgelassenen Bereichs an</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1674"/>
+        <location filename="../../ui/workspaces.py" line="1702"/>
         <source>Undo detrending</source>
         <translation>Trendbereinigung rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1676"/>
+        <location filename="../../ui/workspaces.py" line="1704"/>
         <source>Back to the light curve before detrending</source>
         <translation>Zurück zur Lichtkurve vor der Trendkorrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1681"/>
+        <location filename="../../ui/workspaces.py" line="1709"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1687"/>
-        <location filename="../../ui/workspaces.py" line="1689"/>
+        <location filename="../../ui/workspaces.py" line="1715"/>
+        <location filename="../../ui/workspaces.py" line="1717"/>
         <source>optional</source>
         <translation>optional</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1690"/>
+        <location filename="../../ui/workspaces.py" line="1718"/>
         <source>Ephemeris T0 (BJD)</source>
         <translation>Ephemeride T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1692"/>
+        <location filename="../../ui/workspaces.py" line="1720"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1695"/>
-        <location filename="../../ui/workspaces.py" line="1696"/>
+        <location filename="../../ui/workspaces.py" line="1723"/>
+        <location filename="../../ui/workspaces.py" line="1724"/>
         <source>Optional: with T0 and the period the minimum gets its cycle number and O−C</source>
         <translation>Optional: mit T0 und Periode erhält das Minimum seine Epochennummer und O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1732"/>
+        <location filename="../../ui/workspaces.py" line="1760"/>
         <source>Time of minimum</source>
         <translation>Minimumszeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1737"/>
+        <location filename="../../ui/workspaces.py" line="1765"/>
         <source>Time of minimum of the curve shown, with its error (every minimum if the night holds more than one)</source>
         <translation>Minimumszeit der gezeigten Kurve mit ihrem Fehler (jedes Minimum, wenn die Nacht mehrere enthält)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1742"/>
+        <location filename="../../ui/workspaces.py" line="1770"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1746"/>
+        <location filename="../../ui/workspaces.py" line="1774"/>
         <source>Export CSV…</source>
         <translation>CSV exportieren…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1750"/>
+        <location filename="../../ui/workspaces.py" line="1778"/>
         <source>Time, flux, magnitude and error of every star as a table for a spreadsheet or another program</source>
         <translation>Zeit, Fluss, Helligkeit und Fehler jedes Sterns als Tabelle für eine Tabellenkalkulation oder ein anderes Programm</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1756"/>
+        <location filename="../../ui/workspaces.py" line="1784"/>
         <source>Filter of the images (CV: unfiltered, reduced to V)</source>
         <translation>Filter der Bilder (CV: ungefiltert, auf V reduziert)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1757"/>
+        <location filename="../../ui/workspaces.py" line="1785"/>
         <source>Standard magnitudes (APASS / Gaia)</source>
         <translation>Standardhelligkeiten (APASS / Gaia)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1760"/>
+        <location filename="../../ui/workspaces.py" line="1788"/>
         <source>Looks up the comparison stars in APASS and Gaia (needs the internet and a plate-solved first image) and turns the light curve into magnitudes in the standard system</source>
         <translation>Sucht die Vergleichssterne in APASS und Gaia (braucht Internet und ein astrometrisch gelöstes erstes Bild) und wandelt die Lichtkurve in Helligkeiten im Standardsystem um</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1770"/>
+        <location filename="../../ui/workspaces.py" line="1798"/>
         <source>Export AAVSO report…</source>
         <translation>AAVSO-Bericht exportieren…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1775"/>
+        <location filename="../../ui/workspaces.py" line="1803"/>
         <source>A report in AAVSO&apos;s Extended File Format to submit through WebObs; the comparison stars&apos; magnitudes are asked for</source>
         <translation>Ein Bericht im Extended File Format der AAVSO zum Einreichen über WebObs; die Helligkeiten der Vergleichssterne werden abgefragt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1781"/>
+        <location filename="../../ui/workspaces.py" line="1809"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1813"/>
+        <location filename="../../ui/workspaces.py" line="1841"/>
         <source>Click the ordinary and the extraordinary image of the star first.</source>
         <translation>Zuerst das ordentliche und das außerordentliche Bild des Sterns anklicken.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1822"/>
+        <location filename="../../ui/workspaces.py" line="1850"/>
         <source>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (debiased {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} frames, angles: {src}</source>
         <translation>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (biaskorrigiert {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} Bilder, Winkel: {src}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1844"/>
+        <location filename="../../ui/workspaces.py" line="1872"/>
         <source>Folder the camera writes to</source>
         <translation>Ordner, in den die Kamera schreibt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1849"/>
+        <location filename="../../ui/workspaces.py" line="1877"/>
         <source>Master bias / dark / flat (optional; Cancel for none)</source>
         <translation>Master-Bias / -Dark / -Flat (optional; Abbrechen für keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1861"/>
+        <location filename="../../ui/workspaces.py" line="1889"/>
         <source>Click the target and comparison stars on the first frame, then start Live.</source>
         <translation>Ziel- und Vergleichssterne im ersten Bild anklicken, dann Live starten.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1878"/>
+        <location filename="../../ui/workspaces.py" line="1906"/>
         <source>Live: waiting for frames in {f}</source>
         <translation>Live: warte auf Bilder in {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1923"/>
+        <location filename="../../ui/workspaces.py" line="1951"/>
         <source>{n} frames skipped.</source>
         <translation>{n} Bilder übersprungen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1937"/>
+        <location filename="../../ui/workspaces.py" line="1965"/>
         <source>Choose images</source>
         <translation>Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1961"/>
+        <location filename="../../ui/workspaces.py" line="1997"/>
         <source>{n} images, first: {name}</source>
         <translation>{n} Bilder, erstes: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1964"/>
+        <location filename="../../ui/workspaces.py" line="2000"/>
         <source>Target pixel file: {n} cadences left out (no time, or flagged as useless by the mission).</source>
         <translation>Target-Pixel-Datei: {n} Kadenzen ausgelassen (ohne Zeit oder von der Mission als unbrauchbar markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1968"/>
+        <location filename="../../ui/workspaces.py" line="2004"/>
         <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC on the Calibrate page.</source>
         <translation>Zeiten: Kamerauhr − {h} h. Eine Kamera auf Ortszeit braucht DSLR-Uhr − UTC auf der Seite Kalibrieren.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1992"/>
+        <location filename="../../ui/workspaces.py" line="2030"/>
         <source>mark or unmark a star</source>
         <translation>Stern markieren oder entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2002"/>
+        <location filename="../../ui/workspaces.py" line="2036"/>
+        <source>The stars are marked on frame {k}: go back to it to change them, or Clear stars to mark them on this frame.</source>
+        <translation>Die Sterne sind auf Bild {k} markiert: Gehen Sie dorthin zurück, um sie zu ändern, oder Sterne löschen, um sie auf diesem Bild zu markieren.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2050"/>
         <source>The target was removed: click the new target.</source>
         <translation>Das Ziel wurde entfernt: klicken Sie das neue Ziel an.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2034"/>
+        <location filename="../../ui/workspaces.py" line="2076"/>
+        <source>Frame {k} of {n}: {name}</source>
+        <translation>Bild {k} von {n}: {name}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2081"/>
+        <source>The stars are marked on this frame.</source>
+        <translation>Die Sterne sind auf diesem Bild markiert.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2083"/>
+        <source>The stars are marked on frame {k}.</source>
+        <translation>Die Sterne sind auf Bild {k} markiert.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2110"/>
+        <source>{n} images, {k} of them used</source>
+        <translation>{n} Bilder, {k} davon verwendet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/workspaces.py" line="2134"/>
         <source>target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2034"/>
+        <location filename="../../ui/workspaces.py" line="2134"/>
         <source>comparison</source>
         <translation>Vergleich</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2034"/>
+        <location filename="../../ui/workspaces.py" line="2134"/>
         <source>check</source>
         <translation>Prüfstern</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2109"/>
+        <location filename="../../ui/workspaces.py" line="2210"/>
         <source>suggested comparison stars</source>
         <translation>vorgeschlagene Vergleichssterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2115"/>
+        <location filename="../../ui/workspaces.py" line="2216"/>
         <source>No suitable comparison star found; click them by hand.</source>
         <translation>Kein geeigneter Vergleichsstern gefunden; bitte von Hand anklicken.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1816"/>
-        <location filename="../../ui/workspaces.py" line="2132"/>
+        <location filename="../../ui/workspaces.py" line="1844"/>
+        <location filename="../../ui/workspaces.py" line="2233"/>
         <source>Measuring…</source>
         <translation>Messe…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2143"/>
+        <location filename="../../ui/workspaces.py" line="2246"/>
         <source>aperture</source>
         <translation>Blende</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2144"/>
+        <location filename="../../ui/workspaces.py" line="2247"/>
         <source>sky annulus</source>
         <translation>Himmelsring</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2145"/>
+        <location filename="../../ui/workspaces.py" line="2248"/>
         <source>star profile (peak = 1)</source>
         <translation>Sternprofil (Maximum = 1)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2151"/>
+        <location filename="../../ui/workspaces.py" line="2254"/>
         <source>Radius (px)</source>
         <translation>Radius (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2152"/>
+        <location filename="../../ui/workspaces.py" line="2255"/>
         <source>Relative brightness</source>
         <translation>Relative Helligkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2157"/>
+        <location filename="../../ui/workspaces.py" line="2260"/>
         <source>FWHM {f:.2f} px. Aperture {a:.2f} px ({af:.1f} FWHM; best S/N at {b:.2f} px; holds {ee:.1f} % of the light). Gap {a:.2f}–{i:.2f} px is left out. Sky annulus {i:.2f}–{o:.2f} px.</source>
         <translation>FWHM {f:.2f} px. Blende {a:.2f} px ({af:.1f} FWHM; bestes S/R bei {b:.2f} px; enthält {ee:.1f} % des Lichts). Die Lücke {a:.2f}–{i:.2f} px bleibt außen vor. Himmelsring {i:.2f}–{o:.2f} px.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2192"/>
+        <location filename="../../ui/workspaces.py" line="2295"/>
         <source>FWHM (px)</source>
         <translation>FWHM (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1580"/>
-        <location filename="../../ui/workspaces.py" line="2192"/>
+        <location filename="../../ui/workspaces.py" line="1608"/>
+        <location filename="../../ui/workspaces.py" line="2295"/>
         <source>Stars</source>
         <translation>Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2192"/>
+        <location filename="../../ui/workspaces.py" line="2295"/>
         <source>Sky (ADU)</source>
         <translation>Himmel (ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2199"/>
+        <location filename="../../ui/workspaces.py" line="2302"/>
         <source>Frame</source>
         <translation>Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2207"/>
+        <location filename="../../ui/workspaces.py" line="2310"/>
         <source>{g} of {n} frames are good.</source>
         <translation>{g} von {n} Bildern sind gut.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2215"/>
+        <location filename="../../ui/workspaces.py" line="2318"/>
         <source>{n} images (bad frames left out)</source>
         <translation>{n} Bilder (schlechte weggelassen)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2220"/>
+        <location filename="../../ui/workspaces.py" line="2323"/>
         <source>Looking up the comparison stars…</source>
         <translation>Suche die Vergleichssterne…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2228"/>
+        <location filename="../../ui/workspaces.py" line="2331"/>
         <source>Comparison {i}: {m:.3f} ± {e:.3f} ({src})</source>
         <translation>Vergleichsstern {i}: {m:.3f} ± {e:.3f} ({src})</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2232"/>
+        <location filename="../../ui/workspaces.py" line="2335"/>
         <source>Comparison {i}: not in the catalogues</source>
         <translation>Vergleichsstern {i}: nicht in den Katalogen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2393"/>
+        <location filename="../../ui/workspaces.py" line="2496"/>
         <source>Detrended ({k}): scatter of the {n} points fitted {a:.2f} % → {b:.2f} %</source>
         <translation>Trendbereinigt ({k}): Streuung der {n} angepassten Punkte {a:.2f} % → {b:.2f} %</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2448"/>
+        <location filename="../../ui/workspaces.py" line="2551"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2356"/>
+        <location filename="../../ui/workspaces.py" line="2459"/>
         <source>{n} points, scatter {rms:.2f} %</source>
         <translation>{n} Punkte, Streuung {rms:.2f} %</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1392"/>
+        <location filename="../../ui/workspaces.py" line="1420"/>
         <source>Click the target star, then one or more comparison stars. A click on a marked star takes it off.</source>
         <translation>Klicken Sie den Zielstern an, dann einen oder mehrere Vergleichssterne. Ein Klick auf einen markierten Stern entfernt ihn wieder.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1441"/>
+        <location filename="../../ui/workspaces.py" line="1469"/>
         <source>Ring 1 — the star&apos;s light inside (px)</source>
         <translation>Ring 1 — darin das Licht des Sterns (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1442"/>
+        <location filename="../../ui/workspaces.py" line="1470"/>
         <source>Ring 2 — the sky starts (px)</source>
         <translation>Ring 2 — der Himmel beginnt (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1443"/>
+        <location filename="../../ui/workspaces.py" line="1471"/>
         <source>Ring 3 — the sky ends (px)</source>
         <translation>Ring 3 — der Himmel endet (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1451"/>
+        <location filename="../../ui/workspaces.py" line="1479"/>
         <source>Radii in image pixels: the rings grow with the zoom. Between rings 1 and 2 nothing is measured (the star&apos;s faint wings); between 2 and 3 the sky. Shift + mouse wheel on the image makes them larger or smaller.</source>
         <translation>Radien in Bildpixeln: Die Ringe wachsen mit dem Zoom. Zwischen Ring 1 und 2 wird nichts gemessen (die schwachen Flügel des Sterns); zwischen 2 und 3 der Himmel. Umschalt + Mausrad auf dem Bild macht sie größer oder kleiner.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1474"/>
+        <location filename="../../ui/workspaces.py" line="1502"/>
         <source>Each frame&apos;s radii are scaled by its FWHM over the first frame&apos;s, so the aperture holds the same part of the light when the seeing changes during the night. In a crowded field a changing aperture can add trends of its own: measure once with fixed radii too and compare</source>
         <translation>Die Radien jeder Aufnahme werden mit ihrer FWHM relativ zur ersten Aufnahme skaliert, damit die Apertur denselben Lichtanteil enthält, wenn sich das Seeing in der Nacht ändert. In einem dichten Feld kann eine veränderliche Apertur eigene Trends erzeugen: einmal auch mit festen Radien messen und vergleichen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1699"/>
+        <location filename="../../ui/workspaces.py" line="1727"/>
         <source>What kind of minimum is it?</source>
         <translation>Welche Art von Minimum ist es?</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1701"/>
+        <location filename="../../ui/workspaces.py" line="1729"/>
         <source>Eclipsing binary: Kwee–van Woerden method</source>
         <translation>Bedeckungsveränderlicher: Methode von Kwee–van Woerden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1704"/>
+        <location filename="../../ui/workspaces.py" line="1732"/>
         <source>Kwee &amp; van Woerden (1956), the standard method for minima of eclipsing binaries and the times collected in O−C databases: the time about which the descending and ascending branches are most symmetric, with its error</source>
         <translation>Kwee &amp; van Woerden (1956), die Standardmethode für Minima von Bedeckungsveränderlichen und die in O−C-Datenbanken gesammelten Zeiten: der Zeitpunkt, um den ab- und aufsteigender Ast am symmetrischsten sind, mit seinem Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1709"/>
+        <location filename="../../ui/workspaces.py" line="1737"/>
         <source>Exoplanet transit: trapezoid fit</source>
         <translation>Exoplanetentransit: Trapezanpassung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1712"/>
+        <location filename="../../ui/workspaces.py" line="1740"/>
         <source>A trapezoid (ingress, flat bottom, egress) fitted to the dip: mid-transit time with its error, depth and duration, as the ExoClock and ETD projects use</source>
         <translation>Ein an den Einbruch angepasstes Trapez (Eintritt, flacher Boden, Austritt): Transitmitte mit Fehler, Tiefe und Dauer, wie sie die Projekte ExoClock und ETD verwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1723"/>
+        <location filename="../../ui/workspaces.py" line="1751"/>
         <source>Choose by what you observe: a V-shaped or rounded minimum of a binary star, or the flat-bottomed dip of a planet passing in front of its star.</source>
         <translation>Wählen Sie nach dem, was Sie beobachten: ein V-förmiges oder rundes Minimum eines Doppelsterns oder der flache Einbruch eines Planeten, der vor seinem Stern vorüberzieht.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2119"/>
+        <location filename="../../ui/workspaces.py" line="2220"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
         <translation>{n} Vergleichssterne vorgeschlagen: ähnliche Helligkeit, nahe am Ziel, nicht gesättigt, kein Nachbar im Himmelsring, in jeder Aufnahme. Einen anklicken, um ihn zu entfernen, oder andere anklicken, um sie hinzuzufügen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2171"/>
+        <location filename="../../ui/workspaces.py" line="2274"/>
         <source>The target&apos;s light grows {x:.1f} % more than the comparison stars&apos; between 1 and 1.5 apertures: something faint is next to it. Keep the radii fixed (not following the seeing); its light then only dilutes the depth a little.</source>
         <translation>Das Licht des Ziels wächst zwischen 1 und 1,5 Aperturen um {x:.1f} % mehr als das der Vergleichssterne: etwas Schwaches steht daneben. Radien fest lassen (nicht dem Seeing folgen); sein Licht verdünnt dann die Tiefe nur wenig.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2251"/>
+        <location filename="../../ui/workspaces.py" line="2354"/>
         <source>Target {band}: {lo:.3f} – {hi:.3f} mag</source>
         <translation>Ziel {band}: {lo:.3f} – {hi:.3f} mag</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2273"/>
+        <location filename="../../ui/workspaces.py" line="2376"/>
         <source>T1: relative flux</source>
         <translation>T1: relativer Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2274"/>
+        <location filename="../../ui/workspaces.py" line="2377"/>
         <source>T1: differential magnitude (Δm)</source>
         <translation>T1: differentielle Helligkeit (Δm)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2275"/>
+        <location filename="../../ui/workspaces.py" line="2378"/>
         <source>T1: magnitude (needs known magnitudes)</source>
         <translation>T1: Helligkeit (braucht bekannte Helligkeiten)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2277"/>
+        <location filename="../../ui/workspaces.py" line="2380"/>
         <source>{name}: relative flux</source>
         <translation>{name}: relativer Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2278"/>
+        <location filename="../../ui/workspaces.py" line="2381"/>
         <source>Comparison stars against the others</source>
         <translation>Vergleichssterne gegen die anderen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2279"/>
+        <location filename="../../ui/workspaces.py" line="2382"/>
         <source>All stars, normalised and offset</source>
         <translation>Alle Sterne, normiert und versetzt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2280"/>
+        <location filename="../../ui/workspaces.py" line="2383"/>
         <source>Airmass, sky, FWHM and position</source>
         <translation>Luftmasse, Himmel, FWHM und Position</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2359"/>
+        <location filename="../../ui/workspaces.py" line="2462"/>
         <source>{n} points deleted by hand (Restore deleted points brings them back).</source>
         <translation>{n} Punkte von Hand gelöscht („Gelöschte Punkte wiederherstellen“ holt sie zurück).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2366"/>
+        <location filename="../../ui/workspaces.py" line="2469"/>
         <source>Scintillation {lo:.1f}–{hi:.1f} mmag per frame is included in the errors.</source>
         <translation>Szintillation von {lo:.1f}–{hi:.1f} mmag pro Bild ist in den Fehlern enthalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2373"/>
+        <location filename="../../ui/workspaces.py" line="2476"/>
         <source>No comparison star: the target&apos;s own flux over its median. Right for space data (TESS, Kepler); from the ground, clouds and airmass stay in the light curve.</source>
         <translation>Kein Vergleichsstern: der eigene Fluss des Ziels durch seinen Median. Richtig für Weltraumdaten (TESS, Kepler); vom Boden aus bleiben Wolken und Luftmasse in der Lichtkurve.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2378"/>
+        <location filename="../../ui/workspaces.py" line="2481"/>
         <source>Scintillation is not in the errors: give the telescope aperture (and the site).</source>
         <translation>Szintillation ist nicht in den Fehlern: Teleskopöffnung (und Standort) angeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2382"/>
+        <location filename="../../ui/workspaces.py" line="2485"/>
         <source>{name}: scatter {mmag:.1f} mmag</source>
         <translation>{name}: Streuung {mmag:.1f} mmag</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2388"/>
+        <location filename="../../ui/workspaces.py" line="2491"/>
         <source>Weights: {w}</source>
         <translation>Gewichte: {w}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2402"/>
+        <location filename="../../ui/workspaces.py" line="2505"/>
         <source>C{i} disagrees with its known magnitude by more than 0.1 mag and was left out.</source>
         <translation>C{i} weicht um mehr als 0,1 mag von seiner bekannten Helligkeit ab und wurde weggelassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2409"/>
+        <location filename="../../ui/workspaces.py" line="2512"/>
         <source>⚠ {n} frames have a star at or above the saturation level (marked red).</source>
         <translation>⚠ {n} Bilder haben einen Stern auf oder über der Sättigungsgrenze (rot markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2439"/>
+        <location filename="../../ui/workspaces.py" line="2542"/>
         <source>Magnitude ({band})</source>
         <translation>Helligkeit ({band})</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2444"/>
+        <location filename="../../ui/workspaces.py" line="2547"/>
         <source>Δm (target − comparison)</source>
         <translation>Δm (Ziel − Vergleich)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2463"/>
-        <location filename="../../ui/workspaces.py" line="2470"/>
+        <location filename="../../ui/workspaces.py" line="2566"/>
+        <location filename="../../ui/workspaces.py" line="2573"/>
         <source>Relative flux (offset)</source>
         <translation>Relativer Fluss (versetzt)</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2478"/>
+        <location filename="../../ui/workspaces.py" line="2581"/>
         <source>Normalised value</source>
         <translation>Normierter Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2497"/>
+        <location filename="../../ui/workspaces.py" line="2600"/>
         <source>delete a point</source>
         <translation>Punkt löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2500"/>
+        <location filename="../../ui/workspaces.py" line="2603"/>
         <source>restore deleted points</source>
         <translation>gelöschte Punkte wiederherstellen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2509"/>
+        <location filename="../../ui/workspaces.py" line="2612"/>
         <source>Tick at least one quantity to detrend against.</source>
         <translation>Mindestens eine Größe für die Trendbereinigung ankreuzen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2517"/>
+        <location filename="../../ui/workspaces.py" line="2620"/>
         <source>Not in this light curve: {names} (FWHM needs ‘Radii follow the seeing’; airmass needs the site and RA/Dec).</source>
         <translation>Nicht in dieser Lichtkurve: {names} (FWHM braucht ‚Radien folgen dem Seeing‘, Luftmasse braucht Standort und RA/Dek).</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2527"/>
+        <location filename="../../ui/workspaces.py" line="2630"/>
         <source>The left-out range must be two times (numbers).</source>
         <translation>Der ausgelassene Bereich muss aus zwei Zeiten (Zahlen) bestehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2532"/>
+        <location filename="../../ui/workspaces.py" line="2635"/>
         <source>detrending</source>
         <translation>Trendbereinigung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2532"/>
+        <location filename="../../ui/workspaces.py" line="2635"/>
         <source>undo detrending</source>
         <translation>Trendbereinigung rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2551"/>
+        <location filename="../../ui/workspaces.py" line="2654"/>
         <source>T0 and period must be numbers.</source>
         <translation>T0 und Periode müssen Zahlen sein.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2556"/>
+        <location filename="../../ui/workspaces.py" line="2659"/>
         <source>Kwee–van Woerden</source>
         <translation>Kwee–van Woerden</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2556"/>
+        <location filename="../../ui/workspaces.py" line="2659"/>
         <source>trapezoid fit</source>
         <translation>Trapez-Anpassung</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2561"/>
+        <location filename="../../ui/workspaces.py" line="2664"/>
         <source>{n} minima timed ({p} primary, {s} secondary), {method}; O−C {mean:+.2f} min, scatter {sd:.2f} min</source>
         <translation>{n} Minima bestimmt ({p} Haupt-, {s} Nebenminima), {method}; O−C {mean:+.2f} min, Streuung {sd:.2f} min</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2571"/>
+        <location filename="../../ui/workspaces.py" line="2674"/>
         <source>{n} predicted minima left out: not covered on both sides, or no dip.</source>
         <translation>{n} vorhergesagte Minima ausgelassen: nicht auf beiden Seiten beobachtet oder kein Abfall.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2574"/>
+        <location filename="../../ui/workspaces.py" line="2677"/>
         <source>All of them are on the O-C page.</source>
         <translation>Alle stehen auf der O-C-Seite.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2583"/>
+        <location filename="../../ui/workspaces.py" line="2686"/>
         <source>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</source>
         <translation>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2587"/>
+        <location filename="../../ui/workspaces.py" line="2690"/>
         <source>Depth {d:.2f} %, duration {h:.2f} h</source>
         <translation>Tiefe {d:.2f} %, Dauer {h:.2f} h</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2591"/>
+        <location filename="../../ui/workspaces.py" line="2694"/>
         <source>Epoch {n}, O−C = {oc:+.2f} min</source>
         <translation>Epoche {n}, O−C = {oc:+.2f} min</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2621"/>
-        <location filename="../../ui/workspaces.py" line="2623"/>
+        <location filename="../../ui/workspaces.py" line="2724"/>
+        <location filename="../../ui/workspaces.py" line="2726"/>
         <source>AAVSO report</source>
         <translation>AAVSO-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="2628"/>
+        <location filename="../../ui/workspaces.py" line="2731"/>
         <source>Export light curve</source>
         <translation>Lichtkurve exportieren</translation>
     </message>
@@ -7766,22 +7816,22 @@
 <context>
     <name>PlotCanvas</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="1291"/>
+        <location filename="../../ui/workspaces.py" line="1292"/>
         <source>Publication figure…</source>
         <translation>Publikationsgrafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1292"/>
+        <location filename="../../ui/workspaces.py" line="1293"/>
         <source>Open in a new window</source>
         <translation>In neuem Fenster öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1309"/>
+        <location filename="../../ui/workspaces.py" line="1310"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="1326"/>
+        <location filename="../../ui/workspaces.py" line="1327"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>
@@ -7812,68 +7862,68 @@
 <context>
     <name>ProjectPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="776"/>
+        <location filename="../../ui/workspaces.py" line="777"/>
         <source>Files</source>
         <translation>Dateien</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="779"/>
+        <location filename="../../ui/workspaces.py" line="780"/>
         <source>History</source>
         <translation>Verlauf</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="782"/>
+        <location filename="../../ui/workspaces.py" line="783"/>
         <source>Step</source>
         <translation>Schritt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="782"/>
+        <location filename="../../ui/workspaces.py" line="783"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="782"/>
+        <location filename="../../ui/workspaces.py" line="783"/>
         <source>Started</source>
         <translation>Gestartet</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="782"/>
-        <location filename="../../ui/workspaces.py" line="822"/>
+        <location filename="../../ui/workspaces.py" line="783"/>
+        <location filename="../../ui/workspaces.py" line="823"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="791"/>
+        <location filename="../../ui/workspaces.py" line="792"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Mit denselben Eingaben und Einstellungen erneut ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="794"/>
+        <location filename="../../ui/workspaces.py" line="795"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Führt den gewählten Schritt genau wie zuvor erneut aus, z. B. nachdem sich die Eingabedateien geändert haben</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="802"/>
+        <location filename="../../ui/workspaces.py" line="803"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Einen Lauf wählen, um Eingaben, Einstellungen, Ergebnisse und Versionen zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="821"/>
+        <location filename="../../ui/workspaces.py" line="822"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="823"/>
+        <location filename="../../ui/workspaces.py" line="824"/>
         <source>Results</source>
         <translation>Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="824"/>
+        <location filename="../../ui/workspaces.py" line="825"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="825"/>
+        <location filename="../../ui/workspaces.py" line="826"/>
         <source>Versions</source>
         <translation>Versionen</translation>
     </message>
@@ -8952,92 +9002,92 @@
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/workspaces.py" line="92"/>
+        <location filename="../../ui/workspaces.py" line="93"/>
         <source>Welcome to {app}</source>
         <translation>Willkommen bei {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="93"/>
+        <location filename="../../ui/workspaces.py" line="94"/>
         <source>Start from what you have:</source>
         <translation>Beginnen Sie mit dem, was Sie haben:</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="96"/>
+        <location filename="../../ui/workspaces.py" line="97"/>
         <source>New project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="96"/>
+        <location filename="../../ui/workspaces.py" line="97"/>
         <source>Keep frames, settings and results together</source>
         <translation>Bilder, Einstellungen und Ergebnisse zusammenhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="97"/>
+        <location filename="../../ui/workspaces.py" line="98"/>
         <source>Open project…</source>
         <translation>Projekt öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="97"/>
+        <location filename="../../ui/workspaces.py" line="98"/>
         <source>Continue earlier work</source>
         <translation>Frühere Arbeit fortsetzen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="98"/>
+        <location filename="../../ui/workspaces.py" line="99"/>
         <source>Open a FITS image</source>
         <translation>Ein FITS-Bild öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="98"/>
+        <location filename="../../ui/workspaces.py" line="99"/>
         <source>Look at an image and its header</source>
         <translation>Ein Bild und seinen Header ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="99"/>
+        <location filename="../../ui/workspaces.py" line="100"/>
         <source>I have raw frames</source>
         <translation>Ich habe Rohbilder</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="99"/>
+        <location filename="../../ui/workspaces.py" line="100"/>
         <source>Calibrate with bias, dark and flat</source>
         <translation>Mit Bias, Dark und Flat kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="100"/>
+        <location filename="../../ui/workspaces.py" line="101"/>
         <source>I have calibrated images</source>
         <translation>Ich habe kalibrierte Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="100"/>
+        <location filename="../../ui/workspaces.py" line="101"/>
         <source>Measure brightness of stars</source>
         <translation>Helligkeit von Sternen messen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="101"/>
+        <location filename="../../ui/workspaces.py" line="102"/>
         <source>I have spectra</source>
         <translation>Ich habe Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="101"/>
+        <location filename="../../ui/workspaces.py" line="102"/>
         <source>Reduce spectra, measure radial velocities</source>
         <translation>Spektren reduzieren, Radialgeschwindigkeiten messen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="102"/>
+        <location filename="../../ui/workspaces.py" line="103"/>
         <source>I have minima or RV lists</source>
         <translation>Ich habe Minima- oder RV-Listen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="102"/>
+        <location filename="../../ui/workspaces.py" line="103"/>
         <source>O-C diagrams, orbits</source>
         <translation>O-C-Diagramme, Bahnen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="103"/>
+        <location filename="../../ui/workspaces.py" line="104"/>
         <source>I want to plan a night</source>
         <translation>Ich möchte eine Nacht planen</translation>
     </message>
     <message>
-        <location filename="../../ui/workspaces.py" line="103"/>
+        <location filename="../../ui/workspaces.py" line="104"/>
         <source>Visibility, airmass, targets</source>
         <translation>Sichtbarkeit, Luftmasse, Ziele</translation>
     </message>

@@ -10,6 +10,8 @@
 
 Görüntünün üzerinde imleç artı işaretidir; bir sonraki tıklamanın koyacağı açıklık ve gök halkası, işaretleyeceği yıldızın renginde (yeşil hedef, kırmızı karşılaştırma, turuncu kontrol yıldızı) imleci izler. Zaten işaretli bir yıldıza tıklamak işareti kaldırır. Görüntüyü kaydırmak için sürükleyin, yakınlaştırmak için tekerleği kullanın.
 
+**Her kare:** görüntü sayısının altındaki oklar ve kaydırıcı kareleri zaman sırasıyla, her karenin adı ve zamanıyla gösterir. Yıldızları en iyi görünen karede işaretleyin: konumlar o kareye aittir, ölçüm onları öteki karelere taşır (kareler arasındaki kayma ölçülür, her yıldız yeniden ortalanır). İşaretli yıldızlar yalnızca o karede çizilir. Bir kareyi dışarıda bırakmak için (bulut, uydu izi, kötü odak) **Bu kareyi kullan** işaretini kaldırın.
+
 TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri olduğu gibi seçilebilir: her kadans bir kare olur (görevin işe yaramaz diye işaretlediği kadanslar dışarıda kalır) ve arşivin BJD_TDB zamanını taşır. Bölünecek bir atmosfer olmadığından hedef **karşılaştırma yıldızı olmadan** ölçülebilir: bağıl akı o zaman hedefin kendi akısının medyanına oranıdır.
 
 ## Diferansiyel fotometri: hedefler, mukayese ve kontrol yıldızları

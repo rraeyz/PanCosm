@@ -51,6 +51,7 @@ def light_curve(
     extra_xy=(),
     psf=False,
     aperture_m=None,
+    ref_path=None,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -60,7 +61,9 @@ def light_curve(
     psf: fluxes from PSF fits of each frame's FWHM (crowded fields, fieldstars.psf_measure) instead of apertures.
     aperture_m: telescope aperture (m) for the scintillation noise added to every flux error (aperture.scintillation);
     by default from APTDIA (mm) in the header. Without an aperture, the site or the target position no
-    scintillation is added and "scintillation" in the result is None."""
+    scintillation is added and "scintillation" in the result is None.
+    ref_path: the frame the positions were marked on, when not the first in time: they are re-centred there and
+    carried to the first frame by the shift between the two (as between consecutive frames)."""
     paths = [str(p) for p in paths]
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
@@ -68,6 +71,10 @@ def light_curve(
     # the clicked positions are snapped onto the stars once, within half the centroid box: with the 2.5 px limit
     # used between frames, a click 2.7 px off Qatar-1 (real LCO night) was kept and the aperture sat off the star
     # all night (light lost with the seeing, a transit moved by 20 min with radii following the seeing)
+    if ref_path and str(ref_path) != paths[0]:
+        marked = load(ref_path)[0]
+        stars0 = recenter(marked, stars0, box, max_move=box / 2)
+        stars0 = stars0 + frame_shift(marked, ref, 2 if ref.size > 4e6 else 1)
     stars0 = recenter(ref, stars0, box, max_move=box / 2)
     sky = target_coord(h0, coord)
     where = timing.location(h0)

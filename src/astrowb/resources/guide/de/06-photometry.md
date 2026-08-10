@@ -10,6 +10,8 @@ Gute Vergleichssterne haben eine ähnliche Farbe und Helligkeit wie das Ziel und
 
 Über dem Bild ist der Zeiger ein Kreuz, und die Blenden- und Himmelsringe, die der nächste Klick setzt, folgen ihm in der Farbe des Sterns, den er markiert (grün Ziel, rot Vergleich, orange Prüfstern). Ein Klick auf einen schon markierten Stern entfernt ihn. Ziehen verschiebt das Bild, das Mausrad zoomt.
 
+**Jedes Bild:** Die Pfeile und der Schieberegler unter der Bildanzahl gehen die Bilder in zeitlicher Reihenfolge durch, mit Namen und Zeit jedes Bildes. Markieren Sie die Sterne auf dem Bild, das am besten aussieht: Es hält die Positionen, und die Messung überträgt sie auf die anderen (die Verschiebung zwischen den Bildern wird gemessen, jeder Stern neu zentriert). Die markierten Sterne werden nur auf diesem Bild gezeichnet. Entfernen Sie das Häkchen bei **Dieses Bild verwenden**, um ein Bild wegzulassen (Wolken, eine Satellitenspur, schlechter Fokus).
+
 TESS- und Kepler/K2-Target-Pixel-Dateien, auch TESScut-Ausschnitte von MAST, können unverändert gewählt werden: jede Kadenz wird eine Aufnahme (Kadenzen, die die Mission als unbrauchbar markiert, bleiben weg) mit der BJD_TDB des Archivs. Ohne Atmosphäre, die herauszurechnen wäre, kann das Ziel **ohne Vergleichssterne** gemessen werden: der relative Fluss ist dann der eigene Fluss des Ziels durch seinen Median.
 
 ## Differentielle Photometrie: Ziele, Vergleichs- und Prüfsterne

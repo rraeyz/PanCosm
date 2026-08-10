@@ -26,7 +26,7 @@ def _check_positions(image, target, comps=()):
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),
     outputs=("light_curve",),
-    optional=("coord", "extra_xy"),
+    optional=("coord", "extra_xy", "ref_image"),
     r_ap=4.0,
     r_in=10.0,
     r_out=16.0,
@@ -38,7 +38,8 @@ def _check_positions(image, target, comps=()):
 )
 def light_curve_step(inputs, params, ctx):
     images = timing.chronological(inputs["images"])
-    _check_positions(images[0], inputs["target_xy"], inputs["comps_xy"])
+    ref = inputs.get("ref_image") or images[0]  # the positions belong to the frame they were marked on
+    _check_positions(ref, inputs["target_xy"], inputs["comps_xy"])
     lc = light_curve(
         images,
         inputs["target_xy"],
@@ -54,6 +55,7 @@ def light_curve_step(inputs, params, ctx):
         extra_xy=inputs.get("extra_xy") or (),
         psf=params["psf"],
         aperture_m=params["aperture_m"],
+        ref_path=ref,
     )
     return {"light_curve": lc}
 
@@ -76,11 +78,11 @@ def varfind_step(inputs, params, ctx):
 
 @step("photometry.apertures", inputs=("images", "target_xy"), outputs=("apertures",), optional=("comps_xy",))
 def apertures_step(inputs, params, ctx):
-    """Aperture and sky annulus from the stars' own profiles on the first frame (see aperture.choose_apertures)."""
+    """Aperture and sky annulus from the stars' own profiles on the first frame given (see choose_apertures)."""
     from ..calibration.masters import load
     from .aperture import choose_apertures
 
-    first = timing.chronological(inputs["images"])[0]
+    first = inputs["images"][0]  # the frame the stars were marked on (the Photometry page sends it first)
     _check_positions(first, inputs["target_xy"], inputs.get("comps_xy"))
     data, header = load(first)
     ctx.progress(0.2, "photometry")
@@ -179,7 +181,7 @@ def suggest_step(inputs, params, ctx):
     from ..calibration.stacking import align_offsets
     from .aperture import suggest_comparisons
 
-    images = timing.chronological(inputs["images"])
+    images = [inputs["images"][0], *timing.chronological(inputs["images"][1:])]  # the marked frame first
     _check_positions(images[0], inputs["target_xy"])
     offsets = align_offsets(images, ctx)  # stars must stay in the frame for the whole series
     data, _ = load(images[0])
@@ -208,7 +210,10 @@ def polarimetry_step(inputs, params, ctx):
     from . import polarimetry
 
     paths = timing.chronological(inputs["images"])
-    lc = light_curve(paths, inputs["o_xy"], [inputs["e_xy"]], params["r_ap"], params["r_in"], params["r_out"], ctx=ctx)
+    lc = light_curve(
+        paths, inputs["o_xy"], [inputs["e_xy"]], params["r_ap"], params["r_in"], params["r_out"], ctx=ctx,
+        ref_path=inputs["images"][0],  # the frame the beams were marked on (the Photometry page sends it first)
+    )  # fmt: skip
     angles, source = [], None
     for p in paths:
         h = fits.getheader(p)
