@@ -306,7 +306,11 @@ starting, mark DONE with results):**
   mixed folder still works (give it as BDF). `calibration.scan` has an optional input `lights`; the output folder
   defaults to <lights>/calibrated. Tests `test_a_light_folder_and_a_bdf_folder`, `test_classify_fallbacks`, the
   Calibrate page test. Guide 04 (4 languages).
-- Release v0.2.2: **IN PROGRESS** — O12 + O13; version 0.2.2, full local check, push, manual `release` run.
+- Release v0.2.2: **DONE** (run 111 green, published 12:38 UTC; local check 644 passed).
+- O14 **PROPOSED, waiting for the owner's yes** (he asked whether the Photometry page still shows one picture or works
+  like MaxIm DL): now one frame at a time with arrows / slider / "Use this frame". Proposed: a MaxIm-like list of all
+  frames beside the image (name, time, FWHM, sky, a "use" box; click a row to show it; bad frames from "Find the bad
+  frames" marked red) and a "blink" button that plays the frames in turn.
 
 **Second update by agent session 01RxUU (2026-11-06, ~07:30 UTC).** The owner asked (in Turkish): (1) a release now
 to try the program; (2) are Lomb–Scargle / BLS / PDM / ANOVA explained in the guide, and do buttons / boxes have hover
