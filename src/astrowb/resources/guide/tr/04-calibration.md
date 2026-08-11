@@ -2,6 +2,8 @@
 **Kalibrasyon** sayfası ham kareleri kalibre görüntülere çevirir: bias, dark, flat ve light karelerini tanır, master kareleri oluşturur, her light karesine doğru master'ları eşler ve uygular. İsterseniz sonucu hizalayıp birleştirir (yığar).
 
 ## 1. Ham kareleri taramak
+**İki klasör, bir gecenin genellikle tutulduğu gibi:** light karelerini (verinizi) **Light'lar** alanına, bias, dark ve flat karelerini **BDF** alanına verin. Light klasöründeki her kare, adı ne olursa olsun light'tır — bilim kareleri genellikle yıldızın adıyla kaydedilir (`nsvs01286630_017.fits`); yalnızca başlığı bias, dark ya da flat diyen kare öyle sayılır. BDF klasöründekiler bias, dark ve flat olarak ayrılır. Hepsi tek klasörde mi? Onu yalnızca **BDF** olarak verin, **Light'lar**ı boş bırakın: kareler o zaman aşağıdaki gibi başlığa ve ada göre ayrılır.
+
 Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık olabilir, alt klasörler dahil) ve **Tara**'ya basın. Tablo her dosyayı **türü**, **pozu**, **filtresi**, **sıcaklığı** ve **binning**'iyle listeler.
 
 - Tür `IMAGETYP` / `FRAME` başlığından (Light Frame, Bias, Dark, Flat Field…), yoksa dosya adından anlaşılır. Addaki sözcükler: bias / zero / offset, dark, flat / twilight, arc / lamp; 0 s'lik bir kare bias'tır. Geri kalan her kare **light** sayılır — bilim kareleri genellikle yıldızın adıyla kaydedilir (`nsvs01286630_017.fits`, `NY_Vir_R_003.fit`) ve türünü söylemez; yalnızca başlığın bildirdiği ama programın tanımadığı bir tür (FOCUS, TEST…) **bilinmiyor** olur ve dışarıda bırakılır (tablonun altında listelenir). Tablodaki bir **türe çift tıklayarak** onu değiştirebilirsiniz; dosyalar değişmez.

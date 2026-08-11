@@ -2,6 +2,8 @@
 La página **Calibrar** convierte las tomas brutas en imágenes calibradas: reconoce las tomas bias, dark, flat y de ciencia (light), crea los másteres, asigna a cada toma de ciencia los másteres adecuados y los aplica. Opcionalmente alinea y apila el resultado.
 
 ## 1. Explorar las tomas brutas
+**Dos carpetas, como se suele guardar una noche:** ponga los lights (sus datos) en **Lights** y los bias, dark y flat en **BDF**. Cada imagen de la carpeta de lights es un light se llame como se llame — las imágenes científicas suelen llevar el nombre de la estrella (`nsvs01286630_017.fits`); solo una imagen cuya cabecera diga bias, dark o flat cuenta como tal. La carpeta BDF se clasifica en bias, dark y flat. ¿Todo en una carpeta? Dela solo como **BDF** y deje **Lights** vacío: las imágenes se clasifican entonces por cabecera y nombre, como se explica abajo.
+
 Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar mezclados, subcarpetas incluidas) y pulse **Explorar**. La tabla lista cada archivo con su **tipo**, **exposición**, **filtro**, **temperatura** y **agrupamiento** (binning).
 
 - El tipo sale de la cabecera `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) y, si falta, del nombre del archivo. Palabras del nombre: bias / zero / offset, dark, flat / twilight, arc / lamp; una imagen de 0 s es un bias. Cualquier otra imagen es un **light**: las imágenes científicas suelen llevar el nombre de la estrella (`nsvs01286630_017.fits`, `NY_Vir_R_003.fit`) y no dicen su tipo; solo un tipo que la cabecera indica y el programa no conoce (FOCUS, TEST…) es **desconocido** y se deja fuera (se lista bajo la tabla). **Doble clic en un tipo** de la tabla para cambiarlo; los archivos no cambian.

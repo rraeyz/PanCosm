@@ -1550,11 +1550,14 @@ class MainWindow(QMainWindow):
         )
 
     # --- calibration --------------------------------------------------------
-    def scan_raw(self, folder):
-        if folder:
+    def scan_raw(self, folder, lights=""):
+        if folder or lights:
+            inputs = {"folder": folder or ""}
+            if lights:
+                inputs["lights"] = lights
             return self.run_step(
                 "calibration.scan",
-                {"folder": folder},
+                inputs,
                 {"clock_utc_offset": self.calibrate_page.clock_offset.value()},
                 on_done=lambda out: self.calibrate_page.show_frames(
                     out["frames"], out["problems"], out.get("raw_converted", 0)

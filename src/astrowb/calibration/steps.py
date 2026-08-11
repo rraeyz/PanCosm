@@ -12,27 +12,44 @@ from .frames import Frame, scan
 from .matching import best_bias, best_dark, group_key, make_plan
 
 
-@step("calibration.scan", inputs=("folder",), outputs=("frames", "problems", "raw_converted"), clock_utc_offset=0.0)
+@step(
+    "calibration.scan",
+    inputs=("folder",),
+    outputs=("frames", "problems", "raw_converted"),
+    optional=("lights",),
+    clock_utc_offset=0.0,
+)
 def scan_step(inputs, params, ctx):
-    """Camera raw files (DSLR, mirrorless) in the folder are first written as FITS to folder/fits_from_raw."""
+    """Camera raw files (DSLR, mirrorless) in the folder are first written as FITS to folder/fits_from_raw.
+    folder: calibration frames (bias / dark / flat) or everything mixed, several separated by ";"; lights: a folder
+    of light frames — as observers keep them (a BDF folder and a data folder), every frame there is a light whatever
+    its name, unless its own header states another type."""
     from ..io.bayer import convert_raw_folder
+    from .frames import classify
 
-    # several folders separated by ";" (e.g. tonight's lights and a calibration library kept elsewhere)
-    folders = [f.strip() for f in str(inputs["folder"]).split(";") if f.strip()]
-    for folder in folders or [""]:
+    folders = [f.strip() for f in str(inputs.get("folder") or "").split(";") if f.strip()]
+    light_dirs = [f.strip() for f in str(inputs.get("lights") or "").split(";") if f.strip()]
+    if not folders and not light_dirs:
+        raise ValueError(f"folder not found: {inputs.get('folder') or ''}")  # nothing given: said like a wrong one
+    for folder in folders + light_dirs:
         if not Path(folder).is_dir():
             raise ValueError(f"folder not found: {folder}")
     frames, problems, raw = {}, [], []
-    for i, folder in enumerate(folders):
-        part = (i, len(folders))
+    every = [(f, "calibration") for f in folders] + [(f, "lights") for f in light_dirs]
+    for i, (folder, role) in enumerate(every):
+        part = (i, len(every))
         converted, raw_problems = convert_raw_folder(
             folder,
             clock_utc_offset_h=params["clock_utc_offset"],
             progress=lambda f, n, p=part: ctx.progress(0.5 * (p[0] + f) / p[1], n),
         )
         raw += converted
-        ctx.progress(0.5 + 0.5 * i / len(folders), "reading headers")
+        ctx.progress(0.5 + 0.5 * i / len(every), "reading headers")
         found, bad = scan(Path(folder))
+        if role == "lights":  # the folder says what they are; only a header stating a calibration type overrides
+            for f in found:
+                stated = classify(_frame_header(f.path))
+                f.kind = stated if stated in ("bias", "dark", "flat", "arc") else "light"
         frames |= {str(Path(f.path).resolve()): f for f in found}  # a folder inside another one is read once
         problems += raw_problems + bad
     return {
@@ -40,6 +57,16 @@ def scan_step(inputs, params, ctx):
         "problems": problems,
         "raw_converted": len(raw),
     }
+
+
+def _frame_header(path):
+    """The header that describes the image of a frame (the primary's keywords included, as read_frame reads it)."""
+    from astropy.io import fits
+
+    from ..io.fits import find_image_hdu, inherited
+
+    with fits.open(path) as hdul:
+        return inherited(hdul, find_image_hdu(hdul))
 
 
 def _frames(dicts):

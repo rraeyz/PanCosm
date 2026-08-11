@@ -295,8 +295,18 @@ starting, mark DONE with results):**
   1366 x 768 window), Light curves 486, Spectroscopy 683 — give them the Plan / Photometry treatment (fields in
   their own scroll area, plots in splitters) if the owner meets it. Measuring script: show every workspace in a
   1100 x 600 window and print `page.minimumSizeHint().height()` against the scroll area's viewport height.
-- Release v0.2.1: **IN PROGRESS** — version raised to 0.2.1; full local check running; then push and the manual
-  `release` run.
+- Release v0.2.1: **DONE** (12:06 UTC). Run 107 failed on Windows only: `test_deleting_points_and_curve_spacing`
+  clicked 2 px from a point and the new default (differential) view put a neighbour nearer; the test now clicks on
+  the point (de6377f). Run 108 green, release published with the installers.
+- O13 **DONE** (owner, after v0.2.1): frames named after the star (his NY Vir data: nsvs***.fits, no IMAGETYP) were
+  "unknown, ignored". (a) `frames.classify`: a frame that states no type and has no type word in its name is a
+  light; only a type the header states that we do not know (FOCUS, TEST…) stays unknown. (b) His better idea, done:
+  the Calibrate page has two folders, **Lights** (data) and **BDF** — every frame in the light folder is a light
+  whatever its name (a header stating bias / dark / flat / arc still wins); the BDF folder is sorted as before; one
+  mixed folder still works (give it as BDF). `calibration.scan` has an optional input `lights`; the output folder
+  defaults to <lights>/calibrated. Tests `test_a_light_folder_and_a_bdf_folder`, `test_classify_fallbacks`, the
+  Calibrate page test. Guide 04 (4 languages).
+- Release v0.2.2: **IN PROGRESS** — O12 + O13; version 0.2.2, full local check, push, manual `release` run.
 
 **Second update by agent session 01RxUU (2026-11-06, ~07:30 UTC).** The owner asked (in Turkish): (1) a release now
 to try the program; (2) are Lomb–Scargle / BLS / PDM / ANOVA explained in the guide, and do buttons / boxes have hover
