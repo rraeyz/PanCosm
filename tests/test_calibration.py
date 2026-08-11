@@ -111,7 +111,11 @@ def test_classify_header_conventions(value, kind):
 def test_classify_fallbacks():
     assert classify(fits.Header(), "/data/M31_flat_003.fits") == "flat"
     assert classify(fits.Header({"EXPTIME": 0.0}), "x.fits") == "bias"
-    assert classify(fits.Header({"EXPTIME": 10.0}), "x.fits") == "unknown"
+    # science frames named after the star, without a type in the header (the owner's NY Vir: nsvs***.fits)
+    assert classify(fits.Header({"EXPTIME": 10.0}), "x.fits") == "light"
+    assert classify(fits.Header({"EXPTIME": 60.0}), "/night/nsvs01286630_017.fits") == "light"
+    assert classify(fits.Header(), "NY_Vir_R_003.fit") == "light"  # no exposure time either
+    assert classify(fits.Header({"IMAGETYP": "FOCUS", "EXPTIME": 2.0}), "f1.fits") == "unknown"  # a stated, odd type
     assert classify(fits.Header({"EXPTIME": 5.0}), "Arcturus_Object_5s-1.fit") == "light"  # not an 'arc'
     # LCO raw frames (OBSTYPE): science frames were "unknown, ignored" (real night, 0.4 m sq41, 2026-11-02)
     for value, kind in (("EXPOSE", "light"), ("SPECTRUM", "light"), ("STANDARD", "light"), ("SKYFLAT", "flat")):

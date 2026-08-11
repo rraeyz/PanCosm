@@ -4,7 +4,7 @@
 ## 1. Ham kareleri taramak
 Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık olabilir, alt klasörler dahil) ve **Tara**'ya basın. Tablo her dosyayı **türü**, **pozu**, **filtresi**, **sıcaklığı** ve **binning**'iyle listeler.
 
-- Tür `IMAGETYP` / `FRAME` başlığından (Light Frame, Bias, Dark, Flat Field…), yoksa dosya adından anlaşılır. Addaki sözcükler: bias / zero / offset, dark, flat / twilight, light / object / science; 0 s'lik bir kare bias'tır. Hiçbirine uymayan kare **bilinmiyor** olur ve dışarıda bırakılır (tablonun altında listelenir) — light *sayılmaz*. Tablodaki bir **türe çift tıklayarak** onu değiştirebilirsiniz; dosyalar değişmez.
+- Tür `IMAGETYP` / `FRAME` başlığından (Light Frame, Bias, Dark, Flat Field…), yoksa dosya adından anlaşılır. Addaki sözcükler: bias / zero / offset, dark, flat / twilight, arc / lamp; 0 s'lik bir kare bias'tır. Geri kalan her kare **light** sayılır — bilim kareleri genellikle yıldızın adıyla kaydedilir (`nsvs01286630_017.fits`, `NY_Vir_R_003.fit`) ve türünü söylemez; yalnızca başlığın bildirdiği ama programın tanımadığı bir tür (FOCUS, TEST…) **bilinmiyor** olur ve dışarıda bırakılır (tablonun altında listelenir). Tablodaki bir **türe çift tıklayarak** onu değiştirebilirsiniz; dosyalar değişmez.
 - Okunamayan ve türü bilinmeyen dosyalar tablonun altında listelenir ve atlanır.
 - Aynı liste hangi kalibrasyon karelerinin **eksik** olduğunu söyler, ör. "no flat for filter 'R'" — o light'lar yine kalibre edilir, yalnızca o düzeltme olmadan; bu size bildirilir.
 

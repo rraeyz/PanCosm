@@ -923,9 +923,10 @@ class CalibratePage(QWidget):
         how = QLabel(
             self.tr(
                 "How the type is found: the header (IMAGETYP, FRAME, OBSTYPE…) first; without it a word in the file "
-                "name — bias / zero / offset, dark, flat / twilight, light / object / science; a frame of 0 s "
-                "is a bias. Anything else is “unknown” and left out (it is not taken as a light). Double-click a "
-                "type to change it."
+                "name — bias / zero / offset, dark, flat / twilight, arc / lamp; a frame of 0 s is a bias. Every "
+                "other frame is a light (e.g. named after the star: nsvs…fits); only a type the header states "
+                "and the program does not know (FOCUS, TEST…) is “unknown” and left out. Double-click a type to "
+                "change it."
             ),
             self,
         )

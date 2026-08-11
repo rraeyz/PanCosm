@@ -74,14 +74,18 @@ def _fibre_kind(text):
 def classify(header, filename: str = "") -> str:
     if kind := _fibre_kind(_first(header, "HIERARCH ESO DPR TYPE") or ""):
         return kind
-    for text in [str(_first(header, k) or "") for k in _TYPE_KEYS] + [Path(filename).name]:
+    stated = [str(_first(header, k) or "").strip() for k in _TYPE_KEYS]
+    for text in stated + [Path(filename).name]:
         for kind, pattern in _PATTERNS:
             if text and pattern.search(text):
                 return kind
     exptime = _float(_first(header, "EXPTIME", "EXPOSURE"))
     if exptime == 0:
         return "bias"
-    return "unknown"
+    # observers name the science frames after the star (nsvs01286630_001.fits, NY_Vir_V_012.fit): a frame that says
+    # nothing of a type is a light; only a type the header states and we do not know (FOCUS, TEST, ACQUIRE) is left
+    # out — the user can change any type on the Calibrate page
+    return "unknown" if any(stated) else "light"
 
 
 def read_frame(path: Path) -> Frame:
