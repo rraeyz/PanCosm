@@ -852,7 +852,8 @@ class CalibratePage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.frames, self._problems, self._raw_converted, self.calibrated = [], [], 0, []
-        lay = QVBoxLayout(self)
+        left, right = QWidget(self), QWidget(self)  # 1. the frames | 2.–4. what is done with them
+        lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Calibrate"), self))
         lay.addWidget(QLabel(self.tr("1. Choose the folder with your raw frames (lights, bias, darks, flats)."), self))
         hint = QLabel(
@@ -898,8 +899,13 @@ class CalibratePage(QWidget):
                 "and check the clock against a time signal — timing errors go straight into minima and O−C."
             )
         )
-        for w in (self.folder, browse, add_folder, self.clock_offset, self.scan_button):
+        for w in (self.folder, browse, add_folder):
             row.addWidget(w)
+        lay.addLayout(row)
+        row = QHBoxLayout()  # a second row: the first stays narrow enough for two columns on a small screen
+        for w in (self.clock_offset, self.scan_button):
+            row.addWidget(w)
+        row.addStretch(1)
         lay.addLayout(row)
         self.summary = QLabel(self)
         lay.addWidget(self.summary)
@@ -938,6 +944,7 @@ class CalibratePage(QWidget):
         self.warnings.setMaximumHeight(90)
         self.warnings.setPlaceholderText(self.tr("Problems and missing calibration frames are listed here."))
         lay.addWidget(self.warnings)
+        lay = QVBoxLayout(right)
         lay.addWidget(QLabel(self.tr("2. Choose where to write master frames and calibrated images."), self))
         row = QHBoxLayout()
         self.output = QLineEdit(self)
@@ -1128,6 +1135,13 @@ class CalibratePage(QWidget):
         )
         self.stack_options.body.addWidget(self.drizzle)
         lay.addWidget(self.stack_options)
+        lay.addStretch(1)
+        split = QSplitter(Qt.Horizontal, self)  # two columns: on a short window nothing is below the fold
+        split.addWidget(left)
+        split.addWidget(right)
+        split.setChildrenCollapsible(False)
+        split.setSizes([3000, 2000])
+        QVBoxLayout(self).addWidget(split)
         self.calibrated = []
 
     def stack_params(self):
