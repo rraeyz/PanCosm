@@ -202,7 +202,17 @@ class PlanPage(Undoable, QWidget):
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        split.addWidget(left)
+        from PySide6.QtWidgets import QScrollArea
+
+        # the fields scroll on their own: on a short window the whole page scrolled and the chart's lower part
+        # (below ~20°) was out of sight — the owner thought the chart started at 20°
+        scroll = QScrollArea(self)
+        scroll.setWidget(left)
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QScrollArea.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setMinimumWidth(left.sizeHint().width() + 20)
+        split.addWidget(scroll)
 
         right = QSplitter(Qt.Vertical, self)
         self.plot = PlotCanvas(self)
@@ -230,6 +240,7 @@ class PlanPage(Undoable, QWidget):
         self.schedule_table.setEditTriggers(QTableWidget.NoEditTriggers)
         right.addWidget(self.schedule_table)
         right.setSizes([480, 160, 160])
+        right.setStretchFactor(0, 1)  # the chart takes what the window gives; the tables keep their share
         self.blocks = []
         split.addWidget(right)
         split.setSizes([430, 800])

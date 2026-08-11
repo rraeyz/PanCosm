@@ -1351,8 +1351,8 @@ class PlotCanvas(QWidget):
 
         try:
             fig = pickle.loads(pickle.dumps(self.figure))
-        except Exception:  # a figure holding something that cannot be copied: nothing to show
-            return None
+        except Exception:  # functions in it (axis formatters, secondary axes) cannot be copied: a sharp picture of it
+            fig = self._picture_copy()
         dlg = QDialog(self.window())
         dlg.setWindowTitle(self.window().windowTitle() or self.tr("Plot"))
         dlg.setAttribute(Qt.WA_DeleteOnClose)
@@ -1363,6 +1363,24 @@ class PlotCanvas(QWidget):
         self._windows.append(dlg)
         dlg.destroyed.connect(lambda *_: self._windows.remove(dlg) if dlg in self._windows else None)
         return dlg
+
+    def _picture_copy(self):
+        """The figure drawn at three times the screen resolution into a new figure, zoomable with the toolbar (the
+        Plan chart's time axes are functions: pickling it failed and the window did not open)."""
+        import io
+
+        from matplotlib.figure import Figure
+        from matplotlib.image import imread
+
+        buf = io.BytesIO()
+        self.figure.savefig(buf, format="png", dpi=3 * self.figure.dpi)
+        buf.seek(0)
+        img = imread(buf)
+        fig = Figure(figsize=self.figure.get_size_inches(), layout="constrained")
+        ax = fig.add_subplot()
+        ax.imshow(img)
+        ax.set_axis_off()
+        return fig
 
     def export_publication(self, path=None):
         """Black on white whatever the screen theme: PDF / SVG / EPS, or PNG at 300 dpi."""
@@ -1450,9 +1468,13 @@ class PhotometryPage(Undoable, QWidget):
         side.addWidget(self.use_frame)
         for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame):
             w.setEnabled(False)
-        self.quality_button = QPushButton(self.tr("Check frame quality"), self)
+        self.quality_button = QPushButton(self.tr("Find the bad frames (clouds, focus, trails)"), self)
         self.quality_button.setToolTip(
-            self.tr("Star size, sky brightness and number of stars in every frame; bad frames can be left out")
+            self.tr(
+                "Optional, before measuring: measures every frame's star size (FWHM), sky brightness and number of "
+                "stars, and names the frames far from the night's usual values (passing clouds, lost focus or "
+                "tracking, twilight). You then choose to leave them out; nothing is removed by itself."
+            )
         )
         self.quality_button.setEnabled(False)
         self.quality_button.clicked.connect(lambda: self.quality_requested.emit(self._series()))
