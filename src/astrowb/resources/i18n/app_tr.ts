@@ -8480,7 +8480,7 @@
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1713"/>
-        <location filename="../../ui/spectro_page.py" line="1769"/>
+        <location filename="../../ui/spectro_page.py" line="1793"/>
         <source>Instrument profile</source>
         <translation>Cihaz profili</translation>
     </message>
@@ -8510,7 +8510,17 @@
         <translation>Seçilen cihaz profilini siler</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1769"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
+        <source>In what order? (click)</source>
+        <translation>Hangi sırayla? (tıklayın)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="1745"/>
+        <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) on the Calibrate page first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
+        <translation>1. Tayfçekerinizden ham kareler: &lt;b&gt;İndirgeme&lt;/b&gt; (uzun yarık: ark lambası → iz → çıkarma → dalga boyları) ya da &lt;b&gt;Eşel&lt;/b&gt; (çok mertebe). Kareleri önce Kalibrasyon sayfasında kalibre edin (bias, dark, flat).&lt;br&gt;2. Dalga boyları zaten olan tayflar (bir arşiv, başka bir indirgeme): 3'ten başlayın.&lt;br&gt;3. &lt;b&gt;Tellürik&lt;/b&gt; (isteğe bağlı): Dünya atmosferini (O₂, H₂O bantları, çoğu kırmızıda) hedefin yakınında gözlenmiş sıcak bir yıldızla böler.&lt;br&gt;4. &lt;b&gt;Radyal hız ve yörünge&lt;/b&gt;: her tayfta yıldızın bir şablona göre hızı, bir çiftin iki yıldızı (TODCOR, genişleme fonksiyonu), yörünge, tayf türü (MK).&lt;br&gt;5. &lt;b&gt;Tayf araçları&lt;/b&gt;: normalleştirme, bir çizgiyi ölçme (eşdeğer genişlik, FWHM, V/R), yumuşatma, tayfları toplama ya da bölme, atmosfer parametreleri (Teff, log g, [Fe/H]).&lt;br&gt;Yöntemler ve formülleri: Kılavuz, Tayf ve Yöntemlerin matematiği.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="1793"/>
         <source>Name (e.g. telescope + spectrograph):</source>
         <translation>Ad (ör. teleskop + spektrograf):</translation>
     </message>

@@ -283,8 +283,10 @@ starting, mark DONE with results):**
   Calibrate 523, Light curves 486, Spectroscopy 683 — same treatment next if the owner meets it (O12).
 - O10 **DONE** "Check frame quality" is now "Find the bad frames (clouds, focus, trails)" with a tooltip saying it is
   optional, what it measures and that nothing is removed by itself; guide 01 / 06 use the new name (4 languages).
-- O11 Spectroscopy: the owner is not sure what he did — a short guided order of steps on the page (NOT STARTED;
-  next after the release).
+- O11 **DONE (after the v0.2.1 build started; in the next release)** Spectroscopy page: "In what order? (click)"
+  above the tabs opens the order of work — 1 raw frames: Reduce or Echelle (calibrate first); 2 archive spectra
+  start at 3; 3 Telluric (optional); 4 Radial velocity and orbit; 5 Spectrum tools — with the tab names as the
+  translations show them. Test in `test_spectroscopy_instrument_profiles`.
 - O12 Pages still taller than a short window's page area (1100 x 600 → 459 px): Observe 610, Calibrate 523 (fits a
   1366 x 768 window), Light curves 486, Spectroscopy 683 — give them the Plan / Photometry treatment (fields in
   their own scroll area, plots in splitters) if the owner meets it. Measuring script: show every workspace in a
