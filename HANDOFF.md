@@ -236,9 +236,14 @@ data: download real data with astropy / astroquery / archives (Gaia, TESS…) an
 Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int OK; VizieR: CDS no answer, CfA OK
 (empty for Gaia / APASS), IDIA slow; ESO archive OK; NASA Exoplanet Archive OK; IRSA OK; MAST API answers; AAVSO 403
 (bot check — never try to get around it); BeSS 500. Plan (claim → done, in this order):
-- P1 **CLAIMED (01RxUU)** Photometry: MaxIm-like list of all frames beside the image (name, time, FWHM, sky, use box; click shows the
-  frame; bad frames red) + "blink" button.
-- P2 Basic / Expert interface mode (U11).
+- P1 **DONE** Photometry: MaxIm-like list of all frames beside the image (name, time, FWHM, sky, use box; click shows the
+  frame; bad frames red) + "blink" button. Done: `PhotometryPage.frame_table` (name, mid-exposure UTC, FWHM, sky,
+  check box = use), kept in step with the arrows / slider / "Use this frame"; "Blink" (QTimer 450 ms) steps through
+  the frames in use and the viewer keeps the zoom (`ImageViewer.set_image(keep_view=True)` for same-size frames);
+  "Find the bad frames" fills FWHM / sky, colours bad frames red and now shows its plot (the lower panel was hidden);
+  "Leave out the bad frames" unticks them instead of deleting them from the list (deleting broke the frame numbers
+  of marked stars). Test `test_frame_list_quality_and_blink`. Guide 06 (4 languages).
+- P2 **CLAIMED (01RxUU)** Basic / Expert interface mode.
 - P3 Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

@@ -326,3 +326,38 @@ def test_differential_view_first_and_the_way_on_to_the_fits(qtbot, tmp_path):
         assert (tmp_path / "lc.csv").read_text().count("\n") > 50
     finally:
         win.engine.shutdown()
+
+
+def test_frame_list_quality_and_blink(tmp_path, qtbot):
+    """Every frame in a list as in MaxIm DL: a row click shows it, unticking leaves it out, the quality numbers fill
+    in with bad frames red and unticked (not deleted), blinking steps through the frames in use at the same zoom."""
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.workspaces import PhotometryPage
+
+    paths = []
+    for i in range(5):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(field(4.0, seed=40 + i).astype(np.float32), h).writeto(tmp_path / f"g{i}.fits")
+        paths.append(str(tmp_path / f"g{i}.fits"))
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.set_images(paths)
+    t = page.frame_table
+    assert t.rowCount() == 5 and t.item(2, 1).text() == "20:02:15"  # mid-exposure UTC
+    t.setCurrentCell(3, 0)
+    assert page.shown == 3 and "4 of 5" in page.frame_label.text()
+    t.item(1, 0).setCheckState(Qt.Unchecked)
+    assert paths[1] in page.skipped and "4 of them used" in page.images_label.text()
+    rows = [{"file": p, "fwhm": 2.5, "stars": 30, "background": 300.0, "good": True, "why": []} for p in paths]
+    rows[4] |= {"fwhm": 7.9, "good": False, "why": ["stars blurred"]}
+    page.show_quality(rows)
+    assert t.item(4, 2).text() == "7.90" and t.item(4, 0).foreground().color().name() == "#e5484d"
+    page._drop_bad()
+    assert t.item(4, 0).checkState() == Qt.Unchecked and len(page.images) == 5  # left out, not deleted
+    page.viewer.zoom(3.0)
+    zoom = page.viewer.transform().m11()
+    page._blink_step()  # from frame 4 (index 3): the next used frame round the series is frame 1 (index 0)
+    assert page.shown == 0 and page.viewer.transform().m11() == zoom
+    page._blink_step()
+    assert page.shown == 2  # frame 2 (index 1) is left out
