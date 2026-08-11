@@ -221,7 +221,7 @@ def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
     page.delete_mode.setChecked(True)  # a click on point 5 deletes it
     ax, x, y = page._plotted
     px, py = ax.transData.transform((x[5], y[5]))
-    page._plot_clicked(SimpleNamespace(inaxes=ax, x=px + 2, y=py - 2))
+    page._plot_clicked(SimpleNamespace(inaxes=ax, x=px, y=py))  # on it: neighbours can be 2 px away (Windows dpi)
     assert len(page.light_curve["time"]) == 39 and t5 not in page.light_curve["time"]
     page._plot_clicked(SimpleNamespace(inaxes=ax, x=px + 500, y=py + 500))  # far from every point: nothing
     assert len(page.light_curve["time"]) == 39
