@@ -86,6 +86,7 @@ CATALOGUES = {
 def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_limit=2000, query=None):
     """[{name, ra, dec, mag}] around (ra, dec) from VizieR (Gaia DR3 or the AAVSO VSX variable stars)."""
     cat, name_col, mag_col = CATALOGUES[catalogue]
+    default = query is None  # the program's own look-up (tests give their own)
     if query is None:
         import astropy.units as u
         from astropy.coordinates import SkyCoord
@@ -103,7 +104,17 @@ def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_l
         def query(*args):
             return cds("vizier", lambda server: ask(server, *args))
 
-    rows = query(cat, ra, dec, radius_deg, mag_col, mag_limit)
+    esa = catalogue == "gaia" and default  # the ESA Gaia archive can stand in for VizieR
+    try:
+        rows = query(cat, ra, dec, radius_deg, mag_col, mag_limit)
+    except Exception:
+        if not esa:
+            raise
+        rows = []
+    if esa and len(rows) == 0:  # every VizieR server down, or one that gives nothing for Gaia (Harvard)
+        from .gaia import chart_stars
+
+        return chart_stars(ra, dec, radius_deg, mag_limit, row_limit)
     out = []
     for r in rows:
         mag = r[mag_col] if mag_col in r.colnames else None
