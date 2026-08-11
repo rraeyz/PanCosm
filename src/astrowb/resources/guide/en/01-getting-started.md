@@ -53,6 +53,7 @@ A project is one file with the extension `.astroproj`. It records every file you
 - Without a project you can still work; nothing is recorded then.
 
 ## Settings
+- **Basic or Expert** (on the Start page or **Settings → Expert mode**): in Basic mode the rarely changed options (more calibration and stacking options, the photometry's seeing / PSF / scintillation options, other tools) are folded — one click opens them, nothing is removed — and the Spectroscopy page shows the order of its tabs; in Expert mode every section is open.
 - **Settings → Language:** English, Turkish, German or Spanish. A restart may be needed for every text to change.
 - **Settings → Look:** Dark or Light. Plots already on screen follow the new colours. **Publication figure…** in every plot's toolbar saves it black on white (PDF, SVG, EPS or 300 dpi PNG) whatever the look; right-click any table to export it as CSV or LaTeX.
 - **Settings → Processing device:** Automatic, CPU only or GPU. The status bar shows which device is in use. Run the application with `--benchmark` to measure the speed of both.

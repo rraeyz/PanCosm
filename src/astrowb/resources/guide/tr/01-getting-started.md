@@ -53,6 +53,7 @@ Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı
 - Proje açmadan da çalışabilirsiniz; o zaman hiçbir şey kaydedilmez.
 
 ## Ayarlar
+- **Temel ya da Uzman** (Başlangıç sayfasında ya da **Ayarlar → Uzman modu**): Temel modda az değiştirilen seçenekler (diğer kalibrasyon ve yığma seçenekleri, fotometrinin seeing / PSF / sintilasyon seçenekleri, diğer araçlar) katlıdır — tek tıkla açılır, hiçbir şey kaldırılmaz — ve Tayf sayfası sekmelerinin sırasını gösterir; Uzman modda her bölüm açıktır.
 - **Ayarlar → Dil:** İngilizce, Türkçe, Almanca ya da İspanyolca. Bütün metinlerin değişmesi için yeniden başlatmak gerekebilir.
 - **Ayarlar → Görünüm:** Karanlık (gece) ya da Aydınlık. Ekrandaki grafikler yeni renklere geçer. Her grafiğin araç çubuğundaki **Yayın şekli…** görünüm ne olursa olsun onu beyaz zemine siyah olarak kaydeder (PDF, SVG, EPS ya da 300 dpi PNG); her tabloya sağ tıklayıp CSV ya da LaTeX olarak dışa aktarabilirsiniz.
 - **Ayarlar → İşlem birimi:** Otomatik, Yalnız işlemci ya da GPU. Durum çubuğu hangi birimin kullanıldığını gösterir. İkisinin hızını ölçmek için uygulamayı `--benchmark` ile çalıştırın.
