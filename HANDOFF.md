@@ -325,6 +325,8 @@ Plan (claim → done, in this order):
   a classifier); bet Vir F9V -> G0 V; iot Hor F8V -> F8 V; eta Boo G0IV -> F8 V; HD 20794 G6V -> G0 V; 61 Vir G6.5V
   -> G8 V; Achernar B6Vpe -> B2 V (Be star, fast rotator). Summary: median -0.5 subclass, rms 1.06, 78 % within one
   subclass, 91 % within two; luminosity exact 78 %, within one class 100 %. Guide 08 (4 languages) gives this.
+- P9 **CLAIMED (01RxUU)** standard magnitudes and AAVSO report on real data: Gaia from the ESA archive when VizieR
+  fails; transformation coefficients on a real LCO Landolt field (B, V); a real variable star in B and V.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
