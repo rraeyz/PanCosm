@@ -30,6 +30,8 @@ Calibre antes las tomas en la página Calibrar con **Espectros: no dividir por e
 
 **Restar la luz dispersa** (como IRAF apscatter) ajusta la luz de los huecos entre los órdenes — a lo largo de la dirección perpendicular a la dispersión con un polinomio con recorte, luego suavizada a lo largo de ella — y la resta de la imagen científica y del flat antes de extraer. Úsela con estrellas brillantes y espectrógrafos cuyos órdenes están sobre un halo; necesita huecos de al menos 3 píxeles (no para órdenes de fibra muy juntos).
 
+**Punto cero a partir de las líneas del cielo nocturno (echelles de rendija):** si los órdenes dejan cielo entre ellos (no *Alimentado por fibra*), las líneas [O I] 5577, 6300 y 6363 Å se miden en el cielo entre los órdenes que las contienen y las longitudes de onda se desplazan según su desviación — la flexión desde el arco, como en la pestaña Reducir (se usa si dos líneas coinciden o una es intensa; la línea de estado y `WAVSKYSH` en la cabecera dan el desplazamiento).
+
 ## Corrección telúrica
 Elija el **Espectro (1-D)** y el espectro de una **estándar telúrica** (una estrella caliente de rotación rápida observada cerca en tiempo y en masa de aire). La estándar da la transmisión atmosférica; su intensidad (masa de aire, vapor de agua) y un pequeño desplazamiento en longitud de onda se ajustan dentro de las bandas telúricas. **Corregir y guardar** escribe el espectro corregido y muestra el gráfico antes/después.
 

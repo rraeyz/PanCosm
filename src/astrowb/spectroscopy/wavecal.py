@@ -216,23 +216,47 @@ def sky_shift(wave, sky, min_snr=8.0, strong_snr=15.0):
         m = np.isfinite(sky) & (wave > lab - 8 * disp) & (wave < lab + 8 * disp)
         if m.sum() < 10:
             continue
-        y, x = sky[m], wave[m]
+        # offsets from the line, not wavelengths of ~5577 A: at echelle dispersion (0.03 A/px) the fit in absolute
+        # wavelengths did not converge
+        y, x = sky[m], wave[m] - lab
+        start = [np.ptp(y), float(x[np.argmax(y)]), 1.5 * disp, np.median(y), 0.0]
         try:
-            p, cov = curve_fit(model, x, y, p0=[np.ptp(y), lab, 1.5 * disp, np.median(y), 0.0], maxfev=4000)
+            p, cov = curve_fit(model, x, y, p0=start, maxfev=4000)
         except (RuntimeError, ValueError):
             continue
         noise = 1.4826 * np.median(np.abs(y - model(x, *p)))  # from the fit: the line's own slope is not noise
         err = float(np.sqrt(cov[1, 1])) if np.isfinite(cov[1, 1]) else np.inf
         snr = float(p[0] / noise) if noise > 0 else 0.0
-        if snr >= min_snr and 0.3 * disp < abs(p[2]) < 6 * disp and abs(p[1] - lab) < 6 * disp and err < disp:
-            found.append((lab, float(p[1] - lab), err, snr))
+        if snr >= min_snr and 0.3 * disp < abs(p[2]) < 6 * disp and abs(p[1]) < 6 * disp and err < disp:
+            found.append((lab, float(p[1]), err, snr))
+    return combine_sky(found, disp, strong_snr), found
+
+
+def combine_sky(found, disp, strong_snr=15.0):
+    """The zero-point offset from measured sky lines [(line, offset, error, snr)], or None: two or more lines that
+    agree within 3 sigma (weighted mean), or a single line of strong_snr."""
     if not found:
-        return None, found
+        return None
     off = np.array([f[1] for f in found])
     err = np.array([f[2] for f in found])
     if len(found) == 1:
-        return (found[0][1] if found[0][3] >= strong_snr else None), found
+        return found[0][1] if found[0][3] >= strong_snr else None
     mean = float(np.sum(off / err**2) / np.sum(1 / err**2))
     if np.all(np.abs(off - mean) < 3 * np.hypot(err, 0.1 * disp)):
-        return mean, found
-    return None, found
+        return mean
+    return None
+
+
+def sky_shift_orders(waves, skies, min_snr=8.0, strong_snr=15.0):
+    """sky_shift over the orders of an echelle spectrum: each night-sky line measured in every order that holds it
+    (an order's ends are left out), then combined as for a long slit. Returns (offset or None, found)."""
+    found, disps = [], []
+    for w, sky in zip(waves, skies, strict=True):
+        w = np.asarray(w, float)
+        lo, hi = np.nanmin(w), np.nanmax(w)
+        if not any(lo + 0.05 * (hi - lo) < lab < hi - 0.05 * (hi - lo) for lab in SKY_LINES):
+            continue
+        _, f = sky_shift(w, sky, min_snr, strong_snr)
+        found += f
+        disps.append(float(np.median(np.abs(np.diff(w)))))
+    return combine_sky(found, float(np.median(disps)) if disps else 1.0, strong_snr), found

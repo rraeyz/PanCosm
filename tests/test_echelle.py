@@ -395,3 +395,23 @@ def test_solution_from_three_middle_orders_reaches_all_46():
     centre = x[300:1750]
     worst = max(np.max(np.abs(sol(centre, m) - lam(centre, m))) for m in orders)
     assert worst < 0.02 and sol.rms < 0.01  # Angstrom
+
+
+def test_zero_point_from_the_sky_lines_over_the_orders():
+    """[O I] 5577 and 6300 in the inter-order sky of two orders, both 0.12 A off (flexure since the arc): the shift
+    is found; an order without sky lines adds nothing; one weak line alone is not trusted."""
+    from astrowb.spectroscopy import wavecal
+
+    rng = np.random.default_rng(4)
+    waves, skies = [], []
+    for lo in (5540.0, 6260.0, 4800.0):  # orders holding 5577, 6300 (and 6363 near the edge: left out), none
+        w = lo + 0.03 * np.arange(3000)
+        sky = 50 + rng.normal(0, 1.0, w.size)
+        for lab, amp in ((5577.338, 400.0), (6300.304, 150.0)):
+            sky += amp * np.exp(-0.5 * ((w - lab - 0.12) / 0.05) ** 2)
+        waves.append(w)
+        skies.append(sky)
+    shift, found = wavecal.sky_shift_orders(waves, skies)
+    assert abs(shift - 0.12) < 0.005 and len(found) == 2
+    weak = [skies[0] - 395 * np.exp(-0.5 * ((waves[0] - 5577.458) / 0.05) ** 2)]  # 5 above the noise of 1: weak
+    assert wavecal.sky_shift_orders(waves[:1], weak)[0] is None
