@@ -306,7 +306,25 @@ Plan (claim → done, in this order):
   0.607–0.608; velocities within 0.05 km/s of before. Tests `test_a_zero_filled_gap_is_missing_data_not_a_line`,
   `test_one_smooth_template_does_not_pull_both_stars_together` (guards; the false peak needs the real template's
   rounding to appear).
-- P8 **CLAIMED (01RxUU)** MK type suggestion validated on many stars of published type.
+- P8 **DONE — one bug, one default changed.** MK type suggestion on HARPS 1-D spectra (ESO archive, ADP s1d, S/N
+  ~400) of 23 bright stars with SIMBAD types (list and files: /tmp/claude-0/realdata/mkcheck/list.json; script
+  /tmp/claude-0/work/mk_check.py, `run(degree)`): at first rms 2.0 subclasses, late-G/early-K dwarfs typed G0 V.
+  (1) **Bug:** the first and last pixel of each libnor36 standard are cut by the rebinning (K0 V ends at 0.08, G5 V
+  at 0.40, starts at 0.09–0.34): one such pixel against a real spectrum weighs as much as all the lines of the last
+  100 A, and it penalised some standards (K0 V, G5 V, K0 IV) and not others. `mkstandards.load` now leaves out the
+  first and last two covered pixels (test `test_the_rebinning_cut_at_the_ends_of_a_standard_is_left_out`).
+  (2) **Default degree of the response polynomial 2 -> 4:** HARPS's uncalibrated response over 3800–5600 A is not a
+  parabola. Degrees 2/4/6/8 after the fix: temperature rms 1.59/1.06/0.93/1.01 subclasses, within 2 subclasses
+  78/91/96/96 %, luminosity class exact 74/78/70/74 %, within one class 96/100/96/96 %. 4 is chosen: 6 is slightly
+  better in temperature but puts beta Vir F9 V among the giants. (My own selection error found on the way: the
+  "alpha Cen B" file was alpha Cen A — a 36" cone around B catches A; refetched by target name HD128621.)
+  Result with degree 4: Fomalhaut A4V -> A3 V; alf Hyi F0IV -> F0 V; Procyon F5IV-V -> F5 V; bet Hyi G0V -> F9 V;
+  alf Cen A G2V -> G0 V; alf Cen B K1V -> K1 V; tau Cet G8V -> G8 V; eps Eri K2V -> K2 V; del Pav G8IV -> G5 V;
+  18 Sco G2Va -> G0 V; 51 Peg G2IV -> G0 V; Arcturus K1.5III -> K2 III; alf Hya K3IIIa -> K3 III; eps Ind K5V -> K3 V;
+  HD 10647 F9V -> F8 V; zet Dor F9V -> F8 V; gam Pav F9V Fe-1.4 -> F6 V (metal-poor: weak lines look earlier, as for
+  a classifier); bet Vir F9V -> G0 V; iot Hor F8V -> F8 V; eta Boo G0IV -> F8 V; HD 20794 G6V -> G0 V; 61 Vir G6.5V
+  -> G8 V; Achernar B6Vpe -> B2 V (Be star, fast rotator). Summary: median -0.5 subclass, rms 1.06, 78 % within one
+  subclass, 91 % within two; luminosity exact 78 %, within one class 100 %. Guide 08 (4 languages) gives this.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

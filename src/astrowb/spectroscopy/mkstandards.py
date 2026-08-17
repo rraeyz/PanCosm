@@ -101,7 +101,11 @@ def load(folder):
         if wave is None:
             wave = d[:, 0]
         if d.shape[0] == wave.size:
-            lib[(int(m.group(1)) / 10, int(m.group(2)) / 10)] = d[:, 1]
+            flux = d[:, 1].copy()
+            covered = np.flatnonzero(flux > 0)
+            if covered.size > 4:  # the first and last pixels are cut by the rebinning (K0 V ends at 0.08)
+                flux[covered[:2]] = flux[covered[-2:]] = 0.0
+            lib[(int(m.group(1)) / 10, int(m.group(2)) / 10)] = flux
     if not lib:
         raise ValueError("no MK standards in the library folder")
     return wave, lib
@@ -321,7 +325,7 @@ def luminosity_from_lines(obs, grid, lib, t):
     return min(scores, key=scores.get) if scores else None
 
 
-def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
+def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=4):
     """[{type, score, t, lum}] best first (score: rms of the relative residual), and the best model on the
     library's wavelengths ({wave, star, model}). fwhm: resolution of the spectrum in A (default two pixels)."""
     grid, lib = load(folder)
