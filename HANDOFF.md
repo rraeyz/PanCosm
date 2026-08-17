@@ -235,7 +235,12 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 data: download real data with astropy / astroquery / archives (Gaia, TESS…) and try every feature with them.**
 Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int OK; VizieR: CDS no answer, CfA OK
 (empty for Gaia / APASS), IDIA slow; ESO archive OK; NASA Exoplanet Archive OK; IRSA OK; MAST API answers; AAVSO 403
-(bot check — never try to get around it); BeSS 500. Plan (claim → done, in this order):
+(bot check — never try to get around it); BeSS 500.
+**Note (session 019Lu3, ~15:30 UTC):** a second full test round (real data against IRAF, BANZAI, photutils, SPOC,
+ESO DRS, PESSTO, ORB6, JPL Horizons; timings; CPU / memory / GPU use) was run on `90e106f`, i.e. **before** P1–P3
+below, with no code changed — see the section "Second full test round, 2026-11-06" further down. Its speed / memory
+ideas are **suggestions only** for the owner to decide on.
+Plan (claim → done, in this order):
 - P1 **DONE** Photometry: MaxIm-like list of all frames beside the image (name, time, FWHM, sky, use box; click shows the
   frame; bad frames red) + "blink" button. Done: `PhotometryPage.frame_table` (name, mid-exposure UTC, FWHM, sky,
   check box = use), kept in step with the arrows / slider / "Use this frame"; "Blink" (QTimer 450 ms) steps through
