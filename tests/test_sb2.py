@@ -188,3 +188,38 @@ def test_one_template_for_both_stars_keeps_the_brighter_as_component_one():
         r = sb2.todcor(WAVE, f + rng.normal(0, 0.01, f.size), WAVE, T1, WAVE, T1, -200, 200)
         assert r["rv1"] == pytest.approx(v_bright, abs=0.5) and r["rv2"] == pytest.approx(v_faint, abs=0.5)
         assert r["alpha"] < 1 and r["flux_ratio"] == pytest.approx(0.6, rel=0.15)
+
+
+def test_a_zero_filled_gap_is_missing_data_not_a_line(tmp_path):
+    """HARPS's s1d fills the gap between its CCDs with zeros: read as missing (NaN), single zeros stay."""
+    from astropy.io import fits
+
+    from astrowb.spectroscopy import spectrum_io
+
+    flux = np.ones(500)
+    flux[200:240] = 0.0  # a gap
+    flux[400] = 0.0  # one saturated pixel
+    h = fits.Header({"CRVAL1": 5000.0, "CDELT1": 0.01, "CRPIX1": 1.0})
+    fits.PrimaryHDU(flux, h).writeto(tmp_path / "s.fits")
+    _, f, _, _ = spectrum_io.read(tmp_path / "s.fits")
+    assert np.isnan(f[200:240]).all() and f[400] == 0 and np.isfinite(f[:200]).all()
+
+
+def test_one_smooth_template_does_not_pull_both_stars_together():
+    """One finely sampled template for both stars (as with the HARPS spectrum of tau Ceti for AI Phe): next to the
+    diagonal C12 -> 1 and 1 - C12^2 -> 0; that band is left out, the two velocities stay apart."""
+    rng = np.random.default_rng(8)
+    wave = np.arange(5000.0, 5300.0, 0.01)  # oversampled: neighbouring lags nearly identical
+    lines = rng.uniform(5005, 5295, 400)
+    depth = rng.uniform(0.05, 0.5, 400)
+
+    def star(v):
+        f = np.ones_like(wave)
+        for c, d in zip(lines, depth, strict=True):
+            f -= d * np.exp(-0.5 * ((wave - c * (1 + v / 299792.458)) / 0.06) ** 2)
+        return f
+
+    obs = (star(-33.0) + 0.6 * star(58.0)) / 1.6 + rng.normal(0, 0.005, wave.size)
+    tmpl = star(0.0)
+    r = sb2.todcor(wave, obs, wave, tmpl, wave, tmpl.copy(), -150, 150)
+    assert abs(r["rv1"] + 33.0) < 0.5 and abs(r["rv2"] - 58.0) < 0.5 and 0.5 < r["flux_ratio"] < 0.7

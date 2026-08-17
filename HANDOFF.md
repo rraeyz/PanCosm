@@ -293,7 +293,20 @@ Plan (claim → done, in this order):
   simultaneous-reference spectrographs only): a library function with test `test_drift_of_a_lamp_spectrum_as_harps_
   measures_it`. Data: /tmp/claude-0/realdata/harps (ESO archive raw files listed in U8b above; anc.tar = the ESO
   products of ADP.2014-09-24T09:42:58.973).
-- P7 **CLAIMED (01RxUU)** TODCOR light ratio FEROS vs HARPS.
+- P7 **DONE — two bugs.** TODCOR light ratio of AI Phe (tau Ceti HARPS s1d as template for both stars): FEROS 0.33,
+  HARPS 0.66. Window by window (4500–5000 / 5000–5500 / 5500–6000 / 6000–6500 A) both agreed (0.68/0.66, 0.53/0.52,
+  0.50/0.49) except 5000–5500, where FEROS gave ~0 and the correlation peak fell to 0.2: **HARPS's s1d fills the gap
+  between its CCDs (5304–5337 A) with zeros**, read as flux — in the template (and HARPS spectra) the deepest "line" of
+  all. (1) `spectrum_io.read` now returns runs of >= 3 exact zeros as NaN (single zeros stay); the RV step drops a
+  template's NaN (bridged: no lines); every other reader already filters NaN (checked: MK classify, telluric, Pickles
+  classify, disentangle, atmosphere). (2) With the gap gone, the HARPS spectra collapsed onto v1 = v2: with one
+  template for both stars C12 -> 1 beside the diagonal and 1 − C12² -> 0 made a false peak from rounding (the gap had
+  hidden it). `sb2.todcor` now leaves out the band |s2 − s1| where the templates still overlap by half (C12 > 0.5) —
+  two stars closer than that cannot be split anyway. Result: flux ratio FEROS 0.609–0.630 (median 0.623), HARPS
+  0.607–0.608; velocities within 0.05 km/s of before. Tests `test_a_zero_filled_gap_is_missing_data_not_a_line`,
+  `test_one_smooth_template_does_not_pull_both_stars_together` (guards; the false peak needs the real template's
+  rounding to appear).
+- P8 **CLAIMED (01RxUU)** MK type suggestion validated on many stars of published type.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

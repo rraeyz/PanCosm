@@ -362,11 +362,13 @@ def rv_step(inputs, params, ctx):
     from ..planning.visibility import Site
 
     tw0, tf0, _, _ = spectrum_io.read(inputs["template"])
-    tf0 = rv.continuum_normalise(tw0, tf0)
+    good = np.isfinite(tf0)  # a template's gap (NaN) is bridged by interpolation: no lines, not zero flux
+    tw0, tf0 = tw0[good], rv.continuum_normalise(tw0[good], tf0[good])
     t2 = None
     if inputs.get("template2"):
         t2w, t2f, _, _ = spectrum_io.read(inputs["template2"])
-        t2 = (t2w, rv.continuum_normalise(t2w, t2f))
+        good = np.isfinite(t2f)
+        t2 = (t2w[good], rv.continuum_normalise(t2w[good], t2f[good]))
     site = Site(**inputs["site"]).location if inputs.get("site") else None
     rows, skipped = [], []
     for i, path in enumerate(inputs["spectra"]):
