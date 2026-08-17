@@ -414,3 +414,35 @@ def merge(waves, fluxes, errors, blaze_fn=None, min_blaze=0.1, step=None):
         den[inside] += 1 / vi
     have = den > 0
     return np.exp(grid[have]), num[have] / den[have], 1 / np.sqrt(den[have])
+
+
+def drift(reference, spectrum, read_noise=5.0):
+    """Shift (pixels) of spectrum against reference, order by order, with the photon-noise-weighted estimator of
+    Bouchy, Pepe & Queloz (2001, A&A 374, 733) that the HARPS pipeline uses for its simultaneous ThAr reference:
+    with A0 the reference, A the spectrum scaled to its flux, per pixel dA0/dx and σ² = A0 + read_noise²,
+        δx = Σ (A − A0) A0' / σ² / Σ A0'² / σ²,     σ(δx) = 1 / sqrt(Σ A0'² / σ²)
+    (the sign: A drifted by +δx is A0(x − δx) ≈ A0 − δx A0', so δx comes out with a minus — applied below).
+    Returns (shift, error, per-order shifts, per-order errors); multiply by the velocity per pixel for m/s.
+    Pixels far off (cosmic rays: |A − A0| > 6 σ) are left out."""
+    ref, spec = np.atleast_2d(np.asarray(reference, float)), np.atleast_2d(np.asarray(spectrum, float))
+    shifts, errors = [], []
+    for a0, a in zip(ref, spec, strict=True):
+        ok = np.isfinite(a0) & np.isfinite(a)
+        a0, a = np.where(ok, a0, 0.0), np.where(ok, a, 0.0)
+        a = a * (a0.sum() / a.sum()) if a.sum() > 0 else a
+        slope = np.gradient(a0)
+        var = np.clip(a0, 0, None) + read_noise**2
+        good = ok & (np.abs(a - a0) < 6 * np.sqrt(var + np.clip(a, 0, None)))
+        w = np.where(good, slope**2 / var, 0.0)
+        if w.sum() <= 0:
+            shifts.append(np.nan)
+            errors.append(np.nan)
+            continue
+        shifts.append(float(-np.sum(np.where(good, (a - a0) * slope / var, 0.0)) / w.sum()))
+        errors.append(float(1 / np.sqrt(w.sum())))
+    s, e = np.array(shifts), np.array(errors)
+    use = np.isfinite(s) & np.isfinite(e)
+    if not use.any():
+        return np.nan, np.nan, s, e
+    wt = 1 / e[use] ** 2
+    return float(np.sum(s[use] * wt) / wt.sum()), float(1 / np.sqrt(wt.sum())), s, e
