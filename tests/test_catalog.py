@@ -120,3 +120,64 @@ def test_photometry_page_shows_standard_magnitudes(qtbot, tmp_path):
     assert page.light_curve["mag"][0] == pytest.approx(11.0 + 2.5 * np.log10(1000 / 400), abs=1e-6)
     export_csv(page.light_curve | {"jd_utc": page.light_curve["time"]}, tmp_path / "lc.csv")
     assert "V_mag" in (tmp_path / "lc.csv").read_text().splitlines()[0]
+
+
+def test_gaia_from_the_esa_archive_when_no_vizier_server_answers(monkeypatch):
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+    from astropy.table import Table
+
+    from astrowb import gaia, mirrors
+    from astrowb.photometry import coefficients
+
+    def down(service, query, patience=15.0):
+        raise ConnectionError("tunnel closed")
+
+    asked = []
+
+    def esa(ra, dec, radius_deg, row_limit=5000):
+        asked.append(radius_deg)
+        return Table(
+            {
+                "_RAJ2000": [10.0, 10.01],
+                "_DEJ2000": [20.0, 20.0],
+                "Gmag": [12.0, 13.0],
+                "e_Gmag": [0.001, 0.002],
+                "BPmag": [12.4, 13.5],
+                "RPmag": [11.5, 12.4],
+            }
+        )
+
+    monkeypatch.setattr(mirrors, "cds", down)
+    monkeypatch.setattr(gaia, "photometry", esa)
+    entry = catalog.vizier_fetch(SkyCoord(10.0101 * u.deg, 20.0 * u.deg))
+    assert entry["apass"] is None and entry["gaia"]["Gmag"] == 13.0  # the nearer star, not the brighter
+    assert catalog.star_magnitude(entry, "V")["source"] == "Gaia DR3 → JC"
+    sky = SkyCoord([10.0, 10.01, 10.3] * u.deg, [20.0, 20.0, 20.0] * u.deg)
+    mags = coefficients.catalogue_magnitudes(sky, ("B", "V"))
+    assert np.isnan(mags["B"]).all() and np.isfinite(mags["V"][:2]).all() and np.isnan(mags["V"][2])
+    monkeypatch.setattr(gaia, "photometry", lambda *a, **k: Table({"_RAJ2000": [], "_DEJ2000": []}))
+    with pytest.raises(ConnectionError):  # nothing anywhere and VizieR down: the error, not an empty answer
+        coefficients.catalogue_magnitudes(sky, ("B", "V"))
+
+
+def test_no_colour_term_from_scatter_over_a_narrow_colour_range():
+    # four red comparison stars (B-V 0.53-0.86) whose catalogue magnitudes scatter by 0.05: their slope is noise,
+    # and extrapolated to a blue target (B-V 0.12) it moved the target by 0.27 mag on a real LCO night
+    colours = np.array([0.86, 0.53, 0.82, 0.80])
+    offsets = np.array([-0.035, -0.002, 0.067, -0.030])
+    mags = np.array([11.769, 11.392, 11.592, 11.989])
+    flux = 10 ** (-0.4 * (mags - offsets - 23.6))
+    lc = {
+        "comp_flux": [flux.tolist()] * 3,
+        "target_flux": [1e5] * 3,
+        "rel_flux": [1.0] * 3,
+        "rel_flux_err": [0.001] * 3,
+    }
+    comps = [{"mag": m, "colour": c} for m, c in zip(mags, colours, strict=True)]
+    out = catalog.calibrate(lc, comps, target_colour=0.12)
+    assert out["colour_term"] == 0.0
+    # a real colour term over the same colours, measured by the stars, is kept
+    flux = 10 ** (-0.4 * (mags - 0.3 * colours - 23.6))
+    out = catalog.calibrate(lc | {"comp_flux": [flux.tolist()] * 3}, comps, target_colour=0.12)
+    assert out["colour_term"] == pytest.approx(0.3, abs=0.01)

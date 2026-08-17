@@ -35,20 +35,38 @@ def vizier_fetch(coord, radius_arcsec=3.0):
 
     from ..mirrors import cds
 
-    out = {}
+    out, error = {}, None
     for key, cat, cols in (
         ("apass", "II/336/apass9", ["Bmag", "e_Bmag", "Vmag", "e_Vmag", "g'mag", "r'mag", "i'mag"]),
         ("gaia", "I/355/gaiadr3", ["Gmag", "e_Gmag", "BPmag", "RPmag"]),
     ):
-        tables = cds(  # "+_r": nearest first
-            "vizier",
-            lambda server, cat=cat, cols=cols: Vizier(
-                columns=["+_r", *cols], row_limit=5, vizier_server=server
-            ).query_region(coord, radius=radius_arcsec * u.arcsec, catalog=cat),
-        )
-        row = tables[0][0] if len(tables) and len(tables[0]) else None
+        try:
+            tables = cds(  # "+_r": nearest first
+                "vizier",
+                lambda server, cat=cat, cols=cols: Vizier(
+                    columns=["+_r", *cols], row_limit=5, vizier_server=server
+                ).query_region(coord, radius=radius_arcsec * u.arcsec, catalog=cat),
+            )
+        except Exception as e:  # noqa: BLE001 - no VizieR server answered: Gaia from the ESA archive below
+            tables, error = [], e
+        t = tables[0] if len(tables) and len(tables[0]) else None
+        if t is None and key == "gaia":
+            from ..gaia import photometry
+
+            t = photometry(coord.ra.deg, coord.dec.deg, radius_arcsec / 3600)
+            t = t[np.argsort(coord.separation(_sky(t)).arcsec)] if len(t) else None  # nearest first
+        row = None if t is None else t[0]
         out[key] = None if row is None else {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
+    if error is not None and not any(out.values()):
+        raise error
     return out
+
+
+def _sky(t):
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+
+    return SkyCoord(np.asarray(t["_RAJ2000"], float) * u.deg, np.asarray(t["_DEJ2000"], float) * u.deg)
 
 
 def star_magnitude(entry, filt):
@@ -98,10 +116,15 @@ def calibrate(lc, comps, target_colour=None, colour_term=True):
     for _ in range(len(use)):  # drop the worst star while it is off by > 0.1 mag (variable, blended, bad entry)
         fit_k = colour_term and (good & np.isfinite(colours)).sum() >= 3
         ok = good & np.isfinite(colours)
+        k, a = 0.0, np.mean(d[good])
         if fit_k and np.ptp(colours[ok]) > 0.2:
-            k, a = np.polyfit(colours[ok], d[ok], 1)
-        else:
-            k, a = 0.0, np.mean(d[good])
+            slope, icpt = np.polyfit(colours[ok], d[ok], 1)
+            spread = np.sum((colours[ok] - colours[ok].mean()) ** 2)
+            s = np.sqrt(np.sum((d[ok] - slope * colours[ok] - icpt) ** 2) / max(ok.sum() - 2, 1))
+            # only a colour term the stars show: four stars over 0.3 mag of colour gave k = -0.40 +- 0.25 on a real
+            # LCO night, 0.27 mag off for a bluer target
+            if abs(slope) > 3 * s / np.sqrt(spread):
+                k, a = slope, icpt
         off = d - a - k * np.nan_to_num(colours)
         worst = int(np.argmax(np.where(good, np.abs(off), -1)))
         if abs(off[worst]) <= 0.1 or good.sum() <= 2:

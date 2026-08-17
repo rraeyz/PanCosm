@@ -107,3 +107,20 @@ def test_a_slow_cds_server_is_left_for_the_next(tmp_path, monkeypatch):
     t0 = time.time()
     assert mirrors.cds("simbad", query, patience=0.3) == "simbad.harvard.edu" and time.time() - t0 < 2
     assert len(mirrors.SERVERS["simbad"]) >= 3
+
+
+def test_a_vizier_mirror_with_no_rows_is_passed_over(tmp_path, monkeypatch):
+    from astrowb import mirrors
+
+    monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    monkeypatch.setattr(mirrors, "_working", {"vizier": "vizier.cfa.harvard.edu"})  # remembered from a SIMBAD-era query
+    asked = []
+
+    def query(server):  # Harvard answers Gaia / APASS queries with no rows; Strasbourg is down
+        asked.append(server)
+        if "unistra" in server:
+            raise ConnectionError("tunnel closed")
+        return [] if "harvard" in server else ["rows"]
+
+    assert mirrors.cds("vizier", query) == ["rows"] and mirrors._working["vizier"] == "vizier.idia.ac.za"
+    assert mirrors.cds("vizier", lambda server: []) == []  # nothing anywhere: an empty answer, not an error
