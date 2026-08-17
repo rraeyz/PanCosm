@@ -50,7 +50,7 @@ def frames(path) -> list[str]:
 
     path = Path(path)
     folder = path.parent / "fits_from_raw" / path.name.split(".fits")[0]
-    listing = folder / "frames.txt"  # written last: an interrupted conversion is done again
+    listing = folder / "frames2.txt"  # written last: an interrupted conversion is done again (2: with PIXNOISE)
     if listing.exists() and listing.stat().st_mtime >= path.stat().st_mtime:
         return [str(folder / n) for n in listing.read_text().split()]
     with fits.open(path) as hdul:
@@ -63,6 +63,10 @@ def frames(path) -> list[str]:
         if not good.any():
             raise ValueError(f"{path.name}: no cadence with a time and good quality")
         flux = np.asarray(data["FLUX"][good], np.float32)
+        noise = None
+        if "FLUX_ERR" in data.columns.names:  # the archive's noise per pixel: the sky ring of an 11 x 11 px stamp holds
+            # the star's wings and its neighbours, and its scatter overstated the errors 3x (WASP-12, TESS sector 20)
+            noise = np.nanmedian(np.asarray(data["FLUX_ERR"][good], float).reshape(int(good.sum()), -1), axis=1)
         rows = np.flatnonzero(good)  # names come from the row: TESScut files have CADENCENO 0 on every row
         wcs = _celestial(hdul)
     exptime = float(tab.get("TIMEDEL", 0.0)) * 86400 * float(tab.get("DEADC", 1.0))  # on-source time per cadence
@@ -85,6 +89,8 @@ def frames(path) -> list[str]:
         h["DATE-AVG"] = (stamps[i], "UTC at the geocentre for BJD_TDB")
         h["EXPTIME"] = (exptime, "[s]")
         h["GAIN"] = (1.0, "the pixels are electrons")
+        if noise is not None and np.isfinite(noise[i]):
+            h["PIXNOISE"] = (float(noise[i] * exptime), "[e-] sky noise per pixel, from the archive's FLUX_ERR")
         h["IMAGETYP"] = "Light Frame"
         h["TPFROW"] = (int(rows[i]), "row of the target pixel file")
         h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")

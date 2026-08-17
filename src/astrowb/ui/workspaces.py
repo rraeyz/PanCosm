@@ -2723,6 +2723,14 @@ class PhotometryPage(Undoable, QWidget):
         lc = self.light_curve
         f = np.asarray(lc["rel_flux"], float)
         lines = [self.tr("{n} points, scatter {rms:.2f} %").format(n=len(f), rms=100 * np.nanstd(f / np.nanmedian(f)))]
+        a = lc.get("apertures") or {}
+        if a.get("replaced"):
+            lines.append(
+                self.tr(
+                    "The rings do not fit these small frames: aperture {r:.1f} px, sky {a:.1f}–{b:.1f} px, chosen "
+                    "from the stars."
+                ).format(r=a["r_ap"], a=a["r_in"], b=a["r_out"])
+            )
         if self.excluded:
             lines.append(
                 self.tr("{n} points deleted by hand (Restore deleted points brings them back).").format(

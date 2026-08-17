@@ -82,8 +82,10 @@ def light_curve(
     rows = []
     prev, xy = ref, stars0
     chosen = None
-    if auto:
-        chosen = choose_apertures(ref, stars0[: 1 + n_comp], g)
+    # a small stamp (a TESS pixel file is 11 x 11 px) holds no ring of the default radii: every flux came out NaN
+    too_big = r_in >= 0.5 * min(ref.shape[-2:])
+    if auto or too_big:
+        chosen = choose_apertures(ref, stars0[: 1 + n_comp], g) | {"replaced": bool(too_big and not auto)}
         r_ap, r_in, r_out = chosen["r_ap"], chosen["r_in"], chosen["r_out"]
     fwhm0 = seeing_fwhm(ref, recenter(ref, stars0, box)) if follow_seeing else None
     radii, fwhms, peaks = [], [], []
@@ -119,7 +121,7 @@ def light_curve(
             f = fwhms[-1] if fwhms else seeing_fwhm(data, xy[: 1 + n_comp])
             flux, err, skylev = psf_measure(data, xy, f if np.isfinite(f) else r_ap / 1.5, *radii[-1][1:], g)
         else:
-            flux, err, skylev = measure(data, xy, *radii[-1], g)
+            flux, err, skylev = measure(data, xy, *radii[-1], g, h.get("PIXNOISE"))
         peaks.append(_peaks(data, xy, radii[-1][0]))
         try:
             t = timing.mid_time(h)

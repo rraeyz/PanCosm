@@ -175,8 +175,9 @@ def _wide_centroid(img, x, y, box, frame_sky, max_box=301):
     return x, y
 
 
-def measure(data, xy, r_ap, r_in, r_out, gain=1.0):
-    """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y)."""
+def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
+    """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
+    sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus."""
     data = np.asarray(data, dtype=np.float64)
     ap = CircularAperture(xy, r=r_ap)
     an = CircularAnnulus(xy, r_in=r_in, r_out=r_out)
@@ -185,7 +186,8 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0):
     n_ap = ap.area_overlap(data)
     n_sky = np.asarray(sky.sum_aper_area.value)
     flux = np.asarray(raw["aperture_sum"]) - n_ap * np.asarray(sky.median)
-    var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * np.asarray(sky.std) ** 2
+    noise = np.asarray(sky.std) if pixel_noise is None else float(pixel_noise)
+    var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2
     return flux, np.sqrt(var), np.asarray(sky.median)
 
 
@@ -330,9 +332,10 @@ def choose_apertures(data, stars_xy, gain=1.0):
     r_in = float(radii[enough[0]]) if len(enough) else 3.0 * fwhm
     r_in = max(r_in, 3.0 * fwhm, r_ap + 1.0)
     r_out = float(np.sqrt(r_in**2 + SKY_RATIO * r_ap**2))
-    if r_out > r_max:  # a small stamp: the sky ring in the corners that exist, after the aperture
-        r_in = max(min(r_in, 0.75 * r_max), r_ap + 0.5)
-        r_out = max(r_max, r_in + 1.0)
+    if r_out > r_max:  # a small stamp: a narrow ring from 2 FWHM, not out in its corners (on a real 11 x 11 px TESS
+        # file of WASP-12 the corners held a neighbour and few pixels: scatter 0.0036 against 0.0026 for 4-6 px)
+        r_in = max(min(r_in, 2.0 * fwhm, r_max - 1.0), r_ap + 0.5)
+        r_out = max(min(r_max, r_in + 2.0), r_in + 1.0)
     centres, binned = profiles[b]["bins"]
     # a target whose light grows faster outside the aperture than the comparisons' has something next to it (a faint
     # neighbour in its wings): radii that follow the seeing then take a varying share of it (tested on a synthetic

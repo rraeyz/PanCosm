@@ -80,3 +80,47 @@ def test_space_photometry_without_comparison_stars_and_every_minimum(tmp_path):
     primaries = [m for m in minima if m["kind"] == "I"]
     assert len(primaries) >= 9 and any(m["kind"] == "II" and m["epoch"] % 1 == 0.5 for m in minima)
     assert max(abs(m["o_minus_c"]) for m in minima) * 1440 < 3  # minutes
+
+
+def test_errors_of_a_small_stamp_come_from_the_archive_noise(tmp_path):
+    """11 x 11 px with a neighbour in the sky ring (WASP-12, TESS sector 20): the ring's scatter is the neighbour and
+    the wings, not noise, and made the errors 3x too large; FLUX_ERR gives the noise per pixel."""
+    n, rows, sigma = 300, 11, 15.0
+    rng = np.random.default_rng(4)
+    yy, xx = np.mgrid[:rows, :rows]
+    r2 = (xx - 5) ** 2 + (yy - 5) ** 2  # an undersampled core with wide wings, as TESS has
+    star = 3e4 * np.exp(-r2 / 1.6) + 800 * np.exp(-r2 / 12) + 900 * np.exp(-((xx - 9) ** 2 + (yy - 1) ** 2) / 1.6)
+    cube = (star[None] + rng.normal(0, sigma, (n, rows, rows))).astype(np.float32)
+    cols = [
+        fits.Column("TIME", "D", array=1900.0 + np.arange(n) / 720),
+        fits.Column("FLUX", f"{rows * rows}E", dim=f"({rows},{rows})", array=cube),
+        fits.Column("FLUX_ERR", f"{rows * rows}E", dim=f"({rows},{rows})", array=np.full_like(cube, sigma)),
+        fits.Column("QUALITY", "J", array=np.zeros(n, np.int32)),
+    ]
+    table = fits.BinTableHDU.from_columns(cols, name="PIXELS")
+    table.header.update({"BJDREFI": 2457000, "BJDREFF": 0.0, "TIMEDEL": 1 / 720, "DEADC": 0.792})
+    wcs = {"CTYPE1": "RA---TAN", "CTYPE2": "DEC--TAN", "CRVAL1": 97.6, "CRVAL2": 29.7, "CRPIX1": 6, "CRPIX2": 6}
+    aperture = fits.ImageHDU(np.ones((rows, rows), np.int32), name="APERTURE")
+    aperture.header.update(wcs | {"CDELT1": -0.0058, "CDELT2": 0.0058})
+    primary = fits.PrimaryHDU(header=fits.Header({"TELESCOP": "TESS", "RA_OBJ": 97.6, "DEC_OBJ": 29.7}))
+    path = tmp_path / "small_tp.fits"
+    fits.HDUList([primary, table, aperture]).writeto(path)
+    frames = bayer.fits_paths([str(path)])
+    assert fits.getval(frames[0], "PIXNOISE") == pytest.approx(sigma * 120 * 0.792, rel=1e-3)
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    params = {"r_ap": 2.0, "r_in": 4.0, "r_out": 6.0}
+    lc = execute("photometry.light_curve", {"images": frames, "target_xy": [5, 5], "comps_xy": []}, params, Ctx())
+    lc = lc["light_curve"]
+    scatter, err = np.std(lc["rel_flux"]), np.median(lc["rel_flux_err"])
+    assert 0.7 < err / scatter < 1.4
+    # the page's default rings (4, 10, 16 px) do not fit 11 x 11 px: chosen from the stars instead of NaN everywhere
+    lc = execute("photometry.light_curve", {"images": frames[:20], "target_xy": [5, 5], "comps_xy": []}, {}, Ctx())
+    lc = lc["light_curve"]
+    assert lc["apertures"]["replaced"] and np.all(np.isfinite(lc["rel_flux"])) and lc["apertures"]["r_out"] <= 7
