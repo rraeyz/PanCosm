@@ -125,3 +125,24 @@ def test_fast_spectrum_equals_the_direct_sum():
     uneven = np.sort(rng.uniform(1, 40, 3000))  # an uneven grid takes the direct path
     ref = np.abs(np.exp(-2j * np.pi * np.outer(uneven, tt)) @ yy)
     assert np.allclose(np.abs(fourier._exp_sums(tt, yy, uneven)), ref, rtol=1e-12, atol=1e-12)
+
+
+def test_binned_errors_and_a_weighted_period_search():
+    from astrowb.engine.steps import execute
+    from astrowb.timeseries.fourier import bin_time
+
+    t = np.repeat(np.arange(10), 10) * 0.1 + np.tile(np.arange(10), 10) * 0.005  # ten points in each 0.1 bin
+    y = np.ones_like(t)
+    tb, yb, eb = bin_time(t, y, 0.1, np.full(t.size, 0.02))
+    assert np.allclose(eb, 0.02 / np.sqrt(10))  # ten points of 0.02 per bin
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    rng = np.random.default_rng(2)
+    t = np.sort(rng.uniform(0, 20, 600))
+    e = np.where(rng.uniform(size=t.size) < 0.3, 0.2, 0.01)  # a third of the points far noisier
+    f = 1 + 0.03 * np.sin(2 * np.pi * t / 1.37) + rng.normal(0, e)
+    out = execute("timeseries.period", {"time": t, "flux": f, "err": e}, {"p_min": 0.3, "p_max": 5.0}, Ctx())
+    assert abs(out["best"] - 1.37) < 0.005

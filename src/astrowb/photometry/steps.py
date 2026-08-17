@@ -154,6 +154,7 @@ def minimum_step(inputs, params, ctx):
     "timeseries.period",
     inputs=("time", "flux"),
     outputs=("periods", "power", "best"),
+    optional=("err",),
     method="lomb-scargle",
     p_min=0.05,
     p_max=None,
@@ -163,15 +164,19 @@ def period_step(inputs, params, ctx):
     from ..timeseries.fourier import anova
 
     t, y = np.asarray(inputs["time"], float), np.asarray(inputs["flux"], float)
-    ok = np.isfinite(t) & np.isfinite(y)
+    err = inputs.get("err")
+    e = np.asarray(err, float) if err is not None and len(err) == len(t) else None
+    ok = np.isfinite(t) & np.isfinite(y) & (np.isfinite(e) & (e > 0) if e is not None else True)
     t, y = t[ok], y[ok]
+    e = e[ok] if e is not None else None
     p_max = params["p_max"] or np.ptp(t) / 2
     if p_max <= params["p_min"]:  # a period needs at least two cycles in the data
         raise ValueError(f"the light curve spans {24 * np.ptp(t):.2g} h: too short to search for periods")
     funcs = {"lomb-scargle": period.lomb_scargle, "bls": period.bls, "pdm": period.pdm, "anova": anova}
     func = funcs[params["method"]]
     ctx.progress(0.0, params["method"])
-    periods, power, best = func(t, y, p_min=params["p_min"], p_max=p_max)
+    weighted = {"err": e} if e is not None and params["method"] in ("lomb-scargle", "bls") else {}  # 1/σ² weights
+    periods, power, best = func(t, y, p_min=params["p_min"], p_max=p_max, **weighted)
     return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best}
 
 

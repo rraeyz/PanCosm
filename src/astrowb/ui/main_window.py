@@ -789,7 +789,7 @@ class MainWindow(QMainWindow):
 
             def done(out):
                 lc = out["light_curve"]
-                pp.set_light_curve(lc["time"], lc["rel_flux"], f"{target} ({lc['source']})")
+                pp.set_light_curve(lc["time"], lc["rel_flux"], f"{target} ({lc['source']})", err=lc.get("rel_flux_err"))
 
             if mission in ("ZTF", "AAVSO"):
                 inputs = {"target": target, "cache_file": str(config_dir() / "targets.json")}
@@ -1675,14 +1675,19 @@ class MainWindow(QMainWindow):
         def done(out):
             lc = out["light_curve"]
             self.photometry_page.show_light_curve(lc)
-            self.period_page.set_light_curve(lc["time"], lc["rel_flux"], self.tr("the Photometry page"))
+            self.period_page.set_light_curve(
+                lc["time"], lc["rel_flux"], self.tr("the Photometry page"), err=lc.get("rel_flux_err")
+            )
 
         return self.run_step("photometry.light_curve", inputs, params, on_done=done)
 
     def search_period(self, time, flux, params):
-        return self.run_step(
-            "timeseries.period", {"time": time, "flux": flux}, params, on_done=self.period_page.show_result
-        )
+        params = dict(params)
+        inputs = {"time": time, "flux": flux}
+        if params.get("err") is not None:
+            inputs["err"] = params.pop("err")
+        params.pop("err", None)
+        return self.run_step("timeseries.period", inputs, params, on_done=self.period_page.show_result)
 
     def time_minimum(self, light_curve, params):
         pp, page = self.period_page, self.photometry_page
