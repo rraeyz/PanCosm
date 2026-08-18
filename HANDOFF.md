@@ -408,6 +408,41 @@ Plan (claim → done, in this order):
   Side effects checked on real data: EFOSC2 (9 PESSTO lines) 13 lines, 0.215 A, degree 4 as before; raw HARPS
   echelle (9 ThAr lines from ESO's e2ds polynomials in orders 153/138/123) 1484 lines, 0.00034 A, ours - ESO
   median +0.2 m/s, rms 22.2 m/s (was 0.0 / 21.6; script p11_harps.py).
+- P12 **IN PROGRESS — stopped here by the owner (quota), next agent continues.** Disentangling on a real SB2 series
+  over the whole orbit. Target chosen: **TZ For** (G8 III + F7 III, P = 75.66647 d, circular; Gallenne et al. 2016,
+  A&A 586, A35 = arXiv:1511.07971: K1 = 38.90 +- 0.01, K2 = 40.87 +- 0.02 km/s, gamma1 17.99, gamma2 18.35; Table 1
+  gives the HARPS velocities of both stars per epoch — barycentric, MJD). Data: the same 22 HARPS ADP s1d spectra
+  (ESO TAP ivoa.ObsCore target_name LIKE '%TZ%For%', downloaded via dataportal.eso.org/dataPortal/file/<dp_id>) in
+  /tmp/claude-0/realdata/tzfor (list.json: dp, mjd, snr, path); the paper's text in /tmp/claude-0/work/tzfor.txt
+  (pdftotext); scripts /tmp/claude-0/work/p12_*.py (p12_rv.py, p12_tpl.py, p12_pairs.py; p12_trv.json = template
+  velocities). Other candidates with many ESO spectra: LL Aqr (21 HARPS + 15 FEROS), AL Dor (18 + 12), AL Ari (22 +
+  22), V4089 Sgr (23 + 11), HD 172189 (196 FEROS), zet Phe (34 FEROS).
+  **Found and fixed (uncommitted work committed with this note):** velocities were measured against the template
+  but a real star used as template is not at rest — with tau Ceti (-16.53 km/s) every TZ For velocity came out
+  +15.2 km/s off. `spectroscopy.rv` now takes `template_rv` and `template2_rv` (km/s, added to the measured
+  velocities; the 2nd defaults to the 1st; for the broadening function's 2nd star the first template's); Velocity tab
+  has "Template's own velocity (km/s)" and "Second template's velocity (km/s)" (tooltips, tr/de/es translated); test
+  in `tests/test_sb2.py::test_rv_and_orbit_steps_in_sb2_mode`. Template velocities measured with the program against
+  tau Ceti (-16.532, ESO CCF): iot Hor +16.993, Arcturus -5.194, Procyon -2.667, zet Dor -0.997, HD 10647 +27.783,
+  alf Hya -4.490, del Pav -21.451 km/s (literature-like).
+  **Open, next steps:**
+  1. TODCOR on TZ For with templates (tau Cet, iot Hor): which template goes with which star is not what one expects
+     (iot Hor F8V followed the giant, L2/L1 0.115) and the secondary came out about +-5-6 km/s off Gallenne, always
+     pushed AWAY from the primary (separation overestimated). With one template for both (tau Cet + tau Cet) the
+     secondary locked 6.8 km/s from the primary (just outside the blend band `sb2.todcor` leaves out: false peak
+     again — see P7). Run p12_pairs.py (args: template1 template2 sub|all) for the pairs Arcturus|Procyon,
+     del Pav|Procyon, tau Cet|iot Hor, iot Hor|tau Cet (it was running when stopped; each takes ~2-5 min); compare
+     primary/secondary with Gallenne (rms), and the light ratio. If the secondary is still pushed away, look at
+     `sb2.todcor` (blend band width, the alpha / light-ratio fit, the 4500-6500 A window) and also try the broadening
+     function (method bf, components 2: Gallenne used BF in RaveSpan).
+  2. Fit the orbit (`spectroscopy.orbit`, period 75.66647 fixed or free) from our velocities: K1, K2, gamma against
+     Gallenne's.
+  3. Disentangle (`spectroscopy.disentangle`, our velocities, light ratio from TODCOR/BF) and check the components:
+     MK type of each (should be G8 III and F7 III / F-type), `separable_width` (the separation changes by ~160 km/s
+     over the orbit, so Balmer wings should be determined), cross-correlation of each component with a template.
+  4. Then P13 (every other feature once more on fresh real data, full local test run, push, CI, release v0.2.3 by
+     hand: raise __version__, push, run ci.yml with release=true). Full suite last passed after P9 (658 passed);
+     P10/P11/P12 changes passed their targeted test sets only.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

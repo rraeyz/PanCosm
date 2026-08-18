@@ -1053,6 +1053,14 @@ class VelocityTab(QWidget):
         )
         self.period = _spin(self, 0, 0, 100000, 6)
         self.period.setToolTip(self.tr("Starting value for the orbit fit (days); 0: searched from the velocities"))
+        self.template_rv, self.template2_rv = _spin(self, 0, -1000, 1000, 3), _spin(self, 0, -1000, 1000, 3)
+        tip = self.tr(
+            "The template star's own radial velocity (km/s), as its spectrum shows it (for a barycentric archive "
+            "spectrum: the star's catalogue velocity). The velocities are measured against the template, so this is "
+            "added to them. 0 for a synthetic template."
+        )
+        self.template_rv.setToolTip(tip)
+        self.template2_rv.setToolTip(tip)
         self.method = QComboBox(self)
         for text, data in (
             (self.tr("Cross-correlation (TODCOR with a second template)"), ("ccf", 1)),
@@ -1077,6 +1085,8 @@ class VelocityTab(QWidget):
                 (self.tr("Wavelengths from (Å, 0 = all)"), self.w_min),
                 (self.tr("to (Å, 0 = all)"), self.w_max),
                 (self.tr("Period guess (d)"), self.period),
+                (self.tr("Template's own velocity (km/s)"), self.template_rv),
+                (self.tr("Second template's velocity (km/s)"), self.template2_rv),
             )
         ):
             grid.addWidget(QLabel(label, self), r, 0)
@@ -1173,6 +1183,8 @@ class VelocityTab(QWidget):
             "v_max": self.v_max.value(),
             "wave_min": self.w_min.value() or None,
             "wave_max": self.w_max.value() or None,
+            "template_rv": self.template_rv.value(),
+            "template2_rv": self.template2_rv.value() if self.template2.text() else None,
         }
         params["method"], params["components"] = self.method.currentData()
         self.status.setText(self.tr("Measuring…"))
