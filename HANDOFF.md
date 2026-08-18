@@ -258,7 +258,13 @@ measured four at a time in threads: the engine's workers are daemon processes an
 photutils give 1.7x on 4 cores, identical rows); `photometry.suggest_comparisons` 136 s -> 42 s (`align_offsets` reads
 the next frame while one is correlated and takes `binning`: the in-frame check needs no stacking precision, 2x2 for
 frames over 4 Mpx as the light curve does; the same four comparison stars). Notes: a cold disk makes the first step of
-a session up to 2x slower (239 s once for quality); header reading is only 6 ms per fpack file when warm.
+a session up to 2x slower (239 s once for quality); header reading is only 6 ms per fpack file when warm. (2) TESS pixel files
+(W UMa s21, 18 758 cadences): opening on the Photometry page 106 s -> 44 s (the frame list opened every file again to
+read the time `chronological` had just read: `chronological(paths, times)` now hands the times over, formatted in one
+go); measuring 273 s -> 224 s (`aperture.centroid_1dg`: photutils' 1-D Gaussian centroid with the same start values and
+least-squares settings without astropy.modeling around it, 3.8 -> 2.5 ms per star, identical centres on 120 real
+frames); SPOC SAP agreement unchanged (0.020 % rms). Left as it is: one FITS frame per cadence by design (every tool
+works on them); the 44 s are the 18 758 headers read once for the time order.
 
 **R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
 the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each
