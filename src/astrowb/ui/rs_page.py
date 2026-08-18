@@ -34,7 +34,9 @@ class RemoteSensingPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setObjectName("remotesensing")
-        self.raster, self.products = None, {}  # display name -> Raster
+        # display name -> (file, band): products are read from their file when shown, not all kept (a Sentinel-2 tile
+        # with NDVI, two PCA components and classes kept 2 GB of products in the page)
+        self.raster, self.products = None, {}
         split = QSplitter(Qt.Horizontal, self)
         self.viewer = ImageViewer(self)
         self.viewer.hovered.connect(self._hover)
@@ -178,7 +180,10 @@ class RemoteSensingPage(QWidget):
     def _current(self):
         name = self.show_combo.currentText()
         if name in self.products:
-            return self.products[name].band(0)
+            from ..remotesensing import raster
+
+            path, i = self.products[name]
+            return raster.read(path).band(i)
         if self.raster and name in self.raster.names:
             return self.raster.band(self.raster.names.index(name))
         return None
@@ -231,17 +236,11 @@ class RemoteSensingPage(QWidget):
     def show_product(self, product):
         from ..remotesensing import raster
 
-        r = raster.read(product["path"])
+        n = raster.band_count(product["path"])
         stem = Path(product["path"]).stem
-        if len(r.names) == 1:
-            self.products[stem] = r
-            names = [stem]
-        else:  # one entry per component
-            names = []
-            for i in range(len(r.names)):
-                sub = raster.Raster(r.bands[i : i + 1], [f"{stem}{i + 1}"], r.transform, r.epsg, r.nodata, r.tags)
-                self.products[f"{stem}{i + 1}"] = sub
-                names.append(f"{stem}{i + 1}")
+        names = [stem] if n == 1 else [f"{stem}{i + 1}" for i in range(n)]  # one entry per component
+        for i, name in enumerate(names):
+            self.products[name] = (product["path"], i)
         for n in names:
             if self.show_combo.findText(n) < 0:
                 self.show_combo.addItem(n)

@@ -264,7 +264,13 @@ read the time `chronological` had just read: `chronological(paths, times)` now h
 go); measuring 273 s -> 224 s (`aperture.centroid_1dg`: photutils' 1-D Gaussian centroid with the same start values and
 least-squares settings without astropy.modeling around it, 3.8 -> 2.5 ms per star, identical centres on 120 real
 frames); SPOC SAP agreement unchanged (0.020 % rms). Left as it is: one FITS frame per cadence by design (every tool
-works on them); the 44 s are the 18 758 headers read once for the time order.
+works on them); the 44 s are the 18 758 headers read once for the time order. (3) Remote sensing, one Sentinel-2 L2A tile (B04 +
+B08, 10980 x 10980), the same GUI script with the resource sampler: whole process tree peak 9.34 GB -> 6.41 GB, the page
+4.26 -> 2.42 GB after NDVI + PCA + k-means, the worker's peak per step NDVI 2.56 -> 1.67, PCA and k-means 5.70 -> 3.91
+GB; identical products (NDVI = numpy, the same classes and components). How: the page keeps (file, band) of each
+product and reads the one shown (`raster.band_count` reads the band count from the TIFF header); `read_bands` fills one
+array allocated once (concatenate kept the scene twice); the steps make the nodata value NaN in place
+(`Raster.nan_bands`) instead of a copy per band.
 
 **R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
 the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each

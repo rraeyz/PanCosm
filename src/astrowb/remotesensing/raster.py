@@ -34,6 +34,14 @@ class Raster:
         b = self.bands[i]
         return np.where(b == self.nodata, np.nan, b) if self.nodata is not None else b
 
+    def nan_bands(self):
+        """All bands with the nodata value made NaN in place (no copy per band: a Sentinel-2 tile's bands are 1 GB),
+        for a step's own raster that is not shown or written back."""
+        if self.nodata is not None:
+            self.bands[self.bands == self.nodata] = np.nan
+            self.nodata = None
+        return self.bands
+
     def map_xy(self, col, row):
         """Map coordinates of a pixel position (pixel centres at integer + 0.5 in the GeoTIFF area model)."""
         if self.transform is None:
@@ -160,7 +168,7 @@ def read(path) -> Raster:
             if code in page.tags:
                 t = page.tags[code]
                 tags[code] = (t.dtype, t.count, t.value)
-        planar = page.planarconfig == 2 or (data.ndim == 3 and data.shape[0] < data.shape[-1] and data.shape[0] <= 16)
+        planar = _planar(page, data.shape)
         if data.ndim == 2:
             bands = data[None]
         elif planar:
@@ -190,17 +198,43 @@ def read(path) -> Raster:
     return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], transform, epsg, nodata, tags, str(path))
 
 
+def _planar(page, shape):
+    """Bands first (planar) or last (pixel-interleaved) in a TIFF page of this shape."""
+    return page.planarconfig == 2 or (len(shape) == 3 and shape[0] < shape[-1] and shape[0] <= 16)
+
+
+def band_count(path) -> int:
+    """Bands of a GeoTIFF from its first page's shape, without reading the pixels (a product of a 120 Mpx scene)."""
+    import tifffile
+
+    with tifffile.TiffFile(path) as tif:
+        page = tif.pages[0]
+        shape = page.shape
+    return 1 if len(shape) == 2 else (shape[0] if _planar(page, shape) else shape[-1])
+
+
 def read_bands(paths) -> Raster:
     """Files of one scene on the same grid as one image: their bands in file order, named after the files (B04,
     B08…; "name_B2" for a file with several bands), the map position of the first. The source is the paths joined
     with ';', which read() takes back."""
-    rasters = [read(p) for p in paths]
-    first = rasters[0]
-    if any(r.shape != first.shape for r in rasters):
-        raise ValueError("the files are not the same size: open bands of one scene at the same resolution")
-    names = [Path(r.source).stem + ("" if len(r.names) == 1 else f"_{n}") for r in rasters for n in r.names]
-    bands = np.concatenate([r.bands for r in rasters])
-    return Raster(bands, names, first.transform, first.epsg, first.nodata, first.tags, ";".join(map(str, paths)))
+    first = read(paths[0])
+    meta, shape = (first.transform, first.epsg, first.nodata, first.tags), first.shape
+    # every file is read into one array allocated once (concatenating kept the scene twice in memory, 1 GB more for
+    # a Sentinel-2 tile); a file with more bands than the first makes it grow
+    bands = np.empty((len(first.names) * len(paths), *shape), np.float32)
+    names, used = [], 0
+    for k, p in enumerate(paths):
+        r = first if k == 0 else read(p)
+        if r.shape != shape:
+            raise ValueError("the files are not the same size: open bands of one scene at the same resolution")
+        names += [Path(r.source).stem + ("" if len(r.names) == 1 else f"_{n}") for n in r.names]
+        if used + len(r.names) > len(bands):
+            bands = np.concatenate([bands[:used], np.empty((len(r.names), *shape), np.float32)])
+        bands[used : used + len(r.names)] = r.bands
+        used += len(r.names)
+        r.bands = first.bands = None  # freed as soon as copied
+    bands = bands[:used]
+    return Raster(bands, names, *meta, ";".join(map(str, paths)))
 
 
 def write(path, like: Raster, data, nodata=None):

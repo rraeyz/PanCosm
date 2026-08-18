@@ -16,7 +16,8 @@ def _product(src, suffix, output):
 def expression_step(inputs, params, ctx):
     """Band math, e.g. (B8 - B4) / (B8 + B4)."""
     r = raster.read(inputs["raster"])
-    bands = {n: r.band(i) for i, n in enumerate(r.names)}
+    all_bands = r.nan_bands()  # in place: a copy per band doubled the memory of a Sentinel-2 tile
+    bands = {n: all_bands[i] for i, n in enumerate(r.names)}
     ctx.progress(0.3, "band math")
     out = analysis.evaluate(inputs["expression"], bands)
     name = inputs.get("name") or "expr"
@@ -30,7 +31,8 @@ def classify_step(inputs, params, ctx):
     r = raster.read(inputs["raster"])
     use = inputs.get("bands") or list(range(len(r.names)))
     ctx.progress(0.3, "k-means")
-    labels = analysis.kmeans([r.band(i) for i in use], int(params["k"]))
+    all_bands = r.nan_bands()
+    labels = analysis.kmeans(all_bands if len(use) == len(r.names) else all_bands[use], int(params["k"]))
     path = raster.write(_product(inputs["raster"], f"classes{params['k']}", inputs.get("output")), r, labels)
     return {"product": {"path": path, "stats": analysis.statistics(labels)}}
 
@@ -40,6 +42,6 @@ def pca_step(inputs, params, ctx):
     """Principal components of all bands (standardised)."""
     r = raster.read(inputs["raster"])
     n = int(min(params["n"], len(r.names)))
-    comps, var = analysis.pca([r.band(i) for i in range(len(r.names))], n)
+    comps, var = analysis.pca(r.nan_bands(), n)  # the bands as they are: no copy per band
     path = raster.write(_product(inputs["raster"], "pca", inputs.get("output")), r, comps)
     return {"product": {"path": path, "explained": var}}
