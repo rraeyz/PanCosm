@@ -231,6 +231,28 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+### Release campaign R (session 019Lu3, from 2026-11-06 ~16:00 UTC) — CURRENT PLAN, read first
+
+**Owner's request (2026-11-06, summarised):** finish the other agent's open work (P12 stopped half-way, then P13);
+when all is done, repeat the tests on the finished program and do whatever they show needs doing. The owner does not
+know how to use the RV, spectrum and O−C parts: "I know IRAF: first the science frames are cleaned (bias, dark,
+flat), the same for the ThAr and the flat; then the orders are found — even if found automatically the user must
+check them by hand; then the wavelength calibration with an atlas. Today I loaded data, pressed something and a
+spectrum appeared on the right; I did not know what to do. That is what I mean by 'the program is confusing': not
+knowing what to do and how. New methods cannot be invented: the steps the astronomy community is used to must be
+followed — for spectra and for every other topic." Then: tests, RAM / CPU / GPU / speed tests, fix what the
+measurements show and **measure again after each fix**; a last check of buttons, interface and operations; everything
+planned in stages, this file updated as each step is claimed and done; when the program is ready, publish the release.
+
+| Stage | What | Status |
+|---|---|---|
+| R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | CLAIMED |
+| R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | open |
+| R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | open |
+| R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
+| R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
+
+
 **Owner's go of 2026-11-06 ~12:50 UTC: "start, do all of them in order, do not stop until done"; for missing
 data: download real data with astropy / astroquery / archives (Gaia, TESS…) and try every feature with them.**
 Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int OK; VizieR: CDS no answer, CfA OK
