@@ -1,5 +1,5 @@
 # Photometrie
-Die Seite **Photometrie** misst auf einer Reihe kalibrierter Bilder die Helligkeit eines Zielsterns relativ zu Vergleichssternen und liefert Lichtkurve, Minimumszeiten und Berichte.
+Die Seite **Photometrie** misst auf einer Reihe kalibrierter Bilder die Helligkeit eines Zielsterns relativ zu Vergleichssternen und liefert Lichtkurve, Minimumszeiten und Berichte. Die Seite zeigt oben ihre **Arbeitsreihenfolge** — die Schritte wie bei IRAF phot oder AstroImageJ, jeder als erledigt oder jetzt zu tun markiert, mit einer Zeile, was jetzt zu tun ist.
 
 ## Bilder und Sterne wählen
 1. **Bilder wählen…** — kalibrierte Aufnahmen eines Feldes und eines Filters. Sie werden nach der Zeit sortiert.

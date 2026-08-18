@@ -1529,6 +1529,43 @@ class PhotometryPage(Undoable, QWidget):
         side_box = QWidget(self)
         side = QVBoxLayout(side_box)
         side.addWidget(_title(self.tr("Photometry"), self))
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Choose the calibrated images (Calibrate page)"),
+                    self.tr("Choose images… — the calibrated frames of the night (bias, dark and flat taken off)."),
+                ),
+                (
+                    self.tr("Find the bad frames: clouds, focus, trails (optional)"),
+                    self.tr("Find the bad frames, look at the red ones in the list and leave them out."),
+                ),
+                (
+                    self.tr("Mark the target, then the comparison stars (IRAF phot coordinates)"),
+                    self.tr(
+                        "Click the target on the image, then Suggest comparison stars (or click them yourself); "
+                        "a click on a marked star takes it off."
+                    ),
+                ),
+                (
+                    self.tr("Choose the aperture and the sky annulus (phot apertures, annulus)"),
+                    self.tr("Press Choose the radii from the star profiles, or type the radii yourself."),
+                ),
+                (
+                    self.tr("Measure the light curve (phot, differential photometry)"),
+                    self.tr("Press Measure light curve."),
+                ),
+                (
+                    self.tr("Check the curve, then time of minimum, export or AAVSO report"),
+                    self.tr(
+                        "Click points that are clearly bad (clouds, a cosmic ray) to delete them, detrend against "
+                        "airmass if needed; then Time of minimum, Export CSV or the AAVSO report; Period search "
+                        "and O−C → or Fit an eclipse or transit model → for the next page."
+                    ),
+                ),
+            ],
+            self,
+        )
+        side.addWidget(self.guide)
         self.load_button = QPushButton(self.tr("Choose images…"), self)
         self.load_button.clicked.connect(self._choose_images)
         self.load_button.setToolTip(
@@ -2197,6 +2234,7 @@ class PhotometryPage(Undoable, QWidget):
             self.set_images(paths)
 
     def set_images(self, paths):
+        self.guide.set_state(0, "done" if paths else None)
         from .. import timing
         from ..io.bayer import fits_paths
         from ..io.fits import read_image
@@ -2485,6 +2523,9 @@ class PhotometryPage(Undoable, QWidget):
     def _draw_markers(self):
         """Three rings per star: the aperture (solid), the inner and outer edge of the sky annulus (dashed); the
         gap between the aperture and the annulus is measured by neither."""
+        self.guide.set_state(2, "done" if self.target is not None and self.comps else None)
+        if self.target is not None and self.guide.states[1] is None:
+            self.guide.set_state(1, "skipped")  # the bad-frame check is optional
         r, r_in, r_out = self.r_ap.value(), self.r_in.value(), self.r_out.value()
         colours = {"target": "lime", "comparison": "red", "check": "#ffb224"}
         stars = [(xy, colours[role], name) for name, role, xy in self._star_names()]
@@ -2537,6 +2578,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def show_apertures(self, a):
         """Set the three radii and draw the star's radial profile with them (like a seeing profile)."""
+        self.guide.set_state(3, "done")
         for w, key in ((self.r_ap, "r_ap"), (self.r_in, "r_in"), (self.r_out, "r_out")):
             w.setValue(a[key])
         self.plot.figure.clear()
@@ -2580,6 +2622,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def show_quality(self, rows):
         """Plot FWHM, number of stars and sky of every frame; bad ones in red, with the reasons."""
+        self.guide.set_state(1, "done")
         from .messages import translate
 
         self.quality = rows
@@ -2667,6 +2710,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def show_light_curve(self, lc):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
+        self.guide.set_state(4, "done")
         self.lc_raw, self.detrend_cfg, self.excluded = lc, None, set()
         self._show_lower(True)
         self.next_box.setVisible(True)
@@ -3007,6 +3051,7 @@ class PhotometryPage(Undoable, QWidget):
         self.minimum_requested.emit(self.light_curve, params)
 
     def show_minimum(self, m):
+        self.guide.set_state(5, "done")
         methods = {"kvw": self.tr("Kwee–van Woerden"), "trapezoid": self.tr("trapezoid fit")}
         if "minima" in m:  # every eclipse of a long series (TESS, several nights)
             ms = m["minima"]
@@ -3052,6 +3097,7 @@ class PhotometryPage(Undoable, QWidget):
         self.plot.draw()
 
     def _export_aavso(self):
+        self.guide.set_state(5, "done")
         from ..brand import BRAND
         from ..photometry.export import aavso_extended
 
@@ -3079,6 +3125,7 @@ class PhotometryPage(Undoable, QWidget):
             Path(path).write_text(text, encoding="utf-8")
 
     def _export(self):
+        self.guide.set_state(5, "done")
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Export light curve"), "lightcurve.csv", "CSV (*.csv)")
         if path:
             export_csv(self.light_curve, path)

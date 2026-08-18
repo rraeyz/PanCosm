@@ -1,5 +1,5 @@
 # Fotometri
-**Fotometri** sayfası bir dizi kalibre görüntüde hedef yıldızın parlaklığını karşılaştırma yıldızlarına göre ölçer; ışık eğrisi, minimum zamanları ve raporlar verir.
+**Fotometri** sayfası bir dizi kalibre görüntüde hedef yıldızın parlaklığını karşılaştırma yıldızlarına göre ölçer; ışık eğrisi, minimum zamanları ve raporlar verir. Sayfa en üstte **İş sırası**nı gösterir — IRAF phot ya da AstroImageJ'deki adımlar, her biri bitti ya da şimdi yapılacak olarak işaretli, altında şimdi ne yapılacağını söyleyen bir satır.
 
 ## Görüntüleri ve yıldızları seçmek
 1. **Görüntüleri seç…** — tek alanın ve tek filtrenin kalibre kareleri. Zamana göre sıralanırlar.
