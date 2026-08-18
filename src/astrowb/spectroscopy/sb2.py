@@ -43,7 +43,7 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
     """Velocities of both components. Inputs continuum-normalised (lines below 1).
 
     alpha: fixed light ratio in normalised-template units; None fits it at every (v1, v2).
-    Returns dict(rv1, rv2, rv1_err, rv2_err, peak, alpha, flux_ratio, v, R)."""
+    Returns dict(rv1, rv2, rv1_err, rv2_err, peak, alpha, flux_ratio, v, profile1, profile2)."""
     wave, flux = np.asarray(wave, float), np.asarray(flux, float)
     if v_step is None:
         v_step = 0.5 * C_KMS * np.median(np.diff(np.log(wave)))
@@ -124,10 +124,14 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
         "alpha": a_best,
         "flux_ratio": a_best * n1 / n2,  # f - 1 = A n1 g1 + B n2 g2 and alpha = B n2 / (A n1)
         "v": v_from_ln(lags * dln).tolist(),
+        # the 2-D correlation's best value along each star's velocity (the other free), as a profile to look at
+        "profile1": r.max(axis=1).tolist(),
+        "profile2": r.max(axis=0).tolist(),
     }
     same = np.array_equal(t1_wave, t2_wave) and np.array_equal(t1_flux, t2_flux)
     if same and a_best > 1:  # one template for both stars: (v1, v2, alpha) and (v2, v1, 1 / alpha) fit equally well
         # and noise chose, so the stars swapped between spectra (AI Phe); component 1 is the brighter one
         out |= {"rv1": out["rv2"], "rv2": out["rv1"], "rv1_err": out["rv2_err"], "rv2_err": out["rv1_err"]}
         out |= {"alpha": 1 / a_best, "flux_ratio": 1 / out["flux_ratio"]}
+        out |= {"profile1": out["profile2"], "profile2": out["profile1"]}
     return out

@@ -434,3 +434,41 @@ def test_drift_of_a_lamp_spectrum_as_harps_measures_it():
     obs[1][2000] += 5e4  # a cosmic ray
     shift, err, per, _ = drift(np.array(ref), np.array(obs))
     assert abs(shift - 0.0005) < 3 * err and err < 3e-4 and len(per) == 3
+
+
+def test_order_of_work_and_the_atlas_on_the_echelle_tab(frames, tmp_path, qtbot):
+    """The owner: "even if found automatically, the user must check the orders"; and IRAF identify labels the line
+    list's lines once a first fit exists. Extraction first shows the orders; after three lines in an order the arc
+    peaks carry the line list's wavelengths, right and only between the identified lines."""
+    from astropy.io import fits
+
+    from astrowb.ui.spectro_page import EchelleTab
+
+    flat = tmp_path / "flat.fits"
+    fits.PrimaryHDU(frames["flat"].astype(np.float32)).writeto(flat)
+    tab = EchelleTab()
+    qtbot.addWidget(tab)
+    assert tab.guide.current() == 0
+    for row in (tab.science, tab.flat, tab.arc):
+        row.edit.setText(str(flat))
+    assert tab.guide.states[:2] == ["skipped", "done"] and tab.guide.current() == 2  # raw frames: noted, not blocked
+    with qtbot.waitSignal(tab.orders_requested):
+        tab.extract_button.click()  # not extracted yet: the orders are shown to be checked first
+    assert "check the orders" in tab.status.text().lower()
+    traces = echelle.trace_orders(frames["flat"])
+    arc, _ = echelle.extract(frames["arc"], traces, method="boxcar", subtract_sky=False)
+    peaks = [wavecal.find_lines(a) for a in arc]
+    tab.first_order.setValue(int(ORDERS[0]))
+    tab.show_result({"n_orders": len(ORDERS), "flux": arc.tolist(), "arc": arc.tolist(),
+                     "arc_peaks": [p.tolist() for p in peaks], "solution": None})  # fmt: skip
+    k = 7
+    assert tab._atlas(k) == []  # no line identified yet
+    chosen = [peaks[k][np.argmin(np.abs(peaks[k] - h))] for h in (600, 1024, 1450)]
+    for x in chosen:
+        lam = float(np.interp(x, np.arange(NX), wave_true(np.arange(NX), ORDERS[k])))
+        tab._add_line([str(ORDERS[k]), f"{x:.2f}", f"{lam:.4f}"])
+    labels = tab._atlas(k)
+    assert len(labels) >= 5
+    for x, w in labels:
+        assert min(chosen) - 0.1 * np.ptp(chosen) <= x <= max(chosen) + 0.1 * np.ptp(chosen)
+        assert abs(w - np.interp(x, np.arange(NX), wave_true(np.arange(NX), ORDERS[k]))) < 0.13  # within a pixel
