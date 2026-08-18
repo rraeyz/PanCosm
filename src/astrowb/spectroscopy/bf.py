@@ -49,28 +49,54 @@ def broadening_function(
     bf = np.linalg.lstsq(design, program, rcond=1e-3)[0] / v_step  # per km/s, so areas are light shares
     v = v_from_ln(lags * dln)
     bfs = gaussian_filter1d(bf, smooth) if smooth else bf
-    comps, model = _fit(v, bfs, components, eps, v_step)
+    comps, model = _fit(v, bfs, components, eps, v_step, smooth)
     return {"v": v.tolist(), "bf": bf.tolist(), "bf_smooth": bfs.tolist(), "model": model.tolist(), "components": comps}
 
 
-def _fit(v, bf, n, eps, v_step):
-    rough = gaussian_filter1d(bf, max(1.0, 10 / v_step))  # noise ripples on a broad profile are not stars
-    peaks, _ = find_peaks(rough, prominence=0.1 * rough.max(), distance=max(1, int(20 / v_step)))
-    if len(peaks) < n:
-        raise ValueError(f"the broadening function shows fewer than {n} peaks")
-    peaks = sorted(peaks[np.argsort(rough[peaks])[::-1][:n]])
-    start = [0.0]
-    for p in peaks:
-        half = bf[p] / 2
-        width = np.sum(bf > half) * v_step / n
-        start += [bf[p] * width, v[p], max(width, 3 * v_step)]  # area, centre, v sin i
+def _least_squares(v, bf, start, eps, v_step, smooth=0.0):
+    n = (len(start) - 1) // 3
 
-    def model(x):
-        return x[0] + sum(x[1 + 3 * i] * rotational_profile(v, x[2 + 3 * i], x[3 + 3 * i], eps) for i in range(n))
+    def model(x):  # smoothed as the BF it is fitted to: a sharp star's profile otherwise leaves wings
+        m = x[0] + sum(x[1 + 3 * i] * rotational_profile(v, x[2 + 3 * i], x[3 + 3 * i], eps) for i in range(n))
+        return gaussian_filter1d(m, smooth) if smooth else m
 
     lower = [-np.inf] + [0, v[0], v_step] * n
     upper = [np.inf] + [np.inf, v[-1], v[-1] - v[0]] * n
-    sol = least_squares(lambda x: model(x) - bf, start, bounds=(lower, upper))
+    return least_squares(lambda x: model(x) - bf, start, bounds=(lower, upper)), model
+
+
+def _start(v, bf, p, v_step, n=1):
+    width = np.sum(bf > bf[p] / 2) * v_step / n
+    return [bf[p] * width, v[p], max(width, 3 * v_step)]  # area, centre, v sin i
+
+
+def _fit(v, bf, n, eps, v_step, smooth=0.0):
+    rough = gaussian_filter1d(bf, max(1.0, 10 / v_step))  # noise ripples on a broad profile are not stars
+    peaks, _ = find_peaks(rough, prominence=0.1 * rough.max(), distance=max(1, int(20 / v_step)))
+    peaks = sorted(peaks[np.argsort(rough[peaks])[::-1][:n]])
+    start = [0.0] + [s for p in peaks for s in _start(v, bf, p, v_step, n)]
+    # a fast rotator's broad, low profile on the shoulder of a sharp one makes no peak of its own (TZ For: v sin i
+    # 46 against 6 km/s, 14 of 22 HARPS spectra): as Rucinski does, fit what is there, then look for the next star
+    # in what is left of the BF, and fit them together
+    while (len(start) - 1) // 3 < n:
+        if len(start) == 1:
+            raise ValueError(f"the broadening function shows fewer than {n} peaks")
+        sol, model = _least_squares(v, bf, start, eps, v_step, smooth)
+        left = gaussian_filter1d(bf - model(sol.x), max(1.0, 10 / v_step))
+        # the found stars' own profiles are left out: a model never fits them exactly, and what it misses is no star
+        away = np.ones(len(v), bool)
+        for i in range((len(sol.x) - 1) // 3):
+            away &= np.abs(v - sol.x[2 + 3 * i]) > sol.x[3 + 3 * i] + max(10.0, 3 * v_step)
+        if away.sum() < 10:
+            raise ValueError(f"the broadening function shows fewer than {n} peaks")
+        noise = 1.4826 * np.median(np.abs(left[away] - np.median(left[away]))) + 1e-12
+        p = int(np.flatnonzero(away)[np.argmax(left[away])])
+        if left[p] < 5 * noise:
+            raise ValueError(f"the broadening function shows fewer than {n} peaks")
+        fwhm = np.sum(left > left[p] / 2) * v_step
+        # area, centre, v sin i (about 0.55 FWHM for a rotational profile)
+        start = list(sol.x) + [left[p] * fwhm, v[p], max(0.55 * fwhm, 3 * v_step)]
+    sol, model = _least_squares(v, bf, start, eps, v_step, smooth)
     resid = sol.fun
     dof = max(len(v) - len(start), 1)
     try:

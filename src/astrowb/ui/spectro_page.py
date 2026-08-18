@@ -1061,6 +1061,14 @@ class VelocityTab(QWidget):
         )
         self.template_rv.setToolTip(tip)
         self.template2_rv.setToolTip(tip)
+        self.template_vsini, self.template2_vsini = _spin(self, 0, 0, 500, 1), _spin(self, 0, 0, 500, 1)
+        tip = self.tr(
+            "Broadens the template's lines by rotation to match the star (km/s; as with fxcor and TODCOR): needed "
+            "when a star rotates fast and the template is sharp-lined (e.g. a giant's companion at 45 km/s). 0 = as "
+            "it is. The broadening function measures v sin i, if you do not know it."
+        )
+        self.template_vsini.setToolTip(tip)
+        self.template2_vsini.setToolTip(tip)
         self.method = QComboBox(self)
         for text, data in (
             (self.tr("Cross-correlation (TODCOR with a second template)"), ("ccf", 1)),
@@ -1087,6 +1095,8 @@ class VelocityTab(QWidget):
                 (self.tr("Period guess (d)"), self.period),
                 (self.tr("Template's own velocity (km/s)"), self.template_rv),
                 (self.tr("Second template's velocity (km/s)"), self.template2_rv),
+                (self.tr("Template v sin i (km/s)"), self.template_vsini),
+                (self.tr("Second template v sin i (km/s)"), self.template2_vsini),
             )
         ):
             grid.addWidget(QLabel(label, self), r, 0)
@@ -1185,6 +1195,8 @@ class VelocityTab(QWidget):
             "wave_max": self.w_max.value() or None,
             "template_rv": self.template_rv.value(),
             "template2_rv": self.template2_rv.value() if self.template2.text() else None,
+            "template_vsini": self.template_vsini.value(),
+            "template2_vsini": self.template2_vsini.value(),
         }
         params["method"], params["components"] = self.method.currentData()
         self.status.setText(self.tr("Measuring…"))
@@ -1488,6 +1500,8 @@ class VelocityTab(QWidget):
             "Spectroscopic orbit: Keplerian least-squares fit to {n} radial velocities; 1σ errors from the "
             "covariance matrix (e and ω from its draws)."
         ).format(n=len(self._series()[0]))
+        if o.get("circular"):
+            caption += " " + self.tr("Circular orbit adopted (e not significant, Lucy & Sweeney 1971): e and ω fixed.")
         return rows, caption
 
     def show_orbit(self, o):
@@ -1512,6 +1526,11 @@ class VelocityTab(QWidget):
             ge=o["gamma_err"],
             rms=o["rms"],
         )
+        if o.get("circular"):
+            text += "\n" + self.tr(
+                "Circular orbit: the eccentricity was not significant (under 2.45 times its error, Lucy & Sweeney "
+                "1971), so e = 0 and ω = 90° were fixed; T_peri is then the time the star crosses γ going down."
+            )
         if "k2" in o:
             text += "\n" + self.tr(
                 "K2 = {k2:.3f} ± {k2e:.3f} km/s, q = M2/M1 = {q:.4f} ± {qe:.4f}, "

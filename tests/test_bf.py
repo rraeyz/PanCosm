@@ -39,6 +39,22 @@ def test_contact_binary_two_profiles():
     assert c2["strength"] / c1["strength"] == pytest.approx(0.3 / 0.7, rel=0.12)
 
 
+def test_a_broad_star_on_the_shoulder_of_a_sharp_one():
+    # TZ For on HARPS: G8 giant at v sin i 6 km/s, F giant at 46 km/s with half its light, 47 km/s apart: the F star
+    # makes no peak of its own (14 of 22 real spectra failed with "fewer than 2 peaks")
+    stars = [(41.0, 6.0, 0.68), (-6.0, 46.0, 0.32)]
+    r = broadening_function(WAVE, broadened(stars, snr=500), WAVE, SHARP, -150, 150, components=2)
+    c1, c2 = r["components"]
+    assert c1["rv"] == pytest.approx(41, abs=0.5) and c2["rv"] == pytest.approx(-6, abs=3)
+    assert c2["vsini"] == pytest.approx(46, rel=0.15)
+    assert c2["strength"] / c1["strength"] == pytest.approx(0.47, rel=0.2)
+
+
+def test_a_single_star_is_not_split_in_two():
+    with pytest.raises(ValueError, match="fewer than 2 peaks"):
+        broadening_function(WAVE, broadened([(20.0, 10.0, 1.0)], snr=300), WAVE, SHARP, -150, 150, components=2)
+
+
 def test_no_overlap_is_reported():
     with pytest.raises(ValueError, match="overlap"):
         broadening_function(WAVE, SHARP, WAVE * 1.2, SHARP)
