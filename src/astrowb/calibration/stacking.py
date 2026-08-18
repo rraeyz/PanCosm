@@ -33,18 +33,25 @@ from ..photometry.aperture import frame_shift
 from .masters import MEMORY_BUDGET, load
 
 
-def align_offsets(paths, ctx=None):
-    """(dx, dy) of every frame relative to the first: position in frame i = position in frame 0 + offset."""
+def align_offsets(paths, ctx=None, binning=1):
+    """(dx, dy) of every frame relative to the first: position in frame i = position in frame 0 + offset.
+    binning > 1: shifts from binned frames (a tenth of a binned pixel; for checks, not for stacking). The next frame
+    is read while one is correlated (decompressing a 2400 x 2400 fpack frame takes as long as the correlation)."""
+    from concurrent.futures import ThreadPoolExecutor
+
     offsets = [(0.0, 0.0)]
     prev, _ = load(paths[0])
-    for i, p in enumerate(paths[1:], 1):
-        if ctx:
-            ctx.check()
-            ctx.progress(0.3 * i / len(paths), "aligning")
-        data, _ = load(p)
-        dx, dy = frame_shift(prev, data)
-        offsets.append((offsets[-1][0] + dx, offsets[-1][1] + dy))
-        prev = data
+    with ThreadPoolExecutor(1) as reader:
+        nxt = reader.submit(load, paths[1]) if len(paths) > 1 else None
+        for i in range(1, len(paths)):
+            if ctx:
+                ctx.check()
+                ctx.progress(0.3 * i / len(paths), "aligning")
+            data, _ = nxt.result()
+            nxt = reader.submit(load, paths[i + 1]) if i + 1 < len(paths) else None
+            dx, dy = frame_shift(prev, data, binning)
+            offsets.append((offsets[-1][0] + dx, offsets[-1][1] + dy))
+            prev = data
     return offsets
 
 
