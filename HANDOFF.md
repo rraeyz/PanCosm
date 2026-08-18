@@ -248,8 +248,8 @@ planned in stages, this file updated as each step is claimed and done; when the 
 |---|---|---|
 | R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | DONE (see the R1 note below the table) |
 | R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | DONE (note below) |
-| R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | CLAIMED |
-| R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
+| R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | DONE (note below) |
+| R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | CLAIMED |
 | R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
 
 **R3 progress (session 019Lu3).** (1) Photometry page before the light curve, 265 Qatar-1 frames (2400 x 2400 fpack),
@@ -270,7 +270,10 @@ B08, 10980 x 10980), the same GUI script with the resource sampler: whole proces
 GB; identical products (NDVI = numpy, the same classes and components). How: the page keeps (file, band) of each
 product and reads the one shown (`raster.band_count` reads the band count from the TIFF header); `read_bands` fills one
 array allocated once (concatenate kept the scene twice); the steps make the nodata value NaN in place
-(`Raster.nan_bands`) instead of a copy per band.
+(`Raster.nan_bands`) instead of a copy per band. (4) Echelle step on a raw HARPS chip: now 5.2 s (orders + extraction + arc) and 4.4 s with the
+solution, against 77 / 66 s in the second test round — the speed came with the other agent's echelle work (P5 / P6)
+that the second round (run on `90e106f`) did not have; the result is the same (1496 lines, 0.0003 A, 22.2 m/s rms
+from ESO). **R3 DONE.**
 
 **R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
 the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each
