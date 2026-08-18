@@ -598,3 +598,42 @@ def test_faint_spectrum_traced_with_a_brighter_ones_shape():
         longslit.trace(img, guess_row=120, nlost=1)
     coef = longslit.shifted_trace(img, longslit.trace(img, 60), 120)
     assert np.allclose(np.polyval(coef, x), yb + 60, atol=0.5)
+
+
+def test_low_resolution_xenon_arc_lines_cover_part_of_the_detector():
+    # LT SPRAT (real night): Xe lines only on pixels ~240-990 of 1024, dispersion 4.05-4.67 A/px. Before: two
+    # identified lines 630 px apart, a straight first guess 30 A off in the middle, misnamed lines, and a quintic
+    # between them that gave -1435 A at pixel 0
+    def disp(p):
+        q = p - 50.0
+        return 3682.83 + 4.12888 * q + 7.5648e-4 * q**2 - 1.06264e-7 * q**3 - 1.69725e-10 * q**4
+
+    catalogue = wavecal.load_line_list("xenon")
+    px = np.linspace(0, 1023, 20001)
+    seen = [4500.98, 4524.68, 4582.75, 4624.28, 4671.23, 4697.02, 4734.15, 4807.02, 5028.28, 5823.89, 5934.17, 6182.42]
+    seen += [6318.06, 6472.84, 6595.56, 6728.01, 6827.32, 6976.18, 7119.60, 7393.8, 7584.68, 7642.02, 7802.65, 7887.40]
+    lines = np.array(seen + [7967.34])  # the lines a SPRAT arc shows (ASPIRED's atlas for it)
+    rng = np.random.default_rng(3)
+    peaks = np.array([px[np.argmin(np.abs(disp(px) - lam))] for lam in lines]) + rng.normal(0, 0.15, lines.size)
+    keep = np.r_[True, np.diff(peaks) > 3]  # lines closer than the resolution are one peak
+    peaks, lines = peaks[keep], lines[keep]
+    g = [[peaks[np.argmin(np.abs(lines - w))], w] for w in (4671.226, 7642.024)]
+    sol = wavecal.solve(peaks, catalogue, g, order=5, n_pixels=1024)
+    x = np.arange(1024)
+    inside = (x >= peaks.min()) & (x <= peaks.max())
+    assert np.max(np.abs(sol(x) - disp(x))[inside]) < 2 and sol.n_lines >= 15 and sol.rms < 1.5
+    assert np.max(np.abs(sol(x) - disp(x))) < 20  # 240 px beyond the last line: a dispersion still
+
+
+def test_arc_lines_on_a_blended_background_and_the_faintest_left_out():
+    # a low-resolution arc is blended lines from end to end: the scatter about its median is no noise level
+    x = np.arange(1024, dtype=float)
+    rng = np.random.default_rng(5)
+    centres = np.arange(40, 1000, 23.0)
+    heights = np.where(np.arange(centres.size) % 3 == 0, 2e4, 2e3)
+    arc = 3000 * np.exp(-0.5 * ((x - 512) / 250) ** 2) + rng.normal(0, 20, x.size)
+    for c, h in zip(centres, heights, strict=True):
+        arc += h * np.exp(-0.5 * ((x - c) / 1.7) ** 2)
+    arc += 60 * np.exp(-0.5 * ((x - 1010) / 1.7) ** 2)  # 1/300 of the strongest: not in a lamp's list
+    found = wavecal.find_lines(arc)
+    assert len(found) == centres.size and np.max(np.abs(np.sort(found) - centres)) < 0.2

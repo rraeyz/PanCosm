@@ -377,6 +377,37 @@ Plan (claim → done, in this order):
   ephemeris +42 +- 70 s. Depth 1.591 % (SPOC 1.579 %), k 0.1213 (0.1181), T14 3.17 h (3.02 h), i 76.9 (82.3; one
   transit of a noisier light curve: ingress shape poorly fixed). Files: <name>_ExoClock.txt (BJD_TDB, flux, error),
   _ETD.txt (BJD_TDB, magnitude, error), _summary.txt — formats as before. Guide 06 and 09 (4 languages).
+- P11 **DONE — a missing lamp and three wavelength-solution bugs.** Raw long-slit frames of a simple, low-resolution
+  spectrograph: Liverpool Telescope SPRAT (R ~ 350, 4.6 A/px, Xe arc), the raw set ASPIRED ships with its examples
+  (`git clone --depth 1 https://github.com/cylammarco/ASPIRED-example`, example_LT_SPRAT/sprat_LHS6328_Hiltner102_raw:
+  Hiltner 102 standard 60 s, LHS 6328 5 x 120 s, Xe arcs, dark, slit flat; 2.7 GB clone, in /tmp/claude-0/realdata/
+  sprat). Reference: ASPIRED's own solution of the same arc (example_output/example_02_..._science_0.fits ext 4:
+  quartic, pixel origin 50 px in). Amateur raw sets (Alpy, LHIRES, Star'Ex) are still nowhere public: ARAS / BAA only
+  on request. Scripts /tmp/claude-0/work/p11_*.py.
+  (1) No xenon line list: added `resources/linelists/xenon.dat`, 110 Xe I lines 3800–10000 A (air) from the NIST ASD
+  (public domain; intensity >= 100 or Aki >= 4e5); specreduce-data's xenon list is infrared only. THIRD_PARTY updated.
+  (2) `wavecal.find_lines` took its noise from the arc's scatter about the median: a low-resolution arc is blended
+  lines end to end, so only 14 of the SPRAT lines passed (ASPIRED finds 70). Noise now from pixel-to-pixel
+  differences, threshold on each line's prominence, and lines under 1/200 of the strongest left out (without that cut
+  the real EFOSC2 He-Ar night found 34 peaks and its solution went from 0.21 to 2.4 A rms; with it 16 peaks, 13 lines,
+  0.215 A as before). Test `test_arc_lines_on_a_blended_background_and_the_faintest_left_out`.
+  (3) `wavecal.solve` grew the matching window from the span between the identified lines: with two lines 630 px
+  apart the straight first guess was 30 A off in the middle and the lines there were misnamed. The window now grows
+  around each identified line; another peak can no longer take an identified line's wavelength (269 and 280 px were
+  both 4671 A).
+  (4) The leave-one-out degree took a quintic through 11 lines on pixels 269–963 — -1435 A at pixel 0.
+  `_best_degree(..., n_pixels)` (the reduce step passes the spectrum's length) refuses a degree whose curve turns
+  back or whose A/px changes more than 3x over the detector. Test
+  `test_low_resolution_xenon_arc_lines_cover_part_of_the_detector` (both new tests fail on the old code).
+  Result, Hiltner 102 with two identified lines (279.74 px = 4671.23, 912.08 px = 7642.02): 23 lines, cubic, 1.46 A
+  rms (0.3 px); against ASPIRED's solution +2.1..+7.4 A over the spectrum (median +3.4, under 1.5 px); night-sky
+  zero point -1.38 A from [O I] 5577 and 6300. Features (centroid at 18 A resolution): H-alpha +5.1, Na D +4.8,
+  H-beta +5.5, O2 B -0.1 A; the same measurement on ASPIRED's calibrated standard: +6.0, -4.2, +10.3, +9.1 — both at
+  the 1-pixel level. Known limit: two identified lines both in the blue half (280 and 606 px) still fail (the user's
+  lines can be clipped as outliers); identify lines across the range, as the guide says. Guide 08 (4 languages).
+  Side effects checked on real data: EFOSC2 (9 PESSTO lines) 13 lines, 0.215 A, degree 4 as before; raw HARPS
+  echelle (9 ThAr lines from ESO's e2ds polynomials in orders 153/138/123) 1484 lines, 0.00034 A, ours - ESO
+  median +0.2 m/s, rms 22.2 m/s (was 0.0 / 21.6; script p11_harps.py).
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
