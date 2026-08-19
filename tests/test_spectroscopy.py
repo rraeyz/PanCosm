@@ -240,6 +240,16 @@ def test_reduce_rv_orbit_steps(frames, tmp_path):
     )
     spec = out["spectrum"]
     assert spec["solution"]["rms"] < 0.05 and spec["path"].endswith("sci_1d.fits")
+    # an already-extracted 1-D spectrum and arc: wavelengths only (IRAF identify on apall output)
+    fits.PrimaryHDU(np.asarray(spec["flux"], np.float32), h).writeto(tmp_path / "sci.ms.fits")
+    fits.PrimaryHDU(np.asarray(spec["arc"], np.float32)).writeto(tmp_path / "arc.ms.fits")
+    one = steps.execute(
+        "spectroscopy.reduce",
+        {"science": str(tmp_path / "sci.ms.fits"), "arc": str(tmp_path / "arc.ms.fits"), "guesses": guesses},
+        {},
+        Ctx(),
+    )["spectrum"]
+    assert one["trace"] is None and np.allclose(one["solution"]["coef"], spec["solution"]["coef"], rtol=1e-6)
     w, f, e, hdr = spectrum_io.read(spec["path"])
     assert hdr["DATE-OBS"] == "2026-11-15T22:00:00" and abs(w[700] - frames["wave"][700]) < 0.05
     tw = np.linspace(3900, 7200, 40000)

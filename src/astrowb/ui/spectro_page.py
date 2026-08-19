@@ -126,6 +126,20 @@ def calibrated(path):
     return bool(keys & {"CALB", "CALD", "ZEROCOR", "DARKCOR", "CCDPROC"})
 
 
+def extracted(path):
+    """True when the file is already extracted (a 1-D spectrum, IRAF apall output, a pipeline's e2ds): only the
+    wavelength calibration is left to do."""
+    from astropy.io import fits
+
+    from ..spectroscopy.steps import looks_extracted
+
+    try:
+        with fits.open(path) as h:
+            return any(x.is_image and x.header.get("NAXIS", 0) >= 1 and looks_extracted(x.header) for x in h[:2])
+    except (OSError, ValueError):
+        return False
+
+
 class _FileRow(QWidget):
     def __init__(self, label, parent, pattern=FITS):
         super().__init__(parent)
@@ -442,8 +456,10 @@ class ReduceTab(Undoable, QWidget):
         self.plot.figure.clear()
         has_arc = bool(s.get("arc"))
         lines = (s.get("solution") or {}).get("lines") or []
-        axes = self.plot.figure.subplots(2 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
-        self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
+        traced = s["trace"] is not None  # None: the spectrum came already extracted
+        axes = self.plot.figure.subplots(1 + traced + has_arc + bool(lines), 1, squeeze=False)[:, 0]
+        if traced:
+            self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
         x = s["wave"] if s["wave"] is not None else s["pixel"]
         axes[0].plot(x, s["flux"], lw=0.7)
         axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
@@ -459,7 +475,7 @@ class ReduceTab(Undoable, QWidget):
             axes[1].set_xlabel(self.tr("Pixel (click a line to identify it)"))
             self._arc_ax = axes[1]
         if lines:  # the fit line by line, as IRAF identify shows it after 'f'
-            ax = axes[2]
+            ax = axes[1 + has_arc]
             a = np.asarray(lines, float)
             ax.plot(a[:, 0], a[:, 2] * 1000, "o", ms=4)
             ax.axhline(0, color="gray", lw=0.5)
@@ -471,6 +487,17 @@ class ReduceTab(Undoable, QWidget):
     def _files_changed(self):
         chosen = [r.text() for r in (self.science, self.arc) if r.text()]
         self.guide.set_state(1, "done" if len(chosen) == 2 else None)
+        if self.science.text() and extracted(self.science.text()):
+            for i in (0, 2):  # nothing to calibrate or extract: identify and dispcor only
+                self.guide.set_state(i, "skipped")
+            self.status.setText(
+                self.tr(
+                    "Already extracted (1-D): only the wavelength calibration is done. Choose the arc extracted "
+                    "with the same aperture and press 3. Extract to see it."
+                )
+            )
+            return
+        self.guide.set_state(2, "done" if self.result else None)
         cal = [calibrated(p) for p in chosen]
         self.guide.set_state(0, "done" if chosen and all(cal) else ("skipped" if len(chosen) == 2 else None))
 
@@ -698,6 +725,15 @@ class EchelleTab(Undoable, QWidget):
             lay.addWidget(w)
         for row in (self.science, self.flat, self.arc):
             row.edit.textChanged.connect(self._files_changed)
+        self.extracted = QCheckBox(self.tr("Already extracted: one row per order (IRAF apall output, an e2ds)"), self)
+        self.extracted.setToolTip(
+            self.tr(
+                "The science file (and the arc and the flat) hold the extracted orders, one row each: only the "
+                "wavelength calibration is done, as IRAF ecidentify. Ticked by itself when the header says so."
+            )
+        )
+        self.extracted.toggled.connect(lambda *_: self._files_changed())
+        lay.addWidget(self.extracted)
         self.fibre = QCheckBox(self.tr("Fibre-fed: no sky between the orders"), self)
         self.fibre.setToolTip(
             self.tr(
@@ -769,7 +805,8 @@ class EchelleTab(Undoable, QWidget):
         self.find_button.setToolTip(
             self.tr(
                 "The orders found automatically are drawn on the flat. Check them: click a wrong trace to remove "
-                "it, click on an order that was missed to add it. Extraction waits for this check."
+                "it, click on an order that was missed to add it. Without this check the orders found "
+                "automatically are extracted."
             )
         )
         self.find_button.clicked.connect(lambda: self._find_orders())
@@ -874,17 +911,9 @@ class EchelleTab(Undoable, QWidget):
         } | self.orientation.params()
         if self.first_order.value():
             params["first_order"] = self.first_order.value()
+        params["extracted"] = self.extracted.isChecked()
         if self.order_rows is not None and self._orders_source == self._order_image():
-            params["rows"] = list(self.order_rows)  # the orders as checked on the flat
-        elif not solve:  # the owner: found automatically or not, the user checks the orders before extracting
-            self._find_orders()
-            self.status.setText(
-                self.tr(
-                    "First check the orders: they are being drawn on the flat. Remove wrong ones, add missed ones, "
-                    "then press 4. Extract the orders again."
-                )
-            )
-            return
+            params["rows"] = list(self.order_rows)  # the orders as checked on the flat (else found automatically)
         if solve:
             g = self._guesses()
             if "arc" not in inputs or len(g) < 4 or len({x[0] for x in g}) < 2 or not self.first_order.value():
@@ -902,6 +931,22 @@ class EchelleTab(Undoable, QWidget):
     def _files_changed(self):
         rows = (self.science, self.flat, self.arc)
         chosen = [r.text() for r in rows if r.text()]
+        if self.sender() is self.science.edit:
+            self.extracted.setChecked(bool(self.science.text()) and extracted(self.science.text()))
+        done = self.extracted.isChecked()
+        self.find_button.setEnabled(not done)
+        if done:  # nothing to calibrate, trace or extract: ecidentify and dispcor only
+            self.guide.set_state(1, "done" if self.science.text() and self.arc.text() else None)
+            for i in (0, 2):
+                self.guide.set_state(i, "skipped")
+            self.status.setText(
+                self.tr(
+                    "Already extracted: only the wavelength calibration is done. Choose the arc extracted with the "
+                    "same apertures (and the flat, for the blaze) and press 4. Extract the orders to see them."
+                )
+            )
+            return
+        self.guide.set_state(2, "done" if self.order_rows is not None else None)
         self.guide.set_state(1, "done" if len(chosen) == 3 else None)
         cal = [calibrated(p) for p in chosen]
         if chosen and all(cal):
@@ -1159,8 +1204,8 @@ class EchelleTab(Undoable, QWidget):
         self.edit(self.tr("lines from a database"), _set_rows, self.guesses, rows)
         self.status.setText(
             self.tr(
-                "{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 3. "
-                "Solve."
+                "{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 6. "
+                "Fit wavelengths, merge and save."
             ).format(m=len(rows), n=len(features), s=shift)
         )
         return rows

@@ -86,16 +86,24 @@ class Collapsible(QWidget):
 
 
 class StepGuide(QWidget):
-    """The order of work as astronomers are used to it (the IRAF task in brackets), each step marked done, to do
-    now or still to come, and under it one line saying what to do now. The owner: "not knowing what to do and how
-    is what makes a program confusing". steps: [(title, what to do now)]; set_state(i, "done" | "skipped" | None)."""
+    """The usual order of work (the IRAF task in brackets), folded into one line that names the next step; opened,
+    every step marked done, skipped, next or still to come, and what to do for the next one. A guide, never a lock:
+    the owner, "I have a reduced spectrum, I only want the calibration — must I start over?". steps: [(title, what
+    to do)]; set_state(i, "done" | "skipped" | None)."""
 
     def __init__(self, steps, parent=None):
         super().__init__(parent)
         self.steps, self.states = list(steps), [None] * len(steps)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 4)
-        self.box = Collapsible(self.tr("Order of work"), self, expanded=True, mode=None)
+        self.box = Collapsible("", self, expanded=False, mode=None)
+        self.box.button.setToolTip(self.tr("Click to show or hide the usual order of work"))
+        note = QLabel(
+            self.tr("The usual order, not a rule: start where your data are and skip what they do not need."), self
+        )
+        note.setWordWrap(True)
+        note.setStyleSheet("color: gray")
+        self.box.body.addWidget(note)
         self.labels = []
         for _ in self.steps:
             label = QLabel(self)
@@ -103,11 +111,11 @@ class StepGuide(QWidget):
             label.setTextFormat(Qt.RichText)
             self.box.body.addWidget(label)
             self.labels.append(label)
-        lay.addWidget(self.box)
         self.now = QLabel(self)
         self.now.setWordWrap(True)
         self.now.setTextFormat(Qt.RichText)
-        lay.addWidget(self.now)
+        self.box.body.addWidget(self.now)
+        lay.addWidget(self.box)
         self._refresh()
 
     def set_state(self, i, state="done"):
@@ -123,9 +131,13 @@ class StepGuide(QWidget):
             mark = {"done": "✓", "skipped": "–"}.get(st, "▶" if i == now else "·")
             text = f"{mark} {i + 1}. {title}"
             label.setText(f"<b>{text}</b>" if i == now else (f"<span style='color:gray'>{text}</span>" if st else text))
-        self.now.setText(
-            "<b>" + self.tr("Now:") + "</b> " + self.steps[now][1] if now is not None else self.tr("All steps done.")
-        )
+        if now is None:
+            self.box.button.setText(self.tr("Workflow: all steps done"))
+            self.now.setText("")
+            return
+        title = self.steps[now][0]
+        self.box.button.setText(self.tr("Workflow — next: {n}. {step}").format(n=now + 1, step=title))
+        self.now.setText("<b>" + self.tr("Next:") + "</b> " + self.steps[now][1])
 
 
 class StartPage(QWidget):
