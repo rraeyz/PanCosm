@@ -1,6 +1,8 @@
 # Başlarken
 Uygulama gözlem işinin tamamını tek pencerede toplar: hedef seç, geceyi planla, gözle, kalibre et, ölç, modelle ve raporla. Elinizdeki veriyle istediğiniz adımdan başlayabilirsiniz.
 
+Her çalışma sayfasının ve sekmesinin en üstünde, sıradaki adımı söyleyen katlanmış bir **İş akışı** satırı vardır. Üzerine tıklayınca olağan iş sırası açılır (varsa IRAF görevi parantez içinde): her adım bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sıradaki adım için ne yapılacağı. Bu bir rehberdir, asla kilit değildir: verinizin bulunduğu adımdan başlayın — zaten çıkarılmış bir tayfa yalnızca dalga boyları gerekir, arşivden gelen bir ışık eğrisine fotometri gerekmez — ve verinizin gerektirmediği adımları atlayın.
+
 ## İlk açılış
 Uygulama ilk kez açıldığında İngilizce kısa bir karşılama penceresi üç seçim sorar:
 

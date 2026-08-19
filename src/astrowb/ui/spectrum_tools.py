@@ -55,6 +55,30 @@ class SpectrumToolsTab(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         panel = QWidget(self)
         lay = QVBoxLayout(panel)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Open a wavelength-calibrated 1-D spectrum"),
+                    self.tr("Press Open spectrum… (FITS, or a text file of wavelength and flux)."),
+                ),
+                (
+                    self.tr("Normalise the continuum (IRAF continuum)"),
+                    self.tr(
+                        "Normalise (automatic), or Pick continuum points and Normalise through points; for the flux "
+                        "shape, Divide by response."
+                    ),
+                ),
+                (
+                    self.tr("Measure lines (IRAF splot: centre, FWHM, equivalent width)"),
+                    self.tr("Give the line's range and press Measure; V/R for emission lines with two peaks."),
+                ),
+                (self.tr("Save or export"), self.tr("Save as… a FITS file, or Export for BeSS / ARAS…")),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
 
         opn = QPushButton(self.tr("Open spectrum…"), self)
         opn.clicked.connect(lambda: self._open())
@@ -382,6 +406,8 @@ class SpectrumToolsTab(Undoable, QWidget):
             text += " " + self.tr("(vacuum wavelengths in the file, converted to air)")
         self.source.setText(text)
         self._plot()
+        self.guide.reset()
+        self.guide.set_state(0, "done")
         return True
 
     def _open_b(self, path=None):
@@ -404,6 +430,8 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.edit(step or what.rstrip("."), self._set_flux, flux, what)
 
     def _set_flux(self, flux, what):
+        if what == self.tr("Normalised."):
+            self.guide.set_state(1, "done")
         self.history.append(self.flux)  # marks the spectrum as changed here (the stellar-parameter fit uses it)
         self.flux = np.asarray(flux, float)
         self.status.setText(what)
@@ -490,6 +518,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             return None
         self.last = m
         self._add_row(Path(self.path).name, m)
+        self.guide.set_state(2, "done")
         text = self.tr(
             "Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}"
         ).format(c=m["centre"], ce=m["centre_err"], f=m["fwhm"], ew=m["ew"], ee=m["ew_err"], ef=m["ew_fit"], s=m["snr"])
@@ -659,6 +688,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         path = path or QFileDialog.getSaveFileName(self, self.tr("Save spectrum"), "spectrum.fits", "FITS (*.fits)")[0]
         if path:
             spectrum_io.write(path, self.wave, self.flux, np.full(self.flux.size, np.nan), self.header)
+            self.guide.set_state(3, "done")
             self.status.setText(self.tr("Saved: {path}").format(path=path))
         return path
 
@@ -675,6 +705,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         path = path or QFileDialog.getSaveFileName(self, self.tr("BeSS file"), "bess.fits", "FITS (*.fits)")[0]
         if path:
             write_bess(path, self.wave, self.flux, meta)
+            self.guide.set_state(3, "done")
             self.status.setText(self.tr("Saved: {path}").format(path=path))
         return path
 

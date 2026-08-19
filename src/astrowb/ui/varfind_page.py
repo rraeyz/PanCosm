@@ -34,6 +34,30 @@ class VarFindPage(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Choose calibrated frames of one field"),
+                    self.tr("Press Choose frames…; the stars are found on the first frame."),
+                ),
+                (
+                    self.tr("Search for variables: each star's scatter against stars of its brightness"),
+                    self.tr("Press Search for variables."),
+                ),
+                (
+                    self.tr("Check the candidates"),
+                    self.tr(
+                        "Click a candidate in the plot to see its light curve: a real variable changes smoothly; a "
+                        "star that jumps at one frame or lies at the edge is a measuring problem."
+                    ),
+                ),
+                (self.tr("Find its period"), self.tr("Press Send this star to Period search.")),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         info = QLabel(
             self.tr(
                 "Measures every star of the first frame on all frames, puts them on a common zero point (clouds "
@@ -110,6 +134,8 @@ class VarFindPage(QWidget):
         self.images = fits_paths(paths)  # camera raw files and pictures get a FITS copy
         self.source.setText(self.tr("{n} frames").format(n=len(self.images)))
         self.button.setEnabled(len(self.images) >= 5)
+        self.guide.reset()
+        self.guide.set_state(0, "done")
 
     def _search(self):
         self.result = None
@@ -123,6 +149,7 @@ class VarFindPage(QWidget):
 
     def show_result(self, out):
         self.result = out
+        self.guide.set_state(1, "done")
         v = out["variability"]
         xy = np.asarray(out["field"]["xy"])
         cand = np.flatnonzero(v["candidate"])
@@ -138,6 +165,7 @@ class VarFindPage(QWidget):
 
     def show_star(self, j):
         self.star = j
+        self.guide.set_state(2, "done")
         v = self.result["variability"]
         mean, rms = np.asarray(v["mean"]), np.asarray(v["rms"])
         cand = np.asarray(v["candidate"])
@@ -173,6 +201,7 @@ class VarFindPage(QWidget):
         self.show_star(int(np.argmin(d)))
 
     def _send(self):
+        self.guide.set_state(3, "done")
         if self.star is None:
             return
         v = self.result["variability"]

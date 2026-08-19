@@ -1,6 +1,8 @@
 # Erste Schritte
 Die Anwendung deckt den ganzen Beobachtungsablauf in einem Fenster ab: Ziele wählen, die Nacht planen, beobachten, kalibrieren, messen, modellieren und berichten. Sie können bei jedem Schritt mit den Daten einsteigen, die Sie schon haben.
 
+Jede Arbeitsseite und jeder Reiter hat oben eine eingeklappte Zeile **Arbeitsablauf**, die den nächsten Schritt nennt. Ein Klick zeigt die übliche Arbeitsreihenfolge (die IRAF-Aufgabe in Klammern, wo es eine gibt), jeder Schritt als erledigt (✓), übersprungen (–) oder nächster (▶) markiert, und was für den nächsten Schritt zu tun ist. Sie ist eine Hilfe, nie eine Sperre: Beginnen Sie bei dem Schritt, an dem Ihre Daten stehen — ein bereits extrahiertes Spektrum braucht nur seine Wellenlängen, eine Lichtkurve aus einem Archiv keine Photometrie — und überspringen Sie, was Ihre Daten nicht brauchen.
+
 ## Der erste Start
 Beim ersten Öffnen zeigt die Anwendung ein kurzes Willkommensfenster auf Englisch mit drei Auswahlmöglichkeiten:
 
