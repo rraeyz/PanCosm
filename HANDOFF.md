@@ -281,27 +281,62 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   then test_ui + test_spectroscopy + test_echelle + test_messages + the period / frequency / varfind / plan /
   remote-sensing / spectrum-tools tests on the final code: 150 passed). **First thing: `sh tools/precommit.sh` and CI.**
 
-**R4 (third full test round) — where it stopped.** Runner `real/T3_run.sh` in the agent's scratchpad (NOT in the
-repo; the scratchpad and the downloaded data are lost with the container — see "How to redo R4" below). Finished
-(rc 0 all) before the quota ended, seconds (round 2 in brackets): t9_photometry 221.5 (586.8), t9var 65.5 (61.0),
-bench_photutils 38.8 (41.1), u5_standard_mags 224.5 (346.8), u8a_calibrate 159.0 (81.1 — **slower, but the agent
-was running pytest on the same 4 cores at that moment; re-measure alone before concluding**), u8d_iraf_ccdproc 129.3
-(114.2, same caveat), u8d_iraf_phot 11.5 (12.4), u8c_tess_tpf 268.6 (322.3), u1_wuma 57.3 (50.1), u6g_fgvir 26.9
-(17.3, same caveat), u4_ltte_kepler 293.7 (236.4), u6h_efosc_gui 15.5 (12.5), u8b_harps_solve 11.5 (144.2), u8b_harps_rv
-10.0 (9.7), t10_rv_archive 98.5 (95.1), t10_rv_aras 23.6 (22.8), t10_mk_lamost 6.0 (3.5), u6i_visual_orb6 7.5 (7.5),
-u6j_sentinel2 155.5 (189.2), u6e_images 40.7 (39.9), u3_plan 16.3 (16.6), u6l_project 14.8 (18.5), u6k_automation 52.7
-(70.6) — all rc 0, results not compared. Not reached: u6_sweep_tr, PESSTO bench,
-R1 TZ For (TODCOR / BF / orbit), R2 echelle and long-slit atlas, Horizons plan, photometry step timings, TPF open,
-GPU path, startup. Science results of the finished ones were not yet compared with round 2 (the logs are in the
-lost scratchpad) — redo them.
+**R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
+its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
+saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
+`REPO` to the checkout). Downloaded data are not saved anywhere (rule) — each script / note names the source.
 
-**How to redo R4 (next agent).** The scripts are small Python drivers calling `astrowb.engine.steps.execute` or
-driving the pages with `QT_QPA_PLATFORM=offscreen`; rebuild what you need from the descriptions in "Second full test
-round" (below) and the R1–R3 notes: each comparison names its data source (LCO archive Qatar-1 2026-11-02 e91 /
-raw, TESS s21 W UMa and FG Vir via MAST, HARPS 2010-08-27 raw + ADP from the ESO archive, EFOSC2 2018-12-31 night,
-TZ For 22 HARPS ADP s1d, Sentinel-2 L2A tile B04 / B08, ORB6 η CrB, JPL Horizons). Measure CPU / RAM by sampling
-/proc once per second (whole tree RSS) — run nothing else meanwhile. Compare with the round-2 table; fix only what
-the numbers show, measure again, write the result here.
+The container restarted while run 31 of 35 (`phot_steps_timed`) was going: runs 1–30 finished, 31–35 did not run
+(`phot_steps_timed`, `tpf_open`, `gpu_path`, `startup`, and the resource summary `real/T2_resources.py
+work/T3/resources.csv` was never made — the CPU / RAM numbers of round 3 are lost).
+
+**Caveat on the timings:** while runs 4–10 went, the agent was running pytest on the same 4 cores (u8a_calibrate,
+u8d_iraf_ccdproc, u6g_fgvir look slower for that reason only). Re-measure on an idle machine before concluding.
+
+| Run | Round 3 (s) | Round 2 (s) | Science result in round 3 (log on `test-scripts`) | Same as round 2? |
+|---|---|---|---|---|
+| t9_photometry (Qatar-1, 265 LCO frames, whole Photometry page) | 221.5 | 586.8 | transit measured, predicted BJD_TDB 2461347.61115, no message box left open | yes (faster: R3 fixes) |
+| t9var_fixed10px | 65.5 | 61.0 | scatter 0.0050, trapezoid O−C +0.1 min, depth 0.0224, T14 1.56 h, KvW O−C −0.4 min | yes |
+| bench_photutils | 38.8 | 41.1 | centres vs independent photutils 0.015–0.048 px | yes |
+| u5_standard_mags (APASS, AAVSO report) | 224.5 | 346.8 | AAVSO file 272 lines, V ≈ 12.72 | yes (12.745 vs APASS 12.761 in round 2; check the mean) |
+| u8a_calibrate (LCO raw vs BANZAI) | 159.0 (step itself 44.9) | 81.1 | 40 frames, scale 1.2678, pixel difference 0.919 ADU (sky noise 9.72) | yes; time see caveat |
+| u8d_iraf_ccdproc | 129.3 | 114.2 | ours/IRAF scale 1.00139, pixel difference 0.000 ADU; light curve rms 0.679 vs 0.681 % | yes |
+| u8d_iraf_phot | 11.5 | 12.4 | centres 0.038 px median; flux ratio 1.00056; relative flux difference rms 0.063 % | yes |
+| u8c_tess_tpf (W UMa s21, 18 758 cadences) | 268.6 | 322.3 | SAP: correlation 1.00000, rms 0.020 %, amplitude 0.5402 vs 0.5403 | yes |
+| u1_wuma (Models page on TESS W UMa) | 57.3 | 50.1 | the contact-binary (Roche) warning appears (fills 120 % of the lobe) | yes |
+| u6g_fgvir (FG Vir frequencies vs Breger) | 26.9 | 17.3 | frequency table produced (all modes in round 2; not re-compared) | to compare |
+| u4_ltte_kepler (KIC 6525196 LTTE) | 293.7 | 236.4 | e3 0.348 ± 0.044, ω3 285 ± 7°, f(m3) 0.102 M☉ (literature P3 418 d) | to compare P3 |
+| u6h_efosc_gui (EFOSC2 long slit in the GUI) | 15.5 | 12.5 | 13 lines, degree 4, rms 0.207 Å, 4.23 Å/px | yes |
+| u8b_harps_solve (raw HARPS echelle vs ESO DRS) | 11.5 | 144.2 | 22.2 m/s rms vs ESO, median 0.2 m/s | yes (faster: other agent's P5/P6) |
+| u8b_harps_rv | 10.0 | 9.7 | rv −0.6 / −9.8 m/s vs ESO's 0 (BERV-corrected), flux correlation 0.9965 | yes |
+| t10_rv_archive (tau Ceti ESO archive) | 98.5 | 95.1 | −16.060 ± 0.008 km/s (HARPS DRS −16.68; the solar template adds +0.64) | yes |
+| t10_rv_aras (amateur spectra) | 23.6 | 22.8 | median −154.4 km/s; low-R Alpy/LHIRES ±28–72 km/s | yes; "robust scatter nan" printed — check the script |
+| t10_mk_lamost (MK types vs LAMOST) | 6.0 | 3.5 | G2 → G0 V (×3), G7 → G8 V | yes (known: metal-weak stars look earlier) |
+| u6i_visual_orb6 (η CrB vs ORB6) | 7.5 | 7.5 | rms 0.0259″, total mass 2.075 ± 0.104 M☉ | yes |
+| u6j_sentinel2 (NDVI, PCA, k-means) | 155.5 | 189.2 | PCA 89.0 / 11.0 %, k-means 5 classes; GUI 2.44 GB | yes (R3 memory fix holds) |
+| u6e_images (every image-processing tool) | 40.7 | 39.9 | 0 problems | yes |
+| u3_plan | 16.3 | 16.6 | all targets drawn, Moon dashed | yes |
+| u6l_project | 14.8 | 18.5 | 0 problems | yes |
+| u6k_automation (raw → calibrate → photometry → minimum) | 52.7 | 70.6 | stops with "no eclipse or transit stands out of the noise…" | **check:** did round 2 find the minimum? (the 40 raw frames may not cover the transit; if they do, it is a bug) |
+| u6_sweep_tr (every page and button, Turkish) | 8.5 | 8.2 | 282 clicks, 0 exceptions, 0 untranslated; 1 slow click: Plan → "Geceyi planla" 4.48 s | yes |
+| pessto_bench2 (EFOSC2 vs PESSTO) | 2.8 | — | SN 2018kzr correlation 0.84, −1.01 Å; AT 2018hyz 0.70, **−8.51 Å offset** | new; look at AT 2018hyz's offset (sky shift None for it) |
+| r1_tzfor_todcor_bf (TZ For vs Gallenne 2016) | 491.2 | — | TODCOR primary +0.33 km/s; BF primary +0.30 rms 0.31, secondary 2 blended epochs ±10 km/s, 0 of 22 failed | as R1 |
+| r1_tzfor_orbit | 1.5 | — | circular fit K1 39.0 (Gallenne 38.90) | as R1 |
+| r2_echelle_atlas (atlas labels on HARPS) | 609.0 | — | orders 20 / 30 / 44: 45 / 41 / 10 labels, 0 wrong, 0.3–0.4 mÅ | yes. **609 s is too long — find out why** (the step alone takes ~5 s; probably the script waits on the GUI or traces the orders many times) |
+| r2_longslit_atlas (EFOSC2 residual plot, leave a line out) | 5.4 | — | 13 lines 0.210 Å → 12 lines 0.090 Å | as R2 |
+| horizons_plan (Plan vs JPL Horizons) | 7.3 | — | Moon max 0.080° (rms 0.007), Sun 0.004°; dusk/dawn within 1 min | yes |
+
+**What the next agent does for R4:**
+1. Check out `test-scripts`, download the data again (sources in this file: "Second full test round", R1–R3 notes,
+   the campaign notes), set `SCRATCH` / `REPO`, run `real/T3_run.sh` **alone on the machine** with
+   `real/T2_monitor.py work/T3/resources.csv` beside it; then `python real/T2_resources.py work/T3/resources.csv`.
+   At least run 31–35 and the ones marked "to compare" / "check" above.
+2. The new paths of this session need a real run too: `real/r6_extracted.py` (spectra already extracted: HARPS,
+   expected identical wavelengths, 22 m/s vs ESO), and a GUI pass over the new Workflow lines in the four languages
+   (`real/u6_sweep.py work/T3/u6 <lang>` for tr / en / de / es).
+3. Open questions found: `r2_echelle_atlas` 609 s; `u6k_automation` no minimum; PESSTO AT 2018hyz −8.5 Å;
+   `t10_rv_aras` "robust scatter nan"; Plan "Geceyi planla" 4.5 s. Look at each, fix if it is the program, measure
+   again, write the result here.
 
 **R5 still to do (in order):**
 1. `sh tools/precommit.sh` green; CI green for the newest commit (GitHub Actions `ci`, runs 140+).
@@ -311,7 +346,8 @@ the numbers show, measure again, write the result here.
    workflow by `workflow_dispatch` on main with input `release=true` (tags pushed from the container are cut by the
    proxy). The owner HAS authorised this release ("publish the latest release when you think it is ready"). Update
    this file.
-4. Give the owner (in Turkish, plain language) the final explanation: BLS / ANOVA / PDM / Lomb–Scargle, RV (CCF,
+4. Give the owner (in Turkish, plain language) the final explanation (he asked for it twice; detailed, with an example
+   for each method): BLS / ANOVA / PDM / Lomb–Scargle, RV (CCF,
    BF, TODCOR, orbit, Lucy–Sweeney), spectra (long slit, echelle, atlas, already-extracted path), O−C, photometry;
    what was tested against what (tables in this file) and what was fixed; **step by step how to use Spectroscopy,
    RV and O−C, mapped to the IRAF tasks he knows** (ccdproc → Calibrate; apall → Extract / Find the orders;
