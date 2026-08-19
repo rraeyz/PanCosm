@@ -281,6 +281,25 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   then test_ui + test_spectroscopy + test_echelle + test_messages + the period / frequency / varfind / plan /
   remote-sensing / spectrum-tools tests on the final code: 150 passed). **First thing: `sh tools/precommit.sh` and CI.**
 
+**Session 01RxUU resumed (2026-11-06 ~22:00 UTC) — R5.1 and R4 open questions:**
+- R5.1: `sh tools/precommit.sh` green (668 passed, 3 skipped); CI run 146 (`7c65418`) green on all three OS.
+- R4 `r2_echelle_atlas` 609 s: the script waited for `tab.order_rows`, which the unlocked Echelle tab no longer sets
+  when "Extract" is pressed first (orders are found and extracted in one go) -> 600 s timeout. Script fixed on the
+  scratch copy (waits for `order_rows or result`). **Found on the way (program bug, fixed):** choosing ESO raw
+  `.fits.Z` files raised `ModuleNotFoundError: uncompresspy` in the tab's header checks `calibrated()` /
+  `extracted()` (astropy cannot read LZW without that package). Both now read through `io.lzw.ready_copy` (the
+  decompressed copy in fits_from_raw when it exists; otherwise "unknown" / not extracted — a 64 MB HARPS frame is
+  not decompressed on the GUI thread; the step's worker makes the copy). Test in `tests/test_lzw.py`. With it the
+  Echelle tab extracts raw HARPS (46 orders) in 5.2 s from the GUI (the step alone 12.7 s cold incl. decompression).
+- R4 `t10_rv_aras` "robust scatter nan": the script's `np.median` over a list with one NaN (a spectrum with no site
+  or coordinates keeps only its observed velocity, as designed) — script issue, not the program.
+- R4 PESSTO AT 2018hyz -8.5 A: its sky shift is None (night-sky lines too weak in that exposure), so the arc's zero
+  point is kept (arc taken later; SN 2018kzr the same night measured -7.2 A of flexure from its sky). Expected
+  limit, the status line says so; not re-measured (the raw frame is not in this container).
+- Four-language sweep (`real/u6_sweep.py`, tr/en/de/es on the current code): 282 clicks each, 0 exceptions,
+  0 untranslated, 0 cut texts, 0 controls without a tooltip; only slow click "Plan the night" 4.2–4.4 s (known:
+  worker start + Sun/Moon ephemeris).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
