@@ -287,8 +287,10 @@ repo; the scratchpad and the downloaded data are lost with the container — see
 bench_photutils 38.8 (41.1), u5_standard_mags 224.5 (346.8), u8a_calibrate 159.0 (81.1 — **slower, but the agent
 was running pytest on the same 4 cores at that moment; re-measure alone before concluding**), u8d_iraf_ccdproc 129.3
 (114.2, same caveat), u8d_iraf_phot 11.5 (12.4), u8c_tess_tpf 268.6 (322.3), u1_wuma 57.3 (50.1), u6g_fgvir 26.9
-(17.3, same caveat). Not reached: u4_ltte_kepler, u6h_efosc_gui, u8b_harps_solve / rv, t10 (archive, ARAS, LAMOST
-MK), u6i_visual_orb6, u6j_sentinel2, u6e_images, u3_plan, u6l_project, u6k_automation, u6_sweep_tr, PESSTO bench,
+(17.3, same caveat), u4_ltte_kepler 293.7 (236.4), u6h_efosc_gui 15.5 (12.5), u8b_harps_solve 11.5 (144.2), u8b_harps_rv
+10.0 (9.7), t10_rv_archive 98.5 (95.1), t10_rv_aras 23.6 (22.8), t10_mk_lamost 6.0 (3.5), u6i_visual_orb6 7.5 (7.5),
+u6j_sentinel2 155.5 (189.2), u6e_images 40.7 (39.9), u3_plan 16.3 (16.6), u6l_project 14.8 (18.5), u6k_automation 52.7
+(70.6) — all rc 0, results not compared. Not reached: u6_sweep_tr, PESSTO bench,
 R1 TZ For (TODCOR / BF / orbit), R2 echelle and long-slit atlas, Horizons plan, photometry step timings, TPF open,
 GPU path, startup. Science results of the finished ones were not yet compared with round 2 (the logs are in the
 lost scratchpad) — redo them.
