@@ -217,6 +217,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "each line needs epoch, position angle and separation"),
     # photometry/aperture.py
     QT_TRANSLATE_NOOP("Messages", "the telescope aperture and the exposure time must be positive"),
+    QT_TRANSLATE_NOOP("Messages", "Input data must have a nonzero sum and nonconstant values to fit 1D Gaussians."),
     # photometry/differential.py
     QT_TRANSLATE_NOOP("Messages", "too few points outside the left-out range to detrend"),
     # io/lzw.py
