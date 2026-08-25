@@ -172,3 +172,18 @@ def test_a_worker_that_dies_is_reported(tq):
     with pytest.raises(TaskFailed, match="exited"):
         t.result(30)
     assert tq.submit(add, 1, 1).result(30) == 2  # the queue goes on
+
+
+def test_frames_on_every_core_from_inside_a_task_worker():
+    """A task worker is a daemon process: pmap still starts its helper processes there and keeps the order."""
+    import math
+
+    from astrowb.engine.parallel import pmap
+    from astrowb.engine.tasks import TaskQueue
+
+    q = TaskQueue(max_workers=1)
+    try:
+        out = q.submit(pmap, math.sqrt, list(range(40))).result(timeout=120)
+    finally:
+        q.shutdown()
+    assert out == [math.sqrt(i) for i in range(40)]

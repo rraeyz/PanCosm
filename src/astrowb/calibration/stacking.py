@@ -35,24 +35,31 @@ from .masters import MEMORY_BUDGET, load
 
 def align_offsets(paths, ctx=None, binning=1):
     """(dx, dy) of every frame relative to the first: position in frame i = position in frame 0 + offset.
-    binning > 1: shifts from binned frames (a tenth of a binned pixel; for checks, not for stacking). The next frame
-    is read while one is correlated (decompressing a 2400 x 2400 fpack frame takes as long as the correlation)."""
-    from concurrent.futures import ThreadPoolExecutor
+    binning > 1: shifts from binned frames (a tenth of a binned pixel; for checks, not for stacking). The shifts
+    between consecutive frames are independent, so runs of frames go to every core (265 LCO frames: decompressing
+    and correlating took 37 s on one)."""
+    from ..engine.parallel import pmap, workers
 
-    offsets = [(0.0, 0.0)]
+    paths = [str(p) for p in paths]
+    if len(paths) < 2:
+        return [(0.0, 0.0)]
+    n = max(1, min(4 * workers(), len(paths) // 8))  # runs of at least 8 frames: each run reads one frame twice
+    edges = np.linspace(0, len(paths) - 1, n + 1).round().astype(int)
+    runs = [(paths[a : b + 1], binning) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
+    steps = [s for run in pmap(_run_shifts, runs, ctx, "aligning", min_items=2) for s in run]
+    return [(0.0, 0.0), *(tuple(x) for x in np.cumsum(steps, axis=0).tolist())]
+
+
+def _run_shifts(run):
+    """Shifts between consecutive frames of a run (paths, binning)."""
+    paths, binning = run
     prev, _ = load(paths[0])
-    with ThreadPoolExecutor(1) as reader:
-        nxt = reader.submit(load, paths[1]) if len(paths) > 1 else None
-        for i in range(1, len(paths)):
-            if ctx:
-                ctx.check()
-                ctx.progress(0.3 * i / len(paths), "aligning")
-            data, _ = nxt.result()
-            nxt = reader.submit(load, paths[i + 1]) if i + 1 < len(paths) else None
-            dx, dy = frame_shift(prev, data, binning)
-            offsets.append((offsets[-1][0] + dx, offsets[-1][1] + dy))
-            prev = data
-    return offsets
+    out = []
+    for p in paths[1:]:
+        data, _ = load(p)
+        out.append(frame_shift(prev, data, binning))
+        prev = data
+    return out
 
 
 METHODS = ("mean", "median", "sum")

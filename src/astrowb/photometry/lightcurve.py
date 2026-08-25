@@ -97,10 +97,29 @@ def light_curve(
     src = None if psf or follow_seeing else tpf.source(paths)
     if src is not None:  # the cadences of a TESS / Kepler pixel file: measured at once, the stars do not move
         rows, peaks, radii = _pixel_file_rows(src, paths, stars0, (r_ap, r_in, r_out), g, box)
-    reader = ThreadPoolExecutor(1)  # the next frame is read (and decompressed) while this one is measured
-    upcoming = reader.submit(load, paths[1]) if len(paths) > 1 and src is None else None
     binning = 2 if ref.size > 4e6 else 1  # large frames: the shift from 2x2-binned frames, then re-centred anyway
-    for i, p in enumerate(paths if src is None else []):
+    from ..engine.parallel import pmap, workers
+
+    parallel = src is None and workers() > 1 and len(paths) >= 24
+    if parallel:  # every frame on its own core: the shifts first (between consecutive frames, also in parallel),
+        # then each frame read, re-centred from the shifted positions and measured where it is read
+        from ..calibration.stacking import align_offsets
+
+        offsets = np.asarray(align_offsets(paths, ctx, binning))
+        jobs = [
+            (p, stars0 + off, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp)
+            for p, off in zip(paths, offsets, strict=True)
+        ]
+        for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
+            rows.append(row)
+            peaks.append(peak)
+            radii.append(rad)
+            if fwhm0:
+                fwhms.append(f)
+    reader = ThreadPoolExecutor(1)  # the next frame is read (and decompressed) while this one is measured
+    serial = src is None and not parallel
+    upcoming = reader.submit(load, paths[1]) if len(paths) > 1 and serial else None
+    for i, p in enumerate(paths if serial else []):
         if ctx:
             ctx.check()
             ctx.progress(i / len(paths), "photometry")
@@ -185,6 +204,31 @@ def light_curve(
     if airmass is not None:
         out["airmass"] = airmass
     return out
+
+
+def _frame(job):
+    """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured."""
+    p, pred, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp = job
+    data, h = load(p)
+    xy = recenter(data, pred, box)
+    k, f = 1.0, None
+    if fwhm0:
+        f = seeing_fwhm(data, xy)
+        k = f / fwhm0 if np.isfinite(f) and 0.2 < f / fwhm0 < 5 else 1.0  # a failed measurement keeps the radii
+    radii = [r_ap * k, r_in * k, r_out * k]
+    if psf:
+        from .fieldstars import psf_measure
+
+        f_psf = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
+        flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
+    else:
+        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"))
+    try:
+        t = timing.mid_time(h)
+    except timing.TimeError:
+        t = None
+    row = (p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0))
+    return row, _peaks(data, xy, radii[0]), radii, f
 
 
 def _pixel_file_rows(src, paths, stars0, radii, gain, box):

@@ -252,19 +252,11 @@ def polarimetry_step(inputs, params, ctx):
 )
 def quality_step(inputs, params, ctx):
     """FWHM, background, star count of every frame; "good" lists the frames that pass (for photometry/stacks)."""
-    from concurrent.futures import ThreadPoolExecutor
-
+    from ..engine.parallel import pmap
     from .quality import judge, measure
 
-    rows = []
     paths = timing.chronological(inputs["images"])
-    # frames measured four at a time (threads: the engine's worker may not start processes); 1.7x on 4 cores, the
-    # same numbers
-    with ThreadPoolExecutor(4) as pool:
-        for i, row in enumerate(pool.map(measure, paths)):
-            ctx.check()
-            ctx.progress(i / len(paths), "quality")
-            rows.append(row)
+    rows = pmap(measure, paths, ctx, "quality")  # frames on every core (threads gave 1.7x: decompression holds the GIL)
     judge(rows, params["fwhm_factor"], params["star_fraction"], params["background_factor"])
     return {"quality": rows, "good": [r["file"] for r in rows if r["good"]]}
 
