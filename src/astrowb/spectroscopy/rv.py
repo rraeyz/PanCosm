@@ -124,6 +124,23 @@ def chunk_error(wave, flux, t_wave, t_flux, v_min, v_max, chunks=4):
     return float(np.sqrt((len(v) - 1) / len(v) * np.sum((v - v.mean()) ** 2)))
 
 
+def shifted(lo, dln, m, lags, ln_t, t):
+    """The template t (sampled at ln_t) at ln = lo + (i - k) dln for i < m and every lag k, interpolated once (not
+    once per lag): (t_ext, start), the lag's values being t_ext[start + j], j < m, for each start."""
+    lags = np.asarray(lags)
+    return np.interp(lo + np.arange(-lags.max(), m - lags.min()) * dln, ln_t, t), lags.max() - lags
+
+
+def lag_dot(f, t_ext, start):
+    """For every lag: sum(f * (seg - mean(seg))) and |seg - mean(seg)|, seg = t_ext[start + j] (f has zero mean)."""
+    m = len(f)
+    dot = np.correlate(t_ext, f, mode="valid")[start]  # sum f * (seg - mean) = sum f * seg, f having zero mean
+    c1 = np.concatenate([[0.0], np.cumsum(t_ext)])
+    c2 = np.concatenate([[0.0], np.cumsum(t_ext * t_ext)])
+    seg_sum, seg_sq = c1[start + m] - c1[start], c2[start + m] - c2[start]
+    return dot, np.sqrt(np.maximum(seg_sq - seg_sum**2 / m, 0.0))
+
+
 def ccf(wave, flux, t_wave, t_flux, v_min=-300.0, v_max=300.0, v_step=None):
     """Return dict(v, ccf, rv, rv_err, peak). Inputs continuum-normalised (lines below 1)."""
     wave, flux, t_wave, t_flux = (np.asarray(a, float) for a in (wave, flux, t_wave, t_flux))
@@ -142,14 +159,12 @@ def ccf(wave, flux, t_wave, t_flux, v_min=-300.0, v_max=300.0, v_step=None):
     # independent pixels for the error formula: the grid is finer than the spectrum (half a pixel by default) and
     # its interpolated points are not data (counting them made the errors sqrt(2) too small)
     n = len(grid) * min(1.0, dln / float(np.median(np.diff(np.log(wave)))))
-    c = np.empty(len(lags))
     fn = np.sqrt(np.sum(f * f))
-    for i, k in enumerate(lags):
-        # a star moving at v = k * v_step shows the template's line at ln(lambda) + k*dln:
-        # compare observed(ln l) with template(ln l - k*dln)
-        seg = np.interp(grid - k * dln, ln_t, t_flux) - 1.0
-        seg = seg - seg.mean()
-        c[i] = np.sum(f * seg) / (fn * np.sqrt(np.sum(seg * seg)) + 1e-30)
+    # a star moving at v = k * v_step shows the template's line at ln(lambda) + k*dln: observed(ln l) is compared with
+    # template(ln l - k*dln), a slice of the template put once on the grid extended by the lags (interpolating it
+    # again for every lag took 35 of 37 s for two HARPS spectra; IRAF fxcor measures seven in 1.4 s)
+    dot, norm = lag_dot(f, *shifted(lo, dln, len(grid), lags, ln_t, t_flux - 1.0))
+    c = dot / (fn * norm + 1e-30)
     j = int(np.argmax(c))
     if j in (0, len(c) - 1):
         raise ValueError("CCF peak at the edge of the velocity range: widen the range")
