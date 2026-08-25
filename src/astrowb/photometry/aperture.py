@@ -234,6 +234,45 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
     return flux, np.sqrt(var), np.asarray(sky.median)
 
 
+def measure_cube(cube, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
+    """measure() on every frame of a cube (n, ny, nx) with the stars at fixed positions, all frames at once: the same
+    apertures (exact overlap), sky rings (pixel centres, 3-sigma clipped median and scatter) and errors; and the
+    brightest pixel in each aperture. pixel_noise: per frame (n), or None. Returns flux, err, sky (n, stars), peak."""
+    from astropy.stats import sigma_clip
+
+    cube = np.asarray(cube, np.float32)
+    n, shape = len(cube), cube.shape[1:]
+    flux, err, sky, peak = (np.full((n, len(xy)), np.nan) for _ in range(4))
+    for k, (x, y) in enumerate(np.asarray(xy, float)):
+        ap, an = CircularAperture((x, y), r=r_ap), CircularAnnulus((x, y), r_in=r_in, r_out=r_out)
+        m = ap.to_mask(method="exact")
+        big, small = m.get_overlap_slices(shape)
+        if big is None:
+            continue
+        part = cube[(slice(None), *big)]
+        total = np.einsum("nij,ij->n", part.astype(np.float64), m.data[small])
+        centre = ap.to_mask(method="center").data[small] > 0
+        peak[:, k] = part[:, centre].max(axis=1) if centre.any() else np.nan
+        mr = an.to_mask(method="center")
+        big_r, small_r = mr.get_overlap_slices(shape)
+        ring = cube[(slice(None), *big_r)][:, mr.data[small_r] > 0].astype(np.float64)
+        clipped = sigma_clip(ring, sigma=3.0, maxiters=10, axis=1)
+        med = np.ma.median(clipped, axis=1).filled(np.nan)
+        std = np.ma.std(clipped, axis=1).filled(np.nan)
+        n_ap = ap.area_overlap(cube[0])
+        me = an.to_mask(method="exact")  # the ring's area without the clipped pixels, as ApertureStats counts it
+        big_e, small_e = me.get_overlap_slices(shape)
+        we = me.data[small_e]
+        vals = cube[(slice(None), *big_e)][:, we > 0].astype(np.float64)
+        keep = ~np.ma.getmaskarray(sigma_clip(vals, sigma=3.0, maxiters=10, axis=1))  # clipped on these pixels
+        n_sky = keep @ we[we > 0]
+        flux[:, k] = total - n_ap * med
+        noise = std if pixel_noise is None else np.asarray(pixel_noise, float)
+        err[:, k] = np.sqrt(np.clip(flux[:, k], 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2)
+        sky[:, k] = med
+    return flux, err, sky, peak
+
+
 def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None, offsets=((0.0, 0.0),)):
     """Up to n comparison stars (0-based x, y): similar brightness (0.5-2x the target), not saturated,
     no neighbour inside the sky annulus, and inside the frame (with the annulus) in every frame of the
