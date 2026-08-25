@@ -104,7 +104,9 @@ def test_every_progress_word_has_a_template():
     src = Path(__file__).parents[1] / "src" / "astrowb"
     found = set()
     for path in src.rglob("*.py"):
-        found |= set(re.findall(r'progress\([^"\n]*, f?"([^"{]+)"\)', path.read_text(encoding="utf-8")))
+        text = path.read_text(encoding="utf-8")
+        found |= set(re.findall(r'progress\([^"\n]*, f?"([^"{]+)"\)', text))
+        found |= set(re.findall(r'pmap\([^"\n]*, ctx, "([^"{]+)"', text))  # labels the parallel map reports
     found |= {f"master {k}" for k in ("bias", "dark", "flat")}  # f"master {kinds[key]}"
     assert {"reading headers", "calibrating", "stacking"} <= found
     assert found - set(TEMPLATES) <= {"MCMC", "MAST", "k-means"}  # names, the same in every language

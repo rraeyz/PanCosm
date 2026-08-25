@@ -345,6 +345,44 @@ every feature's speed with other programs, can the slow ones be faster, RAM / CP
   reidentify against itself added no line — IRAF's own solution was therefore not compared (scripts in scratchpad
   iraf_spec/).
 
+**Session 01RxUU, second speed round (owner, 2026-11-07: "use every core; compare everything IRAF and other
+programs do; RAM must really be optimised, but never at the cost of time — measure again after every change"):**
+- `engine/parallel.py` `pmap(fn, items, ctx)`: frame-by-frame work on processes (spawn). Threads gave nothing:
+  astropy's fpack decompression holds the GIL (24 frames 2.34 s serial, 2.37 s on 4 threads). A task worker is a
+  daemon process; `pmap` clears the flag so it may start its pool. From a script without `if __name__ ==
+  "__main__":` the pool breaks and `pmap` runs on one core instead. Test `test_frames_on_every_core_from_inside_a_
+  task_worker`.
+- Photometry, 265 Qatar-1 frames, in a task worker (`c942654`): quality 70.1 -> 37.9 s (identical rows; whole tree
+  0.76 -> 1.30 GB: each helper loads numpy / astropy), comparison suggestion 37.5 -> 24.9 s (`align_offsets` in runs
+  of consecutive frames: identical offsets and stars), light curve 49.5 -> 35.1 s (with 24+ frames: shifts first,
+  then each frame read, re-centred from the shifted positions and measured on its own core; relative flux within
+  6.4e-5 rms / 4e-4 max of the frame-to-frame path, scatter 0.01146 both, centroids within 0.09 px). Tried and
+  dropped: reading ahead on processes (pickling a 23 MB frame costs as much as decompressing it: 50.0 vs 49.5 s).
+- Stacking vs **Siril 1.2.1** (apt) and **IRAF imcombine**, 40 Qatar-1 frames (`022f958`, `94e9d18`): sigma
+  rejection + additive normalisation 127 -> 26 s, winsorized 171 -> 36 s, identical pixels (the median now from one
+  sort, `stacking._median0`, instead of numpy's masked-array nanmedian: 30 of 53 s; bands of rows and frame_stats
+  on every core); Siril (convert + star registration + winsorized stack) 11.5 s, 1.2 GB; sky noise ours 1.315 vs
+  Siril's 1.294 ADU. Combine only (no alignment, plain FITS): ours 9.7 s / 1.5 GB (block budget `STACK_BUDGET` 128 MB,
+  was 512: 11.0 s / 2.3 GB), IRAF imcombine 9.6 s / 0.42 GB, ours - IRAF median 0.012 ADU. The 2.5 GB peak of a
+  full stack is the alignment (4 processes with full-resolution float64 FFTs, as before: the serial version also
+  peaked at 2.46 GB); float32 FFTs would halve it but change the shifts in the last digits — not done.
+- Radial velocities vs **IRAF fxcor** (`32831ae`): the CCF interpolated the template again for every lag; now once
+  (`rv.shifted`, `rv.lag_dot`: np.correlate + cumulative sums), also in TODCOR. 7 HARPS stars vs tau Ceti (4500–6500
+  A): 35.8 -> 2.1 s (archive files 109.8 -> 3.2 s), fxcor 1.4 s; velocities ours vs fxcor (relative to tau Ceti):
+  iot Hor 33.53 / 33.48, Arcturus 11.34 / 11.37, Procyon 13.87 / 13.92, HD 10647 44.31 / 44.26, alf Hya 12.05 /
+  12.07, del Pav -4.91 / -4.95, zet Dor (broad) 15.25 / 15.09 km/s; ours unchanged by the rewrite to 1e-3 km/s.
+  TODCOR 4 TZ For spectra 56.2 -> 5.0 s, same velocities to 1e-4 km/s.
+- Light curve vs IRAF phot, 40 frames: ours 8.2 s plain FITS / 10.5 s fpack (aligns, centres, errors, process start
+  included); IRAF phot 1.0 s with positions given per frame.
+- Idle cost of the window (owner's question: does O-C work pay for the other pages?): pages are made on first use
+  (`_Lazy`), steps run in worker processes that exit after each task; window alone 121 MB, 9 pages opened 289 MB,
+  idle 20 s with every page open 0.3 % of one core. The only timers poll an observatory (only when connected) and
+  live photometry (only when started).
+- Branches: `wip-t11-results-export` was merged long ago (T11 notes) — obsolete, can be deleted (owner to decide);
+  `test-scripts` is the real-data scripts branch, never for main. Local `ccr-*` branches are session branches.
+- Not done yet / next: IRAF daophot (PSF), continuum, ecidentify (echelle) comparisons; period analysis vs astropy;
+  KvW timing of 801 Kepler minima (125 s, bootstrap); GPU paths beyond stacking (no GPU here to measure).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
