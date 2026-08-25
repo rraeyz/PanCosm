@@ -105,3 +105,41 @@ def test_band_files_of_one_scene_open_as_one_image(tmp_path, qtbot):
         analysis.evaluate(analysis.index_expression("NDWI", {"RED": "B04", "NIR": "B08"}), {"B04": red, "B08": nir})
     big = analysis.evaluate("B08 / B04", {"B04": np.ones((3000, 4)), "B08": np.full((3000, 4), 2.0)}, rows=1000)
     assert big.shape == (3000, 4) and np.all(big == 2.0)  # in blocks of rows
+
+
+def test_block_wise_pca_and_kmeans_give_what_a_copy_of_every_pixel_gave():
+    """The classes and components are computed block by block (a copy of every valid pixel was 1 GB more on a
+    Sentinel-2 tile): same sample, same centres, same classes and components as the copy-everything version."""
+    from scipy.cluster.vq import kmeans2
+
+    rng = np.random.default_rng(3)
+    bands = rng.normal([[[1.0]], [[5.0]], [[-2.0]]], 1.0, (3, 300, 410)).astype(np.float32)
+    bands[1, :40] += 4.0  # two kinds of surface
+    bands[0, rng.random((300, 410)) < 0.03] = np.nan  # missing pixels in one band
+
+    def pixels(b):  # the earlier version
+        cube = np.asarray(b, np.float32)
+        valid = np.all(np.isfinite(cube), axis=0)
+        x = cube[:, valid]
+        for row in x:
+            row -= np.float32(row.mean(dtype=np.float64))
+            row /= np.float32(row.std(dtype=np.float64))
+        return x, valid
+
+    x, valid = pixels(bands)
+    pick = np.random.default_rng(0).choice(x.shape[1], 5000, replace=False)
+    centres, _ = kmeans2(np.asarray(x[:, pick].T, np.float64), 4, minit="++", seed=0)
+    centres = centres[np.argsort(centres[:, 0])].astype(np.float32)
+    ref = np.full(valid.shape, np.nan, np.float32)
+    ref[valid] = np.argmin(((x.T[:, None, :] - centres[None]) ** 2).sum(axis=2), axis=1)
+    got = analysis.kmeans(bands, k=4, sample=5000)
+    assert np.array_equal(np.isnan(got), np.isnan(ref)) and np.mean(got[valid] == ref[valid]) > 0.9999
+    var, vec = np.linalg.eigh(np.cov(x[:, :: x.shape[1] // 20000].astype(np.float64)))
+    order = np.argsort(var)[::-1]
+    comps, explained = analysis.pca(bands, 2, sample=20000)
+    assert explained == pytest.approx((var[order][:2] / var.sum()).tolist(), rel=1e-6)
+    for i in range(2):
+        v = vec[:, order[i]].astype(np.float32)
+        expect = v @ x
+        sign = np.sign(np.dot(comps[i][valid][:100], expect[:100]))  # an eigenvector's sign is arbitrary
+        assert np.allclose(sign * comps[i][valid], expect, atol=1e-5) and np.isnan(comps[i][~valid]).all()
