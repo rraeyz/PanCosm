@@ -302,6 +302,49 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   0 untranslated, 0 cut texts, 0 controls without a tooltip; only slow click "Plan the night" 4.2–4.4 s (known:
   worker start + Sun/Moon ephemeris).
 
+**Session 01RxUU, speed / memory against other programs (owner's request of 2026-11-06 ~23:00: "try the rest, compare
+every feature's speed with other programs, can the slow ones be faster, RAM / CPU / GPU against other programs"):**
+- TESS / Kepler pixel files, compared with **lightkurve 2.6** (NASA's tool) on the same file (WASP-12 b, sector 20,
+  16 942 cadences, same 2.07 px aperture): lightkurve 4.1 s; ours was 267 s (43.6 s writing one FITS frame per
+  cadence + 224 s measuring) and scattered 3x more. Two causes: (1) every cadence re-centred: the aperture drifted
+  onto the wings / a neighbour (x 5.0 -> 7.0 px), 216 cadences 5 % off; (2) per-frame Python overhead. Now
+  (`0b88f2d`, `9caea30`): `tpf.source(paths)` recognises frames made from one pixel file, `tpf.cube` reads the
+  cadences at once, `photometry.lightcurve._pixel_file_rows` centres the stars once on the median of the cadences and
+  `aperture.measure_cube` measures every cadence at once (= measure() per frame to 1e-9, test), fixed apertures as
+  SPOC and lightkurve do; `timing.chronological` orders such frames from the file's rows (no 17 000 headers); the
+  frames are written by `tpf._FrameWriter` (header made once, only 4 cards formatted). Result: open 13.6 s, measure
+  7.4 s, total 21 s (12.7x faster); peak 292 MB (lightkurve 313 MB). Scatter now differs from lightkurve only in a few
+  cadences where the sky ring catches a transient (sky 55 000 e- vs 1 360 typical at BJD 2458856.60x; lightkurve
+  does not subtract a ring: TESS FLUX is background-subtracted already) — robust spread ours 0.979–1.008 (1–99 %),
+  lightkurve 0.975–1.019. WASP-12 transit (P10 re-run): Tc 41 s from SPOC's (was 47), rms 0.00260 (0.00264).
+  PSF photometry or "follow the seeing" keep the frame-by-frame path.
+- Tried and NOT kept: a NumPy Levenberg–Marquardt instead of scipy least_squares in `centroid_1dg` — only 22 %
+  faster and 19 % of faint stamps moved by 1e-4–0.03 px (flat minima): not worth changing results.
+- Sentinel-2 memory (`d1d6dce`): PCA / k-means block by block without a copy of every valid pixel: 3.85 -> 2.21 GB
+  (PCA, 16.6 -> 18.3 s) and 3.85 -> 1.84 GB (k-means, 31.9 -> 32.1 s) on S2B_36TVK_20250828 B04 + B08 (Element84
+  STAC, sentinel-cogs), same explained variance (0.88975 / 0.11025) and classes (test against the old version).
+  For scale: QGIS / ESA SNAP stream such rasters in tiles (a few hundred MB); ours still holds the bands whole
+  (2 x 120 Mpx float32 = 0.96 GB) — tiled reading would be the next step if 8 GB machines matter.
+- Startup (R4 run 34): imports 0.45 s, window 0.08 s, 0.54 s total, 126 MB; 278 MB after opening 6 pages.
+- GPU (run 33): no GPU in the container (llvmpipe refused, as designed); stacking 20 x 2048² clipped mean 2.2 s on
+  the CPU path. Only stacking has a GPU path (wgpu); never measured on a real GPU.
+- Published speed figures of other programs are almost absent: prose (Python photometry framework, arXiv 2111.02814)
+  gives ~10 ms per image per star on an i5; AstroImageJ, PixInsight, MaxIm DL publish none (forum anecdotes only).
+  Real comparisons therefore only where the other program runs here: IRAF (ccdred 11 s vs ours 18.4 s on 40 LCO
+  frames; apphot.phot 1.0 s vs 8.9 s, ours also tracks and centres), lightkurve (above).
+- R4 run 31 `phot_steps_timed` (Qatar-1, 265 LCO BANZAI frames 2400 x 2400 fpack, re-downloaded: LCO archive
+  `OBJECT=Qatar-1&RLEVEL=91&start=2026-11-02&end=2026-11-04`, 265 files 3.2 GB): quality 69.5 s (262 ms / frame),
+  suggest comparisons 37.7 s, apertures 0.3 s, light curve 52.3 s (197 ms / frame); 2 min 41 s in all, 198 % CPU
+  (2 of 4 cores), peak 0.89 GB. Half of every frame's time is astropy's fpack (RICE) decompression: 96 ms per frame,
+  and the three steps read the 265 frames three times (~76 s). A faster reader (fitsio / cfitsio) has no Windows
+  wheels — not taken; sharing the decompressed frames between steps would need ~6 GB of disk for this night.
+- IRAF spectroscopy timing (Community IRAF 2.17.1 from Ubuntu, `apt-get install iraf iraf-noao`, USER=root, irafcl
+  < script): EFOSC2 LTT 3864 + He-Ar arc: apall (find, trace, extract with background fit) + arc with the same
+  aperture + dispcor: all within one second; ours `spectroscopy.reduce` 1.29 s cold (extract), 0.2 s with the
+  wavelength solution (13 lines, 0.215 A). IRAF autoidentify found "No solution" from crval 5410 / cdelt 4.2;
+  reidentify against itself added no line — IRAF's own solution was therefore not compared (scripts in scratchpad
+  iraf_spec/).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,

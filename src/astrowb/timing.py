@@ -232,6 +232,7 @@ def chronological(paths, times=None) -> list[str]:
     from .io import tpf
     from .io.fits import find_image_hdu
 
+    paths = [str(p) for p in paths]  # an iterator would be used up by the pixel-file check
     src = tpf.source(paths)
     if src is not None:  # the cadences of a target pixel file: the file's rows are in time order already
         order = sorted(zip(src[1], (str(p) for p in paths), strict=True))
