@@ -86,15 +86,28 @@ def align_transforms(paths, method="translation", ctx=None):
 
 
 def frame_stats(paths):
-    """Sky median and noise (sigma-clipped, on every 4th pixel) of each frame."""
+    """Sky median and noise (sigma-clipped, on every 4th pixel) of each frame (frames on every core)."""
+    from ..engine.parallel import pmap
+
+    return pmap(_frame_stat, [str(p) for p in paths])
+
+
+def _frame_stat(path):
     from astropy.stats import sigma_clipped_stats
 
-    out = []
-    for p in paths:
-        data, _ = load(p)
-        _, med, std = sigma_clipped_stats(data[::4, ::4])
-        out.append((float(med), float(std)))
-    return out
+    data, _ = load(path)
+    _, med, std = sigma_clipped_stats(data[::4, ::4])
+    return float(med), float(std)
+
+
+def _median0(v):
+    """np.nanmedian(v, axis=0) from one sort (NaN sorts last): numpy's nanmedian over a few frames goes through masked
+    arrays, 30 of 53 s of stacking 16 LCO frames."""
+    s = np.sort(v, axis=0)
+    n = np.count_nonzero(~np.isnan(v), axis=0)
+    lo, hi = np.maximum((n - 1) // 2, 0), np.maximum(n // 2, 0)
+    m = (np.take_along_axis(s, lo[None], 0)[0] + np.take_along_axis(s, hi[None], 0)[0]) / 2
+    return np.where(n > 0, m, np.nan)
 
 
 def reject(block, rejection="sigma", sigma=3.0, low=1, high=1, iterations=5):
@@ -109,12 +122,12 @@ def reject(block, rejection="sigma", sigma=3.0, low=1, high=1, iterations=5):
     with np.errstate(invalid="ignore"), warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)
         if rejection == "percentile":
-            med = np.nanmedian(np.where(keep, block, np.nan), axis=0)
+            med = _median0(np.where(keep, block, np.nan))
             return keep & (block >= med * (1 - low)) & (block <= med * (1 + high))
         for _ in range(iterations):
             vals = np.where(keep, block, np.nan)
-            med = np.nanmedian(vals, axis=0)
-            spread = 1.4826 * np.nanmedian(np.abs(vals - med), axis=0)
+            med = _median0(vals)
+            spread = 1.4826 * _median0(np.abs(vals - med))
             if rejection == "winsorized":
                 for _ in range(5):  # Huber: values beyond 1.5 sigma pulled in, spread measured again
                     w = np.clip(vals, med - 1.5 * spread, med + 1.5 * spread)
@@ -133,11 +146,48 @@ def combine(block, method="mean", rejection="sigma", sigma=3.0, low=1, high=1, w
     with np.errstate(invalid="ignore", divide="ignore"), warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)
         if method == "median":
-            return np.nanmedian(vals, axis=0).astype(np.float32)
+            return _median0(vals).astype(np.float32)
         w = np.ones(len(block)) if weights is None else np.asarray(weights, float)
         w = np.where(keep, w[:, None, None], 0.0)
         mean = np.nansum(np.nan_to_num(vals) * w, axis=0) / w.sum(axis=0)
         return (mean * len(block) if method == "sum" else mean).astype(np.float32)
+
+
+def _stack_band(job):
+    """Rows r0..r1 of a stack: (image, coverage) of that band, block by block within its memory budget."""
+    paths, transforms, (fast, method, rejection, sigma, low, high, scale, shift, weights, budget), r0, r1 = job
+    hduls = [fits.open(p) for p in paths]
+    try:
+        hdus = [h[find_image_hdu(h)] for h in hduls]
+        ny, nx = hdus[0].shape[-2:]
+        rows = max(1, budget // (len(paths) * nx * 4 * (1 if fast else 4)))  # masks and sorts need more
+        out, cnt = np.empty((r1 - r0, nx), np.float32), np.empty((r1 - r0, nx), np.int32)
+        xs = np.arange(nx, dtype=np.float64)
+        for b0 in range(r0, r1, rows):
+            b1 = min(r1, b0 + rows)
+            yy0, xx0 = np.meshgrid(np.arange(b0, b1, dtype=np.float64), xs, indexing="ij")
+            block = []
+            for hdu, (m, t) in zip(hdus, transforms, strict=True):
+                xsrc = m[0, 0] * xx0 + m[0, 1] * yy0 + t[0]
+                ysrc = m[1, 0] * xx0 + m[1, 1] * yy0 + t[1]
+                lo, hi = int(np.floor(ysrc.min())) - 1, int(np.ceil(ysrc.max())) + 2
+                lo_c, hi_c = max(lo, 0), min(hi, ny)
+                if hi_c <= lo_c:
+                    block.append(np.full((b1 - b0, nx), np.nan, np.float32))
+                    continue
+                sub = np.asarray(hdu.section[lo_c:hi_c, :], dtype=np.float32)
+                block.append(map_coordinates(sub, [ysrc - lo_c, xsrc], order=1, cval=np.nan, prefilter=False))
+            block = np.stack(block)
+            if fast:
+                out[b0 - r0 : b1 - r0] = clipped_mean(block, sigma)[0]
+            else:
+                block = block * scale[:, None, None].astype(np.float32) + shift[:, None, None].astype(np.float32)
+                out[b0 - r0 : b1 - r0] = combine(block, method, rejection, sigma, low, high, weights)
+            cnt[b0 - r0 : b1 - r0] = np.isfinite(block).sum(axis=0)  # coverage: frames that cover the pixel
+    finally:
+        for h in hduls:
+            h.close()
+    return out, cnt
 
 
 def stack(
@@ -172,41 +222,21 @@ def stack(
         if weighting == "noise":
             weights = 1 / np.maximum(noise * scale, 1e-12) ** 2
             weights = weights / weights.mean()
-    hduls = [fits.open(p) for p in paths]
-    try:
-        hdus = [h[find_image_hdu(h)] for h in hduls]
-        ny, nx = hdus[0].shape[-2:]
-        header = hdus[0].header.copy()
-        rows = max(1, MEMORY_BUDGET // (len(paths) * nx * 4 * (1 if fast else 4)))  # masks and sorts need more
-        out, cnt = np.empty((ny, nx), np.float32), np.empty((ny, nx), np.int32)
-        xs = np.arange(nx, dtype=np.float64)
-        for r0 in range(0, ny, rows):
-            r1 = min(ny, r0 + rows)
-            yy0, xx0 = np.meshgrid(np.arange(r0, r1, dtype=np.float64), xs, indexing="ij")
-            block = []
-            for hdu, (m, t) in zip(hdus, transforms, strict=True):
-                xsrc = m[0, 0] * xx0 + m[0, 1] * yy0 + t[0]
-                ysrc = m[1, 0] * xx0 + m[1, 1] * yy0 + t[1]
-                lo, hi = int(np.floor(ysrc.min())) - 1, int(np.ceil(ysrc.max())) + 2
-                lo_c, hi_c = max(lo, 0), min(hi, ny)
-                if hi_c <= lo_c:
-                    block.append(np.full((r1 - r0, nx), np.nan, np.float32))
-                    continue
-                sub = np.asarray(hdu.section[lo_c:hi_c, :], dtype=np.float32)
-                block.append(map_coordinates(sub, [ysrc - lo_c, xsrc], order=1, cval=np.nan, prefilter=False))
-            block = np.stack(block)
-            if fast:
-                out[r0:r1] = clipped_mean(block, sigma)[0]
-            else:
-                block = block * scale[:, None, None].astype(np.float32) + shift[:, None, None].astype(np.float32)
-                out[r0:r1] = combine(block, method, rejection, sigma, low, high, weights)
-            cnt[r0:r1] = np.isfinite(block).sum(axis=0)  # coverage: frames that cover the pixel
-            if ctx:
-                ctx.check()
-                ctx.progress(0.3 + 0.7 * r1 / ny, "stacking")
-    finally:
-        for h in hduls:
-            h.close()
+    from ..engine.parallel import pmap, workers
+
+    with fits.open(paths[0]) as h0:
+        hdu0 = h0[find_image_hdu(h0)]
+        ny, nx = hdu0.shape[-2:]
+        header = hdu0.header.copy()
+    # bands of rows on every core, each with its share of the memory budget (the same memory in all): a 40-frame
+    # LCO stack took 59 s on one core
+    n = min(workers(), max(1, ny // 64)) if len(paths) * ny * nx > 50_000_000 else 1
+    edges = np.linspace(0, ny, 2 * n + 1).round().astype(int)
+    how = (fast, method, rejection, sigma, low, high, scale, shift, weights, MEMORY_BUDGET // n)
+    jobs = [(paths, transforms, how, a, b) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
+    parts = pmap(_stack_band, jobs, ctx, "stacking", min_items=2)
+    out = np.concatenate([o for o, _ in parts])
+    cnt = np.concatenate([c for _, c in parts])
     header["NCOMBINE"] = (len(paths), "frames stacked")
     header["STACKMTH"] = (f"{method}, {rejection} rejection", "stack method")
     header["STACKNRM"] = (normalize, "normalisation before stacking")

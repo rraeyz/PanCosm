@@ -4,6 +4,7 @@ the interpreter lock (24 LCO frames: 2.34 s serial, 2.37 s on four threads), so 
 import multiprocessing as mp
 import os
 from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures.process import BrokenProcessPool
 
 
 def workers():
@@ -27,14 +28,17 @@ def pmap(fn, items, ctx=None, label="", min_items=8):
     # a task worker is a daemon process, and those may not start children; these end with the pool below
     mp.current_process().daemon = False
     out = []
-    with ProcessPoolExecutor(n, mp_context=mp.get_context("spawn")) as pool:
-        try:
-            for i, r in enumerate(pool.map(fn, items, chunksize=max(1, len(items) // (n * 8)))):
-                if ctx:
-                    ctx.check()
-                    ctx.progress(i / len(items), label)
-                out.append(r)
-        except BaseException:
-            pool.shutdown(wait=False, cancel_futures=True)
-            raise
+    try:
+        with ProcessPoolExecutor(n, mp_context=mp.get_context("spawn")) as pool:
+            try:
+                for i, r in enumerate(pool.map(fn, items, chunksize=max(1, len(items) // (n * 8)))):
+                    if ctx:
+                        ctx.check()
+                        ctx.progress(i / len(items), label)
+                    out.append(r)
+            except BaseException:
+                pool.shutdown(wait=False, cancel_futures=True)
+                raise
+    except BrokenProcessPool:  # a script without `if __name__ == "__main__":` cannot start processes: one core then
+        return pmap(fn, items, ctx, label, min_items=len(items) + 1)
     return out
