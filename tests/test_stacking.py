@@ -39,7 +39,7 @@ def test_offsets_recovered(frames):
 
 def test_stack_aligns_reduces_noise_rejects_cosmics(frames, monkeypatch):
     paths, shifts = frames
-    monkeypatch.setattr(stacking, "MEMORY_BUDGET", 7 * NX * 4 * 9)  # 9 rows per block: exercise block edges
+    monkeypatch.setattr(stacking, "STACK_BUDGET", 7 * NX * 4 * 9)  # 9 rows per block: exercise block edges
     img, cnt, header = stacking.stack(paths, shifts)
     truth = frame(0, 0, np.random.default_rng(1), noise=0.0)
     inner = (slice(8, NY - 8), slice(4, NX - 12))  # covered by every frame
