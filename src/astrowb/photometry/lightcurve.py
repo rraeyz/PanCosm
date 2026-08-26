@@ -211,7 +211,16 @@ def light_curve(
 def _frame(job):
     """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured."""
     p, pred, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp = job
-    data, h = load(p)
+    corner = np.zeros(2)
+    if psf or not np.isfinite(pred).all():
+        data, h = load(p)
+    else:  # only the part of the frame around the stars is read: half the time of a 2400 x 2400 fpack frame
+        # margin: the widest centroid box (301 px), the sky ring with radii following the seeing (up to 5x)
+        m = int(max(155, (5 if fwhm0 else 1) * r_out + 30) + box)
+        corner = np.maximum(0, np.floor(pred.min(axis=0)) - m)
+        (x1, y1), (x0, y0) = np.ceil(pred.max(axis=0)) + m, corner
+        data, h = load(p, (y0, y1, x0, x1))
+        pred = pred - corner
     xy = recenter(data, pred, box)
     k, f = 1.0, None
     if fwhm0:
@@ -229,7 +238,7 @@ def _frame(job):
         t = timing.mid_time(h)
     except timing.TimeError:
         t = None
-    row = (p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0))
+    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0))
     return row, _peaks(data, xy, radii[0]), radii, f
 
 

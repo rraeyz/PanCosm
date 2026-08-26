@@ -282,15 +282,26 @@ def _exptime(path):
     return t
 
 
-def load(path):
-    """The frame as float32, overscan-subtracted and trimmed when its header says how (BIASSEC, TRIMSEC)."""
+def load(path, crop=None):
+    """The frame as float32, overscan-subtracted and trimmed when its header says how (BIASSEC, TRIMSEC).
+    crop: (y0, y1, x0, x1) of the trimmed frame, only that part read (cut at the frame's edge): a tile-compressed
+    frame decompresses only the tiles it touches."""
     from ..io.lzw import readable
 
     with fits.open(readable(path)) as hdul:
         i = find_image_hdu(hdul)
         hdu = hdul[i]
         rows, cols, level = lay = _layout(hdu)
-        data = _linear(np.asarray(hdu.data, dtype=np.float32)[..., rows, cols]) - level
+        if crop is None:
+            data = _linear(np.asarray(hdu.data, dtype=np.float32)[..., rows, cols]) - level
+        else:
+            y0, y1, x0, x1 = (int(v) for v in crop)
+            if np.ndim(level) == 2:  # a column or a row of overscan levels
+                level = level[y0:y1] if level.shape[0] > 1 else level[:, x0:x1]
+            rows = slice(rows.start + y0, min(rows.stop, rows.start + y1))
+            cols = slice(cols.start + x0, min(cols.stop, cols.start + x1))
+            part = hdu.section[rows, cols] if len(hdu.shape) == 2 else hdu.data[..., rows, cols]
+            data = _linear(np.asarray(part, dtype=np.float32)) - level
         header = _corrected_header(inherited(hdul, i), lay)
         if _LINEARITY.get() is not None:
             header["LINCORR"] = (True, "linearity correction applied to the raw counts")
