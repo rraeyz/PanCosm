@@ -96,7 +96,7 @@ def light_curve(
 
     src = None if psf or follow_seeing else tpf.source(paths)
     if src is not None:  # the cadences of a TESS / Kepler pixel file: measured at once, the stars do not move
-        rows, peaks, radii = _pixel_file_rows(src, paths, stars0, (r_ap, r_in, r_out), g, box)
+        rows, peaks, radii, src_times = _pixel_file_rows(src, paths, stars0, (r_ap, r_in, r_out), g, box)
     binning = 2 if ref.size > 4e6 else 1  # large frames: the shift from 2x2-binned frames, then re-centred anyway
     from ..engine.parallel import pmap, workers
 
@@ -153,7 +153,9 @@ def light_curve(
             t = None
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0)))
     reader.shutdown(wait=False)
-    if any(r[1] is None for r in rows):  # without times the light curve is against the frame number
+    if src is not None:  # the archive's BJD_TDB as it is, and its UTC from the file (no conversion per cadence)
+        times, tvals, scale = src_times[1], src_times[0], "BJD_TDB"
+    elif any(r[1] is None for r in rows):  # without times the light curve is against the frame number
         times, tvals, scale = None, np.arange(len(rows), dtype=float), "frame number"
     else:
         times = timing.Time([r[1] for r in rows])
@@ -238,12 +240,12 @@ def _pixel_file_rows(src, paths, stars0, radii, gain, box):
     5 % off, and took 224 s; the stars are centred once, on the median of the cadences."""
     from ..io import tpf
 
-    data, noise, _, utc, exptime = tpf.cube(*src)
+    data, noise, bjd, utc, exptime = tpf.cube(*src)
     still = np.median(data[:: max(1, len(data) // 200)], axis=0)
     xy = recenter(still, stars0, box)
     flux, err, sky, peak = measure_cube(data, xy, *radii, gain, noise)
-    rows = [(p, utc[i], flux[i], err[i], sky[i], xy, exptime) for i, p in enumerate(paths)]
-    return rows, peak.tolist(), [list(radii)] * len(paths)
+    rows = [(p, None, flux[i], err[i], sky[i], xy, exptime) for i, p in enumerate(paths)]
+    return rows, peak.tolist(), [list(radii)] * len(paths), (bjd, utc)
 
 
 def _peaks(data, xy, r_ap):
