@@ -135,10 +135,25 @@ def centroid_1dg(data, mask=None, error=None):
     return np.array(out)
 
 
+def _unspike(stamp):
+    """Only single hot/cold pixels and one-pixel cosmic-ray hits replaced by their 3x3 median: a pixel above its
+    brightest neighbour by more than twice that neighbour's height over the median, or below all its neighbours.
+    The core of an undersampled star (FWHM ~1.5 px, MicroObservatory HAT-P-32) has a neighbour nearly as bright and
+    is kept: the full median filter halved it and moved the Gaussian centroid 2 px off the star."""
+    from scipy.ndimage import maximum_filter, minimum_filter
+
+    med = despike(stamp)
+    ring = np.ones((3, 3), bool)
+    ring[1, 1] = False
+    hi = maximum_filter(stamp, footprint=ring, mode="nearest")
+    lo = minimum_filter(stamp, footprint=ring, mode="nearest")
+    return np.where((stamp - med > 2 * (hi - med)) | (stamp < lo), med, stamp)
+
+
 def recenter(data, xy, box=11, max_move=2.5):
     """Centroids near the predicted (x, y) positions (0-based pixels). A centroid that fails or lands
     more than max_move pixels from the prediction (a neighbour, a defect) is replaced by the
-    prediction. Centroids are found on a despiked copy so a hot pixel cannot capture them."""
+    prediction. Centroids are found on a copy without single hot pixels so one cannot capture them."""
     xy = np.asarray(xy, dtype=float)
     clean = np.nan_to_num(np.asarray(data, dtype=np.float32))
     ny, nx = clean.shape
@@ -148,7 +163,7 @@ def recenter(data, xy, box=11, max_move=2.5):
             y0, y1 = max(0, int(py) - h), min(ny, int(py) + h + 1)
             x0, x1 = max(0, int(px) - h), min(nx, int(px) + h + 1)
             if y1 - y0 >= 3 and x1 - x0 >= 3:
-                clean[y0:y1, x0:x1] = despike(clean[y0:y1, x0:x1])
+                clean[y0:y1, x0:x1] = _unspike(clean[y0:y1, x0:x1])
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", AstropyUserWarning)  # a star wider than the box: handled below
         x, y = centroid_sources(clean, xy[:, 0], xy[:, 1], box_size=box, centroid_func=centroid_1dg)
