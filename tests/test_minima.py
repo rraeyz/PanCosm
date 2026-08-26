@@ -103,3 +103,17 @@ def test_noise_alone_is_no_eclipse():
     t = np.linspace(0, 0.014, 40)
     assert dips(t, 1 + rng.normal(0, 0.007, t.size)) == 0
     assert dips(t, 1 - 0.03 * (np.abs(t - 0.007) < 0.003) + rng.normal(0, 0.007, t.size)) == 1
+
+
+def test_s_curves_for_all_trials_and_samples_match_np_interp():
+    """S(T) is computed for every trial and bootstrap sample at once (801 Kepler minima: 125 -> 6 s); it must be
+    what np.interp gives trial by trial, also for trials whose branches run past the data (edge values)."""
+    from astrowb.timeseries.minima import _s_curves
+
+    rng = np.random.default_rng(2)
+    t = np.sort(rng.uniform(0, 1, 90))
+    ys = 1 - 0.3 * np.exp(-0.5 * ((t - 0.47) / 0.08) ** 2) + rng.normal(0, 0.01, (5, 90))
+    trials, hw, n = np.linspace(0.3, 0.7, 13), 0.45, 40
+    dt = np.linspace(0, hw, n)
+    direct = [[np.mean((np.interp(tr - dt, t, y) - np.interp(tr + dt, t, y)) ** 2) for tr in trials] for y in ys]
+    np.testing.assert_allclose(_s_curves(t, ys, trials, hw, n), direct, rtol=1e-12, atol=1e-15)

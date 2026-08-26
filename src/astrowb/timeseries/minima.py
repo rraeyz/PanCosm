@@ -18,11 +18,18 @@ is above 1. Best for flat-bottomed transits, where KvW's S(T) is shallow and noi
 import numpy as np
 
 
-def _s_curve(t, y, trial, half_width, n_grid):
+def _s_curves(t, ys, trials, half_width, n_grid):
+    """S(T) for every trial time and every light curve ys (m, n) on the same times t: the mean squared difference
+    of the two branches interpolated on an even grid (np.interp for every trial and sample took 0.16 s per Kepler
+    minimum with its bootstrap: 801 minima 125 s). The interpolation weights depend on t only, so they are found
+    once and applied to every sample."""
     dt = np.linspace(0, half_width, n_grid)
-    left = np.interp(trial - dt, t, y)
-    right = np.interp(trial + dt, t, y)
-    return np.mean((left - right) ** 2)
+    x = np.concatenate([trials[:, None] - dt, trials[:, None] + dt], axis=1)
+    j = np.clip(np.searchsorted(t, x, side="right") - 1, 0, len(t) - 2)
+    step = t[j + 1] - t[j]
+    w = np.clip(np.divide(x - t[j], step, out=np.zeros_like(x), where=step > 0), 0.0, 1.0)  # outside: edge value
+    v = ys[:, j] * (1 - w) + ys[:, j + 1] * w  # (m, n_trials, 2 n_grid)
+    return np.mean((v[..., :n_grid] - v[..., n_grid:]) ** 2, axis=-1)
 
 
 def kwee_van_woerden(t, y, n_trials=61, bootstrap=200, seed=0):
@@ -39,13 +46,16 @@ def kwee_van_woerden(t, y, n_trials=61, bootstrap=200, seed=0):
     if min(t0 - t[0], t[-1] - t0) <= 0 or np.argmin(ys) in (0, len(y) - 1):
         raise ValueError("the minimum must have data on both sides")
 
-    def solve(yy, centre, tries=3):
+    def grid(centre):
         half = min(centre - t[0], t[-1] - centre)
         span = half / 3
         hw = half - span  # same half-width for every trial, so the S values are comparable
         n_grid = max(8, int(np.sum(np.abs(t - centre) <= hw)))
-        trials = centre + np.linspace(-span, span, n_trials)
-        s = np.array([_s_curve(t, yy, tr, hw, n_grid) for tr in trials])
+        return centre + np.linspace(-span, span, n_trials), hw, n_grid
+
+    def solve(yy, centre, tries=3):
+        trials, hw, n_grid = grid(centre)
+        s = _s_curves(t, yy[None], trials, hw, n_grid)[0]
         j = int(np.argmin(s))
         if not 4 <= j <= n_trials - 5:  # minimum at the grid edge: move the grid there and retry
             if tries == 0:
@@ -65,13 +75,25 @@ def kwee_van_woerden(t, y, n_trials=61, bootstrap=200, seed=0):
         rng = np.random.default_rng(seed)
         model = 0.5 * (y + np.interp(2 * tmin - t, t, y))  # symmetric about tmin
         resid = y - model
-        samples = []
-        for _ in range(bootstrap):
+        samples = np.array([model + rng.choice(resid, len(resid)) for _ in range(bootstrap)])  # same draws as before
+        trials, hw, n_grid = grid(tmin)
+        s = _s_curves(t, samples, trials, hw, n_grid)  # every sample at once
+        j = np.argmin(s, axis=1)
+        inner = (j >= 4) & (j <= n_trials - 5)
+        # the parabola through the 9 points around each minimum, all at once: u = -4..4 grid steps from point j
+        u = np.arange(-4, 5)
+        fit = np.linalg.pinv(np.vander(u, 3))  # rows: u^2, u, 1 coefficients
+        jj = np.clip(j, 4, n_trials - 5)
+        a2, b2, _ = fit @ s[np.arange(len(j))[:, None], jj[:, None] + u].T
+        h = trials[1] - trials[0]
+        ok = inner & (a2 > 0)
+        times = list(trials[jj[ok]] - h * b2[ok] / (2 * a2[ok]))
+        for k in np.flatnonzero(~inner):  # minimum at the grid edge: the grid moved there, one sample at a time
             try:
-                samples.append(solve(model + rng.choice(resid, len(resid)), tmin)[0])
+                times.append(solve(samples[k], tmin)[0])
             except ValueError:
                 pass
-        boot = float(np.std(samples)) if len(samples) > 10 else np.nan
+        boot = float(np.std(times)) if len(times) > 10 else np.nan
     return float(tmin), float(sig), float(boot)
 
 
