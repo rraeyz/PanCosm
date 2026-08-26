@@ -649,8 +649,6 @@ def test_arc_lines_on_a_blended_background_and_the_faintest_left_out():
     assert len(found) == centres.size and np.max(np.abs(np.sort(found) - centres)) < 0.2
 
 
-
-
 def test_continuum_of_a_long_spectrum_with_a_gap_is_flat_and_continuous():
     """A merged echelle spectrum (fitted in overlapping pieces) with the HARPS CCD gap written as zeros: the zeros are
     no data, and the pieces meet without a step (fitted one after the other they jumped by up to 0.45 at their
@@ -659,7 +657,7 @@ def test_continuum_of_a_long_spectrum_with_a_gap_is_flat_and_continuous():
 
     rng = np.random.default_rng(1)
     w = 4500 + 0.02 * np.arange(100_000)
-    cont = 5e4 * (1 + 0.6 * np.sin((w - 4500) / 700)) * np.exp(-((w - 5200) / 1500) ** 2)
+    cont = 5e4 * (1 + 0.6 * np.sin((w - 4500) / 700)) * np.exp(-(((w - 5200) / 1500) ** 2))
     lines = 1 - 0.5 * np.exp(-0.5 * ((w[:, None] - rng.uniform(4500, 6500, 400)) / 0.1) ** 2).sum(axis=1).clip(0, 1)
     f = cont * lines * (1 + rng.normal(0, 0.003, len(w)))
     f[(w > 5300) & (w < 5333)] = 0.0
