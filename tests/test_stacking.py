@@ -37,6 +37,21 @@ def test_offsets_recovered(frames):
     np.testing.assert_allclose(found, shifts, atol=0.15)
 
 
+def test_offsets_of_the_same_frames_are_kept(frames, monkeypatch):
+    """The shifts are measured once for the same files (comparison stars, then the light curve, then other radii:
+    22 s each for 265 LCO frames); a file written again is measured again."""
+    paths, _ = frames
+    first = stacking.align_offsets(paths)
+    real = stacking._run_shifts
+    monkeypatch.setattr(stacking, "_run_shifts", lambda run: pytest.fail("frames read again"))
+    assert stacking.align_offsets(paths) == first
+    data = fits.getdata(paths[2])
+    fits.PrimaryHDU(np.roll(data, 3, axis=1), fits.Header({"EXPTIME": 30.0})).writeto(paths[2], overwrite=True)
+    monkeypatch.setattr(stacking, "_run_shifts", real)
+    again = stacking.align_offsets(paths)
+    assert abs(again[2][0] - first[2][0] - 3) < 0.15 and again[3] == pytest.approx(first[3], abs=0.15)
+
+
 def test_stack_aligns_reduces_noise_rejects_cosmics(frames, monkeypatch):
     paths, shifts = frames
     monkeypatch.setattr(stacking, "STACK_BUDGET", 7 * NX * 4 * 9)  # 9 rows per block: exercise block edges
