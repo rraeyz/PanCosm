@@ -169,11 +169,6 @@ def read(path) -> Raster:
     with tifffile.TiffFile(path) as tif:
         page = tif.pages[0]
         data = page.asarray()
-        tags = {}
-        for code in (*GEO_TAGS, NODATA_TAG):
-            if code in page.tags:
-                t = page.tags[code]
-                tags[code] = (t.dtype, t.count, t.value)
         planar = _planar(page, data.shape)
         if data.ndim == 2:
             bands = data[None]
@@ -181,7 +176,17 @@ def read(path) -> Raster:
             bands = data
         else:
             bands = np.moveaxis(data, -1, 0)
-    bands = bands.astype(np.float32)
+        meta = _tiff_meta(page)
+    return Raster(bands.astype(np.float32), [f"B{i + 1}" for i in range(len(bands))], *meta, str(path))
+
+
+def _tiff_meta(page):
+    """(transform, epsg, nodata, tags) from a GeoTIFF page's tags."""
+    tags = {}
+    for code in (*GEO_TAGS, NODATA_TAG):
+        if code in page.tags:
+            t = page.tags[code]
+            tags[code] = (t.dtype, t.count, t.value)
     transform = None
     if 34264 in tags:  # full transformation matrix (4x4, row-major)
         m = tags[34264][2]
@@ -201,7 +206,162 @@ def read(path) -> Raster:
             nodata = float(str(tags[NODATA_TAG][2]).strip("\x00 "))
         except ValueError:
             nodata = None
-    return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], transform, epsg, nodata, tags, str(path))
+    return transform, epsg, nodata, tags
+
+
+TIFF_SUFFIXES = (".tif", ".tiff")
+
+
+@dataclass
+class Scene:
+    """A GeoTIFF scene (one file, or one band per file) read by rows when it is asked for: what Raster holds whole,
+    for scenes that do not fit the computer's memory. Same attributes as Raster but no `bands`."""
+
+    files: list  # [(path, number of bands)]
+    names: list
+    shape: tuple
+    transform: tuple | None = None
+    epsg: int | None = None
+    nodata: float | None = None
+    tags: dict = field(default_factory=dict)
+    source: str = ""
+
+    map_xy = Raster.map_xy
+    lonlat = Raster.lonlat
+
+    @property
+    def n_bands(self):
+        return sum(n for _, n in self.files)
+
+    def band(self, i):
+        """Band i whole (nodata as NaN), reading only its file."""
+        import tifffile
+
+        for path, n in self.files:
+            if i < n:
+                with tifffile.TiffFile(path) as tif:
+                    b = _tiff_rows(tif, 0, self.shape[0])[i]
+                if self.nodata is not None:
+                    b[b == self.nodata] = np.nan
+                return b
+            i -= n
+        raise IndexError(i)
+
+    def pixel(self, col, row):
+        """Every band's value at one pixel (only the tiles of that row are read)."""
+        return self.rows(int(row), int(row) + 1)[:, 0, int(col)]
+
+    def subset(self, use):
+        """The same scene with only the bands `use` (indices), still read by rows."""
+        whole = self
+
+        class Subset:
+            n_bands, shape = len(use), self.shape
+
+            @staticmethod
+            def rows(r0, r1):
+                return whole.rows(r0, r1)[list(use)]
+
+        return Subset()
+
+    def rows(self, r0, r1):
+        """Every band's rows r0..r1 (n_bands, rows, nx) as float32, nodata as NaN; only the tiles or strips these
+        rows touch are read and decoded."""
+        import tifffile
+
+        out = []
+        for path, _ in self.files:
+            with tifffile.TiffFile(path) as tif:
+                out.append(_tiff_rows(tif, r0, r1))
+        block = np.concatenate(out) if len(out) > 1 else out[0]
+        if self.nodata is not None:
+            block[block == self.nodata] = np.nan
+        return block
+
+
+def _tiff_rows(tif, r0, r1):
+    """Rows r0..r1 of a TIFF's first image as (samples, rows, nx) float32, decoding only the segments that hold
+    them (tifffile's own decoder: compression, predictor, tiles or strips, planar or interleaved)."""
+    page = tif.pages[0]
+    ny, nx = page.imagelength, page.imagewidth
+    spp = page.samplesperpixel
+    planes = spp if page.planarconfig == 2 else 1
+    if page.is_tiled:
+        ch, across = page.tilelength, -(-nx // page.tilewidth)
+    else:
+        ch, across = min(page.rowsperstrip or ny, ny), 1
+    down = -(-ny // ch)
+    r0, r1 = min(r0, ny), min(r1, ny)
+    out = np.zeros((spp, r1 - r0, nx), np.float32)
+    if r1 <= r0:
+        return out
+    fh = tif.filehandle
+    wanted = [
+        (plane * down + tr) * across + tc
+        for plane in range(planes)
+        for tr in range(r0 // ch, (r1 - 1) // ch + 1)
+        for tc in range(across)
+    ]
+    wanted = [i for i in wanted if page.databytecounts[i]]  # an empty count is a sparse (empty) tile
+    raw = []
+    for i in wanted:  # read in file order, decoded on every core (zlib / deflate release the interpreter lock):
+        fh.seek(page.dataoffsets[i])  # one by one it was 55 % slower than tifffile's whole-image read
+        raw.append(fh.read(page.databytecounts[i]))
+
+    def place(job):
+        i, data = job
+        seg, (s, _, y, x, _), _ = page.decode(data, i)
+        seg = seg[0]  # (h, w, samples)
+        a, b = max(y, r0), min(y + seg.shape[0], r1)
+        w = min(seg.shape[1], nx - x)
+        if b > a and w > 0:
+            out[s : s + seg.shape[-1], a - r0 : b - r0, x : x + w] = np.moveaxis(seg[a - y : b - y, :w], -1, 0)
+
+    if len(wanted) > 1:
+        from concurrent.futures import ThreadPoolExecutor
+
+        with ThreadPoolExecutor() as pool:
+            list(pool.map(place, zip(wanted, raw, strict=True)))
+    elif wanted:
+        place((wanted[0], raw[0]))
+    return out
+
+
+def open_scene(source) -> Scene | None:
+    """The scene as a Scene (headers only) when every file is a GeoTIFF of one grid, else None."""
+    import tifffile
+
+    paths = str(source).split(";")
+    if not all(Path(p).suffix.lower() in TIFF_SUFFIXES for p in paths):
+        return None
+    files, names, meta, shape = [], [], None, None
+    for p in paths:
+        with tifffile.TiffFile(p) as tif:
+            page = tif.pages[0]
+            n = page.samplesperpixel
+            if shape is None:
+                shape, meta = (page.imagelength, page.imagewidth), _tiff_meta(page)
+            elif (page.imagelength, page.imagewidth) != shape:
+                raise ValueError("the files are not the same size: open bands of one scene at the same resolution")
+        files.append((p, n))
+        if len(paths) == 1:
+            names += [f"B{i + 1}" for i in range(n)]
+        else:
+            names += [Path(p).stem + ("" if n == 1 else f"_B{i + 1}") for i in range(n)]
+    return Scene(files, names, shape, *meta, str(source))
+
+
+def load(source, factor=3.0):
+    """The scene whole (Raster) when `factor` times its float32 size fits the computer's free memory, else read by
+    rows (Scene, GeoTIFF only): a 13-band Sentinel-2 tile is 6 GB in float32."""
+    from ..engine.parallel import available_memory
+
+    scene = open_scene(source)
+    if scene is not None:
+        free = available_memory()
+        if free is not None and factor * 4 * scene.n_bands * scene.shape[0] * scene.shape[1] > free:
+            return scene
+    return read(source)
 
 
 S2_BANDS = ("B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B10", "B11", "B12")  # band_id order

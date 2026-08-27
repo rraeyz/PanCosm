@@ -180,3 +180,55 @@ def test_esa_sentinel2_bands_become_reflectance_with_the_baseline_offset(tmp_pat
     outside = tmp_path / "T36TVK_20250828T083559_B04_10m.jp2"
     outside.write_bytes(paths[0].read_bytes())
     assert raster.read(outside).bands[0][5, 5] == 1500
+
+
+def test_a_scene_larger_than_the_free_memory_is_read_by_rows(tmp_path, monkeypatch):
+    """When the scene does not fit the computer's free memory, the steps read it by rows (only the tiles they need)
+    and give the same band math, k-means classes and principal components as with the scene in memory; the page
+    shows it band by band and reads a clicked pixel's values from its row."""
+    import tifffile
+
+    from astrowb.engine import parallel
+    from astrowb.engine.steps import execute
+    from astrowb.remotesensing import raster
+
+    rng = np.random.default_rng(3)
+    ny, nx = 700, 530
+    cls = np.add.outer(np.arange(ny) // 90, np.arange(nx) // 70) % 4
+    base = rng.normal(0, 1, (4, 5)) * 400 + 2000
+    cube = (base[cls].transpose(2, 0, 1) + rng.normal(0, 60, (5, ny, nx))).astype(np.uint16)
+    cube[:, :7, :9] = 0  # no data
+    scale = (10.0, 10.0, 0.0)
+    tie = (0.0, 0.0, 0.0, 500000.0, 4400000.0, 0.0)
+    keys = (1, 1, 0, 3, 1024, 0, 1, 1, 1025, 0, 1, 1, 3072, 0, 1, 32636)
+    path = tmp_path / "scene.tif"
+    tifffile.imwrite(path, cube, tile=(128, 128), compression="zlib", planarconfig="separate",
+                     extratags=[(33550, "d", 3, scale, True), (33922, "d", 6, tie, True), (34735, "H", 16, keys, True),
+                                (42113, "s", 0, "0", True)])  # fmt: skip
+
+    class Ctx:
+        def progress(self, *a, **k):
+            pass
+
+        def check(self):
+            pass
+
+    def products(tag):
+        out = {}
+        for sid, inp, par in (("rs.expression", {"expression": "(B4 - B3) / (B4 + B3)"}, {}),
+                              ("rs.classify", {}, {"k": 4}), ("rs.pca", {}, {"n": 3})):  # fmt: skip
+            res = execute(sid, {"raster": str(path), "output": str(tmp_path / f"{sid}_{tag}.tif")} | inp, par, Ctx())
+            out[sid] = tifffile.imread(res["product"]["path"]).astype(np.float64)
+        return out
+
+    whole = products("whole")
+    monkeypatch.setattr(parallel, "available_memory", lambda: 10_000_000)  # 10 MB free
+    assert isinstance(raster.load(str(path)), raster.Scene)
+    by_rows = products("rows")
+    for sid in whole:
+        np.testing.assert_allclose(by_rows[sid], whole[sid], rtol=1e-5, atol=1e-5, equal_nan=True, err_msg=sid)
+    sc = raster.load(str(path))
+    whole_r = raster.read(str(path))
+    np.testing.assert_array_equal(sc.band(2), whole_r.band(2))
+    assert sc.pixel(300, 400).tolist() == whole_r.bands[:, 400, 300].tolist()
+    assert sc.map_xy(0.5, 0.5) == whole_r.map_xy(0.5, 0.5)

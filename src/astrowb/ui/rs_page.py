@@ -176,7 +176,8 @@ class RemoteSensingPage(QWidget):
         from ..remotesensing import raster
 
         try:
-            self.raster = raster.read(path)
+            # whole when it fits the free memory (with room for the steps), else read by rows: band by band on screen
+            self.raster = raster.load(path, factor=4.0)
         except Exception as e:  # not an image we can read: say so, keep the page usable
             self.status.setText(self.tr("Cannot open: {e}").format(e=translate(str(e))))
             return
@@ -316,7 +317,7 @@ class RemoteSensingPage(QWidget):
         x, y = self._pixel(x + 0.5, y + 0.5)  # clicked gives 0-based pixel centres
         if not (0 <= y < r.shape[0] and 0 <= x < r.shape[1]):
             return
-        spec = analysis.pixel_spectrum(r.bands, x, y)
+        spec = r.pixel(x, y).tolist() if hasattr(r, "pixel") else analysis.pixel_spectrum(r.bands, x, y)
         self.plot.figure.clear()
         ax = self.plot.figure.add_subplot()
         ax.plot(range(1, len(spec) + 1), spec, "o-")
