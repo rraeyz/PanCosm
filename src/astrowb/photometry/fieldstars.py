@@ -15,7 +15,7 @@ import numpy as np
 from .. import timing
 from ..calibration.masters import load
 from ..hdr import get
-from .aperture import choose_apertures, despike, frame_shift, measure, recenter, seeing_fwhm
+from .aperture import choose_apertures, despike, measure, recenter, seeing_fwhm
 
 
 def psf_measure(data, xy, fwhm, r_in, r_out, gain=1.0):
@@ -86,24 +86,14 @@ def field_photometry(paths, max_stars=300, method="aperture", ctx=None):
     radii = choose_apertures(ref, xy0[: min(10, len(xy0))], gain)
     r_ap, r_in, r_out = radii["r_ap"], radii["r_in"], radii["r_out"]
     fwhm = float(radii.get("fwhm") or seeing_fwhm(ref, xy0[:10]))
-    mags, errs, times = [], [], []
-    prev, xy = ref, xy0
-    for i, p in enumerate(paths):
-        if ctx:
-            ctx.check()
-            ctx.progress(i / len(paths), "photometry")
-        data, h = (ref, h0) if i == 0 else load(p)
-        dx, dy = (0.0, 0.0) if i == 0 else frame_shift(prev, data)
-        xy = recenter(data, xy + [dx, dy], 11)
-        prev = data
-        if method == "psf":
-            flux, err, _ = psf_measure(data, xy, fwhm, r_in, r_out, gain)
-        else:
-            flux, err, _ = measure(data, xy, r_ap, r_in, r_out, gain)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            mags.append(np.where(flux > 0, 25 - 2.5 * np.log10(flux), np.nan))
-            errs.append(np.where(flux > 0, 1.0857 * err / flux, np.nan))
-        times.append(timing.mid_time(h))
+    from ..calibration.stacking import align_offsets
+    from ..engine.parallel import pmap
+
+    # the shifts first (between consecutive frames, on every core, kept for the same files), then every frame on its
+    # own core: 40 LCO frames x 300 stars took 60 s frame by frame
+    offsets = np.asarray(align_offsets(paths, ctx))
+    jobs = [(p, xy0 + off, method, fwhm, (r_ap, r_in, r_out), gain) for p, off in zip(paths, offsets, strict=True)]
+    mags, errs, times = zip(*pmap(_field_frame, jobs, ctx, "photometry"), strict=True)
     return {
         "time": timing.Time(times).utc.jd.tolist(),
         "xy": xy0.tolist(),
@@ -113,6 +103,20 @@ def field_photometry(paths, max_stars=300, method="aperture", ctx=None):
         "fwhm": fwhm,
         "method": method,
     }
+
+
+def _field_frame(job):
+    """One frame of field_photometry: read, re-centred from the shifted positions, measured."""
+    p, pred, method, fwhm, (r_ap, r_in, r_out), gain = job
+    data, h = load(p)
+    xy = recenter(data, pred, 11)
+    if method == "psf":
+        flux, err, _ = psf_measure(data, xy, fwhm, r_in, r_out, gain)
+    else:
+        flux, err, _ = measure(data, xy, r_ap, r_in, r_out, gain)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        mag = np.where(flux > 0, 25 - 2.5 * np.log10(flux), np.nan)
+        return mag, np.where(flux > 0, 1.0857 * err / flux, np.nan), timing.mid_time(h)
 
 
 def variability(mag, err, threshold=3.0, iterations=3):
