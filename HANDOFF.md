@@ -418,6 +418,50 @@ runs were ~15 % slower here than before the restart: quality 44.4 s instead of 3
   series, Richardson-Lucy deconvolution. Not candidates: fpack decompression (serial bit decoding), file I/O,
   anything with times (float64; wgpu is float32), photometry of a few stars per frame (transfer costs more).
 
+**Session 01RxUU, fourth speed round (owner, 2026-11-07: "do the IRAF daophot / continuum / ecidentify comparisons
+and the 801 Kepler minima; write GPU code with the CPU as fallback, it serves the auto / CPU / GPU setting"):**
+- **CI** was red on `cb3ba6c` (Windows only): `test_offsets_of_the_same_frames_are_kept` overwrote a frame it had read
+  with a memory map (`fits.getdata(..., memmap=False)` now). `d7482f9`.
+- **Kwee-van Woerden** (`timeseries.minima`): S(T) for every trial and every bootstrap sample in one go
+  (`_s_curves`: the interpolation weights depend on the times only; the bootstrap parabolas from one 9-point fit
+  matrix). 753 synthetic Kepler minima (65 267 points, 29.4 min cadence; the real KIC 6525196 file is not in the
+  container) 123.7 -> 6.1 s, times identical, errors within 2e-9. Test against a direct np.interp loop. `f35f30d`.
+- **IRAF daophot** (phot + pstselect + psf + allstar, empirical PSF, `iraf_dao/`), one Qatar-1 frame (2400 x 2400,
+  plain FITS), the same 300 star positions: IRAF 10.5 s / 86 MB; ours (`fieldstars.psf_measure`, Gaussian PRF,
+  photutils) 1.6 s / 425 MB (the Python process with numpy / astropy / photutils is most of it). Ours - IRAF: zero
+  point 0.026 mag, robust scatter 0.010 mag, the size of either one's errors (0.010 / 0.011).
+- **IRAF continuum** (onedspec, spline3, 13 pieces, rejection 1.5 / 3 sigma, 8 iterations) on the 7 HARPS spectra
+  of the fxcor comparison: found two faults of ours and fixed them (`1ea2bdb`): the 1 647 exact zeros of the HARPS CCD
+  gap (5300 A) counted as data, and the pieces of a long spectrum were fitted one after the other (jumps of up to 0.45
+  where they met, 3 of 7 spectra). Now pieces overlap by half and are blended, exact zeros are no data. The level of
+  the normalised continuum (95th percentile in 20 A bins) varies 0.004-0.047 over the spectrum, IRAF's 0.015-39.
+  Normal equations instead of polyfit: 0.074 -> 0.049 s per 100 000-pixel spectrum; IRAF 0.69 s for the 7 with its
+  start. Radial velocities unchanged (within 0.002 km/s), 2.4 -> 2.1 s (archive files 3.5 -> 3.1 s).
+- **IRAF ecidentify** (`iraf_ech/`): our extracted HARPS blue-chip arc (46 orders) written as an IRAF multispec image,
+  the 1 496 lines our 2-D solution used written as an ecidentify database, IRAF fitting its 2-D Chebyshev (xorder 5,
+  yorder 4, 3 iterations of 3-sigma rejection: our deg_x 4 / deg_m 3) through a cursor file (graphics=stdvdm: no
+  terminal needed). Against ESO's DRS solution: IRAF rms 22.1 m/s, ours 22.2 m/s (median 0.2 both, max 208 / 209);
+  residuals at the lines 23.0 / 22.9 m/s. IRAF needs the lines identified by hand; ours finds them from 9 guesses in
+  0.18 s.
+- **GPU** (wgpu, the existing rule: every kernel has a NumPy twin, `auto` uses a real GPU only, `gpu` also the software
+  adapter the tests use, any failure -> CPU and `compute.disable`):
+  - `compute/stack.py` `gpu_combine`: the whole stacking `combine` (mean / median / sum x none / sigma / winsorized /
+    minmax / percentile, weights) per pixel, up to 128 frames. On llvmpipe the 15 combinations equal the NumPy version
+    within 3e-7 relative, same NaN pixels (`test_gpu_stack_combine_matches_numpy`); a whole stack with normalisation,
+    and a GPU failure half-way (the CPU finishes in quarters of rows, within the memory budget), equal to the CPU
+    stack (`test_gpu_stack_matches_cpu_stack`). `stack()` decides once whether the GPU is used and tells the bands
+    (each band process looked for a GPU before: 0.43 s each without one); on the GPU the blocks are 4x larger (no
+    masks and sorts in memory).
+  - `compute/classify.py` `gpu_nearest`: the k-means class of every pixel. Same classes as NumPy
+    (`test_gpu_nearest_centre_matches_numpy`). The CPU version became one matrix product (`|c|^2 - 2 c.x`): k-means
+    of a 10-band 4000 x 4000 scene 7.2 -> 4.6 s (1 pixel of 16 M changed class: a tie); on llvmpipe 5.2 s.
+  - `compute.probe()`: the idle spare worker looks for an adapter before its task arrives (no device made: drivers
+    hold memory per process), so no task waits the 0.4 s.
+  - Measured on the CPU (no GPU here or on CI): 40-frame sigma stack 28.9 s before, 29.1 / 28.7 s after, identical
+    pixels (a first version copied the block for the CPU path: +3 s; caught by measuring, fixed). **The GPU speed
+    itself is not measured** (llvmpipe is the CPU): to be timed on a machine with a graphics card (`python -m astrowb
+    --benchmark` covers the clipped mean; time a median / winsorized stack and k-means there with Settings -> GPU).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
