@@ -13,7 +13,6 @@ than (N-1)/sqrt(N) sigma from the mean (2.3 sigma for N = 7), so a cosmic ray in
 few darks would never be rejected at 3 sigma.
 """
 
-import time
 import warnings
 
 import numpy as np
@@ -167,22 +166,3 @@ def clipped_mean(stack: np.ndarray, sigma: float = 3.0, maxiters: int = 5, use_g
             disable(f"{type(e).__name__}: {e}")
     mean, cnt = _cpu(stack, sigma, maxiters)
     return mean.reshape(shape), cnt.reshape(shape), "cpu"
-
-
-def benchmark(frames=20, size=2048, sigma=3.0) -> list[str]:
-    """Time CPU vs GPU on synthetic data; used by ``--benchmark``."""
-    from . import describe
-
-    rng = np.random.default_rng(0)
-    stack = rng.normal(1000, 10, (frames, size, size)).astype(np.float32)
-    stack[rng.integers(0, frames, 5000), rng.integers(0, size, 5000), rng.integers(0, size, 5000)] = 60000  # hits
-    lines = [f"device: {describe()}", f"clipped mean of {frames} x {size}x{size}:"]
-    results = {}
-    for label, flag in (("cpu", False), ("gpu", True)):
-        t = time.perf_counter()
-        img, _, used = clipped_mean(stack, sigma, use_gpu=flag)
-        results[used] = img
-        lines.append(f"  {label}: {time.perf_counter() - t:.2f} s (ran on {used})")
-    if len(results) == 2:
-        lines.append(f"  max |gpu-cpu| = {np.nanmax(np.abs(results['gpu'] - results['cpu'])):.3g}")
-    return lines
