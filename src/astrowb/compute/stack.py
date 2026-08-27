@@ -1,5 +1,5 @@
 """GPU twin of calibration.stacking.combine: one value per pixel from the frames' values, with the same rejections
-(none, sigma, winsorized, minmax, percentile) and methods (mean, median, sum), weights included.
+(none, sigma = IRAF's sigclip, mad, winsorized, minmax, percentile) and methods (mean, median, sum), weights included.
 
 The NumPy version stays the reference and the fallback: gpu_combine returns None whenever the GPU is not to be used
 (mode "cpu", no adapter, a small block, more than 128 frames, a driver error), and the caller then runs the NumPy
@@ -14,7 +14,7 @@ from . import device, disable, dispatch_size, max_binding_bytes, run
 GPU_MIN_VALUES = 4_000_000  # below this the transfer costs more than the CPU's work
 MAX_FRAMES = 128  # per-thread buffers
 METHODS = {"mean": 0, "median": 1, "sum": 2}
-REJECTIONS = {"none": 0, "sigma": 1, "winsorized": 2, "minmax": 3, "percentile": 4}
+REJECTIONS = {"none": 0, "sigma": 1, "winsorized": 2, "minmax": 3, "percentile": 4, "mad": 5}
 
 _SHADER = """
 struct Params { npix: u32, nframes: u32, method: u32, rejection: u32, row: u32, sigma: f32, low: f32, high: f32 }
@@ -49,7 +49,13 @@ fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
         v[f] = stack[f * p.npix + i];
         keep[f] = finite(v[f]);
     }
-    if (p.rejection == 3u) {  // minmax: the low lowest and high highest kept values out (ties in frame order)
+    var rejection = p.rejection;
+    if (rejection == 1u) {  // IRAF's sigclip needs 10+ values to reject one outlier at 3 sigma: median / MAD below
+        var nk = 0u;
+        for (var f = 0u; f < n; f++) { if (keep[f]) { nk++; } }
+        if (nk < 10u) { rejection = 5u; }
+    }
+    if (rejection == 3u) {  // minmax: the low lowest and high highest kept values out (ties in frame order)
         var nk = 0u;
         for (var f = 0u; f < n; f++) { if (keep[f]) { nk++; } }
         var rank: array<u32, 128>;
@@ -63,7 +69,7 @@ fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
         for (var f = 0u; f < n; f++) {
             keep[f] = keep[f] && f32(rank[f]) >= p.low && f32(rank[f]) < f32(nk) - p.high;
         }
-    } else if (p.rejection == 4u) {  // percentile: within (1 - low, 1 + high) x the median
+    } else if (rejection == 4u) {  // percentile: within (1 - low, 1 + high) x the median
         m = 0u;
         for (var f = 0u; f < n; f++) { if (keep[f]) { buf[m] = v[f]; m++; } }
         if (m > 0u) {
@@ -72,7 +78,38 @@ fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
                 keep[f] = keep[f] && v[f] >= med * (1.0 - p.low) && v[f] <= med * (1.0 + p.high);
             }
         }
-    } else if (p.rejection == 1u || p.rejection == 2u) {  // sigma / winsorized sigma clipping, 5 iterations
+    } else if (rejection == 1u) {  // IRAF imcombine sigclip about the median (ic_msigclip): sorted once, a window
+        m = 0u;
+        for (var f = 0u; f < n; f++) { if (keep[f]) { buf[m] = v[f]; m++; } }
+        let total = m;
+        if (m > 0u) { let unused = median(&buf, m); }  // sorts buf
+        var lo = 0u;
+        var hi = total;
+        loop {
+            let n1 = hi - lo;
+            if (n1 < 3u) { break; }
+            var med = buf[lo + n1 / 2u];
+            if ((n1 & 1u) == 0u) { med = 0.5 * (buf[lo + n1 / 2u - 1u] + buf[lo + n1 / 2u]); }
+            var ss = 0.0;
+            for (var j = lo; j < hi; j++) { let d = buf[j] - med; ss += d * d; }
+            let sd = sqrt(ss / f32(n1 - 1u));
+            if (!(sd > 0.0)) { break; }
+            var nl = lo;
+            var nh = hi;
+            while (nl < nh && (med - buf[nl]) / sd > p.sigma) { nl++; }
+            while (nh > nl && (buf[nh - 1u] - med) / sd > p.sigma) { nh--; }
+            if (nl == lo && nh == hi) { break; }
+            lo = nl;
+            hi = nh;
+        }
+        if (hi > lo) {
+            let first = buf[lo];
+            let last = buf[hi - 1u];
+            for (var f = 0u; f < n; f++) { keep[f] = keep[f] && v[f] >= first && v[f] <= last; }
+        } else {
+            for (var f = 0u; f < n; f++) { keep[f] = false; }
+        }
+    } else if (rejection == 5u || rejection == 2u) {  // median / MAD or winsorized sigma clipping, 5 iterations
         for (var it = 0u; it < 5u; it++) {
             m = 0u;
             for (var f = 0u; f < n; f++) { if (keep[f]) { buf[m] = v[f]; m++; } }
@@ -81,7 +118,7 @@ fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
             m = 0u;
             for (var f = 0u; f < n; f++) { if (keep[f]) { buf[m] = abs(v[f] - med); m++; } }
             var spread = 1.4826 * median(&buf, m);
-            if (p.rejection == 2u) {  // Huber: values beyond 1.5 sigma pulled in, spread measured again
+            if (rejection == 2u) {  // Huber: values beyond 1.5 sigma pulled in, spread measured again
                 for (var w = 0u; w < 5u; w++) {
                     var s = 0.0;
                     for (var f = 0u; f < n; f++) {
