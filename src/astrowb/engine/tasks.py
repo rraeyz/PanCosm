@@ -112,6 +112,12 @@ def _spare(inbox, messages, cancel_event):
         steps.get("fits.save_as")  # loads the built-in steps and the plugins
     except BaseException:  # a broken plugin is reported when its task runs, not here
         pass
+    try:
+        from .. import compute
+
+        compute.probe()  # whether there is a GPU, while nothing waits
+    except BaseException:
+        pass
     job = inbox.get()
     if job is not None:
         _worker(*job, messages, cancel_event)
