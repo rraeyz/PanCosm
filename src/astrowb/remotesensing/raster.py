@@ -147,6 +147,12 @@ def read(path) -> Raster:
 
         data = np.asarray(imagecodecs.imread(str(path)), np.float32)
         bands = data[None] if data.ndim == 2 else np.moveaxis(data, -1, 0)
+        level = safe_reflectance(path)
+        if level is not None:  # a band of an ESA Sentinel-2 product: numbers to reflectance, 0 = no data
+            offset, quantification = level
+            bands[bands == 0] = np.nan
+            bands += np.float32(offset)
+            bands /= np.float32(quantification)
         # shortcut: the GeoJP2 / GML map position is not read; convert with GDAL when map coordinates matter
         return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], source=str(path))
     if path.suffix.lower() in (".fits", ".fit", ".fts"):
@@ -196,6 +202,42 @@ def read(path) -> Raster:
         except ValueError:
             nodata = None
     return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], transform, epsg, nodata, tags, str(path))
+
+
+S2_BANDS = ("B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B10", "B11", "B12")  # band_id order
+
+
+def safe_reflectance(path):
+    """(offset, quantification) of a band file inside an ESA Sentinel-2 SAFE product, from its MTD_MSIL2A.xml /
+    MTD_MSIL1C.xml: reflectance = (number + offset) / quantification. Since processing baseline 04.00 (January
+    2022) the numbers carry +1000 (offset -1000); band math on the raw numbers is then wrong (red 0.05 and NIR 0.30
+    gave NDVI 0.455 instead of 0.714). None for any other file (class maps such as SCL, other sources; Element84's
+    Sentinel-2 COGs have the offset taken out already: earthsearch:boa_offset_applied)."""
+    import re
+    import xml.etree.ElementTree as ET
+
+    m = re.search(r"_(B\d\d|B8A)(_\d+m)?\.jp2$", Path(path).name, re.IGNORECASE)
+    if not m:
+        return None
+    band = m.group(1).upper()
+    for parent in list(Path(path).resolve().parents)[:6]:
+        for name in ("MTD_MSIL2A.xml", "MTD_MSIL1C.xml"):
+            meta = parent / name
+            if meta.is_file():
+                try:
+                    root = ET.parse(meta).getroot()
+                except ET.ParseError:
+                    return None
+                quant, offset = 10000.0, 0.0
+                for el in root.iter():
+                    tag = el.tag.rsplit("}", 1)[-1]
+                    if tag in ("BOA_QUANTIFICATION_VALUE", "QUANTIFICATION_VALUE") and el.text:
+                        quant = float(el.text)
+                    elif tag in ("BOA_ADD_OFFSET", "RADIO_ADD_OFFSET") and el.get("band_id") is not None:
+                        if int(el.get("band_id")) == S2_BANDS.index(band) and el.text:
+                            offset = float(el.text)
+                return offset, quant
+    return None
 
 
 def _planar(page, shape):
