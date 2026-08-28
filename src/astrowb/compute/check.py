@@ -51,6 +51,18 @@ def _jobs(rng):
                                  2.0, mode="constant", truncate=4.0)  # fmt: skip
         return u
 
+    peak = {}
+
+    def bls_cpu():  # the power as a fraction of the CPU's peak: a point on a bin edge (float32 phases) moves a low
+        # value by up to half a point's chi^2: a large change of a low value, not of the periodogram
+        p = np.asarray(BoxLeastSquares(t, lc).power(bls_periods, durs).power)
+        peak["bls"] = p.max()
+        return p / peak["bls"]
+
+    def bls_gpu():
+        p = gpu_bls_power(t, lc, np.ones(len(t)), bls_periods, durs, force=True)
+        return None if p is None else p / peak["bls"]
+
     return [
         ("stacking, sigma-clipped mean (20 x 1024 x 2048)",
          lambda: clipped_mean(frames, use_gpu=False)[0], lambda: _gpu_or_fail(clipped_mean(frames, use_gpu=True))),
@@ -60,9 +72,7 @@ def _jobs(rng):
         ("k-means classes (4 000 000 pixels x 10 bands)",
          lambda: _nearest(pixels, centres), lambda: gpu_nearest(pixels, centres, force=True)),
         ("deconvolution (2048 x 2048, 20 iterations)", rl_cpu, lambda: gpu_richardson_lucy(image, 2.0, 20, force=True)),
-        ("period search, BLS (65 000 points x 2 000 periods)",
-         lambda: np.asarray(BoxLeastSquares(t, lc).power(bls_periods, durs).power),
-         lambda: gpu_bls_power(t, lc, np.ones(len(t)), bls_periods, durs, force=True)),
+        ("period search, BLS (65 000 points x 2 000 periods)", bls_cpu, bls_gpu),
         ("period search, PDM (65 000 points x 5 000 frequencies)",
          lambda: _pdm_power(t, lc, 1 / freqs, 20), lambda: gpu_pdm_power(t, lc, freqs, 20, force=True)),
     ]  # fmt: skip

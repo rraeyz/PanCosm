@@ -170,7 +170,10 @@ def test_a_frame_asked_for_before_the_background_writer_is_written_on_the_spot(t
     write_tpf(path)
     frames = tpf.frames(path)
     tpf.finish(path)
-    before = fits.getheader(frames[40]), fits.getdata(frames[40])
+    before = (
+        fits.getheader(frames[40]),
+        fits.getdata(frames[40], memmap=False),
+    )  # Windows: a mapped file cannot be deleted
     for f in frames[30:50]:
         Path(f).unlink()
     data, h = load(frames[40])  # through readable(): written now
