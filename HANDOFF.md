@@ -552,6 +552,32 @@ script that says GPU found / works / how long"):**
   491 -> 162 s; phot steps quality / suggest / apertures / light curve 32.1 / 3.2 / 0.3 / 11.4 s; TPF open 4.2 s
   (was 44 s); startup 0.50 s, 127 MB. Folder: scratchpad `r4/` (`real/T4_run.sh`, `T4b`, `T4c`; logs in work/T4).
 
+- **Speed round after the stacking change** (all pushed): the quality step keeps the shifts it measures and
+  align_offsets computes only the missing pairs (`edb93a9`, Qatar-1 chain 82.8 -> 73.3 s, identical results); TESS /
+  Kepler pixel files open at once, the frames written by a background thread (`5640e8b`, 7.3 -> 0.4-1.5 s; frames
+  asked for early are written when opened, through `io.lzw.readable`); BLS on the GPU (`a3e831e`). Memory of the
+  IRAF-sigclip stacking: 1.24-1.28 GB vs 1.33-1.36 GB with median / MAD (about 6 % less); the outputs are the same
+  products (image, coverage, header — STACKMTH now names the algorithm), masters unchanged.
+- **CI run 174 (`a3e831e`) failed, fixed in the next commit:** (1) macOS, a real Metal GPU:
+  `test_gpu_bls_matches_astropy` 0.244 off at one period vs a 663 peak (3.7e-4 > the 3e-4 bound set on llvmpipe).
+  Float32 phases put a point on a bin edge into the next bin (up to half a point's chi^2, 0.5 there) — inherent,
+  the best period is the same; bound 1e-3 of the peak. The GPU check's per-value rule (1e-3 of max(|value|, 1)) would
+  have called BLS "different" on a real GPU for the same reason (0.0089 on llvmpipe at a low value): the check now
+  compares BLS as a fraction of the CPU's peak (3.1e-5 here). (2) Windows: the TPF background-writer test deleted a
+  frame it had read with memmap (WinError 32) — test reads with `memmap=False`.
+- **R4: the other 12 runs** (`real/T4d_run.sh`, alone on the machine, code at `a3e831e`; data downloaded again:
+  LCO 0.4 m elp night 2026-11-02 via the LCO archive API (40 e00, 30 b00, 20 d00, BANZAI skyflat), ESO tau Ceti
+  HARPS 1-D (5 epochs), ARAS AG Dra (30), LAMOST (28 good), PESSTO AT 2018hyz; EFOSC2 round-2 outputs rebuilt with
+  `real/efcal.py`). All results = round 3: LCO calibration vs BANZAI scale 1.2678, 0.919 ADU (60 s); vs IRAF ccdproc
+  scale 1.00139, 0.000 ADU, light curves 0.680 / 0.680 %, difference 0.012 % (IRAF 13.2 s); vs IRAF phot centres
+  0.028 px (was 0.038), flux 1.00064 (1.00056), difference 0.063 % (ours 3.1 s, IRAF 1.4 s); image processing 0
+  problems; automation stops with "no eclipse or transit stands out" (40 s); tau Ceti -16.061 km/s (-16.060), scatter
+  0.006; AG Dra median -154.8 (-154.4): every spectrum within 0.01 km/s of round 3, ARAS now lists one new echelle
+  spectrum instead of one Alpy one; LAMOST median 1 subclass off in both rounds (now 28 stars, 14 exact; round 3 13
+  stars, 4 exact); PESSTO SN 2018kzr 0.84 / -1.01 A, AT 2018hyz -8.51 A; long-slit atlas 13 lines 0.210 A -> 12 lines
+  0.090 A; GPU path vs CPU 0 pixels differ. Script issue only: u8d_iraf_phot needs its work folder made first. With
+  the 23 runs above, all 35 runs of R4 have now been repeated.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
