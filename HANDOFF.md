@@ -500,6 +500,41 @@ script that says GPU found / works / how long"):**
   5 of 5 work; times mean nothing on a software adapter (median stack 18.2 vs 4.1 s: llvmpipe uses every core, the
   NumPy reference one). The old `compute.combine.benchmark` is gone (the check replaces it).
 
+**Session 01RxUU, owner's "do every open item" round (2026-11-07, after v0.2.3):**
+- **Stacking = IRAF imcombine quality, faster** (`564d76c`). Measured first: 40 LCO frames with an injected satellite
+  trail and cosmic rays, against IRAF imcombine (combine=average reject=sigclip zero=median, IRAF's default mclip=yes):
+  ours (median / MAD clipping) gave sky noise 2.055 vs IRAF's 2.023 ADU, largest cosmic-ray residue 24.3 vs 19.1 ADU,
+  322 vs 107 pixels > 1 ADU off, and took 11.6-13.0 s vs 10.2-11.5 s: no better result for more work. Now
+  `rejection="sigma"` is IRAF's ic_msigclip (read in `pkg/images/immatch/src/imcombine/src/icsclip.gx`: centre =
+  median of the kept values, sigma = their rms about it with n - 1, trimmed from the ends of the sorted run until
+  nothing changes or < 3 left; `stacking._iraf_sigclip`: one sort per pixel, window sums from cumulative sums) where
+  10+ frames cover the pixel; where fewer do, the median / MAD spread (`IRAF_MIN_FRAMES`: with n values the rms about
+  their median can put one outlier at most sqrt(n - 1) sigma off — a cosmic ray among 7 frames is never rejected by
+  IRAF's sigclip at 3 sigma, as IRAF's help says; checked: our old test with 7 frames failed with the pure IRAF rule).
+  The old method stays as `"mad"` ("sigma clipping, median / MAD spread"); the fast path (masters' `clipped_mean`)
+  now serves mean + mad. Shifts are resampled by `_shifted_rows` (four slices, one pair of weights; identical to
+  map_coordinates, which took a third of the time). Frame statistics only when normalising or weighting. GPU twin
+  (rejection 1 = IRAF with the same < 10 rule, 5 = mad). Result: noise 2.022 (IRAF 2.023), cosmic-ray residue 19.07
+  (19.07), 88 pixels > 1 ADU (IRAF 107), 9.4-10.4 s (IRAF 10.2-11.5); per pixel the kept values equal a line-by-line
+  transcription of IRAF's loop (test). UI choice, tooltip, guide 04 (4 languages).
+- **Sentinel-2 L2A offset** (`01c3b1a`): Element84 COGs have it taken out (STAC `earthsearch:boa_offset_applied`
+  true on S2B_36TVK_20250828, baseline 05.11; p2 199 DN would be a negative reflectance with the offset). ESA SAFE
+  band files (.jp2) carry +1000 since baseline 04.00 and were read raw (NDVI 0.455 instead of 0.714 on red 0.05 /
+  NIR 0.30): `raster.safe_reflectance` reads BOA_ADD_OFFSET / BOA_QUANTIFICATION_VALUE (L1C: RADIO_ADD_OFFSET /
+  QUANTIFICATION_VALUE) from the product's MTD XML; band files only (SCL etc. untouched). Test, guide 10.
+- **Remote sensing by free memory** (`1cd7b22`): `engine.parallel.available_memory()` (Linux MemAvailable, Windows
+  GlobalMemoryStatusEx, macOS vm_stat); `raster.load(source, factor)` gives the scene whole (Raster) or, for GeoTIFF
+  when factor x its float32 size exceeds the free memory, a `raster.Scene` read by rows (`_tiff_rows`: only the tiles /
+  strips the rows touch, decoded on every core). Steps and analysis work on either (`analysis._rows_of`); the page
+  (factor 4) shows such a scene band by band and reads a clicked pixel from its row. Same products both ways (test).
+  8 bands x 8000 x 8000: whole 3.37 GB peak, band math / k-means / PCA 7.6 / 16.9 / 17.6 s; by rows 1.40 GB, 5.9 /
+  24.2 / 25.5 s (k-means and PCA pass over the file three times: statistics, sample, classes / projection; merging
+  passes would change the sample and the results). JPEG2000 / NetCDF / FITS are still read whole.
+- **Branch `wip-t11-results-export`**: its content is in main (checked file by file; only a module-level `tr()`
+  helper is gone, removed on purpose in U6). Deleting it was refused by the session's safety rule for destructive
+  git operations: the owner deletes it on GitHub (Branches page).
+- **Owner's how-to (IRAF task -> page / button for spectra, RV, O−C)**: given in the chat (the HANDOFF's R5 item 4).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
