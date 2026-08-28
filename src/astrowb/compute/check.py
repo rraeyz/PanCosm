@@ -16,9 +16,12 @@ def _timed(fn):
 
 def _jobs(rng):
     """(name, CPU function, GPU function, how to compare) for every GPU job."""
+    from astropy.timeseries import BoxLeastSquares
+
     from ..calibration.stacking import combine
     from ..remotesensing.analysis import _nearest
     from ..timeseries.period import _pdm_power
+    from .bls import gpu_bls_power
     from .classify import gpu_nearest
     from .combine import clipped_mean
     from .deconvolve import gpu_richardson_lucy
@@ -37,6 +40,7 @@ def _jobs(rng):
     t = np.sort(rng.uniform(0, 1460, 65_000))
     lc = 1 - 0.3 * (np.abs((t / 3.42 + 0.25) % 1 - 0.25) < 0.02) + rng.normal(0, 3e-4, len(t))
     freqs = np.linspace(0.05, 2.0, 5000)
+    bls_periods, durs = 1 / np.linspace(1 / 20, 2.0, 2000), (0.04, 0.06, 0.08, 0.12, 0.16)
 
     def rl_cpu():
         from scipy.ndimage import gaussian_filter
@@ -56,6 +60,9 @@ def _jobs(rng):
         ("k-means classes (4 000 000 pixels x 10 bands)",
          lambda: _nearest(pixels, centres), lambda: gpu_nearest(pixels, centres, force=True)),
         ("deconvolution (2048 x 2048, 20 iterations)", rl_cpu, lambda: gpu_richardson_lucy(image, 2.0, 20, force=True)),
+        ("period search, BLS (65 000 points x 2 000 periods)",
+         lambda: np.asarray(BoxLeastSquares(t, lc).power(bls_periods, durs).power),
+         lambda: gpu_bls_power(t, lc, np.ones(len(t)), bls_periods, durs, force=True)),
         ("period search, PDM (65 000 points x 5 000 frequencies)",
          lambda: _pdm_power(t, lc, 1 / freqs, 20), lambda: gpu_pdm_power(t, lc, freqs, 20, force=True)),
     ]  # fmt: skip
