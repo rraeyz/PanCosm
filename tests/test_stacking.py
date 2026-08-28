@@ -128,3 +128,31 @@ def test_a_shift_is_resampled_as_map_coordinates_does(tmp_path):
                 ref = map_coordinates(img, [yy + t[1], xx + t[0]], order=1, cval=np.nan, prefilter=False)
                 got = stacking._shifted_rows(h[0], b0, b1, t, 50, 60)
                 np.testing.assert_allclose(got, ref, rtol=1e-6, equal_nan=True)
+
+
+def test_the_quality_check_keeps_the_shifts_for_the_light_curve(frames, monkeypatch):
+    """The quality check measures the shift between consecutive frames while each is open; align_offsets (the
+    comparison suggestion, the light curve) then reads them instead of opening every frame again, and computes only
+    the pairs that are new (frames left out after the check)."""
+    from astrowb.engine.steps import execute
+
+    paths, _ = frames
+    fresh = stacking.align_offsets(paths)
+
+    class Ctx:
+        def progress(self, *a, **k):
+            pass
+
+        def check(self):
+            pass
+
+    from astrowb.settings import config_dir
+
+    (config_dir() / "shifts.json").unlink()  # forget the shifts measured above
+    execute("photometry.quality", {"images": [str(p) for p in paths]}, {}, Ctx())
+    real, calls = stacking._run_shifts, []
+    monkeypatch.setattr(stacking, "_run_shifts", lambda run: pytest.fail("frames read again"))
+    assert stacking.align_offsets(paths) == fresh
+    monkeypatch.setattr(stacking, "_run_shifts", lambda run: calls.append(len(run[0])) or real(run))
+    stacking.align_offsets([paths[0], paths[1], paths[3], paths[4]])  # frame 2 left out: one new pair, 2 frames
+    assert calls == [2]
