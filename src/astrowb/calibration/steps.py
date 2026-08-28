@@ -7,6 +7,7 @@ from .. import __version__
 from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
+from ..io.lzw import readable
 from . import masters
 from .frames import Frame, scan
 from .matching import best_bias, best_dark, group_key, make_plan
@@ -65,7 +66,7 @@ def _frame_header(path):
 
     from ..io.fits import find_image_hdu, inherited
 
-    with fits.open(path) as hdul:
+    with fits.open(readable(path)) as hdul:
         return inherited(hdul, find_image_hdu(hdul))
 
 

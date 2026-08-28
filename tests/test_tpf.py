@@ -1,6 +1,8 @@
 """Target pixel files (TESS / Kepler TPFs, TESScut cut-outs) as frames, and timing every eclipse of a long series:
 a real TESScut file of AI Dra (sector 24) gave P = 1.19880 d from 42 minima, the literature value."""
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 from astropy.io import fits
@@ -50,6 +52,7 @@ def test_a_target_pixel_file_becomes_frames_with_the_archive_times(tmp_path):
     assert tpf.is_tpf(path) and not tpf.is_tpf(tmp_path / "nothing.fits")
     frames = bayer.fits_paths([str(path)])
     assert len(frames) == len(bjd) - 1 and len(set(frames)) == len(frames)  # one per good cadence, distinct names
+    tpf.finish(path)  # the frames after the first are written in the background
     h = fits.getheader(frames[10])
     back = timing.bjd_tdb(timing.mid_time(h), target_coord(h)).jd
     assert abs(back - bjd[11]) * 86400 < 0.001  # the application's BJD_TDB is the archive's
@@ -155,3 +158,25 @@ def test_the_cadences_of_a_pixel_file_are_measured_at_once_as_frame_by_frame(tmp
     shuffled = frames[::-1]
     times = {}
     assert timing.chronological(shuffled, times) == frames and len(times) == len(frames)
+
+
+def test_a_frame_asked_for_before_the_background_writer_is_written_on_the_spot(tmp_path):
+    """Opening a pixel file returns the frame names and the first frame at once; a frame read before the
+    background writer got to it (here: deleted) is written when it is opened, with the same pixels and times."""
+    from astrowb.calibration.masters import load
+    from astrowb.io.lzw import readable
+
+    path = tmp_path / "tess-s0024-2-1_cut_astrocut.fits"
+    write_tpf(path)
+    frames = tpf.frames(path)
+    tpf.finish(path)
+    before = fits.getheader(frames[40]), fits.getdata(frames[40])
+    for f in frames[30:50]:
+        Path(f).unlink()
+    data, h = load(frames[40])  # through readable(): written now
+    assert np.array_equal(data, before[1]) and h["TPFROW"] == before[0]["TPFROW"]
+    assert h["BJD_TDB"] == before[0]["BJD_TDB"] and abs(timing.mid_time(h) - timing.mid_time(before[0])).sec < 1e-4
+    assert readable(tmp_path / "other.fits") == tmp_path / "other.fits"  # any other missing file: left alone
+    assert tpf.frames(path) == frames  # opened again: the listing, and the missing frames written again
+    tpf.finish(path)
+    assert all(Path(f).exists() for f in frames)

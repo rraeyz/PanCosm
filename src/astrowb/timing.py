@@ -14,6 +14,7 @@ from astropy.time import Time, TimeDelta
 from astropy.utils import iers
 
 from .hdr import get, number
+from .io.lzw import readable
 
 # Observatories are often offline: never block on an IERS download; for dates beyond the bundled
 # table astropy then warns and uses predictions (affects airmass/alt-az only, not BJD).
@@ -243,7 +244,7 @@ def chronological(paths, times=None) -> list[str]:
     timed, untimed = [], []
     for p in sorted(str(p) for p in paths):
         try:
-            with fits.open(p) as hdul:
+            with fits.open(readable(p)) as hdul:
                 timed.append((mid_time(hdul[find_image_hdu(hdul)].header).jd, p))
         except (TimeError, ValueError, OSError):
             untimed.append(p)

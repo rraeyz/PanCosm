@@ -5,6 +5,7 @@ import numpy as np
 from .. import timing
 from ..engine.steps import step
 from ..hdr import get, number
+from ..io.lzw import readable
 from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
 from .lightcurve import light_curve
 
@@ -222,7 +223,7 @@ def polarimetry_step(inputs, params, ctx):
     )  # fmt: skip
     angles, source = [], None
     for p in paths:
-        h = fits.getheader(p)
+        h = fits.getheader(readable(p))
         keys = [params["angle_key"]] if params["angle_key"] else ANGLE_KEYS
         key = next((k for k in keys if k in h), None)
         if key is None:
@@ -326,7 +327,7 @@ def moving_step(inputs, params, ctx):
 
     paths, unsolved = [], []
     for n, p in enumerate(inputs["images"]):  # frames without sky coordinates are plate-solved first
-        with fits.open(p) as hdul:
+        with fits.open(readable(p)) as hdul:
             solved = WCS(hdul[find_image_hdu(hdul)].header).has_celestial
         if solved:
             paths.append(str(p))

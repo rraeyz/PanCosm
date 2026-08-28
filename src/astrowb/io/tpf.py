@@ -45,40 +45,137 @@ def _celestial(hdul):
 
 
 def frames(path) -> list[str]:
-    """The FITS frames of a target pixel file (made once, kept while the file is unchanged)."""
-    import astropy.units as u
-    from astropy.coordinates import EarthLocation, SkyCoord
-    from astropy.time import Time
-
+    """The FITS frames of a target pixel file (kept while the file is unchanged). The names and the first frame
+    are there at once; the other frames are written by a background thread, and any frame asked for before it gets
+    there is written on the spot (io.lzw.readable): creating 17 000 files took 3 of the 7 s of opening one, longer
+    than lightkurve needs to measure the whole light curve (4 s)."""
     path = Path(path)
-    folder = path.parent / "fits_from_raw" / path.name.split(".fits")[0]
-    listing = folder / "frames2.txt"  # written last: an interrupted conversion is done again (2: with PIXNOISE)
+    folder = _folder(path)
+    listing = folder / "frames2.txt"
     if listing.exists() and listing.stat().st_mtime >= path.stat().st_mtime:
-        return [str(folder / n) for n in listing.read_text().split()]
+        names = listing.read_text().split()
+        if not (folder / names[0]).exists():
+            _write(path, [0])
+        _start_writer(path)  # frames a deleted or interrupted conversion left out
+        return [str(folder / n) for n in names]
+    rows = _good_rows(path)
+    names = [_name(path, r) for r in rows]
+    folder.mkdir(parents=True, exist_ok=True)
+    _write(path, [0])
+    tmp = listing.with_suffix(".part")
+    tmp.write_text("\n".join(names))
+    tmp.replace(listing)
+    _start_writer(path)
+    return [str(folder / n) for n in names]
+
+
+def _folder(path):
+    return Path(path).parent / "fits_from_raw" / Path(path).name.split(".fits")[0]
+
+
+def _name(path, row):
+    return f"{Path(path).name.split('.fits')[0]}_{int(row):06d}.fits"
+
+
+def _good_rows(path):
+    """Rows of the cadences that become frames: a time and no flag of lightkurve's default quality bitmask."""
     with fits.open(path) as hdul:
-        prim, tab = hdul[0].header, hdul[1].header
         data = hdul[1].data
         t = np.asarray(data["TIME"], float)
         good = np.isfinite(t)
         if "QUALITY" in data.columns.names:
             good &= (np.asarray(data["QUALITY"]) & DEFAULT_BITMASK) == 0
-        if not good.any():
-            raise ValueError(f"{path.name}: no cadence with a time and good quality")
-        flux = np.asarray(data["FLUX"][good], np.float32)
+    if not good.any():
+        raise ValueError(f"{Path(path).name}: no cadence with a time and good quality")
+    return np.flatnonzero(good)  # names come from the row: TESScut files have CADENCENO 0 on every row
+
+
+_writers = {}  # pixel file -> background writing thread
+
+
+def _start_writer(path):
+    import threading
+
+    key = str(Path(path).resolve())
+    if key in _writers and _writers[key].is_alive():
+        return
+    _writers[key] = threading.Thread(target=_write, args=(path, None), daemon=True, name="tpf frames")
+    _writers[key].start()
+
+
+def finish(path=None):
+    """Wait until the background writing of a pixel file's frames (or of every one) is done."""
+    for key, th in list(_writers.items()):
+        if path is None or key == str(Path(path).resolve()):
+            th.join()
+
+
+def materialize(frame):
+    """Write a frame of a pixel file that is asked for before the background writer got to it. True when frame is
+    such a frame (now written), False for any other path."""
+    frame = Path(frame)
+    m = _ROW.search(frame.name)
+    if not m or frame.parent.parent.name != "fits_from_raw" or frame.name[: m.start()] != frame.parent.name:
+        return False
+    for f in sorted(frame.parent.parent.parent.glob(frame.parent.name + ".fits*")):
+        if f.name.split(".fits")[0] == frame.parent.name and is_tpf(f):
+            index = np.flatnonzero(_good_rows(f) == int(m.group(1)))
+            if len(index):
+                _write(f, [int(index[0])])
+                return frame.exists()
+    return False
+
+
+def _put(target, data):
+    """Write a frame once, atomically (a reader never sees half a file); a frame already there is left as it is
+    (on Windows it may be open)."""
+    import os
+    import threading
+
+    if target.exists():
+        return
+    tmp = target.with_name(f"{target.name}.{os.getpid()}.{threading.get_ident()}.part")
+    tmp.write_bytes(data)
+    try:
+        tmp.replace(target)
+    except OSError:  # written meanwhile by another writer and open: that copy is the same frame
+        tmp.unlink(missing_ok=True)
+
+
+def _write(path, which=None):
+    """Write the frames of the good cadences `which` (indices among them; None: every one not written yet)."""
+    import astropy.units as u
+    from astropy.coordinates import EarthLocation, SkyCoord
+    from astropy.time import Time
+
+    path = Path(path)
+    folder = _folder(path)
+    folder.mkdir(parents=True, exist_ok=True)
+    with fits.open(path) as hdul:
+        prim, tab = hdul[0].header, hdul[1].header
+        data = hdul[1].data
+        t_all = np.asarray(data["TIME"], float)
+        good = _good_rows(path)
+        n_skip = len(t_all) - len(good)
+        if which is None:
+            which = [i for i, r in enumerate(good) if not (folder / _name(path, r)).exists()]
+            if not which:
+                return
+        rows = good[np.asarray(which, int)]
+        flux = np.asarray(data["FLUX"][rows], np.float32)
         noise = None
         if "FLUX_ERR" in data.columns.names:  # the archive's noise per pixel: the sky ring of an 11 x 11 px stamp holds
             # the star's wings and its neighbours, and its scatter overstated the errors 3x (WASP-12, TESS sector 20)
-            noise = np.nanmedian(np.asarray(data["FLUX_ERR"][good], float).reshape(int(good.sum()), -1), axis=1)
-        rows = np.flatnonzero(good)  # names come from the row: TESScut files have CADENCENO 0 on every row
+            noise = np.nanmedian(np.asarray(data["FLUX_ERR"][rows], float).reshape(len(rows), -1), axis=1)
+        t = t_all[rows]
         wcs = _celestial(hdul)
     exptime = float(tab.get("TIMEDEL", 0.0)) * 86400 * float(tab.get("DEADC", 1.0))  # on-source time per cadence
     target = SkyCoord(prim["RA_OBJ"] * u.deg, prim["DEC_OBJ"] * u.deg)
     geocentre = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
-    bjd = Time(t[good] + tab.get("BJDREFI", 0) + tab.get("BJDREFF", 0.0), format="jd", scale="tdb", location=geocentre)
+    bjd = Time(t + tab.get("BJDREFI", 0) + tab.get("BJDREFF", 0.0), format="jd", scale="tdb", location=geocentre)
     utc = _utc(bjd, target)
     utc.precision = 6
-    stamps = utc.isot
-    folder.mkdir(parents=True, exist_ok=True)
+    stamps = np.atleast_1d(utc.isot)
     h = fits.Header(wcs)
     h["OBJECT"] = str(prim.get("OBJECT") or prim.get("TICID") or prim.get("KEPLERID") or path.stem)[:60]
     h["TELESCOP"] = str(prim.get("TELESCOP", ""))
@@ -90,26 +187,23 @@ def frames(path) -> list[str]:
         h["PIXNOISE"] = (0.0, NOISE_COMMENT)
     h["IMAGETYP"] = "Light Frame"
     h["TPFROW"] = (0, "row of the target pixel file")
-    h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")
+    h["TPFSKIP"] = (int(n_skip), "cadences left out (no time or quality flags)")
     h["BJD_TDB"] = (0.0, "mid-exposure time from the archive")
     writer = _FrameWriter(fits.PrimaryHDU(flux[0], h).header)
-    names, bjd_jd = [], bjd.jd
+    bjd_jd = np.atleast_1d(bjd.jd)
     pixels = np.nan_to_num(flux * np.float32(exptime), nan=0.0)
-    # creating 17 000 small files is most of the time left (the file system, not Python): a few at once
+    # creating 17 000 small files is most of the time (the file system, not Python): a few at once
     with ThreadPoolExecutor(8) as pool:
-        for start in range(0, len(flux), 1000):  # in blocks, so the bytes waiting to be written stay small
+        for start in range(0, len(rows), 1000):  # in blocks, so the bytes waiting to be written stay small
             files = []
-            for i in range(start, min(start + 1000, len(flux))):
+            for i in range(start, min(start + 1000, len(rows))):
                 cards = {"DATE-AVG": (stamps[i], "UTC at the geocentre for BJD_TDB"),
                          "TPFROW": (int(rows[i]), "row of the target pixel file"),
                          "BJD_TDB": (float(bjd_jd[i]), "mid-exposure time from the archive")}  # fmt: skip
                 if noise is not None:
                     cards["PIXNOISE"] = (float(noise[i] * exptime), NOISE_COMMENT) if np.isfinite(noise[i]) else None
-                names.append(f"{path.name.split('.fits')[0]}_{int(rows[i]):06d}.fits")
-                files.append((folder / names[-1], writer.encode(pixels[i], cards)))
-            list(pool.map(lambda f: f[0].write_bytes(f[1]), files))
-    listing.write_text("\n".join(names))  # last: an interrupted conversion has no listing and is made again
-    return [str(folder / n) for n in names]
+                files.append((folder / _name(path, rows[i]), writer.encode(pixels[i], cards)))
+            list(pool.map(lambda f: _put(*f), files))
 
 
 NOISE_COMMENT = "[e-] sky noise per pixel, from the archive's FLUX_ERR"

@@ -95,8 +95,14 @@ def decompressed_copy(path, folder=None) -> Path:
 
 
 def readable(path):
-    """path itself, or for a compressed FITS frame (.fits.Z) its decompressed copy in fits_from_raw next to it."""
+    """path itself, or for a compressed FITS frame (.fits.Z) its decompressed copy in fits_from_raw next to it; a
+    frame of a target pixel file not written yet is written first."""
     path = Path(path)
+    if not path.exists():  # a frame of a target pixel file not written yet: written now
+        from .tpf import materialize
+
+        materialize(path)
+        return path
     if not is_compress(path):
         return path
     folder = path.parent / "fits_from_raw"
