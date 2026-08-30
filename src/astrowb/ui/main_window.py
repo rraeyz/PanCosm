@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from PySide6.QtCore import QRect, QSize, Qt, Signal
+from PySide6.QtCore import QEvent, QObject, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QAction, QActionGroup, QIcon, QKeySequence, QUndoGroup
 from PySide6.QtWidgets import (
     QDockWidget,
@@ -233,8 +233,11 @@ class MainWindow(QMainWindow):
         for table in page.findChildren(QTableWidget):
             table.setContextMenuPolicy(Qt.CustomContextMenu)
             table.customContextMenuRequested.connect(lambda pos, t=table: self._table_menu(t, pos))
-        from PySide6.QtWidgets import QFrame, QScrollArea
+        from PySide6.QtWidgets import QFrame, QLabel, QScrollArea
 
+        for label in page.findChildren(QLabel):  # a long one-line label kept a column wider than a small window
+            if not label.wordWrap() and len(label.text()) > 40 and label.pixmap().isNull():
+                label.setWordWrap(True)
         _fields_scroll(page)
         _apply_mode(page, self.ui_mode())
         holder = self._placeholders.pop(attr)
@@ -245,6 +248,7 @@ class MainWindow(QMainWindow):
         frame.setWidgetResizable(True)
         frame.setFrameShape(QFrame.NoFrame)
         self._frames[page] = frame
+        _Columns(frame, page)
         self.pages.insertWidget(i, frame)
         self.pages.removeWidget(holder)
         holder.deleteLater()
@@ -254,13 +258,17 @@ class MainWindow(QMainWindow):
     def _table_menu(self, table, pos):
         from PySide6.QtWidgets import QApplication, QMenu
 
-        from .export import export_table, table_rows
+        from .export import export_table, selected_text, table_rows
 
         menu = QMenu(table)
-        export = menu.addAction(self.tr("Export table (CSV or LaTeX)…"))
+        selected = menu.addAction(self.tr("Copy") + "\tCtrl+C")
+        selected.setEnabled(bool(table.selectedIndexes()))
         copy = menu.addAction(self.tr("Copy table"))
+        export = menu.addAction(self.tr("Export table (CSV or LaTeX)…"))
         chosen = menu.exec(table.viewport().mapToGlobal(pos))
-        if chosen is export:
+        if chosen is selected:
+            QApplication.clipboard().setText(selected_text(table))
+        elif chosen is export:
             path, _ = QFileDialog.getSaveFileName(
                 self, self.tr("Export table"), "table.csv", "CSV (*.csv);;LaTeX (*.tex)"
             )
@@ -1405,10 +1413,16 @@ class MainWindow(QMainWindow):
 
     def _show_header(self, header):
         cards = list(header.cards)
-        self.header_table.setRowCount(len(cards))
+        table = self.header_table
+        table.setRowCount(len(cards))
         for row, card in enumerate(cards):
             for col, val in enumerate((card.keyword, str(card.value), card.comment)):
-                self.header_table.setItem(row, col, QTableWidgetItem(val))
+                item = QTableWidgetItem(val)
+                item.setToolTip(val if col else "")  # the whole value or comment, however narrow the column
+                table.setItem(row, col, item)
+        table.resizeColumnsToContents()  # values readable at once; every column can still be dragged wider
+        for col, most in ((0, 120), (1, 260)):
+            table.setColumnWidth(col, min(table.columnWidth(col), most))
 
     def levels_dialog(self):
         from .levels_dialog import LevelsDialog
@@ -1933,6 +1947,37 @@ class MainWindow(QMainWindow):
         super().closeEvent(event)
 
 
+class _Columns(QObject):
+    """Columns side by side, or one above the other while the window is narrower than they need together: side by
+    side they were cut off on the right of a small window (the owner's Calibrate page)."""
+
+    def __init__(self, frame, page):
+        from PySide6.QtWidgets import QSplitter
+
+        super().__init__(frame)
+        self.frame, self.page = frame, page
+        self.splits = [s for s in page.findChildren(QSplitter) if s.orientation() == Qt.Horizontal and s.count() > 1]
+        self.wide = {s: True for s in self.splits}
+        frame.viewport().installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Resize:
+            self.fit()
+        return False
+
+    def fit(self):
+        over = max(self.page.width() - self.frame.viewport().width(), 0)  # how far the page sticks out
+        for s in self.splits:
+            widgets = [s.widget(i) for i in range(s.count())]
+            need = sum(max(w.minimumWidth(), w.minimumSizeHint().width()) for w in widgets)
+            need += s.handleWidth() * (len(widgets) - 1)
+            wide = s.width() - over >= need
+            if wide != self.wide[s]:
+                self.wide[s] = wide
+                s.setOrientation(Qt.Horizontal if wide else Qt.Vertical)
+                s.setSizes([10000] * len(widgets))
+
+
 def _fields_scroll(page, tall=200):
     """In every splitter of a page, a block of fields taller than `tall` px scrolls on its own: on a short window the
     whole page scrolled and the plots and buttons below went out of sight (the owner's Photometry and Plan pages).
@@ -1959,7 +2004,7 @@ def _fields_scroll(page, tall=200):
         area.setFrameShape(QFrame.NoFrame)
         area.setWidgetResizable(True)
         if split.orientation() == Qt.Horizontal:  # as narrow as its fields allow; never cut a field sideways
-            area.setMinimumWidth(min(w.minimumSizeHint().width(), 520) + 20)
+            area.setMinimumWidth(w.minimumSizeHint().width() + 20)  # too wide beside the rest: _Columns stacks them
         else:
             area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         split.insertWidget(i, area)

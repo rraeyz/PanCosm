@@ -1160,3 +1160,27 @@ def test_plot_folded_to_no_height_still_draws(qtbot):
     ax = plot.figure.subplots()
     ax.axvspan(0, 3)  # raised numpy.linalg.LinAlgError
     plot.canvas.draw()
+
+
+def test_header_table_copies_widens_and_edits(window, fits_file, monkeypatch):
+    """The owner: header values could only be copied with Ctrl+C, the value column was too narrow to read and could
+    not be seen to be draggable, and a keyword could not be changed by double-clicking it."""
+    from astrowb.ui.export import selected_text
+
+    long_value = "a value long enough to be cut in a narrow column of the header table"
+    with fits.open(fits_file, mode="update") as hdul:
+        hdul[0].header["NOTES"] = long_value
+    assert window.open_fits(fits_file)
+    table = window.header_table
+    rows = {table.item(r, 0).text(): r for r in range(table.rowCount())}
+    r = rows["NOTES"]
+    assert table.item(r, 1).toolTip() == long_value  # the whole value on hover
+    assert 60 < table.columnWidth(1) <= 260  # wider than before, never pushing the comment out of sight
+    assert table.horizontalHeader().sectionResizeMode(1) == table.horizontalHeader().ResizeMode.Interactive
+    table.setCurrentCell(rows["OBJECT"], 0)
+    table.selectRow(rows["OBJECT"])
+    assert selected_text(table).startswith("OBJECT\tTEST")  # what the right-click "Copy" puts on the clipboard
+    opened = []
+    monkeypatch.setattr(window.image_page, "edit_keyword_dialog", lambda: opened.append(table.currentRow()))
+    table.cellDoubleClicked.emit(rows["OBJECT"], 1)
+    assert opened == [rows["OBJECT"]]

@@ -62,3 +62,34 @@ def test_a_bad_flat_group_does_not_stop_the_night(tmp_path):
     out = execute("calibration.run", {"frames": frames, "output_dir": str(tmp_path / "cal")}, {}, Ctx())
     assert len(out["calibrated"]) == 3 and [f["kind"] for f in out["failed_masters"]] == ["flat"]
     assert fits.getheader(out["calibrated"][0])["CALF"] == "none"
+
+
+def test_frames_are_removed_and_the_list_cleared_with_undo(qtbot, tmp_path):
+    """The owner: a master from an earlier run got into the list and could not be taken out, and there was no way
+    to empty the list and choose the folders again. Delete / "Remove from the list", "Clear", Ctrl+Z."""
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.workspaces import CalibratePage
+
+    for name, kind, t in (("b1.fits", "Bias Frame", 0.0), ("master_bias_00.fits", "Master bias", 0.0)):
+        write(tmp_path / "BDF", name, kind, t)
+    write(tmp_path / "Light", "l1.fits", "Light Frame")  # 10 s, no dark: the message rounds the temperature
+    frames = execute("calibration.scan", {"folder": str(tmp_path)}, {}, Ctx())["frames"]
+    page = CalibratePage()
+    qtbot.addWidget(page)
+    page.folder.setText(str(tmp_path))
+    page.show_frames(frames, [])
+    assert "-95.5 °C" in page.warnings.toPlainText() and "-95.54999" not in page.warnings.toPlainText()
+    master = next(r for r, f in enumerate(page.frames) if "master" in f["path"])
+    page.table.selectRow(master)
+    qtbot.keyClick(page.table, Qt.Key_Delete)
+    assert len(page.frames) == 2 and not any("master" in f["path"] for f in page.frames)
+    page.undo_stack.undo()
+    assert len(page.frames) == 3 and page.table.rowCount() == 3
+    page._clear()
+    assert page.frames == [] and page.folder.text() == "" and page.table.rowCount() == 0
+    assert not page.run_button.isEnabled()
+    page.undo_stack.undo()
+    assert len(page.frames) == 3 and page.folder.text() == str(tmp_path)
+    page.show_frames(frames, [])  # a new scan: nothing of the old list to undo
+    assert page.undo_stack.count() == 0
