@@ -578,6 +578,10 @@ script that says GPU found / works / how long"):**
   0.090 A; GPU path vs CPU 0 pixels differ. Script issue only: u8d_iraf_phot needs its work folder made first. With
   the 23 runs above, all 35 runs of R4 have now been repeated.
 
+- **v0.2.4 released** (owner: "if everything is on main, a new release can go out") from `99f0f16` (ci.yml,
+  release=true, run 177, all green; CI 175 at `589ab9d` green incl. the six package jobs). Assets: Windows x64 setup,
+  macOS arm64 + x86_64 dmg, Linux x86_64 + aarch64 AppImage. Next release only after asking the owner.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
