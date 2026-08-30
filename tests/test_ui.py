@@ -1143,3 +1143,20 @@ def test_every_working_page_has_a_folded_workflow(window):
     page = page_of(period)
     page.set_light_curve(list(range(20)), [1.0] * 20, "test")
     assert period.states[0] == "done" and "next: 2." in period.box.button.text()
+
+
+def test_plot_folded_to_no_height_still_draws(qtbot):
+    """A plot folded to 0 px high (a splitter, a small window) when a result arrives: matplotlib cannot invert the
+    transform of a 0-px axis, and the Photometry page's aperture plot raised 'Singular matrix' (owner's error log)."""
+    from PySide6.QtCore import QSize
+    from PySide6.QtGui import QResizeEvent
+    from PySide6.QtWidgets import QApplication
+
+    from astrowb.ui.workspaces import PlotCanvas
+
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    QApplication.sendEvent(plot.canvas, QResizeEvent(QSize(600, 0), QSize(600, 300)))
+    ax = plot.figure.subplots()
+    ax.axvspan(0, 3)  # raised numpy.linalg.LinAlgError
+    plot.canvas.draw()
