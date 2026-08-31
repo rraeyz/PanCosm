@@ -95,7 +95,8 @@ def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_l
         from .mirrors import cds
 
         def ask(server, cat, ra, dec, radius_deg, mag_col, mag_limit):
-            v = Vizier(columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=row_limit, vizier_server=server)
+            sort = ["+" + mag_col] if catalogue == "gaia" else []  # bright first when the cone is cut at row_limit
+            v = Vizier(columns=["*", "_RAJ2000", "_DEJ2000", *sort], row_limit=row_limit, vizier_server=server)
             if catalogue == "gaia":
                 v.column_filters = {mag_col: f"<{mag_limit}"}
             tables = v.query_region(SkyCoord(ra * u.deg, dec * u.deg), radius=radius_deg * u.deg, catalog=cat)
