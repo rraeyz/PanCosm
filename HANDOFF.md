@@ -631,8 +631,10 @@ script that says GPU found / works / how long"):**
   with one sky ring outside the wings and takes the radius with the lowest frame-to-frame scatter (largest within
   3 %); owner's frames: 1.3 FWHM kept 68-80 % of the light, differently per star and with the seeing. Tests:
   test_apertures (shifted/turned/cloud/target-lost frames, parallel path, scan), test_field (solve, identify,
-  page), test_differential (lost frames shown). Not done yet (stage 3-4): live comparison toggling in the plot,
-  wizard layout, AIJ table comparison on the owner's night.
+  page), test_differential (lost frames shown). Stage 3-4 done next: star table has a tick per comparison star
+  (left out of the ensemble at once, undoable, `comp_off`) and each comparison star's scatter against the others
+  (mmag, largest in red); the side column is four numbered `Collapsible` steps (`sections`, `_advance`, `_step_titles`;
+  images step stays open). Released as v0.2.6. Still open: AIJ table comparison on the owner's night.
 
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are

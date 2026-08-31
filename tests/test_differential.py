@@ -415,3 +415,73 @@ def test_photometry_page_names_the_frames_the_measurement_left_out(qtbot):
     row = page.frame_table.item(60, 0)
     assert row.foreground().color() == QColor("#e5484d") and "C2" in row.toolTip()
     assert page.frame_table.item(5, 0).foreground().color() != QColor("#e5484d")
+
+
+def test_comparison_stars_are_ticked_on_and_off_and_the_light_curve_follows(qtbot):
+    """As in AstroImageJ: a comparison star is left out of the ensemble by unticking it, the light curve and the
+    scatters change at once, without measuring again; the noisiest is shown in red; Ctrl+Z brings it back."""
+    from PySide6.QtCore import Qt
+    from PySide6.QtGui import QColor
+
+    from astrowb.ui.workspaces import PhotometryPage
+
+    n = 60
+    lc = synthetic_lc(n)
+    comps = np.asarray(lc["comp_flux"])
+    variable = 2e4 * (1 + 0.05 * np.sin(np.arange(n) / 3))  # C3 varies by 5 %
+    comps = np.column_stack([comps, variable])
+    lc["comp_flux"], lc["comp_flux_err"] = comps.tolist(), np.sqrt(comps).tolist()
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps, page.extras = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0), (40.0, 40.0)], []
+    page.show_light_curve(lc)
+    rows = {page.star_table.item(i, 0).text(): i for i in range(page.star_table.rowCount())}
+    scat = {k: float(page.star_table.item(rows[k], 5).text()) for k in ("C1", "C2", "C3")}
+    assert max(scat, key=scat.get) == "C3" and scat["C3"] > 2 * scat["C1"]  # C1 and C2 see C3 among the others
+    assert page.star_table.item(rows["C3"], 5).foreground().color() == QColor("#e5484d")
+    before = np.asarray(page.light_curve["rel_flux"])
+    page.star_table.item(rows["C3"], 0).setCheckState(Qt.Unchecked)
+    after = np.asarray(page.light_curve["rel_flux"])
+    t = np.asarray(lc["target_flux"])
+    assert np.allclose(after, t / comps[:, :2].sum(axis=1)) and not np.allclose(before, after)
+    assert "left out: C3" in page.result.text()
+    page.undo_stack.undo()
+    assert page.comp_off == set() and np.allclose(page.light_curve["rel_flux"], before)
+    for k in ("C1", "C2"):  # the last one cannot be left out
+        page.star_table.item(rows[k], 0).setCheckState(Qt.Unchecked)
+    page.star_table.item(rows["C3"], 0).setCheckState(Qt.Unchecked)
+    assert len(page.comp_off) == 2
+
+
+def test_photometry_steps_open_one_after_the_other(qtbot, tmp_path):
+    """The controls are in four numbered steps: the one being worked on opens, the earlier ones fold with a tick
+    (the images step stays open: its frame list shows the frames left out), and every one opens with a click."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    for i in range(3):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(field(4.0, seed=i).astype(np.float32), h).writeto(tmp_path / f"f{i}.fits")
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    s = page.sections
+    assert s[0].button.isChecked() and not s[1].button.isChecked()
+    page.set_images([str(tmp_path / f"f{i}.fits") for i in range(3)])
+    assert s[1].button.isChecked() and s[0].button.text().startswith("✓")
+    page._clicked(60.3, 70.6)
+    page._clicked(140.2, 60.1)
+    assert s[2].button.isChecked() and not s[1].button.isChecked() and s[1].button.text().startswith("✓")
+    page.show_apertures(
+        {
+            "r_ap": 5.0,
+            "r_in": 15.0,
+            "r_out": 20.0,
+            "fwhm": 4.0,
+            "best_snr_radius": 5.0,
+            "encircled_at_aperture": 0.9,
+            "profile_r": [0.5, 1.0],
+            "profile": [1.0, 0.5],
+        }  # fmt: skip
+    )
+    assert s[3].button.isChecked() and s[2].button.text().startswith("✓")
+    s[1].button.click()  # a step done opens again with a click
+    assert s[1].button.isChecked()

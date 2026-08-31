@@ -1107,11 +1107,11 @@ def test_basic_and_expert_mode(window):
     the Settings menu, kept in the settings, applied to pages built later too."""
     window.set_ui_mode("basic")
     phot = window.photometry_page
-    assert not phot.measure_options.content.isVisibleTo(phot) and phot.psf.parent() is not None
+    assert not phot.measure_options.content.isVisibleTo(phot.measure_options) and phot.psf.parent() is not None
     assert window.spectro_page.steps.content.isVisibleTo(window.spectro_page)  # the order of work: open for beginners
     window.start_page.expert.setChecked(True)
     assert window.settings.get("ui.mode") == "expert" and window.expert_action.isChecked()
-    assert phot.measure_options.content.isVisibleTo(phot)
+    assert phot.measure_options.content.isVisibleTo(phot.measure_options)  # inside the folded step 4
     assert window.calibrate_page.more_options.content.isVisibleTo(window.calibrate_page)
     assert not window.spectro_page.steps.content.isVisibleTo(window.spectro_page)
     window.expert_action.setChecked(False)
