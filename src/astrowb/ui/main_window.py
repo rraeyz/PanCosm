@@ -1958,7 +1958,8 @@ class _Columns(QObject):
         self.frame, self.page = frame, page
         self.splits = [s for s in page.findChildren(QSplitter) if s.orientation() == Qt.Horizontal and s.count() > 1]
         self.wide = {s: True for s in self.splits}
-        frame.viewport().installEventFilter(self)
+        for w in (frame.viewport(), *self.splits):  # a tab's splitter is sized when the tab is first shown
+            w.installEventFilter(self)
 
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Resize:
@@ -1968,6 +1969,8 @@ class _Columns(QObject):
     def fit(self):
         over = max(self.page.width() - self.frame.viewport().width(), 0)  # how far the page sticks out
         for s in self.splits:
+            if not s.isVisible():  # a tab not shown yet has no width of its own: decided when it is shown
+                continue
             widgets = [s.widget(i) for i in range(s.count())]
             need = sum(max(w.minimumWidth(), w.minimumSizeHint().width()) for w in widgets)
             need += s.handleWidth() * (len(widgets) - 1)

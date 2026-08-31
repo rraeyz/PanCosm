@@ -361,3 +361,18 @@ def test_frame_list_quality_and_blink(tmp_path, qtbot):
     assert page.shown == 0 and page.viewer.transform().m11() == zoom
     page._blink_step()
     assert page.shown == 2  # frame 2 (index 1) is left out
+
+
+def test_no_magnitude_where_the_flux_ratio_is_not_positive():
+    """A frame where the target's flux (after the sky) is zero or negative has no magnitude: NaN for both, not a
+    negative error, which the light-curve plot refused (the owner's NSVS 07826147 night: "'yerr' must not contain
+    negative values")."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    from matplotlib.figure import Figure
+
+    m, e = d.delta_mag([1.0, -0.2, 0.0, 0.5], [0.01, 0.01, 0.01, 0.01])
+    assert np.isfinite(m[[0, 3]]).all() and np.isnan(m[[1, 2]]).all() and np.isnan(e[[1, 2]]).all()
+    assert (e[[0, 3]] > 0).all()
+    Figure().subplots().errorbar(np.arange(4), m, e)  # raised ValueError

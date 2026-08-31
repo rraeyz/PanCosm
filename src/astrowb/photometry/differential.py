@@ -18,10 +18,13 @@ LN10 = np.log(10.0)
 
 
 def delta_mag(rel, rel_err):
-    """Differential magnitudes (target minus ensemble) and their errors."""
+    """Differential magnitudes (target minus ensemble) and their errors; NaN for both where the flux ratio is not
+    positive (no magnitude: the target lost in the sky, its sky ring on a brighter star) — the error came out
+    negative there and the light-curve plot refused it (the owner's NSVS 07826147 night)."""
     rel, rel_err = np.asarray(rel, float), np.asarray(rel_err, float)
     with np.errstate(divide="ignore", invalid="ignore"):
-        return -2.5 * np.log10(rel), 2.5 / LN10 * rel_err / rel
+        ok = rel > 0
+        return np.where(ok, -2.5 * np.log10(rel), np.nan), np.where(ok, 2.5 / LN10 * rel_err / rel, np.nan)
 
 
 def comps_against_others(comp_flux, weights=None):
