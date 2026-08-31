@@ -394,3 +394,24 @@ def test_photometry_page_draws_a_light_curve_with_frames_that_lost_the_target(qt
     page.show_light_curve(lc)  # raised ValueError
     texts = [t.get_text() for ax in page.plot.figure.axes for t in ax.texts]
     assert any("2 frame(s)" in t and "frame_007.fits, frame_031.fits" in t for t in texts), texts
+
+
+def test_photometry_page_names_the_frames_the_measurement_left_out(qtbot):
+    """Frames where the target, a comparison star or the whole field was not found are named, with why, in the
+    result and in red in the frame list (the owner's NY Vir night: they were measured on empty sky, silently)."""
+    from PySide6.QtGui import QColor
+
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.images = [f"/night/frame_{i:03d}.fits" for i in range(62)]
+    lc = synthetic_lc()
+    lc["lost"] = {"frame_060.fits": ["comparison", 2], "frame_061.fits": ["aligned"]}
+    page.show_light_curve(lc)
+    text = page.result.text()
+    assert "2 frame(s) left out" in text and "frame_060.fits: comparison star C2" in text
+    assert "frame_061.fits: the stars were not found" in text
+    row = page.frame_table.item(60, 0)
+    assert row.foreground().color() == QColor("#e5484d") and "C2" in row.toolTip()
+    assert page.frame_table.item(5, 0).foreground().color() != QColor("#e5484d")

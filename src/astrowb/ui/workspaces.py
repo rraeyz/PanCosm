@@ -1703,6 +1703,7 @@ class PhotometryPage(Undoable, QWidget):
     quality_requested = Signal(list)  # images
     catalog_requested = Signal(dict, dict)  # inputs, params
     apertures_requested = Signal(list, list, list)  # images, target_xy, comps_xy
+    field_requested = Signal(str)  # the first frame: solved against Gaia, its variable stars named
     next_requested = Signal(str, str)  # the page to go on to ("timeseries" / "orbits"), the light curve file or ""
 
     def __init__(self, parent=None):
@@ -1712,6 +1713,7 @@ class PhotometryPage(Undoable, QWidget):
         self.ref, self.shown, self.skipped = None, 0, set()  # the frame the stars are marked on, the one shown, unused
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
+        self.field = None  # what is in the first frame (photometry.identify_field): solution, VSX variables, OBJECT
         self.live, self.live_folder, self.live_seen, self._live_busy = None, None, set(), False
         # the image above the light curve on the left, the controls the whole height on the right: a light-curve
         # band across the page squeezed the controls into a strip whose buttons were only found by scrolling
@@ -1775,6 +1777,33 @@ class PhotometryPage(Undoable, QWidget):
         self.images_label = QLabel(self.tr("No images"), self)
         self.images_label.setWordWrap(True)
         side.addWidget(self.images_label)
+        # what is in the field: the owner's files named a star 48 deg away, and nothing said so
+        self.field_label = QLabel(self)
+        self.field_label.setWordWrap(True)
+        self.field_label.setToolTip(
+            self.tr(
+                "The first frame is solved against the Gaia catalogue (no plate solver to install; it needs the "
+                "pointing and the pixel scale in the header and an internet connection), and the known variable "
+                "stars in it are named (AAVSO VSX)"
+            )
+        )
+        side.addWidget(self.field_label)
+        row = QHBoxLayout()
+        self.variables = QComboBox(self)
+        self.variables.setToolTip(self.tr("Known variable stars in this field (AAVSO VSX), brightest first"))
+        self.make_target = QPushButton(self.tr("Make it the target"), self)
+        self.make_target.setToolTip(
+            self.tr(
+                "Marks this star as the target T1 on the first frame and takes its catalogue position for the "
+                "barycentric times (BJD)"
+            )
+        )
+        self.make_target.clicked.connect(self._variable_as_target)
+        row.addWidget(self.variables, 1)
+        row.addWidget(self.make_target)
+        side.addLayout(row)
+        for w in (self.field_label, self.variables, self.make_target):
+            w.hide()
         # every frame can be looked at, marked on, or left out (the owner: "I only see one picture")
         browse = QHBoxLayout()
         self.prev_frame, self.next_frame = QToolButton(self), QToolButton(self)
@@ -2462,6 +2491,15 @@ class PhotometryPage(Undoable, QWidget):
             pass
         if sky is not None and not self.coord.text():
             self.coord.setText(sky.to_string("hmsdms", sep=":", precision=1))
+        self.field = None
+        for w in (self.variables, self.make_target):
+            w.hide()
+        if "TPFSKIP" in header or sky is None:  # a pixel file, or no pointing to solve from: nothing to identify
+            self.field_label.hide()
+        else:
+            self.field_label.setText(self.tr("Identifying the field (Gaia, VSX)…"))
+            self.field_label.show()
+            self.field_requested.emit(self.images[0])
         text = self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
         if "TPFSKIP" in header:  # a TESS / Kepler file: say what was left out, the user may want them back
             text += "\n" + self.tr(
@@ -2523,6 +2561,13 @@ class PhotometryPage(Undoable, QWidget):
             self.extras.append(((x, y), role))
         elif self.target is None:
             self.target = (x, y)
+            if self.field and self.ref == 0:  # the solved first frame gives the target's sky position for BJD
+                ra, dec = self._field_wcs().pixel_to_world_values(x, y)
+                from astropy.coordinates import SkyCoord
+
+                self.coord.setText(
+                    SkyCoord(float(ra), float(dec), unit="deg").to_string("hmsdms", sep=":", precision=1)
+                )
         else:
             self.comps.append((x, y))
         self._draw_markers()
@@ -2589,6 +2634,7 @@ class PhotometryPage(Undoable, QWidget):
         from astropy.time import Time
 
         quality = {r["file"]: r for r in getattr(self, "quality", None) or []}
+        lost = (getattr(self, "lc_raw", None) or {}).get("lost") or {}  # frames the measurement left out, with why
         jds = getattr(self, "_frame_jd", {})
         known = [p for p in self.images if p in jds]  # a file without a time: the name is enough
         stamps = (
@@ -2606,11 +2652,14 @@ class PhotometryPage(Undoable, QWidget):
                 if col == 0:
                     item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
                     item.setCheckState(Qt.Unchecked if path in self.skipped else Qt.Checked)
-                if q and not q.get("good", True):
+                why = [translate(w) for w in q.get("why", [])] if q and not q.get("good", True) else []
+                if Path(path).name in lost:
+                    why.insert(0, self._lost_text(lost[Path(path).name]))
+                if why:
                     from PySide6.QtGui import QColor
 
                     item.setForeground(QColor("#e5484d"))
-                    item.setToolTip(", ".join(translate(w) for w in q.get("why", [])))
+                    item.setToolTip(", ".join(why))
                 self.frame_table.setItem(i, col, item)
         self.frame_table.selectRow(self.shown)
         self.frame_table.blockSignals(False)
@@ -2730,6 +2779,8 @@ class PhotometryPage(Undoable, QWidget):
         here = self.ref is None or self.ref == self.shown
         for xy, colour, label in stars if here else ():
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
+        if self.field and self.shown == 0:  # the known variable stars, where the solution of the first frame puts them
+            marks += [(v["x"], v["y"], 2 * r_out, "cyan", v["name"], "dash") for v in self.field["variables"][:30]]
         self.viewer.set_markers(marks)
         role = self.click_role.currentData()
         nxt = "target" if self.target is None or role == "target" else "check" if role == "check" else "comparison"
@@ -2740,8 +2791,91 @@ class PhotometryPage(Undoable, QWidget):
         self.catalog_button.setEnabled(bool(self.images and self.target and self.comps))
         self.suggest_button.setEnabled(bool(self.images and self.target))
 
-    def set_comparisons(self, comps):
+    def show_field(self, field):
+        """What is in the first frame (photometry.identify_field): solution, OBJECT check, variable stars."""
+        self.field = field
+        lines = [
+            self.tr("Field solved against Gaia: {n} stars, {scale:.2f}″ per pixel.").format(
+                n=field["matched"], scale=field["scale"]
+            )
+        ]
+        obj = field.get("object")
+        if obj and obj.get("known") and not obj.get("in_field"):
+            lines.append(
+                self.tr(
+                    "⚠ The files say OBJECT = {name}, but that star is {deg:.1f}° from this field: the name in the "
+                    "files is wrong. Choose the target from the variable stars below, or by its position."
+                ).format(name=obj["name"], deg=obj["distance_deg"])
+            )
+        elif obj and obj.get("in_field"):
+            lines.append(
+                self.tr("OBJECT {name} is in the field, at x {x:.0f}, y {y:.0f}.").format(
+                    name=obj["name"], x=obj["x"], y=obj["y"]
+                )
+            )
+        variables = field.get("variables") or []
+        self.variables.clear()
+        for v in variables:
+            mag = f" ({v['mag']:.1f} mag)" if v.get("mag") is not None else ""
+            self.variables.addItem(f"{v['name']}{mag}", v)
+        if variables:
+            lines.append(self.tr("{n} known variable star(s) in the field (marked in cyan on the first frame).").format(
+                n=len(variables)
+            ))  # fmt: skip
+        else:
+            lines.append(self.tr("No known variable star (AAVSO VSX) in the field."))
+        self.field_label.setText("\n".join(lines))
+        self.field_label.show()
+        for w in (self.variables, self.make_target):
+            w.setVisible(bool(variables))
+        self._draw_markers()
+
+    def field_failed(self, message):
+        self.field = None
+        self.field_label.setText(
+            self.tr("The field was not identified ({why}): mark the stars by hand.").format(why=translate(message))
+        )
+        self.field_label.show()
+
+    def _field_wcs(self):
+        from astropy.io import fits
+        from astropy.wcs import WCS
+
+        return WCS(fits.Header.fromstring(self.field["header"])) if self.field else None
+
+    def _variable_as_target(self):
+        v = self.variables.currentData()
+        if not v:
+            return
+        if self.shown != 0:
+            self.show_frame(0)  # the solution belongs to the first frame
+        self.edit(self.tr("make a variable star the target"), self._set_target_from_field, (v["x"], v["y"]), v)
+
+    def _set_target_from_field(self, xy, v):
+        if self.ref not in (None, 0):  # stars marked on another frame cannot be mixed with these positions
+            self.comps, self.extras = [], []
+        self.ref, self.target = 0, (float(xy[0]), float(xy[1]))
+        from astropy.coordinates import SkyCoord
+
+        self.coord.setText(SkyCoord(v["ra"], v["dec"], unit="deg").to_string("hmsdms", sep=":", precision=1))
+        self._draw_markers()
+        self.result.setText(
+            self.tr("T1 = {name}; its catalogue position is used for the barycentric times (BJD).").format(
+                name=v["name"]
+            )
+        )
+
+    def set_comparisons(self, comps, catalogue=None):
         self.edit(self.tr("suggested comparison stars"), self._set_comps, [tuple(c) for c in comps])
+        if comps and catalogue:
+            text = self.tr("{n} comparison stars chosen from Gaia: about as bright as the target, not variable, "
+                           "alone, unsaturated, inside every frame.").format(n=len(comps))  # fmt: skip
+            if not catalogue.get("same_colour"):
+                text += " " + self.tr(
+                    "No star of the target's colour (BP−RP {c:.2f}) is in the field: with stars of another colour "
+                    "the light curve can drift slowly with airmass; detrend it against airmass."
+                ).format(c=catalogue["colour"])
+            self.result.setText(text)
 
     def _set_comps(self, comps):
         self.comps = comps
@@ -2811,6 +2945,21 @@ class PhotometryPage(Undoable, QWidget):
                     "only dilutes the depth a little."
                 ).format(x=100 * a["target_excess"])
                 if a.get("target_excess", 0) > 0.01
+                else ""
+            )
+            + (
+                "\n"
+                + self.tr(
+                    "Chosen on {k} frames of the series: the light curve changed least from one frame to the next "
+                    "({best:.2f} %) with this aperture; {small:.2f} % with {r1:.1f} px, the best for one star's noise "
+                    "alone, which loses a share of the light that moves with the seeing."
+                ).format(
+                    k=a["scan"]["frames"],
+                    best=100 * min(a["scan"]["scatter"]),
+                    small=100 * a["scan"]["scatter"][0],
+                    r1=a["scan"]["radii"][0],
+                )
+                if a.get("scan")
                 else ""
             )
         )
@@ -2907,6 +3056,7 @@ class PhotometryPage(Undoable, QWidget):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.guide.set_state(4, "done")
         self.lc_raw, self.detrend_cfg, self.excluded = lc, None, set()
+        self._fill_frames()  # frames left out by the measurement in red, with why
         self._show_lower(True)
         self.next_box.setVisible(True)
         self.minimum_button.setEnabled(True)
@@ -3001,6 +3151,16 @@ class PhotometryPage(Undoable, QWidget):
             return np.zeros(len(lc["time"]), bool)
         return np.array([any(p is not None and p >= sat for p in row) for row in lc["peak"]])
 
+    def _lost_text(self, why):
+        """Why the measurement left a frame out (lightcurve._measure_frame), in the interface language."""
+        if why[0] == "target":
+            return self.tr("the target was not found there (clouds, or off the frame?)")
+        if why[0] == "comparison":
+            return self.tr("comparison star C{k} was not found there (clouds, off the frame, or saturated?)").format(
+                k=why[1]
+            )
+        return self.tr("the stars were not found (clouds, a jolt, or another field)")
+
     def _summarise(self):
         lc = self.light_curve
         f = np.asarray(lc["rel_flux"], float)
@@ -3013,6 +3173,14 @@ class PhotometryPage(Undoable, QWidget):
                     "from the stars."
                 ).format(r=a["r_ap"], a=a["r_in"], b=a["r_out"])
             )
+        lost = (self.lc_raw or {}).get("lost") or {}
+        if lost:
+            lines.append(
+                self.tr("⚠ {n} frame(s) left out by the measurement (in red in the frame list):").format(n=len(lost))
+            )
+            lines += [f"  {name}: {self._lost_text(why)}" for name, why in list(lost.items())[:6]]
+            if len(lost) > 6:
+                lines.append("  …")
         if self.excluded:
             lines.append(
                 self.tr("{n} points deleted by hand (Restore deleted points brings them back).").format(

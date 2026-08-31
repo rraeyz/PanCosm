@@ -4,7 +4,11 @@
 ## Görüntüleri ve yıldızları seçmek
 1. **Görüntüleri seç…** — tek alanın ve tek filtrenin kalibre kareleri. Zamana göre sıralanırlar.
 2. İlk görüntüde **önce hedef yıldıza**, sonra **bir ya da daha fazla karşılaştırma yıldızına** tıklayın. Tıklama yıldızın merkezine oturur. **Yıldızları temizle** baştan başlatır.
-3. Ya da **Karşılaştırma yıldızı öner**'e basın: parlaklığı benzer, doymamış, parlak komşusu olmayan ve her görüntüde çerçevenin içinde kalan yıldızları seçer. Ölçmeden önce kontrol edin.
+3. Ya da **Karşılaştırma yıldızı öner**'e basın: parlaklığı benzer, doymamış, parlak komşusu olmayan ve her görüntüde çerçevenin içinde kalan yıldızları seçer. Ölçmeden önce kontrol edin. Alan tanındıysa (aşağıda) yıldızlar Gaia'dan seçilir: hedefe yakın parlaklıkta, alanda varsa benzer renkte, değişen olmayan (Gaia, VSX), yalnız ve doymamış yıldızlar — Siril'in katalogdan seçimi gibi.
+
+**Alanda ne var.** Görüntüler seçilince ilki Gaia kataloğuna karşı çözülür — kurulacak bir plaka çözücü gerekmez; başlıkta yön ve piksel ölçeği (FOCALLEN, XPIXSZ) ile internet bağlantısı gerekir. İçindeki bilinen değişen yıldızlar (AAVSO VSX) camgöbeği ile işaretlenir ve listelenir; **Hedef yap** birini T1 yapar ve BJD için katalog konumunu kullanır. Dosyalardaki OBJECT alanda değilse bir uyarı bunu söyler (yanlış yıldızın adıyla kaydedilmiş dosyalar). İlk karede elle işaretlenen hedefin gök konumu da çözümden alınır.
+
+**Ölçülemeyen kareler.** Her kare ilk kareye göre kaymasıyla, yıldızlar orada bulunmazsa yıldız deseniyle yerleştirilir (meridyen çevrilmesi, sarsıntı). Hedefin ya da bir karşılaştırma yıldızının yine bulunamadığı kare (bulut, karenin dışı) ışık eğrisine konmaz, kare listesinde kırmızı görünür ve nedeniyle birlikte grafiğin altında adı yazılır — boş gökyüzünde asla ölçülmez.
 
 İyi karşılaştırma yıldızlarının rengi ve parlaklığı hedefe benzer ve değişken değildir. Birkaç tane kullanın: toplamları (topluluk) tek yıldızdan daha az gürültülüdür.
 

@@ -17,7 +17,7 @@ from photutils.centroids import centroid_sources
 _CLIP = SigmaClip(sigma=3.0, maxiters=10)
 
 
-_last_fft = []  # [image, its transform] of the latest frame_shift call
+_last_fft = []  # [image, its transform, binning] of the latest frame_shift calls (the reference and the latest frame)
 
 
 def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[float, float]:
@@ -39,10 +39,16 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
         stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
         return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
-    # frame to frame, this frame is the next call's reference: its transform is kept, not computed twice
-    fa = _last_fft[1] if _last_fft and _last_fft[0] is ref and _last_fft[2] == binning else prep(ref)
-    fb = prep(img)
-    _last_fft[:] = [img, fb, binning]
+    # transforms are kept for the last two images: frame to frame (this frame is the next call's reference) and
+    # every frame against one reference (light curves) each compute one transform per call, not two
+    def cached(a):
+        hit = next((e for e in _last_fft if e[0] is a and e[2] == binning), None)
+        entry = hit or (a, prep(a), binning)
+        _last_fft[:] = [*(e for e in _last_fft if e is not hit)][-1:] + [entry]  # the two latest used
+        return entry[1]
+
+    fa = cached(ref)
+    fb = cached(img)
     shape = tuple(s // binning for s in img.shape)
     corr = sfft.irfft2(fb * np.conj(fa), s=shape, workers=-1)
     py, px = np.unravel_index(np.argmax(corr), corr.shape)
@@ -150,10 +156,11 @@ def _unspike(stamp):
     return np.where((stamp - med > 2 * (hi - med)) | (stamp < lo), med, stamp)
 
 
-def recenter(data, xy, box=11, max_move=2.5):
+def recenter(data, xy, box=11, max_move=2.5, found=False):
     """Centroids near the predicted (x, y) positions (0-based pixels). A centroid that fails or lands
     more than max_move pixels from the prediction (a neighbour, a defect) is replaced by the
-    prediction. Centroids are found on a copy without single hot pixels so one cannot capture them."""
+    prediction. Centroids are found on a copy without single hot pixels so one cannot capture them.
+    found: also return which positions are centroids (True) rather than the prediction kept (False)."""
     xy = np.asarray(xy, dtype=float)
     clean = np.nan_to_num(np.asarray(data, dtype=np.float32))
     ny, nx = clean.shape
@@ -164,10 +171,14 @@ def recenter(data, xy, box=11, max_move=2.5):
             x0, x1 = max(0, int(px) - h), min(nx, int(px) + h + 1)
             if y1 - y0 >= 3 and x1 - x0 >= 3:
                 clean[y0:y1, x0:x1] = _unspike(clean[y0:y1, x0:x1])
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", AstropyUserWarning)  # a star wider than the box: handled below
-        x, y = centroid_sources(clean, xy[:, 0], xy[:, 1], box_size=box, centroid_func=centroid_1dg)
-    out = np.column_stack([x, y])
+    out = np.full_like(xy, np.nan)
+    inside = np.isfinite(xy).all(axis=1) & (xy[:, 0] >= 0) & (xy[:, 0] <= nx - 1) & (xy[:, 1] >= 0)
+    inside &= xy[:, 1] <= ny - 1  # a position off the frame (a wrong shift, a cloud): not found, never an error
+    if inside.any():
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", AstropyUserWarning)  # a star wider than the box: handled below
+            x, y = centroid_sources(clean, xy[inside, 0], xy[inside, 1], box_size=box, centroid_func=centroid_1dg)
+        out[inside] = np.column_stack([x, y])
     sky = []  # the frame's sky level and noise, measured only if a star looks wider than the box
 
     def frame_sky():
@@ -177,12 +188,12 @@ def recenter(data, xy, box=11, max_move=2.5):
         return sky
 
     for i, (px, py) in enumerate(xy):  # defocused stars wider than the box: centre of light in a box that fits
-        wide = _wide_centroid(clean, px, py, box, frame_sky) if np.isfinite(px) and np.isfinite(py) else None
+        wide = _wide_centroid(clean, px, py, box, frame_sky) if inside[i] else None
         if wide is not None:
             out[i] = wide
     bad = ~np.isfinite(out).all(axis=1) | (np.hypot(*(out - xy).T) > max_move)
     out[bad] = xy[bad]
-    return out
+    return (out, ~bad) if found else out
 
 
 def _wide_centroid(img, x, y, box, frame_sky, max_box=301):

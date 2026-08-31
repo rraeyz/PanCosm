@@ -80,7 +80,6 @@ def light_curve(
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
     rows = []
-    prev, xy = ref, stars0
     chosen = None
     # a small stamp (a TESS pixel file is 11 x 11 px) holds no ring of the default radii: every flux came out NaN
     too_big = r_in >= 0.5 * min(ref.shape[-2:])
@@ -107,7 +106,7 @@ def light_curve(
 
         offsets = np.asarray(align_offsets(paths, ctx, binning))
         jobs = [
-            (p, stars0 + off, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp)
+            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0])
             for p, off in zip(paths, offsets, strict=True)
         ]
         for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
@@ -128,31 +127,31 @@ def light_curve(
             upcoming = reader.submit(load, paths[i + 1]) if i + 1 < len(paths) else None
         else:
             data, h = ref, h0
-        # track frame to frame: the field can drift hundreds of pixels over a night, but little
-        # between frames; positions are re-centred every frame, so errors do not accumulate
-        dx, dy = (0.0, 0.0) if i == 0 else frame_shift(prev, data, binning)
-        xy = recenter(data, xy + [dx, dy], box)
-        prev = data
-        k = 1.0
+        # every frame is placed against the first, never against the previous one: a frame tracked wrongly (a cloud,
+        # a jolt) took every later frame with it, and the apertures measured empty sky without a word (owner's
+        # NY Vir night); the stars found are then checked, and a star pattern match tried when they are not there
+        shift = np.zeros(2) if i == 0 else np.asarray(frame_shift(ref, data, binning))
+        xy, flux, err, skylev, r, f, lost = _measure_frame(
+            data, h, stars0 + shift, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0]
+        )
         if fwhm0:
-            f = seeing_fwhm(data, xy)
             fwhms.append(f)
-            k = f / fwhm0 if np.isfinite(f) and 0.2 < f / fwhm0 < 5 else 1.0  # a failed measurement keeps the radii
-        radii.append([r_ap * k, r_in * k, r_out * k])
-        if psf:
-            from .fieldstars import psf_measure
-
-            f = fwhms[-1] if fwhms else seeing_fwhm(data, xy[: 1 + n_comp])
-            flux, err, skylev = psf_measure(data, xy, f if np.isfinite(f) else r_ap / 1.5, *radii[-1][1:], g)
-        else:
-            flux, err, skylev = measure(data, xy, *radii[-1], g, h.get("PIXNOISE"))
-        peaks.append(_peaks(data, xy, radii[-1][0]))
+        radii.append(r)
+        peaks.append(_peaks(data, xy, r[0]))
         try:
             t = timing.mid_time(h)
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
-        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0)))
+        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost))
     reader.shutdown(wait=False)
+    gone = [(Path(r[0]).name, *r[7]) for r in rows if r[7]]
+    keep = [k for k, r in enumerate(rows) if not r[7]]
+    if not keep:
+        raise ValueError(
+            "the target or a comparison star was not found on any frame: check the stars marked on the first frame"
+        )
+    rows, peaks, radii = [rows[k] for k in keep], [peaks[k] for k in keep], [radii[k] for k in keep]
+    fwhms = [fwhms[k] for k in keep] if fwhms else fwhms
     if src is not None:  # the archive's BJD_TDB as it is, and its UTC from the file (no conversion per cadence)
         times, tvals, scale = src_times[1], src_times[0], "BJD_TDB"
     elif any(r[1] is None for r in rows):  # without times the light curve is against the frame number
@@ -195,6 +194,9 @@ def light_curve(
         "radii": radii,  # aperture, inner and outer sky radius used on each frame (pixels)
         "scintillation": None if scint is None else scint.tolist(),  # relative, per frame
         "aperture_m": aperture_m,
+        # frames left out, with why: {file: ["target"] / ["comparison", k] / ["aligned"]} (a dict: never taken for
+        # a per-frame list by code that filters the frames)
+        "lost": {x[0]: list(x[1:]) for x in gone},
     }
     if chosen:
         out["apertures"] = chosen
@@ -209,19 +211,93 @@ def light_curve(
 
 
 def _frame(job):
-    """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured."""
-    p, pred, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp = job
-    corner = np.zeros(2)
+    """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured, checked."""
+    p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path = job
+    corner, partial = np.zeros(2), False
     if psf or not np.isfinite(pred).all():
         data, h = load(p)
     else:  # only the part of the frame around the stars is read: half the time of a 2400 x 2400 fpack frame
         # margin: the widest centroid box (301 px), the sky ring with radii following the seeing (up to 5x)
-        m = int(max(155, (5 if fwhm0 else 1) * r_out + 30) + box)
+        m = int(max(155, (5 if fwhm0 else 1) * radii0[2] + 30) + box)
         corner = np.maximum(0, np.floor(pred.min(axis=0)) - m)
         (x1, y1), (x0, y0) = np.ceil(pred.max(axis=0)) + m, corner
         data, h = load(p, (y0, y1, x0, x1))
-        pred = pred - corner
-    xy = recenter(data, pred, box)
+        pred, partial = pred - corner, True
+    out = _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial)
+    if out is None:  # the stars were not where the shifts put them: the whole frame, matched by its star pattern
+        data, h = load(p)
+        out = _measure_frame(data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path)
+        corner = np.zeros(2)
+    xy, flux, err, skylev, radii, f, lost = out
+    try:
+        t = timing.mid_time(h)
+    except timing.TimeError:
+        t = None
+    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost)
+    return row, _peaks(data, xy, radii[0]), radii, f
+
+
+SNR_FOUND = 3.0  # a star whose flux is below 3 sigma of its noise is not there (empty sky, clouds)
+_REF_STARS = {}  # reference frame -> its bright stars, for star-pattern matching (once per process)
+
+
+def _ref_stars(ref_path):
+    from ..calibration import starmatch
+
+    if _REF_STARS.get("path") != ref_path:
+        _REF_STARS.update(path=ref_path, xy=starmatch.stars(load(ref_path)[0]))
+    return _REF_STARS["xy"]
+
+
+def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial=False):
+    """Centre, measure and check the stars of one frame from their predicted positions (the reference frame's
+    positions stars0 moved by the frame's shift). When the target or a comparison star is not found there, the frame
+    is matched to the reference by its star pattern (a wrong shift, a large jump, rotation: a meridian flip) and
+    measured again; a frame read in part (partial) returns None instead, to be read whole. Returns positions, fluxes,
+    errors, sky, radii, FWHM and why the frame is left out: () when it is good, ("target",) when the target is not
+    there, ("comparison", k) for comparison star k (1-based), ("aligned",) when the frame could not be placed."""
+    from ..calibration import starmatch
+
+    out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp)
+    lost = _lost(out, n_comp)
+    if lost:
+        if partial:
+            return None
+        try:
+            m, t, _, _ = starmatch.match(_ref_stars(ref_path), starmatch.stars(data))
+            again = _measure_at(data, h, np.asarray(stars0) @ m.T + t, radii0, g, box, fwhm0, psf, n_comp)
+            if _rank(_lost(again, n_comp)) < _rank(lost):
+                out, lost = again, _lost(again, n_comp)
+        except ValueError:  # no pattern to match (clouds, an empty frame): left as it is
+            pass
+    return (*out[:-1], lost)
+
+
+def _lost(out, n_comp):
+    """Why a measured frame cannot be used, () when it can (see _measure_frame)."""
+    xy, flux, err, skylev, radii, f, found = out
+    n_main = 1 + n_comp
+    if found[:n_main].mean() < 0.5:  # most stars are not where they were looked for: the frame is not placed
+        return ("aligned",)
+    snr = np.divide(flux, err, out=np.zeros_like(flux), where=err > 0)
+    if not snr[0] >= SNR_FOUND:
+        return ("target",)
+    for k in range(1, n_main):
+        if not snr[k] >= SNR_FOUND:
+            return ("comparison", k)
+    return ()
+
+
+def _rank(lost):
+    """Lower is better: a good frame, then one comparison star missing, then the target, then not placed."""
+    return {(): 0, "comparison": 1, "target": 2, "aligned": 3}[lost[0] if lost else ()]
+
+
+def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp):
+    """Centroids from the predicted positions, then the fluxes (apertures or PSF); found: centroid near the
+    prediction."""
+    r_ap, r_in, r_out = radii0
+    xy, found = recenter(data, pred, box, found=True)
     k, f = 1.0, None
     if fwhm0:
         f = seeing_fwhm(data, xy)
@@ -234,12 +310,7 @@ def _frame(job):
         flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
     else:
         flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"))
-    try:
-        t = timing.mid_time(h)
-    except timing.TimeError:
-        t = None
-    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0))
-    return row, _peaks(data, xy, radii[0]), radii, f
+    return xy, flux, err, skylev, radii, f, found
 
 
 def _pixel_file_rows(src, paths, stars0, radii, gain, box):
@@ -253,7 +324,7 @@ def _pixel_file_rows(src, paths, stars0, radii, gain, box):
     still = np.median(data[:: max(1, len(data) // 200)], axis=0)
     xy = recenter(still, stars0, box)
     flux, err, sky, peak = measure_cube(data, xy, *radii, gain, noise)
-    rows = [(p, None, flux[i], err[i], sky[i], xy, exptime) for i, p in enumerate(paths)]
+    rows = [(p, None, flux[i], err[i], sky[i], xy, exptime, ()) for i, p in enumerate(paths)]
     return rows, peak.tolist(), [list(radii)] * len(paths), (bjd, utc)
 
 
@@ -268,3 +339,49 @@ def normalise(rel, mask=None):
     """Divide by the median of the points in mask (e.g. out-of-transit), all points if None."""
     rel = np.asarray(rel, dtype=float)
     return rel / np.nanmedian(rel if mask is None else rel[mask])
+
+
+def aperture_scan(paths, stars_xy, fwhm, gain=1.0, factors=(1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0), r_in=None,
+                  max_frames=40, ctx=None):  # fmt: skip
+    """The aperture radius that gives the steadiest light curve: on up to max_frames frames spread over the series,
+    each placed against the first (as light_curve), the target over the sum of the comparison stars is measured
+    through apertures of factors x fwhm and one sky ring outside the wings (from r_in, 8 times the largest aperture's
+    area), and the point-to-point scatter (robust: an eclipse or a trend does not count, one bad frame neither) is
+    compared. The radius that keeps most of the light usually wins over the one that is best for a single star's
+    noise: when the seeing changes, a small aperture loses a different share of each star's light (owner's NY Vir
+    frames: 68-80 % of the light at 1.3 FWHM, and the shares moved with the seeing).
+    Returns {"radii", "scatter" (relative, per radius), "best", "r_in", "r_out", "frames"}."""
+    paths = [str(p) for p in paths]
+    # pairs of consecutive frames spread over the series: the star hardly changes between two frames in a row, so
+    # their difference is the measurement's own noise, not the eclipse
+    starts = np.unique(np.linspace(0, len(paths) - 2, max(1, min(max_frames // 2, len(paths) - 1))).round().astype(int))
+    pick = np.unique(np.r_[starts, starts + 1])
+    radii = np.array(factors) * fwhm
+    r_in = max(r_in or 0.0, 4.5 * fwhm, radii[-1] + 2.0)
+    r_out = float(np.sqrt(r_in**2 + 8.0 * radii[-1] ** 2))
+    ref, _ = load(paths[0])
+    stars0 = recenter(ref, np.asarray(stars_xy, float), 11, max_move=5.5)
+    binning = 2 if ref.size > 4e6 else 1
+    rel = {}
+    for k, i in enumerate(pick):
+        if ctx:
+            ctx.check()
+            ctx.progress(k / len(pick), "photometry")
+        data = ref if i == 0 else load(paths[i])[0]
+        shift = np.zeros(2) if i == 0 else np.asarray(frame_shift(ref, data, binning))
+        xy, found = recenter(data, stars0 + shift, 11, found=True)
+        row = []
+        for r in radii:
+            flux, err, _ = measure(data, xy, r, r_in, r_out, gain)
+            row.append(flux[0] / flux[1:].sum() if len(flux) > 1 else flux[0])
+        rel[i] = row if found.all() else None  # a frame without every star (clouds) says nothing about the aperture
+    pairs = [(rel[i], rel[i + 1]) for i in starts if rel.get(i) is not None and rel.get(i + 1) is not None]
+    if len(pairs) < 2:
+        raise ValueError("too few frames with every star found to compare apertures")
+    a, b = (np.array(x) for x in zip(*pairs, strict=True))
+    p2p = 1.4826 * np.nanmedian(np.abs(b / a - 1), axis=0) / np.sqrt(2)
+    best_i = int(np.nanargmin(p2p))
+    near = np.flatnonzero(p2p <= 1.03 * p2p[best_i])  # within 3 %: the largest, which follows seeing changes best
+    best = float(radii[near.max()])
+    return {"radii": radii.tolist(), "scatter": p2p.tolist(), "best": best, "r_in": float(r_in), "r_out": r_out,
+            "frames": 2 * len(pairs)}  # fmt: skip

@@ -611,6 +611,29 @@ script that says GPU found / works / how long"):**
   — the frames that gave negative ratios ('yerr' crash) are among the other 17, not seen; v0.2.5 names them.
   Owner's frames are only in the scratchpad, never committed.
 
+- **Photometry rebuilt, stages 1-2 + aperture choice (owner: "the photometry part is amateurish"; compared with
+  AstroImageJ (Collins+ 2017) and Siril's light-curve tools).** (1) `lightcurve.light_curve`: every frame placed
+  against the FIRST frame (phase correlation, ref FFT cached in `aperture.frame_shift`), never chained; stars checked
+  per frame (`_measure_frame`: centroid found, S/N >= 3); when the target or a comparison is missing, the frame is
+  matched by star pattern (`calibration.starmatch`, rotation / meridian flip) and measured again; frames still
+  without the target / a comparison / the field are left out of the light curve and listed in `lc["lost"]`
+  ({file: ["target"] | ["comparison", k] | ["aligned"]}); the page shows them in red with why. `recenter` treats
+  off-frame predictions as not found (a cloud frame crashed photutils). Live photometry also against the first
+  frame. (2) `photometry/field.py`: built-in plate solve against Gaia DR3 (header pointing + FOCALLEN/XPIXSZ scale,
+  triangles both parities, TAN fit; owner's frame: 70 stars, 0.49 px, 8.5 s first time); VSX variables in the field;
+  OBJECT checked via SIMBAD (owner's files: NSVS07826147 is 48 deg away -> warning); comparison stars from Gaia
+  (Siril's criteria; colour a preference: NY Vir BP-RP -0.40 has no match, the page then advises airmass
+  detrending). Steps `photometry.identify_field` (run when images are chosen; quietly fails without pointing/scale)
+  and `photometry.suggest_comparisons` with optional `field` (output `catalogue`). Page: field label, variables
+  list, "Make it the target" (T1 + catalogue RA/Dec for BJD), VSX marks in cyan, hand-marked T1 gets its RA/Dec
+  from the solution. `gaia.stars` returns bp_rp and Gaia's variable flag. (3) `photometry.apertures`: after the
+  profile, `lightcurve.aperture_scan` measures 1-3 FWHM apertures on pairs of consecutive frames (up to 40 frames)
+  with one sky ring outside the wings and takes the radius with the lowest frame-to-frame scatter (largest within
+  3 %); owner's frames: 1.3 FWHM kept 68-80 % of the light, differently per star and with the seeing. Tests:
+  test_apertures (shifted/turned/cloud/target-lost frames, parallel path, scan), test_field (solve, identify,
+  page), test_differential (lost frames shown). Not done yet (stage 3-4): live comparison toggling in the plot,
+  wizard layout, AIJ table comparison on the owner's night.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,

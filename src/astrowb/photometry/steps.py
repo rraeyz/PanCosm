@@ -89,7 +89,19 @@ def apertures_step(inputs, params, ctx):
     ctx.progress(0.2, "photometry")
     gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     stars = [inputs["target_xy"], *(inputs.get("comps_xy") or [])]
-    return {"apertures": choose_apertures(data, stars, gain)}
+    a = choose_apertures(data, stars, gain)
+    if len(stars) > 1 and len(inputs["images"]) >= 5:  # a series: the radius that gives the steadiest light curve
+        from .lightcurve import aperture_scan
+
+        try:
+            scan = aperture_scan(inputs["images"], stars, a["fwhm"], gain, r_in=a["r_in"], ctx=ctx)
+        except ValueError:  # too few frames with every star: the profile's choice stands
+            scan = None
+        if scan:
+            a |= {"r_ap": round(scan["best"], 2), "r_in": round(scan["r_in"], 2), "r_out": round(scan["r_out"], 2)}
+            a["encircled_at_aperture"] = float(np.interp(scan["best"], a["radii"], a["encircled"]))
+            a["scan"] = scan
+    return {"apertures": a}
 
 
 @step("timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="kvw", t0=None, period=None)
@@ -181,19 +193,48 @@ def period_step(inputs, params, ctx):
     return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best}
 
 
-@step("photometry.suggest_comparisons", inputs=("images", "target_xy"), outputs=("comps_xy",), r_out=16.0, n=4)
+@step(
+    "photometry.suggest_comparisons",
+    inputs=("images", "target_xy"),
+    outputs=("comps_xy", "catalogue"),
+    optional=("field",),
+    r_out=16.0,
+    n=4,
+)
 def suggest_step(inputs, params, ctx):
+    """Comparison stars around the target. With the field identified on the marked frame (photometry.identify_field)
+    they come from Gaia, as Siril chooses them (field.comparison_stars); "catalogue" then holds the target's colour
+    and whether the stars share it. Without it, from the image (aperture.suggest_comparisons)."""
     from ..calibration.masters import load
     from ..calibration.stacking import align_offsets
+    from ..io.inspect import saturation_level
     from .aperture import suggest_comparisons
 
     images = [inputs["images"][0], *timing.chronological(inputs["images"][1:])]  # the marked frame first
     _check_positions(images[0], inputs["target_xy"])
-    data, _ = load(images[0])
+    data, header = load(images[0])
     # stars must stay in the frame for the whole series: a tenth of a binned pixel is plenty for that check
-    offsets = align_offsets(images, ctx, binning=2 if data.size > 4_000_000 else 1)
+    offsets = np.asarray(align_offsets(images, ctx, binning=2 if data.size > 4_000_000 else 1))
+    if inputs.get("field"):
+        from .field import comparison_stars
+
+        drift = int(np.ceil(np.abs(offsets).max())) if len(offsets) else 0
+        out = comparison_stars(
+            inputs["field"], inputs["target_xy"], data, saturation_level(header, data), n=params["n"],
+            r_out=params["r_out"], margin=60 + drift,
+        )  # fmt: skip
+        return {"comps_xy": [[x, y] for x, y, *_ in out["stars"]], "catalogue": out}
     picks = suggest_comparisons(data, inputs["target_xy"], params["r_out"], n=params["n"], r_in=None, offsets=offsets)
-    return {"comps_xy": [list(p) for p in picks]}
+    return {"comps_xy": [list(p) for p in picks], "catalogue": None}
+
+
+@step("photometry.identify_field", inputs=("image",), outputs=("field",))
+def identify_field_step(inputs, params, ctx):
+    """The frame solved against Gaia (no solver to install), the VSX variable stars in it, and whether the OBJECT of
+    its header is in it (field.identify)."""
+    from .field import identify
+
+    return {"field": identify(readable(inputs["image"]), ctx)}
 
 
 ANGLE_KEYS = ("HWPANGLE", "HWP-ANG", "HWP", "RETANG", "RETANGLE", "POLANGLE", "POL-ANG", "WPANGLE", "ANGLE")

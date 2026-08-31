@@ -4,7 +4,11 @@ Die Seite **Photometrie** misst auf einer Reihe kalibrierter Bilder die Helligke
 ## Bilder und Sterne wählen
 1. **Bilder wählen…** — kalibrierte Aufnahmen eines Feldes und eines Filters. Sie werden nach der Zeit sortiert.
 2. Im ersten Bild **den Zielstern anklicken**, dann **einen oder mehrere Vergleichssterne**. Klicks rasten auf die Sternmitte ein. **Sterne löschen** beginnt von vorn.
-3. Oder **Vergleichssterne vorschlagen** drücken: Es wählt Sterne ähnlicher Helligkeit, nicht gesättigt, ohne helle Nachbarn und in jedem Bild innerhalb des Feldes. Prüfen Sie sie vor dem Messen.
+3. Oder **Vergleichssterne vorschlagen** drücken: Es wählt Sterne ähnlicher Helligkeit, nicht gesättigt, ohne helle Nachbarn und in jedem Bild innerhalb des Feldes. Prüfen Sie sie vor dem Messen. Wenn das Feld erkannt wurde (unten), kommen sie stattdessen aus Gaia: etwa so hell wie das Ziel, von ähnlicher Farbe, wo das Feld eine hat, nicht veränderlich (Gaia, VSX), allein und ungesättigt, wie Siril sie aus dem Katalog wählt.
+
+**Was im Feld ist.** Beim Wählen der Bilder wird das erste gegen den Gaia-Katalog gelöst — kein Plate-Solver zu installieren; es braucht Ausrichtung und Pixelmaßstab (FOCALLEN, XPIXSZ) im Header und eine Internetverbindung. Die bekannten veränderlichen Sterne darin (AAVSO VSX) werden cyan markiert und aufgelistet; **Zum Ziel machen** macht einen zu T1 und nimmt seine Katalogposition für BJD. Steht das OBJECT der Dateien nicht im Feld, sagt eine Warnung das (Dateien, die nach dem falschen Stern benannt sind). Ein auf dem ersten Bild von Hand markiertes Ziel bekommt seine Himmelsposition ebenfalls aus der Lösung.
+
+**Bilder, die nicht gemessen werden können.** Jedes Bild wird über seine Verschiebung gegen das erste gelegt, und wenn die Sterne dort nicht gefunden werden, über sein Sternmuster (Meridian-Flip, ein Ruck). Ein Bild, auf dem das Ziel oder ein Vergleichsstern immer noch nicht gefunden wird (Wolken, außerhalb des Bildes), bleibt aus der Lichtkurve, erscheint rot in der Bildliste und wird mit dem Grund unter dem Diagramm genannt — es wird nie auf leerem Himmel gemessen.
 
 Gute Vergleichssterne haben eine ähnliche Farbe und Helligkeit wie das Ziel und sind nicht veränderlich. Verwenden Sie mehrere: Ihre Summe (ein Ensemble) rauscht weniger als ein einzelner Stern.
 

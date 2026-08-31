@@ -38,7 +38,8 @@ def _sep(ra1, dec1, ra2, dec2):
 
 
 def stars(ra, dec, radius_deg, mag_limit=17.0, row_limit=4000):
-    """dict of arrays ra, dec (deg, J2016.0), pmra, pmdec (mas/yr, pmra includes cos dec), gmag, sorted bright first."""
+    """dict of arrays ra, dec (deg, J2016.0), pmra, pmdec (mas/yr, pmra includes cos dec), gmag, bp_rp (NaN when
+    unknown) and variable (1 for Gaia's VARIABLE flag, else 0), sorted bright first."""
     hit = _cached(ra, dec, radius_deg, mag_limit)
     if hit is not None:
         return hit
@@ -65,7 +66,8 @@ def _vizier(ra, dec, radius_deg, mag_limit, row_limit):
     from .mirrors import cds
 
     def ask(server):
-        v = Vizier(columns=["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "Gmag"], row_limit=row_limit, vizier_server=server)
+        cols = ["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "Gmag", "BP-RP", "VarFlag"]
+        v = Vizier(columns=cols, row_limit=row_limit, vizier_server=server)
         v.column_filters = {"Gmag": f"<{mag_limit}"}
         t = v.query_region(SkyCoord(ra * u.deg, dec * u.deg), radius=radius_deg * u.deg, catalog="I/355/gaiadr3")
         return t[0] if len(t) else []
@@ -79,13 +81,16 @@ def _vizier(ra, dec, radius_deg, mag_limit, row_limit):
         "pmra": np.ma.filled(t["pmRA"].astype(float), 0.0),
         "pmdec": np.ma.filled(t["pmDE"].astype(float), 0.0),
         "gmag": t["Gmag"],
+        "bp_rp": np.ma.filled(t["BP-RP"].astype(float), np.nan) if "BP-RP" in t.colnames else np.full(len(t), np.nan),
+        "variable": _flag(t["VarFlag"]) if "VarFlag" in t.colnames else np.zeros(len(t)),
     }
 
 
 def _esa(ra, dec, radius_deg, mag_limit, row_limit):
 
     query = (
-        f"SELECT TOP {int(row_limit)} ra, dec, pmra, pmdec, phot_g_mean_mag FROM gaiadr3.gaia_source "
+        f"SELECT TOP {int(row_limit)} ra, dec, pmra, pmdec, phot_g_mean_mag, bp_rp, phot_variable_flag "
+        "FROM gaiadr3.gaia_source "
         f"WHERE 1=CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', {float(ra)}, {float(dec)}, {float(radius_deg)})) "
         f"AND phot_g_mean_mag < {float(mag_limit)}"
     )
@@ -96,7 +101,14 @@ def _esa(ra, dec, radius_deg, mag_limit, row_limit):
         "pmra": np.ma.filled(t["pmra"].astype(float), 0.0),
         "pmdec": np.ma.filled(t["pmdec"].astype(float), 0.0),
         "gmag": t["phot_g_mean_mag"],
+        "bp_rp": np.ma.filled(t["bp_rp"].astype(float), np.nan),
+        "variable": _flag(t["phot_variable_flag"]),
     }
+
+
+def _flag(column):
+    """1.0 where Gaia flags the star VARIABLE, else 0.0."""
+    return np.array([str(v).strip().upper() == "VARIABLE" for v in np.ma.filled(column, "")], float)
 
 
 def _run(query):
