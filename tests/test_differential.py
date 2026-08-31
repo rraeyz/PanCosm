@@ -376,3 +376,21 @@ def test_no_magnitude_where_the_flux_ratio_is_not_positive():
     assert np.isfinite(m[[0, 3]]).all() and np.isnan(m[[1, 2]]).all() and np.isnan(e[[1, 2]]).all()
     assert (e[[0, 3]] > 0).all()
     Figure().subplots().errorbar(np.arange(4), m, e)  # raised ValueError
+
+
+def test_photometry_page_draws_a_light_curve_with_frames_that_lost_the_target(qtbot, tmp_path):
+    """The owner's NY Vir night: frames where the target's flux after the sky is negative made the page fail with
+    "'yerr' must not contain negative values" instead of drawing the light curve. Now it is drawn, and those frames
+    are named on the plot so they can be left out."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    lc = synthetic_lc()
+    lc["file"] = [f"frame_{i:03d}.fits" for i in range(60)]
+    for i in (7, 31):
+        lc["target_flux"][i] = -500.0
+        lc["rel_flux"][i] = -0.01
+    page.show_light_curve(lc)  # raised ValueError
+    texts = [t.get_text() for ax in page.plot.figure.axes for t in ax.texts]
+    assert any("2 frame(s)" in t and "frame_007.fits, frame_031.fits" in t for t in texts), texts
