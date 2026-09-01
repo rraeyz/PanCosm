@@ -646,6 +646,17 @@ script that says GPU found / works / how long"):**
   `overlays.query_catalogue` for Gaia): 196 stars matched, 0.15 px, OBJECT Qatar-1 found at (1337.9, 1198.1), 0.03
   deg from the pointing, VSX variables listed. Test: test_gaia_refine (row-limit order).
 
+- **Fewer presses (owner: "if I want photometry I do photometry, if O-C, O-C; it must not tire").** Photometry: when
+  the field is solved and the files' OBJECT is in it, `show_field` makes it the target (undoable); a target set by a
+  click, from the field or from the variables list asks for comparison stars itself (`_suggest(auto=True)`, only while
+  none is marked); a suggestion that comes back after the target changed or stars were clicked is dropped
+  (`_auto_for`); comparison stars from a suggestion ask for the radii (`_choose_radii`) unless set. So: choose images,
+  Measure. O-C: a Star field with Look up (`ephemeris_requested` -> step `planning.ephemeris`, VSX) fills the period
+  and an empty T0; T0 left empty is the first primary minimum (its tooltip said so, the code refused it); a minimum
+  timed on the Photometry page fills Star with the OBJECT found in the field. Calibrate: a folder chosen with
+  Browse / Add folder is scanned at once. Guide 04/06/07 in 4 languages. Tests: test_field (images then measure),
+  test_oc_models (minima and a name), test_calibrate_folders (scan on add).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,

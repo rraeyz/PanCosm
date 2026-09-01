@@ -126,3 +126,33 @@ def test_photometry_page_shows_the_field_and_makes_a_variable_the_target(qtbot, 
     assert typed.separation(SkyCoord(cat["ra"][5], cat["dec"][5], unit="deg")).arcsec < 1
     page.field_failed("the stars of the frame do not match the Gaia stars around its pointing")
     assert "not identified" in page.field_label.text() and page.field is None
+
+
+def test_images_then_measure_is_the_whole_of_it(qtbot, tmp_path):
+    """The star the files name becomes the target, the comparison stars and then the radii are asked for without a
+    press; a suggestion that arrives after stars were clicked by hand is dropped."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    cat = _sky()
+    img, w, x, y = _frame(cat)
+    fits.PrimaryHDU(img.astype(np.float32), _header()).writeto(tmp_path / "f.fits")
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.set_images([str(tmp_path / "f.fits")])
+    obj = {"name": "NY Vir", "known": True, "ra": float(cat["ra"][0]), "dec": float(cat["dec"][0]),
+           "x": float(x[0]), "y": float(y[0]), "in_field": True, "distance_deg": 0.0}  # fmt: skip
+    with qtbot.waitSignal(page.suggest_requested) as asked:
+        page.show_field(
+            {"matched": 50, "scale": 0.74, "object": obj, "variables": [], "header": w.to_header().tostring()}
+        )
+    assert np.allclose(page.target, (x[0], y[0])) and np.allclose(asked.args[1], (x[0], y[0]))
+    with qtbot.waitSignal(page.apertures_requested) as radii:
+        page.set_comparisons([(x[1], y[1]), (x[2], y[2])])
+    assert len(radii.args[2]) == 2 and len(page.comps) == 2
+    page.edit("clear", page._clear)
+    page._clicked(x[3], y[3])  # a new target by hand asks again
+    page._clicked(x[4], y[4])  # and a comparison clicked before the answer came
+    page.set_comparisons([(x[1], y[1])])
+    assert page.comps == [(x[4], y[4])]
+    page.undo_stack.undo()  # the hand-clicked comparison, then the target, come off one by one
+    assert page.comps == [] and page.target is not None

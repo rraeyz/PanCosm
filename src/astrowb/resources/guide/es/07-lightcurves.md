@@ -36,6 +36,7 @@ El O-C (observado menos calculado) muestra cómo se apartan los instantes de mí
 
 1. Escriba o pegue los **instantes de mínimo**, uno por línea: `tiempo [error] [I/II] [fuente]` — p. ej. `2459876.43215 0.00021 I TESS`. O **Cargar archivo…**. Tiempos en BJD o HJD; no los mezcle.
 2. Indique un **T0 de referencia** y el **Período (d)**: con ellos se calcula la época de cada mínimo.
+   O escriba el nombre de la estrella en **Estrella** y pulse **Buscar**: T0 y el período vienen de AAVSO VSX. Un T0 vacío es el primer mínimo primario.
 3. Elija **Efemérides lineales** o **Cuadrática (cambio de período)** y pulse **Ajustar y dibujar O-C**. **Exportar resultados (CSV / LaTeX)…** escribe los valores ajustados con errores 1σ, redondeados como en un artículo, y un pie que nombra el modelo.
 
 El resultado da el nuevo T0 y P con sus errores; el ajuste cuadrático da además el ritmo de cambio del período dP/dt en segundos por año, y el χ² reducido. Los mínimos primarios se dibujan como círculos y los secundarios como cuadrados; el gráfico inferior muestra los residuos.

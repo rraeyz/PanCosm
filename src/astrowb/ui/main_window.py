@@ -785,6 +785,15 @@ class MainWindow(QMainWindow):
             lambda: [page.oc_page.add_minimum(tm, err, "maximum") for tm, err in (fp.result or {}).get("maxima", [])]
         )
         oc = page.oc_page
+        oc.ephemeris_requested.connect(
+            lambda name: self.run_step(
+                "planning.ephemeris",
+                {"name": name},
+                {"catalogue": "vsx"},
+                on_done=lambda out: oc.set_ephemeris(out["target"]),
+                on_fail=lambda msg: oc.result.setText(translate(msg)),
+            )
+        )
 
         def oc_background(model, text, t0, period, steps, minima):
             from .messages import translate
@@ -1725,6 +1734,9 @@ class MainWindow(QMainWindow):
             page.show_minimum(m)
             for x in m.get("minima", [m]):  # ready for the O-C diagram
                 self.oc_page.add_minimum(x["time"], x["error"], "this work", x.get("kind", "I"))
+            obj = (page.field or {}).get("object") or {}
+            if obj.get("in_field") and not self.oc_page.star.text():  # the star the files name, for Look up
+                self.oc_page.star.setText(obj["name"])
             if params.get("t0") and not self.oc_page.t0.text():
                 self.oc_page.t0.setText(repr(params["t0"]))
                 self.oc_page.period.setText(repr(params["period"]))

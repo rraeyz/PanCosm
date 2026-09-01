@@ -1404,6 +1404,8 @@ class CalibratePage(Undoable, QWidget):
             line_edit.setText(folder)
             if line_edit is self.folder and not self.output.text():
                 self.output.setText(str(Path(folder) / "calibrated"))
+            if line_edit is not self.output:  # a folder chosen is a folder to read: no Scan press needed
+                self.scan_button.click()
 
     @staticmethod
     def _first(text):
@@ -1419,6 +1421,7 @@ class CalibratePage(Undoable, QWidget):
             self.folder.setText("; ".join(current + [folder]))
             if not self.output.text():
                 self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
+            self.scan_button.click()
 
     def _edit_kind(self, row, col):
         """Double-click on a type: a list of the types; the choice is used for the calibration (the files are not
@@ -1746,8 +1749,9 @@ class PhotometryPage(Undoable, QWidget):
                 (
                     self.tr("Mark the target, then the comparison stars (IRAF phot coordinates)"),
                     self.tr(
-                        "Click the target on the image, then Suggest comparison stars (or click them yourself); "
-                        "a click on a marked star takes it off."
+                        "The star the files name is marked as the target when it is in the field (else click it); "
+                        "the comparison stars and the radii then follow on their own. A click on a marked star "
+                        "takes it off, a click elsewhere adds one."
                     ),
                 ),
                 (
@@ -1921,9 +1925,7 @@ class PhotometryPage(Undoable, QWidget):
         self.suggest_button.setToolTip(
             self.tr("Similar brightness, not saturated, no bright neighbour, inside the frame in every image")
         )
-        self.suggest_button.clicked.connect(
-            lambda: self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
-        )
+        self.suggest_button.clicked.connect(lambda: self._suggest(auto=False))
         self.sections[1].body.addWidget(self.suggest_button)
         side.addWidget(self.sections[1])
         grid = QGridLayout()
@@ -1971,9 +1973,7 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         self.apertures_button.setEnabled(False)
-        self.apertures_button.clicked.connect(
-            lambda: self.apertures_requested.emit(self._series(), list(self.target), [list(c) for c in self.comps])
-        )
+        self.apertures_button.clicked.connect(self._choose_radii)
         self.sections[2].body.addWidget(self.apertures_button)
         side.addWidget(self.sections[2])
         self.follow_seeing = QCheckBox(self.tr("Radii follow the seeing (scaled by each frame's FWHM)"), self)
@@ -2593,6 +2593,9 @@ class PhotometryPage(Undoable, QWidget):
                 self.coord.setText(
                     SkyCoord(float(ra), float(dec), unit="deg").to_string("hmsdms", sep=":", precision=1)
                 )
+            self._draw_markers()
+            self._suggest()
+            return
         else:
             self.comps.append((x, y))
         self._draw_markers()
@@ -2922,6 +2925,9 @@ class PhotometryPage(Undoable, QWidget):
         for w in (self.variables, self.make_target):
             w.setVisible(bool(variables))
         self._draw_markers()
+        if obj and obj.get("in_field") and self.target is None and not self.comps:
+            # the star the files name is the target: nothing to click (a click elsewhere changes it)
+            self.edit(self.tr("the target from the files"), self._set_target_from_field, (obj["x"], obj["y"]), obj)
 
     def field_failed(self, message):
         self.field = None
@@ -2957,8 +2963,25 @@ class PhotometryPage(Undoable, QWidget):
                 name=v["name"]
             )
         )
+        self._suggest()
+
+    def _suggest(self, auto=True):
+        """Ask for comparison stars; on its own (auto) only while none is marked: the chain target -> comparison
+        stars -> radii runs without a press, so that choosing the images and Measure is the whole of it."""
+        if not (self.images and self.target) or (auto and self.comps):
+            return
+        self._auto_for = self.target if auto else None
+        if auto:
+            self.result.setText(self.tr("Choosing the comparison stars…"))
+        self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
+
+    def _choose_radii(self):
+        self.apertures_requested.emit(self._series(), list(self.target), [list(c) for c in self.comps])
 
     def set_comparisons(self, comps, catalogue=None):
+        auto, self._auto_for = getattr(self, "_auto_for", None), None
+        if auto is not None and (auto != self.target or self.comps):
+            return  # the target changed, or stars were clicked, while the suggestion was on its way
         self.edit(self.tr("suggested comparison stars"), self._set_comps, [tuple(c) for c in comps])
         if comps and catalogue:
             text = self.tr("{n} comparison stars chosen from Gaia: about as bright as the target, not variable, "
@@ -2969,6 +2992,8 @@ class PhotometryPage(Undoable, QWidget):
                     "the light curve can drift slowly with airmass; detrend it against airmass."
                 ).format(c=catalogue["colour"])
             self.result.setText(text)
+        if comps and not self._radii_set:
+            self._choose_radii()
 
     def _set_comps(self, comps):
         self.comps = comps
@@ -3741,6 +3766,8 @@ def _decimals(err):
 class OCPage(QWidget):
     """Minimum times -> epochs, linear or quadratic ephemeris, O-C diagram."""
 
+    ephemeris_requested = Signal(str)  # a star's name: its T0 and period from VSX (planning.ephemeris)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.fit_result = None
@@ -3760,7 +3787,10 @@ class OCPage(QWidget):
                 ),
                 (
                     self.tr("The ephemeris: reference T0 and period (VSX, GCVS or a paper)"),
-                    self.tr("Type the period (and T0) of a published ephemeris; it counts the cycles."),
+                    self.tr(
+                        "Type the star's name and press Look up (VSX), or type the period (and T0) of a published "
+                        "ephemeris; it counts the cycles."
+                    ),
                 ),
                 (
                     self.tr("Linear ephemeris first: look at the O−C diagram"),
@@ -3805,6 +3835,18 @@ class OCPage(QWidget):
         row.addStretch(1)
         lay.addLayout(row)
         grid = QGridLayout()
+        self.star = QLineEdit(self)
+        self.star.setPlaceholderText("NY Vir")
+        self.star.setToolTip(self.tr("The star's name: Look up fills T0 and the period from AAVSO VSX"))
+        self.look_up = QPushButton(self.tr("Look up"), self)
+        self.look_up.setToolTip(self.tr("T0 and the period of the star from AAVSO VSX (needs the internet)"))
+        self.look_up.clicked.connect(self._look_up)
+        self.star.returnPressed.connect(self._look_up)
+        grid.addWidget(QLabel(self.tr("Star"), self), 2, 0)
+        star_row = QHBoxLayout()
+        star_row.addWidget(self.star, 1)
+        star_row.addWidget(self.look_up)
+        grid.addLayout(star_row, 2, 1)
         self.t0 = QLineEdit(self)
         self.period = QLineEdit(self)
         self.period.textChanged.connect(lambda t: self.guide.set_state(1, "done" if t.strip() else None))
@@ -3892,6 +3934,25 @@ class OCPage(QWidget):
         if path:
             self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
 
+    def _look_up(self):
+        if self.star.text().strip():
+            self.result.setText(self.tr("Asking VSX…"))
+            self.ephemeris_requested.emit(self.star.text().strip())
+
+    def set_ephemeris(self, target):
+        """T0 and the period from planning.ephemeris; a T0 already typed (or measured) is kept."""
+        if not target.get("period"):
+            self.result.setText(self.tr("{name}: no period in VSX; type it.").format(name=target.get("name", "")))
+            return
+        self.period.setText(repr(float(target["period"])))
+        if target.get("t0") and not self.t0.text().strip():
+            self.t0.setText(repr(float(target["t0"])))
+        self.result.setText(
+            self.tr("{name}: T0 and period from {source}. Press Fit and draw O-C.").format(
+                name=target.get("name", ""), source=target.get("source", "VSX")
+            )
+        )
+
     def add_minimum(self, time, error, source="", kind="I"):
         self.text.appendPlainText(f"{time:.6f} {error:.6f} {kind} {source}".rstrip())
 
@@ -3946,12 +4007,16 @@ class OCPage(QWidget):
         from .messages import translate
 
         try:
-            t0, period = float(self.t0.text()), float(self.period.text())
+            period = float(self.period.text())
         except ValueError:
-            self.result.setText(self.tr("Give the reference T0 and the period in days."))
+            self.result.setText(self.tr("Give the period in days, or the star's name and Look up."))
             return None
         try:
             minima = parse_minima(self.text.toPlainText())
+            try:
+                t0 = float(self.t0.text())
+            except ValueError:  # empty: the first primary minimum, as the tooltip says
+                t0 = min((m.time for m in minima if m.kind == "I"), default=minima[0].time if minima else float("nan"))
             steps = self.mcmc_steps.value() if self.use_mcmc.isChecked() and self.use_mcmc.isEnabled() else 0
             model = "ltte" if self.ltte.isChecked() else "apsidal" if self.apsidal.isChecked() else None
             if steps and self.background:  # the chain runs as a task: the page stays usable, Tasks can cancel it
