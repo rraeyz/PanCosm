@@ -657,6 +657,10 @@ script that says GPU found / works / how long"):**
   Browse / Add folder is scanned at once. Guide 04/06/07 in 4 languages. Tests: test_field (images then measure),
   test_oc_models (minima and a name), test_calibrate_folders (scan on add).
 
+- **Photometry to-do list moved to its own file: `PHOTOMETRY_PLAN.md`** (owner, 2026-11-07: scan AIJ, Siril, MaxIm,
+  IRAF, Muniwin and write what is missing; do not start without the owner's word). 21 items in P1/P2/P3, each with
+  reference, ours now, build, acceptance; the order is at its end. Released before it: v0.2.7.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
