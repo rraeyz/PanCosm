@@ -49,6 +49,19 @@
     `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
     - Name: İdris Avlar. E-mail: rraeyz@hotmail.com. GitHub user: rraeyz.
     - No "Claude" anywhere in a commit: no author, no co-author and no session lines, whatever a hook asks.
+12. **Follow the plan, but question it.**
+    - Before doing a step, check it yourself again: a second look often shows something different.
+    - You may change, add or remove steps, and their details, **only when you are really sure**. Write why, under
+      the step: what you found, and what you read or measured.
+    - Removing a step from a plan is allowed this way. Deleting code or a feature still needs the owner's yes
+      (rule 6).
+13. **Write plans in detail.**
+    - A step says what to build, what the reference programs do, how to check it, and which files it touches.
+    - A step may be split into sub-steps (3.1, 3.2 …) to stay planned. Each sub-step is claimed and marked done
+      like a step.
+14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
+    plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
+    one of its errors shows a raw technical message.
 
 The rules that matter most here:
 
