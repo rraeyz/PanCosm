@@ -4,4 +4,11 @@
 - **Source and licence:** ESO Science Archive Facility, public data. Acknowledge: "Based on data obtained from the ESO Science Archive Facility" with the programme ID.
 - **Get the whole set:** ESO archive, HARPS phase-3 products of HD 39060.
 - **Used for:** Atmospheric parameters, rotation.
-- **Size here:** 11 MB, 2 entries.
+- **Size of the files used:** 11 MB, 2 files.
+
+## Files used in the checks
+
+Download these into this folder (git ignores the data files here; only notes and small text files are kept).
+
+- `betapic.fits` (5.3 MB)
+- `betapic2025.fits` (5.3 MB)

@@ -67,10 +67,13 @@
     - CI must be green on every system first.
     - Never push while a release run is going.
     - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
+    - **A release is not the end:** go on with the next step at once.
 16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
     must do or try. Never call something working that was not tried.
-17. **Data lives in `data/`.** Use what is there before downloading. Add what you download, within the rules of
-    `data/README.md`, so the next agent need not download it again.
+17. **Data sets are listed in `data/`** with links and the exact files used (`data/README.md`); the observations
+    themselves are not kept in git.
+    - Download the files there; git ignores them.
+    - Add every new set you use, so that the next agent measures the same files.
 18. **Keep working with others safe.**
     - Pull the newest `main` before claiming a step.
     - Commit small and often.
