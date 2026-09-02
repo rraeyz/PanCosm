@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+<Observation Name="Sun" CreationDate="638545969877827185" Version="4" DemetraVersion="7.3.3.0">
+  <Object Name="Sun" IsNameDefined="1" Description="Solar spectrum without telescope using 50 um fibre and FIGU." Type="PointLike" Magnitude="0">
+    <EquatorialCoordinates RA="0H0M0.0S" DEC="0°0M0.0S" />
+  </Object>
+  <Context Version="3.0">
+    <Observer Name="Tonis Eenmae" />
+    <Site Name="TO" Description="Tartu Observatory" Latitude="58.266" Longitude="26.466" Altitude="86" UAICode="L75" />
+    <Instrument Version="1.0" Name="Whoppsel">
+      <Telescope Version="2" Name="GSO" Diameter_mm="200" Focal_mm="1000" Description="GSO newtonian" />
+      <Spectroscope Name="Whoppsel" Description="Shelyak Whoppsel SN# 95-006" SlitPresence="False" />
+      <Camera Version="1" Name="Ikon-L BEX2-DD" Description="" SensorType="CCD" />
+    </Instrument>
+  </Context>
+  <Baskets Version="1">
+    <Basket Version="1">
+      <BasketHeader Version="2" Name="Object" Duplicated="False" BasketType="Generic">
+        <BasketId Version="3" SrlType="Object" Num="1" HasNumberId="0" />
+      </BasketHeader>
+      <ImageList>
+        <Image FileName="Sun_Object_20s_20240621_183427-1.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-2.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-3.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-4.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-5.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-6.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-7.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-8.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-9.fit" />
+        <Image FileName="Sun_Object_20s_20240621_183427-10.fit" />
+      </ImageList>
+    </Basket>
+    <Basket Version="1">
+      <BasketHeader Version="2" Name="Bias" Duplicated="True" BasketType="Generic">
+        <BasketId Version="3" SrlType="Offset" Num="1" HasNumberId="0" />
+      </BasketHeader>
+      <ImageList>
+        <Image FileName="Bias_0s_20240621_191216-1.fit" />
+        <Image FileName="Bias_0s_20240621_191216-2.fit" />
+        <Image FileName="Bias_0s_20240621_191216-3.fit" />
+        <Image FileName="Bias_0s_20240621_191216-4.fit" />
+        <Image FileName="Bias_0s_20240621_191216-5.fit" />
+        <Image FileName="Bias_0s_20240621_191216-6.fit" />
+        <Image FileName="Bias_0s_20240621_191216-7.fit" />
+        <Image FileName="Bias_0s_20240621_191216-8.fit" />
+        <Image FileName="Bias_0s_20240621_191216-9.fit" />
+        <Image FileName="Bias_0s_20240621_191216-10.fit" />
+        <Image FileName="Bias_0s_20240621_191216-11.fit" />
+        <Image FileName="Bias_0s_20240621_191216-12.fit" />
+        <Image FileName="Bias_0s_20240621_191216-13.fit" />
+        <Image FileName="Bias_0s_20240621_191216-14.fit" />
+        <Image FileName="Bias_0s_20240621_191216-15.fit" />
+        <Image FileName="Bias_0s_20240621_191216-16.fit" />
+        <Image FileName="Bias_0s_20240621_191216-17.fit" />
+        <Image FileName="Bias_0s_20240621_191216-18.fit" />
+        <Image FileName="Bias_0s_20240621_191216-19.fit" />
+        <Image FileName="Bias_0s_20240621_191216-20.fit" />
+        <Image FileName="Bias_0s_20240621_191216-21.fit" />
+        <Image FileName="Bias_0s_20240621_191216-22.fit" />
+        <Image FileName="Bias_0s_20240621_191216-23.fit" />
+        <Image FileName="Bias_0s_20240621_191216-24.fit" />
+        <Image FileName="Bias_0s_20240621_191216-25.fit" />
+      </ImageList>
+    </Basket>
+    <Basket Version="1">
+      <BasketHeader Version="2" Name="Dark" Duplicated="True" BasketType="Generic">
+        <BasketId Version="3" SrlType="Dark" Num="1" HasNumberId="0" />
+      </BasketHeader>
+      <ImageList>
+        <Image FileName="Dark_20s_20240621_191508-1.fit" />
+        <Image FileName="Dark_20s_20240621_191508-2.fit" />
+        <Image FileName="Dark_20s_20240621_191508-3.fit" />
+        <Image FileName="Dark_20s_20240621_191508-4.fit" />
+        <Image FileName="Dark_20s_20240621_191508-5.fit" />
+        <Image FileName="Dark_20s_20240621_191508-6.fit" />
+        <Image FileName="Dark_20s_20240621_191508-7.fit" />
+        <Image FileName="Dark_20s_20240621_191508-8.fit" />
+        <Image FileName="Dark_20s_20240621_191508-9.fit" />
+        <Image FileName="Dark_20s_20240621_191508-10.fit" />
+        <Image FileName="Dark_20s_20240621_191508-11.fit" />
+        <Image FileName="Dark_20s_20240621_191508-12.fit" />
+        <Image FileName="Dark_20s_20240621_191508-13.fit" />
+        <Image FileName="Dark_20s_20240621_191508-14.fit" />
+        <Image FileName="Dark_20s_20240621_191508-15.fit" />
+        <Image FileName="Dark_20s_20240621_191508-16.fit" />
+      </ImageList>
+    </Basket>
+    <Basket Version="1">
+      <BasketHeader Version="2" Name="Flat" Duplicated="True" BasketType="Generic">
+        <BasketId Version="3" SrlType="Flat" Num="1" HasNumberId="0" />
+      </BasketHeader>
+      <ImageList>
+        <Image FileName="Flat_5s_20240621_192503-1.fit" />
+        <Image FileName="Flat_5s_20240621_192503-2.fit" />
+        <Image FileName="Flat_5s_20240621_192503-3.fit" />
+        <Image FileName="Flat_5s_20240621_192503-4.fit" />
+        <Image FileName="Flat_5s_20240621_192503-5.fit" />
+        <Image FileName="Flat_5s_20240621_192503-6.fit" />
+        <Image FileName="Flat_5s_20240621_192503-7.fit" />
+        <Image FileName="Flat_5s_20240621_192503-8.fit" />
+        <Image FileName="Flat_5s_20240621_192503-9.fit" />
+        <Image FileName="Flat_5s_20240621_192503-10.fit" />
+        <Image FileName="Flat_5s_20240621_192503-11.fit" />
+        <Image FileName="Flat_5s_20240621_192503-12.fit" />
+        <Image FileName="Flat_5s_20240621_192503-13.fit" />
+        <Image FileName="Flat_5s_20240621_192503-14.fit" />
+        <Image FileName="Flat_5s_20240621_192503-15.fit" />
+        <Image FileName="Flat_5s_20240621_192503-16.fit" />
+        <Image FileName="Flat_5s_20240621_192503-17.fit" />
+        <Image FileName="Flat_5s_20240621_192503-18.fit" />
+        <Image FileName="Flat_5s_20240621_192503-19.fit" />
+        <Image FileName="Flat_5s_20240621_192503-20.fit" />
+        <Image FileName="Flat_5s_20240621_192503-21.fit" />
+        <Image FileName="Flat_5s_20240621_192503-22.fit" />
+        <Image FileName="Flat_5s_20240621_192503-23.fit" />
+        <Image FileName="Flat_5s_20240621_192503-24.fit" />
+        <Image FileName="Flat_5s_20240621_192503-25.fit" />
+      </ImageList>
+    </Basket>
+    <Basket Version="1">
+      <BasketHeader Version="2" Name="Calibration" Duplicated="True" BasketType="Generic">
+        <BasketId Version="3" SrlType="Calibration" Num="1" HasNumberId="0" />
+      </BasketHeader>
+      <ImageList>
+        <Image FileName="Sun_Calibration_35s_20240621_184136-1.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-2.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-3.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-4.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-5.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-6.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-7.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-8.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-9.fit" />
+        <Image FileName="Sun_Calibration_35s_20240621_184136-10.fit" />
+      </ImageList>
+    </Basket>
+  </Baskets>
+  <Process Version="5" UseSubFolderForTemporaryFiles="1">
+    <ProcessId Version="3" Type="Whoppshel" Subtype="1" />
+    <ProcessParams Version="5.0" SaveStepResults="1" KeepRawAduLevel="0">
+      <ProcessStepParams Version="1.0">
+        <Global Version="1">
+          <Master HotPixelNbSigmaThreshold="7" />
+          <CalibrationDetection Version="3.0">
+            <PrimaryOrder>
+              <ReferenceOrder Version="5.0" Order="52" Lambda_ang="6535.134302" ProcessType="Whoppshel">
+                <CalibXAutoParams Version="6.0" Range_percent="100">
+                  <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+                  <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+                </CalibXAutoParams>
+              </ReferenceOrder>
+            </PrimaryOrder>
+            <SecondaryOrder>
+              <ReferenceOrder Version="5.0" Order="80" Lambda_ang="4247.837296" ProcessType="Whoppshel">
+                <CalibXAutoParams Version="6.0" Range_percent="100">
+                  <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+                  <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+                </CalibXAutoParams>
+              </ReferenceOrder>
+            </SecondaryOrder>
+            <LinesSet Version="2" Name="WHOPPSHEL" Instrument="">
+              <Lines l1="3925.0934" l2="3928.6233" l3="3932.911" l4="3944.2534" l5="3946.1455" l6="3950.3951" l7="3952.74" l8="3972.154" l9="3979.3559" l10="3994.7918" l11="4012.4952" l12="4013.8565" l13="4019.1289" l14="4030.8424" l15="4033.8093" l16="4052.9208" l17="4072.0047" l18="4082.3872" l19="4094.747" l20="4100.3414" l21="4103.912" l22="4112.7545" l23="4131.7235" l24="4134.068" l25="4142.701" l26="4156.0859" l27="4158.5905" l28="4164.1795" l29="4165.7661" l30="4170.5333" l31="4181.8835" l32="4198.317" l33="4203.4108" l34="4208.8907" l35="4210.9232" l36="4217.4308" l37="4218.6648" l38="4222.6373" l39="4228.158" l40="4235.4636" l41="4237.2198" l42="4257.4953" l43="4259.3618" l44="4272.1689" l45="4275.1596" l46="4277.5282" l47="4286.3566" l48="4288.6687" l49="4297.9645" l50="4309.2391" l51="4312.9975" l52="4315.2542" l53="4333.5611" l54="4335.3379" l55="4342.4442" l56="4345.168" l57="4348.064" l58="4352.2048" l59="4362.0662" l60="4363.7945" l61="4365.9301" l62="4367.8316" l63="4374.1238" l64="4375.9542" l65="4378.1769" l66="4379.6668" l67="4381.8601" l68="4385.0566" l69="4391.1106" l70="4402.9272" l71="4404.9021" l72="4408.8828" l73="4412.7393" l74="4416.8447" l75="4420.9123" l76="4426.0011" l77="4430.189" l78="4433.838" l79="4445.9011" l80="4448.8791" l81="4452.5655" l82="4458.0015" l83="4474.7593" l84="4478.5958" l85="4481.8107" l86="4483.3469" l87="4490.9815" l88="4493.3337" l89="4502.9268" l90="4505.2167" l91="4510.7332" l92="4515.1183" l93="4519.2593" l94="4521.194" l95="4522.323" l96="4530.5522" l97="4537.6425" l98="4540.999" l99="4545.0519" l100="4555.8127" l101="4561.3778" l102="4567.2403" l103="4570.9722" l104="4579.3494" l105="4589.8978" l106="4592.666" l107="4596.0967" l108="4598.7627" l109="4609.5672" l110="4621.1628" l111="4628.4408" l112="4631.6422" l113="4633.6186" l114="4637.2327" l115="4638.6849" l116="4657.9012" l117="4663.2025" l118="4669.9842" l119="4673.6609" l120="4676.0554" l121="4682.2759" l122="4686.1946" l123="4689.2518" l124="4695.0381" l125="4702.3161" l126="4708.294" l127="4712.4814" l128="4726.8683" l129="4729.1283" l130="4732.0532" l131="4735.9058" l132="4757.2196" l133="4758.1496" l134="4764.8645" l135="4778.294" l136="4789.3868" l137="4806.0205" l138="4808.1336" l139="4809.614" l140="4813.8963" l141="4822.8547" l142="4826.7004" l143="4840.8429" l144="4843.9413" l145="4847.8095" l146="4863.1724" l147="4872.9169" l148="4876.2611" l149="4879.8635" l150="4882.2432" l151="4889.0422" l152="4894.9551" l153="4904.7516" l154="4919.8157" l155="4927.7804" l156="4933.209" l157="4936.7747" l158="4939.6421" l159="4943.0641" l160="4945.4587" l161="4956.6394" l162="4965.0795" l163="4972.1597" l164="4982.4875" l165="4985.3725" l166="4993.7488" l167="5002.0972" l168="5009.3343" l169="5017.1627" l170="5019.8062" l171="5022.0051" l172="5028.6556" l173="5029.8917" l174="5039.2303" l175="5044.7195" l176="5047.0434" l177="5059.8611" l178="5062.0371" l179="5064.9454" l180="5067.9737" l181="5090.545" l182="5096.4847" l183="5100.6211" l184="5115.0448" l185="5125.7654" l186="5134.7461" l187="5141.7827" l188="5145.3082" l189="5151.612" l190="5154.243" l191="5158.6041" l192="5165.7727" l193="5187.7462" l194="5195.8136" l195="5199.1637" l196="5213.3491" l197="5216.8138" l198="5219.1099" l199="5221.271" l200="5231.16597" l201="5247.6547" l202="5252.788" l203="5254.4648" l204="5258.3602" l205="5266.7103" l206="5274.1188" l207="5286.8869" l208="5296.2786" l209="5305.688" l210="5317.4944" l211="5326.9756" l212="5329.6979" l213="5331.0375" l214="5343.5812" l215="5360.1501" l216="5362.5751" l217="5369.447" l218="5373.4942" l219="5379.1105" l220="5386.6107" l221="5390.4256" l222="5397.516" l223="5402.6048" l224="5410.7687" l225="5415.5226" l226="5417.4858" l227="5421.3518" l228="5424.0079" l229="5431.1121" l230="5434.1515" l231="5439.9891" l232="5457.4156" l233="5473.4516" l234="5492.6435" l235="5495.8738" l236="5499.2554" l237="5504.3018" l238="5506.1127" l239="5509.9938" l240="5524.957" l241="5542.89" l242="5548.1758" l243="5557" l244="5571.1914" l245="5576.2045" l246="5587.0263" l247="5597.4755" l248="5601.6032" l249="5604.5153" l250="5606.733" l251="5615.3195" l252="5633.2951" l253="5639.7461" l254="5645.5249" l255="5650.7043" l256="5659.1271" l257="5665.1798" l258="5677.0529" l259="5681.9001" l260="5685.1921" l261="5691.6611" l262="5700.9176" l263="5707.1033" l264="5720.1828" l265="5741.8289" l266="5753.0265" l267="5760.5508" l268="5763.529" l269="5768.1813" l270="5772.1143" l271="5783.536" l272="5786.5554" l273="5789.6451" l274="5792.4304" l275="5800.8296" l276="5802.0797" l277="5804.1413" l278="5815.4219" l279="5834.2633" l280="5860.3102" l281="5863.7184" l282="5882.6242" l283="5885.7016" l284="5891.451" l285="5895.9281" l286="5905.5707" l287="5908.9257" l288="5912.0853" l289="5914.7139" l290="5916.5992" l291="5918.9441" l292="5928.813" l293="5942.6687" l294="5944.6472" l295="5949.2583" l296="5971.6008" l297="5973.6649" l298="5975.0649" l299="5987.3016" l300="5989.0447" l301="5991.0071" l302="5994.1288" l303="5998.9988" l304="6007.072" l305="6010.1606" l306="6021.0358" l307="6025.1599" l308="6030.4449" l309="6032.1274" l310="6043.2233" l311="6046.8976" l312="6049.051" l313="6059.3725" l314="6069.0207" l315="6088.0305" l316="6090.7848" l317="6098.8031" l318="6105.6351" l319="6114.9234" l320="6127.416" l321="6138.6559" l322="6145.4411" l323="6151.9928" l324="6164.4796" l325="6178.4314" l326="6182.6217" l327="6188.125" l328="6191.9053" l329="6198.2226" l330="6203.4925" l331="6207.2201" l332="6212.5031" l333="6215.9384" l334="6224.5273" l335="6226.3698" l336="6234.8554" l337="6243.1201" l338="6261.4181" l339="6274.1166" l340="6296.8722" l341="6307.657" l342="6327.2778" l343="6337.6201" l344="6339.6684" l345="6342.8595" l346="6355.9108" l347="6364.8937" l348="6369.5748" l349="6371.9436" l350="6376.9305" l351="6384.717" l352="6387.3958" l353="6396.6097" l354="6403.0128" l355="6411.899" l356="6416.3071" l357="6418.3703" l358="6422.8969" l359="6431.5551" l360="6437.7613" l361="6441.8994" l362="6443.8598" l363="6457.2825" l364="6462.613" l365="6466.5526" l366="6483.0825" l367="6490.7372" l368="6512.3639" l369="6531.3418" l370="6538.112" l371="6554.1603" l372="6577.2145" l373="6583.9059" l374="6588.5396" l375="6591.4845" l376="6593.9391" l377="6604.8534" l378="6632.0837" l379="6643.6976" l380="6660.6762" l381="6662.2686" l382="6664.051" l383="6666.3589" l384="6674.6969" l385="6677.2817" l386="6684.293" l387="6698.85" l388="6719.2184" l389="6727.4583" l390="6752.8335" l391="6766.6117" l392="6778.3124" l393="6818.3841" l394="6827.2488" l395="6829.0355" l396="6834.9246" l397="6851.8843" l398="6861.2687" l399="6863.535" l400="6871.2891" l401="6879.5824" l402="6911.2264" l403="6925.0094" l404="6937.6642" l405="6943.6106" l406="6951.4777" l407="6960.25" l408="6965.4307" l409="6989.6553" l410="6992.2126" l411="7000.8037" l412="7018.5676" l413="7030.2514" l414="7060.6538" l415="7084.169" l416="7086.7044" l417="7107.4777" l418="7125.82" l419="7147.0416" l420="7150.2844" l421="7158.8387" l422="7162.5569" l423="7168.8952" l424="7191.1328" l425="7206.9804" l426="7218.0541" l427="7229.9386" l428="7265.1724" l429="7272.9359" l430="7284.9033" l431="7311.7159" l432="7316.005" l433="7353.293" l434="7372.118" l435="7383.9805" l436="7392.9801" l437="7412.3369" l438="7425.2942" l439="7435.368" l440="7471.1641" l441="7484.3268" l442="7503.869" l443="7511.7901" l444="7514.6519" l445="7592.47" l446="7635.106" l447="7725.03" l448="7762.623" l449="7773.777" l450="7948.389" l451="8005.76" l452="8016.002" l453="8103.32" l454="8114.426" />
+            </LinesSet>
+          </CalibrationDetection>
+          <Orders Version="2.0" OrderMin="48" OrderMax="84">
+            <OrdersDetectionParameters Version="1.0" BoundsDetectionCoefficient="0.1" Wide="8" NextPointOffsetTolerance="5">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="30" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <OrderIdentifier Version="1.0" PositionX="0" PositionY="0" IsSet="0" Order="52" />
+            </OrdersDetectionParameters>
+          </Orders>
+          <Scale Version="1.0" Active="1" Low="6650" High="6700" />
+          <EchelleIntensityCorrectionParameters Version="2.0" Filename="" UseNeutral="1" />
+          <Final_Echelle Version="1.0">
+            <OrderMerging Merge="1" />
+          </Final_Echelle>
+        </Global>
+        <Order48 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order48>
+        <Order49 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order49>
+        <Order50 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order50>
+        <Order51 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order51>
+        <Order52 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order52>
+        <Order53 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order53>
+        <Order54 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order54>
+        <Order55 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order55>
+        <Order56 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order56>
+        <Order57 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order57>
+        <Order58 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order58>
+        <Order59 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order59>
+        <Order60 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order60>
+        <Order61 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order61>
+        <Order62 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order62>
+        <Order63 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order63>
+        <Order64 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order64>
+        <Order65 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order65>
+        <Order66 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order66>
+        <Order67 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order67>
+        <Order68 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order68>
+        <Order69 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order69>
+        <Order70 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order70>
+        <Order71 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order71>
+        <Order72 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order72>
+        <Order73 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order73>
+        <Order74 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order74>
+        <Order75 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order75>
+        <Order76 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order76>
+        <Order77 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order77>
+        <Order78 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order78>
+        <Order79 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order79>
+        <Order80 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order80>
+        <Order81 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order81>
+        <Order82 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order82>
+        <Order83 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order83>
+        <Order84 Version="1.0">
+          <EchelleGeometryParameters Version="1.0" Slant_deg="0" Active="0" />
+          <EchelleCalibrationX Version="1.0" Method="2">
+            <CalibXAutoParams Version="6.0" Range_percent="99">
+              <LinesDetectionParams Version="5" Emitivity="0" Method="1" SectionSize="80" BackgroundRate="0.5" ThresholdSigmaCoef="7" MinPixelInLine="3" NbLinesKept="80" NbCombinationChecked="120" SmoothWidth_pixel="1" />
+              <LinesCorrelationParams Version="2.0" ResidualTolerance="1" MinIdentifiedLinesCount="7" DispersionPolynomialDegree="3" FilterPoorLines="1" />
+            </CalibXAutoParams>
+          </EchelleCalibrationX>
+          <Crop Version="1.0" Active="0" Low="0" High="0" />
+        </Order84>
+      </ProcessStepParams>
+    </ProcessParams>
+    <ProcessResults Version="6" HasCmos="0">
+      <Status Version="2">
+        <FirstUnknown>
+          <Status_Node Version="1.0" Type="Process" Id="0">
+            <Status_Node Version="1.0" Type="Step" Id="Master">
+              <Status_Leaf Version="1.0" Type="Basket" Id="Offset_1" Status="Unknown" Update_time="0" />
+            </Status_Node>
+          </Status_Node>
+        </FirstUnknown>
+      </Status>
+      <Echelle Version="3.0" ScaleCoefficient="0">
+        <OrdersDetection Version="1.0" />
+        <CalibrationDetection Version="1.0" Offset="0">
+          <Primary>
+            <CalibrationDetermination Version="1.0">
+              <LimitedRange>
+                <CalibX_OrderResults Version="1.0" MinLambda="0" MaxLambda="0" RMS="0">
+                  <PixelToLambdaCoefficients />
+                  <ReferenceLines_Pixel />
+                </CalibX_OrderResults>
+              </LimitedRange>
+              <FullRange>
+                <CalibX_OrderResults Version="1.0" MinLambda="0" MaxLambda="0" RMS="0">
+                  <PixelToLambdaCoefficients />
+                  <ReferenceLines_Pixel />
+                </CalibX_OrderResults>
+              </FullRange>
+            </CalibrationDetermination>
+          </Primary>
+          <Secondary>
+            <CalibrationDetermination Version="1.0">
+              <LimitedRange>
+                <CalibX_OrderResults Version="1.0" MinLambda="0" MaxLambda="0" RMS="0">
+                  <PixelToLambdaCoefficients />
+                  <ReferenceLines_Pixel />
+                </CalibX_OrderResults>
+              </LimitedRange>
+              <FullRange>
+                <CalibX_OrderResults Version="1.0" MinLambda="0" MaxLambda="0" RMS="0">
+                  <PixelToLambdaCoefficients />
+                  <ReferenceLines_Pixel />
+                </CalibX_OrderResults>
+              </FullRange>
+            </CalibrationDetermination>
+          </Secondary>
+        </CalibrationDetection>
+        <CalibX_Orders />
+      </Echelle>
+    </ProcessResults>
+  </Process>
+</Observation>
