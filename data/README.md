@@ -20,6 +20,13 @@ Real observations kept here so that agents do not download them again in every s
   - Agents read it but never change, move or delete it, and never copy it outside the repository.
 - **When you use a new data set for a check,** add its folder and `SOURCE.md` here and a row below.
 
+## Note on the history
+
+Three commits of 2026-11-07 (`6817e7a`, `060c057`, `dffab7c`) still hold about 880 MB of these observations in the
+history; the next commit removed them. A full clone downloads them once. To skip them, clone with
+`git clone --filter=blob:limit=1m …` (files are fetched when needed), or start cloud sessions with a blob limit.
+Rewriting the history to drop them needs a force-push, which the owner's settings do not allow agents.
+
 ## How to download
 
 - **LCO archive** (public frames), one frame by name:
