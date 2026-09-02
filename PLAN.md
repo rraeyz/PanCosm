@@ -182,6 +182,11 @@ Create a file when work in the area starts, from the template below.
 - **Planning and Automation:** inside the main window, or in windows of their own like the rest? The owner has no
   wish either way; the interface plan proposes windows of their own, for one rule for all.
 
+- **Spectroscopy, first item of `plans/spectroscopy.md` when it is created:** check that several exposures of one
+  star in a night can be combined into one spectrum (IRAF `scombine`; today the echelle orders of one exposure are
+  merged, but a combining step for several exposures was not found), and that the master bias ("Zero" in IRAF) is
+  made and used the same way as for images.
+
 ## Agents
 
 - agent1 (2026-11-07): wrote this file, `plans/interface.md` and `plans/photometry.md`.
