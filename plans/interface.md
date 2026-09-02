@@ -173,7 +173,7 @@ drawing (very large images, thousands of plotted points) may move to OpenGL or n
 (PLAN.md rule 10).
 
 ### I0. Split the big interface file before the work starts
-**open** — added 2026-11-07, so that several agents can work at once without overwriting one another.
+**agent2 claimed (2026-11-07) — do not touch** — added 2026-11-07, so that several agents can work at once without overwriting one another.
 - **Why:** Photometry, Calibrate, O−C, Period, Light curves, Project and Start all live in one file,
   `src/astrowb/ui/workspaces.py` (about 4 800 lines).
 - **Build:** move each page class into its own module (`ui/photometry_page.py`, `ui/calibrate_page.py`,

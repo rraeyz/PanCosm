@@ -330,6 +330,7 @@ Create a file when work in the area starts, from the template below.
 ## Agents
 
 - agent1 (2026-11-07): wrote this file, `plans/interface.md` and `plans/photometry.md`.
+- agent2 (2026-11-07): interface steps, starting with I0.
 
 ## Template for a new area file
 
