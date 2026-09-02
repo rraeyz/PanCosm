@@ -62,6 +62,21 @@
 14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
     plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
     one of its errors shows a raw technical message.
+15. **Releases.** You may release a new version without asking, when a meaningful piece is ready for the owner to
+    try. Never release for every small change.
+    - CI must be green on every system first.
+    - Never push while a release run is going.
+    - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
+16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
+    must do or try. Never call something working that was not tried.
+17. **Data lives in `data/`.** Use what is there before downloading. Add what you download, within the rules of
+    `data/README.md`, so the next agent need not download it again.
+18. **Keep working with others safe.**
+    - Pull the newest `main` before claiming a step.
+    - Commit small and often.
+    - Old projects, sessions and settings must still open after a change (a test checks it).
+    - A check against a reference program becomes a test (reduced reference values from public data), so that a
+      later change cannot quietly make results worse.
 
 Written 2026-11-07 at the owner's request: scan AstroImageJ, Siril, MaxIm DL, IRAF and the
 others, and write down everything that has to be done. **Nothing here is started without the owner's word.**
@@ -169,6 +184,17 @@ Three things this changes in the list below:
 
 ## To ask the owner
 (nothing yet)
+
+## For the owner to try
+- Measure the NY Vir night with the newest version, choosing the images and pressing Measure; send a screenshot of
+  any step where it was unclear what to do.
+- When convenient: an AstroImageJ Measurements table of the same night with the radii written down (item 1).
+
+## Data used
+- `data/photometry/qatar1-lco` (24 of 265 frames here): 0 frames lost, p2p 0.44 %, aperture scan chose 2 FWHM, plate
+  solution 196 stars / 0.15 px after the Gaia row-limit fix (2026-11-07).
+- `data/photometry/ai-dra-tess`: target-pixel-file photometry and 42 minima (HANDOFF, third campaign).
+- `data/photometry/sa98-landolt-lco`: transformation coefficients (HANDOFF).
 
 ## P0 — the photometry window
 
