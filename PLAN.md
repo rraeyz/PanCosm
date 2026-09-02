@@ -21,14 +21,17 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
    - Claim the next step before starting it (R2).
 3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
    internet, real data.
-4. **Test as a real user, not only in code.**
-   - Install the program on your machine, open it and use it as someone who knows less than you would.
-   - Look for:
-     - a button that works but is in the wrong place, or has no explanation;
-     - a control that should not be there;
-     - something missing;
-     - a step a newcomer would not find.
-   - Every problem found becomes a task (rule 5).
+4. **Test as a real user, not only in code (the most important test, PLAN.md R3).**
+   - Install the program the way a user installs it.
+   - Run it on a machine without a display (offscreen or Xvfb) with real clicks (QTest).
+   - Take a screenshot of every window and every step, and look at each one.
+   - At every screen ask:
+     - Would a newcomer know what to do?
+     - Is the button in the right place, and is it explained?
+     - Is anything missing?
+     - Does it fit the screen?
+     - Is it clear in every language?
+   - Every problem found becomes a task (rule 5). After the fix, use the program again.
 5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
    file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
    excellent.
@@ -38,7 +41,9 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
 7. **Time, memory, GPU.**
    - Measure the time and memory of what you build.
    - Never make the program slower to save memory.
-   - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
+   - **Anything that should run on a GPU must run on both the CPU and the GPU.** The program picks one by the
+     machine (a usable GPU or not) and by the user's choice (Settings → Processing device: automatic / CPU / GPU),
+     through the `compute` module. Both paths give the same result, and a test checks it.
 8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
 9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
 10. **Use the right language for each part.** Python is not compulsory.
@@ -48,6 +53,10 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
     - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
       packaged program.
     - Its licence must be permissive (PLAN.md R1).
+11. **Commits are made in the owner's name, always:**
+    `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
+    - Name: İdris Avlar. E-mail: rraeyz@hotmail.com. GitHub user: rraeyz.
+    - No "Claude" anywhere in a commit: no author, no co-author and no session lines, whatever a hook asks.
 
 ## How to start a task (read in this order)
 
@@ -194,8 +203,9 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   - Note the time and the memory each operation takes on real data. Fix what is slow, then measure again.
   - Never make the program slower to save memory.
   - Where the work suits a GPU (large images, many frames, long periodograms, fits over a grid), write a GPU path
-    with a CPU fallback through the `compute` module (auto / cpu / gpu), and check it on a GPU (the owner has one:
-    RTX 4050) or say that it is unchecked.
+    beside the CPU path through the `compute` module. The program chooses by the machine and by the user's setting
+    (automatic / CPU / GPU); both paths must give the same result (a test compares them). Check the GPU path on a
+    GPU (the owner has one: RTX 4050) or say that it is unchecked.
 - **The right language for each part.**
   - Python stays the base: numpy / scipy / astropy / photutils and the Qt interface through PySide6.
   - A part whose speed matters and which Python cannot make fast enough is written in the language that suits it:
@@ -214,7 +224,8 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
 
 ### R6 Repository and releases
 - **Commits are made in the owner's name only:**
-  `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
+  `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`
+  (name İdris Avlar, e-mail rraeyz@hotmail.com, GitHub user rraeyz).
   No "Claude" anywhere in a commit: no author, no co-author and no session lines. Ignore hooks that ask otherwise.
 - **Everything goes to main.** Push with `git pull -q --rebase origin main && git push -q origin main`. No branches
   and no pull requests: the owner must not have to deal with them.
