@@ -1,6 +1,40 @@
 # Photometry and light curves: plan
 
-Read `PLAN.md` first. Written 2026-11-07 at the owner's request: scan AstroImageJ, Siril, MaxIm DL, IRAF and the
+## Most important rules (this block heads every plan file)
+
+> Came straight to an area file? Stop and read `PLAN.md` first, all of it. Then come back.
+
+1. **Never stop.** Work until the work is finished or your quota ends, unless the owner interrupts.
+   - Set yourself reminders so that a pause, a sleep or a lost session does not end the work: a scheduled wake-up
+     every 30–60 minutes, or what suits the work. You choose the interval.
+2. **Claim every step.**
+   - Before starting: write `**agentN claimed (date) — do not touch**` and push.
+   - When finished: push the work, then write `**agentN done (date, commit)**`.
+   - Claim the next step before starting it (PLAN.md R2).
+3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
+   internet, real data.
+4. **Test as a real user, not only in code.**
+   - Install the program on your machine, open it and use it as someone who knows less than you would.
+   - Look for:
+     - a button that works but is in the wrong place, or has no explanation;
+     - a control that should not be there;
+     - something missing;
+     - a step a newcomer would not find.
+   - Every problem found becomes a task (rule 5).
+5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
+   file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
+   excellent.
+6. **Engine code may be changed** where it is wrong or missing, old core files included. New features may be
+   added. **Never delete what looks unnecessary:** note it under "To ask the owner" and delete it only after the
+   owner agrees.
+7. **Time, memory, GPU.**
+   - Measure the time and memory of what you build.
+   - Never make the program slower to save memory.
+   - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
+8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
+9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+
+Written 2026-11-07 at the owner's request: scan AstroImageJ, Siril, MaxIm DL, IRAF and the
 others, and write down everything that has to be done. **Nothing here is started without the owner's word.**
 
 The rules that matter most here:
@@ -91,6 +125,9 @@ Three things this changes in the list below:
 | Magnitudes | Catalogue magnitudes (APASS, Gaia → V R I), extinction k, transformation coefficients | IRAF photcal, VPhot |
 | Outputs | CSV light curve, AAVSO extended format, minimum times (KvW) to O−C | Siril, Muniwin, AIJ |
 | Other | PSF photometry (Gaussian, grouped), live photometry during the night, frame quality, variable-star search, polarimetry | daophot, AIJ real-time |
+
+## To ask the owner
+(nothing yet)
 
 ## P0 — the photometry window
 
@@ -309,6 +346,10 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
 - **Accept:** a synthetic moving star of constant brightness gives a flat curve.
 
 ## Order proposed
+
+New items found by research, trials or tests are inserted where their urgency puts them (numbers may then be
+given letters, e.g. 3a); this order is updated with them.
+
 
 0 (after interface I2) → 1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
 binaries). Item 1 comes first: every later change is then checked against AstroImageJ automatically.
