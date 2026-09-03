@@ -6,15 +6,20 @@ undo stack — and the frame adds what every window needs: File / Edit / View / 
 panels that can be pulled out, tabbed and moved to a second monitor, and a layout remembered per area with a way
 back to the first layout (NINA users break their docked layouts and need "Reset layout")."""
 
+import json
+from pathlib import Path
+
 from PySide6.QtCore import QByteArray, QEvent, Qt, Signal
 from PySide6.QtGui import QAction, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (
     QDialog,
     QDockWidget,
+    QFileDialog,
     QLineEdit,
     QListWidget,
     QListWidgetItem,
     QMainWindow,
+    QMessageBox,
     QToolBar,
     QVBoxLayout,
 )
@@ -22,15 +27,23 @@ from PySide6.QtWidgets import (
 
 class AreaWindow(QMainWindow):
     """key: stable id of the area (settings, object names; never translated). panels: [(id, title, widget,
-    Qt.DockWidgetArea)]. menus: [(title, [QAction or None for a separator])]. toolbar: [QAction or None]."""
+    Qt.DockWidgetArea)]. menus: [(title, [QAction or None for a separator])]. toolbar: [QAction or None].
+    open_files: the area's handler for files opened or dropped on the window ([paths]), with file_filter for the
+    dialog. session: (get, set) — the area's state as a JSON-ready dict, and how to put it back (File → Save /
+    Open session, as AstroImageJ's "Save all")."""
+
+    SESSION_VERSION = 1
+    RECENT = 10
 
     help_requested = Signal(str)  # the area's key: open its page of the guide
     open_windows = []  # every area window open, for the Window menus (main window first: see main_window)
 
     def __init__(self, key, title, settings, central, steps=None, panels=(), menus=(), toolbar=(), undo_stack=None,
-                 parent=None):  # fmt: skip
+                 open_files=None, file_filter="", session=None, parent=None):  # fmt: skip
         super().__init__(parent)
         self.key, self.settings, self.undo_stack = key, settings, undo_stack
+        self.open_files_handler, self.file_filter, self.session = open_files, file_filter, session
+        self.setAcceptDrops(open_files is not None)
         self.setObjectName(f"area_{key}")
         self.setWindowTitle(title)
         self.setCentralWidget(central)
@@ -85,6 +98,24 @@ class AreaWindow(QMainWindow):
         bar = self.menuBar()
         file_menu = bar.addMenu(self.tr("&File"))
         self.file_menu = file_menu
+        if self.open_files_handler is not None:
+            self._action(
+                file_menu, self.tr("&Open…"), self.open_dialog, QKeySequence.Open,
+                self.tr("Choose files for this window (you can also drop them on it)"),
+            )  # fmt: skip
+            self.recent_menu = file_menu.addMenu(self.tr("Open &recent"))
+            self.recent_menu.aboutToShow.connect(self._fill_recent)
+            file_menu.addSeparator()
+        if self.session is not None:
+            self._action(
+                file_menu, self.tr("&Save session…"), self.save_session_dialog, QKeySequence.Save,
+                self.tr("Keep everything chosen in this window (data, stars, settings) in one file to go on later"),
+            )  # fmt: skip
+            self._action(
+                file_menu, self.tr("Open s&ession…"), self.open_session_dialog, None,
+                self.tr("Go on with work saved earlier with Save session"),
+            )  # fmt: skip
+            file_menu.addSeparator()
         self._action(file_menu, self.tr("&Close window"), self.close, QKeySequence.Close)
         edit = bar.addMenu(self.tr("&Edit"))
         self.edit_menu = edit
@@ -126,6 +157,93 @@ class AreaWindow(QMainWindow):
             help_menu, self.tr("Guide for this window"), lambda: self.help_requested.emit(self.key),
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
+
+    # --- files ----------------------------------------------------------------
+    def recent(self):
+        return [p for p in self.settings.get(f"area.{self.key}.recent", []) if Path(p).exists()]
+
+    def _remember(self, paths):
+        old = self.settings.get(f"area.{self.key}.recent", [])
+        new = [str(p) for p in paths] + [p for p in old if p not in map(str, paths)]
+        self.settings.set(f"area.{self.key}.recent", new[: self.RECENT])
+
+    def _fill_recent(self):
+        self.recent_menu.clear()
+        files = self.recent()
+        for path in files:
+            self._action(self.recent_menu, Path(path).name, lambda p=path: self.open_files([p]), tip=path)
+        if not files:
+            self.recent_menu.addAction(self.tr("(none yet)")).setEnabled(False)
+
+    def open_dialog(self):
+        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Open"), "", self.file_filter)
+        if paths:
+            self.open_files(paths)
+
+    def open_files(self, paths):
+        paths = [str(p) for p in paths]
+        self._remember(paths)
+        self.open_files_handler(paths)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        paths = [u.toLocalFile() for u in event.mimeData().urls() if u.isLocalFile()]
+        if paths:
+            event.acceptProposedAction()
+            self.open_files(paths)
+
+    def save_session(self, path):
+        from .. import __version__
+
+        doc = {
+            "area": self.key,
+            "version": self.SESSION_VERSION,
+            "app_version": __version__,
+            "state": self.session[0](),
+        }
+        tmp = Path(path).with_suffix(".tmp")
+        tmp.write_text(json.dumps(doc, indent=1), encoding="utf-8")
+        tmp.replace(path)  # a crash never leaves half a session file
+        self.statusBar().showMessage(self.tr("Session saved: {path}").format(path=path))
+
+    def open_session(self, path):
+        """Returns None when opened, else the reason it could not be (also shown to the user)."""
+        try:
+            doc = json.loads(Path(path).read_text(encoding="utf-8"))
+            if not isinstance(doc, dict) or "state" not in doc:
+                raise ValueError
+        except (OSError, ValueError):
+            why = self.tr("{file} is not a session file, or it is damaged.").format(file=Path(path).name)
+        else:
+            if doc.get("area") != self.key:
+                why = self.tr("{file} is a session of another window ({area}): open it there.").format(
+                    file=Path(path).name, area=doc.get("area")
+                )
+            elif int(doc.get("version", 1)) > self.SESSION_VERSION:
+                why = self.tr(
+                    "{file} was saved by a newer version of the application: update it to open this session."
+                ).format(file=Path(path).name)
+            else:
+                self.session[1](doc["state"])
+                self.statusBar().showMessage(self.tr("Session opened: {path}").format(path=path))
+                return None
+        QMessageBox.warning(self, self.tr("Open session"), why)
+        return why
+
+    def save_session_dialog(self):
+        path, _ = QFileDialog.getSaveFileName(
+            self, self.tr("Save session"), f"{self.key}.session.json", self.tr("Session (*.session.json)")
+        )
+        if path:
+            self.save_session(path)
+
+    def open_session_dialog(self):
+        path, _ = QFileDialog.getOpenFileName(self, self.tr("Open session"), "", self.tr("Session (*.session.json)"))
+        if path:
+            self.open_session(path)
 
     def commands(self):
         """[(path shown, action)] of every action of the menus and the toolbar, e.g. "View › Reset layout"."""

@@ -100,103 +100,190 @@
 <context>
     <name>AreaWindow</name>
     <message>
-        <location filename="../../ui/area_window.py" line="40"/>
+        <location filename="../../ui/area_window.py" line="53"/>
         <source>Steps</source>
         <translation>Adımlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="43"/>
-        <location filename="../../ui/area_window.py" line="110"/>
+        <location filename="../../ui/area_window.py" line="56"/>
+        <location filename="../../ui/area_window.py" line="141"/>
         <source>Toolbar</source>
         <translation>Araç çubuğu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="45"/>
+        <location filename="../../ui/area_window.py" line="58"/>
         <source>The frequent actions of this window</source>
         <translation>Bu pencerenin sık kullanılan işlemleri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="51"/>
+        <location filename="../../ui/area_window.py" line="64"/>
         <source>Ready</source>
         <translation>Hazır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="86"/>
+        <location filename="../../ui/area_window.py" line="99"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="88"/>
+        <location filename="../../ui/area_window.py" line="103"/>
+        <source>&amp;Open…</source>
+        <translation>&amp;Aç…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="104"/>
+        <source>Choose files for this window (you can also drop them on it)</source>
+        <translation>Bu pencere için dosya seçin (dosyaları pencerenin üzerine bırakabilirsiniz de)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="106"/>
+        <source>Open &amp;recent</source>
+        <translation>&amp;Son açılanlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="111"/>
+        <source>&amp;Save session…</source>
+        <translation>Oturumu &amp;kaydet…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="112"/>
+        <source>Keep everything chosen in this window (data, stars, settings) in one file to go on later</source>
+        <translation>Bu pencerede seçilen her şeyi (veri, yıldızlar, ayarlar) sonra devam etmek için tek bir dosyada saklar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="115"/>
+        <source>Open s&amp;ession…</source>
+        <translation>Oturum &amp;aç…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="116"/>
+        <source>Go on with work saved earlier with Save session</source>
+        <translation>Daha önce Oturumu kaydet ile saklanan işe devam eder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="119"/>
         <source>&amp;Close window</source>
         <translation>Pencereyi &amp;kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="89"/>
+        <location filename="../../ui/area_window.py" line="120"/>
         <source>&amp;Edit</source>
         <translation>&amp;Düzen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="92"/>
+        <location filename="../../ui/area_window.py" line="123"/>
         <source>&amp;Undo</source>
         <translation>&amp;Geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="94"/>
+        <location filename="../../ui/area_window.py" line="125"/>
         <source>&amp;Redo</source>
         <translation>&amp;İleri al</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="100"/>
+        <location filename="../../ui/area_window.py" line="131"/>
         <source>Find an action…</source>
         <translation>İşlem bul…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="101"/>
+        <location filename="../../ui/area_window.py" line="132"/>
         <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
         <translation>Yapmak istediğiniz şeyin birkaç harfini yazın: bu pencerenin her menü ve araç çubuğu işlemi bulunur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="103"/>
+        <location filename="../../ui/area_window.py" line="134"/>
         <source>&amp;View</source>
         <translation>&amp;Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="107"/>
+        <location filename="../../ui/area_window.py" line="138"/>
         <source>Show or hide this panel</source>
         <translation>Bu paneli göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="114"/>
+        <location filename="../../ui/area_window.py" line="145"/>
         <source>&amp;Reset layout</source>
         <translation>Düzeni &amp;sıfırla</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="115"/>
+        <location filename="../../ui/area_window.py" line="146"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Her paneli pencere ilk açıldığındaki yerine geri koyar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="121"/>
+        <location filename="../../ui/area_window.py" line="152"/>
         <source>&amp;Window</source>
         <translation>&amp;Pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="123"/>
+        <location filename="../../ui/area_window.py" line="154"/>
         <source>&amp;Help</source>
         <translation>&amp;Yardım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="126"/>
+        <location filename="../../ui/area_window.py" line="157"/>
         <source>Guide for this window</source>
         <translation>Bu pencerenin kılavuzu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="127"/>
+        <location filename="../../ui/area_window.py" line="158"/>
         <source>Opens the page of the guide that explains this window</source>
         <translation>Kılavuzun bu pencereyi anlatan sayfasını açar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="163"/>
+        <location filename="../../ui/area_window.py" line="176"/>
+        <source>(none yet)</source>
+        <translation>(henüz yok)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="179"/>
+        <source>Open</source>
+        <translation>Aç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="210"/>
+        <source>Session saved: {path}</source>
+        <translation>Oturum kaydedildi: {path}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="219"/>
+        <source>{file} is not a session file, or it is damaged.</source>
+        <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="222"/>
+        <source>{file} is a session of another window ({area}): open it there.</source>
+        <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="227"/>
+        <source>{file} was saved by a newer version of the application: update it to open this session.</source>
+        <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="231"/>
+        <source>Session opened: {path}</source>
+        <translation>Oturum açıldı: {path}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="233"/>
+        <location filename="../../ui/area_window.py" line="244"/>
+        <source>Open session</source>
+        <translation>Oturum aç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <source>Save session</source>
+        <translation>Oturumu kaydet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="244"/>
+        <source>Session (*.session.json)</source>
+        <translation>Oturum (*.session.json)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="281"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
@@ -1276,12 +1363,12 @@
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/area_window.py" line="236"/>
+        <location filename="../../ui/area_window.py" line="354"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="237"/>
+        <location filename="../../ui/area_window.py" line="355"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>

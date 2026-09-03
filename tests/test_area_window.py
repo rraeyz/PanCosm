@@ -100,3 +100,38 @@ def test_command_search_finds_and_runs_any_action_in_every_language(qtbot, tmp_p
             assert any(word in text.casefold() for text, _ in local.commands()), lang
         finally:
             QCoreApplication.removeTranslator(tr)
+
+
+def test_recent_files_drop_and_sessions(qtbot, tmp_path, monkeypatch):
+    from PySide6.QtCore import QMimeData, QPoint, QUrl
+    from PySide6.QtGui import QDropEvent
+
+    opened, state = [], {"stars": [[10.0, 20.0]], "radius": 5}
+    win = AreaWindow(
+        "phot", "Photometry", Settings(tmp_path), QLabel("view"), open_files=opened.extend,
+        session=(lambda: dict(state), lambda st: state.update(st)),
+    )  # fmt: skip
+    qtbot.addWidget(win)
+    files = [tmp_path / f"f{i}.fits" for i in range(3)]
+    for f in files:
+        f.write_text("x")
+    win.open_files(files[:2])
+    data = QMimeData()
+    data.setUrls([QUrl.fromLocalFile(str(files[2]))])
+    win.dropEvent(QDropEvent(QPoint(5, 5), Qt.CopyAction, data, Qt.LeftButton, Qt.NoModifier))
+    assert opened == [str(f) for f in files]
+    assert win.recent()[0] == str(files[2])  # newest first
+    win._fill_recent()
+    assert [a.text() for a in win.recent_menu.actions()][:3] == ["f2.fits", "f0.fits", "f1.fits"]
+    session = tmp_path / "night.session.json"
+    win.save_session(session)
+    state.update(stars=[], radius=9)
+    assert win.open_session(session) is None and state == {"stars": [[10.0, 20.0]], "radius": 5}
+    warned = []
+    monkeypatch.setattr("astrowb.ui.area_window.QMessageBox.warning", lambda *a: warned.append(a[2]))
+    other = AreaWindow("spectro", "Spectroscopy", Settings(tmp_path / "o"), QLabel("v"), session=(dict, print))
+    qtbot.addWidget(other)
+    assert "another window" in other.open_session(session) and warned
+    (tmp_path / "bad.session.json").write_text("{not json")
+    assert "damaged" in win.open_session(tmp_path / "bad.session.json")
+    assert not other.acceptDrops() and win.acceptDrops()
