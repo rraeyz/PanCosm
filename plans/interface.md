@@ -358,11 +358,11 @@ their smallest and cut their titles; fixed with first sizes (steps 280 px, right
   fits 1366 × 768; every text translated.
 
 #### I2.2 Command search (Ctrl+K)
-**agent2 claimed (2026-11-08) — do not touch** — a small popup with a filter box listing every action of the window (menus and toolbar) by its
+**agent2 done (2026-11-08, commit 0695d4b)** — Edit → Find an action… (Ctrl+K); screenshot checked in Turkish. — a small popup with a filter box listing every action of the window (menus and toolbar) by its
 translated text; Enter runs it. Accept: finds every action by a part of its name in each language.
 
 #### I2.3 Recent files, drag and drop, area sessions
-**open** — File → Open recent (per area), files dropped on the window go to the area, Save / Open session of the
+**agent2 claimed (2026-11-08) — do not touch** — File → Open recent (per area), files dropped on the window go to the area, Save / Open session of the
 area (`.astrosession` JSON of what the area declares: data chosen, stars, settings, plots). Accept: a saved session
 opens again the same; old projects still open.
 
