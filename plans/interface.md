@@ -342,7 +342,8 @@ area), View (panels on / off, reset layout, zoom, theme), Window (the open area 
 **Sub-steps (agent2, 2026-11-07)** — I2 is too large for one commit; each part below is claimed and done on its own:
 
 #### I2.1 The window itself
-**agent2 claimed (2026-11-07) — do not touch**
+**agent2 done (2026-11-08, commit a44af97)** — screenshot check (tr, 1366 × 768): side panels first opened at
+their smallest and cut their titles; fixed with first sizes (steps 280 px, right 340 px, bottom 220 px).
 - `ui/area_window.py`, class `AreaWindow(QMainWindow)`: built from what the area declares — a stable key, a title, the
   central widget, an optional steps widget (left dock), panels (docks, each with a stable object name), the area's
   own menus and toolbar actions, and its undo stack.
@@ -357,7 +358,7 @@ area), View (panels on / off, reset layout, zoom, theme), Window (the open area 
   fits 1366 × 768; every text translated.
 
 #### I2.2 Command search (Ctrl+K)
-**open** — a small popup with a filter box listing every action of the window (menus and toolbar) by its
+**agent2 claimed (2026-11-08) — do not touch** — a small popup with a filter box listing every action of the window (menus and toolbar) by its
 translated text; Enter runs it. Accept: finds every action by a part of its name in each language.
 
 #### I2.3 Recent files, drag and drop, area sessions
