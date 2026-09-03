@@ -98,6 +98,100 @@
     </message>
 </context>
 <context>
+    <name>AreaWindow</name>
+    <message>
+        <location filename="../../ui/area_window.py" line="31"/>
+        <source>Steps</source>
+        <translation>Adımlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="34"/>
+        <location filename="../../ui/area_window.py" line="96"/>
+        <source>Toolbar</source>
+        <translation>Araç çubuğu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="36"/>
+        <source>The frequent actions of this window</source>
+        <translation>Bu pencerenin sık kullanılan işlemleri</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="42"/>
+        <source>Ready</source>
+        <translation>Hazır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="77"/>
+        <source>&amp;File</source>
+        <translation>&amp;Dosya</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="79"/>
+        <source>&amp;Close window</source>
+        <translation>Pencereyi &amp;kapat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="80"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Düzen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="83"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Geri al</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="85"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;İleri al</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="89"/>
+        <source>&amp;View</source>
+        <translation>&amp;Görünüm</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="93"/>
+        <source>Show or hide this panel</source>
+        <translation>Bu paneli göster ya da gizle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="100"/>
+        <source>&amp;Reset layout</source>
+        <translation>Düzeni &amp;sıfırla</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="101"/>
+        <source>Put every panel back where it was when the window first opened</source>
+        <translation>Her paneli pencere ilk açıldığındaki yerine geri koyar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="107"/>
+        <source>&amp;Window</source>
+        <translation>&amp;Pencere</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="109"/>
+        <source>&amp;Help</source>
+        <translation>&amp;Yardım</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="112"/>
+        <source>Guide for this window</source>
+        <translation>Bu pencerenin kılavuzu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="113"/>
+        <source>Opens the page of the guide that explains this window</source>
+        <translation>Kılavuzun bu pencereyi anlatan sayfasını açar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="120"/>
+        <source>Main window</source>
+        <translation>Ana pencere</translation>
+    </message>
+</context>
+<context>
     <name>AutomationPage</name>
     <message>
         <location filename="../../ui/automation_page.py" line="57"/>
