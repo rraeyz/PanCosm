@@ -100,93 +100,103 @@
 <context>
     <name>AreaWindow</name>
     <message>
-        <location filename="../../ui/area_window.py" line="31"/>
+        <location filename="../../ui/area_window.py" line="40"/>
         <source>Steps</source>
         <translation>Pasos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="34"/>
-        <location filename="../../ui/area_window.py" line="96"/>
+        <location filename="../../ui/area_window.py" line="43"/>
+        <location filename="../../ui/area_window.py" line="110"/>
         <source>Toolbar</source>
         <translation>Barra de herramientas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="36"/>
+        <location filename="../../ui/area_window.py" line="45"/>
         <source>The frequent actions of this window</source>
         <translation>Las acciones frecuentes de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="42"/>
+        <location filename="../../ui/area_window.py" line="51"/>
         <source>Ready</source>
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="77"/>
+        <location filename="../../ui/area_window.py" line="86"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="79"/>
+        <location filename="../../ui/area_window.py" line="88"/>
         <source>&amp;Close window</source>
         <translation>&amp;Cerrar ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="80"/>
+        <location filename="../../ui/area_window.py" line="89"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="83"/>
+        <location filename="../../ui/area_window.py" line="92"/>
         <source>&amp;Undo</source>
         <translation>&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="85"/>
+        <location filename="../../ui/area_window.py" line="94"/>
         <source>&amp;Redo</source>
         <translation>&amp;Rehacer</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="89"/>
+        <location filename="../../ui/area_window.py" line="100"/>
+        <source>Find an action…</source>
+        <translation>Buscar una acción…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="101"/>
+        <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
+        <translation>Escriba unas letras de lo que quiere hacer: se encuentra cada acción de los menús y la barra de herramientas de esta ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="103"/>
         <source>&amp;View</source>
         <translation>&amp;Ver</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="93"/>
+        <location filename="../../ui/area_window.py" line="107"/>
         <source>Show or hide this panel</source>
         <translation>Mostrar u ocultar este panel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="100"/>
+        <location filename="../../ui/area_window.py" line="114"/>
         <source>&amp;Reset layout</source>
         <translation>&amp;Restablecer disposición</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="101"/>
+        <location filename="../../ui/area_window.py" line="115"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Devuelve cada panel a donde estaba cuando se abrió la ventana por primera vez</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="107"/>
+        <location filename="../../ui/area_window.py" line="121"/>
         <source>&amp;Window</source>
         <translation>&amp;Ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="109"/>
+        <location filename="../../ui/area_window.py" line="123"/>
         <source>&amp;Help</source>
         <translation>A&amp;yuda</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="112"/>
+        <location filename="../../ui/area_window.py" line="126"/>
         <source>Guide for this window</source>
         <translation>Guía de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="113"/>
+        <location filename="../../ui/area_window.py" line="127"/>
         <source>Opens the page of the guide that explains this window</source>
         <translation>Abre la página de la guía que explica esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="120"/>
+        <location filename="../../ui/area_window.py" line="163"/>
         <source>Main window</source>
         <translation>Ventana principal</translation>
     </message>
@@ -1261,6 +1271,19 @@
         <location filename="../../ui/widgets.py" line="82"/>
         <source>Click to show or hide these options</source>
         <translation>Haga clic para mostrar u ocultar estas opciones</translation>
+    </message>
+</context>
+<context>
+    <name>CommandSearch</name>
+    <message>
+        <location filename="../../ui/area_window.py" line="236"/>
+        <source>Type what you want to do…</source>
+        <translation>Escriba lo que quiere hacer…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="237"/>
+        <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
+        <translation>Palabras en cualquier orden; ↑ ↓ eligen, Intro ejecuta, Esc cierra</translation>
     </message>
 </context>
 <context>

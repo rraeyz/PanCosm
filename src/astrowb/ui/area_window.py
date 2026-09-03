@@ -6,9 +6,18 @@ undo stack — and the frame adds what every window needs: File / Edit / View / 
 panels that can be pulled out, tabbed and moved to a second monitor, and a layout remembered per area with a way
 back to the first layout (NINA users break their docked layouts and need "Reset layout")."""
 
-from PySide6.QtCore import QByteArray, Qt, Signal
+from PySide6.QtCore import QByteArray, QEvent, Qt, Signal
 from PySide6.QtGui import QAction, QGuiApplication, QKeySequence
-from PySide6.QtWidgets import QDockWidget, QMainWindow, QToolBar
+from PySide6.QtWidgets import (
+    QDialog,
+    QDockWidget,
+    QLineEdit,
+    QListWidget,
+    QListWidgetItem,
+    QMainWindow,
+    QToolBar,
+    QVBoxLayout,
+)
 
 
 class AreaWindow(QMainWindow):
@@ -86,6 +95,11 @@ class AreaWindow(QMainWindow):
             redo.setShortcuts([QKeySequence.Redo, QKeySequence("Ctrl+Y")])
             edit.addActions([undo, redo])
             self.undo_action, self.redo_action = undo, redo
+            edit.addSeparator()
+        self.find_action = self._action(
+            edit, self.tr("Find an action…"), self.find_command, "Ctrl+K",
+            self.tr("Type a few letters of what you want to do: every menu and toolbar action of this window is found"),
+        )  # fmt: skip
         view = bar.addMenu(self.tr("&View"))
         self.view_menu = view
         for dock in self.docks.values():
@@ -112,6 +126,35 @@ class AreaWindow(QMainWindow):
             help_menu, self.tr("Guide for this window"), lambda: self.help_requested.emit(self.key),
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
+
+    def commands(self):
+        """[(path shown, action)] of every action of the menus and the toolbar, e.g. "View › Reset layout"."""
+        self._fill_window_menu()
+        out, seen = [], {self.find_action}
+
+        def walk(menu, path):
+            for act in menu.actions():
+                if act.menu() is not None:
+                    walk(act.menu(), path + [_plain(act.text())])
+                elif act.text() and not act.isSeparator() and act not in seen:
+                    seen.add(act)
+                    out.append((" › ".join(path + [_plain(act.text())]), act))
+
+        for top in self.menuBar().actions():
+            if top.menu() is not None:
+                walk(top.menu(), [_plain(top.text())])
+        for act in self.toolbar.actions():
+            if act.text() and not act.isSeparator() and act not in seen:
+                seen.add(act)
+                out.append((_plain(act.text()), act))
+        return out
+
+    def find_command(self):
+        dialog = CommandSearch(self.commands(), self)
+        dialog.move(self.mapToGlobal(self.rect().center()) - dialog.rect().center())
+        dialog.show()
+        dialog.search.setFocus()
+        return dialog
 
     def _fill_window_menu(self):
         self.window_menu.clear()
@@ -174,3 +217,54 @@ def _raise(window):
     window.setWindowState(window.windowState() & ~Qt.WindowMinimized)
     window.raise_()
     window.activateWindow()
+
+
+def _plain(text):
+    return text.replace("&&", "\0").replace("&", "").replace("\0", "&")
+
+
+class CommandSearch(QDialog):
+    """Ctrl+K: a box that lists the window's actions matching what is typed (every word, in any order, in the
+    interface language); Enter or a double click runs the one chosen. Keeps the toolbar short without hiding
+    anything."""
+
+    def __init__(self, commands, parent=None):
+        super().__init__(parent, Qt.Popup)
+        self.commands = commands
+        lay = QVBoxLayout(self)
+        self.search = QLineEdit(self)
+        self.search.setPlaceholderText(self.tr("Type what you want to do…"))
+        self.search.setToolTip(self.tr("Words in any order; ↑ ↓ choose, Enter runs, Esc closes"))
+        self.list = QListWidget(self)
+        lay.addWidget(self.search)
+        lay.addWidget(self.list)
+        self.resize(460, 320)
+        self.search.textChanged.connect(self._filter)
+        self.search.installEventFilter(self)
+        self.search.returnPressed.connect(self.run)
+        self.list.itemActivated.connect(lambda _item: self.run())
+        self._filter("")
+
+    def _filter(self, text):
+        words = text.casefold().split()
+        self.list.clear()
+        for shown, act in self.commands:
+            if act.isEnabled() and all(w in shown.casefold() for w in words):
+                item = QListWidgetItem(shown, self.list)
+                item.setData(Qt.UserRole, act)
+                if act.shortcut().toString():
+                    item.setToolTip(act.shortcut().toString(QKeySequence.NativeText))
+        self.list.setCurrentRow(0)
+
+    def eventFilter(self, obj, event):
+        if obj is self.search and event.type() == QEvent.KeyPress and event.key() in (Qt.Key_Up, Qt.Key_Down):
+            step = -1 if event.key() == Qt.Key_Up else 1
+            self.list.setCurrentRow(max(0, min(self.list.count() - 1, self.list.currentRow() + step)))
+            return True
+        return super().eventFilter(obj, event)
+
+    def run(self):
+        item = self.list.currentItem()
+        self.close()
+        if item is not None:
+            item.data(Qt.UserRole).trigger()
