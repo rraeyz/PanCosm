@@ -3468,11 +3468,6 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Aydınlık</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1061"/>
-        <source>Night (red, for the telescope)</source>
-        <translation>Gece (kırmızı, teleskop başı için)</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="1068"/>
         <source>&amp;Processing device</source>
         <translation>&amp;İşlem birimi</translation>

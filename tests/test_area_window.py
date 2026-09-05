@@ -170,8 +170,7 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     assert "Report a problem…" in [a.text() for a in win.help_menu.actions()]
 
 
-def test_night_theme_and_text_size(qtbot, tmp_path):
-    from PySide6.QtGui import QColor
+def test_text_size(qtbot, tmp_path):
     from PySide6.QtWidgets import QApplication
 
     from astrowb.ui import theme
@@ -179,14 +178,9 @@ def test_night_theme_and_text_size(qtbot, tmp_path):
     app = QApplication.instance()
     settings = Settings(tmp_path)
     try:
-        c = theme.colors("night")
-        for value in c.values():  # no blue or green light in the night theme: red only
-            q = QColor(value)
-            assert q.red() >= q.green() and q.red() >= q.blue() and q.green() == q.blue()
-        settings.set("ui.theme", "night")
         win = _area(qtbot, settings)
         assert win.change_font(1) == 11 and settings.get("ui.font_pt") == 11
-        assert "font-size: 11pt" in app.styleSheet() and "#0a0000" in app.styleSheet()
+        assert "font-size: 11pt" in app.styleSheet()
         for _ in range(20):
             win.change_font(1)
         assert theme.font_size(settings) == theme.FONT_MAX  # kept within the tested range

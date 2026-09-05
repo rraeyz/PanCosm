@@ -314,8 +314,8 @@ area), View (panels on / off, reset layout, zoom, theme), Window (the open area 
     - drag and drop onto any window;
     - **save and open a whole session of the area** (data chosen, stars, settings, plots), as AstroImageJ's
       "Save all".
-  - **Night work:** a red night theme beside light and dark (it keeps the eyes dark-adapted at the telescope);
-    high-DPI and second monitors; the font size can be changed.
+  - **Screens:** high-DPI and second monitors; the font size can be changed. (No red night theme: the owner
+    said no, 2026-11-08.)
   - **Long work:** progress and cancel in the status bar; a notice when a long task ends while the window is in the
     background.
   - **Report a problem (Help menu of every window):** one file with `error.log`, the version, the system, the
@@ -373,20 +373,14 @@ main window gets the same action in I3. — Help → Report a problem: one zip w
 data files), the last steps run; a dialog says where it is and what to send. Accept: test that the zip has these
 files and no data file.
 
-#### I2.5 Night theme and font size
-**agent2 done (2026-11-08, commit 9d0e646)** — Settings → Look → Night; View → Larger / Smaller / Normal text
-(Ctrl+Shift++ / − / 0; Ctrl++ stays the image zoom). Screenshot (night, 12 pt, 1366 × 768): fits. — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
-settings; high-DPI checked. Accept: every window follows the theme; text grows without overflow at 1366 × 768.
-
-#### I2.5a Night theme: images and check boxes
-**agent2 claimed (2026-11-08) — do not touch** — found on the I2.5 screenshot: (1) images are still drawn white in the night theme (they must be shown
-in red, e.g. the viewer's colour map switched to a black→red one while the theme is night, as NINA's night mode
-tints everything); (2) unticked check boxes are almost invisible on the night palette (indicator border too dark).
-Accept: screenshot of the Photometry page with an image in the night theme, no white pixel on screen; check boxes
-visible.
+#### I2.5 Text size
+**agent2 done (2026-11-08, commits 9d0e646, this one)** — View → Larger / Smaller / Normal text (Ctrl+Shift++ / − / 0;
+Ctrl++ stays the image zoom) in the main window and every area window, 7–18 pt, kept in the settings. A red night
+theme was built in 9d0e646 and **removed at the owner's word ("kırmızı tema olmayacak", 2026-11-08)**; do not add
+one again. A saved "night" setting falls back to dark.
 
 #### I2.6 Shared plot and table views
-**open** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
+**agent2 claimed (2026-11-08) — do not touch** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
 point, export PNG / SVG / PDF and CSV) and one table component (sort, column chooser, filter, coloured cells with
 the reason in the tooltip, copy, CSV, a row click tells the window which frame to show), reusing `PlotCanvas` and
 the existing table menu. Accept: tests for export and the row signal.

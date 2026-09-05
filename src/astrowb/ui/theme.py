@@ -1,6 +1,5 @@
 """Application look: Fusion style with our own palette and style sheet, applied to every page, tab and
-plot. Themes: dark (default, blue-black), light, and night (dim red on black: keeps the eyes dark-adapted at the
-telescope, as planetarium and observing programs do). A saved theme that no longer exists falls back to dark.
+plot. Themes: dark (default, blue-black) and light. A saved theme that no longer exists falls back to dark.
 The text size (points) is the user's (View → Larger / Smaller text), 10 pt by default.
 """
 
@@ -10,8 +9,6 @@ THEMES = {
     # window, panel (inputs, lists), raised (buttons, tabs), text, muted text, accent, accent text, border
     "dark": ("#16191f", "#1e232b", "#272d37", "#e6e9ef", "#8b93a3", "#4f8cff", "#ffffff", "#323946"),
     "light": ("#f3f5f8", "#ffffff", "#e8ecf2", "#1b2230", "#5d6778", "#2f6fe4", "#ffffff", "#cfd6e0"),
-    # no blue or white light at all: every colour is a dim red (rod vision is not disturbed by deep red)
-    "night": ("#0a0000", "#140202", "#1f0404", "#c83232", "#7a1c1c", "#7d1010", "#ff5a5a", "#3a0a0a"),
 }
 DEFAULT = "dark"
 FONT_PT, FONT_MIN, FONT_MAX = 10.0, 7.0, 18.0
@@ -131,8 +128,6 @@ def apply(app, name=DEFAULT, font_pt=FONT_PT):
     app.setPalette(pal)
     app.setStyleSheet(style_sheet(c, font_pt))
     cycle = [c["accent"], "#ff8a3d", "#3ecf8e", "#e5484d", "#b07cff", "#f5c542"]
-    if name == "night":  # plotted series in reds only, told apart by brightness
-        cycle = ["#c83232", "#ff5a5a", "#8a1e1e", "#e07070", "#5c1010", "#ff9090"]
     mpl.rcParams.update(
         {
             "font.size": font_pt,
