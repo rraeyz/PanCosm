@@ -268,13 +268,13 @@ def main(argv=None) -> int:
         app.setDesktopFileName(BRAND.app_id)
     from .ui import theme
 
-    theme.apply(app, settings.get("ui.theme", theme.DEFAULT))
+    theme.apply(app, settings.get("ui.theme", theme.DEFAULT), theme.font_size(settings))
     if not args.smoke_test:
         from .ui.welcome import first_run
 
         chosen = first_run(app, settings)
         if chosen:
-            theme.apply(app, chosen["ui.theme"])
+            theme.apply(app, chosen["ui.theme"], theme.font_size(settings))
             if compute.MODE_ENV not in os.environ:
                 compute.set_mode(chosen["compute.device"])
     language = settings.get("ui.language") or i18n.system_language()

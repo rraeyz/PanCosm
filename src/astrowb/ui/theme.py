@@ -1,5 +1,7 @@
 """Application look: Fusion style with our own palette and style sheet, applied to every page, tab and
-plot. Themes: dark (default, blue-black) and light. A saved theme that no longer exists falls back to dark.
+plot. Themes: dark (default, blue-black), light, and night (dim red on black: keeps the eyes dark-adapted at the
+telescope, as planetarium and observing programs do). A saved theme that no longer exists falls back to dark.
+The text size (points) is the user's (View → Larger / Smaller text), 10 pt by default.
 """
 
 from PySide6.QtGui import QColor, QPalette
@@ -8,8 +10,11 @@ THEMES = {
     # window, panel (inputs, lists), raised (buttons, tabs), text, muted text, accent, accent text, border
     "dark": ("#16191f", "#1e232b", "#272d37", "#e6e9ef", "#8b93a3", "#4f8cff", "#ffffff", "#323946"),
     "light": ("#f3f5f8", "#ffffff", "#e8ecf2", "#1b2230", "#5d6778", "#2f6fe4", "#ffffff", "#cfd6e0"),
+    # no blue or white light at all: every colour is a dim red (rod vision is not disturbed by deep red)
+    "night": ("#0a0000", "#140202", "#1f0404", "#c83232", "#7a1c1c", "#7d1010", "#ff5a5a", "#3a0a0a"),
 }
 DEFAULT = "dark"
+FONT_PT, FONT_MIN, FONT_MAX = 10.0, 7.0, 18.0
 
 
 def colors(name):
@@ -17,22 +22,23 @@ def colors(name):
     return dict(zip(keys, THEMES.get(name, THEMES[DEFAULT]), strict=True))
 
 
-def style_sheet(c):
+def style_sheet(c, font_pt=FONT_PT):
+    big, small = f"{font_pt * 1.1:g}pt", f"{font_pt * 0.8:g}pt"
     return f"""
-* {{ font-size: 10pt; }}
+* {{ font-size: {font_pt:g}pt; }}
 QWidget {{ color: {c["text"]}; }}
 QMainWindow, QDialog {{ background: {c["window"]}; }}
 QToolTip {{ background: {c["raised"]}; color: {c["text"]}; border: 1px solid {c["border"]}; padding: 4px; }}
 QLabel[muted="true"] {{ color: {c["muted"]}; }}
 QListWidget#sidebar {{
     background: {c["panel"]}; border: none; border-right: 1px solid {c["border"]};
-    font-size: 11pt; padding: 8px 6px; outline: 0;
+    font-size: {big}; padding: 8px 6px; outline: 0;
 }}
 QListWidget#sidebar::item {{ padding: 6px 12px; margin: 1px 0; border-radius: 8px; }}
 QListWidget#sidebar::item:hover {{ background: {c["raised"]}; }}
 QListWidget#sidebar::item:selected {{ background: {c["accent"]}; color: {c["accent_text"]}; }}
 QListWidget#sidebar::item:disabled {{
-    background: transparent; color: {c["muted"]}; font-size: 8pt; font-weight: bold; padding: 8px 12px 0px 12px;
+    background: transparent; color: {c["muted"]}; font-size: {small}; font-weight: bold; padding: 8px 12px 0px 12px;
 }}
 QPushButton {{
     background: {c["raised"]}; border: 1px solid {c["border"]}; border-radius: 7px;
@@ -89,8 +95,16 @@ QGraphicsView {{ background: #000000; border: none; }}
 """
 
 
-def apply(app, name=DEFAULT):
-    """Apply a theme to the whole application (widgets and matplotlib plots)."""
+def font_size(settings):
+    """The user's text size in points, kept within the range the windows are tested at."""
+    try:
+        return min(FONT_MAX, max(FONT_MIN, float(settings.get("ui.font_pt", FONT_PT))))
+    except (TypeError, ValueError):
+        return FONT_PT
+
+
+def apply(app, name=DEFAULT, font_pt=FONT_PT):
+    """Apply a theme and text size to the whole application (widgets and matplotlib plots)."""
     import matplotlib as mpl
 
     c = colors(name)
@@ -115,9 +129,13 @@ def apply(app, name=DEFAULT):
     pal.setColor(QPalette.Disabled, QPalette.Text, QColor(c["muted"]))
     pal.setColor(QPalette.Disabled, QPalette.ButtonText, QColor(c["muted"]))
     app.setPalette(pal)
-    app.setStyleSheet(style_sheet(c))
+    app.setStyleSheet(style_sheet(c, font_pt))
+    cycle = [c["accent"], "#ff8a3d", "#3ecf8e", "#e5484d", "#b07cff", "#f5c542"]
+    if name == "night":  # plotted series in reds only, told apart by brightness
+        cycle = ["#c83232", "#ff5a5a", "#8a1e1e", "#e07070", "#5c1010", "#ff9090"]
     mpl.rcParams.update(
         {
+            "font.size": font_pt,
             "figure.facecolor": c["window"],
             "axes.facecolor": c["panel"],
             "savefig.facecolor": "auto",  # the toolbar's Save keeps what is on screen; print: "Publication figure…"
@@ -129,7 +147,15 @@ def apply(app, name=DEFAULT):
             "grid.color": c["border"],
             "legend.facecolor": c["raised"],
             "legend.edgecolor": c["border"],
-            "axes.prop_cycle": mpl.cycler(color=[c["accent"], "#ff8a3d", "#3ecf8e", "#e5484d", "#b07cff", "#f5c542"]),
+            "axes.prop_cycle": mpl.cycler(color=cycle),
         }
     )
     return c
+
+
+def change_font(app, settings, step):
+    """step +1 / -1 one point larger / smaller, 0 back to the default; applied at once to every window."""
+    size = FONT_PT if step == 0 else min(FONT_MAX, max(FONT_MIN, font_size(settings) + step))
+    settings.set("ui.font_pt", size)
+    apply(app, settings.get("ui.theme", DEFAULT), size)
+    return size

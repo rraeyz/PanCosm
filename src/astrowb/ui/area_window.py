@@ -141,6 +141,16 @@ class AreaWindow(QMainWindow):
         tb.setText(self.tr("Toolbar"))
         view.addAction(tb)
         view.addSeparator()
+        # Ctrl+Shift: Ctrl++ / Ctrl+- zoom the images of the windows that show them
+        sizes = (
+            (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
+            (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
+            (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
+        )
+        for text, step, key in sizes:
+            self._action(view, text, lambda s=step: self.change_font(s), key,
+                         self.tr("The size of the text in every window (kept for next time)"))  # fmt: skip
+        view.addSeparator()
         self._action(
             view, self.tr("&Reset layout"), self.reset_layout,
             tip=self.tr("Put every panel back where it was when the window first opened"),
@@ -249,6 +259,15 @@ class AreaWindow(QMainWindow):
         path, _ = QFileDialog.getOpenFileName(self, self.tr("Open session"), "", self.tr("Session (*.session.json)"))
         if path:
             self.open_session(path)
+
+    def change_font(self, step):
+        from PySide6.QtWidgets import QApplication
+
+        from . import theme
+
+        size = theme.change_font(QApplication.instance(), self.settings, step)
+        self.statusBar().showMessage(self.tr("Text size: {pt:g} pt").format(pt=size))
+        return size
 
     def report_problem(self, path=None):
         from datetime import date
