@@ -374,11 +374,19 @@ data files), the last steps run; a dialog says where it is and what to send. Acc
 files and no data file.
 
 #### I2.5 Night theme and font size
-**agent2 claimed (2026-11-08) — do not touch** — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
+**agent2 done (2026-11-08, commit 9d0e646)** — Settings → Look → Night; View → Larger / Smaller / Normal text
+(Ctrl+Shift++ / − / 0; Ctrl++ stays the image zoom). Screenshot (night, 12 pt, 1366 × 768): fits. — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
 settings; high-DPI checked. Accept: every window follows the theme; text grows without overflow at 1366 × 768.
 
+#### I2.5a Night theme: images and check boxes
+**open** — found on the I2.5 screenshot: (1) images are still drawn white in the night theme (they must be shown
+in red, e.g. the viewer's colour map switched to a black→red one while the theme is night, as NINA's night mode
+tints everything); (2) unticked check boxes are almost invisible on the night palette (indicator border too dark).
+Accept: screenshot of the Photometry page with an image in the night theme, no white pixel on screen; check boxes
+visible.
+
 #### I2.6 Shared plot and table views
-**open** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
+**agent2 claimed (2026-11-08) — do not touch** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
 point, export PNG / SVG / PDF and CSV) and one table component (sort, column chooser, filter, coloured cells with
 the reason in the tooltip, copy, CSV, a row click tells the window which frame to show), reusing `PlotCanvas` and
 the existing table menu. Accept: tests for export and the row signal.
