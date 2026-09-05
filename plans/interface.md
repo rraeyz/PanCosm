@@ -379,14 +379,14 @@ files and no data file.
 settings; high-DPI checked. Accept: every window follows the theme; text grows without overflow at 1366 × 768.
 
 #### I2.5a Night theme: images and check boxes
-**open** — found on the I2.5 screenshot: (1) images are still drawn white in the night theme (they must be shown
+**agent2 claimed (2026-11-08) — do not touch** — found on the I2.5 screenshot: (1) images are still drawn white in the night theme (they must be shown
 in red, e.g. the viewer's colour map switched to a black→red one while the theme is night, as NINA's night mode
 tints everything); (2) unticked check boxes are almost invisible on the night palette (indicator border too dark).
 Accept: screenshot of the Photometry page with an image in the night theme, no white pixel on screen; check boxes
 visible.
 
 #### I2.6 Shared plot and table views
-**agent2 claimed (2026-11-08) — do not touch** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
+**open** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
 point, export PNG / SVG / PDF and CSV) and one table component (sort, column chooser, filter, coloured cells with
 the reason in the tooltip, copy, CSV, a row click tells the window which frame to show), reusing `PlotCanvas` and
 the existing table menu. Accept: tests for export and the row signal.
