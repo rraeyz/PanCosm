@@ -380,13 +380,15 @@ theme was built in 9d0e646 and **removed at the owner's word ("kırmızı tema o
 one again. A saved "night" setting falls back to dark.
 
 #### I2.6 Shared plot and table views
-**agent2 claimed (2026-11-08) — do not touch** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
+**agent2 done (2026-11-08, commit 41f77b3)** — `ui/table_view.py` `DataTable`; `PlotCanvas` → Export data (CSV). Zoom,
+pan and PNG / SVG / PDF were already in `PlotCanvas`. Changed (rule 12): series with offsets, binning, residuals and
+click-to-drop are the multi-plot of `plans/photometry.md` item 8, built there on `PlotCanvas`, not twice. — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
 point, export PNG / SVG / PDF and CSV) and one table component (sort, column chooser, filter, coloured cells with
 the reason in the tooltip, copy, CSV, a row click tells the window which frame to show), reusing `PlotCanvas` and
 the existing table menu. Accept: tests for export and the row signal.
 
 #### I2.7 Long work in the status bar
-**open** — the area's running tasks with progress and Cancel in its status bar; a notice when a task ends while the
+**agent2 claimed (2026-11-08) — do not touch** — the area's running tasks with progress and Cancel in its status bar; a notice when a task ends while the
 window is in the background. Accept: test with a fake task.
 
 ### I3. The main window as a menu of blocks
