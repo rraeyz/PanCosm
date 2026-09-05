@@ -231,59 +231,86 @@
         <translation>Kılavuzun bu pencereyi anlatan sayfasını açar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="176"/>
+        <location filename="../../ui/area_window.py" line="161"/>
+        <source>Report a problem…</source>
+        <translation>Sorun bildir…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="162"/>
+        <source>Makes one file with the error log, the version, the system and the last steps, to send to the developer. Your data files are not in it.</source>
+        <translation>Geliştiriciye göndermek için hata kaydı, sürüm, sistem ve son adımları içeren tek bir dosya hazırlar. Veri dosyalarınız içinde yer almaz.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="181"/>
         <source>(none yet)</source>
         <translation>(henüz yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="179"/>
+        <location filename="../../ui/area_window.py" line="184"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="210"/>
+        <location filename="../../ui/area_window.py" line="215"/>
         <source>Session saved: {path}</source>
         <translation>Oturum kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="219"/>
+        <location filename="../../ui/area_window.py" line="224"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="222"/>
+        <location filename="../../ui/area_window.py" line="227"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="227"/>
+        <location filename="../../ui/area_window.py" line="232"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="231"/>
+        <location filename="../../ui/area_window.py" line="236"/>
         <source>Session opened: {path}</source>
         <translation>Oturum açıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="233"/>
-        <location filename="../../ui/area_window.py" line="244"/>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="249"/>
         <source>Open session</source>
         <translation>Oturum aç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="243"/>
         <source>Save session</source>
         <translation>Oturumu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="238"/>
-        <location filename="../../ui/area_window.py" line="244"/>
+        <location filename="../../ui/area_window.py" line="243"/>
+        <location filename="../../ui/area_window.py" line="249"/>
         <source>Session (*.session.json)</source>
         <translation>Oturum (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="281"/>
+        <location filename="../../ui/area_window.py" line="261"/>
+        <location filename="../../ui/area_window.py" line="272"/>
+        <source>Report a problem</source>
+        <translation>Sorun bildir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="273"/>
+        <source>The report is saved:
+{path}
+
+Send this file with a few words on what you did and what went wrong. It holds no data files and no folder names.</source>
+        <translation>Rapor kaydedildi:
+{path}
+
+Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sözcükle gönderin. İçinde veri dosyası ve klasör adı yoktur.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="311"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
@@ -1363,12 +1390,12 @@
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/area_window.py" line="354"/>
+        <location filename="../../ui/area_window.py" line="384"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="355"/>
+        <location filename="../../ui/area_window.py" line="385"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
