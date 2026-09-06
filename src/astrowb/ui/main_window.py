@@ -25,6 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
+from .area_window import _raise as _raise_window
 from .files import images_filter
 from .i18n import LANGUAGES
 from .messages import task_error, translate
@@ -148,6 +149,12 @@ class MainWindow(QMainWindow):
         "guide": "guide_page",
     }
 
+    # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
+    WINDOWED = ("photometry",)
+
+    def _area_key(self, attr):
+        return next((k for k, a in self.PAGES.items() if a == attr), None)
+
     def _build_workspaces(self):
         self._frames = {}  # page -> the scroll area that holds it in the stack
         """Sidebar (one entry per stage of the work) + one page per entry. Light pages are built now; the
@@ -230,6 +237,10 @@ class MainWindow(QMainWindow):
                 label.setWordWrap(True)
         _fields_scroll(page)
         _apply_mode(page, self.ui_mode())
+        key = self._area_key(attr)
+        if key in self.WINDOWED:
+            self._place_in_window(key, page)
+            return
         holder = self._placeholders.pop(attr)
         i = self.pages.indexOf(holder)
         current = self.pages.currentIndex() == i
@@ -244,6 +255,34 @@ class MainWindow(QMainWindow):
         holder.deleteLater()
         if current:
             self.pages.setCurrentIndex(i)
+
+    def _place_in_window(self, key, page):
+        """The page, as it is, in an area window of its own (scrolling inside it when the window is smaller)."""
+        from PySide6.QtWidgets import QFrame, QScrollArea
+
+        from .area_window import AreaWindow
+        from .start_page import areas
+
+        frame = QScrollArea()
+        frame.setWidget(page)
+        frame.setWidgetResizable(True)
+        frame.setFrameShape(QFrame.NoFrame)
+        self._frames[page] = frame
+        _Columns(frame, page)
+        title = next(name for k, _, name, _ in areas() if k == key)
+        win = AreaWindow(key, title, self.settings, frame, undo_stack=getattr(page, "undo_stack", None), parent=self)
+        win.setWindowIcon(self.windowIcon())
+        win.help_requested.connect(self._help_for)
+        self.area_windows[key] = win
+
+    def _help_for(self, key):
+        """F1 in an area window: the guide, filtered to that area."""
+        from .start_page import areas
+
+        self.show_workspace("guide")
+        _raise_window(self)
+        name = next((n for k, _, n, _ in areas() if k == key), "")
+        self.guide_page.search.setText(name)
 
     def _table_menu(self, table, pos):
         from PySide6.QtWidgets import QApplication, QMenu
@@ -275,6 +314,11 @@ class MainWindow(QMainWindow):
             self.nav.blockSignals(True)
             self.nav.setCurrentItem(self._nav_items()[self._key])
             self.nav.blockSignals(False)
+        elif key in self.WINDOWED:  # opens its window; the main window keeps showing what it showed
+            self.open_area(key)
+            self.nav.blockSignals(True)
+            self.nav.setCurrentItem(self._nav_items()[self._key])
+            self.nav.blockSignals(False)
         elif key:
             page = getattr(self, self.PAGES[key])
             self.pages.setCurrentWidget(self._frames.get(page, page))
@@ -299,8 +343,8 @@ class MainWindow(QMainWindow):
     def dock_page(self, key, on=True):
         """Show a page as a panel beside the image, as MaxIm DL's tool windows (it can be dragged out as a window
         of its own or tabbed with other panels), or put it back in the sidebar's list. Remembered for next time."""
-        if key in ("start", "image") or on == (key in self._panels):
-            return None
+        if key in ("start", "image") or key in self.WINDOWED or on == (key in self._panels):
+            return None  # an area in a window of its own is not a panel here (old settings may still name it)
         page = getattr(self, self.PAGES[key])
         frame = self._frames.get(page, page)
         if on:
@@ -331,7 +375,7 @@ class MainWindow(QMainWindow):
     def _fill_panels_menu(self):
         self.panels_menu.clear()
         for key, item in self._nav_items().items():
-            if key not in ("start", "image"):
+            if key not in ("start", "image") and key not in self.WINDOWED:
                 act = self._action(
                     self.panels_menu, item.text(), lambda _=False, k=key: self.dock_page(k, k not in self._panels)
                 )  # toggles
@@ -394,13 +438,14 @@ class MainWindow(QMainWindow):
 
     def open_area(self, key):
         """Open or raise the area's window; an area not yet moved to a window of its own (I4) shows its page."""
+        if key in self.WINDOWED and key not in self.area_windows:
+            getattr(self, self.PAGES[key])  # builds the page, which puts it in its window
         win = self.area_windows.get(key)
         if win is None:
             self.show_workspace(key)
             return None
-        from .area_window import _raise
-
-        _raise(win)
+        self._last_area = key
+        _raise_window(win)
         return win
 
     def ui_mode(self):
@@ -871,9 +916,18 @@ class MainWindow(QMainWindow):
         self.settings.set("camera.clock_utc_offset", float(hours))
 
     def show_workspace(self, key):
+        if key in self.WINDOWED:
+            self.open_area(key)
+            self._last_area = key
+            return
+        self._last_area = None
         self.nav.setCurrentItem(self._nav_items()[key])
 
     def current_workspace(self) -> str:
+        """The area the user was last sent to: an area window opened last, else the page shown here."""
+        last = getattr(self, "_last_area", None)
+        if last and self.area_windows.get(last) is not None and self.area_windows[last].isVisible():
+            return last
         return self.nav.currentItem().data(Qt.UserRole)
 
     def _fill_window_menu(self):
@@ -883,7 +937,7 @@ class MainWindow(QMainWindow):
         self.window_menu.clear()
         self._action(self.window_menu, self.tr("Main window"), lambda: _raise(self))
         self.window_menu.addSeparator()
-        open_now = list(AreaWindow.open_windows)
+        open_now = AreaWindow.shown()
         for win in open_now:
             self._action(self.window_menu, win.windowTitle(), lambda w=win: _raise(w))
         if open_now:
@@ -1626,7 +1680,7 @@ class MainWindow(QMainWindow):
         self.progress.setValue(int(task.progress * 100))
         from .area_window import AreaWindow
 
-        for win in list(AreaWindow.open_windows):  # the area window that started it shows it in its status bar
+        for win in AreaWindow.alive():  # the area window that started it shows it in its status bar
             win.task_update(task)
         if task.finished:
             done = self._on_done.pop(task.id, None)
@@ -2029,6 +2083,8 @@ class MainWindow(QMainWindow):
         event.acceptProposedAction()
 
     def closeEvent(self, event):
+        for win in self.area_windows.values():  # the area windows end with the main window (layouts saved)
+            win.close()
         self.engine.shutdown()
         if self.engine.project:
             self.engine.project.close()

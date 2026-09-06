@@ -159,6 +159,9 @@ Main window                                      Area window (e.g. Photometry)
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
 ## To ask the owner
+- **Turkish term for comparison star (2026-11-08, agent2):** the interface and the guide use both "mukayese yıldızı"
+  (17 strings) and "karşılaştırma yıldızı" (18 strings), sometimes on the same screen (Photometry step 2). Which
+  one? Then every string and the guide are made the same.
 - **The sidebar (2026-11-08, agent2):** once every area has its own window (I4), the main window's sidebar of pages
   is no longer needed (the blocks open the areas). Remove it then, or keep it as a second way in? Nothing is removed
   before the owner says.
@@ -437,6 +440,16 @@ I4 has moved every page (see "To ask the owner").
   - every cross-area link still works (minimum → O−C, light curve → Period and Models, calibrated frames →
     Photometry / Spectroscopy, Plan → Observe sequence);
   - projects, settings and sessions saved by the previous version open (a test with files saved by v0.2.7).
+
+### I4a. Findings of the first Photometry window screenshot (2026-11-08, agent2)
+**open**
+- (1) The tasks a page starts (field identification, quality, measuring) are not shown in its area window's status
+  bar: the window says "Ready" while "Identifying the field (Gaia, VSX)…" runs. Route them: the main window's
+  methods that run a step for an area (`measure_light_curve`, the photometry quality / suggest / field steps, …)
+  call `self.area_windows[key].track(task)` when the area has a window.
+- (2) The frame table's FWHM / Sky columns are cut at 1366 × 768 (the right column is ~500 px): solved by I5's
+  layout (frames as a bottom tab); until then the table scrolls sideways.
+- Accept: (1) a test that a photometry step started from the window shows its progress there; (2) in I5.
 
 ### I5. Photometry gets its full window
 **open** — the first area to use the frame fully; details in `plans/photometry.md` item 0.

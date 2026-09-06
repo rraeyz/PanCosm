@@ -37,15 +37,20 @@ def test_stars_marked_on_the_photometry_page(window, tmp_path):
     page._clicked(30.0, 40.0)
     page._clicked(60.0, 20.0)
     assert page.target == (30.0, 40.0) and page.comps == [(60.0, 20.0)]
-    assert window.undo_action.isEnabled() and "mark" in window.undo_action.text().lower()
-    keys(window, UNDO)
+    area = window.area_windows["photometry"]  # Photometry has its own window and Edit menu (interface I4)
+    area.raise_()
+    area.activateWindow()  # the keys go to the window in front, as for a user
+    QTest.qWaitForWindowActive(area)
+    QTest.qWait(50)  # offscreen, the application takes the activation a moment later
+    assert area.undo_action.isEnabled() and "mark" in area.undo_action.text().lower()
+    keys(area, UNDO)
     assert page.comps == [] and page.target == (30.0, 40.0)
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.target is None
-    keys(window, REDO, REDO)
+    keys(area, REDO, REDO)
     assert page.target == (30.0, 40.0) and page.comps == [(60.0, 20.0)]
     page.edit("clear", page._clear)
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.comps == [(60.0, 20.0)]
 
 

@@ -38,7 +38,18 @@ class AreaWindow(QMainWindow):
     RECENT = 10
 
     help_requested = Signal(str)  # the area's key: open its page of the guide
-    open_windows = []  # every area window open, for the Window menus (main window first: see main_window)
+    _registry = []  # every area window made; shown() / alive() are what the Window menus and tasks use
+
+    @classmethod
+    def alive(cls):
+        from shiboken6 import isValid
+
+        cls._registry[:] = [w for w in cls._registry if isValid(w)]  # windows of closed main windows are gone
+        return list(cls._registry)
+
+    @classmethod
+    def shown(cls):
+        return [w for w in cls.alive() if w.isVisible()]
 
     def __init__(self, key, title, settings, central, steps=None, panels=(), menus=(), toolbar=(), undo_stack=None,
                  open_files=None, file_filter="", session=None, parent=None):  # fmt: skip
@@ -69,7 +80,7 @@ class AreaWindow(QMainWindow):
         self._first_sizes()
         self._first_state = self.saveState()  # what Reset layout goes back to
         self._restore()
-        AreaWindow.open_windows.append(self)
+        AreaWindow._registry.append(self)
 
     # --- construction -------------------------------------------------------
     def _dock(self, pid, title, widget, area):
@@ -126,7 +137,8 @@ class AreaWindow(QMainWindow):
             undo = self.undo_stack.createUndoAction(self, self.tr("&Undo"))
             undo.setShortcut(QKeySequence.Undo)
             redo = self.undo_stack.createRedoAction(self, self.tr("&Redo"))
-            redo.setShortcuts([QKeySequence.Redo, QKeySequence("Ctrl+Y")])
+            keys = [QKeySequence("Ctrl+Y"), QKeySequence("Ctrl+Shift+Z")] + QKeySequence.keyBindings(QKeySequence.Redo)
+            redo.setShortcuts(list({k.toString(): k for k in keys}.values()))  # a key twice: ambiguous, does nothing
             edit.addActions([undo, redo])
             self.undo_action, self.redo_action = undo, redo
             edit.addSeparator()
@@ -366,7 +378,7 @@ class AreaWindow(QMainWindow):
         if main is not None:
             self._action(self.window_menu, self.tr("Main window"), lambda: _raise(main))
             self.window_menu.addSeparator()
-        for win in AreaWindow.open_windows:
+        for win in AreaWindow.shown():
             act = self._action(self.window_menu, win.windowTitle(), lambda w=win: _raise(w))
             act.setCheckable(True)
             act.setChecked(win is self)
@@ -409,10 +421,17 @@ class AreaWindow(QMainWindow):
         for dock in self.docks.values():
             dock.show()
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        # the window opens with the keyboard on its view, not in its first text box: a text box takes Ctrl+Z for
+        # its own typing, and Undo of a star marked did nothing in the new Photometry window
+        central = self.centralWidget()
+        if central is not None:
+            central.setFocusPolicy(Qt.StrongFocus)
+            central.setFocus(Qt.OtherFocusReason)
+
     def closeEvent(self, event):
         self.save_layout()
-        if self in AreaWindow.open_windows:
-            AreaWindow.open_windows.remove(self)
         super().closeEvent(event)
 
 

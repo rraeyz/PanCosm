@@ -1,5 +1,5 @@
 # Photometry
-The **Photometry** page measures the brightness of a target star relative to comparison stars on a series of calibrated images and gives a light curve, times of minimum and reports. Its **Workflow** line at the top (click to open) lists the steps as with IRAF phot or AstroImageJ, each marked done or next, with what to do next.
+The **Photometry** page measures the brightness of a target star relative to comparison stars on a series of calibrated images and gives a light curve, times of minimum and reports. Its **Workflow** line at the top (click to open) lists the steps as with IRAF phot or AstroImageJ, each marked done or next, with what to do next. Photometry opens in a window of its own (from its block on the Start page or the sidebar), with its own File, Edit (Undo / Redo), View, Window and Help menus; the main window stays as it was, and the Photometry window can be moved to a second monitor. Its size and place are remembered.
 
 ## Choosing images and stars
 1. **Choose images…** — calibrated frames of one field and one filter. They are sorted by time.
