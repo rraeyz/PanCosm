@@ -987,13 +987,13 @@ def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
     acts = {a.text(): a for a in window.panels_menu.actions()}
     assert acts[window._nav_items()["spectroscopy"].text()].isChecked()
     assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
-    acts[window._nav_items()["timeseries"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"spectroscopy", "timeseries"}
-    assert window.settings.get("ui.panels") == ["spectroscopy", "timeseries"]
-    window.settings.set("ui.panels", ["spectroscopy", "timeseries", "photometry"])  # saved by an older version
+    acts[window._nav_items()["orbits"].text()].trigger()  # a second panel, tabbed with the first
+    assert set(window._panels) == {"spectroscopy", "orbits"}
+    assert window.settings.get("ui.panels") == ["spectroscopy", "orbits"]
+    window.settings.set("ui.panels", ["spectroscopy", "orbits", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"spectroscopy", "timeseries"}
+    assert set(again._panels) == {"spectroscopy", "orbits"}
     again.engine.shutdown()
     dock.close()
     assert "spectroscopy" not in window._panels and window.pages.indexOf(window._frames[window.spectro_page]) >= 0

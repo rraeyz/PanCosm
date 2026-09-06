@@ -28,6 +28,16 @@ def keys(win, *seq):
 UNDO, REDO = (Qt.Key_Z, Qt.ControlModifier), (Qt.Key_Y, Qt.ControlModifier)
 
 
+def area_in_front(window, key):
+    """The area's own window (interface I4), in front with the keyboard, as after a user's click on it."""
+    area = window.area_windows[key]
+    area.raise_()
+    area.activateWindow()
+    QTest.qWaitForWindowActive(area)
+    QTest.qWait(50)  # offscreen, the application takes the activation a moment later
+    return area
+
+
 def test_stars_marked_on_the_photometry_page(window, tmp_path):
     p = tmp_path / "f.fits"
     fits.PrimaryHDU(np.random.default_rng(1).normal(100, 3, (80, 100)).astype(np.float32)).writeto(p)
@@ -37,11 +47,7 @@ def test_stars_marked_on_the_photometry_page(window, tmp_path):
     page._clicked(30.0, 40.0)
     page._clicked(60.0, 20.0)
     assert page.target == (30.0, 40.0) and page.comps == [(60.0, 20.0)]
-    area = window.area_windows["photometry"]  # Photometry has its own window and Edit menu (interface I4)
-    area.raise_()
-    area.activateWindow()  # the keys go to the window in front, as for a user
-    QTest.qWaitForWindowActive(area)
-    QTest.qWait(50)  # offscreen, the application takes the activation a moment later
+    area = area_in_front(window, "photometry")  # Photometry has its own window and Edit menu (interface I4)
     assert area.undo_action.isEnabled() and "mark" in area.undo_action.text().lower()
     keys(area, UNDO)
     assert page.comps == [] and page.target == (30.0, 40.0)
@@ -65,11 +71,12 @@ def test_light_curve_edits_on_the_period_page(window):
     assert len(pp.time) == 299
     pp.edit("flux / magnitude", pp._convert)
     assert pp.magnitudes
-    keys(window, UNDO)
+    area = area_in_front(window, "timeseries")  # Undo follows the tab shown (Period search)
+    keys(area, UNDO)
     assert not pp.magnitudes and len(pp.time) == 299
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert len(pp.time) == 300 and max(pp.flux) == 5.0
-    keys(window, REDO)
+    keys(area, REDO)
     assert len(pp.time) == 299
 
 

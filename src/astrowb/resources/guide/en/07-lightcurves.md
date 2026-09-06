@@ -1,5 +1,5 @@
 # Light curves and O-C
-The **Light curves & O-C** page has three tabs: **Period search**, **Frequency analysis** and **O-C diagram**.
+The **Light curves & O-C** page has three tabs: **Period search**, **Frequency analysis** and **O-C diagram**. These tabs open together in a window of their own (the Light curves block on the Start page or the sidebar); Edit → Undo / Redo there act on the tab shown.
 
 ## Period search
 The light curve measured on the Photometry page is used automatically; or **Load CSV (time, flux)…**.

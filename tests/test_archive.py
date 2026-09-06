@@ -84,7 +84,9 @@ def test_period_page_downloads_through_the_main_window(qtbot, tmp_path, monkeypa
     try:
         sent = []
         monkeypatch.setattr(
-            win, "run_step", lambda sid, inputs, params, on_done, on_fail: sent.append((sid, inputs, params, on_done))
+            win,
+            "run_step",
+            lambda sid, inputs, params, on_done, on_fail, **kw: sent.append((sid, inputs, params, on_done)),
         )
         page = win.period_page
         page.archive_target.setText("AI Dra")
