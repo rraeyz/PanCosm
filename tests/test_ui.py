@@ -114,7 +114,7 @@ def test_main_window_is_a_menu_of_area_blocks(window, qtbot, tmp_path, monkeypat
                       parent=window)  # fmt: skip
     window.area_windows["photometry"] = area
     qtbot.mouseClick(page.findChild(QToolButton, "start_photometry"), Qt.LeftButton)
-    assert area.isVisible() and window.area_windows == {"photometry": area}  # raised, not a second window
+    assert area.isVisible() and window.area_windows["photometry"] is area  # raised, not a second window
     window._fill_window_menu()
     assert "Photometry" in [a.text() for a in window.window_menu.actions()]
     f = tmp_path / "frame.fits"
@@ -1262,3 +1262,18 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     window.open_area("photometry")
     assert win.isVisible() and win in AreaWindow.shown()
     win.close()
+
+
+def test_every_moved_area_opens_in_its_own_window(window):
+    """plans/interface.md I4: each area already moved (MainWindow.WINDOWED) opens, unchanged, in its own window
+    from the sidebar and from show_workspace, and its old place in the main window's stack stays empty."""
+    from astrowb.ui.area_window import AreaWindow
+
+    window.show()
+    for key in window.WINDOWED:
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        page = getattr(window, window.PAGES[key])
+        assert isinstance(win, AreaWindow) and win.isVisible() and win.centralWidget().widget() is page
+        assert window.pages.indexOf(window._frames[page]) == -1 and window.current_workspace() == key
+        win.close()
