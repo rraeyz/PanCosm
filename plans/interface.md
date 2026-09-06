@@ -159,6 +159,11 @@ Main window                                      Area window (e.g. Photometry)
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
 ## To ask the owner
+- **The sidebar (2026-11-08, agent2):** once every area has its own window (I4), the main window's sidebar of pages
+  is no longer needed (the blocks open the areas). Remove it then, or keep it as a second way in? Nothing is removed
+  before the owner says.
+- **Light curves / Period / O−C (I4 item 3):** one window with tabs as today, or two windows (O−C; Period /
+  frequency)? Until the owner answers, I4 keeps them in one window with tabs, as today.
 - **I1 proposal (2026-11-07, agent2):** the menus and toolbar of each area window in the table under I1. Asked in
   the chat; until the owner answers, I2 builds the shared frame (which does not depend on it) and I3 / I4 follow the
   proposal, changing it when the owner says.
@@ -392,7 +397,12 @@ the existing table menu. Accept: tests for export and the row signal.
 window is in the background. Accept: test with a fake task.
 
 ### I3. The main window as a menu of blocks
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, commit a602bc3)** — `start_page.py` (`AREAS`, `areas()`, blocks, Continue list),
+`MainWindow.open_area / recent_work / _resume / _fill_window_menu / report_problem`, `MainWindow.area_windows`
+(empty until I4 fills it). Screenshots: tr 1366 × 768 and 1100 × 600, de and es 800 px; found and fixed on them:
+names not standing out (now bold, text muted), German descriptions cut at 800 px, Basic / Expert overflowing at
+800 px, the page taller than a 1100 × 600 window (blocks now two columns from 300 px each). The sidebar stays until
+I4 has moved every page (see "To ask the owner").
 - **Also:** a "Continue where you left off" list (the last sessions of each area) at the top; the first-night
   tutorial reachable from here.
 - **Build:**
@@ -407,7 +417,7 @@ window is in the background. Accept: test with a fake task.
   - the main window fits 800 px.
 
 ### I4. Move each page into its area window, unchanged
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Build:** one area at a time, in this order; each is its own commit:
   1. Photometry;
   2. Calibration;
@@ -475,6 +485,12 @@ whenever any area gains a feature.
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
 | O−C diagram, ephemeris look-up (VSX) | O−C | — | — | — |
+| Command search (find any action of the window) | every area window | Edit → Find an action… (Ctrl+K) | — | — |
+| Open, recent files, drop files, Save / Open session | every area window | File | — | — |
+| Report a problem (zip for the developer) | main window, every area window | Help | — | — |
+| Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
+| Panels on / off, Reset layout | every area window | View | — | panels |
+| Open an area, list of open windows | main window, every area window | Window | — | Start page blocks |
 | (rows for every other page are added in I4) | | | | |
 
 ## Done
