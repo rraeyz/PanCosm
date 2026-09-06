@@ -39,11 +39,12 @@ A complete exercise with simulated data whose answer is known: from raw frames t
 - **Undo and redo:** Edit → Undo (Ctrl+Z) takes back the last change on the page shown — a star marked or removed, points deleted, a detrending, outliers removed, an image operation, a header change, an arc line identified or left out — and Edit → Redo (Ctrl+Y or Ctrl+Shift+Z) does it again, step by step. The menu names the step. In a text field Ctrl+Z undoes the typing in that field.
 
 ## The Start page
-Start from what you have:
+The Start page is a menu of the areas of the work:
 
-- **New project / Open project…** keep frames, settings and results together.
-- **Open a FITS image** to look at an image and its header.
-- **I have raw frames** → Calibrate. **I have calibrated images** → Photometry. **I have spectra** → Spectroscopy. **I have minima or RV lists** → Light curves & O-C. **I want to plan a night** → Plan.
+- **Continue where you left off** (when there is something to continue): the last projects and the last files of each area; double-click one to open it again.
+- **New project / Open project…** keep frames, settings and results together. **Open a FITS image** to look at an image and its header.
+- **Choose what you want to do:** one block per area — Planning, Observing, Calibration, Images, Photometry, Light curves, period and O−C, Spectroscopy, Models, Remote sensing, Automation — each with a line saying what it does. A click opens the area. The areas are moving into windows of their own, each with its own menus, toolbar and panels; an area already in its window is brought to the front, never opened twice.
+- **Window** menu: the main window and every open area window. **Help → Report a problem…** makes one zip (error log, version, system, settings, last steps; no data files and no folder names) to send to the developer. **View → Text size** makes the text larger or smaller in every window (Ctrl+Shift++ / − / 0).
 
 ## Projects
 A project is one file with the extension `.astroproj`. It records every file you added and every step you ran: which step, its settings, when it started, whether it succeeded, and its results, together with the versions of the libraries used. This makes the work reproducible: months later you can see exactly how a number was obtained.

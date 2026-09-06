@@ -39,11 +39,12 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 - **Geri al ve ileri al:** Düzen → Geri al (Ctrl+Z) gösterilen sayfadaki son değişikliği geri alır — işaretlenen ya da kaldırılan bir yıldız, silinen noktalar, bir detrend, atılan aykırı noktalar, bir görüntü işlemi, bir başlık değişikliği, tanımlanan ya da dışlanan bir ark çizgisi — Düzen → İleri al (Ctrl+Y ya da Ctrl+Shift+Z) adım adım yeniden yapar. Menü, adımın adını gösterir. Bir metin alanında Ctrl+Z o alandaki yazmayı geri alır.
 
 ## Başlangıç sayfası
-Elinizde ne varsa oradan başlayın:
+Başlangıç sayfası işin alanlarından oluşan bir menüdür:
 
-- **Yeni proje / Proje aç…** kareleri, ayarları ve sonuçları bir arada tutar.
-- **FITS görüntüsü aç** bir görüntüye ve başlığına bakmak için.
-- **Ham karelerim var** → Kalibrasyon. **Kalibre görüntülerim var** → Fotometri. **Tayflarım var** → Tayf. **Minimum ya da RV listelerim var** → Işık eğrileri ve O-C. **Bir gece planlamak istiyorum** → Plan.
+- **Kaldığınız yerden devam edin** (devam edilecek bir şey varsa): son projeler ve her alanın son dosyaları; yeniden açmak için birine çift tıklayın.
+- **Yeni proje / Proje aç…** kareleri, ayarları ve sonuçları bir arada tutar. **FITS görüntüsü aç** bir görüntüye ve başlığına bakmak için.
+- **Ne yapmak istediğinizi seçin:** her alan için bir blok — Planlama, Gözlem, Kalibrasyon, Görüntüler, Fotometri, Işık eğrileri, periyot ve O−C, Tayf, Modeller, Uzaktan algılama, Otomasyon — her birinde ne yaptığını söyleyen bir satır. Tıklayınca alan açılır. Alanlar kendi menüleri, araç çubuğu ve panelleri olan ayrı pencerelere taşınıyor; kendi penceresinde olan bir alan öne getirilir, asla iki kez açılmaz.
+- **Pencere** menüsü: ana pencere ve açık her alan penceresi. **Yardım → Sorun bildir…** geliştiriciye göndermek için tek bir zip hazırlar (hata kaydı, sürüm, sistem, ayarlar, son adımlar; veri dosyası ve klasör adı yok). **Görünüm → Yazı boyutu** her penceredeki yazıyı büyütür ya da küçültür (Ctrl+Shift++ / − / 0).
 
 ## Projeler
 Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı ve çalıştırdığınız her adımı kaydeder: hangi adım, ayarları, ne zaman başladığı, başarılı olup olmadığı ve sonuçları, kullanılan kütüphanelerin sürümleriyle birlikte. Böylece iş tekrar üretilebilir: aylar sonra bir sayının nasıl elde edildiğini tam olarak görebilirsiniz.

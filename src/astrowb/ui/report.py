@@ -74,3 +74,33 @@ def make_report(settings, out_path, runs=None):
         z.writestr("last_steps.json", json.dumps(steps, indent=1, default=str))
         z.writestr("README.txt", f"Problem report made {datetime.now().isoformat(timespec='seconds')}\n")
     return out_path
+
+
+def report_dialog(parent, settings, engine=None, path=None):
+    """Help → Report a problem in any window: ask where to save (unless path), make the zip, say what to send."""
+    from datetime import date
+
+    from PySide6.QtCore import QCoreApplication
+    from PySide6.QtWidgets import QFileDialog, QMessageBox
+
+    if path is None:
+        path, _ = QFileDialog.getSaveFileName(
+            parent,
+            QCoreApplication.translate("AreaWindow", "Report a problem"),
+            str(Path.home() / f"problem-report-{date.today()}.zip"),
+            "Zip (*.zip)",
+        )
+        if not path:
+            return None
+    project = getattr(engine, "project", None)
+    make_report(settings, path, project.runs(full=False) if project is not None else [])
+    QMessageBox.information(
+        parent,
+        QCoreApplication.translate("AreaWindow", "Report a problem"),
+        QCoreApplication.translate(
+            "AreaWindow",
+            "The report is saved:\n{path}\n\nSend this file with a few words on what you did and what went wrong. "
+            "It holds no data files and no folder names.",
+        ).format(path=path),
+    )
+    return path

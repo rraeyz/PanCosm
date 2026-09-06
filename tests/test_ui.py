@@ -85,12 +85,51 @@ def test_translation_complete_and_loads(qapp, lang, file_menu):
 
 def test_sidebar_has_every_stage_and_start_buttons_navigate(window, qtbot):
     from PySide6.QtCore import Qt
-    from PySide6.QtWidgets import QPushButton
+    from PySide6.QtWidgets import QAbstractButton
 
     assert list(window.workspaces)[:2] == ["start", "plan"] and "spectroscopy" in window.workspaces
     assert window.current_workspace() == "start"
-    qtbot.mouseClick(window.start_page.findChild(QPushButton, "start_calibrate"), Qt.LeftButton)
+    qtbot.mouseClick(window.start_page.findChild(QAbstractButton, "start_calibrate"), Qt.LeftButton)
     assert window.current_workspace() == "calibrate"
+
+
+def test_main_window_is_a_menu_of_area_blocks(window, qtbot, tmp_path, monkeypatch):
+    """plans/interface.md I3: one block per area (icon, name, what it does) opens the area; an area already in
+    its own window is raised, not opened twice; Continue where you left off; Window and Report a problem; 800 px."""
+    from PySide6.QtCore import Qt
+    from PySide6.QtWidgets import QLabel, QToolButton
+
+    from astrowb.ui.area_window import AreaWindow
+    from astrowb.ui.start_page import areas
+
+    page = window.start_page
+    keys = [k for k, *_ in areas()]
+    for key in keys:
+        block = page.findChild(QToolButton, f"start_{key}")
+        assert block is not None and not block.icon().isNull() and "\n" in block.text() and block.toolTip()
+        qtbot.mouseClick(block, Qt.LeftButton)
+        assert window.current_workspace() == key
+    opened = []
+    area = AreaWindow("photometry", "Photometry", window.settings, QLabel("v"), open_files=opened.extend,
+                      parent=window)  # fmt: skip
+    window.area_windows["photometry"] = area
+    qtbot.mouseClick(page.findChild(QToolButton, "start_photometry"), Qt.LeftButton)
+    assert area.isVisible() and window.area_windows == {"photometry": area}  # raised, not a second window
+    window._fill_window_menu()
+    assert "Photometry" in [a.text() for a in window.window_menu.actions()]
+    f = tmp_path / "frame.fits"
+    f.write_text("x")
+    window.settings.set("area.photometry.recent", [str(f)])
+    page.set_recent(window.recent_work())
+    assert page.continue_list.count() == 1 and not page.continue_list.isHidden()
+    window._resume(*page.continue_list.item(0).data(Qt.UserRole))
+    assert opened == [str(f)]
+    monkeypatch.setattr("PySide6.QtWidgets.QMessageBox.information", lambda *a: None)
+    assert window.report_problem(tmp_path / "r.zip") and (tmp_path / "r.zip").exists()
+    area.close()
+    window.show_workspace("start")
+    window.resize(800, 600)
+    assert page.minimumSizeHint().width() <= 800 - window.nav.minimumWidth()
 
 
 def test_opening_fits_switches_to_images_and_project_history(window, fits_file, tmp_path):

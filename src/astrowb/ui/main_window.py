@@ -28,6 +28,7 @@ from ..settings import Settings
 from .files import images_filter
 from .i18n import LANGUAGES
 from .messages import task_error, translate
+from .widgets import glyph as _glyph
 from .workspaces import (
     CalibratePage,
     ImagePage,
@@ -59,22 +60,6 @@ class _Lazy:
         vars(win)[self.name] = page  # later reads find the page directly
         win._place(self.name, page)
         return page
-
-
-def _glyph(text, color, size=40):
-    """A toolbar icon drawn from a symbol of the user interface font, in the text colour of the theme."""
-    from PySide6.QtGui import QPainter, QPixmap
-
-    pix = QPixmap(size, size)
-    pix.fill(Qt.transparent)
-    p = QPainter(pix)
-    font = p.font()
-    font.setPixelSize(int(size * 0.8))
-    p.setFont(font)
-    p.setPen(color)
-    p.drawText(pix.rect(), Qt.AlignCenter, text)
-    p.end()
-    return QIcon(pix)
 
 
 class _Panel(QDockWidget):
@@ -120,6 +105,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(str(BRAND.icon_path)))
         self.resize(1200, 800)
         self._panels, self._key = {}, "start"  # pages shown as panels beside the image; the page in the stack
+        self.area_windows = {}  # area key -> its AreaWindow, once the area has moved into one (I4)
 
         self._build_workspaces()
 
@@ -382,10 +368,40 @@ class MainWindow(QMainWindow):
 
     # --- pages, built on first use -------------------------------------------
     def _make_start_page(self):
-        page = StartPage(self, self.ui_mode())
+        page = StartPage(self, self.ui_mode(), self.recent_work())
         page.action.connect(self._start_action)
+        page.resume.connect(self._resume)
         page.mode_chosen.connect(self.set_ui_mode)
         return page
+
+    def recent_work(self):
+        """[(kind, path)] for "Continue where you left off": the last projects, then the last files of each area
+        window."""
+        from .start_page import areas
+
+        out = [("project", p) for p in self.settings.get("recent_projects", [])[:4]]
+        for key, *_ in areas():
+            out += [(key, p) for p in self.settings.get(f"area.{key}.recent", [])[:2]]
+        return out[:8]
+
+    def _resume(self, kind, path):
+        if kind == "project":
+            self.open_project(Path(path))
+            return
+        win = self.open_area(kind)
+        if win is not None and win.open_files_handler is not None:
+            win.open_files([path])
+
+    def open_area(self, key):
+        """Open or raise the area's window; an area not yet moved to a window of its own (I4) shows its page."""
+        win = self.area_windows.get(key)
+        if win is None:
+            self.show_workspace(key)
+            return None
+        from .area_window import _raise
+
+        _raise(win)
+        return win
 
     def ui_mode(self):
         return "expert" if self.settings.get("ui.mode", "basic") == "expert" else "basic"
@@ -860,13 +876,34 @@ class MainWindow(QMainWindow):
     def current_workspace(self) -> str:
         return self.nav.currentItem().data(Qt.UserRole)
 
+    def _fill_window_menu(self):
+        from .area_window import AreaWindow, _raise
+        from .start_page import areas
+
+        self.window_menu.clear()
+        self._action(self.window_menu, self.tr("Main window"), lambda: _raise(self))
+        self.window_menu.addSeparator()
+        open_now = list(AreaWindow.open_windows)
+        for win in open_now:
+            self._action(self.window_menu, win.windowTitle(), lambda w=win: _raise(w))
+        if open_now:
+            self.window_menu.addSeparator()
+        sub = self.window_menu.addMenu(self.tr("Open an area"))
+        for key, _, name, _ in areas():
+            self._action(sub, name, lambda k=key: self.open_area(k))
+
+    def report_problem(self, path=None):
+        from .report import report_dialog
+
+        return report_dialog(self, self.settings, self.engine, path)
+
     def _start_action(self, key):
         actions = {
             "new_project": self.new_project_dialog,
             "open_project": self.open_project_dialog,
             "open_fits": self.open_fits_dialog,
         }
-        actions[key]() if key in actions else self.show_workspace(key)
+        actions[key]() if key in actions else self.open_area(key)
 
     def _dock(self, name, title, widget, area):
         dock = QDockWidget(title, self)
@@ -1077,7 +1114,10 @@ class MainWindow(QMainWindow):
             act.setChecked(code == compute.mode())
             group.addAction(act)
 
+        self.window_menu = self.menuBar().addMenu(self.tr("&Window"))
+        self.window_menu.aboutToShow.connect(self._fill_window_menu)
         h = self.menuBar().addMenu(self.tr("&Help"))
+        self._action(h, self.tr("Report a problem…"), self.report_problem)
         self._action(h, self.tr("Training &guide"), lambda: self.show_workspace("guide"), QKeySequence.HelpContents)
         self._action(h, self.tr("Quick &tour"), self.start_tour)
         self._action(h, self.tr("&Practice data for a first night…"), self.practice_data)
