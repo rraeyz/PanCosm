@@ -978,27 +978,27 @@ def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
 
     window.show()
     window.show_workspace("image")
-    dock = window.dock_page("spectroscopy")
-    assert dock.isVisible() and dock.widget() is window._frames[window.spectro_page]
+    dock = window.dock_page("remotesensing")
+    assert dock.isVisible() and dock.widget() is window._frames[window.rs_page]
     assert window.pages.indexOf(dock.widget()) == -1 and window.current_workspace() == "image"
-    window.show_workspace("spectroscopy")  # the sidebar raises the panel, the image stays
+    window.show_workspace("remotesensing")  # the sidebar raises the panel, the image stays
     assert window.current_workspace() == "image" and window.pages.currentWidget() is window._frames[window.image_page]
     window._fill_panels_menu()
     acts = {a.text(): a for a in window.panels_menu.actions()}
-    assert acts[window._nav_items()["spectroscopy"].text()].isChecked()
+    assert acts[window._nav_items()["remotesensing"].text()].isChecked()
     assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
     acts[window._nav_items()["orbits"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"spectroscopy", "orbits"}
-    assert window.settings.get("ui.panels") == ["spectroscopy", "orbits"]
-    window.settings.set("ui.panels", ["spectroscopy", "orbits", "photometry"])  # saved by an older version
+    assert set(window._panels) == {"remotesensing", "orbits"}
+    assert window.settings.get("ui.panels") == ["remotesensing", "orbits"]
+    window.settings.set("ui.panels", ["remotesensing", "orbits", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"spectroscopy", "orbits"}
+    assert set(again._panels) == {"remotesensing", "orbits"}
     again.engine.shutdown()
     dock.close()
-    assert "spectroscopy" not in window._panels and window.pages.indexOf(window._frames[window.spectro_page]) >= 0
-    window.show_workspace("spectroscopy")
-    assert window.current_workspace() == "spectroscopy"
+    assert "remotesensing" not in window._panels and window.pages.indexOf(window._frames[window.rs_page]) >= 0
+    window.show_workspace("remotesensing")
+    assert window.current_workspace() == "remotesensing"
     assert window.dock_page("image") is None and "image" not in window._panels
     assert window.dock_page("photometry") is None
 

@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
     }
 
     # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
-    WINDOWED = ("photometry", "calibrate", "timeseries")
+    WINDOWED = ("photometry", "calibrate", "timeseries", "spectroscopy")
 
     def _area_key(self, attr):
         return next((k for k, a in self.PAGES.items() if a == attr), None)
@@ -657,7 +657,8 @@ class MainWindow(QMainWindow):
         page = SpectroscopyPage(self, self.settings)
         rt, vt, et, tt = page.reduce_tab, page.velocity_tab, page.echelle_tab, page.telluric_tab
         rt.reduce_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.reduce",
                 inputs,
                 params,
@@ -666,7 +667,8 @@ class MainWindow(QMainWindow):
             )
         )
         et.reduce_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.echelle",
                 inputs,
                 params,
@@ -675,7 +677,8 @@ class MainWindow(QMainWindow):
             )
         )
         et.orders_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.orders",
                 inputs,
                 params,
@@ -684,7 +687,8 @@ class MainWindow(QMainWindow):
             )
         )
         tt.correct_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.telluric",
                 inputs,
                 params,
@@ -693,7 +697,8 @@ class MainWindow(QMainWindow):
             )
         )
         vt.rv_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.rv",
                 inputs | ({"site": self.settings.get("site")} if self.settings.get("site") else {}),
                 params,
@@ -702,7 +707,8 @@ class MainWindow(QMainWindow):
             )
         )
         vt.disentangle_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.disentangle",
                 inputs,
                 params,
@@ -711,7 +717,8 @@ class MainWindow(QMainWindow):
             )
         )
         page.tools_tab.atmosphere_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.atmosphere",
                 inputs | {"cache": str(self.settings.path.parent / "phoenix")},
                 params,
@@ -719,7 +726,8 @@ class MainWindow(QMainWindow):
             )
         )
         vt.classify_requested.connect(
-            lambda spectrum: self.run_step(
+            lambda spectrum: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.classify",
                 {"spectrum": spectrum, "library": str(self.settings.path.parent / "templates")},
                 {},
@@ -729,7 +737,8 @@ class MainWindow(QMainWindow):
             )
         )
         vt.orbit_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
                 "spectroscopy.orbit",
                 inputs,
                 params,

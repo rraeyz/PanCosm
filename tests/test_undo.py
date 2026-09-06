@@ -101,11 +101,12 @@ def test_identified_lines_on_the_echelle_tab(window):
     ech.edit("identify a line", ech._add_line, ["58", "1063.52", ""])
     ech.guesses.item(0, 2).setText("5888.5841")  # typed by the user
     assert ech.undo_stack.count() == 2
-    keys(window, UNDO)
+    area = area_in_front(window, "spectroscopy")  # Undo follows the tab shown (Echelle)
+    keys(area, UNDO)
     assert ech.guesses.item(0, 2).text() == ""
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert ech.guesses.rowCount() == 0
-    keys(window, REDO, REDO)
+    keys(area, REDO, REDO)
     assert ech.guesses.item(0, 2).text() == "5888.5841"
 
 
@@ -124,11 +125,12 @@ def test_spectrum_tools_changes_go_through_ctrl_z(window, tmp_path):
     tab.step.setValue(2.0)
     tab._resample()
     assert tab.wave.size < w.size and abs(np.median(tab.flux) - 1) < 0.01
-    keys(window, UNDO)
+    area = area_in_front(window, "spectroscopy")
+    keys(area, UNDO)
     assert tab.wave.size == w.size and abs(np.median(tab.flux) - 1) < 0.01
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert np.array_equal(tab.flux, raw)
-    keys(window, REDO, REDO)
+    keys(area, REDO, REDO)
     assert tab.wave.size < w.size
     tab._undo()  # the tab's own Undo button is the same step back
     assert tab.wave.size == w.size

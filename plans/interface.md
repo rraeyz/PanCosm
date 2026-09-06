@@ -454,6 +454,12 @@ I4 has moved every page (see "To ask the owner").
   layout (frames as a bottom tab); until then the table scrolls sideways.
 - Accept: (1) a test that a photometry step started from the window shows its progress there; (2) in I5.
 
+### I4c. Spectroscopy window: the "In what order?" box (found 2026-11-08, agent2)
+**open** — on the Spectroscopy window at 960 × 700 (es) the "In what order? (click)" box above the tabs is open in
+Basic mode and takes a quarter of the height, while each tab already has its own Workflow line saying the same.
+Decide when the Spectroscopy window gets its full layout (I6, `plans/spectroscopy.md`): fold it by default, or move
+its text into the window's Help / the steps panel. Nothing is removed before that decision.
+
 ### I4b. "page" → "window" in every text, once all areas are in windows
 **open** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
 the Photometry page →", and 25 interface strings (plus the guide in four languages) call the moved areas

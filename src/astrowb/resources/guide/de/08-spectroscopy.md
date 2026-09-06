@@ -1,5 +1,5 @@
 # Spektroskopie
-Die Seite **Spektroskopie** reduziert Spektren und misst Radialgeschwindigkeiten. Ihre Reiter folgen der Arbeit: **Reduktion** (Langspalt und spaltlos), **Echelle**, **Tellurisch**, **Radialgeschwindigkeit & Bahn** und **IFU-Würfel**.
+Die Seite **Spektroskopie** reduziert Spektren und misst Radialgeschwindigkeiten. Ihre Reiter folgen der Arbeit: **Reduktion** (Langspalt und spaltlos), **Echelle**, **Tellurisch**, **Radialgeschwindigkeit & Bahn** und **IFU-Würfel**. Die Spektroskopie öffnet sich in einem eigenen Fenster (über ihren Block auf der Startseite oder die Seitenleiste); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter, und lange Arbeiten (Extraktion, Wellenlängenanpassung, Geschwindigkeiten) zeigen ihren Fortschritt in der Statusleiste.
 
 ## Wenn Sie IRAF kennen
 Jeder Reiter hat oben seine Zeile **Arbeitsablauf** (zum Öffnen anklicken): die Schritte in der Reihenfolge, die Sie aus IRAF kennen, jeder als erledigt (✓), übersprungen (–) oder nächster (▶) markiert, und was als Nächstes zu tun ist. Nichts ist gesperrt: Beginnen Sie dort, wo Ihre Daten stehen. Wo jede IRAF-Aufgabe ist:
