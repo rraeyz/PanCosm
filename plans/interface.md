@@ -425,7 +425,8 @@ I4 has moved every page (see "To ask the owner").
   1. Photometry — **agent2 done (2026-11-08, commit 8ce39a3)**: `MainWindow.WINDOWED`, `_place_in_window`, `_help_for`;
      tests `test_photometry_lives_in_a_window_of_its_own`, `test_undo` adjusted to the area window;
   2. Calibration — **agent2 done (2026-11-08, commit 9692e26)**;
-  3. Light curves / Period / O−C (split into O−C and Period / frequency windows, or kept together: ask the owner);
+  3. Light curves / Period / O−C (split into O−C and Period / frequency windows, or kept together: ask the owner) —
+     **agent2 done (2026-11-08, commit a0c0c7f)**, kept together with tabs until the owner answers;
   4. Spectroscopy;
   5. Models;
   6. Images;
