@@ -1252,6 +1252,11 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     sent = window.send_to_photometry([str(fits_file)])
     assert sent and window.photometry_page.images == [str(fits_file)] and win.isVisible()
     assert win.undo_action.text().startswith("&Undo") or win.undo_stack is window.photometry_page.undo_stack
+    window.photometry_page.quality_requested.emit([str(fits_file)])  # a step the page asks for (I4a)
+    tracked = list(win._tasks.values())
+    assert len(tracked) == 1 and tracked[0].name.startswith("photometry.quality")
+    tracked[0].wait(120)
+    qtbot.waitUntil(lambda: not win._tasks, timeout=10000)  # its end is said in the window, which then idles
     win.close()
     assert not win.isVisible() and window.settings.get("area.photometry.state")
     window.open_area("photometry")
