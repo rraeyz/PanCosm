@@ -1,5 +1,5 @@
 # Automation and plugins
-An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps.
+An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps. It opens in a window of its own (its block on the Start page or the sidebar), with its own menus.
 
 ## Ready templates
 The **Automation** page lists ready templates (marked "template") and your own automations:

@@ -150,7 +150,17 @@ class MainWindow(QMainWindow):
     }
 
     # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
-    WINDOWED = ("photometry", "calibrate", "timeseries", "spectroscopy", "orbits")
+    WINDOWED = (
+        "photometry",
+        "calibrate",
+        "timeseries",
+        "spectroscopy",
+        "orbits",
+        "plan",
+        "observe",
+        "automation",
+        "remotesensing",
+    )
 
     def _area_key(self, attr):
         return next((k for k, a in self.PAGES.items() if a == attr), None)
@@ -624,7 +634,8 @@ class MainWindow(QMainWindow):
             lambda blocks: (self.observe_page.load_schedule(blocks), self.show_workspace("observe"))
         )
         page.plan_requested.connect(
-            lambda site, date, targets, params: self.run_step(
+            lambda site, date, targets, params: self.run_step_for(
+                "plan",
                 "planning.night",
                 {"site": site, "date": date, "targets": targets},
                 params,
@@ -753,8 +764,13 @@ class MainWindow(QMainWindow):
 
         page = RemoteSensingPage(self)
         page.step_requested.connect(
-            lambda sid, inputs, params: self.run_step(
-                sid, inputs, params, on_done=lambda out: page.show_product(out["product"]), on_fail=page.status.setText
+            lambda sid, inputs, params: self.run_step_for(
+                "remotesensing",
+                sid,
+                inputs,
+                params,
+                on_done=lambda out: page.show_product(out["product"]),
+                on_fail=page.status.setText,
             )
         )
         return page

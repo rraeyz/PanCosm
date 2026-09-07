@@ -1,5 +1,5 @@
 # Observing and safety
-The **Observe** page controls the telescope, camera, focuser, filter wheel, dome and guider. The devices are owned by a separate **observatory process** with a safety supervisor, so the telescope stays protected even if the window is closed or crashes.
+The **Observe** page controls the telescope, camera, focuser, filter wheel, dome and guider. The devices are owned by a separate **observatory process** with a safety supervisor, so the telescope stays protected even if the window is closed or crashes. It opens in a window of its own (its block on the Start page or the sidebar), with its own menus.
 
 ## Configuring the observatory
 **Set up observatory…** opens a dialog for everything below: the site, the devices (**Find Alpaca devices on the network** lists every ASCOM Alpaca device that answers; INDI devices are added by hand with the server address and the INDI device name), the safety limits, PHD2 and whether other computers may connect. It warns about risky choices, for example a mount without a weather sensor. **Save and start** writes the file and starts the observatory on this computer; **Open…** edits an existing file.

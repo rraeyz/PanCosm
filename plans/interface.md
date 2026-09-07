@@ -429,11 +429,14 @@ I4 has moved every page (see "To ask the owner").
      **agent2 done (2026-11-08, commit a0c0c7f)**, kept together with tabs until the owner answers;
   4. Spectroscopy — **agent2 done (2026-11-08, commit b41844e)**;
   5. Models — **agent2 done (2026-11-08, commit bf0546b)**;
-  6. Images;
+  6. Images — **moved to the end (agent2, 2026-11-08, rule 12):** the main window's View (zoom, levels,
+     stretch), Image / Process and overlay menus, the header table and "Panels beside the image" all work on the
+     Images page's viewer; moving it means moving those menus into its window too. Done after 7–10;
   7. Planning;
   8. Observing;
   9. Automation;
-  10. Remote sensing;
+  10. Remote sensing — 7–10 **agent2 done (2026-11-08, this commit)**, one commit for the four (each only adds its
+      key to `MainWindow.WINDOWED` and its steps' area);
   11. Project / Guide (these may stay in the main window).
 - Each page goes into its window as it is now. Its menus are moved from the main menu bar into the area's own
   menus: Image / Process goes to the Images window; the overlays go to the windows that show images.
@@ -459,6 +462,15 @@ I4 has moved every page (see "To ask the owner").
 Basic mode and takes a quarter of the height, while each tab already has its own Workflow line saying the same.
 Decide when the Spectroscopy window gets its full layout (I6, `plans/spectroscopy.md`): fold it by default, or move
 its text into the window's Help / the steps panel. Nothing is removed before that decision.
+
+### I4d. Automation and Observing windows: findings of their first screenshots (2026-11-08, agent2)
+**open**
+- Automation (tr): the templates' names and descriptions stay English ("Eclipsing binary night (şablon)",
+  "Observe the binary from dusk to dawn…"), and the steps are listed by their technical ids ("1. calibration.scan",
+  "photometry.suggest_comparisons") and setting keys ("← folder", "clock_utc_offset"). Show translated step names
+  and setting labels (the ids in the tooltip); translate the bundled templates' texts.
+- Observing (tr, 1366 × 768): the sequence table's columns are cut on the right (Gain, Offset, Readout mode, …).
+- Accept: screenshots in four languages show no English text in Automation and no cut column header in Observing.
 
 ### I4b. "page" → "window" in every text, once all areas are in windows
 **open** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on

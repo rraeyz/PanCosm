@@ -1,5 +1,5 @@
 # Observación y seguridad
-La página **Observar** controla el telescopio, la cámara, el enfocador, la rueda de filtros, la cúpula y el guiado. Los dispositivos pertenecen a un **proceso del observatorio** aparte con un supervisor de seguridad, de modo que el telescopio sigue protegido aunque la ventana se cierre o falle.
+La página **Observar** controla el telescopio, la cámara, el enfocador, la rueda de filtros, la cúpula y el guiado. Los dispositivos pertenecen a un **proceso del observatorio** aparte con un supervisor de seguridad, de modo que el telescopio sigue protegido aunque la ventana se cierre o falle. Se abre en una ventana propia (su bloque en la página de inicio o la barra lateral), con sus propios menús.
 
 ## Configurar el observatorio
 **Configurar el observatorio…** abre un diálogo para todo lo siguiente: el lugar, los dispositivos (**Buscar dispositivos Alpaca en la red** lista cada dispositivo ASCOM Alpaca que responde; los dispositivos INDI se añaden a mano con la dirección del servidor y el nombre del dispositivo INDI), los límites de seguridad, PHD2 y si otros ordenadores pueden conectarse. Avisa de elecciones arriesgadas, por ejemplo una montura sin sensor meteorológico. **Guardar e iniciar** escribe el archivo e inicia el observatorio en este ordenador; **Abrir…** edita un archivo existente.
