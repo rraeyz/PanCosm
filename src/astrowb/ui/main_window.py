@@ -567,7 +567,7 @@ class MainWindow(QMainWindow):
         return url
 
     def send_to_photometry(self, paths, ask=True):
-        """Images to the Photometry page, which is then shown. Several filters: one light curve per filter, so the
+        """Images to the Photometry window, which is then shown. Several filters: one light curve per filter, so the
         user picks the filter (the largest group first)."""
         from PySide6.QtWidgets import QInputDialog
 
@@ -592,7 +592,7 @@ class MainWindow(QMainWindow):
         return paths
 
     def photometry_from_image(self, x, y, comparison=False):
-        """Start photometry from the Images page: the open images (or the shown one) go to the Photometry page with
+        """Start photometry from the Images page: the open images (or the shown one) go to the Photometry window with
         this star as the target, or add it as a comparison star."""
         phot = self.photometry_page
         if not comparison:
@@ -600,7 +600,7 @@ class MainWindow(QMainWindow):
             phot.set_images(paths if str(self.current_path) in paths else [str(self.current_path)])
             if str(phot.images[0]) != str(self.current_path):  # stars are marked on the first frame in time
                 self.statusBar().showMessage(
-                    self.tr("Click the target on the first image in time, shown on the Photometry page."), 10000
+                    self.tr("Click the target on the first image in time, shown in the Photometry window."), 10000
                 )
                 self.show_workspace("photometry")
                 return False
@@ -1904,7 +1904,7 @@ class MainWindow(QMainWindow):
             lc = out["light_curve"]
             self.photometry_page.show_light_curve(lc)
             self.period_page.set_light_curve(
-                lc["time"], lc["rel_flux"], self.tr("the Photometry page"), err=lc.get("rel_flux_err")
+                lc["time"], lc["rel_flux"], self.tr("the Photometry window"), err=lc.get("rel_flux_err")
             )
 
         return self.run_step("photometry.light_curve", inputs, params, on_done=done, area="photometry")

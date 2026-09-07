@@ -154,7 +154,7 @@ def load_regions(win, path=None):
 def save_regions(win, path=None):
     markers = getattr(win.viewer, "marker_list", [])
     if not markers:
-        _status(win, win.tr("No markers on the image (stars picked on the Photometry page are markers)."))
+        _status(win, win.tr("No markers on the image (stars picked in the Photometry window are markers)."))
         return None
     path = path or QFileDialog.getSaveFileName(win, win.tr("DS9 regions"), "markers.reg", "DS9 (*.reg)")[0]
     if not path:

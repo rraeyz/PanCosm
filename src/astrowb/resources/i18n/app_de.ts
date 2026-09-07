@@ -587,13 +587,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/automation_page.py" line="130"/>
-        <source>To the Observe page</source>
-        <translation>Zur Seite Beobachten</translation>
+        <source>To the Observing window</source>
+        <translation>Zum Fenster Beobachten</translation>
     </message>
     <message>
         <location filename="../../ui/automation_page.py" line="131"/>
-        <source>Send sequence to the Observe page</source>
-        <translation>Sequenz an die Seite Beobachten senden</translation>
+        <source>Send sequence to the Observing window</source>
+        <translation>Sequenz an das Fenster Beobachten senden</translation>
     </message>
     <message>
         <location filename="../../ui/automation_page.py" line="135"/>
@@ -881,11 +881,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Messen oder stapeln (phot, imcombine)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="85"/>
-        <source>Press 4. Measure them on the Photometry page →, or stack them into one deep picture.</source>
-        <translation>Drücken Sie 4. Auf der Seite Photometrie messen → oder stapeln Sie sie zu einem tiefen Bild.</translation>
-    </message>
-    <message>
         <location filename="../../ui/calibrate_page.py" line="91"/>
         <source>1. Choose your frames: the lights and the calibration frames (BDF).</source>
         <translation>1. Wählen Sie Ihre Bilder: die Lights und die Kalibrierbilder (BDF).</translation>
@@ -1095,11 +1090,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Spektren: nicht durch das Flat teilen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="271"/>
-        <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy page.</source>
-        <translation>Für Echelle- und Langspalt-Aufnahmen: Das Flat ist zwischen den Ordnungen fast null, Teilen würde das Rauschen explodieren lassen. Das Master-Flat wird trotzdem erstellt; geben Sie es der Seite Spektroskopie.</translation>
-    </message>
-    <message>
         <location filename="../../ui/calibrate_page.py" line="275"/>
         <source>Colour camera: each colour as its own image</source>
         <translation>Farbkamera: jede Farbe als eigenes Bild</translation>
@@ -1135,316 +1125,326 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Weitere Kalibrierungsoptionen</translation>
     </message>
     <message>
+        <location filename="../../ui/calibrate_page.py" line="85"/>
+        <source>Press 4. Measure them in the Photometry window →, or stack them into one deep picture.</source>
+        <translation>Drücken Sie 4. Auf der Fenster Photometrie messen → oder stapeln Sie sie zu einem tiefen Bild.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="271"/>
+        <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy window.</source>
+        <translation>Für Echelle- und Langspalt-Aufnahmen: Das Flat ist zwischen den Ordnungen fast null, Teilen würde das Rauschen explodieren lassen. Das Master-Flat wird trotzdem erstellt; geben Sie es dem Fenster Spektroskopie.</translation>
+    </message>
+    <message>
         <location filename="../../ui/calibrate_page.py" line="312"/>
-        <source>4. Measure them on the Photometry page →</source>
-        <translation>4. Auf der Seite Photometrie messen →</translation>
+        <source>4. Measure them in the Photometry window →</source>
+        <translation>4. Auf der Fenster Photometrie messen →</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="315"/>
-        <source>Sends the calibrated lights to the Photometry page and opens it (a light curve, a variable star)</source>
-        <translation>Schickt die kalibrierten Lights auf die Seite Photometrie und öffnet sie (eine Lichtkurve, ein Veränderlicher)</translation>
+        <location filename="../../ui/calibrate_page.py" line="316"/>
+        <source>Sends the calibrated lights to the Photometry window and opens it (a light curve, a variable star)</source>
+        <translation>Schickt die kalibrierten Lights auf die Fenster Photometrie und öffnet sie (eine Lichtkurve, ein Veränderlicher)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="320"/>
+        <location filename="../../ui/calibrate_page.py" line="322"/>
         <source>Or: stack them into one deep picture (not for a light curve)</source>
         <translation>Oder: zu einem tiefen Bild stapeln (nicht für eine Lichtkurve)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="325"/>
+        <location filename="../../ui/calibrate_page.py" line="327"/>
         <source>Aligns the calibrated images on their stars and adds them into one image per filter: fainter stars and nebulae show, for a picture, astrometry or a colour image. Not needed for photometry: a light curve measures every single image (a stack has one time only).</source>
         <translation>Richtet die kalibrierten Bilder an ihren Sternen aus und addiert sie zu einem Bild je Filter: schwächere Sterne und Nebel werden sichtbar, für ein Bild, Astrometrie oder ein Farbbild. Für die Photometrie nicht nötig: eine Lichtkurve misst jedes einzelne Bild (ein Stapel hat nur eine Zeit).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="335"/>
+        <location filename="../../ui/calibrate_page.py" line="337"/>
         <source>Combine</source>
         <translation>Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="336"/>
+        <location filename="../../ui/calibrate_page.py" line="338"/>
         <source>mean</source>
         <translation>Mittelwert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="336"/>
+        <location filename="../../ui/calibrate_page.py" line="338"/>
         <source>median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="336"/>
+        <location filename="../../ui/calibrate_page.py" line="338"/>
         <source>sum</source>
         <translation>Summe</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="339"/>
+        <location filename="../../ui/calibrate_page.py" line="341"/>
         <source>Reject</source>
         <translation>Verwerfen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="341"/>
+        <location filename="../../ui/calibrate_page.py" line="343"/>
         <source>sigma clipping</source>
         <translation>Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="342"/>
+        <location filename="../../ui/calibrate_page.py" line="344"/>
         <source>sigma clipping, median / MAD spread</source>
         <translation>Sigma-Clipping, Median-/MAD-Streuung</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="343"/>
+        <location filename="../../ui/calibrate_page.py" line="345"/>
         <source>winsorized sigma clipping</source>
         <translation>winsorisiertes Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="344"/>
+        <location filename="../../ui/calibrate_page.py" line="346"/>
         <source>min / max (drop lowest and highest)</source>
         <translation>Min / Max (niedrigste und höchste verwerfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="345"/>
+        <location filename="../../ui/calibrate_page.py" line="347"/>
         <source>percentile clipping</source>
         <translation>Perzentil-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="346"/>
-        <location filename="../../ui/calibrate_page.py" line="352"/>
+        <location filename="../../ui/calibrate_page.py" line="348"/>
+        <location filename="../../ui/calibrate_page.py" line="354"/>
         <source>none</source>
         <translation>keine</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="350"/>
+        <location filename="../../ui/calibrate_page.py" line="352"/>
         <source>Normalise</source>
         <translation>Normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="353"/>
+        <location filename="../../ui/calibrate_page.py" line="355"/>
         <source>multiplicative (scale to the first frame)</source>
         <translation>multiplikativ (auf das erste Bild skalieren)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="354"/>
+        <location filename="../../ui/calibrate_page.py" line="356"/>
         <source>additive (shift to the first frame)</source>
         <translation>additiv (auf das erste Bild verschieben)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="357"/>
+        <location filename="../../ui/calibrate_page.py" line="359"/>
         <source>Weights</source>
         <translation>Gewichte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="357"/>
+        <location filename="../../ui/calibrate_page.py" line="359"/>
         <source>equal</source>
         <translation>gleich</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="357"/>
+        <location filename="../../ui/calibrate_page.py" line="359"/>
         <source>by noise (1 / σ²)</source>
         <translation>nach Rauschen (1 / σ²)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="359"/>
+        <location filename="../../ui/calibrate_page.py" line="361"/>
         <source>Align</source>
         <translation>Ausrichten</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="361"/>
+        <location filename="../../ui/calibrate_page.py" line="363"/>
         <source>shift only</source>
         <translation>nur Verschiebung</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="362"/>
+        <location filename="../../ui/calibrate_page.py" line="364"/>
         <source>star patterns (rotation and scale too)</source>
         <translation>Sternmuster (auch Drehung und Maßstab)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="367"/>
+        <location filename="../../ui/calibrate_page.py" line="369"/>
         <source>mean: the least noise; median: robust without rejection; sum: keeps the counts</source>
         <translation>Mittelwert: am wenigsten Rauschen; Median: robust auch ohne Verwerfung; Summe: behält die Zählwerte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="369"/>
+        <location filename="../../ui/calibrate_page.py" line="371"/>
         <source>Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; sigma clipping is IRAF imcombine&apos;s (median ± σ × rms) where ten or more frames cover a pixel and the median / MAD spread where fewer do; min / max and percentile also work with few frames</source>
         <translation>Pixel, die sich von den anderen unterscheiden (Satelliten, kosmische Strahlen, Hotpixel), werden vor dem Kombinieren weggelassen; das Sigma-Clipping ist das von IRAF imcombine (Median ± σ × rms), wo zehn oder mehr Aufnahmen ein Pixel abdecken, und die Median-/MAD-Streuung, wo es weniger sind; Min / Max und Perzentil funktionieren auch mit wenigen Aufnahmen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="374"/>
+        <location filename="../../ui/calibrate_page.py" line="376"/>
         <source>Brings the frames to the same level before rejection: multiplicative when the transparency changed, additive when the sky background changed</source>
         <translation>Bringt die Bilder vor der Verwerfung auf dasselbe Niveau: multiplikativ, wenn sich die Durchsicht änderte, additiv, wenn sich der Himmelshintergrund änderte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="377"/>
+        <location filename="../../ui/calibrate_page.py" line="379"/>
         <source>By noise: noisier frames (thin cloud, twilight) count less</source>
         <translation>Nach Rauschen: verrauschtere Bilder (dünne Wolken, Dämmerung) zählen weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="379"/>
+        <location filename="../../ui/calibrate_page.py" line="381"/>
         <source>Shift only: an equatorial mount without field rotation; star patterns: the field rotates or the scale differs (alt-az mount, meridian flip, another telescope)</source>
         <translation>Nur Verschiebung: parallaktische Montierung ohne Bildfelddrehung; Sternmuster: das Feld dreht sich oder der Maßstab weicht ab (Alt-Az-Montierung, Meridian-Flip, anderes Teleskop)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="396"/>
+        <location filename="../../ui/calibrate_page.py" line="398"/>
         <source>min / max: how many values to drop; percentile: the fraction of the median</source>
         <translation>Min / Max: wie viele Werte verworfen werden; Perzentil: Anteil des Medians</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="397"/>
+        <location filename="../../ui/calibrate_page.py" line="399"/>
         <source>Low / high</source>
         <translation>Unten / oben</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="402"/>
+        <location filename="../../ui/calibrate_page.py" line="404"/>
         <source>Stacking options</source>
         <translation>Stapeloptionen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="404"/>
+        <location filename="../../ui/calibrate_page.py" line="406"/>
         <source>Drizzle onto a 2× finer grid (undersampled, dithered frames)</source>
         <translation>Drizzle auf ein 2× feineres Raster (unterabgetastete, geditherte Bilder)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="407"/>
+        <location filename="../../ui/calibrate_page.py" line="409"/>
         <source>For stars only one or two pixels wide (FWHM under about 2 px) in frames shifted a little between exposures: recovers detail on a grid twice as fine (Fruchter &amp; Hook 2002). Needs many frames; otherwise leave it off.</source>
         <translation>Für Sterne, die nur ein bis zwei Pixel breit sind (FWHM unter etwa 2 px), in leicht gegeneinander versetzten Bildern: gewinnt Details auf einem doppelt so feinen Raster zurück (Fruchter &amp; Hook 2002). Braucht viele Bilder; sonst ausgeschaltet lassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="440"/>
+        <location filename="../../ui/calibrate_page.py" line="442"/>
         <source>Stacking…</source>
         <translation>Ausrichten und stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="442"/>
+        <location filename="../../ui/calibrate_page.py" line="444"/>
         <source>Only one frame through {f}: nothing to stack.</source>
         <translation>Nur eine Aufnahme mit {f}: nichts zu stapeln.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="455"/>
+        <location filename="../../ui/calibrate_page.py" line="457"/>
         <source>Choose folder</source>
         <translation>Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="470"/>
+        <location filename="../../ui/calibrate_page.py" line="472"/>
         <source>Add folder</source>
         <translation>Ordner hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="493"/>
+        <location filename="../../ui/calibrate_page.py" line="495"/>
         <source>change a frame&apos;s type</source>
         <translation>Bildtyp ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="501"/>
-        <location filename="../../ui/calibrate_page.py" line="651"/>
+        <location filename="../../ui/calibrate_page.py" line="503"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>bias</source>
         <translation>Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="502"/>
-        <location filename="../../ui/calibrate_page.py" line="651"/>
+        <location filename="../../ui/calibrate_page.py" line="504"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="503"/>
-        <location filename="../../ui/calibrate_page.py" line="651"/>
+        <location filename="../../ui/calibrate_page.py" line="505"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>flat</source>
         <translation>Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="504"/>
+        <location filename="../../ui/calibrate_page.py" line="506"/>
         <source>light</source>
         <translation>Light</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="505"/>
+        <location filename="../../ui/calibrate_page.py" line="507"/>
         <source>arc lamp</source>
         <translation>Bogenlampe</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="506"/>
+        <location filename="../../ui/calibrate_page.py" line="508"/>
         <source>unknown</source>
         <translation>unbekannt</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="529"/>
+        <location filename="../../ui/calibrate_page.py" line="531"/>
         <source>remove frames from the list</source>
         <translation>Bilder aus der Liste entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="538"/>
+        <location filename="../../ui/calibrate_page.py" line="540"/>
         <source>clear the frame list</source>
         <translation>Bildliste leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="565"/>
+        <location filename="../../ui/calibrate_page.py" line="567"/>
         <source>({n} camera raw files read; times: camera clock − {h} h)</source>
         <translation>({n} Kamera-Rohdateien gelesen; Zeiten: Kamerauhr − {h} h)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="570"/>
+        <location filename="../../ui/calibrate_page.py" line="572"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="572"/>
+        <location filename="../../ui/calibrate_page.py" line="574"/>
         <source>Type unknown, ignored: {file}</source>
         <translation>Typ unbekannt, ignoriert: {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="578"/>
+        <location filename="../../ui/calibrate_page.py" line="580"/>
         <source>No light frames found, so there is nothing to calibrate yet. If the lights are in another folder, choose the folder that holds both (sub-folders are read) or add it with “Add folder…”.</source>
         <translation>Keine Light-Bilder gefunden, es gibt also noch nichts zu kalibrieren. Liegen die Lights in einem anderen Ordner, wählen Sie den Ordner, der beide enthält (Unterordner werden gelesen), oder fügen Sie ihn mit „Ordner hinzufügen…“ hinzu.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="584"/>
+        <location filename="../../ui/calibrate_page.py" line="586"/>
         <source>Needs at least one light frame</source>
         <translation>Braucht mindestens ein Light-Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="589"/>
+        <location filename="../../ui/calibrate_page.py" line="591"/>
         <source>no flat for filter &apos;{filter}&apos; ({size}); will be calibrated without flat</source>
         <translation>kein Flat für Filter &apos;{filter}&apos; ({size}); wird ohne Flat kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="594"/>
+        <location filename="../../ui/calibrate_page.py" line="596"/>
         <source>no dark for {t} s within {tol} °C of {temp} °C (darks of another exposure need bias frames to be scaled); will be calibrated without dark</source>
         <translation>kein Dark für {t} s innerhalb {tol} °C von {temp} °C (Darks anderer Belichtung brauchen Bias zum Skalieren); wird ohne Dark kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="599"/>
+        <location filename="../../ui/calibrate_page.py" line="601"/>
         <source>no bias ({size}); will be calibrated without bias</source>
         <translation>kein Bias ({size}); wird ohne Bias kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="602"/>
+        <location filename="../../ui/calibrate_page.py" line="604"/>
         <source>Calibrating…</source>
         <translation>Kalibriere…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="610"/>
+        <location filename="../../ui/calibrate_page.py" line="612"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Linearitätskorrektur: Zahlen c0 c1 c2 … schreiben, z. B. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="621"/>
+        <location filename="../../ui/calibrate_page.py" line="623"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Fertig: {n} Bilder kalibriert, {m} Masterbilder nach {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="625"/>
+        <location filename="../../ui/calibrate_page.py" line="627"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} Bogenlampen-Aufnahmen kalibriert (nur Bias und Dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="631"/>
+        <location filename="../../ui/calibrate_page.py" line="633"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark mit {lo:.3f}–{hi:.3f} skaliert (DARKSCAL im Header jeder Datei).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="645"/>
+        <location filename="../../ui/calibrate_page.py" line="647"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} Gruppen von Kalibrationsbildern passen zu keinem Bild und wurden nicht kombiniert (z. B. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="653"/>
+        <location filename="../../ui/calibrate_page.py" line="655"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>Master-{kind} aus {n} Bildern (z. B. {file}) nicht erstellt, ohne ihn kalibriert: {why}</translation>
     </message>
@@ -1732,6 +1732,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>EchelleTab</name>
     <message>
+        <location filename="../../ui/spectro_page.py" line="680"/>
+        <source>Calibrate the science frame, the flat and the ThAr in the Calibration window (bias, dark; the flat is not divided into echelle frames), then choose them below. Raw frames work too: then only the overscan is taken off, where the header gives it.</source>
+        <translation>Kalibrieren Sie Wissenschaftsbild, Flat und ThAr im Fenster Kalibrierung (Bias, Dark; Echelle-Bilder werden nicht durch das Flat geteilt) und wählen Sie sie unten. Rohbilder gehen auch: dann wird nur der Overscan abgezogen, wo der Header ihn angibt.</translation>
+    </message>
+    <message>
         <location filename="../../ui/spectro_page.py" line="727"/>
         <source>Science frame</source>
         <translation>Wissenschaftsbild</translation>
@@ -1900,6 +1905,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Entfernt alle identifizierten Linien (Strg+Z holt sie zurück)</translation>
     </message>
     <message>
+        <location filename="../../ui/spectro_page.py" line="965"/>
+        <source>Not calibrated (raw): {files}. Bias and dark are best taken off in the Calibration window first; the overscan is taken off here where the header gives it.</source>
+        <translation>Nicht kalibriert (roh): {files}. Bias und Dark zieht man am besten zuerst im Fenster Kalibrierung ab; der Overscan wird hier abgezogen, wo der Header ihn angibt.</translation>
+    </message>
+    <message>
         <location filename="../../ui/spectro_page.py" line="1212"/>
         <source>{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 6. Fit wavelengths, merge and save.</source>
         <translation>{m} von {n} Linien in diesem Bogen gefunden, verschoben um {s:+.1f} px. Prüfen Sie sie, löschen Sie falsche Zeilen, dann 6. Wellenlängen anpassen, zusammenfügen und speichern.</translation>
@@ -1908,11 +1918,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/spectro_page.py" line="678"/>
         <source>Calibrate the science frame, the flat and the ThAr: bias and dark off (IRAF ccdproc)</source>
         <translation>Wissenschaftsbild, Flat und ThAr kalibrieren: Bias und Dark abziehen (IRAF ccdproc)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectro_page.py" line="680"/>
-        <source>Calibrate the science frame, the flat and the ThAr on the Calibrate page (bias, dark; the flat is not divided into echelle frames), then choose them below. Raw frames work too: then only the overscan is taken off, where the header gives it.</source>
-        <translation>Kalibrieren Sie Wissenschaftsbild, Flat und ThAr auf der Seite Kalibrieren (Bias, Dark; Echelle-Bilder werden nicht durch das Flat geteilt) und wählen Sie sie unten. Rohbilder gehen auch: dann wird nur der Overscan abgezogen, wo der Header ihn angibt.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="686"/>
@@ -2043,11 +2048,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/spectro_page.py" line="949"/>
         <source>Already extracted: only the wavelength calibration is done. Choose the arc extracted with the same apertures (and the flat, for the blaze) and press 4. Extract the orders to see them.</source>
         <translation>Bereits extrahiert: nur die Wellenlängenkalibrierung wird gemacht. Wählen Sie den mit denselben Aperturen extrahierten Bogen (und das Flat für den Blaze) und drücken Sie 4. Ordnungen extrahieren, um sie zu sehen.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectro_page.py" line="965"/>
-        <source>Not calibrated (raw): {files}. Bias and dark are best taken off on the Calibrate page first; the overscan is taken off here where the header gives it.</source>
-        <translation>Nicht kalibriert (roh): {files}. Bias und Dark zieht man am besten zuerst auf der Seite Kalibrieren ab; der Overscan wird hier abgezogen, wo der Header ihn angibt.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1035"/>
@@ -3299,11 +3299,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="603"/>
-        <source>Click the target on the first image in time, shown on the Photometry page.</source>
-        <translation>Klicken Sie das Ziel im zeitlich ersten Bild an, das auf der Seite Photometrie gezeigt wird.</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="1014"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
@@ -3492,6 +3487,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/main_window.py" line="1159"/>
         <source>Interval</source>
         <translation>Intervall</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="603"/>
+        <source>Click the target on the first image in time, shown in the Photometry window.</source>
+        <translation>Klicken Sie das Ziel im zeitlich ersten Bild an, das im Fenster Photometrie gezeigt wird.</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1160"/>
@@ -3805,6 +3805,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Iterationen:</translation>
     </message>
     <message>
+        <location filename="../../ui/main_window.py" line="1907"/>
+        <source>the Photometry window</source>
+        <translation>dem Fenster Photometrie</translation>
+    </message>
+    <message>
         <location filename="../../ui/main_window.py" line="1286"/>
         <source>Rotate</source>
         <translation>Drehen</translation>
@@ -4025,11 +4030,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/main_window.py" line="1840"/>
         <source>Stack written: {path}</source>
         <translation>Stapel geschrieben: {path}</translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_window.py" line="1907"/>
-        <source>the Photometry page</source>
-        <translation>die Seite Photometrie</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1947"/>
@@ -4435,11 +4435,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>keine ganze Bedeckung zu den von T0 und der Periode vorhergesagten Zeiten: T0, die Periode und die Zeitskala prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="153"/>
-        <source>no frames to combine: check the folder and the frame types listed on the Calibrate page</source>
-        <translation>keine Aufnahmen zum Kombinieren: Ordner und die auf der Seite Kalibrieren aufgeführten Aufnahmetypen prüfen</translation>
-    </message>
-    <message>
         <location filename="../../ui/messages.py" line="161"/>
         <source>too few stars to match the frames: choose Align &apos;shift only&apos;, or use frames with more stars</source>
         <translation>zu wenige Sterne, um die Aufnahmen abzugleichen: unter Ausrichten &apos;nur Verschiebung&apos; wählen oder Aufnahmen mit mehr Sternen verwenden</translation>
@@ -4473,11 +4468,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/messages.py" line="332"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>kein Minimum gefunden: das Fenster muss ein ganzes Minimum mit Punkten auf beiden Seiten enthalten</translation>
-    </message>
-    <message>
-        <location filename="../../ui/messages.py" line="337"/>
-        <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS on the Images page&apos;s Header tab</source>
-        <translation>keine Beobachtungszeit im Header (DATE-OBS, UT-OBS, JD, MJD-OBS): DATE-OBS auf der Seite Bilder im Reiter Header hinzufügen</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="91"/>
@@ -4678,6 +4668,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/messages.py" line="152"/>
         <source>frames have different sizes: {shapes}</source>
         <translation>die Aufnahmen haben unterschiedliche Größen: {shapes}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="153"/>
+        <source>no frames to combine: check the folder and the frame types listed in the Calibration window</source>
+        <translation>keine Aufnahmen zum Kombinieren: Ordner und die im Fenster Kalibrierung aufgeführten Aufnahmetypen prüfen</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="157"/>
@@ -5180,6 +5175,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>das Minimum braucht Daten auf beiden Seiten</translation>
     </message>
     <message>
+        <location filename="../../ui/messages.py" line="337"/>
+        <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
+        <translation>keine Beobachtungszeit im Header (DATE-OBS, UT-OBS, JD, MJD-OBS): DATE-OBS im Fenster Bilder im Reiter Header hinzufügen</translation>
+    </message>
+    <message>
         <location filename="../../ui/messages.py" line="341"/>
         <source>not an angle: {value}</source>
         <translation>kein Winkel: {value}</translation>
@@ -5479,11 +5479,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Absolute Dimensionen mit der doppellinigen Bahn aus der Spektroskopie</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="143"/>
-        <source>With the velocities&apos; K1, K2 and the light curve&apos;s radii and inclination: masses and radii of both stars in solar units (needs a double-lined orbit fitted on the Spectroscopy page)</source>
-        <translation>Mit K1, K2 der Geschwindigkeiten und den Radien und der Neigung der Lichtkurve: Massen und Radien beider Sterne in Sonneneinheiten (braucht eine auf der Seite Spektroskopie angepasste doppelliniige Bahn)</translation>
-    </message>
-    <message>
         <location filename="../../ui/models_page.py" line="149"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC-Unsicherheiten (langsamer, für korrelierte Parameter)</translation>
@@ -5584,11 +5579,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Eine Lichtkurvendatei wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="261"/>
-        <source>Give the period and the time of primary minimum (O-C page).</source>
-        <translation>Periode und Zeit des Hauptminimums angeben (Seite O-C).</translation>
-    </message>
-    <message>
         <location filename="../../ui/models_page.py" line="275"/>
         <source>Fitting…</source>
         <translation>Passe an…</translation>
@@ -5615,8 +5605,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="63"/>
-        <source>Choose the light curve (CSV from the Photometry or Light curves page: Export CSV / Save light curve).</source>
-        <translation>Die Lichtkurve wählen (CSV von der Seite Photometrie oder Lichtkurven: CSV exportieren… / Lichtkurve speichern (CSV)…).</translation>
+        <source>Choose the light curve (CSV from the Photometry or Light curves window: Export CSV / Save light curve).</source>
+        <translation>Die Lichtkurve wählen (CSV vom Fenster Photometrie oder Lichtkurven: CSV exportieren… / Lichtkurve speichern (CSV)…).</translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="68"/>
@@ -5647,6 +5637,16 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/models_page.py" line="80"/>
         <source>Posterior… shows the MCMC errors; Export results (CSV / LaTeX) writes the table.</source>
         <translation>Posterior… zeigt die MCMC-Fehler; Ergebnisse exportieren (CSV / LaTeX)… schreibt die Tabelle.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="143"/>
+        <source>With the velocities&apos; K1, K2 and the light curve&apos;s radii and inclination: masses and radii of both stars in solar units (needs a double-lined orbit fitted in the Spectroscopy window)</source>
+        <translation>Mit K1, K2 der Geschwindigkeiten und den Radien und der Neigung der Lichtkurve: Massen und Radien beider Sterne in Sonneneinheiten (braucht eine im Fenster Spektroskopie angepasste doppelliniige Bahn)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="261"/>
+        <source>Give the period and the time of primary minimum (O-C tab).</source>
+        <translation>Periode und Zeit des Hauptminimums angeben (Reiter O-C).</translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="303"/>
@@ -5911,8 +5911,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="48"/>
-        <source>Put the times of minimum below, one per line: your own from the Minimum tab (Light curves or Photometry page) and the published ones (Load file…; e.g. from the O−C gateway or the papers), all in the same time scale (BJD_TDB preferably).</source>
-        <translation>Tragen Sie die Minimumszeiten unten ein, eine pro Zeile: Ihre eigenen aus dem Reiter Minimum (Seite Lichtkurven oder Photometrie) und die veröffentlichten (Datei laden…; z. B. aus dem O−C-Gateway oder Veröffentlichungen), alle in derselben Zeitskala (am besten BJD_TDB).</translation>
+        <source>Put the times of minimum below, one per line: your own from the Minimum tab (Light curves or Photometry window) and the published ones (Load file…; e.g. from the O−C gateway or the papers), all in the same time scale (BJD_TDB preferably).</source>
+        <translation>Tragen Sie die Minimumszeiten unten ein, eine pro Zeile: Ihre eigenen aus dem Reiter Minimum (Fenster Lichtkurven oder Photometrie) und die veröffentlichten (Datei laden…; z. B. aus dem O−C-Gateway oder Veröffentlichungen), alle in derselben Zeitskala (am besten BJD_TDB).</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="54"/>
@@ -6758,18 +6758,23 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="266"/>
-        <source>Night plan (from the Plan page): every target gets the exposure rows below</source>
-        <translation>Nachtplan (von der Seite Planen): jedes Ziel bekommt die Belichtungszeilen unten</translation>
+        <source>Night plan (from the Planning window): every target gets the exposure rows below</source>
+        <translation>Nachtplan (vom Fenster Planung): jedes Ziel bekommt die Belichtungszeilen unten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_page.py" line="273"/>
+        <source>Forgets the night plan sent from the Planning window; the exposure rows stay</source>
+        <translation>Vergisst den vom Fenster Planung gesendeten Nachtplan; die Belichtungszeilen bleiben</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_page.py" line="393"/>
+        <source>One frame with this exposure, shown in the Images window (to check pointing and focus)</source>
+        <translation>Ein Bild mit dieser Belichtung, gezeigt im Fenster Bilder (um Ausrichtung und Fokus zu prüfen)</translation>
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="271"/>
         <source>Clear the night plan</source>
         <translation>Nachtplan löschen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/observe_page.py" line="273"/>
-        <source>Forgets the night plan sent from the Plan page; the exposure rows stay</source>
-        <translation>Vergisst den von der Seite Planen gesendeten Nachtplan; die Belichtungszeilen bleiben</translation>
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="281"/>
@@ -6921,11 +6926,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/observe_page.py" line="391"/>
         <source>Take preview</source>
         <translation>Vorschau aufnehmen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/observe_page.py" line="393"/>
-        <source>One frame with this exposure, shown on the Images page (to check pointing and focus)</source>
-        <translation>Ein Bild mit dieser Belichtung, gezeigt auf der Seite Bilder (um Ausrichtung und Fokus zu prüfen)</translation>
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="398"/>
@@ -7162,11 +7162,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/period_page.py" line="76"/>
-        <source>No light curve yet: measure one on the Photometry page or load a CSV file.</source>
-        <translation>Noch keine Lichtkurve: auf der Seite Photometrie messen oder eine CSV-Datei laden.</translation>
-    </message>
-    <message>
         <location filename="../../ui/period_page.py" line="100"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>Sternname, z. B. AI Dra oder TIC 12345678</translation>
@@ -7180,16 +7175,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/period_page.py" line="80"/>
         <source>Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…</source>
         <translation>CSV laden (Zeit, Fluss; oder AAVSO- / ZTF- / ASAS-SN-Dateien)…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/period_page.py" line="43"/>
-        <source>Get a light curve: from the Photometry page, a CSV file or an archive</source>
-        <translation>Eine Lichtkurve holen: von der Seite Photometrie, aus einer CSV-Datei oder einem Archiv</translation>
-    </message>
-    <message>
-        <location filename="../../ui/period_page.py" line="45"/>
-        <source>Load a CSV file, or type the star&apos;s name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) and press Download. A light curve measured on the Photometry page arrives here by itself.</source>
-        <translation>Laden Sie eine CSV-Datei oder geben Sie den Namen des Sterns ein, wählen Sie das Archiv (TESS, Kepler, K2, ZTF, AAVSO) und drücken Sie Herunterladen. Eine auf der Seite Photometrie gemessene Lichtkurve kommt von selbst hierher.</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="50"/>
@@ -7232,9 +7217,24 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Lichtkurve speichern (CSV)…</translation>
     </message>
     <message>
+        <location filename="../../ui/period_page.py" line="43"/>
+        <source>Get a light curve: from the Photometry window, a CSV file or an archive</source>
+        <translation>Eine Lichtkurve holen: vom Fenster Photometrie, aus einer CSV-Datei oder einem Archiv</translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="45"/>
+        <source>Load a CSV file, or type the star&apos;s name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) and press Download. A light curve measured in the Photometry window arrives here by itself.</source>
+        <translation>Laden Sie eine CSV-Datei oder geben Sie den Namen des Sterns ein, wählen Sie das Archiv (TESS, Kepler, K2, ZTF, AAVSO) und drücken Sie Herunterladen. Eine im Fenster Photometrie gemessene Lichtkurve kommt von selbst hierher.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="76"/>
+        <source>No light curve yet: measure one in the Photometry window or load a CSV file.</source>
+        <translation>Noch keine Lichtkurve: im Fenster Photometrie messen oder eine CSV-Datei laden.</translation>
+    </message>
+    <message>
         <location filename="../../ui/period_page.py" line="91"/>
-        <source>The light curve as shown (downloaded, edited) in a CSV file: open it on the Orbits &amp; models page or in another program</source>
-        <translation>Die Lichtkurve wie angezeigt (heruntergeladen, bearbeitet) als CSV-Datei: auf der Seite Bahnen &amp; Modelle oder in einem anderen Programm öffnen</translation>
+        <source>The light curve as shown (downloaded, edited) in a CSV file: open it in the Models window or in another program</source>
+        <translation>Die Lichtkurve wie angezeigt (heruntergeladen, bearbeitet) als CSV-Datei: im Fenster Modelle oder in einem anderen Programm öffnen</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="102"/>
@@ -7555,11 +7555,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/photometry_page.py" line="79"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_page.py" line="83"/>
-        <source>Choose the calibrated images (Calibrate page)</source>
-        <translation>Die kalibrierten Bilder wählen (Seite Kalibrieren)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="84"/>
@@ -8186,11 +8181,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Target-Pixel-Datei: {n} Kadenzen ausgelassen (ohne Zeit oder von der Mission als unbrauchbar markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="873"/>
-        <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC on the Calibrate page.</source>
-        <translation>Zeiten: Kamerauhr − {h} h. Eine Kamera auf Ortszeit braucht DSLR-Uhr − UTC auf der Seite Kalibrieren.</translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_page.py" line="902"/>
         <source>mark or unmark a star</source>
         <translation>Stern markieren oder entfernen</translation>
@@ -8373,6 +8363,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>⚠ {n} Bild(er) bei der Messung weggelassen (rot in der Bildliste):</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_page.py" line="1934"/>
+        <source>All of them are in the O-C tab.</source>
+        <translation>Alle stehen im Reiter O-C.</translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_page.py" line="1998"/>
         <source>Save the light curve for the model</source>
         <translation>Lichtkurve für das Modell speichern</translation>
@@ -8471,6 +8466,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>{n} Punkte, Streuung {rms:.2f} %</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_page.py" line="83"/>
+        <source>Choose the calibrated images (Calibration window)</source>
+        <translation>Die kalibrierten Bilder wählen (Fenster Kalibrierung)</translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_page.py" line="93"/>
         <source>The star the files name is marked as the target when it is in the field (else click it); the comparison stars and the radii then follow on their own. A click on a marked star takes it off, a click elsewhere adds one.</source>
         <translation>Der Stern, den die Dateien nennen, wird als Ziel markiert, wenn er im Feld liegt (sonst klicken Sie ihn an); Vergleichssterne und Radien folgen dann von selbst. Ein Klick auf einen markierten Stern nimmt ihn weg, ein Klick anderswo fügt einen hinzu.</translation>
@@ -8554,6 +8554,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/photometry_page.py" line="581"/>
         <source>Choose by what you observe: a V-shaped or rounded minimum of a binary star, or the flat-bottomed dip of a planet passing in front of its star.</source>
         <translation>Wählen Sie nach dem, was Sie beobachten: ein V-förmiges oder rundes Minimum eines Doppelsterns oder der flache Einbruch eines Planeten, der vor seinem Stern vorüberzieht.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_page.py" line="873"/>
+        <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC in the Calibration window.</source>
+        <translation>Zeiten: Kamerauhr − {h} h. Eine Kamera auf Ortszeit braucht DSLR-Uhr − UTC im Fenster Kalibrierung.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1347"/>
@@ -8752,11 +8757,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>{n} vorhergesagte Minima ausgelassen: nicht auf beiden Seiten beobachtet oder kein Abfall.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1934"/>
-        <source>All of them are on the O-C page.</source>
-        <translation>Alle stehen auf der O-C-Seite.</translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_page.py" line="1943"/>
         <source>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</source>
         <translation>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</translation>
@@ -8789,6 +8789,16 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/plan_page.py" line="46"/>
         <source>Plan</source>
         <translation>Planen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="68"/>
+        <source>Make a schedule and send it to the Observing window</source>
+        <translation>Einen Zeitplan erstellen und an das Fenster Beobachten senden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="69"/>
+        <source>Press Make a schedule, check it, then Send to the Observing window.</source>
+        <translation>Drücken Sie Zeitplan erstellen, prüfen Sie ihn, dann An die Fenster Beobachten senden.</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="79"/>
@@ -8911,16 +8921,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Belichtungszeit… schätzt die Belichtung für ein Signal-Rausch-Verhältnis.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="68"/>
-        <source>Make a schedule and send it to the Observe page</source>
-        <translation>Einen Zeitplan erstellen und an die Seite Beobachten senden</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="69"/>
-        <source>Press Make a schedule, check it, then Send to the Observe page.</source>
-        <translation>Drücken Sie Zeitplan erstellen, prüfen Sie ihn, dann An die Seite Beobachten senden.</translation>
-    </message>
-    <message>
         <location filename="../../ui/plan_page.py" line="124"/>
         <source>Auto</source>
         <translation>Automatisch</translation>
@@ -9036,136 +9036,136 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Zuerst Bedeckungen und Transits, dann in jeder Stunde der Nacht das höchste Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="221"/>
-        <source>Send to the Observe page</source>
-        <translation>An die Seite Beobachten senden</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="225"/>
-        <source>The schedule becomes the night plan of the Observe page; you still check it and start it there</source>
-        <translation>Der Zeitplan wird zum Nachtplan der Seite Beobachten; Sie prüfen und starten ihn dort selbst</translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_page.py" line="252"/>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="254"/>
+        <location filename="../../ui/plan_page.py" line="268"/>
         <source>Target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="253"/>
+        <location filename="../../ui/plan_page.py" line="255"/>
         <source>Event</source>
         <translation>Ereignis</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="254"/>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="256"/>
+        <location filename="../../ui/plan_page.py" line="268"/>
         <source>Start (UTC)</source>
         <translation>Beginn (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="255"/>
+        <location filename="../../ui/plan_page.py" line="257"/>
         <source>Middle (UTC)</source>
         <translation>Mitte (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="256"/>
+        <location filename="../../ui/plan_page.py" line="258"/>
         <source>Middle (local)</source>
         <translation>Mitte (Ortszeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="257"/>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="259"/>
+        <location filename="../../ui/plan_page.py" line="268"/>
         <source>End (UTC)</source>
         <translation>Ende (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="258"/>
+        <location filename="../../ui/plan_page.py" line="260"/>
         <source>Observable</source>
         <translation>Beobachtbar</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="266"/>
+        <location filename="../../ui/plan_page.py" line="268"/>
         <source>Why</source>
         <translation>Warum</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="296"/>
-        <location filename="../../ui/plan_page.py" line="346"/>
+        <location filename="../../ui/plan_page.py" line="298"/>
+        <location filename="../../ui/plan_page.py" line="348"/>
         <source>Looking up {name}…</source>
         <translation>Suche {name}…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="321"/>
+        <location filename="../../ui/plan_page.py" line="323"/>
         <source>Also list the secondary minima (half a period after the primary)</source>
         <translation>Auch die Nebenminima auflisten (eine halbe Periode nach dem Hauptminimum)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="322"/>
+        <location filename="../../ui/plan_page.py" line="324"/>
         <source>secondary minima</source>
         <translation>Nebenminima</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="326"/>
+        <location filename="../../ui/plan_page.py" line="328"/>
         <source>add a target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="341"/>
+        <location filename="../../ui/plan_page.py" line="343"/>
         <source>{name} added ({source}).</source>
         <translation>{name} hinzugefügt ({source}).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="364"/>
+        <location filename="../../ui/plan_page.py" line="366"/>
         <source>Row {row}: T0, period and duration must be numbers</source>
         <translation>Zeile {row}: T0, Periode und Dauer müssen Zahlen sein</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="377"/>
+        <location filename="../../ui/plan_page.py" line="379"/>
         <source>Computing…</source>
         <translation>Berechne…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="407"/>
+        <location filename="../../ui/plan_page.py" line="409"/>
         <source>eclipse / transit</source>
         <translation>Bedeckung / Transit</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="407"/>
+        <location filename="../../ui/plan_page.py" line="409"/>
         <source>highest target</source>
         <translation>höchstes Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="420"/>
+        <location filename="../../ui/plan_page.py" line="422"/>
         <source>No target is high enough during the dark hours.</source>
         <translation>Kein Ziel steht in den dunklen Stunden hoch genug.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="500"/>
+        <location filename="../../ui/plan_page.py" line="502"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Astronomische Nacht: {dusk} – {dawn} UTC ({ldusk} – {ldawn} Ortszeit, UTC{off}); {n} Ereignisse.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="477"/>
+        <location filename="../../ui/plan_page.py" line="479"/>
         <source>minimum I / transit</source>
         <translation>Minimum I / Transit</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="477"/>
+        <location filename="../../ui/plan_page.py" line="221"/>
+        <source>Send to the Observing window</source>
+        <translation>An die Fenster Beobachten senden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="226"/>
+        <source>The schedule becomes the night plan of the Observing window; you still check it and start it there</source>
+        <translation>Der Zeitplan wird zum Nachtplan des Fensters Beobachten; Sie prüfen und starten ihn dort selbst</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="479"/>
         <source>minimum II</source>
         <translation>Minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="494"/>
+        <location filename="../../ui/plan_page.py" line="496"/>
         <source>yes</source>
         <translation>ja</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="494"/>
+        <location filename="../../ui/plan_page.py" line="496"/>
         <source>partly</source>
         <translation>teilweise</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="498"/>
+        <location filename="../../ui/plan_page.py" line="500"/>
         <source>no astronomical night</source>
         <translation>keine astronomische Nacht</translation>
     </message>
@@ -9491,8 +9491,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="192"/>
-        <source>Calibrate the science frame and the arc on the Calibrate page (bias and dark; the flat divides the science frame, never the arc), then choose them below.</source>
-        <translation>Kalibrieren Sie Wissenschaftsbild und Bogen auf der Seite Kalibrieren (Bias und Dark; das Flat teilt das Wissenschaftsbild, nie den Bogen), dann unten wählen.</translation>
+        <source>Calibrate the science frame and the arc in the Calibration window (bias and dark; the flat divides the science frame, never the arc), then choose them below.</source>
+        <translation>Kalibrieren Sie Wissenschaftsbild und Bogen im Fenster Kalibrierung (Bias und Dark; das Flat teilt das Wissenschaftsbild, nie den Bogen), dann unten wählen.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="197"/>
@@ -9948,8 +9948,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="2252"/>
-        <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) on the Calibrate page first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
-        <translation>1. Rohbilder Ihres Spektrographen: &lt;b&gt;Reduktion&lt;/b&gt; (Langspalt: Bogenlampe → Spur → Extraktion → Wellenlängen) oder &lt;b&gt;Echelle&lt;/b&gt; (viele Ordnungen). Kalibrieren Sie die Bilder (Bias, Dark, Flat) zuerst auf der Seite Kalibrieren.&lt;br&gt;2. Spektren, die schon Wellenlängen haben (ein Archiv, eine andere Pipeline): bei 3 beginnen.&lt;br&gt;3. &lt;b&gt;Tellurisch&lt;/b&gt; (freiwillig): dividiert die Erdatmosphäre heraus (O₂-, H₂O-Banden, meist im Roten) mit einem heißen Stern, der nahe dem Ziel beobachtet wurde.&lt;br&gt;4. &lt;b&gt;Radialgeschwindigkeit und Bahn&lt;/b&gt;: die Geschwindigkeit des Sterns in jedem Spektrum gegen eine Vorlage, zwei Sterne eines Doppelsterns (TODCOR, Verbreiterungsfunktion), die Bahn, der Spektraltyp (MK).&lt;br&gt;5. &lt;b&gt;Spektrenwerkzeuge&lt;/b&gt;: normieren, eine Linie messen (Äquivalentbreite, FWHM, V/R), glätten, Spektren addieren oder dividieren, Atmosphärenparameter (Teff, log g, [Fe/H]).&lt;br&gt;Die Methoden und ihre Formeln: Anleitung, Spektroskopie und Mathematik der Methoden.</translation>
+        <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) in the Calibration window first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
+        <translation>1. Rohbilder Ihres Spektrographen: &lt;b&gt;Reduktion&lt;/b&gt; (Langspalt: Bogenlampe → Spur → Extraktion → Wellenlängen) oder &lt;b&gt;Echelle&lt;/b&gt; (viele Ordnungen). Kalibrieren Sie die Bilder (Bias, Dark, Flat) zuerst im Fenster Kalibrierung.&lt;br&gt;2. Spektren, die schon Wellenlängen haben (ein Archiv, eine andere Pipeline): bei 3 beginnen.&lt;br&gt;3. &lt;b&gt;Tellurisch&lt;/b&gt; (freiwillig): dividiert die Erdatmosphäre heraus (O₂-, H₂O-Banden, meist im Roten) mit einem heißen Stern, der nahe dem Ziel beobachtet wurde.&lt;br&gt;4. &lt;b&gt;Radialgeschwindigkeit und Bahn&lt;/b&gt;: die Geschwindigkeit des Sterns in jedem Spektrum gegen eine Vorlage, zwei Sterne eines Doppelsterns (TODCOR, Verbreiterungsfunktion), die Bahn, der Spektraltyp (MK).&lt;br&gt;5. &lt;b&gt;Spektrenwerkzeuge&lt;/b&gt;: normieren, eine Linie messen (Äquivalentbreite, FWHM, V/R), glätten, Spektren addieren oder dividieren, Atmosphärenparameter (Teff, log g, [Fe/H]).&lt;br&gt;Die Methoden und ihre Formeln: Anleitung, Spektroskopie und Mathematik der Methoden.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="2300"/>
@@ -11499,14 +11499,19 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>v sin i = {v:.1f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1851"/>
-        <source>site from the Plan page</source>
-        <translation>Ort von der Plan-Seite</translation>
+        <location filename="../../ui/spectro_page.py" line="1907"/>
+        <source>Barycentric correction needs the time, the target position and the site (Planning window).</source>
+        <translation>Die baryzentrische Korrektur braucht die Zeit, die Zielposition und den Standort (Fenster Planung).</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1851"/>
         <source>site from the file header</source>
         <translation>Ort aus dem Datei-Header</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="1851"/>
+        <source>site from the Planning window</source>
+        <translation>Ort aus dem Fenster Planung</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1857"/>
@@ -11552,11 +11557,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/spectro_page.py" line="1898"/>
         <source>{file} left out: it covers {a:.0f}–{b:.0f} Å, outside the chosen wavelengths.</source>
         <translation>{file} ausgelassen: deckt {a:.0f}–{b:.0f} Å ab, außerhalb der gewählten Wellenlängen.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectro_page.py" line="1907"/>
-        <source>Barycentric correction needs the time, the target position and the site (Plan page).</source>
-        <translation>Die baryzentrische Korrektur braucht die Zeit, die Zielposition und den Standort (Seite Planen).</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1925"/>
@@ -11966,8 +11966,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/overlay_actions.py" line="157"/>
-        <source>No markers on the image (stars picked on the Photometry page are markers).</source>
-        <translation>Keine Markierungen im Bild (auf der Photometrie-Seite gewählte Sterne sind Markierungen).</translation>
+        <source>No markers on the image (stars picked in the Photometry window are markers).</source>
+        <translation>Keine Markierungen im Bild (im Fenster Photometrie gewählte Sterne sind Markierungen).</translation>
     </message>
 </context>
 </TS>

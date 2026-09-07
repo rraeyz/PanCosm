@@ -88,7 +88,7 @@ def start_time(header) -> Time:
     if date_only:
         raise TimeError(f"{date_only} holds a date but no time of day, and no time keyword was found")
     raise TimeError(
-        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS on the Images page's Header tab"
+        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window's Header tab"
     )
 
 

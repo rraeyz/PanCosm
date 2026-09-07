@@ -189,7 +189,7 @@ class ReduceTab(Undoable, QWidget):
                 (
                     self.tr("Calibrate the science frame and the arc: bias, dark, flat (IRAF ccdproc)"),
                     self.tr(
-                        "Calibrate the science frame and the arc on the Calibrate page (bias and dark; the flat "
+                        "Calibrate the science frame and the arc in the Calibration window (bias and dark; the flat "
                         "divides the science frame, never the arc), then choose them below."
                     ),
                 ),
@@ -677,7 +677,7 @@ class EchelleTab(Undoable, QWidget):
                 (
                     self.tr("Calibrate the science frame, the flat and the ThAr: bias and dark off (IRAF ccdproc)"),
                     self.tr(
-                        "Calibrate the science frame, the flat and the ThAr on the Calibrate page (bias, dark; the "
+                        "Calibrate the science frame, the flat and the ThAr in the Calibration window (bias, dark; the "
                         "flat is not divided into echelle frames), then choose them below. Raw frames work too: then "
                         "only the overscan is taken off, where the header gives it."
                     ),
@@ -962,7 +962,7 @@ class EchelleTab(Undoable, QWidget):
             if raw:
                 self.status.setText(
                     self.tr(
-                        "Not calibrated (raw): {files}. Bias and dark are best taken off on the Calibrate page "
+                        "Not calibrated (raw): {files}. Bias and dark are best taken off in the Calibration window "
                         "first; the overscan is taken off here where the header gives it."
                     ).format(files=", ".join(raw))
                 )
@@ -1848,7 +1848,7 @@ class VelocityTab(QWidget):
             (round(r["site"]["lat"], 3), round(r["site"]["lon"], 3), r["site"]["from"]) for r in rows if r.get("site")
         }
         where = [
-            (self.tr("site from the Plan page") if src == "plan" else self.tr("site from the file header"))
+            (self.tr("site from the Planning window") if src == "plan" else self.tr("site from the file header"))
             + f" ({lat:+.3f}°, {lon:+.3f}°)"
             for lat, lon, src in sorted(sites)
         ]
@@ -1904,7 +1904,7 @@ class VelocityTab(QWidget):
                 ""
                 if all(r["v_corr"] is not None for r in rows)
                 else " "
-                + self.tr("Barycentric correction needs the time, the target position and the site (Plan page).")
+                + self.tr("Barycentric correction needs the time, the target position and the site (Planning window).")
             )
         )
 
@@ -2250,8 +2250,8 @@ class SpectroscopyPage(QWidget):
         steps = QLabel(
             self.tr(
                 "1. Raw frames from your spectrograph: <b>Reduce</b> (long slit: arc lamp → trace → extraction → "
-                "wavelengths) or <b>Echelle</b> (many orders). Calibrate the frames (bias, dark, flat) on the "
-                "Calibrate page first.<br>"
+                "wavelengths) or <b>Echelle</b> (many orders). Calibrate the frames (bias, dark, flat) in the "
+                "Calibration window first.<br>"
                 "2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.<br>"
                 "3. <b>Telluric</b> (optional): divides out the Earth's atmosphere (O₂, H₂O bands, mostly red) "
                 "with a hot star observed near your target.<br>"

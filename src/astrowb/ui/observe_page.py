@@ -263,14 +263,14 @@ class ObservePage(Undoable, QWidget):
         pl = QVBoxLayout(self.plan_box)
         pl.setContentsMargins(0, 0, 0, 0)
         pl.addWidget(
-            _wrapped(self.tr("Night plan (from the Plan page): every target gets the exposure rows below"), self)
+            _wrapped(self.tr("Night plan (from the Planning window): every target gets the exposure rows below"), self)
         )
         self.plan_list = QListWidget(self)
         self.plan_list.setMaximumHeight(110)
         pl.addWidget(self.plan_list)
         clear = QPushButton(self.tr("Clear the night plan"), self)
         clear.clicked.connect(lambda: self.load_schedule([]))
-        clear.setToolTip(self.tr("Forgets the night plan sent from the Plan page; the exposure rows stay"))
+        clear.setToolTip(self.tr("Forgets the night plan sent from the Planning window; the exposure rows stay"))
         pl.addWidget(clear)
         self.plan_box.hide()
         self.plan = []
@@ -390,7 +390,7 @@ class ObservePage(Undoable, QWidget):
                 button(
                     self.tr("Take preview"),
                     self.take_preview,
-                    self.tr("One frame with this exposure, shown on the Images page (to check pointing and focus)"),
+                    self.tr("One frame with this exposure, shown in the Images window (to check pointing and focus)"),
                 ),
                 None,
             ),

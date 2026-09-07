@@ -65,8 +65,8 @@ class PlanPage(Undoable, QWidget):
                     self.tr("Exposure time… estimates the exposure for a signal-to-noise."),
                 ),
                 (
-                    self.tr("Make a schedule and send it to the Observe page"),
-                    self.tr("Press Make a schedule, check it, then Send to the Observe page."),
+                    self.tr("Make a schedule and send it to the Observing window"),
+                    self.tr("Press Make a schedule, check it, then Send to the Observing window."),
                 ),
             ],
             self,
@@ -218,11 +218,13 @@ class PlanPage(Undoable, QWidget):
             self.tr("Eclipses and transits first, then the highest target in each hour of the night")
         )
         self.schedule_button.clicked.connect(self.make_schedule)
-        self.send_button = QPushButton(self.tr("Send to the Observe page"), self)
+        self.send_button = QPushButton(self.tr("Send to the Observing window"), self)
         self.send_button.clicked.connect(lambda: self.schedule_requested.emit(self.blocks))
         self.send_button.clicked.connect(lambda: self.guide.set_state(4, "done"))
         self.send_button.setToolTip(
-            self.tr("The schedule becomes the night plan of the Observe page; you still check it and start it there")
+            self.tr(
+                "The schedule becomes the night plan of the Observing window; you still check it and start it there"
+            )
         )
         for b in (self.schedule_button, self.send_button):
             b.setEnabled(False)

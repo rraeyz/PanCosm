@@ -46,7 +46,7 @@ class OCPage(QWidget):
                     self.tr("Times of minimum: measured (Minimum tab) and from the literature"),
                     self.tr(
                         "Put the times of minimum below, one per line: your own from the Minimum tab (Light curves "
-                        "or Photometry page) and the published ones (Load file…; e.g. from the O−C gateway or the "
+                        "or Photometry window) and the published ones (Load file…; e.g. from the O−C gateway or the "
                         "papers), all in the same time scale (BJD_TDB preferably)."
                     ),
                 ),

@@ -235,7 +235,7 @@ def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None):
     paths = [str(p) for p in paths]
     if not paths:
         raise CalibrationError(
-            "no frames to combine: check the folder and the frame types listed on the Calibrate page"
+            "no frames to combine: check the folder and the frame types listed in the Calibration window"
         )
     hduls, hdus, (ny, nx) = _open(paths)
     try:
