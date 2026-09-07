@@ -428,7 +428,7 @@ I4 has moved every page (see "To ask the owner").
   3. Light curves / Period / O−C (split into O−C and Period / frequency windows, or kept together: ask the owner) —
      **agent2 done (2026-11-08, commit a0c0c7f)**, kept together with tabs until the owner answers;
   4. Spectroscopy — **agent2 done (2026-11-08, commit b41844e)**;
-  5. Models;
+  5. Models — **agent2 done (2026-11-08, commit bf0546b)**;
   6. Images;
   7. Planning;
   8. Observing;
