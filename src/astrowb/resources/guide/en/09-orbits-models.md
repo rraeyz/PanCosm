@@ -1,5 +1,5 @@
 # Orbits and models
-The **Orbits & models** page fits a physical model to the light curve of a detached eclipsing binary or a transiting planet, and combines it with a spectroscopic orbit into absolute dimensions.
+The **Orbits & models** page fits a physical model to the light curve of a detached eclipsing binary or a transiting planet, and combines it with a spectroscopic orbit into absolute dimensions. Models opens in a window of its own (its block on the Start page or the sidebar), with its own Edit → Undo / Redo for the parameters and the fits.
 
 ## The model
 Two limb-darkened spheres on a Keplerian orbit. It suits detached binaries and transits. Close, distorted or contact binaries need a Roche model: export to PHOEBE or WD instead.

@@ -186,9 +186,10 @@ def test_models_parameters(window):
 
     page.edit("fitted values", page._fill_values, dict.fromkeys(NAMES, 0.25))
     assert page.table.item(0, 1).text() == "0.25"
-    keys(window, UNDO)
+    area = area_in_front(window, "orbits")  # Models has its own window (interface I4)
+    keys(area, UNDO)
     assert page.undo_state() == before
-    keys(window, UNDO, UNDO)
+    keys(area, UNDO, UNDO)
     assert page.table.item(0, 1).text() != "2.5"
-    keys(window, REDO, REDO, REDO)
+    keys(area, REDO, REDO, REDO)
     assert page.table.item(0, 1).text() == "0.25"

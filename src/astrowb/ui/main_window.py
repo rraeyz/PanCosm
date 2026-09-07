@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
     }
 
     # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
-    WINDOWED = ("photometry", "calibrate", "timeseries", "spectroscopy")
+    WINDOWED = ("photometry", "calibrate", "timeseries", "spectroscopy", "orbits")
 
     def _area_key(self, attr):
         return next((k for k, a in self.PAGES.items() if a == attr), None)
@@ -764,7 +764,8 @@ class MainWindow(QMainWindow):
 
         page = ModelsPage(self)
         page.fit_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "orbits",
                 "models.eb_fit",
                 inputs,
                 params,
@@ -773,7 +774,8 @@ class MainWindow(QMainWindow):
             )
         )
         page.visual_tab.fit_requested.connect(
-            lambda inputs, params: self.run_step(
+            lambda inputs, params: self.run_step_for(
+                "orbits",
                 "models.visual_orbit",
                 inputs,
                 params,
@@ -2141,7 +2143,7 @@ def _undo_source(page):
     """What an area window's Undo / Redo act on: the page's undo stack, or for a page of tabs (Light curves: period,
     frequency, variables, O−C) a group that follows the tab shown."""
     tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
-    if tabs is None:
+    if tabs is None or getattr(page, "undo_stack", None) is not None:  # a page with one stack of its own (Models)
         return getattr(page, "undo_stack", None)
     group = QUndoGroup(page)
     stacks = {}
