@@ -971,36 +971,20 @@ def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
 
 
 def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
-    """A page shown beside the image (as MaxIm DL's tool windows): the image stays, the sidebar brings the panel
-    forward, closing the panel puts the page back; remembered for the next start. Areas moved into windows of
-    their own (Photometry, plans/interface.md I4) are not panels, even when old settings name them."""
+    """Pages used to be shown as panels beside the image (as MaxIm DL's tool windows). Now that every area, Images
+    included, has a window of its own (plans/interface.md I4) there is nothing to put beside the image: no page
+    becomes a panel, the menu is hidden, and settings saved by an older version that name panels still open."""
     from astrowb.ui.main_window import MainWindow
 
     window.show()
-    window.show_workspace("image")
-    dock = window.dock_page("project")
-    assert dock.isVisible() and dock.widget() is window._frames[window.project_page]
-    assert window.pages.indexOf(dock.widget()) == -1 and window.current_workspace() == "image"
-    window.show_workspace("project")  # the sidebar raises the panel, the image stays
-    assert window.current_workspace() == "image" and window.pages.currentWidget() is window._frames[window.image_page]
-    window._fill_panels_menu()
-    acts = {a.text(): a for a in window.panels_menu.actions()}
-    assert acts[window._nav_items()["project"].text()].isChecked()
-    assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
-    acts[window._nav_items()["guide"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"project", "guide"}
-    assert window.settings.get("ui.panels") == ["project", "guide"]
-    window.settings.set("ui.panels", ["project", "guide", "photometry"])  # saved by an older version
+    for key in ("project", "guide", "photometry", "image", "start"):
+        assert window.dock_page(key) is None
+    assert not window._panels and not window.panels_menu.menuAction().isVisible()
+    window.settings.set("ui.panels", ["spectroscopy", "timeseries", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"project", "guide"}
+    assert not again._panels
     again.engine.shutdown()
-    dock.close()
-    assert "project" not in window._panels and window.pages.indexOf(window._frames[window.project_page]) >= 0
-    window.show_workspace("project")
-    assert window.current_workspace() == "project"
-    assert window.dock_page("image") is None and "image" not in window._panels
-    assert window.dock_page("photometry") is None
 
 
 def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file):
@@ -1009,9 +993,10 @@ def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file)
     from PySide6.QtCore import QPoint
     from PySide6.QtTest import QTest
 
-    window.resize(1366, 768)
     window.show()
     window.open_fits(fits_file)
+    area = window.area_windows["image"]  # Images has its own window (interface I4.6)
+    area.resize(1366, 768)
     page, viewer = window.image_page, window.viewer
     qtbot.waitUntil(lambda: viewer.width() > 100)
     before = viewer.width()
@@ -1032,7 +1017,7 @@ def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file)
     nav.setSizes([nav.sizes()[0] + 80, nav.sizes()[1] - 80])  # the sidebar's edge moves too
     assert window.nav.width() == nav.sizes()[0]
     big = viewer.transform().m11()
-    window.resize(900, 600)  # a smaller window: the image shrinks with it, still whole
+    area.resize(900, 600)  # a smaller window: the image shrinks with it, still whole
     qtbot.waitUntil(lambda: viewer.transform().m11() < big)
     assert fitted()
 

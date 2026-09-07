@@ -124,6 +124,7 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.progress)
 
         self._build_menus()
+        self._menus_to_image_window()
         self._follow_undo()
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         self._fill_image_toolbar()
@@ -160,6 +161,7 @@ class MainWindow(QMainWindow):
         "observe",
         "automation",
         "remotesensing",
+        "image",
     )
 
     def _area_key(self, attr):
@@ -266,6 +268,29 @@ class MainWindow(QMainWindow):
         if current:
             self.pages.setCurrentIndex(i)
 
+    def _menus_to_image_window(self):
+        """The image's menus (View: zoom, levels, stretch, overlays; Image: solving, processing) move with the Images
+        page into its window; Open / Save image are in both File menus (interface I4.6)."""
+        win = self.area_windows.get("image")
+        if win is None:
+            return
+        bar = win.menuBar()
+        for menu in (self.view_menu, self.image_bar_menu):
+            self.menuBar().removeAction(menu.menuAction())
+            bar.insertMenu(win.window_menu.menuAction(), menu)
+        win.view_menu.menuAction().setVisible(False)  # the frame's own View: its items join the moved one
+        self.view_menu.addSeparator()
+        for act in win.view_menu.actions():
+            self.view_menu.addAction(act)
+        first = win.file_menu.actions()[0]
+        win.file_menu.insertActions(first, [self.open_action, self.save_action])
+        win.file_menu.insertSeparator(first)
+        self.panels_menu.menuAction().setVisible(False)  # every area has its own window now: no panels beside it
+        from PySide6.QtWidgets import QLabel
+
+        self.image_pixel_label = QLabel(win)
+        win.statusBar().addWidget(self.image_pixel_label, 1)
+
     def _place_in_window(self, key, page):
         """The page, as it is, in an area window of its own (scrolling inside it when the window is smaller)."""
         from PySide6.QtWidgets import QFrame, QScrollArea
@@ -353,7 +378,7 @@ class MainWindow(QMainWindow):
     def dock_page(self, key, on=True):
         """Show a page as a panel beside the image, as MaxIm DL's tool windows (it can be dragged out as a window
         of its own or tabbed with other panels), or put it back in the sidebar's list. Remembered for next time."""
-        if key in ("start", "image") or key in self.WINDOWED or on == (key in self._panels):
+        if key in ("start", "image") or key in self.WINDOWED or "image" in self.WINDOWED or on == (key in self._panels):
             return None  # an area in a window of its own is not a panel here (old settings may still name it)
         page = getattr(self, self.PAGES[key])
         frame = self._frames.get(page, page)
@@ -1102,7 +1127,7 @@ class MainWindow(QMainWindow):
             act.setToolTip(tip)
             e.addAction(act)
 
-        v = self.menuBar().addMenu(self.tr("&View"))
+        v = self.view_menu = self.menuBar().addMenu(self.tr("&View"))
         self.fit_action = self._action(v, self.tr("Zoom to &fit"), self.viewer.fit, "F")
         self.zoom_in_action = self._action(v, self.tr("Zoom &in"), lambda: self.viewer.zoom(1.25), QKeySequence.ZoomIn)
         zoom_out = QKeySequence.ZoomOut
@@ -1130,14 +1155,6 @@ class MainWindow(QMainWindow):
         self.overlay_menu = add_overlay_menu(self, v)
         self.panels_menu = v.addMenu(self.tr("Panels beside the image"))
         self.panels_menu.aboutToShow.connect(self._fill_panels_menu)
-        text_menu = v.addMenu(self.tr("Text size"))
-        sizes = (
-            (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
-            (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
-            (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
-        )
-        for text, step, key in sizes:
-            self._action(text_menu, text, lambda s=step: self._change_font(s), key)
         for title, keys, kw in (
             (self.tr("Interval"), INTERVALS, "interval"),
             (self.tr("Stretch"), STRETCHES, "stretch"),
@@ -1149,7 +1166,7 @@ class MainWindow(QMainWindow):
                 act.setChecked(key == getattr(self.viewer, kw))
                 group.addAction(act)
 
-        im = self.menuBar().addMenu(self.tr("&Image"))
+        im = self.image_bar_menu = self.menuBar().addMenu(self.tr("&Image"))
         self.solve_action = self._action(im, self.tr("&Plate solve (ASTAP / astrometry.net)"), self.plate_solve)
         self.solve_action.setEnabled(False)
         self._action(im, self.tr("&Colour image from three filters…"), self.colour_dialog)
@@ -1219,6 +1236,14 @@ class MainWindow(QMainWindow):
             act.setChecked(code == compute.mode())
             group.addAction(act)
 
+        text_menu = s.addMenu(self.tr("Text size"))  # View → Text size in the area windows
+        sizes = (
+            (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
+            (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
+            (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
+        )
+        for text, step, key in sizes:
+            self._action(text_menu, text, lambda s=step: self._change_font(s), key)
         self.window_menu = self.menuBar().addMenu(self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
         h = self.menuBar().addMenu(self.tr("&Help"))
@@ -1925,6 +1950,8 @@ class MainWindow(QMainWindow):
             sky = self.wcs.pixel_to_world(x - 1, y - 1)
             text += "  " + sky.to_string("hmsdms", precision=1)
         self.pixel_label.setText(text)
+        if getattr(self, "image_pixel_label", None) is not None:  # the cursor read-out of the Images window
+            self.image_pixel_label.setText(text)
 
     def _update_title(self):
         parts = [BRAND.display_name]

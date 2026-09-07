@@ -1,5 +1,5 @@
 # Images
-The **Images** page shows a FITS image, its header and coordinates, and runs image operations.
+The **Images** page shows a FITS image, its header and coordinates, and runs image operations. Images opens in a window of its own (its block on the Start page, the sidebar, or any image opened); its menus View (zoom, levels, stretch, overlays) and Image (plate solving, processing) are there, and the cursor read-out (x, y, value, RA / Dec) is in its status bar.
 
 ## Opening and viewing
 - **File → Open FITS…** (or the Start page) opens `.fits`, `.fit`, `.fts` and their `.gz` versions. A file with several images (multi-extension FITS: mosaic cameras, HST/JWST products) asks which one to show; that image is saved as a file of its own next to the original (`<name>_<EXTNAME>_<n>.fits`, the primary header's keywords kept) and opened, so every tool — header editing, processing, plate solving, photometry — works on it. The original file is not changed.
