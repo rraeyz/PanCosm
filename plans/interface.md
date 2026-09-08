@@ -535,7 +535,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
   target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
   a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
-- **(2) Photometry: the star table is squeezed in the results panel.** The long info text above it leaves the Stars
+- **(2) Photometry: the star table is squeezed in the results panel.** **agent2 claimed (2026-11-08) — do not touch** The long info text above it leaves the Stars
   tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
   table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
 - **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 done (2026-11-08, this commit)** — `photometry.steps.period_warnings`, shown as ⚠ lines under
