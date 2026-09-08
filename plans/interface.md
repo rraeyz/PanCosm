@@ -515,7 +515,7 @@ a Measurements table, multi-plot and detrend & fit as their own panels (photomet
 the middle, lines and fit in panels).
 
 ### I6a. Test every window as a user (PLAN.md R3)
-**open** — after I4 and again after each I5 / I6 window.
+**agent2 claimed (2026-11-08) — do not touch** — after I4 and again after each I5 / I6 window.
 - **Build:** a driving script per window (QTest clicks, offscreen or Xvfb) that walks its workflow on real data
   and saves a screenshot of each step at 1366 × 768 and 1920 × 1080, in the four languages. A reviewer (the agent)
   looks at every screenshot as a newcomer would and writes each finding here as a task.
