@@ -265,7 +265,7 @@ class AreaWindow(QMainWindow):
             self.open_files(paths)
 
     def open_files(self, paths):
-        paths = [str(p) for p in paths]
+        paths = [str(Path(p)) for p in paths]  # one spelling per file (a dropped file came with / on Windows)
         self._remember(paths)
         self.open_files_handler(paths)
 

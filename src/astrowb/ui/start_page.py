@@ -4,7 +4,7 @@ as NINA's area tabs with an icon and a short name, but each area its own window.
 
 from pathlib import Path
 
-from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication, QSize, Qt, Signal
+from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication, QEvent, QSize, Qt, Signal
 from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
@@ -107,7 +107,9 @@ class StartPage(QWidget):
         lay.addWidget(self.continue_list)
         self.set_recent(recent)
 
-        lay.addWidget(QLabel(self.tr("Choose what you want to do:"), self))
+        self.choose = QLabel(self.tr("Choose what you want to do:"), self)
+        self.choose.setProperty("muted", True)
+        lay.addWidget(self.choose)
         self.grid = QGridLayout()
         self.grid.setSpacing(6)
         self.blocks, self.columns = [], 0
@@ -122,17 +124,18 @@ class StartPage(QWidget):
             block.setIcon(glyph(symbol, colour, 48))
             block.setIconSize(QSize(0, 0))  # the icon is drawn by the label beside the name
             inner = QHBoxLayout(block)
-            inner.setContentsMargins(8, 4, 8, 4)
+            inner.setContentsMargins(8, 2, 8, 2)
             icon = QLabel(block)
             icon.setPixmap(glyph(symbol, colour, 48).pixmap(28, 28))
-            text = QLabel(f"<b>{name}</b><br><span style='color:gray'>{what}</span>", block)
+            # the description smaller and muted: ten blocks fit a laptop window at 125 % on Windows too
+            text = QLabel(f"<b>{name}</b><br><span style='color:gray; font-size:small'>{what}</span>", block)
             text.setTextFormat(Qt.RichText)
             text.setWordWrap(True)
             for label in (icon, text):
                 label.setAttribute(Qt.WA_TransparentForMouseEvents)  # the click goes to the block
             inner.addWidget(icon)
             inner.addWidget(text, 1)
-            block.setMinimumHeight(2 * text.fontMetrics().lineSpacing() + 14)  # the name and one line of text
+            block.setMinimumHeight(2 * text.fontMetrics().lineSpacing() + 6)  # the name and one line of text
             block.label = text
             block.clicked.connect(lambda _=False, k=key: self.action.emit(k))
             self.blocks.append(block)
@@ -165,14 +168,34 @@ class StartPage(QWidget):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
+        self._relayout()
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        holder = self.parentWidget()  # a scroll area's viewport: the room really there, even when narrower than us
+        if holder is not None and not getattr(self, "_watching", False):
+            holder.installEventFilter(self)
+            self._watching = True
+        self._relayout()
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Resize and obj is self.parentWidget():
+            self._relayout()
+        return super().eventFilter(obj, event)
+
+    def _relayout(self):
+        holder = self.parentWidget()
+        width = holder.width() if holder is not None else self.width()
         margins = self.layout().contentsMargins()
-        room = event.size().width() - margins.left() - margins.right()
+        room = width - margins.left() - margins.right()
         # two columns once each is wide enough to read (descriptions wrap to a second line): ten blocks in one
         # column were taller than a laptop window at 125 % (1100 x 600)
         self._arrange(2 if room >= 2 * self.MIN_COLUMN + self.grid.horizontalSpacing() else 1)
         # the project buttons and Basic / Expert side by side when they fit, else one row under the other
-        wide = self.project_row.minimumSize().width() + self.mode_row.minimumSize().width() + 24
+        buttons = sum(b.sizeHint().width() for b in self.buttons) + 2 * self.project_row.spacing()
+        self.project_row.setDirection(QHBoxLayout.LeftToRight if room >= buttons else QHBoxLayout.TopToBottom)
+        wide = self.project_row.sizeHint().width() + self.mode_row.sizeHint().width() + 24
         self.top.setDirection(QHBoxLayout.LeftToRight if room >= wide else QHBoxLayout.TopToBottom)
         column = (room - (self.columns - 1) * self.grid.horizontalSpacing()) // self.columns
         for b in self.blocks:  # tall enough for the description as it wraps at this width
-            b.setMinimumHeight(b.label.heightForWidth(max(80, column - 28 - 32)) + 10)
+            b.setMinimumHeight(b.label.heightForWidth(max(80, column - 28 - 32)) + 6)
