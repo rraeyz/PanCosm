@@ -1127,7 +1127,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/calibrate_page.py" line="85"/>
         <source>Press 4. Measure them in the Photometry window →, or stack them into one deep picture.</source>
-        <translation>Drücken Sie 4. Auf der Fenster Photometrie messen → oder stapeln Sie sie zu einem tiefen Bild.</translation>
+        <translation>Drücken Sie 4. Im Fenster Photometrie messen → oder stapeln Sie sie zu einem tiefen Bild.</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="271"/>
@@ -1137,12 +1137,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/calibrate_page.py" line="312"/>
         <source>4. Measure them in the Photometry window →</source>
-        <translation>4. Auf der Fenster Photometrie messen →</translation>
+        <translation>4. Im Fenster Photometrie messen →</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="316"/>
         <source>Sends the calibrated lights to the Photometry window and opens it (a light curve, a variable star)</source>
-        <translation>Schickt die kalibrierten Lights auf die Fenster Photometrie und öffnet sie (eine Lichtkurve, ein Veränderlicher)</translation>
+        <translation>Schickt die kalibrierten Lights an das Fenster Photometrie und öffnet es (eine Lichtkurve, ein Veränderlicher)</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="322"/>
@@ -8848,7 +8848,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/plan_page.py" line="69"/>
         <source>Press Make a schedule, check it, then Send to the Observing window.</source>
-        <translation>Drücken Sie Zeitplan erstellen, prüfen Sie ihn, dann An die Fenster Beobachten senden.</translation>
+        <translation>Drücken Sie Zeitplan erstellen, prüfen Sie ihn, dann An das Fenster Beobachten senden.</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="79"/>
@@ -9192,7 +9192,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/plan_page.py" line="221"/>
         <source>Send to the Observing window</source>
-        <translation>An die Fenster Beobachten senden</translation>
+        <translation>An das Fenster Beobachten senden</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="226"/>

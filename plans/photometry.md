@@ -206,7 +206,8 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
 (image with apertures, Multi-Aperture settings, Measurements table, Multi-Plot main, Multi-Plot Y-data, fit panel).
 
 ### 0. Photometry in a window of its own
-**open** — needs the area window frame first (`plans/interface.md` I2); this item is the same as interface I5.
+**agent2 done (2026-11-08, commit 790b52b)** — built as interface I5 (first layout); the Measurements table, multi-plot
+and detrend panels come with items 6, 8, 9. Findings of its first user test: `plans/interface.md` I6b (1), (2).
 - **Build:** "Photometry" opens its own main window (it can also stay a page). Inside: the image in the middle; the
   steps on the left; at the bottom or right, tabs that can be pulled out as windows of their own — Measurements
   table, Plot (multi-plot), Stars (target, comparison, check, with their scatter), Detrend and fit. The program
