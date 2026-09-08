@@ -538,7 +538,12 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 - **(2) Photometry: the star table is squeezed in the results panel.** The long info text above it leaves the Stars
   tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
   table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
-- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 claimed (2026-11-08) — do not touch** 15 points over
+- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 done (2026-11-08, this commit)** — `photometry.steps.period_warnings`, shown as ⚠ lines under
+  the result (templates in `ui/messages.py`, guide 07 in four languages); the Qatar-1 8-minute curve now says it
+  cannot hold a period (scratchpad `i6b3/tr/31_lc_period_searched.png`). Left open: a significance test (false-alarm
+  probability) for a peak that is only noise — a 9-day sine over 3 nights searched to 1.4 d gives a noise peak at
+  0.19 d with no edge to warn of; and `period._refine` can step outside a grid of 2 trials (best 0.0135 d for a range
+  starting at 0.05 d). Original finding: 15 points over
   8 minutes gave "best period 0.013535 d" with a periodogram rising to the edge of the grid. Warn (PLAN.md R5) when
   the time span is shorter than ~2 × the longest period searched, or when the peak is at the grid's edge, and say
   what to do (more nights, a narrower range). Template in `ui/messages.py`. Accept: a test with a 8-minute curve

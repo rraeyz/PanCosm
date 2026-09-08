@@ -93,6 +93,17 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the image has no sky coordinates: plate-solve it first (Image menu)"),
     # photometry/steps.py (period search)
     QT_TRANSLATE_NOOP("Messages", "the light curve spans {hours} h: too short to search for periods"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the light curve spans {hours} h, less than two cycles of the shortest period searched ({p_min} d): no period in this range can be found; observe longer and search again",  # noqa: E501
+    ),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the best period ({best} d) is longer than half the time the light curve spans ({span} d): fewer than two cycles were seen",  # noqa: E501
+    ),
+    QT_TRANSLATE_NOOP(
+        "Messages", "the best period is at the edge of the range searched ({p_min} to {p_max} d): widen the range"
+    ),
     # photometry/coefficients.py
     QT_TRANSLATE_NOOP("Messages", "fewer than 3 usable stars"),
     QT_TRANSLATE_NOOP("Messages", "the airmass hardly changed during the series: no extinction from it"),
