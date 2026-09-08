@@ -491,7 +491,13 @@ identical to the button. Accept: `grep "Photometry page\|Calibrate page"` finds 
 unfinished translations.
 
 ### I5. Photometry gets its full window
-**open** — the first area to use the frame fully; details in `plans/photometry.md` item 0.
+**agent2 done (2026-11-08, this commit)** — first layout: the image is the central view, the steps scroll is the left
+panel, the results (plot + Stars / Plot / Minimum / Export tabs) the bottom panel (shown once a star is marked),
+toolbar with short labels mirroring the page's buttons (enabled with them), menu Measure. `PhotometryPage.window_parts`,
+`MainWindow._photometry_window`, `_follow_enabled`. Screenshots tr / de 1366 × 768 with 15 Qatar-1 frames and two
+stars: image, steps, light-curve plot and star table visible at once; toolbar fits. Still to do (found on them):
+the frame table's FWHM / Sky columns cut (the frames table belongs in a bottom tab, `plans/photometry.md` item 6);
+a Measurements table, multi-plot and detrend & fit as their own panels (photometry items 6–9). — the first area to use the frame fully; details in `plans/photometry.md` item 0.
 - **Build:**
   - the image in the middle;
   - the steps on the left;
@@ -543,6 +549,8 @@ whenever any area gains a feature.
 | Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
 | Panels on / off, Reset layout | every area window | View | — | panels |
 | Open an area, list of open windows | main window, every area window | Window | — | Start page blocks |
+| Photometry toolbar (Images…, Blink, ◀ ▶, Bad frames, Comparisons, Radii, Measure, Minimum, Export) | Photometry | Measure | yes | — |
+| Photometry results (light curve, stars, minimum, export) | Photometry | — | — | Results panel (bottom) |
 | (rows for every other page are added in I4) | | | | |
 
 ## Done

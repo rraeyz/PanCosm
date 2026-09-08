@@ -958,8 +958,9 @@ def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
     clicked = 0
     for key, (_, page) in window.workspaces.items():
         window.show_workspace(key)
-        for b in page.findChildren(QAbstractButton):
-            if b.isEnabled() and b.isVisibleTo(page) and not any(s in b.text() for s in skip):
+        root = window.area_windows.get(key) or page  # an area's window holds its panels too (Photometry, I5)
+        for b in root.findChildren(QAbstractButton):
+            if b.isEnabled() and b.isVisibleTo(root) and not any(s in b.text() for s in skip):
                 b.click()
                 clicked += 1
     for menu in window.menuBar().findChildren(QMenu):
@@ -1038,7 +1039,7 @@ def test_photometry_star_picking(window, tmp_path):
     page = window.photometry_page
     page.set_images([str(p)])
     viewer = page.viewer
-    assert page._lower.isHidden()  # nothing to show below the image yet: it has the whole height
+    assert page.results_dock.isHidden()  # nothing to show below the image yet: it has the whole height
     assert viewer.viewport().cursor().shape() == Qt.CrossCursor and len(viewer._hover_rings) == 3
     window.show()
     viewer.resize(400, 300)
@@ -1054,7 +1055,7 @@ def test_photometry_star_picking(window, tmp_path):
     page._clicked(61.0, 40.5)  # on the comparison again: taken off, not marked twice
     assert page.comps == [] and len(viewer.marker_list) == 3
     # the lower panel (star table, light curve) came with the first star; Shift + wheel resizes the three rings
-    assert not page._lower.isHidden()
+    assert not page.results_dock.isHidden()
     from PySide6.QtCore import QPoint
     from PySide6.QtGui import QWheelEvent
 
@@ -1165,6 +1166,8 @@ def test_every_working_page_has_a_folded_workflow(window):
         window.show_workspace(name)  # pages are built when first shown
     guides = window.findChildren(StepGuide)
     owners = {type(page_of(g)).__name__ for g in guides}
+    if window.photometry_page.guide in guides:  # its steps live in a panel of the Photometry window (I5)
+        owners.add("PhotometryPage")
     for page in ("CalibratePage", "PhotometryPage", "PeriodPage", "FrequencyPage", "VarFindPage", "OCPage",
                  "PlanPage", "RemoteSensingPage", "ReduceTab", "EchelleTab", "TelluricTab", "VelocityTab",
                  "SpectrumToolsTab", "ModelsPage"):  # fmt: skip
@@ -1229,7 +1232,8 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     window.show_workspace("photometry")
     win = window.area_windows["photometry"]
     assert isinstance(win, AreaWindow) and win.isVisible() and window.current_workspace() == "photometry"
-    assert win.centralWidget().widget() is window.photometry_page
+    assert win.centralWidget() is window.photometry_page.viewer  # the image in the middle (I5)
+    assert win.docks["steps"].widget() is window.photometry_page._steps_scroll and "results" in win.docks
     assert window.pages.currentWidget() is not window._frames[window.photometry_page]  # not in the main window
     window._show_key("photometry")  # the sidebar
     window.open_area("photometry")  # a start block
@@ -1259,7 +1263,9 @@ def test_every_moved_area_opens_in_its_own_window(window):
         window.show_workspace(key)
         win = window.area_windows[key]
         page = getattr(window, window.PAGES[key])
-        assert isinstance(win, AreaWindow) and win.isVisible() and win.centralWidget().widget() is page
+        shown = win.centralWidget() if key == "photometry" else win.centralWidget().widget()
+        expected = page.viewer if key == "photometry" else page  # Photometry: the image in the middle (I5)
+        assert isinstance(win, AreaWindow) and win.isVisible() and shown is expected
         assert window.pages.indexOf(window._frames[page]) == -1 and window.current_workspace() == key
         win.close()
 

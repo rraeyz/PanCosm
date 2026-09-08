@@ -298,6 +298,10 @@ class MainWindow(QMainWindow):
         from .area_window import AreaWindow
         from .start_page import areas
 
+        if key == "photometry":
+            self._photometry_window(page)
+            return
+
         frame = QScrollArea()
         frame.setWidget(page)
         frame.setWidgetResizable(True)
@@ -309,6 +313,61 @@ class MainWindow(QMainWindow):
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows[key] = win
+
+    def _photometry_window(self, page):
+        """Photometry in its full window (plans/interface.md I5): the image in the middle, the numbered steps in a
+        panel on the left, the results (light curve, stars, detrending, minimum, export) in a panel below; a
+        toolbar for the frequent actions; every panel can be pulled out and is remembered."""
+        from PySide6.QtGui import QAction
+
+        from .area_window import AreaWindow
+        from .start_page import areas
+
+        parts = page.window_parts()
+        actions = []
+        for entry in (  # short labels on the toolbar; the button's own text and tooltip are the action's tooltip
+            (page.load_button, self.tr("Images…")),
+            (page.blink, self.tr("Blink")),
+            (page.prev_frame, "◀"),
+            (page.next_frame, "▶"),
+            None,
+            (page.quality_button, self.tr("Bad frames")),
+            (page.suggest_button, self.tr("Comparisons")),
+            (page.apertures_button, self.tr("Radii")),
+            (page.measure_button, self.tr("Measure")),
+            None,
+            (page.minimum_button, self.tr("Minimum")),
+            (page.export_button, self.tr("Export")),
+        ):
+            if entry is None:
+                actions.append(None)
+                continue
+            button, label = entry
+            act = QAction(label, page)
+            long = button.text() or button.toolTip()
+            act.setToolTip(long if not button.toolTip() or button.toolTip() == long else f"{long}: {button.toolTip()}")
+            act.setStatusTip(act.toolTip())
+            act.triggered.connect(lambda _=False, b=button: b.click())
+            _follow_enabled(button, act)
+            actions.append(act)
+        name = next(n for k, _, n, _ in areas() if k == "photometry")
+        measure = [a for a in actions if a is not None]
+        win = AreaWindow(
+            "photometry", name, self.settings, parts["view"], steps=parts["steps"],
+            panels=[("results", self.tr("Results: light curve, stars, minimum, export"), parts["results"],
+                     Qt.BottomDockWidgetArea)],
+            menus=[(self.tr("&Measure"), measure)], toolbar=actions,
+            undo_stack=_undo_source(page), parent=self,
+        )  # fmt: skip
+        win.toolbar.setToolButtonStyle(Qt.ToolButtonTextOnly)
+        page.setParent(win)  # the page keeps the state and the logic, unseen
+        page.hide()
+        page.results_dock = win.docks["results"]
+        page.results_dock.setVisible(page.target is not None or page.lc_raw is not None)
+        self._frames[page] = parts["steps"]
+        win.setWindowIcon(self.windowIcon())
+        win.help_requested.connect(self._help_for)
+        self.area_windows["photometry"] = win
 
     def _help_for(self, key):
         """F1 in an area window: the guide, filtered to that area."""
@@ -2185,6 +2244,23 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
+
+
+def _follow_enabled(button, action):
+    """A toolbar action that is enabled exactly when the page's button is (the button stays the one place where
+    the page decides)."""
+    from PySide6.QtCore import QEvent
+
+    class _Watch(QObject):
+        def eventFilter(self, obj, event):
+            if event.type() == QEvent.EnabledChange:
+                action.setEnabled(obj.isEnabled())
+            return False
+
+    watch = _Watch(button)
+    button.installEventFilter(watch)
+    action.setEnabled(button.isEnabled())
+    action._watch = watch
 
 
 def _undo_source(page):
