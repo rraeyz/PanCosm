@@ -469,7 +469,9 @@ Decide when the Spectroscopy window gets its full layout (I6, `plans/spectroscop
 its text into the window's Help / the steps panel. Nothing is removed before that decision.
 
 ### I4d. Automation and Observing windows: findings of their first screenshots (2026-11-08, agent2)
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, commit a612314)** — step names (`ui/step_names.py`) everywhere a step is shown; the English
+template texts were only the screenshot script (no language saved), but the window now follows the interface language
+when none was chosen. Still open: the settings table shows parameter keys ("clock_utc_offset"): give them labels.
 - Automation (tr): the templates' names and descriptions stay English ("Eclipsing binary night (şablon)",
   "Observe the binary from dusk to dawn…"), and the steps are listed by their technical ids ("1. calibration.scan",
   "photometry.suggest_comparisons") and setting keys ("← folder", "clock_utc_offset"). Show translated step names
