@@ -1262,3 +1262,25 @@ def test_every_moved_area_opens_in_its_own_window(window):
         assert isinstance(win, AreaWindow) and win.isVisible() and win.centralWidget().widget() is page
         assert window.pages.indexOf(window._frames[page]) == -1 and window.current_workspace() == key
         win.close()
+
+
+def test_settings_saved_by_0_2_7_still_open(qtbot, tmp_path):
+    """plans/interface.md I4: settings written by v0.2.7 (pages as panels, the page shown last, a removed theme,
+    the old text size) open the new window layout without an error."""
+    import json
+
+    from astrowb.settings import Settings
+    from astrowb.ui import theme
+    from astrowb.ui.main_window import MainWindow
+
+    (tmp_path / "settings.json").write_text(
+        json.dumps({"ui.panels": ["photometry", "timeseries"], "ui.page": "photometry", "ui.theme": "night",
+                    "ui.mode": "expert", "ui.language": "tr", "recent_projects": [str(tmp_path / "gone.astroproj")]})
+    )  # fmt: skip
+    settings = Settings(tmp_path)
+    win = MainWindow(settings)
+    qtbot.addWidget(win)
+    win.show()
+    assert not win._panels and win.current_workspace() == "start" and win.ui_mode() == "expert"
+    assert theme.colors(settings.get("ui.theme")) == theme.colors("dark")  # a theme that is gone falls back
+    win.engine.shutdown()
