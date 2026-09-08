@@ -475,6 +475,8 @@ its text into the window's Help / the steps panel. Nothing is removed before tha
   "photometry.suggest_comparisons") and setting keys ("← folder", "clock_utc_offset"). Show translated step names
   and setting labels (the ids in the tooltip); translate the bundled templates' texts.
 - Observing (tr, 1366 × 768): the sequence table's columns are cut on the right (Gain, Offset, Readout mode, …).
+  (2026-11-08, agent2: the table scrolls sideways, so nothing is lost; left for the Observing window's layout in
+  I6, where the sequence gets a panel of its own.)
 - Accept: screenshots in four languages show no English text in Automation and no cut column header in Observing.
 
 ### I4b. "page" → "window" in every text, once all areas are in windows

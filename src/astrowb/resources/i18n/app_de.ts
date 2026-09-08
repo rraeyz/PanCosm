@@ -271,89 +271,89 @@
         <translation>Die für dieses Fenster laufende Arbeit anhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="220"/>
+        <location filename="../../ui/area_window.py" line="222"/>
         <source>{name}: finished</source>
         <translation>{name}: fertig</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="221"/>
+        <location filename="../../ui/area_window.py" line="223"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: fehlgeschlagen (siehe Meldung)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="222"/>
+        <location filename="../../ui/area_window.py" line="224"/>
         <source>{name}: cancelled</source>
         <translation>{name}: abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="240"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} weitere)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="243"/>
+        <location filename="../../ui/area_window.py" line="245"/>
         <source>Stopping…</source>
         <translation>Wird angehalten…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="260"/>
+        <location filename="../../ui/area_window.py" line="262"/>
         <source>(none yet)</source>
         <translation>(noch keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="263"/>
+        <location filename="../../ui/area_window.py" line="265"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="294"/>
+        <location filename="../../ui/area_window.py" line="296"/>
         <source>Session saved: {path}</source>
         <translation>Sitzung gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="303"/>
+        <location filename="../../ui/area_window.py" line="305"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} ist keine Sitzungsdatei oder beschädigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="306"/>
+        <location filename="../../ui/area_window.py" line="308"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} ist eine Sitzung eines anderen Fensters ({area}): öffnen Sie sie dort.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="311"/>
+        <location filename="../../ui/area_window.py" line="313"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} wurde mit einer neueren Version der Anwendung gespeichert: aktualisieren Sie sie, um diese Sitzung zu öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="315"/>
+        <location filename="../../ui/area_window.py" line="317"/>
         <source>Session opened: {path}</source>
         <translation>Sitzung geöffnet: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="317"/>
-        <location filename="../../ui/area_window.py" line="328"/>
+        <location filename="../../ui/area_window.py" line="319"/>
+        <location filename="../../ui/area_window.py" line="330"/>
         <source>Open session</source>
         <translation>Sitzung öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="322"/>
+        <location filename="../../ui/area_window.py" line="324"/>
         <source>Save session</source>
         <translation>Sitzung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="322"/>
-        <location filename="../../ui/area_window.py" line="328"/>
+        <location filename="../../ui/area_window.py" line="324"/>
+        <location filename="../../ui/area_window.py" line="330"/>
         <source>Session (*.session.json)</source>
         <translation>Sitzung (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="338"/>
+        <location filename="../../ui/area_window.py" line="340"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Textgröße: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="379"/>
+        <location filename="../../ui/area_window.py" line="381"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
@@ -481,202 +481,202 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AutomationPage</name>
     <message>
-        <location filename="../../ui/automation_page.py" line="57"/>
+        <location filename="../../ui/automation_page.py" line="60"/>
         <source>Automation</source>
         <translation>Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="62"/>
+        <location filename="../../ui/automation_page.py" line="65"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="64"/>
+        <location filename="../../ui/automation_page.py" line="67"/>
         <source>An empty automation to fill with steps</source>
         <translation>Eine leere Automatisierung, die mit Schritten gefüllt wird</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="65"/>
+        <location filename="../../ui/automation_page.py" line="68"/>
         <source>Save as…</source>
         <translation>Speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="67"/>
+        <location filename="../../ui/automation_page.py" line="70"/>
         <source>Saves the automation under a name, to run it again on other data</source>
         <translation>Speichert die Automatisierung unter einem Namen, um sie mit anderen Daten erneut auszuführen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="79"/>
+        <location filename="../../ui/automation_page.py" line="82"/>
         <source>Steps, in order</source>
         <translation>Schritte, der Reihe nach</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="89"/>
+        <location filename="../../ui/automation_page.py" line="96"/>
         <source>Every task of the application as a step (calibrate, stack, photometry, period search…)</source>
         <translation>Jede Aufgabe der Anwendung als Schritt (Kalibrieren, Stacken, Photometrie, Periodensuche…)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="91"/>
+        <location filename="../../ui/automation_page.py" line="98"/>
         <source>Add step</source>
         <translation>Schritt hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="93"/>
+        <location filename="../../ui/automation_page.py" line="100"/>
         <source>Adds the chosen step at the end; its settings appear below</source>
         <translation>Fügt den gewählten Schritt am Ende hinzu; seine Einstellungen erscheinen darunter</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="98"/>
+        <location filename="../../ui/automation_page.py" line="105"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="98"/>
+        <location filename="../../ui/automation_page.py" line="105"/>
         <source>Removes the selected step</source>
         <translation>Entfernt den gewählten Schritt</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="99"/>
+        <location filename="../../ui/automation_page.py" line="106"/>
         <source>Up</source>
         <translation>Auf</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="99"/>
+        <location filename="../../ui/automation_page.py" line="106"/>
         <source>Moves the selected step one place earlier</source>
         <translation>Verschiebt den gewählten Schritt um eine Stelle nach vorn</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="100"/>
+        <location filename="../../ui/automation_page.py" line="107"/>
         <source>Down</source>
         <translation>Ab</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="100"/>
+        <location filename="../../ui/automation_page.py" line="107"/>
         <source>Moves the selected step one place later</source>
         <translation>Verschiebt den gewählten Schritt um eine Stelle nach hinten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="107"/>
+        <location filename="../../ui/automation_page.py" line="114"/>
         <source>Settings of the selected step (input ← data name, or a value)</source>
         <translation>Einstellungen des gewählten Schritts (Eingabe ← Datenname oder ein Wert)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="111"/>
+        <location filename="../../ui/automation_page.py" line="118"/>
         <source>Setting</source>
         <translation>Einstellung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="111"/>
+        <location filename="../../ui/automation_page.py" line="118"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="127"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="124"/>
+        <location filename="../../ui/automation_page.py" line="131"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="128"/>
+        <location filename="../../ui/automation_page.py" line="135"/>
         <source>Runs the steps one after the other with these inputs; each step&apos;s result is kept in the project</source>
         <translation>Führt die Schritte mit diesen Eingaben nacheinander aus; das Ergebnis jedes Schritts bleibt im Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="130"/>
+        <location filename="../../ui/automation_page.py" line="137"/>
         <source>To the Observing window</source>
         <translation>Zum Fenster Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="131"/>
+        <location filename="../../ui/automation_page.py" line="138"/>
         <source>Send sequence to the Observing window</source>
         <translation>Sequenz an das Fenster Beobachten senden</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="135"/>
+        <location filename="../../ui/automation_page.py" line="142"/>
         <source>Process after the sequence</source>
         <translation>Nach der Sequenz auswerten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="137"/>
+        <location filename="../../ui/automation_page.py" line="144"/>
         <source>Run the processing when this sequence has finished.</source>
         <translation>Startet die Auswertung, wenn diese Sequenz beendet ist.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="139"/>
+        <location filename="../../ui/automation_page.py" line="146"/>
         <source>Frames of a remote observatory are copied to this computer first.</source>
         <translation>Bilder eines entfernten Observatoriums werden zuerst auf diesen Computer kopiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="160"/>
+        <location filename="../../ui/automation_page.py" line="167"/>
         <source>{name} (template)</source>
         <translation>{name} (Vorlage)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="171"/>
+        <location filename="../../ui/automation_page.py" line="178"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="196"/>
+        <location filename="../../ui/automation_page.py" line="203"/>
         <source>Save automation</source>
         <translation>Automatisierung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="196"/>
+        <location filename="../../ui/automation_page.py" line="203"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="213"/>
+        <location filename="../../ui/automation_page.py" line="222"/>
         <source> — for each {name}</source>
         <translation> — für jedes {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="281"/>
+        <location filename="../../ui/automation_page.py" line="291"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Ein Wert, eine Datei oder ein Ordner für diese Eingabe der Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="286"/>
+        <location filename="../../ui/automation_page.py" line="296"/>
         <source>Choose in a dialog</source>
         <translation>In einem Dialog wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="294"/>
+        <location filename="../../ui/automation_page.py" line="304"/>
         <source>Choose a folder</source>
         <translation>Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="296"/>
+        <location filename="../../ui/automation_page.py" line="306"/>
         <source>Choose a file</source>
         <translation>Datei wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="298"/>
+        <location filename="../../ui/automation_page.py" line="308"/>
         <source>Choose files</source>
         <translation>Dateien wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="315"/>
+        <location filename="../../ui/automation_page.py" line="325"/>
         <source>Cannot run: {e}</source>
         <translation>Ausführung nicht möglich: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="321"/>
+        <location filename="../../ui/automation_page.py" line="333"/>
         <source>Running step {n}: {step}</source>
         <translation>Schritt {n} läuft: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="324"/>
+        <location filename="../../ui/automation_page.py" line="336"/>
         <source>Finished.</source>
         <translation>Fertig.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="328"/>
+        <location filename="../../ui/automation_page.py" line="340"/>
         <source>Stopped: {e}</source>
         <translation>Gestoppt: {e}</translation>
     </message>
@@ -1553,12 +1553,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/area_window.py" line="459"/>
+        <location filename="../../ui/area_window.py" line="461"/>
         <source>Type what you want to do…</source>
         <translation>Tippen Sie, was Sie tun möchten…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="460"/>
+        <location filename="../../ui/area_window.py" line="462"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Wörter in beliebiger Reihenfolge; ↑ ↓ wählen, Enter führt aus, Esc schließt</translation>
     </message>
@@ -3805,7 +3805,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Iterationen:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1907"/>
+        <location filename="../../ui/main_window.py" line="1912"/>
         <source>the Photometry window</source>
         <translation>dem Fenster Photometrie</translation>
     </message>
@@ -4012,177 +4012,177 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1778"/>
+        <location filename="../../ui/main_window.py" line="1781"/>
         <source>Task failed</source>
         <translation>Aufgabe fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1789"/>
+        <location filename="../../ui/main_window.py" line="1794"/>
         <source>No plate solver</source>
         <translation>Kein Astrometrie-Löser</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1791"/>
+        <location filename="../../ui/main_window.py" line="1796"/>
         <source>Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, then try again. Nothing is sent over the internet.</source>
         <translation>Installieren Sie ASTAP und eine seiner Sterndatenbanken (hnsky.org/astap.htm) oder astrometry.net und versuchen Sie es erneut. Nichts wird über das Internet gesendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1840"/>
+        <location filename="../../ui/main_window.py" line="1845"/>
         <source>Stack written: {path}</source>
         <translation>Stapel geschrieben: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1947"/>
+        <location filename="../../ui/main_window.py" line="1952"/>
         <source>value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1968"/>
+        <location filename="../../ui/main_window.py" line="1973"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1969"/>
+        <location filename="../../ui/main_window.py" line="1974"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>Die neue Sprache wird nach dem Neustart von {app} verwendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1989"/>
+        <location filename="../../ui/main_window.py" line="1994"/>
         <source>Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.</source>
         <translation>Willkommen! Diese einminütige Tour zeigt, wo sich was befindet. Drücken Sie Weiter oder jederzeit Überspringen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1992"/>
+        <location filename="../../ui/main_window.py" line="1997"/>
         <source>The pages, in the order of an observing night. Click one to open it.</source>
         <translation>Die Seiten in der Reihenfolge einer Beobachtungsnacht. Zum Öffnen anklicken.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1997"/>
+        <location filename="../../ui/main_window.py" line="2002"/>
         <source>Start here: pick what you have — raw frames, images, spectra, a list of minima — and you are taken to the right page.</source>
         <translation>Hier beginnen: wählen Sie, was Sie haben — Rohbilder, Bilder, Spektren, eine Minimaliste — und Sie kommen zur richtigen Seite.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2002"/>
+        <location filename="../../ui/main_window.py" line="2007"/>
         <source>Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits.</source>
         <translation>Planen: wann Ihre Ziele sichtbar sind, Luftmasse, der Mond, vorhergesagte Bedeckungen und Transits.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2007"/>
+        <location filename="../../ui/main_window.py" line="2012"/>
         <source>Observe: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.</source>
         <translation>Beobachten: Teleskop und Kamera verbinden, Sequenzen und ganze Nächte ausführen. Die Sicherheitsüberwachung parkt das Teleskop, wenn etwas nicht stimmt.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2013"/>
+        <location filename="../../ui/main_window.py" line="2018"/>
         <source>Calibrate: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.</source>
         <translation>Kalibrieren: Bias-, Dark- und Flatbilder werden automatisch zugeordnet und angewandt; Bilder lassen sich ausrichten und stapeln.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2019"/>
+        <location filename="../../ui/main_window.py" line="2024"/>
         <source>Photometry and Light curves &amp; O-C: measure stars, get light curves, minima, O-C diagrams and periods.</source>
         <translation>Photometrie und Lichtkurven &amp; O-C: Sterne messen, Lichtkurven, Minima, O-C-Diagramme und Perioden erhalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2025"/>
+        <location filename="../../ui/main_window.py" line="2030"/>
         <source>Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.</source>
         <translation>Spektroskopie: Langspalt- und Echelle-Reduktion, tellurische Korrektur, Radialgeschwindigkeiten, IFU-Würfel.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2030"/>
+        <location filename="../../ui/main_window.py" line="2035"/>
         <source>Orbits &amp; models: radial-velocity orbits and eclipsing-binary or transit models.</source>
         <translation>Bahnen &amp; Modelle: Radialgeschwindigkeitsbahnen und Modelle für Bedeckungsveränderliche oder Transits.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2035"/>
+        <location filename="../../ui/main_window.py" line="2040"/>
         <source>Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.</source>
         <translation>Fernerkundung: Satelliten- und Luftbilder — Bandrechnung, Vegetations- und Wasserindizes, Klassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2041"/>
+        <location filename="../../ui/main_window.py" line="2046"/>
         <source>Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.</source>
         <translation>Automatisierung: Schritte zu einer eigenen Kette verbinden oder mit einer fertigen Vorlage beginnen (Bedeckungsveränderlichen-Nacht, Transit, Kalibrierung, Spektren zu RV) und in einem Durchgang ausführen.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2047"/>
+        <location filename="../../ui/main_window.py" line="2052"/>
         <source>Guide: every page explained step by step, by category, with search. Help → Training guide opens it too.</source>
         <translation>Anleitung: jede Seite Schritt für Schritt erklärt, nach Kategorien, mit Suche. Auch über Hilfe → Schulungsanleitung.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2052"/>
+        <location filename="../../ui/main_window.py" line="2057"/>
         <source>Tasks: long jobs run here in the background with their progress; you can keep working.</source>
         <translation>Aufgaben: lange Arbeiten laufen hier im Hintergrund mit ihrem Fortschritt; Sie können weiterarbeiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2057"/>
+        <location filename="../../ui/main_window.py" line="2062"/>
         <source>Menus: Image → Process for image operations, Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages.</source>
         <translation>Menüs: Bild → Bearbeiten für Bildoperationen, Plugins für eigene Werkzeuge, Einstellungen für Sprache, Aussehen und CPU/GPU, Hilfe für diese Tour und die Schulungsseiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2085"/>
+        <location filename="../../ui/main_window.py" line="2090"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Textgröße: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2098"/>
+        <location filename="../../ui/main_window.py" line="2103"/>
         <source>Installation and internet services</source>
         <translation>Installation und Internetdienste</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2100"/>
+        <location filename="../../ui/main_window.py" line="2105"/>
         <source>Everything works.</source>
         <translation>Alles funktioniert.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2103"/>
+        <location filename="../../ui/main_window.py" line="2108"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Einige Prüfungen sind fehlgeschlagen (siehe unten). Ein fehlgeschlagener Webdienst liegt oft am Netz oder am Dienst selbst.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2109"/>
+        <location filename="../../ui/main_window.py" line="2114"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Installation und Internetdienste werden geprüft…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2114"/>
+        <location filename="../../ui/main_window.py" line="2119"/>
         <source>Folder for the practice data</source>
         <translation>Ordner für die Übungsdaten</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2120"/>
+        <location filename="../../ui/main_window.py" line="2125"/>
         <source>practice</source>
         <translation>Übung</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2122"/>
+        <location filename="../../ui/main_window.py" line="2127"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Übungsdaten in {f}: folgen Sie „Ihre erste Nacht“ in der Anleitung.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2141"/>
+        <location filename="../../ui/main_window.py" line="2146"/>
         <source>Could not check for updates: {e}</source>
         <translation>Suche nach Updates fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2143"/>
+        <location filename="../../ui/main_window.py" line="2148"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>Version {v} ist verfügbar (Sie haben {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2144"/>
+        <location filename="../../ui/main_window.py" line="2149"/>
         <source>Open the download page</source>
         <translation>Download-Seite öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2147"/>
+        <location filename="../../ui/main_window.py" line="2152"/>
         <source>You have the latest version ({c}).</source>
         <translation>Sie haben die neueste Version ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2148"/>
+        <location filename="../../ui/main_window.py" line="2153"/>
         <source>Updates</source>
         <translation>Updates</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2156"/>
+        <location filename="../../ui/main_window.py" line="2161"/>
         <source>About {app}</source>
         <translation>Über {app}</translation>
     </message>
@@ -10645,7 +10645,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Wählen Sie, was Sie tun möchten:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="147"/>
+        <location filename="../../ui/start_page.py" line="150"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
@@ -10676,6 +10676,244 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/widgets.py" line="170"/>
         <source>Next:</source>
         <translation>Als Nächstes:</translation>
+    </message>
+</context>
+<context>
+    <name>Steps</name>
+    <message>
+        <location filename="../../ui/step_names.py" line="7"/>
+        <source>Check the installation</source>
+        <translation>Installation prüfen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="8"/>
+        <source>Positions of a moving object</source>
+        <translation>Positionen eines bewegten Objekts</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="9"/>
+        <source>Plate solve</source>
+        <translation>Plate Solving</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="10"/>
+        <source>Calibrate the frames</source>
+        <translation>Aufnahmen kalibrieren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="11"/>
+        <source>Scan the frames</source>
+        <translation>Aufnahmen einlesen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="12"/>
+        <source>Save the image</source>
+        <translation>Bild speichern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="13"/>
+        <source>Catalogue stars on the image</source>
+        <translation>Katalogsterne im Bild</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="14"/>
+        <source>Convert images</source>
+        <translation>Bilder umwandeln</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="15"/>
+        <source>Finder chart</source>
+        <translation>Aufsuchkarte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="16"/>
+        <source>Minor planets in the field</source>
+        <translation>Kleinplaneten im Feld</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="17"/>
+        <source>Process the image</source>
+        <translation>Bild bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="18"/>
+        <source>Colour image from three filters</source>
+        <translation>Farbbild aus drei Filtern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="19"/>
+        <source>Fit the light-curve model</source>
+        <translation>Lichtkurvenmodell anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="20"/>
+        <source>Fit the visual orbit</source>
+        <translation>Visuelle Bahn anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="21"/>
+        <source>Choose the aperture radii</source>
+        <translation>Aperturradien wählen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="22"/>
+        <source>Standard magnitudes from a catalogue</source>
+        <translation>Standardhelligkeiten aus einem Katalog</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="23"/>
+        <source>Identify the field</source>
+        <translation>Feld identifizieren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="24"/>
+        <source>Measure the light curve</source>
+        <translation>Lichtkurve messen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="25"/>
+        <source>Polarimetry</source>
+        <translation>Polarimetrie</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="26"/>
+        <source>Find the bad frames</source>
+        <translation>Schlechte Aufnahmen finden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="27"/>
+        <source>Suggest comparison stars</source>
+        <translation>Vergleichssterne vorschlagen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="28"/>
+        <source>Transformation coefficients</source>
+        <translation>Transformationskoeffizienten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="29"/>
+        <source>Search for variable stars</source>
+        <translation>Veränderliche suchen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="30"/>
+        <source>Look up the ephemeris</source>
+        <translation>Ephemeride nachschlagen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="31"/>
+        <source>Plan the night</source>
+        <translation>Die Nacht planen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="32"/>
+        <source>Find the target</source>
+        <translation>Ziel finden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="33"/>
+        <source>Classify (k-means)</source>
+        <translation>Klassifizieren (k-Means)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="34"/>
+        <source>Compute a band formula</source>
+        <translation>Bandformel berechnen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="35"/>
+        <source>Principal components</source>
+        <translation>Hauptkomponenten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="36"/>
+        <source>Make practice data</source>
+        <translation>Übungsdaten erzeugen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="37"/>
+        <source>Stellar parameters (Teff, log g, [Fe/H])</source>
+        <translation>Sternparameter (Teff, log g, [Fe/H])</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="38"/>
+        <source>Spectral type</source>
+        <translation>Spektraltyp</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="39"/>
+        <source>Disentangle the spectra</source>
+        <translation>Spektren entflechten</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="40"/>
+        <source>Reduce the echelle spectrum</source>
+        <translation>Echelle-Spektrum reduzieren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="41"/>
+        <source>Fit the spectroscopic orbit</source>
+        <translation>Spektroskopische Bahn anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="42"/>
+        <source>Find the echelle orders</source>
+        <translation>Echelle-Ordnungen finden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="43"/>
+        <source>Reduce the long-slit spectrum</source>
+        <translation>Langspaltspektrum reduzieren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="44"/>
+        <source>Measure radial velocities</source>
+        <translation>Radialgeschwindigkeiten messen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="45"/>
+        <source>Telluric correction</source>
+        <translation>Tellurische Korrektur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="46"/>
+        <source>Drizzle the frames</source>
+        <translation>Aufnahmen drizzeln</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="47"/>
+        <source>Stack the frames</source>
+        <translation>Aufnahmen stapeln</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="48"/>
+        <source>Frequency analysis</source>
+        <translation>Frequenzanalyse</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="49"/>
+        <source>Time of minimum</source>
+        <translation>Minimumszeit</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="50"/>
+        <source>Download a mission light curve</source>
+        <translation>Lichtkurve einer Mission herunterladen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="51"/>
+        <source>Fit the O−C diagram</source>
+        <translation>O−C-Diagramm anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="52"/>
+        <source>Period search</source>
+        <translation>Periodensuche</translation>
+    </message>
+    <message>
+        <location filename="../../ui/step_names.py" line="53"/>
+        <source>Download a survey light curve</source>
+        <translation>Lichtkurve einer Durchmusterung herunterladen</translation>
     </message>
 </context>
 <context>
