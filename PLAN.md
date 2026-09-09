@@ -299,7 +299,7 @@ Create a file when work in the area starts, from the template below.
 | Interface (all windows, menus, toolbars, panels) | `plans/interface.md` — **exists, work starts here** | main window + every area window | AstroImageJ, MaxIm DL, Siril window layouts |
 | Photometry and light curves | `plans/photometry.md` — **exists** | Photometry | AstroImageJ, Siril, IRAF apphot / daophot, C-Munipack, MaxIm DL |
 | Calibration (bias, dark, flat; images and spectra) | `plans/calibration.md` (to create) | Calibration | IRAF ccdproc / zerocombine / flatcombine, ccdproc, Siril, AstroImageJ Data Processor |
-| Spectroscopy and radial velocities | `plans/spectroscopy.md` (to create) | Spectroscopy | IRAF onedspec / echelle / apall / identify, specreduce, PypeIt, iSpec |
+| Spectroscopy and radial velocities | `plans/spectroscopy.md` — **exists** | Spectroscopy | IRAF onedspec / echelle / apall / identify, specreduce, PypeIt, iSpec |
 | Times of minimum and O−C | `plans/oc.md` (to create) | O−C | Kwee–van Woerden, published O−C codes |
 | Period and frequency search | `plans/period.md` (to create) | Period / frequency | Period04, astropy LombScargle, BLS / TLS, PDM |
 | Binary-star and other models | `plans/models.md` (to create) | Models | PHOEBE, Wilson–Devinney, ellc, batman |
