@@ -568,10 +568,21 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 - **(5) Automation: template names cut** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
   scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
   leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
-- **(6) Remote sensing: empty view gives no hint.** **agent2 claimed (2026-11-08) — do not touch** The window opens on a large black view with no text; show
+- **(6) Remote sensing: empty view gives no hint.** **agent2 done (2026-11-08, this commit)** — `ImageViewer.empty_hint`,
+  drawn in the middle of an empty view: Remote sensing, Images ("File → Open FITS…") and Photometry; screenshots
+  scratchpad `i6b6/both.png`. Images did not have one either (the finding was wrong there). Found on the way, now
+  (8) below: no window is given `open_files`, so dropping files on a window and its File → Open… / Open recent do
+  nothing yet. The plot toolbar in the middle of the empty Remote sensing column stays for its I6 layout.
+  Original finding: The window opens on a large black view with no text; show
   "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
   the middle of the steps column with empty space below.
 - (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
+- **(8) Dropping files on a window does nothing** (found 2026-11-08 by agent2 during (6)). I2.3 built open / recent
+  / drop / sessions into `AreaWindow`, but `MainWindow` gives no window an `open_files` handler, so drops are
+  refused and the File menu has no Open… or Open recent (only the test uses them). Wire each area: Images →
+  `open_many` (its File menu already has Open FITS… on Ctrl+O from the main window: one Open, not two), Photometry
+  → `set_images`, Calibration → the lights folder, Light curves → Load CSV, Spectroscopy → the science file, Remote
+  sensing → its open. Accept: a test per area drops a file and the area shows it; one Ctrl+O per window.
 
 ### I7. Basic / Expert, guide, screenshots
 **open**

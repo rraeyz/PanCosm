@@ -230,3 +230,23 @@ def test_minor_planets_from_skybot(tmp_path):
     finally:
         overlays.minor_planets = orig
     assert len(out) == 1 and abs(out[0]["x"] - 50) < 1e-6 and abs(out[0]["y"] - 60) < 1e-6
+
+
+def test_an_empty_view_says_what_to_do(qtbot):
+    """A black view told a newcomer nothing (interface I6b (6)); the hint goes once an image is shown."""
+    from astrowb.ui.viewer import ImageViewer
+
+    view = ImageViewer()
+    qtbot.addWidget(view)
+    view.resize(300, 200)
+
+    def lit():
+        img = view.viewport().grab().toImage()
+        return sum(img.pixelColor(x, 100).lightness() > 60 for x in range(img.width()))
+
+    assert lit() == 0  # no hint set: plain black
+    view.empty_hint = "No image yet"
+    view.show()
+    assert lit() > 0
+    view.set_image(np.zeros((20, 30)))
+    assert lit() == 0

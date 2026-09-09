@@ -2,7 +2,7 @@
 
 import numpy as np
 from PySide6.QtCore import QPoint, QPointF, Qt, Signal
-from PySide6.QtGui import QImage, QPainter, QPixmap
+from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import render
@@ -44,6 +44,7 @@ class ImageViewer(QGraphicsView):
         self.tool = "pan"  # pan | aperture (clicks) | area | line (drags)
         self._drag_start, self._rubber = None, None
         self._pick, self._hover_rings, self._hover_items = False, [], []
+        self.empty_hint = ""  # said in the middle while no image is shown (a black view told a newcomer nothing)
 
     def set_image(self, data: np.ndarray, keep_view=False):
         """keep_view: the next frame of a series (same size) stays at the user's zoom and place (frame browsing,
@@ -62,6 +63,17 @@ class ImageViewer(QGraphicsView):
             self.set_overlay(name)
         self.data = None
         self._item.setPixmap(QPixmap())
+        self.viewport().update()  # the empty hint comes back
+
+    def drawForeground(self, painter, rect):
+        super().drawForeground(painter, rect)
+        if self.data is None and self.empty_hint:
+            painter.save()
+            painter.resetTransform()  # viewport pixels: centred whatever the zoom
+            painter.setPen(QColor("#9aa0a6"))
+            area = self.viewport().rect().adjusted(24, 24, -24, -24)
+            painter.drawText(area, int(Qt.AlignCenter | Qt.TextWordWrap), self.empty_hint)
+            painter.restore()
 
     def set_stretch(self, interval=None, stretch=None):
         self.interval = interval or self.interval
