@@ -31,6 +31,7 @@ from PySide6.QtWidgets import (
 
 from ..engine import automation, steps
 from .messages import translate
+from .setting_names import setting_name
 from .workspaces import _title
 
 
@@ -59,6 +60,9 @@ class AutomationPage(QWidget):
         ll = QVBoxLayout(left)
         ll.addWidget(_title(self.tr("Automation"), self))
         self.list = QListWidget(self)
+        self.list.setWordWrap(True)  # long template names wrap: they were cut, with a sideways scroll bar
+        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.list.setResizeMode(QListWidget.Adjust)
         self.list.currentRowChanged.connect(self._select)
         ll.addWidget(self.list, 1)
         row = QHBoxLayout()
@@ -255,7 +259,9 @@ class AutomationPage(QWidget):
             for kind, name, value in rows:
                 r = t.rowCount()
                 t.insertRow(r)
-                label = QTableWidgetItem(f"← {name}" if kind == "input" else name)
+                shown = setting_name(entry["step"], name)  # the key stays in the tooltip and in the saved file
+                label = QTableWidgetItem(f"← {shown}" if kind == "input" else shown)
+                label.setToolTip(name)
                 label.setFlags(Qt.ItemIsEnabled)
                 label.setData(Qt.UserRole, (kind, name))
                 t.setItem(r, 0, label)

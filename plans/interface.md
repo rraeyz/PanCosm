@@ -471,7 +471,7 @@ its text into the window's Help / the steps panel. Nothing is removed before tha
 ### I4d. Automation and Observing windows: findings of their first screenshots (2026-11-08, agent2)
 **agent2 done (2026-11-08, commit a612314)** — step names (`ui/step_names.py`) everywhere a step is shown; the English
 template texts were only the screenshot script (no language saved), but the window now follows the interface language
-when none was chosen. Still open: the settings table shows parameter keys ("clock_utc_offset"): give them labels.
+when none was chosen. The parameter labels followed in I6b (5).
 - Automation (tr): the templates' names and descriptions stay English ("Eclipsing binary night (şablon)",
   "Observe the binary from dusk to dawn…"), and the steps are listed by their technical ids ("1. calibration.scan",
   "photometry.suggest_comparisons") and setting keys ("← folder", "clock_utc_offset"). Show translated step names
@@ -565,7 +565,11 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   "uslesemod…"). Short header names with the full name in the header tooltip, or columns sized to their headers
   with the table scrolling sideways. Folded into the Observing window's I6 layout. The I6a text check should look
   at table headers too.
-- **(5) Automation: template names cut** **agent2 claimed (2026-11-08) — do not touch** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
+- **(5) Automation: template names cut** **agent2 done (2026-11-08, this commit)** — `ui/setting_names.py`:
+  names for the 82 settings and inputs of the steps in the bundled templates (four languages; a few keyed by step,
+  where one key means different things), the key in the tooltip; any other setting shows its key with spaces (the
+  remaining ~95 keys of rarer steps can be named the same way when their windows get their I6 layout). The template
+  list word-wraps. Screenshot scratchpad `i6b5/de.png`. I4d's open leftover is closed by this. in the template list ("…am Ende der Nacht (Vorlag") with a sideways
   scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
   leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
 - **(6) Remote sensing: empty view gives no hint.** **agent2 done (2026-11-08, this commit)** — `ImageViewer.empty_hint`,

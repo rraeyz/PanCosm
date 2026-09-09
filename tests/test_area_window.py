@@ -230,3 +230,26 @@ def test_steps_are_shown_by_name_not_by_id():
     assert builtin <= set(NAMES), builtin - set(NAMES)
     assert step_name("photometry.suggest_comparisons") == "Suggest comparison stars"
     assert step_name("myplugin.thing") == "myplugin.thing"
+
+
+def test_settings_of_the_bundled_automations_are_shown_by_name():
+    """The Automation window showed keys ("clock_utc_offset", "← folder"); every setting and input of the steps in
+    the bundled templates has a name, the key stays in the tooltip, others show the key with spaces (I6b (5))."""
+    import json
+    from pathlib import Path
+
+    import astrowb
+    from astrowb.engine import steps
+    from astrowb.ui.setting_names import NAMES, setting_name
+
+    unnamed = set()
+    for path in (Path(astrowb.__file__).parent / "resources" / "automations").glob("*.json"):
+        for entry in json.loads(path.read_text())["steps"]:
+            s = steps.get(entry["step"])
+            for key in (*s.inputs, *s.optional, *s.defaults):
+                if f"{entry['step']}.{key}" not in NAMES and key not in NAMES:
+                    unnamed.add(key)
+    assert not unnamed, unnamed
+    assert setting_name("calibration.scan", "clock_utc_offset") == "Camera clock − UTC (h)"
+    assert setting_name("stacking.stack", "method") == "Combine by"  # a name that depends on the step
+    assert setting_name("myplugin.thing", "my_value") == "my value"
