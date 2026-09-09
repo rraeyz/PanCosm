@@ -5,6 +5,7 @@ import warnings
 
 import pytest
 from fake_devices import FakeCamera, FakeDome, FakeFilterWheel, FakeFocuser, FakeMonitor, FakeMount
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QPushButton
 from test_observatory import NIGHT, SITE, at
 
@@ -215,3 +216,18 @@ def test_camera_settings_rotation_and_panel_flats(page, qtbot, tmp_path):
     assert p.panel_flats()
     qtbot.waitUntil(lambda: obs.devices["panel"].log[-1:] == ["off"], timeout=20000)
     assert obs.devices["panel"].log[:2] == ["close", f"on {FakePanel().MaxBrightness}"]
+
+
+def test_every_sequence_column_shows_its_whole_header(qtbot, tmp_path):
+    """German headers were cut at 1366 × 768 ("elichtung (") while the columns stretched (interface I6b (4))."""
+    from astrowb.settings import Settings
+    from astrowb.ui.observe_page import ObservePage
+
+    page = ObservePage(Settings(tmp_path))
+    qtbot.addWidget(page)
+    page.resize(700, 600)
+    page.show()
+    head, model = page.exposures.horizontalHeader(), page.exposures.model()
+    for c in range(model.columnCount()):
+        text = model.headerData(c, Qt.Horizontal)
+        assert head.sectionSize(c) >= head.fontMetrics().horizontalAdvance(text), text

@@ -295,7 +295,8 @@ class ObservePage(Undoable, QWidget):
                 "empty keeps the camera's setting and the full frame"
             )
         )
-        self.exposures.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # each column at least as wide as its header (Stretch cut them, I6b (4)); the table scrolls sideways if narrow
+        self.exposures.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         rl.addWidget(self.exposures, 1)
         row = QHBoxLayout()
         add = QPushButton(self.tr("Add exposure row"), self)
