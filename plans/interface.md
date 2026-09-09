@@ -577,7 +577,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
   the middle of the steps column with empty space below.
 - (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
-- **(8) Dropping files on a window does nothing** (found 2026-11-08 by agent2 during (6)). I2.3 built open / recent
+- **(8) Dropping files on a window does nothing** **agent2 claimed (2026-11-08) — do not touch** (found 2026-11-08 by agent2 during (6)). I2.3 built open / recent
   / drop / sessions into `AreaWindow`, but `MainWindow` gives no window an `open_files` handler, so drops are
   refused and the File menu has no Open… or Open recent (only the test uses them). Wire each area: Images →
   `open_many` (its File menu already has Open FITS… on Ctrl+O from the main window: one Open, not two), Photometry
