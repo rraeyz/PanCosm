@@ -561,7 +561,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   the time span is shorter than ~2 × the longest period searched, or when the peak is at the grid's edge, and say
   what to do (more nights, a narrower range). Template in `ui/messages.py`. Accept: a test with a 8-minute curve
   shows the warning; a 3-night curve does not.
-- **(4) Observing: sequence table headers cut** in German at 1366 × 768 ("elichtung (", "stärkung (G",
+- **(4) Observing: sequence table headers cut** **agent2 claimed (2026-11-08) — do not touch** in German at 1366 × 768 ("elichtung (", "stärkung (G",
   "uslesemod…"). Short header names with the full name in the header tooltip, or columns sized to their headers
   with the table scrolling sideways. Folded into the Observing window's I6 layout. The I6a text check should look
   at table headers too.
