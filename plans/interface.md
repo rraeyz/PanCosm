@@ -565,7 +565,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   "uslesemod…"). Short header names with the full name in the header tooltip, or columns sized to their headers
   with the table scrolling sideways. Folded into the Observing window's I6 layout. The I6a text check should look
   at table headers too.
-- **(5) Automation: template names cut** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
+- **(5) Automation: template names cut** **agent2 claimed (2026-11-08) — do not touch** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
   scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
   leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
 - **(6) Remote sensing: empty view gives no hint.** **agent2 done (2026-11-08, this commit)** — `ImageViewer.empty_hint`,
