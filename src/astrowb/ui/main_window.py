@@ -1180,7 +1180,7 @@ class MainWindow(QMainWindow):
         unique = {k.toString(): k for k in redo}  # one key twice on one action is "ambiguous": it would do nothing
         self.redo_action.setShortcuts(list(unique.values()))
         for act, tip in (
-            (self.undo_action, self.tr("Take back the last change on this page (stars marked, points deleted, …)")),
+            (self.undo_action, self.tr("Take back the last change in this window (stars marked, points deleted, …)")),
             (self.redo_action, self.tr("Do again what Undo took back")),
         ):
             act.setToolTip(tip)

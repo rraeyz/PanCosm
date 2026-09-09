@@ -535,7 +535,14 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
   target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
   a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
-- **(2) Photometry: the star table is squeezed in the results panel.** **agent2 claimed (2026-11-08) — do not touch** The long info text above it leaves the Stars
+- **(2) Photometry: the star table is squeezed in the results panel.** **agent2 done (2026-11-08, this commit)** — the paragraph under the table went into the
+  two buttons' tooltips (its old area names fixed: "Light curves & O−C", "Orbits & models"), the result text sits
+  under the plot, the buttons share a row when it holds them, plot and tabs share the width, every header column
+  fits, and the panel opens at two fifths of the height. At 1366 × 768 (tr / de / es) the table shows 4 stars at
+  once (target + 3 comparisons), the rest scroll — not the 5 asked: a fifth row would cost the image more height.
+  Cost: the plot toolbar's "Open in a new window" moved into its » overflow in Spanish. Screenshots: scratchpad
+  `i6b2/<lang>/24_phot_light_curve.png`. Also "this page" → "this window" in the Undo tooltip and the Models hint.
+  Original finding: The long info text above it leaves the Stars
   tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
   table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
 - **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 done (2026-11-08, this commit)** — `photometry.steps.period_warnings`, shown as ⚠ lines under
@@ -565,7 +572,10 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 - **Build:**
   - Basic / Expert decides which panels open by default in each area window;
   - the guide is rewritten around the area windows, in 4 languages, with new screenshots
-    (`tools/guide_screenshots.py`).
+    (`tools/guide_screenshots.py`);
+  - the first-run tour in `main_window.py` too ("taken to the right page", "every page explained", "training
+    pages"), and the sidebar's old names ("Light curves & O-C", "Orbits & models") once the owner has answered on
+    the sidebar.
 - **Accept:** the guide's sections match the windows, in all 4 languages.
 
 ## Where everything is (keep this up to date)
