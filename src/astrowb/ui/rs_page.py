@@ -42,7 +42,7 @@ class RemoteSensingPage(QWidget):
         self.viewer.hovered.connect(self._hover)
         self.viewer.clicked.connect(self._clicked)
         self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
-        self.viewer.empty_hint = self.tr("No image yet: press Open image… on the right")
+        self.viewer.empty_hint = self.tr("No image yet: press Open image… on the right, or drop the files here")
         split.addWidget(self.viewer)
         side = QWidget(self)
         lay = QVBoxLayout(side)

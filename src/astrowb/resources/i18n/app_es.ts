@@ -2552,8 +2552,8 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <name>ImagePage</name>
     <message>
         <location filename="../../ui/image_page.py" line="53"/>
-        <source>No image yet: File → Open FITS…</source>
-        <translation>Aún no hay imagen: Archivo → Abrir FITS…</translation>
+        <source>No image yet: File → Open…, or drop image files here</source>
+        <translation>Aún no hay imagen: Archivo → Abrir… o suelte aquí archivos de imagen</translation>
     </message>
     <message>
         <location filename="../../ui/image_page.py" line="60"/>
@@ -3219,1025 +3219,1025 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Herramientas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="390"/>
+        <location filename="../../ui/main_window.py" line="422"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Exportar tabla (CSV o LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="389"/>
+        <location filename="../../ui/main_window.py" line="421"/>
         <source>Copy table</source>
         <translation>Copiar la tabla</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="387"/>
+        <location filename="../../ui/main_window.py" line="419"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="396"/>
+        <location filename="../../ui/main_window.py" line="428"/>
         <source>Export table</source>
         <translation>Exportar tabla</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="489"/>
+        <location filename="../../ui/main_window.py" line="521"/>
         <source>Show beside the image</source>
         <translation>Mostrar junto a la imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="489"/>
+        <location filename="../../ui/main_window.py" line="521"/>
         <source>Put back in the list</source>
         <translation>Devolver a la lista</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="577"/>
+        <location filename="../../ui/main_window.py" line="609"/>
         <source>Send the open images to Photometry</source>
         <translation>Enviar las imágenes abiertas a Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="581"/>
+        <location filename="../../ui/main_window.py" line="613"/>
         <source>Measure this star</source>
         <translation>Medir esta estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="582"/>
+        <location filename="../../ui/main_window.py" line="614"/>
         <source>Photometry: this star as the target</source>
         <translation>Fotometría: esta estrella como objetivo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="584"/>
+        <location filename="../../ui/main_window.py" line="616"/>
         <source>Photometry: add as a comparison star</source>
         <translation>Fotometría: añadir como estrella de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="589"/>
+        <location filename="../../ui/main_window.py" line="621"/>
         <source>Copy the position</source>
         <translation>Copiar la posición</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="590"/>
+        <location filename="../../ui/main_window.py" line="622"/>
         <source>Look up in SIMBAD</source>
         <translation>Buscar en SIMBAD</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="595"/>
+        <location filename="../../ui/main_window.py" line="627"/>
         <source>Centre the view here</source>
         <translation>Centrar la vista aquí</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="599"/>
+        <location filename="../../ui/main_window.py" line="631"/>
         <source>Statistics of the whole image</source>
         <translation>Estadísticas de toda la imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="641"/>
+        <location filename="../../ui/main_window.py" line="673"/>
         <source>{f} ({n} images)</source>
         <translation>{f} ({n} imágenes)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="642"/>
+        <location filename="../../ui/main_window.py" line="674"/>
         <source>A light curve is measured in one filter. Which one?</source>
         <translation>Una curva de luz se mide en un solo filtro. ¿Cuál?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="643"/>
+        <location filename="../../ui/main_window.py" line="675"/>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1073"/>
+        <location filename="../../ui/main_window.py" line="1105"/>
         <source>Main window</source>
         <translation>Ventana principal</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1080"/>
+        <location filename="../../ui/main_window.py" line="1112"/>
         <source>Open an area</source>
         <translation>Abrir un área</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1158"/>
+        <location filename="../../ui/main_window.py" line="1190"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1159"/>
+        <location filename="../../ui/main_window.py" line="1191"/>
         <source>&amp;New project…</source>
         <translation>&amp;Nuevo proyecto…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1160"/>
+        <location filename="../../ui/main_window.py" line="1192"/>
         <source>Open &amp;project…</source>
         <translation>Abrir &amp;proyecto…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1162"/>
+        <location filename="../../ui/main_window.py" line="1194"/>
         <source>&amp;Open FITS…</source>
         <translation>&amp;Abrir FITS…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1163"/>
+        <location filename="../../ui/main_window.py" line="1195"/>
         <source>&amp;Save FITS as…</source>
         <translation>&amp;Guardar FITS como…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1165"/>
+        <location filename="../../ui/main_window.py" line="1197"/>
         <source>Save &amp;picture (PNG / JPEG / TIFF)…</source>
         <translation>Guardar &amp;imagen (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1167"/>
+        <location filename="../../ui/main_window.py" line="1199"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Convertir muchas imágenes (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1169"/>
+        <location filename="../../ui/main_window.py" line="1201"/>
         <source>&amp;Close image</source>
         <translation>&amp;Cerrar imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1170"/>
+        <location filename="../../ui/main_window.py" line="1202"/>
         <source>Close &amp;all images</source>
         <translation>Cerrar &amp;todas las imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1172"/>
+        <location filename="../../ui/main_window.py" line="1204"/>
         <source>&amp;Quit</source>
         <translation>&amp;Salir</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1174"/>
+        <location filename="../../ui/main_window.py" line="1206"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1176"/>
+        <location filename="../../ui/main_window.py" line="1208"/>
         <source>&amp;Undo</source>
         <translation>&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1178"/>
+        <location filename="../../ui/main_window.py" line="1210"/>
         <source>&amp;Redo</source>
         <translation>&amp;Rehacer</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1184"/>
+        <location filename="../../ui/main_window.py" line="1216"/>
         <source>Do again what Undo took back</source>
         <translation>Vuelve a hacer lo que Deshacer revirtió</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1189"/>
+        <location filename="../../ui/main_window.py" line="1221"/>
         <source>&amp;View</source>
         <translation>&amp;Ver</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1190"/>
+        <location filename="../../ui/main_window.py" line="1222"/>
         <source>Zoom to &amp;fit</source>
         <translation>&amp;Ajustar a la ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1191"/>
+        <location filename="../../ui/main_window.py" line="1223"/>
         <source>Zoom &amp;in</source>
         <translation>&amp;Acercar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1193"/>
+        <location filename="../../ui/main_window.py" line="1225"/>
         <source>Zoom &amp;out</source>
         <translation>A&amp;lejar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1195"/>
+        <location filename="../../ui/main_window.py" line="1227"/>
         <source>ZScale</source>
         <translation>ZScale</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1196"/>
+        <location filename="../../ui/main_window.py" line="1228"/>
         <source>Min–max</source>
         <translation>Mín–máx</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1197"/>
+        <location filename="../../ui/main_window.py" line="1229"/>
         <source>99.5 %</source>
         <translation>99,5 %</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1198"/>
+        <location filename="../../ui/main_window.py" line="1230"/>
         <source>Linear</source>
         <translation>Lineal</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1199"/>
+        <location filename="../../ui/main_window.py" line="1231"/>
         <source>Square root</source>
         <translation>Raíz cuadrada</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1200"/>
+        <location filename="../../ui/main_window.py" line="1232"/>
         <source>Logarithmic</source>
         <translation>Logarítmica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1201"/>
+        <location filename="../../ui/main_window.py" line="1233"/>
         <source>Asinh</source>
         <translation>Asinh</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1203"/>
+        <location filename="../../ui/main_window.py" line="1235"/>
         <source>&amp;Previous image</source>
         <translation>Imagen &amp;anterior</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1204"/>
+        <location filename="../../ui/main_window.py" line="1236"/>
         <source>&amp;Next image</source>
         <translation>Imagen &amp;siguiente</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1210"/>
+        <location filename="../../ui/main_window.py" line="1242"/>
         <source>Display &amp;levels and colours…</source>
         <translation>&amp;Niveles de visualización y colores…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1211"/>
+        <location filename="../../ui/main_window.py" line="1243"/>
         <source>&amp;Blink images…</source>
         <translation>&amp;Parpadear imágenes…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1215"/>
+        <location filename="../../ui/main_window.py" line="1247"/>
         <source>Panels beside the image</source>
         <translation>Paneles junto a la imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1298"/>
+        <location filename="../../ui/main_window.py" line="1330"/>
         <source>Text size</source>
         <translation>Tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1300"/>
+        <location filename="../../ui/main_window.py" line="1332"/>
         <source>&amp;Larger text</source>
         <translation>Texto más &amp;grande</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1301"/>
+        <location filename="../../ui/main_window.py" line="1333"/>
         <source>&amp;Smaller text</source>
         <translation>Texto más &amp;pequeño</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1302"/>
+        <location filename="../../ui/main_window.py" line="1334"/>
         <source>&amp;Normal text size</source>
         <translation>Tamaño de texto &amp;normal</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1218"/>
+        <location filename="../../ui/main_window.py" line="1250"/>
         <source>Interval</source>
         <translation>Intervalo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="329"/>
+        <location filename="../../ui/main_window.py" line="361"/>
         <source>Images…</source>
         <translation>Imágenes…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="330"/>
+        <location filename="../../ui/main_window.py" line="362"/>
         <source>Blink</source>
         <translation>Parpadeo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="334"/>
+        <location filename="../../ui/main_window.py" line="366"/>
         <source>Bad frames</source>
         <translation>Tomas malas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="335"/>
+        <location filename="../../ui/main_window.py" line="367"/>
         <source>Comparisons</source>
         <translation>Comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="336"/>
+        <location filename="../../ui/main_window.py" line="368"/>
         <source>Radii</source>
         <translation>Radios</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="337"/>
+        <location filename="../../ui/main_window.py" line="369"/>
         <source>Measure</source>
         <translation>Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="339"/>
+        <location filename="../../ui/main_window.py" line="371"/>
         <source>Minimum</source>
         <translation>Mínimo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="340"/>
+        <location filename="../../ui/main_window.py" line="372"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="357"/>
+        <location filename="../../ui/main_window.py" line="389"/>
         <source>Results: light curve, stars, minimum, export</source>
         <translation>Resultados: curva de luz, estrellas, mínimo, exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="359"/>
+        <location filename="../../ui/main_window.py" line="391"/>
         <source>&amp;Measure</source>
         <translation>&amp;Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="662"/>
+        <location filename="../../ui/main_window.py" line="694"/>
         <source>Click the target on the first image in time, shown in the Photometry window.</source>
         <translation>Haga clic en el objetivo en la primera imagen en el tiempo, mostrada en la ventana Fotometría.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1183"/>
+        <location filename="../../ui/main_window.py" line="1215"/>
         <source>Take back the last change in this window (stars marked, points deleted, …)</source>
         <translation>Deshace el último cambio en esta ventana (estrellas marcadas, puntos borrados, …)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1219"/>
+        <location filename="../../ui/main_window.py" line="1251"/>
         <source>Stretch</source>
         <translation>Estiramiento</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1228"/>
+        <location filename="../../ui/main_window.py" line="1260"/>
         <source>&amp;Image</source>
         <translation>&amp;Imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1229"/>
+        <location filename="../../ui/main_window.py" line="1261"/>
         <source>&amp;Plate solve (ASTAP / astrometry.net)</source>
         <translation>&amp;Reducción astrométrica (ASTAP / astrometry.net)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1231"/>
+        <location filename="../../ui/main_window.py" line="1263"/>
         <source>&amp;Colour image from three filters…</source>
         <translation>Imagen en &amp;color con tres filtros…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1232"/>
+        <location filename="../../ui/main_window.py" line="1264"/>
         <source>&amp;Asteroid and comet astrometry…</source>
         <translation>&amp;Astrometría de asteroides y cometas…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1233"/>
+        <location filename="../../ui/main_window.py" line="1265"/>
         <source>Photometric &amp;coefficients (extinction, transformation)…</source>
         <translation>&amp;Coeficientes fotométricos (extinción, transformación)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1234"/>
+        <location filename="../../ui/main_window.py" line="1266"/>
         <source>P&amp;rocess</source>
         <translation>P&amp;rocesar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1236"/>
+        <location filename="../../ui/main_window.py" line="1268"/>
         <source>Apply to all open images</source>
         <translation>Aplicar a todas las imágenes abiertas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1239"/>
+        <location filename="../../ui/main_window.py" line="1271"/>
         <source>The next operations run on every image in the list; the processed copies take their places</source>
         <translation>Las siguientes operaciones se aplican a cada imagen de la lista; las copias procesadas ocupan su lugar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1244"/>
+        <location filename="../../ui/main_window.py" line="1276"/>
         <source>Pixel math…</source>
         <translation>Aritmética de píxeles…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1245"/>
+        <location filename="../../ui/main_window.py" line="1277"/>
         <source>Flip left–right</source>
         <translation>Voltear izquierda–derecha</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1246"/>
+        <location filename="../../ui/main_window.py" line="1278"/>
         <source>Flip top–bottom</source>
         <translation>Voltear arriba–abajo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1247"/>
+        <location filename="../../ui/main_window.py" line="1279"/>
         <source>Rotate 90°</source>
         <translation>Girar 90°</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1248"/>
+        <location filename="../../ui/main_window.py" line="1280"/>
         <source>Rotate by any angle…</source>
         <translation>Girar un ángulo cualquiera…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1249"/>
+        <location filename="../../ui/main_window.py" line="1281"/>
         <source>Resample (change the pixel size)…</source>
         <translation>Remuestrear (cambiar el tamaño del píxel)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1250"/>
+        <location filename="../../ui/main_window.py" line="1282"/>
         <source>Bin 2×2</source>
         <translation>Agrupar 2×2</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1251"/>
+        <location filename="../../ui/main_window.py" line="1283"/>
         <source>Crop…</source>
         <translation>Recortar…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1252"/>
+        <location filename="../../ui/main_window.py" line="1284"/>
         <source>Gaussian smoothing…</source>
         <translation>Suavizado gaussiano…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1253"/>
+        <location filename="../../ui/main_window.py" line="1285"/>
         <source>Median filter…</source>
         <translation>Filtro de mediana…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1254"/>
+        <location filename="../../ui/main_window.py" line="1286"/>
         <source>Unsharp mask…</source>
         <translation>Máscara de enfoque…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1255"/>
+        <location filename="../../ui/main_window.py" line="1287"/>
         <source>Remove background gradient…</source>
         <translation>Quitar gradiente de fondo…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1256"/>
+        <location filename="../../ui/main_window.py" line="1288"/>
         <source>Kernel filter…</source>
         <translation>Filtro de núcleo…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1257"/>
+        <location filename="../../ui/main_window.py" line="1289"/>
         <source>Deconvolution (Richardson–Lucy)…</source>
         <translation>Deconvolución (Richardson–Lucy)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1258"/>
+        <location filename="../../ui/main_window.py" line="1290"/>
         <source>Digital development (DDP)</source>
         <translation>Revelado digital (DDP)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1259"/>
+        <location filename="../../ui/main_window.py" line="1291"/>
         <source>Match the histogram of another image…</source>
         <translation>Igualar el histograma de otra imagen…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1264"/>
+        <location filename="../../ui/main_window.py" line="1296"/>
         <source>&amp;Plugins</source>
         <translation>&amp;Complementos</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1267"/>
+        <location filename="../../ui/main_window.py" line="1299"/>
         <source>&amp;Settings</source>
         <translation>&amp;Configuración</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1268"/>
+        <location filename="../../ui/main_window.py" line="1300"/>
         <source>&amp;Expert mode (every option open)</source>
         <translation>Modo &amp;experto (todas las opciones abiertas)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1274"/>
+        <location filename="../../ui/main_window.py" line="1306"/>
         <source>&amp;Language</source>
         <translation>&amp;Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1282"/>
+        <location filename="../../ui/main_window.py" line="1314"/>
         <source>&amp;Look</source>
         <translation>&amp;Aspecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1283"/>
+        <location filename="../../ui/main_window.py" line="1315"/>
         <source>Dark</source>
         <translation>Oscuro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1283"/>
+        <location filename="../../ui/main_window.py" line="1315"/>
         <source>Light</source>
         <translation>Claro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1290"/>
+        <location filename="../../ui/main_window.py" line="1322"/>
         <source>&amp;Processing device</source>
         <translation>&amp;Unidad de cálculo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1291"/>
+        <location filename="../../ui/main_window.py" line="1323"/>
         <source>Automatic (GPU when useful)</source>
         <translation>Automático (GPU cuando conviene)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1291"/>
+        <location filename="../../ui/main_window.py" line="1323"/>
         <source>CPU only</source>
         <translation>Solo CPU</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1291"/>
+        <location filename="../../ui/main_window.py" line="1323"/>
         <source>GPU</source>
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1306"/>
+        <location filename="../../ui/main_window.py" line="1338"/>
         <source>&amp;Window</source>
         <translation>&amp;Ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1308"/>
+        <location filename="../../ui/main_window.py" line="1340"/>
         <source>&amp;Help</source>
         <translation>A&amp;yuda</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1309"/>
+        <location filename="../../ui/main_window.py" line="1341"/>
         <source>Report a problem…</source>
         <translation>Informar de un problema…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1310"/>
+        <location filename="../../ui/main_window.py" line="1342"/>
         <source>Training &amp;guide</source>
         <translation>&amp;Guía de formación</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1311"/>
+        <location filename="../../ui/main_window.py" line="1343"/>
         <source>Quick &amp;tour</source>
         <translation>&amp;Recorrido rápido</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1312"/>
+        <location filename="../../ui/main_window.py" line="1344"/>
         <source>&amp;Practice data for a first night…</source>
         <translation>&amp;Datos de práctica para una primera noche…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1313"/>
+        <location filename="../../ui/main_window.py" line="1345"/>
         <source>Check the &amp;installation and internet services</source>
         <translation>Comprobar la &amp;instalación y los servicios de internet</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1314"/>
+        <location filename="../../ui/main_window.py" line="1346"/>
         <source>Check for &amp;updates…</source>
         <translation>Buscar &amp;actualizaciones…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1315"/>
+        <location filename="../../ui/main_window.py" line="1347"/>
         <source>&amp;About {app}</source>
         <translation>&amp;Acerca de {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1326"/>
+        <location filename="../../ui/main_window.py" line="1358"/>
         <source>Other images, named B, C, … (optional)</source>
         <translation>Otras imágenes, llamadas B, C, … (opcional)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1329"/>
+        <location filename="../../ui/main_window.py" line="1361"/>
         <source>Pixel math</source>
         <translation>Aritmética de píxeles</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1329"/>
+        <location filename="../../ui/main_window.py" line="1361"/>
         <source>Expression (A is this image), e.g. A - 0.95 * B:</source>
         <translation>Expresión (A es esta imagen), p. ej. A - 0.95 * B:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1336"/>
+        <location filename="../../ui/main_window.py" line="1368"/>
         <source>Crop</source>
         <translation>Recortar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1336"/>
+        <location filename="../../ui/main_window.py" line="1368"/>
         <source>x0 x1 y0 y1 (pixels, 0-based, end excluded):</source>
         <translation>x0 x1 y0 y1 (píxeles, desde 0, final excluido):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1349"/>
+        <location filename="../../ui/main_window.py" line="1381"/>
         <source>Reference image</source>
         <translation>Imagen de referencia</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1355"/>
+        <location filename="../../ui/main_window.py" line="1387"/>
         <source>Low pass (smooth)</source>
         <translation>Paso bajo (suavizar)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1356"/>
+        <location filename="../../ui/main_window.py" line="1388"/>
         <source>High pass (sharpen)</source>
         <translation>Paso alto (enfocar)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1357"/>
+        <location filename="../../ui/main_window.py" line="1389"/>
         <source>Laplacian</source>
         <translation>Laplaciano</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1358"/>
+        <location filename="../../ui/main_window.py" line="1390"/>
         <source>Edges (Sobel)</source>
         <translation>Bordes (Sobel)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1359"/>
+        <location filename="../../ui/main_window.py" line="1391"/>
         <source>Vertical edges</source>
         <translation>Bordes verticales</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1360"/>
+        <location filename="../../ui/main_window.py" line="1392"/>
         <source>Horizontal edges</source>
         <translation>Bordes horizontales</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1362"/>
+        <location filename="../../ui/main_window.py" line="1394"/>
         <source>Kernel filter</source>
         <translation>Filtro de núcleo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1362"/>
+        <location filename="../../ui/main_window.py" line="1394"/>
         <source>Filter:</source>
         <translation>Filtro:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1367"/>
-        <location filename="../../ui/main_window.py" line="1376"/>
+        <location filename="../../ui/main_window.py" line="1399"/>
+        <location filename="../../ui/main_window.py" line="1408"/>
         <source>Deconvolution</source>
         <translation>Deconvolución</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1368"/>
+        <location filename="../../ui/main_window.py" line="1400"/>
         <source>Star FWHM (pixels; measure it with the Star tool):</source>
         <translation>FWHM de las estrellas (píxeles; mídala con la herramienta Estrella):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1376"/>
+        <location filename="../../ui/main_window.py" line="1408"/>
         <source>Iterations:</source>
         <translation>Iteraciones:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1971"/>
+        <location filename="../../ui/main_window.py" line="2003"/>
         <source>the Photometry window</source>
         <translation>la ventana Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1345"/>
+        <location filename="../../ui/main_window.py" line="1377"/>
         <source>Rotate</source>
         <translation>Girar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1345"/>
+        <location filename="../../ui/main_window.py" line="1377"/>
         <source>Angle (degrees, counter-clockwise):</source>
         <translation>Ángulo (grados, en sentido antihorario):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1379"/>
+        <location filename="../../ui/main_window.py" line="1411"/>
         <source>Factor (2: twice as many pixels across, 0.5: half):</source>
         <translation>Factor (2: el doble de píxeles por lado, 0,5: la mitad):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1380"/>
-        <location filename="../../ui/main_window.py" line="1382"/>
+        <location filename="../../ui/main_window.py" line="1412"/>
+        <location filename="../../ui/main_window.py" line="1414"/>
         <source>Sigma (pixels):</source>
         <translation>Sigma (píxeles):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1381"/>
+        <location filename="../../ui/main_window.py" line="1413"/>
         <source>Box size (pixels, odd):</source>
         <translation>Tamaño de caja (píxeles, impar):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1383"/>
+        <location filename="../../ui/main_window.py" line="1415"/>
         <source>Box size (pixels):</source>
         <translation>Tamaño de caja (píxeles):</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1386"/>
+        <location filename="../../ui/main_window.py" line="1418"/>
         <source>Process</source>
         <translation>Procesar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1420"/>
+        <location filename="../../ui/main_window.py" line="1452"/>
         <source>Red frame</source>
         <translation>Imagen roja</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1420"/>
+        <location filename="../../ui/main_window.py" line="1452"/>
         <source>Green frame</source>
         <translation>Imagen verde</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1420"/>
+        <location filename="../../ui/main_window.py" line="1452"/>
         <source>Blue frame</source>
         <translation>Imagen azul</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1425"/>
+        <location filename="../../ui/main_window.py" line="1457"/>
         <source>Colour image</source>
         <translation>Imagen en color</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1493"/>
+        <location filename="../../ui/main_window.py" line="1525"/>
         <source>No plugins installed</source>
         <translation>No hay complementos instalados</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1495"/>
+        <location filename="../../ui/main_window.py" line="1527"/>
         <source>Failed to load: {f}</source>
         <translation>No se pudo cargar: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1497"/>
+        <location filename="../../ui/main_window.py" line="1529"/>
         <source>Plugin error</source>
         <translation>Error del complemento</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1500"/>
+        <location filename="../../ui/main_window.py" line="1532"/>
         <source>Open plugins folder</source>
         <translation>Abrir la carpeta de complementos</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1548"/>
+        <location filename="../../ui/main_window.py" line="1580"/>
         <source>New project</source>
         <translation>Nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1553"/>
+        <location filename="../../ui/main_window.py" line="1585"/>
         <source>Open project</source>
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1593"/>
+        <location filename="../../ui/main_window.py" line="1625"/>
         <source>Open FITS</source>
         <translation>Abrir FITS</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1647"/>
+        <location filename="../../ui/main_window.py" line="1679"/>
         <source>Cannot open file</source>
         <translation>No se puede abrir el archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="680"/>
-        <location filename="../../ui/main_window.py" line="1754"/>
+        <location filename="../../ui/main_window.py" line="712"/>
+        <location filename="../../ui/main_window.py" line="1786"/>
         <source>Save FITS as</source>
         <translation>Guardar FITS como</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1414"/>
+        <location filename="../../ui/main_window.py" line="1446"/>
         <source>image operation</source>
         <translation>operación de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1499"/>
+        <location filename="../../ui/main_window.py" line="1531"/>
         <source>Install the example plugins</source>
         <translation>Instalar los complementos de ejemplo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1501"/>
+        <location filename="../../ui/main_window.py" line="1533"/>
         <source>What are plugins?</source>
         <translation>¿Qué son los complementos?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1510"/>
+        <location filename="../../ui/main_window.py" line="1542"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Instalados: {names}. Ya están en el menú Complementos.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1512"/>
+        <location filename="../../ui/main_window.py" line="1544"/>
         <source>The example plugins are already installed.</source>
         <translation>Los complementos de ejemplo ya están instalados.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1561"/>
+        <location filename="../../ui/main_window.py" line="1593"/>
         <source>Cannot open project</source>
         <translation>No se puede abrir el proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1638"/>
+        <location filename="../../ui/main_window.py" line="1670"/>
         <source>Image extension</source>
         <translation>Extensión de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1638"/>
+        <location filename="../../ui/main_window.py" line="1670"/>
         <source>This file holds several images:</source>
         <translation>Este archivo contiene varias imágenes:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1713"/>
+        <location filename="../../ui/main_window.py" line="1745"/>
         <source>Save picture</source>
         <translation>Guardar imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1725"/>
+        <location filename="../../ui/main_window.py" line="1757"/>
         <source>Images to convert</source>
         <translation>Imágenes a convertir</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1732"/>
+        <location filename="../../ui/main_window.py" line="1764"/>
         <source>TIFF, 32-bit data</source>
         <translation>TIFF, datos de 32 bits</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1734"/>
+        <location filename="../../ui/main_window.py" line="1766"/>
         <source>Convert images</source>
         <translation>Convertir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1734"/>
+        <location filename="../../ui/main_window.py" line="1766"/>
         <source>Format:</source>
         <translation>Formato:</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1740"/>
+        <location filename="../../ui/main_window.py" line="1772"/>
         <source>Folder for the pictures</source>
         <translation>Carpeta para las imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1749"/>
+        <location filename="../../ui/main_window.py" line="1781"/>
         <source>{n} pictures written to {folder}.</source>
         <translation>{n} imágenes escritas en {folder}.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1809"/>
+        <location filename="../../ui/main_window.py" line="1841"/>
         <source>queued</source>
         <translation>en cola</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1810"/>
+        <location filename="../../ui/main_window.py" line="1842"/>
         <source>running</source>
         <translation>en curso</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1811"/>
+        <location filename="../../ui/main_window.py" line="1843"/>
         <source>done</source>
         <translation>hecha</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1812"/>
+        <location filename="../../ui/main_window.py" line="1844"/>
         <source>failed</source>
         <translation>fallida</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1813"/>
+        <location filename="../../ui/main_window.py" line="1845"/>
         <source>cancelled</source>
         <translation>cancelada</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1840"/>
+        <location filename="../../ui/main_window.py" line="1872"/>
         <source>Task failed</source>
         <translation>La tarea falló</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1853"/>
+        <location filename="../../ui/main_window.py" line="1885"/>
         <source>No plate solver</source>
         <translation>Sin reductor astrométrico</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1855"/>
+        <location filename="../../ui/main_window.py" line="1887"/>
         <source>Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, then try again. Nothing is sent over the internet.</source>
         <translation>Instale ASTAP y una de sus bases de estrellas (hnsky.org/astap.htm), o astrometry.net, y vuelva a intentarlo. No se envía nada por internet.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1904"/>
+        <location filename="../../ui/main_window.py" line="1936"/>
         <source>Stack written: {path}</source>
         <translation>Apilado escrito: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2011"/>
+        <location filename="../../ui/main_window.py" line="2043"/>
         <source>value</source>
         <translation>valor</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2032"/>
+        <location filename="../../ui/main_window.py" line="2064"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2033"/>
+        <location filename="../../ui/main_window.py" line="2065"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>El nuevo idioma se usará al reiniciar {app}.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2053"/>
+        <location filename="../../ui/main_window.py" line="2085"/>
         <source>Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.</source>
         <translation>¡Bienvenido! Este recorrido de un minuto muestra dónde está cada cosa. Pulse Siguiente, o Saltar en cualquier momento.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2056"/>
+        <location filename="../../ui/main_window.py" line="2088"/>
         <source>The pages, in the order of an observing night. Click one to open it.</source>
         <translation>Las páginas, en el orden de una noche de observación. Pulse una para abrirla.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2061"/>
+        <location filename="../../ui/main_window.py" line="2093"/>
         <source>Start here: pick what you have — raw frames, images, spectra, a list of minima — and you are taken to the right page.</source>
         <translation>Empiece aquí: elija lo que tiene — imágenes brutas, imágenes, espectros, una lista de mínimos — y llegará a la página adecuada.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2066"/>
+        <location filename="../../ui/main_window.py" line="2098"/>
         <source>Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits.</source>
         <translation>Planificar: cuándo son visibles sus objetos, masa de aire, la Luna, eclipses y tránsitos previstos.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2071"/>
+        <location filename="../../ui/main_window.py" line="2103"/>
         <source>Observe: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.</source>
         <translation>Observar: conecte telescopio y cámara, ejecute secuencias y noches completas. El supervisor de seguridad aparca el telescopio cuando algo va mal.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2077"/>
+        <location filename="../../ui/main_window.py" line="2109"/>
         <source>Calibrate: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.</source>
         <translation>Calibrar: las imágenes bias, dark y flat se emparejan y aplican automáticamente; las imágenes pueden alinearse y apilarse.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2083"/>
+        <location filename="../../ui/main_window.py" line="2115"/>
         <source>Photometry and Light curves &amp; O-C: measure stars, get light curves, minima, O-C diagrams and periods.</source>
         <translation>Fotometría y Curvas de luz y O-C: mida estrellas, obtenga curvas de luz, mínimos, diagramas O-C y períodos.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2089"/>
+        <location filename="../../ui/main_window.py" line="2121"/>
         <source>Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.</source>
         <translation>Espectroscopía: reducción de rendija larga y echelle, corrección telúrica, velocidades radiales, cubos IFU.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2094"/>
+        <location filename="../../ui/main_window.py" line="2126"/>
         <source>Orbits &amp; models: radial-velocity orbits and eclipsing-binary or transit models.</source>
         <translation>Órbitas y modelos: órbitas de velocidad radial y modelos de binarias eclipsantes o de tránsitos.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2099"/>
+        <location filename="../../ui/main_window.py" line="2131"/>
         <source>Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.</source>
         <translation>Teledetección: imágenes de satélite y aéreas — aritmética de bandas, índices de vegetación y agua, clases.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2105"/>
+        <location filename="../../ui/main_window.py" line="2137"/>
         <source>Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.</source>
         <translation>Automatización: encadene pasos en su propio flujo o parta de una plantilla (noche de binaria eclipsante, tránsito, calibración, espectros a VR) y ejecútela de una vez.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2111"/>
+        <location filename="../../ui/main_window.py" line="2143"/>
         <source>Guide: every page explained step by step, by category, with search. Help → Training guide opens it too.</source>
         <translation>Guía: cada página explicada paso a paso, por categorías, con búsqueda. También en Ayuda → Guía de formación.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2116"/>
+        <location filename="../../ui/main_window.py" line="2148"/>
         <source>Tasks: long jobs run here in the background with their progress; you can keep working.</source>
         <translation>Tareas: los trabajos largos se ejecutan aquí en segundo plano con su progreso; puede seguir trabajando.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2121"/>
+        <location filename="../../ui/main_window.py" line="2153"/>
         <source>Menus: Image → Process for image operations, Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages.</source>
         <translation>Menús: Imagen → Procesar para operaciones de imagen, Complementos para sus propias herramientas, Configuración para idioma, aspecto y CPU/GPU, Ayuda para este recorrido y las páginas de formación.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2149"/>
+        <location filename="../../ui/main_window.py" line="2181"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Tamaño del texto: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2162"/>
+        <location filename="../../ui/main_window.py" line="2194"/>
         <source>Installation and internet services</source>
         <translation>Instalación y servicios de internet</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2164"/>
+        <location filename="../../ui/main_window.py" line="2196"/>
         <source>Everything works.</source>
         <translation>Todo funciona.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2167"/>
+        <location filename="../../ui/main_window.py" line="2199"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Algunas comprobaciones fallaron (ver abajo). Un servicio web que falla suele deberse a la red o al propio servicio.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2173"/>
+        <location filename="../../ui/main_window.py" line="2205"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Comprobando la instalación y los servicios de internet…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2178"/>
+        <location filename="../../ui/main_window.py" line="2210"/>
         <source>Folder for the practice data</source>
         <translation>Carpeta para los datos de práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2184"/>
+        <location filename="../../ui/main_window.py" line="2216"/>
         <source>practice</source>
         <translation>práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2186"/>
+        <location filename="../../ui/main_window.py" line="2218"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Datos de práctica en {f}: siga «Su primera noche» en la Guía.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2205"/>
+        <location filename="../../ui/main_window.py" line="2237"/>
         <source>Could not check for updates: {e}</source>
         <translation>No se pudo buscar actualizaciones: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2207"/>
+        <location filename="../../ui/main_window.py" line="2239"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>La versión {v} está disponible (usted tiene {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2208"/>
+        <location filename="../../ui/main_window.py" line="2240"/>
         <source>Open the download page</source>
         <translation>Abrir la página de descarga</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2211"/>
+        <location filename="../../ui/main_window.py" line="2243"/>
         <source>You have the latest version ({c}).</source>
         <translation>Tiene la versión más reciente ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2212"/>
+        <location filename="../../ui/main_window.py" line="2244"/>
         <source>Updates</source>
         <translation>Actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="2220"/>
+        <location filename="../../ui/main_window.py" line="2252"/>
         <source>About {app}</source>
         <translation>Acerca de {app}</translation>
     </message>
@@ -7553,68 +7553,68 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="456"/>
+        <location filename="../../ui/period_page.py" line="458"/>
         <source>Magnitude</source>
         <translation>Magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="355"/>
+        <location filename="../../ui/period_page.py" line="357"/>
         <source>Load light curve</source>
         <translation>Cargar curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="382"/>
+        <location filename="../../ui/period_page.py" line="384"/>
         <source>Cannot read {file}: {error}</source>
         <translation>No se puede leer {file}: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="396"/>
+        <location filename="../../ui/period_page.py" line="398"/>
         <source>No light curve to save yet.</source>
         <translation>Todavía no hay curva de luz que guardar.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="399"/>
+        <location filename="../../ui/period_page.py" line="401"/>
         <source>Save light curve</source>
         <translation>Guardar curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="402"/>
+        <location filename="../../ui/period_page.py" line="404"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} puntos guardados en {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="405"/>
+        <location filename="../../ui/period_page.py" line="407"/>
         <source>Searching…</source>
         <translation>Buscando…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="416"/>
+        <location filename="../../ui/period_page.py" line="418"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Mejor período: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="426"/>
+        <location filename="../../ui/period_page.py" line="428"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Los datos vienen en tramos separados {g:.0f} d: un ciclo más o menos a través del hueco ({p1:.6f} o {p2:.6f} d) ajusta casi igual de bien. Compruébelo con los tiempos de mínimo (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="442"/>
+        <location filename="../../ui/period_page.py" line="444"/>
         <source>Period (d)</source>
         <translation>Período (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="443"/>
+        <location filename="../../ui/period_page.py" line="445"/>
         <source>Power</source>
         <translation>Potencia</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="455"/>
+        <location filename="../../ui/period_page.py" line="457"/>
         <source>Phase</source>
         <translation>Fase</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="456"/>
+        <location filename="../../ui/period_page.py" line="458"/>
         <source>Relative flux</source>
         <translation>Flujo relativo</translation>
     </message>
@@ -8429,6 +8429,11 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Midiendo…</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_page.py" line="72"/>
+        <source>No images yet: press Choose images… in step 1, or drop the frames here</source>
+        <translation>Aún no hay imágenes: pulse Elegir imágenes… en el paso 1 o suelte aquí las tomas</translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_page.py" line="1426"/>
         <source>aperture</source>
         <translation>apertura</translation>
@@ -8514,11 +8519,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <location filename="../../ui/photometry_page.py" line="1696"/>
         <source>{n} points, scatter {rms:.2f} %</source>
         <translation>{n} puntos, dispersión {rms:.2f} %</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_page.py" line="72"/>
-        <source>No images yet: press Choose images… in step 1</source>
-        <translation>Aún no hay imágenes: pulse Elegir imágenes… en el paso 1</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="84"/>
@@ -9749,8 +9749,8 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <name>RemoteSensingPage</name>
     <message>
         <location filename="../../ui/rs_page.py" line="45"/>
-        <source>No image yet: press Open image… on the right</source>
-        <translation>Aún no hay imagen: pulse Abrir imagen… a la derecha</translation>
+        <source>No image yet: press Open image… on the right, or drop the files here</source>
+        <translation>Aún no hay imagen: pulse Abrir imagen… a la derecha o suelte aquí los archivos</translation>
     </message>
     <message>
         <location filename="../../ui/rs_page.py" line="49"/>
@@ -12155,7 +12155,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>oc</name>
     <message>
-        <location filename="../../ui/main_window.py" line="991"/>
+        <location filename="../../ui/main_window.py" line="1023"/>
         <source>Cannot fit: {error}</source>
         <translation>No se puede ajustar: {error}</translation>
     </message>

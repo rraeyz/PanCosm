@@ -351,8 +351,10 @@ class PeriodPage(Undoable, QWidget):
             ax.invert_yaxis()
         self.plot.draw()
 
-    def _load(self):
-        path, _ = QFileDialog.getOpenFileName(self, self.tr("Load light curve"), "", "CSV (*.csv *.txt *.dat)")
+    def _load(self, path=None):
+        """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
+        if not isinstance(path, str):
+            path, _ = QFileDialog.getOpenFileName(self, self.tr("Load light curve"), "", "CSV (*.csv *.txt *.dat)")
         if not path:
             return
         from ..timeseries import surveys
