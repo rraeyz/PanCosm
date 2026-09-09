@@ -126,7 +126,10 @@ def show_catalogue(win, which, stars):
     else:
         label = lambda s: f"{s['mag']:.1f}" if s["mag"] is not None else ""  # noqa: E731
     win.viewer.set_overlay(which, colour, circles=[(s["x"], s["y"], 6, label(s)) for s in stars])
-    _status(win, win.tr("{n} catalogue stars shown.").format(n=len(stars)))
+    if len(stars) > win.viewer.MAX_LABELS:
+        _status(win, win.tr("{n} catalogue stars shown: point at a ring for its label.").format(n=len(stars)))
+    else:
+        _status(win, win.tr("{n} catalogue stars shown.").format(n=len(stars)))
 
 
 def load_regions(win, path=None):

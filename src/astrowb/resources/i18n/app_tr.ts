@@ -4,87 +4,87 @@
 <context>
     <name>AavsoDialog</name>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2043"/>
+        <location filename="../../ui/photometry_page.py" line="2054"/>
         <source>AAVSO report</source>
         <translation>AAVSO raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2049"/>
+        <location filename="../../ui/photometry_page.py" line="2060"/>
         <source>{n} values, e.g. 11.20, 11.85</source>
         <translation>{n} değer, örn. 11.20, 11.85</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2050"/>
+        <location filename="../../ui/photometry_page.py" line="2061"/>
         <source>Anything a reader of the data should know (clouds, Moon, instrument)</source>
         <translation>Verinin okuyucusunun bilmesi gereken her şey (bulut, Ay, alet)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2051"/>
+        <location filename="../../ui/photometry_page.py" line="2062"/>
         <source>The identifier of the AAVSO chart (VSP) the comparison magnitudes come from</source>
         <translation>Mukayese kadirlerinin alındığı AAVSO haritasının (VSP) kimliği</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2052"/>
+        <location filename="../../ui/photometry_page.py" line="2063"/>
         <source>Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)</source>
         <translation>Görüntülerin filtresi, AAVSO&apos;nun adlandırdığı gibi (CV: filtresiz, V&apos;ye indirgenmiş)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2053"/>
+        <location filename="../../ui/photometry_page.py" line="2064"/>
         <source>Your AAVSO observer code</source>
         <translation>AAVSO gözlemci kodunuz</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2054"/>
+        <location filename="../../ui/photometry_page.py" line="2065"/>
         <source>The variable&apos;s name as in AAVSO&apos;s VSX, e.g. AI DRA</source>
         <translation>Değişenin AAVSO VSX&apos;teki adı, örneğin AI DRA</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2056"/>
+        <location filename="../../ui/photometry_page.py" line="2067"/>
         <source>The comparison stars&apos; magnitudes from the AAVSO chart (VSP), in the order the stars were marked</source>
         <translation>Mukayese yıldızlarının AAVSO haritasındaki (VSP) kadirleri, yıldızların işaretlendiği sırayla</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2058"/>
+        <location filename="../../ui/photometry_page.py" line="2069"/>
         <source>Star name (AAVSO VSX)</source>
         <translation>Yıldız adı (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2059"/>
+        <location filename="../../ui/photometry_page.py" line="2070"/>
         <source>Observer code</source>
         <translation>Gözlemci kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2060"/>
+        <location filename="../../ui/photometry_page.py" line="2071"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2061"/>
+        <location filename="../../ui/photometry_page.py" line="2072"/>
         <source>Catalogue magnitudes of the comparison stars</source>
         <translation>Karşılaştırma yıldızlarının katalog kadirleri</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2063"/>
+        <location filename="../../ui/photometry_page.py" line="2074"/>
         <source>label on the chart, e.g. 123</source>
         <translation>haritadaki etiketi, ör. 123</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2066"/>
+        <location filename="../../ui/photometry_page.py" line="2077"/>
         <source>The first check star&apos;s label on the chart; its magnitude goes into the report as a test of the comparison stars</source>
         <translation>İlk kontrol yıldızının haritadaki etiketi; kadiri mukayese yıldızlarının bir sınaması olarak rapora girer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2070"/>
+        <location filename="../../ui/photometry_page.py" line="2081"/>
         <source>Check star (KNAME)</source>
         <translation>Kontrol yıldızı (KNAME)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2071"/>
+        <location filename="../../ui/photometry_page.py" line="2082"/>
         <source>Chart ID</source>
         <translation>Harita kimliği (Chart ID)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2072"/>
+        <location filename="../../ui/photometry_page.py" line="2083"/>
         <source>Notes</source>
         <translation>Notlar</translation>
     </message>
@@ -7692,826 +7692,821 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>İlk kare Gaia kataloğuna karşı çözülür (kurulacak bir plaka çözücü gerekmez; başlıkta yön ve piksel ölçeği ile internet bağlantısı gerekir) ve içindeki bilinen değişen yıldızlar adlandırılır (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="148"/>
-        <source>Known variable stars in this field (AAVSO VSX), brightest first</source>
-        <translation>Bu alandaki bilinen değişen yıldızlar (AAVSO VSX), en parlaktan başlayarak</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_page.py" line="149"/>
+        <location filename="../../ui/photometry_page.py" line="155"/>
         <source>Make it the target</source>
         <translation>Hedef yap</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="152"/>
+        <location filename="../../ui/photometry_page.py" line="158"/>
         <source>Marks this star as the target T1 on the first frame and takes its catalogue position for the barycentric times (BJD)</source>
         <translation>Bu yıldızı ilk karede hedef T1 olarak işaretler ve barisentrik zamanlar (BJD) için katalog konumunu kullanır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="167"/>
+        <location filename="../../ui/photometry_page.py" line="173"/>
         <source>Previous frame (in time)</source>
         <translation>Önceki kare (zamanca)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="168"/>
+        <location filename="../../ui/photometry_page.py" line="174"/>
         <source>Next frame (in time)</source>
         <translation>Sonraki kare (zamanca)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="170"/>
+        <location filename="../../ui/photometry_page.py" line="176"/>
         <source>Go through the frames of the series</source>
         <translation>Serinin karelerinde gezinin</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="180"/>
+        <location filename="../../ui/photometry_page.py" line="186"/>
         <source>Use this frame</source>
         <translation>Bu kareyi kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="182"/>
+        <location filename="../../ui/photometry_page.py" line="188"/>
         <source>Untick to leave this frame out of the light curve (clouds, a satellite trail, a bad focus)</source>
         <translation>Bu kareyi ışık eğrisinin dışında bırakmak için işareti kaldırın (bulut, uydu izi, kötü odak)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="188"/>
+        <location filename="../../ui/photometry_page.py" line="194"/>
         <source>Time (UTC)</source>
         <translation>Zaman (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="188"/>
+        <location filename="../../ui/photometry_page.py" line="194"/>
         <source>Sky</source>
         <translation>Gök</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="199"/>
+        <location filename="../../ui/photometry_page.py" line="205"/>
         <source>Every frame of the series: click one to show it, untick it to leave it out. FWHM and sky are filled by “Find the bad frames”; bad frames are red.</source>
         <translation>Serinin bütün kareleri: göstermek için birine tıklayın, dışarıda bırakmak için işaretini kaldırın. FWHM ve gök değerlerini “Kötü kareleri bul” doldurur; kötü kareler kırmızıdır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="208"/>
+        <location filename="../../ui/photometry_page.py" line="214"/>
         <source>Blink</source>
         <translation>Oynat (blink)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="212"/>
+        <location filename="../../ui/photometry_page.py" line="218"/>
         <source>Shows the frames used one after the other (about 2 a second): a passing cloud, a satellite trail, a jump in the pointing or a missing star catches the eye at once. Click again to stop.</source>
         <translation>Kullanılan kareleri art arda gösterir (saniyede yaklaşık 2): geçen bir bulut, uydu izi, yönelimde bir sıçrama ya da kaybolan bir yıldız hemen göze çarpar. Durdurmak için yeniden tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="234"/>
+        <location filename="../../ui/photometry_page.py" line="240"/>
         <source>Leave out the bad frames</source>
         <translation>Kötü kareleri dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="238"/>
+        <location filename="../../ui/photometry_page.py" line="244"/>
         <source>Takes the frames the quality check marked as bad out of the list; the files stay on disk</source>
         <translation>Kalite kontrolünün kötü olarak işaretlediği kareleri listeden çıkarır; dosyalar diskte kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="249"/>
+        <location filename="../../ui/photometry_page.py" line="255"/>
         <source>Clicks add:</source>
         <translation>Tıklamalar ekler:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="251"/>
+        <location filename="../../ui/photometry_page.py" line="257"/>
         <source>target, then comparison stars</source>
         <translation>hedef, sonra mukayese yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="252"/>
+        <location filename="../../ui/photometry_page.py" line="258"/>
         <source>check stars</source>
         <translation>kontrol yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="253"/>
+        <location filename="../../ui/photometry_page.py" line="259"/>
         <source>more targets</source>
         <translation>başka hedefler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="256"/>
+        <location filename="../../ui/photometry_page.py" line="262"/>
         <source>Check stars and further targets are measured against the same comparison stars, not used in them</source>
         <translation>Kontrol yıldızları ve diğer hedefler aynı mukayese yıldızlarına göre ölçülür, onların içinde kullanılmaz</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="260"/>
+        <location filename="../../ui/photometry_page.py" line="266"/>
         <source>Clear stars</source>
         <translation>Yıldızları temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="261"/>
+        <location filename="../../ui/photometry_page.py" line="267"/>
         <source>clear the stars</source>
         <translation>yıldızları temizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="262"/>
+        <location filename="../../ui/photometry_page.py" line="268"/>
         <source>Takes off every marked star (Ctrl+Z brings them back)</source>
         <translation>İşaretlenmiş bütün yıldızları kaldırır (Ctrl+Z geri getirir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="264"/>
+        <location filename="../../ui/photometry_page.py" line="270"/>
         <source>Suggest comparison stars</source>
         <translation>Karşılaştırma yıldızı öner</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="267"/>
+        <location filename="../../ui/photometry_page.py" line="273"/>
         <source>Similar brightness, not saturated, no bright neighbour, inside the frame in every image</source>
         <translation>Benzer parlaklıkta, doymamış, parlak komşusu olmayan ve her görüntüde alan içinde kalan yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="275"/>
+        <location filename="../../ui/photometry_page.py" line="281"/>
         <source>Outer edge of the sky ring; the ring should hold several times as many pixels as the aperture</source>
         <translation>Gökyüzü halkasının dış kenarı; halkada açıklıktakinin birkaç katı piksel olmalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="279"/>
+        <location filename="../../ui/photometry_page.py" line="285"/>
         <source>The sky is measured in a ring around the star starting at this radius, where the star&apos;s light has ended (at least 3 FWHM)</source>
         <translation>Gökyüzü, yıldızın çevresinde bu yarıçaptan başlayan bir halkada ölçülür; burada yıldızın ışığı bitmiş olmalıdır (en az 3 FWHM)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="285"/>
+        <location filename="../../ui/photometry_page.py" line="291"/>
         <source>Radius of the circle in which the star&apos;s light is added up; about 1 to 2 times the FWHM gives the best signal-to-noise</source>
         <translation>Yıldızın ışığının toplandığı dairenin yarıçapı; FWHM&apos;nin yaklaşık 1–2 katı en iyi sinyal/gürültüyü verir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="309"/>
+        <location filename="../../ui/photometry_page.py" line="315"/>
         <source>Choose the radii from the star profiles</source>
         <translation>Yarıçapları yıldız profillerinden seç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="312"/>
+        <location filename="../../ui/photometry_page.py" line="318"/>
         <source>Measures the stars&apos; FWHM; aperture = best signal-to-noise (1–3 FWHM), sky from where the star&apos;s light has ended (at least 3 FWHM) with four times as many pixels as the aperture</source>
         <translation>Yıldızların FWHM&apos;sini ölçer; açıklık = en iyi sinyal/gürültü (1–3 FWHM), gök yıldızın ışığının bittiği yerden (en az 3 FWHM) ve açıklığın dört katı piksel ile</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="320"/>
+        <location filename="../../ui/photometry_page.py" line="326"/>
         <source>Radii follow the seeing (scaled by each frame&apos;s FWHM)</source>
         <translation>Yarıçaplar seeing/görüşü izlesin (her karenin FWHM&apos;sine göre ölçeklenir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="328"/>
+        <location filename="../../ui/photometry_page.py" line="334"/>
         <source>More measuring options: seeing, PSF, scintillation</source>
         <translation>Diğer ölçüm seçenekleri: seeing, PSF, sintilasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="330"/>
+        <location filename="../../ui/photometry_page.py" line="336"/>
         <source>PSF photometry (crowded fields: blended stars fitted together)</source>
         <translation>PSF fotometrisi (kalabalık alanlar: iç içe yıldızlar birlikte fit edilir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="333"/>
+        <location filename="../../ui/photometry_page.py" line="339"/>
         <source>For crowded fields: stars that overlap are fitted together with the image&apos;s star profile instead of being added up in a circle. Slower; for isolated stars the aperture is as good.</source>
         <translation>Kalabalık alanlar için: üst üste binen yıldızlar, bir dairede toplanmak yerine görüntünün yıldız profiliyle birlikte fit edilir. Daha yavaştır; yalnız yıldızlarda açıklık fotometrisi de aynı iyiliktedir.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="338"/>
+        <location filename="../../ui/photometry_page.py" line="344"/>
         <source>Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16</source>
         <translation>Hedef RA Dec (BJD için), örn. 02:04:10.3 +46:41:16</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="342"/>
+        <location filename="../../ui/photometry_page.py" line="348"/>
         <source>Needed to turn the times into BJD (barycentric). Empty: taken from the header (OBJCTRA / OBJCTDEC or RA / DEC).</source>
         <translation>Zamanları BJD&apos;ye (barisentrik) çevirmek için gerekir. Boşsa başlıktan alınır (OBJCTRA / OBJCTDEC ya da RA / DEC).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="348"/>
+        <location filename="../../ui/photometry_page.py" line="354"/>
         <source>Telescope aperture (m)</source>
         <translation>Teleskop açıklığı (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="353"/>
+        <location filename="../../ui/photometry_page.py" line="359"/>
         <source>from the header</source>
         <translation>başlıktan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="356"/>
+        <location filename="../../ui/photometry_page.py" line="362"/>
         <source>For the scintillation noise in the error bars (Osborn et al. 2015). 0: APTDIA from the header; without it, scintillation is not included</source>
         <translation>Hata çubuklarındaki sintilasyon gürültüsü için (Osborn vd. 2015). 0: başlıktaki APTDIA; o da yoksa sintilasyon eklenmez</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="363"/>
+        <location filename="../../ui/photometry_page.py" line="369"/>
         <source>Measure light curve</source>
         <translation>Işık eğrisini ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="368"/>
+        <location filename="../../ui/photometry_page.py" line="374"/>
         <source>Measures the marked stars in every image and draws the differential light curve (target against the comparison stars)</source>
         <translation>İşaretli yıldızları her görüntüde ölçer ve diferansiyel ışık eğrisini çizer (hedef, mukayese yıldızlarına göre)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="374"/>
+        <location filename="../../ui/photometry_page.py" line="380"/>
         <source>Live: follow a folder during the night…</source>
         <translation>Canlı: gece boyunca bir klasörü izle…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="378"/>
+        <location filename="../../ui/photometry_page.py" line="384"/>
         <source>Each new frame in the folder is calibrated (optional masters) and measured as it arrives; the light curve grows on its own.</source>
         <translation>Klasöre gelen her yeni kare geldiği anda kalibre edilir (isteğe bağlı master&apos;larla) ve ölçülür; ışık eğrisi kendiliğinden büyür.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="384"/>
+        <location filename="../../ui/photometry_page.py" line="390"/>
         <source>Other tools: live light curve, polarimetry</source>
         <translation>Diğer araçlar: canlı ışık eğrisi, polarimetri</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="386"/>
+        <location filename="../../ui/photometry_page.py" line="392"/>
         <source>Polarimetry (dual beam)</source>
         <translation>Polarimetri (çift demet)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="389"/>
+        <location filename="../../ui/photometry_page.py" line="395"/>
         <source>Click the ordinary image of the star as target and its extraordinary image as the first comparison; the half-wave-plate angle is read from the header.</source>
         <translation>Yıldızın olağan görüntüsüne hedef, olağandışı görüntüsüne ilk karşılaştırma olarak tıklayın; yarım dalga plakası açısı başlıktan okunur.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="419"/>
+        <location filename="../../ui/photometry_page.py" line="425"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="419"/>
+        <location filename="../../ui/photometry_page.py" line="425"/>
         <source>Role</source>
         <translation>Görev</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="419"/>
+        <location filename="../../ui/photometry_page.py" line="425"/>
         <source>Known magnitude</source>
         <translation>Bilinen kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="435"/>
+        <location filename="../../ui/photometry_page.py" line="441"/>
         <source>Weight comparison stars by their scatter</source>
         <translation>Mukayese yıldızlarını saçılmalarına göre ağırlıklandır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="437"/>
+        <location filename="../../ui/photometry_page.py" line="443"/>
         <source>Each comparison star is measured against the others; noisy or variable ones count less</source>
         <translation>Her mukayese yıldızı diğerlerine göre ölçülür; gürültülü ya da değişenler daha az sayılır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="446"/>
+        <location filename="../../ui/photometry_page.py" line="452"/>
         <source>Measure a light curve to choose what to plot</source>
         <translation>Neyin çizileceğini seçmek için önce bir ışık eğrisi ölçün</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="451"/>
+        <location filename="../../ui/photometry_page.py" line="457"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
         <translation>Hangi eğrinin çizileceği: hedefin mukayese yıldızlarına göre eğrisi, kontrol yıldızları, mukayese yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, airmass/hava kütlesi…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="457"/>
+        <location filename="../../ui/photometry_page.py" line="463"/>
         <source>Click a point to delete it</source>
         <translation>Silmek için noktaya tıkla</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="459"/>
+        <location filename="../../ui/photometry_page.py" line="465"/>
         <source>For a bad frame (cloud, satellite, wrong star): it is left out of every result, export included</source>
         <translation>Kötü bir kare için (bulut, uydu, yanlış yıldız): dışa aktarma dahil her sonuçtan çıkarılır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="462"/>
+        <location filename="../../ui/photometry_page.py" line="468"/>
         <source>Restore deleted points</source>
         <translation>Silinen noktaları geri getir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="464"/>
+        <location filename="../../ui/photometry_page.py" line="470"/>
         <source>Brings back every point deleted by clicking</source>
         <translation>Tıklanarak silinmiş bütün noktaları geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="468"/>
+        <location filename="../../ui/photometry_page.py" line="474"/>
         <source>Spacing between curves</source>
         <translation>Eğriler arası aralık</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="474"/>
+        <location filename="../../ui/photometry_page.py" line="480"/>
         <source>For the views with several curves; 0 puts them on top of each other</source>
         <translation>Birden çok eğrili görünümler için; 0 hepsini üst üste koyar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="478"/>
+        <location filename="../../ui/photometry_page.py" line="484"/>
         <source>Detrend against:</source>
         <translation>Detrend edilecek büyüklükler:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="482"/>
+        <location filename="../../ui/photometry_page.py" line="488"/>
         <source>airmass</source>
         <translation>airmass/hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="483"/>
+        <location filename="../../ui/photometry_page.py" line="489"/>
         <source>FWHM</source>
         <translation>FWHM</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="484"/>
+        <location filename="../../ui/photometry_page.py" line="490"/>
         <source>sky</source>
         <translation>gök</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="487"/>
-        <location filename="../../ui/photometry_page.py" line="518"/>
+        <location filename="../../ui/photometry_page.py" line="493"/>
+        <location filename="../../ui/photometry_page.py" line="524"/>
         <source>time</source>
         <translation>zaman</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="490"/>
+        <location filename="../../ui/photometry_page.py" line="496"/>
         <source>Extinction: the stars change with their height above the horizon</source>
         <translation>Sönümleme: yıldızlar ufkun üstündeki yükseklikleriyle değişir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="491"/>
+        <location filename="../../ui/photometry_page.py" line="497"/>
         <source>Seeing: larger star images lose more light outside the aperture</source>
         <translation>Seeing/görüş: büyük yıldız görüntüleri açıklığın dışında daha çok ışık kaybeder</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="492"/>
+        <location filename="../../ui/photometry_page.py" line="498"/>
         <source>Sky brightness: twilight, moonlight, thin cloud</source>
         <translation>Gökyüzü parlaklığı: alacakaranlık, ay ışığı, ince bulut</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="493"/>
-        <location filename="../../ui/photometry_page.py" line="494"/>
+        <location filename="../../ui/photometry_page.py" line="499"/>
+        <location filename="../../ui/photometry_page.py" line="500"/>
         <source>Position on the chip: the stars drift over pixels of different sensitivity</source>
         <translation>Çip üzerindeki konum: yıldızlar farklı duyarlılıktaki piksellerin üzerinde kayar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="495"/>
+        <location filename="../../ui/photometry_page.py" line="501"/>
         <source>A slow change with time</source>
         <translation>Zamanla yavaş bir değişim</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="508"/>
+        <location filename="../../ui/photometry_page.py" line="514"/>
         <source>1: linear; 2 or 3: curved trends (a polynomial in each quantity)</source>
         <translation>1: doğrusal; 2 ya da 3: eğri eğilimler (her nicelikte bir polinom)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="509"/>
+        <location filename="../../ui/photometry_page.py" line="515"/>
         <source>Trend degree</source>
         <translation>Eğilim derecesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="514"/>
+        <location filename="../../ui/photometry_page.py" line="520"/>
         <source>Leave out from</source>
         <translation>Dışarıda bırak: başlangıç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="521"/>
+        <location filename="../../ui/photometry_page.py" line="527"/>
         <source>Points in this time range (the eclipse or transit itself) are left out of the trend fit, then corrected with it</source>
         <translation>Bu zaman aralığındaki noktalar (tutulmanın ya da geçişin kendisi) trend fitinden çıkarılır, sonra onunla düzeltilir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="526"/>
+        <location filename="../../ui/photometry_page.py" line="532"/>
         <source>to</source>
         <translation>bitiş</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="530"/>
+        <location filename="../../ui/photometry_page.py" line="536"/>
         <source>Detrend</source>
         <translation>Detrend et</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="532"/>
+        <location filename="../../ui/photometry_page.py" line="538"/>
         <source>Fits ln(flux) linearly in the ticked quantities on the points outside the left-out range</source>
         <translation>ln(akı)&apos;yı dışarıda bırakılan aralık dışındaki noktalarda işaretli büyüklüklere doğrusal olarak fitler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="535"/>
+        <location filename="../../ui/photometry_page.py" line="541"/>
         <source>Undo detrending</source>
         <translation>Detrendi geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="537"/>
+        <location filename="../../ui/photometry_page.py" line="543"/>
         <source>Back to the light curve before detrending</source>
         <translation>Trend düzeltmesinden önceki ışık eğrisine döner</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="542"/>
+        <location filename="../../ui/photometry_page.py" line="548"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="548"/>
-        <location filename="../../ui/photometry_page.py" line="550"/>
+        <location filename="../../ui/photometry_page.py" line="554"/>
+        <location filename="../../ui/photometry_page.py" line="556"/>
         <source>optional</source>
         <translation>isteğe bağlı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="551"/>
+        <location filename="../../ui/photometry_page.py" line="557"/>
         <source>Ephemeris T0 (BJD)</source>
         <translation>Efemeris T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="553"/>
+        <location filename="../../ui/photometry_page.py" line="559"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="556"/>
-        <location filename="../../ui/photometry_page.py" line="557"/>
+        <location filename="../../ui/photometry_page.py" line="562"/>
+        <location filename="../../ui/photometry_page.py" line="563"/>
         <source>Optional: with T0 and the period the minimum gets its cycle number and O−C</source>
         <translation>İsteğe bağlı: T0 ve dönemle minimuma çevrim numarası ve O−C verilir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="593"/>
+        <location filename="../../ui/photometry_page.py" line="599"/>
         <source>Time of minimum</source>
         <translation>Minimum zamanı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="598"/>
+        <location filename="../../ui/photometry_page.py" line="604"/>
         <source>Time of minimum of the curve shown, with its error (every minimum if the night holds more than one)</source>
         <translation>Gösterilen eğrinin minimum zamanı, hatasıyla birlikte (gecede birden fazla varsa her biri)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="603"/>
+        <location filename="../../ui/photometry_page.py" line="609"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="607"/>
+        <location filename="../../ui/photometry_page.py" line="613"/>
         <source>Export CSV…</source>
         <translation>CSV olarak dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="611"/>
+        <location filename="../../ui/photometry_page.py" line="617"/>
         <source>Time, flux, magnitude and error of every star as a table for a spreadsheet or another program</source>
         <translation>Her yıldızın zaman, akı, kadir ve hatası; hesap tablosu ya da başka bir program için tablo olarak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="617"/>
+        <location filename="../../ui/photometry_page.py" line="623"/>
         <source>Filter of the images (CV: unfiltered, reduced to V)</source>
         <translation>Görüntülerin filtresi (CV: filtresiz, V&apos;ye indirgenir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="618"/>
+        <location filename="../../ui/photometry_page.py" line="624"/>
         <source>Standard magnitudes (APASS / Gaia)</source>
         <translation>Standart kadirler (APASS / Gaia)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="621"/>
+        <location filename="../../ui/photometry_page.py" line="627"/>
         <source>Looks up the comparison stars in APASS and Gaia (needs the internet and a plate-solved first image) and turns the light curve into magnitudes in the standard system</source>
         <translation>Mukayese yıldızlarını APASS ve Gaia&apos;da arar (internet ve plaka çözümü yapılmış ilk görüntü gerekir) ve ışık eğrisini standart sistemde kadire çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="631"/>
+        <location filename="../../ui/photometry_page.py" line="637"/>
         <source>Export AAVSO report…</source>
         <translation>AAVSO raporu dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="636"/>
+        <location filename="../../ui/photometry_page.py" line="642"/>
         <source>A report in AAVSO&apos;s Extended File Format to submit through WebObs; the comparison stars&apos; magnitudes are asked for</source>
         <translation>AAVSO&apos;nun Genişletilmiş Dosya Biçiminde, WebObs ile gönderilecek bir rapor; mukayese yıldızlarının kadirleri sorulur</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="642"/>
+        <location filename="../../ui/photometry_page.py" line="648"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="653"/>
+        <location filename="../../ui/photometry_page.py" line="659"/>
         <source>Period search and O−C →</source>
         <translation>Periyot arama ve O−C →</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="661"/>
+        <location filename="../../ui/photometry_page.py" line="667"/>
         <source>Fit an eclipse or transit model →</source>
         <translation>Örtme ya da geçiş modeli fit et →</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="701"/>
+        <location filename="../../ui/photometry_page.py" line="707"/>
         <source>Click the ordinary and the extraordinary image of the star first.</source>
         <translation>Önce yıldızın olağan ve olağandışı görüntülerine tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="710"/>
+        <location filename="../../ui/photometry_page.py" line="716"/>
         <source>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (debiased {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} frames, angles: {src}</source>
         <translation>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (yanlılığı giderilmiş {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} kare, açılar: {src}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="732"/>
+        <location filename="../../ui/photometry_page.py" line="738"/>
         <source>Folder the camera writes to</source>
         <translation>Kameranın yazdığı klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="737"/>
+        <location filename="../../ui/photometry_page.py" line="743"/>
         <source>Master bias / dark / flat (optional; Cancel for none)</source>
         <translation>Master bias / dark / flat (isteğe bağlı; yoksa İptal)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="749"/>
+        <location filename="../../ui/photometry_page.py" line="755"/>
         <source>Click the target and comparison stars on the first frame, then start Live.</source>
         <translation>İlk karede hedef ve karşılaştırma yıldızlarına tıklayın, sonra Canlı&apos;yı başlatın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="766"/>
+        <location filename="../../ui/photometry_page.py" line="772"/>
         <source>Live: waiting for frames in {f}</source>
         <translation>Canlı: {f} içinde kareler bekleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="811"/>
+        <location filename="../../ui/photometry_page.py" line="817"/>
         <source>{n} frames skipped.</source>
         <translation>{n} kare atlandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="825"/>
+        <location filename="../../ui/photometry_page.py" line="831"/>
         <source>Choose images</source>
         <translation>Görüntüleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="867"/>
+        <location filename="../../ui/photometry_page.py" line="873"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Alan tanınıyor (Gaia, VSX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="872"/>
+        <location filename="../../ui/photometry_page.py" line="878"/>
         <source>{n} images, first: {name}</source>
         <translation>{n} görüntü, ilki: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="875"/>
+        <location filename="../../ui/photometry_page.py" line="881"/>
         <source>Target pixel file: {n} cadences left out (no time, or flagged as useless by the mission).</source>
         <translation>Hedef piksel dosyası: {n} kadans dışarıda bırakıldı (zamanı yok ya da görev tarafından işe yaramaz diye işaretlenmiş).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="908"/>
+        <location filename="../../ui/photometry_page.py" line="914"/>
         <source>mark or unmark a star</source>
         <translation>yıldız işaretleme / kaldırma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="914"/>
+        <location filename="../../ui/photometry_page.py" line="920"/>
         <source>The stars are marked on frame {k}: go back to it to change them, or Clear stars to mark them on this frame.</source>
         <translation>Yıldızlar {k}. karede işaretli: değiştirmek için o kareye dönün ya da bu karede işaretlemek için Yıldızları temizle&apos;ye basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="928"/>
+        <location filename="../../ui/photometry_page.py" line="934"/>
         <source>The target was removed: click the new target.</source>
         <translation>Hedef kaldırıldı: yeni hedefe tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="964"/>
+        <location filename="../../ui/photometry_page.py" line="970"/>
         <source>Frame {k} of {n}: {name}</source>
         <translation>Kare {k} / {n}: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="969"/>
+        <location filename="../../ui/photometry_page.py" line="975"/>
         <source>The stars are marked on this frame.</source>
         <translation>Yıldızlar bu karede işaretli.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="971"/>
+        <location filename="../../ui/photometry_page.py" line="977"/>
         <source>The stars are marked on frame {k}.</source>
         <translation>Yıldızlar {k}. karede işaretli.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1005"/>
-        <location filename="../../ui/photometry_page.py" line="1055"/>
-        <location filename="../../ui/photometry_page.py" line="1503"/>
+        <location filename="../../ui/photometry_page.py" line="1011"/>
+        <location filename="../../ui/photometry_page.py" line="1061"/>
+        <location filename="../../ui/photometry_page.py" line="1514"/>
         <source>{n} images, {k} of them used</source>
         <translation>{n} görüntü, {k} tanesi kullanılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1089"/>
+        <location filename="../../ui/photometry_page.py" line="1095"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1089"/>
+        <location filename="../../ui/photometry_page.py" line="1095"/>
         <source>comparison</source>
         <translation>mukayese</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1089"/>
+        <location filename="../../ui/photometry_page.py" line="1095"/>
         <source>check</source>
         <translation>kontrol</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1128"/>
+        <location filename="../../ui/photometry_page.py" line="1134"/>
         <source>use or leave out a comparison star</source>
         <translation>bir karşılaştırma yıldızını kullan ya da dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1238"/>
+        <location filename="../../ui/photometry_page.py" line="1249"/>
         <source>1. Images</source>
         <translation>1. Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1238"/>
+        <location filename="../../ui/photometry_page.py" line="1249"/>
         <source>2. Target and comparison stars</source>
         <translation>2. Hedef ve karşılaştırma yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1238"/>
+        <location filename="../../ui/photometry_page.py" line="1249"/>
         <source>3. Aperture and sky ring</source>
         <translation>3. Aperture ve gökyüzü halkası</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1239"/>
+        <location filename="../../ui/photometry_page.py" line="1250"/>
         <source>4. Measure</source>
         <translation>4. Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1266"/>
+        <location filename="../../ui/photometry_page.py" line="1277"/>
         <source>Field solved against Gaia: {n} stars, {scale:.2f}″ per pixel.</source>
         <translation>Alan Gaia&apos;ya karşı çözüldü: {n} yıldız, piksel başına {scale:.2f}″.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1274"/>
+        <location filename="../../ui/photometry_page.py" line="1285"/>
         <source>⚠ The files say OBJECT = {name}, but that star is {deg:.1f}° from this field: the name in the files is wrong. Choose the target from the variable stars below, or by its position.</source>
         <translation>⚠ Dosyalarda OBJECT = {name} yazıyor ama o yıldız bu alandan {deg:.1f}° uzakta: dosyalardaki ad yanlış. Hedefi aşağıdaki değişen yıldızlardan ya da konumuna göre seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1280"/>
+        <location filename="../../ui/photometry_page.py" line="1291"/>
         <source>OBJECT {name} is in the field, at x {x:.0f}, y {y:.0f}.</source>
         <translation>OBJECT {name} alanın içinde, x {x:.0f}, y {y:.0f} konumunda.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1290"/>
+        <location filename="../../ui/photometry_page.py" line="1301"/>
         <source>{n} known variable star(s) in the field (marked in cyan on the first frame).</source>
         <translation>Alanda bilinen {n} değişen yıldız var (ilk karede camgöbeği ile işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1294"/>
+        <location filename="../../ui/photometry_page.py" line="1305"/>
         <source>No known variable star (AAVSO VSX) in the field.</source>
         <translation>Alanda bilinen değişen yıldız (AAVSO VSX) yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1302"/>
+        <location filename="../../ui/photometry_page.py" line="1313"/>
         <source>the target from the files</source>
         <translation>dosyalardaki hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1307"/>
+        <location filename="../../ui/photometry_page.py" line="1318"/>
         <source>The field was not identified ({why}): mark the stars by hand.</source>
         <translation>Alan tanınamadı ({why}): yıldızları elle işaretleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1323"/>
+        <location filename="../../ui/photometry_page.py" line="1334"/>
         <source>make a variable star the target</source>
         <translation>bir değişen yıldızı hedef yap</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1334"/>
+        <location filename="../../ui/photometry_page.py" line="1345"/>
         <source>T1 = {name}; its catalogue position is used for the barycentric times (BJD).</source>
         <translation>T1 = {name}; barisentrik zamanlar (BJD) için katalog konumu kullanılıyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1347"/>
+        <location filename="../../ui/photometry_page.py" line="1358"/>
         <source>Choosing the comparison stars…</source>
         <translation>Karşılaştırma yıldızları seçiliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1357"/>
+        <location filename="../../ui/photometry_page.py" line="1368"/>
         <source>suggested comparison stars</source>
         <translation>önerilen karşılaştırma yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1359"/>
+        <location filename="../../ui/photometry_page.py" line="1370"/>
         <source>{n} comparison stars chosen from Gaia: about as bright as the target, not variable, alone, unsaturated, inside every frame.</source>
         <translation>Gaia&apos;dan {n} karşılaştırma yıldızı seçildi: hedefe yakın parlaklıkta, değişen değil, yalnız, doymamış, her karenin içinde.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1363"/>
+        <location filename="../../ui/photometry_page.py" line="1374"/>
         <source>No star of the target&apos;s colour (BP−RP {c:.2f}) is in the field: with stars of another colour the light curve can drift slowly with airmass; detrend it against airmass.</source>
         <translation>Alanda hedefin renginde (BP−RP {c:.2f}) yıldız yok: başka renkteki yıldızlarla ışık eğrisi hava kütlesiyle yavaşça kayabilir; eğilimi hava kütlesine göre düzeltin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1374"/>
+        <location filename="../../ui/photometry_page.py" line="1385"/>
         <source>No suitable comparison star found; click them by hand.</source>
         <translation>Uygun karşılaştırma yıldızı bulunamadı; elle tıklayarak seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1445"/>
+        <location filename="../../ui/photometry_page.py" line="1456"/>
         <source>Chosen on {k} frames of the series: the light curve changed least from one frame to the next ({best:.2f} %) with this aperture; {small:.2f} % with {r1:.1f} px, the best for one star&apos;s noise alone, which loses a share of the light that moves with the seeing.</source>
         <translation>Serinin {k} karesinde seçildi: ışık eğrisi bir kareden ötekine en az bu aperture ile değişti (%{best:.2f}); tek bir yıldızın gürültüsü için en iyisi olan {r1:.1f} piksel ile %{small:.2f}, çünkü o yarıçap ışığın görüşle değişen bir kısmını dışarıda bırakır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1667"/>
+        <location filename="../../ui/photometry_page.py" line="1678"/>
         <source>the target was not found there (clouds, or off the frame?)</source>
         <translation>hedef orada bulunamadı (bulut mu, karenin dışında mı?)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1669"/>
+        <location filename="../../ui/photometry_page.py" line="1680"/>
         <source>comparison star C{k} was not found there (clouds, off the frame, or saturated?)</source>
         <translation>karşılaştırma yıldızı C{k} orada bulunamadı (bulut mu, karenin dışında mı, doymuş mu?)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1672"/>
+        <location filename="../../ui/photometry_page.py" line="1683"/>
         <source>the stars were not found (clouds, a jolt, or another field)</source>
         <translation>yıldızlar bulunamadı (bulut, sarsıntı ya da başka bir alan)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1682"/>
+        <location filename="../../ui/photometry_page.py" line="1693"/>
         <source>The rings do not fit these small frames: aperture {r:.1f} px, sky {a:.1f}–{b:.1f} px, chosen from the stars.</source>
         <translation>Halkalar bu küçük karelere sığmıyor: açıklık {r:.1f} px, gök {a:.1f}–{b:.1f} px, yıldızlardan seçildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1691"/>
+        <location filename="../../ui/photometry_page.py" line="1702"/>
         <source>Comparison stars in use: {used} (left out: {out}).</source>
         <translation>Kullanılan karşılaştırma yıldızları: {used} (dışarıda: {out}).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1698"/>
+        <location filename="../../ui/photometry_page.py" line="1709"/>
         <source>⚠ {n} frame(s) left out by the measurement (in red in the frame list):</source>
         <translation>⚠ {n} kare ölçümde dışarıda bırakıldı (kare listesinde kırmızı):</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1965"/>
+        <location filename="../../ui/photometry_page.py" line="1976"/>
         <source>All of them are in the O-C tab.</source>
         <translation>Hepsi O-C sekmesinde.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2029"/>
+        <location filename="../../ui/photometry_page.py" line="2040"/>
         <source>Save the light curve for the model</source>
         <translation>Işık eğrisini model için kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="704"/>
-        <location filename="../../ui/photometry_page.py" line="1391"/>
+        <location filename="../../ui/photometry_page.py" line="710"/>
+        <location filename="../../ui/photometry_page.py" line="1402"/>
         <source>Measuring…</source>
         <translation>Ölçülüyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1407"/>
+        <location filename="../../ui/photometry_page.py" line="1418"/>
         <source>aperture</source>
         <translation>açıklık</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1408"/>
+        <location filename="../../ui/photometry_page.py" line="1419"/>
         <source>sky annulus</source>
         <translation>gök halkası</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1409"/>
+        <location filename="../../ui/photometry_page.py" line="1420"/>
         <source>star profile (peak = 1)</source>
         <translation>yıldız profili (tepe = 1)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1415"/>
+        <location filename="../../ui/photometry_page.py" line="1426"/>
         <source>Radius (px)</source>
         <translation>Yarıçap (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1416"/>
+        <location filename="../../ui/photometry_page.py" line="1427"/>
         <source>Relative brightness</source>
         <translation>Göreli parlaklık</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1421"/>
+        <location filename="../../ui/photometry_page.py" line="1432"/>
         <source>FWHM {f:.2f} px. Aperture {a:.2f} px ({af:.1f} FWHM; best S/N at {b:.2f} px; holds {ee:.1f} % of the light). Gap {a:.2f}–{i:.2f} px is left out. Sky annulus {i:.2f}–{o:.2f} px.</source>
         <translation>FWHM {f:.2f} piksel. Açıklık {a:.2f} piksel ({af:.1f} FWHM; en iyi S/G {b:.2f} pikselde; ışığın %{ee:.1f}&apos;ini içeriyor). {a:.2f}–{i:.2f} piksel arası boşluk dışarıda bırakılır. Gök halkası {i:.2f}–{o:.2f} piksel.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1474"/>
+        <location filename="../../ui/photometry_page.py" line="1485"/>
         <source>FWHM (px)</source>
         <translation>FWHM (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="441"/>
-        <location filename="../../ui/photometry_page.py" line="1474"/>
+        <location filename="../../ui/photometry_page.py" line="447"/>
+        <location filename="../../ui/photometry_page.py" line="1485"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1474"/>
+        <location filename="../../ui/photometry_page.py" line="1485"/>
         <source>Sky (ADU)</source>
         <translation>Gökyüzü (ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="188"/>
-        <location filename="../../ui/photometry_page.py" line="1481"/>
+        <location filename="../../ui/photometry_page.py" line="194"/>
+        <location filename="../../ui/photometry_page.py" line="1492"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1489"/>
+        <location filename="../../ui/photometry_page.py" line="1500"/>
         <source>{g} of {n} frames are good.</source>
         <translation>{n} karenin {g} tanesi iyi.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1509"/>
+        <location filename="../../ui/photometry_page.py" line="1520"/>
         <source>Looking up the comparison stars…</source>
         <translation>Mukayese yıldızları aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1517"/>
+        <location filename="../../ui/photometry_page.py" line="1528"/>
         <source>Comparison {i}: {m:.3f} ± {e:.3f} ({src})</source>
         <translation>Mukayese {i}: {m:.3f} ± {e:.3f} ({src})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1521"/>
+        <location filename="../../ui/photometry_page.py" line="1532"/>
         <source>Comparison {i}: not in the catalogues</source>
         <translation>Mukayese {i}: kataloglarda yok</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1739"/>
+        <location filename="../../ui/photometry_page.py" line="1750"/>
         <source>Detrended ({k}): scatter of the {n} points fitted {a:.2f} % → {b:.2f} %</source>
         <translation>Detrend edildi ({k}): uydurulan {n} noktanın saçılması %{a:.2f} → %{b:.2f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1796"/>
+        <location filename="../../ui/photometry_page.py" line="1807"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1677"/>
+        <location filename="../../ui/photometry_page.py" line="1688"/>
         <source>{n} points, scatter {rms:.2f} %</source>
         <translation>{n} nokta, saçılım %{rms:.2f}</translation>
     </message>
@@ -8526,319 +8521,324 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Dosyaların adını verdiği yıldız alandaysa hedef olarak işaretlenir (değilse ona tıklayın); karşılaştırma yıldızları ve yarıçaplar ardından kendiliğinden gelir. İşaretli bir yıldıza tıklamak onu kaldırır, başka bir yere tıklamak yıldız ekler.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="223"/>
+        <location filename="../../ui/photometry_page.py" line="150"/>
+        <source>Known variable stars in this field (AAVSO VSX), brightest first. The one chosen here is named on the image; point at any cyan ring for its name</source>
+        <translation>Bu alandaki bilinen değişen yıldızlar (AAVSO VSX), en parlak önce. Burada seçilenin adı görüntüde yazılır; herhangi bir camgöbeği halkanın adı için fareyi üzerine getirin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_page.py" line="229"/>
         <source>Find the bad frames (clouds, focus, trails)</source>
         <translation>Kötü kareleri bul (bulut, odak, iz)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="226"/>
+        <location filename="../../ui/photometry_page.py" line="232"/>
         <source>Optional, before measuring: measures every frame&apos;s star size (FWHM), sky brightness and number of stars, and names the frames far from the night&apos;s usual values (passing clouds, lost focus or tracking, twilight). You then choose to leave them out; nothing is removed by itself.</source>
         <translation>İsteğe bağlı, ölçmeden önce: her karenin yıldız boyutunu (FWHM), gök parlaklığını ve yıldız sayısını ölçer, gecenin olağan değerlerinden çok uzak kareleri adlarıyla gösterir (geçen bulut, kaçan odak ya da izleme, alacakaranlık). Onları dışarıda bırakmayı siz seçersiniz; hiçbir şey kendiliğinden atılmaz.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="243"/>
+        <location filename="../../ui/photometry_page.py" line="249"/>
         <source>Click the target star, then one or more comparison stars. A click on a marked star takes it off.</source>
         <translation>Önce hedef yıldıza, sonra bir veya daha fazla karşılaştırma yıldızına tıklayın. İşaretli bir yıldıza tıklamak işareti kaldırır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="291"/>
+        <location filename="../../ui/photometry_page.py" line="297"/>
         <source>Ring 1 — the star&apos;s light inside (px)</source>
         <translation>Halka 1 — içinde yıldızın ışığı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="292"/>
+        <location filename="../../ui/photometry_page.py" line="298"/>
         <source>Ring 2 — the sky starts (px)</source>
         <translation>Halka 2 — gökyüzü başlar (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="293"/>
+        <location filename="../../ui/photometry_page.py" line="299"/>
         <source>Ring 3 — the sky ends (px)</source>
         <translation>Halka 3 — gökyüzü biter (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="301"/>
+        <location filename="../../ui/photometry_page.py" line="307"/>
         <source>Radii in image pixels: the rings grow with the zoom. Between rings 1 and 2 nothing is measured (the star&apos;s faint wings); between 2 and 3 the sky. Shift + mouse wheel on the image makes them larger or smaller.</source>
         <translation>Yarıçaplar görüntü pikseli cinsindendir: halkalar yakınlaştırmayla büyür. 1. ve 2. halka arası ölçülmez (yıldızın sönük kanatları); 2. ile 3. arası gökyüzüdür. Görüntü üzerinde Shift + fare tekerleği halkaları büyütür ya da küçültür.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="323"/>
+        <location filename="../../ui/photometry_page.py" line="329"/>
         <source>Each frame&apos;s radii are scaled by its FWHM over the first frame&apos;s, so the aperture holds the same part of the light when the seeing changes during the night. In a crowded field a changing aperture can add trends of its own: measure once with fixed radii too and compare</source>
         <translation>Her karenin yarıçapları, o karenin FWHM&apos;sinin ilk karenin FWHM&apos;sine oranıyla ölçeklenir; böylece gece boyunca seeing/görüş değişse de açıklık ışığın aynı payını içerir. Kalabalık bir alanda değişen açıklık kendi trendlerini ekleyebilir: bir kez de sabit yarıçaplarla ölçüp karşılaştırın</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="419"/>
+        <location filename="../../ui/photometry_page.py" line="425"/>
         <source>Scatter (mmag)</source>
         <translation>Saçılma (mmag)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="427"/>
+        <location filename="../../ui/photometry_page.py" line="433"/>
         <source>Untick a comparison star to leave it out of the ensemble: the light curve and the scatters change at once (Ctrl+Z brings it back). Scatter: each comparison star against the others, in mmag; the largest is the one to look at. Type the comparison stars&apos; magnitudes (from a chart or catalogue) to get the target&apos;s magnitude.</source>
         <translation>Bir karşılaştırma yıldızının işaretini kaldırırsanız topluluktan çıkar: ışık eğrisi ve saçılmalar hemen değişir (Ctrl+Z geri getirir). Saçılma: her karşılaştırma yıldızının diğerlerine göre saçılması, mmag; en büyüğüne bakın. Hedefin kadirini bulmak için karşılaştırma yıldızlarının kadirlerini (haritadan ya da katalogdan) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="560"/>
+        <location filename="../../ui/photometry_page.py" line="566"/>
         <source>What kind of minimum is it?</source>
         <translation>Ne tür bir minimum?</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="562"/>
+        <location filename="../../ui/photometry_page.py" line="568"/>
         <source>Eclipsing binary: Kwee–van Woerden method</source>
         <translation>Örten çift yıldız: Kwee–van Woerden yöntemi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="565"/>
+        <location filename="../../ui/photometry_page.py" line="571"/>
         <source>Kwee &amp; van Woerden (1956), the standard method for minima of eclipsing binaries and the times collected in O−C databases: the time about which the descending and ascending branches are most symmetric, with its error</source>
         <translation>Kwee &amp; van Woerden (1956); örten çiftlerin minimumları ve O−C veritabanlarında toplanan zamanlar için standart yöntem: inen ve çıkan kolların en simetrik olduğu zaman, hatasıyla birlikte</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="570"/>
+        <location filename="../../ui/photometry_page.py" line="576"/>
         <source>Exoplanet transit: trapezoid fit</source>
         <translation>Ötegezegen geçişi: yamuk fiti</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="573"/>
+        <location filename="../../ui/photometry_page.py" line="579"/>
         <source>A trapezoid (ingress, flat bottom, egress) fitted to the dip: mid-transit time with its error, depth and duration, as the ExoClock and ETD projects use</source>
         <translation>Düşüşe fit edilen bir yamuk (giriş, düz taban, çıkış): geçiş ortası zamanı hatasıyla, derinlik ve süre; ExoClock ve ETD projelerinin kullandığı gibi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="584"/>
+        <location filename="../../ui/photometry_page.py" line="590"/>
         <source>Choose by what you observe: a V-shaped or rounded minimum of a binary star, or the flat-bottomed dip of a planet passing in front of its star.</source>
         <translation>Gözlediğiniz şeye göre seçin: çift yıldızın V biçimli ya da yuvarlak minimumu mu, yoksa yıldızının önünden geçen bir gezegenin tabanı düz düşüşü mü.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="656"/>
+        <location filename="../../ui/photometry_page.py" line="662"/>
         <source>Opens Light curves, period and O−C, which already has this light curve: the period and the times of minimum (O−C) are found there; Photometry only measures</source>
         <translation>Bu ışık eğrisini zaten almış olan Işık eğrileri, periyot ve O−C penceresini açar: periyot ve minimum zamanları (O−C) orada bulunur; Fotometri yalnızca ölçer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="664"/>
+        <location filename="../../ui/photometry_page.py" line="670"/>
         <source>Saves the light curve as a CSV file and opens it in the Models window: a physical model of an eclipsing binary or a transit (formulas: Guide, Mathematics of the methods)</source>
         <translation>Işık eğrisini CSV dosyası olarak kaydeder ve Modeller penceresinde açar: örten çiftin ya da gezegen geçişinin fiziksel modeli (formüller: Kılavuz, Yöntemlerin matematiği)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="879"/>
+        <location filename="../../ui/photometry_page.py" line="885"/>
         <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC in the Calibration window.</source>
         <translation>Zamanlar: kamera saati − {h} sa. Yerel saate ayarlı bir kamera için Kalibrasyon penceresinde DSLR saati − UTC değerini girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1378"/>
+        <location filename="../../ui/photometry_page.py" line="1389"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
         <translation>{n} mukayese yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gökyüzü halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1435"/>
+        <location filename="../../ui/photometry_page.py" line="1446"/>
         <source>The target&apos;s light grows {x:.1f} % more than the comparison stars&apos; between 1 and 1.5 apertures: something faint is next to it. Keep the radii fixed (not following the seeing); its light then only dilutes the depth a little.</source>
         <translation>Hedefin ışığı 1 ile 1,5 açıklık arasında mukayese yıldızlarınınkinden %{x:.1f} daha fazla artıyor: yanında sönük bir şey var. Yarıçapları sabit tutun (seeing/görüşü izlemesin); o zaman onun ışığı derinliği yalnızca biraz seyreltir.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1540"/>
+        <location filename="../../ui/photometry_page.py" line="1551"/>
         <source>Target {band}: {lo:.3f} – {hi:.3f} mag</source>
         <translation>Hedef {band}: {lo:.3f} – {hi:.3f} kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1566"/>
+        <location filename="../../ui/photometry_page.py" line="1577"/>
         <source>Differential: target − comparison, the check star above it</source>
         <translation>Diferansiyel: hedef − mukayese, üstünde kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1567"/>
+        <location filename="../../ui/photometry_page.py" line="1578"/>
         <source>T1: relative flux</source>
         <translation>T1: göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1568"/>
+        <location filename="../../ui/photometry_page.py" line="1579"/>
         <source>T1: differential magnitude (Δm)</source>
         <translation>T1: diferansiyel kadir (Δm)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1569"/>
+        <location filename="../../ui/photometry_page.py" line="1580"/>
         <source>T1: magnitude (needs known magnitudes)</source>
         <translation>T1: kadir (bilinen kadirler gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1571"/>
+        <location filename="../../ui/photometry_page.py" line="1582"/>
         <source>{name}: relative flux</source>
         <translation>{name}: göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1572"/>
+        <location filename="../../ui/photometry_page.py" line="1583"/>
         <source>Comparison stars against the others</source>
         <translation>Mukayese yıldızları birbirine göre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1573"/>
+        <location filename="../../ui/photometry_page.py" line="1584"/>
         <source>All stars, normalised and offset</source>
         <translation>Bütün yıldızlar, normalize ve kaydırılmış</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1574"/>
+        <location filename="../../ui/photometry_page.py" line="1585"/>
         <source>Airmass, sky, FWHM and position</source>
         <translation>Airmass/hava kütlesi, gök, FWHM ve konum</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1705"/>
+        <location filename="../../ui/photometry_page.py" line="1716"/>
         <source>{n} points deleted by hand (Restore deleted points brings them back).</source>
         <translation>{n} nokta elle silindi (Silinen noktaları geri getir hepsini geri getirir).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1712"/>
+        <location filename="../../ui/photometry_page.py" line="1723"/>
         <source>Scintillation {lo:.1f}–{hi:.1f} mmag per frame is included in the errors.</source>
         <translation>Kare başına {lo:.1f}–{hi:.1f} mmag sintilasyon hatalara dahil.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1719"/>
+        <location filename="../../ui/photometry_page.py" line="1730"/>
         <source>No comparison star: the target&apos;s own flux over its median. Right for space data (TESS, Kepler); from the ground, clouds and airmass stay in the light curve.</source>
         <translation>Karşılaştırma yıldızı yok: hedefin kendi akısı, medyanına bölünmüş. Uzay verisi (TESS, Kepler) için doğrudur; yerden alınan veride bulutlar ve airmass/hava kütlesi ışık eğrisinde kalır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1724"/>
+        <location filename="../../ui/photometry_page.py" line="1735"/>
         <source>Scintillation is not in the errors: give the telescope aperture (and the site).</source>
         <translation>Sintilasyon hatalarda yok: teleskop açıklığını (ve gözlem yerini) girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1728"/>
+        <location filename="../../ui/photometry_page.py" line="1739"/>
         <source>{name}: scatter {mmag:.1f} mmag</source>
         <translation>{name}: saçılma {mmag:.1f} mmag</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1734"/>
+        <location filename="../../ui/photometry_page.py" line="1745"/>
         <source>Weights: {w}</source>
         <translation>Ağırlıklar: {w}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1748"/>
+        <location filename="../../ui/photometry_page.py" line="1759"/>
         <source>C{i} disagrees with its known magnitude by more than 0.1 mag and was left out.</source>
         <translation>C{i} bilinen kadirinden 0,1 kadirden fazla sapıyor ve dışarıda bırakıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1755"/>
+        <location filename="../../ui/photometry_page.py" line="1766"/>
         <source>⚠ {n} frames have a star at or above the saturation level (marked red).</source>
         <translation>⚠ {n} karede doyma düzeyinde ya da üstünde bir yıldız var (kırmızı işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1787"/>
+        <location filename="../../ui/photometry_page.py" line="1798"/>
         <source>Magnitude ({band})</source>
         <translation>Kadir ({band})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1792"/>
+        <location filename="../../ui/photometry_page.py" line="1803"/>
         <source>Δm (target − comparison)</source>
         <translation>Δm (hedef − mukayese)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1811"/>
-        <location filename="../../ui/photometry_page.py" line="1818"/>
+        <location filename="../../ui/photometry_page.py" line="1822"/>
+        <location filename="../../ui/photometry_page.py" line="1829"/>
         <source>Relative flux (offset)</source>
         <translation>Göreli akı (kaydırılmış)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1826"/>
+        <location filename="../../ui/photometry_page.py" line="1837"/>
         <source>Normalised value</source>
         <translation>Normalize değer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1841"/>
+        <location filename="../../ui/photometry_page.py" line="1852"/>
         <source>T1 − comparison</source>
         <translation>T1 − mukayese</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1847"/>
+        <location filename="../../ui/photometry_page.py" line="1858"/>
         <source>{n} frame(s) without a positive flux for T1 ({frames}), no magnitude: is the star on those frames, or a brighter star in its sky ring? Leave them out with “Use this frame”.</source>
         <translation>T1 için pozitif akısı olmayan {n} kare ({frames}), kadir yok: yıldız o karelerde mi, yoksa gökyüzü halkasında daha parlak bir yıldız mı var? Bu kareleri “Bu kareyi kullan” ile dışarıda bırakın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1858"/>
+        <location filename="../../ui/photometry_page.py" line="1869"/>
         <source>{k} (check) − comparison</source>
         <translation>{k} (kontrol) − mukayese</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1872"/>
+        <location filename="../../ui/photometry_page.py" line="1883"/>
         <source>Δm (mag)</source>
         <translation>Δm (kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1887"/>
+        <location filename="../../ui/photometry_page.py" line="1898"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1890"/>
+        <location filename="../../ui/photometry_page.py" line="1901"/>
         <source>restore deleted points</source>
         <translation>silinen noktaları geri getirme</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1899"/>
+        <location filename="../../ui/photometry_page.py" line="1910"/>
         <source>Tick at least one quantity to detrend against.</source>
         <translation>Detrend için en az bir büyüklük işaretleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1907"/>
+        <location filename="../../ui/photometry_page.py" line="1918"/>
         <source>Not in this light curve: {names} (FWHM needs ‘Radii follow the seeing’; airmass needs the site and RA/Dec).</source>
         <translation>Bu ışık eğrisinde yok: {names} (FWHM için ‘Yarıçaplar seeing/görüşü izlesin’, airmass/hava kütlesi için yer ve RA/Dec gerekir).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1917"/>
+        <location filename="../../ui/photometry_page.py" line="1928"/>
         <source>The left-out range must be two times (numbers).</source>
         <translation>Dışarıda bırakılan aralık iki zaman (sayı) olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1922"/>
+        <location filename="../../ui/photometry_page.py" line="1933"/>
         <source>detrending</source>
         <translation>detrend</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1922"/>
+        <location filename="../../ui/photometry_page.py" line="1933"/>
         <source>undo detrending</source>
         <translation>detrendi geri alma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1941"/>
+        <location filename="../../ui/photometry_page.py" line="1952"/>
         <source>T0 and period must be numbers.</source>
         <translation>T0 ve periyot sayı olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1947"/>
+        <location filename="../../ui/photometry_page.py" line="1958"/>
         <source>Kwee–van Woerden</source>
         <translation>Kwee–van Woerden</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1947"/>
+        <location filename="../../ui/photometry_page.py" line="1958"/>
         <source>trapezoid fit</source>
         <translation>yamuk fiti</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1952"/>
+        <location filename="../../ui/photometry_page.py" line="1963"/>
         <source>{n} minima timed ({p} primary, {s} secondary), {method}; O−C {mean:+.2f} min, scatter {sd:.2f} min</source>
         <translation>{n} minimum zamanlandı ({p} birincil, {s} ikincil), {method}; O−C {mean:+.2f} dk, saçılma {sd:.2f} dk</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1962"/>
+        <location filename="../../ui/photometry_page.py" line="1973"/>
         <source>{n} predicted minima left out: not covered on both sides, or no dip.</source>
         <translation>Öngörülen {n} minimum dışarıda bırakıldı: iki yanı da gözlenmemiş ya da düşüş yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1974"/>
+        <location filename="../../ui/photometry_page.py" line="1985"/>
         <source>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</source>
         <translation>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} dk), {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1978"/>
+        <location filename="../../ui/photometry_page.py" line="1989"/>
         <source>Depth {d:.2f} %, duration {h:.2f} h</source>
         <translation>Derinlik %{d:.2f}, süre {h:.2f} sa</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1982"/>
+        <location filename="../../ui/photometry_page.py" line="1993"/>
         <source>Epoch {n}, O−C = {oc:+.2f} min</source>
         <translation>Çevrim {n}, O−C = {oc:+.2f} dk</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2013"/>
-        <location filename="../../ui/photometry_page.py" line="2015"/>
+        <location filename="../../ui/photometry_page.py" line="2024"/>
+        <location filename="../../ui/photometry_page.py" line="2026"/>
         <source>AAVSO report</source>
         <translation>AAVSO raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2021"/>
+        <location filename="../../ui/photometry_page.py" line="2032"/>
         <source>Export light curve</source>
         <translation>Işık eğrisini dışa aktar</translation>
     </message>
@@ -12252,18 +12252,23 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Bulucu harita hazırlanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="129"/>
+        <location filename="../../ui/overlay_actions.py" line="130"/>
+        <source>{n} catalogue stars shown: point at a ring for its label.</source>
+        <translation>{n} katalog yıldızı gösterildi: etiketini görmek için fareyi bir halkanın üzerine getirin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="132"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} katalog yıldızı gösterildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="135"/>
-        <location filename="../../ui/overlay_actions.py" line="159"/>
+        <location filename="../../ui/overlay_actions.py" line="138"/>
+        <location filename="../../ui/overlay_actions.py" line="162"/>
         <source>DS9 regions</source>
         <translation>DS9 bölgeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="157"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Görüntüde işaret yok (Fotometri penceresinde seçilen yıldızlar işarettir).</translation>
     </message>

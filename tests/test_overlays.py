@@ -97,7 +97,16 @@ def test_overlay_menu_actions(qtbot, tmp_path):
         assert oa.contours(win, 4) >= 1 and oa.grid(win) >= 4
         oa.show_catalogue(win, "gaia", [{"name": "1", "ra": 31.04, "dec": 46.69, "mag": 12.0, "x": 99.5, "y": 79.5}])
         assert win.viewer.overlay_names() == ["contours", "gaia", "grid"]
-        win.viewer.set_markers([(99.5, 79.5, 6, "yellow", "T")])
+        from PySide6.QtWidgets import QGraphicsSimpleTextItem
+
+        def names():
+            return sorted(i.text() for i in win.viewer.scene().items() if isinstance(i, QGraphicsSimpleTextItem))
+
+        crowd = [{"name": f"V{i}", "mag": None, "x": 5.0 + 4 * i, "y": 20.0} for i in range(40)]
+        oa.show_catalogue(win, "vsx", crowd)  # 40 names hid the field (interface I6b (1)): each on hover instead
+        assert "V3" not in names() and any(i.toolTip() == "V3" for i in win.viewer.scene().items())
+        win.viewer.set_markers([(99.5, 79.5, 6, "yellow", "T"), (20.0, 20.0, 9, "cyan", "VSX 1", "dash", "quiet")])
+        assert "T" in names() and "VSX 1" not in names()
         saved = oa.save_regions(win, str(tmp_path / "m.reg"))
         assert "fk5" in open(saved).read()
         regs = oa.load_regions(win, saved)

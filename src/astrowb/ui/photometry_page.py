@@ -145,7 +145,13 @@ class PhotometryPage(Undoable, QWidget):
         self.sections[0].body.addWidget(self.field_label)
         row = QHBoxLayout()
         self.variables = QComboBox(self)
-        self.variables.setToolTip(self.tr("Known variable stars in this field (AAVSO VSX), brightest first"))
+        self.variables.setToolTip(
+            self.tr(
+                "Known variable stars in this field (AAVSO VSX), brightest first. The one chosen here is named on the "
+                "image; point at any cyan ring for its name"
+            )
+        )
+        self.variables.currentIndexChanged.connect(lambda *_: self._draw_markers() if self.field else None)
         self.make_target = QPushButton(self.tr("Make it the target"), self)
         self.make_target.setToolTip(
             self.tr(
@@ -644,7 +650,14 @@ class PhotometryPage(Undoable, QWidget):
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        left.addWidget(self.result)  # under the plot: the star table keeps the column's height (I6b (2))
+        # under the plot (the star table keeps the column's height, I6b (2)); a long text scrolls past four lines
+        result_box = QScrollArea(self)
+        result_box.setWidget(self.result)
+        result_box.setWidgetResizable(True)
+        result_box.setFrameShape(QScrollArea.NoFrame)
+        result_box.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        result_box.setMaximumHeight(4 * self.result.fontMetrics().lineSpacing() + 6)
+        left.addWidget(result_box)
         # photometry only measures; the fits are in the next windows — say so where the result appears
         self.next_box = QWidget(self)
         nb = QVBoxLayout(self.next_box)
@@ -1217,7 +1230,12 @@ class PhotometryPage(Undoable, QWidget):
         for xy, colour, label in stars if here else ():
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
         if self.field and self.shown == 0:  # the known variable stars, where the solution of the first frame puts them
-            marks += [(v["x"], v["y"], 2 * r_out, "cyan", v["name"], "dash") for v in self.field["variables"][:30]]
+            # named only when chosen in the list (40 names hid the field, I6b (1)); the others on hover
+            chosen = (self.variables.currentData() or {}).get("name")
+            for v in self.field["variables"][:30]:
+                marks.append(
+                    (v["x"], v["y"], 2 * r_out, "cyan", v["name"], "dash", *([] if v["name"] == chosen else ["quiet"]))
+                )
         self.viewer.set_markers(marks)
         role = self.click_role.currentData()
         nxt = "target" if self.target is None or role == "target" else "check" if role == "check" else "comparison"

@@ -141,7 +141,8 @@ class ImageViewer(QGraphicsView):
         return x + 0.5, self.data.shape[0] - 0.5 - y
 
     def set_markers(self, markers):
-        """markers: [(x, y, radius, colour name, label)] or (..., label, "dash") in 0-based array coordinates."""
+        """markers: [(x, y, radius, colour name, label, *styles)] in 0-based array coordinates; styles "dash" (a
+        dashed ring) and "quiet" (the label only when the mouse is on the ring: many names hid the stars)."""
         from PySide6.QtCore import Qt
         from PySide6.QtGui import QColor, QPen, QTransform
         from PySide6.QtWidgets import QGraphicsEllipseItem, QGraphicsSimpleTextItem
@@ -170,21 +171,28 @@ class ImageViewer(QGraphicsView):
             circle = QGraphicsEllipseItem(sx - r, sy - r, 2 * r, 2 * r)
             pen = QPen(QColor(colour))
             pen.setCosmetic(True)  # 1 screen pixel wide at any zoom
-            if style == ["dash"]:
+            if "dash" in style:
                 pen.setStyle(Qt.DashLine)
             circle.setPen(pen)
-            text = QGraphicsSimpleTextItem(label)
-            text.setBrush(QColor(colour))
-            text.setPos(sx + r, sy - r)
-            text.setFlag(QGraphicsSimpleTextItem.ItemIgnoresTransformations)
-            text.setTransform(QTransform.fromTranslate(4, -16))  # screen pixels: clear of the fixed-size ring
-            for item in (circle, text):
+            circle.setToolTip(label)
+            items = [circle]
+            if label and "quiet" not in style:
+                text = QGraphicsSimpleTextItem(label)
+                text.setBrush(QColor(colour))
+                text.setPos(sx + r, sy - r)
+                text.setFlag(QGraphicsSimpleTextItem.ItemIgnoresTransformations)
+                text.setTransform(QTransform.fromTranslate(4, -16))  # screen pixels: clear of the fixed-size ring
+                items.append(text)
+            for item in items:
                 self.scene().addItem(item)
                 self._markers.append(item)
 
+    MAX_LABELS = 25
+
     def set_overlay(self, name, colour="#00e5ff", lines=(), circles=(), texts=()):
         """Draw a named layer (replacing the old one): polylines [[(x, y), ...]], circles [(x, y, r, label)],
-        texts [(x, y, text)], all in 0-based array coordinates. Empty lists remove the layer."""
+        texts [(x, y, text)], all in 0-based array coordinates. Empty lists remove the layer. Over MAX_LABELS
+        circles, their labels show only when the mouse is on them."""
         from PySide6.QtGui import QColor, QPainterPath, QPen
         from PySide6.QtWidgets import QGraphicsEllipseItem, QGraphicsPathItem, QGraphicsSimpleTextItem
 
@@ -203,11 +211,13 @@ class ImageViewer(QGraphicsView):
                     path.lineTo(*self._to_scene(x, y))
             items.append(QGraphicsPathItem(path))
             items[-1].setPen(pen)
+        quiet = len(circles) > self.MAX_LABELS  # more names than that hide the stars: each on hover instead
         for x, y, r, label in circles:
             sx, sy = self._to_scene(x, y)
             items.append(QGraphicsEllipseItem(sx - r, sy - r, 2 * r, 2 * r))
             items[-1].setPen(pen)
-            if label:
+            items[-1].setToolTip(str(label or ""))
+            if label and not quiet:
                 texts = [*texts, (x + r, y + r, label)]
         for x, y, text in texts:
             t = QGraphicsSimpleTextItem(str(text))
