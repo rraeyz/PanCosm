@@ -159,21 +159,18 @@ Main window                                      Area window (e.g. Photometry)
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
 ## To ask the owner
-- **"Panels beside the image" (2026-11-08, agent2):** before the area windows, any page could be shown as a panel
-  beside the image in the main window. Now every area, Images included, is its own window, so the feature has
-  nothing left to show: it is switched off and its menu hidden, but the code (`MainWindow.dock_page`, `_Panel`) is
-  still there. Remove it?
-- **Turkish term for comparison star (2026-11-08, agent2):** the interface and the guide use both "mukayese yıldızı"
-  (17 strings) and "karşılaştırma yıldızı" (18 strings), sometimes on the same screen (Photometry step 2). Which
-  one? Then every string and the guide are made the same.
-- **The sidebar (2026-11-08, agent2):** once every area has its own window (I4), the main window's sidebar of pages
-  is no longer needed (the blocks open the areas). Remove it then, or keep it as a second way in? Nothing is removed
-  before the owner says.
-- **Light curves / Period / O−C (I4 item 3):** one window with tabs as today, or two windows (O−C; Period /
-  frequency)? Until the owner answers, I4 keeps them in one window with tabs, as today.
-- **I1 proposal (2026-11-07, agent2):** the menus and toolbar of each area window in the table under I1. Asked in
-  the chat; until the owner answers, I2 builds the shared frame (which does not depend on it) and I3 / I4 follow the
-  proposal, changing it when the owner says.
+(nothing open)
+
+### Answered by the owner (2026-11-08)
+The owner: "do what is sensible". Decisions, each to be done as a step (claim it first):
+- **"Panels beside the image": remove it** (`MainWindow.dock_page`, `_Panel`, the hidden menu, their tests).
+- **Comparison star in Turkish: "karşılaştırma yıldızı"** everywhere, interface and guide; check star:
+  **"kontrol yıldızı"**. Replace every "mukayese yıldızı" (17 strings) and make the guide the same.
+- **The main window's sidebar: remove it.** The area blocks and every window's Window menu are the ways in.
+- **O−C gets its own window.** Light curves, Period and Frequency stay together in one window. Minima timed in
+  Photometry still go to the O−C window by themselves.
+- **The I1 proposal (menus and toolbar of each window): approved.** Change it where the user tests (I6a) show a
+  better way.
 
 ## For the owner to try
 - After I4: open every area from the main window on Windows and on CachyOS, and send a screenshot of any window that
