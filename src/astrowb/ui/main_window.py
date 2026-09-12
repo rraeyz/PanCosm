@@ -302,6 +302,9 @@ class MainWindow(QMainWindow):
         if key == "photometry":
             self._photometry_window(page)
             return
+        if key == "spectroscopy":
+            self._spectroscopy_window(page)
+            return
 
         frame = QScrollArea()
         frame.setWidget(page)
@@ -400,6 +403,42 @@ class MainWindow(QMainWindow):
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows["photometry"] = win
+
+    def _spectroscopy_window(self, page):
+        """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
+        Job menu), its view in the middle, its steps in the left panel."""
+        from PySide6.QtCore import QCoreApplication
+        from PySide6.QtGui import QAction, QActionGroup
+
+        from .area_window import AreaWindow
+        from .start_page import areas
+
+        parts = page.window_parts()
+        group, actions = QActionGroup(page), []
+        for i, (job, tip) in enumerate(zip(parts["jobs"], page.JOB_TIPS, strict=True)):
+            act = QAction(job, page)
+            act.setCheckable(True)
+            act.setToolTip(QCoreApplication.translate("SpectroscopyPage", tip))
+            act.setStatusTip(act.toolTip())
+            act.triggered.connect(lambda _=False, k=i: page.tabs.setCurrentIndex(k))
+            group.addAction(act)
+            actions.append(act)
+        page.tabs.currentChanged.connect(lambda i: actions[i].setChecked(True))
+        actions[page.tabs.currentIndex()].setChecked(True)
+        handler, file_filter = self._opener("spectroscopy", page)
+        name = next(n for k, _, n, _ in areas() if k == "spectroscopy")
+        win = AreaWindow(
+            "spectroscopy", name, self.settings, parts["view"], steps=parts["steps"],
+            menus=[(self.tr("&Job"), actions)], toolbar=actions, undo_stack=_undo_source(page),
+            open_files=handler, file_filter=file_filter, parent=self,
+        )  # fmt: skip
+        win.toolbar.setToolButtonStyle(Qt.ToolButtonTextOnly)
+        page.setParent(win)  # the page keeps the state and the logic, unseen
+        page.hide()
+        self._frames[page] = parts["steps"]
+        win.setWindowIcon(self.windowIcon())
+        win.help_requested.connect(self._help_for)
+        self.area_windows["spectroscopy"] = win
 
     def _help_for(self, key):
         """F1 in an area window: the guide, filtered to that area."""
