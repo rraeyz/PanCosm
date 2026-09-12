@@ -156,6 +156,31 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 
 ## Steps
 
+**Waiting for its turn** (PLAN.md "Order of work"): after 1.2, the steps here wait until Interface and Photometry are
+done. When this area's turn comes, its first step is **R** below.
+
+### R. Full research of the area (before any further step)
+**open** — added 2026-11-08. The research above covers the window's layout only (iSpec, PypeIt and IRAF GUIs).
+- **Build:** the same analysis as `plans/photometry.md` had, written here as steps with reference, ours now, build and
+  accept. Read the code of IRAF (`noao/twodspec`, `onedspec`, `imred/echelle`: apall, identify / reidentify,
+  dispcor, sensfunc / calibrate, scombine, continuum, splot, fxcor), PypeIt (extraction, wavelength, flexure, sky
+  subtraction, flux calibration, telluric), specreduce, iSpec (normalisation, line fitting, parameters, radial
+  velocities). Cover at least:
+  - 2-D: slit tilt and rectification, sky subtraction (b-spline, Kelson 2003), cosmic rays on 2-D frames;
+  - extraction (boxcar, optimal), error spectra carried through every step;
+  - wavelength: identification, flexure from sky lines, resolution measured;
+  - flux calibration with standard stars (sensitivity function, extinction);
+  - telluric (standard star and models);
+  - echelle: blaze and order merging;
+  - continuum normalisation;
+  - line measurements;
+  - radial velocities: CCF, TODCOR and broadening function, checked against published values;
+  - file formats (1-D FITS WCS, multispec, ESO / LAMOST);
+  - the user's workflow from raw frames to a published spectrum.
+- **Accept:** every reference capability has a step or a reason it is not needed; each step names the real data
+  (`data/spectroscopy/…`) to check it on.
+
+
 ### 0. Several exposures of one star combined; the master bias for spectra (PLAN.md "Decisions", first item)
 **agent2 done (2026-11-08, commit 1ad0072)** — `spectroscopy/combine.py` + step `spectroscopy.combine`;
 Spectrum tools → *Combine exposures…*; the Reduce tab now says which frames it takes as calibrated and which are
