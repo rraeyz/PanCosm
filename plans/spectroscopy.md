@@ -203,17 +203,23 @@ raw (Echelle did only the latter). What the real data showed:
 - Ours now: a page in a scroll area; every tab crams its views into one canvas beside a long steps column; at 1366 ×
   768 the "In what order?" box and the profile row take a quarter of the height before the tabs.
 - Build:
-  - **0.1 Job choice and steps panel.** The six tabs become the window's *job*: a toolbar row of six checkable
+  - **1.1 Job choice and steps panel.** **agent2 done (2026-11-08, commit f4191c1)** — `SpectroscopyPage.window_parts`,
+    `MainWindow._spectroscopy_window`: six checkable job buttons on the toolbar and in the Job menu (tooltips say
+    what each job is for), the job's steps column in the left panel (as wide as the widest column needs), the
+    profile row on top of it for Reduce / Echelle only, the job's own view in the middle; the hidden tab widget
+    still holds the current job, so `tabs.setCurrentWidget` keeps working. Screenshots scratchpad
+    `s1/tr/40_spec_files.png`, `41_spec_velocity_tab.png`. 1.4 done with it: the box is folded in every mode.
+    Found: a closing window deleted the jobs' tables before their undo stacks (`undo.track_typing` now checks). The six tabs become the window's *job*: a toolbar row of six checkable
     buttons (Long slit, Echelle, Telluric, Velocities & orbit, IFU cube, Spectrum tools) and View → Job; the chosen
     job's steps column is the left panel "Steps"; the instrument-profile row moves to the top of that panel (it
     belongs to the reduction jobs only).
-  - **0.2 The view in the middle.** Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
+  - **1.2 The view in the middle.** Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
     and the sky bands drawn on it (PypeIt object_find, IRAF apall) instead of an `imshow` subplot; the other jobs:
     their spectrum / velocity plot.
-  - **0.3 Panels.** "Spectrum" (bottom): the extracted spectrum, and for the arc the arc spectrum with its marks;
+  - **1.3 Panels.** "Spectrum" (bottom): the extracted spectrum, and for the arc the arc spectrum with its marks;
     "Fit" (right): pixel → wavelength fit and residuals stacked (PypeIt Identify), so a click on a line or a
     residual shows its effect at once. Each a `PlotCanvas` with its Export data.
-  - **0.4 "In what order?"** (closes interface I4c): its text goes into the job buttons' tooltips and the window's
+  - **1.4 "In what order?"** **agent2 done (2026-11-08, commit f4191c1)** (closes interface I4c): its text goes into the job buttons' tooltips and the window's
     Help → Guide for this window; the box is removed from the window only after the owner's yes (rule 6) — until
     then folded by default.
 - Accept: at 1366 × 768 (tr, de, en, es) the EFOSC2 frame with its trace, the extracted spectrum and the fit /
