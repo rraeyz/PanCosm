@@ -597,7 +597,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6d. The owner's answers of 2026-11-08, as steps (PLAN.md "Order of work" 1, first)
 Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
-- **(1) Remove "Panels beside the image".** **open** — `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
+- **(1) Remove "Panels beside the image".** **agent2 claimed (2026-11-08) — do not touch** — `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
   the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
   (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
   test).
