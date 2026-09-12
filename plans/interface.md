@@ -595,6 +595,48 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   → `set_images`, Calibration → the lights folder, Light curves → Load CSV, Spectroscopy → the science file, Remote
   sensing → its open. Accept: a test per area drops a file and the area shows it; one Ctrl+O per window.
 
+### I6c. Icon toolbars and the full menu bars, as the owner asked
+**open** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
+"Order of work" 1), before photometry.
+- **The owner's wish:**
+  - every area window as AstroImageJ: a row of **small icons** for the frequent actions under the menu bar;
+  - as MaxIm DL: a **menu bar with the area's own menus** (Process, Analyse, …) besides File, Edit, View, Window,
+    Help.
+- **Ours now (read 2026-11-08):** the toolbars of Photometry and Spectroscopy show **text buttons**
+  (`setToolButtonStyle(Qt.ToolButtonTextOnly)` in `MainWindow._photometry_window` and `_spectroscopy_window`).
+  Photometry has only a **Measure** menu; the I1 proposal (approved by the owner) also has **Analyse**. The other
+  windows have the common menus only, so their actions are still buttons inside the page.
+- **Build:**
+  1. **An icon for every toolbar action**, the same icon in every window for the same kind of action (open, blink,
+     previous / next, measure, fit, export…). Use Qt's standard icons where they fit, and small drawn icons
+     otherwise. Images already does this (`_glyph` in `_fill_image_toolbar`). Each icon has its tooltip; View →
+     "Toolbar text" shows the labels beside the icons for those who want them.
+  2. **The full menu bar of each area window, as in the approved I1 table:**
+
+     | Window | Its menus |
+     | --- | --- |
+     | Photometry | Measure, Analyse |
+     | Calibration | Frames, Masters |
+     | Spectroscopy | Reduce, Lines, Velocity |
+     | O−C | Ephemeris, Models |
+     | Period / frequency | Search, Fold |
+     | Models | Fit |
+     | Images | Process, Analyse |
+     | Planning | Targets, Night |
+     | Observing | Devices, Sequence |
+     | Automation | Pipeline |
+     | Remote sensing | Bands, Analyse |
+
+     Every action of the page's buttons is also in a menu. A button may stay in its step when the workflow needs it
+     there.
+  3. **Each window's toolbar,** as in the I1 table.
+- **Accept:**
+  - every area window shows an icon row and its own menus;
+  - every icon has a tooltip;
+  - Ctrl+K finds every menu action;
+  - the I6a walk (four languages, 1366 × 768) shows no cut toolbar;
+  - the same icon is never used for two different actions.
+
 ### I7. Basic / Expert, guide, screenshots
 **open**
 - **Build:**

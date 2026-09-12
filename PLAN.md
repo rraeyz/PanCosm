@@ -106,6 +106,7 @@ Work in this order, one area after another. Never move to the next area while th
 unless the owner says so.
 1. **Interface**, `plans/interface.md`:
    - the owner's answers (side panels and sidebar removed, Turkish terms, O−C in its own window);
+   - I6c (icon toolbars and each window's own menus, as AstroImageJ and MaxIm DL);
    - I7 (guide and screenshots).
    - The I6 windows of the other areas are **not** part of this: each is done as the first step of its area, below.
 2. **Photometry**, `plans/photometry.md`, every item from 1 on in its order.
