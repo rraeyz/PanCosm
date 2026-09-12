@@ -611,24 +611,45 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
      previous / next, measure, fit, export…). Use Qt's standard icons where they fit, and small drawn icons
      otherwise. Images already does this (`_glyph` in `_fill_image_toolbar`). Each icon has its tooltip; View →
      "Toolbar text" shows the labels beside the icons for those who want them.
-  2. **The full menu bar of each area window, as in the approved I1 table:**
+  2. **The full menu bar of each area window.** Checked 2026-11-08 (agent1) against every button of every page and
+     against the menus of AstroImageJ's image window and MaxIm DL. The approved I1 table named only one or two
+     menus per window; the windows hold far more. These menus put every existing action in a menu, in the order of
+     the workflow. Items marked *(new: …)* come with the plan items named.
 
-     | Window | Its menus |
+     **Common to every area window:**
+     - **File:** the area's Open…, Open recent, Open session… / Save session…, the area's Export items, Close
+       window.
+     - **Edit:** Undo, Redo, Copy, Find an action… (Ctrl+K), Settings… (language, look, processing device — the same
+       settings as the main window).
+     - **View:**
+       - each panel on / off, Reset layout;
+       - Toolbar text, Larger / Smaller / Normal text;
+       - in windows with an image: zoom in / out / fit, levels and colours, overlays.
+     - **Window:** the main window, then every other area.
+     - **Help:** Guide for this window (F1), Tour, Report a problem…, Check for updates, About.
+
+     **Per window** (besides the common menus):
+
+     | Window | Menus and their items |
      | --- | --- |
-     | Photometry | Measure, Analyse |
-     | Calibration | Frames, Masters |
-     | Spectroscopy | Reduce, Lines, Velocity |
-     | O−C | Ephemeris, Models |
-     | Period / frequency | Search, Fold |
-     | Models | Fit |
-     | Images | Process, Analyse |
-     | Planning | Targets, Night |
-     | Observing | Devices, Sequence |
-     | Automation | Pipeline |
-     | Remote sensing | Bands, Analyse |
+     | Photometry | **Frames:** Choose images…, Live: follow a folder…, Blink, Previous / Next frame, Find the bad frames, Leave out the bad frames, Restore deleted points. **Stars:** Suggest comparison stars, Make a variable the target, Mark check stars, Clear stars, Open / Save star list *(new: item 7)*, Find the best comparison set *(new: 9a)*, Comparison-star rules… *(new: 17)*. **Measure:** Choose the radii from the star profiles, Aperture and sky settings… *(new: 2, 3, 5, 22)*, Measure light curve, PSF photometry, Standard magnitudes (APASS / Gaia), Polarimetry, Measure between two stars *(new: 24)*. **Analyse:** Detrend / Undo detrending, Choose the detrending (BIC) *(new: 9)*, Time of minimum, Fit an eclipse or transit model →, Period search and O−C →, Nearby eclipsing binary check *(new: 23)*, Identify the field (Gaia, VSX). **File → Export:** CSV, AAVSO report, measurements table *(new: 6)*, ETD *(new: 15)*. |
+     | Calibration | **Frames:** Lights folder…, Add folder…, Scan, Remove from the list, Change the type, Clear. **Masters:** Make masters, Show master bias / dark / flat, options (overscan, cosmic rays, dark scaling, hot pixels, linearity, colour camera, spectra). **Process:** Calibrate, Stack into one deep picture, Align, Drizzle, RGB combine. **Send:** to Photometry, to Spectroscopy. |
+     | Spectroscopy | **Reduce:** long slit (trace, sky, extract), echelle (find orders on the flat, extract orders, merge), IFU cube (load, show image). **Lines:** identify arc lines, lines from a reference arc / IRAF database, fit wavelengths, refit without the left-out lines, use all lines again. **Spectrum:** normalise (automatic / through points), smooth, resample, combine exposures, instrument response and divide by it, telluric correction, arithmetic with spectrum B. **Measure:** lines (EW, FWHM, V/R), in several spectra, Teff / log g / [Fe/H] / v sin i, spectral type. **Velocity:** measure radial velocities (CCF, TODCOR, broadening function), separate the two stars (disentangling), fit the orbit. **File → Export:** spectrum, BeSS / ARAS. |
+     | Light curves / Period / Frequency | **File:** load a light curve (CSV, AAVSO, ZTF, ASAS-SN…), download (TESS, Kepler, ZTF), save. **Data:** delete points by clicking, remove outliers, bin in time, flux ↔ magnitude, undo edits. **Search:** period search (Lomb–Scargle, BLS, PDM, ANOVA), frequency analysis with prewhitening, variable stars in a set of frames. **Fold:** fold on the period, phase plot. **Send:** maxima to O−C, a star to Period search, to Models. |
+     | O−C | **File:** load minima…, export results (CSV / LaTeX). **Ephemeris:** look up (VSX), fit linear / quadratic, draw O−C. **Models:** third body (light-time effect), apsidal motion, MCMC errors. |
+     | Models | **File:** open a light curve, compare with a model curve. **Fit:** fit the binary model, posterior (MCMC), absolute dimensions. **Export:** PHOEBE, Wilson–Devinney, ExoClock / ETD. **Visual orbit:** load measures, fit the orbit. |
+     | Images | **File:** open, save a copy with header changes, save as / convert, export data (CSV). **Edit:** header (edit, copy). **Process:** the 16 image operations of today's Image → Process menu. **Analyse:** pixel / aperture / area counts, line / row / column profile, histogram, radial profile, surface, ruler, FWHM / HFD, measure between two stars. **Catalogues** (AstroImageJ's Annotate): Gaia, VSX, grid, labels, the other overlays. **Astrometry** (AstroImageJ's WCS): plate solve, moving-object astrometry, MPC report. **Colour:** RGB combine, debayer, split channels. **Stack:** stack, drizzle, blink. |
+     | Planning | **Targets:** add, add with ephemeris, look up, remove selected. **Night:** plan the night, visibility chart, make a schedule, exposure time…. **Send:** to Observing. |
+     | Observing | **Devices:** set up observatory…, connect, start the observatory on this computer…. **Telescope:** slew, centre, polar alignment, park. **Camera:** expose, cooler, filter. **Focus.** **Flats:** sky flats, panel flats. **Sequence:** add / remove row, start, abort, resume, clear the night plan. |
+     | Automation | **Pipeline:** new, from a template, add step, run, stop, save as. **Send:** to Observing. |
+     | Remote sensing | **File:** open image (GeoTIFF, FITS, JPEG2000, NetCDF, HDF5). **Bands:** band indices (NDVI…), compute. **Analyse:** classify (k-means), principal components. **File → Export.** |
+     | Main window | **File:** new / open project, open a FITS image, recent. **Settings:** language, look, processing device. **Plugins.** **Help.** |
 
-     Every action of the page's buttons is also in a menu. A button may stay in its step when the workflow needs it
-     there.
+     - **Plugins:** a plugin's action appears in the menu of the window it belongs to; the main window keeps the
+       full list.
+     - Every action of a page's buttons is also in a menu. A button may stay in its step when the workflow needs it
+       there.
+     - Names and order are checked in the I6a user walk; change them where users get lost.
   3. **Each window's toolbar,** as in the I1 table.
 - **Accept:**
   - every area window shows an icon row and its own menus;
