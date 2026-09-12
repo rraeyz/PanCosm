@@ -131,6 +131,38 @@ def calibrated(path):
     return bool(keys & {"CALB", "CALD", "ZEROCOR", "DARKCOR", "CCDPROC"})
 
 
+def _frame_and_plot(tab, hint):
+    """The 2-D frame above the plots, as PypeIt and IRAF apall show the trace on the frame itself
+    (plans/spectroscopy.md 1.2): returns the splitter holding the frame viewer and tab.plot."""
+    from .viewer import ImageViewer
+
+    tab.frame_view = ImageViewer(tab)
+    tab.frame_view.empty_hint = hint
+    right = QSplitter(Qt.Vertical, tab)
+    right.addWidget(tab.frame_view)
+    right.addWidget(tab.plot)
+    right.setSizes([300, 500])
+    return right
+
+
+def _show_frame(tab, path):
+    """The frame as the extraction sees it (dispersion along x), read again only when the file or the orientation
+    changed; False when it cannot be read."""
+    from ..spectroscopy.steps import _load
+
+    key = (path, str(tab.orientation.params()))
+    if getattr(tab, "_frame_key", None) == key and tab.frame_view.data is not None:
+        return True
+    try:
+        data = _load(path, tab.orientation.params())[0]
+    except (OSError, ValueError, KeyError, IndexError):
+        return False
+    same = tab.frame_view.data is not None and tab.frame_view.data.shape == np.shape(data)
+    tab.frame_view.set_image(np.asarray(data, float), keep_view=same)
+    tab._frame_key = key
+    return True
+
+
 def _say_calibration(tab, chosen, cal):
     """Which frames are taken as calibrated (their header says so) and which are raw (PLAN.md decision: the program
     says which it took as calibrated)."""
@@ -391,7 +423,7 @@ class ReduceTab(Undoable, QWidget):
         split.addWidget(left)
         self.plot = PlotCanvas(self)
         self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
-        split.addWidget(self.plot)
+        split.addWidget(_frame_and_plot(self, self.tr("The science frame appears here once it is chosen")))
         split.setSizes([380, 820])
         QVBoxLayout(self).addWidget(split)
 
@@ -489,10 +521,9 @@ class ReduceTab(Undoable, QWidget):
         self.plot.figure.clear()
         has_arc = bool(s.get("arc"))
         lines = (s.get("solution") or {}).get("lines") or []
-        traced = s["trace"] is not None  # None: the spectrum came already extracted
-        axes = self.plot.figure.subplots(1 + traced + has_arc + bool(lines), 1, squeeze=False)[:, 0]
-        if traced:
-            self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
+        axes = self.plot.figure.subplots(1 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
+        if s["trace"] is not None:  # None: the spectrum came already extracted
+            self._draw_trace(s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
         x = s["wave"] if s["wave"] is not None else s["pixel"]
         axes[0].plot(x, s["flux"], lw=0.7)
         axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
@@ -534,6 +565,8 @@ class ReduceTab(Undoable, QWidget):
         cal = [calibrated(p) for p in chosen]
         self.guide.set_state(0, "done" if chosen and all(cal) else ("skipped" if len(chosen) == 2 else None))
         _say_calibration(self, chosen, cal)
+        if self.science.text():  # the frame at once: the user sees which star and which rows before extracting
+            _show_frame(self, self.science.text())
 
     def _lines_changed(self):
         if self.result and self._arc_ax is not None:
@@ -575,23 +608,23 @@ class ReduceTab(Undoable, QWidget):
             )
         return self.tr("No night-sky line strong enough for the zero point: the arc's zero point is kept.")
 
-    def _draw_trace(self, ax, coef):
-        from ..spectroscopy.steps import _load
-
-        try:
-            d = _load(self.science.text(), self.orientation.params())[0]
-        except (OSError, ValueError):
+    def _draw_trace(self, coef):
+        """The trace (green), the aperture's edges (green, thin) and the sky bands (blue) on the frame."""
+        if not _show_frame(self, self.science.text()):
             return
-        lo, hi = np.nanpercentile(d[:: max(1, d.shape[0] // 256), :: max(1, d.shape[1] // 512)], [5, 99.5])
-        ax.imshow(d, origin="lower", cmap="gray", vmin=lo, vmax=hi, aspect="auto", interpolation="nearest")
-        x = np.arange(d.shape[1])
+        x = np.arange(0, self.frame_view.data.shape[1], 4.0)
         y = np.polyval(coef, x)
-        half = self.width.value() / 2
-        for off, style in ((0, "-"), (-half, ":"), (half, ":")):
-            ax.plot(x, y + off, style, color="#3fb950", lw=0.8)
-        ax.set_xlim(0, d.shape[1] - 1)
-        ax.set_ylim(0, d.shape[0] - 1)
-        ax.set_title(self.tr("Traced spectrum and aperture (choose another row if this is not your star)"), fontsize=8)
+        half, off, width = self.width.value() / 2, self.sky_offset.value(), self.sky_width.value()
+        line = lambda dy: list(zip(x, y + dy, strict=True))  # noqa: E731
+        self.frame_view.set_overlay("aperture", "#3fb950", lines=[line(0), line(-half), line(half)])
+        bands = [line(sign * d) for sign in (-1, 1) for d in (off, off + width)]
+        self.frame_view.set_overlay("sky", "#4fc3ff", lines=bands)
+        self.frame_view.setToolTip(
+            self.tr(
+                "Green: the trace and the aperture extracted; blue: the sky bands. Choose another row if this is "
+                "not your star."
+            )  # fmt: skip
+        )
 
     def _plot_clicked(self, event):
         if self._resid_ax is not None and event.inaxes is self._resid_ax:
@@ -693,7 +726,7 @@ class EchelleTab(Undoable, QWidget):
         super().__init__(parent)
         self.init_undo()
         self.result, self.excluded_lines, self._resid_ax, self._arc_ax = None, [], None, None
-        self.order_rows, self.order_traces, self._orders_source, self._flat_ax = None, [], None, None
+        self.order_rows, self.order_traces, self._orders_source, self._orders_shown = None, [], None, False
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
@@ -904,7 +937,8 @@ class EchelleTab(Undoable, QWidget):
         split.addWidget(left)
         self.plot = PlotCanvas(self)
         self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
-        split.addWidget(self.plot)
+        split.addWidget(_frame_and_plot(self, self.tr("The flat appears here with its traced orders")))
+        self.frame_view.clicked.connect(lambda x, y: self._order_clicked(x, y) if self._orders_shown else None)
         split.setSizes([400, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -1073,26 +1107,21 @@ class EchelleTab(Undoable, QWidget):
         self.guide.set_state(2, "done")
 
     def _draw_orders(self, failed=()):
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
+        """The traced orders (green) and the rows that could not be traced (red ×) on the flat in the frame view."""
         d = self._order_data
-        lo, hi = np.nanpercentile(d[:: max(1, d.shape[0] // 512), :: max(1, d.shape[1] // 512)], [1, 99.5])
-        ax.imshow(d, origin="lower", cmap="gray", vmin=lo, vmax=hi, aspect="auto", interpolation="nearest")
+        same = self.frame_view.data is not None and self.frame_view.data.shape == np.shape(d)
+        self.frame_view.set_image(np.asarray(d, float), keep_view=same)
+        self._frame_key = None  # the frame view now holds the flat, not the science frame
         x = np.linspace(0, d.shape[1] - 1, 200)
-        for c in self.order_traces:
-            ax.plot(x, np.polyval(c, x), color="#3fb950", lw=0.8)
-        for r in failed:
-            ax.plot(self._order_nx / 2, r, "x", color="#e5484d", ms=10)
-        ax.set_xlim(0, d.shape[1] - 1)
-        ax.set_ylim(0, d.shape[0] - 1)
-        ax.set_title(
+        traces = [list(zip(x, np.polyval(c, x), strict=True)) for c in self.order_traces]
+        self.frame_view.set_overlay("orders", "#3fb950", lines=traces)
+        self.frame_view.set_overlay("failed", "#e5484d", texts=[(self._order_nx / 2, r, "×") for r in failed])
+        self.frame_view.setToolTip(
             self.tr("{n} orders. Click a trace to remove it; click on a missed order to add it.").format(
                 n=len(self.order_traces)
-            ),
-            fontsize=9,
+            )
         )
-        self._flat_ax, self._arc_ax, self._resid_ax = ax, None, None
-        self.plot.draw()
+        self._orders_shown = True
         text = self.tr("{n} orders traced.").format(n=len(self.order_traces))
         if failed:
             text += " " + self.tr("{k} could not be traced (red crosses) and are left out.").format(k=len(failed))
@@ -1162,7 +1191,6 @@ class EchelleTab(Undoable, QWidget):
             return
         k = self.order_view.value()
         self.plot.figure.clear()
-        self._flat_ax = None
         has_arc = r.get("arc") is not None
         lines = (r.get("solution") or {}).get("lines") or []
         axes = self.plot.figure.subplots(1 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
@@ -1240,9 +1268,6 @@ class EchelleTab(Undoable, QWidget):
         self.status.setText(self.tr("All arc lines will be used again at the next fit."))
 
     def _plot_clicked(self, event):
-        if self._flat_ax is not None and event.inaxes is self._flat_ax and event.xdata is not None:
-            self._order_clicked(float(event.xdata), float(event.ydata))
-            return
         if self._resid_ax is not None and event.inaxes is self._resid_ax:
             a = self._resid_points
             pix = self._resid_ax.transData.transform(np.column_stack([a[:, 1], a[:, 3] * 1000]))
@@ -1291,7 +1316,7 @@ class EchelleTab(Undoable, QWidget):
         self.excluded_lines = [list(v) for v in st["excluded"]]
         if st["rows"] != self.order_rows and st["rows"] is not None:
             self.order_rows, self.order_traces = list(st["rows"]), [np.array(c) for c in st["traces"]]
-            if self._flat_ax is not None:
+            if self._orders_shown:
                 self._draw_orders()
 
 

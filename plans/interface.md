@@ -595,6 +595,24 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   → `set_images`, Calibration → the lights folder, Light curves → Load CSV, Spectroscopy → the science file, Remote
   sensing → its open. Accept: a test per area drops a file and the area shows it; one Ctrl+O per window.
 
+### I6d. The owner's answers of 2026-11-08, as steps (PLAN.md "Order of work" 1, first)
+Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
+- **(1) Remove "Panels beside the image".** **open** — `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
+  the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
+  (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
+  test).
+- **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **open** — every "mukayese" in `app_tr.ts` (27
+  lines) and in the Turkish guide (01, 05, 06, 13) becomes "karşılaştırma"; check star "kontrol yıldızı". Accept:
+  `grep -i mukayese` finds nothing in the Turkish texts; 0 unfinished.
+- **(3) Remove the main window's sidebar.** **open** — `MainWindow.nav` and what only it uses (the old page stack
+  for areas that all live in windows now); the area blocks and every window's Window menu stay the ways in. Accept:
+  every area opens from its block and from Window; the main window at 1366 × 768 and 800 px shows the blocks
+  without a sidebar; old settings still open.
+- **(4) O−C in its own window.** **open** — the O−C tab of Light curves becomes the area window "O−C" (its own
+  block on the main window); Light curves keeps Period, Frequency and Variable star search. Minima timed in
+  Photometry go to the O−C window by themselves, as they went to the tab. Accept: a minimum timed in Photometry
+  appears in the O−C window; the guide (07) splits into its two windows in four languages.
+
 ### I6c. Icon toolbars and the full menu bars, as the owner asked
 **open** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
 "Order of work" 1), before photometry.

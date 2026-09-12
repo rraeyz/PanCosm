@@ -1266,7 +1266,9 @@ def test_every_moved_area_opens_in_its_own_window(window):
         page = getattr(window, window.PAGES[key])
         if key == "spectroscopy":  # the chosen job's view in the middle (plans/spectroscopy.md step 1.1)
             views = win.centralWidget()
-            assert page.reduce_tab.plot in [views.widget(i) for i in range(views.count())] and page.isHidden()
+            shown = [views.widget(i) for i in range(views.count())]  # Reduce: the frame above its plots (1.2)
+            assert page.reduce_tab.plot.parent() in shown and page.reduce_tab.frame_view.parent() in shown
+            assert page.isHidden()
             assert isinstance(win, AreaWindow) and win.isVisible()
             win.close()
             continue
