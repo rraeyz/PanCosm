@@ -91,6 +91,13 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the first image has no sky coordinates: plate-solve it first (Image menu)"),
     # engine/builtin.py
     QT_TRANSLATE_NOOP("Messages", "the image has no sky coordinates: plate-solve it first (Image menu)"),
+    # spectroscopy/combine.py
+    QT_TRANSLATE_NOOP("Messages", "at least two spectra are needed to combine"),
+    QT_TRANSLATE_NOOP("Messages", "unknown combine method {method} or rejection {rejection}"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the exposures span {days} days: the star's velocity changes between nights; combine one night at a time, or shift the spectra to one velocity first",  # noqa: E501
+    ),
     # photometry/steps.py (period search)
     QT_TRANSLATE_NOOP("Messages", "the light curve spans {hours} h: too short to search for periods"),
     QT_TRANSLATE_NOOP(

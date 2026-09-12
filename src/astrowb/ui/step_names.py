@@ -35,6 +35,7 @@ NAMES = {
     "rs.pca": QT_TRANSLATE_NOOP("Steps", "Principal components"),
     "sample.night": QT_TRANSLATE_NOOP("Steps", "Make practice data"),
     "spectroscopy.atmosphere": QT_TRANSLATE_NOOP("Steps", "Stellar parameters (Teff, log g, [Fe/H])"),
+    "spectroscopy.combine": QT_TRANSLATE_NOOP("Steps", "Combine the exposures"),
     "spectroscopy.classify": QT_TRANSLATE_NOOP("Steps", "Spectral type"),
     "spectroscopy.disentangle": QT_TRANSLATE_NOOP("Steps", "Disentangle the spectra"),
     "spectroscopy.echelle": QT_TRANSLATE_NOOP("Steps", "Reduce the echelle spectrum"),

@@ -418,6 +418,13 @@ def test_arc_lamps_are_calibrated_without_flat_and_kept_apart(tmp_path):
     h = fits.getheader(out["arcs"][0])
     assert h["CALF"] == "none" and h["CALB"].startswith("master_bias")  # bias taken off, never flat-fielded
     assert not [m for m in out["missing"] if "thar" in m[0]]  # no "no flat" warning for a lamp
+    # the same master bias ("Zero") for spectra as for images, and Spectroscopy takes both as calibrated
+    # (plans/spectroscopy.md step 0)
+    from astrowb.ui.spectro_page import calibrated
+
+    sci = fits.getdata(out["calibrated"][0])
+    assert abs(np.median(sci) - 1000) < 20 and abs(np.median(fits.getdata(out["arcs"][0])) - 400) < 20
+    assert calibrated(out["calibrated"][0]) and calibrated(out["arcs"][0]) and not calibrated(tmp_path / "sci.fits")
 
 
 def test_eso_raw_frames_are_classified_with_their_grism():

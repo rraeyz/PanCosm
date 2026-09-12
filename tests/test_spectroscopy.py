@@ -665,3 +665,22 @@ def test_continuum_of_a_long_spectrum_with_a_gap_is_flat_and_continuous():
     n = continuum_normalise(w, f)[good]
     level = np.array([np.percentile(n[k], 90) for k in np.array_split(np.arange(len(n)), 200)])
     assert np.all(np.abs(level - 1) < 0.01), level.round(3)
+
+
+def test_reduce_tab_says_which_frames_it_takes_as_calibrated(qtbot, tmp_path):
+    """PLAN.md decision: frames already calibrated are used as they are, and the program says which it took as
+    calibrated (plans/spectroscopy.md step 0)."""
+    from astropy.io import fits
+
+    from astrowb.ui.spectro_page import ReduceTab
+
+    data = np.random.default_rng(1).normal(100, 3, (60, 200)).astype(np.float32)
+    fits.PrimaryHDU(data, fits.Header({"CALB": "master_bias_00.fits"})).writeto(tmp_path / "sci_c.fits")
+    fits.PrimaryHDU(data).writeto(tmp_path / "arc_raw.fits")
+    tab = ReduceTab()
+    qtbot.addWidget(tab)
+    tab.science.edit.setText(str(tmp_path / "sci_c.fits"))
+    tab.arc.edit.setText(str(tmp_path / "arc_raw.fits"))
+    text = tab.status.text()
+    assert "Taken as calibrated" in text and "sci_c.fits" in text
+    assert "Not calibrated (raw): arc_raw.fits" in text

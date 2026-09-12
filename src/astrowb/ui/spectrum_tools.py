@@ -45,6 +45,7 @@ def _spin(parent, value, lo, hi, decimals=2):
 
 class SpectrumToolsTab(Undoable, QWidget):
     atmosphere_requested = Signal(dict, dict)  # inputs (spectrum, optional solar spectrum), params
+    combine_requested = Signal(dict, dict)  # inputs (spectra, output), params
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -91,6 +92,15 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.source = QLabel(self.tr("No spectrum."), self)
         self.source.setWordWrap(True)
         lay.addWidget(opn)
+        combine = QPushButton(self.tr("Combine exposures…"), self)
+        combine.clicked.connect(lambda: self._combine())
+        combine.setToolTip(
+            self.tr(
+                "Several exposures of one star in one night as one spectrum (IRAF scombine): one wavelength grid, "
+                "scaled to one level, cosmic rays rejected, averaged; saved beside the first file and opened here"
+            )
+        )
+        lay.addWidget(combine)
         lay.addWidget(self.source)
         marks = QGridLayout()
         self.markers = QCheckBox(self.tr("Show line markers"), self)
@@ -409,6 +419,34 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.guide.reset()
         self.guide.set_state(0, "done")
         return True
+
+    def _combine(self, paths=None):
+        paths = paths or QFileDialog.getOpenFileNames(self, self.tr("Combine exposures"), "", SPECTRA)[0]
+        if len(paths) < 2:
+            if paths:
+                self.source.setText(self.tr("Choose at least two exposures to combine."))
+            return False
+        first = Path(paths[0])
+        output = first.with_name(f"{first.stem.removesuffix('.fits')}_combined{len(paths)}.fits")
+        self.source.setText(self.tr("Combining {n} exposures…").format(n=len(paths)))
+        self.combine_requested.emit({"spectra": [str(p) for p in paths], "output": str(output)}, {})
+        return True
+
+    def show_combined(self, out):
+        """The combined spectrum opened here, with what was done and any warning."""
+        from .messages import translate
+
+        if not self._open(out["path"]):
+            return
+        text = (
+            self.source.text()
+            + "\n"
+            + self.tr("{n} exposures combined, {r} pixels rejected.").format(n=out["count"], r=out["rejected"])
+        )
+        for warning in out.get("warnings") or []:
+            warning = translate(warning)
+            text += "\n⚠ " + warning[:1].upper() + warning[1:]
+        self.source.setText(text)
 
     def _open_b(self, path=None):
         path = path or QFileDialog.getOpenFileName(self, self.tr("Spectrum B"), "", SPECTRA)[0]

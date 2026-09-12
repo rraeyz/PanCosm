@@ -627,6 +627,7 @@ whenever any area gains a feature.
 | Open, recent files, drop files | Images, Photometry, Calibration, Light curves, Spectroscopy, Remote sensing | File | — | — |
 | Save / Open session | (frame ready, no area wired yet) | File | — | — |
 | Report a problem (zip for the developer) | main window, every area window | Help | — | — |
+| Combine several exposures of one star (scombine) | Spectroscopy | — | — | Spectrum tools tab |
 | Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
 | Panels on / off, Reset layout | every area window | View | — | panels |
 | Open an area, list of open windows | main window, every area window | Window | — | Start page blocks |

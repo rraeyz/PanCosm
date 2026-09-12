@@ -843,6 +843,16 @@ class MainWindow(QMainWindow):
                 on_fail=vt.status.setText,
             )
         )
+        page.tools_tab.combine_requested.connect(
+            lambda inputs, params: self.run_step_for(
+                "spectroscopy",
+                "spectroscopy.combine",
+                inputs,
+                params,
+                on_done=lambda out: page.tools_tab.show_combined(out["combined"]),
+                on_fail=page.tools_tab.source.setText,
+            )
+        )
         page.tools_tab.atmosphere_requested.connect(
             lambda inputs, params: self.run_step_for(
                 "spectroscopy",
