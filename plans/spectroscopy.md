@@ -157,7 +157,7 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 ## Steps
 
 ### 0. Several exposures of one star combined; the master bias for spectra (PLAN.md "Decisions", first item)
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - Reference: IRAF `scombine` (combine = average | median | sum, reject = none | minmax | avsigclip | ccdclip …,
   scale / weight by exposure time or signal, on a common wavelength grid: `dispcor` first); `zerocombine` +
   `ccdproc zerocor` for the master bias ("Zero"), used the same way for spectra as for images.
