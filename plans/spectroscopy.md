@@ -147,7 +147,7 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 
 ## For the owner to try
 
-- (after step 0) open one of your own long-slit nights in the new window and say whether the frame, the trace and
+- (after step 1) open one of your own long-slit nights in the new window and say whether the frame, the trace and
   the spectrum are where you expect them.
 
 ## Data used
@@ -156,7 +156,28 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 
 ## Steps
 
-### 0. The Spectroscopy window's own layout (interface I6 for this area)
+### 0. Several exposures of one star combined; the master bias for spectra (PLAN.md "Decisions", first item)
+**open**
+- Reference: IRAF `scombine` (combine = average | median | sum, reject = none | minmax | avsigclip | ccdclip …,
+  scale / weight by exposure time or signal, on a common wavelength grid: `dispcor` first); `zerocombine` +
+  `ccdproc zerocor` for the master bias ("Zero"), used the same way for spectra as for images.
+- Ours now: Spectrum tools has an operation with one spectrum B (sum / divide); the échelle orders of one exposure
+  are merged; no step combines N exposures. Bias and dark come from the Calibration window (`spectro_page` Workflow
+  step 1 says so; arcs bias / dark only).
+- Build:
+  - a step `spectroscopy.combine` (inputs: spectra; params: combine mean | median | sum, rejection none | σ-clip |
+    min/max, scale none | exposure | median flux, weight none | S/N): resampled to one wavelength grid (the finest
+    of the inputs, flux conserved), barycentric correction applied first when the inputs carry it; output one
+    spectrum with its error and the number of exposures per pixel;
+  - in Spectrum tools: "Combine exposures…" (choose files, settings folded);
+  - check (and test) that a master bias made in Calibration is subtracted from a long-slit science frame and its
+    arc, and that frames already calibrated are taken as they are with a note saying so.
+- Accept: three EFOSC2 or FEROS exposures of one star combine to a spectrum whose S/N is √3 × one (within 10 %);
+  a cosmic ray in one exposure is gone with σ-clipping; the bias test passes; CPU only (cheap).
+- Files: `spectroscopy/combine.py` (new), `spectroscopy/steps.py`, `ui/spectrum_tools.py`, step and setting names,
+  tests, guide 08.
+
+### 1. The Spectroscopy window's own layout (interface I6 for this area)
 **open**
 - Reference: iSpec (the spectrum is the window, several overlaid), PypeIt Identify (fit + residuals beside the arc),
   PypeIt object_find (traces on the 2D frame), our Photometry window (interface I5: view in the middle, steps on
@@ -183,14 +204,14 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 - Files: `ui/spectro_page.py` (window_parts like `PhotometryPage`), `ui/main_window.py` (`_spectroscopy_window`),
   tests in `tests/test_spectroscopy.py`, guide 08 in four languages.
 
-### 1. Keys in the arc identification
+### 2. Keys in the arc identification
 **open**
 - Reference: PypeIt Identify keys (a, f, z, +/-, w, ?) and IRAF identify (m, f, d, q).
 - Build: in the arc plot: f fit, z / Delete remove the line under the mouse, +/- the fit order, w pixels ↔
   wavelength, ? lists the keys; each also a menu action (Measure menu) with its shortcut shown.
 - Accept: a test drives the keys on the EFOSC2 arc and gets the same fit as the buttons.
 
-### 2. Several spectra in one plot, one of them active (Spectrum tools)
+### 3. Several spectra in one plot, one of them active (Spectrum tools)
 **open**
 - Reference: iSpec "Spectra" menu.
 - Build: open several spectra; each drawn in its own colour, the active one in front and the one the tools act on;
