@@ -1,5 +1,5 @@
 # Light curves and O-C
-The **Light curves & O-C** page has three tabs: **Period search**, **Frequency analysis** and **O-C diagram**. These tabs open together in a window of their own (the Light curves block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown.
+Two windows. **Light curves and period** has the tabs **Period search**, **Frequency analysis** and **Variable star search** (its block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown. **O−C** is a window of its own (its block or the Window menu): times of minimum timed in Photometry and the maxima of the frequency analysis arrive there by themselves.
 
 ## Period search
 The light curve measured on the Photometry page is used automatically; or **Load CSV (time, flux)…**.
@@ -31,7 +31,7 @@ The table gives each frequency, period, amplitude and phase with their errors (M
 
 **Times of maximum** are measured for every cycle the data cover (a parabola around each maximum of the fitted curve); tick *Values are magnitudes* if the light curve is in magnitudes. **Send maxima to the O-C diagram** adds them to the O-C list.
 
-## O-C diagram
+## O-C diagram (the O−C window)
 O-C (observed minus calculated) shows how the times of minimum depart from a constant period.
 
 1. Type or paste the **minimum times**, one per line: `time [error] [I/II] [source]` — e.g. `2459876.43215 0.00021 I TESS`. Or **Load file…**. Times in BJD or HJD; do not mix them.

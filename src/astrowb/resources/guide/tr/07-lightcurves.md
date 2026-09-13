@@ -1,5 +1,5 @@
 # Işık eğrileri ve O-C
-**Işık eğrisi ve O-C** sayfasının üç sekmesi vardır: **Periyot arama**, **Frekans analizi** ve **O-C diyagramı**. Bu sekmeler birlikte kendi penceresinde açılır (Başlangıç sayfasındaki Işık eğrileri bloğu ya da Pencere menüsü); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır.
+İki pencere. **Işık eğrileri ve periyot** penceresinde **Periyot arama**, **Frekans analizi** ve **Değişen yıldız arama** sekmeleri vardır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır. **O−C** kendi penceresidir (bloğu ya da Pencere menüsü): Fotometride bulunan minimum zamanları ve frekans analizinin maksimumları oraya kendiliğinden gelir.
 
 ## Periyot arama
 Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
@@ -31,7 +31,7 @@ Tablo her frekansı, periyodu, genliği ve evreyi hatalarıyla (Montgomery & O'D
 
 **Maksimum zamanları** verinin kapsadığı her çevrim için ölçülür (fit edilen eğrinin her maksimumu çevresinde parabol); ışık eğrisi kadir ise *Değerler kadir* kutusunu işaretleyin. **Maksimumları O-C diyagramına gönder** onları O-C listesine ekler.
 
-## O-C diyagramı
+## O-C diyagramı (O−C penceresi)
 O-C (gözlenen eksi hesaplanan), minimum zamanlarının sabit bir periyottan nasıl saptığını gösterir.
 
 1. **Minimum zamanlarını** her satıra bir tane olmak üzere yazın ya da yapıştırın: `zaman [hata] [I/II] [kaynak]` — ör. `2459876.43215 0.00021 I TESS`. Ya da **Dosya yükle…**. Zamanlar BJD ya da HJD olabilir; karıştırmayın.

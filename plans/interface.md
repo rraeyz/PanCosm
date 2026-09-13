@@ -607,7 +607,7 @@ Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is
   for areas that all live in windows now); the area blocks and every window's Window menu stay the ways in. Accept:
   every area opens from its block and from Window; the main window at 1366 × 768 and 800 px shows the blocks
   without a sidebar; old settings still open.
-- **(4) O−C in its own window.** **agent2 claimed (2026-11-08) — do not touch** — the O−C tab of Light curves becomes the area window "O−C" (its own
+- **(4) O−C in its own window.** **agent2 done (2026-11-08, this commit)** — new area key `oc` (`MainWindow.oc_page`, `_make_oc_page`, its block "O−C" on the Start page, File → Open… loads a minima file); Light curves is now "Light curves and period" with Period search, Frequency analysis and Variable star search. Minima timed in Photometry still go to O−C by themselves (silently, as before); "Send maxima to the O−C diagram" also opens the O−C window. The Photometry button became "Period search →" (its tooltip says where minima go). Guide 06 and 07 updated in four languages (07 opens with the two windows; its O−C section names the window). Screenshot scratchpad `i6d4/both.png`. Original: the O−C tab of Light curves becomes the area window "O−C" (its own
   block on the main window); Light curves keeps Period, Frequency and Variable star search. Minima timed in
   Photometry go to the O−C window by themselves, as they went to the tab. Accept: a minimum timed in Photometry
   appears in the O−C window; the guide (07) splits into its two windows in four languages.
@@ -698,7 +698,7 @@ whenever any area gains a feature.
 | Measure the light curve, lost frames shown | Photometry | Measure | yes | Steps 4, Light curve |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
-| O−C diagram, ephemeris look-up (VSX) | O−C | — | — | — |
+| O−C diagram, ephemeris look-up (VSX), third body, apsidal motion | O−C (its own window) | File → Open… (minima) | — | — |
 | Command search (find any action of the window) | every area window | Edit → Find an action… (Ctrl+K) | — | — |
 | Open, recent files, drop files | Images, Photometry, Calibration, Light curves, Spectroscopy, Remote sensing | File | — | — |
 | Save / Open session | (frame ready, no area wired yet) | File | — | — |

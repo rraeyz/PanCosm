@@ -294,7 +294,7 @@ def test_period_search_tab(window, qtbot):
     page.search_button.click()
     qtbot.waitUntil(lambda: page.best is not None, timeout=60000)
     assert abs(page.best - 0.731) < 0.002
-    assert window.lightcurve_page.count() == 4
+    assert window.lightcurve_page.count() == 3  # O−C has its own window (interface I6d (4))
     page.phase_bins.setValue(20)  # binned mean curve drawn over the folded points
     assert len(window.period_page.plot.figure.axes[1].containers) == 1
 
@@ -366,6 +366,7 @@ def test_frequency_analysis_and_light_curve_editing(window, qtbot):
     assert freq.maxima.rowCount() >= 4
     freq.to_oc.click()
     assert window.oc_page.text.toPlainText().count("maximum") == freq.maxima.rowCount()
+    assert window.area_windows["oc"].isVisible()  # sent to the O−C window, opened to show them
 
 
 def test_suggest_comparisons():

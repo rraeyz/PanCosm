@@ -34,6 +34,7 @@ from .workspaces import (
     CalibratePage,
     ImagePage,
     LightCurvePage,
+    OCPage,
     PhotometryPage,
     PlotCanvas,
     ProjectPage,
@@ -73,6 +74,7 @@ class MainWindow(QMainWindow):
     image_page = _Lazy()
     photometry_page = _Lazy()
     lightcurve_page = _Lazy()
+    oc_page = _Lazy()
     spectro_page = _Lazy()
     models_page = _Lazy()
     rs_page = _Lazy()
@@ -129,6 +131,7 @@ class MainWindow(QMainWindow):
         "image": "image_page",
         "photometry": "photometry_page",
         "timeseries": "lightcurve_page",
+        "oc": "oc_page",
         "spectroscopy": "spectro_page",
         "orbits": "models_page",
         "remotesensing": "rs_page",
@@ -142,6 +145,7 @@ class MainWindow(QMainWindow):
         "photometry",
         "calibrate",
         "timeseries",
+        "oc",
         "spectroscopy",
         "orbits",
         "plan",
@@ -166,6 +170,7 @@ class MainWindow(QMainWindow):
             "image": self.tr("Images"),
             "photometry": self.tr("Photometry"),
             "timeseries": self.tr("Light curves & O-C"),
+            "oc": self.tr("O−C"),
             "spectroscopy": self.tr("Spectroscopy"),
             "orbits": self.tr("Orbits & models"),
             "remotesensing": self.tr("Remote sensing"),
@@ -302,6 +307,7 @@ class MainWindow(QMainWindow):
             "image": (self.open_many, images_filter()),
             "calibrate": (calibrate, images_filter()),
             "timeseries": (light_curve, "CSV (*.csv *.txt *.dat);;*"),
+            "oc": (lambda paths: page._load(paths[0]), "Text (*.txt *.csv *.dat);;*"),
             "spectroscopy": (spectrum, images_filter()),
             "remotesensing": (lambda paths: page.open(";".join(paths)), ""),
         }.get(key, (None, ""))
@@ -458,7 +464,6 @@ class MainWindow(QMainWindow):
         """key -> (title, page); building every page (tests and tools, not start-up)."""
         return {key: (self._titles[key], getattr(self, attr)) for key, attr in self.PAGES.items()}
 
-    oc_page = property(lambda self: self.lightcurve_page.oc_page)
     period_page = property(lambda self: self.lightcurve_page.period_page)
 
     # --- pages, built on first use -------------------------------------------
@@ -915,6 +920,38 @@ class MainWindow(QMainWindow):
         )
         return page
 
+    def _make_oc_page(self):
+        """O-C in a window of its own (the owner, 2026-11-08); minima timed in Photometry and maxima from the
+        frequency analysis arrive here."""
+        oc = OCPage(self)
+        oc.ephemeris_requested.connect(
+            lambda name: self.run_step_for(
+                "oc",
+                "planning.ephemeris",
+                {"name": name},
+                {"catalogue": "vsx"},
+                on_done=lambda out: oc.set_ephemeris(out["target"]),
+                on_fail=lambda msg: oc.result.setText(translate(msg)),
+            )
+        )
+
+        def oc_background(model, text, t0, period, steps, minima):
+            from .messages import translate
+
+            params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
+            fail = oc.tr("Cannot fit: {error}")
+            self.run_step_for(
+                "oc",
+                "timeseries.oc_fit",
+                {"minima": text},
+                params,
+                on_done=lambda out: oc.show_fit(out["fit"], minima),
+                on_fail=lambda msg: oc.result.setText(fail.format(error=translate(msg))),
+            )
+
+        oc.background = oc_background
+        return oc
+
     def _make_lightcurve_page(self):
         page = LightCurvePage(self)
         page.period_page.search_requested.connect(self.search_period)
@@ -936,36 +973,12 @@ class MainWindow(QMainWindow):
                 "timeseries", "timeseries.frequencies", {"time": t, "flux": y}, params, on_done=fp.show_result
             )
         )
-        fp.to_oc.clicked.connect(
-            lambda: [page.oc_page.add_minimum(tm, err, "maximum") for tm, err in (fp.result or {}).get("maxima", [])]
-        )
-        oc = page.oc_page
-        oc.ephemeris_requested.connect(
-            lambda name: self.run_step_for(
-                "timeseries",
-                "planning.ephemeris",
-                {"name": name},
-                {"catalogue": "vsx"},
-                on_done=lambda out: oc.set_ephemeris(out["target"]),
-                on_fail=lambda msg: oc.result.setText(translate(msg)),
+        fp.to_oc.clicked.connect(  # to the O-C window, opened so the user sees them arrive
+            lambda: (
+                [self.oc_page.add_minimum(tm, err, "maximum") for tm, err in (fp.result or {}).get("maxima", [])],
+                self.open_area("oc"),
             )
         )
-
-        def oc_background(model, text, t0, period, steps, minima):
-            from .messages import translate
-
-            params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
-            fail = oc.tr("Cannot fit: {error}")
-            self.run_step_for(
-                "timeseries",
-                "timeseries.oc_fit",
-                {"minima": text},
-                params,
-                on_done=lambda out: oc.show_fit(out["fit"], minima),
-                on_fail=lambda msg: oc.result.setText(fail.format(error=translate(msg))),
-            )
-
-        oc.background = oc_background
         pp = page.period_page
 
         def fetch(target, mission):
