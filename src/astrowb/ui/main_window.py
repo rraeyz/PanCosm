@@ -63,16 +63,6 @@ class _Lazy:
         return page
 
 
-class _Panel(QDockWidget):
-    """A page shown beside the image; closing it puts the page back in the sidebar's list."""
-
-    closed = Signal()
-
-    def closeEvent(self, event):
-        super().closeEvent(event)
-        self.closed.emit()
-
-
 class MainWindow(QMainWindow):
     taskUpdated = Signal(object)  # emitted from the task monitor thread, delivered on the GUI thread
     updateChecked = Signal(object, object)  # newer release or None, error or None (from a thread)
@@ -105,7 +95,7 @@ class MainWindow(QMainWindow):
         self.wcs = None
         self.setWindowIcon(QIcon(str(BRAND.icon_path)))
         self.resize(1200, 800)
-        self._panels, self._key = {}, "start"  # pages shown as panels beside the image; the page in the stack
+        self._key = "start"  # the page in the stack
         self.area_windows = {}  # area key -> its AreaWindow, once the area has moved into one (I4)
 
         self._build_workspaces()
@@ -129,9 +119,6 @@ class MainWindow(QMainWindow):
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         self._fill_image_toolbar()
         self._update_title()
-        for key in self.settings.get("ui.panels", []):  # the panels of the last session
-            if key in self.PAGES:
-                self.dock_page(key)
 
     # --- construction -------------------------------------------------------
     PAGES = {  # key (stable, never translated) -> attribute of the page
@@ -193,8 +180,6 @@ class MainWindow(QMainWindow):
             "automation": self.tr("Tools"),
         }
         self.nav = QListWidget(self)
-        self.nav.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.nav.customContextMenuRequested.connect(self._nav_menu)
         self.nav.setObjectName("sidebar")
         self.pages = QStackedWidget(self)
         self._placeholders = {}
@@ -286,7 +271,6 @@ class MainWindow(QMainWindow):
         acts = win.file_menu.actions()
         after_recent = acts[acts.index(win.recent_menu.menuAction()) + 1]
         win.file_menu.insertAction(after_recent, self.save_action)
-        self.panels_menu.menuAction().setVisible(False)  # every area has its own window now: no panels beside it
         from PySide6.QtWidgets import QLabel
 
         self.image_pixel_label = QLabel(win)
@@ -473,13 +457,7 @@ class MainWindow(QMainWindow):
             QApplication.clipboard().setText("\n".join("\t".join(r) for r in [header, *rows]))
 
     def _show_key(self, key):
-        if key in self._panels:  # a panel: bring it forward and keep the page that is shown
-            self._panels[key].show()
-            self._panels[key].raise_()
-            self.nav.blockSignals(True)
-            self.nav.setCurrentItem(self._nav_items()[self._key])
-            self.nav.blockSignals(False)
-        elif key in self.WINDOWED:  # opens its window; the main window keeps showing what it showed
+        if key in self.WINDOWED:  # opens its window; the main window keeps showing what it showed
             self.open_area(key)
             self.nav.blockSignals(True)
             self.nav.setCurrentItem(self._nav_items()[self._key])
@@ -504,63 +482,6 @@ class MainWindow(QMainWindow):
         if stack is not None and stack not in self.undo_group.stacks():
             self.undo_group.addStack(stack)
         self.undo_group.setActiveStack(stack)
-
-    def dock_page(self, key, on=True):
-        """Show a page as a panel beside the image, as MaxIm DL's tool windows (it can be dragged out as a window
-        of its own or tabbed with other panels), or put it back in the sidebar's list. Remembered for next time."""
-        if key in ("start", "image") or key in self.WINDOWED or "image" in self.WINDOWED or on == (key in self._panels):
-            return None  # an area in a window of its own is not a panel here (old settings may still name it)
-        page = getattr(self, self.PAGES[key])
-        frame = self._frames.get(page, page)
-        if on:
-            self.pages.removeWidget(frame)
-            dock = _Panel(self._nav_items()[key].text(), self)
-            dock.setObjectName(f"panel_{key}")  # stable id; never translated
-            dock.setWidget(frame)
-            others = list(self._panels.values())
-            self.addDockWidget(Qt.RightDockWidgetArea, dock)
-            if others:
-                self.tabifyDockWidget(others[-1], dock)
-            self.resizeDocks([dock], [page.minimumSizeHint().width() + 24], Qt.Horizontal)  # whole page
-            self.image_page.split.setSizes([1, 0])  # the image keeps the room; the header tabs fold (drag back)
-            dock.closed.connect(lambda k=key: self.dock_page(k, False))
-            self._panels[key] = dock
-            dock.show()
-            dock.raise_()
-            if self._key == key:
-                self.show_workspace("image")
-        else:
-            dock = self._panels.pop(key)
-            self.pages.addWidget(frame)  # takes the page out of the panel
-            self.removeDockWidget(dock)
-            dock.deleteLater()
-        self.settings.set("ui.panels", list(self._panels))
-        return self._panels.get(key)
-
-    def _fill_panels_menu(self):
-        self.panels_menu.clear()
-        for key, item in self._nav_items().items():
-            if key not in ("start", "image") and key not in self.WINDOWED:
-                act = self._action(
-                    self.panels_menu, item.text(), lambda _=False, k=key: self.dock_page(k, k not in self._panels)
-                )  # toggles
-                act.setCheckable(True)
-                act.setChecked(key in self._panels)
-
-    def _nav_menu(self, pos):
-        """Right click in the sidebar: show the page beside the image, or put it back."""
-        from PySide6.QtWidgets import QMenu
-
-        item = self.nav.itemAt(pos)
-        key = item.data(Qt.UserRole) if item else None
-        if key in (None, "start", "image"):
-            return None
-        menu = QMenu(self)
-        on = key not in self._panels
-        text = self.tr("Show beside the image") if on else self.tr("Put back in the list")
-        self._action(menu, text, lambda: self.dock_page(key, on))
-        menu.exec(self.nav.viewport().mapToGlobal(pos))
-        return menu
 
     def _nav_items(self):
         """key -> sidebar item (group headings excluded)."""
@@ -1293,8 +1214,6 @@ class MainWindow(QMainWindow):
         from .overlay_actions import add_menu as add_overlay_menu
 
         self.overlay_menu = add_overlay_menu(self, v)
-        self.panels_menu = v.addMenu(self.tr("Panels beside the image"))
-        self.panels_menu.aboutToShow.connect(self._fill_panels_menu)
         for title, keys, kw in (
             (self.tr("Interval"), INTERVALS, "interval"),
             (self.tr("Stretch"), STRETCHES, "stretch"),
