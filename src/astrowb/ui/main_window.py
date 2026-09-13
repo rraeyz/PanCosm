@@ -29,7 +29,6 @@ from .area_window import _raise as _raise_window
 from .files import images_filter
 from .i18n import LANGUAGES
 from .messages import task_error, translate
-from .widgets import glyph as _glyph
 from .workspaces import (
     CalibratePage,
     ImagePage,
@@ -322,26 +321,27 @@ class MainWindow(QMainWindow):
         from .start_page import areas
 
         parts = page.window_parts()
-        actions = []
+        actions, kinds = [], {}
         for entry in (  # short labels on the toolbar; the button's own text and tooltip are the action's tooltip
-            (page.load_button, self.tr("Images…")),
-            (page.blink, self.tr("Blink")),
-            (page.prev_frame, "◀"),
-            (page.next_frame, "▶"),
+            (page.load_button, self.tr("Images…"), "open"),
+            (page.blink, self.tr("Blink"), "blink"),
+            (page.prev_frame, self.tr("Previous frame"), "previous"),
+            (page.next_frame, self.tr("Next frame"), "next"),
             None,
-            (page.quality_button, self.tr("Bad frames")),
-            (page.suggest_button, self.tr("Comparisons")),
-            (page.apertures_button, self.tr("Radii")),
-            (page.measure_button, self.tr("Measure")),
+            (page.quality_button, self.tr("Bad frames"), "bad_frames"),
+            (page.suggest_button, self.tr("Comparisons"), "comparisons"),
+            (page.apertures_button, self.tr("Radii"), "radii"),
+            (page.measure_button, self.tr("Measure"), "measure"),
             None,
-            (page.minimum_button, self.tr("Minimum")),
-            (page.export_button, self.tr("Export")),
+            (page.minimum_button, self.tr("Minimum"), "minimum"),
+            (page.export_button, self.tr("Export"), "export"),
         ):
             if entry is None:
                 actions.append(None)
                 continue
-            button, label = entry
+            button, label, kind = entry
             act = QAction(label, page)
+            kinds[act] = kind
             long = button.text() or button.toolTip()
             act.setToolTip(long if not button.toolTip() or button.toolTip() == long else f"{long}: {button.toolTip()}")
             act.setStatusTip(act.toolTip())
@@ -357,7 +357,7 @@ class MainWindow(QMainWindow):
             menus=[(self.tr("&Measure"), measure)], toolbar=actions,
             undo_stack=_undo_source(page), open_files=page.set_images, file_filter=images_filter(), parent=self,
         )  # fmt: skip
-        win.toolbar.setToolButtonStyle(Qt.ToolButtonTextOnly)
+        win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()
         page.results_dock = win.docks["results"]
@@ -395,7 +395,8 @@ class MainWindow(QMainWindow):
             menus=[(self.tr("&Job"), actions)], toolbar=actions, undo_stack=_undo_source(page),
             open_files=handler, file_filter=file_filter, parent=self,
         )  # fmt: skip
-        win.toolbar.setToolButtonStyle(Qt.ToolButtonTextOnly)
+        jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
+        win.set_icons(dict(zip(actions, jobs, strict=True)))
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()
         self._frames[page] = parts["steps"]
@@ -1093,38 +1094,35 @@ class MainWindow(QMainWindow):
 
     def _fill_image_toolbar(self):
         """The most used image commands as small icons above the image: the same actions as in the menus."""
-        from PySide6.QtWidgets import QStyle, QToolButton
+        from PySide6.QtWidgets import QToolButton
 
-        bar, style, self._glyphs = self.image_page.toolbar, self.style(), []
+        bar, self._glyphs = self.image_page.toolbar, []
         first = bar.actions()[0]  # the measuring tools stay at the end
-        icons = (
-            (self.open_action, style.standardIcon(QStyle.SP_DialogOpenButton)),
-            (self.save_action, style.standardIcon(QStyle.SP_DialogSaveButton)),
+        icons = (  # kinds of ui/icons.py: the same icon as in the other windows
+            (self.open_action, "open"),
+            (self.save_action, "save"),
             None,
-            (self.previous_action, "◀"),
-            (self.next_action, "▶"),
+            (self.previous_action, "previous"),
+            (self.next_action, "next"),
             None,
-            (self.fit_action, "⤢"),
-            (self.zoom_in_action, "+"),
-            (self.zoom_out_action, "−"),
+            (self.fit_action, "fit"),
+            (self.zoom_in_action, "zoom_in"),
+            (self.zoom_out_action, "zoom_out"),
             None,
-            (self.levels_action, "◐"),
-            (self.blink_action, "⇆"),
-            (self.overlay_menu.menuAction(), "▦"),
+            (self.levels_action, "levels"),
+            (self.blink_action, "blink"),
+            (self.overlay_menu.menuAction(), "overlays"),
             None,
-            (self.process_menu.menuAction(), "ƒ"),
-            (self.solve_action, "⊕"),
+            (self.process_menu.menuAction(), "process"),
+            (self.solve_action, "solve"),
             None,
         )
         for item in icons:
             if item is None:
                 bar.insertSeparator(first)
                 continue
-            act, icon = item
-            if isinstance(icon, str):
-                self._glyphs.append((act, icon))
-            else:
-                act.setIcon(icon)
+            act, kind = item
+            self._glyphs.append((act, kind))
             act.setToolTip(act.text().replace("&", ""))
             bar.insertAction(first, act)
             if act.menu():
@@ -1132,9 +1130,10 @@ class MainWindow(QMainWindow):
         self._paint_glyphs()
 
     def _paint_glyphs(self):
-        color = self.palette().windowText().color()
-        for act, text in self._glyphs:
-            act.setIcon(_glyph(text, color))
+        from .icons import icon
+
+        for act, kind in self._glyphs:
+            act.setIcon(icon(kind, self))
 
     def _build_menus(self):
         m = self.menuBar().addMenu(self.tr("&File"))

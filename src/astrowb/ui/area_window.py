@@ -73,6 +73,7 @@ class AreaWindow(QMainWindow):
             self.toolbar.addSeparator() if act is None else self.toolbar.addAction(act)
         self.addToolBar(Qt.TopToolBarArea, self.toolbar)
         self.toolbar.setVisible(bool(toolbar))
+        self._icon_kinds = {}  # action -> icon kind (ui/icons.py), painted again when the theme changes
         self._build_menus(menus)
         self.statusBar().showMessage(self.tr("Ready"))
         self._build_task_bar()
@@ -155,6 +156,13 @@ class AreaWindow(QMainWindow):
         tb = self.toolbar.toggleViewAction()
         tb.setText(self.tr("Toolbar"))
         view.addAction(tb)
+        self.toolbar_text_action = self._action(
+            view, self.tr("Toolbar &text"), self._toolbar_text_changed,
+            tip=self.tr("The names beside the toolbar's icons (kept for next time)"),
+        )  # fmt: skip
+        self.toolbar_text_action.setCheckable(True)
+        self.toolbar_text_action.setChecked(bool(self.settings.get("ui.toolbar_text", False)))
+        self._toolbar_text_changed()
         view.addSeparator()
         # Ctrl+Shift: Ctrl++ / Ctrl+- zoom the images of the windows that show them
         sizes = (
@@ -415,6 +423,28 @@ class AreaWindow(QMainWindow):
     def save_layout(self):
         self.settings.set(f"area.{self.key}.geometry", bytes(self.saveGeometry().toBase64()).decode())
         self.settings.set(f"area.{self.key}.state", bytes(self.saveState().toBase64()).decode())
+
+    def set_icons(self, kinds):
+        """{action: icon kind}: the actions get the icons of ui/icons.py, the same in every window."""
+        self._icon_kinds.update(kinds)
+        self._paint_icons()
+
+    def _paint_icons(self):
+        from .icons import icon
+
+        for act, kind in self._icon_kinds.items():
+            act.setIcon(icon(kind, self))
+
+    def _toolbar_text_changed(self):
+        on = self.toolbar_text_action.isChecked()
+        self.settings.set("ui.toolbar_text", on)
+        # icons only by default (AstroImageJ); an action without an icon still shows its name
+        self.toolbar.setToolButtonStyle(Qt.ToolButtonTextBesideIcon if on else Qt.ToolButtonIconOnly)
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() == QEvent.PaletteChange and getattr(self, "_icon_kinds", None):
+            self._paint_icons()  # the symbols take the text colour of the new theme
 
     def reset_layout(self):
         for dock in self.docks.values():
