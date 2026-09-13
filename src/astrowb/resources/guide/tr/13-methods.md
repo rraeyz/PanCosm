@@ -148,6 +148,6 @@ S, PHOENIX ızgarasında aradeğerlenir (Husser ve ark. 2013); Pₖ her dalga bo
 
     σ_F² = F / kazanç + N_açk (1 + N_açk / N_gök) σ_gök²
 
-**Sönümleme**: mᵢⱼ = cⱼ + k Xᵢ (her mukayese yıldızı için bir sabit, tek k), Bouguer doğrusu.
+**Sönümleme**: mᵢⱼ = cⱼ + k Xᵢ (her karşılaştırma yıldızı için bir sabit, tek k), Bouguer doğrusu.
 
 **Dönüşüm** (iki filtre A, B için AAVSO kuralı): (A − B) = T_ab (a − b) + Z_ab, (B − b) = T_b (A − B) + Z_b; a, b aletsel kadirler; standart bir alanda en küçük karelerle uydurulur.

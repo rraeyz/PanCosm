@@ -21,7 +21,7 @@
     <message>
         <location filename="../../ui/photometry_page.py" line="2070"/>
         <source>The identifier of the AAVSO chart (VSP) the comparison magnitudes come from</source>
-        <translation>Mukayese kadirlerinin alındığı AAVSO haritasının (VSP) kimliği</translation>
+        <translation>Karşılaştırma kadirlerinin alındığı AAVSO haritasının (VSP) kimliği</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="2071"/>
@@ -41,7 +41,7 @@
     <message>
         <location filename="../../ui/photometry_page.py" line="2075"/>
         <source>The comparison stars&apos; magnitudes from the AAVSO chart (VSP), in the order the stars were marked</source>
-        <translation>Mukayese yıldızlarının AAVSO haritasındaki (VSP) kadirleri, yıldızların işaretlendiği sırayla</translation>
+        <translation>Karşılaştırma yıldızlarının AAVSO haritasındaki (VSP) kadirleri, yıldızların işaretlendiği sırayla</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="2077"/>
@@ -71,7 +71,7 @@
     <message>
         <location filename="../../ui/photometry_page.py" line="2085"/>
         <source>The first check star&apos;s label on the chart; its magnitude goes into the report as a test of the comparison stars</source>
-        <translation>İlk kontrol yıldızının haritadaki etiketi; kadiri mukayese yıldızlarının bir sınaması olarak rapora girer</translation>
+        <translation>İlk kontrol yıldızının haritadaki etiketi; kadiri karşılaştırma yıldızlarının bir sınaması olarak rapora girer</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="2089"/>
@@ -1464,7 +1464,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="35"/>
         <source>From the comparison stars of the measured light curve</source>
-        <translation>Ölçülen ışık eğrisinin mukayese yıldızlarından</translation>
+        <translation>Ölçülen ışık eğrisinin karşılaştırma yıldızlarından</translation>
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="40"/>
@@ -4472,7 +4472,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/messages.py" line="87"/>
         <source>no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia</source>
-        <translation>hiçbir mukayese yıldızının katalog parlaklığı yok: ilk görüntünün gök konumunu çözün (plate solve), APASS / Gaia&apos;daki yıldızları seçin</translation>
+        <translation>hiçbir karşılaştırma yıldızının katalog parlaklığı yok: ilk görüntünün gök konumunu çözün (plate solve), APASS / Gaia&apos;daki yıldızları seçin</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="140"/>
@@ -7649,7 +7649,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="92"/>
         <source>Mark the target, then the comparison stars (IRAF phot coordinates)</source>
-        <translation>Hedefi, sonra mukayese yıldızlarını işaretleyin (IRAF phot koordinatları)</translation>
+        <translation>Hedefi, sonra karşılaştırma yıldızlarını işaretleyin (IRAF phot koordinatları)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="100"/>
@@ -7779,7 +7779,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="258"/>
         <source>target, then comparison stars</source>
-        <translation>hedef, sonra mukayese yıldızları</translation>
+        <translation>hedef, sonra karşılaştırma yıldızları</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="259"/>
@@ -7794,7 +7794,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="263"/>
         <source>Check stars and further targets are measured against the same comparison stars, not used in them</source>
-        <translation>Kontrol yıldızları ve diğer hedefler aynı mukayese yıldızlarına göre ölçülür, onların içinde kullanılmaz</translation>
+        <translation>Kontrol yıldızları ve diğer hedefler aynı karşılaştırma yıldızlarına göre ölçülür, onların içinde kullanılmaz</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="267"/>
@@ -7899,7 +7899,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="375"/>
         <source>Measures the marked stars in every image and draws the differential light curve (target against the comparison stars)</source>
-        <translation>İşaretli yıldızları her görüntüde ölçer ve diferansiyel ışık eğrisini çizer (hedef, mukayese yıldızlarına göre)</translation>
+        <translation>İşaretli yıldızları her görüntüde ölçer ve diferansiyel ışık eğrisini çizer (hedef, karşılaştırma yıldızlarına göre)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="381"/>
@@ -7944,12 +7944,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="442"/>
         <source>Weight comparison stars by their scatter</source>
-        <translation>Mukayese yıldızlarını saçılmalarına göre ağırlıklandır</translation>
+        <translation>Karşılaştırma yıldızlarını saçılmalarına göre ağırlıklandır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="444"/>
         <source>Each comparison star is measured against the others; noisy or variable ones count less</source>
-        <translation>Her mukayese yıldızı diğerlerine göre ölçülür; gürültülü ya da değişenler daha az sayılır</translation>
+        <translation>Her karşılaştırma yıldızı diğerlerine göre ölçülür; gürültülü ya da değişenler daha az sayılır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="453"/>
@@ -7959,7 +7959,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="458"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
-        <translation>Hangi eğrinin çizileceği: hedefin mukayese yıldızlarına göre eğrisi, kontrol yıldızları, mukayese yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, airmass/hava kütlesi…</translation>
+        <translation>Hangi eğrinin çizileceği: hedefin karşılaştırma yıldızlarına göre eğrisi, kontrol yıldızları, karşılaştırma yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, airmass/hava kütlesi…</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="464"/>
@@ -8153,7 +8153,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="628"/>
         <source>Looks up the comparison stars in APASS and Gaia (needs the internet and a plate-solved first image) and turns the light curve into magnitudes in the standard system</source>
-        <translation>Mukayese yıldızlarını APASS ve Gaia&apos;da arar (internet ve plaka çözümü yapılmış ilk görüntü gerekir) ve ışık eğrisini standart sistemde kadire çevirir</translation>
+        <translation>Karşılaştırma yıldızlarını APASS ve Gaia&apos;da arar (internet ve plaka çözümü yapılmış ilk görüntü gerekir) ve ışık eğrisini standart sistemde kadire çevirir</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="638"/>
@@ -8163,7 +8163,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="643"/>
         <source>A report in AAVSO&apos;s Extended File Format to submit through WebObs; the comparison stars&apos; magnitudes are asked for</source>
-        <translation>AAVSO&apos;nun Genişletilmiş Dosya Biçiminde, WebObs ile gönderilecek bir rapor; mukayese yıldızlarının kadirleri sorulur</translation>
+        <translation>AAVSO&apos;nun Genişletilmiş Dosya Biçiminde, WebObs ile gönderilecek bir rapor; karşılaştırma yıldızlarının kadirleri sorulur</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="649"/>
@@ -8280,7 +8280,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1103"/>
         <source>comparison</source>
-        <translation>mukayese</translation>
+        <translation>karşılaştırma</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1103"/>
@@ -8498,17 +8498,17 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1528"/>
         <source>Looking up the comparison stars…</source>
-        <translation>Mukayese yıldızları aranıyor…</translation>
+        <translation>Karşılaştırma yıldızları aranıyor…</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1536"/>
         <source>Comparison {i}: {m:.3f} ± {e:.3f} ({src})</source>
-        <translation>Mukayese {i}: {m:.3f} ± {e:.3f} ({src})</translation>
+        <translation>Karşılaştırma {i}: {m:.3f} ± {e:.3f} ({src})</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1540"/>
         <source>Comparison {i}: not in the catalogues</source>
-        <translation>Mukayese {i}: kataloglarda yok</translation>
+        <translation>Karşılaştırma {i}: kataloglarda yok</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1758"/>
@@ -8638,12 +8638,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1397"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
-        <translation>{n} mukayese yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gökyüzü halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
+        <translation>{n} karşılaştırma yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gökyüzü halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1454"/>
         <source>The target&apos;s light grows {x:.1f} % more than the comparison stars&apos; between 1 and 1.5 apertures: something faint is next to it. Keep the radii fixed (not following the seeing); its light then only dilutes the depth a little.</source>
-        <translation>Hedefin ışığı 1 ile 1,5 açıklık arasında mukayese yıldızlarınınkinden %{x:.1f} daha fazla artıyor: yanında sönük bir şey var. Yarıçapları sabit tutun (seeing/görüşü izlemesin); o zaman onun ışığı derinliği yalnızca biraz seyreltir.</translation>
+        <translation>Hedefin ışığı 1 ile 1,5 açıklık arasında karşılaştırma yıldızlarınınkinden %{x:.1f} daha fazla artıyor: yanında sönük bir şey var. Yarıçapları sabit tutun (seeing/görüşü izlemesin); o zaman onun ışığı derinliği yalnızca biraz seyreltir.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1559"/>
@@ -8653,7 +8653,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1585"/>
         <source>Differential: target − comparison, the check star above it</source>
-        <translation>Diferansiyel: hedef − mukayese, üstünde kontrol yıldızı</translation>
+        <translation>Diferansiyel: hedef − karşılaştırma, üstünde kontrol yıldızı</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1586"/>
@@ -8678,7 +8678,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1591"/>
         <source>Comparison stars against the others</source>
-        <translation>Mukayese yıldızları birbirine göre</translation>
+        <translation>Karşılaştırma yıldızları birbirine göre</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1592"/>
@@ -8738,7 +8738,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1811"/>
         <source>Δm (target − comparison)</source>
-        <translation>Δm (hedef − mukayese)</translation>
+        <translation>Δm (hedef − karşılaştırma)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1830"/>
@@ -8754,7 +8754,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1860"/>
         <source>T1 − comparison</source>
-        <translation>T1 − mukayese</translation>
+        <translation>T1 − karşılaştırma</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1866"/>
@@ -8764,7 +8764,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/photometry_page.py" line="1877"/>
         <source>{k} (check) − comparison</source>
-        <translation>{k} (kontrol) − mukayese</translation>
+        <translation>{k} (kontrol) − karşılaştırma</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1891"/>
@@ -9973,7 +9973,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/setting_names.py" line="9"/>
         <source>Comparison stars (x y)</source>
-        <translation>Mukayese yıldızları (x y)</translation>
+        <translation>Karşılaştırma yıldızları (x y)</translation>
     </message>
     <message>
         <location filename="../../ui/setting_names.py" line="10"/>
@@ -9998,7 +9998,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/setting_names.py" line="14"/>
         <source>Check stars and other targets (x y)</source>
-        <translation>Denetim yıldızları ve diğer hedefler (x y)</translation>
+        <translation>Kontrol yıldızları ve diğer hedefler (x y)</translation>
     </message>
     <message>
         <location filename="../../ui/setting_names.py" line="15"/>
@@ -10188,7 +10188,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/setting_names.py" line="52"/>
         <source>Number of comparison stars</source>
-        <translation>Mukayese yıldızı sayısı</translation>
+        <translation>Karşılaştırma yıldızı sayısı</translation>
     </message>
     <message>
         <location filename="../../ui/setting_names.py" line="53"/>
