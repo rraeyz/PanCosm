@@ -1,5 +1,5 @@
 # Lichtkurven und O-C
-Die Seite **Lichtkurven & O-C** hat drei Reiter: **Periodensuche**, **Frequenzanalyse** und **O-C-Diagramm**. Diese Reiter öffnen sich gemeinsam in einem eigenen Fenster (der Block Lichtkurven auf der Startseite oder die Seitenleiste); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter.
+Die Seite **Lichtkurven & O-C** hat drei Reiter: **Periodensuche**, **Frequenzanalyse** und **O-C-Diagramm**. Diese Reiter öffnen sich gemeinsam in einem eigenen Fenster (der Block Lichtkurven auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter.
 
 ## Periodensuche
 Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.

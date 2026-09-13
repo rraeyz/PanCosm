@@ -1,5 +1,5 @@
 # Spectroscopy
-The **Spectroscopy** page reduces spectra and measures radial velocities. Its tabs follow the work: **Reduce** (long-slit and slitless), **Echelle**, **Telluric**, **Radial velocity & orbit** and **IFU cube**. Spectroscopy opens in a window of its own (its block on the Start page or the sidebar); Edit → Undo / Redo there act on the tab shown, and long work (extraction, wavelength fits, velocities) shows its progress in its status bar.
+The **Spectroscopy** page reduces spectra and measures radial velocities. Its tabs follow the work: **Reduce** (long-slit and slitless), **Echelle**, **Telluric**, **Radial velocity & orbit** and **IFU cube**. Spectroscopy opens in a window of its own (its block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown, and long work (extraction, wavelength fits, velocities) shows its progress in its status bar.
 
 ## If you know IRAF
 Every tab has its **Workflow** line at the top (click it to open): the steps in the order you know from IRAF, each marked done (✓), skipped (–) or next (▶), and what to do next. Nothing is locked: start where your data are. Where each IRAF task is:

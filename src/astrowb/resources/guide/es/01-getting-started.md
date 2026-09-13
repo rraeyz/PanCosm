@@ -32,7 +32,7 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 6. Para ir más allá: pegue el mínimo en la pestaña **O-C** con su propio T0 de referencia y su periodo, exporte la curva de luz (**Exportar CSV…**) o ajústela en la página **Órbitas y modelos**.
 
 ## La ventana
-- **Barra lateral (izquierda):** las páginas en el orden de una noche de observación — Inicio, Planificar, Observar, Calibrar, Imágenes, Fotometría, Curvas de luz y O-C, Espectroscopía, Órbitas y modelos, Teledetección, Automatización, Proyecto y esta Guía.
+- **Bloques de áreas:** cada área, en el orden de una noche de observación, se abre en una ventana propia; el menú **Ventana** de cada ventana también las enumera, junto con Inicio, Proyecto y esta Guía.
 - **Panel de tareas (abajo):** cada trabajo largo (calibración, fotometría, ajustes, espectros…) se ejecuta en segundo plano en su propio proceso. El panel muestra su progreso y estado (en cola, en curso, hecha, fallida, cancelada). Puede seguir trabajando mientras se ejecutan las tareas, y una tarea que falla nunca cierra la ventana.
 - **Barra de estado:** el valor del píxel y las coordenadas celestes bajo el ratón cuando hay una imagen abierta, y una barra de progreso mientras se ejecutan tareas.
 - **Menús:** Archivo (proyectos, FITS), Ver (zoom y estiramiento de la visualización), Imagen (reducción astrométrica, procesado), Complementos, Configuración y Ayuda.

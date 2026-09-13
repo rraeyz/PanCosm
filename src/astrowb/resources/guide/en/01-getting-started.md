@@ -32,7 +32,7 @@ A complete exercise with simulated data whose answer is known: from raw frames t
 6. To go further: paste the minimum into the **O-C** tab with your own reference T0 and period, export the light curve (**Export CSV…**), or fit it on the **Orbits & models** page.
 
 ## The window
-- **Sidebar (left):** the pages in the order of an observing night — Start, Plan, Observe, Calibrate, Images, Photometry, Light curves & O-C, Spectroscopy, Orbits & models, Remote sensing, Automation, Project and this Guide.
+- **Area blocks:** each area, in the order of an observing night, opens in a window of its own; the **Window** menu of every window lists them too, with Start, Project and this Guide.
 - **Tasks panel (bottom):** every long job (calibration, photometry, fits, spectra…) runs in the background in its own process. The panel shows its progress and state (queued, running, done, failed, cancelled). You can keep working while tasks run, and a crashing task never takes the window down.
 - **Status bar:** the pixel value and sky coordinates under the mouse when an image is open, and a progress bar while tasks run.
 - **Menus:** File (projects, FITS), View (zoom and display stretch), Image (plate solving, processing), Plugins, Settings and Help.

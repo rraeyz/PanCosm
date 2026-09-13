@@ -1,5 +1,5 @@
 # Espectroscopía
-La página **Espectroscopía** reduce espectros y mide velocidades radiales. Sus pestañas siguen el trabajo: **Reducir** (rendija larga y sin rendija), **Echelle**, **Telúrica**, **Velocidad radial y órbita** y **Cubo IFU**. La espectroscopía se abre en una ventana propia (su bloque en la página de inicio o la barra lateral); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada, y los trabajos largos (extracción, ajuste de longitudes de onda, velocidades) muestran su avance en la barra de estado.
+La página **Espectroscopía** reduce espectros y mide velocidades radiales. Sus pestañas siguen el trabajo: **Reducir** (rendija larga y sin rendija), **Echelle**, **Telúrica**, **Velocidad radial y órbita** y **Cubo IFU**. La espectroscopía se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada, y los trabajos largos (extracción, ajuste de longitudes de onda, velocidades) muestran su avance en la barra de estado.
 
 ## Si conoce IRAF
 Cada pestaña tiene arriba su línea **Flujo de trabajo** (púlsela para abrirla): los pasos en el orden que conoce de IRAF, cada uno marcado como hecho (✓), omitido (–) o siguiente (▶), y qué hacer a continuación. Nada está bloqueado: empiece donde estén sus datos. Dónde está cada tarea de IRAF:

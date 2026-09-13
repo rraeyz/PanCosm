@@ -1,5 +1,5 @@
 # Planlama
-**Plan** sayfası hedeflerinizin bu gece ne zaman gözlenebileceğini ve gece boyunca hangi örtme ya da geçişlerin olacağını söyler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da kenar çubuğu); kendi menüleri vardır.
+**Plan** sayfası hedeflerinizin bu gece ne zaman gözlenebileceğini ve gece boyunca hangi örtme ya da geçişlerin olacağını söyler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır.
 
 ## Gözlem yeriniz
 Gözlemevinin **enlemini** (derece, kuzey artı), **boylamını** (derece, doğu artı) ve **yüksekliğini** (metre) girin. Bunlar hatırlanır. Dikine hızların barisentrik düzeltmesinde ve alacakaranlık zamanlarında da kullanılır.
