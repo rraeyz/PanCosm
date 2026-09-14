@@ -1343,3 +1343,34 @@ def test_files_dropped_on_an_area_window_open_there(window, tmp_path):
     drop("spectroscopy", images[:1])
     assert window.spectro_page.reduce_tab.science.edit.text() == str(images[0])
     assert drop("remotesensing", images[:1]).recent()[0] == str(images[0])
+
+
+def test_every_area_window_has_the_common_menus(window, qtbot):
+    """interface I6c.2: Edit → Copy and Settings, Help → tour, updates and About in every area window, acting as in
+    the main window; Copy takes the selected cells of a table."""
+    from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem
+
+    for key in window.WINDOWED:
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        edit = [a.text() for a in win.edit_menu.actions()]
+        helps = [a.text() for a in win.help_menu.actions()]
+        assert "&Copy" in edit and window.settings_menu.menuAction() in win.edit_menu.actions(), key
+        assert window.update_action in win.help_menu.actions() and window.about_action in win.help_menu.actions()
+        assert window.tour_action.text() in helps, key
+        win.close()
+    window.show_workspace("photometry")
+    win = window.area_windows["photometry"]
+    table = QTableWidget(win)  # a table of its own: the window's tables react to their rows
+    table.setRowCount(1)
+    table.setColumnCount(2)
+    table.setItem(0, 0, QTableWidgetItem("a"))
+    table.setItem(0, 1, QTableWidgetItem("b"))
+    table.selectAll()
+    win.show()
+    table.show()
+    win.activateWindow()
+    table.setFocus()
+    qtbot.waitUntil(lambda: QApplication.focusWidget() is table)
+    next(a for a in win.edit_menu.actions() if a.text() == "&Copy").trigger()
+    assert QApplication.clipboard().text() == "a\tb"

@@ -115,6 +115,8 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.progress)
 
         self._build_menus()
+        for win in self.__dict__.pop("_pending_menus", []):
+            self._complete_menus(win)
         self._menus_to_image_window()
         self._follow_undo()
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
@@ -282,6 +284,7 @@ class MainWindow(QMainWindow):
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows[key] = win
+        self._complete_menus(win)
 
     def _opener(self, key, page):
         """What a window does with files opened from its File menu or dropped on it (interface I6b (8)):
@@ -366,6 +369,7 @@ class MainWindow(QMainWindow):
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows["photometry"] = win
+        self._complete_menus(win)
 
     def _spectroscopy_window(self, page):
         """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
@@ -403,6 +407,35 @@ class MainWindow(QMainWindow):
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows["spectroscopy"] = win
+        self._complete_menus(win)
+
+    def _complete_menus(self, win):
+        """The common menus of every area window (interface I6c.2): Edit → Copy and the settings, Help → the tour,
+        updates and About — the main window's own actions and Settings menu, so they act the same everywhere."""
+        if not hasattr(self, "settings_menu"):  # built before the main window's menus: done right after them
+            self.__dict__.setdefault("_pending_menus", []).append(win)
+            return
+        from PySide6.QtWidgets import QApplication, QTableWidget
+
+        from .export import selected_text
+
+        def copy():
+            w = QApplication.focusWidget()
+            if isinstance(w, QTableWidget):  # tables have no copy of their own
+                QApplication.clipboard().setText(selected_text(w))
+            elif hasattr(w, "copy"):  # text boxes and fields
+                w.copy()
+
+        win.edit_menu.addSeparator()
+        act = win._action(win.edit_menu, self.tr("&Copy"), copy, QKeySequence.Copy,
+                          self.tr("Copies the selected cells or text"))  # fmt: skip
+        act.setShortcutContext(Qt.WidgetWithChildrenShortcut)  # a text box under the cursor keeps its own Ctrl+C
+        win.addAction(act)
+        win.edit_menu.addMenu(self.settings_menu)  # language, look, processing device, text size
+        win.help_menu.addSeparator()
+        win._action(win.help_menu, self.tour_action.text(), lambda: (_raise_window(self), self.start_tour()))
+        win.help_menu.addAction(self.update_action)
+        win.help_menu.addAction(self.about_action)
 
     def _help_for(self, key):
         """F1 in an area window: the guide, filtered to that area."""
@@ -1243,7 +1276,7 @@ class MainWindow(QMainWindow):
         self.plugins_menu = self.menuBar().addMenu(self.tr("&Plugins"))
         self.plugins_menu.aboutToShow.connect(self._fill_plugins_menu)
 
-        s = self.menuBar().addMenu(self.tr("&Settings"))
+        s = self.settings_menu = self.menuBar().addMenu(self.tr("&Settings"))
         self.expert_action = QAction(self.tr("&Expert mode (every option open)"), self)
         self.expert_action.setCheckable(True)
         self.expert_action.setChecked(self.ui_mode() == "expert")
@@ -1287,11 +1320,11 @@ class MainWindow(QMainWindow):
         h = self.menuBar().addMenu(self.tr("&Help"))
         self._action(h, self.tr("Report a problem…"), self.report_problem)
         self._action(h, self.tr("Training &guide"), lambda: self.show_workspace("guide"), QKeySequence.HelpContents)
-        self._action(h, self.tr("Quick &tour"), self.start_tour)
+        self.tour_action = self._action(h, self.tr("Quick &tour"), self.start_tour)
         self._action(h, self.tr("&Practice data for a first night…"), self.practice_data)
         self._action(h, self.tr("Check the &installation and internet services"), self.check_installation)
-        self._action(h, self.tr("Check for &updates…"), self.check_updates)
-        self._action(h, self.tr("&About {app}").format(app=BRAND.display_name), self.about)
+        self.update_action = self._action(h, self.tr("Check for &updates…"), self.check_updates)
+        self.about_action = self._action(h, self.tr("&About {app}").format(app=BRAND.display_name), self.about)
 
     # --- image processing ---------------------------------------------------
     def process_dialog(self, op):
