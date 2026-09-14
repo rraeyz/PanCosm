@@ -283,6 +283,9 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
+        builder = getattr(self, f"_{key}_menus", None)
+        if builder is not None:  # the area's own menus and toolbar (interface I6c)
+            builder(page, win)
         self.area_windows[key] = win
         self._complete_menus(win)
 
@@ -327,21 +330,7 @@ class MainWindow(QMainWindow):
         kinds = {}
 
         def mirror(widget, short=None, kind=None):
-            """A menu / toolbar action that does what the page's button or check box does: the button's text in the
-            menus, the short name on the toolbar (its icon text), enabled and checked as the widget is."""
-            act = QAction(widget.text() or short, page)
-            if short:
-                act.setIconText(short)
-            act.setToolTip(widget.toolTip() or widget.text())
-            act.setStatusTip(act.toolTip())
-            if widget.isCheckable():
-                act.setCheckable(True)
-                act.setChecked(widget.isChecked())
-                act.toggled.connect(widget.setChecked)
-                widget.toggled.connect(act.setChecked)
-            else:
-                act.triggered.connect(lambda _=False, b=widget: b.click())
-            _follow_enabled(widget, act)
+            act = _mirror(widget, page, short)
             if kind:
                 kinds[act] = kind
             return act
@@ -396,6 +385,33 @@ class MainWindow(QMainWindow):
         win.help_requested.connect(self._help_for)
         self.area_windows["photometry"] = win
         self._complete_menus(win)
+
+    def _calibrate_menus(self, page, win):
+        """Calibration: Frames, Masters, Process, Send (interface I6c.4), from the page's own controls."""
+
+        def named(widget, text, short=None):
+            act = _mirror(widget, page, short)
+            act.setText(text)  # the button's text carries its place in the steps ("3.", "Browse…")
+            return act
+
+        lights = named(page.lights_browse, self.tr("Lights folder…"), self.tr("Lights"))
+        frames = named(page.frames_browse, self.tr("Calibration frames folder…"))
+        scan = _mirror(page.scan_button)
+        run = named(page.run_button, self.tr("Calibrate"))
+        stack = named(page.stack_button, self.tr("Stack into one deep picture"), self.tr("Stack"))
+        send = named(page.photometry_button, self.tr("Send to Photometry →"), self.tr("Photometry"))
+        win.add_menus(
+            [
+                (self.tr("F&rames"), [lights, frames, _mirror(page.add_folder_button), None, scan, None,
+                                      _mirror(page.remove_button), _mirror(page.clear_button)]),
+                (self.tr("&Masters"), [_mirror(page.cosmics), _mirror(page.optimize_dark), _mirror(page.fix_defects),
+                                       _mirror(page.split_colour), _mirror(page.spectra)]),
+                (self.tr("&Process"), [run, None, stack, _mirror(page.drizzle)]),
+                (self.tr("Se&nd"), [send]),
+            ],
+            toolbar=[lights, scan, None, run, stack, None, send],
+        )  # fmt: skip
+        win.set_icons({lights: "open_folder", scan: "scan", run: "calibrate", stack: "stack", send: "send"})
 
     def _spectroscopy_window(self, page):
         """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
@@ -2279,6 +2295,26 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
+
+
+def _mirror(widget, parent=None, short=None):
+    """A menu / toolbar action that does what a page's button or check box does (interface I6c): the button's text
+    in the menus, the short name on the toolbar (its icon text), enabled and checked as the widget is; the button
+    stays the one place where the page decides."""
+    act = QAction(widget.text() or short, parent or widget)
+    if short:
+        act.setIconText(short)
+    act.setToolTip(widget.toolTip() or widget.text())
+    act.setStatusTip(act.toolTip())
+    if widget.isCheckable():
+        act.setCheckable(True)
+        act.setChecked(widget.isChecked())
+        act.toggled.connect(widget.setChecked)
+        widget.toggled.connect(act.setChecked)
+    else:
+        act.triggered.connect(lambda _=False, b=widget: b.click())
+    _follow_enabled(widget, act)
+    return act
 
 
 def _follow_enabled(button, action):
