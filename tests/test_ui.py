@@ -1374,3 +1374,28 @@ def test_every_area_window_has_the_common_menus(window, qtbot):
     qtbot.waitUntil(lambda: QApplication.focusWidget() is table)
     next(a for a in win.edit_menu.actions() if a.text() == "&Copy").trigger()
     assert QApplication.clipboard().text() == "a\tb"
+
+
+def test_photometry_window_menus_mirror_its_buttons(window):
+    """interface I6c.3: Frames, Stars, Measure, Analyse and File → Export hold every action of the page's buttons,
+    enabled as the buttons are; a check box and its menu item stay alike; Ctrl+K finds them."""
+    window.show_workspace("photometry")
+    win, page = window.area_windows["photometry"], window.photometry_page
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
+    for title in ("F&rames", "&Stars", "&Measure", "&Analyse"):
+        assert title in menus, title
+    texts = {a.text() for m in menus.values() for a in m.actions()}
+    exports = next(a.menu() for a in win.file_menu.actions() if a.menu() and a.text() == "&Export")
+    texts |= {a.text() for a in exports.actions()}
+    for button in (page.load_button, page.live_button, page.quality_button, page.drop_bad, page.suggest_button,
+                   page.apertures_button, page.measure_button, page.catalog_button, page.pol_button,
+                   page.detrend_button, page.minimum_button, page.export_button, page.aavso_button):  # fmt: skip
+        assert button.text() in texts, button.text()
+    measure = next(a for a in menus["&Measure"].actions() if a.text() == page.measure_button.text())
+    assert measure.isEnabled() == page.measure_button.isEnabled()
+    psf = next(a for a in menus["&Measure"].actions() if a.text() == page.psf.text())
+    psf.trigger()
+    assert page.psf.isChecked() == psf.isChecked()
+    page.psf.setChecked(not page.psf.isChecked())
+    assert psf.isChecked() == page.psf.isChecked()
+    assert any("Polarimetry" in text for text, _ in win.commands())

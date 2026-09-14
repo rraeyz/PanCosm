@@ -264,7 +264,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         role_row.addWidget(self.click_role, 1)
         self.sections[1].body.addLayout(role_row)
-        clear = QPushButton(self.tr("Clear stars"), self)
+        clear = self.clear_button = QPushButton(self.tr("Clear stars"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
         clear.setToolTip(self.tr("Takes off every marked star (Ctrl+Z brings them back)"))
         self.sections[1].body.addWidget(clear)
@@ -466,7 +466,7 @@ class PhotometryPage(Undoable, QWidget):
             self.tr("For a bad frame (cloud, satellite, wrong star): it is left out of every result, export included")
         )
         edit_row.addWidget(self.delete_mode)
-        restore = QPushButton(self.tr("Restore deleted points"), self)
+        restore = self.restore_button = QPushButton(self.tr("Restore deleted points"), self)
         restore.clicked.connect(self.restore_points)
         restore.setToolTip(self.tr("Brings back every point deleted by clicking"))
         edit_row.addWidget(restore)
@@ -664,7 +664,7 @@ class PhotometryPage(Undoable, QWidget):
         nb = QVBoxLayout(self.next_box)
         nb.setContentsMargins(0, 0, 0, 0)
         # what comes next is in the buttons' tooltips: a paragraph here left the star table one row (I6b (2))
-        go_period = QPushButton(self.tr("Period search →"), self)
+        go_period = self.go_period = QPushButton(self.tr("Period search →"), self)
         go_period.setToolTip(
             self.tr(
                 "Opens Light curves and period, which already has this light curve; times of minimum timed here go "
@@ -672,7 +672,7 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         go_period.clicked.connect(lambda: self.next_requested.emit("timeseries", ""))
-        go_model = QPushButton(self.tr("Fit an eclipse or transit model →"), self)
+        go_model = self.go_model = QPushButton(self.tr("Fit an eclipse or transit model →"), self)
         go_model.setToolTip(
             self.tr(
                 "Saves the light curve as a CSV file and opens it in the Models window: a physical model of an "
