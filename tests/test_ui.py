@@ -1,4 +1,5 @@
 import time
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -73,6 +74,10 @@ def test_translation_complete_and_loads(qapp, lang, file_menu):
 
     ts = (i18n.I18N_DIR / f"app_{lang}.ts").read_text(encoding="utf-8")
     assert 'type="unfinished"' not in ts
+    # a context named after a variable (win.tr(...) in a function) is never looked up: Qt uses the object's class
+    import re
+
+    assert not [c for c in re.findall(r"<name>([^<]+)</name>", ts) if c.lstrip("_")[:1].islower()]
     if not (i18n.I18N_DIR / f"app_{lang}.qm").exists():
         subprocess.run([sys.executable, str(Path(__file__).parents[1] / "tools" / "i18n.py")], check=True)
     translators = i18n.install(qapp, lang)
@@ -1475,3 +1480,47 @@ def test_models_window_menus(window, tmp_path):
     page.visual_tab.load_button.clicked.connect(lambda: seen.append(1))
     next(a for a in menus["&Visual orbit"].actions() if a.text() == page.visual_tab.load_button.text()).trigger()
     assert seen and page.tabs.currentWidget() is page.visual_tab
+
+
+def test_image_window_menus(window, qtbot, fits_file, tmp_path):
+    """interface I6c.8: the Images window's menus as MaxIm DL / AstroImageJ group them; the tools are mirrored, a
+    colour camera's raw image splits into R, G, B, and the open images stack into one."""
+    from PySide6.QtWidgets import QToolButton
+
+    win, page = window.area_windows["image"], window.image_page
+    titles = [a.text() for a in win.menuBar().actions() if a.isVisible()]
+    assert titles[:3] == ["&File", "&Edit", "&View"]
+    assert titles[3:9] == ["P&rocess", "&Analyse", "&Overlays", "A&strometry", "&Colour", "S&tack"]
+    assert "&Image" not in titles and window.overlay_menu.menuAction() not in window.view_menu.actions()
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu() and a.isVisible()}
+    star = next(a for a in menus["&Analyse"].actions() if a.text() == page.tool_buttons["aperture"].text())
+    star.trigger()
+    assert page.tool_buttons["aperture"].isChecked() and star.isChecked()
+    page.set_tool("pan")
+    assert not star.isChecked()
+    files = [a.text() for a in win.file_menu.actions()]
+    assert {"&Close image", "Close &all images", "Export data (CSV)…"} <= set(files)
+    window.open_fits(fits_file)
+    # the menu bar holds the Process menu itself, enabled with an image (the toolbar button must not take it over)
+    process = next(a for a in win.menuBar().actions() if a.menu() is window.process_menu)
+    assert process.isEnabled() and process.icon().isNull()
+    assert window.process_menu in [w.menu() for w in page.toolbar.findChildren(QToolButton) if w.menu()]
+    assert not window.split_action.isEnabled()  # not a colour camera's image
+    assert window.stack_open_images() is None  # one image: nothing to stack
+    raw = tmp_path / "raw.fits"
+    data = np.arange(64 * 80, dtype=np.float32).reshape(64, 80)
+    fits.PrimaryHDU(data, fits.Header({"BAYERPAT": "RGGB", "EXPTIME": 10.0})).writeto(raw)
+    window.open_fits(raw)
+    assert window.split_action.isEnabled()
+    paths = window.split_channels()
+    assert [Path(p).name for p in paths] == ["raw_R.fits", "raw_G.fits", "raw_B.fits"]
+    red, header = fits.getdata(paths[0], header=True)
+    assert red.shape == (32, 40) and red[0, 0] == data[0, 0] and header["CFACHAN"] == "R"
+    assert len(page.open_paths()) >= 3
+    copy = tmp_path / "frame2.fits"
+    copy.write_bytes(fits_file.read_bytes())
+    window.close_image(everything=True)
+    window.open_many([str(fits_file), str(copy)])
+    qtbot.waitUntil(lambda: len(page.open_paths()) == 2, timeout=10000)
+    window.stack_open_images(output=tmp_path / "stack.fits")
+    qtbot.waitUntil(lambda: window.current_path is not None and window.current_path.name == "stack.fits", timeout=60000)

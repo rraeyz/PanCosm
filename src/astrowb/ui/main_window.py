@@ -241,7 +241,7 @@ class MainWindow(QMainWindow):
         bar = win.menuBar()
         for menu in (self.view_menu, self.image_bar_menu):
             self.menuBar().removeAction(menu.menuAction())
-            bar.insertMenu(win.window_menu.menuAction(), menu)
+        bar.insertMenu(win.window_menu.menuAction(), self.view_menu)
         win.view_menu.menuAction().setVisible(False)  # the frame's own View: its items join the moved one
         self.view_menu.addSeparator()
         for act in win.view_menu.actions():
@@ -254,6 +254,78 @@ class MainWindow(QMainWindow):
 
         self.image_pixel_label = QLabel(win)
         win.statusBar().addWidget(self.image_pixel_label, 1)
+        self._fill_image_menus(win)
+
+    def _fill_image_menus(self, win):
+        """The Images window's menus as MaxIm DL and AstroImageJ group them (interface I6c.8): Process, Analyse,
+        Overlays, Astrometry, Colour, Stack; the page's tool and header buttons are mirrored, not copied."""
+        from PySide6.QtWidgets import QApplication
+
+        page = self.image_page
+        view = self.view_menu
+        view.removeAction(self.overlay_menu.menuAction())  # a menu of its own, as AstroImageJ's Annotate
+        tools, group = [], QActionGroup(win)
+        for key in page.TOOLS:
+            button = page.tool_buttons[key]
+            act = QAction(button.text(), win)
+            act.setToolTip(button.toolTip())
+            act.setStatusTip(button.toolTip())
+            act.setCheckable(True)
+            act.setChecked(button.isChecked())
+            act.triggered.connect(lambda _=False, k=key: page.set_tool(k))
+            button.toggled.connect(act.setChecked)
+            group.addAction(act)
+            tools.append(act)
+        self.split_action = QAction(self.tr("Split into colour channels (R, G, B)"), win)
+        self.split_action.setToolTip(
+            self.tr("A colour camera's raw image as three half-size images, one per colour (no interpolation)")
+        )
+        self.split_action.triggered.connect(lambda _=False: self.split_channels())
+        self.split_action.setEnabled(False)
+        stack = QAction(self.tr("Stack the open images…"), win)
+        stack.setToolTip(self.tr("The open images aligned on their stars and averaged with outliers rejected"))
+        stack.triggered.connect(lambda _=False: self.stack_open_images())
+        drizzle = QAction(self.tr("Drizzle the open images…"), win)
+        drizzle.setToolTip(self.tr("Dithered images onto a grid twice as fine (sharper for undersampled stars)"))
+        drizzle.triggered.connect(lambda _=False: self.stack_open_images(drizzle=True))
+        win.add_menus(
+            [
+                (self.process_menu.title(), []),
+                (self.tr("&Analyse"), [*tools, None, _mirror(page.whole_button, win), self.coefficients_action]),
+                (self.overlay_menu.title(), []),
+                (self.tr("A&strometry"), [self.solve_action, self.moving_action]),
+                (self.tr("&Colour"), [self.colour_action, self.split_action]),
+                (self.tr("S&tack"), [stack, drizzle, None, self.blink_action]),
+            ]
+        )
+        bar = win.menuBar()
+        for menu in (self.process_menu, self.overlay_menu):  # the menus themselves: the toolbar opens them too
+            empty = next(a for a in bar.actions() if a.menu() and a.text() == menu.title() and a.menu() is not menu)
+            bar.insertMenu(empty, menu)
+            bar.removeAction(empty)
+        view.removeAction(self.blink_action)
+        edit = win.edit_menu
+        copy_header = QAction(self.tr("Copy the header"), win)
+        copy_header.triggered.connect(
+            lambda _=False: QApplication.clipboard().setText(page.header.tostring(sep="\n") if page.header else "")
+        )
+        for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
+            edit.insertAction(win.find_action, act)
+        edit.insertSeparator(win.find_action)
+        file_menu = win.file_menu
+        acts = file_menu.actions()
+        after_save, close = acts[acts.index(self.save_action) + 1], acts[-1]
+        close_image = QAction(self.tr("&Close image"), win)
+        close_image.triggered.connect(lambda _=False: self.close_image())
+        close_all = QAction(self.tr("Close &all images"), win)
+        close_all.triggered.connect(lambda _=False: self.close_image(everything=True))
+        convert = QAction(self.tr("&Convert many images (PNG / JPEG / TIFF)…"), win)
+        convert.triggered.connect(lambda _=False: self.convert_dialog())
+        file_menu.insertActions(after_save, [_mirror(page.header_save, win), self.picture_action, convert])
+        file_menu.insertSeparator(after_save)
+        file_menu.insertAction(after_save, _mirror(page.export_button, win))
+        file_menu.insertActions(close, [close_image, close_all])
+        file_menu.insertSeparator(close)
 
     def _place_in_window(self, key, page):
         """The page, as it is, in an area window of its own (scrolling inside it when the window is smaller)."""
@@ -1178,7 +1250,7 @@ class MainWindow(QMainWindow):
             from .messages import translate
 
             params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
-            fail = oc.tr("Cannot fit: {error}")
+            fail = self.tr("Cannot fit: {error}")
             self.run_step_for(
                 "oc",
                 "timeseries.oc_fit",
@@ -1360,11 +1432,19 @@ class MainWindow(QMainWindow):
                 bar.insertSeparator(first)
                 continue
             act, kind = item
+            if act.menu():  # a button of its own: an icon on the menu's action would replace its name in the menu bar
+                menu, button = act.menu(), QToolButton(bar)
+                button.setMenu(menu)
+                button.setPopupMode(QToolButton.InstantPopup)
+                button.setToolTip(act.text().replace("&", ""))
+                button.setEnabled(act.isEnabled())
+                act.changed.connect(lambda b=button, a=act: b.setEnabled(a.isEnabled()))
+                self._glyphs.append((button, kind))
+                bar.insertWidget(first, button)
+                continue
             self._glyphs.append((act, kind))
             act.setToolTip(act.text().replace("&", ""))
             bar.insertAction(first, act)
-            if act.menu():
-                bar.widgetForAction(act).setPopupMode(QToolButton.InstantPopup)
         self._paint_glyphs()
 
     def _paint_glyphs(self):
@@ -1445,9 +1525,11 @@ class MainWindow(QMainWindow):
         im = self.image_bar_menu = self.menuBar().addMenu(self.tr("&Image"))
         self.solve_action = self._action(im, self.tr("&Plate solve (ASTAP / astrometry.net)"), self.plate_solve)
         self.solve_action.setEnabled(False)
-        self._action(im, self.tr("&Colour image from three filters…"), self.colour_dialog)
-        self._action(im, self.tr("&Asteroid and comet astrometry…"), self.moving_dialog)
-        self._action(im, self.tr("Photometric &coefficients (extinction, transformation)…"), self.coefficients_dialog)
+        self.colour_action = self._action(im, self.tr("&Colour image from three filters…"), self.colour_dialog)
+        self.moving_action = self._action(im, self.tr("&Asteroid and comet astrometry…"), self.moving_dialog)
+        self.coefficients_action = self._action(
+            im, self.tr("Photometric &coefficients (extinction, transformation)…"), self.coefficients_dialog
+        )
         self.process_menu = im.addMenu(self.tr("P&rocess"))
         self.process_menu.setEnabled(False)
         self.apply_all_action = self.process_menu.addAction(self.tr("Apply to all open images"))
@@ -1835,6 +1917,8 @@ class MainWindow(QMainWindow):
         self.header_table.setRowCount(0)
         for act in (self.save_action, self.picture_action, self.solve_action, self.process_menu):
             act.setEnabled(False)
+        if hasattr(self, "split_action"):
+            self.split_action.setEnabled(False)
         self._update_title()
         return True
 
@@ -1880,6 +1964,10 @@ class MainWindow(QMainWindow):
             self._levels.refresh()
         self.solve_action.setEnabled(True)
         self.process_menu.setEnabled(True)
+        if hasattr(self, "split_action"):  # a colour camera's raw image (its Bayer pattern in the header)
+            from ..io.bayer import pattern_of
+
+            self.split_action.setEnabled(bool(pattern_of(header)))
         self.image_page.add_open([path], current=path)
         if self.engine.project:
             self.engine.project.add_file(path, "image")
@@ -2114,6 +2202,49 @@ class MainWindow(QMainWindow):
             "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
         )
 
+    def split_channels(self):
+        """The current colour-camera raw image as three half-size FITS files (R, G, B superpixels, as calibration
+        splits them), written next to it and opened."""
+        from astropy.io import fits
+
+        from ..io import bayer
+
+        header = self.image_page.header
+        pattern = bayer.pattern_of(header) if header is not None else None
+        if self.current_path is None or not pattern:
+            return []
+        data, header, _ = fitsio.read_image(self.current_path)
+        paths = []
+        for colour, plane in bayer.split(data, pattern).items():
+            path = self.current_path.with_name(f"{self.current_path.stem}_{colour}.fits")
+            fits.PrimaryHDU(plane, bayer.channel_header(header, pattern, colour)).writeto(path, overwrite=True)
+            paths.append(str(path))
+        self.open_many(paths)
+        return paths
+
+    def stack_open_images(self, drizzle=False, output=None):
+        """The images open in the Images window stacked (or drizzled) into one, which then opens (MaxIm DL's
+        Combine); the stacking settings are the step's defaults, the Calibration window has them all."""
+        images = self.image_page.open_paths()
+        if len(images) < 2:
+            win = self.area_windows.get("image", self)
+            win.statusBar().showMessage(self.tr("Open two or more images to stack them."), 8000)
+            return None
+        if output is None:
+            first = Path(images[0])
+            suggestion = str(first.with_name(first.stem + ("_drizzle.fits" if drizzle else "_stack.fits")))
+            output, _ = QFileDialog.getSaveFileName(self, self.tr("Save FITS as"), suggestion, FITS_FILTER)
+            if not output:
+                return None
+
+        def done(out):
+            if self.engine.project:
+                self.engine.project.add_file(Path(out["stack"]), "stack")
+            self.open_fits(Path(out["stack"]))
+
+        step_id = "stacking.drizzle" if drizzle else "stacking.stack"
+        return self.run_step(step_id, {"images": images, "output": str(output)}, {}, on_done=done, area="image")
+
     def stack_images(self, images, output, params):
         def done(out):
             if self.engine.project:
@@ -2332,7 +2463,7 @@ class MainWindow(QMainWindow):
             (
                 lambda: rect_of(self.menuBar(), self),
                 self.tr(
-                    "Menus: Image → Process for image operations, Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages."  # noqa: E501
+                    "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages; each area's window has its own menus and toolbar."  # noqa: E501
                 ),
             ),
         ]

@@ -94,7 +94,7 @@ class ImagePage(Undoable, QWidget):
             self.tr("Pixels across the line that are averaged for its profile; wider is less noisy")
         )
         bar.addWidget(self.line_width)
-        whole = QPushButton(self.tr("Whole image"), self)
+        self.whole_button = whole = QPushButton(self.tr("Whole image"), self)
         whole.setToolTip(self.tr("Statistics and histogram of the whole image"))
         whole.clicked.connect(self.measure_whole)
         bar.addWidget(whole)
@@ -146,7 +146,7 @@ class ImagePage(Undoable, QWidget):
         self.graph_kind.currentIndexChanged.connect(self._redraw_area)
         self.graph_kind.hide()
         row.addWidget(self.graph_kind, 1)
-        export = QPushButton(self.tr("Export data (CSV)…"), self)
+        self.export_button = export = QPushButton(self.tr("Export data (CSV)…"), self)
         export.clicked.connect(lambda: self.export_graph())
         export.setToolTip(self.tr("The numbers of the graph shown, as a table for a spreadsheet"))
         export.setMinimumWidth(export.sizeHint().width())  # the narrow side panel cut the longer translations
@@ -158,6 +158,7 @@ class ImagePage(Undoable, QWidget):
         hl.setContentsMargins(0, 0, 0, 0)
         hl.addWidget(self.header_table, 1)
         hrow = QVBoxLayout()  # one under the other: side by side the longer translations did not fit the panel
+        self.keyword_buttons = []
         for text, slot in (
             (self.tr("Add or change keyword…"), self.edit_keyword_dialog),
             (self.tr("Delete keyword"), self.delete_selected_keyword),
@@ -166,6 +167,7 @@ class ImagePage(Undoable, QWidget):
             b.setToolTip(self.tr("Only in this window until you save a copy; Ctrl+Z takes it back"))
             b.clicked.connect(slot)
             hrow.addWidget(b)
+            self.keyword_buttons.append(b)
         hl.addLayout(hrow)
         self.header_note = QLabel(self)
         self.header_note.setWordWrap(True)
