@@ -1453,3 +1453,25 @@ def test_light_curves_and_oc_window_menus(window):
     for win in (lc, oc):
         tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
         assert tools and all(not a.icon().isNull() for a in tools)
+
+
+def test_models_window_menus(window, tmp_path):
+    """interface I6c.7: Fit and Visual orbit menus, File → Open… sets the light curve, Compare and Export are in
+    File; the toolbar has icons; an item shows its tab."""
+    window.show_workspace("orbits")
+    win, page = window.area_windows["orbits"], window.models_page
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
+    assert {"F&it", "&Visual orbit"} <= set(menus)
+    path = tmp_path / "lc.csv"
+    path.write_text("0,1\n")
+    win.open_files([path])
+    assert page.file.text() == str(path)
+    exports = next(a.menu() for a in win.file_menu.actions() if a.menu() and a.text() == "&Export")
+    assert len(exports.actions()) == 4
+    tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+    assert all(not a.icon().isNull() for a in tools)
+    seen = []
+    page.visual_tab.load_button.clicked.disconnect()
+    page.visual_tab.load_button.clicked.connect(lambda: seen.append(1))
+    next(a for a in menus["&Visual orbit"].actions() if a.text() == page.visual_tab.load_button.text()).trigger()
+    assert seen and page.tabs.currentWidget() is page.visual_tab

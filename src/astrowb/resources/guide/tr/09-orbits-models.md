@@ -1,5 +1,5 @@
 # Yörüngeler ve modeller
-**Yörünge ve modeller** sayfası ayrık bir örten çiftin ya da geçiş yapan bir gezegenin ışık eğrisine fiziksel bir model fit eder ve bunu tayfsal yörüngeyle birleştirip mutlak boyutları verir. Modeller kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); parametreler ve uydurmalar için kendi Düzen → Geri al / İleri al menüsü vardır.
+**Yörünge ve modeller** sayfası ayrık bir örten çiftin ya da geçiş yapan bir gezegenin ışık eğrisine fiziksel bir model fit eder ve bunu tayfsal yörüngeyle birleştirip mutlak boyutları verir. Modeller kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); parametreler ve uydurmalar için kendi Düzen → Geri al / İleri al menüsü vardır. Menüleri: **Dosya → Aç…** ışık eğrisini seçer (ya da dosyayı pencereye bırakın), **Dosya → Bir model eğrisiyle karşılaştır…** ve **Dosya → Dışa aktar** (sonuçlar, PHOEBE, WD, ExoClock / ETD); **Fit** (fit, posterior, MCMC, mutlak boyutlar) ve **Görsel yörünge** (ölçümleri yükle, yörüngeyi fit et).
 
 ## Model
 Keplerci bir yörüngede kenar kararmalı iki küre. Ayrık çiftlere ve geçişlere uyar. Yakın, biçimi bozulmuş ya da temaslı çiftler Roche modeli ister: onun yerine PHOEBE'ye ya da WD'ye aktarın.

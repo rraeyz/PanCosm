@@ -39,7 +39,7 @@ class VisualOrbitTab(QWidget):
         self.measures = QPlainTextEdit(self)
         self.measures.setPlaceholderText("2001.512  128.4  0.512  0.005  0.5")
         lay.addWidget(self.measures, 1)
-        load = QPushButton(self.tr("Load measures…"), self)
+        load = self.load_button = QPushButton(self.tr("Load measures…"), self)
         load.clicked.connect(self._load)
         load.setToolTip(self.tr("A text file of measures (e.g. from the WDS / Sixth Orbit Catalog), one per line"))
         lay.addWidget(load)

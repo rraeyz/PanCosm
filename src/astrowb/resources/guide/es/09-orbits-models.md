@@ -1,5 +1,5 @@
 # Órbitas y modelos
-La página **Órbitas y modelos** ajusta un modelo físico a la curva de luz de una binaria eclipsante separada o de un planeta en tránsito, y lo combina con una órbita espectroscópica para obtener dimensiones absolutas. Modelos se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con su propio Editar → Deshacer / Rehacer para los parámetros y los ajustes.
+La página **Órbitas y modelos** ajusta un modelo físico a la curva de luz de una binaria eclipsante separada o de un planeta en tránsito, y lo combina con una órbita espectroscópica para obtener dimensiones absolutas. Modelos se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con su propio Editar → Deshacer / Rehacer para los parámetros y los ajustes. Sus menús: **Archivo → Abrir…** elige la curva de luz (o suelte el archivo en la ventana), **Archivo → Comparar con una curva modelo…** y **Archivo → Exportar** (resultados, PHOEBE, WD, ExoClock / ETD); **Ajustar** (ajuste, posterior, MCMC, dimensiones absolutas) y **Órbita visual** (cargar medidas, ajustar la órbita).
 
 ## El modelo
 Dos esferas con oscurecimiento al limbo en una órbita kepleriana. Sirve para binarias separadas y tránsitos. Las binarias cercanas, deformadas o de contacto necesitan un modelo de Roche: en ese caso exporte a PHOEBE o WD.
