@@ -412,7 +412,7 @@ class ReduceTab(Undoable, QWidget):
             self.tr("Click points in the residual plot (bottom) to leave those arc lines out, then refit")
         )
         self.refit_button.clicked.connect(lambda: self._run(with_guesses=True))
-        forget = QPushButton(self.tr("Use all lines again"), self)
+        forget = self.forget_button = QPushButton(self.tr("Use all lines again"), self)
         forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.excluded_lines.clear))
         forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
         lay.addWidget(self.refit_button)  # one under the other: side by side too wide for a small window
@@ -926,7 +926,7 @@ class EchelleTab(Undoable, QWidget):
             self.tr("Click points in the residual plot (bottom) to leave those arc lines out, then refit")
         )
         self.refit_button.clicked.connect(lambda: self._run(True))
-        forget = QPushButton(self.tr("Use all lines again"), self)
+        forget = self.forget_button = QPushButton(self.tr("Use all lines again"), self)
         forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.forget_excluded))
         forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
         lay.addWidget(self.refit_button)  # one under the other: side by side too wide for a small window
@@ -2117,7 +2117,7 @@ class CubeTab(QWidget):
         self.file = _FileRow(self.tr("Data cube"), self)
         self.file.edit.editingFinished.connect(lambda: self.open(self.file.text()))
         lay.addWidget(self.file)
-        load = QPushButton(self.tr("Load cube"), self)
+        load = self.load_button = QPushButton(self.tr("Load cube"), self)
         load.clicked.connect(lambda: self.open(self.file.text()))
         load.setToolTip(
             self.tr("Opens a 3-D cube (two sky axes and wavelength), e.g. from MUSE or another integral-field unit")
@@ -2151,7 +2151,7 @@ class CubeTab(QWidget):
             grid.addWidget(QLabel(label, self), r, 0)
             grid.addWidget(w, r, 1)
         lay.addLayout(grid)
-        show = QPushButton(self.tr("Show image"), self)
+        show = self.show_button = QPushButton(self.tr("Show image"), self)
         show.clicked.connect(self.show_image)
         show.setToolTip(self.tr("Draws the image of the chosen window; click on it to see a spectrum"))
         lay.addWidget(show)

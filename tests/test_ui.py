@@ -1416,3 +1416,21 @@ def test_calibration_window_menus_and_toolbar(window):
     page.scan_requested.connect(lambda *a: seen.append(a))
     next(a for a in menus["F&rames"].actions() if a.text() == page.scan_button.text()).trigger()
     assert seen  # the menu item did what the Scan button does
+
+
+def test_spectroscopy_window_menus(window):
+    """interface I6c.5: Reduce, Lines, Spectrum, Measure, Velocity and File → Export; an item shows its job and does
+    what its button does."""
+    window.show_workspace("spectroscopy")
+    win, page = window.area_windows["spectroscopy"], window.spectro_page
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
+    assert {"&Reduce", "&Lines", "S&pectrum", "Mea&sure", "&Velocity"} <= set(menus)
+    seen = []
+    page.velocity_tab.rv_button.clicked.connect(lambda: seen.append("rv"))
+    page.tabs.setCurrentWidget(page.reduce_tab)
+    act = next(a for a in menus["&Velocity"].actions() if a.text() == page.velocity_tab.rv_button.text())
+    page.velocity_tab.rv_button.setEnabled(True)
+    act.trigger()
+    assert seen == ["rv"] and page.tabs.currentWidget() is page.velocity_tab
+    exports = next(a.menu() for a in win.file_menu.actions() if a.menu() and a.text() == "&Export")
+    assert len(exports.actions()) == 2

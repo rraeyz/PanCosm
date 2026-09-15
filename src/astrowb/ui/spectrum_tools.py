@@ -81,7 +81,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         )
         lay.addWidget(self.guide)
 
-        opn = QPushButton(self.tr("Open spectrum…"), self)
+        opn = self.open_button = QPushButton(self.tr("Open spectrum…"), self)
         opn.clicked.connect(lambda: self._open())
         opn.setToolTip(
             self.tr(
@@ -92,7 +92,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.source = QLabel(self.tr("No spectrum."), self)
         self.source.setWordWrap(True)
         lay.addWidget(opn)
-        combine = QPushButton(self.tr("Combine exposures…"), self)
+        combine = self.combine_button = QPushButton(self.tr("Combine exposures…"), self)
         combine.clicked.connect(lambda: self._combine())
         combine.setToolTip(
             self.tr(
@@ -134,7 +134,7 @@ class SpectrumToolsTab(Undoable, QWidget):
                 "Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot"
             )
         )
-        measure = QPushButton(self.tr("Measure"), self)
+        measure = self.measure_button = QPushButton(self.tr("Measure"), self)
         measure.clicked.connect(self._measure)
         measure.setToolTip(
             self.tr(
@@ -153,14 +153,14 @@ class SpectrumToolsTab(Undoable, QWidget):
             self.tr("The violet peak is searched below the centre and the red one above it, within this half width")
         )
         self.vr_centre.setToolTip(self.tr("Rest wavelength of the emission line, e.g. 6562.80 for Hα"))
-        vr = QPushButton(self.tr("V/R"), self)
+        vr = self.vr_button = QPushButton(self.tr("V/R"), self)
         vr.setToolTip(self.tr("Violet / red emission peaks of a normalised spectrum: (I_V − 1) / (I_R − 1)"))
         vr.clicked.connect(self._vr)
         g.addWidget(QLabel(self.tr("Line centre, ± half width (Å)"), self), 3, 0, 1, 2)
         g.addWidget(self.vr_centre, 4, 0)
         g.addWidget(self.vr_half, 4, 1)
         g.addWidget(vr, 5, 0)
-        series = QPushButton(self.tr("Measure in several spectra…"), self)
+        series = self.series_button = QPushButton(self.tr("Measure in several spectra…"), self)
         series.setToolTip(self.tr("The same window in many spectra: EW (and V/R) against date, e.g. Hα of a Be star"))
         series.clicked.connect(self._series)
         g.addWidget(series, 5, 1)
@@ -183,7 +183,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             )
         self.smooth_width = _spin(self, 3, 1, 999, 1)
         self.smooth_width.setToolTip(self.tr("Width of the smoothing in pixels"))
-        smooth = QPushButton(self.tr("Smooth"), self)
+        smooth = self.smooth_button = QPushButton(self.tr("Smooth"), self)
         smooth.clicked.connect(self._smooth)
         smooth.setToolTip(self.tr("Smooths the spectrum (Undo takes it back)"))
         g.addWidget(self.smooth_kind, 0, 0)
@@ -197,10 +197,10 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.constant = QLineEdit(self)
         self.constant.setPlaceholderText(self.tr("number, or empty for spectrum B"))
         self.constant.setToolTip(self.tr("A number; empty: spectrum B, resampled onto this spectrum's wavelengths"))
-        arith = QPushButton(self.tr("Apply"), self)
+        arith = self.arith_button = QPushButton(self.tr("Apply"), self)
         arith.clicked.connect(self._arith)
         arith.setToolTip(self.tr("Applies the operation to the spectrum (Undo takes it back)"))
-        open_b = QPushButton(self.tr("Spectrum B…"), self)
+        open_b = self.open_b_button = QPushButton(self.tr("Spectrum B…"), self)
         open_b.clicked.connect(self._open_b)
         open_b.setToolTip(self.tr("A second spectrum for the operation with two spectra"))
         g.addWidget(self.op, 1, 0)
@@ -209,7 +209,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         g.addWidget(open_b, 2, 2)
         self.step = _spin(self, 1.0, 0.001, 1000, 3)
         self.step.setToolTip(self.tr("Step of the new, even wavelength grid in Å"))
-        resample = QPushButton(self.tr("Resample (Å step)"), self)
+        resample = self.resample_button = QPushButton(self.tr("Resample (Å step)"), self)
         resample.clicked.connect(self._resample)
         resample.setToolTip(
             self.tr(
@@ -219,7 +219,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         )
         g.addWidget(self.step, 2, 1)
         g.addWidget(resample, 2, 0)
-        auto = QPushButton(self.tr("Normalise (automatic)"), self)
+        auto = self.normalise_button = QPushButton(self.tr("Normalise (automatic)"), self)
         auto.clicked.connect(self._normalise)
         auto.setToolTip(
             self.tr(
@@ -230,13 +230,13 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.pick = QPushButton(self.tr("Pick continuum points"), self)
         self.pick.setCheckable(True)
         self.pick.setToolTip(self.tr("Click continuum points on the plot, then press Normalise through points"))
-        through = QPushButton(self.tr("Normalise through points"), self)
+        through = self.through_button = QPushButton(self.tr("Normalise through points"), self)
         through.clicked.connect(self._normalise_points)
         through.setToolTip(self.tr("Divides by a spline through the continuum points you clicked"))
         g.addWidget(auto, 3, 0)
         g.addWidget(self.pick, 3, 1)
         g.addWidget(through, 3, 2)
-        response = QPushButton(self.tr("Instrument response…"), self)
+        response = self.response_button = QPushButton(self.tr("Instrument response…"), self)
         response.setToolTip(
             self.tr(
                 "The open spectrum is a reference star; choose its known flux distribution (e.g. a Pickles spectrum)"
@@ -257,10 +257,10 @@ class SpectrumToolsTab(Undoable, QWidget):
         g.addWidget(response, 4, 0)
         g.addWidget(self.apply_resp, 4, 1)
         g.addWidget(undo, 4, 2)
-        save = QPushButton(self.tr("Save as…"), self)
+        save = self.save_button = QPushButton(self.tr("Save as…"), self)
         save.clicked.connect(lambda: self._save())
         save.setToolTip(self.tr("Saves the spectrum as it is now, as FITS or text"))
-        bess = QPushButton(self.tr("Export for BeSS / ARAS…"), self)
+        bess = self.bess_button = QPushButton(self.tr("Export for BeSS / ARAS…"), self)
         bess.clicked.connect(lambda: self._bess())
         bess.setToolTip(
             self.tr(
@@ -298,7 +298,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         )
         g.addWidget(self.sun_file, 1, 0)
         g.addWidget(sun_pick, 1, 1)
-        atm = QPushButton(self.tr("Find Teff, log g, [Fe/H], v sin i"), self)
+        atm = self.atm_button = QPushButton(self.tr("Find Teff, log g, [Fe/H], v sin i"), self)
         atm.setToolTip(
             self.tr(
                 "Fits synthetic spectra (PHOENIX, downloaded as needed) to the open spectrum, using only the "
