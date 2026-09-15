@@ -1434,3 +1434,22 @@ def test_spectroscopy_window_menus(window):
     assert seen == ["rv"] and page.tabs.currentWidget() is page.velocity_tab
     exports = next(a.menu() for a in win.file_menu.actions() if a.menu() and a.text() == "&Export")
     assert len(exports.actions()) == 2
+
+
+def test_light_curves_and_oc_window_menus(window):
+    """interface I6c.6: Light curves has Data, Search and Send; O−C has Ephemeris and Models, its four models one
+    at a time as the radio buttons; both toolbars have icons."""
+    window.show_workspace("timeseries")
+    lc = window.area_windows["timeseries"]
+    menus = {a.text(): a.menu() for a in lc.menuBar().actions() if a.menu()}
+    assert {"&Data", "Se&arch", "Se&nd"} <= set(menus)
+    window.show_workspace("oc")
+    oc, page = window.area_windows["oc"], window.oc_page
+    menus = {a.text(): a.menu() for a in oc.menuBar().actions() if a.menu()}
+    models = [a for name in ("&Ephemeris", "&Models") for a in menus[name].actions() if a.actionGroup()]
+    assert len(models) == 4
+    models[2].trigger()  # third body
+    assert page.ltte.isChecked() and not page.linear.isChecked() and not models[0].isChecked()
+    for win in (lc, oc):
+        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        assert tools and all(not a.icon().isNull() for a in tools)

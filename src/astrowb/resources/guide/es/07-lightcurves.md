@@ -1,5 +1,5 @@
 # Curvas de luz y O-C
-Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de períodos**, **Análisis de frecuencias** y **Búsqueda de variables** (su bloque en la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada. **O−C** es una ventana propia (su bloque o el menú Ventana): los tiempos de mínimo medidos en Fotometría y los máximos del análisis de frecuencias llegan allí solos.
+Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de períodos**, **Análisis de frecuencias** y **Búsqueda de variables** (su bloque en la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada. **O−C** es una ventana propia (su bloque o el menú Ventana): los tiempos de mínimo medidos en Fotometría y los máximos del análisis de frecuencias llegan allí solos. Curvas de luz tiene los menús **Datos** (borrar puntos, valores atípicos, agrupar, flujo ↔ magnitud, deshacer), **Buscar** (período, frecuencias, estrellas variables) y **Enviar**, y **Archivo → Curva de luz** (descargar, guardar); O−C tiene **Efemérides** (buscar, lineal, cuadrática, ajustar) y **Modelos** (tercer cuerpo, movimiento apsidal, MCMC).
 
 ## Búsqueda de períodos
 La curva de luz medida en la página Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.

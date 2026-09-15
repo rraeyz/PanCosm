@@ -1,5 +1,5 @@
 # Light curves and O-C
-Two windows. **Light curves and period** has the tabs **Period search**, **Frequency analysis** and **Variable star search** (its block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown. **O−C** is a window of its own (its block or the Window menu): times of minimum timed in Photometry and the maxima of the frequency analysis arrive there by themselves.
+Two windows. **Light curves and period** has the tabs **Period search**, **Frequency analysis** and **Variable star search** (its block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown. **O−C** is a window of its own (its block or the Window menu): times of minimum timed in Photometry and the maxima of the frequency analysis arrive there by themselves. Light curves has the menus **Data** (delete points, outliers, binning, flux ↔ magnitude, undo), **Search** (period, frequencies, variable stars) and **Send**, and **File → Light curve** (download, save); O−C has **Ephemeris** (look up, linear, quadratic, fit) and **Models** (third body, apsidal motion, MCMC).
 
 ## Period search
 The light curve measured on the Photometry page is used automatically; or **Load CSV (time, flux)…**.

@@ -1,5 +1,5 @@
 # Lichtkurven und O-C
-Zwei Fenster. **Lichtkurven und Periode** hat die Reiter **Periodensuche**, **Frequenzanalyse** und **Suche nach Veränderlichen** (sein Block auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter. **O−C** ist ein eigenes Fenster (sein Block oder das Menü Fenster): in der Photometrie bestimmte Minimumszeiten und die Maxima der Frequenzanalyse kommen von selbst dorthin.
+Zwei Fenster. **Lichtkurven und Periode** hat die Reiter **Periodensuche**, **Frequenzanalyse** und **Suche nach Veränderlichen** (sein Block auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter. **O−C** ist ein eigenes Fenster (sein Block oder das Menü Fenster): in der Photometrie bestimmte Minimumszeiten und die Maxima der Frequenzanalyse kommen von selbst dorthin. Lichtkurven hat die Menüs **Daten** (Punkte löschen, Ausreißer, Mitteln, Fluss ↔ Magnitude, rückgängig), **Suche** (Periode, Frequenzen, Veränderliche) und **Senden** sowie **Datei → Lichtkurve** (herunterladen, speichern); O−C hat **Ephemeride** (nachschlagen, linear, quadratisch, anpassen) und **Modelle** (dritter Körper, Apsidendrehung, MCMC).
 
 ## Periodensuche
 Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
