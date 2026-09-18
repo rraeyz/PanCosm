@@ -1605,3 +1605,13 @@ def test_every_window_menu_bar_fits_and_has_distinct_keys(window, qtbot):
             for act in top.menu().actions() if top.menu() else []:
                 assert act.isSeparator() or act.menu() or not act.text() or id(act) in found, (key, act.text())
         win.hide()
+
+
+def test_basic_expert_reaches_the_windows_with_panels(window):
+    """interface I7.2: switching Basic / Expert later also folds or opens the sections of the Photometry window
+    (its parts live in panels, not in a scrolled page); a section the mode does not govern stays as it is."""
+    options, steps = window.photometry_page.measure_options, window.spectro_page.steps  # builds the windows
+    window.set_ui_mode("expert")
+    assert options.button.isChecked() and not steps.button.isChecked()
+    window.set_ui_mode("basic")
+    assert not options.button.isChecked() and not steps.button.isChecked()

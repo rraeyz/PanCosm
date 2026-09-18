@@ -926,6 +926,8 @@ class MainWindow(QMainWindow):
         self.settings.save()
         for frame in self._frames.values():
             _apply_mode(frame.widget(), mode)
+        for win in self.area_windows.values():  # windows with panels (Photometry, Spectroscopy) are not in frames
+            _apply_mode(win, mode)
         act = getattr(self, "expert_action", None)
         if act is not None and act.isChecked() != (mode == "expert"):
             act.setChecked(mode == "expert")
