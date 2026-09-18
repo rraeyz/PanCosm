@@ -1,6 +1,6 @@
 """Shared widgets of the pages: titles, folding sections, the workflow line and the plot canvas."""
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QDialog,
@@ -200,6 +200,7 @@ class PlotCanvas(QWidget):
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
+        toolbar.setIconSize(QSize(20, 20))  # as the Images toolbar: 24 px cut it in narrow side panels (macOS)
         publication = toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
         data = toolbar.addAction(self.tr("Export data (CSV)…"), self.export_data)
         data.setToolTip(self.tr("The numbers of every plotted series (axis, series, x, y) in a CSV file"))
