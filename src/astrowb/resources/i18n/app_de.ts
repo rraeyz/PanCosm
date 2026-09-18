@@ -3742,11 +3742,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="546"/>
-        <source>&amp;Ephemeris</source>
-        <translation>&amp;Ephemeride</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="547"/>
         <source>&amp;Models</source>
         <translation>&amp;Modelle</translation>
@@ -3932,11 +3927,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="684"/>
-        <source>&amp;Visual orbit</source>
-        <translation>&amp;Visuelle Bahn</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="726"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
@@ -4000,11 +3990,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/main_window.py" line="746"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_window.py" line="749"/>
-        <source>&amp;Velocity</source>
-        <translation>Ges&amp;chwindigkeit</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="755"/>
@@ -4474,6 +4459,21 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/main_window.py" line="2344"/>
         <source>Save FITS as</source>
         <translation>FITS speichern unter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="546"/>
+        <source>E&amp;phemeris</source>
+        <translation>&amp;Ephemeride</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="684"/>
+        <source>Visual &amp;orbit</source>
+        <translation>&amp;Visuelle Bahn</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="749"/>
+        <source>Velo&amp;city</source>
+        <translation>Ges&amp;chwindigkeit</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1821"/>
@@ -9910,17 +9910,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>In neuem Fenster öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="223"/>
+        <location filename="../../ui/widgets.py" line="231"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="271"/>
+        <location filename="../../ui/widgets.py" line="279"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="287"/>
+        <location filename="../../ui/widgets.py" line="295"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>

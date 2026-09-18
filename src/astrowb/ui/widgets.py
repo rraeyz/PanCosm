@@ -200,10 +200,18 @@ class PlotCanvas(QWidget):
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
-        toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
+        publication = toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
         data = toolbar.addAction(self.tr("Export data (CSV)…"), self.export_data)
         data.setToolTip(self.tr("The numbers of every plotted series (axis, series, x, y) in a CSV file"))
-        toolbar.addAction(self.tr("Open in a new window"), self.open_window)
+        window = toolbar.addAction(self.tr("Open in a new window"), self.open_window)
+        from .icons import icon
+
+        # icons with their names as tooltips (as the plot's own buttons): the three names cut the toolbar in a
+        # narrow side panel (Remote sensing at 1366 px); shortcut: painted once, not again on a theme change
+        for act, kind in ((publication, "publication"), (data, "export"), (window, "new_window")):
+            act.setIcon(icon(kind, toolbar))
+            if act is not data:
+                act.setToolTip(act.text())
         lay.addWidget(toolbar)
         lay.addWidget(self.canvas)
         self._windows = []

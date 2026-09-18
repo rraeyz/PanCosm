@@ -12,6 +12,8 @@ ICONS = {
     "open_folder": QStyle.SP_DirOpenIcon,
     "save": QStyle.SP_DialogSaveButton,
     "export": "⇪",
+    "publication": "⎙",
+    "new_window": "❐",
     # frames and the image
     "previous": "◀",
     "next": "▶",
