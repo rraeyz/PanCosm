@@ -43,7 +43,7 @@ class PlanPage(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        lay.addWidget(_title(self.tr("Plan"), self))
+        lay.addWidget(_title(self.tr("Planning"), self))
         from .workspaces import StepGuide
 
         self.guide = StepGuide(

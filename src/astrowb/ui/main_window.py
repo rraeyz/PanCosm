@@ -163,23 +163,12 @@ class MainWindow(QMainWindow):
         self._frames = {}  # page -> the scroll area that holds it in the stack
         """Sidebar (one entry per stage of the work) + one page per entry. Light pages are built now; the
         others (see _Lazy) when they are first shown or used, so the window opens quickly."""
-        titles = {
-            "start": self.tr("Start"),
-            "plan": self.tr("Plan"),
-            "observe": self.tr("Observe"),
-            "calibrate": self.tr("Calibrate"),
-            "image": self.tr("Images"),
-            "photometry": self.tr("Photometry"),
-            "timeseries": self.tr("Light curves & O-C"),
-            "oc": self.tr("O−C"),
-            "spectroscopy": self.tr("Spectroscopy"),
-            "orbits": self.tr("Orbits & models"),
-            "remotesensing": self.tr("Remote sensing"),
-            "automation": self.tr("Automation"),
-            "project": self.tr("Project"),
-            "guide": self.tr("Guide"),
-        }
-        self._titles = titles  # the main window's own pages and the areas' old names (tests, tools)
+        from .start_page import areas
+
+        titles = {"start": self.tr("Start")}
+        titles.update({key: name for key, _, name, _ in areas()})  # the areas' names, as on their blocks
+        titles.update({"project": self.tr("Project"), "guide": self.tr("Guide")})
+        self._titles = titles  # the main window's own pages and the areas' names (Window menu, tests, tools)
         self.pages = QStackedWidget(self)
         self._placeholders = {}
         for attr in self.PAGES.values():
@@ -2511,29 +2500,29 @@ class MainWindow(QMainWindow):
             (
                 lambda: rect_of(self.start_page, self),
                 self.tr(
-                    "Start here: pick what you have — raw frames, images, spectra, a list of minima — and you are taken to the right page."  # noqa: E501
+                    "Start here: pick what you have — raw frames, images, spectra, a list of minima — and its window opens."  # noqa: E501
                 ),
             ),
             (
                 item("plan"),
-                self.tr("Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits."),
+                self.tr("Planning: when your targets are visible, airmass, the Moon, predicted eclipses and transits."),
             ),
             (
                 item("observe"),
                 self.tr(
-                    "Observe: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong."  # noqa: E501
+                    "Observing: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong."  # noqa: E501
                 ),
             ),
             (
                 item("calibrate"),
                 self.tr(
-                    "Calibrate: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked."  # noqa: E501
+                    "Calibration: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked."  # noqa: E501
                 ),
             ),
             (
                 item("photometry"),
                 self.tr(
-                    "Photometry and Light curves & O-C: measure stars, get light curves, minima, O-C diagrams and periods."  # noqa: E501
+                    "Photometry, then Light curves and period and O−C: measure stars, get light curves, periods, minima and O−C diagrams."  # noqa: E501
                 ),
             ),
             (
@@ -2544,7 +2533,9 @@ class MainWindow(QMainWindow):
             ),
             (
                 item("orbits"),
-                self.tr("Orbits & models: radial-velocity orbits and eclipsing-binary or transit models."),
+                self.tr(
+                    "Models: eclipsing-binary and transit light-curve models, absolute dimensions and visual orbits."
+                ),
             ),
             (
                 item("remotesensing"),
@@ -2561,7 +2552,7 @@ class MainWindow(QMainWindow):
             (
                 lambda: rect_of(self.menuBar(), self),  # the guide has no block: Help → Training guide opens it
                 self.tr(
-                    "Guide: every page explained step by step, by category, with search. Help → Training guide opens it too."  # noqa: E501
+                    "Guide: every window explained step by step, by category, with search. Help → Training guide opens it; F1 in a window opens its own page."  # noqa: E501
                 ),
             ),
             (
@@ -2571,7 +2562,7 @@ class MainWindow(QMainWindow):
             (
                 lambda: rect_of(self.menuBar(), self),
                 self.tr(
-                    "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the training pages; each area's window has its own menus and toolbar."  # noqa: E501
+                    "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area's window has its own menus and toolbar."  # noqa: E501
                 ),
             ),
         ]

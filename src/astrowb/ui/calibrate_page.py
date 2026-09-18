@@ -55,7 +55,7 @@ class CalibratePage(Undoable, QWidget):
         self.frames, self._problems, self._raw_converted, self.calibrated = [], [], 0, []
         left, right = QWidget(self), QWidget(self)  # 1. the frames | 2.–4. what is done with them
         lay = QVBoxLayout(left)
-        lay.addWidget(_title(self.tr("Calibrate"), self))
+        lay.addWidget(_title(self.tr("Calibration"), self))
         self.guide = StepGuide(
             [
                 (
