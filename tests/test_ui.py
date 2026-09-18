@@ -1524,3 +1524,31 @@ def test_image_window_menus(window, qtbot, fits_file, tmp_path):
     qtbot.waitUntil(lambda: len(page.open_paths()) == 2, timeout=10000)
     window.stack_open_images(output=tmp_path / "stack.fits")
     qtbot.waitUntil(lambda: window.current_path is not None and window.current_path.name == "stack.fits", timeout=60000)
+
+
+def test_planning_and_observing_window_menus(window):
+    """interface I6c.9: Planning has Targets and Night, Observing has Devices, Telescope, Camera, Focus, Flats and
+    Sequence; every item is a page button's mirror and the toolbars have icons."""
+    for key, titles in (
+        ("plan", ["&Targets", "&Night"]),
+        ("observe", ["&Devices", "&Telescope", "&Camera", "F&ocus", "F&lats", "&Sequence"]),
+    ):
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        shown = [a.text() for a in win.menuBar().actions() if a.isVisible()]
+        assert shown[3:-2] == titles
+        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        assert tools and all(not a.icon().isNull() for a in tools)
+    page = window.observe_page
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
+    assert len(page.buttons) == 21
+    seen = []
+    page.buttons["park"].clicked.disconnect()
+    page.buttons["park"].clicked.connect(lambda: seen.append("park"))
+    next(a for a in menus["&Telescope"].actions() if a.text() == "Park").trigger()
+    assert seen == ["park"]
+    plan = window.plan_page
+    send = next(a for a in window.area_windows["plan"].toolbar.actions() if a.iconText() == "Send")
+    assert not send.isEnabled()  # as the page's button: nothing to send before a schedule
+    plan.send_button.setEnabled(True)
+    assert send.isEnabled()

@@ -144,7 +144,7 @@ class PlanPage(Undoable, QWidget):
                 "(followed through the night, works offline); Enter adds it"
             )
         )
-        add = QPushButton(self.tr("Add"), self)
+        self.add_button = add = QPushButton(self.tr("Add"), self)
         add.clicked.connect(self._add)
         add.setToolTip(
             self.tr(
@@ -152,7 +152,7 @@ class PlanPage(Undoable, QWidget):
                 "targets (stars, planets, the Moon) are drawn together in one chart"
             )
         )
-        ephem = QPushButton(self.tr("Add with ephemeris"), self)
+        self.ephemeris_button = ephem = QPushButton(self.tr("Add with ephemeris"), self)
         ephem.setToolTip(
             self.tr(
                 "An ephemeris is the timetable of a variable star or planet: the time of one minimum or transit (T0) "
@@ -191,12 +191,12 @@ class PlanPage(Undoable, QWidget):
         self.table.setToolTip(self.tr("Enter T0 and period to list minima / transits of the night."))
         lay.addWidget(self.table, 1)
         track_typing(self, self.table, self.tr("type a value"))
-        remove = QPushButton(self.tr("Remove selected"), self)
+        self.remove_button = remove = QPushButton(self.tr("Remove selected"), self)
         remove.clicked.connect(
             lambda: self.edit(self.tr("remove a target"), self.table.removeRow, self.table.currentRow())
         )
         remove.setToolTip(self.tr("Removes the selected target from the list"))
-        exposure = QPushButton(self.tr("Exposure time…"), self)
+        self.exposure_button = exposure = QPushButton(self.tr("Exposure time…"), self)
         exposure.setToolTip(self.tr("How long to expose for a wanted signal-to-noise, and when a star saturates"))
         exposure.clicked.connect(self.exposure_dialog)
         row = QHBoxLayout()

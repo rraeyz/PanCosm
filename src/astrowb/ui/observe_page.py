@@ -120,12 +120,13 @@ class ObservePage(Undoable, QWidget):
         )
         lay.addLayout(grid)
         row = QGridLayout()  # two rows: fits narrow windows in every language
-        connect = QPushButton(self.tr("Connect"), self)
+        self.buttons = {}  # the page's commands by name, for the window's menus and toolbar (interface I6c.9)
+        self.buttons["connect"] = connect = QPushButton(self.tr("Connect"), self)
         connect.clicked.connect(self.connect_to)
         connect.setToolTip(
             self.tr("Connects to the observatory program at this address and shows its status every two seconds")
         )
-        start = QPushButton(self.tr("Start observatory on this computer…"), self)
+        self.buttons["start_local"] = start = QPushButton(self.tr("Start observatory on this computer…"), self)
         start.clicked.connect(self._start_local)
         start.setToolTip(
             self.tr(
@@ -133,7 +134,7 @@ class ObservePage(Undoable, QWidget):
                 "this computer)"
             )
         )
-        wizard = QPushButton(self.tr("Set up observatory…"), self)
+        self.buttons["set_up"] = wizard = QPushButton(self.tr("Set up observatory…"), self)
         wizard.clicked.connect(self.set_up)
         wizard.setToolTip(self.tr("Site, devices (ASCOM Alpaca or INDI) and safety limits, step by step"))
         row.addWidget(connect, 0, 0)
@@ -150,17 +151,17 @@ class ObservePage(Undoable, QWidget):
         self.target = QLineEdit(self)
         self.target.setPlaceholderText(self.tr("RA Dec, e.g. 02:04:10 +46:41:16"))
         self.target.setToolTip(self.tr("Where to point the telescope (J2000)"))
-        slew = QPushButton(self.tr("Slew"), self)
+        self.buttons["slew"] = slew = QPushButton(self.tr("Slew"), self)
         slew.clicked.connect(self._slew)
         slew.setToolTip(
             self.tr("Moves the telescope to these coordinates; refused below the altitude limit or while unsafe")
         )
-        centre = QPushButton(self.tr("Centre"), self)
+        self.buttons["centre"] = centre = QPushButton(self.tr("Centre"), self)
         centre.setToolTip(
             self.tr("Slew, take a frame, plate-solve it, correct the mount and repeat until the target is centred")
         )
         centre.clicked.connect(self.centre)
-        polar = QPushButton(self.tr("Polar alignment"), self)
+        self.buttons["polar"] = polar = QPushButton(self.tr("Polar alignment"), self)
         polar.setToolTip(
             self.tr(
                 "Point near the pole (declination 60-80°), then press: three solved frames while the RA axis turns "
@@ -201,6 +202,7 @@ class ObservePage(Undoable, QWidget):
             b.setToolTip(tip)
             b.clicked.connect(lambda _=False, p=path: self._post(p))
             row.addWidget(b, i // 2, i % 2)
+            self.buttons[path.strip("/")] = b
         lay.addLayout(row)
         lay.addLayout(self._device_controls())
         lay.addWidget(QLabel(self.tr("Log"), self))
@@ -268,7 +270,7 @@ class ObservePage(Undoable, QWidget):
         self.plan_list = QListWidget(self)
         self.plan_list.setMaximumHeight(110)
         pl.addWidget(self.plan_list)
-        clear = QPushButton(self.tr("Clear the night plan"), self)
+        self.buttons["clear_plan"] = clear = QPushButton(self.tr("Clear the night plan"), self)
         clear.clicked.connect(lambda: self.load_schedule([]))
         clear.setToolTip(self.tr("Forgets the night plan sent from the Planning window; the exposure rows stay"))
         pl.addWidget(clear)
@@ -299,22 +301,22 @@ class ObservePage(Undoable, QWidget):
         self.exposures.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         rl.addWidget(self.exposures, 1)
         row = QHBoxLayout()
-        add = QPushButton(self.tr("Add exposure row"), self)
+        self.buttons["add_row"] = add = QPushButton(self.tr("Add exposure row"), self)
         add.clicked.connect(lambda: self.edit(self.tr("add an exposure row"), self.add_exposure_row))
         add.setToolTip(
             self.tr("A new row: type, filter, exposure time, count, binning (gain, offset and the rest may stay empty)")
         )
-        remove = QPushButton(self.tr("Remove row"), self)
+        self.buttons["remove_row"] = remove = QPushButton(self.tr("Remove row"), self)
         remove.clicked.connect(
             lambda: self.edit(self.tr("remove an exposure row"), self.exposures.removeRow, self.exposures.currentRow())
         )
         remove.setToolTip(self.tr("Removes the selected exposure row"))
-        self.start_button = QPushButton(self.tr("Start sequence"), self)
+        self.buttons["start"] = self.start_button = QPushButton(self.tr("Start sequence"), self)
         self.start_button.clicked.connect(self._start_sequence)
         self.start_button.setToolTip(
             self.tr("Sends the sequence to the observatory, which runs it on its own; Abort stops it")
         )
-        flats = QPushButton(self.tr("Sky flats"), self)
+        self.buttons["sky_flats"] = flats = QPushButton(self.tr("Sky flats"), self)
         flats.setToolTip(
             self.tr(
                 "Twilight flats with the filter and count of the selected row; exposure times follow the "
@@ -322,7 +324,7 @@ class ObservePage(Undoable, QWidget):
             )
         )
         flats.clicked.connect(self._sky_flats)
-        panel = QPushButton(self.tr("Panel flats"), self)
+        self.buttons["panel_flats"] = panel = QPushButton(self.tr("Panel flats"), self)
         panel.setToolTip(
             self.tr(
                 "Flats on the flat panel (cover closed, panel lit, exposure adjusted to the target level), "
@@ -378,8 +380,8 @@ class ObservePage(Undoable, QWidget):
         self.filter_name.setToolTip(self.tr("Filter of the filter wheel by its name"))
         self._shown_preview = None
 
-        def button(text, slot, tip):
-            b = QPushButton(text, self)
+        def button(text, slot, tip, key):
+            b = self.buttons[key] = QPushButton(text, self)
             b.setToolTip(tip)
             b.clicked.connect(slot)
             return b
@@ -392,17 +394,21 @@ class ObservePage(Undoable, QWidget):
                     self.tr("Take preview"),
                     self.take_preview,
                     self.tr("One frame with this exposure, shown in the Images window (to check pointing and focus)"),
+                    "preview",
                 ),
                 None,
             ),
             (
                 self.tr("Cooler"),
                 self.cooler_temp,
-                button(self.tr("Cool to"), self._cool, self.tr("Switches the cooler on and sets this temperature")),
+                button(
+                    self.tr("Cool to"), self._cool, self.tr("Switches the cooler on and sets this temperature"), "cool"
+                ),
                 button(
                     self.tr("Off"),
                     lambda: self._post("/cooler", {"on": False}),
                     self.tr("Switches the cooler off (do it slowly at the end of the night)"),
+                    "cooler_off",
                 ),
             ),
             (
@@ -412,6 +418,7 @@ class ObservePage(Undoable, QWidget):
                     self.tr("Move"),
                     lambda: self._post("/focuser", {"position": self.focus_pos.value()}),
                     self.tr("Moves the focuser to this position"),
+                    "focuser",
                 ),
                 None,
             ),
@@ -422,6 +429,7 @@ class ObservePage(Undoable, QWidget):
                     self.tr("Change"),
                     lambda: self._post("/filter", {"name": self.filter_name.currentText()}),
                     self.tr("Turns the filter wheel to this filter"),
+                    "filter",
                 ),
                 None,
             ),

@@ -1,5 +1,5 @@
 # Planificación
-La página **Planificar** indica cuándo pueden observarse sus objetivos esta noche y qué eclipses o tránsitos ocurren durante la noche. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús.
+La página **Planificar** indica cuándo pueden observarse sus objetivos esta noche y qué eclipses o tránsitos ocurren durante la noche. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús: **Objetos** (añadir un objeto, añadirlo con sus efemérides, quitar el seleccionado) y **Noche** (planificar la noche, tiempo de exposición, crear un programa, enviarlo a la ventana Observación). Los iconos bajo los menús hacen lo mismo; **Ver → Texto de la barra** muestra sus nombres.
 
 ## Su lugar
 Introduzca la **latitud** (grados, norte positivo), la **longitud** (grados, este positivo) y la **altura** (metros) del observatorio. Se recuerdan. También se usan para la corrección baricéntrica de las velocidades radiales y para los crepúsculos.
