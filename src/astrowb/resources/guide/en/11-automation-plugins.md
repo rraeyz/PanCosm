@@ -1,8 +1,10 @@
 # Automation and plugins
-An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps. It opens in a window of its own (its block on the Start page or the Window menu), with its own menus: **File → New automation** and **Save the automation as…**, **Steps** (add, remove, move up or down) and **Run** (run the automation, send its sequence to the Observing window, process after the sequence).
+An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps. The Automation window opens from its block on the Start page or the Window menu, with its own menus: **File → New automation** and **Save the automation as…**, **Steps** (add, remove, move up or down) and **Run** (run the automation, send its sequence to the Observing window, process after the sequence).
+
+![The Automation window](images/en/window-automation.jpg)
 
 ## Ready templates
-The **Automation** page lists ready templates (marked "template") and your own automations:
+The **Automation** window lists ready templates (marked "template") and your own automations:
 
 - **Eclipsing binary night** — a dusk-to-dawn sequence, then calibration, comparison stars, light curve, time of minimum (Kwee–van Woerden) and O-C.
 - **Exoplanet transit** — the same, with the trapezoid fit for the mid-transit time.
@@ -18,7 +20,7 @@ Select one to see its description and its steps.
 3. When it is done, the results of the last step (e.g. the time of minimum and O-C) are shown below. If a step fails, the automation stops there and the error is shown.
 
 ## The observing part
-Templates with an observing sequence have **To the Observe page**: it fills in the target, start and end (e.g. dusk and dawn) and the exposure rows. Add the coordinates, check the exposure times and start it there. Tick **Process after the sequence** before sending it: when the sequence ends (also when the weather stops it early, if frames were taken), the automation runs by itself on the sequence's folder. With a remote observatory the frames are first copied to this computer, then processed.
+Templates with an observing sequence have **To the Observing window**: it fills in the target, start and end (e.g. dusk and dawn) and the exposure rows. Add the coordinates, check the exposure times and start it there. Tick **Process after the sequence** before sending it: when the sequence ends (also when the weather stops it early, if frames were taken), the automation runs by itself on the sequence's folder. With a remote observatory the frames are first copied to this computer, then processed.
 
 ## Building your own
 1. **New** starts an empty automation (or start from a template and change it).

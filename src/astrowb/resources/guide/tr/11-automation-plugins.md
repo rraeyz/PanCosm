@@ -1,8 +1,10 @@
 # Otomasyon ve eklentiler
-**Otomasyon** adımları kendi iş akışınızda zincirler — "klasördeki kareleri kalibre et → ışık eğrisini ölç → minimum zamanını bul → O-C" — ve tek seferde çalıştırır. **Eklentiler** kendi adımlarınızı ekler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır: **Dosya → Yeni otomasyon** ve **Otomasyonu farklı kaydet…**, **Adımlar** (ekle, kaldır, yukarı ya da aşağı taşı) ve **Çalıştır** (otomasyonu çalıştır, çekim sırasını Gözlem penceresine gönder, sekanstan sonra işle).
+**Otomasyon** adımları kendi iş akışınızda zincirler — "klasördeki kareleri kalibre et → ışık eğrisini ölç → minimum zamanını bul → O-C" — ve tek seferde çalıştırır. **Eklentiler** kendi adımlarınızı ekler. Otomasyon penceresi Başlangıç sayfasındaki bloğundan ya da Pencere menüsünden açılır; kendi menüleri vardır: **Dosya → Yeni otomasyon** ve **Otomasyonu farklı kaydet…**, **Adımlar** (ekle, kaldır, yukarı ya da aşağı taşı) ve **Çalıştır** (otomasyonu çalıştır, çekim sırasını Gözlem penceresine gönder, sekanstan sonra işle).
+
+![Otomasyon penceresi](images/tr/window-automation.jpg)
 
 ## Hazır şablonlar
-**Otomasyon** sayfası hazır şablonları ("şablon" diye işaretli) ve kendi otomasyonlarınızı listeler:
+**Otomasyon** penceresi hazır şablonları ("şablon" diye işaretli) ve kendi otomasyonlarınızı listeler:
 
 - **Örten çift gecesi** — akşam karanlığından şafağa bir sekans, sonra kalibrasyon, karşılaştırma yıldızları, ışık eğrisi, minimum zamanı (Kwee–van Woerden) ve O-C.
 - **Ötegezegen geçişi** — aynısı, geçiş ortası için yamuk fitiyle.
@@ -18,7 +20,7 @@ Açıklamasını ve adımlarını görmek için birini seçin.
 3. Bitince son adımın sonuçları (ör. minimum zamanı ve O-C) altta gösterilir. Bir adım başarısız olursa otomasyon orada durur ve hata gösterilir.
 
 ## Gözlem kısmı
-Gözlem sekansı olan şablonlarda **Gözlem sayfasına** vardır: hedefi, başlangıç ve bitişi (ör. dusk ve dawn) ve poz satırlarını doldurur. Koordinatları ekleyin, poz sürelerini kontrol edin ve oradan başlatın. Göndermeden önce **Sekanstan sonra işle**'ı işaretlerseniz, sekans bitince (hava yüzünden erken dursa da, kare çekildiyse) otomasyon sekansın klasöründe kendiliğinden çalışır. Gözlemevi uzaktaysa kareler önce bu bilgisayara kopyalanır, sonra işlenir.
+Gözlem sekansı olan şablonlarda **Gözlem penceresine** vardır: hedefi, başlangıç ve bitişi (ör. dusk ve dawn) ve poz satırlarını doldurur. Koordinatları ekleyin, poz sürelerini kontrol edin ve oradan başlatın. Göndermeden önce **Sekanstan sonra işle**'ı işaretlerseniz, sekans bitince (hava yüzünden erken dursa da, kare çekildiyse) otomasyon sekansın klasöründe kendiliğinden çalışır. Gözlemevi uzaktaysa kareler önce bu bilgisayara kopyalanır, sonra işlenir.
 
 ## Kendi otomasyonunuzu kurmak
 1. **Yeni** boş bir otomasyon başlatır (ya da bir şablondan başlayıp değiştirin).

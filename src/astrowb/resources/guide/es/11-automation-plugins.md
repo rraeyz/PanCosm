@@ -1,8 +1,10 @@
 # Automatización y complementos
-Una **automatización** encadena pasos en su propio flujo de trabajo — «calibrar las tomas de una carpeta → medir la curva de luz → determinar el mínimo → O-C» — y lo ejecuta de una vez. Los **complementos** (plugins) añaden sus propios pasos. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús: **Archivo → Nueva automatización** y **Guardar la automatización como…**, **Pasos** (añadir, quitar, subir o bajar) y **Ejecutar** (ejecutar la automatización, enviar su secuencia a la ventana Observación, procesar tras la secuencia).
+Una **automatización** encadena pasos en su propio flujo de trabajo — «calibrar las tomas de una carpeta → medir la curva de luz → determinar el mínimo → O-C» — y lo ejecuta de una vez. Los **complementos** (plugins) añaden sus propios pasos. La ventana Automatización se abre desde su bloque en la página de inicio o el menú Ventana, con sus propios menús: **Archivo → Nueva automatización** y **Guardar la automatización como…**, **Pasos** (añadir, quitar, subir o bajar) y **Ejecutar** (ejecutar la automatización, enviar su secuencia a la ventana Observación, procesar tras la secuencia).
+
+![La ventana Automatización](images/es/window-automation.jpg)
 
 ## Plantillas listas
-La página **Automatización** lista las plantillas listas (marcadas con «plantilla») y sus propias automatizaciones:
+La ventana **Automatización** lista las plantillas listas (marcadas con «plantilla») y sus propias automatizaciones:
 
 - **Noche de una binaria eclipsante** — una secuencia del anochecer al amanecer y después calibración, estrellas de comparación, curva de luz, instante del mínimo (Kwee–van Woerden) y O-C.
 - **Tránsito de exoplaneta** — lo mismo con el ajuste trapezoidal para el centro del tránsito.
@@ -18,7 +20,7 @@ Seleccione una para ver su descripción y sus pasos.
 3. Al terminar, se muestran debajo los resultados del último paso (p. ej. el instante del mínimo y O-C). Si un paso falla, la automatización se detiene ahí y se muestra el error.
 
 ## La parte de observación
-Las plantillas con una secuencia de observación tienen **A la página Observar**: rellena el objetivo, el inicio y el fin (p. ej. dusk y dawn) y las filas de exposición. Añada las coordenadas, revise los tiempos de exposición e iníciela allí. Marque **Procesar tras la secuencia** antes de enviarla: cuando la secuencia termina (también si el tiempo la detiene antes, siempre que se hayan tomado imágenes), la automatización se ejecuta sola sobre la carpeta de la secuencia. Con un observatorio remoto, las tomas se copian primero a este ordenador y luego se procesan.
+Las plantillas con una secuencia de observación tienen **A la ventana Observación**: rellena el objetivo, el inicio y el fin (p. ej. dusk y dawn) y las filas de exposición. Añada las coordenadas, revise los tiempos de exposición e iníciela allí. Marque **Procesar tras la secuencia** antes de enviarla: cuando la secuencia termina (también si el tiempo la detiene antes, siempre que se hayan tomado imágenes), la automatización se ejecuta sola sobre la carpeta de la secuencia. Con un observatorio remoto, las tomas se copian primero a este ordenador y luego se procesan.
 
 ## Crear la suya
 1. **Nuevo** empieza una automatización vacía (o parta de una plantilla y cámbiela).

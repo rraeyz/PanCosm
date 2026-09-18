@@ -16,7 +16,7 @@ Das Fehlerfenster zeigt den Fehler selbst; **Details anzeigen…** enthält den 
 - Wählen Sie andere Vergleichssterne: Einer davon könnte veränderlich oder gesättigt sein.
 
 ## Die Zeiten sehen falsch aus
-Prüfen Sie `DATE-OBS` (es muss der UTC-Beginn der Belichtung sein) und `EXPTIME` im Header. Für BJD müssen Zielkoordinaten und Standort bekannt sein (im Header oder in den Feldern der Seite).
+Prüfen Sie `DATE-OBS` (es muss der UTC-Beginn der Belichtung sein) und `EXPTIME` im Header. Für BJD müssen Zielkoordinaten und Standort bekannt sein (im Header oder in den Feldern des Fensters).
 
 ## Die astrometrische Lösung tut nichts
 Installieren Sie ASTAP mit einer Sterndatenbank (oder astrometry.net mit Indexdateien) und versuchen Sie es erneut. Ungefähre Koordinaten im Header machen es viel schneller. Sehr kleine Felder brauchen eine tiefere Datenbank.

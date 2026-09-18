@@ -1,5 +1,7 @@
-# Planen
-Die Seite **Planen** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und welche Bedeckungen oder Transits in die Nacht fallen. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder das Menü Fenster) mit eigenen Menüs: **Ziele** (Ziel hinzufügen, mit Ephemeride hinzufügen, das gewählte entfernen) und **Nacht** (die Nacht planen, Belichtungszeit, Zeitplan erstellen, an das Fenster Beobachten senden). Die Symbole unter den Menüs tun dasselbe; **Ansicht → Werkzeugleistentext** zeigt ihre Namen.
+# Planung
+Das Fenster **Planung** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und welche Bedeckungen oder Transits in die Nacht fallen. Es öffnet sich über seinen Block auf der Startseite oder das Menü Fenster und hat eigene Menüs: **Ziele** (Ziel hinzufügen, mit Ephemeride hinzufügen, das gewählte entfernen) und **Nacht** (die Nacht planen, Belichtungszeit, Zeitplan erstellen, an das Fenster Beobachten senden). Die Symbole unter den Menüs tun dasselbe; **Ansicht → Werkzeugleistentext** zeigt ihre Namen.
+
+![Das Fenster Planung](images/de/window-plan.jpg)
 
 ## Ihr Standort
 Geben Sie **Breite** (Grad, Nord positiv), **Länge** (Grad, Ost positiv) und **Höhe** (Meter) der Sternwarte ein. Die Werte werden gespeichert. Sie dienen auch der baryzentrischen Korrektur von Radialgeschwindigkeiten und den Dämmerungszeiten.
@@ -39,8 +41,8 @@ Der Plan listet dann jedes Ereignis der Nacht mit Beginn, Mitte und Ende in UTC 
 Die Zeile unter dem Diagramm nennt Beginn und Ende der astronomischen Nacht in UTC und in Ortszeit und die Zahl der Ereignisse; die Ereignistabelle gibt die Mitte jedes Ereignisses auch in Ortszeit an. In Polnähe gibt es im Sommer womöglich **keine astronomische Nacht**.
 
 ## Vom Plan zur Beobachtung
-**Zeitplan erstellen** (nach *Die Nacht planen*) macht aus der Nacht ein Programm für mehrere Ziele: zuerst jede beobachtbare Bedeckung oder jeder Transit mit 30 Minuten Grundlinie davor und danach (überschneiden sich zwei, gewinnt das Ziel, das in Ihrer Liste weiter oben steht); der Rest der dunklen Zeit in Blöcken von einer Stunde, jeder für das Ziel, das am höchsten über Ihrer Höhengrenze bleibt. **An die Seite Beobachten senden** übergibt jeden Block mit Beginn und Ende an die Sequenz; die dort eingestellten Belichtungszeilen gelten für jedes Ziel.
+**Zeitplan erstellen** (nach *Die Nacht planen*) macht aus der Nacht ein Programm für mehrere Ziele: zuerst jede beobachtbare Bedeckung oder jeder Transit mit 30 Minuten Grundlinie davor und danach (überschneiden sich zwei, gewinnt das Ziel, das in Ihrer Liste weiter oben steht); der Rest der dunklen Zeit in Blöcken von einer Stunde, jeder für das Ziel, das am höchsten über Ihrer Höhengrenze bleibt. **An das Fenster Beobachten senden** übergibt jeden Block mit Beginn und Ende an die Sequenz; die dort eingestellten Belichtungszeilen gelten für jedes Ziel.
 
-Verwenden Sie die Zeiten des Plans als **Start** und **Ende** einer Sequenz auf der Seite Beobachten (oder tippen Sie `dusk` und `dawn`), oder beginnen Sie mit einer Automatisierungsvorlage wie *Nacht eines Bedeckungsveränderlichen* oder *Exoplaneten-Transit*.
+Verwenden Sie die Zeiten des Plans als **Start** und **Ende** einer Sequenz im Fenster Beobachten (oder tippen Sie `dusk` und `dawn`), oder beginnen Sie mit einer Automatisierungsvorlage wie *Nacht eines Bedeckungsveränderlichen* oder *Exoplaneten-Transit*.
 
 **Belichtungszeit…** berechnet aus der CCD-Gleichung, wie lange für ein gewünschtes Signal-Rausch-Verhältnis zu belichten ist: Helligkeit des Sterns, Nullpunkt Ihres Systems (die Helligkeit, die ein Elektron pro Sekunde liefert; einmal an einem Stern bekannter Helligkeit messen), Himmel, Ausleserauschen, Dunkelstrom und Blende eingeben. Es sagt auch, nach wie vielen Sekunden das hellste Pixel des Sterns sättigt, und schlägt mehrere kürzere Bilder vor, wenn die Belichtung zu lang wäre. Die Werte werden gemerkt.

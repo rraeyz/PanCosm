@@ -1,5 +1,7 @@
 # Planning
-The **Plan** page tells you when your targets can be observed tonight and which eclipses or transits happen during the night. It opens in a window of its own (its block on the Start page or the Window menu), with its own menus: **Targets** (add a target, add it with its ephemeris, remove the selected one) and **Night** (plan the night, exposure time, make a schedule, send it to the Observing window). The icons under the menus do the same; **View → Toolbar text** shows their names.
+The **Planning** window tells you when your targets can be observed tonight and which eclipses or transits happen during the night. It opens from its block on the Start page or the Window menu, with its own menus: **Targets** (add a target, add it with its ephemeris, remove the selected one) and **Night** (plan the night, exposure time, make a schedule, send it to the Observing window). The icons under the menus do the same; **View → Toolbar text** shows their names.
+
+![The Planning window](images/en/window-plan.jpg)
 
 ## Your site
 Enter the **latitude** (degrees, north positive), **longitude** (degrees, east positive) and **height** (metres) of the observatory. These are remembered. They are also used for the barycentric correction of radial velocities and for twilight times.
@@ -39,8 +41,8 @@ The plan then lists every event of the night with its start, middle and end in U
 The line under the plot gives the start and end of the astronomical night in UTC and in local time, and the number of events; the events table also gives each middle in local time. Near the poles in summer there may be **no astronomical night**.
 
 ## From the plan to observing
-**Make a schedule** (after *Plan the night*) turns the night into a programme for several targets: every observable eclipse or transit first, with 30 minutes of baseline before and after (when two overlap, the target higher in your list wins); the rest of the dark time in one-hour blocks, each going to the target that stays highest above your altitude limit. **Send to the Observe page** gives every block to the sequence, with its start and end; the exposure rows you set there are used for every target.
+**Make a schedule** (after *Plan the night*) turns the night into a programme for several targets: every observable eclipse or transit first, with 30 minutes of baseline before and after (when two overlap, the target higher in your list wins); the rest of the dark time in one-hour blocks, each going to the target that stays highest above your altitude limit. **Send to the Observing window** gives every block to the sequence, with its start and end; the exposure rows you set there are used for every target.
 
-Use the times of the plan as **Start** and **End** of a sequence on the Observe page (or type `dusk` and `dawn`), or start from an automation template such as *Eclipsing binary night* or *Exoplanet transit*.
+Use the times of the plan as **Start** and **End** of a sequence in the Observing window (or type `dusk` and `dawn`), or start from an automation template such as *Eclipsing binary night* or *Exoplanet transit*.
 
 **Exposure time…** works out how long to expose for a wanted signal-to-noise from the CCD equation: give the star's magnitude, your system's zero point (the magnitude that gives one electron per second; measure it once on a star of known magnitude), the sky, read noise, dark current and aperture. It also says after how many seconds the star's brightest pixel saturates, and suggests several shorter frames when the exposure would be too long. The values are remembered.

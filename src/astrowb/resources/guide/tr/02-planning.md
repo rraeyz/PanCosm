@@ -1,5 +1,7 @@
 # Planlama
-**Plan** sayfası hedeflerinizin bu gece ne zaman gözlenebileceğini ve gece boyunca hangi örtme ya da geçişlerin olacağını söyler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır: **Hedefler** (hedef ekle, efemerisiyle ekle, seçileni kaldır) ve **Gece** (geceyi planla, poz süresi, program yap, Gözlem penceresine gönder). Menülerin altındaki simgeler aynı işi yapar; **Görünüm → Araç çubuğu yazıları** adlarını gösterir.
+**Planlama** penceresi hedeflerinizin bu gece ne zaman gözlenebileceğini ve gece boyunca hangi örtme ya da geçişlerin olacağını söyler. Başlangıç sayfasındaki bloğundan ya da Pencere menüsünden açılır; kendi menüleri vardır: **Hedefler** (hedef ekle, efemerisiyle ekle, seçileni kaldır) ve **Gece** (geceyi planla, poz süresi, program yap, Gözlem penceresine gönder). Menülerin altındaki simgeler aynı işi yapar; **Görünüm → Araç çubuğu yazıları** adlarını gösterir.
+
+![Planlama penceresi](images/tr/window-plan.jpg)
 
 ## Gözlem yeriniz
 Gözlemevinin **enlemini** (derece, kuzey artı), **boylamını** (derece, doğu artı) ve **yüksekliğini** (metre) girin. Bunlar hatırlanır. Dikine hızların barisentrik düzeltmesinde ve alacakaranlık zamanlarında da kullanılır.
@@ -39,8 +41,8 @@ Plan, gecenin her olayını UTC olarak başlangıç, orta ve bitiş zamanıyla, 
 Grafiğin altındaki satır astronomik gecenin başlangıç ve bitişini UTC ve yerel saat olarak ve olay sayısını verir; olay tablosu her olayın ortasını yerel saatle de verir. Yazın kutuplara yakın yerlerde **astronomik gece olmayabilir**.
 
 ## Plandan gözleme
-**Program yap** (*Geceyi planla*'dan sonra) geceyi birden çok hedef için bir programa çevirir: önce gözlenebilir her örtme ya da geçiş, öncesinde ve sonrasında 30 dakikalık taban çizgisiyle (ikisi çakışırsa listenizde üstte olan hedef kazanır); karanlık zamanın geri kalanı birer saatlik bloklarla, her blokta yükseklik sınırınızın en üstünde kalan hedefe. **Gözlem sayfasına gönder** her bloğu başlangıç ve bitişiyle sekansa verir; orada ayarladığınız poz satırları her hedef için kullanılır.
+**Program yap** (*Geceyi planla*'dan sonra) geceyi birden çok hedef için bir programa çevirir: önce gözlenebilir her örtme ya da geçiş, öncesinde ve sonrasında 30 dakikalık taban çizgisiyle (ikisi çakışırsa listenizde üstte olan hedef kazanır); karanlık zamanın geri kalanı birer saatlik bloklarla, her blokta yükseklik sınırınızın en üstünde kalan hedefe. **Gözlem penceresine gönder** her bloğu başlangıç ve bitişiyle sekansa verir; orada ayarladığınız poz satırları her hedef için kullanılır.
 
-Plandaki zamanları Gözlem sayfasında bir sekansın **Başlangıç** ve **Bitiş**'i olarak kullanın (ya da `dusk` ve `dawn` yazın) veya *Örten çift gecesi* ya da *Ötegezegen geçişi* gibi bir otomasyon şablonundan başlayın.
+Plandaki zamanları Gözlem penceresinde bir sekansın **Başlangıç** ve **Bitiş**'i olarak kullanın (ya da `dusk` ve `dawn` yazın) veya *Örten çift gecesi* ya da *Ötegezegen geçişi* gibi bir otomasyon şablonundan başlayın.
 
 **Poz süresi…** istenen sinyal/gürültü için ne kadar poz verileceğini CCD denkleminden hesaplar: yıldızın kadirini, sisteminizin sıfır noktasını (saniyede bir elektron veren kadir; parlaklığı bilinen bir yıldızda bir kez ölçün), gökyüzünü, okuma gürültüsünü, karanlık akımı ve açıklığı girin. Yıldızın en parlak pikselinin kaç saniyede doyuma ulaşacağını da söyler, poz fazla uzun olacaksa birkaç kısa kare önerir. Değerler hatırlanır.

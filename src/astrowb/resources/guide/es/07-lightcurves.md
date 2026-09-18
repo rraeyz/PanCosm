@@ -1,8 +1,12 @@
-# Curvas de luz y O-C
+# Curvas de luz y O−C
 Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de períodos**, **Análisis de frecuencias** y **Búsqueda de variables** (su bloque en la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada. **O−C** es una ventana propia (su bloque o el menú Ventana): los tiempos de mínimo medidos en Fotometría y los máximos del análisis de frecuencias llegan allí solos. Curvas de luz tiene los menús **Datos** (borrar puntos, valores atípicos, agrupar, flujo ↔ magnitud, deshacer), **Buscar** (período, frecuencias, estrellas variables) y **Enviar**, y **Archivo → Curva de luz** (descargar, guardar); O−C tiene **Efemérides** (buscar, lineal, cuadrática, ajustar) y **Modelos** (tercer cuerpo, movimiento apsidal, MCMC).
 
+![La ventana Curvas de luz y período](images/es/window-timeseries.jpg)
+
+![La ventana O−C](images/es/window-oc.jpg)
+
 ## Búsqueda de períodos
-La curva de luz medida en la página Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
+La curva de luz medida en la ventana Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
 
 - **Lomb–Scargle** — ajusta una onda sinusoidal en cada período de prueba y elige la que explica la mayor parte de la variación. Para variaciones sinusoidales: estrellas pulsantes, rotación y manchas.
 - **BLS** (mínimos cuadrados con caja) — ajusta una caída corta en forma de caja en cada período de prueba. Para tránsitos de planetas y eclipses de tipo Algol.
@@ -17,7 +21,7 @@ Cómo funciona cada método, con sus fórmulas y referencias: **Matemáticas de 
 
 Fije el **Período más corto** y el **Período más largo** (el más largo es, por defecto, la mitad del intervalo de tiempo) y pulse **Buscar**. Se muestran el periodograma y la curva de luz plegada con el mejor período. Revise la curva plegada: la mitad o el doble del período es un alias frecuente, sobre todo en binarias eclipsantes con mínimos iguales. Una línea ⚠ bajo el resultado indica cuándo no es fiable: la curva de luz es más corta que dos ciclos de los períodos buscados (observe más tiempo), el mejor período es más largo que la mitad del intervalo de tiempo, o el periodograma es máximo en el borde del intervalo (amplíelo).
 
-**Intervalos de fase** dibuja la curva media sobre los puntos plegados. **Editar la curva de luz:** *Quitar valores atípicos (σ)*, *Agrupar en tiempo (min)*, *Borrar puntos con un clic* (luego haga clic en un punto de la gráfica), *Flujo ↔ magnitud* y *Deshacer ediciones*. La búsqueda de periodo y el análisis de frecuencias usan la curva editada. *Quitar valores atípicos* compara cada punto con sus vecinos en el tiempo (y, una vez hallado un periodo, en la curva plegada), así que los eclipses y las pulsaciones se conservan. **Errores:** si la curva de luz los tiene (de la página Fotometría, de las descargas de TESS / Kepler / ZTF / AAVSO o de una tercera columna del CSV), se dibujan como barras de error, siguen cada edición (puntos atípicos, agrupado —el error de cada media—, puntos borrados, flujo ↔ magnitud) y ponderan las búsquedas Lomb–Scargle y BLS con 1/σ²; **Guardar** los escribe como tercera columna.
+**Intervalos de fase** dibuja la curva media sobre los puntos plegados. **Editar la curva de luz:** *Quitar valores atípicos (σ)*, *Agrupar en tiempo (min)*, *Borrar puntos con un clic* (luego haga clic en un punto de la gráfica), *Flujo ↔ magnitud* y *Deshacer ediciones*. La búsqueda de periodo y el análisis de frecuencias usan la curva editada. *Quitar valores atípicos* compara cada punto con sus vecinos en el tiempo (y, una vez hallado un periodo, en la curva plegada), así que los eclipses y las pulsaciones se conservan. **Errores:** si la curva de luz los tiene (de la ventana Fotometría, de las descargas de TESS / Kepler / ZTF / AAVSO o de una tercera columna del CSV), se dibujan como barras de error, siguen cada edición (puntos atípicos, agrupado —el error de cada media—, puntos borrados, flujo ↔ magnitud) y ponderan las búsquedas Lomb–Scargle y BLS con 1/σ²; **Guardar** los escribe como tercera columna.
 
 ## Análisis de frecuencias
 Para estrellas pulsantes con varios modos (δ Scuti, γ Dor, β Cep), como Period04. Indique la **frecuencia máxima** (ciclos por día) y pulse **Analizar frecuencias**:

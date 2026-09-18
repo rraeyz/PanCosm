@@ -16,7 +16,7 @@ The error window shows the error itself; **Show Details…** has the full report
 - Choose other comparison stars: one of them may be variable or saturated.
 
 ## Times look wrong
-Check `DATE-OBS` (it must be the UTC start of the exposure) and `EXPTIME` in the header. For BJD the target coordinates and the site must be known (header or the fields on the page).
+Check `DATE-OBS` (it must be the UTC start of the exposure) and `EXPTIME` in the header. For BJD the target coordinates and the site must be known (header or the fields in the window).
 
 ## Plate solving does nothing
 Install ASTAP with a star database (or astrometry.net with index files) and try again. Approximate coordinates in the header make it much faster. Very small fields need a deeper database.

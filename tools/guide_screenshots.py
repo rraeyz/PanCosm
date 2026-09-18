@@ -1,8 +1,10 @@
-"""Screenshots for the Guide's first-night exercise, made from the practice data (run again after UI changes).
+"""Screenshots for the Guide, made from the practice data (run again after UI changes).
 
     QT_QPA_PLATFORM=offscreen python tools/guide_screenshots.py [language ...]
-writes src/astrowb/resources/guide/images/<language>/*.png (dark look, 1000 px wide), every interface
-language by default, so each Guide shows the interface in its own language.
+writes src/astrowb/resources/guide/images/<language>/: the first-night exercise (first-night-*.png) and one
+picture of every area window as it opens (window-<area>.jpg), dark look, 1000 px wide, every interface language
+by default, so each Guide shows the interface in its own language. Each picture is of the area's own window
+(interface I7.3), not of the main window.
 """
 
 import sys
@@ -26,10 +28,13 @@ def wait(app, condition, timeout=300):
 
 
 def shot(app, win, out):
+    win.resize(1366, 768)
+    win.show()
     for _ in range(20):
         app.processEvents()
         time.sleep(0.02)
-    win.grab().scaledToWidth(1000, Qt.SmoothTransformation).save(str(out), "PNG", 80)
+    picture = win.grab().scaledToWidth(1000, Qt.SmoothTransformation)
+    picture.save(str(out), "JPEG" if out.suffix == ".jpg" else "PNG", 80)
     print("wrote", out)
 
 
@@ -53,7 +58,7 @@ def screenshots(app, lang, work, truth):
         page.output.setText(str(work / f"cal-{lang}"))
         win.scan_raw(str(work / "raw"))
         wait(app, lambda: page.table.rowCount() > 0)
-        shot(app, win, out / "first-night-calibrate.png")
+        shot(app, win.area_windows["calibrate"], out / "first-night-calibrate.png")
         page._run()
         wait(app, lambda: bool(page.calibrated))
         win.show_workspace("photometry")
@@ -69,14 +74,23 @@ def screenshots(app, lang, work, truth):
         before = ph.result.text()
         ph._minimum()
         wait(app, lambda: ph.result.text() != before)
-        shot(app, win, out / "first-night-photometry.png")
+        shot(app, win.area_windows["photometry"], out / "first-night-photometry.png")
         win.show_workspace("automation")
         auto = win.automation_page
         auto.list.setCurrentRow(next(i for i, a in enumerate(auto.found) if Path(a["path"]).name.startswith("10-")))
         auto.edits["folder"].setText(str(work / "raw"))
         auto.edits["output_dir"].setText(str(work / f"cal2-{lang}"))
         auto.edits["target_xy"].setText(f"{truth['target_xy'][0]} {truth['target_xy'][1]}")
-        shot(app, win, out / "first-night-automation.png")
+        shot(app, win.area_windows["automation"], out / "first-night-automation.png")
+        win.open_fits(Path(page.calibrated[0]))  # the Images window with a calibrated frame of the night
+        win.plan_page.add_target({"name": "Practice star", "ra": 31.04167, "dec": 46.68778, "source": "RA Dec"})
+        computing = win.plan_page.status.text()
+        win.plan_page._plan()
+        wait(app, lambda: win.plan_page.status.text() not in (computing, win.plan_page.tr("Computing…")), 120)
+        for key in win.WINDOWED:  # every window as it opens, with the night's data where the exercise made some
+            win.show_workspace(key)
+            shot(app, win.area_windows[key], out / f"window-{key}.jpg")
+            win.area_windows[key].hide()
     finally:
         win.engine.shutdown()
         win.close()

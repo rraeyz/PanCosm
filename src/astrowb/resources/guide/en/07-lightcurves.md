@@ -1,8 +1,12 @@
-# Light curves and O-C
+# Light curves and O−C
 Two windows. **Light curves and period** has the tabs **Period search**, **Frequency analysis** and **Variable star search** (its block on the Start page or the Window menu); Edit → Undo / Redo there act on the tab shown. **O−C** is a window of its own (its block or the Window menu): times of minimum timed in Photometry and the maxima of the frequency analysis arrive there by themselves. Light curves has the menus **Data** (delete points, outliers, binning, flux ↔ magnitude, undo), **Search** (period, frequencies, variable stars) and **Send**, and **File → Light curve** (download, save); O−C has **Ephemeris** (look up, linear, quadratic, fit) and **Models** (third body, apsidal motion, MCMC).
 
+![The Light curves and period window](images/en/window-timeseries.jpg)
+
+![The O−C window](images/en/window-oc.jpg)
+
 ## Period search
-The light curve measured on the Photometry page is used automatically; or **Load CSV (time, flux)…**.
+The light curve measured in the Photometry window is used automatically; or **Load CSV (time, flux)…**.
 
 - **Lomb–Scargle** — fits a sine wave at every trial period and keeps the one that explains most of the variation. For sine-like variations: pulsating stars, rotation and spots.
 - **BLS** (box least squares) — fits a short, box-shaped dip at every trial period. For transits of planets and Algol-type eclipses.
@@ -17,7 +21,7 @@ How each method works, with its formulas and references: **Mathematics of the me
 
 Set the **shortest** and **longest period** (the longest defaults to half the time span) and press **Search**. The periodogram and the light curve folded on the best period are shown. Check the folded curve: half or double the period is a common alias, especially for eclipsing binaries with equal minima. A ⚠ line under the result says when it cannot be trusted: the light curve is shorter than two cycles of the periods searched (observe longer), the best period is longer than half the time span, or the periodogram is highest at the edge of the range (widen it).
 
-**Phase bins** draws the mean curve over the folded points. **Editing the light curve:** *Remove outliers (σ)*, *Bin in time (min)*, *Delete points by clicking* (then click a point on the plot), *Flux ↔ magnitude* and *Undo edits*. The edited curve is what the period search and the frequency analysis use. *Remove outliers* compares each point with its neighbours in time (and, once a period is found, in the folded curve), so eclipses and pulsations are kept. **Errors:** when the light curve has them (from the Photometry page, TESS / Kepler / ZTF / AAVSO downloads, or a third column in a CSV file), they are drawn as error bars, follow every edit (outliers, binning — the error of each mean —, deleted points, flux ↔ magnitude) and weight the Lomb–Scargle and BLS searches by 1/σ²; **Save** writes them as a third column.
+**Phase bins** draws the mean curve over the folded points. **Editing the light curve:** *Remove outliers (σ)*, *Bin in time (min)*, *Delete points by clicking* (then click a point on the plot), *Flux ↔ magnitude* and *Undo edits*. The edited curve is what the period search and the frequency analysis use. *Remove outliers* compares each point with its neighbours in time (and, once a period is found, in the folded curve), so eclipses and pulsations are kept. **Errors:** when the light curve has them (from the Photometry window, TESS / Kepler / ZTF / AAVSO downloads, or a third column in a CSV file), they are drawn as error bars, follow every edit (outliers, binning — the error of each mean —, deleted points, flux ↔ magnitude) and weight the Lomb–Scargle and BLS searches by 1/σ²; **Save** writes them as a third column.
 
 ## Frequency analysis
 For pulsating stars with several modes (δ Scuti, γ Dor, β Cep), as Period04 does. Set the **highest frequency** (cycles per day) and press **Analyse frequencies**:
