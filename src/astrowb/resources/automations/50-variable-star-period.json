@@ -7,7 +7,7 @@
   },
   "description": {
     "en": "Measure the light curve of a variable on calibrated frames against automatically chosen comparison stars and search the period with Lomb–Scargle (change the method to bls or pdm in the step's settings).",
-    "tr": "Kalibre karelerde değişen yıldızın ışık eğrisini otomatik seçilen mukayese yıldızlarına göre ölç ve periyodu Lomb–Scargle ile ara (adım ayarlarında yöntem bls ya da pdm yapılabilir).",
+    "tr": "Kalibre karelerde değişen yıldızın ışık eğrisini otomatik seçilen karşılaştırma yıldızlarına göre ölç ve periyodu Lomb–Scargle ile ara (adım ayarlarında yöntem bls ya da pdm yapılabilir).",
     "de": "Die Lichtkurve eines Veränderlichen auf kalibrierten Aufnahmen gegen automatisch gewählte Vergleichssterne messen und die Periode mit Lomb–Scargle suchen (in den Einstellungen des Schritts die Methode auf bls oder pdm ändern).",
     "es": "Mide la curva de luz de una variable en tomas calibradas frente a estrellas de comparación elegidas automáticamente y busca el periodo con Lomb–Scargle (cambia el método a bls o pdm en los ajustes del paso)."
   },

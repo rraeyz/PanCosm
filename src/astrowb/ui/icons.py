@@ -48,6 +48,12 @@ ICONS = {
     "autofocus": "◈",
     "start": "▷",
     "abort": "■",
+    # automation and remote sensing
+    "new": "✚",
+    "add_step": "⊹",
+    "compute": "÷",
+    "classify": "▤",
+    "pca": "⟂",
     # light curves and O−C
     "download": "⇓",
     "period_search": "⟲",

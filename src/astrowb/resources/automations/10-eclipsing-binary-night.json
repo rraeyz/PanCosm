@@ -7,7 +7,7 @@
   },
   "description": {
     "en": "Observe the binary from dusk to dawn, then calibrate the frames, pick comparison stars, measure the light curve, time the minimum and compute O-C. Enter T0 and the period in the minimum step's settings to get O-C. Frames with blurred stars, clouds or a bright sky are left out.",
-    "tr": "Çifti akşam karanlığından şafağa kadar gözle; sonra kareleri kalibre et, mukayese yıldızlarını seç, ışık eğrisini ölç, minimum zamanını bul ve O-C'yi hesapla. O-C için minimum adımının ayarlarına T0 ve periyodu girin. Bulanık yıldızlı, bulutlu ya da gökyüzü parlak kareler dışarıda bırakılır.",
+    "tr": "Çifti akşam karanlığından şafağa kadar gözle; sonra kareleri kalibre et, karşılaştırma yıldızlarını seç, ışık eğrisini ölç, minimum zamanını bul ve O-C'yi hesapla. O-C için minimum adımının ayarlarına T0 ve periyodu girin. Bulanık yıldızlı, bulutlu ya da gökyüzü parlak kareler dışarıda bırakılır.",
     "de": "Den Doppelstern von der Abend- bis zur Morgendämmerung beobachten, dann die Aufnahmen kalibrieren, Vergleichssterne wählen, die Lichtkurve messen, das Minimum bestimmen und O-C berechnen. Für O-C T0 und die Periode in den Einstellungen des Minimum-Schritts eintragen. Aufnahmen mit unscharfen Sternen, Wolken oder hellem Himmel werden weggelassen.",
     "es": "Observa la binaria desde el anochecer hasta el amanecer; después calibra las tomas, elige estrellas de comparación, mide la curva de luz, determina el instante del mínimo y calcula O-C. Para obtener O-C, introduce T0 y el periodo en los ajustes del paso del mínimo. Se descartan las tomas con estrellas borrosas, nubes o cielo brillante."
   },

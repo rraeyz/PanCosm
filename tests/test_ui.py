@@ -1552,3 +1552,20 @@ def test_planning_and_observing_window_menus(window):
     assert not send.isEnabled()  # as the page's button: nothing to send before a schedule
     plan.send_button.setEnabled(True)
     assert send.isEnabled()
+
+
+def test_automation_and_remote_sensing_window_menus(window):
+    """interface I6c.10: Automation's Steps and Run, File → New / Save as; Remote sensing's Analyse; icons."""
+    for key, titles in (("automation", ["&Steps", "&Run"]), ("remotesensing", ["&Analyse"])):
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        assert [a.text() for a in win.menuBar().actions() if a.isVisible()][3:-2] == titles
+        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        assert tools and all(not a.icon().isNull() for a in tools)
+    page, win = window.automation_page, window.area_windows["automation"]
+    assert "New automation" in [a.text() for a in win.file_menu.actions()]
+    before = page.steps.count()
+    page.step_choice.setCurrentIndex(0)
+    steps = next(a.menu() for a in win.menuBar().actions() if a.text() == "&Steps")
+    next(a for a in steps.actions() if a.text() == "Add step").trigger()
+    assert page.steps.count() == before + 1

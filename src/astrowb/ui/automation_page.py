@@ -66,10 +66,10 @@ class AutomationPage(QWidget):
         self.list.currentRowChanged.connect(self._select)
         ll.addWidget(self.list, 1)
         row = QHBoxLayout()
-        new = QPushButton(self.tr("New"), self)
+        self.new_button = new = QPushButton(self.tr("New"), self)
         new.clicked.connect(self.new)
         new.setToolTip(self.tr("An empty automation to fill with steps"))
-        save = QPushButton(self.tr("Save as…"), self)
+        self.save_button = save = QPushButton(self.tr("Save as…"), self)
         save.clicked.connect(self._save_dialog)
         save.setToolTip(self.tr("Saves the automation under a name, to run it again on other data"))
         row.addWidget(new)
@@ -99,12 +99,13 @@ class AutomationPage(QWidget):
         self.step_choice.setToolTip(
             self.tr("Every task of the application as a step (calibrate, stack, photometry, period search…)")
         )
-        add = QPushButton(self.tr("Add step"), self)
+        self.add_button = add = QPushButton(self.tr("Add step"), self)
         add.clicked.connect(lambda: self.add_step(self.step_choice.currentData()))
         add.setToolTip(self.tr("Adds the chosen step at the end; its settings appear below"))
         ml.addWidget(self.step_choice)  # one above the other: the page fits narrow windows in every language
         ml.addWidget(add)
         row = QHBoxLayout()
+        self.step_buttons = []  # Remove, Up, Down
         for text, slot, tip in (
             (self.tr("Remove"), self._remove, self.tr("Removes the selected step")),
             (self.tr("Up"), lambda: self._move(-1), self.tr("Moves the selected step one place earlier")),
@@ -114,6 +115,7 @@ class AutomationPage(QWidget):
             b.setToolTip(tip)
             b.clicked.connect(slot)
             row.addWidget(b)
+            self.step_buttons.append(b)
         ml.addLayout(row)
         hint = QLabel(self.tr("Settings of the selected step (input ← data name, or a value)"), self)
         hint.setWordWrap(True)

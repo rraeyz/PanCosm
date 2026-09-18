@@ -1,5 +1,5 @@
 # Automatización y complementos
-Una **automatización** encadena pasos en su propio flujo de trabajo — «calibrar las tomas de una carpeta → medir la curva de luz → determinar el mínimo → O-C» — y lo ejecuta de una vez. Los **complementos** (plugins) añaden sus propios pasos. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús.
+Una **automatización** encadena pasos en su propio flujo de trabajo — «calibrar las tomas de una carpeta → medir la curva de luz → determinar el mínimo → O-C» — y lo ejecuta de una vez. Los **complementos** (plugins) añaden sus propios pasos. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús: **Archivo → Nueva automatización** y **Guardar la automatización como…**, **Pasos** (añadir, quitar, subir o bajar) y **Ejecutar** (ejecutar la automatización, enviar su secuencia a la ventana Observación, procesar tras la secuencia).
 
 ## Plantillas listas
 La página **Automatización** lista las plantillas listas (marcadas con «plantilla») y sus propias automatizaciones:

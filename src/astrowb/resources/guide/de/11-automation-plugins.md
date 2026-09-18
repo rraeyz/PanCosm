@@ -1,5 +1,5 @@
 # Automatisierung und Plugins
-Eine **Automatisierung** verkettet Schritte zu Ihrer eigenen Pipeline — „die Aufnahmen eines Ordners kalibrieren → die Lichtkurve messen → das Minimum bestimmen → O-C“ — und führt sie in einem Durchgang aus. **Plugins** fügen eigene Schritte hinzu. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder das Menü Fenster) mit eigenen Menüs.
+Eine **Automatisierung** verkettet Schritte zu Ihrer eigenen Pipeline — „die Aufnahmen eines Ordners kalibrieren → die Lichtkurve messen → das Minimum bestimmen → O-C“ — und führt sie in einem Durchgang aus. **Plugins** fügen eigene Schritte hinzu. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder das Menü Fenster) mit eigenen Menüs: **Datei → Neue Automatisierung** und **Automatisierung speichern unter…**, **Schritte** (hinzufügen, entfernen, nach oben oder unten) und **Ausführen** (die Automatisierung ausführen, ihre Sequenz an das Fenster Beobachten senden, nach der Sequenz auswerten).
 
 ## Fertige Vorlagen
 Die Seite **Automatisierung** listet fertige Vorlagen (markiert mit „Vorlage“) und Ihre eigenen Automatisierungen:

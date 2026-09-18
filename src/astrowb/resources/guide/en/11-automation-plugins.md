@@ -1,5 +1,5 @@
 # Automation and plugins
-An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps. It opens in a window of its own (its block on the Start page or the Window menu), with its own menus.
+An **automation** chains steps into your own pipeline — "calibrate the frames in a folder → measure the light curve → time the minimum → O-C" — and runs it in one go. **Plugins** add your own steps. It opens in a window of its own (its block on the Start page or the Window menu), with its own menus: **File → New automation** and **Save the automation as…**, **Steps** (add, remove, move up or down) and **Run** (run the automation, send its sequence to the Observing window, process after the sequence).
 
 ## Ready templates
 The **Automation** page lists ready templates (marked "template") and your own automations:
