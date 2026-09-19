@@ -261,7 +261,7 @@ waits for the owner, see "For the owner to try"):
   in the test.
 
 ### 2. Noise model with the camera's numbers
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Reference:** AIJ appendix B (source and sky Poisson noise, dark current, read noise, quantisation); IRAF
   `datapars` (epadu, readnoise).
 - **Ours:** F/gain plus the scatter of the sky ring — the same formula as IRAF and Siril (see the code table); read
@@ -335,7 +335,7 @@ star; the frame's FWHM is FWHM_Mean), N_Sky_Pixels is the ring's area before rej
 - **Accept:** every column AIJ writes for one star has a column here or a stated reason why not.
 
 ### 7. Star list saved and used again on another night
-**agent2 done (2026-11-08, this commit)** — `photometry/starlist.py` (`save_star_list`, `load_star_list`): target,
+**agent2 done (2026-11-08, commit 1bbd095)** — `photometry/starlist.py` (`save_star_list`, `load_star_list`): target,
 comparison, check stars and further targets and the three radii in a small `.stars.json`, in RA / Dec through the
 first frame's plate solution (and the pixels, for frames without one); opened on another night through that night's
 solution — pointing, rotation, a mirrored camera all fine (test: 47° rotation and a flip, positions to 1e-6 px; the
