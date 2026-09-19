@@ -261,7 +261,7 @@ waits for the owner, see "For the owner to try"):
   in the test.
 
 ### 2. Noise model with the camera's numbers
-**agent2 done (2026-11-08, this commit)** — `aperture.camera_pixel_noise` (√(S g + D + R² + 0.289² g²) / g per sky
+**agent2 done (2026-11-08, commit 0d8cf5f)** — `aperture.camera_pixel_noise` (√(S g + D + R² + 0.289² g²) / g per sky
 pixel, AstroImageJ's model, Collins et al. 2017 app. B; Merline & Howell 1995) and `measure(..., camera=(read noise,
 dark))`, carried through `light_curve(camera=…)` and the step (dark current per second times each frame's EXPTIME).
 Photometry window, More measuring options: **Sky noise from the camera** with read noise and dark current, filled from
@@ -282,7 +282,7 @@ Guide 06 in four languages.
   scatter of 1000 noise realisations within 5 %.
 
 ### 3. Sky estimate choices
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Reference:** IRAF `fitskypars.salgorithm` (mode, median, centroid…); MaxIm median-mean; AIJ iterative 2σ
   rejection of stars in the annulus and an optional plane fit; Siril rejects deviant pixels.
 - **Ours:** sigma-clipped median only; no plane fit; a bright star in the annulus is clipped but not masked.
