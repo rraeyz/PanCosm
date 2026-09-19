@@ -27,6 +27,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from .widgets import bar_menu
+
 
 class AreaWindow(QMainWindow):
     """key: stable id of the area (settings, object names; never translated). panels: [(id, title, widget,
@@ -112,7 +114,7 @@ class AreaWindow(QMainWindow):
 
     def _build_menus(self, menus):
         bar = self.menuBar()
-        file_menu = bar.addMenu(self.tr("&File"))
+        file_menu = bar_menu(bar, self.tr("&File"))
         self.file_menu = file_menu
         if self.open_files_handler is not None:
             self._action(
@@ -133,7 +135,7 @@ class AreaWindow(QMainWindow):
             )  # fmt: skip
             file_menu.addSeparator()
         self._action(file_menu, self.tr("&Close window"), self.close, QKeySequence.Close)
-        edit = bar.addMenu(self.tr("&Edit"))
+        edit = bar_menu(bar, self.tr("&Edit"))
         self.edit_menu = edit
         if self.undo_stack is not None:
             undo = self.undo_stack.createUndoAction(self, self.tr("&Undo"))
@@ -148,7 +150,7 @@ class AreaWindow(QMainWindow):
             edit, self.tr("Find an action…"), self.find_command, "Ctrl+K",
             self.tr("Type a few letters of what you want to do: every menu and toolbar action of this window is found"),
         )  # fmt: skip
-        view = bar.addMenu(self.tr("&View"))
+        view = bar_menu(bar, self.tr("&View"))
         self.view_menu = view
         for dock in self.docks.values():
             act = dock.toggleViewAction()
@@ -180,12 +182,12 @@ class AreaWindow(QMainWindow):
             tip=self.tr("Put every panel back where it was when the window first opened"),
         )  # fmt: skip
         for title, actions in menus:
-            menu = bar.addMenu(title)
+            menu = bar_menu(bar, title)
             for act in actions:
                 menu.addSeparator() if act is None else menu.addAction(act)
-        self.window_menu = bar.addMenu(self.tr("&Window"))
+        self.window_menu = bar_menu(bar, self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
-        help_menu = bar.addMenu(self.tr("&Help"))
+        help_menu = bar_menu(bar, self.tr("&Help"))
         self.help_menu = help_menu
         self._action(
             help_menu, self.tr("Guide for this window"), lambda: self.help_requested.emit(self.key),
