@@ -46,7 +46,7 @@ class PhotometryPage(Undoable, QWidget):
     polarimetry_requested = Signal(list, list, list, dict)  # images, o_xy, e_xy, params
     quality_requested = Signal(list)  # images
     catalog_requested = Signal(dict, dict)  # inputs, params
-    apertures_requested = Signal(list, list, list)  # images, target_xy, comps_xy
+    apertures_requested = Signal(list, list, list, str)  # images, target_xy, comps_xy, rule ("snr" or "aij")
     field_requested = Signal(str)  # the first frame: solved against Gaia, its variable stars named
     next_requested = Signal(str, str)  # the page to go on to ("timeseries" / "orbits"), the light curve file or ""
 
@@ -322,6 +322,19 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.apertures_button.setEnabled(False)
         self.apertures_button.clicked.connect(self._choose_radii)
+        self.radii_rule = QComboBox(self)  # AstroImageJ's rule: the same apertures as there, to compare the programs
+        self.radii_rule.addItem(self.tr("best signal-to-noise, steadiest light curve"), "snr")
+        self.radii_rule.addItem(self.tr("as AstroImageJ: to 1 % of the peak, sky 2–4 times that"), "aij")
+        self.radii_rule.setToolTip(
+            self.tr(
+                "How the radii are chosen from the stars. AstroImageJ's rule gives much larger apertures; use it to "
+                "measure a night with the same radii as AstroImageJ and compare the two programs"
+            )
+        )
+        rule_row = QHBoxLayout()
+        rule_row.addWidget(QLabel(self.tr("Rule:"), self))
+        rule_row.addWidget(self.radii_rule, 1)
+        self.sections[2].body.addLayout(rule_row)
         self.sections[2].body.addWidget(self.apertures_button)
         side.addWidget(self.sections[2])
         self.follow_seeing = QCheckBox(self.tr("Radii follow the seeing (scaled by each frame's FWHM)"), self)
@@ -1367,7 +1380,9 @@ class PhotometryPage(Undoable, QWidget):
         self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
 
     def _choose_radii(self):
-        self.apertures_requested.emit(self._series(), list(self.target), [list(c) for c in self.comps])
+        self.apertures_requested.emit(
+            self._series(), list(self.target), [list(c) for c in self.comps], self.radii_rule.currentData()
+        )
 
     def set_comparisons(self, comps, catalogue=None):
         auto, self._auto_for = getattr(self, "_auto_for", None), None
@@ -1447,6 +1462,11 @@ class PhotometryPage(Undoable, QWidget):
                 ee=100 * a["encircled_at_aperture"],
                 i=a["r_in"],
                 o=a["r_out"],
+            )
+            + (
+                "\n" + self.tr("AstroImageJ's rule: the aperture ends where the profile falls to 1 % of its peak.")
+                if a.get("rule") == "aij"
+                else ""
             )
             + (
                 "\n"

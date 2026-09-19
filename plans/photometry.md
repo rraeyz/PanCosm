@@ -220,7 +220,33 @@ and detrend panels come with items 6, 8, 9. Findings of its first user test: `pl
 ## P1 — trust in the light curve
 
 ### 1. Same frames, same answer as AstroImageJ (validation)
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — against IRAF 2.17 `apphot.phot` (installed here; the AstroImageJ table
+waits for the owner, see "For the owner to try"):
+- **Two public nights, same centres, radii and sky** (IRAF `calgorithm=none` at our centres, `salgorithm=median`
+  with 3σ rejection 10 times, gain from the header, no read noise):
+  - Qatar-1, LCO 0.4 m, 24 calibrated frames (float), radii 9 / 18.75 / 25.99 px: fluxes IRAF/ours = 1.0001
+    (spread ≤ 0.02 %), relative flux median |Δ| 0.0065 %, max 0.026 %; flux errors IRAF/ours 1.0001.
+  - HAT-P-32, MicroObservatory 6-inch, 142 raw frames (integer ADU), radii 4 / 10 / 16 px: fluxes 1.00015, relative
+    flux median |Δ| 0.006 %; flux errors within 0.01 %.
+  - The 0.01–0.015 % is the aperture edge: IRAF weights an edge pixel linearly (r_ap − r), photutils by its exact
+    area.
+- **Found and fixed:** on integer data our sky was the plain median of whole numbers, off by up to 0.5 ADU: faint
+  comparison stars differed from IRAF by up to 1.1 % on single frames. `aperture._grouped_median` takes the median
+  inside its unit bin (grouped-data median) when the ring's pixels are whole numbers; float data are unchanged. On the
+  HAT-P-32 night the point-to-point scatter fell from 0.659 to 0.625 % (4 px) and from 0.682 to 0.588 % (5 px), and
+  the transit time moved 0.6 min closer to the ephemeris. IRAF itself returns a whole-number median on some of these
+  frames and an interpolated one on others, so up to 0.6 % remain on single frames of faint stars, explained in the
+  test.
+- **Built:** `tests/validation/test_iraf_phot.py` with the reduced IRAF table of the HAT-P-32 night
+  (`tests/validation/data/hatp32_iraf_phot.csv`, 142 × 3 stars; CI already downloads that night), so any drift of
+  centres, fluxes or errors fails CI; the IRAF runs are scratchpad `p1/run.py` (Qatar-1) and `p1/hatp.py`.
+- **Built:** "Rule: as AstroImageJ" beside Choose the radii (`aperture.aij_radii`, AstroImageJ's `Seeing_Profile`
+  rule read in its source: aperture where the mean profile falls below 1 % of the peak after the half maximum,
+  rounded up; sky 2× and 4× that; 1.7 / 3.4 / 6.8 FWHM otherwise), so a night can be measured with AstroImageJ's
+  apertures; the light-curve scan is skipped with it. Guide 06 in four languages; tests `test_astroimagej_radii`,
+  `test_grouped_median_of_integer_data`, `test_radii_rule_reaches_the_step`.
+- **Still open:** the AstroImageJ Measurements table of a night from the owner, measured here with the AstroImageJ
+  rule and compared the same way (a reduced table into `tests/validation` when it comes).
 - **Reference:** the owner compares against AIJ by eye; no number says we agree.
 - **Ours:** checked only on synthetic frames and Qatar-1 scatter.
 - **Build:** a validation script that measures one public night (Qatar-1 LCO and one eclipsing binary night) with

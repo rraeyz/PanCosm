@@ -52,6 +52,8 @@ Every star gets three rings, drawn on the image: the **aperture** (solid), and t
 
 The plot shows the star's profile with the aperture (green), the left-out gap and the sky annulus (blue); the line under it gives the numbers. You can still change the radii by hand.
 
+**Rule: as AstroImageJ** chooses the radii the way AstroImageJ's seeing profile does: the aperture ends where the profile falls to 1 % of its peak (rounded up to a whole pixel) and the sky ring runs from twice to four times that, or 1.7, 3.4 and 6.8 FWHM when the profile never gets that low. These apertures are much larger than the best signal-to-noise; use the rule to measure a night with the same radii in both programs and compare them. Measured with the same centres, radii and sky as IRAF's `phot`, the fluxes agree to 0.02 % on the median (two public nights; `tests/validation`).
+
 - **Radii follow the seeing:** on every frame all three radii are scaled by that frame's FWHM divided by the first frame's (a "variable aperture" in AstroImageJ). The aperture then always holds the same part of the light, which helps on nights when the seeing changes a lot or the focus drifts.
 - For defocused stars (rings or flat discs) check the profile: the FWHM then measures the disc, and the radii follow it.
 - Stars are re-centred on every frame, and the field's drift during the night is followed frame to frame.

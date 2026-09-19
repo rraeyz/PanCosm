@@ -52,6 +52,8 @@ Her yıldızın görüntü üzerinde çizilen üç halkası vardır: **açıklı
 
 Grafik yıldızın profilini açıklık (yeşil), dışarıda bırakılan boşluk ve gök halkası (mavi) ile gösterir; altındaki satır sayıları verir. Yarıçapları yine de elle değiştirebilirsiniz.
 
+**Kural: AstroImageJ gibi**, yarıçapları AstroImageJ'nin seeing profilinin seçtiği gibi seçer: açıklık profilin tepesinin %1'ine düştüğü yerde biter (tam piksele yukarı yuvarlanır), gökyüzü halkası bunun iki katından dört katına kadar uzanır; profil o kadar inmezse 1,7, 3,4 ve 6,8 FWHM alınır. Bu açıklıklar en iyi sinyal-gürültüden çok daha büyüktür; bir geceyi iki programda aynı yarıçaplarla ölçüp karşılaştırmak için kullanın. IRAF'ın `phot` görevi ile aynı merkez, yarıçap ve gökyüzüyle ölçüldüğünde akılar ortancada %0,02 içinde uyuşur (iki açık gece; `tests/validation`).
+
 - **Yarıçaplar seeing/görüşü izlesin:** her karede üç yarıçap da o karenin FWHM'sinin ilk karenin FWHM'sine oranıyla ölçeklenir (AstroImageJ'deki "değişken açıklık"). Böylece açıklık hep ışığın aynı kısmını içerir; görüşün çok değiştiği ya da odağın kaydığı gecelerde işe yarar.
 - Odak dışı yıldızlarda (halka ya da düz disk) profile bakın: FWHM o zaman diski ölçer ve yarıçaplar ona uyar.
 - Yıldızlar her karede yeniden merkezlenir ve alanın gece boyunca kayması kareden kareye izlenir.

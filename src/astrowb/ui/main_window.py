@@ -1295,10 +1295,10 @@ class MainWindow(QMainWindow):
         page.minimum_requested.connect(self.time_minimum)
         page.next_requested.connect(self._photometry_next)
         page.apertures_requested.connect(
-            lambda images, target, comps: self.run_step(
+            lambda images, target, comps, rule: self.run_step(
                 "photometry.apertures",
                 {"images": images, "target_xy": target, "comps_xy": comps},
-                {},
+                {"rule": rule},
                 on_done=lambda out: page.show_apertures(out["apertures"]),
                 area="photometry",
             )

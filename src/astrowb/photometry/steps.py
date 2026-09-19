@@ -77,9 +77,12 @@ def varfind_step(inputs, params, ctx):
     return {"field": field, "variability": variability(field["mag"], field["err"], params["threshold"])}
 
 
-@step("photometry.apertures", inputs=("images", "target_xy"), outputs=("apertures",), optional=("comps_xy",))
+@step(
+    "photometry.apertures", inputs=("images", "target_xy"), outputs=("apertures",), optional=("comps_xy",), rule="snr"
+)
 def apertures_step(inputs, params, ctx):
-    """Aperture and sky annulus from the stars' own profiles on the first frame given (see choose_apertures)."""
+    """Aperture and sky annulus from the stars' own profiles on the first frame given (see choose_apertures). rule
+    "snr": the best signal-to-noise, then the steadiest light curve of a series; "aij": AstroImageJ's radii."""
     from ..calibration.masters import load
     from .aperture import choose_apertures
 
@@ -89,8 +92,11 @@ def apertures_step(inputs, params, ctx):
     ctx.progress(0.2, "photometry")
     gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     stars = [inputs["target_xy"], *(inputs.get("comps_xy") or [])]
-    a = choose_apertures(data, stars, gain)
-    if len(stars) > 1 and len(inputs["images"]) >= 5:  # a series: the radius that gives the steadiest light curve
+    a = choose_apertures(data, stars, gain, params.get("rule", "snr"))
+    a["rule"] = params.get("rule", "snr")
+    if (
+        a["rule"] == "snr" and len(stars) > 1 and len(inputs["images"]) >= 5
+    ):  # a series: the radius that gives the steadiest light curve
         from .lightcurve import aperture_scan
 
         try:
