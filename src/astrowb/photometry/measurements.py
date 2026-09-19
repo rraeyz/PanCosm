@@ -80,7 +80,11 @@ def measurements(lc):
         cols[f"Source_Radius_{name}"] = radii[:, 0].tolist()
         cols[f"Sky_Rad(min)_{name}"] = radii[:, 1].tolist()
         cols[f"Sky_Rad(max)_{name}"] = radii[:, 2].tolist()
-        if level and k < peak.shape[1]:
+        lin = lc.get("linearity")
+        if lin and k < peak.shape[1]:
+            for row in np.nonzero(peak[:, k] >= lin)[0]:
+                flags[(int(row), f"Peak_{name}")] = f"non-linear: peak {peak[row, k]:.0f} ≥ {lin:.0f}"
+        if level and k < peak.shape[1]:  # saturation over non-linearity in the same cell
             for row in np.nonzero(peak[:, k] >= level)[0]:
                 flags[(int(row), f"Peak_{name}")] = f"saturated: peak {peak[row, k]:.0f} ≥ {level:.0f}"
     cols["rel_flux_T1"] = list(lc["rel_flux"])

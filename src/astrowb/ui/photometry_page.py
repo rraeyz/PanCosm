@@ -553,6 +553,27 @@ class PhotometryPage(Undoable, QWidget):
         restore.setToolTip(self.tr("Brings back every point deleted by clicking"))
         edit_row.addWidget(restore)
         pl.addLayout(edit_row)
+        flag_row = QHBoxLayout()  # plans/photometry.md item 4
+        flag_row.addWidget(QLabel(self.tr("Linearity limit (ADU)"), self))
+        self.linearity = QDoubleSpinBox(self)
+        self.linearity.setRange(0, 1e9)
+        self.linearity.setDecimals(0)
+        self.linearity.setSpecialValueText(self.tr("none"))
+        self.linearity.setToolTip(
+            self.tr(
+                "Above this peak the camera no longer counts in proportion to the light: such points are marked "
+                "orange (saturated ones red). From the header (LINLIMIT, MAXLIN) when it has one"
+            )
+        )
+        self.linearity.valueChanged.connect(lambda *_: (self._plot_current(), self._fill_measurements()))
+        flag_row.addWidget(self.linearity)
+        self.drop_flagged = QPushButton(self.tr("Leave out saturated and non-linear points"), self)
+        self.drop_flagged.setToolTip(
+            self.tr("The frames where the target or a comparison star passes either level; Ctrl+Z brings them back")
+        )
+        self.drop_flagged.clicked.connect(self.leave_out_flagged)
+        flag_row.addWidget(self.drop_flagged)
+        pl.addLayout(flag_row)
         space_row = QHBoxLayout()
         space_row.addWidget(QLabel(self.tr("Spacing between curves"), self))
         self.spacing = QDoubleSpinBox(self)
@@ -938,7 +959,11 @@ class PhotometryPage(Undoable, QWidget):
         data, header, _ = read_image(self.images[0])
         from ..hdr import get as header_value
 
-        for w, keys in ((self.read_noise, ("RDNOISE", "READNOIS", "RDNOIS")), (self.dark_current, ("DARKCUR",))):
+        for w, keys in (
+            (self.read_noise, ("RDNOISE", "READNOIS", "RDNOIS")),
+            (self.dark_current, ("DARKCUR",)),
+            (self.linearity, ("LINLIMIT", "MAXLIN")),
+        ):
             v = header_value(header, *keys)
             if v is not None:
                 w.setValue(float(v))  # the camera's numbers as the file states them (item 2)
@@ -1843,6 +1868,27 @@ class PhotometryPage(Undoable, QWidget):
             return np.zeros(len(lc["time"]), bool)
         return np.array([any(p is not None and p >= sat for p in row) for row in lc["peak"]])
 
+    def _nonlinear_frames(self, lc):
+        """Frames where a star's peak passes the linearity limit but not saturation (item 4)."""
+        lin = self.linearity.value()
+        if not lin or not lc.get("peak"):
+            return np.zeros(len(lc["time"]), bool)
+        return np.array([any(p is not None and p >= lin for p in row) for row in lc["peak"]]) & ~self._saturated_frames(
+            lc
+        )
+
+    def leave_out_flagged(self):
+        """Leave out every frame where the target or a comparison star is saturated or non-linear (undoable)."""
+        lc = self.light_curve
+        if lc is None:
+            return
+        flagged = self._saturated_frames(lc) | self._nonlinear_frames(lc)
+        if not flagged.any():
+            self.result.setText(self.tr("No point has a saturated or non-linear star."))
+            return
+        ids = {self._frame_ids[i] for i in np.nonzero(flagged)[0] if i < len(self._frame_ids)}
+        self.edit(self.tr("leave out saturated and non-linear points"), self._exclude, self.excluded | ids)
+
     def _lost_text(self, why):
         """Why the measurement left a frame out (lightcurve._measure_frame), in the interface language."""
         if why[0] == "target":
@@ -1905,7 +1951,7 @@ class PhotometryPage(Undoable, QWidget):
         lc = self.light_curve
         if not lc:
             return
-        cols, flags = measurements(lc)
+        cols, flags = measurements(lc | {"linearity": self.linearity.value() or None})
         rows = list(range(len(cols["Label"])))
         text = self.meas_filter.text().strip()
         if text:
@@ -2066,6 +2112,13 @@ class PhotometryPage(Undoable, QWidget):
                     n=int(sat.sum())
                 )
             )
+        nonlin = self._nonlinear_frames(lc)
+        if nonlin.any():
+            lines.append(
+                self.tr("⚠ {n} frames have a star above the linearity limit (marked orange).").format(
+                    n=int(nonlin.sum())
+                )
+            )
         self.result.setText("\n".join(lines))
 
     def _plot_current(self):
@@ -2108,6 +2161,9 @@ class PhotometryPage(Undoable, QWidget):
             self._plotted = (ax, x, y)
             if sat.any():
                 ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
+            lin = self._nonlinear_frames(lc)
+            if lin.any():
+                ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)  # orange: non-linear (item 4)
         elif what == "comps":
             curves, scatter = d.comps_against_others(lc["comp_flux"], lc.get("weights"))
             for i, (c, s_) in enumerate(zip(curves, scatter, strict=True)):
@@ -2161,6 +2217,9 @@ class PhotometryPage(Undoable, QWidget):
         self._plotted = (ax, x, y)
         if sat.any():
             ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
+        lin = self._nonlinear_frames(lc)
+        if lin.any():
+            ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)
         check = next((e for e in lc.get("extra", []) if e.get("role") == "check"), None)
         comp = np.asarray(lc.get("comp_flux") or [[]], float)
         if check is not None:

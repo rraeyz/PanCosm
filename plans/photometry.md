@@ -307,7 +307,13 @@ languages.
   within 0.1 σ, and the median is biased as expected.
 
 ### 4. Saturation and non-linearity flagged per point
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — a **Linearity limit (ADU)** under the plot (from LINLIMIT / MAXLIN, or
+typed in; takes effect at once, no new measurement): points ringed orange above it, red at saturation as before, a
+summary line for each; the measurements table colours the star's Peak with "non-linear" or "saturated" and the
+level; **Leave out saturated and non-linear points** excludes those frames from every result (undoable). Accept met:
+a synthetic night whose target saturates on exactly frames 5–9 and passes the linearity limit on 10–12 marks exactly
+those, and the button leaves out exactly those 8 (`test_saturated_and_non_linear_points_are_marked_and_left_out`).
+Guide 06 in four languages.
 - **Reference:** IRAF `datamax` flags each measurement; AIJ warns about saturated or non-linear stars.
 - **Ours:** the peak pixel is measured and a saturation level is read from the header; this is not shown per point,
   and there is no linearity limit.
