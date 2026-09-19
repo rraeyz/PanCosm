@@ -308,7 +308,17 @@ waits for the owner, see "For the owner to try"):
   (donut, 30 px) is centred within 0.2 px.
 
 ### 6. Measurements table (one row per frame, every number)
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — `photometry/measurements.py` (`measurements`, `filter_rows`, `star_names`)
+and a **Measurements** tab in the Photometry window's Results panel: one row per frame, AstroImageJ's column names and
+star numbering (T1, C2 …, further targets T after them), numbers sorted by value with the digits they need (times to
+1e-6 day), a saturated peak coloured with the level in its tooltip, **Columns** (choose what is shown), a filter in
+AstroImageJ's form (`rel_flux_err_T1 < 0.002 and AIRMASS < 2`; an unknown column or a malformed rule is said in plain
+words, templates in `ui/messages.py`), **Export the table (CSV)…** (the rows and columns shown), Ctrl+C, and a click
+on a row shows that frame. Every AstroImageJ column for one star has a column here or a reason why not, written in the
+module's docstring: X(IJ)/Y(IJ) (ImageJ's convention, the same position as X/Y(FITS)), RA/DEC per star (each frame's
+plate solution is not kept with the curve), Mean / Variance / Width / Roundness / Angle per star (not measured per
+star; the frame's FWHM is FWHM_Mean), N_Sky_Pixels is the ring's area before rejection. Guide 06 in four languages;
+`tests/test_measurements.py`, and the real-measurement UI test checks the tab. Screenshots scratchpad `p6/`.
 - **AstroImageJ's column names** (read in its `Aperture_.java`, 2026-11-08): `Label`, `slice`, `J.D.-2400000`, `JD_UTC`,
   `BJD_TDB`, `AIRMASS`; per star with the suffix `_T1`, `_C2`…: `X(IJ)`, `Y(IJ)`, `X(FITS)`, `Y(FITS)`, `RA`, `DEC`,
   `Source-Sky`, `Source_Error`, `Source_SNR`, `Source_AMag`, `Source_AMag_Err`, `N_Src_Pixels`, `Sky/Pixel`,

@@ -659,6 +659,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         ol.addWidget(self.aavso_button)
         ol.addStretch(1)
+        self.res_tabs.addTab(self._measurements_tab(), self.tr("Measurements"))
         self.res_tabs.addTab(out_tab, self.tr("Export"))
         res.addWidget(self.res_tabs, 1)
         self.result = QLabel(self)
@@ -1693,6 +1694,7 @@ class PhotometryPage(Undoable, QWidget):
         self._fill_star_table()
         self._plot_current()
         self._summarise()
+        self._fill_measurements()
 
     def _saturated_frames(self, lc):
         sat = lc.get("saturation")
@@ -1709,6 +1711,134 @@ class PhotometryPage(Undoable, QWidget):
                 k=why[1]
             )
         return self.tr("the stars were not found (clouds, a jolt, or another field)")
+
+    # --- measurements table (plans/photometry.md item 6) -------------------------
+    def _measurements_tab(self):
+        """Every number of every frame, AstroImageJ's column names; a filter, a column chooser and a CSV export."""
+        from PySide6.QtWidgets import QMenu
+
+        tab = QWidget(self)
+        lay = QVBoxLayout(tab)
+        row = QHBoxLayout()
+        self.meas_filter = QLineEdit(self)
+        self.meas_filter.setPlaceholderText(self.tr("filter, e.g. rel_flux_err_T1 < 0.002"))
+        self.meas_filter.setToolTip(
+            self.tr(
+                'Rows to show: a column, a comparison (> < >= <= == !=) and a number; several joined by "and", '
+                "as AstroImageJ's table filter. Enter applies it, an empty filter shows every frame"
+            )
+        )
+        self.meas_filter.returnPressed.connect(self._fill_measurements)
+        row.addWidget(self.meas_filter, 1)
+        self.meas_columns = QToolButton(self)
+        self.meas_columns.setText(self.tr("Columns"))
+        self.meas_columns.setToolTip(self.tr("Choose the columns to show; the export writes the columns shown"))
+        self.meas_columns.setPopupMode(QToolButton.InstantPopup)
+        self.meas_columns.setMenu(QMenu(self.meas_columns))
+        row.addWidget(self.meas_columns)
+        self.meas_export = QPushButton(self.tr("Export the table (CSV)…"), self)
+        self.meas_export.setToolTip(self.tr("The rows and columns shown, with AstroImageJ's column names"))
+        self.meas_export.setEnabled(False)
+        self.meas_export.clicked.connect(lambda: self.export_measurements())
+        row.addWidget(self.meas_export)
+        lay.addLayout(row)
+        self.meas_table = QTableWidget(0, 0, self)
+        self.meas_table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.meas_table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.meas_table.setSortingEnabled(True)
+        self.meas_table.setToolTip(self.tr("Click a row to show that frame; Ctrl+C copies the selected rows"))
+        self.meas_table.cellClicked.connect(self._measurement_row)
+        lay.addWidget(self.meas_table, 1)
+        self.meas_note = QLabel(self)
+        self.meas_note.setWordWrap(True)
+        lay.addWidget(self.meas_note)
+        self._meas_hidden = set()
+        return tab
+
+    def _fill_measurements(self):
+        from PySide6.QtGui import QColor
+
+        from ..photometry.measurements import filter_rows, measurements
+        from .messages import translate
+
+        lc = self.light_curve
+        if not lc:
+            return
+        cols, flags = measurements(lc)
+        rows = list(range(len(cols["Label"])))
+        text = self.meas_filter.text().strip()
+        if text:
+            try:
+                rows = filter_rows(cols, text)
+            except ValueError as e:
+                self.meas_note.setText(translate(str(e)))
+                return
+        menu = self.meas_columns.menu()
+        menu.clear()
+        for name in cols:
+            act = menu.addAction(name)
+            act.setCheckable(True)
+            act.setChecked(name not in self._meas_hidden)
+            act.toggled.connect(lambda on, n=name: self._toggle_measurement_column(n, on))
+        shown = [c for c in cols if c not in self._meas_hidden]
+        t = self.meas_table
+        t.setSortingEnabled(False)
+        t.clear()
+        t.setColumnCount(len(shown))
+        t.setRowCount(len(rows))
+        t.setHorizontalHeaderLabels(shown)
+        warn = QColor(229, 72, 77, 90)  # translucent red: readable in the light and the dark look
+        for i, r in enumerate(rows):
+            for j, name in enumerate(shown):
+                value = cols[name][r]
+                if isinstance(value, str):
+                    item = QTableWidgetItem(value)
+                else:
+                    item = _NumberItem(value, name)
+                reason = flags.get((r, name))
+                if reason:
+                    item.setBackground(warn)
+                    item.setToolTip(reason)
+                t.setItem(i, j, item)
+        t.setSortingEnabled(True)
+        if len(rows) <= 3000:  # whole numbers in view (JDs were cut); measuring every cell of a huge night is slow
+            t.resizeColumnsToContents()
+        self._meas_cols, self._meas_rows, self._meas_shown = cols, rows, shown
+        self.meas_export.setEnabled(bool(rows))
+        self.meas_note.setText(
+            self.tr("{n} of {total} frames shown, {c} columns.").format(
+                n=len(rows), total=len(cols["Label"]), c=len(shown)
+            )  # fmt: skip
+        )
+
+    def _toggle_measurement_column(self, name, on):
+        (self._meas_hidden.discard if on else self._meas_hidden.add)(name)
+        QTimer.singleShot(0, self._fill_measurements)  # the menu is rebuilt after its action's signal, not inside it
+
+    def _measurement_row(self, row, _col):
+        label = self.meas_table.item(row, 0) if self._meas_shown and self._meas_shown[0] == "Label" else None
+        names = [Path(p).name for p in self.images]
+        name = label.text() if label else self._meas_cols["Label"][self._meas_rows[row]]
+        if name in names:
+            self.show_frame(names.index(name))
+
+    def export_measurements(self, path=None):
+        """The rows and columns shown in the measurements table as CSV (AstroImageJ's column names)."""
+        import csv
+
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(
+                self, self.tr("Export the measurements"), "measurements.csv", "CSV (*.csv)"
+            )
+        if not path:
+            return None
+        cols, rows, shown = self._meas_cols, self._meas_rows, self._meas_shown
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(shown)
+            for r in rows:
+                w.writerow([cols[c][r] for c in shown])
+        return path
 
     def _summarise(self):
         lc = self.light_curve
@@ -2135,6 +2265,29 @@ def _without_frames(lc, excluded):
         return lc, keep
     out = {k: [v[i] for i in keep] if isinstance(v, list) and len(v) == n else v for k, v in lc.items()}
     return out, keep
+
+
+class _NumberItem(QTableWidgetItem):
+    """A number in the measurements table: shown with the digits it needs (times to 1e-6 day, the rest to six
+    significant digits), sorted by its value, not by its text."""
+
+    def __init__(self, value, column):
+        value = float(value)
+        if not np.isfinite(value):
+            text = ""
+        elif column in ("J.D.-2400000", "JD_UTC", "BJD_TDB"):
+            text = f"{value:.6f}"
+        elif column == "slice":
+            text = str(int(value))
+        else:
+            text = f"{value:.6g}"
+        super().__init__(text)
+        self.value = value
+
+    def __lt__(self, other):
+        if isinstance(other, _NumberItem):
+            return self.value < other.value or (np.isnan(other.value) and not np.isnan(self.value))
+        return super().__lt__(other)
 
 
 def export_csv(lc, path):
