@@ -270,9 +270,22 @@ def _sky_medians(data, an, sky):
     return med if np.ndim(sky.median) else med[0]
 
 
-def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
+QUANTISATION = 0.289  # rms of the rounding to whole ADU, 1/sqrt(12) (Merline & Howell 1995; AstroImageJ)
+
+
+def camera_pixel_noise(sky, gain, read_noise, dark):
+    """Noise of one sky pixel (ADU) from the camera: sky photons, dark current and read noise in electrons, and the
+    rounding to whole ADU — sqrt(S g + D + R^2 + 0.289^2 g^2) / g, AstroImageJ's model (Collins et al. 2017, appendix
+    B; Merline & Howell 1995). sky: ADU per pixel above the bias; dark: electrons per pixel over the exposure."""
+    sky = np.clip(np.asarray(sky, float), 0, None)
+    return np.sqrt(sky * gain + dark + read_noise**2 + (QUANTISATION * gain) ** 2) / gain
+
+
+def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
-    sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus."""
+    sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus.
+    camera (read noise e-, dark e- per pixel over the exposure): the sky noise from the camera's numbers and each
+    star's sky level instead (camera_pixel_noise), as AstroImageJ does (plans/photometry.md item 2)."""
     data = np.asarray(data, dtype=np.float64)
     ap = CircularAperture(xy, r=r_ap)
     an = CircularAnnulus(xy, r_in=r_in, r_out=r_out)
@@ -282,7 +295,10 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
     n_sky = np.asarray(sky.sum_aper_area.value)
     median = _sky_medians(data, an, sky)
     flux = np.asarray(raw["aperture_sum"]) - n_ap * median
-    noise = np.asarray(sky.std) if pixel_noise is None else float(pixel_noise)
+    if camera is not None:
+        noise = camera_pixel_noise(median, gain, *camera)
+    else:
+        noise = np.asarray(sky.std) if pixel_noise is None else float(pixel_noise)
     var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2
     return flux, np.sqrt(var), median
 

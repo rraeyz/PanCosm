@@ -52,6 +52,7 @@ def light_curve(
     psf=False,
     aperture_m=None,
     ref_path=None,
+    camera=None,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -63,7 +64,10 @@ def light_curve(
     by default from APTDIA (mm) in the header. Without an aperture, the site or the target position no
     scintillation is added and "scintillation" in the result is None.
     ref_path: the frame the positions were marked on, when not the first in time: they are re-centred there and
-    carried to the first frame by the shift between the two (as between consecutive frames)."""
+    carried to the first frame by the shift between the two (as between consecutive frames).
+    camera: {"read_noise": e-, "dark": e- per pixel per second}: the sky noise of every pixel from the camera's numbers
+    and the sky level, as AstroImageJ (Collins et al. 2017, appendix B), instead of the scatter measured in the sky
+    ring (aperture.measure)."""
     paths = [str(p) for p in paths]
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
@@ -106,7 +110,7 @@ def light_curve(
 
         offsets = np.asarray(align_offsets(paths, ctx, binning))
         jobs = [
-            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0])
+            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], camera)
             for p, off in zip(paths, offsets, strict=True)
         ]
         for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
@@ -132,7 +136,7 @@ def light_curve(
         # NY Vir night); the stars found are then checked, and a star pattern match tried when they are not there
         shift = np.zeros(2) if i == 0 else np.asarray(frame_shift(ref, data, binning))
         xy, flux, err, skylev, r, f, lost = _measure_frame(
-            data, h, stars0 + shift, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0]
+            data, h, stars0 + shift, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], camera=camera
         )
         if fwhm0:
             fwhms.append(f)
@@ -212,7 +216,7 @@ def light_curve(
 
 def _frame(job):
     """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured, checked."""
-    p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path = job
+    p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, camera = job
     corner, partial = np.zeros(2), False
     if psf or not np.isfinite(pred).all():
         data, h = load(p)
@@ -223,10 +227,12 @@ def _frame(job):
         (x1, y1), (x0, y0) = np.ceil(pred.max(axis=0)) + m, corner
         data, h = load(p, (y0, y1, x0, x1))
         pred, partial = pred - corner, True
-    out = _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial)
+    out = _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial, camera)
     if out is None:  # the stars were not where the shifts put them: the whole frame, matched by its star pattern
         data, h = load(p)
-        out = _measure_frame(data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path)
+        out = _measure_frame(
+            data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, False, camera
+        )
         corner = np.zeros(2)
     xy, flux, err, skylev, radii, f, lost = out
     try:
@@ -249,7 +255,7 @@ def _ref_stars(ref_path):
     return _REF_STARS["xy"]
 
 
-def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial=False):
+def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial=False, camera=None):
     """Centre, measure and check the stars of one frame from their predicted positions (the reference frame's
     positions stars0 moved by the frame's shift). When the target or a comparison star is not found there, the frame
     is matched to the reference by its star pattern (a wrong shift, a large jump, rotation: a meridian flip) and
@@ -258,14 +264,14 @@ def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, re
     there, ("comparison", k) for comparison star k (1-based), ("aligned",) when the frame could not be placed."""
     from ..calibration import starmatch
 
-    out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp)
+    out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, camera)
     lost = _lost(out, n_comp)
     if lost:
         if partial:
             return None
         try:
             m, t, _, _ = starmatch.match(_ref_stars(ref_path), starmatch.stars(data))
-            again = _measure_at(data, h, np.asarray(stars0) @ m.T + t, radii0, g, box, fwhm0, psf, n_comp)
+            again = _measure_at(data, h, np.asarray(stars0) @ m.T + t, radii0, g, box, fwhm0, psf, n_comp, camera)
             if _rank(_lost(again, n_comp)) < _rank(lost):
                 out, lost = again, _lost(again, n_comp)
         except ValueError:  # no pattern to match (clouds, an empty frame): left as it is
@@ -293,7 +299,7 @@ def _rank(lost):
     return {(): 0, "comparison": 1, "target": 2, "aligned": 3}[lost[0] if lost else ()]
 
 
-def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp):
+def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, camera=None):
     """Centroids from the predicted positions, then the fluxes (apertures or PSF); found: centroid near the
     prediction."""
     r_ap, r_in, r_out = radii0
@@ -309,7 +315,11 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp):
         f_psf = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
         flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
     else:
-        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"))
+        cam = None
+        if camera:  # dark current over this frame's exposure
+            exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
+            cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
+        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam)
     return xy, flux, err, skylev, radii, f, found
 
 

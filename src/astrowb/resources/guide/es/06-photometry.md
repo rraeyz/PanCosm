@@ -61,6 +61,8 @@ El gráfico muestra el perfil de la estrella con la apertura (verde), el hueco q
 - Las estrellas se recentran en cada toma, y la deriva del campo durante la noche se sigue de toma en toma.
 - Las plantillas de automatización eligen los radios así por sí solas.
 
+**Ruido del cielo a partir de la cámara** (Más opciones de medida): el error de cada estrella se calcula entonces a partir de la ganancia, el ruido de lectura y la corriente oscura (leídos de RDNOISE / READNOIS y DARKCUR si la cabecera los tiene, o escritos a mano) y del nivel de cielo de cada estrella — √(S g + D + R² + 0,289² g²) / g por píxel de cielo, como hace AstroImageJ (Collins et al. 2017, apéndice B) — en lugar de la dispersión medida en el anillo de cielo (el camino de IRAF y Siril). En tomas simuladas el error previsto coincide con la dispersión de 1000 realizaciones de ruido dentro del 5 %. La tabla de medidas muestra la señal-ruido de cada estrella (Source_SNR) en cada toma.
+
 ## Tiempo y BJD
 Los tiempos se toman de `DATE-OBS` y `EXPTIME` (la mitad de la exposición). Con **AR Dec del objeto** (u `OBJCTRA`/`OBJCTDEC` en la cabecera) y el lugar en la cabecera, los tiempos se convierten a **BJD_TDB**, el estándar para cronometrar eclipses y tránsitos.
 

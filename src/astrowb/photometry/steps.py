@@ -36,6 +36,7 @@ def _check_positions(image, target, comps=()):
     follow_seeing=False,
     psf=False,
     aperture_m=None,
+    camera=None,
 )
 def light_curve_step(inputs, params, ctx):
     images = timing.chronological(inputs["images"])
@@ -57,6 +58,7 @@ def light_curve_step(inputs, params, ctx):
         psf=params["psf"],
         aperture_m=params["aperture_m"],
         ref_path=ref,
+        camera=params.get("camera"),
     )
     return {"light_curve": lc}
 

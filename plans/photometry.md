@@ -261,7 +261,16 @@ waits for the owner, see "For the owner to try"):
   in the test.
 
 ### 2. Noise model with the camera's numbers
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — `aperture.camera_pixel_noise` (√(S g + D + R² + 0.289² g²) / g per sky
+pixel, AstroImageJ's model, Collins et al. 2017 app. B; Merline & Howell 1995) and `measure(..., camera=(read noise,
+dark))`, carried through `light_curve(camera=…)` and the step (dark current per second times each frame's EXPTIME).
+Photometry window, More measuring options: **Sky noise from the camera** with read noise and dark current, filled from
+RDNOISE / READNOIS / RDNOIS and DARKCUR; off by default (the measured sky scatter, as IRAF and Siril, stays the
+default: it also holds faint stars and gradients in the ring). The S/N of every star on every frame is the
+measurements table's Source_SNR (item 6). Accept met: on simulated frames (gain 2, read noise 8 e⁻, dark 30 e⁻, the
+dark subtracted, rounded to ADU) the predicted error matches the scatter of 1000 realisations within 5 %
+(`test_camera_noise_model_predicts_the_scatter`); `test_camera_noise_option_reads_the_header_and_goes_with_the_measurement`.
+Guide 06 in four languages.
 - **Reference:** AIJ appendix B (source and sky Poisson noise, dark current, read noise, quantisation); IRAF
   `datapars` (epadu, readnoise).
 - **Ours:** F/gain plus the scatter of the sky ring — the same formula as IRAF and Siril (see the code table); read

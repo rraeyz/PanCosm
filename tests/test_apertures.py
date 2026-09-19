@@ -342,3 +342,23 @@ def test_astroimagej_radii():
     centres = np.arange(0.25, 20, 0.5)
     flat = np.exp(-centres / 30.0)  # never falls to 1 % inside the profile
     assert aij_radii(centres, flat, 5.0) == (8.0, 17.0, 34.0)
+
+
+def test_camera_noise_model_predicts_the_scatter():
+    """plans/photometry.md item 2: with the camera's gain, read noise and dark current the predicted flux error matches
+    the scatter of 1000 noise realisations within 5 % (AstroImageJ's model, Collins et al. 2017 appendix B)."""
+    from astrowb.photometry.aperture import measure
+
+    gain, read_noise, dark_rate, exptime, sky = 2.0, 8.0, 0.5, 60.0, 400.0
+    dark = dark_rate * exptime  # electrons per pixel over the exposure
+    rng = np.random.default_rng(7)
+    yy, xx = np.mgrid[:41, :41]
+    star = 4e4 / (2 * np.pi * 1.8**2) * np.exp(-((xx - 20.3) ** 2 + (yy - 19.6) ** 2) / (2 * 1.8**2))  # electrons
+    fluxes, errs = [], []
+    for _ in range(1000):
+        e = rng.poisson(star + sky * gain + dark) - dark + rng.normal(0, read_noise, star.shape)
+        adu = np.round(e / gain)  # the dark was subtracted (a calibrated frame); its noise stays
+        f, err, _ = measure(adu, [(20.3, 19.6)], 5.0, 10.0, 16.0, gain, camera=(read_noise, dark))
+        fluxes.append(f[0])
+        errs.append(err[0])
+    assert np.median(errs) == pytest.approx(np.std(fluxes), rel=0.05)

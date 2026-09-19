@@ -61,6 +61,8 @@ Grafik yıldızın profilini açıklık (yeşil), dışarıda bırakılan boşlu
 - Yıldızlar her karede yeniden merkezlenir ve alanın gece boyunca kayması kareden kareye izlenir.
 - Otomasyon şablonları yarıçapları kendiliğinden bu yolla seçer.
 
+**Gökyüzü gürültüsü kameradan** (Daha fazla ölçüm seçeneği): her yıldızın hatası kazançtan, okuma gürültüsünden ve karanlık akımdan (başlıkta RDNOISE / READNOIS ve DARKCUR varsa oradan okunur, yoksa yazılır) ve her yıldızın gökyüzü düzeyinden hesaplanır — gökyüzü pikseli başına √(S g + D + R² + 0,289² g²) / g, AstroImageJ'nin yaptığı gibi (Collins ve ark. 2017, ek B) — gökyüzü halkasında ölçülen saçılma yerine (IRAF ve Siril'in yolu). Benzetilmiş karelerde öngörülen hata, 1000 gürültü gerçekleşmesinin saçılmasıyla %5 içinde uyuşur. Ölçüm tablosu her yıldızın her karedeki sinyal-gürültüsünü (Source_SNR) gösterir.
+
 ## Zaman ve BJD
 Zamanlar `DATE-OBS` ve `EXPTIME`'dan alınır (pozun ortası). **Hedef RA Dec** (ya da başlıktaki `OBJCTRA`/`OBJCTDEC`) ve başlıktaki gözlem yeri ile zamanlar, örtme ve geçiş zamanlamasının standardı olan **BJD_TDB**'ye çevrilir.
 
