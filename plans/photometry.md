@@ -220,7 +220,7 @@ and detrend panels come with items 6, 8, 9. Findings of its first user test: `pl
 ## P1 — trust in the light curve
 
 ### 1. Same frames, same answer as AstroImageJ (validation)
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Reference:** the owner compares against AIJ by eye; no number says we agree.
 - **Ours:** checked only on synthetic frames and Qatar-1 scatter.
 - **Build:** a validation script that measures one public night (Qatar-1 LCO and one eclipsing binary night) with
