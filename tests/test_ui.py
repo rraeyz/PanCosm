@@ -1651,3 +1651,43 @@ def test_radii_rule_reaches_the_step(window, qtbot):
     page.apertures_requested.connect(lambda *args: sent.append(args))
     page._choose_radii()
     assert sent and sent[0][3] == "aij"
+
+
+def test_star_list_saved_and_opened_on_another_night(window, tmp_path):
+    """plans/photometry.md item 7: stars saved on a solved night 1 land on the same stars of a solved night 2, and the
+    load is undoable."""
+    from astropy.wcs import WCS
+
+    def night(name, crpix, angle):
+        w = WCS(naxis=2)
+        w.wcs.ctype, w.wcs.crval, w.wcs.crpix = ["RA---TAN", "DEC--TAN"], [31.0, 46.7], crpix
+        a = np.radians(angle)
+        w.wcs.cd = np.array([[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]]) * 1.5 / 3600
+        paths = []
+        for i in range(2):
+            p = tmp_path / f"{name}{i}.fits"
+            fits.PrimaryHDU(np.random.default_rng(i).normal(100, 3, (120, 160)).astype(np.float32),
+                            w.to_header()).writeto(p)  # fmt: skip
+            paths.append(p)
+        return paths, w
+
+    page = window.photometry_page
+    paths1, w1 = night("a", [80, 60], 0.0)
+    page.set_images(paths1)
+    page.field = {"header": w1.to_header().tostring(), "variables": []}
+    page.target, page.comps, page.extras, page.ref = (70.0, 50.0), [(30.0, 40.0)], [((100.0, 90.0), "check")], 0
+    saved = page.save_star_list(tmp_path / "s.stars.json")
+    assert "RA / Dec" in page.result.text()
+    paths2, w2 = night("b", [90, 50], 30.0)
+    page.set_images(paths2)
+    page.field = {"header": w2.to_header().tostring(), "variables": []}
+    page._clear()
+    got = page.load_star_list(saved)
+    want = w2.world_to_pixel_values(*w1.pixel_to_world_values(70.0, 50.0))
+    assert got["by"] == "sky" and np.allclose(page.target, want, atol=0.01) and len(page.comps) == 1
+    assert len(page.extras) == 1 and page.extras[0][1] == "check"
+    page.undo_stack.undo()
+    assert page.target is None
+    bad = tmp_path / "bad.json"
+    bad.write_text("[]")
+    assert page.load_star_list(bad) is None and page.result.text().startswith("not a star list")

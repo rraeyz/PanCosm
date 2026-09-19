@@ -418,7 +418,8 @@ class MainWindow(QMainWindow):
         menus = [  # the approved table (plans/interface.md I6c), in the order of the work
             (self.tr("F&rames"), [images, mirror(page.live_button), blink, prev, nxt, None, bad,
                                   mirror(page.drop_bad), mirror(page.restore_button)]),
-            (self.tr("&Stars"), [comps, target, check, None, mirror(page.clear_button)]),
+            (self.tr("&Stars"), [comps, target, check, None, mirror(page.save_stars_button),
+                                 mirror(page.load_stars_button), None, mirror(page.clear_button)]),
             (self.tr("&Measure"), [radii, mirror(page.follow_seeing), mirror(page.psf), None, measure,
                                    mirror(page.catalog_button), mirror(page.pol_button)]),
             (self.tr("&Analyse"), [mirror(page.detrend_button), mirror(page.undo_detrend), None, minimum, None,

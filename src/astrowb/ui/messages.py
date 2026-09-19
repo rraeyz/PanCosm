@@ -345,6 +345,9 @@ TEMPLATES = (
     # spectroscopy/reidentify.py and the Reduce tab
     QT_TRANSLATE_NOOP("Messages", "{name}: no identified lines (not an IRAF identify / ecidentify database?)"),
     QT_TRANSLATE_NOOP("Messages", "no IRAF database {name} next to it: choose the database file itself"),
+    # photometry/starlist.py
+    QT_TRANSLATE_NOOP("Messages", "not a star list (.stars.json)"),
+    QT_TRANSLATE_NOOP("Messages", "the target of the star list is outside this frame"),
     # photometry/measurements.py (the measurements table's filter)
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {part}"),
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the measurements table"),
