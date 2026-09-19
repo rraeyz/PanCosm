@@ -63,6 +63,8 @@ El gráfico muestra el perfil de la estrella con la apertura (verde), el hueco q
 
 **Ruido del cielo a partir de la cámara** (Más opciones de medida): el error de cada estrella se calcula entonces a partir de la ganancia, el ruido de lectura y la corriente oscura (leídos de RDNOISE / READNOIS y DARKCUR si la cabecera los tiene, o escritos a mano) y del nivel de cielo de cada estrella — √(S g + D + R² + 0,289² g²) / g por píxel de cielo, como hace AstroImageJ (Collins et al. 2017, apéndice B) — en lugar de la dispersión medida en el anillo de cielo (el camino de IRAF y Siril). En tomas simuladas el error previsto coincide con la dispersión de 1000 realizaciones de ruido dentro del 5 %. La tabla de medidas muestra la señal-ruido de cada estrella (Source_SNR) en cada toma.
 
+**Cielo del anillo** (Más opciones de medida) elige cómo el anillo de cielo da el cielo bajo la estrella: la **mediana** recortada (por defecto; en datos enteros tomada dentro de su intervalo unidad), la **moda** de IRAF (3 mediana − 2 media tras el recorte), la **media dentro de ±2σ** de AstroImageJ o un **ajuste de un plano** — un cielo inclinado (la Luna, el crepúsculo, la contaminación lumínica) ajustado sobre el anillo dejando fuera sus estrellas; su valor en la estrella es el cielo. En una toma simulada con gradiente y una estrella brillante en el anillo, el plano da el cielo verdadero dentro de 0,1 σ mientras los demás se desvían.
+
 ## Tiempo y BJD
 Los tiempos se toman de `DATE-OBS` y `EXPTIME` (la mitad de la exposición). Con **AR Dec del objeto** (u `OBJCTRA`/`OBJCTDEC` en la cabecera) y el lugar en la cabecera, los tiempos se convierten a **BJD_TDB**, el estándar para cronometrar eclipses y tránsitos.
 

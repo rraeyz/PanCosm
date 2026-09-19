@@ -281,7 +281,54 @@ def camera_pixel_noise(sky, gain, read_noise, dark):
     return np.sqrt(sky * gain + dark + read_noise**2 + (QUANTISATION * gain) ** 2) / gain
 
 
-def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None):
+SKY_METHODS = ("median", "mode", "mean", "plane")
+
+
+def sky_estimate(values, dx, dy, method="median"):
+    """Sky level at the star's centre and the scatter of one pixel, from the ring's pixel values and their offsets
+    (dx, dy) from the centre, with the number of pixels kept (plans/photometry.md item 3):
+    - "median": 3-sigma clipped median (inside its bin for integer data, _grouped_median);
+    - "mode": IRAF's 3 median - 2 mean after iterative 3-sigma clipping (fitskypars salgorithm=mode);
+    - "mean": AstroImageJ's: pixels within mean +- 2 sigma, iterated until the mean changes by < 1e-4 (100 at most);
+    - "plane": a plane a + b dx + c dy fitted to the ring with 3-sigma clipping of the residuals (gradients from the
+      Moon or twilight); its value at the centre is the sky, and over a whole circular aperture the tilt cancels."""
+    v, dx, dy = (np.asarray(a, float) for a in (values, dx, dy))
+    ok = np.isfinite(v)
+    v, dx, dy = v[ok], dx[ok], dy[ok]
+    if v.size < 3:
+        return np.nan, np.nan, int(v.size)
+    if method == "plane":
+        keep = np.ones(v.size, bool)
+        for _ in range(10):
+            A = np.column_stack([np.ones(keep.sum()), dx[keep], dy[keep]])
+            coef, *_ = np.linalg.lstsq(A, v[keep], rcond=None)
+            resid = v - (coef[0] + coef[1] * dx + coef[2] * dy)
+            sd = 1.4826 * np.median(np.abs(resid[keep] - np.median(resid[keep])))
+            new = np.abs(resid) <= 3 * max(sd, 1e-12)
+            if (new == keep).all():
+                break
+            keep = new
+        return float(coef[0]), float(np.std(resid[keep])), int(keep.sum())
+    if method == "mean":
+        keep = np.ones(v.size, bool)
+        mean = v.mean()
+        for _ in range(100):
+            sd = v[keep].std()
+            new = np.abs(v - mean) <= 2 * sd
+            m2 = v[new].mean() if new.any() else mean
+            keep = new
+            if abs(m2 - mean) < 1e-4 * max(abs(mean), 1.0):
+                mean = m2
+                break
+            mean = m2
+        return float(mean), float(v[keep].std()), int(keep.sum())
+    kept = _CLIP(v, masked=True).compressed()
+    if method == "mode":
+        return float(3 * np.median(kept) - 2 * kept.mean()), float(kept.std()), int(kept.size)
+    return float(_grouped_median(kept)), float(kept.std()), int(kept.size)
+
+
+def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median"):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
     sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus.
     camera (read noise e-, dark e- per pixel over the exposure): the sky noise from the camera's numbers and each
@@ -294,11 +341,24 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None
     n_ap = ap.area_overlap(data)
     n_sky = np.asarray(sky.sum_aper_area.value)
     median = _sky_medians(data, an, sky)
+    std = np.asarray(sky.std, float)
+    if sky_method != "median":  # the other estimators work on the ring's pixels and their places
+        median, std, n_sky = (np.atleast_1d(np.array(a, float)).copy() for a in (median, std, n_sky))
+        for i, (x, y) in enumerate(np.atleast_2d(np.asarray(xy, float))):
+            mask = CircularAnnulus((x, y), r_in=r_in, r_out=r_out).to_mask(method="center")
+            vals = mask.get_values(data)
+            yy, xx = np.mgrid[mask.bbox.iymin : mask.bbox.iymax, mask.bbox.ixmin : mask.bbox.ixmax]
+            inside = mask.data > 0
+            cut = mask.get_overlap_slices(data.shape)[1]
+            if cut is None:
+                continue
+            xs, ys = xx[cut][inside[cut]], yy[cut][inside[cut]]
+            median[i], std[i], n_sky[i] = sky_estimate(vals, xs - x, ys - y, sky_method)
     flux = np.asarray(raw["aperture_sum"]) - n_ap * median
     if camera is not None:
         noise = camera_pixel_noise(median, gain, *camera)
     else:
-        noise = np.asarray(sky.std) if pixel_noise is None else float(pixel_noise)
+        noise = std if pixel_noise is None else float(pixel_noise)
     var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2
     return flux, np.sqrt(var), median
 

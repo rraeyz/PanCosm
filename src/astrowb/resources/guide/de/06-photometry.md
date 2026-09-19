@@ -63,6 +63,8 @@ Das Diagramm zeigt das Sternprofil mit Blende (grün), ausgelassener Lücke und 
 
 **Himmelsrauschen aus der Kamera** (Weitere Messoptionen): der Fehler jedes Sterns wird dann aus Verstärkung, Ausleserauschen und Dunkelstrom (aus RDNOISE / READNOIS und DARKCUR gelesen, wenn der Header sie hat, sonst eingetippt) und der Himmelshelligkeit jedes Sterns berechnet — √(S g + D + R² + 0,289² g²) / g je Himmelspixel, wie in AstroImageJ (Collins et al. 2017, Anhang B) — statt aus der im Himmelsring gemessenen Streuung (der Weg von IRAF und Siril). Auf simulierten Aufnahmen stimmt der vorhergesagte Fehler auf 5 % mit der Streuung von 1000 Rauschrealisierungen überein. Die Messtabelle zeigt das Signal-Rausch-Verhältnis jedes Sterns (Source_SNR) in jeder Aufnahme.
 
+**Himmel aus dem Ring** (Weitere Messoptionen) wählt, wie der Himmelsring den Himmel unter dem Stern liefert: der beschnittene **Median** (Standard; bei ganzzahligen Daten innerhalb seines Einheitsintervalls), IRAFs **Modus** (3 Median − 2 Mittel nach dem Beschneiden), AstroImageJs **Mittel innerhalb ±2σ** oder eine **Ebenenanpassung** — ein geneigter Himmel (Mond, Dämmerung, Lichtverschmutzung) wird über den Ring angepasst, die Sterne darin bleiben außen vor; ihr Wert am Stern ist der Himmel. Auf einer simulierten Aufnahme mit Gradient und hellem Stern im Ring trifft die Ebene den wahren Himmel auf 0,1 σ, die anderen liegen daneben.
+
 ## Zeit und BJD
 Die Zeiten stammen aus `DATE-OBS` und `EXPTIME` (Mitte der Belichtung). Mit **Ziel RA Dek** (oder `OBJCTRA`/`OBJCTDEC` im Header) und dem Standort im Header werden die Zeiten in **BJD_TDB** umgerechnet, den Standard für die Zeitbestimmung von Bedeckungen und Transits.
 

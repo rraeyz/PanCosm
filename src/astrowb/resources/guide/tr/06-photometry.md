@@ -63,6 +63,8 @@ Grafik yıldızın profilini açıklık (yeşil), dışarıda bırakılan boşlu
 
 **Gökyüzü gürültüsü kameradan** (Daha fazla ölçüm seçeneği): her yıldızın hatası kazançtan, okuma gürültüsünden ve karanlık akımdan (başlıkta RDNOISE / READNOIS ve DARKCUR varsa oradan okunur, yoksa yazılır) ve her yıldızın gökyüzü düzeyinden hesaplanır — gökyüzü pikseli başına √(S g + D + R² + 0,289² g²) / g, AstroImageJ'nin yaptığı gibi (Collins ve ark. 2017, ek B) — gökyüzü halkasında ölçülen saçılma yerine (IRAF ve Siril'in yolu). Benzetilmiş karelerde öngörülen hata, 1000 gürültü gerçekleşmesinin saçılmasıyla %5 içinde uyuşur. Ölçüm tablosu her yıldızın her karedeki sinyal-gürültüsünü (Source_SNR) gösterir.
 
+**Gökyüzü halkadan** (Daha fazla ölçüm seçeneği) gökyüzü halkasının yıldızın altındaki gökyüzünü nasıl vereceğini seçer: kırpılmış **ortanca** (varsayılan; tamsayı veride birim aralığı içinde alınır), IRAF'ın **kipi** (kırpmadan sonra 3 ortanca − 2 ortalama), AstroImageJ'nin **±2σ içinde ortalaması** ya da bir **düzlem uydurma** — eğik bir gökyüzü (Ay, alacakaranlık, ışık kirliliği) halka üzerinde, içindeki yıldızlar dışarıda bırakılarak uydurulur; yıldızın yerindeki değeri gökyüzüdür. Eğimli ve halkasında parlak bir yıldız olan benzetilmiş bir karede düzlem gerçek gökyüzünü 0,1 σ içinde verir, diğerleri kayar.
+
 ## Zaman ve BJD
 Zamanlar `DATE-OBS` ve `EXPTIME`'dan alınır (pozun ortası). **Hedef RA Dec** (ya da başlıktaki `OBJCTRA`/`OBJCTDEC`) ve başlıktaki gözlem yeri ile zamanlar, örtme ve geçiş zamanlamasının standardı olan **BJD_TDB**'ye çevrilir.
 
