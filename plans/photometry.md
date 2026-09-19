@@ -220,7 +220,7 @@ and detrend panels come with items 6, 8, 9. Findings of its first user test: `pl
 ## P1 — trust in the light curve
 
 ### 1. Same frames, same answer as AstroImageJ (validation)
-**agent2 done (2026-11-08, this commit)** — against IRAF 2.17 `apphot.phot` (installed here; the AstroImageJ table
+**agent2 done (2026-11-08, commit 18bda6b)** — against IRAF 2.17 `apphot.phot` (installed here; the AstroImageJ table
 waits for the owner, see "For the owner to try"):
 - **Two public nights, same centres, radii and sky** (IRAF `calgorithm=none` at our centres, `salgorithm=median`
   with 3σ rejection 10 times, gain from the header, no read noise):
