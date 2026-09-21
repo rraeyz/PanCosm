@@ -140,6 +140,58 @@ def _flip_column(time, flip_time):
     return (np.asarray(time, float) >= flip_time).astype(float)
 
 
+def best_comparison_sets(comp_flux, check_flux=None, top=8, exhaustive_up_to=12):
+    """The comparison-star sets with the quietest ensemble, as AstroImageJ's ensemble optimisation but without the
+    target, so that no set is chosen for hiding the target's own variation: every comparison star (and the check star)
+    is divided by the sum of the set's other stars, and a set's score is the median point-to-point scatter of those
+    curves (mmag). A variable star in the set spoils every curve; outside it, it spoils only its own, which the median
+    passes over. Every set of two or more stars is tried up to exhaustive_up_to stars, else one star is toggled at a
+    time until the score stops improving (AstroImageJ's second search). Returns [(indices, mmag)], best first."""
+    from itertools import combinations
+
+    c = np.asarray(comp_flux, float)
+    m = c.shape[1]
+    stars = [c[:, j] for j in range(m)] + ([np.asarray(check_flux, float)] if check_flux is not None else [])
+
+    def p2p(y):
+        y = y[np.isfinite(y)]
+        return np.std(np.diff(y)) / np.sqrt(2) if y.size > 2 else np.inf
+
+    def score(subset):
+        idx = list(subset)
+        total = c[:, idx].sum(axis=1)
+        curves = []
+        for j, f in enumerate(stars):
+            ref = total - c[:, j] if j < m and j in subset else total
+            if j < m and j in subset and len(idx) < 2:
+                continue
+            with np.errstate(divide="ignore", invalid="ignore"):
+                r = f / ref
+            curves.append(p2p(r / np.nanmedian(r)))
+        return float(1085.7 * np.median(curves))
+
+    if m < 2:
+        return [(tuple(range(m)), np.nan)]
+    seen = {}
+    if m <= exhaustive_up_to:
+        for k in range(2, m + 1):
+            for subset in combinations(range(m), k):
+                seen[subset] = score(subset)
+    else:
+        current = tuple(range(m))
+        seen[current] = score(current)
+        while True:
+            trials = [tuple(sorted(set(current) ^ {j})) for j in range(m)]
+            for t in trials:
+                if len(t) >= 2 and t not in seen:
+                    seen[t] = score(t)
+            best = min((t for t in trials if len(t) >= 2), key=seen.get)
+            if seen[best] >= seen[current]:
+                break
+            current = best
+    return sorted(seen.items(), key=lambda kv: kv[1])[:top]
+
+
 def flip_from_headers(files, times):
     """The time of the meridian flip: the first frame whose PIERSIDE (East / West, as ASCOM and INDI write it)
     differs from the first frame's, half-way to the frame before it. None when the headers do not say."""

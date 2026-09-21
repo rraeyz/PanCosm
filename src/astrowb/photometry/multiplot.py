@@ -81,21 +81,21 @@ def point_scatter(y):
 
 
 def leave_each_out(lc):
-    """[(name of the star left out or "none", scatter of T1's rel_flux in mmag)] for the full ensemble and for every
-    ensemble less one star, best first. A comparison star whose removal lowers the scatter much is suspect."""
+    """[(index of the comparison star left out, or None for the full ensemble; scatter of T1's rel_flux in mmag)] for
+    the full ensemble and for every ensemble less one star, best first. A comparison star whose removal lowers the
+    scatter much is suspect."""
     comp = np.asarray(lc["comp_flux"], float)
     cerr = np.asarray(lc.get("comp_flux_err") or np.zeros_like(comp), float)
     f = np.asarray(lc["target_flux"], float)
     s = np.asarray(lc.get("target_flux_err") or np.zeros_like(f), float)
-    names = star_names(comp.shape[1])
 
     def mmag(cols):
         rel, _ = ensemble(f, s, comp[:, cols], cerr[:, cols])
         return float(1000 * 2.5 / np.log(10) * point_scatter(rel / np.nanmedian(rel)))
 
-    out = [("none", mmag(list(range(comp.shape[1]))))]
+    out = [(None, mmag(list(range(comp.shape[1]))))]
     if comp.shape[1] > 1:
-        out += [(names[1 + k], mmag([j for j in range(comp.shape[1]) if j != k])) for k in range(comp.shape[1])]
+        out += [(k, mmag([j for j in range(comp.shape[1]) if j != k])) for k in range(comp.shape[1])]
     return sorted(out, key=lambda r: r[1])
 
 

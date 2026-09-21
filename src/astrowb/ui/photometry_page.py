@@ -539,6 +539,22 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.weighted.toggled.connect(lambda *_: self._recompute())
         sl.addWidget(self.weighted)
+        best_row = QHBoxLayout()  # plans/photometry.md item 9a
+        self.best_set_button = QPushButton(self.tr("Find the best comparison set"), self)
+        self.best_set_button.setToolTip(
+            self.tr(
+                "Tries the sets of comparison stars and uses the one whose stars agree best with one another and "
+                "with the check star; the target is not used, so no set can hide its variation. Ctrl+Z goes back"
+            )
+        )
+        self.best_set_button.clicked.connect(self.find_best_comparison_set)
+        best_row.addWidget(self.best_set_button)
+        self.best_sets = QComboBox(self)
+        self.best_sets.setToolTip(self.tr("The best sets with the median scatter of their stars; choose one to use it"))
+        self.best_sets.setVisible(False)
+        self.best_sets.activated.connect(self._use_best_set)
+        best_row.addWidget(self.best_sets, 1)
+        sl.addLayout(best_row)
         self.res_tabs.addTab(stars_tab, self.tr("Stars"))
         # plot and detrending
         plot_tab = QWidget(self)
@@ -1419,6 +1435,47 @@ class PhotometryPage(Undoable, QWidget):
             self.edit(self.tr("use or leave out a comparison star"), self._set_comp_off, off)
         else:
             self._recompute()
+
+    def find_best_comparison_set(self):
+        """AstroImageJ's ensemble optimisation, without the target (differential.best_comparison_sets): the best
+        sets listed, the best one used (undoable)."""
+        from ..photometry.differential import best_comparison_sets
+
+        if self.lc_raw is None or len(self.comps) < 3:
+            self.result.setText(self.tr("Measure a light curve with at least three comparison stars first."))
+            return None
+        raw, _ = _without_frames(self.lc_raw, self.excluded)
+        comp = np.asarray(raw["comp_flux"], float)
+        check = None
+        roles = [role for _xy, role in self.extras]
+        if "check" in roles and raw.get("extra_flux"):
+            i = roles.index("check")
+            check = np.asarray(raw["extra_flux"], float)[:, i]
+        rows = best_comparison_sets(comp, check)
+        self.best_sets.blockSignals(True)
+        self.best_sets.clear()
+        for subset, mmag in rows:
+            self.best_sets.addItem(f"{' '.join(f'C{k + 1}' for k in subset)} — {mmag:.2f} mmag", list(subset))
+        self.best_sets.setVisible(True)
+        self.best_sets.setCurrentIndex(0)
+        self.best_sets.blockSignals(False)
+        self._use_best_set(0)
+        left = sorted(set(range(comp.shape[1])) - set(rows[0][0]))
+        text = self.tr("Best comparison set: {set} ({mmag:.2f} mmag); left out: {out}.").format(
+            set=" ".join(f"C{k + 1}" for k in rows[0][0]),
+            mmag=rows[0][1],
+            out=", ".join(f"C{k + 1}" for k in left) or self.tr("none"),
+        )
+        self.result.setText(text + "\n" + self.result.text())
+        return rows
+
+    def _use_best_set(self, index):
+        subset = self.best_sets.itemData(index)
+        if subset is None:
+            return
+        off = set(range(len(self.comps))) - set(subset)
+        if off != self.comp_off:
+            self.edit(self.tr("use the best comparison set"), self._set_comp_off, off)
 
     def _set_comp_off(self, off):
         self.comp_off = set(off)
@@ -2410,15 +2467,17 @@ class PhotometryPage(Undoable, QWidget):
             self.result.setText(self.tr("Measure a light curve with at least two comparison stars first."))
             return None
         rows = leave_each_out(lc)
-        full = dict(rows)["none"]
+        full = dict(rows)[None]
+        used = [k for k in range(len(self.comps)) if k not in self.comp_off] or list(range(len(self.comps)))
+        names = {i: f"C{k + 1}" for i, k in enumerate(used)}  # the star table's names
         parts = [
-            (self.tr("all") if name == "none" else self.tr("without {star}").format(star=name)) + f": {v:.2f} mmag"
-            for name, v in rows
+            (self.tr("all") if k is None else self.tr("without {star}").format(star=names[k])) + f": {v:.2f} mmag"
+            for k, v in rows
         ]
         text = self.tr("Scatter of T1 (point to point): {list}").format(list="; ".join(parts))
-        if rows[0][0] != "none" and rows[0][1] < 0.8 * full:
+        if rows[0][0] is not None and rows[0][1] < 0.8 * full:
             text += " " + self.tr("Leaving out {star} helps most: look at it in “Comparison stars against the others”.")
-            text = text.format(star=rows[0][0])
+            text = text.format(star=names[rows[0][0]])
         self.result.setText(text)
         return rows
 
