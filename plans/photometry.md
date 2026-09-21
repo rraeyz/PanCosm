@@ -437,7 +437,7 @@ set without them). Guide 06 in four languages.
 - **Accept:** on a synthetic curve with an airmass trend and a flip jump, the true model has the lowest BIC.
 
 ### 9a. Optimising the ensemble
-**agent2 done (2026-11-09, this commit)** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
+**agent2 done (2026-11-09, commit 7df5bb9)** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
 `differential.best_comparison_sets`: every set of two or more comparison stars (up to 12 stars; more: one star
 toggled at a time until the score stops improving, AIJ's second search); a set's score is the median point-to-point
 scatter (mmag) of every comparison star and the check star divided by the sum of the set's other stars — the target is
@@ -457,7 +457,7 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
 
 ### 9b. Speed of a night (time, memory, GPU, native code)
-**open** — added 2026-11-07.
+**agent2 claimed (2026-11-09) — do not touch** — added 2026-11-07.
 - **Reference:** AstroImageJ measures in parallel threads and runs BLS / TLS on the GPU (OpenCL).
 - **Ours now:**
   - frames are measured in worker processes;
