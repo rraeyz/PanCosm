@@ -388,7 +388,7 @@ languages; `tests/test_starlist.py`, `test_star_list_saved_and_opened_on_another
 - **Accept:** a list saved on night 1 of a public data set lands within 1 px of the same stars on night 2.
 
 ### 8. Multi-plot
-**agent2 done (2026-11-09, this commit)** — `photometry/multiplot.py` (`available`, `series`, `prepare`,
+**agent2 done (2026-11-09, commit f6e9fc9)** — `photometry/multiplot.py` (`available`, `series`, `prepare`,
 `leave_each_out`, `save_template` / `load_template`) and **Multi-plot** in the Plot tab: the series named as in the
 measurements table (`rel_flux_T1`, check stars and further targets, each comparison star's `Source-Sky_C…`, airmass,
 sky, FWHM, x, y) ticked in a list and drawn one below the other with the spacing, each normalised on its own (the
@@ -413,7 +413,7 @@ for it. Guide 06 in four languages; `tests/test_multiplot.py`, `test_multi_plot_
 - **Accept:** each AIJ plot used in the owner's NY Vir check can be made here.
 
 ### 9. Choosing the detrending with numbers
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** AIJ shows χ², reduced χ² and BIC; a parameter is kept when BIC drops by more than 2; a meridian-flip
   term removes the jump at the flip.
 - **Ours:** detrending against chosen covariates, with no BIC and no meridian-flip term.
