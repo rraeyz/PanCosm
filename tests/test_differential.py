@@ -4,6 +4,7 @@ star found and down-weighted, detrending; simulated series with known answers.""
 import numpy as np
 import pytest
 from astropy.io import fits
+from PySide6.QtCore import Qt
 from test_apertures import STARS, field
 
 from astrowb.photometry import differential as d
@@ -485,3 +486,50 @@ def test_photometry_steps_open_one_after_the_other(qtbot, tmp_path):
     assert s[3].button.isChecked() and s[2].button.text().startswith("✓")
     s[1].button.click()  # a step done opens again with a click
     assert s[1].button.isChecked()
+
+
+def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
+    """plans/photometry.md item 8: the multi-plot draws the ticked series, binned, and its set-up goes to another
+    night; leaving each comparison star out names the scatter of every variant."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.viewer.set_image(field(4.0))
+    page.images = ["x.fits"]
+    for xy in ((60.3, 70.6), (140.2, 60.1), (100.7, 150.4)):
+        page._clicked(*xy)
+    page.click_role.setCurrentIndex(page.click_role.findData("check"))
+    page._clicked(40.0, 160.0)
+    page.click_role.setCurrentIndex(page.click_role.findData("target"))
+    page._clicked(20.0, 20.0)
+    lc = synthetic_lc()
+    lc["extra"] = [
+        {"name": "K1", "role": "check", "rel_flux": [1.0] * 60, "rel_flux_err": [0.01] * 60},
+        {"name": "T2", "role": "target", "rel_flux": [1.0] * 60, "rel_flux_err": [0.01] * 60},
+    ]
+    page.show_light_curve(lc)
+    page.show_what.setCurrentIndex(page.show_what.findData("multi"))
+    assert not page.multi_box.isHidden()
+    ticked = [r["key"] for r in page._multi_rows()]
+    assert ticked == ["rel_flux_T1", "rel_flux_T4", "airmass"]  # T1, the check star (T4 in AIJ's numbering), airmass
+    ax = page.plot.figure.axes[0]
+    assert len(ax.get_legend().get_texts()) == 3 and page._plotted is not None
+    page.bin_n.setValue(6)
+    assert page._plotted is None  # binned points are not frames: no clicking away
+    lines = [ln for ln in page.plot.figure.axes[0].get_lines() if ln.get_label() == "airmass"]
+    assert len(lines[0].get_xdata()) == 10
+    page.norm_from.setText("0.30")
+    page.norm_to.setText("0.35")
+    saved = page.save_plot_template(tmp_path / "a.plot.json")
+    page.bin_n.setValue(0)
+    page.multi_series.item(0).setCheckState(Qt.Unchecked)
+    page.show_what.setCurrentIndex(0)
+    doc = page.open_plot_template(saved)
+    assert doc["bin_n"] == 6 and page.show_what.currentData() == "multi" and page.bin_n.value() == 6
+    assert [r["key"] for r in page._multi_rows()] == ticked and float(page.norm_from.text()) == pytest.approx(0.30)
+    rows = page.leave_each_comparison_out()
+    assert {r[0] for r in rows} == {"none", "C2", "C3"} and "mmag" in page.result.text()
+    bad = tmp_path / "bad.json"
+    bad.write_text("{}")
+    assert page.open_plot_template(bad) is None and page.result.text().startswith("not a multi-plot")

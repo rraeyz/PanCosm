@@ -724,6 +724,7 @@ whenever any area gains a feature.
 | Sky noise from the camera (gain, read noise, dark) and sky from the ring (median, mode, mean, plane) | Photometry | — | — | Steps 4, More measuring options |
 | Saturation and linearity limit, leave out flagged points | Photometry | — | — | under the plot |
 | Target follows the field (not centred); donut stars centred | Photometry | — | — | Steps 2 |
+| Multi-plot (series, binning, normalisation range, colours, set-up file), leave each comparison star out | Photometry | Analyse | — | Results: Plot (Multi-plot) |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
