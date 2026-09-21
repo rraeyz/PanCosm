@@ -65,6 +65,8 @@ El gráfico muestra el perfil de la estrella con la apertura (verde), el hueco q
 
 **Cielo del anillo** (Más opciones de medida) elige cómo el anillo de cielo da el cielo bajo la estrella: la **mediana** recortada (por defecto; en datos enteros tomada dentro de su intervalo unidad), la **moda** de IRAF (3 mediana − 2 media tras el recorte), la **media dentro de ±2σ** de AstroImageJ o un **ajuste de un plano** — un cielo inclinado (la Luna, el crepúsculo, la contaminación lumínica) ajustado sobre el anillo dejando fuera sus estrellas; su valor en la estrella es el cielo. En una toma simulada con gradiente y una estrella brillante en el anillo, el plano da el cielo verdadero dentro de 0,1 σ mientras los demás se desvían.
 
+**El objetivo sigue al campo (sin centrar)** (bajo las estrellas, paso 2): un objetivo débil junto a una estrella brillante no se vuelve a centrar en cada imagen, lo que podría arrastrarlo hacia la estrella brillante; se mueve con las demás estrellas según su desplazamiento mediano. En una noche simulada con una estrella unas 70 veces más brillante a 6 px, el objetivo se queda sobre sí mismo dentro de 0,3 px. Las estrellas desenfocadas, incluso anillos («donuts») más anchos que la caja de centrado, se centran en su centro de luz (dentro de 0,2 px para un anillo de 30 px). La tabla de medidas muestra cuánto movió el centrado cada estrella en cada imagen (`Centring_Move`); un movimiento mayor que el límite conserva la posición prevista.
+
 ## Tiempo y BJD
 Los tiempos se toman de `DATE-OBS` y `EXPTIME` (la mitad de la exposición). Con **AR Dec del objeto** (u `OBJCTRA`/`OBJCTDEC` en la cabecera) y el lugar en la cabecera, los tiempos se convierten a **BJD_TDB**, el estándar para cronometrar eclipses y tránsitos.
 

@@ -54,6 +54,7 @@ def light_curve(
     ref_path=None,
     camera=None,
     sky_method="median",
+    fixed=(),
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -69,7 +70,10 @@ def light_curve(
     camera: {"read_noise": e-, "dark": e- per pixel per second}: the sky noise of every pixel from the camera's numbers
     and the sky level, as AstroImageJ (Collins et al. 2017, appendix B), instead of the scatter measured in the sky
     ring (aperture.measure).
-    sky_method: how the sky ring gives the sky (aperture.sky_estimate): median, mode, mean or plane."""
+    sky_method: how the sky ring gives the sky (aperture.sky_estimate): median, mode, mean or plane.
+    fixed: indices of stars (0 the target, then comparisons, then extra stars) that are not re-centred but follow the
+    field: the median shift the centred stars took on that frame (AstroImageJ's per-aperture centroid off; a faint
+    star beside a bright one is not pulled onto it)."""
     paths = [str(p) for p in paths]
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
@@ -81,7 +85,11 @@ def light_curve(
         marked = load(ref_path)[0]
         stars0 = recenter(marked, stars0, box, max_move=box / 2)
         stars0 = stars0 + frame_shift(marked, ref, 2 if ref.size > 4e6 else 1)
+    clicked = stars0.copy()
     stars0 = recenter(ref, stars0, box, max_move=box / 2)
+    fixed = [k for k in fixed if 0 <= k < len(stars0)]
+    stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
+    opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed)}
     sky = target_coord(h0, coord)
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
@@ -112,7 +120,7 @@ def light_curve(
 
         offsets = np.asarray(align_offsets(paths, ctx, binning))
         jobs = [
-            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], camera, sky_method)
+            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts)
             for p, off in zip(paths, offsets, strict=True)
         ]
         for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
@@ -149,8 +157,7 @@ def light_curve(
             psf,
             n_comp,
             paths[0],
-            camera=camera,
-            sky_method=sky_method,
+            opts=opts,
         )
         if fwhm0:
             fwhms.append(f)
@@ -160,7 +167,8 @@ def light_curve(
             t = timing.mid_time(h)
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
-        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost))
+        moved = np.hypot(*(xy - stars0 - shift).T)  # how far centring moved each star from the frame's shift
+        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved))
     reader.shutdown(wait=False)
     gone = [(Path(r[0]).name, *r[7]) for r in rows if r[7]]
     keep = [k for k, r in enumerate(rows) if not r[7]]
@@ -210,6 +218,9 @@ def light_curve(
         "xy": [r[5].tolist() for r in rows],
         "coord": sky.to_string("hmsdms") if sky is not None else None,
         "radii": radii,  # aperture, inner and outer sky radius used on each frame (pixels)
+        # how far centring moved each star from where the frame's shift put it (pixels; item 5)
+        "centring_move": [r[8].tolist() if len(r) > 8 else [0.0] * len(r[5]) for r in rows],
+        "fixed": list(opts["fixed"]) if src is None else [],
         "scintillation": None if scint is None else scint.tolist(),  # relative, per frame
         "aperture_m": aperture_m,
         # frames left out, with why: {file: ["target"] / ["comparison", k] / ["aligned"]} (a dict: never taken for
@@ -230,7 +241,8 @@ def light_curve(
 
 def _frame(job):
     """One frame of light_curve's parallel path: read, re-centred from the predicted positions, measured, checked."""
-    p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, camera, sky_method = job
+    p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, opts = job
+    asked = np.asarray(pred, float)  # where the frame's shift put the stars, before centring
     corner, partial = np.zeros(2), False
     if psf or not np.isfinite(pred).all():
         data, h = load(p)
@@ -241,21 +253,18 @@ def _frame(job):
         (x1, y1), (x0, y0) = np.ceil(pred.max(axis=0)) + m, corner
         data, h = load(p, (y0, y1, x0, x1))
         pred, partial = pred - corner, True
-    out = _measure_frame(
-        data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial, camera, sky_method
-    )
+    out = _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial, opts)
     if out is None:  # the stars were not where the shifts put them: the whole frame, matched by its star pattern
         data, h = load(p)
-        out = _measure_frame(
-            data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, False, camera, sky_method
-        )
+        out = _measure_frame(data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, False, opts)
         corner = np.zeros(2)
     xy, flux, err, skylev, radii, f, lost = out
     try:
         t = timing.mid_time(h)
     except timing.TimeError:
         t = None
-    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost)
+    moved = np.hypot(*(xy + corner - asked).T)
+    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved)
     return row, _peaks(data, xy, radii[0]), radii, f
 
 
@@ -271,9 +280,7 @@ def _ref_stars(ref_path):
     return _REF_STARS["xy"]
 
 
-def _measure_frame(
-    data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial=False, camera=None, sky_method="median"
-):
+def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, partial=False, opts=None):
     """Centre, measure and check the stars of one frame from their predicted positions (the reference frame's
     positions stars0 moved by the frame's shift). When the target or a comparison star is not found there, the frame
     is matched to the reference by its star pattern (a wrong shift, a large jump, rotation: a meridian flip) and
@@ -282,16 +289,14 @@ def _measure_frame(
     there, ("comparison", k) for comparison star k (1-based), ("aligned",) when the frame could not be placed."""
     from ..calibration import starmatch
 
-    out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, camera, sky_method)
+    out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts)
     lost = _lost(out, n_comp)
     if lost:
         if partial:
             return None
         try:
             m, t, _, _ = starmatch.match(_ref_stars(ref_path), starmatch.stars(data))
-            again = _measure_at(
-                data, h, np.asarray(stars0) @ m.T + t, radii0, g, box, fwhm0, psf, n_comp, camera, sky_method
-            )
+            again = _measure_at(data, h, np.asarray(stars0) @ m.T + t, radii0, g, box, fwhm0, psf, n_comp, opts)
             if _rank(_lost(again, n_comp)) < _rank(lost):
                 out, lost = again, _lost(again, n_comp)
         except ValueError:  # no pattern to match (clouds, an empty frame): left as it is
@@ -319,11 +324,18 @@ def _rank(lost):
     return {(): 0, "comparison": 1, "target": 2, "aligned": 3}[lost[0] if lost else ()]
 
 
-def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, camera=None, sky_method="median"):
+def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     """Centroids from the predicted positions, then the fluxes (apertures or PSF); found: centroid near the
-    prediction."""
+    prediction. opts: {"camera", "sky_method", "fixed"} (light_curve)."""
+    opts = opts or {}
+    camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
     xy, found = recenter(data, pred, box, found=True)
+    fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
+    if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars
+        free = [k for k in range(len(xy)) if k not in fixed and found[k]]
+        move = np.median(xy[free] - pred[free], axis=0) if free else np.zeros(2)
+        xy[fixed], found[fixed] = pred[fixed] + move, True
     k, f = 1.0, None
     if fwhm0:
         f = seeing_fwhm(data, xy)

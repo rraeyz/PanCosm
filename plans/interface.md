@@ -721,6 +721,9 @@ whenever any area gains a feature.
 | Radii from the star profiles and the aperture scan | Photometry | Measure | yes | Steps 3 |
 | Radii rule: best S/N or as AstroImageJ (1 % of the peak, sky 2–4×) | Photometry | — | — | Steps 3 (Rule) |
 | Measure the light curve, lost frames shown | Photometry | Measure | yes | Steps 4, Light curve |
+| Sky noise from the camera (gain, read noise, dark) and sky from the ring (median, mode, mean, plane) | Photometry | — | — | Steps 4, More measuring options |
+| Saturation and linearity limit, leave out flagged points | Photometry | — | — | under the plot |
+| Target follows the field (not centred); donut stars centred | Photometry | — | — | Steps 2 |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

@@ -401,3 +401,39 @@ def test_light_curve_with_the_other_sky_estimates(tmp_path):
         lc = light_curve(paths, stars[0], stars[1:], 6, 18, 24, sky_method=method, camera={"read_noise": 8.0})
         d = np.asarray(lc["rel_flux"]) - np.asarray(ref["rel_flux"])
         assert np.all(np.abs(d) < 3 * np.asarray(ref["rel_flux_err"])), method
+
+
+def test_faint_star_beside_a_bright_one_follows_the_field(tmp_path):
+    """plans/photometry.md item 5: a faint target 6 px from a bright star is pulled towards it by centring; with
+    centring off for the target it stays on the faint star, moving with the field."""
+    yy, xx = np.mgrid[:120, :140]
+    rng = np.random.default_rng(3)
+    paths = []
+    for i in range(4):
+        dx, dy = 0.8 * i, -0.5 * i
+        img = rng.normal(200, 4, yy.shape)
+        for x, y, f in ((60.0, 60.0, 6e3), (66.0, 60.0, 4e5), (30.0, 30.0, 8e4), (100.0, 90.0, 9e4)):
+            img += f / (2 * np.pi * 2.2**2) * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.2**2))
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"n{i}.fits")
+        paths.append(tmp_path / f"n{i}.fits")
+    stars = [(60.0, 60.0), (30.0, 30.0), (100.0, 90.0)]
+    free = light_curve(paths, stars[0], stars[1:], 2.5, 12, 18)
+    held = light_curve(paths, stars[0], stars[1:], 2.5, 12, 18, fixed=(0,))
+    truth = np.array([[60.0 + 0.8 * i, 60.0 - 0.5 * i] for i in range(4)])
+    free_xy, held_xy = np.asarray(free["xy"])[:, 0], np.asarray(held["xy"])[:, 0]
+    assert np.max(np.hypot(*(held_xy - truth).T)) < 0.3
+    assert np.max(np.hypot(*(free_xy - truth).T)) < 0.3  # here the 2.5 px limit already kept centring off it
+    assert held["fixed"] == [0] and len(held["centring_move"][0]) == 3
+
+
+def test_donut_star_is_centred():
+    """plans/photometry.md item 5: a defocused "donut" star 30 px across is centred within 0.2 px."""
+    from astrowb.photometry.aperture import recenter
+
+    yy, xx = np.mgrid[:160, :160]
+    x0, y0 = 81.3, 78.6
+    r = np.hypot(xx - x0, yy - y0)
+    img = 300 + 2000 * np.exp(-0.5 * ((r - 11) / 2.5) ** 2) + np.random.default_rng(1).normal(0, 5, r.shape)
+    x, y = recenter(img, [(79.0, 80.5)], box=11, max_move=5)[0]
+    assert np.hypot(x - x0, y - y0) < 0.2

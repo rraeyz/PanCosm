@@ -65,6 +65,8 @@ The plot shows the star's profile with the aperture (green), the left-out gap an
 
 **Sky from the ring** (More measuring options) chooses how the sky ring gives the sky under the star: the clipped **median** (the default; for integer data taken inside its unit bin), IRAF's **mode** (3 median − 2 mean after clipping), AstroImageJ's **mean within ±2σ**, or a **plane fit** — a tilted sky (the Moon, twilight, light pollution) fitted over the ring with the stars in it left out; its value at the star is the sky. On a simulated frame with a gradient and a bright star in the ring the plane gives the true sky within 0.1 σ while the others are pulled off.
 
+**The target follows the field (not centred)** (under the stars, step 2): a faint target beside a bright star is then not re-centred on each frame, which could pull it onto the bright star; it moves with the other stars by their median shift. On a simulated night with a star about 70 times brighter 6 px away, the target stays on itself within 0.3 px. Defocused stars, even rings ("donuts") wider than the centring box, are centred on their centre of light (within 0.2 px for a 30 px ring). The measurements table shows how far centring moved each star on each frame (`Centring_Move`); a move larger than the limit keeps the predicted position.
+
 ## Time and BJD
 Times are taken from `DATE-OBS` and `EXPTIME` (the middle of the exposure). With the **Target RA Dec** (or `OBJCTRA`/`OBJCTDEC` in the header) and the site in the header, times are converted to **BJD_TDB**, the standard for timing eclipses and transits.
 
