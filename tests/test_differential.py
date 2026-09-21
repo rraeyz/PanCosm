@@ -533,3 +533,88 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     bad = tmp_path / "bad.json"
     bad.write_text("{}")
     assert page.open_plot_template(bad) is None and page.result.text().startswith("not a multi-plot")
+
+
+def _trend_night(seed=2, flip=True):
+    rng = np.random.default_rng(seed)
+    t = 2461000.3 + np.arange(240) / 1440 * 1.5  # 6 hours, 90 s cadence
+    airmass = 1.1 + 2.0 * (t - 2461000.3) ** 2 * 24  # rising through the night
+    fwhm = 3 + rng.normal(0, 0.3, t.size)  # uncorrelated with the flux
+    sky = 100 + rng.normal(0, 5, t.size)
+    transit = 1 - 0.01 * np.clip((0.03 - np.abs(t - 2461000.42)) / 0.007, 0, 1)  # 10 min ingress and egress
+    step = np.where(t >= 2461000.47, 0.006, 0.0) if flip else 0.0
+    rel = transit * np.exp(-0.05 * (airmass - 1.1) + step) * (1 + rng.normal(0, 0.002, t.size))
+    return t, rel, np.full(t.size, 0.002) * rel, {"airmass": airmass, "fwhm": fwhm, "sky": sky}
+
+
+def test_bic_picks_the_true_model_with_the_flip():
+    """plans/photometry.md item 9: an airmass trend and a jump at the meridian flip: the true model has the lowest
+    BIC (out of the transit) and AstroImageJ's rule keeps it; FWHM and sky add nothing."""
+    t, rel, err, cov = _trend_night()
+    rows = d.detrend_bic(rel, err, cov, exclude=(2461000.385, 2461000.455), time=t, flip_time=2461000.47)
+    assert len(rows) == 16  # 2^3 covariate sets, with and without the flip
+    chosen = next(r for r in rows if r["chosen"])
+    assert chosen["names"] == ["airmass"] and chosen["flip"]
+    assert rows[0]["names"] == ["airmass"] and rows[0]["flip"]
+    assert chosen["reduced_chi2"] == pytest.approx(1.0, abs=0.3)
+    out = d.detrend(rel, {"airmass": cov["airmass"]}, (2461000.385, 2461000.455), t, flip_time=2461000.47)
+    assert out["coefficients"]["flip"] == pytest.approx(0.006, abs=0.001)
+    assert out["coefficients"]["airmass"] == pytest.approx(-0.05, abs=0.005)
+    t, rel, err, cov = _trend_night(flip=False)  # no jump: the flip is not kept
+    rows = d.detrend_bic(rel, err, cov, exclude=(2461000.385, 2461000.455), time=t, flip_time=2461000.47)
+    assert not next(r for r in rows if r["chosen"])["flip"]
+
+
+def test_spline_follows_a_slow_trend_and_bridges_the_transit():
+    t, rel, _, _ = _trend_night(flip=False)
+    out = d.spline_detrend(rel, t, exclude=(2461000.385, 2461000.455))
+    f = np.asarray(out["rel_flux"])
+    outside = np.abs(t - 2461000.42) > 0.035
+    assert out["spacing_h"] >= 1.0 and out["scatter_after"] < 0.0025 < out["scatter_before"]
+    depth = 1 - np.median(f[np.abs(t - 2461000.42) < 0.025]) / np.median(f[outside])
+    assert depth == pytest.approx(0.01, abs=0.002)  # the transit survives the bridge
+
+
+def test_photometry_page_chooses_the_detrending_by_bic(qtbot, tmp_path):
+    """plans/photometry.md item 9 on the page: the flip found from PIERSIDE, the BIC table, the chosen set ticked
+    and applied, the spline as a further stage, and outliers left out against their neighbours (undoable)."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    t, rel, err, cov = _trend_night()
+    files = []
+    for i, ti in enumerate(t):
+        p = tmp_path / f"f{i:03d}.fits"
+        fits.PrimaryHDU(
+            np.zeros((2, 2), np.float32), fits.Header({"PIERSIDE": "EAST" if ti < 2461000.47 else "WEST"})
+        ).writeto(p)
+        files.append(str(p))
+    comps = np.column_stack([np.full(t.size, 5e4), np.full(t.size, 3e4)])
+    target = rel * comps.sum(axis=1)
+    target[100] *= 1.1  # one outlier (out of the transit)
+    lc = synthetic_lc(t.size) | {"file": files, "time": t.tolist(), "jd_utc": t.tolist(),
+                                 "airmass": cov["airmass"].tolist(),
+                                 "target_flux": target.tolist(), "target_flux_err": (0.002 * target).tolist(),
+                                 "comp_flux": comps.tolist(), "comp_flux_err": np.zeros_like(comps).tolist(),
+                                 "fwhm": cov["fwhm"].tolist(), "extra_flux": np.ones((t.size, 2)).tolist(),
+                                 "extra_flux_err": np.ones((t.size, 2)).tolist(), "sky": [[100.0] * 5] * t.size,
+                                 "peak": np.full((t.size, 5), 1000.0).tolist()}  # fmt: skip
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.show_light_curve(lc)
+    page.exclude_from.setText("0.385")  # the plot's time, as the axis shows it
+    page.exclude_to.setText("0.455")
+    out = page.leave_out_outliers()
+    assert len(out) == 1 and len(page.excluded) == 1
+    rows = page.choose_detrending()
+    assert page.flip_time.text().startswith("0.47") or float(page.flip_time.text()) == pytest.approx(
+        2461000.47, abs=0.002
+    )
+    chosen = next(r for r in rows if r["chosen"])
+    assert chosen["names"] == ["airmass"] and chosen["flip"]
+    assert page.trend_boxes["airmass"].isChecked() and not page.trend_boxes["fwhm"].isChecked()
+    assert "BIC" in page.result.text() and "flip" in page.light_curve["detrend"]["coefficients"]
+    page.spline_trend.setChecked(True)
+    page._detrend()
+    assert "spline_h" in page.light_curve["detrend"] and "spline" in page.result.text()
+    page.undo_stack.undo()
+    assert "spline_h" not in page.light_curve["detrend"]

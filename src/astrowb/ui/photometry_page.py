@@ -699,6 +699,26 @@ class PhotometryPage(Undoable, QWidget):
         ex_row.addWidget(QLabel(self.tr("to"), self))
         ex_row.addWidget(self.exclude_to)
         pl.addLayout(ex_row)
+        flip_row = QHBoxLayout()  # plans/photometry.md item 9
+        flip_row.addWidget(QLabel(self.tr("Meridian flip at"), self))
+        self.flip_time = QLineEdit(self)
+        self.flip_time.setPlaceholderText(self.tr("time"))
+        self.flip_time.setToolTip(
+            self.tr(
+                "After the flip the stars fall on other pixels: a step in the flux from this time on is fitted with "
+                "the trend. Found from PIERSIDE in the headers when they have it"
+            )
+        )
+        flip_row.addWidget(self.flip_time)
+        self.spline_trend = QCheckBox(self.tr("Smooth trend (spline)"), self)
+        self.spline_trend.setToolTip(
+            self.tr(
+                "A slow change of any shape divided out by a spline in time, its knot spacing chosen by the BIC; "
+                "the left-out range is bridged"
+            )
+        )
+        flip_row.addWidget(self.spline_trend)
+        pl.addLayout(flip_row)
         d_row = QHBoxLayout()
         self.detrend_button = QPushButton(self.tr("Detrend"), self)
         self.detrend_button.setToolTip(
@@ -711,6 +731,23 @@ class PhotometryPage(Undoable, QWidget):
         d_row.addWidget(self.detrend_button)
         d_row.addWidget(self.undo_detrend)
         pl.addLayout(d_row)
+        b_row = QHBoxLayout()
+        self.bic_button = QPushButton(self.tr("Choose the detrending (BIC)"), self)
+        self.bic_button.setToolTip(
+            self.tr(
+                "Every set of the quantities (and the flip) is fitted outside the left-out range; the set with the "
+                "fewest terms within 2 of the lowest BIC is ticked and applied, as in AstroImageJ"
+            )
+        )
+        self.bic_button.clicked.connect(self.choose_detrending)
+        b_row.addWidget(self.bic_button)
+        self.outlier_button = QPushButton(self.tr("Leave out outliers"), self)
+        self.outlier_button.setToolTip(
+            self.tr("Points more than 4 sigma from the median of their neighbours in time; Ctrl+Z brings them back")
+        )
+        self.outlier_button.clicked.connect(self.leave_out_outliers)
+        b_row.addWidget(self.outlier_button)
+        pl.addLayout(b_row)
         pl.addStretch(1)
         self.res_tabs.addTab(plot_tab, self.tr("Plot"))
         # minimum
@@ -1879,12 +1916,26 @@ class PhotometryPage(Undoable, QWidget):
             rel, err = d.ensemble(raw["target_flux"], raw["target_flux_err"], raw["comp_flux"], raw["comp_flux_err"], w)
             lc |= {"rel_flux": rel.tolist(), "rel_flux_err": err.tolist()}
         lc["weights"] = None if w is None else w.tolist()
+        self._rel_before_detrend = (lc["rel_flux"], lc.get("rel_flux_err"))
         if self.detrend_cfg:
             names, exclude, *rest = self.detrend_cfg
             cov = d.covariates(lc)
             degree = rest[0] if rest else 1
-            out = d.detrend(lc["rel_flux"], {k: cov[k] for k in names}, exclude=exclude, time=lc["time"], degree=degree)
-            lc |= {"rel_flux": out["rel_flux"], "detrend": out}
+            flip = rest[1] if len(rest) > 1 else None
+            out = {"coefficients": {}}
+            if names or flip is not None:
+                out = d.detrend(lc["rel_flux"], {k: cov[k] for k in names}, exclude, lc["time"], degree, flip_time=flip)
+                lc |= {"rel_flux": out["rel_flux"]}
+            if len(rest) > 2 and rest[2]:  # the smooth trend, after the quantities
+                spl = d.spline_detrend(lc["rel_flux"], lc["time"], exclude)
+                before = out.get("scatter_before", spl["scatter_before"])  # before the first stage
+                out = spl | {
+                    "coefficients": out["coefficients"],
+                    "spline_h": spl["spacing_h"],
+                    "scatter_before": before,
+                }
+                lc |= {"rel_flux": spl["rel_flux"]}
+            lc |= {"detrend": out}
         lc["extra"] = []
         extras = [n for n in self._star_names() if n[1] != "comparison" and n[0] != "T1"]
         for i, (name, role, _) in enumerate(extras):
@@ -2160,7 +2211,14 @@ class PhotometryPage(Undoable, QWidget):
             dt = lc["detrend"]
             lines.append(
                 self.tr("Detrended ({k}): scatter of the {n} points fitted {a:.2f} % → {b:.2f} %").format(
-                    k=", ".join(dt["coefficients"]),
+                    k=", ".join(
+                        list(dt["coefficients"])
+                        + (
+                            [self.tr("spline, knots every {h:g} h").format(h=dt["spline_h"])]
+                            if "spline_h" in dt
+                            else []
+                        )
+                    ),
                     n=dt["points_fitted"],
                     a=100 * dt["scatter_before"],
                     b=100 * dt["scatter_after"],
@@ -2305,20 +2363,20 @@ class PhotometryPage(Undoable, QWidget):
         items = [self.multi_series.item(i) for i in range(self.multi_series.count())]
         return [{"key": it.text(), "colour": it.data(Qt.UserRole)} for it in items if it.checkState() == Qt.Checked]
 
-    def _norm_range(self, t_ref):
+    def _norm_range(self):
         """The normalisation range in the light curve's own time, from the two boxes (plot time); None: the night."""
         try:
-            a, b = float(self.norm_from.text()), float(self.norm_to.text())
+            a, b = self._time_value(self.norm_from.text()), self._time_value(self.norm_to.text())
         except ValueError:
             return None
-        return (t_ref + min(a, b), t_ref + max(a, b))
+        return (min(a, b), max(a, b))
 
     def _plot_multi(self, ax, lc, t, t_ref):
         """The ticked series, each divided by its median (fluxes) or scaled to its range (airmass, sky …), binned,
         one below the other. Points can be clicked away on an unbinned T1 drawn first."""
         from ..photometry.multiplot import QUANTITIES, prepare, series
 
-        norm = self._norm_range(t_ref)
+        norm = self._norm_range()
         gap = self.spacing.value() or 0.0
         binned = self.bin_n.value() > 1 or self.bin_minutes.value() > 0
         for i, row in enumerate(self._multi_rows()):
@@ -2377,7 +2435,7 @@ class PhotometryPage(Undoable, QWidget):
         norm = None
         if lc is not None:
             t0 = float(np.nanmin(lc["time"]))
-            r = self._norm_range(np.floor(t0))
+            r = self._norm_range()
             norm = None if r is None else ((r[0] - t0) * 24, (r[1] - t0) * 24)
         save_template(
             path, self._multi_rows(), self.bin_n.value(), self.bin_minutes.value(), norm, self.spacing.value()
@@ -2489,9 +2547,25 @@ class PhotometryPage(Undoable, QWidget):
         self.excluded = frames
         self._recompute()
 
+    def _time_value(self, text):
+        """A time typed in a box: the full time (2461000.42) or the time the plot's axis shows (0.42)."""
+        v = float(text)
+        if v < 1e5 and self.lc_raw is not None:
+            v += float(np.floor(np.nanmin(self.lc_raw["time"])))
+        return v
+
+    def _flip_value(self):
+        text = self.flip_time.text().strip()
+        return self._time_value(text) if text else None
+
     def _detrend(self):
         names = [k for k, b in self.trend_boxes.items() if b.isChecked()]
-        if not names or self.lc_raw is None:
+        try:
+            flip = self._flip_value()
+        except ValueError:
+            self.result.setText(self.tr("The meridian flip must be a time (a number)."))
+            return
+        if (not names and flip is None and not self.spline_trend.isChecked()) or self.lc_raw is None:
             self.result.setText(self.tr("Tick at least one quantity to detrend against."))
             return
         from ..photometry.differential import covariates
@@ -2508,11 +2582,81 @@ class PhotometryPage(Undoable, QWidget):
         exclude = None
         try:
             if self.exclude_from.text().strip() and self.exclude_to.text().strip():
-                exclude = (float(self.exclude_from.text()), float(self.exclude_to.text()))
+                exclude = (self._time_value(self.exclude_from.text()), self._time_value(self.exclude_to.text()))
         except ValueError:
             self.result.setText(self.tr("The left-out range must be two times (numbers)."))
             return
-        self._set_detrend((names, exclude, self.trend_degree.value()))
+        self._set_detrend((names, exclude, self.trend_degree.value(), flip, self.spline_trend.isChecked()))
+
+    def _left_out_range(self):
+        try:
+            if self.exclude_from.text().strip() and self.exclude_to.text().strip():
+                return (self._time_value(self.exclude_from.text()), self._time_value(self.exclude_to.text()))
+        except ValueError:
+            pass
+        return None
+
+    def choose_detrending(self):
+        """AstroImageJ's exhaustive search: every set of the quantities this light curve has (and the meridian flip)
+        fitted outside the left-out range, the BIC of each; the set its rule keeps is ticked and applied."""
+        from ..photometry import differential as d
+
+        if self.lc_raw is None or getattr(self, "_rel_before_detrend", None) is None:
+            self.result.setText(self.tr("Measure a light curve first."))
+            return None
+        lc = self.light_curve
+        rel, err = self._rel_before_detrend
+        try:
+            flip = self._flip_value()
+        except ValueError:
+            self.result.setText(self.tr("The meridian flip must be a time (a number)."))
+            return None
+        if flip is None:
+            flip = d.flip_from_headers(lc.get("file") or [], lc["time"])
+            if flip is not None:
+                self.flip_time.setText(f"{flip:.5f}")
+        cov = d.covariates(lc)
+        cov = {k: cov[k] for k in self.trend_boxes if k in cov}
+        exclude = self._left_out_range()
+        try:
+            rows = d.detrend_bic(rel, err, cov, exclude, lc["time"], self.trend_degree.value(), flip)
+        except ValueError as e:
+            self.result.setText(translate(str(e)))
+            return None
+        chosen = next(r for r in rows if r["chosen"])
+        for k, box in self.trend_boxes.items():
+            box.setChecked(k in chosen["names"])
+        lines = [self.tr("BIC of each detrending (lowest first; ΔBIC < 2 is no real gain):")]
+        for r in rows[:6]:
+            terms = " + ".join(r["names"] + (["flip"] if r["flip"] else [])) or self.tr("none")
+            mark = "  ← " + self.tr("chosen") if r["chosen"] else ""
+            lines.append(f"{terms}: BIC {r['bic']:.1f}, ΔBIC {r['delta_bic']:.1f}, χ²ᵣ {r['reduced_chi2']:.2f}{mark}")
+        names = chosen["names"]
+        use_flip = flip if chosen["flip"] else None
+        if names or use_flip is not None or self.spline_trend.isChecked():
+            self._set_detrend((names, exclude, self.trend_degree.value(), use_flip, self.spline_trend.isChecked()))
+        else:
+            self._set_detrend(None)
+        self.result.setText("\n".join(lines) + "\n" + self.result.text())
+        return rows
+
+    def leave_out_outliers(self):
+        """Frames whose point lies more than 4 sigma from the median of its neighbours in time (the light-curve
+        page's test, timeseries.fourier.sigma_clip), left out of every result; undoable."""
+        from ..timeseries.fourier import sigma_clip
+
+        lc = self.light_curve
+        if lc is None:
+            return set()
+        rel = np.asarray(lc["rel_flux"], float)
+        ok = np.isfinite(rel)
+        keep = np.ones(rel.size, bool)
+        keep[ok] = sigma_clip(rel[ok], 4.0, t=np.asarray(lc["time"], float)[ok])
+        out = {self._frame_ids[i] for i in np.flatnonzero(~keep)}
+        if out:
+            self.edit(self.tr("leave out outliers"), self._exclude, self.excluded | out)
+        self.result.setText(self.tr("{n} outlier(s) left out (Ctrl+Z brings them back).").format(n=len(out)))
+        return out
 
     def _set_detrend(self, cfg):
         self.edit(self.tr("detrending") if cfg else self.tr("undo detrending"), self._apply_detrend, cfg)
