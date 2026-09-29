@@ -114,29 +114,48 @@ def _trapezoid(t, t0, depth, t14, tin, base, slope):
     return base * (1 + slope * (t - t0)) * (1 - depth * shape)
 
 
-def trapezoid_fit(t, y, err=None):
-    """Return dict: t0, t0_err, depth, depth_err, t14, t14_err, tin, chi2r (meaningful only with err)."""
+def trapezoid_fit(t, y, err=None, covariates=None):
+    """Return dict: t0, t0_err, depth, depth_err, t14, t14_err, tin, chi2r (meaningful only with err), bic.
+    covariates: {name: per-point values} fitted together with the transit (plans/photometry.md item 16, as
+    AstroImageJ): the model is the trapezoid times exp(sum c_k (z_k - mean z_k)), so a trend in airmass, FWHM, sky …
+    cannot pull the depth or the mid-time; their coefficients are returned in "coefficients"."""
     from scipy.optimize import least_squares
 
     t_abs, y = np.asarray(t, float), np.asarray(y, float)
     tref = float(np.round(t_abs.mean(), 1))
     t = t_abs - tref  # a JD of 2.4e6 would make the numerical derivative step ~1 hour
     w = np.ones_like(y) if err is None else 1 / np.asarray(err, float)
-    ys = _smooth(y)
-    base = np.median(y)
+    names = list(covariates or {})
+    z = np.column_stack([np.asarray(covariates[k], float) for k in names]) if names else np.zeros((len(y), 0))
+    z = z - z.mean(axis=0)
+    c0 = np.zeros(len(names))
+    y_start = y
+    if names:  # a first guess with the trend divided out: the trend can be deeper than the transit
+        a = np.column_stack([np.ones(len(y)), z])
+        c0 = np.linalg.lstsq(a, np.log(np.clip(y, 1e-12, None)), rcond=None)[0][1:]
+        y_start = y / np.exp(z @ c0)
+    ys = _smooth(y_start)
+    base = np.median(y_start)
     depth = np.clip(base - ys, 0, None)
     t0 = float(np.sum(depth * t) / np.sum(depth)) if depth.sum() > 0 else t[np.argmin(ys)]
     span = t[-1] - t[0]
-    p0 = [t0, max(1 - ys.min() / base, 1e-3), span / 2, span / 12, base, 0.0]
-    lo = [t[0], 0, span / 50, span / 500, 0, -np.inf]
-    hi = [t[-1], 1, 2 * span, span, np.inf, np.inf]
-    res = least_squares(lambda p: (_trapezoid(t, *p) - y) * w, p0, bounds=(lo, hi), x_scale="jac")
-    dof = max(1, len(y) - len(p0))
-    chi2r = float(np.sum(res.fun**2) / dof)
+    p0 = [t0, max(1 - ys.min() / base, 1e-3), span / 2, span / 12, base, 0.0] + list(c0)
+    lo = [t[0], 0, span / 50, span / 500, 0, -np.inf] + [-np.inf] * len(names)
+    hi = [t[-1], 1, 2 * span, span, np.inf, np.inf] + [np.inf] * len(names)
+
+    def model(p):
+        return _trapezoid(t, *p[:6]) * np.exp(z @ np.asarray(p[6:]))
+
+    res = least_squares(lambda p: (model(p) - y) * w, p0, bounds=(lo, hi), x_scale="jac")
+    n, k = len(y), len(p0)
+    dof = max(1, n - k)
+    chi2 = float(np.sum(res.fun**2))
+    chi2r = chi2 / dof
+    bic = chi2 + k * np.log(n) if err is not None else n * np.log(max(chi2, 1e-300) / n) + k * np.log(n)
     # without given errors the residual variance is the noise estimate; with errors, only inflate
     cov = np.linalg.pinv(res.jac.T @ res.jac) * (chi2r if err is None else max(chi2r, 1.0))
     e = np.sqrt(np.diag(cov))
-    p = res.x
+    p = res.x.copy()
     p[0] += tref
     return {
         "t0": float(p[0]),
@@ -147,6 +166,8 @@ def trapezoid_fit(t, y, err=None):
         "t14_err": float(e[2]),
         "tin": float(p[3]),
         "chi2r": chi2r,
+        "bic": float(bic),
+        "coefficients": {name: float(c) for name, c in zip(names, p[6:], strict=True)},
     }
 
 

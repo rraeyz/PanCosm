@@ -98,6 +98,7 @@ Yıldızın kendisinden gelmeyen yavaş değişimler — airmass/hava kütlesiyl
 ## Minimum zamanı
 - Biliyorsanız **Efemeris T0 (BJD)** ve **Periyot (gün)** girin (isteğe bağlı): o zaman çevrim ve O-C de verilir.
 - **Ne tür bir minimum?** altında **Örten çift yıldız: Kwee–van Woerden yöntemi** (varsayılan; Kwee & van Woerden 1956, O−C veritabanlarının yöntemi) ya da düz tabanlı düşüşlere uyan ve derinlik ile süreyi de veren **Ötegezegen geçişi: yamuk fiti** seçin.
+- Yamukla birlikte **İşaretli eğilim niceliklerini geçişle birlikte uydur**, Grafik sekmesinde işaretli niceliklerdeki (hava kütlesi, FWHM, gök, x, y) eğilimi ve geçişi tek bir χ² içinde, eğilim düzeltmesinden önceki eğri üzerinde uydurur, AstroImageJ gibi: eğilim derinliği ya da orta zamanı çekemez. Sonuç eğilimin katsayılarını ve BIC değerini verir; minimum zamanı her zamanki gibi O−C'ye gider. Eğri bir hava kütlesi eğilimi üzerindeki benzetilmiş bir geçişte derinlik ve orta zaman hataları içinde bulunur.
 - **Minimum zamanı** zamanı hatasıyla (KvW için KvW ve bootstrap hatalarının büyüğü) gün ve dakika olarak verir.
 - Işık eğrisi birden çok tutulmayı kapsıyorsa (TESS, birkaç gece) T0'ı ve dönemi girin — bu ışık eğrisinde **Dönem arama** yaptıysanız kendiliğinden dolar — her birincil ve ikincil minimum kendi penceresinde zamanlanır ve türüyle O−C penceresine gönderilir; bunlar verilmezse pencere anlamsız tek bir zaman vermek yerine onları ister.
 

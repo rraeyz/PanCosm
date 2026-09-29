@@ -841,6 +841,16 @@ class PhotometryPage(Undoable, QWidget):
         note.setWordWrap(True)
         note.setProperty("muted", True)
         mb.addWidget(note)
+        self.fit_trend = QCheckBox(self.tr("Fit the ticked detrending quantities together with the transit"), self)
+        self.fit_trend.setToolTip(
+            self.tr(
+                "The trapezoid and the trend in airmass, FWHM, sky, x, y (ticked in the Plot tab) in one fit, on the "
+                "curve before detrending, as AstroImageJ: the trend cannot pull the depth or the mid-time"
+            )
+        )
+        self.fit_trend.setEnabled(False)
+        self.trapezoid.toggled.connect(self.fit_trend.setEnabled)
+        mb.addWidget(self.fit_trend)
         ml.addWidget(method_box)
         self.minimum_button = QPushButton(self.tr("Time of minimum"), self)
         self.minimum_button.setEnabled(False)
@@ -2785,7 +2795,16 @@ class PhotometryPage(Undoable, QWidget):
         except ValueError:
             self.result.setText(self.tr("T0 and period must be numbers."))
             return
-        self.minimum_requested.emit(self.light_curve, params)
+        lc = self.light_curve
+        if self.trapezoid.isChecked() and self.fit_trend.isChecked():  # item 16: the trend fitted with the transit
+            names = [k for k, b in self.trend_boxes.items() if b.isChecked() and k != "time"]
+            if not names:
+                self.result.setText(self.tr("Tick the quantities to fit in the Plot tab (airmass, FWHM, sky, x, y)."))
+                return
+            rel, err = self._rel_before_detrend
+            lc = dict(lc) | {"rel_flux": list(rel), "rel_flux_err": list(err)}
+            params["detrend_with"] = names
+        self.minimum_requested.emit(lc, params)
 
     def show_minimum(self, m):
         self.guide.set_state(5, "done")
@@ -2822,6 +2841,11 @@ class PhotometryPage(Undoable, QWidget):
         if "depth" in m:
             text += "\n" + self.tr("Depth {d:.2f} %, duration {h:.2f} h").format(
                 d=100 * m["depth"], h=24 * m["duration"]
+            )
+        if m.get("detrended_with"):
+            terms = ", ".join(f"{k} {v:+.4f}" for k, v in m["detrended_with"].items())
+            text += "\n" + self.tr("Fitted together with the trend: {terms}; BIC {bic:.1f}").format(
+                terms=terms, bic=m["bic"]
             )
         if "o_minus_c" in m:
             text += "\n" + self.tr("Epoch {n}, O−C = {oc:+.2f} min").format(n=m["epoch"], oc=m["o_minus_c"] * 1440)

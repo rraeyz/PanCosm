@@ -98,6 +98,7 @@ Slow changes that are not the star's — extinction changing with airmass, a dri
 ## Time of minimum
 - Enter the **Ephemeris T0 (BJD)** and **Period (d)** if you know them (optional): then the epoch and O-C are given too.
 - Under **What kind of minimum is it?** choose **Eclipsing binary: Kwee–van Woerden method** (the default; Kwee & van Woerden 1956, the method of O−C databases) or **Exoplanet transit: trapezoid fit**, which suits flat-bottomed dips and also gives depth and duration.
+- With the trapezoid, **Fit the ticked detrending quantities together with the transit** fits the trend in the quantities ticked in the Plot tab (airmass, FWHM, sky, x, y) and the transit in one χ², on the curve before detrending, as AstroImageJ does: a trend cannot pull the depth or the mid-time. The result gives the trend's coefficients and the BIC; the time of minimum goes to O−C as usual. On a simulated transit over a curved airmass trend, depth and mid-time come back within their errors.
 - **Time of minimum** gives the time with its error (for KvW the larger of the KvW and bootstrap errors), in days and minutes.
 - When the light curve covers several eclipses (TESS, several nights), give T0 and the period — after a **Period search** on this light curve they are filled in for you — and every primary and secondary minimum is timed in its own window and sent to the O−C window with its type; without them the window asks for them instead of giving one meaningless time.
 
