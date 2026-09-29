@@ -660,3 +660,56 @@ def test_photometry_page_finds_the_best_comparison_set(qtbot):
     page.undo_stack.undo()
     page.undo_stack.undo()
     assert page.comp_off == set()
+
+
+def test_ensemble_keeps_frames_without_a_comparison_star():
+    """plans/photometry.md item 13: one comparison star missing on half the frames: the ensemble of the others is
+    scaled by their usual share, so the target's curve does not jump."""
+    rng = np.random.default_rng(13)
+    n = 100
+    comps = np.column_stack([np.full(n, f) * (1 + rng.normal(0, 0.001, n)) for f in (5e4, 2e4, 3e4)])
+    target = np.full(n, 4e4) * (1 + rng.normal(0, 0.001, n))
+    comps[50:, 1] = np.nan  # C2 leaves the field
+    rel, err = d.ensemble(target, np.sqrt(target), comps, np.sqrt(np.nan_to_num(comps)))
+    assert np.isfinite(rel).all() and np.isfinite(err).all()
+    assert abs(np.median(rel[50:]) / np.median(rel[:50]) - 1) < 0.001  # no jump
+    assert np.median(err[50:]) > np.median(err[:50])  # fewer stars: a larger error
+
+
+def test_light_curve_keeps_the_frames_a_comparison_star_left(tmp_path):
+    yy, xx = np.mgrid[:120, :140]
+    rng = np.random.default_rng(2)
+    paths = []
+    for i in range(10):
+        img = rng.normal(200, 4, yy.shape)
+        stars = [(40.0, 40.0, 5e4), (100.0, 40.0, 6e4), (40.0, 90.0, 4e4), (100.0, 90.0, 5e4)]
+        for k, (x, y, f) in enumerate(stars):
+            if k == 2 and i >= 5:
+                continue  # C2 is gone from frame 5 on
+            img += f / (2 * np.pi * 2.0**2) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * 2.0**2))
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"m{i}.fits")
+        paths.append(tmp_path / f"m{i}.fits")
+    lc = light_curve(paths, (40.0, 40.0), [(100.0, 40.0), (40.0, 90.0), (100.0, 90.0)], 5, 12, 18)
+    assert len(lc["time"]) == 10 and not lc["lost"]
+    assert lc["partial"] == {f"m{i}.fits": [2] for i in range(5, 10)}
+    rel = np.asarray(lc["rel_flux"])
+    assert abs(np.median(rel[5:]) / np.median(rel[:5]) - 1) < 0.005
+
+
+def test_photometry_page_marks_frames_kept_without_a_comparison_star(qtbot):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    lc = synthetic_lc(20)
+    comps = np.asarray(lc["comp_flux"])
+    comps[10:, 1] = np.nan
+    lc |= {"comp_flux": comps.tolist(), "file": [f"f{i}.fits" for i in range(20)],
+           "partial": {f"f{i}.fits": [2] for i in range(10, 20)}}  # fmt: skip
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.images = [f"/x/f{i}.fits" for i in range(20)]
+    page.show_light_curve(lc)
+    assert np.isfinite(page.light_curve["rel_flux"]).all()
+    assert "10 frame(s) without some comparison stars" in page.result.text()
+    item = page.frame_table.item(15, 0)
+    assert item.foreground().color().name() == "#f76b15" and "C2" in item.toolTip()
