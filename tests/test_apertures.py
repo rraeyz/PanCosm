@@ -437,3 +437,26 @@ def test_donut_star_is_centred():
     img = 300 + 2000 * np.exp(-0.5 * ((r - 11) / 2.5) ** 2) + np.random.default_rng(1).normal(0, 5, r.shape)
     x, y = recenter(img, [(79.0, 80.5)], box=11, max_move=5)[0]
     assert np.hypot(x - x0, y - y0) < 0.2
+
+
+def test_chained_frame_shifts_do_not_drift():
+    """plans/photometry.md item 9b: shifts between consecutive frames are added up over a night; a bias of 0.05 px
+    per pair (the 3x3 median and flat-topped stars pulled every shift towards a whole pixel) put the stars 3 px off
+    after 64 frames, and every frame after that was matched by its star pattern instead (ten times slower)."""
+    from astrowb.photometry.aperture import frame_shift
+
+    rng = np.random.default_rng(12)
+    yy, xx = np.mgrid[:256, :256]
+    stars = rng.uniform([20, 20, 3e3], [236, 236, 3e5], (25, 3))
+
+    def frame(dx, dy):
+        img = rng.normal(500, 10, xx.shape)
+        for x, y, f in stars:
+            img += f / (2 * np.pi * 2.5**2) * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.5**2))
+        img[100, 37] = 6e4  # a hot pixel, fixed on the chip
+        return np.clip(img, 0, 65535).astype(np.uint16)
+
+    frames = [frame(0.3 * i, 0.2 * i) for i in range(30)]
+    for binning in (1, 2):
+        total = np.sum([frame_shift(a, b, binning) for a, b in zip(frames, frames[1:], strict=False)], axis=0)
+        assert np.allclose(total, (0.3 * 29, 0.2 * 29), atol=0.1), (binning, total)

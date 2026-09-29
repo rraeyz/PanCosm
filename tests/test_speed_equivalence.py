@@ -7,22 +7,32 @@ from astrowb.photometry import aperture
 
 
 def _old_frame_shift(ref, img, dtype=np.float64):
-    """The complex-FFT version that rfft2 replaced. Under NumPy 2 it ran in single precision (float32 in,
-    complex64 out); dtype=float64 is the exact reference for the new double-precision code."""
+    """The complex-FFT version of frame_shift (plans/photometry.md item 9b: the whole-pixel peak from stars cut at
+    50 sigma, the fraction of a pixel from their square root); dtype=float64 is the exact reference."""
+    from scipy.ndimage import maximum_filter
 
     def prep(a):
-        a = aperture.despike(a)
-        _, med, std = sigma_clipped_stats(a[::2, ::2])
-        return np.fft.fft2(np.clip(a - med - 3 * std, 0, 50 * std).astype(dtype))
+        a = np.asarray(a, np.float32)
+        _, med, std = sigma_clipped_stats(a[::4, ::4])
+        hi = maximum_filter(a, footprint=aperture._RING, mode="nearest")
+        a = np.where(a - med > 2 * (hi - med), hi, a)
+        above = np.clip(a - med - 3 * std, 0, None).astype(dtype)
+        return np.fft.fft2(np.minimum(above, 50 * std)), np.fft.fft2(np.sqrt(above))
 
-    corr = np.fft.ifft2(prep(img) * np.conj(prep(ref))).real
-    py, px = np.unravel_index(np.argmax(corr), corr.shape)
+    (ca, sa), (cb, sb) = prep(ref), prep(img)
+    coarse = np.fft.ifft2(cb * np.conj(ca)).real
+    py, px = np.unravel_index(np.argmax(coarse), coarse.shape)
+    corr = np.fft.ifft2(sb * np.conj(sa)).real
+    ny, nx = corr.shape
+    near = [((py + j) % ny, (px + i) % nx) for j in (-1, 0, 1) for i in (-1, 0, 1)]
+    py, px = max(near, key=lambda q: corr[q])
 
     def refine(c_m, c_0, c_p):
+        if min(c_m, c_0, c_p) > 0:
+            c_m, c_0, c_p = np.log(c_m), np.log(c_0), np.log(c_p)
         d = c_m - 2 * c_0 + c_p
         return 0.0 if d == 0 else 0.5 * (c_m - c_p) / d
 
-    ny, nx = corr.shape
     dy = py + refine(corr[(py - 1) % ny, px], corr[py, px], corr[(py + 1) % ny, px])
     dx = px + refine(corr[py, (px - 1) % nx], corr[py, px], corr[py, (px + 1) % nx])
     return (dx - nx if dx > nx / 2 else dx), (dy - ny if dy > ny / 2 else dy)

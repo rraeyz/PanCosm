@@ -457,7 +457,30 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
 
 ### 9b. Speed of a night (time, memory, GPU, native code)
-**agent2 claimed (2026-11-09) — do not touch** — added 2026-11-07.
+**agent2 done (2026-11-09, this commit)** — added 2026-11-07. Profiled on 64 synthetic 4096 × 4096 16-bit frames
+(40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB, frames in the page cache):
+- **The cause was not the arithmetic but a bias.** The frame-to-frame shifts that the parallel path adds up were
+  pulled towards whole pixels — the 3x3 median reshaped the stars and stars cut flat at 50 sigma gave a flat
+  correlation peak — by 0.05 px per pair (binned 2x2) with the same sign every time: 2 px after 39 frames, 3 px after
+  64. Past the 2.5 px centring limit every frame was then read whole and matched by its star pattern (3.4 s instead
+  of 0.27 s). Now the whole-pixel peak comes from the stars cut at 50 sigma (a bright star cannot pull the match onto
+  another one) and the fraction of a pixel from their square root, refined as a Gaussian; single hot pixels are
+  replaced by their brightest neighbour instead of the 3x3 median. Bias per pair 0.001 px (bin 2) and 0.0014 px
+  (bin 1); `test_chained_frame_shifts_do_not_drift`. Cached shifts carry a version (v2), so the old ones are measured
+  again.
+- Binning by strided sums (150 -> 30 ms per 4k frame); the alignment keeps only binned frames; `load` subtracts the
+  overscan in place (64 MB less per process at the peak).
+- Before -> after, 256 frames (shifts known): 992 -> 82 ms per frame; largest worker 1149 -> 410 MB. 64 frames from
+  scratch (shifts measured too): 1945 -> 263 ms per frame including the two process starts; peak memory of the
+  whole machine 2.4 -> 1.8 GB. Alignment alone 0.63 -> 0.38 s per frame on one core.
+- Estimate for 1000 × 4k² frames on 4 cores: about 0.1 s alignment + 0.08 s measuring per frame, 3 to 3.5 minutes,
+  under 2 GB — the accept in numbers; not run on 1000 real frames (64 GB of frames do not fit this machine's disk).
+- Real night (Qatar-1, 265 LCO frames): 30.5 -> 10.5 s with the shifts known (101 s the first time, reading and
+  decompressing every frame); relative fluxes agree with the old code within 0.03 %, positions within 0.07 px.
+- Not done (rule 12): numba or C for the inner loops — after the fix no loop dominates (measuring a frame: reading
+  0.06 s, six Gaussian centroids 0.07 s, apertures and sky the rest); GPU sky statistics — a few stars per frame do
+  not pay for the transfer. Reading ahead was already there (a reader thread in the serial path, partial reads in
+  the parallel one).
 - **Reference:** AstroImageJ measures in parallel threads and runs BLS / TLS on the GPU (OpenCL).
 - **Ours now:**
   - frames are measured in worker processes;

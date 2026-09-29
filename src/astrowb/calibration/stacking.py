@@ -83,7 +83,8 @@ def _pair_keys(paths, binning):
     for p in paths:
         st = Path(p).stat()
         stamps.append(f"{Path(p).resolve()}|{st.st_size}|{st.st_mtime_ns}")
-    return [f"{binning}|{a}|{b}" for a, b in zip(stamps, stamps[1:], strict=False)]
+    # v2: shifts measured without the bias of plans/photometry.md item 9b; the older ones are measured again
+    return [f"v2|{binning}|{a}|{b}" for a, b in zip(stamps, stamps[1:], strict=False)]
 
 
 def _shift_cache():
@@ -113,12 +114,20 @@ def _save_shifts(known, new):
 
 def _run_shifts(run):
     """Shifts between consecutive frames of a run (paths, binning)."""
+    from ..photometry.aperture import bin_frame
+
     paths, binning = run
-    prev, _ = load(paths[0])
+
+    def frame(p):  # only the binned frame is kept: a 4k x 4k frame is freed as soon as it is read (item 9b)
+        data = load(p)[0]
+        return bin_frame(data, binning) if binning > 1 else data
+
+    prev = frame(paths[0])
     out = []
     for p in paths[1:]:
-        data, _ = load(p)
-        out.append(frame_shift(prev, data, binning))
+        data = frame(p)
+        dx, dy = frame_shift(prev, data, 1)
+        out.append((binning * dx, binning * dy))
         prev = data
     return out
 
