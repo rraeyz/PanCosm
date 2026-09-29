@@ -25,6 +25,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 45  # a test that hangs (macOS, 2026-11-09: over 80 min) fails with its log instead of 6 hours
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -41,7 +42,7 @@ jobs:
         run: ruff check . && ruff format --check .
       - name: Brand name only in brand.toml
         run: python tools/check_brand.py
-      - run: pytest -q
+      - run: pytest -q -o faulthandler_timeout=900  # a test still running after 15 min prints where it hangs
 
   package:
     needs: test
