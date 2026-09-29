@@ -690,8 +690,13 @@ def test_light_curve_keeps_the_frames_a_comparison_star_left(tmp_path):
         h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
         fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"m{i}.fits")
         paths.append(tmp_path / f"m{i}.fits")
-    lc = light_curve(paths, (40.0, 40.0), [(100.0, 40.0), (40.0, 90.0), (100.0, 90.0)], 5, 12, 18)
+    comps = [(100.0, 40.0), (40.0, 90.0), (100.0, 90.0)]
+    lc = light_curve(paths, (40.0, 40.0), comps, 5, 12, 18, coord="13h38m17s +04d48m27s")
     assert len(lc["time"]) == 10 and not lc["lost"]
+    hjd, jd = np.asarray(lc["hjd_utc"]), np.asarray(lc["jd_utc"])  # item 14: HJD with the target's position
+    assert np.all(np.abs(hjd - jd) * 86400 > 60)
+    mid = light_curve(paths[:2], (40.0, 40.0), comps, 5, 12, 18, header_time="mid", shutter_delay=0.5)
+    assert np.allclose((np.asarray(mid["jd_utc"]) - jd[:2]) * 86400, -4.5, atol=1e-3)  # 5 s earlier, 0.5 s later
     assert lc["partial"] == {f"m{i}.fits": [2] for i in range(5, 10)}
     rel = np.asarray(lc["rel_flux"])
     assert abs(np.median(rel[5:]) / np.median(rel[:5]) - 1) < 0.005
@@ -713,3 +718,27 @@ def test_photometry_page_marks_frames_kept_without_a_comparison_star(qtbot):
     assert "10 frame(s) without some comparison stars" in page.result.text()
     item = page.frame_table.item(15, 0)
     assert item.foreground().color().name() == "#f76b15" and "C2" in item.toolTip()
+
+
+def test_header_time_convention_shutter_delay_and_hjd(tmp_path):
+    """plans/photometry.md item 14: DATE-OBS read as start, middle or end; a shutter delay added; HJD (UTC) from
+    astropy's light travel time to the Sun, within 1 s."""
+    from astropy import units as u
+    from astropy.coordinates import EarthLocation, SkyCoord
+    from astropy.time import Time
+
+    from astrowb import timing
+
+    h = fits.Header({"DATE-OBS": "2026-11-15T20:00:00", "EXPTIME": 60.0})
+    t0 = Time("2026-11-15T20:00:00", scale="utc")
+    sec = lambda t: round((t - t0).to_value("s"), 3)  # noqa: E731
+    assert sec(timing.mid_time(h)) == 30.0 and sec(timing.mid_time(h, "start")) == 30.0
+    assert sec(timing.mid_time(h, "mid")) == 0.0 and sec(timing.mid_time(h, "end")) == -30.0
+    assert sec(timing.mid_time(h, "start", 0.25)) == 30.25 and sec(timing.mid_time(h, "auto", 0.25)) == 30.25
+    star = SkyCoord("13h38m17s +04d48m27s")
+    site = EarthLocation.from_geodetic(30.33 * u.deg, 36.82 * u.deg, 2500 * u.m)
+    t = Time(t0, location=site)
+    ltt = t.light_travel_time(star, kind="heliocentric", ephemeris="builtin")
+    want = (t.utc + ltt).jd
+    assert abs(timing.hjd(t0, star, site).jd - want) * 86400 < 1
+    assert abs(ltt.to_value("s")) > 60  # a real correction, not zero

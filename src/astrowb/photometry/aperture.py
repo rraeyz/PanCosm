@@ -28,9 +28,6 @@ def bin_frame(a, binning):
     return sum(a[i::binning, j::binning] for i in range(binning) for j in range(binning)) / np.float32(binning**2)
 
 
-_RING = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]], bool)
-
-
 def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[float, float]:
     """(dx, dy) to add to positions in ref to find them in img: FFT phase correlation, sub-pixel peak.
     binning > 1 correlates binned frames: binning^2 times less work, about a tenth of a binned pixel of accuracy -
@@ -44,22 +41,10 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
     def prep(a):
         if binning > 1:
             a = bin_frame(a, binning)
-        from scipy.ndimage import maximum_filter
-
-        a = np.asarray(a, np.float32)
-        _, med, std = sigma_clipped_stats(a[::4, ::4])
-        # single hot pixels (fixed on the chip, they would pull the peak to zero shift) and one-pixel cosmic-ray hits:
-        # above their brightest neighbour by more than twice its height over the sky, replaced by it; the stars stay
-        # as they are (the 3x3 median reshaped them and biased every shift, plans/photometry.md item 9b)
-        hi = maximum_filter(a, footprint=_RING, mode="nearest")
-        a = np.where(a - med > 2 * (hi - med), hi, a)
-        above = np.clip(a - med - 3 * std, 0, None).astype(np.float64)  # no gradients
-        # two images (plans/photometry.md item 9b): cut at 50 sigma, faint and bright stars count alike, so a bright
-        # star cannot pull the match onto another one - this finds the whole-pixel shift; the square root keeps the
-        # stars' shape (a flat top makes a flat correlation peak, which pulled every shift towards a whole pixel) -
-        # this gives the fraction of a pixel. Real input: rfft2 is half the work of fft2, on every core.
-        cut = np.minimum(above, 50 * std) if std > 0 else above
-        return sfft.rfft2(cut, workers=-1), sfft.rfft2(np.sqrt(above), workers=-1)
+        a = despike(a)  # hot pixels are fixed on the chip and would pull the peak to zero shift
+        _, med, std = sigma_clipped_stats(a[::2, ::2])
+        stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
+        return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
     # transforms are kept for the last two images: frame to frame (this frame is the next call's reference) and
     # every frame against one reference (light curves) each compute one transform per call, not two
@@ -69,24 +54,17 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
         _last_fft[:] = [*(e for e in _last_fft if e is not hit)][-1:] + [entry]  # the two latest used
         return entry[1]
 
-    (ca, sa), (cb, sb) = cached(ref), cached(img)
+    fa = cached(ref)
+    fb = cached(img)
     shape = tuple(s // binning for s in img.shape)
-    coarse = sfft.irfft2(cb * np.conj(ca), s=shape, workers=-1)
-    py, px = np.unravel_index(np.argmax(coarse), coarse.shape)
-    corr = sfft.irfft2(sb * np.conj(sa), s=shape, workers=-1)
-    ny, nx = corr.shape
-    near = [((py + j) % ny, (px + i) % nx) for j in (-1, 0, 1) for i in (-1, 0, 1)]
-    py, px = max(near, key=lambda q: corr[q])  # the fine correlation's own peak next to the coarse one
+    corr = sfft.irfft2(fb * np.conj(fa), s=shape, workers=-1)
+    py, px = np.unravel_index(np.argmax(corr), corr.shape)
 
     def refine(c_m, c_0, c_p):
-        # a Gaussian through the three values (a parabola in their logarithm): the correlation of star images is a
-        # Gaussian peak, and the plain parabola pulls every shift towards a whole pixel (0.05 px per pair of frames
-        # binned 2x2, the same sign every time: 3 px after 64 frames chained, plans/photometry.md item 9b)
-        if min(c_m, c_0, c_p) > 0:
-            c_m, c_0, c_p = np.log(c_m), np.log(c_0), np.log(c_p)
         d = c_m - 2 * c_0 + c_p
         return 0.0 if d == 0 else 0.5 * (c_m - c_p) / d
 
+    ny, nx = corr.shape
     dy = py + refine(corr[(py - 1) % ny, px], corr[py, px], corr[(py + 1) % ny, px])
     dx = px + refine(corr[py, (px - 1) % nx], corr[py, px], corr[py, (px + 1) % nx])
     return binning * (dx - nx if dx > nx / 2 else dx), binning * (dy - ny if dy > ny / 2 else dy)

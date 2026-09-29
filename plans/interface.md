@@ -728,6 +728,7 @@ whenever any area gains a feature.
 | Detrending: BIC of every set, meridian-flip step (PIERSIDE), spline trend, leave out outliers | Photometry | Analyse | — | Results: Plot |
 | Find the best comparison set (without the target) | Photometry | Stars | — | Results: Stars |
 | Frames missing some comparison stars kept (orange in the frame list) | Photometry | — | — | Frames tab, under the plot |
+| Header time as start / middle / end, shutter delay; HJD_UTC column | Photometry | — | — | Steps 4, More measuring options |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

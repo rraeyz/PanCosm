@@ -92,8 +92,20 @@ def start_time(header) -> Time:
     )
 
 
-def mid_time(header) -> Time:
-    """Mid-exposure UTC. JD-MID / DATE-AVG are used as given when present."""
+HEADER_TIMES = ("auto", "start", "mid", "end")
+
+
+def mid_time(header, ref="auto", delay=0.0) -> Time:
+    """Mid-exposure UTC. JD-MID / DATE-AVG are used as given when present. ref: what the header's time (DATE-OBS …)
+    marks when the camera software is known to differ — "start", "mid" or "end" of the exposure; "auto" reads it as
+    the start unless its comment says otherwise. delay: seconds the shutter opens after the time stamp (a camera's
+    shutter delay), added (plans/photometry.md item 14)."""
+    if ref != "auto":
+        exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
+        half = {"start": exptime / 2, "mid": 0.0, "end": -exptime / 2}[ref]
+        return start_time(header) + TimeDelta(half + delay, format="sec")
+    if delay:
+        return mid_time(header) + TimeDelta(delay, format="sec")
     if header.get("DATE-AVG"):
         return _parse_iso(header["DATE-AVG"])
     if number(header.get("JD-MID")) is not None:

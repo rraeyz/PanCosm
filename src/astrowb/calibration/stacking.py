@@ -83,8 +83,7 @@ def _pair_keys(paths, binning):
     for p in paths:
         st = Path(p).stat()
         stamps.append(f"{Path(p).resolve()}|{st.st_size}|{st.st_mtime_ns}")
-    # v2: shifts measured without the bias of plans/photometry.md item 9b; the older ones are measured again
-    return [f"v2|{binning}|{a}|{b}" for a, b in zip(stamps, stamps[1:], strict=False)]
+    return [f"{binning}|{a}|{b}" for a, b in zip(stamps, stamps[1:], strict=False)]
 
 
 def _shift_cache():

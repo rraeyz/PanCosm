@@ -39,6 +39,8 @@ def _check_positions(image, target, comps=()):
     camera=None,
     sky_method="median",
     fixed=(),
+    header_time="auto",
+    shutter_delay=0.0,
 )
 def light_curve_step(inputs, params, ctx):
     images = timing.chronological(inputs["images"])
@@ -63,6 +65,8 @@ def light_curve_step(inputs, params, ctx):
         camera=params.get("camera"),
         sky_method=params.get("sky_method", "median"),
         fixed=tuple(params.get("fixed") or ()),
+        header_time=params.get("header_time", "auto"),
+        shutter_delay=params.get("shutter_delay", 0.0),
     )
     return {"light_curve": lc}
 

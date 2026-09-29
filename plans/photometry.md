@@ -457,43 +457,32 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
 
 ### 9b. Speed of a night (time, memory, GPU, native code)
-**agent2 done (2026-11-09, commit fa527fa)** — added 2026-11-07. Profiled on 64 synthetic 4096 × 4096 16-bit frames
-(40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB, frames in the page cache):
-- **The cause was not the arithmetic but a bias.** The frame-to-frame shifts that the parallel path adds up were
-  pulled towards whole pixels — the 3x3 median reshaped the stars and stars cut flat at 50 sigma gave a flat
-  correlation peak — by 0.05 px per pair (binned 2x2) with the same sign every time: 2 px after 39 frames, 3 px after
-  64. Past the 2.5 px centring limit every frame was then read whole and matched by its star pattern (3.4 s instead
-  of 0.27 s). Now the whole-pixel peak comes from the stars cut at 50 sigma (a bright star cannot pull the match onto
-  another one) and the fraction of a pixel from their square root, refined as a Gaussian; single hot pixels are
-  replaced by their brightest neighbour instead of the 3x3 median. Bias per pair 0.001 px (bin 2) and 0.0014 px
-  (bin 1); `test_chained_frame_shifts_do_not_drift`. Cached shifts carry a version (v2), so the old ones are measured
-  again.
-- Binning by strided sums (150 -> 30 ms per 4k frame); the alignment keeps only binned frames; `load` subtracts the
-  overscan in place (64 MB less per process at the peak).
-- Before -> after, 256 frames (shifts known): 992 -> 82 ms per frame; largest worker 1149 -> 410 MB. 64 frames from
-  scratch (shifts measured too): 1945 -> 263 ms per frame including the two process starts; peak memory of the
-  whole machine 2.4 -> 1.8 GB. Alignment alone 0.63 -> 0.38 s per frame on one core.
-- Estimate for 1000 × 4k² frames on 4 cores: about 0.1 s alignment + 0.08 s measuring per frame, 3 to 3.5 minutes,
-  under 2 GB — the accept in numbers; not run on 1000 real frames (64 GB of frames do not fit this machine's disk).
-- Real night (Qatar-1, 265 LCO frames): 30.5 -> 10.5 s with the shifts known (101 s the first time, reading and
-  decompressing every frame); relative fluxes agree with the old code within 0.03 %, positions within 0.07 px.
-- Not done (rule 12): numba or C for the inner loops — after the fix no loop dominates (measuring a frame: reading
-  0.06 s, six Gaussian centroids 0.07 s, apertures and sky the rest); GPU sky statistics — a few stars per frame do
-  not pay for the transfer. Reading ahead was already there (a reader thread in the serial path, partial reads in
-  the parallel one).
-- **Reference:** AstroImageJ measures in parallel threads and runs BLS / TLS on the GPU (OpenCL).
-- **Ours now:**
-  - frames are measured in worker processes;
-  - Qatar-1, 265 frames of 2400 × 2400: 11–17 s on 4 cores once the files are in memory (53–135 s when read from
-    disk the first time).
-- **Build:**
-  - profile a night of 1000 frames of 4k × 4k;
-  - move the inner loops (aperture sums, sky clipping, centring) to numba or C if they dominate;
-  - read the next frames while measuring the current ones;
-  - GPU for the sky statistics of many stars at once, only if it pays (measure);
-  - memory bounded by the machine (frames streamed, never all in memory).
-- **Accept:** 1000 × 4k² frames in under 5 minutes on a 4-core laptop, with memory under 2 GB; the numbers written
-  here before and after.
+**agent2 done (2026-11-09, commit fa527fa; corrected in the commit of item 14)** — added 2026-11-07. Profiled on 64
+synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB):
+- **The cause was not the arithmetic.** The frame-to-frame shifts that the parallel path adds up drift (0.05 px per
+  pair binned 2x2 here, the same sign every time: 3 px after 64 frames); past the 2.5 px centring limit every frame
+  was read whole and matched by its star pattern (3.4 s instead of 0.27 s).
+- **First fix, withdrawn:** a new shift estimate without that drift (fa527fa) was better on these synthetic frames but
+  worse on the real HAT-P-32 night (undersampled MicroObservatory stars, FWHM 1.5 px): 1.5 px of drift there, a
+  comparison star kept at its prediction, point-to-point scatter 0.0056 -> 0.0096, and the IRAF validation failed in
+  CI. The old estimate is back (that night is again identical to the IRAF reference).
+- **The fix kept:** when the stars are not where the shifts put them, a centring pass three times as wide (repeated
+  until it settles) finds their median offset and the frame is measured from there; only if that fails is the frame
+  read whole and matched by its star pattern (`lightcurve._field_offset`,
+  `test_stars_a_few_pixels_off_their_prediction_are_found_without_the_slow_path`).
+- Also kept: binning by strided sums (the same means, 150 -> 30 ms per 4k frame); the alignment keeps only binned
+  frames; `load` subtracts the overscan in place (one full-size copy less per process).
+- Before -> after: 64 synthetic frames, shifts known: 1575 -> 184 ms per frame, largest worker 1149 -> 327 MB; from
+  scratch (shifts measured too): 1945 -> 336 ms per frame including two process starts, peak memory of the machine
+  1.98 GB. Real Qatar-1 night (265 LCO frames, shifts known): 30.5 -> 10.9 s, results identical to the old code
+  (relative flux and positions, difference 0.0). HAT-P-32: identical to the IRAF reference again.
+- Estimate for 1000 × 4k² frames on 4 cores: about 0.16 s alignment + 0.09 s measuring per frame, about 4 minutes,
+  just under 2 GB; not run on 1000 real frames (64 GB of frames do not fit this machine's disk).
+- Not done (rule 12): numba or C for the inner loops — no loop dominates now (a frame: reading 0.06 s, six Gaussian
+  centroids 0.07 s, apertures and sky the rest); GPU sky statistics — a few stars per frame do not pay for the
+  transfer. Reading ahead was already there.
+- Lesson written down: the validation data (`ASTROWB_VALIDATION_DATA`) must be set for the local full check; the 9b
+  commit was checked without it.
 
 ## P2 — complete for eclipsing binaries and variable stars
 
@@ -539,7 +528,16 @@ languages.
 - **Accept:** a night where one comparison star leaves the field half-way keeps every frame, with no jump.
 
 ### 14. Time systems
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `light_curve` writes `hjd_utc` (timing.hjd, astropy's heliocentric light
+travel time) whenever the target's position is known; it is the `HJD_UTC` column of the measurements table
+(AstroImageJ's name) and of the CSV export. `timing.mid_time(header, ref, delay)`: the header's time read as the
+start, middle or end of the exposure ("auto" keeps the old reading: start, or what the DATE-OBS comment says) and a
+shutter delay in seconds added; both under More measuring options (**The header's time marks**, **Shutter delay**),
+passed through the light-curve step. Accept met: HJD equals astropy's light-travel-time computation (< 1 s) and
+differs from JD by more than a minute for the test star; "mid" with a 0.5 s delay moves a 10 s exposure's times by
+−4.5 s (`test_header_time_convention_shutter_delay_and_hjd`, `test_light_curve_keeps_the_frames_a_comparison_star_left`).
+Rule 12: a shutter delay per camera is one number per measurement here, not a camera database — the program does not
+keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Reference:** AIJ writes HJD_UTC and BJD_TDB; much eclipsing-binary O−C literature is in HJD.
 - **Ours:** BJD_TDB (or JD_UTC without coordinates).
 - **Build:** HJD_UTC as an extra column; the header time read as start, middle or end (choice); a shutter-delay
