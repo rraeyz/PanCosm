@@ -458,6 +458,14 @@ class PhotometryPage(Undoable, QWidget):
         )
         sky_row.addWidget(self.sky_method, 1)
         self.measure_options.body.addLayout(sky_row)
+        self.more_apertures = QCheckBox(self.tr("Also measure other radii, to choose one later"), self)
+        self.more_apertures.setToolTip(
+            self.tr(
+                "0.6 to 2 times the aperture, with the same centres and sky: after the measurement another radius is "
+                "chosen in the Plot tab without measuring again, and the aperture correction is given"
+            )
+        )
+        self.measure_options.body.addWidget(self.more_apertures)  # item 10
         time_row = QHBoxLayout()  # plans/photometry.md item 14
         time_row.addWidget(QLabel(self.tr("The header's time marks"), self))
         self.header_time = QComboBox(self)
@@ -596,6 +604,20 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         pl.addWidget(self.show_what)
+        ap_row = QHBoxLayout()  # plans/photometry.md item 10
+        ap_row.addWidget(QLabel(self.tr("Aperture radius"), self))
+        self.aperture_choice = QComboBox(self)
+        self.aperture_choice.setToolTip(
+            self.tr("The radii measured at once: another one is used without measuring again (Ctrl+Z goes back)")
+        )
+        self.aperture_choice.activated.connect(
+            lambda i: self.edit(self.tr("choose the aperture"), self._set_aperture, i)
+        )
+        ap_row.addWidget(self.aperture_choice, 1)
+        self.aperture_box = QWidget(self)
+        self.aperture_box.setLayout(ap_row)
+        self.aperture_box.setVisible(False)
+        pl.addWidget(self.aperture_box)
         edit_row = QHBoxLayout()
         self.delete_mode = QCheckBox(self.tr("Click a point to delete it"), self)
         self.delete_mode.setToolTip(
@@ -1171,6 +1193,7 @@ class PhotometryPage(Undoable, QWidget):
             "excluded": sorted(self.excluded),
             "detrend": self.detrend_cfg,
             "comp_off": sorted(self.comp_off),
+            "aperture": getattr(self, "_aperture_i", None),
         }
 
     def set_undo_state(self, st):
@@ -1183,6 +1206,15 @@ class PhotometryPage(Undoable, QWidget):
             self._fill_star_table()
             if self.lc_raw is not None:
                 self._recompute()
+        if st.get("aperture") != getattr(self, "_aperture_i", None):  # item 10: the radius chosen after measuring
+            i = st.get("aperture")
+            if i is None:
+                self._aperture_i, self.lc_raw = None, getattr(self, "_lc_measured", self.lc_raw)
+                self._fill_aperture_choice(self.lc_raw or {})
+                if self.lc_raw is not None:
+                    self._recompute()
+            else:
+                self._set_aperture(i)
 
     def _clicked(self, x, y):
         self.edit(self.tr("mark or unmark a star"), self._mark, x, y)
@@ -1785,6 +1817,8 @@ class PhotometryPage(Undoable, QWidget):
         params["psf"] = self.psf.isChecked()
         params["sky_method"] = self.sky_method.currentData()
         params["header_time"] = self.header_time.currentData()
+        if self.more_apertures.isChecked():
+            params["apertures"] = [round(self.r_ap.value() * k, 2) for k in (0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
         params["shutter_delay"] = self.shutter_delay.value()
         if self.target_follows.isChecked():
             params["fixed"] = [0]  # item 5: the target (star 0) follows the field
@@ -1956,6 +1990,8 @@ class PhotometryPage(Undoable, QWidget):
     def show_light_curve(self, lc):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.guide.set_state(4, "done")
+        self._lc_measured, self._aperture_i = lc, None
+        self._fill_aperture_choice(lc)
         self.lc_raw, self.detrend_cfg, self.excluded, self.comp_off = lc, None, set(), set()
         self._step_titles()
         self._fill_frames()  # frames left out by the measurement in red, with why
@@ -1966,6 +2002,38 @@ class PhotometryPage(Undoable, QWidget):
         self.aavso_button.setEnabled(True)
         self._fill_show_choices()
         self._recompute()
+
+    def _fill_aperture_choice(self, lc):
+        """The radii of a measurement made with several apertures (item 10), the measured one current."""
+        by = lc.get("by_aperture")
+        self.aperture_choice.clear()
+        self.aperture_box.setVisible(bool(by))
+        if not by:
+            return
+        r0 = (lc.get("radii") or [[None]])[0][0]
+        for r in by["radii"]:
+            self.aperture_choice.addItem(f"{r:.2f} px", r)
+        here = [abs(r - r0) for r in by["radii"]] if r0 is not None else [0]
+        self.aperture_choice.setCurrentIndex(int(np.argmin(here)))
+
+    def _set_aperture(self, i):
+        """Another measured radius: the light curve from its fluxes (photometry.lightcurve.with_aperture); undoable."""
+        from ..photometry.lightcurve import aperture_correction, with_aperture
+
+        lc = getattr(self, "_lc_measured", None)
+        if not lc or not lc.get("by_aperture") or not 0 <= i < len(lc["by_aperture"]["radii"]):
+            return
+        self.lc_raw, self._aperture_i = with_aperture(lc, i), i
+        self.aperture_choice.setCurrentIndex(i)
+        self._recompute()
+        cog = aperture_correction(lc)
+        self.result.setText(
+            self.tr(
+                "Aperture {r:.2f} px: {p:.1f} % of the light within {big:.2f} px, aperture correction {c:+.3f} mag"
+            ).format(r=cog["radii"][i], p=100 * cog["share"][i], big=cog["radii"][-1], c=cog["correction_mag"][i])
+            + "\n"
+            + self.result.text()
+        )
 
     def _fill_show_choices(self):
         current = self.show_what.currentData()

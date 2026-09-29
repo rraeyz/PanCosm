@@ -39,6 +39,7 @@ NAMES = {
     "header_time": QT_TRANSLATE_NOOP("Settings", "What the header's time marks (start, middle, end)"),
     "shutter_delay": QT_TRANSLATE_NOOP("Settings", "Shutter delay (s)"),
     "detrend_with": QT_TRANSLATE_NOOP("Settings", "Quantities fitted together with the transit"),
+    "apertures": QT_TRANSLATE_NOOP("Settings", "Further aperture radii measured to choose later (px)"),
     "camera": QT_TRANSLATE_NOOP("Settings", "Camera noise (read noise e⁻, dark e⁻/s)"),
     "photometry.apertures.rule": QT_TRANSLATE_NOOP("Settings", "Radii rule (snr or aij)"),
     "auto_apertures": QT_TRANSLATE_NOOP("Settings", "Choose the radii from the stars"),

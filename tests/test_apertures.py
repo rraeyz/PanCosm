@@ -455,3 +455,30 @@ def test_stars_a_few_pixels_off_their_prediction_are_found_without_the_slow_path
     out = _measure_frame(img, fits.Header(), pred, stars, (5, 12, 18), 1.0, 11, None, False, 3, None, partial=True)
     assert out is not None and out[-1] == ()
     assert np.allclose(out[0], stars, atol=0.2)
+
+
+def test_switching_the_aperture_after_measuring_equals_measuring_with_it(tmp_path):
+    """plans/photometry.md item 10: the light curve kept for several radii; choosing one afterwards gives the same
+    curve as measuring with that radius; the curve of growth rises to 1 at the largest radius."""
+    from astrowb.photometry.lightcurve import aperture_correction, light_curve, with_aperture
+
+    yy, xx = np.mgrid[:120, :140]
+    rng = np.random.default_rng(10)
+    paths = []
+    for i in range(6):
+        img = rng.normal(200, 4, yy.shape)
+        for x, y, f in ((40.0, 40.0, 5e4), (100.0, 40.0, 6e4), (40.0, 90.0, 4e4), (100.0, 90.0, 5e4)):
+            img += f / (2 * np.pi * 2.0**2) * np.exp(-((xx - x - 0.3 * i) ** 2 + (yy - y) ** 2) / (2 * 2.0**2))
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"a{i}.fits")
+        paths.append(tmp_path / f"a{i}.fits")
+    comps = [(100.0, 40.0), (40.0, 90.0), (100.0, 90.0)]
+    lc = light_curve(paths, (40.0, 40.0), comps, 5, 12, 18, apertures=(3, 5, 7, 9))
+    assert lc["by_aperture"]["radii"] == [3.0, 5.0, 7.0, 9.0]
+    direct = light_curve(paths, (40.0, 40.0), comps, 7, 12, 18)
+    picked = with_aperture(lc, 2)
+    assert np.allclose(picked["rel_flux"], direct["rel_flux"], rtol=1e-9)
+    assert np.allclose(picked["target_flux"], direct["target_flux"], rtol=1e-9) and picked["radii"][0][0] == 7.0
+    cog = aperture_correction(lc)
+    assert cog["share"][-1] == pytest.approx(1.0) and cog["share"][0] < cog["share"][1] < cog["share"][2]
+    assert cog["correction_mag"][0] > 0.1  # a 3 px aperture (1.5 sigma) holds much less light

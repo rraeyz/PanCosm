@@ -799,3 +799,27 @@ def test_photometry_page_sends_the_trend_to_fit_with_the_transit(qtbot):
     page.show_minimum({"time": 2461000.4, "error": 0.0004, "time_scale": "BJD_TDB", "method": "trapezoid",
                        "depth": 0.3, "duration": 0.08, "bic": 123.4, "detrended_with": {"airmass": -0.05}})  # fmt: skip
     assert "Fitted together with the trend: airmass -0.0500" in page.result.text()
+
+
+def test_photometry_page_chooses_another_measured_aperture(qtbot):
+    """plans/photometry.md item 10 on the page: the radii measured at once are listed; another one is used without
+    measuring again, with the aperture correction shown; Ctrl+Z goes back to the measured radius."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    n = 60
+    lc = synthetic_lc(n)
+    base = np.column_stack([np.asarray(lc["target_flux"]), np.asarray(lc["comp_flux"]), np.asarray(lc["extra_flux"])])
+    share = np.array([0.6, 0.85, 1.0])  # light within 3, 5 and 8 px
+    lc |= {"radii": [[5.0, 12.0, 18.0]] * n,
+           "by_aperture": {"radii": [3.0, 5.0, 8.0], "flux": (base[:, None, :] * share[None, :, None]).tolist(),
+                           "err": (np.sqrt(base)[:, None, :] * np.ones((1, 3, 1))).tolist()}}  # fmt: skip
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+    page.show_light_curve(lc)
+    assert not page.aperture_box.isHidden() and page.aperture_choice.currentIndex() == 1
+    page.aperture_choice.activated.emit(0)
+    assert page.lc_raw["target_flux"][0] == pytest.approx(0.6 * lc["target_flux"][0])
+    assert "aperture correction +0.555 mag" in page.result.text()
+    page.undo_stack.undo()
+    assert page.lc_raw["target_flux"][0] == pytest.approx(lc["target_flux"][0])

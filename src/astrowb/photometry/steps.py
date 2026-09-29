@@ -41,6 +41,7 @@ def _check_positions(image, target, comps=()):
     fixed=(),
     header_time="auto",
     shutter_delay=0.0,
+    apertures=(),
 )
 def light_curve_step(inputs, params, ctx):
     images = timing.chronological(inputs["images"])
@@ -67,6 +68,7 @@ def light_curve_step(inputs, params, ctx):
         fixed=tuple(params.get("fixed") or ()),
         header_time=params.get("header_time", "auto"),
         shutter_delay=params.get("shutter_delay", 0.0),
+        apertures=tuple(params.get("apertures") or ()),
     )
     return {"light_curve": lc}
 
