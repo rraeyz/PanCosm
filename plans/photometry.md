@@ -524,7 +524,7 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** two nights of one star with a 0.05 mag offset injected are joined without the step.
 
 ### 13. Frames where a comparison star is missing
-**agent2 done (2026-11-09, this commit)** — `differential.ensemble` takes NaN comparison fluxes: a frame's ensemble
+**agent2 done (2026-11-09, commit 2d87162)** — `differential.ensemble` takes NaN comparison fluxes: a frame's ensemble
 is the sum of the stars it has divided by their median share of the whole sum on the frames with every star
 (Honeycutt 1992's zero point per frame, in flux), the error grown accordingly. `light_curve` keeps a frame whose only
 problem is missing comparison stars when at least one is left; their fluxes are NaN and `lc["partial"]` names them
@@ -539,7 +539,7 @@ languages.
 - **Accept:** a night where one comparison star leaves the field half-way keeps every frame, with no jump.
 
 ### 14. Time systems
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** AIJ writes HJD_UTC and BJD_TDB; much eclipsing-binary O−C literature is in HJD.
 - **Ours:** BJD_TDB (or JD_UTC without coordinates).
 - **Build:** HJD_UTC as an extra column; the header time read as start, middle or end (choice); a shutter-delay
