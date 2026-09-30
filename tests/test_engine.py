@@ -76,6 +76,43 @@ def test_cancel_terminates_stubborn_worker(tq):
         t.result(30)
 
 
+def stubborn_with_a_child(path, ctx):
+    import subprocess
+    import sys
+
+    child = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(120)"])
+    open(path, "w").write(str(child.pid))
+    time.sleep(60)  # ignores cancel, as a worker running a pool of processes
+
+
+@pytest.mark.skipif(not hasattr(__import__("os"), "killpg"), reason="process groups are POSIX")
+def test_a_stopped_worker_takes_its_own_processes_with_it(tq, tmp_path):
+    """A worker that started processes (a pool for the frames) and is stopped leaves none of them running: on macOS
+    such orphans held the resource tracker's pipe and the program never ended (CI, 2026-11-09)."""
+    import os
+
+    pid_file = tmp_path / "child.pid"
+    t = tq.submit(stubborn_with_a_child, str(pid_file))
+    while not pid_file.exists() or not pid_file.read_text():
+        time.sleep(0.05)
+    child = int(pid_file.read_text())
+    t.cancel()
+    with pytest.raises(Cancelled):
+        t.result(30)
+    for _ in range(100):
+        try:
+            os.kill(child, 0)
+        except ProcessLookupError:
+            break
+        try:  # a zombie of a process whose parent is gone is reaped by init; ours may need a wait
+            os.waitpid(child, os.WNOHANG)
+        except ChildProcessError:
+            pass
+        time.sleep(0.1)
+    else:
+        raise AssertionError("the worker's child process is still running")
+
+
 def test_project_records_runs(tmp_path, fits_file, tq):
     with Project(tmp_path / "p.astroproj") as p:
         fid = p.add_file(fits_file, "light")
