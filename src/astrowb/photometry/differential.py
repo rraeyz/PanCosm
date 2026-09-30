@@ -71,11 +71,14 @@ def ensemble(flux_t, err_t, comp_flux, comp_err, weights=None):
     w = np.ones(c.shape[1]) if weights is None else np.asarray(weights, float)
     have = np.isfinite(c)
     cover = np.ones(len(c))
-    if not have.all() and have.all(axis=1).any():
-        full = c[have.all(axis=1)] * w
-        share = np.median(full / full.sum(axis=1, keepdims=True), axis=0)  # each star's part of the whole sum
-        cover = (have * share).sum(axis=1)
-        c, ce = np.where(have, c, 0.0), np.where(have, ce, 0.0)
+    if not have.all():
+        if have.all(axis=1).any():
+            full = c[have.all(axis=1)] * w
+            share = np.median(full / full.sum(axis=1, keepdims=True), axis=0)  # each star's part of the whole sum
+            cover = (have * share).sum(axis=1)
+        # no frame with every star (one missing all night): the stars there are summed; nights.join_nights scales
+        c, ce = np.where(have, c, 0.0), np.where(have, np.nan_to_num(ce), 0.0)
+        cover = np.where(have.any(axis=1), cover, np.nan)
     with np.errstate(divide="ignore", invalid="ignore"):
         e = (c * w).sum(axis=1) / cover
         rel = f / e

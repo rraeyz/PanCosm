@@ -352,6 +352,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the meridian flip needs the times"),
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
+    QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    QT_TRANSLATE_NOOP("Messages", "the nights were measured with different numbers of comparison stars"),
+    QT_TRANSLATE_NOOP("Messages", "no night has a frame with every comparison star"),
+    QT_TRANSLATE_NOOP("Messages", "not a light curve exported from the Photometry window (CSV)"),
     QT_TRANSLATE_NOOP("Messages", "no two images of the two filters close enough in time to form a colour"),
     # photometry/measurements.py (the measurements table's filter)
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {part}"),

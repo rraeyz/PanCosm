@@ -525,7 +525,17 @@ four languages.
 - **Accept:** a synthetic two-filter night gives the injected colour change.
 
 ### 12. Several nights together
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `photometry/nights.py`: `join_nights` puts the raw fluxes of all nights into
+one ensemble (`differential.ensemble`, item 13's shares from the frames with every comparison star, so a night that
+lacks a star all night is scaled by the share it lacks) and returns one curve with the raw fluxes, the night of each
+point and how far each night moved; `read_export` reads the window's CSV export back. **Add other nights (exported
+CSV)…** in the Export tab joins them with the night measured now; with T0 and the period the minimum step already
+times every eclipse of a long series, so every night's minimum goes to O−C at once. `ensemble` also sums the stars
+there when no frame has every star (it gave NaN). Accept met: two nights with comparison star C2 missing all of the
+second night (a 0.05 mag step in a plain join) join with less than 0.002 mag between the nights, also from the
+exported CSV files (`test_two_nights_with_a_star_missing_one_night_join_without_a_step`). Rule 12: the export keeps
+relative errors only, so a night read back shares its error between the target and the comparison stars. Guide 06 in
+four languages.
 - **Reference:** Muniwin and AIJ work per night; observers join the nights afterwards.
 - **Ours:** one night at a time (survey curves can be joined, nightly ones cannot).
 - **Build:** join nights measured with the same star list; offsets per night from the common comparison stars; the
