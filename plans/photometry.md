@@ -505,7 +505,18 @@ relative to the largest radius measured, not extrapolated to infinity. Guide 06 
 - **Accept:** switching radius after the measurement gives the same curve as measuring with that radius.
 
 ### 11. Several filters in one night
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `photometry/multifilter.py` (`by_filter`, moved here from the Calibrate
+page; `colour_pair`, the bluer filter first; `colour_curve`, each image of the sparser filter paired with the nearest
+of the other within 1.5 cadences, Δm_a − Δm_b, and with T_ab and the comparison colour the standard colour
+(A − B) = comp_colour + T_ab Δ(a − b)) and the `photometry.multifilter` step (every filter with the same stars,
+radii and options, positions carried from the frame they were marked on). In the window: the filter question for a
+mixed set offers *All of them*; the measurement then runs every filter, shows the marked filter's curve and adds
+**Colour index (a − b) against time** to the Plot tab. Accept met: a synthetic B / V night with the target reddening by
+0.05 mag gives that change in the colour curve, and the standard colour follows T_bv
+(`test_two_filter_night_gives_the_injected_colour_change`). Rule 12: the transformed magnitudes of each filter are not
+built here — the per-filter calibration exists (catalogue magnitudes, transformation step); the colour is what a mixed
+night adds. Also: item 10's guide text had not been written (a failed insertion); it is in this commit. Guide 06 in
+four languages.
 - **Reference:** IRAF photcal transformation equations; common practice in B and V monitoring.
 - **Ours:** the images are grouped by filter, but each filter is measured on its own; the transformation exists only
   as separate steps.

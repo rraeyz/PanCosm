@@ -22,6 +22,7 @@ NAMES = {
     "photometry.catalog": QT_TRANSLATE_NOOP("Steps", "Standard magnitudes from a catalogue"),
     "photometry.identify_field": QT_TRANSLATE_NOOP("Steps", "Identify the field"),
     "photometry.light_curve": QT_TRANSLATE_NOOP("Steps", "Measure the light curve"),
+    "photometry.multifilter": QT_TRANSLATE_NOOP("Steps", "Measure every filter and the colour index"),
     "photometry.polarimetry": QT_TRANSLATE_NOOP("Steps", "Polarimetry"),
     "photometry.quality": QT_TRANSLATE_NOOP("Steps", "Find the bad frames"),
     "photometry.suggest_comparisons": QT_TRANSLATE_NOOP("Steps", "Suggest comparison stars"),

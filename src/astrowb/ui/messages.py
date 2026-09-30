@@ -351,6 +351,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not a multi-plot template"),
     QT_TRANSLATE_NOOP("Messages", "the meridian flip needs the times"),
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
+    QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
+    QT_TRANSLATE_NOOP("Messages", "no two images of the two filters close enough in time to form a colour"),
     # photometry/measurements.py (the measurements table's filter)
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {part}"),
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the measurements table"),
