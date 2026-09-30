@@ -442,7 +442,7 @@ class MainWindow(QMainWindow):
 
         exports = QMenu(self.tr("&Export"), win)  # File → Export, just before Close window
         win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
-        exports.addActions([export, mirror(page.aavso_button)])
+        exports.addActions([export, mirror(page.aavso_button), mirror(page.etd_button)])
         win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()

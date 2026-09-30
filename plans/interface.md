@@ -733,6 +733,7 @@ whenever any area gains a feature.
 | Several apertures at once, radius chosen afterwards, aperture correction | Photometry | — | — | Steps 4 options; Results: Plot |
 | Several filters in one run, colour index against time | Photometry | (filter question) | — | Results: Plot |
 | Several nights joined on one zero point | Photometry | — | — | Results: Export |
+| Export for ETD / VarAstro | Photometry | File → Export | — | Results: Export |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

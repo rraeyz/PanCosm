@@ -43,6 +43,8 @@ The **Plot** tab chooses what is drawn: T1 relative flux, its differential magni
 
 **Several nights together** (Export tab, **Add other nights (exported CSV)…**): light curves of the same star list exported on other nights join the one measured now. The fluxes of all nights go into one ensemble: the frames with every comparison star give each star's share, and a night that lacks a star all night is scaled by the share it lacks, so the nights meet on one zero point without a step; the line under the plot says how far each night moved. With T0 and the period, **Time of minimum** then times the eclipse of every night at once for O−C.
 
+**Export for ETD / VarAstro (text)…** (Export tab, File → Export) writes the light curve for the Exoplanet Transit Database upload in the format its FAQ gives: the Julian date in the first column, the brightness in the second — the magnitude when known magnitudes were given, else Δm against the comparison stars — and the error in the third. After saving, the window says which time standard (BJD_TDB, or JD_UTC without the target's position) and which unit to choose in the upload form. The CSV export opens on the Models page as it is.
+
 ## Frame quality
 **Find the bad frames (clouds, focus, trails)** measures every chosen frame: the size of the stars (FWHM), how many stars are seen and the sky level. The plot shows the three through the night; frames far worse than the night's typical frame are marked red, with the reason — *stars blurred* (wind, focus, seeing), *few stars* or *no stars* (clouds, dew), *bright sky* (twilight, Moon). **Leave out the bad frames** removes them before measuring. The *Eclipsing binary night* and *Exoplanet transit* automations do this by themselves.
 

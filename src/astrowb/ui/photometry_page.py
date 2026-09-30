@@ -922,6 +922,16 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         ol.addWidget(self.aavso_button)
+        self.etd_button = QPushButton(self.tr("Export for ETD / VarAstro (text)…"), self)  # item 15
+        self.etd_button.setEnabled(False)
+        self.etd_button.setToolTip(
+            self.tr(
+                "Julian date, magnitude (or Δm) and error, as the Exoplanet Transit Database upload reads them; the "
+                "time standard and the unit to choose in its form are said after saving"
+            )
+        )
+        self.etd_button.clicked.connect(lambda: self.export_etd())
+        ol.addWidget(self.etd_button)
         self.nights_button = QPushButton(self.tr("Add other nights (exported CSV)…"), self)  # item 12
         self.nights_button.setEnabled(False)
         self.nights_button.setToolTip(
@@ -2013,8 +2023,28 @@ class PhotometryPage(Undoable, QWidget):
         self.export_button.setEnabled(True)
         self.aavso_button.setEnabled(True)
         self.nights_button.setEnabled(True)
+        self.etd_button.setEnabled(True)
         self._fill_show_choices()
         self._recompute()
+
+    def export_etd(self, path=None):
+        """The light curve as the ETD / VarAstro upload reads it (photometry.export.etd_text)."""
+        from ..photometry.export import etd_text
+
+        if self.light_curve is None:
+            return None
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(self, self.tr("Export for ETD / VarAstro"), "etd.txt", "Text (*.txt)")
+        if not path:
+            return None
+        text, scale, unit = etd_text(self.light_curve)
+        Path(path).write_text(text, encoding="utf-8")
+        self.result.setText(
+            self.tr("Saved {path}. In the upload form choose the time standard {scale} and the unit {unit}.").format(
+                path=path, scale=scale, unit=unit
+            )
+        )
+        return path
 
     def add_nights(self, paths=None):
         """Other nights' exported light curves joined with this one (photometry.nights.join_nights)."""
