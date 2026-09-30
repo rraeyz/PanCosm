@@ -69,7 +69,14 @@ def linux():
     shutil.copy(ICON_PNG, appdir / f"{app_id}.png")
     tool = OUT / "appimagetool"
     if not tool.exists():
-        urllib.request.urlretrieve(APPIMAGETOOL_URL, tool)
+        for attempt in range(4):  # GitHub's download server answers 504 now and then (CI, 2026-11-09)
+            try:
+                urllib.request.urlretrieve(APPIMAGETOOL_URL, tool)
+                break
+            except OSError:
+                if attempt == 3:
+                    raise
+                time.sleep(15 * (attempt + 1))
         tool.chmod(tool.stat().st_mode | stat.S_IEXEC)
     target = OUT / f"{SHORT}-{VERSION}-linux-{ARCH}.AppImage"
     env = os.environ | {"ARCH": ARCH, "APPIMAGE_EXTRACT_AND_RUN": "1"}  # works without FUSE (CI, containers)
