@@ -486,7 +486,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Ours now:** `coefficients.extinction` (k from comparison stars of one field), `transformation` (two filters, one
   field), dialog `coefficients_dialog.py`.
 - **Build:** `photometry/allsky.py`: instrumental magnitudes of standards from many frames (several fields,
-  airmasses, filters) with aperture correction to a large radius (growth curve, PHO-10's data); a general
+  airmasses, filters) with aperture correction to a large radius (growth curve, from the several-apertures data of done item 10); a general
   least-squares fit of zero point, first-order extinction, colour term and optionally second-order extinction and a
   time drift of the zero point per filter, with sigma clipping and the covariance; residual plots against airmass,
   colour, time and position; `apply()` to programme stars (iterating on the colour) giving standard magnitudes with
@@ -614,7 +614,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   `coefficients.transformation`.
 - **Build:** with coefficients from the profile (per filter set, dated) or from PHO-28: standard magnitude of the
   target per frame `V = v_inst + ZP_frame + T_v_bv × (B−V)_target`, the target's colour from the two-filter curve of
-  the night interpolated in time (PHO-11) or a typed colour; second-order extinction term optional; the AAVSO report
+  the night interpolated in time (done item 11) or a typed colour; second-order extinction term optional; the AAVSO report
   marks `TRANS=YES` and notes the coefficients; error propagation includes coefficient errors.
 - **Accept:** synthetic B / V night with colour terms 0.05 and 0.10: recovered standard magnitudes within 0.005 of
   truth, against 0.03 untransformed.

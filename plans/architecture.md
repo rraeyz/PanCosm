@@ -89,7 +89,7 @@ tools/             precommit, i18n, screenshots, speed, licence and brand checks
 [ ] interface uses the kit only; tooltips; undo/redo; empty state; error state; keyboard reachable
 [ ] used as a user: QTest walk on real data; screenshots en/tr/de/es × dark/light at 1366×768 looked at
 [ ] translations 0 unfinished (tr, de, es); error codes with what-happened + what-to-do; glossary terms respected
-[ ] guide updated in four languages; plans/interface.md "Where everything is" updated
+[ ] guide updated in four languages; plans/interface.md "Where everything is" and plans/parity.md marks updated
 [ ] time and peak memory measured on the named data; budget met; GPU twin tested equal (if any)
 [ ] old projects / sessions / settings open (compatibility test extended)
 [ ] precommit green; CI green on all systems; THIRD_PARTY.md updated for anything consulted or added
@@ -135,6 +135,10 @@ answers.
 - After ARC-10: Help → "Check the GPU" on the RTX 4050 machine and send the report file it writes.
 
 ## Steps
+
+Order of work: stage S0: ARC-1, 2, 3; stage S1: ARC-4, 13, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 23 (ARC-4's
+sub-steps first for the window whose other layers are being migrated; ARC-13 early so that new code raises codes
+from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
 
 ### ARC-1. Earth-orientation and leap-second tables can never stop the program  (P1, first of all)
 **open**

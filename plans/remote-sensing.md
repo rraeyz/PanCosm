@@ -86,7 +86,7 @@ bands); Congalton 1991 (accuracy assessment); Chavez 1996 (dark-object subtracti
 
 ## Steps
 
-Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13; P3: 9, 10, 11.
+Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10, 11.
 
 ### RS-W. The Remote sensing window on the new anatomy  (P1)
 **open**
