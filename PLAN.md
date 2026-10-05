@@ -299,6 +299,10 @@ rebased often.
 | S3 Areas, P2 | Beyond the reference programs | same order | 0.10 … |
 | S4 Long tail and polish | P3 steps, UI-17 … UI-19, full validation report (VAL), guide complete | all | 1.0 |
 
+**Where to start today:** `plans/architecture.md` ARC-1 (the time-table fault that stops installed copies about a
+month after their build), then ARC-2, ARC-3, then stage S1. An agent that has nothing to claim in its lane takes
+the next open step of the roadmap in order.
+
 Parallel lanes that do not collide (if more than one agent works): (a) ARC + UI foundation; (b) science engines
 without interface — MOD-1 … MOD-9 (Roche engine), EXO-1 … EXO-5 (transit and RV engines, the shared inference
 engine), PER-3 and PER-4, OC-1 … OC-3, the engine parts of SPE and CAL steps; (c) VAL data and reference runs. Interface steps of an area start only after S1 is done.
