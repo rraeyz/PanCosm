@@ -689,66 +689,199 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 
 #### UI-16.7 Exoplanets
 **open**
-- Rail: 1 Data (transit light curves per night and filter, radial velocities per instrument, mid-times) · 2 Star
-  (parameters fetched or typed; priors) · 3 Planets (period, epoch, depth from the archives as starting values) ·
-  4 Model (limb darkening, detrending, exposure integration, eccentricity, dilution) · 5 Fit · 6 Uncertainty ·
-  7 Results. Main: transits (stacked or folded) with model and residuals; RV curve; O−C of mid-times. Results:
-  Parameters (fitted and derived), Chains, Corner, Report (tables for a paper, ExoClock / AAVSO / TFOP files).
+```
+rail           stage panel (example: 3 Planets)             main                                   inspector
+1 Data         Planet b                            ?        ┌ transits: one row per night, data + ─┐ Parameter Rp/R★
+2 Star         Name [ Qatar-1 b        ] [Fill from archive]│ model, residuals under each          │ value 0.1463
+3 Planets ●    Period        1.4200242 d   prior ◉ fixed    ├ folded transit per filter ───────────┤ prior none
+4 Model        Mid-transit   2460000.4055  prior ○ free     ├ radial velocities (time | phase) ────┤ limits 0–0.5
+5 Fit          Depth, a/R★, b: starts from the archive      ├ O−C of the mid-times ────────────────┤ source: archive
+6 Uncertainty  [+ Add a planet]                             └──────────────────────────────────────┘ (Bonomo+ 2017)
+7 Results      [ Next: model options → ]                    results: [Parameters][Chains][Corner][Report]
+```
+- **1 Data:** a table of data sets (kind: transit night / radial velocities / mid-times; file; instrument; filter;
+  points; time span; exposure; "use"); add by file, from Photometry (the open session's light curve), from
+  Spectroscopy (the velocities table), from the archives (published mid-times); each transit night shows a thumbnail
+  curve. Empty state: the three ways in (One transit · Ephemeris · Global fit) as cards.
+- **2 Star:** the inputs table (Teff, log g, [Fe/H], parallax, magnitudes: value, error, source, "use as a
+  constraint"), "Fetch from catalogues", the choice of stellar model (isochrones · empirical relations · typed
+  mass and radius), the SED plot and the H–R diagram as two small plots under the table; the consistency line of
+  EXO-6.5.
+- **3 Planets:** above; one card per planet.
+- **4 Model:** per filter: limb darkening (from tables: fixed · prior · free), dilution; per night: detrending
+  columns (additive / multiplicative ticks), baseline, error scaling; orbit: circular · eccentric; exposure
+  integration (automatic); extra terms folded (secondary eclipse, phase curve, Rossiter–McLaughlin, noise model).
+- **5 Fit:** "Quick fit" (least squares) as the primary action; the live χ² and the model redrawn; the fit's
+  messages in words ("the period is not constrained by one transit: it stays fixed").
+- **6 Uncertainty:** the run panel of EXO-5.7 (sampler choice folded; progress; convergence bars per parameter;
+  Pause / Resume / Stop); a banner while the result is not converged.
+- **7 Results:** the summary cards (planet radius, mid-time with O−C against the catalogue, depth, duration;
+  mass and density when velocities exist), then Export cards (tables, figures, upload files).
+- Results dock: **Parameters** (all fitted and derived, grouped as EXOFAST's tables, with intervals; search),
+  **Chains** (traces with the burn-in mark), **Corner** (choose parameters), **Report** (preview of the LaTeX table
+  and the files).
+- Toolbar: Open data…, Fill from archive, Quick fit, Run uncertainty, Stop, Report…, Send mid-time to O−C.
 - **Files:** `ui/exoplanets/` (see EXO-W)
 
 #### UI-16.8 Planning
 **open**
-- Rail: 1 Site and night · 2 Targets (list; "What can I observe tonight?" finder: eclipses, transits, variables,
-  standards) · 3 Night (altitude chart with twilight, Moon, events as bars; a sky map tab) · 4 Schedule (timeline
-  that can be dragged) · 5 Send to Observing. Inspector: the selected target (coordinates, magnitudes, ephemeris,
-  finder chart, exposure calculator).
+```
+rail            stage panel (example: 2 Targets)            main                                   inspector
+1 Site, night   Targets of 2026-11-14            ?          ┌ altitude / airmass against time, ────┐ NY Vir
+2 Targets ●     [ + Add… ] [ What can I observe tonight? ]  │ twilight bands, Moon dashed, events  │ 13 38 48.1 −02 01 49
+3 Night         ☑ NY Vir      EB   V 13.3   min 22:41 ±1 m  │ as bars with ± uncertainty, horizon  │ sdB+dM, P 0.1010 d
+4 Schedule      ☑ Qatar-1 b   tr   V 12.8   20:10–21:47     ├ [Night chart][Sky map][Year] ────────┤ next minima: …
+5 Send          ☐ RZ Cas      EB   V 6.2    not tonight     │                                      │ field view with
+                lists: [my EBs ▾]  [Import…]                └──────────────────────────────────────┘ sensor footprint
+                [ Next: look at the night → ]               results: [Events][Finder results][Schedule table]
+```
+- **1 Site and night:** the site profile (chooser + "Edit…"), the date (calendar with Moon phase per day), the
+  almanac line (sunset, dusk, dawn, sunrise, dark hours, Moon), the month strip to choose nights.
+- **2 Targets:** above; the finder (PLN-5) opens as a panel in the results dock with its filters on the left and
+  the ranked table on the right.
+- **3 Night:** chart options (time axis: local · UT · sidereal; altitude limit; show Moon distance labels);
+  the three tabs of the main view.
+- **4 Schedule:** the timeline as the main view (blocks per target, overhead slivers, twilight flats, conflicts in
+  amber); block details in the Inspector; "Make a schedule" as the primary action, then drag to adjust.
+- **5 Send:** summary of what will be sent (targets, exposure plans, protected event windows), "Check in the
+  simulator first" (OBS-6 dry run) and "Send to Observing".
+- Inspector (selected target): identity and coordinates, magnitudes, ephemeris with source and uncertainty, the
+  events of the night, the field view (survey image, sensor footprint, comparison stars by PHO-17's rules), the
+  exposure calculator (PLN-6), "last observed".
+- Toolbar: Add target…, What can I observe tonight?, Plan the night, Exposure…, Make a schedule, Send to Observing.
 - **Files:** `ui/planning/` (see PLN-W)
 
 #### UI-16.9 Observing
 **open**
 ```
-devices: [● Mount  tracking][● Camera −10.0 °C][● Focuser 12 034][● Filter V][● Guider 0.6″][● Dome][● Weather][● Safe]
-rail: 1 Connect · 2 Point · 3 Focus · 4 Sequence · 5 Night       main: last frame (ImageView) with HFR, stars,
-stage panel: the controls of the stage                           median, saturation flags
-results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live light curve][Log]
+┌ devices: [● Mount tracking][● Camera −10.0 °C][● Focuser 12 034][● Filter V][● Guider 0.6″][● Dome][● Weather][● Clock +0.03 s][● Safe] ─ [■ Stop everything] ┐
+│ rail          stage panel (example: 4 Sequence)       main: the last frame (ImageView)            inspector          │
+│ 1 Connect     Tonight's program              ?        ┌─────────────────────────────────────────┐ Frame 124 of 300  │
+│ 2 Point       ▸ NY Vir   22:05–23:40   V 60 s × ∞     │ image with the star list's rings        │ HFR 2.3 px (1.4″) │
+│ 3 Focus       ▸ Qatar-1 b 19:30–22:30  R 90 s × ∞     │                                         │ stars 412         │
+│ 4 Sequence ●  ▸ flats at dawn  B V R                  │                                         │ sky 812 ADU       │
+│ 5 Night       [Check the program] [Edit as a tree…]   └─────────────────────────────────────────┘ peak T1 61 % lin. │
+│               now: exposing 124 / 300  ▓▓▓░ 38 s      filmstrip of the last frames with HFR       guiding 0.6″ rms  │
+│               [ Pause ]  [ Skip target ]              results: [Program][Graphs][Live light curve][Log]             │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
-- Addresses, tokens and certificates live in the "Set up the observatory…" dialog only. Each device chip opens a
-  small popover with its controls (cooler, focuser moves, filter change, park). A red "Stop everything" button is
-  always visible in the toolbar.
+- **1 Connect:** "Set up the observatory…" (the only place for addresses, tokens, certificates, drivers);
+  "Connect all"; a card per device with its state and its problem in words; "Use the simulated observatory".
+- **2 Point:** target (from Planning or typed), "Slew and centre", the live preview with crosshair and framing
+  rectangle, rotation, nudge buttons, "Solve where I am".
+- **3 Focus:** current position and temperature, "Autofocus", the V-curve plot of the last run, filter offsets,
+  rules (when to refocus), the focus history.
+- **4 Sequence:** above: the simple list by default; "Edit as a tree" opens the full program editor in the main
+  area; "Check the program" runs the dry run and lists its findings.
+- **5 Night:** conditions (weather values against their limits), safety state with the reasons, the time-line of
+  the night so far, "End the night" (park, warm up, close), the night report.
+- Device chips: a click opens a small popover with that device's controls (cooler set point and power, focuser
+  moves, filter change, park / unpark, dome and cover actions); a chip is amber when slow, red when lost.
+- Results dock: **Program** (the running tree with state per instruction), **Graphs** (HFR, star count, sky,
+  guiding, focus / temperature, camera, airmass, linear-range fraction on one time axis), **Live light curve**
+  (PHO-19), **Log** (the timeline as text, filterable).
+- Addresses, tokens and certificates never appear on this face. "Stop everything" is always visible and always
+  enabled.
 - **Files:** `ui/observing/` (see OBS-W)
 
 #### UI-16.10 Images
 **open**
-- No rail (a viewer, not a workflow): left a collapsible file strip with thumbnails; centre `ImageView` (tabs or
-  tiles for several images, locked by WCS on request); right Inspector tabs: Info (ARC-7 read-outs and the
-  `imexamine` results), Header (table with search and edit), Histogram and levels, Layers, History (processing
-  steps, undo list); bottom dock: Graph (profiles), Table (detected sources, region statistics).
+```
+┌ toolbar: [Open][Save] │ [◀][▶][Blink] │ [Fit][+][−][1:1] │ tools: [Pan][Star][Region ▾][Ruler][Cut] │ [Levels][Layers][N↑] ┐
+│ file strip        │ image (ImageView): tabs or 1–9 tiles, locked by pixel or sky     │ inspector tabs:              │
+│ ▣ light_001  V    │                                                                  │ [Info][Header][Levels]       │
+│ ▣ light_002  V    │                                                                  │ [Layers][History]            │
+│ ▣ light_003  V    │                                                                  │ Star  x 512.31  y 498.77     │
+│ (thumbnails or a  │                                                                  │ α 13 38 48.14 δ −02 01 49.2  │
+│  list with header │                                                                  │ FWHM 3.1 px (1.8″)  e 0.08   │
+│  columns)         ├──────────────────────────────────────────────────────────────────┤ net 184 320 ADU  S/N 410     │
+│                   │ [Graph: profile / radial / histogram][Table: measurements][Sources]│ V 12.52 ± 0.02 (zero point)  │
+└───────────────────┴──────────────────────────────────────────────────────────────────┴──────────────────────────────┘
+```
+- No rail (a viewer, not a workflow). File strip: thumbnails or list mode, multi-selection, filter line, "Follow a
+  folder"; hidden with F9.
+- Inspector tabs: **Info** (what the last tool measured: IMG-3; "Add to table"), **Header** (plain-words summary,
+  searchable table, edit, verify, compare: IMG-10), **Levels** (IMG-2), **Layers** (overlays with visibility and
+  opacity: catalogues, regions, grid, annotations), **History** (IMG-8).
+- Menus as today (File, Edit, View, Process, Analyse, Overlays, Astrometry, Colour, Stack) with every existing
+  action kept; a processing action opens its form in the Inspector (not a modal dialog) with the preview in the
+  image.
+- Empty state: "Open images…", "Open the practice night", drop target.
 - **Files:** `ui/images/` (see IMG-W)
 
 #### UI-16.11 Astrometry
 **open**
-- Rail: 1 Images · 2 Solve · 3 Find (blink, track-and-stack, synthetic tracking) · 4 Measure · 5 Report.
-  Main: `ImageView` with the blink strip; results: Detections, Residuals, Report preview.
+```
+rail          stage panel (example: 3 Find)                 main: image with blink strip             inspector
+1 Images      Moving objects in this field       ?          ┌──────────────────────────────────────┐ (433) Eros
+2 Solve       Known objects: 3 in the field [Show]          │ frames aligned on the stars; known   │ V 9.8  1.9″/min PA 251°
+3 Find  ●     ◉ Blink  ○ Track and stack  ○ Search (GPU)    │ objects with motion arrows; the      │ O−C  +0.08″ −0.03″
+4 Measure     Rate up to [ 3.0 ] ″/min   S/N ≥ [ 7 ]        │ candidate's stack in an inset        │ frames measured 24/24
+5 Report      about 2 000 vectors, 40 s on this GPU         └──────────────────────────────────────┘
+              [ Search for moving objects ]                 results: [Detections][Residuals][Report preview]
+```
+- **1 Images:** the series (time span, exposure, filter), calibrated? solved?; **2 Solve:** state per frame, hints
+  used, residuals, "Solve again" options folded; **3 Find:** above; **4 Measure:** the object's positions per frame
+  with uncertainties and magnitudes, flags (blended, trailed), choice of centroid; double-star and "any object"
+  modes here too; **5 Report:** header from the profiles, format (ADES PSV / XML, 80-column, comets), validator
+  result, preview, "Open the submission page".
 - **Files:** `ui/astrometry/` (see AST-W)
 
 #### UI-16.12 Automation
 **open**
-- Left: library of steps and templates with search; centre: the chain as cards joined by lines (inputs and outputs
-  named, missing inputs in amber); right: the selected step's settings (the same `FormRow`s as in its window);
-  bottom: run log and results. Toolbar: New, Open, Save, Run, Stop, Schedule.
+```
+┌ toolbar: [New][Open][Save] │ [▶ Run][■ Stop][Run from here] │ [Schedule…][Save as template] ──────────────────────────┐
+│ library (search)      │ chain                                                  │ selected step: Light curve          │
+│ ▾ Templates           │ ┌ 1 Scan frames ─────────┐   folder ← (asked at run)   │ (the generated form of the step:    │
+│   Eclipsing-binary…   │ └────────┬───────────────┘                             │  the same rows as in Photometry)    │
+│ ▾ Calibration         │ ┌ 2 Calibrate ───────────┐   frames ← 1.frames         │ Aperture  [ auto ]                  │
+│   Scan frames         │ └────────┬───────────────┘                             │ Sky from  [ median ▾ ]              │
+│   Calibrate           │ ┌ 3 Light curve ● ───────┐   images ← 2.calibrated     │ ▸ More options                      │
+│ ▾ Photometry          │ └────────┬───────────────┘   target ← (asked at run)   │ on error: ◉ stop ○ skip ○ continue  │
+│   Light curve …       │ ┌ 4 Time of minimum ─────┐   ⚠ needs T0 or period      │                                     │
+├───────────────────────┴────────────────────────────────────────────────────────┴─────────────────────────────────────┤
+│ [Run plan: what will run, what is reused][Log][Results]                                                              │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+- Cards show inputs with where each comes from (an earlier step's output, a question, a fixed value); a missing
+  input is amber with the fix offered; drag from the library to add, drag cards to reorder; loops and conditions
+  are container cards.
+- "Run" first shows the run plan (AUT-2.3) unless the user ticked "don't ask"; results open in their area window.
 - **Files:** `ui/automation/` (see AUT-W)
 
 #### UI-16.13 Remote sensing
 **open**
-- Left: bands and layers; centre: the map (`ImageView` with a geographic grid); right: tools (formula, indices,
-  classes, components) as stages; bottom: histogram / pixel spectrum / statistics.
+```
+rail           stage panel (example: 3 Indices)            main: the map                           inspector
+1 Scene        Index or formula               ?            ┌─────────────────────────────────────┐ Pixel 5120, 3311
+2 Display      [ NDVI ▾ ]  (NIR − Red) / (NIR + Red)       │ map (ImageView) with geographic grid,│ 41.0321° N 29.0142° E
+3 Indices ●    range −1 … 1 · vegetation vigour            │ scale bar, north arrow; layers       │ B4 0.061  B8 0.412
+4 Classes      mask clouds ☑ (from the scene's quality     │ drawn in order                       │ NDVI 0.742
+5 Change       layer)                                      └─────────────────────────────────────┘ spectrum ▁▂▂▇▆▃
+6 Export       [ Compute ]                                 results: [Histogram][Statistics][Classes][Time series]
+```
+- Left of the rail's panel, a **Layers** list is always visible (bands, composites, products, masks, vectors with
+  visibility and opacity). Stages: **1 Scene** (product recognised, bands and roles, quality masks), **2 Display**
+  (composite presets, stretch), **3 Indices**, **4 Classes** (unsupervised / supervised with training polygons and
+  the accuracy table), **5 Change** (two dates, time series), **6 Export** (GeoTIFF, map layout).
 - **Files:** `ui/remotesensing/` (see RS-W)
 
 #### UI-16.14 Project
 **open**
-- A window of its own: tabs Files (what the project refers to, with missing files flagged and "Locate…"), History
-  (every run: when, step in words, parameters, result; "Run again", "Copy as script"), Products (frames, tables,
-  figures with their provenance), Sessions, Tasks (all running and finished), Methods text (ARC-11).
+```
+┌ Project: NY Vir 2026 — /data/nyvir/nyvir.astroproj ─────────────────────────────────────────────────────────────────┐
+│ [Files][History][Products][Sessions][Tasks][Methods text]                                              [🔍 filter]  │
+│ History                                                                                                             │
+│ 2026-11-03 22:41  Calibrate 48 frames            3.2 s   ✓   [Run again] [Copy as script] [Show products]           │
+│ 2026-11-03 22:44  Light curve (T1 + 4 C)         9.1 s   ✓   radii 6 / 14 / 20 px · sky median · …                  │
+│ 2026-11-03 22:45  Time of minimum (Kwee–van W.)  0.2 s   ✓   2460983.40546 ± 0.00009                                │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+- **Files:** what the project refers to (kind, size, where; missing files flagged with "Locate…"; a moved folder is
+  re-linked in one action); **History:** every run in words with its parameters (the step descriptions of AUT-1),
+  filter by area / date / result; **Products:** frames, tables, figures with their provenance ("made by … from …"),
+  "Reproduce", "Open in its window"; **Sessions:** autosaved and named sessions per area; **Tasks:** everything
+  running and finished in this run of the program; **Methods text:** ARC-11.
 - **Files:** `ui/shell/project/{window,files,history,products,sessions,tasks,methods}.py`, `engine/project.py`, `tests/ui/walks/project.py`, guide 01
 
 ### UI-17. Polish  (P3)
