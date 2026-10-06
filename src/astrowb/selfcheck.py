@@ -19,6 +19,7 @@ LIBRARIES = (
     "PIL",
     "alpaca.telescope",
     "astropy.coordinates",
+    "astropy_iers_data",
     "astropy.io.fits",
     "astropy.stats",
     "astropy.table",
@@ -227,9 +228,9 @@ def online():
         return f"{len(rows)} TESS observations"
 
     def iers():
-        from astropy.utils import iers
+        from ..core import earth_orientation
 
-        return f"{len(iers.IERS_Auto.open())} rows"
+        return earth_orientation.describe(earth_orientation.status())
 
     return _run(
         {

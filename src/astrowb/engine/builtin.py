@@ -259,6 +259,15 @@ def app_check(inputs, params, ctx):
     return {"report": selfcheck.report(results), "ok": all(ok for _, ok, _ in results)}
 
 
+@step("app.update_time_tables", outputs=("status",))
+def update_time_tables(inputs, params, ctx):
+    """Download the Earth-orientation (IERS-A) and leap-second tables and keep them for every later run."""
+    from ..core import earth_orientation
+
+    ctx.progress(0.1, "downloading")
+    return {"status": earth_orientation.describe(earth_orientation.refresh())}
+
+
 @step("sample.night", inputs=("folder",), outputs=("truth",))
 def sample_night(inputs, params, ctx):
     """Practice data: a simulated night of an eclipsing binary with calibration frames (see the Guide)."""

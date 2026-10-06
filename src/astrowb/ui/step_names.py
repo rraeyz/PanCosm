@@ -5,6 +5,7 @@ from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
 
 NAMES = {
     "app.check": QT_TRANSLATE_NOOP("Steps", "Check the installation"),
+    "app.update_time_tables": QT_TRANSLATE_NOOP("Steps", "Update the Earth-rotation tables"),
     "astrometry.moving": QT_TRANSLATE_NOOP("Steps", "Positions of a moving object"),
     "astrometry.solve": QT_TRANSLATE_NOOP("Steps", "Plate solve"),
     "calibration.run": QT_TRANSLATE_NOOP("Steps", "Calibrate the frames"),

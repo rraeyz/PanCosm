@@ -27,7 +27,7 @@ def test_first_run_once(qapp, qtbot, tmp_path):
             return 1
 
     chosen = first_run(qapp, settings, Auto)
-    assert chosen == {"ui.language": "tr", "compute.device": "cpu", "ui.theme": "light"}
+    assert chosen == {"ui.language": "tr", "compute.device": "cpu", "ui.theme": "light", "time.auto_refresh": True}
     assert Settings(tmp_path).get("ui.first_run_done") is True
     assert first_run(qapp, settings, Auto) is None  # never again
     dlg = WelcomeDialog()

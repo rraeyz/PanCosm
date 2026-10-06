@@ -11,15 +11,14 @@ import re
 import astropy.units as u
 from astropy.coordinates import AltAz, EarthLocation, SkyCoord
 from astropy.time import Time, TimeDelta
-from astropy.utils import iers
 
+from .core import earth_orientation
 from .hdr import get, number
 from .io.lzw import readable
 
-# Observatories are often offline: never block on an IERS download; for dates beyond the bundled
-# table astropy then warns and uses predictions (affects airmass/alt-az only, not BJD).
-iers.conf.auto_download = False
-iers.conf.iers_degraded_accuracy = "warn"
+# Never download on our own and never refuse an old Earth-orientation table (it made every installation fail in
+# alt-az about a month after it was built); a newer table the user downloaded is used (core/earth_orientation.py).
+earth_orientation.configure()
 
 _GEOCENTRE = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
 _TZ = re.compile(r"([+-])(\d{2}):?(\d{2})$")

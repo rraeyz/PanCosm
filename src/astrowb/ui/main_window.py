@@ -1707,6 +1707,16 @@ class MainWindow(QMainWindow):
             act.setChecked(code == compute.mode())
             group.addAction(act)
 
+        s.addSeparator()
+        self.time_tables_action = QAction(self.tr("Keep the Earth-rotation tables up to date (weekly)"), self)
+        self.time_tables_action.setCheckable(True)
+        self.time_tables_action.setChecked(bool(self.settings.get("time.auto_refresh", True)))
+        self.time_tables_action.setToolTip(
+            self.tr("Once a week, when online, about 3 MB from the IERS. Altitudes and airmass need them; BJD does not")
+        )
+        self.time_tables_action.toggled.connect(lambda on: self.settings.set("time.auto_refresh", on))
+        s.addAction(self.time_tables_action)
+        self._action(s, self.tr("Update the Earth-rotation tables now"), self.update_time_tables)
         text_menu = s.addMenu(self.tr("Text size"))  # View → Text size in the area windows
         sizes = (
             (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
@@ -2645,6 +2655,30 @@ class MainWindow(QMainWindow):
 
         self.statusBar().showMessage(self.tr("Checking the installation and the internet services…"), 60000)
         return self.run_step("app.check", {}, {}, on_done=done)
+
+    def update_time_tables(self, quiet=False):
+        """Download newer Earth-orientation and leap-second tables (plans/architecture.md ARC-1). quiet: the weekly
+        update at start-up, which only reports in the status bar and stays silent when offline."""
+        from ..core import earth_orientation
+
+        def done(out):
+            earth_orientation.use_stored()
+            self.statusBar().showMessage(self.tr("Earth-rotation tables updated: {0}").format(out["status"]), 15000)
+
+        def failed(error):
+            if quiet:
+                self.statusBar().showMessage(self.tr("Earth-rotation tables not updated (offline?)"), 8000)
+            else:
+                QMessageBox.warning(
+                    self,
+                    self.tr("Earth-rotation tables"),
+                    self.tr(
+                        "The tables could not be downloaded: {0}\n\nThe tables in use stay; nothing stops working. "
+                        "Try again when online."
+                    ).format(str(error).strip().splitlines()[-1]),
+                )
+
+        return self.run_step("app.update_time_tables", {}, {}, on_done=done, on_fail=failed)
 
     def practice_data(self, folder=None):
         """Simulated raw frames of an eclipsing binary night, for the Guide's first-night exercise."""

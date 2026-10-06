@@ -2,7 +2,7 @@
 heavy computations run, and the look. Everything can be changed later in the Settings menu."""
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QComboBox, QDialog, QDialogButtonBox, QFormLayout, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QCheckBox, QComboBox, QDialog, QDialogButtonBox, QFormLayout, QLabel, QVBoxLayout
 
 from ..brand import BRAND
 from . import theme
@@ -18,7 +18,7 @@ class WelcomeDialog(QDialog):
         title = QLabel(f"<h2>Welcome to {BRAND.display_name}</h2>", self)
         title.setTextFormat(Qt.RichText)
         lay.addWidget(title)
-        intro = QLabel("Three quick choices. You can change them any time in the Settings menu.", self)
+        intro = QLabel("A few quick choices. You can change them any time in the Settings menu.", self)
         intro.setWordWrap(True)
         intro.setProperty("muted", True)
         lay.addWidget(intro)
@@ -43,6 +43,17 @@ class WelcomeDialog(QDialog):
         form.addRow("Computations run on", self.device)
         form.addRow("Look", self.look)
         lay.addLayout(form)
+        self.time_tables = QCheckBox(
+            "Keep the Earth-rotation tables up to date: once a week, when online, about 3 MB from the IERS "
+            "(nothing about you is sent)",
+            self,
+        )
+        self.time_tables.setChecked(True)
+        self.time_tables.setToolTip(
+            "Altitudes, airmass and the telescope's safety limits need them; times (BJD) do not. Without updates "
+            "the predictions in the installed tables slowly lose accuracy, but nothing stops working."
+        )
+        lay.addWidget(self.time_tables)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok, self)
         ok = buttons.button(QDialogButtonBox.Ok)
         ok.setText("Start")
@@ -70,6 +81,7 @@ class WelcomeDialog(QDialog):
             "ui.language": self.language.currentData(),
             "compute.device": self.device.currentData(),
             "ui.theme": self.look.currentData(),
+            "time.auto_refresh": self.time_tables.isChecked(),
         }
 
 
