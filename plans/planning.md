@@ -270,6 +270,10 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Accept:** footprints agree with the plate scale and a real frame's solved corners within 1 %; a 2 × 3 mosaic's
   panels overlap by the chosen 15 % everywhere (spherical geometry test at declination 85°).
 - **Files:** `planning/framing.py`, `images/chart.py`, `ui/planning/panels/inspector.py`, `tests/test_footprints.py`
+- **Notes from the sources (architect, 2026-11-10):** N.I.N.A. 3.2 ships an optional offline sky-map cache (3.3 GB)
+  so that framing works without a network; ours: survey cut-outs are cached per field by `services` (ARC-14), and
+  an optional low-resolution all-sky pack is listed in the data manager (ARC-20) only if its source's licence
+  allows redistribution — decide and write the source here.
 
 ### PLN-11. Weather and sky conditions  (P2)
 **open**

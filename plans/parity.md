@@ -22,6 +22,9 @@ and papers (the lists of what was read are in each area file) and from our own c
 | Radii from the radial profile (the 1 % rule) | ● | — |
 | Centroid on / off per aperture; Howell centroid | ◐ (target only; one centring method) | PHO-44 |
 | Elliptical and free-form pixel apertures | ○ | PHO-22 |
+| Moving-target tracking in Multi-Aperture (5.5.0) | ○ | PHO-21 |
+| Opens TESScut files, TESS postage stamps, TICA and SPOC full-frame images | ◐ (pixel files and TESScut) | PHO-32 |
+| Multi-threaded photometry (5.5.0) | ● | — |
 | Noise model with gain, read noise, dark current, quantisation | ● | — |
 | Saturation and linearity warnings per star | ● | — |
 | Automatic comparison stars | ◐ (catalogue-based; rules fixed; reasons not shown) | PHO-17 |

@@ -333,7 +333,13 @@ the suite is green after each.
      path)` writes a stand-alone Python script that redraws the figure from that ECSV.
   6. The toolbar of a plot is a kit component (UI-10): show all, box zoom, select range, pick, export…, publication
      figure…, open in a window.
-  7. Dependency: `pyqtgraph >= 0.13` (MIT) in the gui extra; PyInstaller hook checked on all five targets;
+  0. **Decision gate before anything else in this step (a two-hour spike, results written under the step):** with
+     pyqtgraph ≥ 0.14 (its OpenGL path was rewritten on programmable shaders, OpenGL 3.1+; PySide6 ≥ 6.10 needed on
+     macOS) measure on the reference machine and under the software renderer of CI: scatter and line plots of
+     10^5, 10^6 and 10^7 points, pan / zoom frame times, with and without OpenGL, with our decimation. If 10^6
+     points cannot reach 30 fps even with decimation, stop and write the numbers under "Questions for the
+     architect" (the fall-back is our own `QPainter` renderer on decimated data behind the same `PlotView` API).
+  7. Dependency: `pyqtgraph >= 0.14` (MIT) in the gui extra; PyInstaller hook checked on all five targets;
      `THIRD_PARTY.md`.
   8. Migration, one sub-step per window (ARC-6.1 Photometry plot and multi-plot; .2 Light curves, period,
      frequency; .3 O−C; .4 Spectroscopy (spectrum, arc, fit, residuals, CCF); .5 Models; .6 Planning; .7 Images
@@ -563,7 +569,11 @@ the suite is green after each.
   2. Offline mode: Settings → "Work offline" and automatic detection; a query then answers from the cache or raises
      `services.offline` naming what is needed; every window that can use cached data says "from cache, fetched on
      <date>".
-  3. Modules: `gaia` (DR3 cone, proper motion to epoch, GSPC synthetic photometry), `simbad`, `vizier` (generic
+  3. Modules: `gaia` (DR3 cone, proper motion to epoch, GSPC synthetic photometry; written release-aware: the
+     table names and columns of a data release live in one table, because **Gaia DR4** — all epoch photometry in
+     G / BP / RP, epoch radial velocities and spectra for all sources — has an announced release date (ESA,
+     2026-05-07 news; check cosmos.esa.int/web/gaia/dr4) and must be adoptable by adding its entry: epoch photometry
+     then becomes a light-curve source in PER-1 and epoch velocities a source in SPE-15), `simbad`, `vizier` (generic
      table cone), `vsx`, `gcvs`, `apass`, `refcat2`, `panstarrs`, `skymapper`, `ucac4`, `tycho2`, `landolt` /
      `stetson` standards, `aavso_vsp` (sequences), `aavso_webobs`, `exoplanet_archive`, `exoclock`, `etd / varastro`,
      `mast` (TESS / Kepler light curves, pixel files, TESScut), `ztf`, `asassn`, `atlas`, `gaia_epoch_photometry`,

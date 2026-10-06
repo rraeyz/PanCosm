@@ -313,6 +313,12 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   own parser of the standard).
 - **Files:** `photometry/moving_lc.py`, `photometry/export.py` (ALCDEF), `services/horizons.py`, UI, tests, guide.
 - **Depends on:** PHO-25.
+- **Notes from the sources (architect, 2026-11-10):** the current ALCDEF standard is **2.3.0** (March 2024,
+  alcdef.org/docs/ALCDEF_Standard.pdf): since 2.2 a light-curve block may not hold a single observation and
+  keywords required by NASA's Planetary Data System were added; 2.3.0 removed `ALLOWSHARING`. Write the exporter
+  against 2.3.0 and read the keyword tables in the PDF. AstroImageJ 5.5.0 (April 2025) added moving-target tracking
+  to Multi-Aperture: read its release page (astroimagej.com/releases/55000/) and that part of `MultiAperture_.java`
+  for how the aperture is carried between the first and last frame.
 
 ### PHO-22. Aperture shapes  (P2)
 **open**
@@ -327,6 +333,9 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   with the racetrack, at lower noise than the circle that contains the trail (asserted); painted mask on a TESS stamp
   equals lightkurve's `to_lightcurve(aperture_mask=…)` within 1e-6 relative.
 - **Files:** `photometry/aperture.py`, `starlist.py` (schema +1 with migration), UI apertures panel, tests.
+- **Notes from the sources (architect, 2026-11-10):** elliptical apertures arrived in AstroImageJ 5.5.0 / 5.5.1 (2025)
+  as an option of Multi-Aperture "for non-circular PSFs, as with poor tracking or guiding"; multi-threaded
+  photometry came with the same release.
 
 ### PHO-23. Nearby-eclipsing-binary check  (P1)
 **open**
@@ -605,6 +614,10 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   SAP within 0.02 %; PLD lowers the 1-hour CDPP relative to SAP (asserted); the centroid test on a synthetic blend
   detects a 0.2 px shift at 5σ; a 15 × 15 stamp with 18 000 cadences: mask change → new light curve < 0.3 s.
 - **Files:** `photometry/pixels.py`, `io/tpf.py`, `services/mast.py`, UI, tests, guide 06 and 07.
+- **Notes from the sources (architect, 2026-11-10):** AstroImageJ 5 opens TESScut files, TESS postage-stamp sequences,
+  and TICA and SPOC full-frame images directly; lightkurve's quality bitmasks are named `default`, `hard` and
+  `hardest` (`lightkurve/utils.py`). Our reader must accept the same four kinds of files (TICA FFIs have their own
+  header conventions and time system: read the TICA product description before writing the reader).
 
 ### PHO-33. Night diagnostics ("Checks" tab)  (P1)
 **open**

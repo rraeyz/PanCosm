@@ -37,7 +37,8 @@ DFT (Deeming), DCDFT (Ferraz-Mello), CLEANest (Foster), FALC (Harris), ANOVA, PD
 Abbe, Jurkevich, EEBLS; spectral window; prewhitening; significance by permutation); VStar (DCDFT, WWZ, Fourier
 model, polynomial fits); lightkurve (`to_periodogram`, `flatten`, `fold`, `bin`, river plots, seismology module);
 Astropy `LombScargle` (fast, floating mean, multi-term, false-alarm methods) and `BoxLeastSquares`; AstroImageJ
-`Periodogram_.java`, `BLSGpu.java`, `TLSGpu.java`.
+`Periodogram_.java`, `BLSGpu.java`, `TLSGpu.java`; the Python prewhitening tools SMURFS and PyWhiten (as descriptions
+of current practice: automatic frequency extraction with S/N stops, chunked time-dependent analysis).
 
 | Topic | Period04 | Peranso | VStar | lightkurve / Astropy | AstroImageJ | Ours now |
 | --- | --- | --- | --- | --- | --- | --- |
