@@ -14,7 +14,8 @@ Read `PLAN.md` first, all of it. This file is the foundation every other plan fi
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
 7. Only kit components in the interface; workflow first; one primary action; tooltips; undo; nothing locked.
-8. Errors by code, saying what happened and what to do, translated (tr, de, es: 0 unfinished). Guide updated.
+8. Errors by code, saying what happened and what to do, translated into Turkish (German and Spanish wait for ARC-25,
+   PLAN.md R0). Guide updated in English and Turkish.
 9. Measure time and memory; meet the budget; CPU and GPU paths give the same result.
 10. Commits in the owner's name only, no "Claude" anywhere; everything to `main`; never delete without the owner.
 
@@ -143,9 +144,9 @@ targets, maintained, small; write the verdict in this table):
 [ ] synthetic test with known truth            [ ] real-data check vs reference; reduced reference committed as a test
 [ ] engine has no Qt; step registered; in astrowb.api; runs from the command line
 [ ] interface uses the kit only; tooltips; undo/redo; empty state; error state; keyboard reachable
-[ ] used as a user: QTest walk on real data; screenshots en/tr/de/es × dark/light at 1366×768 looked at
-[ ] translations 0 unfinished (tr, de, es); error codes with what-happened + what-to-do; glossary terms respected
-[ ] guide updated in four languages; plans/interface.md "Where everything is" and plans/parity.md marks updated
+[ ] used as a user: QTest walk on real data; screenshots en/tr × dark/light at 1366×768 looked at
+[ ] Turkish translations 0 unfinished (German, Spanish: ARC-25); error codes with what-happened + what-to-do; glossary terms respected
+[ ] guide updated in English and Turkish; plans/interface.md "Where everything is" and plans/parity.md marks updated
 [ ] time and peak memory measured on the named data; budget met; GPU twin tested equal (if any)
 [ ] old projects / sessions / settings open (compatibility test extended)
 [ ] precommit green; CI green on all systems; THIRD_PARTY.md updated for anything consulted or added
@@ -197,7 +198,7 @@ sub-steps first for the window whose other layers are being migrated; ARC-13 ear
 from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
 
 ### ARC-1. Earth-orientation and leap-second tables can never stop the program  (P1, first of all)
-**agent3 claimed (2026-11-10 14:00 UTC) — do not touch**
+**agent3 done (2026-11-10, commit b599387 + this commit)**
 - **Why:** `timing.py` sets `iers.conf.auto_download = False`. With Astropy ≥ 6 an alt-az transformation for a date
   after the bundled IERS-A table raises `ValueError: interpolating from IERS_Auto using predictive values that are
   more than 30.0 days old` once the bundle is older than `auto_max_age` (30 days). Reproduced on 2026-11-09 with
@@ -233,6 +234,23 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   network; the status chip shows the right state in four languages.
 - **Files:** `core/earth_orientation.py` (new), `timing.py`, `engine/tasks.py` (worker start), `selfcheck.py`,
   `__main__.py` (smoke test), `ui/welcome.py`, settings, `tests/test_earth_orientation.py`, guide 12.
+- **Found in the code:** `timing.py` set `auto_download = False` and `iers_degraded_accuracy = "warn"` but not
+  `auto_max_age`; `selfcheck.iers` only counted rows; every alt-az user (planning, safety, observatory, focus,
+  server) reaches Astropy through `timing` (directly or via `devices/safety.py`), so one central setting suffices.
+- **Result:** `core/earth_orientation.py` (`configure`, `use_stored`, `status`, `describe`, `due`, `refresh`);
+  `timing.py` calls `configure()`; step `app.update_time_tables` downloads IERS-A and the leap-second list
+  (primary URL, then mirror), checks they parse, stores them atomically in `<config>/earth-orientation/` and uses
+  them in this and later processes; Settings menu: "Keep the Earth-rotation tables up to date (weekly)" (setting
+  `time.auto_refresh`, default on) and "Update the Earth-rotation tables now"; weekly quiet update 8 s after start
+  when due; first-run welcome has the tick; Help → Check the installation shows the table's date, age and how far
+  its predictions reach; the smoke test computes an altitude three years ahead. Guide 12 (en, tr).
+  Tests: `tests/test_earth_orientation.py` — alt-az, airmass and the safety rule with the clock 3 years past the
+  table (fails on the old code with Astropy's `ValueError`, passes now), BJD identical with an old table, refresh
+  from the mirror and refusal of a broken download (old table kept).
+- **Changed from the plan:** (1) the start-window status chip (Build 5) is left to UI-5, which rebuilds the start
+  window — the age is shown in Help → Check the installation meanwhile; (2) the leap-second file is set through
+  `iers.conf.system_leap_second_file` instead of a separate status entry; (3) "covers until" in the status is the
+  end of the table's predictions, not a computed accuracy.
 
 ### ARC-2. Green baseline and test tiers  (P1)
 **open**
@@ -821,6 +839,25 @@ the suite is green after each.
 - **Accept:** a newcomer following README + CONTRIBUTING reaches a green test run in one try (tested in a clean
   container).
 - **Files:** `README.md`, `CONTRIBUTING.md`, `docs/`, `data/README.md`
+
+### ARC-25. German and Spanish: the one translation pass before 1.0  (P1 for 1.0)
+**open** — not before the windows of stage S2 are rebuilt (the texts change until then); decided by the owner on
+2026-11-10 (PLAN.md R0).
+- **Why:** translating texts that will be replaced is wasted work; one pass at the end, with the glossary, is cheaper
+  and more consistent.
+- **Ours now:** German and Spanish `.ts` files complete up to 2026-11-10 (texts after that are unfinished there);
+  guide in four languages up to that date; `tools/fill_translations.py`, `tools/translation_review.py`.
+- **Build:**
+  1. ARC-18's glossary with German and Spanish columns complete first.
+  2. Every unfinished German and Spanish string translated with the glossary; every string that changed in English
+     since its translation (Qt marks them obsolete / unfinished) reviewed.
+  3. The guide's German and Spanish chapters brought to the same sections and content as English (the test of
+     `tests/test_ui.py::test_guide_categories_translations_and_search` back to requiring all four languages).
+  4. The tests' language lists back to `tr`, `de`, `es` (`ui/i18n.py` `COMPLETE`); screenshots of every window in
+     German and Spanish looked at; UI-18's review in both languages.
+- **Accept:** 0 unfinished in all three `.ts` files; guide test strict for four languages; gallery test green in
+  German and Spanish.
+- **Files:** `resources/i18n/app_{de,es}.ts`, `resources/guide/{de,es}/`, `ui/i18n.py`, `tests/test_ui.py`.
 
 ## Found while working
 

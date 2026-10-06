@@ -46,6 +46,12 @@ Denetçi birkaç saniyede bir kuralları denetler. Herhangi bir şey güvensizse
 
 Güvensiz bir dönemden sonra hiçbir şey kendiliğinden yeniden başlamaz: teleskobu kontrol edin ve **Devam et**'e basın (hâlâ güvensizse reddedilir).
 
+Bir kuralın kendisi denetlenemiyorsa (bir cihaz okunamayan bir yanıt veriyorsa, zaman tabloları kullanılamıyorsa…)
+bu da güvensiz sayılır: teleskop park edilir, kubbe kapanır ve neden satırı hangi denetimin başarısız olduğunu söyler.
+Yönelmeler de aynı nedenle "teleskop hareket ettirilmedi" sözleriyle reddedilir. Denetçi denetim yapmayı tamamen
+bırakırsa güvenlik satırı "güvenlik denetçisi … sn'dir denetim yapmadı" yazısıyla kırmızıya döner: gözlemevini yeniden
+başlatın (**Aygıtlar → Gözlemevini bu bilgisayarda başlat** ya da gözlemevi bilgisayarında).
+
 ## Teleskobu hareket ettirmek
 Koordinatı yazın (`02:04:10 +46:41:16`) ve **Yönel**'e basın. Yanında **Park et**, **Durdur** (her şeyi hemen durdurur), **Devam et** ve **Otomatik odak** vardır. Kundak satırı irtifayı, azimutu ve izleyip izlemediğini ya da park hâlinde olduğunu gösterir.
 

@@ -15,7 +15,8 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
 7. Only kit components in the interface; workflow first; one primary action; tooltips; undo; nothing locked.
-8. Errors by code, saying what happened and what to do, translated (tr, de, es: 0 unfinished). Guide updated.
+8. Errors by code, saying what happened and what to do, translated into Turkish (German and Spanish wait for ARC-25,
+   PLAN.md R0). Guide updated in English and Turkish.
 9. Measure time and memory; meet the budget; CPU and GPU paths give the same result.
 10. Commits in the owner's name only, no "Claude" anywhere; everything to `main`; never delete without the owner.
 
@@ -115,7 +116,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 - **Files:** `ui/observing/{window,controller,state,menus}.py`, `ui/observing/panels/{devices,connect,point,focus,sequence,night,graphs,log}.py`, `ui/observing/dialogs/setup.py` (from `observatory_dialog.py`), `tests/ui/walks/observing.py`, guide 03
 
 ### OBS-0. The supervisor fails closed when a check itself fails  (P1, urgent: with ARC-1, before any other step here)
-**agent3 claimed (2026-11-10 14:00 UTC) — do not touch**
+**agent3 done (2026-11-10, commit b599387 + this commit)**
 - **Why:** found 2026-11-10 by reading `devices/observatory.py`: `check()` builds the list of reasons rule after
   rule; an exception in one rule (today: `check_sun` raising Astropy's stale-table `ValueError`, see ARC-1; tomorrow
   any bug or odd device answer) leaves `check()` by the exception, `start_supervisor`'s loop logs "supervisor error"
@@ -150,6 +151,19 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
   released together with ARC-1 as 0.3.5.
 - **Files:** `devices/observatory.py`, `devices/safety.py`, `devices/server.py` (heartbeat in `/status`),
   `ui/observe_page.py` (chip), `ui/messages.py` templates (until ARC-13), `tests/test_safety_fail_closed.py`.
+- **Found in the code:** `Observatory.check` computed the rules in sequence without guards; `start_supervisor`'s
+  loop caught every exception and only logged it; `slew` let an exception of `check_target` escape as a raw error.
+- **Result:** `Observatory._rule` guards each rule (weather, links, sun and altitude) and turns an exception into
+  the reason "safety check <rule> failed: <error>", keeping the other rules' reasons; `supervise_once` guards
+  `check` too; the loop's last line of defence `_supervisor_failed` makes the observatory safe and logs each distinct
+  error at most every ten minutes; `last_check` / `interval_s` are reported in `/status` as `checked_s_ago` and
+  `check_interval_s`; the Observing window shows "NOT SAFE: the safety supervisor has not checked for … s — restart
+  the observatory" when the last check is older than three intervals; a slew whose rules cannot be evaluated is
+  refused with "cannot evaluate the safety rules (…): the telescope was not moved". Message templates and Turkish
+  translations; guide 03 (en, tr). Tests: `tests/test_safety_fail_closed.py` (7 tests: each rule raising, the
+  stale-table case, a crash of the whole check, the refused slew, the status fields) — all 7 fail on the old code.
+- **Changed from the plan:** the heartbeat is shown in the existing safety line of the Observing page, not a new
+  chip (the chips come with UI-16.9).
 
 ### OBS-1. Devices: one interface, three back-ends, every capability known  (P1)
 **open**

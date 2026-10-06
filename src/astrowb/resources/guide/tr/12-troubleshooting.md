@@ -33,6 +33,15 @@ Gözlemevi sürecinin çalıştığını (**Gözlemevini bu bilgisayarda başlat
 ## Ayarlarım ve dosyalarım nerede?
 Ayarlar, eklentiler ve otomasyonlar kullanıcı ayar klasöründedir (Linux'ta `~/.config/…`, Windows'ta `%LOCALAPPDATA%\…`, macOS'ta `~/Library/Application Support/…`). Projeler ve sonuçlar sizin kaydettiğiniz yerdedir.
 
+## Dünya dönme tabloları
+Yükseklikler, hava kütlesi ve teleskobun güvenlik sınırları Dünya'nın dönüşüne ait tablolara (IERS'ten) ihtiyaç
+duyar. Kurulum bir kopyasını getirir; izin verdiyseniz (ilk açılışta ya da **Ayarlar → Dünya dönme tablolarını güncel
+tut**) program çevrimiçiyken haftada bir, sessizce, yaklaşık 3 MB'lık yenisini indirir. **Ayarlar → Dünya dönme
+tablolarını şimdi güncelle** bunu hemen yapar. Güncelleme olmasa da hiçbir şey çalışmayı bırakmaz: tabloların
+öngörüleri yavaşça doğruluk kaybeder (bir yılda birkaç yay saniyesi), bu hava kütlesinin ya da yönelme sınırının
+gerektirdiğinin çok altındadır. Gözlem zamanları (BJD) bu tabloları hiç kullanmaz. **Yardım → Kurulumu ve internet servislerini denetle**
+kullanılan tabloların yaşını gösterir.
+
 ## Güncellemeler
 **Yardım → Güncellemeleri denetle…** projenin sürüm sayfasına daha yeni bir sürüm olup olmadığını sorar ve indirme bağlantısını verir. Uygulama bunu kendiliğinden hiç yapmaz. Yeni sürümü eskisinin üstüne kurun; ayarlar, eklentiler ve otomasyonlar korunur.
 
