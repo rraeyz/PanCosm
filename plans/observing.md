@@ -115,7 +115,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 - **Files:** `ui/observing/{window,controller,state,menus}.py`, `ui/observing/panels/{devices,connect,point,focus,sequence,night,graphs,log}.py`, `ui/observing/dialogs/setup.py` (from `observatory_dialog.py`), `tests/ui/walks/observing.py`, guide 03
 
 ### OBS-0. The supervisor fails closed when a check itself fails  (P1, urgent: with ARC-1, before any other step here)
-**open**
+**agent3 claimed (2026-11-10 14:00 UTC) — do not touch**
 - **Why:** found 2026-11-10 by reading `devices/observatory.py`: `check()` builds the list of reasons rule after
   rule; an exception in one rule (today: `check_sun` raising Astropy's stale-table `ValueError`, see ARC-1; tomorrow
   any bug or odd device answer) leaves `check()` by the exception, `start_supervisor`'s loop logs "supervisor error"
