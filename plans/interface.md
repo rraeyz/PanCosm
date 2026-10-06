@@ -7,9 +7,10 @@ Every step of every area that changes what the user sees follows this file.
 
 1. Read PLAN.md, `plans/architecture.md` "Conventions" and "Definition of done", your area file, and this file before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -376,6 +377,7 @@ for the window concerned.
 
 ### UI-5. The start window  (P1)
 **open**
+- **Ours now:** `ui/start_page.py` (blocks per area, project buttons, Basic / Expert), `ui/welcome.py`, `ui/tour.py`.
 - **Reference:** N.I.N.A.'s area strip with icons; raw developers' and editors' start pages (recent work first, then
   what you can do); MaxIm DL has none (a blank frame) — a chance to be clearer.
 - **Build:**
@@ -474,6 +476,7 @@ for the window concerned.
 
 ### UI-9. Tasks, progress, notifications  (P1)
 **open**
+- **Ours now:** `engine/tasks.TaskQueue` (progress, cancel), the Tasks dock, status-bar progress of area windows (I2.7).
 - **Build:** `TaskChip` in every window (running count; pulses when one finishes); `TaskPopover` (name of the step
   in words, the window that started it, phase text, progress or "working…", elapsed and estimated time, Cancel,
   Details with the timeline of ARC-17); a finished task raises a `Toast` in its window with "Show result" (and a
@@ -513,6 +516,7 @@ for the window concerned.
 
 ### UI-12. Keyboard  (P1)
 **open**
+- **Ours now:** shortcuts set one by one in `main_window.py` and `area_window.py` (Ctrl+K, Ctrl+Z / Y, text size, F1).
 - **Build:** one map for all windows (file `resources/shortcuts.toml`, shown by Help → "Keyboard shortcuts"
   (Ctrl+/) as a searchable sheet, and editable in Settings): Ctrl+O open, Ctrl+S save session, Ctrl+E export,
   Ctrl+Z / Ctrl+Y, Ctrl+K find an action, F1 help, F5 run the stage's primary action, Esc stop / cancel, Ctrl+W
@@ -552,6 +556,7 @@ for the window concerned.
 
 ### UI-15. The gallery test: every window, every language, every theme  (P1)
 **open**
+- **Ours now:** `tests/test_layout_fits.py` (every page fits a small window, four languages × two themes), `tools/guide_screenshots.py`.
 - **Why:** rule R7 needs to be cheap, or it is skipped.
 - **Build:** `tools/ui_gallery.py`: opens every window with its practice data in a fixed state per stage, grabs
   1366 × 768 screenshots for en / tr / de / es × dark / light, writes contact sheets (`gallery/<area>-<lang>.jpg`)

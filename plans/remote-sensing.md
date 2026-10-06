@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -99,6 +100,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
 
 ### RS-1. Products, bands and memory  (P1)
 **open**
+- **Ours now:** `remotesensing/raster.py` (`read`, `Scene`, `open_scene`, `safe_reflectance`, block-wise rows, HDF / NetCDF, JPEG 2000 bands).
 - **Read first:** the Sentinel-2 product specification (SAFE layout, band resolutions, `BOA_ADD_OFFSET`, the scene
   classification layer); the Landsat Collection 2 Level-1 / Level-2 guides (MTL metadata, scale factors,
   `QA_PIXEL` bits); the Cloud-Optimised GeoTIFF layout (overviews, tiles); CF conventions for NetCDF grids.
@@ -117,6 +119,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
 
 ### RS-2. The map  (P1)
 **open**
+- **Ours now:** `ui/rs_page.py` (image view with pixel read-out, UTM → lon / lat), `analysis.pixel_spectrum`.
 - **Build:** on `ImageView` (ARC-7): single band with a colour table and legend; RGB composites with presets per
   sensor (true colour, colour-infrared, SWIR / agriculture, urban) and free choice; per-band percentile stretch
   (2–98 % default) from pyramid statistics, gamma; layers list with visibility, opacity, order; masks as overlays;
@@ -183,6 +186,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
 
 ### RS-7. Change and time  (P2)
 **open**
+- **Ours now:** `remotesensing/analysis.change` (difference with a threshold).
 - **Build:** two dates on one grid (RS-3): difference and ratio of an index with thresholds chosen on the
   histogram; dNBR burn severity with the USGS class limits; post-classification comparison (from–to matrix and
   map); change vector magnitude; **time series**: a folder of scenes → an index stack with cloud masks → the

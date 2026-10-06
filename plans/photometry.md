@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -389,6 +390,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 
 ### PHO-24. Measuring between two stars on the image  (P2)
 **open**
+- **Ours now:** `io/inspect.star_info` (one star in an aperture) and the Images window's Line tool (distance only); nothing between two stars.
 - **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
   Information window (astrometric mode).
 - **Build:** the ruler tool of `ImageView` (ARC-7), when both ends are on stars (centroid within 3 px): separation in
@@ -630,6 +632,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 
 ### PHO-33. Night diagnostics ("Checks" tab)  (P1)
 **open**
+- **Ours now:** `photometry/quality.py` (`measure_run`, `measure`, `judge`: FWHM, star count, sky per frame; bad frames marked with reasons) and the Frames table — extend these, do not write a second quality module.
 - **Why:** users must see at a glance whether a dip is real or a cloud; AstroImageJ users plot airmass, sky, FWHM,
   X / Y by hand.
 - **Build:** a results tab with small stacked `PlotView` panels on the light curve's time axis: total comparison
@@ -645,6 +648,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 
 ### PHO-34. Errors that match the scatter; red noise  (P1)
 **open**
+- **Ours now:** `aperture.scintillation` (Young's formula, one radius only) and the camera noise model of done item 2; no observed-vs-predicted ratio, no β.
 - **Reference:** Pont, Zucker & Queloz 2006 (MNRAS 373, 231: red noise); Winn et al. 2008 (ApJ 683, 1076: the
   time-averaging β factor); Carter & Winn 2009 (wavelets); Young 1967 / Osborn et al. 2015 (MNRAS 452, 1707:
   scintillation with a site-dependent coefficient).
@@ -662,6 +666,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 
 ### PHO-35. Transformed magnitudes on every frame  (P2)
 **open**
+- **Ours now:** `photometry/coefficients.py` (`transformation`, `extinction`), `photometry/catalog.calibrate` (zero point + colour term per frame), `ui/coefficients_dialog.py`; `multifilter.colour_curve` (done item 11).
 - **Reference:** AAVSO Guide to CCD Photometry (transformation); AAVSO Extended format `TRANS=YES`; VPhot; our
   `coefficients.transformation`.
 - **Build:** with coefficients from the profile (per filter set, dated) or from PHO-28: standard magnitude of the
@@ -796,6 +801,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 
 ### PHO-48. The light-curve file: nothing lost on the way out and back  (P1)
 **open**
+- **Ours now:** the CSV export of the Photometry page and `photometry/nights.read_export` (reads it back, relative errors only).
 - **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
   comparison stars (item 12); other windows and other programs need the full table with units and provenance.
 - **Build:** `photometry/lcfile.py`: ECSV (`.lc.ecsv`) with every column of the measurements table plus the derived

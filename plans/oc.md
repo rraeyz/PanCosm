@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -137,6 +138,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
 
 ### OC-2. Timing one eclipse: every method, honest errors, a verdict on symmetry  (P1)
 **open**
+- **Ours now:** `minima.kwee_van_woerden` (with bootstrap error), `polynomial_minimum`, `trapezoid_fit` (with covariates), `each_minimum`.
 - **Read first:** Kwee & van Woerden 1956; Mikulášek et al. 2014 (KvW: to use or not to use); Deeg 2021; Mikulášek
   2015 §2–3 (the model functions and their use for timing); the AVE manual's description of its methods.
 - **Build:**
@@ -329,6 +331,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
 
 ### OC-12. Report: tables and figures for a paper, and for observers  (P1)
 **open**
+- **Ours now:** `ui/oc_page.py` → Export results (CSV / LaTeX through `ui/export.save_results`), the O−C plot's publication figure.
 - **Build:** the minima table (OC-1.6 writers); the parameters table with errors in the journal style (value(err)
   and ± forms), for every fitted model side by side; the O−C figure through `ui/plot/publish` (two-panel: O−C with
   model, residuals; top axis in years; symbols by kind and method with a legend); the new ephemeris line; the
@@ -352,6 +355,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
 
 ### OC-14. From the literature's ephemerides to tonight  (P2)
 **open**
+- **Ours now:** `planning/ephemerides.vsx` (VSX ephemeris look-up) used by the O−C window's Look up button.
 - **Build:** the Minima stage's "Star" field resolves the star (services), shows the VSX / GCVS / Kreiner ephemeris
   and type, the Gaia distance, known multiplicity notes (WDS / literature flags when in SIMBAD), and how many minima
   each service has; "What changed since the catalogue ephemeris?" shows the O−C of the newest minima against it —

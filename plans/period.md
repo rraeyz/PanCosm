@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -239,6 +240,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 
 ### PER-5. Folding and refining  (P1)
 **open**
+- **Ours now:** `timeseries/period.fold`, the folded plot of the Period search tab (`ui/period_page.py`, `ui/workspaces.fold_phase`).
 - **Build:** the folded plot: phase −0.25 … 1.25 (or 0 … 2), points coloured by set / band / time (cycle number as
   a colour scale to see period error as a drift), binned median with error bars, optional harmonic model; a period
   slider and keys (← → by one resolution element / 10; `2` double, `H` half, `3` thirds) with the plot updating
@@ -293,6 +295,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 
 ### PER-7. Data from the missions, handled as lightkurve does  (P1)
 **open**
+- **Ours now:** `timeseries/archive.py` (`read_mission_lc`, `join`, `download`: PDCSAP / SAP, quality ≠ 0 dropped, sectors joined).
 - **Build:** in the Data stage for TESS / Kepler / K2: the choice of product per sector (author SPOC 120 s / 20 s,
   TESS-SPOC FFI, QLP, and others on MAST) with a table of what exists; flux column choice (PDCSAP default, SAP);
   quality bitmask (default / hard / none); per-sector normalisation and stitching; crowding and flux-fraction
@@ -329,6 +332,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 
 ### PER-10. Shapes and classes: Fourier parameters and a suggested type  (P2)
 **open**
+- **Ours now:** `fourier.fourier_fit`, `fourier.times_of_maximum`; no Fourier parameters (R21, φ21) and no class suggestion.
 - **Read first:** Simon & Lee 1981 (ApJ 248, 291: R21, φ21, …); Deb & Singh 2009 (A&A 507, 1729); Jurcsik & Kovács
   1996 ([Fe/H] from φ31, with its validity conditions); Gaia DR3 variability classification papers (Rimoldini et
   al. 2023) for the features that separate classes.
@@ -393,6 +397,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 
 ### PER-16. Report  (P1)
 **open**
+- **Ours now:** `ui/export.save_results` (CSV / LaTeX of a results table), the plot toolbar's publication figure.
 - **Build:** the figure set through `ui/plot/publish` (light curve, periodogram with significance levels and the
   window inset, folded curve with the binned mean, frequency spectrum before / after prewhitening); tables: peaks,
   frequencies (PER-6.7), ephemeris; the methods text (ARC-11: method, grid, weights, significance test, data

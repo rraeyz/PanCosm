@@ -6,9 +6,10 @@ Read `PLAN.md` first, all of it. This file is the foundation every other plan fi
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -137,7 +138,8 @@ targets, maintained, small; write the verdict in this table):
 ## Definition of done (the checklist; copy it under the step and tick it)
 
 ```
-[ ] every Build bullet exists; every Accept line shown (numbers written under the step)
+[ ] searched the code first; "Found in the code" written; reused / improved existing code, nothing duplicated
+[ ] every Build bullet exists (or "Changed from the plan" written and told to the owner); every Accept line shown (numbers written under the step)
 [ ] synthetic test with known truth            [ ] real-data check vs reference; reduced reference committed as a test
 [ ] engine has no Qt; step registered; in astrowb.api; runs from the command line
 [ ] interface uses the kit only; tooltips; undo/redo; empty state; error state; keyboard reachable
@@ -562,6 +564,7 @@ the suite is green after each.
 
 ### ARC-12. Scripting surface: Python API and command line  (P1)
 **open**
+- **Ours now:** `__main__.py` (argparse: files, `--smoke-test`, `--benchmark`, `--check-online`, `--observatory`), `engine/automation.py` (run chains), project re-run in the Project page.
 - **Why:** AD-11; `astrowb-cli` only opens files, runs the smoke test, the benchmark and the observatory.
 - **Reference:** IRAF CL scripts and parameter files; `siril-cli -s script`; AstroImageJ macros; PypeIt's
   `pypeit_setup` / `run_pypeit` with a reduction file; `lightkurve`'s object API.
@@ -611,6 +614,7 @@ the suite is green after each.
 
 ### ARC-14. Services layer: catalogues and archives in one place  (P1)
 **open**
+- **Ours now:** `mirrors.py` (CDS → Harvard / IDIA fall-back, remembered server), `gaia.py` (VizieR or ESA archive, cache), separate queries in `overlays.py`, `photometry/catalog.py`, `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`.
 - **Why:** AD-9. Queries live in `gaia.py`, `mirrors.py`, `overlays.py`, `photometry/catalog.py`,
   `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`,
   each with its own time-outs and caches.
@@ -685,6 +689,7 @@ the suite is green after each.
 
 ### ARC-16. Profiles: site, equipment, observer  (P1)
 **open**
+- **Ours now:** the Planning window's site (and `planning/sites.py`), gain / read noise typed in Photometry, observatory set-up JSON (`devices/setup.py`); settings in `settings.py`.
 - **Why:** AD-10.
 - **Reference:** N.I.N.A. profiles (equipment, astrometry, image file pattern, focal length, pixel size);
   MaxIm DL site and optics settings; AAVSO report headers (observer code, telescope, camera); MPC observatory codes.
@@ -711,6 +716,7 @@ the suite is green after each.
 
 ### ARC-17. Diagnostics: logs, traces, the problem report  (P2)
 **open**
+- **Ours now:** `error.log` from `__main__._show_unexpected_errors`, `ui/report.py` (problem-report zip), task errors with tracebacks under Details.
 - **Build:** a rotating structured log (`app.log`: time, level, area, code, message) besides `error.log`; a task
   timeline (start, end, CPU seconds, peak memory of the worker, GPU used) kept per session and shown in Tasks →
   "Details"; "Why was this slow?" lists the phases a step reported (`ctx.phase("reading")`); the problem report

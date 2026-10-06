@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -106,6 +107,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 
 ### IMG-1. Open anything, browse a night  (P1)
 **open**
+- **Ours now:** `io/fits.py` (`read_image`, extensions, cubes' first plane, `thumbnail`), `io/bayer.py` (pictures and raw as FITS copies), `io/lzw.py` (`.Z`), `io/tpf.py`; the Images window's thumbnail list.
 - **Build:**
   1. Readers behind one `images.open(path) → ImageSource` (planes, extensions, variance / DQ when present, header,
      WCS): FITS in every flavour (multi-extension with a chooser and "all extensions as a mosaic by DETSEC"; cubes
@@ -207,6 +209,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 
 ### IMG-6. Regions  (P1)
 **open**
+- **Ours now:** `overlays.read_regions` / `write_regions` (DS9 circles, boxes, polygons, text in image and fk5), the region overlay in the viewer.
 - **Read first:** the DS9 region file format reference (shapes, coordinate systems, properties, include / exclude,
   composite, text); the IVOA / Astropy `regions` package documentation (BSD; a possible dependency — check wheels
   and size; else our own subset).
@@ -247,6 +250,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 
 ### IMG-8. History, preview, repeat on many files  (P1)
 **open**
+- **Ours now:** the Images window's undo of image operations (back to the image before) and `io/process.history` (a HISTORY card per operation); no history list, no batch.
 - **Reference:** MaxIm DL's batch process and command sequences; Siril scripts; PixInsight's process containers
   and history (as descriptions).
 - **Build:** each open image has a history list (operation, parameters, time) in the Inspector: undo / redo by
@@ -285,6 +289,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 
 ### IMG-11. Annotations and charts  (P2)
 **open**
+- **Ours now:** `overlays.py` (`query_catalogue`, `to_pixels`, `wcs_grid`, `finder_chart`, `dss_image`, `minor_planets` via SkyBoT), `ui/overlay_actions.py`.
 - **Build:** overlays (through `services`, cached): Gaia, VSX / GCVS variables with types and periods, AAVSO
   sequence labels (PHO-25), solar-system objects for the frame's time (SkyBoT; have), deep-sky objects and bright
   stars from SIMBAD / VizieR queries (no bundled catalogue with a share-alike licence), the user's own list (CSV of
@@ -308,6 +313,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 
 ### IMG-13. Blink, difference, "is this new?"  (P2)
 **open**
+- **Ours now:** `ui/blink_dialog.py` (blink of the open images), previous / next in the Images window.
 - **Build:** blink of N frames aligned by WCS or stars (have) inside the main view with keys; an animation export
   (GIF / PNG sequence); **difference**: A − s·B after alignment and flux scaling, optionally with PSF matching
   (PHO-29), shown in a tile; "Compare with a survey": fetch the DSS / Pan-STARRS / SkyMapper cut-out of the same
