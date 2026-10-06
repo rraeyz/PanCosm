@@ -152,8 +152,9 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   fitted to model intensities); Kipping 2013.
 - **Build:** `stars/limbdark.py` (shared with MOD-2): `coefficients(band, law, teff, logg, feh, source = ours |
   claret)` from MOD-6's tables with propagated uncertainty from the stellar parameters' errors plus a floor for
-  model differences (default 0.05 in u1 and u2 for the quadratic law, as EXOFAST's practice: check its value in the
-  source and write it here); as Gaussian priors on (u1, u2) transformed correctly to (q1, q2), or fixed, or free
+  model differences (default 0.05 in u1 and u2 for the quadratic law: EXOFASTv2 adds exactly this penalty,
+  `u1err = u2err = 0.05` in `exofast_chi2v2.pro`, and rejects a step when the table has no value at the star's
+  Teff, log g, [Fe/H]); as Gaussian priors on (u1, u2) transformed correctly to (q1, q2), or fixed, or free
   with Kipping's uniform sampling — the three choices in the Model stage with one line each on when to use which
   (low S/N single transit: fix or prior; high S/N or space data: free).
 - **Accept:** coefficients for (5800 K, 4.44, 0.0) in V, R, TESS equal the published table values at the grid node
@@ -252,7 +253,8 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   1. `stars/catalogues.py`: by name / coordinates: Gaia DR3 (parallax with the zero-point correction, G BP RP,
      RUWE, the astrophysical parameters when present), TIC-8, 2MASS, AllWISE, APASS, Tycho-2, SDSS / Pan-STARRS /
      SkyMapper, GALEX — through `services/` (ARC-14); each magnitude with its catalogue error and the systematic
-     floor EXOFAST applies (read the values in `mkticsed.pro` and write them here); neighbours within 10″ from Gaia
+     floor EXOFAST applies (`mkticsed.pro`, read 2026-11-10: Gaia G, BP, RP 0.02 mag; 2MASS J, H, Ks 0.02; WISE W1–W3
+     0.03, W4 0.10; Strömgren 0.01–0.02; a 30 µas parallax floor is present but commented out); neighbours within 10″ from Gaia
      listed with their flux ratios (contamination warning for the SED and for dilution).
   2. `stars/sed.py`: model broadband fluxes from the bolometric-correction tables of the MIST pack (functions of
      Teff, log g, [Fe/H], A_V) or from MOD-6's atmosphere passband tables; fit of Teff, R★ (through the angular

@@ -40,7 +40,7 @@ lightkurve; HOPS and EXOTIC documentation.
 | Topic | AstroImageJ | Siril | IRAF | MaxIm DL / Muniwin | HOPS / EXOTIC |
 | --- | --- | --- | --- | --- | --- |
 | Aperture sum | exact pixel–circle overlap; circular, **elliptical** (5.5.1), free-form pixel apertures | linear edge weight | linear edge weight; several apertures in one pass | circular | circular; EXOTIC scans aperture and annulus sizes |
-| Sky | annulus mean; 2σ iterative star removal; optional plane; mask kept for the next frame | Hampel robust mean | `fitskypars`: centroid of histogram (default), mode, median, gauss, crosscor, with rejection and `rgrow` | median-mean | median |
+| Sky | annulus mean; 2σ iterative star removal; optional plane; mask kept for the next frame | Hampel robust mean | `fitskypars.salgorithm`: **mode** is the default in the current source (`apphot` and `daophot` `fitskypars.par`; older `apphot` releases shipped centroid); also median, centroid of the histogram, gauss, crosscor, ofilter, mean, constant, file; rejection (`sloreject` / `shireject` 3σ, `snreject` 50), histogram `khist` 3σ and `binsize` 0.1σ, `rgrow` | median-mean | median |
 | Error | source + sky Poisson, dark, read noise, quantisation (Merline & Howell 1995) | measured sky σ | measured sky σ + epadu, readnoise | from reference-star scatter when ≥ 3 | photon + scatter |
 | Centre | Howell marginal sums; per-aperture on / off | PSF fit | centroid / gauss / ofilter / none; `maxshift`; `minsnratio` | centroid | Gaussian or Moffat fit |
 | Radii | radial profile: 1 % of peak, sky 2× and 4×; variable aperture = factor × FWHM per frame | from FWHM | typed; `mkapfile` growth curves | typed, snap | scanned |
@@ -195,6 +195,11 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Files:** `photometry/comprules.py` (new), `photometry/field.py`, `photometry/steps.py`, `services/gcvs.py`,
   `ui/photometry/panels/stars.py`, messages, tests, guide.
 - **Depends on:** PHO-W for the interface part (the engine part can be done first).
+- **Notes from the sources (architect, 2026-11-10):** Siril `src/algos/comparison_stars.c`: a star passes when
+  ΔV ≤ `delta_Vmag`, |Δ(B−V)| ≤ `delta_BV`, and — only for APASS — 0 < `e_mag` ≤ `max_emag`; the default numbers
+  (3, 0.5, 0.03) are those of the `findcompstars` command's documentation, not constants of this file. AstroImageJ
+  `MultiAperture_.java` (fields near line 304): `minPeakValue 2000`, `upperBrightness 150` %, `lowerBrightness 50` %,
+  `brightness2DistanceWeight 50`, `maxSuggestedStars 12`; `Seeing_Profile.java`: radii 1.7 / 3.4 / 6.8 FWHM.
 
 ### PHO-18. Crowded fields: PSF photometry with an empirical PSF, and neighbour removal  (P1)
 **open**
@@ -327,7 +332,9 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 **open**
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
-- **Reference:** AstroImageJ `MultiPlot_.java` NEB analysis ("Create NEB search reports and plots"); TFOP SG1
+- **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in
+  `MultiPlot_.java` and `AstroStackWindow.java`, the logic is the macro
+  `Astronomy_/src/main/resources/Astronomy/NEBSearchMacro.txt`, 3300 lines with a change log on top); TFOP SG1
   Observation Guidelines (the NEB check: all Gaia stars within 2.5′ that are bright enough to cause the TESS depth;
   the per-star required depth; dispositions "Cleared", "Cleared-too faint", "Likely cleared", "Not cleared-flux too
   low", "Potential NEB"; the dmag-vs-RMS plot); the TESS magnitude from Gaia (Stassun et al. 2019, TIC-8 relation).
@@ -350,6 +357,26 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   dispositions equal the ones in the public AstroImageJ NEB table for that night (stored reference).
 - **Files:** `photometry/neb.py`, step `photometry.neb`, `services/exofop.py`, UI, tests, guide 06.
 - **Depends on:** PHO-18 (methods), PHO-25 (magnitudes).
+- **Notes from the sources (architect, 2026-11-10; `NEBSearchMacro.txt` read):**
+  - Stars within a search radius (default 2.5′) of the target are measured in the same Multi-Aperture run (as `T`
+    stars); the macro works on the measurements table.
+  - Each star's Δmag to the target is taken from the **measured** weighted-mean `Source-Sky` ratio in the observed
+    band (an earlier TESS-band correction was removed); for every star except the target a buffer of −0.5 mag is
+    added (`dmagBuffer`), i.e. the star is treated as half a magnitude brighter than measured, to be safe.
+  - Required depth: `NEBdepth [ppt] = target depth [ppt] / 10^(−(Δmag − 0.5) / 2.5)`.
+  - RMS: of the star's normalised relative flux, after points further than `rmsLimit` × RMS from 1 are dropped and
+    the curve is normalised again.
+  - Dispositions, tested in this order: "Not cleared — flux too low" when the weighted-mean `Source-Sky` per aperture
+    pixel is < 2 counts; "Cleared — too faint" when NEBdepth ≥ 1000 ppt; "Cleared" when NEBdepth / RMS ≥ 5; "Likely
+    cleared" when 3 ≤ NEBdepth / RMS < 5; otherwise "Not cleared". With several aperture sizes the best disposition
+    per star is kept (priority: cleared > likely cleared > too faint > not cleared > flux too low).
+  - Plots: one per star (relative flux with a box of the required depth between the predicted ingress and egress),
+    and Δmag against RMS with the "cleared" and "likely cleared" boundary lines; a star's label turns red when its
+    nearest neighbour is within 3 aperture radii; neighbours within 10″ are named in the plot's subtitle.
+  - Output folder `<measurements file>_<aperture>px_NEBcheck/`.
+  - Consequence for Build 1–2: candidates are **selected** from the catalogue (Gaia, with the TESS-band Δmag as
+    information), but the required depth uses the measured Δmag with the buffer, as above; both Δmag values are
+    columns of our table.
 
 ### PHO-24. Measuring between two stars on the image  (P2)
 **open**
@@ -723,13 +750,19 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 **open**
 - **Build:** stars known from the catalogue (Gaia to G + 7 of the target) are masked in every sky ring by position
   (radius 1.5 FWHM scaled with brightness) before any statistic — better than rejection alone because faint wings
-  are removed too; `sky_method = "centroid"` (IRAF default: histogram of the ring within ± 3σ in bins of 0.1σ,
+  are removed too; `sky_method = "centroid"` (IRAF's `salgorithm = centroid`: histogram of the ring within ± 3σ in bins of 0.1σ,
   centroid of the histogram, iterated with rejection and `rgrow`); the rejected-pixel count per star and frame in the
   measurements table.
 - **Accept:** synthetic ring with a V + 5 star inside: the masked sky is unbiased within 0.1σ where the median is
   biased by > 0.5σ (asserted); "centroid" equals IRAF `phot salgorithm=centroid` on the HAT-P-32 frames within
   0.2 ADU (reference stored).
 - **Files:** `photometry/aperture.py` (`sky_estimate`, ring mask), `photometry/skymask.py`, `tests/test_sky_mask.py`, `tests/validation/test_iraf_phot.py`
+- **Notes from the sources (architect, 2026-11-10):** `noao/digiphot/apphot/fitskypars.par` of the iraf-community
+  tree has `salgorithm = "mode"`, `smaxiter 10`, `snreject 50`, `sloreject = shireject = 3`, `khist 3`, `binsize 0.1`,
+  `rgrow 0`; `centerpars.par`: `calgorithm centroid`, `cbox 5`, `cthreshold 0`, `minsnratio 1`, `cmaxiter 10`, `maxshift
+  1`. The validation of item 1 ran IRAF with `salgorithm=median`; when this step adds "centroid", also add a reference
+  run with IRAF's own default (`mode`) so that all three are covered. Check the par file of the installed version
+  (`apt` IRAF 2.17) before writing the test: defaults differ between releases.
 
 ### PHO-46. Detrending of every plotted series  (P3)
 **open**

@@ -202,7 +202,9 @@ P3: 18, 20.
 
 ### CAL-5. Combine and rejection: every method of the reference programs  (P1)
 **open**
-- **Reference:** IRAF `imcombine` help (the definitive description): `minmax` (nlow, nhigh), `ccdclip` (σ from the
+- **Reference:** IRAF `imcombine` help (the definitive description; its parameter file: `combine = average |
+  median | lmedian | sum | quadrature | nmodel`, `reject = none | minmax | ccdclip | crreject | sigclip | avsigclip |
+  pclip`, `nkeep 1`, `mclip yes`, `grow 0`, `sigscale 0.1`): `minmax` (nlow, nhigh), `ccdclip` (σ from the
   noise model: read noise, gain, sensitivity noise), `crreject` (ccdclip rejecting only high), `sigclip`,
   `avsigclip` (σ ∝ √signal with the proportionality estimated per line — for few frames), `pclip` (percentile),
   `nkeep`, `mclip` (median vs mean as centre), `grow`; scaling and zero offsets by mode / median / mean / exposure;

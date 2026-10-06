@@ -105,7 +105,8 @@ Measured on `main` at `7cc4cba` (version 0.3.4): 40 600 lines of Python in `src/
    Astropy then *raises an error* for any altitude / airmass computation at a date after the bundled table once
    that table is more than 30 days old. An installer older than about a month fails in Planning, Observing safety
    and airmass. Seen on 2026-11-09 with a three-week-old table. → `plans/architecture.md` ARC-1, before anything
-   else.
+   else. **Worse (found 2026-11-10):** the same error inside the safety supervisor is caught and only logged, so an
+   unparked telescope is then not parked for rain or sunrise → `plans/observing.md` OBS-0.
 2. **The interface looks like stacked forms.** Seen in screenshots of every window at 1366 × 768: toolbar "icons"
    are Unicode glyphs nobody can read; the Photometry steps panel shows one and a half rows of the frame list;
    Calibration is half grey explanation text; numbered buttons ("3. Calibrate", "4. Measure…") are mixed with
@@ -293,14 +294,16 @@ rebased often.
 
 | Stage | Goal | Steps | Version |
 | --- | --- | --- | --- |
-| S0 Stabilise | No time bomb, green baseline, reproducible environment | ARC-1 … ARC-3 | 0.3.5 |
+| S0 Stabilise | No time bomb, a supervisor that fails closed, green baseline, reproducible environment | ARC-1, OBS-0, ARC-2, ARC-3 | 0.3.5 |
 | S1 Foundation | Component kit and design system, interface split, session state, plot / image / table layers, error codes, services, profiles, native-kernel scaffold, validation harness | ARC-4 … ARC-16, ARC-18, ARC-23, UI-1 … UI-15 (P1 ones), AUT-1, VAL-1 … VAL-3, VAL-8 | 0.4.0 |
 | S2 Areas, P1 | Each area reaches parity: window redesign first (UI-16.x), then its P1 steps | PHO → CAL → OC → PER → SPE → MOD → EXO → IMG → AST → PLN → OBS → AUT → RS | 0.5 … 0.9 |
 | S3 Areas, P2 | Beyond the reference programs | same order | 0.10 … |
 | S4 Long tail and polish | P3 steps, UI-17 … UI-19, full validation report (VAL), guide complete | all | 1.0 |
 
 **Where to start today:** `plans/architecture.md` ARC-1 (the time-table fault that stops installed copies about a
-month after their build), then ARC-2, ARC-3, then stage S1. An agent that has nothing to claim in its lane takes
+month after their build) and `plans/observing.md` OBS-0 (the safety supervisor does nothing when one of its own
+checks raises an error — the same fault makes it blind), released together as 0.3.5; then ARC-2, ARC-3, then stage
+S1. An agent that has nothing to claim in its lane takes
 the next open step of the roadmap in order.
 
 Parallel lanes that do not collide (if more than one agent works): (a) ARC + UI foundation; (b) science engines
