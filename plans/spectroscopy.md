@@ -193,6 +193,11 @@ released and live on in SPE-7 and SPE-12)
   ≥ 5 × the noise (asserted on synthetic and on the real tilted set).
 - **Depends on:** SPE-7 (1-D solution).
 - **Files:** `spectroscopy/geometry.py`, `ui/spectroscopy/panels/geometry.py`, `tests/test_slit_geometry.py`
+- **Notes from the sources (architect, 2026-11-10):** specreduce (BSD, already a development dependency) now has a
+  `TiltCorrection` workflow (detect arc lines across the detector, fit a 2-D polynomial tilt model, refine with
+  tighter matching) in `specreduce/tilt_solution.py` and `tilt_correction.py`; PypeIt 2.0 added
+  `pypeit_rectify_2dspec` (a rectified 2-D spectrum as a product). Read both before designing `geometry.py`, and use
+  specreduce's result as the reference twin in the test.
 
 ### SPE-5. Sky subtraction  (P1)
 **open**
@@ -245,6 +250,10 @@ released and live on in SPE-7 and SPE-12)
   4. HARPS order extraction equal to today's within noise; 72 orders × 4096 px optimal < 15 s.
 - **Files:** `spectroscopy/extract.py` (new, from `longslit` and `echelle`), `native/src/slitfunc.rs`, tests,
   guide 08 and 13.
+- **Notes from the sources (architect, 2026-11-10):** PyReduce is under active development again (repository
+  ivh/PyReduce; versions 0.7–0.9 in 2025–2026 with a pipeline API and, since 0.9, pure-Python extraction back-ends
+  beside the C one; a 2026 paper, arXiv:2601.12669). It is GPL: read the method and the papers, run it beside ours
+  on the HARPS / UVES sets as the reference (VAL-2), copy nothing.
 
 ### SPE-7. Wavelength calibration: the identification panel, automatic proposals, quality  (P1)
 **open**
@@ -296,6 +305,10 @@ released and live on in SPE-7 and SPE-12)
   4. R(λ) of HARPS from its ThAr within 5 % of the nominal 115 000.
 - **Files:** `spectroscopy/wavecal.py`, `linelists.py`, `resources/linelists/` (extended, with SOURCE notes),
   `ui/spectroscopy/panels/identify.py`, tests, guide 08.
+- **Notes from the sources (architect, 2026-11-10):** specreduce's `WavelengthCalibration1D`
+  (`specreduce/wavecal1d.py`, `line_matching.py`) matches observed and catalogue lines by a differential-evolution
+  search and then refines by least squares after pairing lines automatically — the same two-stage idea as Build 2
+  (b); read it and use it as the reference twin (same arc, same line list → same solution within the fit's error).
 
 ### SPE-8. Zero point and flexure  (P1)
 **open**
