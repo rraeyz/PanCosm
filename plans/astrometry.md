@@ -92,6 +92,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
 - **Extra accept:** the Eros set: open → solved by itself → known objects labelled → Eros measured on all frames →
   ADES file: **five clicks**.
 - **Depends on:** ARC-4, ARC-5, ARC-7, ARC-8, UI-1 … UI-4.
+- **Files:** `ui/astrometry/{window,controller,state,menus}.py`, `ui/astrometry/panels/{images,solve,find,measure,report}.py`, `tests/ui/walks/astrometry.py`, guide 05 (new chapter section) in four languages
 
 ### AST-1. Solving with hints: robust for any telescope  (P1)
 **open**
@@ -136,6 +137,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   offline).
 - **Accept:** the 60-frame set with all header hints removed: ≥ 90 % solved (fields ≥ 15′) in a median < 8 s; no
   false solution on the noise set; the index tier sizes written in the data manager with their coverage.
+- **Files:** `tools/build_star_index.py`, `astrometry/{blind,index}.py`, `services/gaia.py` (offline fall-back), `core/datapacks.py` entries, `tests/test_astrometry_blind.py`
 
 ### AST-3. Astrometric reduction of a frame  (P1)
 **open**
@@ -154,6 +156,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
 - **Accept:** synthetic frames with a known distortion and star positions: recovered positions unbiased with
   errors within 0.8–1.3 × the scatter (S/N 5–200); Gaia stars left out of the fit are recovered within their
   predicted errors on real frames (cross-validation RMS reported: ≤ 0.1″ on the LCO frames).
+- **Files:** `astrometry/{reduce,centroid}.py`, step `astrometry.reduce`, `tests/test_astrometry_reduce.py`
 
 ### AST-4. Known moving objects: overlay, measure, magnitudes  (P1)
 **open**
@@ -171,6 +174,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   during the exposure exceeds 1.5 FWHM, positions referred to mid-exposure.
 - **Accept:** Eros on the LCO frames: O − C against JPL Horizons RMS ≤ 0.15″ with no systematic offset above 0.1″
   (our timing and reduction are right); a synthetic trailed object (trail 6 FWHM): mid-point within 0.1 px.
+- **Files:** `astrometry/{known,measure,trail}.py`, `services/{skybot,horizons,mpc}.py`, `photometry/moving.py` (kept, calls the new code), UI measure panel, `tests/test_moving_objects.py`, `tests/validation/test_eros_horizons.py`
 
 ### AST-5. Finding what is not known: track-and-stack and synthetic tracking  (P2)
 **open**
@@ -217,6 +221,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   submission page" (never automatic submission).
 - **Accept:** files for Eros and for a synthetic unknown object pass the validator; designations of the MPC's
   examples (numbered, provisional, comets, survey designations) pack and unpack correctly (a table-driven test).
+- **Files:** `astrometry/reports/{ades,mpc80,cobs,designations}.py`, `photometry/moving.py` (`ades_psv` re-exported), UI report panel, `tests/test_ades.py`
 
 ### AST-7. Catalogue positions for anything: the measure tool  (P2)
 **open**
@@ -225,6 +230,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   host nucleus in arcsec east / north, comet nuclei); offsets and separations between two objects with errors.
 - **Accept:** offsets between two Gaia stars measured on ten frames equal the catalogue separation within the
   predicted error.
+- **Files:** `astrometry/measure.py`, `ui/image/tools.py` (the position tool), `tests/test_astrometry_measure.py`
 
 ### AST-8. Double stars  (P2)
 **open**
@@ -240,6 +246,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   date and our O − C; the report table in JDSO layout; hand-over of measures to MOD-20.
 - **Accept:** synthetic pairs (ρ = 0.8–20 px, Δm 0–3): θ within 0.3° and ρ within 1 % at S/N 100; a real wide
   pair's measure within the scatter of its recent WDS measures.
+- **Files:** `astrometry/doubles.py`, `services/wds.py`, `astrometry/reports/jdso.py`, UI (Measure stage, double-star mode), `tests/test_double_stars.py`
 
 ### AST-9. Proper motion and parallax from your own frames  (P3)
 **open**
@@ -248,6 +255,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   π with errors and the classic plot (the wobbling track); for teaching and for high-proper-motion stars.
 - **Accept:** synthetic epochs of a star with μ = 10″/yr, π = 0.5″ at 0.05″ per-epoch precision: recovered within
   1σ.
+- **Files:** `astrometry/motion.py`, UI tool, `tests/test_proper_motion.py`
 
 ### AST-10. Orbits through external tools  (P3)
 **open**
@@ -256,6 +264,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   needs.
 - **Accept:** with Find_Orb present in the test container (outside the bundle) the Eros observations give
   residuals as AST-4's O − C; without it the interface explains.
+- **Files:** `astrometry/external_orbit.py` (adapter through AUT-9's external-program step), tests with a fake executable
 
 ### AST-11. The camera's distortion map  (P3)
 **open**
@@ -264,6 +273,7 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
   fields).
 - **Accept:** cross-validation RMS on sparse fields improves when the stored map is used (asserted on synthetic
   data).
+- **Files:** `astrometry/distortion.py`, `core/profiles.py` (map stored per equipment), tests
 
 ## Found while working
 

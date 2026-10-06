@@ -95,6 +95,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
 - **Extra accept:** open a scene → true colour → NDVI → classes: **five clicks**; memory of the interface process
   stays below 1.5 GB with a full Sentinel-2 tile open.
 - **Depends on:** ARC-4.6, ARC-5, ARC-7, ARC-8, UI-1 … UI-4, RS-1.
+- **Files:** `ui/remotesensing/{window,controller,state,menus}.py`, `ui/remotesensing/panels/{layers,tools,spectrum,statistics}.py`, `tests/ui/walks/remotesensing.py`, guide 10
 
 ### RS-1. Products, bands and memory  (P1)
 **open**
@@ -124,6 +125,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   (mean ± σ); geographic grid, scale bar (metres), north arrow; measure distance and area (geodesic, pyproj).
 - **Accept:** coordinates under the cursor agree with GDAL's (`gdallocationinfo`, stored) to 0.01 px; a measured
   polygon's area agrees with the geodesic formula within 0.1 %.
+- **Files:** `remotesensing/display.py`, `ui/remotesensing/panels/layers.py`, `ui/image/` (geographic read-out), `tests/test_rs_display.py`
 
 ### RS-3. Geometry: put rasters on one grid  (P2)
 **open**
@@ -133,6 +135,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   raster to another's grid (for change detection); all block-wise with overviews written; engine per Decisions.
 - **Accept:** results equal `gdalwarp` references (stored statistics and 1000 sampled pixels) within the
   resampling's rounding; a two-tile mosaic's seam has no step in a flat area; memory budget kept.
+- **Files:** `remotesensing/geometry.py`, `pyproject.toml` (rasterio, only after the check in Decisions), `tests/test_rs_geometry.py`
 
 ### RS-4. Radiometry  (P2)
 **open**
@@ -144,6 +147,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   every later computation by default.
 - **Accept:** TOA reflectance of a Landsat scene equals the values computed by an independent script from the
   USGS formulas at 1000 pixels to 1e-6; DOS1 brings a synthetic haze offset back within 5 %.
+- **Files:** `remotesensing/radiometry.py`, `tests/test_rs_radiometry.py`
 
 ### RS-5. Indices and band maths  (P1)
 **open**
@@ -156,6 +160,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   view or a polygon; unit and range checks (reflectance expected: a warning when digital numbers are used).
 - **Accept:** each library index equals a NumPy statement of its formula; NDVI of the stored tile unchanged from
   today; the preview updates in < 300 ms.
+- **Files:** `remotesensing/analysis.py`, `resources/indices.toml`, `ui/remotesensing/panels/tools.py`, `tests/test_rs_indices.py`
 
 ### RS-6. Classification with a measure of its quality  (P2)
 **open**
@@ -174,6 +179,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
 - **Accept:** on a synthetic scene of five Gaussian classes: maximum likelihood reaches the Bayes accuracy within
   1 %; on the public ground-truth scene the accuracy table is produced and matches an independent computation of
   the same predictions; a full tile classified in < 3 min CPU within the memory budget.
+- **Files:** `remotesensing/classify.py`, `remotesensing/accuracy.py`, `compute/classify.py`, step `remotesensing.classify` (new methods), `tests/test_rs_classify.py`
 
 ### RS-7. Change and time  (P2)
 **open**
@@ -184,6 +190,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   seasonal / trend decomposition, export; an animation of the map through time.
 - **Accept:** synthetic two-date scenes with a known changed area: the area recovered within 2 %; the series of a
   synthetic seasonal signal with clouds: masked dates left out, amplitude within 5 %.
+- **Files:** `remotesensing/{change,series}.py`, `tests/test_rs_change.py`
 
 ### RS-8. Vectors and zones  (P2)
 **open**
@@ -193,6 +200,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   features as GeoJSON; polygons as masks and as training / validation inputs for RS-6.
 - **Accept:** zonal means equal an independent rasterised computation; a shapefile in a different CRS overlays
   correctly (reprojected with pyproj).
+- **Files:** `remotesensing/vector.py`, `remotesensing/zonal.py`, `tests/test_rs_vector.py`
 
 ### RS-9. More transforms  (P3)
 **open**
@@ -201,6 +209,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   with a panchromatic band.
 - **Accept:** unmixing recovers synthetic abundances within 3 %; pansharpened bands keep the multispectral means
   within 1 %.
+- **Files:** `remotesensing/transforms.py`, `tests/test_rs_transforms.py`
 
 ### RS-10. Thermal  (P3)
 **open**
@@ -208,6 +217,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   from NDVI (Sobrino et al. 2004), clearly labelled with its assumptions; Level-2 surface-temperature products
   read directly as the better choice.
 - **Accept:** against the Level-2 surface temperature of the same scene: median difference within 2 K (reported).
+- **Files:** `remotesensing/thermal.py`, tests
 
 ### RS-11. A bridge to astronomy: night lights and observing sites  (P3)
 **open**
@@ -215,6 +225,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   brightness atlas, each under its own licence) and read radiance / brightness at the site profiles' positions and
   over the years (a trend plot) — a quick look at light pollution for site selection; no data are bundled.
 - **Accept:** the read-out at a coordinate equals GDAL's; a site list produces a table and trend plot.
+- **Files:** `remotesensing/nightlights.py`, `core/profiles.py` (sites), tests
 
 ### RS-12. Speed and memory  (P2)
 **open**
@@ -223,6 +234,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   where measured faster.
 - **Accept:** no case above 2 GB peak; index on a full tile < 15 s; k-means < 40 s; all equal the pre-change
   results.
+- **Files:** `tools/speed.py`, `remotesensing/{raster,pyramid}.py`, `tests/test_rs_memory.py`
 
 ### RS-13. Maps and exports  (P2)
 **open**
@@ -232,6 +244,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   (ARC-11) naming the product, processing level and every operation.
 - **Accept:** exported rasters open in QGIS with the right place and legend (checked through GDAL's metadata dump
   in tests); the map layout carries the attribution of the product.
+- **Files:** `remotesensing/export.py`, `ui/plot/publish_image.py`, `tests/test_rs_export.py`
 
 ### RS-14. Validation  (P2)
 **open**
@@ -239,6 +252,7 @@ Order of work: RS-W, then P1: 1, 2, 5; P2: 3, 4, 6, 7, 8, 12, 13, 14; P3: 9, 10,
   container, outside the bundle) for geometry, from independent scripts for radiometry and indices, and the
   ground-truth scene for classification.
 - **Accept:** every capability above has a validation test.
+- **Files:** `tests/validation/test_remote_sensing_*.py`, `tests/validation/scripts/gdal/`
 
 ## Found while working
 

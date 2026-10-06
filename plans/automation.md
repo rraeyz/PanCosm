@@ -114,6 +114,7 @@ P3: 10.
 - **Extra accept:** build "calibrate → light curve → time of minimum → report" from the library in **eight
   clicks**; a missing input shows on the card in amber with the fix offered ("link it to … / ask me when run").
 - **Depends on:** AUT-1, ARC-4.6, ARC-5, UI-1 … UI-4.
+- **Files:** `ui/automation/{window,controller,state,menus}.py`, `ui/automation/panels/{library,chain,form,run}.py`, `tests/ui/walks/automation.py`, guide 11
 
 ### AUT-2. Recipes from what you just did, and chains that think  (P1)
 **open**
@@ -148,6 +149,7 @@ P3: 10.
   many nights calibration. Each template is a test: it runs on its practice set in CI.
 - **Accept:** every template runs on its practice data from the Automation window and from the command line with
   identical products.
+- **Files:** `resources/automations/*.json` (one per template), `tests/test_automation_templates.py`, guide 11
 
 ### AUT-4. Triggers and unattended processing  (P2)
 **open**
@@ -158,6 +160,7 @@ P3: 10.
   files at once (a lock in the output folder).
 - **Accept:** a replayed night dropped file by file into a watched folder produces the same final products as the
   batch recipe; killing and restarting the watcher resumes without redoing finished frames.
+- **Files:** `engine/triggers.py`, `__main__.py` (`watch` subcommand), `ui/kit/tasks.py` (running automations), `tests/test_triggers.py`
 
 ### AUT-5. Plug-ins, second version  (P1)
 **open**
@@ -175,6 +178,7 @@ P3: 10.
 - **Accept:** the three example plug-ins ported; a new reader plug-in for a made-up text format makes its files
   open in Light curves; a broken plug-in is reported and does not stop the program; the stability test of
   `astrowb.api` covers what plug-ins may import.
+- **Files:** `engine/plugins.py`, `engine/extension_points.py` (`reader`, `exporter`), `ui/shell/settings/plugins.py`, `resources/plugins/` (examples and template), `docs/PLUGINS.md` (generated), `tests/test_plugins.py`
 
 ### AUT-6. A Python console inside the program  (P2)
 **open**
@@ -188,6 +192,7 @@ P3: 10.
 - **Accept:** the script produced by "Copy as Python" in Photometry runs in the console and returns the same light
   curve; an exception shows the traceback in the output pane without affecting the window; a long loop can be
   stopped.
+- **Files:** `ui/shell/tools/console.py`, `ui/kit/code_editor.py`, `engine/script_runner.py` (worker side), `tests/ui/test_console.py`
 
 ### AUT-7. Batches and parameter studies  (P2)
 **open**
@@ -196,6 +201,7 @@ P3: 10.
   outputs against it, e.g. aperture radius against light-curve scatter); parallelism bounded by cores and memory
   (`engine.parallel`).
 - **Accept:** a sweep of aperture radius on the Qatar-1 night reproduces the aperture-scan result of Photometry.
+- **Files:** `core/recipe.py` (table runs, sweeps), `ui/automation/panels/batch.py`, `tests/test_recipe_batch.py`
 
 ### AUT-8. The reproducibility bundle  (P2)
 **open**
@@ -206,6 +212,7 @@ P3: 10.
   data repository.
 - **Accept:** the practice night's bundle reproduces on another machine class in CI (Linux → Windows) within the
   cross-platform tolerance of VAL-9.
+- **Files:** `core/bundle.py`, `__main__.py` (`reproduce` subcommand), `ui/shell/project/export.py`, `tests/test_bundle.py`
 
 ### AUT-9. External programs as steps  (P2)
 **open**
@@ -216,6 +223,7 @@ P3: 10.
   adapters use.
 - **Accept:** a recipe step calling a harmless test program runs after confirmation and is refused when the
   confirmation is declined; the command is recorded in the provenance.
+- **Files:** `engine/external.py`, step `external.run`, `resources/external_tools/*.toml`, `tests/test_external_step.py`
 
 ### AUT-10. Interop of recipes  (P3)
 **open**
@@ -224,6 +232,7 @@ P3: 10.
   as a light curve (PHO) — for users who move between programs.
 - **Accept:** the exported Siril script's commands exist in Siril's reference and reference the right files
   (checked textually; Siril itself is not run in CI).
+- **Files:** `core/interop/{siril_script,aij_files}.py`, tests with stored expected texts
 
 ## Found while working
 

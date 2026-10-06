@@ -102,6 +102,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Extra accept:** every one of the 60-odd actions of today's menus has its place (the agent's table under
   UI-16.10); a 9k × 6k frame opens in < 0.5 s; all tools usable with one hand on the keyboard (ARC-7 keys).
 - **Depends on:** ARC-4.5, ARC-5, ARC-7, ARC-8, UI-1 … UI-4.
+- **Files:** `ui/images/{window,controller,state,menus}.py`, `ui/images/panels/{strip,inspector_info,header,levels,layers,history,graph,table}.py`, `tests/ui/walks/images.py`, guide 05
 
 ### IMG-1. Open anything, browse a night  (P1)
 **open**
@@ -138,6 +139,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   step; a colour bar with units.
 - **Accept:** dragging a level redraws in < 50 ms on a 4k frame (visible tiles first); locked WCS tiles of two
   frames with different rotation show the same sky under the cursor within 0.5 px; QTest of presets and blink.
+- **Files:** `ui/images/panels/levels.py`, `ui/image/{view,tiles}.py`, `display.py`, `tests/ui/test_image_display.py`
 
 ### IMG-3. The Inspector: every question about a pixel, a star, a region  (P1)
 **open**
@@ -166,6 +168,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   centroid within 0.03 px at S/N 100, flux within its error; region statistics equal NumPy on the same pixels;
   `imexamine`'s `a` and `r` outputs on a real frame (IRAF run beside ours, stored) agree within 2 % in FWHM and
   1 % in flux.
+- **Files:** `images/inspect.py` (from `io/inspect.py`, old names re-exported), `ui/images/panels/inspector_info.py`, `ui/image/tools.py`, `api/`, `tests/test_inspect.py`, `tests/validation/test_imexamine.py`
 
 ### IMG-4. Image quality across the field and through the night  (P2)
 **open**
@@ -182,6 +185,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   monitor), feeding Photometry's Checks (PHO-33) and Observing's graphs (OBS).
 - **Accept:** synthetic frames with a known tilt (FWHM 2.0 → 3.0 px across x) and curvature: both recovered within
   10 %; a frame with elongated stars at 30°: mean angle within 3°; 4k frame analysed in < 3 s.
+- **Files:** `images/quality.py`, `photometry/quality.py` (uses it), step `image.quality`, `ui/images/panels/quality.py`, `tests/test_image_quality.py`
 
 ### IMG-5. Source lists and the frame's zero point  (P2)
 **open**
@@ -199,6 +203,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Accept:** on a synthetic field (5000 stars + 200 galaxies-like blobs): completeness > 95 % above 5σ with < 2 %
   spurious; positions within their errors; the zero point of an SA 98 frame within 0.02 mag of the value from the
   Landolt stars alone.
+- **Files:** `images/sources.py`, `images/zeropoint.py`, step `image.sources`, `tests/test_sources.py`
 
 ### IMG-6. Regions  (P1)
 **open**
@@ -213,6 +218,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   transform.
 - **Accept:** round trip of a DS9 file with every supported shape in fk5 and image coordinates to 1e-6 px; a mask
   from a polygon equals the exact polygon rasterisation; QTest draws and edits each shape.
+- **Files:** `images/regions.py` (from `overlays.py`: `read_regions`, `write_regions` kept as re-exports), `ui/image/tools.py`, `tests/test_regions.py`
 
 ### IMG-7. Processing: what a scientist and an imager need  (P2)
 **open**
@@ -237,6 +243,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   reconstructs exactly; background extraction recovers an injected quadratic gradient within 1 % of its amplitude
   under a star field; colour calibration brings a synthetic RGB star field's colours onto the catalogue relation
   within 0.03 mag; GPU twins (convolution-type operations) equal CPU within 1e-5.
+- **Files:** `images/process/{background,wavelets,fourier,deconvolve,contrast,colour,cosmetic}.py` (`io/process.py` re-exports), `compute/convolve.py`, step `image.process` (new operations), `tests/test_process.py`
 
 ### IMG-8. History, preview, repeat on many files  (P1)
 **open**
@@ -251,6 +258,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Accept:** a five-operation history applied to 48 frames from the strip gives files identical to applying the
   operations one by one by hand; undo to any entry restores the pixels exactly; memory stays under the cap with a
   9k × 6k image and ten history states.
+- **Files:** `images/history.py`, `ui/images/panels/history.py`, `ui/kit/stepform.py` (preview hook), `core/recipe.py`, `tests/test_image_history.py`
 
 ### IMG-9. Lucky imaging and planetary stacks  (P3)
 **open**
@@ -259,6 +267,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   alignment; basic wavelet sharpening (IMG-7). Scope kept small: science users (double stars, occultations) first.
 - **Accept:** a synthetic seeing-blurred sequence of a double star gives a stack with the pair resolved at the
   expected separation.
+- **Files:** `images/lucky.py`, `io/video.py`, tests
 
 ### IMG-10. Headers: read, understand, fix  (P1)
 **open**
@@ -272,6 +281,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Accept:** a deliberately broken header (missing END padding fixed by Astropy, non-standard cards, wrong
   `NAXIS`) is reported in words and a fixed copy opens in other programs; compare shows only the differing
   keywords of 48 frames in < 1 s.
+- **Files:** `images/header_tools.py`, `resources/headers/dictionary.toml`, `ui/images/panels/header.py`, `tests/test_header_tools.py`
 
 ### IMG-11. Annotations and charts  (P2)
 **open**
@@ -284,6 +294,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   background fetched for the field when the user's image is not wanted; PDF / PNG through publish.
 - **Accept:** the chart of the NY Vir field shows the AAVSO sequence stars with their labels at the right places;
   labels never overlap in a crowded field (a test on label rectangles).
+- **Files:** `images/annotate.py` (from `overlays.py`), `images/chart.py` (`finder_chart` moved, re-exported), `services/{simbad,vizier,aavso_vsp,skybot}.py`, `tests/test_annotations.py`
 
 ### IMG-12. Talking to other programs  (P2)
 **open**
@@ -293,6 +304,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   this coordinate" (the view centres and marks it) and tables (opened in a `TableView`); "Open in DS9" when DS9 is
   installed (found on the path). The same client serves Spectroscopy (SPE-12.6) and tables everywhere.
 - **Accept:** a test with Astropy's hub in-process exchanges an image, a table and a coordinate both ways.
+- **Files:** `core/samp.py`, `ui/shell/tools/samp.py`, `tests/test_samp.py`
 
 ### IMG-13. Blink, difference, "is this new?"  (P2)
 **open**
@@ -305,6 +317,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Accept:** a synthetic new star of magnitude 16 added to a real frame is obvious in the difference with the
   survey cut-out and "What is this?" returns nothing known at its position while a neighbouring catalogue star is
   identified.
+- **Files:** `images/compare.py`, `services/hips2fits.py`, `ui/images/panels/compare.py`, `tests/test_image_compare.py`
 
 ### IMG-14. Mosaics and cut-outs  (P2)
 **open**
@@ -313,12 +326,14 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   north-up.
 - **Accept:** a 2 × 2 mosaic of solved frames with 10 % overlap: stars in overlaps coincide within 0.2 px; seams
   below 0.3σ.
+- **Files:** `ui/images/dialogs/mosaic.py`, `calibration/mosaic.py` (engine, CAL-16), `images/cutout.py`, tests
 
 ### IMG-15. Speed and memory  (P3)
 **open**
 - **Build:** benchmark cases for opening, display changes, each processing operation on 4k² and 9k × 6k; thread
   pools for per-tile work; memory accounting in the status bar's tooltip.
 - **Accept:** the budgets of `plans/architecture.md`.
+- **Files:** `tools/speed.py` cases, `ui/image/tiles.py`
 
 ### IMG-16. Pictures for papers and talks  (P2)
 **open**
@@ -326,6 +341,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   grid), scale bar, compass, colour bar with units, regions and labels, an inset zoom, a chosen stretch written in
   the caption helper; journal sizes; PDF / PNG / TIFF.
 - **Accept:** the RA / Dec ticks agree with the WCS to 0.1 px; the figure passes the publish checks.
+- **Files:** `ui/plot/publish_image.py`, `ui/images/dialogs/publication_image.py`, `tests/test_publish_image.py`
 
 ### IMG-17. Colour cameras in the viewer  (P2)
 **open**
@@ -333,6 +349,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   at a time (superpixel) with a switch; the Inspector reports per-channel values; hand-over to CAL-17 for
   calibration and to Photometry per channel.
 - **Accept:** channel views equal `io/bayer.split` results; the preview never changes data on disk.
+- **Files:** `ui/images/panels/cfa_view.py`, `io/bayer.py`, tests
 
 ### IMG-18. Tables as first-class citizens  (P3)
 **open**
@@ -341,6 +358,7 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
   by sky position or key, send / receive by SAMP; all on `core/table.Columns`.
 - **Accept:** a 10^6-row Gaia cone table: load < 3 s, a density plot < 0.5 s, cross-match with a 10^4-row table by
   position < 2 s.
+- **Files:** `core/table.py`, `ui/shell/tools/table_tool.py`, `core/crossmatch.py`, `tests/test_table_tool.py`
 
 ## Found while working
 

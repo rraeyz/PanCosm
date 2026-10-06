@@ -509,6 +509,7 @@ for the window concerned.
 - **Accept:** a table in this step lists every table in the program and ticks the standard; QTests for filter,
   columns and export in each window.
 - **Depends on:** ARC-8.
+- **Files:** `ui/kit/table.py`, every window's table panels, `tests/ui/test_table_standard.py`
 
 ### UI-12. Keyboard  (P1)
 **open**
@@ -547,6 +548,7 @@ for the window concerned.
   Quit).
 - **Accept:** QTest on two virtual screens (offscreen platform with two screens) moves, restarts and finds the
   windows where they were.
+- **Files:** `ui/kit/window.py`, `ui/shell/menus.py` (Window menu), `tests/ui/test_multi_screen.py`
 
 ### UI-15. The gallery test: every window, every language, every theme  (P1)
 **open**
@@ -599,6 +601,7 @@ rail            stage panel (example: 3 Stars)          main: image             
 - Under the image: the frame slider with play; the image toolbar (levels, zoom, layers: apertures / names /
   catalogue / variables / bad pixels).
 - Toolbar: Images…, Previous, Next, Blink, Suggest comparisons, Radii, Measure, Leave out, Time of minimum, Export.
+- **Files:** `ui/photometry/` (see PHO-W)
 
 #### UI-16.2 Calibration
 **open**
@@ -617,6 +620,7 @@ rail            stage panel (example: 3 Stars)          main: image             
   done instead.
 - **5 Review:** before / after blink of one light, the masters' quality table (CAL-6), frames left out with reasons.
 - **6 Continue:** "Measure in Photometry", "Reduce in Spectroscopy", "Stack", "Open in Images" as cards.
+- **Files:** `ui/calibration/` (see CAL-W)
 
 #### UI-16.3 Spectroscopy
 **open**
@@ -638,6 +642,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
   (CCF, TODCOR, broadening function, LSD) · Measure · Table. Orbit: Velocities · Fit · Uncertainties · Report.
   Parameters: Spectrum · Method (grid fit, equivalent widths, classification) · Result.
 - Instrument profile chooser in the toolbar (from ARC-16), not a row in the panel.
+- **Files:** `ui/spectroscopy/` (see SPE-W)
 
 #### UI-16.4 Light curves and period
 **open**
@@ -651,6 +656,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 ```
 - A click on a periodogram peak folds at once; arrow keys step to neighbouring peaks and aliases (×2, ÷2, ±1 d⁻¹
   marked). The three plots share selections (points left out in one disappear in all).
+- **Files:** `ui/lightcurves/` (see PER-W)
 
 #### UI-16.5 O−C
 **open**
@@ -663,6 +669,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 ```
 - The minima table replaces the text box: time, error, kind (I / II), method (CCD, pe, pg, vis), source, weight,
   use ☑, epoch, O−C, residual; editable; sortable; paste from the clipboard in any common layout.
+- **Files:** `ui/oc/` (see OC-W)
 
 #### UI-16.6 Models (binary stars)
 **open**
@@ -678,6 +685,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 - **Parameters** tab: one table for all parameters: name in words (and the WD / PHOEBE symbol in a column for
   experts), value, error, free ☑, limits, prior, unit; rows grouped (Orbit, Star 1, Star 2, Surface, Spots, Third
   light per band, Third body). No field anywhere else holds a parameter.
+- **Files:** `ui/models/` (see MOD-W)
 
 #### UI-16.7 Exoplanets
 **open**
@@ -686,6 +694,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
   4 Model (limb darkening, detrending, exposure integration, eccentricity, dilution) · 5 Fit · 6 Uncertainty ·
   7 Results. Main: transits (stacked or folded) with model and residuals; RV curve; O−C of mid-times. Results:
   Parameters (fitted and derived), Chains, Corner, Report (tables for a paper, ExoClock / AAVSO / TFOP files).
+- **Files:** `ui/exoplanets/` (see EXO-W)
 
 #### UI-16.8 Planning
 **open**
@@ -693,6 +702,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
   standards) · 3 Night (altitude chart with twilight, Moon, events as bars; a sky map tab) · 4 Schedule (timeline
   that can be dragged) · 5 Send to Observing. Inspector: the selected target (coordinates, magnitudes, ephemeris,
   finder chart, exposure calculator).
+- **Files:** `ui/planning/` (see PLN-W)
 
 #### UI-16.9 Observing
 **open**
@@ -705,6 +715,7 @@ results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live 
 - Addresses, tokens and certificates live in the "Set up the observatory…" dialog only. Each device chip opens a
   small popover with its controls (cooler, focuser moves, filter change, park). A red "Stop everything" button is
   always visible in the toolbar.
+- **Files:** `ui/observing/` (see OBS-W)
 
 #### UI-16.10 Images
 **open**
@@ -712,28 +723,33 @@ results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live 
   tiles for several images, locked by WCS on request); right Inspector tabs: Info (ARC-7 read-outs and the
   `imexamine` results), Header (table with search and edit), Histogram and levels, Layers, History (processing
   steps, undo list); bottom dock: Graph (profiles), Table (detected sources, region statistics).
+- **Files:** `ui/images/` (see IMG-W)
 
 #### UI-16.11 Astrometry
 **open**
 - Rail: 1 Images · 2 Solve · 3 Find (blink, track-and-stack, synthetic tracking) · 4 Measure · 5 Report.
   Main: `ImageView` with the blink strip; results: Detections, Residuals, Report preview.
+- **Files:** `ui/astrometry/` (see AST-W)
 
 #### UI-16.12 Automation
 **open**
 - Left: library of steps and templates with search; centre: the chain as cards joined by lines (inputs and outputs
   named, missing inputs in amber); right: the selected step's settings (the same `FormRow`s as in its window);
   bottom: run log and results. Toolbar: New, Open, Save, Run, Stop, Schedule.
+- **Files:** `ui/automation/` (see AUT-W)
 
 #### UI-16.13 Remote sensing
 **open**
 - Left: bands and layers; centre: the map (`ImageView` with a geographic grid); right: tools (formula, indices,
   classes, components) as stages; bottom: histogram / pixel spectrum / statistics.
+- **Files:** `ui/remotesensing/` (see RS-W)
 
 #### UI-16.14 Project
 **open**
 - A window of its own: tabs Files (what the project refers to, with missing files flagged and "Locate…"), History
   (every run: when, step in words, parameters, result; "Run again", "Copy as script"), Products (frames, tables,
   figures with their provenance), Sessions, Tasks (all running and finished), Methods text (ARC-11).
+- **Files:** `ui/shell/project/{window,files,history,products,sessions,tasks,methods}.py`, `engine/project.py`, `tests/ui/walks/project.py`, guide 01
 
 ### UI-17. Polish  (P3)
 **open**
@@ -742,6 +758,7 @@ results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live 
   cursor shapes for tools; smooth splitter moves; no layout jump when a banner appears (space reserved or
   animated).
 - **Accept:** a review walk with the gallery sheets finds no state without feedback.
+- **Files:** `ui/shell/{splash,about}.py`, `ui/kit/*` (states), `resources/icons/app/`
 
 ### UI-18. Language review  (P2)
 **open**
@@ -751,6 +768,7 @@ results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live 
   capitalisation rules per language; the Turkish list of terms sent to the owner once for approval (in
   "To ask the owner").
 - **Accept:** the review notes per window are written under this step; the glossary test passes.
+- **Files:** `resources/i18n/app_{tr,de,es}.ts`, `resources/i18n/glossary.toml`, `resources/guide/{tr,de,es}/`
 
 ### UI-19. Onboarding refreshed  (P3)
 **open**
@@ -758,6 +776,7 @@ results: [Sequence][Graphs: HFR · guiding · temperature · transparency][Live 
   primary action, results dock, help with F1, find anything with Ctrl+K); "Practice night in five minutes" as the
   tour's last offer (UI-8 task 1).
 - **Accept:** QTest of the tour in four languages; no highlighted element is off-screen at 1366 × 768.
+- **Files:** `ui/tour.py` → `ui/shell/tour.py`, `ui/welcome.py`, `tests/ui/test_tour.py`, guide 01
 
 ## Where everything is (keep this up to date)
 

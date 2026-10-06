@@ -105,6 +105,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   exported in **six clicks**; symbols distinguish primary / secondary and the method; a click on a point selects its
   table row and the reverse; points can be left out and brought back (undo).
 - **Depends on:** ARC-4.6, ARC-5, ARC-6, ARC-8, UI-1 … UI-4, OC-1.
+- **Files:** `ui/oc/{window,controller,state,menus}.py`, `ui/oc/panels/{minima,ephemeris,models,uncertainty,report,parameters}.py`, `tests/ui/walks/oc.py`, guide 07
 
 ### OC-1. A minimum is a record  (P1)
 **open**
@@ -291,6 +292,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   the session (compressed) so that plots reopen without resampling.
 - **Accept:** on synthetic data the 68 % intervals contain the truth in 62–74 % of 300 realisations for each
   parameter of the LTTE and the apsidal model; a non-converged run says so and does not print intervals as final.
+- **Files:** `timeseries/oc_uncertainty.py`, `core/inference/` (EXO-5), `timeseries/oc_models.py` (old `_posterior` removed after migration), `tests/coverage/test_oc_coverage.py`
 
 ### OC-9. Magnetic cycles (Applegate) as a tested alternative  (P2)
 **open**
@@ -303,6 +305,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   modulations can be modelled with a damped / quasi-periodic sinusoid as an alternative to LTTE and compared by BIC.
 - **Accept:** the worked examples of Völschow et al. (their table values for well-known systems) are reproduced
   within 5 %.
+- **Files:** `timeseries/applegate.py`, `ui/oc/panels/models.py`, `tests/test_applegate.py`
 
 ### OC-10. Short-period triples: dynamical delays  (P3)
 **open**
@@ -313,6 +316,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   amplitude ratio shown).
 - **Accept:** the term reproduces the published curve of a known compact triple from its published parameters
   within the plot's accuracy; the warning fires for P₃ / P₁ = 30 and not for 3000.
+- **Files:** `timeseries/oc_dynamical.py`, `tests/test_oc_dynamical.py`
 
 ### OC-11. Cyclic and general terms; periodogram of residuals  (P2)
 **open**
@@ -321,6 +325,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   stars with the same tools (period change rates of RR Lyrae / δ Scuti / Cepheids in d/Myr; the Blazhko-like
   modulation via the periodogram).
 - **Accept:** a synthetic RR Lyrae O−C with dP/dt = 0.3 d/Myr is recovered within 1σ; the guide shows the case.
+- **Files:** `timeseries/oc_models.py` (cyclic terms), `timeseries/methods/gls.py` (residual periodogram), `tests/test_oc_cyclic.py`
 
 ### OC-12. Report: tables and figures for a paper, and for observers  (P1)
 **open**
@@ -332,6 +337,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   B.R.N.O. / BAV submission layouts; predictions of the next minima for the coming month at the site (to Planning).
 - **Accept:** the LaTeX tables compile in AASTeX and A&A classes (stored expected text); the figure passes the
   publication checks of ARC-6; every number in the table equals the session's value at the printed precision.
+- **Files:** `timeseries/oc_report.py`, `timeseries/minima_table.py` (writers), `resources/methods/oc_*.txt`, `tests/test_oc_report.py`
 
 ### OC-13. Exoplanet transit timing in the same window  (P2)
 **open**
@@ -342,6 +348,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   ExoClock / literature table style. Shares all machinery of OC-5, OC-8, OC-11.
 - **Accept:** the published decay rate of WASP-12 b is reproduced from the published mid-times list within its
   error; a linear-only system gives no significant term.
+- **Files:** `timeseries/transit_timing.py`, `ui/oc/panels/` (Transits mode), `tests/test_transit_timing.py`
 
 ### OC-14. From the literature's ephemerides to tonight  (P2)
 **open**
@@ -350,6 +357,7 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   each service has; "What changed since the catalogue ephemeris?" shows the O−C of the newest minima against it —
   the quickest answer to "is the ephemeris still good for planning?".
 - **Accept:** for three stars the panel fills from recorded responses; offline it shows what the cache has.
+- **Files:** `timeseries/star_context.py`, `services/{vsx,gcvs,simbad,gaia}.py`, `ui/oc/panels/minima.py`, tests with recorded responses
 
 ### OC-15. Joint analysis with the light and velocity curves  (P3)
 **open**
@@ -357,12 +365,14 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
   orbit + third light + systemic-velocity drift checked for consistency in one summary table; a combined fit is out
   of scope until MOD supports timing as a data set (MOD-17).
 - **Accept:** the summary table for a synthetic triple shows consistent third-body evidence from the three sides.
+- **Files:** `timeseries/oc_consistency.py`, `models/` (links), tests
 
 ### OC-16. Speed and scale  (P3)
 **open**
 - **Build:** 10 000 minima (Kepler short-period binaries) plot and fit interactively: vectorised models, native
   Kepler solver, decimated drawing through `PlotView`; MCMC on 10 000 minima < 60 s.
 - **Accept:** the budgets written here are met on the reference machine.
+- **Files:** `tools/speed.py` cases, `timeseries/oc_models.py`, `native/` (Kepler solver use)
 
 ## Found while working
 

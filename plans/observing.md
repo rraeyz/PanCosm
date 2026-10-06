@@ -111,6 +111,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   watch the live graphs: every state fits 1366 × 768 in four languages; no address, token or certificate is on the
   main face; "Stop everything" works from every state within 2 s (test with slow fake devices).
 - **Depends on:** ARC-4.5, ARC-5, ARC-6, ARC-7, UI-1 … UI-4, OBS-16.
+- **Files:** `ui/observing/{window,controller,state,menus}.py`, `ui/observing/panels/{devices,connect,point,focus,sequence,night,graphs,log}.py`, `ui/observing/dialogs/setup.py` (from `observatory_dialog.py`), `tests/ui/walks/observing.py`, guide 03
 
 ### OBS-1. Devices: one interface, three back-ends, every capability known  (P1)
 **open**
@@ -190,6 +191,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** in the simulator the target lands within 5″ and 0.3° of rotation in ≤ 3 iterations for mount errors
   up to 1°; a refused slew explains itself in four languages; the preview loop runs at ≥ 1 frame per second for a
   1 s sub-frame without leaking memory over 1000 frames.
+- **Files:** `devices/pointing.py`, `devices/preview.py`, `devices/server.py` (endpoints), `ui/observing/panels/point.py`, `tests/test_pointing.py`
 
 ### OBS-4. Focus that holds through the night  (P1)
 **open**
@@ -212,6 +214,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** in the simulator (a focuser with 80 steps of backlash and a temperature drift): autofocus ends
   within 0.2 CFZ of best focus in ≥ 95 of 100 runs; a clouded run (no stars) restores the previous position and
   says why; filter offsets recovered within their scatter.
+- **Files:** `devices/focus.py`, `devices/focus_wizards.py`, `core/profiles.py` (offsets, backlash, coefficient), `ui/observing/panels/focus.py`, `tests/test_focus.py`
 
 ### OBS-5. Guiding supervised, and drift held without a guider  (P2)
 **open**
@@ -229,6 +232,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** with a recorded PHD2 event stream the RMS equals PHD2's own log values within 2 %; a simulated star
   loss pauses and recovers the sequence; in the simulator a mount drifting 20″ per hour is held within 2 px over
   six hours by the science-frame correction.
+- **Files:** `devices/phd2.py`, `devices/guiding.py` (supervision, science-frame correction), `ui/observing/panels/graphs.py`, `tests/test_guiding.py`, `tests/data/phd2_events/`
 
 ### OBS-6. The sequencer: simple by default, complete when needed  (P1)
 **open**
@@ -282,6 +286,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** in the simulator with seeing improving through the night the target's peak stays within 40–80 % of
   the linearity limit; an eclipse straddling the meridian: the flip is placed outside the protected windows and
   the dry run states when; no autofocus starts inside a protected window in 100 randomised runs.
+- **Files:** `devices/science_guard.py`, `devices/executor.py` (hooks), `planning/events.py` (protected windows), `tests/scenarios/test_science_guard.py`
 
 ### OBS-8. The meridian flip, completely  (P1)
 **open**
@@ -294,6 +299,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** in the simulator (a German mount model with a tracking limit 5° past the meridian): 100 randomised
   sequences flip once each at an allowed time and resume on target within 10″; a mount that refuses to flip leads
   to a safe stop and a clear message.
+- **Files:** `devices/flip.py` (from `focus.needs_flip`, re-exported), `devices/executor.py`, `tests/scenarios/test_flip.py`
 
 ### OBS-9. Flats and calibration frames without thought  (P2)
 **open**
@@ -308,6 +314,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   profile's sensor kind wants them.
 - **Accept:** simulator dusk: all requested flats of four filters reach the target level ± 10 % in the predicted
   order; darks matching every exposure time / gain / temperature used that night are scheduled.
+- **Files:** `devices/flats.py` (from `sequence.sky_flats`, `panel_flats`, re-exported), `devices/program.py` (instructions), `tests/test_flats.py`
 
 ### OBS-10. Dome, roof, covers, power, weather, safety  (P1)
 **open**
@@ -331,6 +338,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   answering; the Sun rising; a roof that fails to close (alarm, telescope stays parked, repeated attempts by rule);
   a dome that lags (exposures wait until the slit is aligned) — each ends in the documented safe state; slaving
   azimuths equal an independent geometric computation within 0.5° over the sky.
+- **Files:** `devices/{dome,roof,conditions,notify}.py`, `devices/safety.py`, `devices/observatory.py` (supervisor), `ui/observing/panels/devices.py`, `tests/scenarios/test_safety_*.py`
 
 ### OBS-11. Live quality, the night log and the night report  (P1)
 **open**
@@ -344,6 +352,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   saved with the frames and linked into the project (PLN-13).
 - **Accept:** frame statistics agree with IMG-4's full analysis within 10 %; the report of a simulated night lists
   every event of the scenario; graphs with 2000 frames stay interactive.
+- **Files:** `devices/frame_stats.py`, `devices/nightlog.py`, `devices/report.py`, `ui/observing/panels/{graphs,log}.py`, `tests/test_nightlog.py`
 
 ### OBS-12. Remote and unattended use  (P2)
 **open**
@@ -356,6 +365,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   frame transfer with resume and checksum; time-zone-proof scheduling (UTC inside).
 - **Accept:** two windows connect: the second is read-only until the first releases; the status page shows a
   running simulated night; an armed program starts at dusk and disarms after dawn.
+- **Files:** `devices/server.py`, `devices/status_page.py`, `devices/client.py`, `tests/test_remote.py`
 
 ### OBS-13. Pointing models and polar alignment made easy  (P2)
 **open**
@@ -367,6 +377,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   remaining error in altitude and azimuth as arrows while the user turns the screws.
 - **Accept:** simulator mount with known model terms: recovered within 10 %; pointing RMS after the model < 20″
   from 5′ before; the polar assistant converges to < 1′ in the simulated adjustment.
+- **Files:** `devices/pointing_model.py`, `devices/pointing.py` (polar assistant), `tests/test_pointing_model.py`
 
 ### OBS-14. Spectroscopy at the telescope  (P2)
 **open**
@@ -378,6 +389,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   spectrographs, by an exposure-meter channel if a device exists (described, optional).
 - **Accept:** in the simulator the target lands within 1 px of the slit position; an arc is taken before and after
   each science block and the lamp is verified off.
+- **Files:** `devices/spectro_acquire.py`, `devices/program.py` (lamp instructions), `core/profiles.py` (slit position), `tests/test_spectro_acquire.py`
 
 ### OBS-15. Video and lucky imaging capture  (P3)
 **open**
@@ -385,6 +397,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   for occultations, double stars and planets; drop detection in time stamps; hand-over to PHO-38 / IMG-9.
 - **Accept:** 100 fps of a 320 × 240 sub-frame from the simulator camera written with monotonic stamps and no
   drops reported for 60 s.
+- **Files:** `devices/video.py`, `io/video.py` (SER writer), tests
 
 ### OBS-16. The simulated observatory  (P1)
 **open**
@@ -424,6 +437,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 - **Accept:** frames from the simulator calibrate and measure here without any typed information and open with
   correct interpretation in AstroImageJ, Siril and IRAF (their header reads checked in the validation suite by
   small scripts); a disk filling up stops the sequence safely with the last frame complete.
+- **Files:** `devices/headers.py` (from `sequence.header`), `devices/naming.py`, `devices/sequence.py`, `tests/test_headers.py`, `tests/validation/scripts/header_readers/`
 
 ### OBS-18. Scenario tests and the hardware checklist  (P1)
 **open**
@@ -437,6 +451,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   safe outcome asserted; a printed **hardware checklist** for the owner (per device kind: what to try, what to
   watch, what to send back) generated from the same list.
 - **Accept:** all scenarios pass in CI on Linux and Windows; the checklist exists in four languages.
+- **Files:** `tests/scenarios/*.py`, `tests/fake_devices.py`, `tools/hardware_checklist.py`, `docs/observing/hardware-checklist.<lang>.md`
 
 ### OBS-19. Working with other programs  (P3)
 **open**
@@ -444,6 +459,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   as in PLN-7; reading frames written by N.I.N.A., MaxIm DL, SGP, Ekos, ASIAIR "as if ours" (CAL-2 covers the
   headers); a note in the guide on running PHD2 and plate solvers beside the program.
 - **Accept:** stored example files import to equivalent sequences.
+- **Files:** `devices/interop/{nina,targets}.py`, tests with stored example files
 
 ## Found while working
 

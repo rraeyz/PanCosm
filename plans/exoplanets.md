@@ -143,6 +143,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
 - **Accept:** equals `spectroscopy/orbit.rv_model` for one companion to 1e-9 km/s; synthetic two-planet, two-
   instrument data: every parameter within 1.5σ in 90 % of 200 realisations (with EXO-5's sampler); the jitter is
   recovered within 20 %.
+- **Files:** `exoplanets/rv.py`, `spectroscopy/orbit.py` (uses it), `tests/test_exo_rv.py`
 
 ### EXO-3. Limb darkening from stellar parameters  (P1)
 **open**
@@ -158,6 +159,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
 - **Accept:** coefficients for (5800 K, 4.44, 0.0) in V, R, TESS equal the published table values at the grid node
   and interpolate between nodes within 0.01 of a direct fit; the prior transformation is tested by sampling.
 - **Depends on:** MOD-6.
+- **Files:** `stars/limbdark.py`, `models/roche/limbdark.py` (shares it), `tests/test_limbdark_tables.py`
 
 ### EXO-4. Parameters and everything derived from them  (P1)
 **open**
@@ -175,6 +177,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   expected from v sin i, TSM and ESM; constants from IAU 2015 B3 nominal values (a test).
 - **Accept:** every derived function against a hand-computed case from its paper; for HAT-P-3 b's published
   parameter medians the derived values equal EXOFASTv2's published ones within rounding.
+- **Files:** `exoplanets/{parameters,derived}.py`, `core/constants.py` (IAU 2015 B3 nominal values), `tests/test_exo_derived.py`
 
 ### EXO-5. The inference engine (shared by O−C, Spectroscopy, Models, Exoplanets)  (P1)
 **open**
@@ -235,6 +238,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   priors → least-squares fit → MCMC with the convergence light → results and report: **seven clicks**, no number
   typed; every prior shows its source ("NASA Exoplanet Archive, Bonomo et al. 2017").
 - **Depends on:** ARC-4, ARC-5, ARC-6, ARC-8, UI-1 … UI-4, EXO-1 … EXO-5.
+- **Files:** `ui/exoplanets/{window,controller,state,menus}.py`, `ui/exoplanets/panels/{data,star,planets,model,fit,uncertainty,results}.py`, `ui/shell/area_registry.py` (new area `exoplanets`), `tests/ui/walks/exoplanets.py`, guide 09b (new chapter) in four languages
 
 ### EXO-6. The host star  (P1)
 **open**
@@ -295,6 +299,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   3. Convergence of the HAT-P-3 fit in < 15 min on the reference machine (EXOFASTv2's own example takes about 45
      min in IDL by its README).
 - **Depends on:** EXO-1 … EXO-6.
+- **Files:** `exoplanets/{system,likelihood,fit}.py`, step `exoplanets.global_fit`, `tests/test_exo_global.py`, `tests/validation/test_exofast_hat3.py`
 
 ### EXO-8. Rossiter–McLaughlin and occultation details  (P2)
 **open**
@@ -305,6 +310,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   and reflected parts per band, the brightness temperature and the geometric-albedo limit as derived values.
 - **Accept:** a synthetic aligned / misaligned hot Jupiter: λ within 1.5σ; a published RM data set's λ reproduced
   within its error.
+- **Files:** `exoplanets/rm.py`, `occult/model.py` (occultation and phase terms), `tests/test_exo_rm.py`
 
 ### EXO-9. One transit, and many transits of one planet  (P1)
 **open**
@@ -316,6 +322,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
 - **Accept:** three synthetic nights with different trends give the ephemeris within 1σ and Rp/R★ better than any
   single night by the expected √N; the Qatar-1 + HAT-P-32 practice nights run through the stages without typing a
   number.
+- **Files:** `exoplanets/{single,multi_night}.py`, `photometry/transitfit.py` (shared model assembly), UI data panel, `tests/test_exo_nights.py`
 
 ### EXO-10. Priors and context from the archives  (P1)
 **open**
@@ -329,6 +336,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   mid-times from the literature tables where the archive has them.
 - **Accept:** recorded responses for ten planets parse into complete starting sets; offline use from the cache; a
   planet with several references shows them all.
+- **Files:** `services/{exoplanet_archive,exofop,exoclock}.py`, `exoplanets/priors_from_archive.py`, `tests/data/services/…`, `tests/test_exo_archive.py`
 
 ### EXO-11. Candidates: search and vetting  (P2)
 **open**
@@ -347,6 +355,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   TESS EB catalogue); a summary of red / amber / green marks — a diagnosis aid, never a verdict.
 - **Accept:** on the known planet: all green; on the blended eclipsing binary: at least the centroid or neighbour
   test red; on a synthetic EB at twice the period: odd / even red.
+- **Files:** `exoplanets/vetting.py`, `ui/exoplanets/panels/vetting.py`, `tests/test_exo_vetting.py`
 
 ### EXO-12. Results for a paper  (P1)
 **open**
@@ -360,6 +369,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   numbers, and the catalogues used.
 - **Accept:** the HAT-P-3 table compiles and matches the session's numbers; every figure passes the publish
   checks; the posterior file reloads into a `Posterior` identical to the saved one.
+- **Files:** `exoplanets/report.py`, `resources/methods/exoplanets_*.txt`, `tests/test_exo_report.py`
 
 ### EXO-13. Noise that is not white  (P2)
 **open**
@@ -371,6 +381,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   comparison table of the planet's parameters under each noise treatment.
 - **Accept:** synthetic transits with red noise: white-noise fits under-cover (asserted), GP fits cover at the
   nominal rate.
+- **Files:** `exoplanets/noise.py`, `pyproject.toml` (celerite2, after the licence and wheel check), `tests/test_exo_gp.py`
 
 ### EXO-14. Observing planets: can I see it, and when  (P2)
 **open**
@@ -380,6 +391,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   detectability and by the value of a new timing (ExoClock priority, ephemeris drift, EXO-12's uncertainty) —
   delivered to Planning (PLN-6).
 - **Accept:** predictions for the Qatar-1 night agree with the achieved scatter within 30 %.
+- **Files:** `exoplanets/observability.py`, `planning/exposure.py`, `tests/test_exo_observability.py`
 
 ### EXO-15. Dynamics of timing variations  (P3)
 **open**
@@ -389,6 +401,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   free eccentricities with their degeneracy shown); a note in the guide on full N-body fits and which external
   tools do them.
 - **Accept:** a published near-resonant pair's TTV period and amplitudes reproduced within errors.
+- **Files:** `exoplanets/ttv.py`, `tests/test_exo_ttv.py`
 
 ### EXO-16. Validation  (P1)
 **open**
@@ -396,6 +409,7 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   published example results; the one-night fits against the AstroImageJ and ExoClock results for the same nights
   where public; EXO-6 against benchmark hosts; a table of all these in the guide's methods chapter.
 - **Accept:** `pytest -m validation` covers each engine with a real or reference case.
+- **Files:** `tests/validation/test_exoplanets_*.py`, `tests/validation/scripts/batman/`, `tests/validation/data/exoplanets/`
 
 ### EXO-17. Planets in context  (P2)
 **open**
@@ -403,12 +417,14 @@ P2: 8, 11, 13, 14, 17; P3: 15, 18.
   and composition curves (tables of Zeng et al. 2019, cited); period–radius and insolation–radius diagrams; all
   data from the cached archive table.
 - **Accept:** the plots draw offline from the cache; the planet's point equals the result table.
+- **Files:** `exoplanets/context.py`, `resources/data/mass_radius_curves.ecsv` (with its citation), `ui/exoplanets/panels/context.py`, tests
 
 ### EXO-18. Doppler tomography and transmission spectra  (P3)
 **open**
 - **Build:** listed for completeness of the comparison with EXOFASTv2: line-profile tomography of a transit (needs
   SPE-13's mean profiles as a time series) and depth-against-wavelength fits with a flat / sloped model; built
   only when a data set calls for them.
+- **Files:** `exoplanets/{tomography,transmission}.py` (only when built)
 
 ## Found while working
 

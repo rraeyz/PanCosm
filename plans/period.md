@@ -103,6 +103,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 - **Extra accept:** name → download → search → click a peak → folded curve in **four clicks**; arrow keys move
   between peaks; `2` and `H` fold at twice and half the period; all three plots stay above 30 fps with 10^6 points.
 - **Depends on:** ARC-4.6, ARC-5, ARC-6, ARC-8, UI-1 … UI-4, PER-1.
+- **Files:** `ui/lightcurves/{window,controller,state,menus}.py`, `ui/lightcurves/panels/{data,clean,search,fold,frequencies,report,peaks}.py` (jobs Minima and Variable search as sub-packages), `tests/ui/walks/lightcurves.py`, guide 07
 
 ### PER-1. The light-curve container and its sources  (P1)
 **open**
@@ -300,6 +301,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 - **Accept:** for the W UMa set the stitched curve equals lightkurve's `stitch()` of the same files within 1e-6
   relative (reference stored); the product table for a recorded target lists what MAST has.
 - **Depends on:** PER-1.
+- **Files:** `services/mast.py`, `timeseries/missions.py` (from `archive.py`, re-exported), `ui/lightcurves/panels/data.py`, `tests/test_missions.py`
 
 ### PER-8. GPU and native speed for search and significance  (P1)
 **open**
@@ -309,6 +311,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   `compute/thresholds.json` (ARC-10).
 - **Accept:** GPU = CPU within the documented tolerance for every kernel (tests under the software adapter); the
   budgets of PER-3; "auto" picks the faster path at the measured sizes.
+- **Files:** `native/src/{fold,dft}.rs`, `compute/{gls,dft,aov,entropy,tls,permutation}.py`, `compute/thresholds.json`, `tests/test_compute.py`, `tools/speed.py`
 
 ### PER-9. Time–frequency analysis  (P2)
 **open**
@@ -321,6 +324,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 - **Accept:** a synthetic chirp (period drifting 300 → 330 d) is traced within 2 %; a mode switching between two
   frequencies is shown at the right epoch; the Mira AAVSO set shows its known period change; WWZ 5000 points × 200
   frequencies × 200 times < 5 s CPU.
+- **Files:** `timeseries/timefreq.py`, `compute/wwz.py`, `ui/lightcurves/panels/timefreq.py`, `tests/test_timefreq.py`
 
 ### PER-10. Shapes and classes: Fourier parameters and a suggested type  (P2)
 **open**
@@ -334,6 +338,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   classes — never a silent label; RRab metallicity estimate only inside the published validity ("Dm" criterion).
 - **Accept:** on 30 stored survey curves of known class (RRab, RRc, DCEP, DSCT, EA, EB, EW, Mira) the suggestion
   matches the catalogue in ≥ 85 %, and where it differs the table shows which feature disagrees.
+- **Files:** `timeseries/shape.py`, `timeseries/classify.py`, `resources/data/class_boundaries.toml` (with citations), `tests/test_lc_shape.py`
 
 ### PER-11. Asteroid rotation: FALC and multi-night zero points  (P2)
 **open**
@@ -343,6 +348,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   light-time correction check.
 - **Accept:** the asteroid set's published period is recovered within its error; synthetic three-night data with
   zero-point errors of 0.05 mag recover the period.
+- **Files:** `timeseries/methods/falc.py`, `ui/lightcurves/panels/asteroid.py`, `tests/test_falc.py`
 
 ### PER-12. Injection and detection limits  (P2)
 **open**
@@ -351,6 +357,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   fraction; a contour plot of 50 % and 90 % detection; batch on the GPU.
 - **Accept:** on white noise the 50 % contour follows the analytic expectation for GLS within 20 %; a 30 × 30 grid
   with 20 injections each finishes in < 2 min on the GPU-less reference machine for 20 000 points.
+- **Files:** `timeseries/injection.py`, `ui/lightcurves/panels/limits.py`, `tests/test_injection.py`
 
 ### PER-13. Multi-band and sparse survey data together  (P2)
 **open**
@@ -360,6 +367,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   the readers and listed in the Clean history.
 - **Accept:** the sparse RR Lyrae set gives the catalogue period from the joint search where each single band
   alone gives an alias in at least one (asserted on the stored data).
+- **Files:** `timeseries/methods/multiband.py`, `services/lc_{ztf,asassn,atlas,gaia}.py` (cleaning presets), `tests/test_multiband.py`
 
 ### PER-14. Solar-like and classical pulsators: seismology basics  (P3)
 **open**
@@ -370,6 +378,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   slider), scaling-relation mass and radius with Teff; period spacing ΔΠ for g-mode pulsators (γ Dor) as a
   period-échelle diagram.
 - **Accept:** the Kepler solar-like set's published νmax and Δν within 3 %.
+- **Files:** `timeseries/seismology.py`, `ui/lightcurves/panels/seismology.py`, `tests/test_seismology.py`
 
 ### PER-15. Rotation and activity  (P3)
 **open**
@@ -379,6 +388,7 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   with a distance and band, energies; a table of flares.
 - **Accept:** synthetic spotted-star curves recover the rotation period within 5 % by both methods; injected
   flares above 5σ are found with ≥ 90 % completeness and < 5 % false positives.
+- **Files:** `timeseries/{rotation,flares}.py`, `tests/test_rotation.py`
 
 ### PER-16. Report  (P1)
 **open**
@@ -390,18 +400,21 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   and BAV-style summaries.
 - **Accept:** the report of the W UMa set and of the δ Scuti set compile and carry every number at the session's
   precision.
+- **Files:** `timeseries/report.py`, `resources/methods/period_*.txt`, `tests/test_period_report.py`
 
 ### PER-17. Period search for many stars  (P2)
 **open**
 - **Build:** batch mode behind PHO-30 and for a folder of light-curve files: one GPU / threaded batch across stars,
   a results table (best period, FAP, second peak, class suggestion) with thumbnails; export.
 - **Accept:** 2000 curves × 300 points × 20 000 frequencies < 2 min CPU, < 20 s GPU.
+- **Files:** `timeseries/batch.py`, `ui/lightcurves/variable_search/`, `tests/test_period_batch.py`
 
 ### PER-18. Uncommon methods on request  (P3)
 **open**
 - **Build:** Bayesian periodicity (Gregory & Loredo 1992), SuperSmoother (Reimann 1994), fast χ² (Palmer 2009),
   Bloomfield, Abbe; each only when a user asks or a comparison needs it — listed so that nothing of Peranso's
   list is missing without a reason.
+- **Files:** `timeseries/methods/{gregory_loredo,supersmoother,fastchi2,bloomfield,abbe}.py` (only when built)
 
 ## Found while working
 
