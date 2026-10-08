@@ -14,6 +14,7 @@ from astrowb.settings import Settings
 from astrowb.ui import i18n, theme
 
 
+@pytest.mark.slow
 @pytest.mark.skipif(not sys.platform.startswith("linux"), reason="sizes measured on Linux (see the module text)")
 @pytest.mark.parametrize("look", ["dark", "light"])
 @pytest.mark.parametrize("lang", ["en", "tr", "de", "es"])

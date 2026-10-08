@@ -211,6 +211,7 @@ def test_light_curve_files_and_fit_step(tmp_path):
     assert len(mt) == len(t)
 
 
+@pytest.mark.slow
 def test_mcmc_posterior_agrees_with_truth_and_least_squares():
     from astrowb.models import fit
 

@@ -16,6 +16,7 @@ T_MIN_JD = 2461000.40  # UTC JD of mid-eclipse
 
 def make(folder, n_lights=48, seed=7):
     """Writes raw/*.fits and truth.json into folder; returns the truth."""
+    import astropy.units as u
     from astropy.io import fits
     from astropy.time import Time
 
@@ -39,7 +40,7 @@ def make(folder, n_lights=48, seed=7):
         write(f"flat_V_{i:02d}.fits", noise(20000 * flat) + bias, "Flat Field", 2.0, {"FILTER": "V"})
     t0 = Time(T_MIN_JD - n_lights / 2 * 150 / 86400, format="jd", scale="utc")
     for i in range(n_lights):
-        start = t0 + i * 150 / 86400
+        start = t0 + i * 150 * u.s
         mid = start.jd + 30 / 86400
         depth = 0.45 * np.exp(-0.5 * ((mid - T_MIN_JD) / 0.012) ** 2)  # primary eclipse
         dx, dy = 0.04 * i, -0.03 * i  # slow drift
@@ -48,7 +49,6 @@ def make(folder, n_lights=48, seed=7):
             sky += f / (2 * np.pi * 2.0**2) * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.0**2))
         light = noise(sky * flat + dark_rate * 60) + bias
         write(f"light_V_{i:03d}.fits", light, "Light Frame", 60.0, {"FILTER": "V", "DATE-OBS": start.isot})
-    import astropy.units as u
     from astropy.coordinates import EarthLocation, SkyCoord
 
     from . import timing

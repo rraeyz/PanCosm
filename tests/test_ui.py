@@ -960,6 +960,7 @@ def test_image_right_click_menu(window, tmp_path):
     assert window._copy_position(29.0, 19.0) == "x=30.0 y=20.0" == QApplication.clipboard().text()
 
 
+@pytest.mark.slow
 def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
     """A user clicking anything in any order with nothing chosen: no unhandled error (dialogs answer Cancel)."""
     import subprocess
