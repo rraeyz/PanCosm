@@ -200,7 +200,7 @@ class ModelsPage(Undoable, QWidget):
             )
         )
         self.posterior_button.hide()
-        from .export import results_button
+        from .plot.export import results_button
 
         results = self.results_button = results_button(self, self.fit_table)
         buttons = QGridLayout()  # two per row: the page fits narrow windows in every language

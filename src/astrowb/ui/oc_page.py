@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .widgets import PlotCanvas, StepGuide, _title
+from .kit.widgets import PlotCanvas, StepGuide, _title
 
 
 def _decimals(err):
@@ -177,7 +177,7 @@ class OCPage(QWidget):
             self.tr("Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number")
         )
         lay.addWidget(self.fit_button)
-        from .export import results_button
+        from .plot.export import results_button
 
         self.fit_result = None
         self.background = None  # set by the main window: runs the MCMC as a task

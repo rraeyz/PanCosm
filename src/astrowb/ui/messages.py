@@ -82,6 +82,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
+    # core/state.py
+    QT_TRANSLATE_NOOP("Messages", "this session belongs to the {found} window, not to the {area} window"),
+    QT_TRANSLATE_NOOP("Messages", "this session was saved by a newer version of the application: update it to open it"),
+    QT_TRANSLATE_NOOP("Messages", "no way to read a session of version {version} of the {area} window"),
     QT_TRANSLATE_NOOP("Messages", "the stars of the frame do not match the Gaia stars around its pointing"),
     QT_TRANSLATE_NOOP("Messages", "the target is not a Gaia star of the field: mark it on the star"),
     # photometry/lightcurve.py

@@ -300,7 +300,7 @@ class PlotCanvas(QWidget):
 
     def export_publication(self, path=None):
         """Black on white whatever the screen theme: PDF / SVG / EPS, or PNG at 300 dpi."""
-        from .export import save_publication
+        from ..plot.export import save_publication
 
         if path is None:
             path, _ = QFileDialog.getSaveFileName(

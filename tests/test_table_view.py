@@ -2,7 +2,7 @@
 
 from PySide6.QtCore import Qt
 
-from astrowb.ui.table_view import DataTable
+from astrowb.ui.kit.table_view import DataTable
 
 
 def test_sort_filter_columns_marks_and_the_row_signal(qtbot):
@@ -31,7 +31,7 @@ def test_sort_filter_columns_marks_and_the_row_signal(qtbot):
 def test_plot_exports_its_numbers(qtbot, tmp_path):
     import csv
 
-    from astrowb.ui.widgets import PlotCanvas
+    from astrowb.ui.kit.widgets import PlotCanvas
 
     p = PlotCanvas()
     qtbot.addWidget(p)

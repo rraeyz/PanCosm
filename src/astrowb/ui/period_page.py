@@ -18,9 +18,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.widgets import PlotCanvas, StepGuide
 from .messages import translate
 from .undo import Undoable
-from .widgets import PlotCanvas, StepGuide
 
 
 class PeriodPage(Undoable, QWidget):

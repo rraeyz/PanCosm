@@ -154,7 +154,7 @@ def test_velocity_tab_shows_sb2(qtbot, tmp_path):
     assert "K2" in tab.status.text()
     ax, res = tab.plot.figure.axes  # velocities with both orbits, and the residuals panel below
     assert res.get_ylabel() == "O−C (km/s)" and len(ax.get_lines()) >= 3
-    from astrowb.ui.export import save_publication
+    from astrowb.ui.plot.export import save_publication
 
     out = save_publication(tab.plot.figure, tmp_path / "orbit.pdf")
     assert out.endswith("orbit.pdf") and (tmp_path / "orbit.pdf").stat().st_size > 1000

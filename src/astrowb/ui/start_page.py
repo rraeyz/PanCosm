@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..brand import BRAND
-from .widgets import _title, glyph
+from .kit.widgets import _title, glyph
 
 AREAS = [  # (key, symbol, name, what it does), in the order of the work through a night
     ("plan", "☾", QT_TRANSLATE_NOOP("Areas", "Planning"),

@@ -34,10 +34,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .undo import Undoable
 from .viewer import ImageViewer
-from .widgets import Collapsible, PlotCanvas, StepGuide, _title
 
 
 class PhotometryPage(Undoable, QWidget):

@@ -26,9 +26,9 @@ from PySide6.QtWidgets import (
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
+from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .undo import Undoable
-from .widgets import Collapsible, StepGuide, _title
 
 
 class CalibratePage(Undoable, QWidget):

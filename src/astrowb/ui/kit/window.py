@@ -222,8 +222,8 @@ class AreaWindow(QMainWindow):
         """Called on the GUI thread on every update of a tracked task (the main window routes them)."""
         if task.id not in self._tasks:
             return
-        from .messages import translate
-        from .step_names import step_name
+        from ..messages import translate
+        from ..step_names import step_name
 
         name = step_name(task.name)
         running = [t for t in self._tasks.values() if not t.finished]
@@ -293,7 +293,7 @@ class AreaWindow(QMainWindow):
             self.open_files(paths)
 
     def save_session(self, path):
-        from .. import __version__
+        from ... import __version__
 
         doc = {
             "area": self.key,
@@ -345,14 +345,14 @@ class AreaWindow(QMainWindow):
     def change_font(self, step):
         from PySide6.QtWidgets import QApplication
 
-        from . import theme
+        from .. import theme
 
         size = theme.change_font(QApplication.instance(), self.settings, step)
         self.statusBar().showMessage(self.tr("Text size: {pt:g} pt").format(pt=size))
         return size
 
     def report_problem(self, path=None):
-        from .report import report_dialog
+        from ..report import report_dialog
 
         return report_dialog(self, self.settings, getattr(self.parent(), "engine", None), path)
 
