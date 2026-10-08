@@ -291,7 +291,10 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   after UI-4. Python 3.13 in the matrix is left to ARC-3.
 
 ### ARC-3. Reproducible environment and early warning for dependency changes  (P1)
-**agent3 claimed (2026-11-10 16:40 UTC) — do not touch**
+**agent3 done (2026-11-10)**
+- **Result:** `uv.lock` exported to `requirements/{dev,build}.txt`, used by CI and the installers; upper major bounds;
+  weekly `latest-deps` run; licence table generated. Linux ARM gets its own pin (PySide6 6.8.0.2): later PySide6
+  wheels for ARM need a newer glibc than Ubuntu 22.04's, found by the first locked packaging run.
 - **Why:** ARC-1 was caused by a behaviour change in a dependency and found by accident. Installers are built from
   whatever is newest on the build day.
 - **Build:**
