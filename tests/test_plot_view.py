@@ -219,3 +219,15 @@ def test_data_behind_and_the_script_redraw_the_figure(tmp_path):
     env = {**os.environ, "MPLBACKEND": "Agg"}
     subprocess.run([sys.executable, "lc.py"], cwd=tmp_path, env=env, check=True, timeout=120)
     assert (tmp_path / "lc.pdf").stat().st_size > 1000
+
+
+def test_time_axis_as_ut_hours_and_phase(view):
+    view.original.panels[0].x.period, view.original.panels[0].x.epoch = 0.1, 2460512.0
+    view.set_time_mode("phase")
+    x = view.items[0]["x"]
+    assert x.min() >= 0 and x.max() < 1 and view.plots[0].getAxis("bottom").labelText == "phase"
+    assert view.plots[1].getAxis("bottom").labelText.startswith("BJD")  # no period: stays in BJD
+    view.set_time_mode("ut")
+    assert view.items[0]["x"][0] == pytest.approx(12.0) and view.plots[0].getAxis("bottom").labelText == "UT [h]"
+    view.set_time_mode("bjd")
+    assert view.offsets[id(view.plots[0].getViewBox())] == 2460000

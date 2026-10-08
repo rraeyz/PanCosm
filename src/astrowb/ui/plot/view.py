@@ -125,7 +125,15 @@ class PlotView(QWidget):
             self.set_figure(figure)
 
     # --- drawing ------------------------------------------------------------------
-    def set_figure(self, figure):
+    def set_time_mode(self, mode):
+        """Show time axes as "bjd", "ut" (hours of the night) or "phase" (when the axis has a period)."""
+        self.set_figure(self.original, keep=True) if mode == "bjd" else self.set_figure(
+            S.in_time_mode(self.original, mode), keep=True
+        )
+
+    def set_figure(self, figure, keep=False):
+        if not keep:
+            self.original = figure
         self.graphics.clear()
         self.figure, self.plots, self.items, self.offsets = figure, [], [], {}
         colours = figure.colours()

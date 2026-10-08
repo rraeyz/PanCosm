@@ -26,6 +26,8 @@ class AxisSpec:
     invert: bool = False
     time: str | None = None  # None, "bjd", "phase" or "ut"
     limits: tuple | None = None  # (low, high), None = fit the data
+    period: float | None = None  # with epoch, a time axis can also be shown as phase
+    epoch: float = 0.0
 
     def title(self, offset=0.0):
         """Axis title with the unit and, for times, the offset subtracted from the numbers."""
@@ -97,6 +99,29 @@ class FigureSpec:
             return v
 
         return plain(asdict(self))
+
+
+def in_time_mode(figure, mode):
+    """A copy of the figure whose time axes ("bjd") show `mode`: "bjd" (unchanged), "ut" (UT hours, 0-24, from the
+    Julian date; shortcut: BJD taken as UT, off by up to 8.3 min, fine for reading the night's hours) or "phase"
+    (needs the axis' period). Axes without a period keep their times when phase is asked."""
+    from copy import deepcopy
+
+    out = deepcopy(figure)
+    for panel in out.panels:
+        axis = panel.x
+        if axis.time != "bjd" or mode == "bjd" or (mode == "phase" and not axis.period):
+            continue
+        for s in panel.series:
+            if s.kind == "hline":
+                continue
+            if mode == "ut":
+                s.x = ((s.x - 0.5) % 1.0) * 24.0
+            else:
+                s.x = ((s.x - axis.epoch) / axis.period) % 1.0
+        axis.label, axis.unit, axis.time = ("UT", "h", "ut") if mode == "ut" else ("phase", "", "phase")
+        axis.limits = None
+    return out
 
 
 def time_offset(values, axis):
