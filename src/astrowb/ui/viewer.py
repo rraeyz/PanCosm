@@ -4,7 +4,7 @@ import threading
 
 import numpy as np
 from PySide6.QtCore import QPoint, QPointF, Qt, Signal
-from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
+from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import display_limits, render
@@ -49,12 +49,14 @@ class ImageViewer(QGraphicsView):
         self._drag_start, self._rubber = None, None
         self._pick, self._hover_rings, self._hover_items = False, [], []
         self._generation = 0
+        self.wcs, self.show_compass, self.orientation = None, True, (0.0, False, False)
         self._rendered.connect(self._full_rendered)
         self.empty_hint = ""  # said in the middle while no image is shown (a black view told a newcomer nothing)
 
-    def set_image(self, data: np.ndarray, keep_view=False):
+    def set_image(self, data: np.ndarray, keep_view=False, wcs=None):
         """keep_view: the next frame of a series (same size) stays at the user's zoom and place (frame browsing,
-        blinking); otherwise the image is fitted to the window."""
+        blinking); otherwise the image is fitted to the window. wcs: the frame's (compass, scale bar, North up)."""
+        self.wcs = wcs
         for name in list(self._overlays):  # overlays belong to the previous image
             self.set_overlay(name)
         same = keep_view and self.data is not None and self.data.shape == np.shape(data)
@@ -67,13 +69,70 @@ class ImageViewer(QGraphicsView):
         """No image shown (the last open image was closed)."""
         for name in list(self._overlays):
             self.set_overlay(name)
-        self.data = None
+        self.data, self.wcs = None, None
         self._generation += 1
         self._item.setPixmap(QPixmap())
         self.viewport().update()  # the empty hint comes back
 
+    # --- orientation (display only: the data never change) ------------------------------------------------
+    def set_wcs(self, wcs):
+        """The frame's WCS (None: none): enables North up, the compass and the scale bar."""
+        self.wcs = wcs
+        self.viewport().update()
+
+    def set_orientation(self, rotation=0.0, flip_x=False, flip_y=False):
+        """Turn (degrees, clockwise on the screen) and mirror the picture, keeping the zoom."""
+        self.orientation = (float(rotation), bool(flip_x), bool(flip_y))
+        t = self.transform()
+        zoom = abs(t.m11() * t.m22() - t.m12() * t.m21()) ** 0.5 or 1.0
+        from PySide6.QtGui import QTransform
+
+        new = QTransform()
+        new.rotate(rotation)
+        new.scale(-zoom if flip_x else zoom, -zoom if flip_y else zoom)
+        self.setTransform(new)
+        if self._fit_mode and self.data is not None:
+            self.fit()
+        self.viewport().update()
+
+    def north_up(self):
+        """North up, East left (as on the sky seen from below) when the frame has a WCS; returns whether it could."""
+        if self.wcs is None or self.data is None:
+            return False
+        from .image import orient
+
+        north, east, _ = orient.directions(self.wcs, self.data.shape)
+        rotation, flip = orient.north_up(north, east)
+        self.set_orientation(rotation, flip, False)
+        return True
+
+    def _draw_compass_and_bar(self, painter):
+        from .image import orient
+
+        north, east, arcsec = orient.directions(self.wcs, self.data.shape)
+        centre = self.mapToScene(self.viewport().rect().center())
+        origin = QPointF(46, self.viewport().height() - 46)
+        pen = QPen(QColor("#ffd54f"), 2)
+        painter.setPen(pen)
+        for vec, label in ((north, "N"), (east, "E")):
+            tip = self.mapFromScene(centre + QPointF(*vec) * 50) - self.mapFromScene(centre)
+            d = QPointF(tip) / max((tip.x() ** 2 + tip.y() ** 2) ** 0.5, 1e-9) * 32
+            painter.drawLine(origin, origin + d)
+            painter.drawText(origin + d * 1.3 + QPointF(-4, 5), label)
+        t = self.transform()
+        zoom = abs(t.m11() * t.m22() - t.m12() * t.m21()) ** 0.5 or 1.0
+        length, label = orient.scale_bar(arcsec / zoom)
+        right, bottom = self.viewport().width() - 24, self.viewport().height() - 24
+        painter.drawLine(QPointF(right - length, bottom), QPointF(right, bottom))
+        painter.drawText(QPointF(right - length / 2 - 10, bottom - 8), label)
+
     def drawForeground(self, painter, rect):
         super().drawForeground(painter, rect)
+        if self.data is not None and self.wcs is not None and self.show_compass:
+            painter.save()
+            painter.resetTransform()
+            self._draw_compass_and_bar(painter)
+            painter.restore()
         if self.data is None and self.empty_hint:
             painter.save()
             painter.resetTransform()  # viewport pixels: centred whatever the zoom

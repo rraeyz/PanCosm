@@ -496,7 +496,11 @@ the suite is green after each.
   screen-sized preview at once and their full resolution from a background thread. Result: first view 0.41 s (of
   which 0.3 s is the one-time Astropy import), level change visible in 72 ms, 16 384² mosaic 0.11 s, pan / zoom
   1.5–2 ms. **Changed from the plan:** no tile pyramid (item 1) — it would add a cache, a thread pool and tile
-  seams for no measured gain; revisit only if a frame larger than memory has to be shown. Items 2–9 continue.
+  seams for no measured gain; revisit only if a frame larger than memory has to be shown. Item 2 done in the
+  viewer: View → Orientation (North up / East left from the WCS — key N, turn 90°, mirror, original), compass and
+  scale bar (`ui/image/orient.py`, tests for four angles × both parities). The `DisplaySpec` object is left out:
+  the viewer's interval / stretch / limits / colour map / orientation attributes are that state, and ARC-5's store
+  holds them when the Images window moves. Items 3–9 continue.
 - **Why:** `ui/viewer.py` renders the whole image to one pixmap on every change of levels; 9k × 9k CMOS frames and
   mosaics are slow; overlays, tools and read-outs are wired differently in Images, Photometry and Spectroscopy.
 - **Reference:** DS9 (frames, lock by WCS / image, regions, magnifier, panner, pixel table, scales zscale / minmax /
