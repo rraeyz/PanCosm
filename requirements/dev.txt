@@ -75,8 +75,10 @@ click==8.5.1
     # via dask
 cloudpickle==3.1.2
     # via dask
-colorama==0.4.6 ; sys_platform == 'win32'
-    # via pytest
+colorama==0.4.6
+    # via
+    #   pyqtgraph
+    #   pytest
 contourpy==1.3.3 ; python_full_version < '3.12'
     # via matplotlib
 contourpy==1.4.0 ; python_full_version >= '3.12'
@@ -205,6 +207,7 @@ numpy==2.4.6 ; python_full_version < '3.12'
     #   photutils
     #   pims
     #   pyerfa
+    #   pyqtgraph
     #   rawpy
     #   rendercanvas
     #   reproject
@@ -238,6 +241,7 @@ numpy==2.5.4 ; python_full_version >= '3.12'
     #   photutils
     #   pims
     #   pyerfa
+    #   pyqtgraph
     #   rawpy
     #   rendercanvas
     #   reproject
@@ -295,6 +299,8 @@ pyparsing==3.3.3
 pyproj==3.7.2 ; python_full_version < '3.12'
     # via astrowb
 pyproj==3.8.0 ; python_full_version >= '3.12'
+    # via astrowb
+pyqtgraph==0.14.0
     # via astrowb
 pyside6-essentials==6.8.0.2 ; platform_machine == 'aarch64' and sys_platform == 'linux'
     # via astrowb
