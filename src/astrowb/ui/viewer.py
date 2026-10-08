@@ -1,13 +1,16 @@
 """Image viewer: pan (drag), zoom (wheel), stretch, pixel read-out."""
 
+import threading
+
 import numpy as np
 from PySide6.QtCore import QPoint, QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
-from ..display import render
+from ..display import display_limits, render
 
 RETICLE = 9  # screen pixels: arm of the fixed-size cross on a marked star on a zoomed-out frame
+PREVIEW_ABOVE = 8_000_000  # pixels: larger frames show a preview first and render in the background
 TINY = 4  # screen pixels: below this ring radius the rings cannot be seen and the cross shows the star instead
 
 
@@ -22,6 +25,7 @@ class ImageViewer(QGraphicsView):
     line_selected = Signal(float, float, float, float)
     # Shift + wheel while marking stars: +1 / -1 to make the measuring rings larger / smaller (the image keeps its zoom)
     rings_wheel = Signal(int)
+    _rendered = Signal(int, object)  # generation, full-resolution picture (from the render thread)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -44,6 +48,8 @@ class ImageViewer(QGraphicsView):
         self.tool = "pan"  # pan | aperture (clicks) | area | line (drags)
         self._drag_start, self._rubber = None, None
         self._pick, self._hover_rings, self._hover_items = False, [], []
+        self._generation = 0
+        self._rendered.connect(self._full_rendered)
         self.empty_hint = ""  # said in the middle while no image is shown (a black view told a newcomer nothing)
 
     def set_image(self, data: np.ndarray, keep_view=False):
@@ -62,6 +68,7 @@ class ImageViewer(QGraphicsView):
         for name in list(self._overlays):
             self.set_overlay(name)
         self.data = None
+        self._generation += 1
         self._item.setPixmap(QPixmap())
         self.viewport().update()  # the empty hint comes back
 
@@ -88,20 +95,60 @@ class ImageViewer(QGraphicsView):
         self.refresh()
 
     def refresh(self):
+        """Draw the data with the current display settings. A large frame shows a screen-sized preview at once and
+        its full resolution when a background thread has rendered it (60 MP: 0.1 s instead of 1 s)."""
         if self.data is None:
             return
-        pic = render(self.data, self.interval, self.stretch, self.limits, self.cmap, self.invert)  # FITS y up
+        data, self._generation = self.data, self._generation + 1
+        h, w = data.shape[:2]
+        self.scene().setSceneRect(0, 0, w, h)
+        args = (self.interval, self.stretch, self.limits, self.cmap, self.invert)
+        if data.size < PREVIEW_ABOVE:
+            self._show(render(data, *args))
+            return
+        limits = self.limits or display_limits(data, self.interval)  # the preview and the full picture alike
+        args = (self.interval, self.stretch, limits, self.cmap, self.invert)
+        step = max(2, int(np.ceil(max(h, w) / (2 * max(self.viewport().width(), self.viewport().height(), 800)))))
+        rows = (h - 1) // step + 1
+        # preview pixel centres on the centres of the data pixels they were taken from (rows flipped: FITS y up)
+        self._show(render(data[::step, ::step], *args), step, 0.5 - step / 2, h - 0.5 - (rows - 1) * step - step / 2)
+        generation = self._generation
+
+        def full():
+            try:
+                self._rendered.emit(generation, render(data, *args))
+            except RuntimeError:  # the viewer was closed or the program is closing: nothing to show it in
+                pass
+
+        threading.Thread(target=full, daemon=True).start()
+
+    def _full_rendered(self, generation, pic):
+        if generation == self._generation:  # not superseded by a newer image or new levels
+            self._show(pic)
+
+    def wait_rendered(self, timeout_ms=10_000):
+        """Wait until the full-resolution picture is shown (tests, saving what is on screen)."""
+        from PySide6.QtCore import QDeadlineTimer, QEventLoop
+        from PySide6.QtWidgets import QApplication
+
+        deadline = QDeadlineTimer(timeout_ms)
+        while self._item.scale() != 1 and not deadline.hasExpired():
+            QApplication.processEvents(QEventLoop.AllEvents, 50)
+
+    def _show(self, pic, scale=1, left=0.0, top=0.0):
+        """pic: uint8 grey or RGB, first row at the top; scale: data pixels per picture pixel (a preview)."""
         h, w = pic.shape[:2]
         if pic.ndim == 2:
             qimg = QImage(pic.data, w, h, w, QImage.Format_Grayscale8).copy()  # copy: numpy buffer is freed later
         else:
             qimg = QImage(pic.data, w, h, 3 * w, QImage.Format_RGB888).copy()
         self._item.setPixmap(QPixmap.fromImage(qimg))
-        self.scene().setSceneRect(0, 0, w, h)
+        self._item.setScale(scale)
+        self._item.setPos(left, top)
 
     def fit(self):
         self._fit_mode = True
-        self.fitInView(self._item, Qt.KeepAspectRatio)
+        self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
         self._update_reticles()
 
     def zoom(self, factor: float):
@@ -113,7 +160,7 @@ class ImageViewer(QGraphicsView):
     def resizeEvent(self, event):
         super().resizeEvent(event)
         if self._fit_mode and self.data is not None:
-            self.fitInView(self._item, Qt.KeepAspectRatio)
+            self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
         self._update_reticles()
 
     def _update_reticles(self):
