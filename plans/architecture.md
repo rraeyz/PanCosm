@@ -253,7 +253,7 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   end of the table's predictions, not a computed accuracy.
 
 ### ARC-2. Green baseline and test tiers  (P1)
-**open**
+**agent3 claimed (2026-11-10 15:30 UTC) — do not touch**
 - **Why:** on a fresh checkout `pytest` fails in 5 tests because the compiled translations (`*.qm`, git-ignored) do
   not exist until `python tools/i18n.py` runs; the suite takes 11 minutes, one test 78 s; agents skip it and push
   untested work (it happened: photometry 9b broke the IRAF validation in CI).
