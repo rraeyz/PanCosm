@@ -53,6 +53,29 @@ def test_help_menu_check_shows_the_report(qtbot, tmp_path, monkeypatch):
     shown = []
     monkeypatch.setattr(QMessageBox, "exec", lambda box: shown.append(box.detailedText()))
     monkeypatch.setattr(win, "run_step", lambda step, inputs, params, on_done: on_done(out))
-    win.check_installation()
+    from astrowb.ui import help_checks
+
+    help_checks.installation(win)
     assert shown and "SIMBAD" in shown[0]
     win.engine.shutdown()
+
+
+def test_gpu_check_step_writes_its_report(tmp_path, monkeypatch):
+    import json
+
+    from astrowb.compute import check
+    from astrowb.engine import builtin
+
+    def fake_report(found):
+        found["adapter"] = {"device": "Test GPU"}
+        found["jobs"] = [{"job": "stack", "cpu_s": 1.0, "gpu_s": 0.1, "same": True}]
+        yield "GPU found: Test GPU"
+        yield "1 of 1 GPU jobs work."
+
+    monkeypatch.setattr(check, "report", fake_report)
+    monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    ctx = type("Ctx", (), {"progress": lambda self, *a: None})()
+    out = builtin.app_check_gpu({}, {}, ctx)
+    saved = json.loads((tmp_path / "gpu-report.json").read_text())
+    assert out["path"] == str(tmp_path / "gpu-report.json") and "1 of 1" in out["report"]
+    assert saved["adapter"]["device"] == "Test GPU" and saved["jobs"][0]["same"] and saved["version"]

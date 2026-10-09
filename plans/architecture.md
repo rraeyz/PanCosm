@@ -623,7 +623,14 @@ the suite is green after each.
   `tests/test_native.py`, `THIRD_PARTY.md`.
 
 ### ARC-10. GPU kernels: the list, the rules, the check on real hardware  (P1)
-**open**
+**open** — items 1 and 3 done by agent3 (2026-11-10); item 2 waits for the owner's run on the RTX 4050
+- **Progress (agent3):** Help → "Check the GPU…" runs `compute.check.report` as a task (step `app.check_gpu`),
+  shows the table and saves `gpu-report.json` (version, adapter fields, per job CPU / GPU time and verdict) in the
+  settings folder; Report a problem puts it in the zip and names the compiled-routines state in `system.txt`. Rules
+  in `src/astrowb/compute/README.md` (the file is next to the code rather than under `compute/` at the top).
+  The Help menu moved out of `main_window.py` into `ui/help_checks.py` (with the installation check), so the main
+  window shrank. **For the owner:** Help → Check the GPU… on the laptop with the RTX 4050, then send the saved
+  `gpu-report.json` (or a problem report): the thresholds (item 2) are set from it.
 - **Ours now:** `compute/` with wgpu: clipped-mean combine, stack combine, BLS, PDM, Richardson–Lucy, k-means
   nearest; `--benchmark` and `tools/gpu_check.py`; software adapters refused in auto mode. Never measured on a real
   GPU.

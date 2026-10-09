@@ -88,8 +88,10 @@ def benchmark() -> list[str]:
     return list(report())
 
 
-def report():
-    """The report line by line, each as soon as it is known (the jobs take about a minute)."""
+def report(found=None):
+    """The report line by line, each as soon as it is known (the jobs take about a minute). found: a dict that
+    receives the same as data (adapter, jobs with times and verdicts) for gpu-report.json."""
+    found = {} if found is None else found
     set_mode("gpu")  # a software adapter is found too, and reported as one
     try:
         adapter = _adapter()
@@ -99,6 +101,8 @@ def report():
         yield "Every job runs on the CPU; nothing else to test."
         return
     info = adapter.info
+    found["adapter"] = {k: str(v) for k, v in dict(info).items()}
+    found["jobs"] = []
     software = info["adapter_type"] == "CPU"
     yield (f"GPU found: {info['device']} [{info['backend_type']}, {info['adapter_type']}]")
     if software:
@@ -119,6 +123,7 @@ def report():
         device()  # the GPU started before the clock does (0.4 s)
         out, t_gpu = _timed(gpu)
         if out is None:
+            found["jobs"].append({"job": name, "cpu_s": t_cpu, "gpu_s": None, "same": False})
             yield (f"  {name}: GPU FAILED ({describe()}), CPU {t_cpu:.2f} s")
             continue
         ref, out = np.asarray(ref), np.asarray(out)
@@ -132,6 +137,7 @@ def report():
             same = np.array_equal(np.isnan(ref), np.isnan(out)) and diff < 1e-3
             verdict = f"same result (largest difference {diff:.1e})" if same else f"DIFFERENT RESULT ({diff:.1e})"
         worked += same
+        found["jobs"].append({"job": name, "cpu_s": t_cpu, "gpu_s": t_gpu, "same": bool(same), "verdict": verdict})
         yield (f"  {name}: CPU {t_cpu:.2f} s, GPU {t_gpu:.2f} s ({t_cpu / t_gpu:.1f}x), {verdict}")
     yield (f"{worked} of {len(jobs)} GPU jobs work.")
     if not software:

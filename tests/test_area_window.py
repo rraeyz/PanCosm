@@ -154,10 +154,12 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     params = {"radius": 5.0, "dark": "/data/owner/dark.fits"}
     runs = [{"step": "photometry.measure", "params": params, "status": "failed", "error": error,
              "inputs": {"images": ["/x/y.fits"]}}]  # fmt: skip
+    (tmp_path / "cfg" / "gpu-report.json").write_text(json.dumps({"adapter": {"device": "RTX"}, "jobs": []}))
     out = make_report(settings, tmp_path / "report.zip", runs)
     with zipfile.ZipFile(out) as z:
         names = set(z.namelist())
-        assert {"error.log", "system.txt", "settings.json", "last_steps.json"} <= names
+        assert {"error.log", "system.txt", "settings.json", "last_steps.json", "gpu-report.json"} <= names
+        assert "compiled routines" in z.read("system.txt").decode()
         assert not [n for n in names if n.endswith((".fits", ".fz", ".png"))]
         text = "".join(z.read(n).decode() for n in names)
         steps = json.loads(z.read("last_steps.json"))
