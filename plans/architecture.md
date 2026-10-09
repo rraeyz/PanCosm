@@ -868,7 +868,17 @@ the suite is green after each.
 - **Files:** `core/units.py`, `timing.py`, `ui/shell/tools/converter.py`, tests, guide 13.
 
 ### ARC-16. Profiles: site, equipment, observer  (P1)
-**open**
+**open** — the first part (one profile, used by Planning, Observing, Photometry and both reports) done by agent3
+- **Progress (agent3, 2026-11-11):** `core/profiles.py`: one "Default" profile in the settings with `site`,
+  `camera` (gain, read noise, dark current, linearity, saturation) and `observer` (name, AAVSO code, MPC code,
+  observers, astrometric catalogue); the older `site` and `mpc` settings move in on first read. Planning and the
+  observatory set-up read and write the site there; the asteroid report its MPC code and observers; the AAVSO
+  report remembers the observer code (`ui/aavso_dialog.py`, moved out of `photometry_page.py`); Photometry takes
+  read noise, dark current and the linearity limit from the profile when the header lacks them and keeps what was
+  measured with. **Found while doing it:** two `Settings` objects on the same file undid each other's keys (each
+  wrote its whole stale copy); `Settings.set` now reads the file first. Pending: several profiles and the
+  Settings → Profiles window (UI-13), optics and filters, spectrograph, "Fill from a FITS header", the pixel-scale
+  check against a plate solution, copying the profile into a project.
 - **Ours now:** the Planning window's site (and `planning/sites.py`), gain / read noise typed in Photometry, observatory set-up JSON (`devices/setup.py`); settings in `settings.py`.
 - **Why:** AD-10.
 - **Reference:** N.I.N.A. profiles (equipment, astrometry, image file pattern, focal length, pixel size);

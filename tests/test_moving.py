@@ -91,7 +91,7 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
         text = (tmp_path / "r.psv").read_text(encoding="utf-8")
         assert text.count("|2026 VA12||CCD|A84|") == 6 and "! name B. Yardımcı" in text
         assert dlg.catalog.text() == "Tyc2" and text.count("|Tyc2") == 6 and "Gaia3" not in text
-        assert win.settings.get("mpc")["code"] == "A84"  # remembered for the next object
+        assert win.settings.get("profile")["observer"]["mpc_code"] == "A84"  # remembered for the next object
     finally:
         win.engine.shutdown()
 

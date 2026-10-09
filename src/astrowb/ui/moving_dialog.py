@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from ..core import profiles
 from .viewer import ImageViewer
 
 
@@ -66,7 +67,7 @@ class MovingObjectDialog(QDialog):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         lay.addWidget(self.table, 1)
-        saved = settings.get("mpc", {})
+        saved = profiles.section(settings, "observer")
         form = QFormLayout()
         self.designation = QLineEdit(self)
         self.designation.setPlaceholderText(self.tr("e.g. 2026 VA12, 433, or your own name for a new object"))
@@ -76,7 +77,7 @@ class MovingObjectDialog(QDialog):
                 "own for a new object"
             )
         )
-        self.code = QLineEdit(saved.get("code", ""), self)
+        self.code = QLineEdit(saved["mpc_code"], self)
         self.code.setPlaceholderText(self.tr("MPC observatory code, e.g. A84"))
         self.code.setToolTip(
             self.tr(
@@ -189,13 +190,12 @@ class MovingObjectDialog(QDialog):
         except ValueError as e:
             self.hint.setText(translate(str(e)))
             return None
-        self.settings.set(
-            "mpc",
-            {
-                "code": self.code.text().strip().upper(),
-                "observers": self.observers.text(),
-                "catalog": self.catalog.text().strip(),
-            },
+        profiles.update(
+            self.settings,
+            "observer",
+            mpc_code=self.code.text().strip().upper(),
+            observers=self.observers.text(),
+            catalog=self.catalog.text().strip(),
         )
         if path is None:
             path, _ = QFileDialog.getSaveFileName(self, self.tr("MPC report"), "ades.psv", "ADES PSV (*.psv *.txt)")

@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..core import profiles
 from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
@@ -73,7 +74,7 @@ class PlanPage(Undoable, QWidget):
         )
         lay.addWidget(self.guide)
 
-        site = self.settings.get("site", {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0})
+        site = profiles.section(self.settings, "site")
         grid = QGridLayout()
         self.site_name = QLineEdit(site["name"], self)
         self.site_name.setPlaceholderText(self.tr("observatory name, e.g. TUG, Roque de los Muchachos"))
@@ -374,7 +375,7 @@ class PlanPage(Undoable, QWidget):
         except ValueError as e:
             self.status.setText(translate(e))
             return
-        self.settings.set("site", self.site())
+        profiles.update(self.settings, "site", **self.site())
         self.settings.set("plan.utc_offset", self.utc_offset.value())
         self.status.setText(self.tr("Computing…"))
         self._planned = targets

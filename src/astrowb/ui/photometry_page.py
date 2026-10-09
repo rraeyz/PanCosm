@@ -9,10 +9,8 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDialog,
-    QDialogButtonBox,
     QDoubleSpinBox,
     QFileDialog,
-    QFormLayout,
     QGridLayout,
     QHBoxLayout,
     QHeaderView,
@@ -34,6 +32,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..core import profiles
+from ..settings import Settings
+from .aavso_dialog import AavsoDialog
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .undo import Undoable
@@ -1154,6 +1155,14 @@ class PhotometryPage(Undoable, QWidget):
         data, header, _ = read_image(self.images[0])
         from ..hdr import get as header_value
 
+        camera = profiles.section(Settings(), "camera")  # the profile's numbers, then the header's (ARC-16)
+        for w, key in (
+            (self.read_noise, "read_noise"),
+            (self.dark_current, "dark_current"),
+            (self.linearity, "linearity"),
+        ):
+            if camera[key]:
+                w.setValue(float(camera[key]))
         for w, keys in (
             (self.read_noise, ("RDNOISE", "READNOIS", "RDNOIS")),
             (self.dark_current, ("DARKCUR",)),
@@ -1845,6 +1854,9 @@ class PhotometryPage(Undoable, QWidget):
             params["fixed"] = [0]  # item 5: the target (star 0) follows the field
         if self.camera_noise.isChecked():
             params["camera"] = {"read_noise": self.read_noise.value(), "dark": self.dark_current.value()}
+            profiles.update(
+                Settings(), "camera", read_noise=self.read_noise.value(), dark_current=self.dark_current.value()
+            )
         if self.extras:
             params["extra_xy"] = [list(xy) for xy, _ in self.extras]
         self.result.setText(self.tr("Measuring…"))
@@ -3066,60 +3078,6 @@ class PhotometryPage(Undoable, QWidget):
         if path:
             export_csv(self.light_curve, path)
             self.next_requested.emit("orbits", str(path))
-
-
-class AavsoDialog(QDialog):
-    """The fields an AAVSO Extended report needs that the light curve does not know."""
-
-    FILTERS = ("V", "B", "R", "I", "CV", "CR", "TG", "TB", "TR", "SG", "SR", "SI", "U")
-
-    def __init__(self, n_comps, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle(self.tr("AAVSO report"))
-        form = QFormLayout(self)
-        self.star, self.obscode, self.mags = QLineEdit(self), QLineEdit(self), QLineEdit(self)
-        self.chart, self.notes = QLineEdit(self), QLineEdit(self)
-        self.filter = QComboBox(self)
-        self.filter.addItems(self.FILTERS)
-        self.mags.setPlaceholderText(self.tr("{n} values, e.g. 11.20, 11.85").format(n=n_comps))
-        self.notes.setToolTip(self.tr("Anything a reader of the data should know (clouds, Moon, instrument)"))
-        self.chart.setToolTip(self.tr("The identifier of the AAVSO chart (VSP) the comparison magnitudes come from"))
-        self.filter.setToolTip(self.tr("Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)"))
-        self.obscode.setToolTip(self.tr("Your AAVSO observer code"))
-        self.star.setToolTip(self.tr("The variable's name as in AAVSO's VSX, e.g. AI DRA"))
-        self.mags.setToolTip(
-            self.tr("The comparison stars' magnitudes from the AAVSO chart (VSP), in the order the stars were marked")
-        )
-        form.addRow(self.tr("Star name (AAVSO VSX)"), self.star)
-        form.addRow(self.tr("Observer code"), self.obscode)
-        form.addRow(self.tr("Filter"), self.filter)
-        form.addRow(self.tr("Catalogue magnitudes of the comparison stars"), self.mags)
-        self.check = QLineEdit(self)
-        self.check.setPlaceholderText(self.tr("label on the chart, e.g. 123"))
-        self.check.setToolTip(
-            self.tr(
-                "The first check star's label on the chart; its magnitude goes into the report as a test of"
-                " the comparison stars"
-            )
-        )
-        form.addRow(self.tr("Check star (KNAME)"), self.check)
-        form.addRow(self.tr("Chart ID"), self.chart)
-        form.addRow(self.tr("Notes"), self.notes)
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
-        form.addRow(buttons)
-
-    def values(self):
-        mags = [float(v) for v in self.mags.text().replace(";", ",").split(",") if v.strip()]
-        return {
-            "star_name": self.star.text().strip(),
-            "obscode": self.obscode.text().strip().upper(),
-            "filt": self.filter.currentText(),
-            "comp_mags": mags,
-            "chart": self.chart.text().strip() or "na",
-            "notes": self.notes.text().strip().replace(",", ";") or "na",
-        }
 
 
 def _without_frames(lc, excluded):
