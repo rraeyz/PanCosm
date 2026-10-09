@@ -8,7 +8,7 @@ fallback: gpu_richardson_lucy returns None whenever the GPU is not to be used, a
 
 import numpy as np
 
-from . import device, disable, max_binding_bytes
+from . import device, disable, max_binding_bytes, read_buffer
 
 GPU_MIN_PIXELS = 1_000_000  # below this the CPU's 20 iterations take under a second
 MAX_RADIUS = 256
@@ -117,7 +117,7 @@ def gpu_richardson_lucy(d, sigma, iterations, force=False):
                 cpass.dispatch_workgroups(gx, gy, 1)
                 cpass.end()
         dev.queue.submit([encoder.finish()])
-        result = np.frombuffer(dev.queue.read_buffer(u[int(iterations) % 2]), np.float32).reshape(h, w).copy()
+        result = np.frombuffer(read_buffer(dev, u[int(iterations) % 2]), np.float32).reshape(h, w).copy()
         for b in [data, *u, t1, t2, wbuf, *params]:
             b.destroy()
         return result

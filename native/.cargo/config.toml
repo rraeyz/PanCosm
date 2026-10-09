@@ -1,0 +1,7 @@
+# A Python extension on macOS leaves Python's symbols to be found when the interpreter loads it (maturin adds the
+# same flags; tools/build_native.py builds with plain cargo).
+[target.x86_64-apple-darwin]
+rustflags = ["-C", "link-arg=-undefined", "-C", "link-arg=dynamic_lookup"]
+
+[target.aarch64-apple-darwin]
+rustflags = ["-C", "link-arg=-undefined", "-C", "link-arg=dynamic_lookup"]

@@ -13,7 +13,7 @@ whenever the GPU is not to be used (the caller uses astropy).
 
 import numpy as np
 
-from . import device, disable, dispatch_size, max_binding_bytes
+from . import device, disable, dispatch_size, max_binding_bytes, read_buffer
 
 GPU_MIN_WORK = 20_000_000  # points x periods
 CHUNK = 256  # periods sharing one float64 phase
@@ -166,7 +166,7 @@ def gpu_bls_power(t, y, ivar, periods, durations, oversample=10, force=False):
             cp.dispatch_workgroups(*groups)
             cp.end()
             dev.queue.submit([enc.finish()])
-            out[g0:g1] = np.frombuffer(dev.queue.read_buffer(result), np.float32)
+            out[g0:g1] = np.frombuffer(read_buffer(dev, result), np.float32)
             for b in (b_base, b_per, b_par, scratch, result):
                 b.destroy()
         for b in made:
