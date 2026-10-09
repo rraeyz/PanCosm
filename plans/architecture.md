@@ -684,7 +684,16 @@ the suite is green after each.
   `resources/methods/*.txt`, `ui/shell/project/…`, tests.
 
 ### ARC-12. Scripting surface: Python API and command line  (P1)
-**open**
+**open** — item 2 done by agent3 (2026-11-10) except `session`
+- **Progress (agent3):** `src/astrowb/cli.py`: `astrowb-cli steps | help <step> | run <step> key=value … |
+  recipe <automation.json> --set key=value …`, `--project`, `--json`, `--quiet`; values read as JSON when they are
+  JSON; unknown keys and missing inputs refused before anything runs; exit codes 0 / 2 / 3 / 4 (a step's own
+  failure is 3; Python's fault types — TypeError, AttributeError, … — are 4 and go to `error.log`). Recipes are
+  the existing automation files (`engine/automation.py`), as the plan says ("extended, not replaced"). Five steps
+  without a docstring got one (they showed an empty line in `steps`). `__main__.main` split: start-up and the
+  command line in `main`, the window and its options in `_app`. Pending: `session --run` (needs the windows on
+  ARC-5), the API module (item 1), Save as recipe / Copy as Python (item 3), generated docs (item 4); parameters
+  have no units in the registry yet, so `help` shows defaults only.
 - **Ours now:** `__main__.py` (argparse: files, `--smoke-test`, `--benchmark`, `--check-online`, `--observatory`), `engine/automation.py` (run chains), project re-run in the Project page.
 - **Why:** AD-11; `astrowb-cli` only opens files, runs the smoke test, the benchmark and the observatory.
 - **Reference:** IRAF CL scripts and parameter files; `siril-cli -s script`; AstroImageJ macros; PypeIt's

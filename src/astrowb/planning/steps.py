@@ -12,6 +12,7 @@ from .visibility import Site, airmass, altitudes, events, moon, night, night_gri
 
 @step("planning.resolve", inputs=("name", "cache_file"), outputs=("target",))
 def resolve_step(inputs, params, ctx):
+    """Coordinates of a target name (SIMBAD), kept in a cache file for later nights."""
     return {"target": asdict(Resolver(inputs["cache_file"]).resolve(inputs["name"]))}
 
 

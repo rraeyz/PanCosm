@@ -18,6 +18,7 @@ from .steps import step
     "fits.save_as", inputs=("source", "destination"), outputs=("destination",), overwrite=False, set_cards={}, delete=[]
 )
 def fits_save_as(inputs, params, ctx):
+    """A copy of a FITS file, with header cards set or deleted on the way."""
     ctx.progress(0.0, "writing")
     out = fitsio.save_as(
         inputs["source"],
