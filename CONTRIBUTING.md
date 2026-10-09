@@ -22,6 +22,7 @@ You keep the copyright of your contribution. Please say so in the pull request i
 ```bash
 python -m venv .venv && . .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e ".[gui,dev]"
+python tools/build_native.py   # optional: the compiled routines (Rust, native/README.md); NumPy twins run without
 sh tools/precommit.sh     # ruff check, ruff format --check, brand guard, translations, tests
 python -m astrowb --smoke-test /tmp/smoke   # QT_QPA_PLATFORM=offscreen on a machine without a display
 ```

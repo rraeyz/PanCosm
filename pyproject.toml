@@ -55,6 +55,7 @@ path = "src/astrowb/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/astrowb"]
+artifacts = ["src/astrowb/_native.*"]  # the compiled routines, built by tools/build_native.py (git ignores them)
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,0 +1,21 @@
+[package]
+name = "astrowb_native"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+description = "Compiled routines of the application (plans/architecture.md ARC-9); every one has a NumPy twin."
+
+[lib]
+name = "_native"
+crate-type = ["cdylib"]
+
+[dependencies]
+# licences: MIT or Apache-2.0 only
+pyo3 = { version = "0.30", features = ["extension-module", "abi3-py311"] }
+numpy = "0.30"
+rayon = "1.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
