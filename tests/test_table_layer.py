@@ -38,10 +38,10 @@ def test_writers_read_back_and_latex_rounds_by_the_error(tmp_path):
         back = Table.read(T.write(t, tmp_path / f"m{ext}"), format=fmt)
         assert list(back["cycle"]) == [0, 1, 2, 3] and back["bjd"][0] == pytest.approx(2460512.123456)
     assert Table.read(tmp_path / "m.ecsv")["bjd"].unit == u.day
-    tex = T.write(t, tmp_path / "m.tex", caption="Times of minimum").read_text()
+    tex = T.write(t, tmp_path / "m.tex", caption="Times of minimum").read_text(encoding="utf-8")
     assert r"\colhead{bjd [d]}" in tex and r"2460512.12346 $\pm$ 0.00012 & I \\" in tex
     assert r"\tablecaption{Times of minimum}" in tex and "bjd_err" not in tex
-    md = T.write(t, tmp_path / "m.md").read_text().splitlines()
+    md = T.write(t, tmp_path / "m.md").read_text(encoding="utf-8").splitlines()
     assert md[0] == "| cycle | bjd [d] | type |" and md[2].startswith("| 0 | 2460512.12346 ± 0.00012 | I |")
     with pytest.raises(ValueError):
         T.write(t, tmp_path / "m.fits")
