@@ -90,6 +90,309 @@
     </message>
 </context>
 <context>
+    <name>Advice</name>
+    <message>
+        <location filename="../../ui/advice.py" line="14"/>
+        <source>Check the safety monitor&apos;s cable or network and its driver; the telescope stays parked until it answers.</source>
+        <translation>Güvenlik izleyicisinin kablosunu ya da ağını ve sürücüsünü denetleyin; yanıt verene dek teleskop park konumunda kalır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="18"/>
+        <source>Wait until the weather clears, or check the monitor&apos;s limits in the observatory set-up.</source>
+        <translation>Hava açılana dek bekleyin ya da gözlemevi kurulumunda izleyicinin sınırlarını denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="21"/>
+        <source>Check that the device is switched on and connected; restart its driver (INDI / ASCOM Alpaca).</source>
+        <translation>Aygıtın açık ve bağlı olduğunu denetleyin; sürücüsünü (INDI / ASCOM Alpaca) yeniden başlatın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="24"/>
+        <source>Check that the mount is not blocked or parked and that its driver reports the slew, then try again.</source>
+        <translation>Kundağın engellenmediğini ya da park konumunda olmadığını ve sürücüsünün dönüşü bildirdiğini denetleyin, sonra yeniden deneyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="27"/>
+        <source>Add it in the observatory set-up (Observe window), then start the observatory again.</source>
+        <translation>Gözlemevi kurulumunda (Gözlem penceresi) ekleyin, sonra gözlemevini yeniden başlatın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="30"/>
+        <source>Wait until it finishes, or stop it in the Observe window first.</source>
+        <translation>Bitmesini bekleyin ya da önce Gözlem penceresinde durdurun.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="31"/>
+        <source>Press Resume in the Observe window when it is safe again.</source>
+        <translation>Yeniden güvenli olduğunda Gözlem penceresinde Sürdür'e basın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="32"/>
+        <source>Copy the token from the observatory computer&apos;s set-up into the Observe window.</source>
+        <translation>Belirteci gözlemevi bilgisayarındaki kurulumdan Gözlem penceresine kopyalayın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="35"/>
+        <source>Enter the site in the observatory set-up: latitude −90 to 90°, longitude −180 to 180° (east positive).</source>
+        <translation>Gözlem yerini gözlemevi kurulumuna girin: enlem −90 ile 90°, boylam −180 ile 180° arası (doğu artı).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="39"/>
+        <source>Keep one device of each kind in the observatory set-up.</source>
+        <translation>Gözlemevi kurulumunda her türden yalnızca bir aygıt bırakın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="40"/>
+        <source>The driver does not offer it: check the driver&apos;s version and settings.</source>
+        <translation>Sürücü bunu sunmuyor: sürücünün sürümünü ve ayarlarını denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="43"/>
+        <source>Check the focus, the exposure time, and that the dome slit and cover are open.</source>
+        <translation>Odağı, poz süresini ve kubbe yarığı ile kapağın açık olduğunu denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="46"/>
+        <source>Focus again (focus run in the Observe window), or check tracking and guiding.</source>
+        <translation>Yeniden odaklayın (Gözlem penceresinde odak taraması) ya da izlemeyi ve kılavuzlamayı denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="49"/>
+        <source>Look at the sky or the cloud sensor; wait, or expose longer.</source>
+        <translation>Gökyüzüne ya da bulut algılayıcısına bakın; bekleyin ya da daha uzun poz verin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="50"/>
+        <source>Twilight or moonlight: wait, or take the planned flats now.</source>
+        <translation>Alacakaranlık ya da ay ışığı: bekleyin ya da planlanan düz alan (flat) karelerini şimdi çekin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="51"/>
+        <source>Widen the focus range or add steps, so that stars are measured on both sides of the best focus.</source>
+        <translation>Odak aralığını genişletin ya da adım ekleyin; yıldızlar en iyi odağın iki yanında da ölçülsün.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="54"/>
+        <source>Check the network and that indiserver is still running, then connect again.</source>
+        <translation>Ağı ve indiserver'ın hâlâ çalıştığını denetleyin, sonra yeniden bağlanın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="57"/>
+        <source>Check that PHD2 is running with its server switched on (Tools → Enable Server).</source>
+        <translation>PHD2'nin sunucusu açık olarak çalıştığını denetleyin (Tools → Enable Server).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="60"/>
+        <source>Check that PHD2 is still running with its server switched on, then connect again.</source>
+        <translation>PHD2'nin sunucusu açık olarak hâlâ çalıştığını denetleyin, sonra yeniden bağlanın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="63"/>
+        <source>Check the guide star and the seeing; allow a larger settle distance if guiding is otherwise good.</source>
+        <translation>Kılavuz yıldızı ve görüşü denetleyin; kılavuzlama başka açıdan iyiyse daha büyük bir oturma uzaklığına izin verin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="66"/>
+        <source>Check the camera&apos;s cable and power, and restart its driver.</source>
+        <translation>Kameranın kablosunu ve gücünü denetleyin, sürücüsünü yeniden başlatın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="69"/>
+        <source>Use one of the wheel&apos;s filter names, or rename the filter in the wheel&apos;s driver.</source>
+        <translation>Çarktaki süzgeç adlarından birini kullanın ya da süzgecin adını çarkın sürücüsünde değiştirin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="73"/>
+        <source>Use frames of one camera with the same binning and sub-frame, or crop / bin them in the Images window.</source>
+        <translation>Aynı birleştirme (binning) ve alt çerçeveyle tek bir kameranın karelerini kullanın ya da onları Görüntüler penceresinde kırpın / birleştirin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="77"/>
+        <source>Add the exposure time with the header editor of the Images window (keyword EXPTIME, in seconds).</source>
+        <translation>Poz süresini Görüntüler penceresinin başlık düzenleyicisiyle ekleyin (anahtar sözcük EXPTIME, saniye).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="80"/>
+        <source>Keep darks of one exposure time together, or add bias frames so that darks can be scaled.</source>
+        <translation>Aynı poz süreli karanlık kareleri bir arada tutun ya da karanlıkların ölçeklenebilmesi için bias kareleri ekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="83"/>
+        <source>Check the flat&apos;s exposure (it may be empty) and that the right bias and dark were subtracted.</source>
+        <translation>Düz alan karesinin pozunu (boş olabilir) ve doğru bias ile karanlığın çıkarıldığını denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="86"/>
+        <source>The frame is empty (only NaN): check the file, or the processing that made it.</source>
+        <translation>Kare boş (yalnızca NaN): dosyayı ya da onu üreten işlemi denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="90"/>
+        <source>Check the pointing (OBJCTRA / OBJCTDEC) and the pixel scale in the header, or plate-solve with ASTAP.</source>
+        <translation>Başlıktaki yönelimi (OBJCTRA / OBJCTDEC) ve piksel ölçeğini denetleyin ya da ASTAP ile plaka çözümleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="94"/>
+        <source>The solver gave up: check its star database and the frame&apos;s pointing, then solve again.</source>
+        <translation>Çözücü vazgeçti: yıldız veritabanını ve karenin yönelimini denetleyip yeniden çözümleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="97"/>
+        <source>Give the frame a pointing (OBJCTRA / OBJCTDEC) and a pixel scale, so the solver searches a small area.</source>
+        <translation>Kareye bir yönelim (OBJCTRA / OBJCTDEC) ve piksel ölçeği verin; çözücü küçük bir alanda arasın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="101"/>
+        <source>The service may be busy or the network slow: try again later.</source>
+        <translation>Hizmet yoğun ya da ağ yavaş olabilir: daha sonra yeniden deneyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="104"/>
+        <source>Use a longer exposure or a frame with more stars.</source>
+        <translation>Daha uzun poz ya da daha çok yıldızlı bir kare kullanın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="107"/>
+        <source>Check that the plate solution is roughly right (solve again) and that the stars are not trailed.</source>
+        <translation>Plaka çözümünün kabaca doğru olduğunu (yeniden çözümleyin) ve yıldızların iz bırakmadığını denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="110"/>
+        <source>Check the spelling, or give the coordinates (e.g. 12 34 56.7 +45 06 07).</source>
+        <translation>Yazımı denetleyin ya da koordinatları verin (ör. 12 34 56.7 +45 06 07).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="113"/>
+        <source>Check the internet connection, or give the coordinates yourself.</source>
+        <translation>İnternet bağlantısını denetleyin ya da koordinatları kendiniz verin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="116"/>
+        <source>Check the spelling (e.g. &apos;V0523 Cas&apos;), or enter the coordinates and the period yourself.</source>
+        <translation>Yazımı denetleyin (ör. 'V0523 Cas') ya da koordinatları ve dönemi kendiniz girin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="119"/>
+        <source>Check the name (e.g. &apos;HAT-P-32 b&apos;, with the planet&apos;s letter), or enter T0, period and duration yourself.</source>
+        <translation>Adı denetleyin (ör. 'HAT-P-32 b', gezegenin harfiyle) ya da T0, dönem ve süreyi kendiniz girin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="123"/>
+        <source>That mission may not have observed the target: try another mission, or check the name.</source>
+        <translation>O görev hedefi gözlememiş olabilir: başka bir görev deneyin ya da adı denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="127"/>
+        <source>Leave out frames where a star is lost (clouds, frame edge), or mark brighter comparison stars.</source>
+        <translation>Bir yıldızın kaybolduğu kareleri dışarıda bırakın (bulut, kare kenarı) ya da daha parlak karşılaştırma yıldızları işaretleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="130"/>
+        <source>Use frames with more stars (longer exposure, clearer sky).</source>
+        <translation>Daha çok yıldızlı kareler kullanın (daha uzun poz, daha açık gök).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="133"/>
+        <source>Observe the field over a wider range of altitudes, or use a typical extinction coefficient for the site.</source>
+        <translation>Alanı daha geniş bir yükseklik aralığında gözleyin ya da gözlem yeri için tipik bir sönümleme katsayısı kullanın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="137"/>
+        <source>Put a frame with more stars first, or check its focus and exposure.</source>
+        <translation>Başa daha çok yıldızlı bir kare koyun ya da odağını ve pozunu denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="140"/>
+        <source>Measure frames whose headers hold their observation time (DATE-OBS).</source>
+        <translation>Başlığında gözlem zamanı (DATE-OBS) bulunan kareleri ölçün.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="143"/>
+        <source>Choose the light curves of at least two nights.</source>
+        <translation>En az iki gecenin ışık eğrilerini seçin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="144"/>
+        <source>Check that it is the right file and that its columns are the ones the Guide describes.</source>
+        <translation>Doğru dosya olduğunu ve sütunlarının Kılavuz'da anlatılanlar olduğunu denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="147"/>
+        <source>Save the table with a time column and a value column (CSV or text, one row per point).</source>
+        <translation>Tabloyu bir zaman ve bir değer sütunuyla kaydedin (CSV ya da metin, her nokta bir satır).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="150"/>
+        <source>Save the light curve as two columns, time (or phase) and flux, one row per point.</source>
+        <translation>Işık eğrisini iki sütun olarak, zaman (ya da evre) ve akı, her nokta bir satır olacak biçimde kaydedin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="153"/>
+        <source>This file has no usable points: download another sector or another pipeline&apos;s light curve.</source>
+        <translation>Bu dosyada kullanılabilir nokta yok: başka bir sektörü ya da başka bir işlem hattının ışık eğrisini indirin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="157"/>
+        <source>Add more times of minimum spanning several years (your own and published ones).</source>
+        <translation>Birkaç yıla yayılan daha çok minimum zamanı ekleyin (kendinizinkiler ve yayımlanmış olanlar).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="160"/>
+        <source>Add secondary minima (type II) as well as primary ones.</source>
+        <translation>Birincil minimumların yanında ikincil minimumları (tür II) da ekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="163"/>
+        <source>Add more times of minimum.</source>
+        <translation>Daha çok minimum zamanı ekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="164"/>
+        <source>Add more measures of position angle and separation (e.g. from the WDS).</source>
+        <translation>Daha çok konum açısı ve ayrıklık ölçümü ekleyin (ör. WDS'den).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="168"/>
+        <source>Choose a template that covers the spectrum&apos;s wavelengths, or a narrower velocity range.</source>
+        <translation>Tayfın dalga boylarını kapsayan bir şablon ya da daha dar bir hız aralığı seçin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="171"/>
+        <source>Choose a reference spectrum that covers the same wavelengths.</source>
+        <translation>Aynı dalga boylarını kapsayan bir başvuru tayfı seçin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="174"/>
+        <source>Check that the file holds a 1-D spectrum, or extract it first from the 2-D frame.</source>
+        <translation>Dosyanın 1-B bir tayf içerdiğini denetleyin ya da önce 2-B kareden çıkarın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="178"/>
+        <source>Check that the drive is connected and that the folder was not moved or renamed.</source>
+        <translation>Sürücünün bağlı olduğunu ve klasörün taşınmadığını ya da adının değişmediğini denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="181"/>
+        <source>Update the application to open this project.</source>
+        <translation>Bu projeyi açmak için uygulamayı güncelleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="184"/>
+        <source>Fill in the inputs named here, then run it again.</source>
+        <translation>Burada adı geçen girdileri doldurun, sonra yeniden çalıştırın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="187"/>
+        <source>Install the plugin that provides the step, or take the step out of the automation.</source>
+        <translation>Adımı sağlayan eklentiyi kurun ya da adımı otomasyondan çıkarın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/advice.py" line="190"/>
+        <source>Every job runs on the CPU; a newer graphics driver may make the GPU usable.</source>
+        <translation>Her iş CPU'da çalışır; daha yeni bir ekran kartı sürücüsü GPU'yu kullanılabilir kılabilir.</translation>
+    </message>
+</context>
+<context>
     <name>App</name>
     <message>
         <location filename="../../__main__.py" line="185"/>
@@ -368,13 +671,13 @@
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="89"/>
-        <location filename="../../ui/report.py" line="99"/>
+        <location filename="../../ui/report.py" line="95"/>
+        <location filename="../../ui/report.py" line="105"/>
         <source>Report a problem</source>
         <translation>Sorun bildir</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="100"/>
+        <location filename="../../ui/report.py" line="106"/>
         <source>The report is saved:
 {path}
 
@@ -4217,7 +4520,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/help_checks.py" line="28"/>
         <source>Check the &amp;GPU…</source>
-        <translation>&amp;GPU'yu denetle…</translation>
+        <translation>&amp;GPU&apos;yu denetle…</translation>
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="30"/>
@@ -12837,7 +13140,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/step_names.py" line="8"/>
         <source>Check the GPU</source>
-        <translation>GPU'yu denetle</translation>
+        <translation>GPU&apos;yu denetle</translation>
     </message>
     <message>
         <location filename="../../ui/step_names.py" line="9"/>

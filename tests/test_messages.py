@@ -192,3 +192,27 @@ def test_task_error_drops_the_generic_value_error_name():
     trace = 'Traceback (most recent call last):\n  File "x.py", line 1, in f\n    g()\n'
     trace += "ValueError: identify at least two lines"
     assert task_error(trace) == "identify at least two lines"
+
+
+def test_advice_belongs_to_real_templates_and_is_found_for_a_message():
+    from astrowb.ui.advice import ADVICE, advice
+    from astrowb.ui.messages import TEMPLATES
+
+    assert len(ADVICE) >= 60 and not set(ADVICE) - set(TEMPLATES)
+    assert advice("VSX does not know 'XX Zzz'").startswith("Check the spelling")
+    assert advice("TargetError: SIMBAD does not know 'Vega X'").startswith("Check the spelling")
+    assert advice("frames have different sizes: (10, 10), (20, 20)").startswith("Use frames of one camera")
+    assert advice("something nobody wrote") == ""
+
+
+def test_the_failure_dialog_gets_the_advice_of_a_worker_error():
+    from astrowb.ui.advice import for_trace
+
+    trace = (
+        "Traceback (most recent call last):\n"
+        '  File "x.py", line 1, in step\n'
+        "    raise ValueError(...)\n"
+        "ValueError: VSX does not know 'XX Zzz'\n"
+    )
+    assert for_trace(trace).startswith("\n\nCheck the spelling")
+    assert for_trace("Traceback ...\nValueError: nothing known\n") == ""

@@ -722,7 +722,13 @@ the suite is green after each.
 - **Depends on:** ARC-5 for the session part.
 
 ### ARC-13. Errors by code  (P1)
-**open — reduced (agent3, 2026-11-10, see "Changed from the plan")**
+**open — reduced (agent3, 2026-11-10, see "Changed from the plan")**; reduced items 1 and 4 done by agent3
+- **Progress (agent3):** `ui/advice.py`: 61 advices (observatory and devices, calibration, solving and catalogues,
+  photometry, minima and orbits, spectroscopy, files) for the templates whose text does not already say what to
+  do, all in Turkish; `advice(message)`, `for_trace(traceback)`; the Task failed dialog shows the advice under the
+  error. `messages.error_line()` split out of `task_error()` (the English line, untranslated). Tests: every advice
+  belongs to a real template; messages with and without a type find their advice. Pending: `ui/kit/errors.py`
+  (reduced item 2, with UI-3) and `core.errors.AppError` (reduced item 3, when a raise is touched).
 - **Why:** AD-7. `ui/messages.py` matches English engine messages against 400 templates with regular expressions.
 - **Build:**
   1. `core/errors.py`: `class AppError(Exception)` with `code` (dotted, e.g. `photometry.star_off_frame`), `values`

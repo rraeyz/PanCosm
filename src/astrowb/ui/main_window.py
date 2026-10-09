@@ -25,7 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import help_checks
+from . import advice, help_checks
 from .files import images_filter
 from .i18n import LANGUAGES
 from .kit.widgets import bar_menu
@@ -2260,7 +2260,7 @@ class MainWindow(QMainWindow):
             box = QMessageBox(
                 QMessageBox.Warning,
                 self.tr("Task failed"),
-                f"{step_name(task.name)}\n\n{task_error(task.error)}",
+                f"{step_name(task.name)}\n\n{task_error(task.error)}{advice.for_trace(task.error)}",
                 parent=self,
             )
             box.setDetailedText(str(task.error))  # the full traceback, for reports
