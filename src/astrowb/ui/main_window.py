@@ -25,7 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import advice, help_checks
+from . import advice, help_checks, online_actions
 from .files import images_filter
 from .i18n import LANGUAGES
 from .kit.widgets import bar_menu
@@ -1709,15 +1709,7 @@ class MainWindow(QMainWindow):
             group.addAction(act)
 
         s.addSeparator()
-        self.time_tables_action = QAction(self.tr("Keep the Earth-rotation tables up to date (weekly)"), self)
-        self.time_tables_action.setCheckable(True)
-        self.time_tables_action.setChecked(bool(self.settings.get("time.auto_refresh", True)))
-        self.time_tables_action.setToolTip(
-            self.tr("Once a week, when online, about 3 MB from the IERS. Altitudes and airmass need them; BJD does not")
-        )
-        self.time_tables_action.toggled.connect(lambda on: self.settings.set("time.auto_refresh", on))
-        s.addAction(self.time_tables_action)
-        self._action(s, self.tr("Update the Earth-rotation tables now"), self.update_time_tables)
+        online_actions.add(self, s)
         text_menu = s.addMenu(self.tr("Text size"))  # View → Text size in the area windows
         sizes = (
             (self.tr("&Larger text"), 1, "Ctrl+Shift++"),

@@ -103,7 +103,11 @@ def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_l
             return tables[0] if len(tables) else []
 
         def query(*args):
-            return cds("vizier", lambda server: ask(server, *args))
+            from .services.cache import cached
+
+            return cached(
+                "vizier", ("cone", *args, row_limit), lambda: cds("vizier", lambda server: ask(server, *args))
+            )
 
     esa = catalogue == "gaia" and default  # the ESA Gaia archive can stand in for VizieR
     try:
@@ -273,8 +277,13 @@ def dss_image(ra, dec, fov_deg=0.3, size=800, fetch=None):
     if fetch is None:
 
         def fetch(url):
-            with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
-                return r.read()
+            from .services.cache import cached
+
+            def now():
+                with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
+                    return r.read()
+
+            return cached("hips2fits", url, now)
 
     with fits.open(io.BytesIO(fetch(HIPS2FITS + "?" + urllib.parse.urlencode(params)))) as hdul:
         return np.asarray(hdul[0].data, float), WCS(hdul[0].header).celestial
@@ -380,8 +389,13 @@ def minor_planets(ra, dec, radius_deg, jd, mag_limit=None, fetch=None):
     if fetch is None:
 
         def fetch(url):
-            with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
-                return r.read().decode("utf-8", errors="replace")
+            from .services.cache import cached
+
+            def now():
+                with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
+                    return r.read().decode("utf-8", errors="replace")
+
+            return cached("skybot", url, now)
 
     found = parse_skybot(fetch(url))
     return [p for p in found if mag_limit is None or p["mag"] is None or p["mag"] <= mag_limit]

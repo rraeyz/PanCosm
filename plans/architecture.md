@@ -768,7 +768,20 @@ the suite is green after each.
   existing template test stays green.
 
 ### ARC-14. Services layer: catalogues and archives in one place  (P1)
-**open**
+**open** — the cache and offline part (items 1 and 2) done by agent3 (2026-11-10)
+- **Progress (agent3):** `services/cache.py`: `cached(service, request, fetch)` keeps every answer on disk (SQLite
+  index + pickled answers, atomic writes, shared safely by worker processes), ages per service (ephemerides 7 days,
+  light-curve archives 1 day, catalogues never), 2 GB cap dropping the oldest, an older answer used when the
+  network fails, "not found" passed on as an answer; offline switch (`ASTROWB_OFFLINE`, Settings → Work offline,
+  inherited by workers) and Settings → Clear the saved catalogue answers; an offline miss raises a translated
+  message with advice. Behind it now: Gaia cones and ADQL queries, the nearest APASS / Gaia entries, VizieR overlay
+  cones, DSS images, SkyBoT, VSX and exoplanet ephemerides, ZTF / AAVSO light curves. Guide (en, tr): "Working
+  without the internet". The Settings entries moved out of `main_window.py` (`ui/online_actions.py`).
+  **Changed from the plan:** no `Service` class and HTTP helper yet — most queries go through astroquery, so the
+  cache wraps the call rather than the HTTP request; `mirrors.cds` stays the fall-back between servers. Pending:
+  "from cache, fetched on …" in the windows (`cache.last` holds it), MAST light curves and SIMBAD names (they have
+  their own files), the module consolidation (item 3), fetch records for the methods text (4), the installation
+  check from a registry (5), recorded responses for tests (6).
 - **Ours now:** `mirrors.py` (CDS → Harvard / IDIA fall-back, remembered server), `gaia.py` (VizieR or ESA archive, cache), separate queries in `overlays.py`, `photometry/catalog.py`, `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`.
 - **Why:** AD-9. Queries live in `gaia.py`, `mirrors.py`, `overlays.py`, `photometry/catalog.py`,
   `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`,

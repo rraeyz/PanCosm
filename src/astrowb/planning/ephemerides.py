@@ -17,9 +17,14 @@ EXO_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 
 
 def _get(url, params, timeout=20):
-    req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https catalogue URLs)
-        return json.loads(r.read().decode("utf-8"))
+    from ..services.cache import cached
+
+    def now():
+        req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https catalogue URLs)
+            return json.loads(r.read().decode("utf-8"))
+
+    return cached("ephemerides", (url, params), now)
 
 
 def _float(value):

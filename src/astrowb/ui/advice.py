@@ -187,6 +187,9 @@ ADVICE = {
     "unknown step {step} (a plugin that is not installed?)": QT_TRANSLATE_NOOP(
         "Advice", "Install the plugin that provides the step, or take the step out of the automation."
     ),
+    "working offline: the answer of {service} is not in the cache": QT_TRANSLATE_NOOP(
+        "Advice", "Turn off Settings → Work offline while connected, run it once, then it works offline too."
+    ),
     "no GPU adapter": QT_TRANSLATE_NOOP(
         "Advice", "Every job runs on the CPU; a newer graphics driver may make the GPU usable."
     ),
