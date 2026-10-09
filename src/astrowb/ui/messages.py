@@ -82,6 +82,12 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
+    # core/units.py
+    QT_TRANSLATE_NOOP("Messages", "unknown airmass formula {formula}"),
+    # timing.py
+    QT_TRANSLATE_NOOP(
+        "Messages", "time system {value} (TIMESYS) is not known: give the times in UTC, TT, TAI, TDB or GPS"
+    ),
     # services/cache.py
     QT_TRANSLATE_NOOP("Messages", "working offline: the answer of {service} is not in the cache"),
     # selfcheck.py
