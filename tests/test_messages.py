@@ -58,6 +58,7 @@ def real_messages():
     out += ["this session belongs to the images window, not to the photometry window"]  # core/state.py
     out += ["this session was saved by a newer version of the application: update it to open it"]
     out += ["no way to read a session of version 1 of the photometry window"]
+    out += ["no column flux in the table", "filter not understood: flux >", "cannot write tables as .fits"]
     from astrowb.timeseries.ephemeris import fit, parse_minima
 
     for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):
