@@ -81,3 +81,20 @@ def test_overlay_layers_hide_and_show(qapp):
     v.set_layer("gaia", opacity=0.3)
     assert v._overlays["gaia"][0].opacity() == pytest.approx(0.3)
     v.close()
+
+
+def test_magnifier_shows_the_pixels_round_the_cursor(qapp):
+    from astrowb.ui.image import magnifier
+    from astrowb.ui.viewer import ImageViewer
+
+    data = np.zeros((40, 50), np.float32)
+    data[0, 0] = 9.0
+    p = magnifier.patch(data, 0, 0)  # at the corner: what lies beyond the frame is empty
+    assert p.shape == (15, 15) and p[7, 7] == 9.0 and np.isnan(p[0, 0]) and p[7, 8] == 0.0
+    v = ImageViewer()
+    v.resize(400, 300)
+    v.set_image(data)
+    v.show_magnifier, v.cursor_pixel = True, (20, 25)
+    v.grab()  # draws without error
+    assert v._magnifier_limits is not None
+    v.close()
