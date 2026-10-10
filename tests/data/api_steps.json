@@ -1,0 +1,402 @@
+{
+ "app.check": [],
+ "app.check_gpu": [],
+ "app.update_time_tables": [],
+ "astrometry.moving": [
+  "box",
+  "first_xy",
+  "images",
+  "last_xy"
+ ],
+ "astrometry.solve": [
+  "image",
+  "radius_deg",
+  "refine_gaia"
+ ],
+ "calibration.run": [
+  "cosmic_rays",
+  "divide_flat",
+  "fix_defects",
+  "frames",
+  "linearity",
+  "optimize_dark",
+  "output_dir",
+  "read_noise",
+  "sigma",
+  "split_colour",
+  "temp_tol"
+ ],
+ "calibration.scan": [
+  "clock_utc_offset",
+  "folder",
+  "lights"
+ ],
+ "fits.save_as": [
+  "delete",
+  "destination",
+  "overwrite",
+  "set_cards",
+  "source"
+ ],
+ "image.catalogue": [
+  "catalogue",
+  "image",
+  "mag_limit"
+ ],
+ "image.convert": [
+  "fmt",
+  "images",
+  "interval",
+  "output_dir",
+  "stretch"
+ ],
+ "image.finder_chart": [
+  "dec",
+  "fov_deg",
+  "image",
+  "mag_limit",
+  "output",
+  "ra",
+  "title"
+ ],
+ "image.minor_planets": [
+  "image",
+  "mag_limit"
+ ],
+ "image.process": [
+  "args",
+  "image",
+  "operation",
+  "others",
+  "output"
+ ],
+ "image.rgb": [
+  "align",
+  "blue",
+  "green",
+  "output",
+  "q",
+  "red",
+  "stretch"
+ ],
+ "models.eb_fit": [
+  "export_dir",
+  "export_format",
+  "free",
+  "ld1",
+  "ld2",
+  "light_curve",
+  "mcmc_steps",
+  "orbit",
+  "start"
+ ],
+ "models.visual_orbit": [
+  "measures",
+  "p_max",
+  "p_min",
+  "parallax_mas"
+ ],
+ "photometry.apertures": [
+  "comps_xy",
+  "images",
+  "rule",
+  "target_xy"
+ ],
+ "photometry.catalog": [
+  "comps_xy",
+  "filter",
+  "image",
+  "target_xy"
+ ],
+ "photometry.identify_field": [
+  "image"
+ ],
+ "photometry.light_curve": [
+  "aperture_m",
+  "apertures",
+  "auto_apertures",
+  "camera",
+  "comps_xy",
+  "coord",
+  "extra_xy",
+  "fixed",
+  "follow_seeing",
+  "gain",
+  "header_time",
+  "images",
+  "psf",
+  "r_ap",
+  "r_in",
+  "r_out",
+  "ref_image",
+  "shutter_delay",
+  "sky_method",
+  "target_xy"
+ ],
+ "photometry.multifilter": [
+  "aperture_m",
+  "apertures",
+  "auto_apertures",
+  "camera",
+  "comp_colour",
+  "comps_xy",
+  "coord",
+  "extra_xy",
+  "fixed",
+  "follow_seeing",
+  "gain",
+  "header_time",
+  "images",
+  "psf",
+  "r_ap",
+  "r_in",
+  "r_out",
+  "ref_image",
+  "shutter_delay",
+  "sky_method",
+  "t_ab",
+  "target_xy"
+ ],
+ "photometry.polarimetry": [
+  "angle_key",
+  "e_xy",
+  "images",
+  "o_xy",
+  "r_ap",
+  "r_in",
+  "r_out",
+  "zero_point"
+ ],
+ "photometry.quality": [
+  "background_factor",
+  "fwhm_factor",
+  "images",
+  "star_fraction"
+ ],
+ "photometry.suggest_comparisons": [
+  "field",
+  "images",
+  "n",
+  "r_out",
+  "target_xy"
+ ],
+ "photometry.transformation": [
+  "band_a",
+  "band_b",
+  "image_a",
+  "image_b"
+ ],
+ "photometry.varfind": [
+  "images",
+  "max_stars",
+  "method",
+  "threshold"
+ ],
+ "planning.ephemeris": [
+  "catalogue",
+  "name"
+ ],
+ "planning.night": [
+  "date",
+  "min_alt",
+  "site",
+  "step_min",
+  "targets"
+ ],
+ "planning.resolve": [
+  "cache_file",
+  "name"
+ ],
+ "rs.classify": [
+  "bands",
+  "k",
+  "output",
+  "raster"
+ ],
+ "rs.expression": [
+  "expression",
+  "name",
+  "output",
+  "raster"
+ ],
+ "rs.pca": [
+  "n",
+  "output",
+  "raster"
+ ],
+ "sample.night": [
+  "folder"
+ ],
+ "spectroscopy.atmosphere": [
+  "cache",
+  "grid",
+  "resolution",
+  "spectrum",
+  "sun",
+  "vacuum"
+ ],
+ "spectroscopy.classify": [
+  "fwhm",
+  "library",
+  "spectrum"
+ ],
+ "spectroscopy.combine": [
+  "method",
+  "output",
+  "rejection",
+  "scale",
+  "sigma",
+  "spectra",
+  "weight"
+ ],
+ "spectroscopy.disentangle": [
+  "iterations",
+  "light_ratio",
+  "output_dir",
+  "rv1",
+  "rv2",
+  "spectra"
+ ],
+ "spectroscopy.echelle": [
+  "arc",
+  "deg_m",
+  "deg_x",
+  "exclude",
+  "extracted",
+  "first_order",
+  "flat",
+  "gain",
+  "guesses",
+  "line_list",
+  "min_blaze",
+  "optimal",
+  "order_step",
+  "orientation",
+  "output",
+  "read_noise",
+  "reverse",
+  "rows",
+  "scatter",
+  "science",
+  "sky",
+  "sky_lines"
+ ],
+ "spectroscopy.orbit": [
+  "error",
+  "error2",
+  "fix_period",
+  "period",
+  "rv",
+  "rv2",
+  "time"
+ ],
+ "spectroscopy.orders": [
+  "image",
+  "orientation",
+  "reverse",
+  "rows"
+ ],
+ "spectroscopy.reduce": [
+  "arc",
+  "exclude",
+  "gain",
+  "guess_row",
+  "guesses",
+  "line_list",
+  "optimal",
+  "order",
+  "orientation",
+  "output",
+  "read_noise",
+  "reverse",
+  "science",
+  "sky_lines",
+  "sky_offset",
+  "sky_width",
+  "trace_row",
+  "width"
+ ],
+ "spectroscopy.rv": [
+  "components",
+  "coord",
+  "method",
+  "site",
+  "spectra",
+  "template",
+  "template2",
+  "template2_rv",
+  "template2_vsini",
+  "template_rv",
+  "template_vsini",
+  "v_max",
+  "v_min",
+  "wave_max",
+  "wave_min"
+ ],
+ "spectroscopy.telluric": [
+  "output",
+  "spectrum",
+  "standard"
+ ],
+ "stacking.drizzle": [
+  "images",
+  "output",
+  "pixfrac",
+  "scale"
+ ],
+ "stacking.stack": [
+  "align",
+  "high",
+  "images",
+  "low",
+  "method",
+  "normalize",
+  "output",
+  "rejection",
+  "sigma",
+  "weighting"
+ ],
+ "timeseries.frequencies": [
+  "clean",
+  "f_max",
+  "flux",
+  "magnitudes",
+  "n_max",
+  "snr_min",
+  "time"
+ ],
+ "timeseries.minimum": [
+  "detrend_with",
+  "light_curve",
+  "method",
+  "period",
+  "t0"
+ ],
+ "timeseries.mission_lc": [
+  "flux",
+  "folder",
+  "mission",
+  "target"
+ ],
+ "timeseries.oc_fit": [
+  "mcmc_steps",
+  "minima",
+  "model",
+  "period",
+  "t0"
+ ],
+ "timeseries.period": [
+  "err",
+  "flux",
+  "method",
+  "p_max",
+  "p_min",
+  "time"
+ ],
+ "timeseries.survey_lc": [
+  "band",
+  "cache_file",
+  "source",
+  "target"
+ ]
+}
