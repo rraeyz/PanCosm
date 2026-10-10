@@ -917,7 +917,19 @@ the suite is green after each.
 - **Files:** `core/log.py`, `engine/tasks.py`, `ui/report.py`, tests.
 
 ### ARC-18. Translation quality  (P1)
-**open**
+**open** — items 1 (Turkish column), 2 (glossary check) and 4 done by agent3 (2026-11-11)
+- **Progress (agent3):** `resources/i18n/glossary.toml`: 74 terms with their Turkish stems (German and Spanish
+  with ARC-25); `python tools/translation_review.py glossary` and `tests/test_glossary.py` fail on a translation
+  that drifts (whole words or `*` stems, Turkish lower case, product names and code examples left out). It found
+  and fixed 48 drifted translations: periyot / dönem (now periyot), dikine hız / radyal hız (now dikine hız),
+  aperture / açıklık (now açıklık), gök halkası / gökyüzü halkası (now gök halkası), kontrol / denetim yıldızı,
+  kılavuzlama / rehberlik, apsidal / apsis hareketi, a typo (alacakaram). `tests/test_locale_files.py`: files
+  written under a German locale keep decimal points — it found that the LaTeX / Markdown table writer and
+  `rounded()` without an error cut a BJD to six digits (2.46051e+06); both keep 15 digits now. **Changed from the
+  plan:** "plate solve" is "plaka çözümü" (used in 28 strings), not the plan's "astrometrik çözüm"; accepted
+  variants where both are correct Turkish (dalga boyu / dalgaboyu, flat / düz alan, master / ana kare, irtifa /
+  yükseklik, genlik spektrumu for an amplitude spectrum). **For the owner:** read the Turkish column of
+  `glossary.toml` once. Pending: the 1.6× length list, the pseudo-locale layout test (item 3), 150 terms.
 - **Why:** four languages are a promise; machine-filled strings drift ("mukayese" had to be replaced in 28 places).
 - **Build:**
   1. `resources/i18n/glossary.toml`: the astronomy terms and their fixed translation per language (comparison star
