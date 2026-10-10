@@ -351,6 +351,18 @@ class ImageViewer(QGraphicsView):
     def overlay_names(self):
         return sorted(self._overlays)
 
+    def set_layer(self, name, visible=None, opacity=None):
+        """Show / hide a named overlay, or make it fainter (opacity 0-1); the layer stays until replaced."""
+        for item in self._overlays.get(name, []):
+            if visible is not None:
+                item.setVisible(visible)
+            if opacity is not None:
+                item.setOpacity(opacity)
+
+    def layer_visible(self, name):
+        items = self._overlays.get(name, [])
+        return bool(items) and items[0].isVisible()
+
     def set_pick(self, on, rings=(), colour="lime"):
         """Clicking marks stars (photometry): a cross cursor instead of the hand, and the rings that a click would
         place drawn under the mouse, [(radius in pixels, dashed)]. Dragging still moves the image."""

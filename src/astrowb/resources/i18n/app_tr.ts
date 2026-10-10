@@ -8389,112 +8389,122 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Katmanları temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="40"/>
+        <location filename="../../ui/overlay_actions.py" line="34"/>
+        <source>&amp;Layers</source>
+        <translation>&amp;Katmanlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="45"/>
+        <source>No overlays on this image</source>
+        <translation>Bu görüntüde kaplama yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="55"/>
         <source>Orien&amp;tation</source>
         <translation>&amp;Yönlendirme</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="47"/>
+        <location filename="../../ui/overlay_actions.py" line="62"/>
         <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
         <translation>Kuzeyin yukarıda olması için gök koordinatları gerekir: önce görüntüyü plaka çözümleyin (Görüntü menüsü)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="56"/>
+        <location filename="../../ui/overlay_actions.py" line="71"/>
         <source>&amp;North up, East left</source>
         <translation>&amp;Kuzey yukarıda, Doğu solda</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="57"/>
+        <location filename="../../ui/overlay_actions.py" line="72"/>
         <source>Turn 90° &amp;clockwise</source>
         <translation>Saat yönünde 90° &amp;döndür</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="58"/>
+        <location filename="../../ui/overlay_actions.py" line="73"/>
         <source>&amp;Mirror left–right</source>
         <translation>Sol–sağ &amp;aynala</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <location filename="../../ui/overlay_actions.py" line="74"/>
         <source>&amp;Original orientation</source>
         <translation>Ö&amp;zgün yönlendirme</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="62"/>
+        <location filename="../../ui/overlay_actions.py" line="77"/>
         <source>&amp;Compass and scale bar</source>
         <translation>&amp;Pusula ve ölçek çubuğu</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="84"/>
+        <location filename="../../ui/overlay_actions.py" line="99"/>
         <source>Contours</source>
         <translation>Konturlar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="85"/>
+        <location filename="../../ui/overlay_actions.py" line="100"/>
         <source>Number of levels:</source>
         <translation>Düzey sayısı:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="104"/>
-        <location filename="../../ui/overlay_actions.py" line="121"/>
-        <location filename="../../ui/overlay_actions.py" line="189"/>
+        <location filename="../../ui/overlay_actions.py" line="119"/>
+        <location filename="../../ui/overlay_actions.py" line="136"/>
+        <location filename="../../ui/overlay_actions.py" line="204"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Görüntüde gök koordinatı yok: önce plaka çözün (Görüntü menüsü).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="129"/>
+        <location filename="../../ui/overlay_actions.py" line="144"/>
         <source>Catalogue stars</source>
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="130"/>
+        <location filename="../../ui/overlay_actions.py" line="145"/>
         <source>Faintest magnitude:</source>
         <translation>En sönük kadir:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="138"/>
-        <location filename="../../ui/overlay_actions.py" line="194"/>
+        <location filename="../../ui/overlay_actions.py" line="153"/>
+        <location filename="../../ui/overlay_actions.py" line="209"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="159"/>
-        <location filename="../../ui/overlay_actions.py" line="173"/>
+        <location filename="../../ui/overlay_actions.py" line="174"/>
+        <location filename="../../ui/overlay_actions.py" line="188"/>
         <source>Finder chart</source>
         <translation>Bulucu harita</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="160"/>
+        <location filename="../../ui/overlay_actions.py" line="175"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Hedef koordinatları (RA Dec), ör. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="166"/>
+        <location filename="../../ui/overlay_actions.py" line="181"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinatlar anlaşılamadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="178"/>
+        <location filename="../../ui/overlay_actions.py" line="193"/>
         <source>Making the finder chart…</source>
         <translation>Bulucu harita hazırlanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="213"/>
+        <location filename="../../ui/overlay_actions.py" line="228"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} katalog yıldızı gösterildi: etiketini görmek için fareyi bir halkanın üzerine getirin.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="218"/>
+        <location filename="../../ui/overlay_actions.py" line="233"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} katalog yıldızı gösterildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="227"/>
-        <location filename="../../ui/overlay_actions.py" line="261"/>
+        <location filename="../../ui/overlay_actions.py" line="242"/>
+        <location filename="../../ui/overlay_actions.py" line="276"/>
         <source>DS9 regions</source>
         <translation>DS9 bölgeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="253"/>
+        <location filename="../../ui/overlay_actions.py" line="268"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Görüntüde işaret yok (Fotometri penceresinde seçilen yıldızlar işarettir).</translation>
     </message>
@@ -13524,32 +13534,32 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>TableView</name>
     <message>
-        <location filename="../../ui/kit/table.py" line="81"/>
+        <location filename="../../ui/kit/table.py" line="117"/>
         <source>Filter, e.g. flux_err &lt; 0.01 and not isnan(airmass)</source>
         <translation>Süzgeç, ör. flux_err &lt; 0.01 and not isnan(airmass)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="129"/>
+        <location filename="../../ui/kit/table.py" line="166"/>
         <source>{n} of {total} rows</source>
         <translation>{total} satırın {n} tanesi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="184"/>
+        <location filename="../../ui/kit/table.py" line="221"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="185"/>
+        <location filename="../../ui/kit/table.py" line="222"/>
         <source>Export…</source>
         <translation>Dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="189"/>
+        <location filename="../../ui/kit/table.py" line="226"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="190"/>
+        <location filename="../../ui/kit/table.py" line="227"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
     </message>

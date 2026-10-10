@@ -60,3 +60,24 @@ def test_flip_keeps_the_zoom(qapp):
     assert abs(v.transform().determinant()) == pytest.approx(before)
     assert v.wcs is None and not v.north_up()
     v.close()
+
+
+def test_overlay_layers_hide_and_show(qapp):
+    from PySide6.QtWidgets import QMenu
+
+    from astrowb.ui.overlay_actions import _fill_layers
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    v.set_image(np.zeros((50, 50), np.float32))
+    v.set_overlay("grid", lines=[[(0, 0), (10, 10)]])
+    v.set_overlay("gaia", circles=[(5, 5, 3, "a")])
+    menu = QMenu()
+    _fill_layers(v, menu)
+    acts = {a.text(): a for a in menu.actions()}
+    assert set(acts) == {"gaia", "grid"} and all(a.isChecked() for a in acts.values())
+    acts["grid"].setChecked(False)
+    assert not v.layer_visible("grid") and v.layer_visible("gaia")
+    v.set_layer("gaia", opacity=0.3)
+    assert v._overlays["gaia"][0].opacity() == pytest.approx(0.3)
+    v.close()
