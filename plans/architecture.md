@@ -823,7 +823,7 @@ the suite is green after each.
 - **Files:** `services/*`, the callers listed above (moved, their public functions kept), tests.
 
 ### ARC-15. Time, coordinates and units: one policy, one converter tool  (P1)
-**open** — items 5 (a), (b) and 6 done by agent3 (2026-11-10)
+**open** — items 3, 5 (a), (b), (c) and 6 done by agent3 (2026-11-10 / 11)
 - **Progress (agent3):** `timing.start_time` / `mid_time` honour `TIMESYS` (UTC, UT, TT / TDT / ET, TAI / IAT,
   TDB, GPS = TAI − 19 s; an unknown value is its own translated error); mid-exposure order: `DATE-AVG`, `MJD-AVG`,
   `JD-MID`, a "median / mid" `DATE-OBS` comment, the midpoint of `DATE-OBS` and `DATE-END` when their span is
@@ -831,7 +831,13 @@ the suite is green after each.
   (default), sec z, Hardie 1962, Kasten & Young 1989, Pickering 2002 and `AIRMASS_NOTE` for column labels; used by
   Photometry (`timing.airmass`) and Planning (`visibility.airmass`, which used Pickering's formula — meant for
   apparent altitudes — on geometric ones). Tests: TT 69.184 s, GPS 18 s, dead time, a far `DATE-END` ignored,
-  formulas against each other and Kasten & Young's table. **Changed from the plan:** the Accept's "within 0.1 %
+  formulas against each other and Kasten & Young's table. Item 5 (c): stacks carry DATE-AVG (weighted mean of
+  the frames' mid-exposures) and DATE-END in their header's time system. Item 3: `core/units.convert_times`
+  (JD / MJD / HJD / BJD in UTC, TT, TDB both ways, altitude, azimuth, hour angle, airmass) and Planning → "Time
+  converter…" (`ui/converter_dialog.py`: target by name or coordinates, the profile's site, a pasted column,
+  Copy); every standard round-trips to 0.1 ms; light times of more than 2000 times are interpolated on a 0.02 d
+  grid (< 0.1 ms off): 10^5 times convert in 1.4 s (the Accept asks < 1 s; Astropy's time-scale conversions are
+  the rest), altitudes only up to 2000 times. **Changed from the plan:** the Accept's "within 0.1 %
   above 30°" is too tight for the published formulas themselves: Hardie is 0.14 % and sec z 0.4 % above Young at
   30°; the test uses 0.2 % (sec z: 0.5 %, and 0.1 % above 55°). Pending: items 1–4, 5 (c) stacks' stored
   mid-times and (d) uneven series, recording which rule gave each frame's time, the formula's name beside the

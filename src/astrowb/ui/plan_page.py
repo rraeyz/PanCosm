@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..core import profiles
+from .converter_dialog import converter_button
 from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
@@ -201,8 +202,8 @@ class PlanPage(Undoable, QWidget):
         exposure.setToolTip(self.tr("How long to expose for a wanted signal-to-noise, and when a star saturates"))
         exposure.clicked.connect(self.exposure_dialog)
         row = QHBoxLayout()
-        row.addWidget(remove)
-        row.addWidget(exposure)
+        for w in (remove, exposure, converter_button(self)):
+            row.addWidget(w)
         lay.addLayout(row)
         self.plan_button = QPushButton(self.tr("Plan the night"), self)
         self.plan_button.clicked.connect(self._plan)
@@ -392,6 +393,13 @@ class PlanPage(Undoable, QWidget):
             for box, value in zip((self.lat, self.lon, self.height), where, strict=True):
                 box.setValue(value)
         return where
+
+    def converter_dialog(self):
+        from .converter_dialog import ConverterDialog
+
+        dlg = ConverterDialog(self.settings, self)
+        dlg.show()
+        return dlg
 
     def exposure_dialog(self):
         from .exposure_dialog import ExposureDialog
