@@ -44,3 +44,41 @@ def test_the_last_record_wins_when_a_file_went_through_two_steps():
     second = {"step": "two", "params": {"x": 1}, "inputs": {}, "versions": {"application": "1"}, "made": "t"}
     provenance.to_fits(h, second)
     assert provenance.from_header(h) == second and provenance.from_header(fits.Header()) is None
+
+
+def test_every_fits_product_of_a_step_carries_its_record(tmp_path):
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    src = tmp_path / "in.fits"
+    fits.PrimaryHDU(np.ones((16, 16), np.float32)).writeto(src)
+    out = tmp_path / "out.fits"
+    execute("image.process", {"image": str(src), "operation": "median", "output": str(out)}, {}, Ctx())
+    rec = provenance.read(out)
+    assert rec["step"] == "image.process" and rec["inputs"]["image"][0]["name"] == "in.fits"
+    assert "blake2" in rec["inputs"]["image"][0] and "output" not in rec["inputs"]  # the product is not its input
+    assert provenance.read(src) is None  # the input is left as it was
+
+
+def test_many_inputs_are_named_without_checksums(tmp_path):
+    paths = []
+    for i in range(provenance.MAX_CHECKSUMS + 1):
+        paths.append(tmp_path / f"f{i}.fits")
+        paths[-1].write_bytes(b"x")
+    rec = provenance.record("s", {}, {"images": paths, "note": "text, not a file"})
+    assert len(rec["inputs"]["images"]) == len(paths) and "blake2" not in rec["inputs"]["images"][0]
+
+
+def test_input_frames_listed_in_the_outputs_are_left_alone(tmp_path):
+    from astrowb.engine.steps import _mark_products
+
+    frame = tmp_path / "light.fits"
+    fits.PrimaryHDU(np.ones((4, 4), np.float32)).writeto(frame)
+    _mark_products("photometry.quality", {"images": [str(frame)]}, {}, {"good": [str(frame)]}, 0.0)
+    assert provenance.read(frame) is None

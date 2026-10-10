@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 CHUNK = 1 << 20
+MAX_CHECKSUMS = 50  # input files of one step with checksums; more are named with their sizes only
 _PREFIX = "PROV "  # HISTORY lines that hold the machine-readable record
 _LINE = 64  # characters of JSON per HISTORY card (cards hold 72)
 
@@ -52,11 +53,16 @@ def _versions():
 def record(step_id, params, inputs):
     """The record of one step: inputs is {role: path or [paths]}; params must be JSON values."""
 
+    lists = {role: list(v) if isinstance(v, list | tuple) else [v] for role, v in inputs.items()}
+    many = sum(len(v) for v in lists.values()) > MAX_CHECKSUMS  # 1000 frames: names and sizes, not 2 GB read
+
     def describe(p):
         p = Path(p)
-        return {"name": p.name, "size": p.stat().st_size, "blake2": checksum(p)} if p.exists() else {"name": p.name}
+        if not p.is_file():
+            return {"name": p.name}
+        return {"name": p.name, "size": p.stat().st_size} | ({} if many else {"blake2": checksum(p)})
 
-    files = {role: [describe(p) for p in (v if isinstance(v, list | tuple) else [v])] for role, v in inputs.items()}
+    files = {role: [describe(p) for p in v] for role, v in lists.items()}
     return {
         "step": step_id,
         "params": json.loads(json.dumps(params, default=str)),
