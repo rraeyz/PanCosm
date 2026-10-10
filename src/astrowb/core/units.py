@@ -73,7 +73,8 @@ def convert_times(values, standard, target, site=None):
     from astropy.time import Time
 
     if standard not in STANDARDS:
-        raise ValueError(f"unknown time standard {standard}; known: {', '.join(STANDARDS)}")
+        known = ", ".join(STANDARDS)
+        raise ValueError(f"unknown time standard {standard}; known: {known}")
     where = site if site is not None else EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
     v = np.atleast_1d(np.asarray(values, float))
     kind, scale = standard.split("_")
