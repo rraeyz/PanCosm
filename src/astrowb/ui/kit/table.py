@@ -25,9 +25,45 @@ from ...core import table as T
 
 
 class _Model(QAbstractTableModel):
+    edited = Signal(int, str, object, object)  # table row, column name, old value, new value
+
     def __init__(self):
         super().__init__()
         self.table, self.rows, self.marks, self.cache = None, np.arange(0), {}, {}
+        self.editable = set()  # names of the columns a user may change
+
+    def flags(self, index):
+        base = super().flags(index)
+        if self.table is not None and self.table.colnames[index.column()] in self.editable:
+            return base | Qt.ItemIsEditable
+        return base
+
+    def setData(self, index, value, role=Qt.EditRole):
+        """A typed value checked by the column's kind: a number column takes numbers only (refused otherwise)."""
+        if role != Qt.EditRole or not index.isValid():
+            return False
+        row, name = int(self.rows[index.row()]), self.table.colnames[index.column()]
+        column = self.table[name]
+        try:
+            new = {"f": float, "i": int, "u": int, "b": lambda v: str(v).lower() in ("1", "true", "yes")}.get(
+                column.dtype.kind, str
+            )(str(value).strip().replace(",", ".") if column.dtype.kind in "fiu" else value)
+        except ValueError:
+            return False
+        old = column[row].item() if hasattr(column[row], "item") else column[row]
+        if new == old:
+            return False
+        self.set_value(row, name, new)
+        self.edited.emit(row, name, old, new)
+        return True
+
+    def set_value(self, row, name, value):
+        """Change one cell (also for undo / redo, without the edited signal)."""
+        self.table[name][row] = value
+        shown = np.flatnonzero(self.rows == row)
+        if len(shown):
+            i = self.index(int(shown[0]), self.table.colnames.index(name))
+            self.dataChanged.emit(i, i)
 
     def rowCount(self, parent=QModelIndex()):  # noqa: B008
         return 0 if parent.isValid() else len(self.rows)
@@ -47,7 +83,7 @@ class _Model(QAbstractTableModel):
 
     def data(self, index, role=Qt.DisplayRole):
         row, name = int(self.rows[index.row()]), self.table.colnames[index.column()]
-        if role == Qt.DisplayRole:
+        if role in (Qt.DisplayRole, Qt.EditRole):
             return _text(self.table[name], row)
         if role == Qt.TextAlignmentRole:
             return int(Qt.AlignRight | Qt.AlignVCenter) if self.table[name].dtype.kind in "iuf" else None
@@ -104,10 +140,11 @@ class TableView(QWidget):
         lay.addWidget(self.view)
         self.sort = None  # (column name, ascending)
 
-    def set_table(self, table, marks=None):
-        """Show a table (kept, not copied); marks: {(row index, column name): (colour, reason)}."""
+    def set_table(self, table, marks=None, editable=()):
+        """Show a table (kept, not copied); marks: {(row index, column name): (colour, reason)}; editable: the
+        columns a user may change (each change is the model's edited signal: an undo step for the window)."""
         self.model.beginResetModel()
-        self.model.table, self.model.marks = table, dict(marks or {})
+        self.model.table, self.model.marks, self.model.editable = table, dict(marks or {}), set(editable)
         self.model.rows = np.arange(len(table))
         self.model.endResetModel()
         self._apply()
