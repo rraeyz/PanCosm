@@ -175,6 +175,25 @@ jobs:
           ASTROWB_VALIDATION_DATA: ../validation-data
 
   # Device control against the real INDI simulator drivers
+  speed:  # ARC-23: not needed by the release; a case 1.5x slower than speed/baseline-ci.json turns it red
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+      - run: pip install -r requirements/dev.txt && pip install --no-deps -e .
+      - run: python tools/build_native.py
+      - run: python tools/speed.py run --ci --out speed-result.json
+      - name: Compare with the baseline
+        run: |
+          { echo '### Speed (generated data)'; echo '```'; cat speed-result.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          if [ -f speed/baseline-ci.json ]; then python tools/speed.py check speed/baseline-ci.json speed-result.json
+          else echo "no baseline yet: copy this run's speed-result.json (in the summary) to speed/baseline-ci.json"; fi
+
   indi-simulators:
     runs-on: ubuntu-24.04
     steps:
