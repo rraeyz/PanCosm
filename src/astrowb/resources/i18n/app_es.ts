@@ -3530,12 +3530,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="101"/>
+        <location filename="../../ui/main_window.py" line="102"/>
         <source>Tasks</source>
         <translation>Tareas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="165"/>
         <source>Start</source>
         <translation>Inicio</translation>
     </message>
@@ -3550,32 +3550,32 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="166"/>
+        <location filename="../../ui/main_window.py" line="167"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="166"/>
+        <location filename="../../ui/main_window.py" line="167"/>
         <source>Guide</source>
         <translation>Guía</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="353"/>
+        <location filename="../../ui/main_window.py" line="354"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Exportar tabla (CSV o LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="352"/>
+        <location filename="../../ui/main_window.py" line="353"/>
         <source>Copy table</source>
         <translation>Copiar la tabla</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="350"/>
+        <location filename="../../ui/main_window.py" line="351"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="359"/>
+        <location filename="../../ui/main_window.py" line="360"/>
         <source>Export table</source>
         <translation>Exportar tabla</translation>
     </message>
@@ -3620,27 +3620,27 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Estadísticas de toda la imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="469"/>
+        <location filename="../../ui/area_actions.py" line="29"/>
         <source>{f} ({n} images)</source>
         <translation>{f} ({n} imágenes)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="473"/>
+        <location filename="../../ui/area_actions.py" line="33"/>
         <source>A light curve is measured in one filter. Which one?</source>
         <translation>Una curva de luz se mide en un solo filtro. ¿Cuál?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="474"/>
+        <location filename="../../ui/area_actions.py" line="35"/>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="623"/>
+        <location filename="../../ui/main_window.py" line="563"/>
         <source>Main window</source>
         <translation>Ventana principal</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="632"/>
+        <location filename="../../ui/main_window.py" line="572"/>
         <source>Open an area</source>
         <translation>Abrir un área</translation>
     </message>
@@ -4341,22 +4341,22 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Tra&amp;bajo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="325"/>
+        <location filename="../../ui/main_window.py" line="326"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="326"/>
+        <location filename="../../ui/main_window.py" line="327"/>
         <source>Copies the selected cells or text</source>
         <translation>Copia las celdas o el texto seleccionados</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="470"/>
+        <location filename="../../ui/area_actions.py" line="30"/>
         <source>All of them: a curve per filter and the colour index (stars marked in {f})</source>
         <translation>Todos: una curva por filtro y el índice de color (estrellas marcadas en {f})</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="497"/>
+        <location filename="../../ui/area_actions.py" line="59"/>
         <source>Click the target on the first image in time, shown in the Photometry window.</source>
         <translation>Haga clic en el objetivo en la primera imagen en el tiempo, mostrada en la ventana Fotometría.</translation>
     </message>
@@ -4747,7 +4747,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Abra dos o más imágenes para apilarlas.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1078"/>
+        <location filename="../../ui/area_actions.py" line="90"/>
         <source>the Photometry window</source>
         <translation>la ventana Fotometría</translation>
     </message>
@@ -4848,49 +4848,49 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Imagen en color</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="689"/>
+        <location filename="../../ui/main_window.py" line="629"/>
         <source>No plugins installed</source>
         <translation>No hay complementos instalados</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="691"/>
+        <location filename="../../ui/main_window.py" line="631"/>
         <source>Failed to load: {f}</source>
         <translation>No se pudo cargar: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="693"/>
+        <location filename="../../ui/main_window.py" line="633"/>
         <source>Plugin error</source>
         <translation>Error del complemento</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="696"/>
+        <location filename="../../ui/main_window.py" line="636"/>
         <source>Open plugins folder</source>
         <translation>Abrir la carpeta de complementos</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="744"/>
+        <location filename="../../ui/main_window.py" line="684"/>
         <source>New project</source>
         <translation>Nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="749"/>
+        <location filename="../../ui/main_window.py" line="689"/>
         <source>Open project</source>
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="789"/>
+        <location filename="../../ui/main_window.py" line="729"/>
         <source>Open FITS</source>
         <translation>Abrir FITS</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="845"/>
+        <location filename="../../ui/main_window.py" line="785"/>
         <source>Cannot open file</source>
         <translation>No se puede abrir el archivo</translation>
     </message>
     <message>
         <location filename="../../ui/image_actions.py" line="91"/>
         <location filename="../../ui/image_actions.py" line="426"/>
-        <location filename="../../ui/main_window.py" line="890"/>
+        <location filename="../../ui/main_window.py" line="830"/>
         <source>Save FITS as</source>
         <translation>Guardar FITS como</translation>
     </message>
@@ -4915,37 +4915,37 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>operación de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="695"/>
+        <location filename="../../ui/main_window.py" line="635"/>
         <source>Install the example plugins</source>
         <translation>Instalar los complementos de ejemplo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="697"/>
+        <location filename="../../ui/main_window.py" line="637"/>
         <source>What are plugins?</source>
         <translation>¿Qué son los complementos?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="706"/>
+        <location filename="../../ui/main_window.py" line="646"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Instalados: {names}. Ya están en el menú Complementos.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="708"/>
+        <location filename="../../ui/main_window.py" line="648"/>
         <source>The example plugins are already installed.</source>
         <translation>Los complementos de ejemplo ya están instalados.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="757"/>
+        <location filename="../../ui/main_window.py" line="697"/>
         <source>Cannot open project</source>
         <translation>No se puede abrir el proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="836"/>
+        <location filename="../../ui/main_window.py" line="776"/>
         <source>Image extension</source>
         <translation>Extensión de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="836"/>
+        <location filename="../../ui/main_window.py" line="776"/>
         <source>This file holds several images:</source>
         <translation>Este archivo contiene varias imágenes:</translation>
     </message>
@@ -4985,32 +4985,32 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>{n} imágenes escritas en {folder}.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="945"/>
+        <location filename="../../ui/main_window.py" line="862"/>
         <source>queued</source>
         <translation>en cola</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="946"/>
+        <location filename="../../ui/main_window.py" line="863"/>
         <source>running</source>
         <translation>en curso</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="947"/>
+        <location filename="../../ui/main_window.py" line="864"/>
         <source>done</source>
         <translation>hecha</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="948"/>
+        <location filename="../../ui/main_window.py" line="865"/>
         <source>failed</source>
         <translation>fallida</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="949"/>
+        <location filename="../../ui/main_window.py" line="866"/>
         <source>cancelled</source>
         <translation>cancelada</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="976"/>
+        <location filename="../../ui/main_window.py" line="893"/>
         <source>Task failed</source>
         <translation>La tarea falló</translation>
     </message>
@@ -5035,12 +5035,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>valor</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1143"/>
+        <location filename="../../ui/main_settings.py" line="22"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1144"/>
+        <location filename="../../ui/main_settings.py" line="23"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>El nuevo idioma se usará al reiniciar {app}.</translation>
     </message>
@@ -5075,7 +5075,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Menús: Complementos para sus propias herramientas, Configuración para idioma, aspecto y CPU/GPU, Ayuda para este recorrido y la guía; la ventana de cada área tiene sus propios menús y barra de herramientas.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1169"/>
+        <location filename="../../ui/main_settings.py" line="47"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Tamaño del texto: {pt:g} pt</translation>
     </message>
@@ -5100,22 +5100,22 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Comprobando la instalación y los servicios de internet…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1184"/>
+        <location filename="../../ui/main_settings.py" line="63"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Tablas de rotación terrestre actualizadas: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1188"/>
+        <location filename="../../ui/main_settings.py" line="69"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Tablas de rotación terrestre no actualizadas (¿sin conexión?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1192"/>
+        <location filename="../../ui/main_settings.py" line="74"/>
         <source>Earth-rotation tables</source>
         <translation>Tablas de rotación terrestre</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1194"/>
+        <location filename="../../ui/main_settings.py" line="75"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5124,47 +5124,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con conexión.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1203"/>
+        <location filename="../../ui/main_settings.py" line="87"/>
         <source>Folder for the practice data</source>
         <translation>Carpeta para los datos de práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1209"/>
+        <location filename="../../ui/main_settings.py" line="94"/>
         <source>practice</source>
         <translation>práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1211"/>
+        <location filename="../../ui/main_settings.py" line="96"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Datos de práctica en {f}: siga «Su primera noche» en la Guía.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1230"/>
+        <location filename="../../ui/main_settings.py" line="118"/>
         <source>Could not check for updates: {e}</source>
         <translation>No se pudo buscar actualizaciones: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1232"/>
+        <location filename="../../ui/main_settings.py" line="120"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>La versión {v} está disponible (usted tiene {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1233"/>
+        <location filename="../../ui/main_settings.py" line="123"/>
         <source>Open the download page</source>
         <translation>Abrir la página de descarga</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1236"/>
+        <location filename="../../ui/main_settings.py" line="126"/>
         <source>You have the latest version ({c}).</source>
         <translation>Tiene la versión más reciente ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1237"/>
+        <location filename="../../ui/main_settings.py" line="127"/>
         <source>Updates</source>
         <translation>Actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1245"/>
+        <location filename="../../ui/main_settings.py" line="135"/>
         <source>About {app}</source>
         <translation>Acerca de {app}</translation>
     </message>
