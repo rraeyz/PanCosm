@@ -3530,12 +3530,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="102"/>
+        <location filename="../../ui/main_window.py" line="101"/>
         <source>Tasks</source>
         <translation>Aufgaben</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="165"/>
+        <location filename="../../ui/main_window.py" line="164"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
@@ -3550,32 +3550,32 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="167"/>
+        <location filename="../../ui/main_window.py" line="166"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="167"/>
+        <location filename="../../ui/main_window.py" line="166"/>
         <source>Guide</source>
         <translation>Anleitung</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="354"/>
+        <location filename="../../ui/main_window.py" line="353"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Tabelle exportieren (CSV oder LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="353"/>
+        <location filename="../../ui/main_window.py" line="352"/>
         <source>Copy table</source>
         <translation>Tabelle kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="351"/>
+        <location filename="../../ui/main_window.py" line="350"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="360"/>
+        <location filename="../../ui/main_window.py" line="359"/>
         <source>Export table</source>
         <translation>Tabelle exportieren</translation>
     </message>
@@ -3635,12 +3635,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="563"/>
+        <location filename="../../ui/main_window.py" line="562"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="572"/>
+        <location filename="../../ui/main_window.py" line="571"/>
         <source>Open an area</source>
         <translation>Einen Bereich öffnen</translation>
     </message>
@@ -4341,12 +4341,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Auf&amp;gabe</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="326"/>
+        <location filename="../../ui/main_window.py" line="325"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="327"/>
+        <location filename="../../ui/main_window.py" line="326"/>
         <source>Copies the selected cells or text</source>
         <translation>Kopiert die markierten Zellen oder den Text</translation>
     </message>
@@ -4848,49 +4848,49 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Farbbild</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="629"/>
+        <location filename="../../ui/file_actions.py" line="197"/>
         <source>No plugins installed</source>
         <translation>Keine Plugins installiert</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="631"/>
+        <location filename="../../ui/file_actions.py" line="199"/>
         <source>Failed to load: {f}</source>
         <translation>Laden fehlgeschlagen: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="633"/>
+        <location filename="../../ui/file_actions.py" line="202"/>
         <source>Plugin error</source>
         <translation>Plugin-Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="636"/>
+        <location filename="../../ui/file_actions.py" line="206"/>
         <source>Open plugins folder</source>
         <translation>Plugin-Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="684"/>
+        <location filename="../../ui/file_actions.py" line="22"/>
         <source>New project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="689"/>
+        <location filename="../../ui/file_actions.py" line="27"/>
         <source>Open project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="729"/>
+        <location filename="../../ui/file_actions.py" line="68"/>
         <source>Open FITS</source>
         <translation>FITS öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="785"/>
+        <location filename="../../ui/file_actions.py" line="129"/>
         <source>Cannot open file</source>
         <translation>Datei kann nicht geöffnet werden</translation>
     </message>
     <message>
+        <location filename="../../ui/file_actions.py" line="174"/>
         <location filename="../../ui/image_actions.py" line="91"/>
         <location filename="../../ui/image_actions.py" line="426"/>
-        <location filename="../../ui/main_window.py" line="830"/>
         <source>Save FITS as</source>
         <translation>FITS speichern unter</translation>
     </message>
@@ -4915,37 +4915,37 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Bildoperation</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="635"/>
+        <location filename="../../ui/file_actions.py" line="205"/>
         <source>Install the example plugins</source>
         <translation>Beispiel-Plugins installieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="637"/>
+        <location filename="../../ui/file_actions.py" line="207"/>
         <source>What are plugins?</source>
         <translation>Was sind Plugins?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="646"/>
+        <location filename="../../ui/file_actions.py" line="216"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Installiert: {names}. Sie stehen jetzt im Menü Plugins.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="648"/>
+        <location filename="../../ui/file_actions.py" line="220"/>
         <source>The example plugins are already installed.</source>
         <translation>Die Beispiel-Plugins sind bereits installiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="697"/>
+        <location filename="../../ui/file_actions.py" line="36"/>
         <source>Cannot open project</source>
         <translation>Projekt kann nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="776"/>
+        <location filename="../../ui/file_actions.py" line="116"/>
         <source>Image extension</source>
         <translation>Bilderweiterung</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="776"/>
+        <location filename="../../ui/file_actions.py" line="117"/>
         <source>This file holds several images:</source>
         <translation>Diese Datei enthält mehrere Bilder:</translation>
     </message>
@@ -4985,32 +4985,32 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>{n} Bilder in {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="862"/>
+        <location filename="../../ui/main_window.py" line="642"/>
         <source>queued</source>
         <translation>wartend</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="863"/>
+        <location filename="../../ui/main_window.py" line="643"/>
         <source>running</source>
         <translation>läuft</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="864"/>
+        <location filename="../../ui/main_window.py" line="644"/>
         <source>done</source>
         <translation>fertig</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="865"/>
+        <location filename="../../ui/main_window.py" line="645"/>
         <source>failed</source>
         <translation>fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="866"/>
+        <location filename="../../ui/main_window.py" line="646"/>
         <source>cancelled</source>
         <translation>abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="893"/>
+        <location filename="../../ui/main_window.py" line="673"/>
         <source>Task failed</source>
         <translation>Aufgabe fehlgeschlagen</translation>
     </message>
