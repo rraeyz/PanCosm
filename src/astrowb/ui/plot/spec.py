@@ -11,9 +11,11 @@ from dataclasses import asdict, dataclass, field
 
 import numpy as np
 
+from ..kit import tokens
+
 KINDS = ("points", "line", "steps", "errorbars", "band", "vline", "hline", "histogram")
 # Okabe & Ito (2008) colour-blind-safe palette, in the order series take them
-OKABE_ITO = ("#0072B2", "#E69F00", "#009E73", "#D55E00", "#CC79A7", "#56B4E9", "#F0E442", "#000000")
+OKABE_ITO = (*tokens.SERIES, tokens.LIGHT["text"])  # the design system's series palette (kit/tokens.py)
 MAX_POINTS = 50_000  # per series in view; above this the view decimates
 MAX_ERRORBARS = 5_000  # error bars are drawn only below this many points in view
 

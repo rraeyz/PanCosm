@@ -8,6 +8,7 @@ from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import display_limits, render
+from .kit import tokens
 
 RETICLE = 9  # screen pixels: arm of the fixed-size cross on a marked star on a zoomed-out frame
 PREVIEW_ABOVE = 8_000_000  # pixels: larger frames show a preview first and render in the background
@@ -114,7 +115,7 @@ class ImageViewer(QGraphicsView):
         north, east, arcsec = orient.directions(self.wcs, self.data.shape)
         centre = self.mapToScene(self.viewport().rect().center())
         origin = QPointF(46, self.viewport().height() - 46)
-        pen = QPen(QColor("#ffd54f"), 2)
+        pen = QPen(QColor(tokens.DARK["attention"]), 2)
         painter.setPen(pen)
         for vec, label in ((north, "N"), (east, "E")):
             tip = self.mapFromScene(centre + QPointF(*vec) * 50) - self.mapFromScene(centre)
@@ -145,7 +146,7 @@ class ImageViewer(QGraphicsView):
         if self.data is None and self.empty_hint:
             painter.save()
             painter.resetTransform()  # viewport pixels: centred whatever the zoom
-            painter.setPen(QColor("#9aa0a6"))
+            painter.setPen(QColor(tokens.DARK["text.muted"]))
             area = self.viewport().rect().adjusted(24, 24, -24, -24)
             painter.drawText(area, int(Qt.AlignCenter | Qt.TextWordWrap), self.empty_hint)
             painter.restore()

@@ -2,7 +2,7 @@
 (ARC-8). Sorting by a header click, a filter line in core/table.select's expressions, a column chooser, cells
 coloured with their reason in a tooltip, copy and Export… in every core/table format.
 
-    view = TableView(); view.set_table(table, marks={(row, "flux"): ("#ffcdd2", "saturated")})
+    view = TableView(); view.set_table(table, marks={(row, "flux"): (tokens.ROLES["saturated"], "saturated")})
     view.row_chosen.connect(...)            # the row's index in the table, whatever the sort and filter
 """
 
@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (
 )
 
 from ...core import table as T
+from . import tokens
 
 
 class _Model(QAbstractTableModel):
@@ -169,7 +170,7 @@ class TableView(QWidget):
             from ..messages import translate
 
             self.filter.setToolTip(translate(str(e)))
-            self.filter.setStyleSheet("QLineEdit { border: 1px solid #c62828; }")
+            self.filter.setStyleSheet(f"QLineEdit {{ border: 1px solid {tokens.DARK['error']}; }}")
             return
         if self.sort is not None:
             name, ascending = self.sort

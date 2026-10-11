@@ -1,0 +1,10 @@
+{
+ "image_page.py": 2,
+ "levels_dialog.py": 3,
+ "observe_page.py": 4,
+ "overlay_actions.py": 6,
+ "photometry_page.py": 15,
+ "spectro_page.py": 10,
+ "viewer.py": 2,
+ "visual_orbit_tab.py": 1
+}

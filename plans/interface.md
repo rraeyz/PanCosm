@@ -289,7 +289,16 @@ stage S4. UI steps depend on ARC-4.7 (kit location); UI-16.x depend on ARC-5, AR
 for the window concerned.
 
 ### UI-1. Tokens and theme  (P1)
-**open**
+**open** — items 1, 2 (partly), 6 and the grep test done by agent3 (2026-11-11)
+- **Progress (agent3):** `ui/kit/tokens.py`: DARK, LIGHT (the table above), NIGHT prepared (red on black, not
+  offered), data ROLES, the SERIES palette, FILTERS with `filter_colour()` (Rc → R, SG → g′, CV → clear …),
+  `contrast()`; `ui/theme.py` builds its palette, style sheet (hover, focus ring, primary hover, disabled faint,
+  image background) and Matplotlib's colours from it — no colour literal left in it; an old "night" loads as dark.
+  `tests/test_tokens.py`: every text token on every surface ≥ 4.5 : 1 (faint ≥ 2.5), and a ratchet on colour
+  literals in `ui/` (`tests/data/colour_literals.json`, 80 → 43 now; the rest goes as UI-16 rebuilds each window).
+  **Changed from the plan:** the grep test is a shrink-only count per file instead of "none", since the old pages
+  are rebuilt in UI-16, not edited twice. Pending: the full style sheet for every kit control (item 2), bundled
+  fonts (3), pyqtgraph from the tokens (4), live theme change of icons (5).
 - **Ours now:** `ui/theme.py`: eight colours per theme in a tuple, one style sheet, Matplotlib rcParams.
 - **Build:**
   1. `ui/kit/tokens.py`: the tables above as data (`DARK`, `LIGHT`), with `role()` and `filter_colour()` helpers; a
