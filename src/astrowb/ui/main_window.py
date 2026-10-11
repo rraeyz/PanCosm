@@ -25,7 +25,8 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import advice, help_checks, online_actions
+from . import advice, area_menus, help_checks, online_actions
+from .area_menus import _mirror
 from .files import images_filter
 from .i18n import LANGUAGES
 from .kit.widgets import bar_menu
@@ -346,9 +347,9 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
-        builder = getattr(self, f"_{key}_menus", None)
+        builder = getattr(area_menus, key, None)
         if builder is not None:  # the area's own menus and toolbar (interface I6c)
-            builder(page, win)
+            builder(self, page, win)
         self.area_windows[key] = win
         self._complete_menus(win)
 
@@ -455,302 +456,6 @@ class MainWindow(QMainWindow):
         self.area_windows["photometry"] = win
         self._complete_menus(win)
 
-    def _calibrate_menus(self, page, win):
-        """Calibration: Frames, Masters, Process, Send (interface I6c.4), from the page's own controls."""
-
-        def named(widget, text, short=None):
-            act = _mirror(widget, page, short)
-            act.setText(text)  # the button's text carries its place in the steps ("3.", "Browse…")
-            return act
-
-        lights = named(page.lights_browse, self.tr("Lights folder…"), self.tr("Lights"))
-        frames = named(page.frames_browse, self.tr("Calibration frames folder…"))
-        scan = _mirror(page.scan_button)
-        run = named(page.run_button, self.tr("Calibrate"))
-        stack = named(page.stack_button, self.tr("Stack into one deep picture"), self.tr("Stack"))
-        send = named(page.photometry_button, self.tr("Send to Photometry →"), self.tr("Photometry"))
-        win.add_menus(
-            [
-                (self.tr("F&rames"), [lights, frames, _mirror(page.add_folder_button), None, scan, None,
-                                      _mirror(page.remove_button), _mirror(page.clear_button)]),
-                (self.tr("&Masters"), [_mirror(page.cosmics), _mirror(page.optimize_dark), _mirror(page.fix_defects),
-                                       _mirror(page.split_colour), _mirror(page.spectra)]),
-                (self.tr("&Process"), [run, None, stack, _mirror(page.drizzle)]),
-                (self.tr("Se&nd"), [send]),
-            ],
-            toolbar=[lights, scan, None, run, stack, None, send],
-        )  # fmt: skip
-        win.set_icons({lights: "open_folder", scan: "scan", run: "calibrate", stack: "stack", send: "send"})
-
-    def _timeseries_menus(self, page, win):
-        """Light curves and period: Data, Search, Send and File → Load / Download / Save (interface I6c.6); each item
-        shows its tab first."""
-        from PySide6.QtWidgets import QMenu
-
-        pp, fp, vf = page.period_page, page.frequency_page, page.varfind_page
-
-        def tab(widget, owner, text=None, short=None):
-            act = _mirror(widget, page, short)
-            if text:
-                act.setText(text)
-            act.triggered.connect(lambda _=False: page.setCurrentWidget(owner))
-            return act
-
-        load = tab(pp.load_button, pp, short=self.tr("Load"))
-        fetch = tab(pp.fetch_button, pp, self.tr("Download a light curve (TESS, Kepler, ZTF, AAVSO)"),
-                    self.tr("Download"))  # fmt: skip
-        save = tab(pp.save_button, pp, short=self.tr("Save"))
-        search = tab(pp.search_button, pp, self.tr("Period search"))
-        freq = tab(fp.button, fp)
-        var = tab(vf.button, vf)
-        win.add_menus(
-            [
-                (self.tr("&Data"), [tab(pp.delete_mode, pp), tab(pp.clip_button, pp), tab(pp.bin_button, pp),
-                                    tab(pp.units_button, pp), None, tab(pp.undo_button, pp)]),
-                (self.tr("Se&arch"), [search, freq, None, tab(vf.choose_button, vf), var]),
-                (self.tr("Se&nd"), [tab(fp.to_oc, fp), tab(vf.send, vf)]),
-            ],
-            toolbar=[load, fetch, save, None, search, freq, var],
-        )  # fmt: skip
-        files = QMenu(self.tr("&Light curve"), win)  # File → Light curve, before Close window
-        win.file_menu.insertMenu(win.file_menu.actions()[-1], files)
-        files.addActions([fetch, save])  # loading is File → Open… (Ctrl+O, or drop a file)
-        win.set_icons({load: "open", fetch: "download", save: "save", search: "period_search", freq: "frequency",
-                       var: "variable_search"})  # fmt: skip
-
-    def _oc_menus(self, page, win):
-        """O−C: Ephemeris, Models, File → Load minima / Export (interface I6c.6)."""
-        from PySide6.QtGui import QActionGroup
-        from PySide6.QtWidgets import QMenu
-
-        def named(widget, text=None, short=None):
-            act = _mirror(widget, page, short)
-            if text:
-                act.setText(text)
-            return act
-
-        load = named(page.load_button, self.tr("Load minimum times…"), self.tr("Load"))
-        look = named(page.look_up, self.tr("Look up the ephemeris (VSX)"), self.tr("Look up"))
-        fit = named(page.fit_button, short=self.tr("Fit"))
-        export = named(page.results_button, short=self.tr("Export"))
-        models = [named(r) for r in (page.linear, page.quadratic, page.ltte, page.apsidal)]
-        group = QActionGroup(win)  # one model at a time, as the radio buttons
-        for act in models:
-            group.addAction(act)
-        win.add_menus(
-            [
-                (self.tr("E&phemeris"), [look, None, models[0], models[1], None, fit]),
-                (self.tr("&Models"), [models[2], models[3], None, named(page.use_mcmc)]),
-            ],
-            toolbar=[load, look, fit, export],
-        )
-        files = QMenu(self.tr("&Export"), win)
-        win.file_menu.insertMenu(win.file_menu.actions()[-1], files)  # loading minima is File → Open… (Ctrl+O)
-        files.addAction(export)
-        win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
-
-    def _plan_menus(self, page, win):
-        """Planning: Targets and Night (interface I6c.9)."""
-
-        def named(widget, text=None, short=None):
-            act = _mirror(widget, page, short)
-            if text:
-                act.setText(text)
-            return act
-
-        add = named(page.add_button, self.tr("Add target"))
-        ephemeris = named(page.ephemeris_button, self.tr("Add target with ephemeris"), self.tr("With ephemeris"))
-        plan = named(page.plan_button)
-        schedule = named(page.schedule_button)
-        send = named(page.send_button, short=self.tr("Send"))
-        exposure = named(page.exposure_button)
-        win.add_menus(
-            [
-                (self.tr("&Targets"), [add, ephemeris, None, named(page.remove_button)]),
-                (self.tr("&Night"), [plan, exposure, None, schedule, send]),
-            ],
-            toolbar=[add, ephemeris, None, plan, exposure, None, schedule, send],
-        )
-        win.set_icons({add: "add_target", ephemeris: "ephemeris", plan: "plan_night", exposure: "exposure",
-                       schedule: "schedule", send: "send"})  # fmt: skip
-
-    def _observe_menus(self, page, win):
-        """Observing: Devices, Telescope, Camera, Focus, Flats, Sequence (interface I6c.9), as N.I.N.A. and
-        MaxIm DL group their observatory controls."""
-        b = page.buttons
-
-        def named(key, text=None):
-            act = _mirror(b[key], page)
-            if text:
-                act.setText(text)
-            return act
-
-        acts = {key: named(key) for key in b}
-        for key, text in (
-            ("cooler_off", self.tr("Cooler off")),
-            ("focuser", self.tr("Move the focuser")),
-            ("filter", self.tr("Change the filter")),
-            ("cool", self.tr("Cool the camera")),
-        ):
-            acts[key].setText(text)
-        a = acts
-        win.add_menus(
-            [
-                (self.tr("&Devices"), [a["set_up"], a["connect"], None, a["start_local"]]),
-                (self.tr("&Telescope"), [a["slew"], a["centre"], a["polar"], None, a["park"]]),
-                (self.tr("&Camera"), [a["preview"], None, a["cool"], a["cooler_off"], None, a["filter"]]),
-                (self.tr("F&ocus"), [a["autofocus"], a["focuser"]]),
-                (self.tr("F&lats"), [a["sky_flats"], a["panel_flats"]]),
-                (self.tr("&Sequence"), [a["add_row"], a["remove_row"], None, a["start"], a["abort"], a["resume"],
-                                        None, a["clear_plan"]]),
-            ],
-            toolbar=[a["connect"], None, a["slew"], a["centre"], a["park"], None, a["preview"], a["autofocus"], None,
-                     a["start"], a["abort"]],
-        )  # fmt: skip
-        win.set_icons({a["connect"]: "connect", a["slew"]: "slew", a["centre"]: "centre", a["park"]: "park",
-                       a["preview"]: "preview", a["autofocus"]: "autofocus", a["start"]: "start",
-                       a["abort"]: "abort"})  # fmt: skip
-
-    def _automation_menus(self, page, win):
-        """Automation: File → New / Save as, Steps, Run (interface I6c.10)."""
-
-        def named(widget, text=None, short=None):
-            act = _mirror(widget, page, short)
-            if text:
-                act.setText(text)
-            return act
-
-        new = named(page.new_button, self.tr("New automation"), self.tr("New"))
-        save = named(page.save_button, self.tr("Save the automation as…"), self.tr("Save as"))
-        add = named(page.add_button)
-        remove, up, down = (
-            named(b, t)
-            for b, t in zip(
-                page.step_buttons,
-                (self.tr("Remove the step"), self.tr("Move the step up"), self.tr("Move the step down")),
-                strict=True,
-            )
-        )
-        run = named(page.run_button, self.tr("Run the automation"), self.tr("Run"))
-        send = named(page.sequence_button, page.sequence_button.toolTip(), self.tr("To Observing"))
-        win.add_menus(
-            [
-                (self.tr("&Steps"), [add, remove, None, up, down]),
-                (self.tr("&Run"), [run, None, send, named(page.after_night)]),
-            ],
-            toolbar=[new, save, None, add, None, run, send],
-        )
-        win.file_menu.insertActions(win.file_menu.actions()[-1], [new, save])
-        win.file_menu.insertSeparator(win.file_menu.actions()[-1])
-        win.set_icons({new: "new", save: "save", add: "add_step", run: "start", send: "send"})
-
-    def _remotesensing_menus(self, page, win):
-        """Remote sensing: Analyse (band formula, classification, principal components) (interface I6c.10);
-        opening is File → Open… (Ctrl+O, or a drop)."""
-        compute = _mirror(page.compute_button, page, self.tr("Compute"))
-        compute.setText(self.tr("Compute the band formula"))
-        classify = _mirror(page.classify_button, page, self.tr("Classify"))
-        pca = _mirror(page.pca_button, page, self.tr("Components"))
-        win.add_menus(
-            [(self.tr("&Analyse"), [compute, None, classify, pca])],
-            toolbar=[win.file_menu.actions()[0], None, compute, classify, pca],
-        )
-        win.set_icons({win.file_menu.actions()[0]: "open", compute: "compute", classify: "classify", pca: "pca"})
-
-    def _orbits_menus(self, page, win):
-        """Models: Fit, Visual orbit, File → Compare / Export (interface I6c.7); each item shows its tab first."""
-        from PySide6.QtWidgets import QMenu
-
-        binary, visual = page.tabs.widget(0), page.visual_tab
-
-        def tab(widget, owner, text=None, short=None):
-            act = _mirror(widget, page, short)
-            if text:
-                act.setText(text)
-            act.triggered.connect(lambda _=False: page.tabs.setCurrentWidget(owner))
-            return act
-
-        fit = tab(page.fit_button, binary, self.tr("Fit the eclipse or transit model"), self.tr("Fit"))
-        posterior = tab(page.posterior_button, binary, short=self.tr("Posterior"))
-        orbit = tab(visual.fit_button, visual, short=self.tr("Visual orbit"))
-        export = tab(page.results_button, binary, short=self.tr("Export"))
-        win.add_menus(
-            [
-                (self.tr("F&it"), [fit, posterior, None, tab(page.use_mcmc, binary), tab(page.use_orbit, binary)]),
-                (self.tr("Visual &orbit"), [tab(visual.load_button, visual), orbit]),
-            ],
-            toolbar=[win.file_menu.actions()[0], fit, posterior, orbit, None, export],
-        )
-        win.file_menu.insertAction(win.file_menu.actions()[-1], tab(page.overlay_button, binary))
-        exports = QMenu(self.tr("&Export"), win)
-        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
-        exports.addActions([export, tab(page.phoebe_button, binary), tab(page.wd_button, binary),
-                            tab(page.transit_button, binary)])  # fmt: skip
-        win.set_icons({win.file_menu.actions()[0]: "open", fit: "fit_model", posterior: "posterior",
-                       orbit: "visual_orbit", export: "export"})  # fmt: skip
-
-    def _spectroscopy_menus(self, page, win):
-        """Reduce, Lines, Spectrum, Measure, Velocity and File → Export (interface I6c.5, the table agreed from
-        IRAF's tasks and iSpec's Operations / Parameters menus): every item does what its job's button does, and
-        shows that job first."""
-        from PySide6.QtWidgets import QMenu
-
-        red, ech, tel, vel, cube, tools = (page.reduce_tab, page.echelle_tab, page.telluric_tab, page.velocity_tab,
-                                            page.cube_tab, page.tools_tab)  # fmt: skip
-
-        def job(tab, widget, text=None):
-            act = _mirror(widget, page)
-            if text:
-                act.setText(text)
-            act.triggered.connect(lambda _=False: page.tabs.setCurrentWidget(tab))
-            return act
-
-        def either(text, which):
-            """One item for the long-slit and the échelle job: the one shown, else long slit."""
-            act = QAction(text, page)
-
-            def run():
-                tab = ech if page.tabs.currentWidget() is ech else red
-                page.tabs.setCurrentWidget(tab)
-                getattr(tab, which).click()
-
-            act.triggered.connect(run)
-            act.setToolTip(getattr(red, which).toolTip())
-            return act
-
-        menus = [
-            (self.tr("&Reduce"), [
-                job(red, red.extract_button, self.tr("Extract the long-slit spectrum")), None,
-                job(ech, ech.find_button, self.tr("Find the échelle orders on the flat")),
-                job(ech, ech.extract_button, self.tr("Extract the échelle orders")), None,
-                job(cube, cube.load_button), job(cube, cube.show_button),
-                job(cube, cube.save_button, self.tr("Save the cube region's spectrum…"))]),
-            (self.tr("&Lines"), [
-                job(red, red.reference_button), job(ech, ech.database_button), None,
-                job(red, red.solve_button, self.tr("Fit the wavelengths (long slit)")),
-                job(ech, ech.solve_button, self.tr("Fit the wavelengths, merge the orders (échelle)")), None,
-                either(red.refit_button.text(), "refit_button"), either(red.forget_button.text(), "forget_button")]),
-            (self.tr("S&pectrum"), [
-                job(tools, tools.open_button), None, job(tools, tools.normalise_button), job(tools, tools.pick),
-                job(tools, tools.through_button), job(tools, tools.smooth_button),
-                job(tools, tools.resample_button), None, job(tools, tools.combine_button),
-                job(tools, tools.response_button), job(tools, tools.apply_resp), None,
-                job(tel, tel.button, self.tr("Telluric correction")),
-                job(tools, tools.open_b_button),
-                job(tools, tools.arith_button, self.tr("Arithmetic with spectrum B"))]),
-            (self.tr("Mea&sure"), [
-                job(tools, tools.measure_button, self.tr("Measure a line")), job(tools, tools.vr_button),
-                job(tools, tools.series_button), None, job(tools, tools.atm_button),
-                job(vel, vel.type_button)]),
-            (self.tr("Velo&city"), [
-                job(vel, vel.rv_button), job(vel, vel.separate_button), job(vel, vel.orbit_button)]),
-        ]  # fmt: skip
-        win.add_menus(menus)
-        exports = QMenu(self.tr("&Export"), win)  # File → Export, just before Close window
-        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
-        exports.addActions([job(tools, tools.save_button, self.tr("Save the spectrum as…")),
-                            job(tools, tools.bess_button)])  # fmt: skip
-
     def _spectroscopy_window(self, page):
         """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
         Job menu), its view in the middle, its steps in the left panel."""
@@ -781,7 +486,7 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
         win.set_icons(dict(zip(actions, jobs, strict=True)))
-        self._spectroscopy_menus(page, win)
+        area_menus.spectroscopy(self, page, win)
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()
         self._frames[page] = parts["steps"]
@@ -2718,47 +2423,6 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
-
-
-def _mirror(widget, parent=None, short=None):
-    """A menu / toolbar action that does what a page's button or check box does (interface I6c): the button's text
-    in the menus, the short name on the toolbar (its icon text), enabled and checked as the widget is; the button
-    stays the one place where the page decides."""
-    act = QAction(widget.text() or short, parent or widget)
-    if short:
-        act.setIconText(short)
-    act.setToolTip(widget.toolTip() or widget.text())
-    act.setStatusTip(act.toolTip())
-    if widget.isCheckable():
-        act.setCheckable(True)
-        act.setChecked(widget.isChecked())
-        act.toggled.connect(widget.setChecked)
-        widget.toggled.connect(act.setChecked)
-    else:
-        act.triggered.connect(lambda _=False, b=widget: b.click())
-    _follow_enabled(widget, act)
-    return act
-
-
-def _follow_enabled(button, action):
-    """A toolbar or menu action that is enabled exactly when the page's button is, and not while the page has hidden
-    the button (Posterior… before an MCMC run); the button stays the one place where the page decides. A button in
-    a tab that is not shown is not hidden: its action stays usable."""
-    from PySide6.QtCore import QEvent
-
-    def follow():
-        action.setEnabled(button.isEnabled() and not button.isHidden())
-
-    class _Watch(QObject):
-        def eventFilter(self, obj, event):
-            if event.type() in (QEvent.EnabledChange, QEvent.ShowToParent, QEvent.HideToParent):
-                follow()
-            return False
-
-    watch = _Watch(button)
-    button.installEventFilter(watch)
-    follow()
-    action._watch = watch
 
 
 def _undo_source(page):
