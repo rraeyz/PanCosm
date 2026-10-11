@@ -297,8 +297,11 @@ for the window concerned.
   `tests/test_tokens.py`: every text token on every surface ≥ 4.5 : 1 (faint ≥ 2.5), and a ratchet on colour
   literals in `ui/` (`tests/data/colour_literals.json`, 80 → 43 now; the rest goes as UI-16 rebuilds each window).
   **Changed from the plan:** the grep test is a shrink-only count per file instead of "none", since the old pages
-  are rebuilt in UI-16, not edited twice. Pending: the full style sheet for every kit control (item 2), bundled
-  fonts (3), pyqtgraph from the tokens (4), live theme change of icons (5).
+  are rebuilt in UI-16, not edited twice. Item 3: Inter 4.1 (variable) and JetBrains Mono 2.304 bundled in
+  `resources/fonts/` with their OFL texts, registered at start-up, tabular figures on (Qt 6.7+); the layout tests
+  pass with them in every language. Item 4: `PlotView` takes its background and axis colours from the theme.
+  Pending: the full style sheet for every kit control (item 2), the mono font in tables and read-outs, live theme
+  change of icons (5).
 - **Ours now:** `ui/theme.py`: eight colours per theme in a tuple, one style sheet, Matplotlib rcParams.
 - **Build:**
   1. `ui/kit/tokens.py`: the tables above as data (`DARK`, `LIGHT`), with `role()` and `filter_colour()` helpers; a

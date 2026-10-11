@@ -3,7 +3,9 @@ plot. Themes: dark (default, blue-black) and light. A saved theme that no longer
 The text size (points) is the user's (View → Larger / Smaller text), 10 pt by default.
 """
 
-from PySide6.QtGui import QColor, QPalette
+from pathlib import Path
+
+from PySide6.QtGui import QColor, QFont, QFontDatabase, QPalette
 
 from .kit import tokens
 
@@ -99,6 +101,21 @@ QGraphicsView {{ background: {c["image"]}; border: none; }}
 """
 
 
+FONTS = Path(__file__).resolve().parents[1] / "resources" / "fonts"  # Inter, JetBrains Mono (SIL OFL 1.1)
+MONO = "JetBrains Mono"  # numbers in tables, read-outs, logs
+_families = []
+
+
+def load_fonts():
+    """Register the bundled fonts once; returns the interface family ("" when they cannot be read)."""
+    if not _families:
+        for f in sorted(FONTS.glob("*.ttf")):
+            i = QFontDatabase.addApplicationFont(str(f))
+            _families.extend(QFontDatabase.applicationFontFamilies(i) if i >= 0 else [])
+        _families.append("")  # tried: not again
+    return next((f for f in _families if f.startswith("Inter")), "")  # "Inter Variable" from the variable file
+
+
 def font_size(settings):
     """The user's text size in points, kept within the range the windows are tested at."""
     try:
@@ -113,6 +130,13 @@ def apply(app, name=DEFAULT, font_pt=FONT_PT):
 
     c = colors(name)
     app.setStyle("Fusion")
+    family = load_fonts()
+    if family:
+        font = QFont(family)
+        font.setPointSizeF(font_pt)
+        if hasattr(font, "setFeature"):  # Qt 6.7+: figures of one width, so columns of numbers line up
+            font.setFeature(QFont.Tag("tnum"), 1)
+        app.setFont(font)
     pal = QPalette()
     for role, key in (
         (QPalette.Window, "window"),
