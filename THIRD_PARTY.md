@@ -49,6 +49,7 @@ copied. Projects consulted are listed below.
 | pyqtgraph | MIT | interactive plots |
 | Inter 4.1 (font, src/astrowb/resources/fonts/InterVariable.ttf) | SIL Open Font License 1.1 (Inter-OFL.txt beside it) | interface text |
 | JetBrains Mono 2.304 (font, src/astrowb/resources/fonts/JetBrainsMono-Regular.ttf) | SIL Open Font License 1.1 (JetBrainsMono-OFL.txt beside it) | numbers in tables and read-outs |
+| Lucide 0.460.0 (icons, src/astrowb/resources/icons/lucide/) | ISC (LICENSE.txt beside them) | toolbar and menu icons |
 | Rust crates compiled into the compiled routines (native/Cargo.lock): pyo3, rayon, ndarray, crossbeam, libc, num-*, syn, quote, proc-macro2 and the others the lock lists | MIT or Apache-2.0 (numpy crate: BSD-2-Clause; unicode-ident also Unicode-3.0; target-lexicon Apache-2.0 with LLVM exception) | compiled routines (`astrowb._native`) |
 | rendercanvas (dependency of wgpu) | BSD-2-Clause (from the LICENSE file in the wheel; no licence metadata) | — |
 
