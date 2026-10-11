@@ -6,12 +6,9 @@ from pathlib import Path
 from PySide6.QtCore import QEvent, QObject, QSize, Qt, Signal
 from PySide6.QtGui import QAction, QIcon, QKeySequence
 from PySide6.QtWidgets import (
-    QDockWidget,
-    QFileDialog,
     QLabel,
     QListWidget,
     QMainWindow,
-    QMessageBox,
     QProgressBar,
     QStackedWidget,
     QWidget,
@@ -21,7 +18,7 @@ from ..brand import BRAND
 from ..engine.core import Engine
 from ..engine.project import EXTENSION
 from ..settings import Settings
-from . import advice, area_menus, area_pages, area_windows, main_menus, tour
+from . import area_menus, area_pages, area_windows, main_menus, tour
 from .area_actions import AreaActions
 from .area_menus import _undo_source
 from .file_actions import FileActions
@@ -29,7 +26,8 @@ from .files import images_filter
 from .image_actions import ImageActions
 from .kit.window import _raise as _raise_window
 from .main_settings import SettingsActions
-from .messages import task_error, translate
+from .task_actions import TaskActions
+from .window_menu import WindowMenu
 from .workspaces import (
     CalibratePage,
     PlotCanvas,
@@ -59,7 +57,7 @@ class _Lazy:
         return page
 
 
-class MainWindow(FileActions, AreaActions, SettingsActions, ImageActions, QMainWindow):
+class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActions, ImageActions, QMainWindow):
     taskUpdated = Signal(object)  # emitted from the task monitor thread, delivered on the GUI thread
     updateChecked = Signal(object, object)  # newer release or None, error or None (from a thread)
     start_page = _Lazy()
@@ -332,62 +330,6 @@ class MainWindow(FileActions, AreaActions, SettingsActions, ImageActions, QMainW
         win.help_menu.addAction(self.update_action)
         win.help_menu.addAction(self.about_action)
 
-    def _help_for(self, key):
-        """F1 in an area window: the guide, filtered to that area."""
-        from .start_page import areas
-
-        self.show_workspace("guide")
-        _raise_window(self)
-        name = next((n for k, _, n, _ in areas() if k == key), "")
-        self.guide_page.search.setText(name)
-
-    def _table_menu(self, table, pos):
-        from PySide6.QtWidgets import QApplication, QMenu
-
-        from .plot.export import export_table, selected_text, table_rows
-
-        menu = QMenu(table)
-        selected = menu.addAction(self.tr("Copy") + "\tCtrl+C")
-        selected.setEnabled(bool(table.selectedIndexes()))
-        copy = menu.addAction(self.tr("Copy table"))
-        export = menu.addAction(self.tr("Export table (CSV or LaTeX)…"))
-        chosen = menu.exec(table.viewport().mapToGlobal(pos))
-        if chosen is selected:
-            QApplication.clipboard().setText(selected_text(table))
-        elif chosen is export:
-            path, _ = QFileDialog.getSaveFileName(
-                self, self.tr("Export table"), "table.csv", "CSV (*.csv);;LaTeX (*.tex)"
-            )
-            if path:
-                export_table(table, path)
-        elif chosen is copy:
-            header, rows = table_rows(table)
-            QApplication.clipboard().setText("\n".join("\t".join(r) for r in [header, *rows]))
-
-    def _show_key(self, key):
-        if key in self.WINDOWED:  # opens its window; the main window keeps showing what it showed
-            self.open_area(key)
-        elif key:
-            page = getattr(self, self.PAGES[key])
-            self.pages.setCurrentWidget(self._frames.get(page, page))
-            self._key = key
-            self._follow_undo(page)
-
-    def _follow_undo(self, page=None):
-        """Edit -> Undo / Redo act on the page shown (on its open tab when it has tabs)."""
-        if not hasattr(self, "undo_group"):  # pages shown while the window is built, before its menus
-            return
-        page = page or getattr(self, self.PAGES.get(self._key, ""), None)
-        tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
-        if tabs is not None and not getattr(tabs, "_follows_undo", False):
-            tabs.currentChanged.connect(lambda _=0: self._follow_undo())
-            tabs._follows_undo = True
-        inner = tabs.currentWidget() if tabs is not None else None
-        stack = getattr(inner, "undo_stack", None) or getattr(page, "undo_stack", None)
-        if stack is not None and stack not in self.undo_group.stacks():
-            self.undo_group.addStack(stack)
-        self.undo_group.setActiveStack(stack)
-
     @property
     def workspaces(self):
         """key -> (title, page); building every page (tests and tools, not start-up)."""
@@ -554,44 +496,6 @@ class MainWindow(FileActions, AreaActions, SettingsActions, ImageActions, QMainW
             return last
         return self._key
 
-    def _fill_window_menu(self):
-        from .kit.window import AreaWindow, _raise
-        from .start_page import areas
-
-        self.window_menu.clear()
-        self._action(self.window_menu, self.tr("Main window"), lambda: _raise(self))
-        for key in ("start", "project", "guide"):  # the main window's own pages (the sidebar is gone)
-            self._action(self.window_menu, self._titles[key], lambda k=key: (_raise(self), self.show_workspace(k)))
-        self.window_menu.addSeparator()
-        open_now = AreaWindow.shown()
-        for win in open_now:
-            self._action(self.window_menu, win.windowTitle(), lambda w=win: _raise(w))
-        if open_now:
-            self.window_menu.addSeparator()
-        sub = self.window_menu.addMenu(self.tr("Open an area"))
-        for key, _, name, _ in areas():
-            self._action(sub, name, lambda k=key: self.open_area(k))
-
-    def report_problem(self, path=None):
-        from .report import report_dialog
-
-        return report_dialog(self, self.settings, self.engine, path)
-
-    def _start_action(self, key):
-        actions = {
-            "new_project": self.new_project_dialog,
-            "open_project": self.open_project_dialog,
-            "open_fits": self.open_fits_dialog,
-        }
-        actions[key]() if key in actions else self.open_area(key)
-
-    def _dock(self, name, title, widget, area):
-        dock = QDockWidget(title, self)
-        dock.setObjectName(name)  # stable id for saved layouts; never translated
-        dock.setWidget(widget)
-        self.addDockWidget(area, dock)
-        return dock
-
     def _action(self, menu, text, slot, shortcut=None):
         act = QAction(text, self)
         act.triggered.connect(lambda _checked=False: slot())  # Qt's "checked" flag must not reach the slot
@@ -618,64 +522,6 @@ class MainWindow(FileActions, AreaActions, SettingsActions, ImageActions, QMainW
     # --- FITS ---------------------------------------------------------------
 
     # --- tasks --------------------------------------------------------------
-    def run_step(self, step_id, inputs, params=None, on_done=None, on_fail=None, area=None):
-        """Run a step as a task; on_done(outputs) is called on the GUI thread when it succeeds, on_fail(message)
-        (instead of the error box) when it fails. Never touch widgets from task.add_callback: that runs on a
-        background thread. area: the area that asked for it; its window (if it has one) shows the progress."""
-        task = self.engine.run_step(step_id, inputs, params)
-        if area in self.area_windows:
-            self.area_windows[area].track(task)
-        if on_done:
-            self._on_done[task.id] = on_done
-        if on_fail:
-            self._on_fail[task.id] = on_fail
-        task.add_callback(self.taskUpdated.emit)
-        self.taskUpdated.emit(task)
-        return task
-
-    def run_step_for(self, area, step_id, inputs, params=None, on_done=None, on_fail=None):
-        """run_step for an area: its window shows the progress."""
-        return self.run_step(step_id, inputs, params, on_done=on_done, on_fail=on_fail, area=area)
-
-    def _on_task(self, task):
-        states = {
-            "queued": self.tr("queued"),
-            "running": self.tr("running"),
-            "done": self.tr("done"),
-            "failed": self.tr("failed"),
-            "cancelled": self.tr("cancelled"),
-        }
-        from .step_names import step_name
-
-        text = f"{step_name(task.name)} — {states[task.state]} {int(task.progress * 100)}% {translate(task.message)}"
-        if task.id not in self._task_items:
-            self.tasks_list.addItem(text)
-            self._task_items[task.id] = (task, self.tasks_list.count() - 1)
-        self.tasks_list.item(self._task_items[task.id][1]).setText(text)
-        self.progress.setVisible(any(not t.finished for t, _ in self._task_items.values()))
-        self.progress.setValue(int(task.progress * 100))
-        from .kit.window import AreaWindow
-
-        for win in AreaWindow.alive():  # the area window that started it shows it in its status bar
-            win.task_update(task)
-        if task.finished:
-            done = self._on_done.pop(task.id, None)
-            fail = self._on_fail.pop(task.id, None)
-            if done and task.state == "done":
-                done(task.result())
-            self._refresh_files()
-            if fail and task.state == "failed":
-                fail(task_error(task.error))
-                return
-        if task.state == "failed":
-            box = QMessageBox(
-                QMessageBox.Warning,
-                self.tr("Task failed"),
-                f"{step_name(task.name)}\n\n{task_error(task.error)}{advice.for_trace(task.error)}",
-                parent=self,
-            )
-            box.setDetailedText(str(task.error))  # the full traceback, for reports
-            box.open()
 
     # --- calibration --------------------------------------------------------
 
