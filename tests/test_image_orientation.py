@@ -98,3 +98,24 @@ def test_magnifier_shows_the_pixels_round_the_cursor(qapp):
     v.grab()  # draws without error
     assert v._magnifier_limits is not None
     v.close()
+
+
+def test_imexamine_keys_over_the_image(qapp):
+    from PySide6.QtCore import Qt
+    from PySide6.QtTest import QTest
+
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    v.set_image(np.zeros((40, 60), np.float32))
+    got = []
+    v.star_key.connect(lambda x, y: got.append(("a", x, y)))
+    v.region_selected.connect(lambda *r: got.append(("m", *r)))
+    v.line_selected.connect(lambda *r: got.append(("line", *r)))
+    v.cursor_pixel = (10, 20)  # row 10, column 20
+    for key in (Qt.Key_A, Qt.Key_M, Qt.Key_L, Qt.Key_C):
+        QTest.keyClick(v, key)
+    assert got == [("a", 20, 10), ("m", 15, 5, 25, 15), ("line", 0, 10, 59, 10), ("line", 20, 0, 20, 39)]
+    QTest.keyClick(v, Qt.Key_M, Qt.ControlModifier)  # with a modifier: not an examine key
+    assert len(got) == 4
+    v.close()

@@ -25,6 +25,7 @@ class ImageViewer(QGraphicsView):
     line_selected = Signal(float, float, float, float)
     # Shift + wheel while marking stars: +1 / -1 to make the measuring rings larger / smaller (the image keeps its zoom)
     rings_wheel = Signal(int)
+    star_key = Signal(float, float)  # the a key over the image: 0-based array x, y under the cursor (imexamine)
     _rendered = Signal(int, object)  # generation, full-resolution picture (from the render thread)
 
     def __init__(self, parent=None):
@@ -486,6 +487,24 @@ class ImageViewer(QGraphicsView):
                 p = self.mapToScene(event.position().toPoint())
                 self.clicked.emit(p.x() - 0.5, self.data.shape[0] - 0.5 - p.y())
         self._press = None
+
+    def keyPressEvent(self, event):
+        """Keys over the image, as IRAF's imexamine (ARC-7 item 4): a the star, m statistics of the 11 × 11 box,
+        l / c the line / column through the cursor (the same results as the area and line tools)."""
+        key = event.text().lower()
+        if not key or key not in "amlc" or self.cursor_pixel is None or event.modifiers() or self.data is None:
+            return super().keyPressEvent(event)
+        y, x = self.cursor_pixel
+        h, w = self.data.shape[:2]
+        if key == "a":
+            self.star_key.emit(float(x), float(y))
+        elif key == "m":
+            self.region_selected.emit(x - 5.0, y - 5.0, x + 5.0, y + 5.0)
+        elif key == "l":
+            self.line_selected.emit(0.0, float(y), w - 1.0, float(y))
+        else:
+            self.line_selected.emit(float(x), 0.0, float(x), h - 1.0)
+        return None
 
     def mouseMoveEvent(self, event):
         super().mouseMoveEvent(event)
