@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from PySide6.QtCore import QEvent, QObject, QSize, Qt, Signal
-from PySide6.QtGui import QAction, QActionGroup, QIcon, QKeySequence, QUndoGroup
+from PySide6.QtGui import QAction, QIcon, QKeySequence
 from PySide6.QtWidgets import (
     QDockWidget,
     QFileDialog,
@@ -20,16 +20,13 @@ from PySide6.QtWidgets import (
 
 from .. import __version__, compute
 from ..brand import BRAND
-from ..display import INTERVALS, STRETCHES
 from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import advice, area_menus, area_pages, area_windows, help_checks, online_actions, tour
+from . import advice, area_menus, area_pages, area_windows, main_menus, tour
 from .area_menus import _undo_source
 from .files import images_filter
-from .i18n import LANGUAGES
-from .kit.widgets import bar_menu
 from .kit.window import _raise as _raise_window
 from .messages import task_error, translate
 from .workspaces import (
@@ -747,159 +744,7 @@ class MainWindow(QMainWindow):
             act.setIcon(icon(kind, self))
 
     def _build_menus(self):
-        m = bar_menu(self.menuBar(), self.tr("&File"))
-        self._action(m, self.tr("&New project…"), self.new_project_dialog, QKeySequence.New)
-        self._action(m, self.tr("Open &project…"), self.open_project_dialog)
-        m.addSeparator()
-        self.open_action = self._action(m, self.tr("&Open FITS…"), self.open_fits_dialog, QKeySequence.Open)
-        self.save_action = self._action(m, self.tr("&Save FITS as…"), self.save_as_dialog, QKeySequence.SaveAs)
-        self.save_action.setEnabled(False)
-        self.picture_action = self._action(m, self.tr("Save &picture (PNG / JPEG / TIFF)…"), self.save_picture_dialog)
-        self.picture_action.setEnabled(False)
-        self._action(m, self.tr("&Convert many images (PNG / JPEG / TIFF)…"), self.convert_dialog)
-        m.addSeparator()
-        self._action(m, self.tr("&Close image"), self.close_image, QKeySequence.Close)
-        self._action(m, self.tr("Close &all images"), lambda: self.close_image(everything=True))
-        m.addSeparator()
-        self._action(m, self.tr("&Quit"), self.close, QKeySequence.Quit)
-
-        e = bar_menu(self.menuBar(), self.tr("&Edit"))
-        self.undo_group = QUndoGroup(self)
-        self.undo_action = self.undo_group.createUndoAction(self, self.tr("&Undo"))
-        self.undo_action.setShortcuts([QKeySequence(QKeySequence.Undo)])
-        self.redo_action = self.undo_group.createRedoAction(self, self.tr("&Redo"))
-        redo = [QKeySequence("Ctrl+Y"), QKeySequence("Ctrl+Shift+Z")] + QKeySequence.keyBindings(QKeySequence.Redo)
-        unique = {k.toString(): k for k in redo}  # one key twice on one action is "ambiguous": it would do nothing
-        self.redo_action.setShortcuts(list(unique.values()))
-        for act, tip in (
-            (self.undo_action, self.tr("Take back the last change in this window (stars marked, points deleted, …)")),
-            (self.redo_action, self.tr("Do again what Undo took back")),
-        ):
-            act.setToolTip(tip)
-            e.addAction(act)
-
-        v = self.view_menu = bar_menu(self.menuBar(), self.tr("&View"))
-        self.fit_action = self._action(v, self.tr("Zoom to &fit"), self.viewer.fit, "F")
-        self.zoom_in_action = self._action(v, self.tr("Zoom &in"), lambda: self.viewer.zoom(1.25), QKeySequence.ZoomIn)
-        zoom_out = QKeySequence.ZoomOut
-        self.zoom_out_action = self._action(v, self.tr("Zoom &out"), lambda: self.viewer.zoom(0.8), zoom_out)
-        names = {
-            "zscale": self.tr("ZScale"),
-            "minmax": self.tr("Min–max"),
-            "99.5%": self.tr("99.5 %"),
-            "linear": self.tr("Linear"),
-            "sqrt": self.tr("Square root"),
-            "log": self.tr("Logarithmic"),
-            "asinh": self.tr("Asinh"),
-        }
-        self.previous_action = self._action(v, self.tr("&Previous image"), lambda: self.image_page.step_image(-1))
-        self.next_action = self._action(v, self.tr("&Next image"), lambda: self.image_page.step_image(1))
-        for act, key in ((self.previous_action, Qt.Key_PageUp), (self.next_action, Qt.Key_PageDown)):
-            act.setShortcut(key)
-            act.setShortcutContext(Qt.WidgetWithChildrenShortcut)  # only over the image: tables keep their keys
-            self.image_page.addAction(act)
-        v.addSeparator()
-        self.levels_action = self._action(v, self.tr("Display &levels and colours…"), self.levels_dialog, "Ctrl+L")
-        self.blink_action = self._action(v, self.tr("&Blink images…"), self.blink_dialog)
-        from .overlay_actions import add_menu as add_overlay_menu
-
-        self.overlay_menu = add_overlay_menu(self, v)
-        for title, keys, kw in (
-            (self.tr("Interval"), INTERVALS, "interval"),
-            (self.tr("Stretch"), STRETCHES, "stretch"),
-        ):
-            sub, group = v.addMenu(title), QActionGroup(self)
-            for key in keys:
-                act = self._action(sub, names[key], lambda _=False, k=key, kw=kw: self.viewer.set_stretch(**{kw: k}))
-                act.setCheckable(True)
-                act.setChecked(key == getattr(self.viewer, kw))
-                group.addAction(act)
-
-        im = self.image_bar_menu = bar_menu(self.menuBar(), self.tr("&Image"))
-        self.solve_action = self._action(im, self.tr("&Plate solve (ASTAP / astrometry.net)"), self.plate_solve)
-        self.solve_action.setEnabled(False)
-        self.colour_action = self._action(im, self.tr("&Colour image from three filters…"), self.colour_dialog)
-        self.moving_action = self._action(im, self.tr("&Asteroid and comet astrometry…"), self.moving_dialog)
-        self.coefficients_action = self._action(
-            im, self.tr("Photometric &coefficients (extinction, transformation)…"), self.coefficients_dialog
-        )
-        self.process_menu = im.addMenu(self.tr("P&rocess"))
-        self.process_menu.setEnabled(False)
-        self.apply_all_action = self.process_menu.addAction(self.tr("Apply to all open images"))
-        self.apply_all_action.setCheckable(True)
-        self.apply_all_action.setToolTip(
-            self.tr("The next operations run on every image in the list; the processed copies take their places")
-        )
-        self.process_menu.setToolTipsVisible(True)
-        self.process_menu.addSeparator()
-        ops = (
-            (self.tr("Pixel math…"), "pixel_math"),
-            (self.tr("Flip left–right"), ("flip", {"axis": "x"})),
-            (self.tr("Flip top–bottom"), ("flip", {"axis": "y"})),
-            (self.tr("Rotate 90°"), ("rotate90", {"k": 1})),
-            (self.tr("Rotate by any angle…"), "rotate"),
-            (self.tr("Resample (change the pixel size)…"), "resample"),
-            (self.tr("Bin 2×2"), ("bin", {"factor": 2})),
-            (self.tr("Crop…"), "crop"),
-            (self.tr("Gaussian smoothing…"), "gaussian"),
-            (self.tr("Median filter…"), "median"),
-            (self.tr("Unsharp mask…"), "unsharp"),
-            (self.tr("Remove background gradient…"), "background"),
-            (self.tr("Kernel filter…"), "kernel"),
-            (self.tr("Deconvolution (Richardson–Lucy)…"), "deconvolve"),
-            (self.tr("Digital development (DDP)"), ("ddp", {})),
-            (self.tr("Match the histogram of another image…"), "histogram_match"),
-        )
-        for text, op in ops:
-            self._action(self.process_menu, text, lambda _=False, o=op: self.process_dialog(o))
-
-        self.plugins_menu = bar_menu(self.menuBar(), self.tr("&Plugins"))
-        self.plugins_menu.aboutToShow.connect(self._fill_plugins_menu)
-
-        s = self.settings_menu = bar_menu(self.menuBar(), self.tr("&Settings"))
-        self.expert_action = QAction(self.tr("&Expert mode (every option open)"), self)
-        self.expert_action.setCheckable(True)
-        self.expert_action.setChecked(self.ui_mode() == "expert")
-        self.expert_action.toggled.connect(lambda on: self.set_ui_mode("expert" if on else "basic"))
-        s.addAction(self.expert_action)
-        s.addSeparator()
-        lang_menu, group = s.addMenu(self.tr("&Language")), QActionGroup(self)
-        current = self.settings.get("ui.language")
-        for code, native in LANGUAGES.items():
-            act = self._action(lang_menu, native, lambda _=False, c=code: self.set_language(c))
-            act.setCheckable(True)
-            act.setChecked(code == current)
-            group.addAction(act)
-
-        theme_menu, group = s.addMenu(self.tr("&Look")), QActionGroup(self)
-        looks = {"dark": self.tr("Dark"), "light": self.tr("Light")}
-        for code, label in looks.items():
-            act = self._action(theme_menu, label, lambda _=False, c=code: self.set_theme(c))
-            act.setCheckable(True)
-            act.setChecked(code == self.settings.get("ui.theme", "dark"))
-            group.addAction(act)
-
-        dev_menu, group = s.addMenu(self.tr("&Processing device")), QActionGroup(self)
-        names = {"auto": self.tr("Automatic (GPU when useful)"), "cpu": self.tr("CPU only"), "gpu": self.tr("GPU")}
-        for code, label in names.items():
-            act = self._action(dev_menu, label, lambda _=False, c=code: self.set_compute(c))
-            act.setCheckable(True)
-            act.setChecked(code == compute.mode())
-            group.addAction(act)
-
-        s.addSeparator()
-        online_actions.add(self, s)
-        text_menu = s.addMenu(self.tr("Text size"))  # View → Text size in the area windows
-        sizes = (
-            (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
-            (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
-            (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
-        )
-        for text, step, key in sizes:
-            self._action(text_menu, text, lambda s=step: self._change_font(s), key)
-        self.window_menu = bar_menu(self.menuBar(), self.tr("&Window"))
-        self.window_menu.aboutToShow.connect(self._fill_window_menu)
-        help_checks.add_menu(self)
+        main_menus.build(self)
 
     # --- image processing ---------------------------------------------------
     def process_dialog(self, op):
