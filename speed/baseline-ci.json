@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-11T08:44:20+00:00",
+ "commit": "e3d333e",
+ "ci": true,
+ "machine": {
+  "system": "GitHub Actions ubuntu-22.04",
+  "python": "3.12.16",
+  "cores": 4
+ },
+ "cases": {
+  "open a 1024x1024 FITS": {
+   "seconds": 0.002,
+   "peak_mb": 6.0,
+   "budget": "Show a frame"
+  },
+  "display conversion 1024x1024": {
+   "seconds": 0.007,
+   "peak_mb": 24.0,
+   "budget": "Show a frame"
+  },
+  "calibrate: 3 masters of 5 + 5 lights": {
+   "seconds": 1.487,
+   "peak_mb": 212.0,
+   "budget": "Calibrate"
+  },
+  "stack 5 lights (sigma clip)": {
+   "seconds": 2.424,
+   "peak_mb": 86.0,
+   "budget": "Calibrate"
+  },
+  "light curve, 5 frames, 4 stars": {
+   "seconds": 0.408,
+   "peak_mb": 90.0,
+   "budget": "Light curve"
+  },
+  "period search, 15000 points (Lomb-Scargle)": {
+   "seconds": 0.212,
+   "peak_mb": 75.0,
+   "budget": "Period search"
+  },
+  "frequency analysis, 15000 points": {
+   "seconds": 5.886,
+   "peak_mb": 85.0,
+   "budget": "Period search"
+  },
+  "plot decimation, 30 pans of 10^6 points": {
+   "seconds": 0.491,
+   "peak_mb": 8.0,
+   "budget": "Any click that only changes the view"
+  },
+  "table filter and sort, 10^6 rows": {
+   "seconds": 0.141,
+   "peak_mb": 80.0,
+   "budget": "Any click that only changes the view"
+  },
+  "Kepler's equation, 10^6 anomalies": {
+   "seconds": 0.046,
+   "peak_mb": 8.0,
+   "budget": "Roche / transit models (native)"
+  }
+ }
+}
