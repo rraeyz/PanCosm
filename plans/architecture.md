@@ -347,7 +347,7 @@ the suite is green after each.
   - **ARC-4.4** `main_window.py` (2859) → `ui/shell/`: `app.py` (start-up), `main_window.py` (the start window only),
     `menus.py`, `area_registry.py` (the table of areas: key, title, icon, factory, opener — one source for the
     start window, Window menus and Ctrl+K), `tasks_panel.py`, `settings_menu.py`, `help.py`, and each area's
-    `_xxx_menus` moved into that area's package as `menus.py`. **open** — first parts by agent3 (2026-11-11):
+    `_xxx_menus` moved into that area's package as `menus.py`. **done** — by agent3 (2026-11-11):
     the Help menu with both checks (`ui/help_checks.py`), the internet settings (`ui/online_actions.py`) and the
     nine areas' menus with `_mirror` / `_follow_enabled` (`ui/area_menus.py`; one module until each area has its
     package in UI-16) and six area pages with their wiring (`ui/area_pages.py`) moved out, texts kept in the
@@ -356,8 +356,11 @@ the suite is green after each.
     (`ui/main_menus.py`), and three mixins: image commands (`ui/image_actions.py`), settings and help
     (`ui/main_settings.py`), hand-overs between areas (`ui/area_actions.py`), files, projects and plugins
     (`ui/file_actions.py`), running steps (`ui/task_actions.py`), the Window menu and keys (`ui/window_menu.py`):
-    641 lines, off the size allow-list. Still to do: `ui/shell/` packaging and the area registry (one table for
-    the start window, Window menus and Ctrl+K).
+    641 lines, off the size allow-list. **agent3 done (2026-11-11).** **Found in the code:** the area registry
+    exists — `start_page.areas()` is the one table the start window, the Window menus and the windows' titles read
+    (Ctrl+K searches a window's own actions, kit/window.py). **Changed from the plan:** the new modules stay flat
+    in `ui/` instead of a `ui/shell/` package: moving them again would only rename imports; each goes into its
+    area's package when UI-16 rebuilds that window.
   - **ARC-4.5** Calibration, Images, Observing, Planning pages → their packages. **merged into UI-16.2, 16.8, 16.9, 16.10 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.6** Light curves (period, frequency, variable search), O−C, Models, Automation, Remote sensing →
     their packages. **merged into UI-16.4 … 16.7, 16.12, 16.13 (agent3, 2026-11-10; see the note below)**
