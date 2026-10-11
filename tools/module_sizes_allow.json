@@ -1,6 +1,6 @@
 {
  "files": {
-  "ui/main_window.py": 1732,
+  "ui/main_window.py": 1349,
   "ui/observe_page.py": 862,
   "ui/photometry_page.py": 3149,
   "ui/spectro_page.py": 2430,
