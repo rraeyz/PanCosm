@@ -3439,6 +3439,14 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
 </context>
 <context>
+    <name>Inspector</name>
+    <message>
+        <location filename="../../ui/kit/inspector.py" line="25"/>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+</context>
+<context>
     <name>LevelsDialog</name>
     <message>
         <location filename="../../ui/levels_dialog.py" line="25"/>
