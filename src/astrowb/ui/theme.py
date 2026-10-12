@@ -56,6 +56,9 @@ QPushButton:default, QPushButton[primary="true"] {{
     background: {c["accent"]}; color: {c["accent_text"]}; border: none;
 }}
 QPushButton:default:hover, QPushButton[primary="true"]:hover {{ background: {c["accent_hover"]}; }}
+QPushButton[kind="quiet"] {{ background: transparent; border-color: transparent; }}
+QPushButton[kind="quiet"]:hover {{ background: {c["hover"]}; }}
+QPushButton[kind="danger"] {{ color: {c["error"]}; border-color: {c["error"]}; }}
 QSpinBox, QDoubleSpinBox, QComboBox {{ min-height: 24px; }}  /* frames and arrows: Fusion + palette */
 QLineEdit, QPlainTextEdit, QTextEdit, QTextBrowser {{
     background: {c["panel"]}; border: 1px solid {c["border"]}; border-radius: 6px; padding: 4px 6px;

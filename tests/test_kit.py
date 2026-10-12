@@ -1,5 +1,5 @@
-"""UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift / Ctrl steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog."""
+"""UI-3: the component kit: NumberField (keystroke check, Enter, Esc, wheel only with focus, Shift / Ctrl steps,
+auto, binding), InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog, Button."""
 
 import pytest
 
@@ -203,3 +203,17 @@ def test_dialog(qtbot):
     again = Dialog("Export options", None, mem, "export")
     qtbot.addWidget(again)
     assert (again.width(), again.height()) == (500, 300)
+
+
+def test_button_kinds_and_busy(qtbot):
+    from astrowb.ui.kit.buttons import Button
+
+    b = Button("Measure", "primary", icon="measure")
+    qtbot.addWidget(b)
+    assert b.property("primary") and not b.icon().isNull()
+    b.set_busy(True)
+    assert b.is_busy() and not b.isEnabled() and b.text().endswith("Measure") and b.text() != "Measure"
+    b.set_busy(False)
+    assert not b.is_busy() and b.isEnabled() and b.text() == "Measure"
+    with pytest.raises(ValueError):
+        Button("x", "loud")
