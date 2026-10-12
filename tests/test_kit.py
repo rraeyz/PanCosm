@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner and Badge."""
+Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast."""
 
 import pytest
 
@@ -82,3 +82,22 @@ def test_info_banner_and_badge(qtbot):
     assert Badge("calibrated", "ok").text() == "calibrated"
     with pytest.raises(ValueError):
         InfoBanner("loud", "x")
+
+
+def test_toast(qtbot):
+    from PySide6.QtWidgets import QWidget
+
+    from astrowb.ui.kit import toast as T
+
+    win = QWidget()
+    qtbot.addWidget(win)
+    win.resize(400, 300)
+    win.show()
+    done = []
+    first = T.Toast.show_in(win, "Saved", ("Show in folder", lambda: done.append(1)))
+    t = T.Toast.show_in(win, "Saved again")  # replaces the first
+    qtbot.waitUntil(lambda: len(win.findChildren(T.Toast)) == 1)
+    assert t.geometry().right() == 400 - T.MARGIN - 1 and t.label.text() == "Saved again" and first is not t
+    t.timer.setInterval(10)
+    t.timer.start()
+    qtbot.waitUntil(lambda: not win.findChildren(T.Toast))
