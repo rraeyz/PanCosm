@@ -139,6 +139,7 @@ class Segmented(QWidget):
             self.group.addButton(b)
             lay.addWidget(b)
             self.buttons[key] = b
+        lay.addStretch(1)  # the options stay together at the left of a wide row
         self.setValue(value if value is not None else options[0][0])
 
     def value(self):

@@ -38,4 +38,5 @@ class EmptyState(QWidget):
             w.setMaximumWidth(420)
             lay.addWidget(w, 0, Qt.AlignHCenter)
         self.text.setAlignment(Qt.AlignHCenter)
+        self.text.setMinimumWidth(min(420, self.text.fontMetrics().horizontalAdvance(text) + 8))  # wraps past 420
         lay.addStretch(2)
