@@ -321,7 +321,7 @@ for the window concerned.
 - **Files:** `ui/kit/{tokens,theme}.py`, `resources/fonts/`, `ui/theme.py` (shim), tests.
 
 ### UI-2. Icons  (P1)
-**partial** — done: Lucide + 16 own SVGs; `ui/kit/icons.py` renders them tinted from the widget's palette (normal / disabled / checked, screen pixel ratio); `tools/icon_sheet.py` writes the contact sheet docs/design/icons.png. 11 area icons on the start window's blocks; `glyph` removed (no caller left). Left: items 3 (every QAction) – 5.
+**partial** — done: Lucide + 16 own SVGs; `ui/kit/icons.py` renders them tinted from the widget's palette (normal / disabled / checked, screen pixel ratio); `tools/icon_sheet.py` writes the contact sheet docs/design/icons.png. 11 area icons on the start window's blocks; `glyph` removed (no caller left). Item 4 exists as View → "Toolbar text" (default stays off: the stored value cannot tell a choice from the old default; owner to decide). Left: item 3 for menu-only actions.
 - **Build:**
   1. `resources/icons/lucide/*.svg` (only the files used) with the ISC licence text; `resources/icons/own/*.svg` drawn
      by hand as SVG path data on the 24 × 24 grid, stroke 1.75, round caps and joins, no fill except small dots —
@@ -343,7 +343,7 @@ for the window concerned.
 - **Depends on:** UI-1.
 
 ### UI-3. The component kit and its gallery  (P1)
-**open**
+**partial** — done: `kit/fields.NumberField` (item 2 without the faint unit and label scrubbing; tests/test_kit_fields.py).
 - **Build:**
   1. Every component of the table above in `ui/kit/` (`buttons.py`, `sections.py`, `forms.py`, `fields.py`,
      `rail.py`, `empty.py`, `banners.py`, `toast.py`, `inspector.py`, `help.py`, `tasks.py`, `status.py`,

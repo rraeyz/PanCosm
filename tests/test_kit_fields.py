@@ -1,0 +1,68 @@
+"""UI-3: the kit's NumberField — keystroke check, Enter commits, Esc restores, wheel only with focus, Shift ×10 /
+Ctrl ×0.1 steps, the auto state, and the store binding."""
+
+import pytest
+
+pytest.importorskip("PySide6")
+from PySide6.QtCore import QPoint, QPointF, Qt  # noqa: E402
+from PySide6.QtGui import QWheelEvent  # noqa: E402
+from PySide6.QtWidgets import QApplication  # noqa: E402
+
+from astrowb.ui.kit.fields import NumberField  # noqa: E402
+
+
+def _wheel(field, modifiers=Qt.NoModifier):
+    event = QWheelEvent(QPointF(5, 5), QPointF(5, 5), QPoint(0, 0), QPoint(0, 120), Qt.NoButton, modifiers,
+                        Qt.NoScrollPhase, False)  # fmt: skip
+    QApplication.sendEvent(field, event)
+
+
+def test_number_field_typing_enter_escape(qtbot):
+    f = NumberField(5.0, 1, 50, step=0.5, decimals=1, unit="px")
+    qtbot.addWidget(f)
+    f.show()
+    f.setFocus()
+    f.lineEdit().selectAll()
+    qtbot.keyClicks(f.lineEdit(), "0.5")
+    assert f.property("invalid") and "1.0" in f.toolTip() and f.value() == 5.0  # below the range: reason shown
+    qtbot.keyClick(f, Qt.Key_Escape)
+    assert f.lineEdit().text() == "5.0 px" and not f.property("invalid")
+    f.lineEdit().selectAll()
+    qtbot.keyClicks(f.lineEdit(), "12")
+    assert f.value() == 5.0  # not committed while typing
+    qtbot.keyClick(f, Qt.Key_Return)
+    assert f.value() == 12.0
+
+
+def test_number_field_wheel_and_steps(qtbot):
+    f = NumberField(5.0, 0, 100, step=1.0, decimals=2)
+    qtbot.addWidget(f)
+    f.show()
+    _wheel(f)
+    assert f.value() == 5.0  # no focus: the wheel scrolls the panel
+    f.setFocus()
+    qtbot.waitUntil(f.hasFocus)
+    _wheel(f)
+    assert f.value() == 6.0
+    qtbot.keyClick(f, Qt.Key_Up, Qt.ShiftModifier)
+    assert f.value() == 16.0
+    qtbot.keyClick(f, Qt.Key_Up, Qt.ControlModifier)
+    assert f.value() == pytest.approx(16.1)
+
+
+def test_number_field_auto_and_binding(qtbot):
+    from astrowb.core.state import Store
+    from astrowb.ui.kit.binding import bind
+
+    f = NumberField(3.0, 0, 10, allow_auto=True)
+    qtbot.addWidget(f)
+    seen = []
+    f.auto_changed.connect(seen.append)
+    f.set_auto(True, shown=4.2)
+    assert f.is_auto() and f.auto_action.isChecked() and f.lineEdit().text().startswith("4.2") and seen == [True]
+    f.stepBy(1)  # a change by the user turns auto off
+    assert not f.is_auto() and seen == [True, False] and f.value() == 4.0
+    store = Store("test")
+    bind(f, store, "r", "radius")
+    f.setValue(7.0)
+    assert store.get("r") == 7.0

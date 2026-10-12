@@ -696,112 +696,112 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>Areas</name>
     <message>
-        <location filename="../../ui/start_page.py" line="26"/>
+        <location filename="../../ui/start_page.py" line="27"/>
         <source>Planning</source>
         <translation>Planung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="27"/>
+        <location filename="../../ui/start_page.py" line="28"/>
         <source>Visibility, airmass, the Moon, eclipses and transits of the night</source>
         <translation>Sichtbarkeit, Luftmasse, Mond, Bedeckungen und Transits der Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="28"/>
+        <location filename="../../ui/start_page.py" line="29"/>
         <source>Observing</source>
         <translation>Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="29"/>
+        <location filename="../../ui/start_page.py" line="30"/>
         <source>Telescope, camera, focuser and guider; sequences and whole nights</source>
         <translation>Teleskop, Kamera, Fokussierer und Nachführung; Sequenzen und ganze Nächte</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="30"/>
+        <location filename="../../ui/start_page.py" line="31"/>
         <source>Calibration</source>
         <translation>Kalibrierung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="31"/>
+        <location filename="../../ui/start_page.py" line="32"/>
         <source>Bias, dark and flat frames: masters and calibrated images</source>
         <translation>Bias-, Dark- und Flat-Bilder: Master und kalibrierte Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="32"/>
+        <location filename="../../ui/start_page.py" line="33"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="33"/>
+        <location filename="../../ui/start_page.py" line="34"/>
         <source>Look at images and headers, measure, process, stack</source>
         <translation>Bilder und Header ansehen, messen, bearbeiten, stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="34"/>
+        <location filename="../../ui/start_page.py" line="35"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="35"/>
+        <location filename="../../ui/start_page.py" line="36"/>
         <source>Brightness of stars on a series of images: the light curve</source>
         <translation>Helligkeit von Sternen auf einer Bildserie: die Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="36"/>
+        <location filename="../../ui/start_page.py" line="37"/>
         <source>Light curves and period</source>
         <translation>Lichtkurven und Periode</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="37"/>
+        <location filename="../../ui/start_page.py" line="38"/>
         <source>Periods, frequencies, variable stars in a set of frames</source>
         <translation>Perioden, Frequenzen, Veränderliche in einer Bildserie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="38"/>
+        <location filename="../../ui/start_page.py" line="39"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="39"/>
+        <location filename="../../ui/start_page.py" line="40"/>
         <source>Times of minimum, ephemeris, O−C diagram, third body, apsidal motion</source>
         <translation>Minimumszeiten, Ephemeride, O−C-Diagramm, dritter Körper, Apsidendrehung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="40"/>
+        <location filename="../../ui/start_page.py" line="41"/>
         <source>Spectroscopy</source>
         <translation>Spektroskopie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="41"/>
+        <location filename="../../ui/start_page.py" line="42"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
         <translation>Spektren reduzieren, Wellenlängen, Radialgeschwindigkeiten, Bahnen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="42"/>
+        <location filename="../../ui/start_page.py" line="43"/>
         <source>Models</source>
         <translation>Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="43"/>
+        <location filename="../../ui/start_page.py" line="44"/>
         <source>Eclipsing binaries, visual orbits, light-curve models</source>
         <translation>Bedeckungsveränderliche, visuelle Bahnen, Lichtkurvenmodelle</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="44"/>
+        <location filename="../../ui/start_page.py" line="45"/>
         <source>Remote sensing</source>
         <translation>Fernerkundung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="45"/>
+        <location filename="../../ui/start_page.py" line="46"/>
         <source>Satellite images: bands, indices, classes</source>
         <translation>Satellitenbilder: Bänder, Indizes, Klassen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="46"/>
+        <location filename="../../ui/start_page.py" line="47"/>
         <source>Automation</source>
         <translation>Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="47"/>
+        <location filename="../../ui/start_page.py" line="48"/>
         <source>Chain steps into a pipeline and run it in one go</source>
         <translation>Schritte zu einer Pipeline verketten und in einem Zug ausführen</translation>
     </message>
@@ -1873,7 +1873,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>Collapsible</name>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="111"/>
+        <location filename="../../ui/kit/widgets.py" line="94"/>
         <source>Click to show or hide these options</source>
         <translation>Klicken, um diese Optionen zu zeigen oder auszublenden</translation>
     </message>
@@ -7075,6 +7075,25 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>NumberField</name>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="40"/>
+        <location filename="../../ui/kit/fields.py" line="66"/>
+        <source>auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="42"/>
+        <source>Let the program choose this value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="87"/>
+        <source>A number from {low} to {high}</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OCPage</name>
     <message>
         <location filename="../../ui/oc_page.py" line="42"/>
@@ -11210,37 +11229,37 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PlotCanvas</name>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="216"/>
+        <location filename="../../ui/kit/widgets.py" line="199"/>
         <source>Publication figure…</source>
         <translation>Publikationsgrafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="217"/>
+        <location filename="../../ui/kit/widgets.py" line="200"/>
         <source>Export data (CSV)…</source>
         <translation>Daten exportieren (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="218"/>
+        <location filename="../../ui/kit/widgets.py" line="201"/>
         <source>The numbers of every plotted series (axis, series, x, y) in a CSV file</source>
         <translation>Die Zahlen jeder gezeichneten Reihe (Achse, Reihe, x, y) in einer CSV-Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="219"/>
+        <location filename="../../ui/kit/widgets.py" line="202"/>
         <source>Open in a new window</source>
         <translation>In neuem Fenster öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="244"/>
+        <location filename="../../ui/kit/widgets.py" line="227"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="292"/>
+        <location filename="../../ui/kit/widgets.py" line="275"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="308"/>
+        <location filename="../../ui/kit/widgets.py" line="291"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>
@@ -13180,72 +13199,72 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/start_page.py" line="67"/>
+        <location filename="../../ui/start_page.py" line="68"/>
         <source>Welcome to {app}</source>
         <translation>Willkommen bei {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="84"/>
+        <location filename="../../ui/start_page.py" line="85"/>
         <source>Interface:</source>
         <translation>Oberfläche:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="85"/>
+        <location filename="../../ui/start_page.py" line="86"/>
         <source>Basic — the main steps; the rarely changed options folded</source>
         <translation>Einfach — die Hauptschritte; selten geänderte Optionen eingeklappt</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="86"/>
+        <location filename="../../ui/start_page.py" line="87"/>
         <source>Expert — every option open</source>
         <translation>Experte — jede Option offen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="88"/>
+        <location filename="../../ui/start_page.py" line="89"/>
         <source>Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the Settings menu at any time.</source>
         <translation>Im einfachen Modus wird nichts entfernt: eingeklappte Abschnitte öffnen sich mit einem Klick. Jederzeit hier oder im Menü Einstellungen änderbar.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="103"/>
+        <location filename="../../ui/start_page.py" line="104"/>
         <source>Continue where you left off:</source>
         <translation>Dort weitermachen, wo Sie aufgehört haben:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="105"/>
+        <location filename="../../ui/start_page.py" line="106"/>
         <source>Double-click to open it again</source>
         <translation>Doppelklicken, um es wieder zu öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="73"/>
+        <location filename="../../ui/start_page.py" line="74"/>
         <source>New project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="73"/>
+        <location filename="../../ui/start_page.py" line="74"/>
         <source>Keep frames, settings and results together</source>
         <translation>Bilder, Einstellungen und Ergebnisse zusammenhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="75"/>
         <source>Open project…</source>
         <translation>Projekt öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="75"/>
         <source>Continue earlier work</source>
         <translation>Frühere Arbeit fortsetzen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>Open a FITS image</source>
         <translation>Ein FITS-Bild öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>Look at an image and its header</source>
         <translation>Ein Bild und seinen Header ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="112"/>
+        <location filename="../../ui/start_page.py" line="113"/>
         <source>Choose what you want to do:</source>
         <translation>Wählen Sie, was Sie tun möchten:</translation>
     </message>
@@ -13258,27 +13277,27 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StepGuide</name>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="138"/>
+        <location filename="../../ui/kit/widgets.py" line="121"/>
         <source>Click to show or hide the usual order of work</source>
         <translation>Klicken, um die übliche Arbeitsreihenfolge zu zeigen oder zu verbergen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="140"/>
+        <location filename="../../ui/kit/widgets.py" line="123"/>
         <source>The usual order, not a rule: start where your data are and skip what they do not need.</source>
         <translation>Die übliche Reihenfolge, keine Regel: Beginnen Sie dort, wo Ihre Daten stehen, und überspringen Sie, was sie nicht brauchen.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="177"/>
+        <location filename="../../ui/kit/widgets.py" line="160"/>
         <source>Workflow: all steps done</source>
         <translation>Arbeitsablauf: alle Schritte erledigt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="181"/>
+        <location filename="../../ui/kit/widgets.py" line="164"/>
         <source>Workflow — next: {n}. {step}</source>
         <translation>Arbeitsablauf — als Nächstes: {n}. {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="182"/>
+        <location filename="../../ui/kit/widgets.py" line="165"/>
         <source>Next:</source>
         <translation>Als Nächstes:</translation>
     </message>
@@ -13544,32 +13563,32 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>TableView</name>
     <message>
-        <location filename="../../ui/kit/table.py" line="117"/>
+        <location filename="../../ui/kit/table.py" line="118"/>
         <source>Filter, e.g. flux_err &lt; 0.01 and not isnan(airmass)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="166"/>
+        <location filename="../../ui/kit/table.py" line="167"/>
         <source>{n} of {total} rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="221"/>
+        <location filename="../../ui/kit/table.py" line="222"/>
         <source>Copy</source>
         <translation type="unfinished">Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="222"/>
+        <location filename="../../ui/kit/table.py" line="223"/>
         <source>Export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="226"/>
+        <location filename="../../ui/kit/table.py" line="227"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="227"/>
+        <location filename="../../ui/kit/table.py" line="228"/>
         <source>Export table</source>
         <translation type="unfinished">Tabelle exportieren</translation>
     </message>
