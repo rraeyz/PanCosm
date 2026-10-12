@@ -2136,6 +2136,14 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
 </context>
 <context>
+    <name>Dialog</name>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="30"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+</context>
+<context>
     <name>EchelleTab</name>
     <message>
         <location filename="../../ui/spectro_page.py" line="740"/>

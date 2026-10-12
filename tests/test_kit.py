@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector."""
+Shift / Ctrl steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog."""
 
 import pytest
 
@@ -180,3 +180,26 @@ def test_inspector(qtbot):
     from PySide6.QtWidgets import QApplication
 
     assert QApplication.clipboard().text() == panel.copy_text()
+
+
+def test_dialog(qtbot):
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.kit.dialogs import Dialog
+
+    class Mem(dict):
+        def set(self, k, v):
+            self[k] = v
+
+    mem = Mem()
+    d = Dialog("Export options", None, mem, "export")
+    qtbot.addWidget(d)
+    yes = d.add_buttons("Export")
+    assert yes.isDefault() and d.button_row.itemAt(d.button_row.count() - 1).widget() is yes  # primary last
+    d.resize(500, 300)
+    d.show()
+    qtbot.keyClick(d, Qt.Key_Escape)
+    assert d.result() == 0 and mem["dialog.export.size"] == [500, 300]
+    again = Dialog("Export options", None, mem, "export")
+    qtbot.addWidget(again)
+    assert (again.width(), again.height()) == (500, 300)
