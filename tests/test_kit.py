@@ -1,5 +1,5 @@
 """UI-3: the component kit: NumberField (keystroke check, Enter, Esc, wheel only with focus, Shift / Ctrl steps,
-auto, binding), InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog, Button."""
+auto, binding), InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog, Button, Section."""
 
 import pytest
 
@@ -217,3 +217,17 @@ def test_button_kinds_and_busy(qtbot):
     assert not b.is_busy() and b.isEnabled() and b.text() == "Measure"
     with pytest.raises(ValueError):
         Button("x", "loud")
+
+
+def test_section(qtbot):
+    from astrowb.ui.kit.sections import Section
+
+    asked = []
+    s = Section("Apertures", help="photometry/apertures", folded=True, advanced=True)
+    qtbot.addWidget(s)
+    s.help_requested.connect(asked.append)
+    s.help_button.click()
+    assert asked == ["photometry/apertures"] and not s.content.isVisibleTo(s) and s.mode == "expert"
+    s.button.click()
+    assert s.content.isVisibleTo(s)
+    assert Section("Plain").help_button is None and Section("Plain").mode is None
