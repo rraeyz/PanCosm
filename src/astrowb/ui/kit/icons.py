@@ -14,6 +14,18 @@ ROOT = Path(__file__).resolve().parents[2] / "resources" / "icons"
 SIZE = 20
 
 ICONS = {
+    # areas (the start window's blocks, the Window menu)
+    "area_plan": "own/area_plan",
+    "area_observe": "own/area_observe",
+    "area_calibrate": "own/area_calibrate",
+    "area_image": "own/area_image",
+    "area_photometry": "own/area_photometry",
+    "area_timeseries": "own/area_timeseries",
+    "area_oc": "own/area_oc",
+    "area_spectroscopy": "own/area_spectroscopy",
+    "area_orbits": "own/area_orbits",
+    "area_remotesensing": "own/area_remotesensing",
+    "area_automation": "own/area_automation",
     # files
     "open": "lucide/folder-open",
     "open_folder": "lucide/folder-plus",

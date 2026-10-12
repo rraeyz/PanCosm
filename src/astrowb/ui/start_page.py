@@ -20,7 +20,8 @@ from PySide6.QtWidgets import (
 )
 
 from ..brand import BRAND
-from .kit.widgets import _title, glyph
+from .kit.icons import icon as area_icon
+from .kit.widgets import _title
 
 AREAS = [  # (key, symbol, name, what it does), in the order of the work through a night
     ("plan", "☾", QT_TRANSLATE_NOOP("Areas", "Planning"),
@@ -115,20 +116,19 @@ class StartPage(QWidget):
         self.grid = QGridLayout()
         self.grid.setSpacing(6)
         self.blocks, self.columns = [], 0
-        colour = self.palette().windowText().color()
-        for key, symbol, name, what in areas():
+        for key, _symbol, name, what in areas():
             block = QToolButton(self)
             block.setObjectName(f"start_{key}")
             block.setText(f"{name}\n{what}")  # kept for the accessibility name and the tests; drawn by the labels
             block.setToolTip(what)
             block.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             block.setToolButtonStyle(Qt.ToolButtonIconOnly)
-            block.setIcon(glyph(symbol, colour, 48))
+            block.setIcon(area_icon(f"area_{key}", self, 48))
             block.setIconSize(QSize(0, 0))  # the icon is drawn by the label beside the name
             inner = QHBoxLayout(block)
             inner.setContentsMargins(8, 2, 8, 2)
             icon = QLabel(block)
-            icon.setPixmap(glyph(symbol, colour, 48).pixmap(28, 28))
+            icon.setPixmap(area_icon(f"area_{key}", self, 28).pixmap(28, 28))
             # the description smaller and muted: ten blocks fit a laptop window at 125 % on Windows too
             text = QLabel(f"<b>{name}</b><br><span style='color:gray; font-size:small'>{what}</span>", block)
             text.setTextFormat(Qt.RichText)
