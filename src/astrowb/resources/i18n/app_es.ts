@@ -7123,18 +7123,18 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>NumberField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="40"/>
-        <location filename="../../ui/kit/fields.py" line="66"/>
+        <location filename="../../ui/kit/fields.py" line="42"/>
+        <location filename="../../ui/kit/fields.py" line="68"/>
         <source>auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="42"/>
+        <location filename="../../ui/kit/fields.py" line="44"/>
         <source>Let the program choose this value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="87"/>
+        <location filename="../../ui/kit/fields.py" line="89"/>
         <source>A number from {low} to {high}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8582,6 +8582,50 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/overlay_actions.py" line="277"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>No hay marcas en la imagen (las estrellas elegidas en la ventana Fotometría son marcas).</translation>
+    </message>
+</context>
+<context>
+    <name>PathField</name>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="176"/>
+        <source>Drop files here or choose with …</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="180"/>
+        <source>Choose…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="198"/>
+        <location filename="../../ui/kit/fields.py" line="256"/>
+        <source>{n} files — first: {name}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="204"/>
+        <source>Not found: {path}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="219"/>
+        <source>Choose a folder</source>
+        <translation type="unfinished">Elegir una carpeta</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="222"/>
+        <source>Choose files</source>
+        <translation type="unfinished">Elegir archivos</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="224"/>
+        <source>Choose a file</source>
+        <translation type="unfinished">Elegir un archivo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="260"/>
+        <source>No recent choices</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
