@@ -12,7 +12,7 @@ Ctrl ×0.1.
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QAction, QPalette, QValidator
-from PySide6.QtWidgets import QDoubleSpinBox
+from PySide6.QtWidgets import QButtonGroup, QDoubleSpinBox, QHBoxLayout, QToolButton, QWidget
 
 from . import tokens
 
@@ -111,3 +111,40 @@ class NumberField(QDoubleSpinBox):
         if self._auto:
             self.set_auto(False)
         self.setValue(self.value() + steps * factor * self.singleStep())
+
+
+class Segmented(QWidget):
+    """2–4 exclusive options as joined buttons, instead of radio buttons.
+
+    view = Segmented([("bjd", self.tr("BJD")), ("phase", self.tr("Phase"))], "bjd"); view.changed.connect(...)
+    """
+
+    changed = Signal(str)
+
+    def __init__(self, options, value=None, parent=None):
+        super().__init__(parent)
+        lay = QHBoxLayout(self)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.setSpacing(0)
+        self.group = QButtonGroup(self)
+        self.buttons = {}
+        for key, text in options:
+            b = QToolButton(self)
+            b.setText(text)
+            b.setCheckable(True)
+            b.setAutoRaise(False)
+            b.toggled.connect(lambda on, k=key: on and self.changed.emit(k))
+            self.group.addButton(b)
+            lay.addWidget(b)
+            self.buttons[key] = b
+        self.setValue(value if value is not None else options[0][0])
+
+    def value(self):
+        return next(k for k, b in self.buttons.items() if b.isChecked())
+
+    def setValue(self, key):
+        self.buttons[key].setChecked(True)
+
+    def kit_binding(self):
+        """(signal, read, write) for kit/binding.bind."""
+        return self.changed, self.value, self.setValue

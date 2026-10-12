@@ -15,6 +15,8 @@ AUTOSAVE_MS = 2000
 
 def _parts(widget):
     """(signal the user changes it with, read(), write(value)) for a kit control."""
+    if hasattr(widget, "kit_binding"):  # kit controls that are not a Qt control of one of the kinds below
+        return widget.kit_binding()
     if isinstance(widget, QAbstractSpinBox):
         return widget.valueChanged, widget.value, widget.setValue
     if isinstance(widget, QAbstractButton):

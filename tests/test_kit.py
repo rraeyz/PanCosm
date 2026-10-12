@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast."""
+Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast, Segmented."""
 
 import pytest
 
@@ -101,3 +101,23 @@ def test_toast(qtbot):
     t.timer.setInterval(10)
     t.timer.start()
     qtbot.waitUntil(lambda: not win.findChildren(T.Toast))
+
+
+def test_segmented(qtbot):
+    from astrowb.core.state import Store
+    from astrowb.ui.kit.binding import bind
+    from astrowb.ui.kit.fields import Segmented
+
+    s = Segmented([("bjd", "BJD"), ("phase", "Phase"), ("ut", "UT")])
+    qtbot.addWidget(s)
+    seen = []
+    s.changed.connect(seen.append)
+    assert s.value() == "bjd"
+    s.buttons["phase"].click()
+    assert s.value() == "phase" and seen == ["phase"] and not s.buttons["bjd"].isChecked()
+    store = Store("test")
+    bind(s, store, "time", "time axis")
+    s.buttons["ut"].click()
+    assert store.get("time") == "ut"
+    store.set("time", "bjd")
+    assert s.value() == "bjd"
