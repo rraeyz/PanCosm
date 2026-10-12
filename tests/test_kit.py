@@ -306,3 +306,35 @@ def test_kit_gallery_builds(qtbot):
     qtbot.addWidget(page)
     page.show()
     assert page.findChildren(type(page)) and not page.grab().isNull()
+
+
+def test_stage_rail_and_panel(qtbot):
+    from PySide6.QtCore import QEvent
+    from PySide6.QtWidgets import QApplication, QLabel
+
+    from astrowb.ui.kit import rail as R
+    from astrowb.ui.kit.buttons import Button
+
+    r = R.StageRail([("images", "Images"), ("stars", "Stars"), ("measure", "Measure")])
+    qtbot.addWidget(r)
+    r.show()
+    chosen = []
+    r.stage_chosen.connect(chosen.append)
+    r.set_state("images", "done")
+    r.buttons["stars"].click()
+    assert chosen == ["stars"] and r.width() == R.NARROW and r.buttons["images"].text() == "1 ✓"
+    assert r.buttons["stars"].text() == "2 ●" and r.buttons["stars"].isChecked()
+    QApplication.sendEvent(r, QEvent(QEvent.Enter))
+    assert r.width() == R.WIDE and r.buttons["measure"].text().endswith("Measure")
+    QApplication.sendEvent(r, QEvent(QEvent.Leave))
+    assert r.width() == R.NARROW
+    r.pin.click()
+    QApplication.sendEvent(r, QEvent(QEvent.Leave))
+    assert r.width() == R.WIDE  # pinned
+    p = R.StagePanel("Stars", help="photometry/stars")
+    qtbot.addWidget(p)
+    p.add(QLabel("a row"))
+    p.set_primary(Button("Measure", "primary"))
+    p.set_primary(Button("Measure again", "primary"))  # replaces
+    p.set_status("12 stars chosen")
+    assert p.bottom.count() == 1 and p.primary.text() == "Measure again" and p.status.text() == "12 stars chosen"
