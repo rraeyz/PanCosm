@@ -1763,3 +1763,25 @@ def test_saturated_and_non_linear_points_are_marked_and_left_out(window, qtbot, 
     assert len(page.light_curve["time"]) == 12
     page.undo_stack.undo()
     assert len(page.light_curve["time"]) == 20
+
+
+def test_start_window_tonight_line(qtbot, tmp_path):
+    """UI-5 item 3: without a site the start window offers to set one up (a link to Planning); with one it shows
+    tonight's dark hours and the Moon."""
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+    from astrowb.ui.start_page import StartPage
+
+    settings = Settings(tmp_path)
+    page = StartPage()
+    qtbot.addWidget(page)
+    chosen = []
+    page.action.connect(chosen.append)
+    page.show_tonight(settings)
+    assert "plan" in page.tonight.text() and page.tonight.isVisibleTo(page)
+    page.tonight.linkActivated.emit("plan")
+    assert chosen == ["plan"]
+    profiles.update(settings, "site", name="Ankara", lat=39.9, lon=32.8, height=900.0)
+    page.show_tonight(settings)
+    qtbot.waitUntil(lambda: "Ankara" in page.tonight.text(), timeout=30000)
+    assert "Moon" in page.tonight.text() and "–" in page.tonight.text()

@@ -734,112 +734,112 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>Areas</name>
     <message>
-        <location filename="../../ui/start_page.py" line="27"/>
+        <location filename="../../ui/start_page.py" line="28"/>
         <source>Planning</source>
         <translation>Planlama</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="28"/>
+        <location filename="../../ui/start_page.py" line="29"/>
         <source>Visibility, airmass, the Moon, eclipses and transits of the night</source>
         <translation>Gecenin görünürlüğü, hava kütlesi, Ay, örtülmeler ve geçişler</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="29"/>
+        <location filename="../../ui/start_page.py" line="30"/>
         <source>Observing</source>
         <translation>Gözlem</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="30"/>
+        <location filename="../../ui/start_page.py" line="31"/>
         <source>Telescope, camera, focuser and guider; sequences and whole nights</source>
         <translation>Teleskop, kamera, odaklayıcı ve izleyici; diziler ve bütün geceler</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="31"/>
+        <location filename="../../ui/start_page.py" line="32"/>
         <source>Calibration</source>
         <translation>Kalibrasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="32"/>
+        <location filename="../../ui/start_page.py" line="33"/>
         <source>Bias, dark and flat frames: masters and calibrated images</source>
         <translation>Bias, dark ve flat kareleri: ana kareler ve kalibre görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="33"/>
+        <location filename="../../ui/start_page.py" line="34"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="34"/>
+        <location filename="../../ui/start_page.py" line="35"/>
         <source>Look at images and headers, measure, process, stack</source>
         <translation>Görüntülere ve başlıklarına bakın, ölçün, işleyin, üst üste ekleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="35"/>
+        <location filename="../../ui/start_page.py" line="36"/>
         <source>Photometry</source>
         <translation>Fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="36"/>
+        <location filename="../../ui/start_page.py" line="37"/>
         <source>Brightness of stars on a series of images: the light curve</source>
         <translation>Bir dizi görüntüde yıldızların parlaklığı: ışık eğrisi</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="37"/>
+        <location filename="../../ui/start_page.py" line="38"/>
         <source>Light curves and period</source>
         <translation>Işık eğrileri ve periyot</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="38"/>
+        <location filename="../../ui/start_page.py" line="39"/>
         <source>Periods, frequencies, variable stars in a set of frames</source>
         <translation>Periyotlar, frekanslar, bir kare dizisindeki değişen yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="39"/>
+        <location filename="../../ui/start_page.py" line="40"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="40"/>
+        <location filename="../../ui/start_page.py" line="41"/>
         <source>Times of minimum, ephemeris, O−C diagram, third body, apsidal motion</source>
         <translation>Minimum zamanları, efemeris, O−C diyagramı, üçüncü cisim, apsidal hareket</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="41"/>
+        <location filename="../../ui/start_page.py" line="42"/>
         <source>Spectroscopy</source>
         <translation>Tayf</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="42"/>
+        <location filename="../../ui/start_page.py" line="43"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
         <translation>Tayf indirgeme, dalga boyları, dikine hızlar, yörüngeler</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="43"/>
+        <location filename="../../ui/start_page.py" line="44"/>
         <source>Models</source>
         <translation>Modeller</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="44"/>
+        <location filename="../../ui/start_page.py" line="45"/>
         <source>Eclipsing binaries, visual orbits, light-curve models</source>
         <translation>Örten çiftler, görsel yörüngeler, ışık eğrisi modelleri</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="45"/>
+        <location filename="../../ui/start_page.py" line="46"/>
         <source>Remote sensing</source>
         <translation>Uzaktan algılama</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="46"/>
+        <location filename="../../ui/start_page.py" line="47"/>
         <source>Satellite images: bands, indices, classes</source>
         <translation>Uydu görüntüleri: bantlar, indeksler, sınıflar</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="47"/>
+        <location filename="../../ui/start_page.py" line="48"/>
         <source>Automation</source>
         <translation>Otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="48"/>
+        <location filename="../../ui/start_page.py" line="49"/>
         <source>Chain steps into a pipeline and run it in one go</source>
         <translation>Adımları bir iş hattına bağlayın ve tek seferde çalıştırın</translation>
     </message>
@@ -13365,77 +13365,92 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/start_page.py" line="68"/>
+        <location filename="../../ui/start_page.py" line="70"/>
         <source>Welcome to {app}</source>
         <translation>{app} uygulamasına hoş geldiniz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="85"/>
+        <location filename="../../ui/start_page.py" line="87"/>
         <source>Interface:</source>
         <translation>Arayüz:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="86"/>
+        <location filename="../../ui/start_page.py" line="88"/>
         <source>Basic — the main steps; the rarely changed options folded</source>
         <translation>Temel — ana adımlar; az değiştirilen seçenekler katlı</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="87"/>
+        <location filename="../../ui/start_page.py" line="89"/>
         <source>Expert — every option open</source>
         <translation>Uzman — her seçenek açık</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="89"/>
+        <location filename="../../ui/start_page.py" line="91"/>
         <source>Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the Settings menu at any time.</source>
         <translation>Temel modda hiçbir şey kaldırılmaz: katlı bölümler tek tıkla açılır. İstediğiniz zaman burada ya da Ayarlar menüsünde değiştirin.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="104"/>
+        <location filename="../../ui/start_page.py" line="107"/>
         <source>Continue where you left off:</source>
         <translation>Kaldığınız yerden devam edin:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="106"/>
+        <location filename="../../ui/start_page.py" line="109"/>
         <source>Double-click to open it again</source>
         <translation>Yeniden açmak için çift tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>New project</source>
         <translation>Yeni proje</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>Keep frames, settings and results together</source>
         <translation>Kareleri, ayarları ve sonuçları bir arada tutun</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="77"/>
         <source>Open project…</source>
         <translation>Proje aç…</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="77"/>
         <source>Continue earlier work</source>
         <translation>Önceki işe devam edin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="78"/>
         <source>Open a FITS image</source>
         <translation>FITS görüntüsü aç</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="78"/>
         <source>Look at an image and its header</source>
         <translation>Görüntüyü ve başlığını inceleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="113"/>
+        <location filename="../../ui/start_page.py" line="116"/>
         <source>Choose what you want to do:</source>
         <translation>Ne yapmak istediğinizi seçin:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="152"/>
+        <location filename="../../ui/start_page.py" line="168"/>
+        <source>Set up your site to see tonight&apos;s sky</source>
+        <translation>Bu gecenin gökyüzünü görmek için konumunuzu girin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="194"/>
+        <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
+        <translation>Bu gece {site}: karanlık {dusk}–{dawn} · Ay %{moon}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="195"/>
+        <source>your site</source>
+        <translation>konumunuz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>
