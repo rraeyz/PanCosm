@@ -7123,18 +7123,18 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>NumberField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="42"/>
-        <location filename="../../ui/kit/fields.py" line="68"/>
+        <location filename="../../ui/kit/fields.py" line="52"/>
+        <location filename="../../ui/kit/fields.py" line="78"/>
         <source>auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="44"/>
+        <location filename="../../ui/kit/fields.py" line="54"/>
         <source>Let the program choose this value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="89"/>
+        <location filename="../../ui/kit/fields.py" line="99"/>
         <source>A number from {low} to {high}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8587,43 +8587,43 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PathField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="177"/>
+        <location filename="../../ui/kit/fields.py" line="187"/>
         <source>Drop files here or choose with …</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="181"/>
+        <location filename="../../ui/kit/fields.py" line="191"/>
         <source>Choose…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="199"/>
-        <location filename="../../ui/kit/fields.py" line="257"/>
+        <location filename="../../ui/kit/fields.py" line="209"/>
+        <location filename="../../ui/kit/fields.py" line="267"/>
         <source>{n} files — first: {name}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="205"/>
+        <location filename="../../ui/kit/fields.py" line="215"/>
         <source>Not found: {path}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="220"/>
+        <location filename="../../ui/kit/fields.py" line="230"/>
         <source>Choose a folder</source>
         <translation type="unfinished">Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="223"/>
+        <location filename="../../ui/kit/fields.py" line="233"/>
         <source>Choose files</source>
         <translation type="unfinished">Dateien wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="225"/>
+        <location filename="../../ui/kit/fields.py" line="235"/>
         <source>Choose a file</source>
         <translation type="unfinished">Datei wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="261"/>
+        <location filename="../../ui/kit/fields.py" line="271"/>
         <source>No recent choices</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13387,6 +13387,14 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/start_page.py" line="152"/>
         <source>Project</source>
         <translation>Projekt</translation>
+    </message>
+</context>
+<context>
+    <name>StatusSegments</name>
+    <message>
+        <location filename="../../ui/kit/status.py" line="28"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
     </message>
 </context>
 <context>
