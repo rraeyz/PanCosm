@@ -43,3 +43,26 @@ def test_themes_filters_and_roles():
     assert tokens.filter_colour("Rc") == tokens.FILTERS["R"] and tokens.filter_colour("SG") == tokens.FILTERS["g'"]
     assert tokens.filter_colour("Halpha") is None and tokens.role("comparison") == "#e8642c"
     assert tokens.contrast("#000000", "#ffffff") == pytest.approx(21.0)
+
+
+def test_tabular_figures_with_either_tag_constructor(monkeypatch):
+    """PySide 6.8 (the Linux ARM build) has no QFont.Tag(str): the theme takes Tag.fromString there (the ARM
+    installer stopped at start-up on it)."""
+    pytest.importorskip("PySide6")
+    from PySide6.QtGui import QFont
+
+    from astrowb.ui import theme
+
+    assert theme._tabular_figures(QFont())
+
+    real = QFont.Tag
+
+    class OldTag:
+        def __init__(self, *args):
+            if args:
+                raise TypeError("PySide6.QtGui.QFont.Tag.__init__(str)")
+
+        fromString = staticmethod(lambda s: real(s))  # noqa: N815
+
+    monkeypatch.setattr(QFont, "Tag", OldTag)
+    assert theme._tabular_figures(QFont())
