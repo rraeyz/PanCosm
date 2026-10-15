@@ -389,7 +389,7 @@ for the window concerned.
 - **Depends on:** UI-3.
 
 ### UI-5. The start window  (P1)
-**partial** — done: the Tonight line (item 3: dark hours and Moon from `planning.visibility.tonight`, computed in a thread; without a site a link to Planning); the area icons on the blocks (UI-2).
+**partial** — done: the Tonight line (item 3: dark hours and Moon from `planning.visibility.tonight`, computed in a thread; without a site a link to Planning); Continue as cards (item 1 from the recent files: area icon, file, area, when saved; at most six, a click reopens; sessions with ARC-5); the area icons on the blocks (UI-2).
 - **Ours now:** `ui/start_page.py` (blocks per area, project buttons, Basic / Expert), `ui/welcome.py`, `ui/tour.py`.
 - **Reference:** N.I.N.A.'s area strip with icons; raw developers' and editors' start pages (recent work first, then
   what you can do); MaxIm DL has none (a blank frame) — a chance to be clearer.

@@ -13390,14 +13390,9 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Im einfachen Modus wird nichts entfernt: eingeklappte Abschnitte öffnen sich mit einem Klick. Jederzeit hier oder im Menü Einstellungen änderbar.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="107"/>
+        <location filename="../../ui/start_page.py" line="146"/>
         <source>Continue where you left off:</source>
         <translation>Dort weitermachen, wo Sie aufgehört haben:</translation>
-    </message>
-    <message>
-        <location filename="../../ui/start_page.py" line="109"/>
-        <source>Double-click to open it again</source>
-        <translation>Doppelklicken, um es wieder zu öffnen</translation>
     </message>
     <message>
         <location filename="../../ui/start_page.py" line="76"/>
@@ -13430,27 +13425,32 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Ein Bild und seinen Header ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="116"/>
+        <location filename="../../ui/start_page.py" line="110"/>
         <source>Choose what you want to do:</source>
         <translation>Wählen Sie, was Sie tun möchten:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="168"/>
+        <location filename="../../ui/start_page.py" line="148"/>
+        <source>Click to open it again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="175"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="194"/>
+        <location filename="../../ui/start_page.py" line="201"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="195"/>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>your site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="202"/>
+        <location filename="../../ui/start_page.py" line="209"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>

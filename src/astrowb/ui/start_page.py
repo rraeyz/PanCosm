@@ -104,13 +104,7 @@ class StartPage(QWidget):
         lay.addLayout(top)
         lay.addWidget(self._tonight_label())
 
-        self.continue_label = QLabel(self.tr("Continue where you left off:"), self)
-        self.continue_list = QListWidget(self)
-        self.continue_list.setToolTip(self.tr("Double-click to open it again"))
-        self.continue_list.setMaximumHeight(100)
-        self.continue_list.itemActivated.connect(lambda item: self.resume.emit(*item.data(Qt.UserRole)))
-        lay.addWidget(self.continue_label)
-        lay.addWidget(self.continue_list)
+        self._continue_cards(lay)
         self.set_recent(recent)
 
         self.choose = QLabel(self.tr("Choose what you want to do:"), self)
@@ -147,6 +141,19 @@ class StartPage(QWidget):
         self._arrange(1)
         lay.addLayout(self.grid)
         lay.addStretch(1)
+
+    def _continue_cards(self, lay):
+        self.continue_label = QLabel(self.tr("Continue where you left off:"), self)
+        self.continue_list = QListWidget(self)
+        self.continue_list.setToolTip(self.tr("Click to open it again"))
+        self.continue_list.setFlow(QListWidget.LeftToRight)  # cards side by side, wrapping
+        self.continue_list.setWrapping(True)
+        self.continue_list.setIconSize(QSize(28, 28))
+        self.continue_list.setGridSize(QSize(260, 52))
+        self.continue_list.itemClicked.connect(lambda item: self.resume.emit(*item.data(Qt.UserRole)))
+        self.continue_list.itemActivated.connect(lambda item: self.resume.emit(*item.data(Qt.UserRole)))
+        lay.addWidget(self.continue_label)
+        lay.addWidget(self.continue_list)
 
     def _tonight_label(self):
         self.tonight = QLabel(self)
@@ -200,16 +207,27 @@ class StartPage(QWidget):
         self.continue_list.clear()
         names = {key: name for key, _, name, _ in areas()}
         names["project"] = self.tr("Project")
-        for kind, path in recent:
-            if Path(path).exists():
-                item = QListWidgetItem(f"{Path(path).name}  —  {names.get(kind, kind)}", self.continue_list)
-                item.setData(Qt.UserRole, (kind, str(path)))
-                item.setToolTip(str(path))
-        empty = self.continue_list.count() == 0
+        from PySide6.QtCore import QDateTime, QLocale
+
+        from .kit.icons import ICONS
+
+        for kind, path in [(k, p) for k, p in recent if Path(p).exists()][: self.CARDS]:
+            when = QLocale().toString(
+                QDateTime.fromSecsSinceEpoch(int(Path(path).stat().st_mtime)), QLocale.ShortFormat
+            )
+            # a card: the area's icon, the file, the area and when it was last saved
+            item = QListWidgetItem(f"{Path(path).name}\n{names.get(kind, kind)} · {when}", self.continue_list)
+            item.setIcon(area_icon(f"area_{kind}" if f"area_{kind}" in ICONS else "open_folder", self, 28))
+            item.setData(Qt.UserRole, (kind, str(path)))
+            item.setToolTip(str(path))
+        n = self.continue_list.count()
+        self.continue_list.setFixedHeight(52 * (1 if n <= 3 else 2) + 8)  # one row of cards, two from four on
+        empty = n == 0
         self.continue_label.setHidden(empty)
         self.continue_list.setHidden(empty)
 
     MIN_COLUMN = 300
+    CARDS = 6  # the most recent work shown
 
     def _arrange(self, columns):
         """Two columns of blocks where they fit, one on a narrow window."""
