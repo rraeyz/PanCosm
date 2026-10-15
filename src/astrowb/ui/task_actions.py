@@ -2,7 +2,7 @@
 MainWindow moved out of main_window.py (plans/architecture.md ARC-4.4); texts keep its translation context."""
 
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QDockWidget, QMessageBox
+from PySide6.QtWidgets import QDockWidget
 
 from . import advice
 from .messages import task_error
@@ -64,14 +64,16 @@ class TaskActions:
                 fail(task_error(task.error))
                 return
         if task.state == "failed":
-            box = QMessageBox(
-                QMessageBox.Warning,
+            from .kit.dialogs import ErrorDialog
+
+            ErrorDialog(
+                self,
                 translate("MainWindow", "Task failed"),
-                f"{step_name(task.name)}\n\n{task_error(task.error)}{advice.for_trace(task.error)}",
-                parent=self,
-            )
-            box.setDetailedText(str(task.error))  # the full traceback, for reports
-            box.open()
+                f"{step_name(task.name)}\n\n{task_error(task.error)}",
+                advice.for_trace(task.error).strip(),
+                details=str(task.error),  # the full traceback, for reports
+                report=self.report_problem,
+            ).open()
 
     def report_problem(self, path=None):
         from .report import report_dialog

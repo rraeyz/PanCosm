@@ -2593,6 +2593,19 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>ErrorDialog</name>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="58"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopieren</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="63"/>
+        <source>Report…</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Export</name>
     <message>
         <location filename="../../ui/plot/export.py" line="135"/>
@@ -5056,7 +5069,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/task_actions.py" line="69"/>
+        <location filename="../../ui/task_actions.py" line="71"/>
         <source>Task failed</source>
         <translation>Aufgabe fehlgeschlagen</translation>
     </message>
