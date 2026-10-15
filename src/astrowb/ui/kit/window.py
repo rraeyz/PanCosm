@@ -420,6 +420,7 @@ class AreaWindow(QMainWindow):
         state = self.settings.get(f"area.{self.key}.state")
         if geometry:
             self.restoreGeometry(QByteArray.fromBase64(geometry.encode()))
+            on_screen(self)
         if state:
             self.restoreState(QByteArray.fromBase64(state.encode()))
 
@@ -481,6 +482,19 @@ class AreaWindow(QMainWindow):
     def closeEvent(self, event):
         self.save_layout()
         super().closeEvent(event)
+
+
+def on_screen(window):
+    """Move a window whose title bar is on no screen (its monitor was removed) onto the nearest one, shrunk to fit."""
+    frame = window.frameGeometry()
+    grip = frame.adjusted(0, 0, 0, -max(frame.height() - 40, 0))  # the title bar: where the user takes the window
+    screens = QGuiApplication.screens()
+    if not screens or any(s.availableGeometry().intersects(grip) for s in screens):
+        return False
+    room = (QGuiApplication.screenAt(frame.center()) or QGuiApplication.primaryScreen()).availableGeometry()
+    window.resize(min(window.width(), room.width()), min(window.height(), room.height()))
+    window.move(room.topLeft())
+    return True
 
 
 def _raise(window):
