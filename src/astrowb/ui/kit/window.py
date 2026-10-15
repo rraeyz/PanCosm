@@ -198,6 +198,10 @@ class AreaWindow(Anatomy, QMainWindow):
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
         self._action(
+            help_menu, self.tr("Keyboard shortcuts"), self.show_shortcuts, "Ctrl+/",
+            self.tr("Every key of this window, with a search field"),
+        )  # fmt: skip
+        self._action(
             help_menu, self.tr("Report a problem…"), self.report_problem, None,
             self.tr("Makes one file with the error log, the version, the system and the last steps, to send to the "
                     "developer. Your data files are not in it."),
@@ -386,6 +390,13 @@ class AreaWindow(Anatomy, QMainWindow):
                 seen.add(act)
                 out.append((_plain(act.text()), act))
         return out
+
+    def show_shortcuts(self):
+        from .shortcuts import ShortcutSheet
+
+        sheet = ShortcutSheet(self)
+        sheet.show()
+        return sheet
 
     def find_command(self, text=""):
         dialog = CommandSearch(self.commands(), self)
