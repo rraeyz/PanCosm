@@ -365,7 +365,7 @@ for the window concerned.
 - **Depends on:** UI-1, UI-2, ARC-4.7.
 
 ### UI-4. The area window frame  (P1)
-**partial** — done: a window whose title bar would open on no screen is moved onto one (`kit/window.on_screen`, item 2).
+**partial** — done: `kit/anatomy` on AreaWindow: `set_stages([Stage])` (rail + stage panels in a dock), `show_stage`, `set_stage_state`, `set_inspector`, `add_result_tab` (items 1 without set_main / set_empty_state, 5: F9, F10, F11, Ctrl+1…9, Ctrl+Tab); a window whose title bar would open on no screen is moved onto one (item 2). No area uses the stages yet (UI-16).
 - **Ours now:** `ui/area_window.AreaWindow` (menus, toolbar, docks, layout memory, command search, sessions frame).
 - **Build:**
   1. `ui/kit/window.py`: `AreaWindow` rebuilt on the anatomy above: `set_stages([Stage(key, title, icon, panel,

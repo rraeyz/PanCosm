@@ -27,10 +27,11 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from .anatomy import Anatomy
 from .widgets import bar_menu
 
 
-class AreaWindow(QMainWindow):
+class AreaWindow(Anatomy, QMainWindow):
     """key: stable id of the area (settings, object names; never translated). panels: [(id, title, widget,
     Qt.DockWidgetArea)]. menus: [(title, [QAction or None for a separator])]. toolbar: [QAction or None].
     open_files: the area's handler for files opened or dropped on the window ([paths]), with file_filter for the

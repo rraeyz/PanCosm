@@ -286,3 +286,34 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
             assert acts and all(not a.icon().isNull() and a.toolTip() for a in acts), key
     finally:
         main.engine.shutdown()
+
+
+def test_area_window_anatomy(qtbot, tmp_path):
+    """UI-4 item 1 and 5: stages in a rail with their panels, inspector, result tabs, F9 / F10 / F11 / Ctrl+n."""
+    from astrowb.ui.kit.anatomy import Stage
+
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main view"))
+    qtbot.addWidget(win)
+    win.set_stages([Stage(k, k.title(), QLabel(k), help=f"demo/{k}") for k in ("images", "stars", "measure")])
+    win.set_inspector(QLabel("details"))
+    win.add_result_tab("plot", "Plot", QLabel("plot"))
+    win.add_result_tab("table", "Table", QLabel("table"))
+    win.show()
+    win.activateWindow()
+    qtbot.waitUntil(win.isActiveWindow)
+    assert win.current_stage() == "images" and win.stage_stack.currentWidget() is win.stage_panels["images"]
+    qtbot.keyClick(win, Qt.Key_2, Qt.ControlModifier)
+    assert win.current_stage() == "stars" and win.rail.buttons["stars"].isChecked()
+    win.set_stage_state("images", "done")
+    assert win.rail.buttons["images"].text().startswith("1 ✓")
+    for key, dock in ((Qt.Key_F9, "stages"), (Qt.Key_F10, "inspector")):
+        qtbot.keyClick(win, key)
+        assert not win.docks[dock].isVisible()
+    qtbot.keyClick(win, Qt.Key_F11)
+    assert not any(d.isVisible() for d in win._results())
+    qtbot.keyClick(win, Qt.Key_F11)
+    assert all(d.isVisible() for d in win._results())
+    asked = []
+    win.help_requested.connect(asked.append)
+    win.stage_panels["stars"].help_requested.emit("demo/stars")
+    assert asked == ["demo"]
