@@ -3,7 +3,7 @@
 import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QUndoCommand, QUndoStack
-from PySide6.QtWidgets import QLabel, QToolButton, QWidget
+from PySide6.QtWidgets import QLabel, QWidget
 
 from astrowb.settings import Settings
 from astrowb.ui.kit.window import AreaWindow
@@ -282,8 +282,7 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     try:
         for key in ("photometry", "spectroscopy"):
             main.show_workspace(key)
-            bar = main.area_windows[key].toolbar
-            acts = [a for a in bar.actions() if not a.isSeparator() and isinstance(bar.widgetForAction(a), QToolButton)]
+            acts = main.area_windows[key].area_tools()
             assert acts and all(not a.icon().isNull() and a.toolTip() for a in acts), key
     finally:
         main.engine.shutdown()

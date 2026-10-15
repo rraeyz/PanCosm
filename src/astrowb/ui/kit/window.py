@@ -230,7 +230,12 @@ class AreaWindow(Anatomy, QMainWindow):
         from ..step_names import step_name
 
         name = step_name(task.name)
+        self.task_chip.update_task(task)
         running = [t for t in self._tasks.values() if not t.finished]
+        if task.finished and task.state == "done":
+            from .toast import Toast
+
+            Toast.show_in(self, self.tr("{name}: finished").format(name=name))
         if task.finished:
             self._tasks.pop(task.id, None)
             ends = {
@@ -464,6 +469,11 @@ class AreaWindow(Anatomy, QMainWindow):
         self.find_field.textEdited.connect(lambda text: (self.find_field.clear(), self.find_command(text)))
         self.find_field.returnPressed.connect(self.find_command)
         self.toolbar.addWidget(self.find_field)
+        from ..step_names import step_name
+        from .tasks import TaskChip
+
+        self.task_chip = TaskChip(self.toolbar, step_name)
+        self.toolbar.addWidget(self.task_chip)
         self.toolbar.addAction(self.help_action)
         self.set_icons({self.help_action: "help"})
 
