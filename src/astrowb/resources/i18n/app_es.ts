@@ -11390,17 +11390,22 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Abrir en una ventana nueva</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="227"/>
+        <location filename="../../ui/kit/widgets.py" line="216"/>
+        <source>Nothing to show yet: the plot appears here once there are results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="256"/>
         <source>Plot</source>
         <translation>Gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="275"/>
+        <location filename="../../ui/kit/widgets.py" line="304"/>
         <source>Export data</source>
         <translation>Exportar datos</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="291"/>
+        <location filename="../../ui/kit/widgets.py" line="320"/>
         <source>Publication figure</source>
         <translation>Figura para publicación</translation>
     </message>

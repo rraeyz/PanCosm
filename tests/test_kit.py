@@ -411,3 +411,23 @@ def test_window_moved_back_onto_a_screen(qtbot):
     assert on_screen(w)
     assert room.contains(w.geometry().topLeft())
     assert not on_screen(w)  # already on a screen: left alone
+
+
+def test_plot_canvas_says_why_it_is_empty(qtbot):
+    """UI-6: an empty plot shows words, not a blank rectangle; they go once something is drawn."""
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    plot.resize(500, 300)
+    plot.show()
+    assert plot.is_empty() and plot.hint.isVisible() and plot.hint.text()
+    plot.set_empty_hint("Choose a star to see its light curve")
+    ax = plot.figure.add_subplot()
+    assert plot.hint.isVisible()  # axes alone are still empty
+    ax.plot([1, 2, 3], [3, 1, 2])
+    plot.canvas.draw()
+    assert not plot.is_empty() and not plot.hint.isVisible()
+    ax.clear()
+    plot.canvas.draw()
+    assert plot.hint.isVisible() and plot.hint.text().startswith("Choose a star")

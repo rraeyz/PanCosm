@@ -211,6 +211,35 @@ class PlotCanvas(QWidget):
         lay.addWidget(toolbar)
         lay.addWidget(self.canvas)
         self._windows = []
+        # said over the empty plot until something is drawn (UI-6: no blank rectangle without words); a page
+        # sets its own words with set_empty_hint
+        self.hint = QLabel(self.tr("Nothing to show yet: the plot appears here once there are results"), self.canvas)
+        self.hint.setWordWrap(True)
+        self.hint.setAlignment(Qt.AlignCenter)
+        self.hint.setProperty("muted", True)
+        self.hint.setAttribute(Qt.WA_TransparentForMouseEvents)
+        self.canvas.mpl_connect("draw_event", lambda _e: self._update_hint())
+        self._update_hint()
+
+    def set_empty_hint(self, text):
+        self.hint.setText(text)
+        self._update_hint()
+
+    def is_empty(self):
+        return not any(
+            ax.lines or ax.collections or ax.images or ax.patches or ax.texts or ax.containers
+            for ax in self.figure.axes
+        )
+
+    def _update_hint(self):
+        empty = self.is_empty()
+        self.hint.setVisible(empty)
+        if empty:
+            self.hint.setGeometry(self.canvas.rect().adjusted(24, 24, -24, -24))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._update_hint()
 
     def draw(self):
         self.canvas.draw_idle()

@@ -11390,17 +11390,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Ayrı pencerede aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="227"/>
+        <location filename="../../ui/kit/widgets.py" line="216"/>
+        <source>Nothing to show yet: the plot appears here once there are results</source>
+        <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="256"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="275"/>
+        <location filename="../../ui/kit/widgets.py" line="304"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="291"/>
+        <location filename="../../ui/kit/widgets.py" line="320"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
     </message>
