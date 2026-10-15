@@ -153,3 +153,27 @@ def test_editable_columns_check_the_kind_and_report_each_change(qapp):
     assert v.model.setData(v.model.index(1, type_col), "I")
     v.model.set_value(0, "bjd_err", 0.000123)  # undo, as a window's undo step does it
     assert t["bjd_err"][0] == 0.000123 and len(edits) == 2
+
+
+def test_table_view_count_line_and_number_font(qtbot):
+    """UI-11: a count line under every table ("12 of 48 rows · 2 selected"); numbers in the monospace font."""
+    import numpy as np
+    from astropy.table import Table
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.kit.table import TableView
+    from astrowb.ui.theme import MONO
+
+    view = TableView()
+    qtbot.addWidget(view)
+    view.set_table(Table({"flux": np.arange(48.0), "name": [f"s{i}" for i in range(48)]}))
+    assert view.count.text() == "48 rows"
+    view.filter.setText("flux < 12")
+    view._apply()
+    from PySide6.QtCore import QItemSelectionModel as M
+
+    for row in (0, 1):
+        view.view.selectionModel().select(view.model.index(row, 0), M.SelectionFlag.Select | M.SelectionFlag.Rows)
+    assert view.count.text() == "12 of 48 rows · 2 selected"
+    assert view.model.data(view.model.index(0, 0), Qt.FontRole).family() == MONO
+    assert view.model.data(view.model.index(0, 1), Qt.FontRole) is None
