@@ -708,7 +708,7 @@ the suite is green after each.
   `resources/methods/*.txt`, `ui/shell/project/…`, tests.
 
 ### ARC-12. Scripting surface: Python API and command line  (P1)
-**open** — item 2 done by agent3 (2026-11-10) except `session`; item 1 (generated part) done (2026-11-11)
+**open** — item 2 done by agent3 (2026-11-10) except `session`; item 1 (generated part) done (2026-11-11); item 4 (the reference part) done: `tools/api_docs.py` writes docs/api/<area>.md from the registry, the same text as `astrowb-cli help`, and a test fails when they are out of date (the guide's Scripting page is left)
 - **Progress (agent3):** `src/astrowb/cli.py`: `astrowb-cli steps | help <step> | run <step> key=value … |
   recipe <automation.json> --set key=value …`, `--project`, `--json`, `--quiet`; values read as JSON when they are
   JSON; unknown keys and missing inputs refused before anything runs; exit codes 0 / 2 / 3 / 4 (a step's own

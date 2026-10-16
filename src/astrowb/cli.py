@@ -68,7 +68,9 @@ def describe(step_id, out):
     except KeyError:
         raise UsageError(f"no step {step_id} (astrowb-cli steps lists them)") from None
     print(step_id, file=out)
-    doc = (s.func.__doc__ or "").strip()
+    import inspect
+
+    doc = inspect.cleandoc(s.func.__doc__ or "")  # the docstring's own indentation taken off
     if doc:
         print("\n" + doc, file=out)
     print("\ninputs:      " + (", ".join(s.inputs) or "none"), file=out)
