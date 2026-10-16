@@ -27,3 +27,4 @@ packaging/out/
 # compiled routines (tools/build_native.py builds them from native/)
 /native/target/
 /src/astrowb/_native.*
+gallery/

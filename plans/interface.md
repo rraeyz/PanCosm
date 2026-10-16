@@ -568,7 +568,7 @@ for the window concerned.
 - **Files:** `ui/kit/window.py`, `ui/shell/menus.py` (Window menu), `tests/ui/test_multi_screen.py`
 
 ### UI-15. The gallery test: every window, every language, every theme  (P1)
-**open**
+**partial** — done: `tools/ui_gallery.py` opens every area window in en / tr / de / es × dark / light at 1366 × 768 (90 s), saves the screenshots and measures cut labels and buttons; `tests/test_gallery.py` fails on a cut text (Linux) and names the widget. Seen in the sheets: no cut text; German and Spanish show English where not translated yet (ARC-25). Left: contact sheets, overlaps, main-view share, untranslated strings, the CI artifact.
 - **Ours now:** `tests/test_layout_fits.py` (every page fits a small window, four languages × two themes), `tools/guide_screenshots.py`.
 - **Why:** rule R7 needs to be cheap, or it is skipped.
 - **Build:** `tools/ui_gallery.py`: opens every window with its practice data in a fixed state per stage, grabs
