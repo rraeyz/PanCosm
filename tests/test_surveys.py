@@ -56,7 +56,7 @@ def test_online_queries_use_the_right_services():
 def test_survey_step_and_period_page_file(qtbot, tmp_path, monkeypatch):
     from astrowb.engine.steps import execute
     from astrowb.planning import targets
-    from astrowb.ui.workspaces import PeriodPage
+    from astrowb.ui.period_page import PeriodPage
 
     class Ctx:
         def progress(self, *a):
@@ -77,6 +77,6 @@ def test_survey_step_and_period_page_file(qtbot, tmp_path, monkeypatch):
     )
     page = PeriodPage()
     qtbot.addWidget(page)
-    monkeypatch.setattr("astrowb.ui.workspaces.QFileDialog.getOpenFileName", lambda *a, **k: (str(path), ""))
+    monkeypatch.setattr("PySide6.QtWidgets.QFileDialog.getOpenFileName", lambda *a, **k: (str(path), ""))
     page._load()
     assert len(page.time) == 12 and "(V)" in page.source.text()

@@ -27,9 +27,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable
-from .workspaces import PlotCanvas
 
 SPECTRA = "Spectra (*.fits *.fit *.fts *.txt *.dat *.csv *.asc)"
 LINE_COLUMNS = ("file", "centre", "fwhm", "ew", "ew_err", "ew_fit", "depth", "line_flux", "snr", "v_over_r")
@@ -56,7 +56,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         panel = QWidget(self)
         lay = QVBoxLayout(panel)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

@@ -17,7 +17,7 @@ class AreaActions:
         user picks the filter (the largest group first)."""
         from PySide6.QtWidgets import QInputDialog
 
-        from .workspaces import by_filter
+        from .calibrate_page import by_filter
 
         paths = [str(p) for p in paths if p]
         if not paths:
@@ -94,7 +94,7 @@ class AreaActions:
         if every:  # item 11: every filter of the night, and the colour index
 
             def done_all(out):
-                from .workspaces import by_filter
+                from .calibrate_page import by_filter
 
                 main = next(iter(by_filter(images)), "")  # the filter the stars were marked in
                 curves = out["curves"]
@@ -205,7 +205,7 @@ class AreaActions:
                     self.engine.project.add_file(Path(p), "calibrated")
             self.calibrate_page.show_result(out)
             if out["calibrated"] and not self.photometry_page.images:  # next step of the workflow is ready
-                from .workspaces import by_filter
+                from .calibrate_page import by_filter
 
                 groups = by_filter(out["calibrated"])  # one filter only; a colour camera's green (TG) first
                 self.photometry_page.set_images(groups.get("TG") or max(groups.values(), key=len))

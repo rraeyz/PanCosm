@@ -371,7 +371,7 @@ the suite is green after each.
     `tests/` and `tools/` updated (no shims: nothing outside the repository imports them; `ui/workspaces.py`
     keeps its old re-exports). Changed from the plan: no compatibility shims at the old paths — they would only
     have to be removed again in ARC-4.8.
-  - **ARC-4.8** Remove the shims; update imports in tests and tools; delete the allow-list. **open**
+  - **ARC-4.8** Remove the shims; update imports in tests and tools; delete the allow-list. **partial** — the last shim `ui/workspaces.py` is gone: every import names the page's own module (src, tests, tools). Left: the size allow-list, until the large pages are split (UI-16).
 - **Changed from the plan (agent3, 2026-11-10, told to the owner):** a pure move of the old pages (ARC-4.2, 4.3,
   4.5, 4.6) would be done twice: every one of those windows is rebuilt on the new anatomy in its UI-16 sub-step. So
   each UI-16 sub-step creates its `ui/<area>/` package and moves the old page's code into it as it rebuilds the

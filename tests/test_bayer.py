@@ -142,7 +142,7 @@ def test_raw_files_become_fits_with_type_and_time(tmp_path):
 
 
 def test_calibrate_page_stacks_each_filter_apart(qtbot, tmp_path):
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     paths = []
     for i, f in enumerate(["TR", "TG", "TB", "TR", "TG", "TB", "g'", "g'", "i'"]):

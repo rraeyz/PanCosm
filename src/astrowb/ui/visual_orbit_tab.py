@@ -24,7 +24,7 @@ class VisualOrbitTab(QWidget):
     def __init__(self, parent=None):
         from PySide6.QtCore import Qt
 
-        from .workspaces import PlotCanvas
+        from .kit.widgets import PlotCanvas
 
         super().__init__(parent)
         self.orbit = None

@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 )
 
 from .files import images_filter
-from .workspaces import PlotCanvas
+from .kit.widgets import PlotCanvas
 
 BANDS = ("B", "V", "R", "I", "SG", "SR", "SI")
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"

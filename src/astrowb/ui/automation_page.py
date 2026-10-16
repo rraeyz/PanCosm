@@ -30,9 +30,9 @@ from PySide6.QtWidgets import (
 )
 
 from ..engine import automation, steps
+from .kit.widgets import _title
 from .messages import translate
 from .setting_names import setting_name
-from .workspaces import _title
 
 
 def _json_or_text(text):

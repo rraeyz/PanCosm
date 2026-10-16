@@ -32,7 +32,7 @@ def test_scan_reads_several_folders_once_each(tmp_path):
 
 
 def test_page_says_why_calibrate_is_off_and_adds_folders(qtbot, tmp_path):
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     write(tmp_path / "BDF", "b1.fits", "Bias Frame", 0.0)
     frames = execute("calibration.scan", {"folder": str(tmp_path / "BDF")}, {}, Ctx())["frames"]
@@ -70,7 +70,7 @@ def test_frames_are_removed_and_the_list_cleared_with_undo(qtbot, tmp_path):
     to empty the list and choose the folders again. Delete / "Remove from the list", "Clear", Ctrl+Z."""
     from PySide6.QtCore import Qt
 
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     for name, kind, t in (("b1.fits", "Bias Frame", 0.0), ("master_bias_00.fits", "Master bias", 0.0)):
         write(tmp_path / "BDF", name, kind, t)

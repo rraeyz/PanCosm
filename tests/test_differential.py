@@ -144,7 +144,7 @@ def synthetic_lc(n=60):
 
 def test_photometry_page_differential_workflow(qtbot, tmp_path):
     from astrowb.photometry.export import aavso_extended
-    from astrowb.ui.workspaces import PhotometryPage, export_csv
+    from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -203,7 +203,8 @@ def test_photometry_page_differential_workflow(qtbot, tmp_path):
 def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
     from types import SimpleNamespace
 
-    from astrowb.ui.workspaces import PhotometryPage, PlotCanvas, export_csv
+    from astrowb.ui.kit.widgets import PlotCanvas
+    from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -248,7 +249,7 @@ def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
 
 
 def test_photometry_page_sends_the_telescope_aperture_and_reports_scintillation(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -271,7 +272,7 @@ def test_photometry_page_sends_the_telescope_aperture_and_reports_scintillation(
 def test_stars_marked_on_a_later_frame_are_carried_to_the_others(tmp_path, qtbot):
     """The owner marks the stars on whichever frame looks best: the field drifts 7 px over the series; positions
     marked on frame 3 give the same light curve as positions marked on frame 1, and the page shows every frame."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     paths, shift = [], [(0, 0), (2.5, 1.0), (5.0, 2.2), (7.1, 3.0)]
     for i, (dx, dy) in enumerate(shift):
@@ -334,7 +335,7 @@ def test_frame_list_quality_and_blink(tmp_path, qtbot):
     in with bad frames red and unticked (not deleted), blinking steps through the frames in use at the same zoom."""
     from PySide6.QtCore import Qt
 
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     paths = []
     for i in range(5):
@@ -383,7 +384,7 @@ def test_photometry_page_draws_a_light_curve_with_frames_that_lost_the_target(qt
     """The owner's NY Vir night: frames where the target's flux after the sky is negative made the page fail with
     "'yerr' must not contain negative values" instead of drawing the light curve. Now it is drawn, and those frames
     are named on the plot so they can be left out."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -402,7 +403,7 @@ def test_photometry_page_names_the_frames_the_measurement_left_out(qtbot):
     result and in red in the frame list (the owner's NY Vir night: they were measured on empty sky, silently)."""
     from PySide6.QtGui import QColor
 
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -424,7 +425,7 @@ def test_comparison_stars_are_ticked_on_and_off_and_the_light_curve_follows(qtbo
     from PySide6.QtCore import Qt
     from PySide6.QtGui import QColor
 
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     n = 60
     lc = synthetic_lc(n)
@@ -457,7 +458,7 @@ def test_comparison_stars_are_ticked_on_and_off_and_the_light_curve_follows(qtbo
 def test_photometry_steps_open_one_after_the_other(qtbot, tmp_path):
     """The controls are in four numbered steps: the one being worked on opens, the earlier ones fold with a tick
     (the images step stays open: its frame list shows the frames left out), and every one opens with a click."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     for i in range(3):
         h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
@@ -491,7 +492,7 @@ def test_photometry_steps_open_one_after_the_other(qtbot, tmp_path):
 def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     """plans/photometry.md item 8: the multi-plot draws the ticked series, binned, and its set-up goes to another
     night; leaving each comparison star out names the scatter of every variant."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -578,7 +579,7 @@ def test_spline_follows_a_slow_trend_and_bridges_the_transit():
 def test_photometry_page_chooses_the_detrending_by_bic(qtbot, tmp_path):
     """plans/photometry.md item 9 on the page: the flip found from PIERSIDE, the BIC table, the chosen set ticked
     and applied, the spline as a further stage, and outliers left out against their neighbours (undoable)."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     t, rel, err, cov = _trend_night()
     files = []
@@ -639,7 +640,7 @@ def test_best_comparison_set_leaves_out_the_variable_star():
 
 
 def test_photometry_page_finds_the_best_comparison_set(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     rng = np.random.default_rng(4)
     n = 80
@@ -703,7 +704,7 @@ def test_light_curve_keeps_the_frames_a_comparison_star_left(tmp_path):
 
 
 def test_photometry_page_marks_frames_kept_without_a_comparison_star(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     lc = synthetic_lc(20)
     comps = np.asarray(lc["comp_flux"])
@@ -782,7 +783,7 @@ def test_minimum_step_fits_the_detrending_with_the_transit():
 
 
 def test_photometry_page_sends_the_trend_to_fit_with_the_transit(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -804,7 +805,7 @@ def test_photometry_page_sends_the_trend_to_fit_with_the_transit(qtbot):
 def test_photometry_page_chooses_another_measured_aperture(qtbot):
     """plans/photometry.md item 10 on the page: the radii measured at once are listed; another one is used without
     measuring again, with the aperture correction shown; Ctrl+Z goes back to the measured radius."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     n = 60
     lc = synthetic_lc(n)
@@ -867,7 +868,7 @@ class _Ctx:
 
 
 def test_photometry_page_shows_the_colour_index(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -920,8 +921,7 @@ def test_two_nights_with_a_star_missing_one_night_join_without_a_step(tmp_path):
 
 
 def test_photometry_page_adds_other_nights(qtbot, tmp_path):
-    from astrowb.ui.photometry_page import export_csv
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -958,7 +958,7 @@ def test_etd_text_and_the_csv_the_models_page_reads(tmp_path):
 
 
 def test_photometry_page_exports_for_etd(qtbot, tmp_path):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)

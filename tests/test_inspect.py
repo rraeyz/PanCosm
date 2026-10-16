@@ -73,7 +73,7 @@ def test_saturation_level_from_header():
 def test_images_page_tools(qtbot, tmp_path):
     from astropy.io import fits
 
-    from astrowb.ui.workspaces import ImagePage
+    from astrowb.ui.image_page import ImagePage
 
     page = ImagePage()
     qtbot.addWidget(page)

@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
 )
 
 from .kit.help import help_line
-from .workspaces import PlotCanvas
+from .kit.widgets import PlotCanvas
 
 FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr")
 
@@ -35,7 +35,7 @@ class FrequencyPage(QWidget):
         lay = QVBoxLayout(left)
         info = help_line(self.tr("Uses the Period search tab's light curve; peaks are fitted and removed one by one "
                                  "until S/N < 4."), "lightcurves-frequency-analysis", self)  # fmt: skip
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

@@ -33,9 +33,9 @@ from PySide6.QtWidgets import (
 )
 
 from ..devices.client import Client
+from .kit.widgets import _title
 from .messages import translate
 from .undo import Undoable, track_typing
-from .workspaces import _title
 
 KINDS = ("light", "dark", "bias", "flat")
 

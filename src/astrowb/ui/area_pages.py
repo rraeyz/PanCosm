@@ -6,8 +6,11 @@ from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication
 
+from .image_page import ImagePage
+from .lightcurve_page import LightCurvePage
 from .messages import translate
-from .workspaces import ImagePage, LightCurvePage, OCPage, PhotometryPage
+from .oc_page import OCPage
+from .photometry_page import PhotometryPage
 
 
 def make_spectro_page(main):

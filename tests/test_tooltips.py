@@ -42,7 +42,7 @@ def test_tooltips_are_translated(qtbot, tmp_path):
     from PySide6.QtWidgets import QApplication
 
     from astrowb.ui import i18n
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     app = QApplication.instance()
     loaded = i18n.install(app, "tr")
@@ -57,6 +57,7 @@ def test_tooltips_are_translated(qtbot, tmp_path):
 
 def test_every_dialog_control_has_a_tooltip(window, tmp_path):
     from astrowb.engine import steps
+    from astrowb.ui.aavso_dialog import AavsoDialog
     from astrowb.ui.blink_dialog import BlinkDialog
     from astrowb.ui.coefficients_dialog import CoefficientsDialog
     from astrowb.ui.exposure_dialog import ExposureDialog
@@ -66,7 +67,6 @@ def test_every_dialog_control_has_a_tooltip(window, tmp_path):
     from astrowb.ui.plugin_dialog import PluginDialog
     from astrowb.ui.spectrum_tools import BessDialog
     from astrowb.ui.welcome import WelcomeDialog
-    from astrowb.ui.workspaces import AavsoDialog
 
     settings = Settings(tmp_path)
     observatory = ObservatoryDialog(settings)

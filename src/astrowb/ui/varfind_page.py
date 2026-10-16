@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 
 from .files import images_filter
 from .kit.help import help_line
-from .workspaces import PlotCanvas
+from .kit.widgets import PlotCanvas
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 
@@ -35,7 +35,7 @@ class VarFindPage(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

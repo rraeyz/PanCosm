@@ -21,19 +21,17 @@ from ..settings import Settings
 from . import area_menus, area_pages, area_windows, main_menus, tour
 from .area_actions import AreaActions
 from .area_menus import _undo_source
+from .calibrate_page import CalibratePage
 from .file_actions import FileActions
 from .files import images_filter
 from .image_actions import ImageActions
+from .kit.widgets import PlotCanvas
 from .kit.window import _raise as _raise_window
 from .main_settings import SettingsActions
+from .project_page import ProjectPage
+from .start_page import StartPage
 from .task_actions import TaskActions
 from .window_menu import WindowMenu
-from .workspaces import (
-    CalibratePage,
-    PlotCanvas,
-    ProjectPage,
-    StartPage,
-)
 
 
 class _TaskList(QListWidget):
@@ -380,7 +378,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         return "expert" if self.settings.get("ui.mode", "basic") == "expert" else "basic"
 
     def set_ui_mode(self, mode):
-        """Basic / Expert: which folding sections start open (workspaces.Collapsible.mode). Nothing is hidden for
+        """Basic / Expert: which folding sections start open (kit.widgets.Collapsible.mode). Nothing is hidden for
         good; the choice is kept and applied to every page built so far and later."""
         self.settings.set("ui.mode", mode)
         self.settings.save()
@@ -634,8 +632,8 @@ def _fields_scroll(page, tall=200):
 
 
 def _apply_mode(page, mode):
-    """Open or fold the page's sections for the interface mode (workspaces.Collapsible.mode)."""
-    from .workspaces import Collapsible
+    """Open or fold the page's sections for the interface mode (kit.widgets.Collapsible.mode)."""
+    from .kit.widgets import Collapsible
 
     for c in page.findChildren(Collapsible):
         if c.mode in ("basic", "expert"):

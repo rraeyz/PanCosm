@@ -3661,12 +3661,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="99"/>
+        <location filename="../../ui/main_window.py" line="97"/>
         <source>Tasks</source>
         <translation>Aufgaben</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="160"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
@@ -3681,12 +3681,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Guide</source>
         <translation>Anleitung</translation>
     </message>
@@ -4568,12 +4568,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Auf&amp;gabe</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="323"/>
+        <location filename="../../ui/main_window.py" line="321"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="324"/>
+        <location filename="../../ui/main_window.py" line="322"/>
         <source>Copies the selected cells or text</source>
         <translation>Kopiert die markierten Zellen oder den Text</translation>
     </message>
@@ -4588,7 +4588,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Klicken Sie das Ziel im zeitlich ersten Bild an, das im Fenster Photometrie gezeigt wird.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_pages.py" line="230"/>
+        <location filename="../../ui/area_pages.py" line="233"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
@@ -14194,43 +14194,43 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>TableView</name>
     <message>
-        <location filename="../../ui/kit/table.py" line="124"/>
+        <location filename="../../ui/kit/table.py" line="125"/>
         <source>Filter, e.g. flux_err &lt; 0.01 and not isnan(airmass)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="177"/>
-        <location filename="../../ui/kit/table.py" line="205"/>
+        <location filename="../../ui/kit/table.py" line="180"/>
+        <location filename="../../ui/kit/table.py" line="208"/>
         <source>{n} of {total} rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="205"/>
+        <location filename="../../ui/kit/table.py" line="208"/>
         <source>{n} rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="207"/>
+        <location filename="../../ui/kit/table.py" line="210"/>
         <source> · {n} selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="243"/>
+        <location filename="../../ui/kit/table.py" line="246"/>
         <source>Copy</source>
         <translation type="unfinished">Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="244"/>
+        <location filename="../../ui/kit/table.py" line="247"/>
         <source>Export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="248"/>
+        <location filename="../../ui/kit/table.py" line="251"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="249"/>
+        <location filename="../../ui/kit/table.py" line="252"/>
         <source>Export table</source>
         <translation type="unfinished">Tabelle exportieren</translation>
     </message>
