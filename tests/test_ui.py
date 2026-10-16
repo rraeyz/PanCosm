@@ -889,10 +889,10 @@ def test_image_panel_in_its_own_window_and_photometry_other_tools(window, fits_f
     assert page.tabs.currentWidget() is page.info
     page.float_button.setChecked(True)
     phot = window.photometry_page
-    assert not phot.other_tools.content.isVisible()  # live and polarimetry wait behind "Other tools"
-    assert (
-        phot.live_button.parent() is phot.other_tools.content and phot.pol_button.parent() is phot.other_tools.content
-    )
+    # live and polarimetry wait behind "Other tools" (a stage of the Photometry window, UI-16.1)
+    assert not phot.live_button.isVisible() and phot.live_button.parent() is phot.pol_button.parent()
+    win = window.area_windows["photometry"]
+    assert win.stage_panels["tools"].isAncestorOf(phot.live_button)
 
 
 def test_convert_many_images_from_the_file_menu(window, qtbot, fits_file, tmp_path):
@@ -1272,7 +1272,8 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     win = window.area_windows["photometry"]
     assert isinstance(win, AreaWindow) and win.isVisible() and window.current_workspace() == "photometry"
     assert win.centralWidget() is window.photometry_page.viewer  # the image in the middle (I5)
-    assert win.docks["steps"].widget() is window.photometry_page._steps_scroll and "results" in win.docks
+    assert list(win.stage_panels) == ["images", "stars", "apertures", "measure", "tools"] and "results" in win.docks
+    assert win.stage_panels["images"].isAncestorOf(window.photometry_page.load_button)  # the steps as stages
     assert window.pages.currentWidget() is not window._frames[window.photometry_page]  # not in the main window
     window._show_key("photometry")  # the sidebar
     window.open_area("photometry")  # a start block
@@ -1838,3 +1839,36 @@ def test_every_settings_key_is_shown_or_internal():
         keys |= set(re.findall(r'settings\.get\(\s*"([a-z_.]+)"', path.read_text(encoding="utf-8")))
     unknown = [k for k in keys if k not in SHOWN and not any(k == i or k.startswith(i) for i in INTERNAL)]
     assert not unknown, unknown
+
+
+def test_live_cancelled_does_not_loop(window, monkeypatch):
+    """Live, then Cancel in the folder dialog: the button unchecks itself while it is being checked; its menu
+    mirror used to check it again for ever and the program crashed (a stack overflow)."""
+    from PySide6.QtWidgets import QFileDialog
+
+    monkeypatch.setattr(QFileDialog, "getExistingDirectory", staticmethod(lambda *a, **k: ""))
+    page = window.photometry_page
+    window.show_workspace("photometry")
+    page.live_button.click()
+    assert not page.live_button.isChecked()
+    mirrors = [a for w in [window.area_windows["photometry"]] for a in w.findChildren(type(window.expert_action))
+               if a.isCheckable() and a.text() == page.live_button.text()]  # fmt: skip
+    assert mirrors and not mirrors[0].isChecked()
+
+
+def test_photometry_stages_follow_the_steps(window, fits_file):
+    """UI-16.1: the Photometry window's rail shows the page's steps: a step done gets its tick, the next one opens
+    by itself, and Basic / Expert still reaches the sections inside the stages."""
+    page = window.photometry_page
+    window.show_workspace("photometry")
+    win = window.area_windows["photometry"]
+    assert win.current_stage() == "images" and win.rail.buttons["images"].text().startswith("1 ●")
+    page.set_images([str(fits_file)])
+    assert win.rail.buttons["images"].text().startswith("1 ✓") and win.current_stage() == "stars"
+    win.show_stage("images")  # the user goes back: the rail does not pull them forward again
+    page._step_titles()
+    assert win.current_stage() == "images"
+    window.set_ui_mode("expert")
+    assert page.measure_options.button.isChecked()
+    window.set_ui_mode("basic")
+    assert not page.measure_options.button.isChecked()

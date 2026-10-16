@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
-from PySide6.QtWidgets import QHBoxLayout, QStackedWidget, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QScrollArea, QStackedWidget, QWidget
 
 from .rail import StagePanel, StageRail
 
@@ -51,7 +51,13 @@ class Anatomy:
         row.addWidget(self.stage_stack, 1)
         self.stage_stack.setMinimumWidth(280)
         self.rail.stage_chosen.connect(self.show_stage)
-        dock = self._dock("stages", self.tr("Stages"), holder, Qt.LeftDockWidgetArea)
+        frame = QScrollArea(self)  # the stage panels scroll themselves; a frame as the pages have (a viewport)
+        frame.setWidget(holder)
+        frame.setWidgetResizable(True)
+        frame.setFrameShape(QScrollArea.NoFrame)
+        frame.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        frame.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        dock = self._dock("stages", self.tr("Stages"), frame, Qt.LeftDockWidgetArea)
         self._key_action(self.tr("Show or hide the stage panel"), "F9", lambda: dock.setVisible(not dock.isVisible()))
         for i, s in enumerate(stages[:9], 1):
             self._key_action(s.title, f"Ctrl+{i}", lambda _on=False, k=s.key: self.show_stage(k))

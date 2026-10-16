@@ -60,7 +60,6 @@ def photometry_window(main, page):
         name,
         main.settings,
         parts["view"],
-        steps=parts["steps"],
         panels=[
             (
                 "results",
@@ -82,15 +81,70 @@ def photometry_window(main, page):
     win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
     exports.addActions([export, mirror(page.aavso_button), mirror(page.etd_button)])
     win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
+    _photometry_stages(win, page)
     page.setParent(win)  # the page keeps the state and the logic, unseen
     page.hide()
     page.results_dock = win.docks["results"]
     page.results_dock.setVisible(page.target is not None or page.lc_raw is not None)
-    main._frames[page] = parts["steps"]
+    main._frames[page] = win.docks["stages"].widget()  # Basic / Expert folds the sections inside the stages
     win.setWindowIcon(main.windowIcon())
     win.help_requested.connect(main._help_for)
     main.area_windows["photometry"] = win
     main._complete_menus(win)
+
+
+def _stage_parts(page):
+    """The steps' contents as stages: [(key, title, widget, guide anchor)]. Each step's controls leave their folding
+    section (which then folds an empty box: the page's own step logic goes on unchanged); the workflow summary goes
+    with the first stage."""
+    from PySide6.QtWidgets import QVBoxLayout, QWidget
+
+    names = (translate("MainWindow", "Images"), translate("MainWindow", "Stars"),
+             translate("MainWindow", "Apertures"), translate("MainWindow", "Measure"))  # fmt: skip
+    keys = ("images", "stars", "apertures", "measure")
+    anchors = ("photometry-choosing-images-stars", "photometry-differential-photometry-targets-comparison",
+               "photometry-apertures", "photometry-measure-light-curve")  # fmt: skip
+    out = []
+    for k, sec in enumerate([*page.sections, page.other_tools]):
+        content = sec.content
+        sec.layout().removeWidget(content)
+        sec.content = QWidget(sec)  # what the section folds from now on
+        content.setVisible(True)
+        if k == 0:
+            holder = QWidget()
+            lay = QVBoxLayout(holder)
+            lay.setContentsMargins(0, 0, 0, 0)
+            lay.addWidget(page.guide)
+            lay.addWidget(content)
+            content = holder
+        if k < 4:
+            out.append((keys[k], names[k], content, anchors[k]))
+        else:
+            out.append(("tools", translate("MainWindow", "Other tools"), content, "photometry-live-light-curve"))
+    return out
+
+
+def _photometry_stages(win, page):
+    """The steps as stages (plans/interface.md UI-16.1): the rail on the left names them with their state, the
+    stage's controls beside it; the page's own step logic (which step is next, which are done) moves the rail."""
+    from .kit.anatomy import Stage
+
+    parts = _stage_parts(page)
+    win.set_stages([Stage(key, title, widget, anchor) for key, title, widget, anchor in parts])
+    keys = [key for key, *_ in parts]
+
+    last = [page._step_now]
+
+    def follow(now, done):
+        for k, ok in enumerate(done):
+            win.set_stage_state(keys[k], "done" if ok else "empty")
+        if now > last[0]:  # the page went on to a next step: it opens by itself, as the sections did
+            win.show_stage(keys[now])
+        last[0] = now  # a stage the user went back to stays shown
+
+    page.steps_shown = follow
+    page._step_titles()
+    win.restoreDockWidget(win.docks["stages"])
 
 
 def spectroscopy_window(main, page):

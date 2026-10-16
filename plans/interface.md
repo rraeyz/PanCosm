@@ -591,7 +591,7 @@ after the owner has tried the new window (until then View → "Classic layout" o
 practice data and on one real set from `data/`; every old control accounted for; old sessions open.
 
 #### UI-16.1 Photometry
-**open**
+**partial** — done: the steps are stages (rail: Images, Stars, Apertures, Measure, Other tools; each stage's controls and its guide topic; the page's step logic moves the rail: a step done gets ✓, the next opens by itself, a stage the user went back to stays). Left: the eight stages of the sketch (Field, Light curve, Timing and fit, Report out of today's panels), the inspector, the results tabs, the toolbar of the sketch.
 ```
 rail            stage panel (example: 3 Stars)          main: image                         inspector
 1 Images        Target and comparison stars    ?       ┌───────────────────────────────┐   Star C2
