@@ -532,3 +532,23 @@ def test_help_line_opens_the_topic(qtbot, tmp_path):
     assert len(line.text()) < 200 and isinstance(line, QLabel)
     line.linkActivated.emit("photometry-apertures")
     assert win.docks["help"].isVisible() and "Apertures" in win.help_panel.title.text()
+
+
+def test_plot_canvas_right_click_menu(qtbot):
+    """UI-10: every plot has Show all, Copy picture, Copy data, Save data… on the right click."""
+    from PySide6.QtWidgets import QApplication
+
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    ax = plot.figure.add_subplot()
+    ax.plot([1, 2, 3], [3, 1, 2], label="V")
+    ax.set_xlim(1.5, 2)
+    plot.show_all()
+    assert ax.get_xlim()[0] < 1.5
+    assert plot.copy_data() == 3 and QApplication.clipboard().text().splitlines()[1].endswith("\t3.0")
+    plot.copy_picture()
+    assert not QApplication.clipboard().pixmap().isNull()
+    names = [a.text() for a in plot.context_menu().actions()]
+    assert "Copy data" in names and "Save data…" in names and "Show all" in names

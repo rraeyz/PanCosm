@@ -11405,6 +11405,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <name>PlotCanvas</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="199"/>
+        <location filename="../../ui/kit/widgets.py" line="315"/>
         <source>Publication figure…</source>
         <translation>Publikationsgrafik…</translation>
     </message>
@@ -11429,17 +11430,37 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="256"/>
+        <location filename="../../ui/kit/widgets.py" line="258"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="304"/>
+        <location filename="../../ui/kit/widgets.py" line="309"/>
+        <source>Show all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="311"/>
+        <source>Copy picture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="312"/>
+        <source>Copy data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="314"/>
+        <source>Save data…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="342"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="320"/>
+        <location filename="../../ui/kit/widgets.py" line="358"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>
