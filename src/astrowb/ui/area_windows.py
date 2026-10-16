@@ -63,7 +63,7 @@ def photometry_window(main, page):
         panels=[
             (
                 "results",
-                translate("MainWindow", "Results: light curve, stars, minimum, export"),
+                translate("MainWindow", "Results: light curve, stars, measurements"),
                 parts["results"],
                 Qt.BottomDockWidgetArea,
             )
@@ -120,8 +120,26 @@ def _stage_parts(page):
         if k < 4:
             out.append((keys[k], names[k], content, anchors[k]))
         else:
-            out.append(("tools", translate("MainWindow", "Other tools"), content, "photometry-live-light-curve"))
-    return out
+            tools = ("tools", translate("MainWindow", "Other tools"), content, "photometry-live-light-curve")
+    # the results' working tabs become stages; the light curve, stars and measurements stay in the results panel
+    later = (
+        (
+            "lightcurve",
+            translate("MainWindow", "Light curve"),
+            page.show_what,
+            "photometry-deleting-bad-points-spacing",
+        ),
+        ("timing", translate("MainWindow", "Timing"), page.minimum_button, "photometry-time-minimum"),
+        ("report", translate("MainWindow", "Report"), page.export_button, "photometry-exporting"),
+    )
+    for key, title, inside, anchor in later:
+        tabs = page.res_tabs
+        i = next(i for i in range(tabs.count()) if tabs.widget(i).isAncestorOf(inside))
+        box = tabs.widget(i)
+        tabs.removeTab(i)
+        box.setVisible(True)  # a tab not shown was hidden by its tab widget
+        out.append((key, title, box, anchor))
+    return [*out, tools]
 
 
 def _photometry_stages(win, page):
