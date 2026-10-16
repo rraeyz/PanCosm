@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
+from .kit.help import help_line
 from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .undo import Undoable
@@ -79,18 +80,8 @@ class CalibratePage(Undoable, QWidget):
         )
         lay.addWidget(self.guide)
         lay.addWidget(QLabel(self.tr("1. Choose your frames: the lights and the calibration frames (BDF)."), self))
-        hint = QLabel(
-            self.tr(
-                "As they are usually kept: the lights (data) in one folder, bias / dark / flat in another. Every "
-                "frame in the light folder is a light, whatever its name (nsvs…fits); in the BDF folder each frame "
-                "is sorted into bias, dark or flat. Everything in one folder? Give it as the BDF folder only: the "
-                "frames are then sorted by header and name. Sub-folders are read too."
-            ),
-            self,
-        )
-        hint.setWordWrap(True)
-        hint.setProperty("muted", True)
-        lay.addWidget(hint)
+        lay.addWidget(help_line(self.tr("Lights in one folder, bias / dark / flat (BDF) in another — or everything "
+                                        "as BDF."), "calibration-1-scan-raw-frames", self))  # fmt: skip
         row = QHBoxLayout()
         self.lights = QLineEdit(self)
         self.lights.setPlaceholderText(self.tr("light frames (data) folder"))
@@ -189,19 +180,8 @@ class CalibratePage(Undoable, QWidget):
         self.table.cellDoubleClicked.connect(self._edit_kind)
         self.table.setToolTip(self.tr("Double-click a frame's type to change it"))
         lay.addWidget(self.table, 1)
-        how = QLabel(
-            self.tr(
-                "How the type is found: the header (IMAGETYP, FRAME, OBSTYPE…) first; without it a word in the file "
-                "name — bias / zero / offset, dark, flat / twilight, arc / lamp; a frame of 0 s is a bias. Every "
-                "other frame is a light (e.g. named after the star: nsvs…fits); only a type the header states "
-                "and the program does not know (FOCUS, TEST…) is “unknown” and left out. Double-click a type to "
-                "change it."
-            ),
-            self,
-        )
-        how.setWordWrap(True)
-        how.setProperty("muted", True)
-        lay.addWidget(how)
+        lay.addWidget(help_line(self.tr("The type comes from the header, else from the file name; double-click a "
+                                        "type to change it."), "calibration-1-scan-raw-frames", self))  # fmt: skip
         self.warnings = QPlainTextEdit(self)
         self.warnings.setReadOnly(True)
         self.warnings.setMaximumHeight(90)

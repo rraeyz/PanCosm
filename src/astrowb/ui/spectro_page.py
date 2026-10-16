@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.help import help_line
 from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas
@@ -1362,16 +1363,8 @@ class TelluricTab(QWidget):
             row.edit.textChanged.connect(
                 lambda *_: self.guide.set_state(0, "done" if self.spectrum.text() and self.standard.text() else None)
             )
-        lay.addWidget(
-            QLabel(
-                self.tr(
-                    "The standard's spectrum gives the atmospheric transmission. Its strength (airmass, water "
-                    "vapour) and a small wavelength shift are fitted inside the telluric bands."
-                ),
-                self,
-                wordWrap=True,
-            )
-        )
+        note = self.tr("The standard star's spectrum gives the atmosphere's transmission in the telluric bands.")
+        lay.addWidget(help_line(note, "spectroscopy-telluric-correction", self))
         self.button = QPushButton(self.tr("Correct and save"), self)
         self.button.clicked.connect(self._run)
         self.button.setToolTip(

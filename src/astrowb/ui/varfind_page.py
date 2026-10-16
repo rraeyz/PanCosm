@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 
 from .files import images_filter
+from .kit.help import help_line
 from .workspaces import PlotCanvas
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
@@ -58,15 +59,8 @@ class VarFindPage(QWidget):
             self,
         )
         lay.addWidget(self.guide)
-        info = QLabel(
-            self.tr(
-                "Measures every star of the first frame on all frames, puts them on a common zero point (clouds "
-                "cancel) and compares each star's scatter with stars of the same brightness. Stars well above "
-                "the magnitude–scatter relation are candidates. Use calibrated frames."
-            ),
-            self,
-        )
-        info.setWordWrap(True)
+        note = self.tr("Stars that scatter more than others of their brightness are candidates. Use calibrated frames.")
+        info = help_line(note, "photometry-psf-photometry-searching-variables", self)
         lay.addWidget(info)
         choose = self.choose_button = QPushButton(self.tr("Choose frames…"), self)
         choose.clicked.connect(

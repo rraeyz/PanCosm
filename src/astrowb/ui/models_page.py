@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..models.fit import DEFAULT_FREE, NAMES
+from .kit.help import help_line
 from .messages import translate
 from .spectro_page import _FileRow
 from .undo import Undoable, track_typing
@@ -211,16 +212,8 @@ class ModelsPage(Undoable, QWidget):
         self.status.setWordWrap(True)
         self.status.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.status)
-        lay.addWidget(
-            QLabel(
-                self.tr(
-                    "Model: two limb-darkened spheres on a Keplerian orbit — for detached binaries and transits. "
-                    "Close, distorted or contact binaries: export and model in PHOEBE or WD."
-                ),
-                self,
-                wordWrap=True,
-            )
-        )
+        lay.addWidget(help_line(self.tr("Two spheres on a Keplerian orbit: detached binaries and transits. Contact "
+                                        "binaries: PHOEBE or WD."), "orbits-models-model", self))  # fmt: skip
         split.addWidget(left)
         self.plot = PlotCanvas(self)
         split.addWidget(self.plot)

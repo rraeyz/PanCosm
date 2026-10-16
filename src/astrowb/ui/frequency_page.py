@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.help import help_line
 from .workspaces import PlotCanvas
 
 FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr")
@@ -32,15 +33,8 @@ class FrequencyPage(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        info = QLabel(
-            self.tr(
-                "Uses the light curve of the Period search tab. The highest peak of the amplitude spectrum is "
-                "fitted, removed (prewhitening) and the search repeated until the next peak has S/N below the "
-                "limit (Breger: 4). All frequencies, amplitudes and phases are refitted together."
-            ),
-            self,
-        )
-        info.setWordWrap(True)
+        info = help_line(self.tr("Uses the Period search tab's light curve; peaks are fitted and removed one by one "
+                                 "until S/N < 4."), "lightcurves-frequency-analysis", self)  # fmt: skip
         from .workspaces import StepGuide
 
         self.guide = StepGuide(
