@@ -12,6 +12,7 @@ from pathlib import Path
 from PySide6.QtCore import QByteArray, QEvent, Qt, Signal
 from PySide6.QtGui import QAction, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (
+    QApplication,
     QDialog,
     QDockWidget,
     QFileDialog,
@@ -197,7 +198,7 @@ class AreaWindow(Anatomy, QMainWindow):
         help_menu = bar_menu(bar, self.tr("&Help"))
         self.help_menu = help_menu
         self.help_action = self._action(
-            help_menu, self.tr("Guide for this window"), lambda: self.help_requested.emit(self.key),
+            help_menu, self.tr("Guide for this window"), self.help_for_focus,
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
         self._action(
@@ -393,6 +394,16 @@ class AreaWindow(Anatomy, QMainWindow):
                 seen.add(act)
                 out.append((_plain(act.text()), act))
         return out
+
+    def help_for_focus(self):
+        """F1: the guide paragraph of the control in focus beside the work (the Help panel), when its section or
+        stage names one; otherwise the guide of this window."""
+        from .help import anchor_for
+
+        anchor = anchor_for(QApplication.focusWidget())
+        if anchor and self.show_help(anchor):
+            return
+        self.help_requested.emit(self.key)
 
     def show_shortcuts(self):
         from .shortcuts import ShortcutSheet
