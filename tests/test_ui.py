@@ -1801,3 +1801,25 @@ def test_help_button_opens_the_guide_topic(window, qtbot):
     assert window.current_workspace() == "guide" and window.guide_page.tree.currentItem().text(0) == "Apertures"
     window._help_for("photometry")
     assert window.guide_page.search.text()
+
+
+def test_settings_in_one_window(window, qtbot):
+    """UI-13: Settings → All settings… shows every setting by category; search finds one by any word; a change
+    applies at once and the menus agree."""
+    from astrowb.core import profiles
+
+    win = window.show_settings()
+    qtbot.addWidget(win)
+    names = [win.categories.item(i).text() for i in range(win.categories.count())]
+    assert names == ["General", "Profiles", "Processing", "Online services"]
+    assert win.filter("offline") == 1
+    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [3]
+    win.filter("")
+    toggle = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Work offline")
+    toggle.setChecked(not window.offline_action.isChecked())
+    assert toggle.isChecked() == window.offline_action.isChecked()
+    window.offline_action.setChecked(False)
+    assert not toggle.isChecked()
+    lat = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Latitude")
+    lat.setValue(41.0)
+    assert profiles.section(window.settings, "site")["lat"] == 41.0
