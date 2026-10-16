@@ -5,11 +5,13 @@
     duplicates(window)          # {key: [action paths]} for keys that do two things
 """
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QKeySequence
 from PySide6.QtWidgets import QHeaderView, QLineEdit, QTableWidget, QTableWidgetItem, QVBoxLayout
 
 from .dialogs import Dialog
+
+translate = QCoreApplication.translate
 
 
 def shortcuts_of(window):
@@ -48,7 +50,9 @@ def duplicates(window):
 
 class ShortcutSheet(Dialog):
     def __init__(self, window):
-        super().__init__(window.tr("Keyboard shortcuts"), window, getattr(window, "settings", None), "shortcuts")
+        super().__init__(
+            translate("ShortcutSheet", "Keyboard shortcuts"), window, getattr(window, "settings", None), "shortcuts"
+        )
         self.search = QLineEdit(self)
         self.search.setPlaceholderText(self.tr("Find a shortcut or an action"))
         self.search.setClearButtonEnabled(True)

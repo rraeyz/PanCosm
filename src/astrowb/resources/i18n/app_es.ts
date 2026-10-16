@@ -12598,17 +12598,22 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>ShortcutSheet</name>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="53"/>
+        <location filename="../../ui/kit/shortcuts.py" line="54"/>
+        <source>Keyboard shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/shortcuts.py" line="57"/>
         <source>Find a shortcut or an action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="56"/>
+        <location filename="../../ui/kit/shortcuts.py" line="60"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="56"/>
+        <location filename="../../ui/kit/shortcuts.py" line="60"/>
         <source>Keys</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15030,14 +15035,6 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/spectro_page.py" line="99"/>
         <source>Tick when the wavelength decreases along the axis (blue on the right, or at the top)</source>
         <translation>Marque si la longitud de onda disminuye a lo largo del eje (azul a la derecha o arriba)</translation>
-    </message>
-</context>
-<context>
-    <name>window</name>
-    <message>
-        <location filename="../../ui/kit/shortcuts.py" line="51"/>
-        <source>Keyboard shortcuts</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
