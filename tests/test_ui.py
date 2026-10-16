@@ -1823,3 +1823,18 @@ def test_settings_in_one_window(window, qtbot):
     lat = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Latitude")
     lat.setValue(41.0)
     assert profiles.section(window.settings, "site")["lat"] == 41.0
+
+
+def test_every_settings_key_is_shown_or_internal():
+    """UI-13: every key the program reads from the settings file is in the Settings window or listed as internal."""
+    import re
+    from pathlib import Path
+
+    from astrowb.ui.settings_window import INTERNAL, SHOWN
+
+    root = Path(__file__).resolve().parents[1] / "src" / "astrowb"
+    keys = set()
+    for path in root.rglob("*.py"):
+        keys |= set(re.findall(r'settings\.get\(\s*"([a-z_.]+)"', path.read_text(encoding="utf-8")))
+    unknown = [k for k in keys if k not in SHOWN and not any(k == i or k.startswith(i) for i in INTERNAL)]
+    assert not unknown, unknown
