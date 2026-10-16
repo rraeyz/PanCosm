@@ -1872,3 +1872,21 @@ def test_photometry_stages_follow_the_steps(window, fits_file):
     assert page.measure_options.button.isChecked()
     window.set_ui_mode("basic")
     assert not page.measure_options.button.isChecked()
+
+
+def test_photometry_inspector_shows_the_clicked_star(window):
+    """UI-16.1: a click on a star opens the inspector with its role, peak, sky, counts and FWHM."""
+    import numpy as np
+
+    page = window.photometry_page
+    window.show_workspace("photometry")
+    win = window.area_windows["photometry"]
+    yy, xx = np.mgrid[0:100, 0:120]
+    data = 100 + 5000 * np.exp(-((xx - 50.3) ** 2 + (yy - 40.6) ** 2) / (2 * 1.7**2))
+    page.viewer.set_image(data.astype(np.float32))
+    page.images = ["x.fits"]
+    assert not win.docks["inspector"].isVisible()
+    page.viewer.clicked.emit(50.0, 41.0)
+    rows = {name: value for name, value, *_ in win.docks["inspector"].widget().rows}
+    assert win.docks["inspector"].isVisible() and rows["Role"].startswith("T1")
+    assert rows["x, y (FITS pixels)"].startswith("51.3") and 3.5 < rows["FWHM"] < 4.5 and 4500 < int(rows["Peak"]) < 5100
