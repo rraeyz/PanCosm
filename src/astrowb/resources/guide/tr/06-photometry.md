@@ -3,7 +3,7 @@
 
 ![Fotometri penceresi](images/tr/window-photometry.jpg)
 
-## Görüntüleri ve yıldızları seçmek
+## Görüntüleri ve yıldızları seçmek {#photometry-choosing-images-stars}
 1. **Görüntüleri seç…** — tek alanın ve tek filtrenin kalibre kareleri. Zamana göre sıralanırlar.
 2. İlk görüntüde **önce hedef yıldıza**, sonra **bir ya da daha fazla karşılaştırma yıldızına** tıklayın. Tıklama yıldızın merkezine oturur. **Yıldızları temizle** baştan başlatır.
 3. Ya da **Karşılaştırma yıldızı öner**'e basın: parlaklığı benzer, doymamış, parlak komşusu olmayan ve her görüntüde çerçevenin içinde kalan yıldızları seçer. Ölçmeden önce kontrol edin. Alan tanındıysa (aşağıda) yıldızlar Gaia'dan seçilir: hedefe yakın parlaklıkta, alanda varsa benzer renkte, değişen olmayan (Gaia, VSX), yalnız ve doymamış yıldızlar — Siril'in katalogdan seçimi gibi.
@@ -26,7 +26,7 @@ TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri oldu�
 
 **Başka bir gecede aynı yıldızlar:** **Yıldız listesini kaydet…** (**Yıldızlar** menüsünde de var) hedefi, karşılaştırma ve kontrol yıldızlarını ve üç yarıçapı küçük bir `.stars.json` dosyasına yazar; ilk karenin plaka çözümü varsa RA / Dec olarak. **Yıldız listesi aç…** onları başka bir gecenin görüntülerine o gecenin plaka çözümüyle geri koyar; bu yüzden yönelim, dönüklük, hatta kamera farklı olabilir. İki gecede de çözüm yoksa kaydedilen pikseller kullanılır (aynı yönelim). Karenin dışına düşen yıldızlar adıyla söylenir; Ctrl+Z listeyi geri alır.
 
-## Diferansiyel fotometri: hedefler, karşılaştırma ve kontrol yıldızları
+## Diferansiyel fotometri: hedefler, karşılaştırma ve kontrol yıldızları {#photometry-differential-photometry-targets-comparison}
 **Tıklamalar ekler** sonraki tıklamaların ne olacağını seçer: *hedef, sonra karşılaştırma yıldızları* (ilk tıklama hedef T1, sonrakiler karşılaştırma yıldızları C1, C2…), *kontrol yıldızları* (K1, K2…) ya da *başka hedefler* (T2, T3…). Kontrol yıldızları ve diğer hedefler her karede aynı karşılaştırma yıldızlarına göre ölçülür ama onlara katılmaz — MaxIm DL, VPhot ya da AIJ'deki kontrol yıldızı gibi. Sabit bir kontrol yıldızı fotometrinin gerçekte ne kadar iyi olduğunu gösterir: saçılması (mmag) grafiğin altında yazılır.
 
 **Yıldızlar** sekmesi her yıldızı görevi ve konumuyla listeler. Karşılaştırma yıldızlarının **bilinen kadirlerini** (AAVSO haritasından, bir katalogdan ya da kendi kalibrasyonunuzdan) son sütuna yazın: hedef, diğer hedefler ve kontrol yıldızları kare kare **kadir** olarak çıkar (her karşılaştırma yıldızı bir sıfır noktası verir; 0,1 kadirden fazla uyuşmayan karşılaştırma yıldızı dışarıda bırakılır ve adı yazılır). **Standart kadirler (APASS / Gaia)** aynı sütunu kataloglardan doldurur.
@@ -45,10 +45,10 @@ TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri oldu�
 
 **ETD / VarAstro için dışa aktar (metin)…** (Dışa aktar sekmesi, Dosya → Dışa aktar) ışık eğrisini Ötegezegen Geçiş Veritabanı yüklemesi için onun SSS sayfasındaki biçimde yazar: birinci sütunda Jülyen tarihi, ikincide parlaklık — bilinen kadirler verildiyse kadir, yoksa karşılaştırma yıldızlarına göre Δm — üçüncüde hata. Kaydettikten sonra pencere yükleme formunda hangi zaman standardının (BJD_TDB ya da hedefin konumu yoksa JD_UTC) ve hangi birimin seçileceğini söyler. CSV dışa aktarımı Modeller sayfasında olduğu gibi açılır.
 
-## Kare kalitesi
+## Kare kalitesi {#photometry-frame-quality}
 **Kötü kareleri bul (bulut, odak, iz)** seçilen her kareyi ölçer: yıldızların boyutu (FWHM), kaç yıldız göründüğü ve gökyüzü düzeyi. Grafik bu üçünü gece boyunca gösterir; gecenin olağan karesinden çok daha kötü olanlar nedeniyle kırmızı işaretlenir — *yıldızlar bulanık* (rüzgâr, odak, seeing), *az yıldız* ya da *yıldız yok* (bulut, çiy), *gökyüzü parlak* (alacakaranlık, Ay). **Kötü kareleri dışarıda bırak** onları ölçmeden önce çıkarır. *Örten çift gecesi* ve *Ötegezegen geçişi* otomasyonları bunu kendiliğinden yapar.
 
-## Açıklıklar
+## Açıklıklar {#photometry-apertures}
 Her yıldızın görüntü üzerinde çizilen üç halkası vardır: **açıklık** (düz çizgi) ile **gök halkasının** iç ve dış kenarı (kesikli). Yarıçaplar görüntü pikseli cinsindendir; halkalar yakınlaştırınca büyür, uzaklaştırınca küçülür: yakınlaştırıp yıldızın 1. halkanın içinde, 2. ile 3. halka arasında yalnız gökyüzü olduğunu görün. Görüntü üzerinde **Shift + fare tekerleği** üç halkayı birlikte büyütür ya da küçültür (0,5 piksel); sağdaki kutular sayıları gösterir. Çok uzaklaştırılmış bir karede, halkalar birkaç ekran pikselinden küçük kalınca her yıldız küçük bir artıyla gösterilir.
 
 - **1. halka, açıklık:** yıldızın ışığının toplandığı daire.
@@ -81,57 +81,57 @@ Grafik yıldızın profilini açıklık (yeşil), dışarıda bırakılan boşlu
 
 **Hedef alanla birlikte kayar (merkezlenmez)** (yıldızların altında, 2. adım): parlak bir yıldızın yanındaki sönük hedef her karede yeniden merkezlenmez — bu onu parlak yıldızın üstüne çekebilirdi; diğer yıldızlarla birlikte, onların ortanca kaymasıyla hareket eder. 6 px ötede yaklaşık 70 kat parlak bir yıldız olan benzetilmiş bir gecede hedef 0,3 px içinde kendi üstünde kalır. Odak dışı yıldızlar, merkezleme kutusundan geniş halkalar ("simit") bile, ışık merkezlerine göre merkezlenir (30 px'lik halkada 0,2 px içinde). Ölçümler tablosu merkezlemenin her yıldızı her karede ne kadar kaydırdığını gösterir (`Centring_Move`); sınırdan büyük bir kayma olursa tahmin edilen konum kalır.
 
-## Zaman ve BJD
+## Zaman ve BJD {#photometry-time-bjd}
 Zamanlar `DATE-OBS` ve `EXPTIME`'dan alınır (pozun ortası). **Hedef RA Dec** (ya da başlıktaki `OBJCTRA`/`OBJCTDEC`) ve başlıktaki gözlem yeri ile zamanlar, örtme ve geçiş zamanlamasının standardı olan **BJD_TDB**'ye çevrilir.
 
-## Işık eğrisini ölçmek
+## Işık eğrisini ölçmek {#photometry-measure-light-curve}
 **Işık eğrisini ölç** arka planda çalışır ve göreli akıyı (hedef / karşılaştırma topluluğu) zamana karşı çizer. Grafiğin altında nokta sayısı ve yüzde olarak saçılım yazar. Ölçülemeyen karelerin (bulut, yıldız dışarıda) noktaları atlanır ve bildirilir. İlk görünüm alışılmış biçimiyle **diferansiyel grafiktir**: altta hedefin karşılaştırmaya göre Δm'si, üstünde kontrol yıldızının aynı karşılaştırmaya göre Δm'si (kontrol yıldızı işaretlenmemişse C1 − C2) ve saçılımı (mmag). Üstteki sıranın düz olması karşılaştırmanın sabit olduğunu gösterir; saçılımı hedef noktalarının duyarlığıdır. Fotometri yalnızca ölçer, fitler sonra gelir: **Periyot arama →** eğriyi zaten almış olan Işık eğrileri ve periyot penceresini açar (minimum zamanları O−C penceresine kendiliğinden gider); **Örtme ya da geçiş modeli fit et →** eğriyi CSV olarak kaydedip Modeller penceresinde açar; tek bir minimumun zamanı buradaki Minimum sekmesinde fit edilir.
 
 **Sintilasyon:** yıldızın atmosferde titreşmesi, foton istatistiğinin bilmediği bir gürültü ekler; parlak yıldızlarda ve kısa pozlarda en büyük hatadır. **Teleskop açıklığı (m)** girilirse (ya da başlıkta mm cinsinden APTDIA varsa) ve gözlem yeri ile hedefin konumu biliniyorsa, her akı hatasına eklenir — σ² = 10⁻⁵ · 1,5² · D^(−4/3) · t⁻¹ · X³ · e^(−2h/8000 m) (Osborn vd. 2015, Young 1967'nin düzeltilmiş hâli; D açıklık, t poz, X airmass/hava kütlesi, h yükseklik). Grafiğin altındaki satır eklenip eklenmediğini ve ne kadar olduğunu (kare başına mmag) yazar. Ölçülen akılar değişmez, yalnızca hata çubukları.
 
 **Doyma ve doğrusallık:** hedefin ya da bir karşılaştırma yıldızının doyma düzeyine (SATURATE / DATAMAX ya da 16 bit sınırı) ulaştığı nokta kırmızı halkayla gösterilir; **Doğrusallık sınırının** (grafiğin altında; başlıktaki LINLIMIT ya da MAXLIN'den, ya da elle yazılır) üstünde kamera ışıkla orantılı saymaz ve bu noktalar turuncu halkayla gösterilir. Ölçüm tablosu yıldızın Peak hücresini nedeniyle renklendirir. **Doymuş ve doğrusal olmayan noktaları dışarıda bırak** bu kareleri her sonuçtan çıkarır (Ctrl+Z geri getirir).
 
-## Kötü noktaları silmek ve eğrileri aralamak
+## Kötü noktaları silmek ve eğrileri aralamak {#photometry-deleting-bad-points-spacing}
 **Grafik** sekmesinde **Silmek için noktaya tıkla**'yı işaretleyip ışık eğrisinin bir noktasına tıklayın (bulut, uydu, yıldızın kaybolduğu bir kare): o kare ışık eğrisinden, kadirlerden, detrendden, minimum zamanından ve dışa aktarmadan çıkarılır. **Silinen noktaları geri getir** hepsini geri getirir. **Eğriler arası aralık**, birden çok eğrili görünümlerde (*bütün yıldızlar*, *karşılaştırma yıldızları birbirine göre*) eğrilerin ne kadar aralıklı çizileceğini ayarlar; 0 hepsini üst üste koyar — örneğin iki standart yıldızın aynı düz çizgiyi verdiğini görmek için.
 
 Programdaki her grafiğin araç çubuğunda **Ayrı pencerede aç** vardır: grafiğin bir kopyası kendi penceresinde açılır; çalışmaya devam ederken büyük hâliyle inceleyebilirsiniz (yakınlaştırma, kaydırma, kaydetme).
 
-## Detrend (eğilim giderme)
+## Detrend (eğilim giderme) {#photometry-detrending}
 Yıldızın kendisinden gelmeyen yavaş değişimler — airmass/hava kütlesiyle değişen sönümleme, kayan gök, odak ya da yıldızın çip üzerinde kayması — bölünerek giderilebilir (AstroImageJ ya da EXOTIC'teki gibi). **Grafik** sekmesinde neye göre detrend edileceğini işaretleyin (hava kütlesi, FWHM, gök, x, y, zaman), olayın kendisi fitlenmesin diye tutulmanın ya da geçişin başlangıç ve bitişini **Dışarıda bırak** alanlarına yazın ve **Detrend et**'e basın: ln(akı) bu aralığın dışındaki noktalarda işaretli büyüklüklere doğrusal olarak fitlenir ve bütün noktalardan bölünerek çıkarılır. Grafiğin altındaki satır önceki ve sonraki saçılmayı verir. **Detrendi geri al** ölçülen eğriye döner. FWHM, *Yarıçaplar seeing/görüşü izlesin* açıkken vardır; hava kütlesi için yer ve hedefin konumu gerekir. Minimum zamanı, dışa aktarma ve AAVSO raporu detrend edilmiş eğriyi kullanır.
 
 **Eğilim derecesi** 1 işaretli her niceliğe doğrusal bağımlılığı böler; 2 ya da 3 eğri fit eder (ör. airmass/hava kütlesiyle doğrusal olmayan sönümleme ya da zamanda bükülen yavaş bir kayma). Eğilimi gideren en düşük dereceyi kullanın: yüksek derece uzun bir örtmeyi de bükebilir.
 
 **Eğilim düzeltmesini seç (BIC)** bu ışık eğrisinin sahip olduğu niceliklerin her kümesini — ve **Meridyen dönüşü** anındaki bir basamağı — dışarıda bırakılan aralığın dışındaki noktalara uydurur ve her birinin BIC değerini (χ² + k ln n, indirgenmiş χ² ile) en düşükten başlayarak listeler, AstroImageJ gibi; en düşük BIC'e 2 yakınlıktaki en az terimli küme işaretlenir ve uygulanır (bir terim ancak BIC'i 2'den fazla düşürüyorsa tutulur). Dönüş zamanı gece içinde değişiyorsa başlıklardaki PIERSIDE'dan okunur ya da elle yazılır; dönüşten sonra yıldızlar başka piksellere düşer, akı sıçrar. **Yumuşak eğilim (spline)** işaretli niceliklerden sonra her biçimdeki yavaş bir değişimi böler: düğüm aralığı BIC ile seçilen, dışarıda bırakılan aralığın üstünden geçen zamana göre bir spline (tutulma aralıktan kısa olsun). **Aykırı noktaları dışarıda bırak** zamandaki komşularının ortancasından 4σ'dan uzak noktaları çıkarır (Ctrl+Z geri getirir). Zamanlar tam (2461000.42) ya da grafiğin ekseninde göründüğü gibi (0.42) yazılabilir. Hava kütlesi eğilimi ve dönüş sıçraması olan benzetilmiş bir gecede gerçek model en düşük BIC'i verir; bir şey katmayan FWHM ve gök tutulmaz.
 
-## Minimum zamanı
+## Minimum zamanı {#photometry-time-minimum}
 - Biliyorsanız **Efemeris T0 (BJD)** ve **Periyot (gün)** girin (isteğe bağlı): o zaman çevrim ve O-C de verilir.
 - **Ne tür bir minimum?** altında **Örten çift yıldız: Kwee–van Woerden yöntemi** (varsayılan; Kwee & van Woerden 1956, O−C veritabanlarının yöntemi) ya da düz tabanlı düşüşlere uyan ve derinlik ile süreyi de veren **Ötegezegen geçişi: yamuk fiti** seçin.
 - Yamukla birlikte **İşaretli eğilim niceliklerini geçişle birlikte uydur**, Grafik sekmesinde işaretli niceliklerdeki (hava kütlesi, FWHM, gök, x, y) eğilimi ve geçişi tek bir χ² içinde, eğilim düzeltmesinden önceki eğri üzerinde uydurur, AstroImageJ gibi: eğilim derinliği ya da orta zamanı çekemez. Sonuç eğilimin katsayılarını ve BIC değerini verir; minimum zamanı her zamanki gibi O−C'ye gider. Eğri bir hava kütlesi eğilimi üzerindeki benzetilmiş bir geçişte derinlik ve orta zaman hataları içinde bulunur.
 - **Minimum zamanı** zamanı hatasıyla (KvW için KvW ve bootstrap hatalarının büyüğü) gün ve dakika olarak verir.
 - Işık eğrisi birden çok tutulmayı kapsıyorsa (TESS, birkaç gece) T0'ı ve dönemi girin — bu ışık eğrisinde **Dönem arama** yaptıysanız kendiliğinden dolar — her birincil ve ikincil minimum kendi penceresinde zamanlanır ve türüyle O−C penceresine gönderilir; bunlar verilmezse pencere anlamsız tek bir zaman vermek yerine onları ister.
 
-## Standart kadirler
+## Standart kadirler {#photometry-standard-magnitudes}
 İlk görüntü plaka çözümlüyse (Görüntüler penceresi: Astrometri → Plaka çözümü), görüntülerinizin filtresini seçip **Standart kadirler (APASS / Gaia)**'ya basın. Karşılaştırma yıldızları internetten aranır: B, V, g′, r′, i′ APASS DR9'dan gelir; R ve I (ve APASS'ta değeri olmayan V) Gaia DR3'ten yayımlanmış Gaia–Johnson-Cousins bağıntılarıyla hesaplanır (yaklaşık 0,03 kadir saçılım); G Gaia'nın kendi kadiridir. Işık eğrisi bunun üzerine standart sistemde kadire döner: her kare için bütün karşılaştırma yıldızlarından bir sıfır noktası ve, üç ya da daha çok karşılaştırma yıldızının rengi varsa, gece için fit edilen bir renk terimi — yalnızca yıldızlar gerçekten gösteriyorsa (eğim hatasının üç katından büyükse): renkleri birbirine yakın birkaç yıldız onu ölçemez; onların saçılımından gelen bir eğim, başka renkteki bir hedefe taşındığında gerçek bir RR Lyrae yıldızını 0,27 kadir kaydırmıştı. VizieR yanıt vermezse Gaia doğrudan ESA Gaia arşivinden alınır. Katalogla 0,1 kadirden fazla uyuşmayan bir karşılaştırma yıldızı (değişken, karışmış ya da hatalı katalog değeri) bildirilir ve dışarıda bırakılır. Kadirler çizilir (parlak yukarıda), CSV çıktısına girer ve AAVSO raporundaki karşılaştırma kadirlerini doldurur.
 
-## Ölçüm tablosu
+## Ölçüm tablosu {#photometry-measurements-table}
 Görüntünün altındaki **Ölçümler** sekmesi her karenin her sayısını tutar; her kare bir satırdır ve sütunlar AstroImageJ'nin verdiği adlarla adlandırılmıştır, böylece iki tablo yan yana konabilir: `Label`, `slice`, `J.D.-2400000`, `JD_UTC`, `BJD_TDB`, `AIRMASS`, `FWHM_Mean`; her yıldız için (T1 hedef, C2, C3 … karşılaştırma yıldızları, ek hedefler ve kontrol yıldızları onlardan sonra T) `X(FITS)`, `Y(FITS)`, `Source-Sky`, `Source_Error`, `Source_SNR`, `Source_AMag`, `Peak`, `Sky/Pixel`, `N_Src_Pixels`, `N_Sky_Pixels` ve üç yarıçap; ardından `rel_flux_T1`, hatası ve S/N'si, `tot_C_cnts` ve `tot_C_err`. Doymuş bir tepe renklidir, düzeyi araç ipucundadır. Sıralamak için sütun başlığına, o kareyi görmek için bir satıra tıklayın; **Sütunlar** gösterileni seçer; süzgeç koşulu sağlayan satırları tutar, ör. `rel_flux_err_T1 < 0.002 and AIRMASS < 2`; **Tabloyu dışa aktar (CSV)…** gösterilen satır ve sütunları yazar, Ctrl+C seçili satırları kopyalar.
 
-## Dışa aktarmak
+## Dışa aktarmak {#photometry-exporting}
 - **CSV olarak dışa aktar…** zamanı, göreli akıyı, Δm'yi ve hatalarını, biliniyorsa kadirleri, her kontrol yıldızını ve diğer hedefi, ham akıları, airmass/hava kütlesini ve FWHM'yi başka programlar için yazar.
 - **AAVSO raporu dışa aktar…** AAVSO genişletilmiş biçimini yazar: yıldız adı (VSX'teki gibi), gözlemci kodunuz, filtre, karşılaştırma yıldızlarının katalog kadirleri, harita kimliği (Chart ID) ve notlar; ilk kontrol yıldızı, AAVSO'nun topluluk fotometrisi için istediği gibi KNAME / KMAG alanlarına yazılır. MERR, foton hatasıyla o karedeki karşılaştırma yıldızlarının sıfır noktası saçılımının birleşimidir. Gerçek LCO kareleriyle denendi: Landolt'un SA 98 alanında (B ve V'de 1 sn poz) APASS'tan bulunan dönüşüm, 31 standart yıldızda Landolt'un V'sini 0,03 kadir (medyan −0,008), B−V'sini 0,05 kadir içinde verir.
 
-## Canlı ışık eğrisi
+## Canlı ışık eğrisi {#photometry-live-light-curve}
 (**Diğer araçlar** altında) **Canlı: gece boyunca bir klasörü izle…** kameranın yazdığı klasörü izler. Her yeni kare geldikçe kalibre edilir (seçtiğiniz master'larla ya da master'sız) ve ölçülür; ışık eğrisi kendiliğinden büyür. Başlamadan önce ilk karede hedefe ve karşılaştırma yıldızlarına tıklayın. Ölçülemeyen kareler atlanır ve sayılır.
 
-## Polarimetri (çift demet)
+## Polarimetri (çift demet) {#photometry-polarimetry-dual-beam}
 (**Diğer araçlar** altında) Çift demetli polarimetre (Wollaston prizması + yarım dalga plakası) için: yıldızın **sıradan** görüntüsüne hedef olarak, **sıra dışı** görüntüsüne ilk karşılaştırma olarak tıklayın, sonra **Polarimetri (çift demet)**. Yarım dalga plakası açısı başlıktan okunur. Sonuç Stokes q ve u, kutuplanma derecesi P (yanlılığı giderilmiş hali de) ve θ açısıdır, hatalarıyla.
 
-## PSF fotometrisi ve değişen yıldız arama
+## PSF fotometrisi ve değişen yıldız arama {#photometry-psf-photometry-searching-variables}
 **PSF fotometrisi** (Fotometri penceresinde işaretleyin) açıklık içini toplamak yerine her karenin FWHM'sindeki bir yıldız görüntüsünü her yıldıza fit eder; 2,5 FWHM'den yakın yıldızlar birlikte fit edilir, böylece iç içe komşunun ışığı hedefe karışmaz. Kalabalık alanlarda (kümeler, Samanyolu) kullanın; seyrek alanlarda açıklık da aynı iyiliktedir.
 
 **Işık eğrileri ve periyot → Değişen yıldız arama** ilk karedeki her yıldızı bütün karelerde ölçer (açıklık ya da PSF), sabit yıldızlardan her kareye ortak sıfır noktası verir (bulut ve airmass/hava kütlesi birbirini götürür) ve her yıldızın saçılmasını parlaklığına karşı çizer. Sabit yıldızlar sönüğe doğru yükselen bir eğriyi izler (foton gürültüsü); bunun belirgin üstündekiler **aday**dır (kırmızı halkalar, indekse göre listelenir). Bir noktaya ya da satıra tıklayınca o yıldızın ışık eğrisi görünür; **Bu yıldızı Periyot aramaya gönder** ile periyodunu bulun. Muniwin'in *varfind* aracının yaptığı budur: keşif duyurmadan önce adayları VSX'te denetleyin.
 
-## Sönümleme ve dönüşüm katsayıları
+## Sönümleme ve dönüşüm katsayıları {#photometry-extinction-transformation-coefficients}
 **Analiz → Fotometrik katsayılar…** (Görüntüler penceresi)
 - **Gecenin sönümlemesi:** ölçtüğünüz ışık eğrisinin karşılaştırma yıldızlarından (kareler gök konumunu vermeli ki airmass/hava kütlesi bilinsin): her yıldızın aletsel kadiri hava kütlesine karşı, hepsi için tek eğim k (kadir / hava kütlesi), Bouguer grafiğiyle. İyi bir yerde V'de tipik değer 0,15–0,3.
 - **Dönüşüm katsayıları:** bir standart alanın (ör. bir Landolt alanı ya da M67) iki filtrede plaka çözülmüş iki görüntüsü. Yıldızlar ikisinde de ölçülür, kadirleri APASS'tan (B, V, g′, r′, i′) ya da Gaia'dan (V, R, I) gelir ve katsayılar AAVSO düzeninde fit edilir: (b−v)'ye karşı (B−V)'den Tbv, (B−V)'ye karşı V−v ve B−b'den Tv ve Tb. Bunları raporlarınıza ya da AAVSO'nun dönüşüm aracına girin.

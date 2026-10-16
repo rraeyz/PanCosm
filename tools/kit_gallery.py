@@ -43,7 +43,7 @@ def gallery(light=False):
     row.addWidget(busy, 2, 0)
     left.addWidget(buttons)
 
-    section = Section("Apertures", help="photometry/apertures")
+    section = Section("Apertures", help="photometry-apertures")
     section.body.addWidget(FormRow("Aperture radius", NumberField(5, 1, 50, 0.5, 1), unit="px"))
     changed = NumberField(8, 1, 50, 0.5, 1)
     form = FormRow("Inner sky radius", changed, unit="px")

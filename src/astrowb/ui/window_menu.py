@@ -78,10 +78,13 @@ class WindowMenu:
         self.undo_group.setActiveStack(stack)
 
     def _help_for(self, key):
-        """F1 in an area window: the guide, filtered to that area."""
+        """F1 in an area window: the guide, filtered to that area; a guide anchor ("photometry-apertures", from a
+        section's or a stage's help button) opens that topic."""
         from .start_page import areas
 
         self.show_workspace("guide")
         _raise_window(self)
+        if "-" in key and self.guide_page.show_anchor(key):
+            return
         name = next((n for k, _, n, _ in areas() if k == key), "")
         self.guide_page.search.setText(name)

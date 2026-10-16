@@ -3,7 +3,7 @@
 
 ![Otomasyon penceresi](images/tr/window-automation.jpg)
 
-## Hazır şablonlar
+## Hazır şablonlar {#automation-plugins-ready-templates}
 **Otomasyon** penceresi hazır şablonları ("şablon" diye işaretli) ve kendi otomasyonlarınızı listeler:
 
 - **Örten çift gecesi** — akşam karanlığından şafağa bir sekans, sonra kalibrasyon, karşılaştırma yıldızları, ışık eğrisi, minimum zamanı (Kwee–van Woerden) ve O-C.
@@ -14,15 +14,15 @@
 
 Açıklamasını ve adımlarını görmek için birini seçin.
 
-## Bir otomasyonu çalıştırmak
+## Bir otomasyonu çalıştırmak {#automation-plugins-running-automation}
 1. Sağdaki **Girdiler**'i doldurun (klasör ve dosyaların **…** düğmesi vardır). Yalnızca hiçbir adımın üretemediği şeyler sorulur: ör. ham kare klasörü ve hedefin konumu.
 2. **Çalıştır**'a basın. Her adım Görevler panelinde normal bir görev olarak çalışır ve projeye kaydedilir; bir sonraki, öncekinin bitmesiyle başlar. Düğmenin altındaki satır hangi adımın çalıştığını söyler.
 3. Bitince son adımın sonuçları (ör. minimum zamanı ve O-C) altta gösterilir. Bir adım başarısız olursa otomasyon orada durur ve hata gösterilir.
 
-## Gözlem kısmı
+## Gözlem kısmı {#automation-plugins-observing-part}
 Gözlem sekansı olan şablonlarda **Gözlem penceresine** vardır: hedefi, başlangıç ve bitişi (ör. dusk ve dawn) ve poz satırlarını doldurur. Koordinatları ekleyin, poz sürelerini kontrol edin ve oradan başlatın. Göndermeden önce **Sekanstan sonra işle**'ı işaretlerseniz, sekans bitince (hava yüzünden erken dursa da, kare çekildiyse) otomasyon sekansın klasöründe kendiliğinden çalışır. Gözlemevi uzaktaysa kareler önce bu bilgisayara kopyalanır, sonra işlenir.
 
-## Kendi otomasyonunuzu kurmak
+## Kendi otomasyonunuzu kurmak {#automation-plugins-building-your-own}
 1. **Yeni** boş bir otomasyon başlatır (ya da bir şablondan başlayıp değiştirin).
 2. **Adımlar, sırayla**'nın altındaki listeden bir adım seçip **Adım ekle**'ye basın. **Kaldır**, **Yukarı** ve **Aşağı** sırayı değiştirir.
 3. Bir adımı seçince **ayarları** görünür:
@@ -34,7 +34,7 @@ Gözlem sekansı olan şablonlarda **Gözlem penceresine** vardır: hedefi, baş
 
 Otomasyonlar düz JSON dosyalarıdır; paylaşılabilir: dosyayı başka bir kullanıcının `automations` klasörüne kopyalayın.
 
-## Eklentiler
+## Eklentiler {#automation-plugins-plugins}
 **Nedir:** eklenti, uygulamaya kendinizin eklediği küçük bir araçtır — uygulamada olmayan bir hesap ya da yalnızca grubunuzun ihtiyaç duyduğu bir iş için. Tek bir Python dosyasıdır. Eklentiler klasörüne konunca **Eklentiler** menüsünde görünür, girdileri için küçük bir form açar, yerleşik her adım gibi çalışır (arka planda, ilerleme ve İptal ile, projeye kaydedilerek) ve bir otomasyonun adımı olarak da kullanılabilir.
 
 **Denemek için programlama bilmeniz gerekmez.** **Eklentiler → Örnek eklentileri kur** hazır üç eklenti ekler:
@@ -44,7 +44,7 @@ Otomasyonlar düz JSON dosyalarıdır; paylaşılabilir: dosyayı başka bir kul
 
 **Eklentiler** menüsünden birini seçin, formu doldurun, Tamam'a basın; sonuç hazır olunca bir pencerede açılır. Hatası olan bir eklenti nedeniyle birlikte "Yüklenemedi" diye listelenir; uygulamayı asla durdurmaz. Eklentiler, kurduğunuz her program gibi sizin yetkilerinizle çalışır: yalnızca güvendiğiniz dosyaları kullanın.
 
-## Kendi eklentinizi yazmak
+## Kendi eklentinizi yazmak {#automation-plugins-writing-your-own-plugin}
 **Eklentiler → Eklenti klasörünü aç** ile klasörü açın, örneklerden birini kopyalayın, adını değiştirip düzenleyin. Gökyüzü örneğinin tamamı şudur:
 
 ```python

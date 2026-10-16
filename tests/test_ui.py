@@ -688,6 +688,14 @@ def test_guide_categories_translations_and_search(window, qtbot):
     assert page.filter("no-such-word-anywhere") == 0
     page.filter("")
     assert not any(page.tree.topLevelItem(i).isHidden() for i in range(page.tree.topLevelItemCount()))
+    # UI-7 item 1: every topic has a stable anchor, the same in every language; the heading shows no anchor
+    english = guide_page.anchors("en")
+    assert len(english) == sum(len(t) for _, _, t in en)
+    for lang in LANGUAGES:
+        assert set(guide_page.anchors(lang)) == set(english)
+    assert "{#" not in page.text.toPlainText()
+    assert page.show_anchor("photometry-apertures") and page.tree.currentItem().text(0) == "Apertures"
+    assert not page.show_anchor("no-such-anchor")
 
 
 def test_automation_processes_the_night_when_the_sequence_ends(window, qtbot, fits_file):
@@ -1785,3 +1793,11 @@ def test_start_window_tonight_line(qtbot, tmp_path):
     page.show_tonight(settings)
     qtbot.waitUntil(lambda: "Ankara" in page.tonight.text(), timeout=30000)
     assert "Moon" in page.tonight.text() and "–" in page.tonight.text()
+
+
+def test_help_button_opens_the_guide_topic(window, qtbot):
+    """UI-7: a section's or stage's help button (an anchor) opens that topic of the guide; an area key its area."""
+    window._help_for("photometry-apertures")
+    assert window.current_workspace() == "guide" and window.guide_page.tree.currentItem().text(0) == "Apertures"
+    window._help_for("photometry")
+    assert window.guide_page.search.text()

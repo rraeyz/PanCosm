@@ -3,7 +3,7 @@
 
 ![Tayf penceresi](images/tr/window-spectroscopy.jpg)
 
-## IRAF biliyorsanız
+## IRAF biliyorsanız {#spectroscopy-if-you-know-iraf}
 Her sekmenin en üstünde **İş akışı** satırı vardır (açmak için tıklayın): IRAF'tan bildiğiniz sırayla adımlar, her biri bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sırada ne yapılacağı. Hiçbir şey kilitli değildir: verinizin bulunduğu yerden başlayın. IRAF görevlerinin buradaki karşılıkları:
 - **ccdproc** (zerocombine, darkcombine, flatcombine) → **Kalibrasyon** penceresi. Eşel kareleri ve tüm ark kareleri: yalnızca bias ve dark (*Tayflar: flat'e bölme* işaretli).
 - **apall: apfind, aptrace** (etkileşimli) → İndirgeme: **3. Çıkar** izi ve açıklığı kare üzerinde çizer, siz denetlersiniz; Eşel: **3. Düz alanda mertebeleri bul** — denetleyin, tıklayarak silin ya da ekleyin; denetim yapılmazsa otomatik bulunan mertebeler çıkarılır.
@@ -13,16 +13,16 @@ Her sekmenin en üstünde **İş akışı** satırı vardır (açmak için tıkl
 - **dispcor, scombine** → **Dalga boylarını uydur … ve kaydet** düğmesi (eşel mertebeleri blaze'e bölünür ve birleştirilir).
 - **continuum** → Tayf araçları: *Normalize et*; **telluric** → Tellürik sekmesi; **fxcor** → Radyal hız ve yörünge: *Radyal hızları ölç*, sonra bir satıra tıklayıp korelasyon tepesine bakın.
 
-## Zaten indirgenmiş tayflar
+## Zaten indirgenmiş tayflar {#spectroscopy-spectra-already-reduced}
 Tayflarınız zaten çıkarılmışsa (IRAF apall çıktısı, 1-B bir tayf, her mertebesi bir satır olan bir boru hattı *e2ds* dosyası) ve yalnızca dalga boyları eksikse oradan başlayın: çıkarılmış bilim tayfını ve aynı açıklık(lar)la çıkarılmış arkı seçin. Program bunu başlıktan anlar (1-B veri, IRAF *APNUM* / *multispec* anahtarları, HARPS DRS e2ds); Eşel sekmesinde **Zaten çıkarılmış** kutusu kendiliğinden işaretlenir — başka bir boru hattının dosyaları için kendiniz işaretleyin. İz sürme, mertebe denetimi ve çıkarma atlanır; **Çıkar** yalnızca dosyaları okur ve arkı gösterir; çizgileri her zamanki gibi tanır ve uydurursunuz (IRAF identify / ecidentify, dispcor). HARPS üzerinde denendi: önceden çıkarılmış mertebeler ham karelerle aynı dalga boylarını verir (10⁻¹⁰ Å içinde). Zaten dalga boyu olan bir tayfa bunların hiçbiri gerekmez: onu Radyal hız ya da Tayf araçları sekmesinde açın.
 
-## Cihaz profilleri
+## Cihaz profilleri {#spectroscopy-instrument-profiles}
 Bir spektrografa ait ayarlar (yön, açıklık ve gök genişlikleri, çizgi listesi, kazanç, okuma gürültüsü…) bir **cihaz profili** olarak saklanabilir: üstten bir profil seçin, ayarları değiştirin, "1 m teleskop + Shelyak LHIRES" gibi bir adla **Farklı kaydet…** ya da **Sil**. Profiller ayarlarınızda tutulur; her projede hazırdır.
 
-## Yön
+## Yön {#spectroscopy-orientation}
 **Dağılma yönü** satırlar (x) ya da sütunlar (y); dalga boyları soldan sağa azalıyorsa **mavi sağda**. Bunları her cihaz için bir kez ayarlayın; gerisi buna göre işler.
 
-## Uzun yarık indirgeme (İndirgeme)
+## Uzun yarık indirgeme (İndirgeme) {#spectroscopy-long-slit-reduction-reduce}
 1. **Bilim karesini** (kalibre 2-B görüntü) ve dalga boyları için **Ark lambası** karesini seçin. Dosyaların altındaki satır hangi kareleri kalibre edilmiş kabul ettiğini (başlıkları, Kalibrasyon penceresinin yazdığı gibi, bias ve dark'ın çıkarıldığını söylüyor) ve hangilerinin hâlâ ham olduğunu söyler.
 2. **Optimal çıkarım (Horne)** her pikseli uzaysal profile göre ağırlıklandırır — sönük yıldızlarda daha iyi sinyal/gürültü. **Açıklık genişliği**, **Gök uzaklığı** ve **Gök genişliği** (piksel) çıkarım penceresini ve izin iki yanındaki gök bantlarını belirler. Tayf, en parlak olduğu yerden başlayarak kare boyunca adım adım izlenir; böylece kavisli izler de takip edilir (IRAF aptrace gibi). Karede birden çok tayf varsa (çapraz dağıtıcılı bir tayfçekerin iki order/mertebesi, ikinci bir yıldız) **Tayfın satırı** alanına tayfın geçtiği bir satırı girin. İzlenen çizgi ve açıklık, grafiklerin altında karenin üzerine çizilir: devam etmeden önce denetleyin.
 3. **3. Çıkar**: tayf dağılma yönü boyunca izlenir ve çıkarılır; ark aynı izle çıkarılır ve çizgileri bulunur. Alttaki karede izi ve açıklığı denetleyin (IRAF apall'ın izi); yıldızınız değilse satırını verip yeniden çıkarın.
@@ -30,7 +30,7 @@ Bir spektrografa ait ayarlar (yön, açıklık ve gök genişlikleri, çizgi lis
 5. **5. Dalga boylarını uydur ve kaydet**: bir polinom dalga boyu çözümü uydurulur; rms (Å) ve çizgi sayısı gösterilir, her çizginin artığı pikseline karşı çizilir (IRAF identify'da *f* sonrası gibi): bir noktaya tıklayıp o çizgiyi dışarıda bırakın, sonra **Dışarıda bırakılan çizgiler olmadan yeniden fitle**. 1-B tayf dalga boylarıyla FITS olarak kaydedilir. Polinomun derecesini çizgiler seçer: her çizgiyi diğerlerinden en iyi öngören (5'e kadar), rms ile gösterilir. Çözünürlüğünüzde komşusundan ayırt edilemeyecek kadar yakın katalog çizgileri eklenmez. **Gece göğü çizgilerinden sıfır noktası** (varsayılan açık): tayfçeker ark ile yıldız arasında esner; gökyüzü bantlarındaki [O I] 5577, 6300 ve 6363 Å çizgileri sıfır noktasını kaydırır — yalnızca ikisi uyuştuğunda ya da biri çok güçlü olduğunda (uzun pozlar; gerçek bir ESO EFOSC2 gecesinde 7 Å); durum satırı kaymayı ya da arkın sıfır noktasının korunduğunu söyler.
    **Daha önce tanımlanmış çizgiler (referans ark, IRAF veritabanı).** Gözlemevi ya da önceki bir gece bir IRAF *identify* veritabanı (`database/id…`) ve onun yapıldığı dalga boyu kalibre edilmiş arkı bıraktıysa — örneğin LCO FLOYDS indirgeme hattının `ftn_red_2.0.fits` dosyası ve `database/idftn_red_2.0` — **1. Çıkar**'dan sonra **Referans arktan / IRAF veritabanından çizgiler…** düğmesine basın ve dosyalardan birini seçin. Arkınız bir dağılım ve kayma aralığında referansla eşleştirilir (PypeIt ve IRAF reidentify gibi), bilinen çizgiler arkınızın tepelerine yerleştirilip tabloyu doldurur; kaç tanesinin bulunduğu ve ne kadar uyuştuğu da yazılır. Ark grafiğinde kontrol edin, yanlış satırları silin, sonra **3. Çöz**. Referans tayfı olmayan bir veritabanı bu tayfçekerin kendi pikselleri üzerinde yapılmış sayılır: yalnızca bir kayma bulunur (IRAF'ın yöntemi). Tanımlanan dalga boyları çözümde her zaman çizgi listesine katılır (örneğin bir HgAr lambasının Hg çizgileri).
 
-## Eşel
+## Eşel {#spectroscopy-echelle}
 Kareleri önce Kalibrasyon penceresinde **Tayf: flat'e bölme** işaretliyken kalibre edin (yalnızca bias, dark ve kozmik ışınlar), sonra master flat'i burada verin.
 
 1. **Bilim karesini**, **Flat**'i (order/mertebeleri izler ve blaze'i verir) ve **Ark lambasını (ThAr)** seçin. Mertebeler arasında gök yoksa **Fiber beslemeli**'yi işaretleyin.
@@ -47,10 +47,10 @@ Kareleri önce Kalibrasyon penceresinde **Tayf: flat'e bölme** işaretliyken ka
 
 **Gece göğü çizgilerinden sıfır noktası (yarıklı eşeller):** mertebeler arasında gökyüzü kalıyorsa (*Fiber beslemeli* değilse), [O I] 5577, 6300 ve 6363 Å çizgileri onları içeren mertebelerin arasındaki gökte ölçülür ve dalga boyları onların kaymasıyla düzeltilir — arktan bu yana esneme, İndirgeme sekmesindeki gibi (iki çizgi uyuşursa ya da biri güçlüyse kullanılır; kaymayı durum satırı ve başlıktaki `WAVSKYSH` verir).
 
-## Tellürik düzeltme
+## Tellürik düzeltme {#spectroscopy-telluric-correction}
 **Tayf (1-B)**'yi ve bir **tellürik standardın** (zamanca ve airmass/hava kütlesince yakın gözlenmiş sıcak, hızlı dönen bir yıldız) tayfını seçin. Standart atmosferin geçirgenliğini verir; gücü (hava kütlesi, su buharı) ve küçük bir dalga boyu kayması tellürik bantların içinde fit edilir. **Düzelt ve kaydet** düzeltilmiş tayfı yazar ve önce/sonra grafiğini gösterir.
 
-## Radyal hız ve yörünge
+## Radyal hız ve yörünge {#spectroscopy-radial-velocity-orbit}
 1. 1-B tayfları **Ekle…** (FITS tablosu, dalga boyu WCS'li 1-B FITS ya da metin dosyası).
 2. Bir **Şablon** seçin (benzer bir yıldızın tayfı ya da sentetik tayf). **Çift çizgili bir çift** için **İkinci şablon** ekleyin: iki yıldız da TODCOR ile ölçülür.
 3. **Yöntem:** keskin çizgili yıldızlar için *Çapraz ilişki* (ikinci şablon verilirse TODCOR); hızlı dönen yıldızlar (tek yıldız) ve temaslı ya da yakın çiftler (iki yıldız) için *Genişleme fonksiyonu*. Genişleme fonksiyonu Doppler profilinin kendisidir; çizgiler çok geniş olsa bile her yıldız kendi dönme profiliyle ayrı görünür. Hızları, her yıldızın **v sin i** değerini ve ışık oranlarını verir. Benzer tayf türünden keskin çizgili bir şablon ve iki profilden de geniş bir hız aralığı kullanın.
@@ -60,15 +60,15 @@ Kareleri önce Kalibrasyon penceresinde **Tayf: flat'e bölme** işaretliyken ka
 6. **Periyot tahmini (gün)** (ör. periyot aramadan) ve **Yörünge fit et:** P, e, ω, K, γ hatalarıyla ve rms. Çift çizgili çiftlerde ayrıca K2, kütle oranı q, iki yıldızın M sin³i değerleri ve a sin i; tek çizgililerde kütle fonksiyonu f(m). **Sonuçları dışa aktar (CSV / LaTeX)…** yörüngeyi makaleye hazır bir tablo olarak yazar; grafik hızları ve altında artıkları (O−C) gösterir.
    Hatasının 2,45 katından küçük bir dışmerkezlik anlamlı değildir (Lucy & Sweeney 1971): yörünge bu durumda çembersel uydurulur (e = 0, ω 90°'de sabit) ve sonuç bunu söyler; e serbest bırakılırsa çembersel bir yörüngede T_peri ve ω tanımsız kalır ve diğer hataları bozar.
 
-## Çift çizgili bir çifti ayrıştırmak
+## Çift çizgili bir çifti ayrıştırmak {#spectroscopy-disentangling-double-lined-binary}
 İki yıldızın hızları ölçüldükten sonra (TODCOR ya da genişleme fonksiyonu) **İki yıldızın tayfını ayır (disentangling)** dizideki tayflardan her yıldızın kendi tayfını çıkarır (yinelemeli kaydır-ve-topla, González & Levato 2006). Bu tayflarda ölçülen hızları ve ışık oranını kullanır, `star1.fits` ve `star2.fits` dosyalarını yazar. Yörünge boyunca dağılmış en az dört tayf kullanın, tercihen iki kavuşum noktası yakınında birkaçar tane; ayrılmış tayflar ikinci, daha hassas bir hız ölçümü için en iyi şablonlardır ve her yıldızın çizgilerini sınıflandırma için gösterir.
 
-## Tayf türü ve şablonlar
+## Tayf türü ve şablonlar {#spectroscopy-spectral-type-templates}
 Radyal hız sekmesindeki **İlk tayfın tayf türü (ve şablon)** ilk tayfı, O5'ten M6'ya bütün ışınım sınıflarından 131 yıldızlık Pickles (1998) kütüphanesiyle karşılaştırır (ilk seferde STScI'den indirilir, yaklaşık 6 MB, sonra ayar klasöründe saklanır). İki tayf da kendi yumuşak sürekliliğine bölünür; böylece aletin renk duyarlılığı önemli olmaz; şablon sizin çözünürlüğünüze yumuşatılır, tellürik bantlar dışarıda bırakılır. En yakın üç tür listelenir, en iyisi radyal hızlar için şablon olur. `templates` klasörüne kendi tayflarınızı da (başlıkta SPTYPE ya da dosya adında tür) koyabilirsiniz.
 
 **MK türü** doğrudan MK standart yıldızlarından gelir: Gray & Corbally'nin libnor36 kütüphanesi (O6–M5 MK standartları, bütün ışınım sınıfları, 3800–5600 Å, 3,6 Å; MKCLASS programlarının kütüphanesi; ilk seferde yazarların sayfasından indirilir, yaklaşık 9 MB, yalnızca standartlar saklanır). Tayfınız 3,6 Å'a yumuşatılır, standartlar her ışınım sınıfında sıcaklıkça aradeğerlenir, her biri düzgün bir alet tepkisiyle çarpılır ve en yakınları skorlarıyla listelenir (küçük olan daha iyi), örneğin *K1 III (0,062), K2 III (0,063), K0 III (0,064)*. Bu, MKCLASS'ın eşleştirme adımı ve kural tabanlı inceltmesinin bir kısmıdır (Gray & Corbally 2014, AJ 147, 80; aşağıda): bir öneri olarak görün ve bir makalede kullanmadan önce tayfı standartlarla karşılaştırın. Kütüphaneden çıkarılan standartlarla (%86'sı bir alt sınıf içinde, ışınım sınıfı %90 doğru) ve gerçek eşel tayflarıyla sınandı: Güneş G0 V, Vega A0 V, Arcturus K1 III; ayrıca yayımlanmış türü olan 23 parlak yıldızın HARPS tayflarıyla (B6–K5; cüce, altdev ve dev): %78'i bir alt sınıf, %91'i iki alt sınıf içinde, ışınım sınıfı %78 doğru ve hiçbir zaman bir sınıftan fazla şaşmıyor. Tayf 3800–5600 Å aralığının bir kısmını kapsamalıdır; yoksa yalnızca Pickles sıralaması verilir. Türle birlikte MKCLASS'ın eşleşme kalitesi için kullandığı sözcük de verilir (mükemmel, çok iyi, iyi, orta, zayıf: S/N ve uyumdan). A ya da erken F türü bir yıldız (B9–F5) için Ca II K çizgisinden, hidrojen çizgilerinden ve metal çizgilerinden ayrı ayrı bulunan türler de verilir; bir sınıflandırıcının kA1hA1mF0 yazması gibi. Metal çizgilerinin hidrojenden üç alt sınıf geç olması Am yıldızına, K çizgisi ve metallerin erken olması metalce fakir bir yıldıza (λ Boo, yatay kol) işaret eder — denetlemeniz için ipuçlarıdır, asla kendiliğinden uygulanmaz. Ap yıldızlarını (Sr II 4077, Si II 4128–30) ve baryum devlerini (Ba II 4554) belirleyen çizgiler yıldızda ve en iyi standardında ölçülür; 0,35 Å'dan fazla güçlü olan belirtilir (normal yıldızlar 0,1 Å, en çok 0,3 Å fark eder). G5–M yıldızlarında ışınım sınıfı, bulunan sıcaklık türünde yalnızca yüzey çekimine duyarlı çizgilerle (Sr II 4077 ve 4216, Ca I 4226, 4172–4179 karışımı, Y II 4376 / Fe I 4383, Mg b, MgH 4780) bir sınıflandırıcının yaptığı gibi belirlenir; kütüphaneden çıkarılan standartlarda geç tür yıldızların doğru ışınım sınıfı %80'den %84'e çıktı. CN bandı ya da G bandı, en iyi standarda bölündüğünde (standart o bölge dışarıda tutularak uydurulur) normal standartların hepsinden çok daha derinse CN'ce güçlü dev ya da CH yıldızı belirtilir; bu, hiçbir normal standartta uyarı vermedi ve güçlü durumları bulur (%10 daha derin G bandı yaklaşık 10 devden 7'sinde).
 
-## Yıldız parametreleri (Teff, log g, [Fe/H])
+## Yıldız parametreleri (Teff, log g, [Fe/H]) {#spectroscopy-stellar-parameters-teff-log}
 **Tayf araçları → Yıldız parametreleri**, açık olan FGK yıldızı tayfına sentetik tayflar uydurur; etkin sıcaklığı, yüzey çekimini, metal bolluğunu, v sin i'yi ve dikine hızı hatalarıyla verir.
 
 1. Tayfı açın (dalgaboyu kalibre edilmiş olmalı; akı kalibrasyonu ve normalizasyon gerekmez: her 100 Å'lık parçaya kendi düzgün sürekliliği uydurulur).
@@ -80,13 +80,13 @@ Radyal hız sekmesindeki **İlk tayfın tayf türü (ve şablon)** ilk tayfı, O
 
 **Sınırlar.** FGK yıldızları içindir; Güneş'ten uzak yıldızlarda (sonuç bunu söyler) Güneş referansı daha az güvenilirdir. Yöntem şimdiye kadar yalnızca Güneş'le denetlendi: parametreleri yayımlamadan önce kendi spektrografınızla gözlediğiniz, parametreleri bilinen birkaç ölçüt yıldızında (Gaia FGK ölçüt yıldızları) deneyin ya da en azından kendi spektrografınızdan bir Güneş tayfı kullanın.
 
-## IFU veri küpleri
+## IFU veri küpleri {#spectroscopy-ifu-data-cubes}
 **Küpü yükle** 3-B bir FITS küpünü (x, y, dalga boyu) açar.
 
 - **Bir dalgaboyu aralığında ortalama** bir görüntü gösterir; **Çizgi haritası (süreklilik çıkarılmış)** bir çizginin salmasını gösterir: **Merkez (Å)** ve **Genişlik (Å)** verip **Görüntüyü göster**'e basın.
 - Tayfını görmek için **bir spaksele tıklayın**; **Spaksel açıklık yarıçapı** çevresindeki spakselleri toplar. **Tayfı kaydet…** onu yazar.
 
-## Tayf araçları
+## Tayf araçları {#spectroscopy-spectrum-tools}
 **Tayf araçları** sekmesi tek bir 1-B tayf üzerinde çalışır (IRAF splot, BASS, ISIS gibi). **Tayf aç…** uygulamanın kendi tayflarını, dalga boyu çözümlü 1-B FITS görüntülerini (ISIS, BASS, IRAF) ve metin dosyalarını okur.
 
 **Pozları birleştir…**, bir yıldızın bir gecedeki birkaç pozundan IRAF scombine gibi tek tayf yapar: pozlar tek dalga boyu ızgarasına konur, tek düzeye (ya da tek süreklilik biçimine) ölçeklenir, kozmik ışınlar piksel piksel atılır ve kalanın ortalaması alınır. Sonuç ilk dosyanın yanına kaydedilir ve burada açılır; altındaki satır kaç poz ve pikselin katıldığını söyler. Pozlar yarım günden uzun bir süreye yayılıyorsa bir uyarı çıkar: yıldızın hızı geceden geceye değişir. Ayarlar (ortanca ya da toplam, reddetme, ölçekleme, ağırlıklar) Otomasyon penceresinde *Pozları birleştir* adımındadır.

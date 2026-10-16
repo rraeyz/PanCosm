@@ -5,7 +5,7 @@ Two windows. **Light curves and period** has the tabs **Period search**, **Frequ
 
 ![The O−C window](images/en/window-oc.jpg)
 
-## Period search
+## Period search {#lightcurves-period-search}
 The light curve measured in the Photometry window is used automatically; or **Load CSV (time, flux)…**.
 
 - **Lomb–Scargle** — fits a sine wave at every trial period and keeps the one that explains most of the variation. For sine-like variations: pulsating stars, rotation and spots.
@@ -23,7 +23,7 @@ Set the **shortest** and **longest period** (the longest defaults to half the ti
 
 **Phase bins** draws the mean curve over the folded points. **Editing the light curve:** *Remove outliers (σ)*, *Bin in time (min)*, *Delete points by clicking* (then click a point on the plot), *Flux ↔ magnitude* and *Undo edits*. The edited curve is what the period search and the frequency analysis use. *Remove outliers* compares each point with its neighbours in time (and, once a period is found, in the folded curve), so eclipses and pulsations are kept. **Errors:** when the light curve has them (from the Photometry window, TESS / Kepler / ZTF / AAVSO downloads, or a third column in a CSV file), they are drawn as error bars, follow every edit (outliers, binning — the error of each mean —, deleted points, flux ↔ magnitude) and weight the Lomb–Scargle and BLS searches by 1/σ²; **Save** writes them as a third column.
 
-## Frequency analysis
+## Frequency analysis {#lightcurves-frequency-analysis}
 For pulsating stars with several modes (δ Scuti, γ Dor, β Cep), as Period04 does. Set the **highest frequency** (cycles per day) and press **Analyse frequencies**:
 
 1. The amplitude spectrum (Deeming's Fourier transform for uneven sampling) is computed.
@@ -35,7 +35,7 @@ The table gives each frequency, period, amplitude and phase with their errors (M
 
 **Times of maximum** are measured for every cycle the data cover (a parabola around each maximum of the fitted curve); tick *Values are magnitudes* if the light curve is in magnitudes. **Send maxima to the O-C diagram** adds them to the O-C list.
 
-## O-C diagram (the O−C window)
+## O-C diagram (the O−C window) {#lightcurves-o-c-diagram-o}
 O-C (observed minus calculated) shows how the times of minimum depart from a constant period.
 
 1. Type or paste the **minimum times**, one per line: `time [error] [I/II] [source]` — e.g. `2459876.43215 0.00021 I TESS`. Or **Load file…**. Times in BJD or HJD; do not mix them.
@@ -45,12 +45,12 @@ O-C (observed minus calculated) shows how the times of minimum depart from a con
 
 The result gives the new T0 and P with errors; the quadratic fit also gives the rate of period change dP/dt in seconds per year, and the reduced χ². Primary minima are drawn as circles and secondary minima as squares; the lower plot shows the residuals.
 
-## Third body and apsidal motion
+## Third body and apsidal motion {#lightcurves-third-body-apsidal-motion}
 - **Third body (light-travel time):** the eclipsing pair orbits the centre of mass with a third star, so its eclipses come early and late along an orbit (Irwin 1952). The fit gives the third body's period P3 (years), the semi-amplitude A (minutes), eccentricity e, argument ω, and the mass function f(m3), the lower limit on the third star's mass. It needs at least 8 minima spread over more than one P3.
 - **Apsidal motion:** in an eccentric orbit the line of apsides turns, so primary and secondary minima swing in opposite directions. Give both kinds (I and II); the fit gives e, ω at epoch 0, dω/dE (degrees per cycle) and the apsidal period U (years). The model is first order in e (good for e ≲ 0.1).
 - **MCMC uncertainties:** for these two models, tick the box to run a Markov chain (emcee) after the fit: 68 % intervals of every parameter, e and ω included, and of f(m3) and U, honest when the parameters depend on each other (as in OCFit). It takes a few seconds; more steps give steadier errors. The linear and quadratic ephemerides are linear problems, so their least-squares errors are already exact and the box is off.
 
-## Reading an O-C diagram
+## Reading an O-C diagram {#lightcurves-reading-o-c-diagram}
 - A straight sloping line: the period is slightly wrong — the fit corrects it.
 - A parabola: the period changes (mass transfer, magnetic activity, angular-momentum loss).
 - A wave: light-travel time effect of a third body, or apsidal motion (primary and secondary minima moving opposite to each other in eccentric systems).

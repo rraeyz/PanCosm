@@ -3,7 +3,7 @@ La ventana **Imágenes** muestra una imagen FITS, su cabecera y sus coordenadas,
 
 ![La ventana Imágenes](images/es/window-image.jpg)
 
-## Abrir y ver
+## Abrir y ver {#images-opening-viewing}
 - **Archivo → Abrir…** (Ctrl+O, o la página de inicio) abre `.fits`, `.fit`, `.fts` y sus versiones `.gz`. Un archivo con varias imágenes (FITS multiextensión: cámaras mosaico, productos HST/JWST) pregunta cuál mostrar; esa imagen se guarda como archivo propio junto al original (`<nombre>_<EXTNAME>_<n>.fits`, se conservan las palabras clave de la cabecera primaria) y se abre, de modo que todas las herramientas — edición de cabecera, procesado, resolución astrométrica, fotometría — trabajan sobre ella. El archivo original no cambia. También se pueden soltar archivos sobre una ventana: Imágenes y Fotometría los abren, Calibración toma su carpeta como carpeta de lights, Curvas de luz lee un CSV, Espectroscopía toma la toma científica y Teledetección las bandas; **Archivo → Abrir recientes** lista los últimos.
 - **Cualquier tipo de imagen:** además de FITS, **Archivo → Abrir…** abre archivos raw de cámara (CR2, NEF, ARW, DNG, …) e imágenes corrientes de un móvil o una cámara (JPEG, PNG, TIFF, BMP, WebP). Reciben una copia FITS en una carpeta *fits_from_raw* junto a ellas (una sola vez), con la hora, la exposición y la ISO del archivo; las imágenes en color pasan a una imagen de brillo. Lo mismo vale en cada ventana que pide imágenes (Fotometría, Parpadeo, Búsqueda de variables, Calibración, imagen en color, procesado). JPEG y otras imágenes de 8 bits están procesadas por la cámara y no son lineales: sirven para ver, apilar y medir posiciones, no para fotometría precisa; para eso use archivos raw. Los archivos (y un proyecto) también se abren arrastrándolos a la ventana.
 - **Muchas imágenes a la vez:** elija varios archivos (Ctrl o Mayús) en **Archivo → Abrir…** — 200 o 1000 no son problema. Aparecen con miniaturas junto a la imagen; haga clic en una, use las flechas en la lista o **Ver → Imagen anterior / siguiente** (Re Pág / Av Pág sobre la imagen). Solo se lee la imagen en pantalla, así que la memoria no crece con el número de archivos. **Archivo → Cerrar imagen** o **Cerrar todas las imágenes** las quita de la lista; los archivos no se modifican. Los iconos pequeños sobre la imagen son atajos a los menús: abrir, guardar, anterior / siguiente, ajustar y zoom, niveles y colores, parpadeo, superposiciones, procesado y astrometría.
@@ -12,12 +12,12 @@ La ventana **Imágenes** muestra una imagen FITS, su cabecera y sus coordenadas,
 - La tabla junto a la imagen lista cada palabra clave de la cabecera con su valor y comentario.
 - **Clic derecho sobre la imagen** abre un menú para la estrella o el lugar bajo el ratón: *Medir esta estrella*, *Fotometría: esta estrella como objetivo* (las imágenes abiertas pasan a la ventana Fotometría con esta estrella marcada; márquela en la primera imagen en el tiempo), *Fotometría: añadir como estrella de comparación*, *Copiar la posición* (píxel y, en una imagen con astrometría, AR y Dec), *Buscar en SIMBAD* (abre el navegador; imagen con astrometría), *Centrar la vista aquí*, *Ajustar* y *Estadísticas de toda la imagen*.
 
-## Estiramiento de la visualización
+## Estiramiento de la visualización {#images-display-stretch}
 **Ver → Intervalo** elige qué valores van a negro y a blanco: **ZScale** (la elección astronómica habitual), **Mín–máx** o **99,5 %**. **Ver → Estiramiento** elige la curva: Lineal, Raíz cuadrada, Logarítmica o Asinh. Las nebulosidades débiles se ven mejor con Asinh o Logarítmica. Solo cambia la visualización; los datos no se tocan.
 
 **Ver → Niveles de visualización y colores…** (Ctrl+L) muestra el histograma de la imagen con los niveles de negro y de blanco como dos líneas: escriba los niveles para estirar a mano o pulse **Automático** para volver al intervalo. **Colores** ofrece mapas de falso color (calor, viridis, inferno, magma, cividis, frío, arcoíris) que facilitan ver detalles débiles y pequeñas diferencias; **Invertido** muestra estrellas negras sobre cielo blanco, como en las cartas impresas.
 
-## Superposiciones: contornos, rejilla, catálogos, regiones DS9
+## Superposiciones: contornos, rejilla, catálogos, regiones DS9 {#images-overlays-contours-grid-catalogues}
 **Superposiciones** dibuja sobre la imagen (una imagen nueva las quita):
 
 - **Contornos…** — líneas de igual brillo, espaciadas logarítmicamente desde 3 σ sobre el cielo hasta el píxel más brillante.
@@ -28,7 +28,7 @@ La ventana **Imágenes** muestra una imagen FITS, su cabecera y sus coordenadas,
 - **Carta de localización…** crea una carta al estilo AAVSO (PNG o PDF): estrellas negras sobre blanco, rejilla de coordenadas, flechas norte y este, el objeto entre dos marcas y las estrellas más brillantes etiquetadas con su magnitud V × 10 sin punto decimal (11,2 → 112, de Gaia). Usa la imagen resuelta abierta; si no hay ninguna, pide coordenadas y descarga una imagen DSS del campo (internet).
 - **Quitar superposiciones** las quita todas.
 
-## Medir sobre la imagen
+## Medir sobre la imagen {#images-measuring-image}
 Los botones sobre la imagen (y las mismas herramientas en el menú **Analizar**) eligen qué hace el ratón (como las ventanas Information y Graph de MaxIm DL o las herramientas de AstroImageJ). Los resultados aparecen en la pestaña **Información** y los gráficos en la pestaña **Gráfico**; con un clic derecho sobre la tabla se exporta o se copia, y **Exportar datos (CSV)…** escribe los números del gráfico. Como en MaxIm DL, al hacer clic en una estrella o trazar una línea o un rectángulo se abren dos pequeñas ventanas flotantes sobre la imagen, **Información** (los números) y **Gráfica**; quedan encima, siguen cada nueva medida, se pueden mover y cerrar (la siguiente medida las vuelve a abrir). El botón **⧉** en la esquina de las pestañas las desactiva: los resultados aparecen entonces en las pestañas junto a la imagen.
 
 - **Mover:** arrastre para mover la imagen; la rueda hace zoom.
@@ -38,10 +38,10 @@ Los botones sobre la imagen (y las mismas herramientas en el menú **Analizar**)
 
 Todas las posiciones están en píxeles FITS (el primer píxel es 1, 1), como en la barra de estado y en otros programas.
 
-## Reducción astrométrica
+## Reducción astrométrica {#images-plate-solving}
 **Astrometría → Reducción astrométrica** encuentra la posición exacta en el cielo, la escala y la rotación de la imagen y las escribe (WCS) en una copia del archivo, que luego se abre. Usa **ASTAP** (con una de sus bases de datos de estrellas) o **astrometry.net** instalados en su ordenador; no se envía nada por internet. Unas coordenadas aproximadas en la cabecera (`RA`/`DEC` u `OBJCTRA`/`OBJCTDEC`) hacen rápida la búsqueda; sin ellas puede tardar mucho más. Con astrometry.net, instale ficheros de índice cuyos cuadriláteros sean menores que su campo: para un campo de 30′, los ficheros 4205 y 4206 (11–22′) de la zona del cielo que observa; los ficheros Tycho-2 de las distribuciones Linux (22′ o más) no resuelven un campo así (probado en una imagen real de LCO de 30′: 4 s con 4205/4206, sin solución solo con Tycho-2). La solución es tan buena como el catálogo del índice: 0,6″ frente a Gaia DR3 con los ficheros 4200, basados en 2MASS. Por eso, si hay conexión a internet, la solución se **ajusta de nuevo a Gaia DR3** (las estrellas de la imagen emparejadas con posiciones de Gaia llevadas a la fecha de la noche con sus movimientos propios; TAN con distorsión SIP; estrellas superpuestas descartadas): en imágenes reales de LCO 0,02″ frente a Gaia, y el asteroide 433 Eros a 0,03–0,11″ de JPL Horizons (la WCS propia de LCO: 0,26″). La cabecera indica entonces `ASTCAT = Gaia3`, el número de estrellas y su rms; sin internet se mantiene la solución del resolvedor y `ASTRNOTE` explica por qué.
 
-## Operaciones de imagen
+## Operaciones de imagen {#images-image-operations}
 **Procesar** trabaja sobre la imagen actual y escribe un archivo nuevo a su lado (el nombre recibe un sufijo como `_bin`), que luego se abre. Las coordenadas (WCS) se trasladan exactamente. **Procesar → Aplicar a todas las imágenes abiertas** hace que las siguientes operaciones se apliquen a cada imagen de la lista (en segundo plano, una tarea cada una); cada copia procesada ocupa el lugar de su original en la lista y los originales no cambian en el disco.
 
 - **Aritmética de píxeles…** — una expresión en la que `A` es esta imagen y `B`, `C`, … son otras imágenes que usted elige, p. ej. `A - 0.95 * B`.
@@ -51,25 +51,25 @@ Todas las posiciones están en píxeles FITS (el primer píxel es 1, 1), como en
 - **Quitar gradiente de fondo…** (tamaño de caja): ajusta y resta un fondo suave, p. ej. gradientes por contaminación lumínica o por la Luna.
 - **Filtro de núcleo…**: 3 × 3 paso bajo, paso alto (enfocar), laplaciano, bordes de Sobel, bordes verticales u horizontales. **Deconvolución (Richardson–Lucy)…**: indique la FWHM de las estrellas (mídala con la herramienta Estrella) y el número de iteraciones; se conservan el nivel del cielo y las cuentas totales; más iteraciones enfocan más y aumentan el ruido. **Revelado digital (DDP)**: las partes débiles quedan lineales y los núcleos brillantes se comprimen, de modo que una nebulosa y sus estrellas se ven a la vez. **Igualar el histograma de otra imagen…** da a esta imagen la distribución de brillo de una referencia (cada píxel toma el valor de la referencia con el mismo rango), p. ej. para que los cuadros de un mosaico o una animación se vean iguales. Sirven para mirar la imagen; mida sobre el original.
 
-## Imagen en color
+## Imagen en color {#images-colour-image}
 **Color → Imagen en color con tres filtros…** pide una toma roja, una verde y una azul (p. ej. apilados en R, V, B o r′, g′, B) y un archivo PNG. Las tomas verde y azul se alinean sobre la roja, se resta el cielo de cada una y se equilibran los canales; después se aplica a los tres juntos el estiramiento asinh de Lupton et al. (2004), de modo que las estrellas brillantes conservan su color en vez de volverse blancas. La imagen se abre cuando está lista.
 
 **Color → Separar en canales de color (R, G, B)** separa la imagen en bruto de una cámara de color (con su patrón Bayer en la cabecera, BAYERPAT) en tres imágenes de la mitad de tamaño, `<nombre>_R.fits`, `_G.fits` y `_B.fits`, un píxel por cada celda 2 × 2 del sensor (los dos verdes promediados, nada interpolado), como hace la calibración antes de la fotometría; las coordenadas y el tamaño del píxel se ajustan. Se abren en la lista junto a la imagen.
 
-## Asteroides y cometas
+## Asteroides y cometas {#images-asteroids-comets}
 **Astrometría → Astrometría de asteroides y cometas…** mide un objeto en movimiento para el Minor Planet Center. Elija las tomas (calibradas y con reducción astrométrica), haga clic en el objeto en la primera toma y luego en la última; cada toma se mide en la posición prevista a partir de ese movimiento y se recentra, y su AR/Dec sale de la propia solución astrométrica de la toma, a mitad de la exposición en UTC. La columna de residuos muestra cuánto se aleja cada posición de un movimiento rectilíneo: más de 1″ aproximadamente indica una estrella mezclada o una mala solución en esa toma. Rellene el objeto (designación provisional, número o un nombre propio para un objeto nuevo), su código de observatorio del MPC y los observadores, y pulse **Escribir informe MPC (ADES)…**: el archivo está en el formato ADES PSV del MPC, listo para enviar. El campo **Catálogo** es el catálogo estelar en que se basan las soluciones astrométricas (ADES astCat): se toma de las imágenes cuando astrometry.net registró su índice (4100 = Tycho-2 `Tyc2`, 4200 = `2MASS`, 5200 = Gaia DR2 `Gaia2`); el MPC lo necesita para corregir los errores conocidos de cada catálogo.
 
 Las tomas sin solución astrométrica se resuelven primero (debe estar instalado ASTAP o astrometry.net; el apuntado y la escala del píxel se leen de la cabecera); una toma que no se puede resolver se deja fuera y la ventana indica cuántas.
 
-## Guardar
+## Guardar {#images-saving}
 **Archivo → Guardar FITS como…** escribe la imagen actual en un archivo nuevo; la cabecera se conserva y se añade una línea de historial.
 
 **Archivo → Guardar imagen (PNG / JPEG / TIFF)…** guarda la imagen tal como se ve (con niveles y colores) para un informe o una página web, o, como TIFF, los propios valores de los píxeles (32 bits) para otros programas. **Archivo → Convertir muchas imágenes (PNG / JPEG / TIFF)…** hace lo mismo con todo un conjunto de archivos FITS a la vez (con el intervalo y el estiramiento de la vista actual), p. ej. para una animación o una galería web; los nombres se conservan y no se sobrescribe nada.
 
-## Editar la cabecera
+## Editar la cabecera {#images-editing-header}
 En la pestaña **Cabecera** (o en el menú **Editar**), **Añadir o cambiar palabra clave…** fija una palabra clave (seleccione antes la fila para cambiarla; los valores son texto, números o T / F) y **Eliminar palabra clave** quita la seleccionada. Los cambios se ven al momento y **Guardar una copia con estos cambios de cabecera…** los escribe en un archivo nuevo, que luego se abre — el archivo original nunca se modifica. Las palabras clave que describen los datos (SIMPLE, BITPIX, NAXIS…, BZERO, BSCALE) no se pueden editar, y el estándar FITS solo admite texto ASCII simple (sin acentos). Un doble clic en una fila abre el mismo diálogo para ella. Clic derecho → **Copiar** (o Ctrl+C) copia las celdas seleccionadas; una columna se ensancha arrastrando el borde de su título, y un valor largo se ve entero al dejar el ratón sobre él. **Editar → Copiar la cabecera** copia toda la cabecera como texto.
 
-## Apilar y parpadear
+## Apilar y parpadear {#images-stacking-blinking}
 **Apilar → Apilar las imágenes abiertas…** alinea las imágenes abiertas en la lista sobre sus estrellas y las promedia rechazando a 3 σ los valores atípicos (satélites, rayos cósmicos); **Combinar las imágenes abiertas con drizzle…** lleva imágenes desplazadas y submuestreadas a una rejilla el doble de fina. El resultado se escribe donde usted elija y se abre. Ambos usan los ajustes habituales; la ventana **Calibración** tiene todas las opciones de apilado.
 
 **Apilar → Parpadear imágenes…** muestra las tomas elegidas una tras otra con los mismos niveles de visualización y alineadas sobre las estrellas, como un comparador de parpadeo: asteroides, cometas, novas y variables saltan a la vista. **Reproducir** / **Pausa**, las flechas y el deslizador recorren las tomas; **Intervalo** fija la velocidad.

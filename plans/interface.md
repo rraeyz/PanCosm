@@ -455,7 +455,7 @@ for the window concerned.
 - **Files:** every window's panels, `tests/ui/test_empty_states.py`.
 
 ### UI-7. Help on demand  (P1)
-**open**
+**partial** — done: item 1 (every guide topic has a stable anchor `{#area-words}`, the same in all four languages; `guide_page.anchors`, `GuidePage.show_anchor`; a Section's or stage's help button opens its topic; a test checks every anchor used exists).
 - **Ours now:** the Guide page (Markdown in `resources/guide/<lang>/`, searchable), tooltips, F1 opens the guide.
 - **Build:**
   1. Guide paragraphs get stable anchors (`{#photometry-comparison-stars}`); every `Section(help=…)` and stage names

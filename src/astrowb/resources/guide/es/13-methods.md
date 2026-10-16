@@ -1,7 +1,7 @@
 # Matemáticas de los métodos
 Cada ajuste y cada búsqueda del programa es un método publicado: el modelo de abajo es lo que calcula el código, y el artículo citado es su origen. Nada es una regla práctica inventada para el programa. Símbolos: t tiempo, y el valor medido (flujo, magnitud, velocidad), σ su error, N el número de puntos.
 
-## Mínimos cuadrados, errores y MCMC
+## Mínimos cuadrados, errores y MCMC {#methods-least-squares-errors-mcmc}
 Cada ajuste minimiza la suma ponderada de cuadrados
 
     χ² = Σ [(yᵢ − modelo(tᵢ; p)) / σᵢ]²
@@ -10,7 +10,7 @@ sobre los parámetros p. Los problemas lineales (efemérides, polinomios, consta
 
 **MCMC** (las casillas «Incertidumbres MCMC»): el muestreador de conjunto invariante afín (Goodman & Weare 2010; emcee, Foreman-Mackey et al. 2013) extrae conjuntos de parámetros con probabilidad ∝ exp(−χ²/2) (priores planos dentro de los límites físicos), partiendo de la solución de mínimos cuadrados. La primera mitad de la cadena se descarta; cada parámetro se da como la mediana con los percentiles 16 y 84. A diferencia de la covarianza, esto es correcto cuando los parámetros dependen unos de otros (inclinación y radios, e y ω).
 
-## Búsqueda de períodos
+## Búsqueda de períodos {#methods-period-search}
 Los cuatro métodos prueban una malla de frecuencias f = 1/P cuyo paso desplaza la fase del último punto una cantidad pequeña fija, de modo que ningún pico puede caer entre dos períodos de prueba; luego el mejor pico se refina en una malla 50 veces más fina.
 
 **Lomb–Scargle** (Lomb 1976, Ap&SS 39, 447; Scargle 1982, ApJ 263, 835; con media flotante y los errores, Zechmeister & Kürster 2009, A&A 496, 577). En cada f se ajusta por mínimos cuadrados una onda sinusoidal más una constante:
@@ -39,7 +39,7 @@ y su varianza explicada se compara con la varianza residual mediante el estadís
 
 **Alias.** El muestreo (noches, órbitas de satélites) se repite, así que cada frecuencia verdadera f da también picos en f ± 1/T_hueco. En binarias eclipsantes con mínimos iguales, el pico más fuerte suele estar en la mitad del período verdadero: compruebe la curva plegada.
 
-## Análisis de frecuencias y preblanqueo
+## Análisis de frecuencias y preblanqueo {#methods-frequency-analysis-prewhitening}
 El espectro de amplitud de datos muestreados irregularmente (Deeming 1975, Ap&SS 36, 137):
 
     A(f) = (2/N) | Σ (yᵢ − ȳ) exp(−2πi f tᵢ) |
@@ -54,7 +54,7 @@ La curva ajustada se resta (**preblanqueo**) y se vuelve a buscar en los residuo
 
 **CLEAN** (Roberts, Lehár & Dreher 1987, AJ 93, 968) elimina del espectro los lóbulos laterales de la ventana, una fracción (0,2) del pico más alto cada vez.
 
-## Tiempos de mínimo
+## Tiempos de mínimo {#methods-times-minimum}
 **Kwee & van Woerden** (1956, BAN 12, 327). La curva de luz se interpola en una malla uniforme y se refleja respecto a un tiempo de prueba T. S(T), la diferencia cuadrática media entre la rama descendente y la ascendente, es mínima en el tiempo del mínimo. Cerca de él S es una parábola, S(T) = aT² + bT + c, así que
 
     T_min = −b / 2a,     σ² = (4ac − b²) / (4a² (Z − 1))
@@ -65,7 +65,7 @@ con Z el número de pares de puntos independientes. La fórmula clásica subesti
 
 **Trapecio** (para tránsitos de fondo plano): un trapecio simétrico de profundidad δ, duración total T₁₄ y entrada τ, centrado en T_min, sobre una línea de base recta; los seis parámetros se ajustan por mínimos cuadrados.
 
-## Efemérides y O-C
+## Efemérides y O-C {#methods-ephemeris-o-c}
 Los mínimos se numeran con la época E = round((T − T₀) / P) y se ajustan con
 
     lineal:      T(E) = T₀ + P E
@@ -73,7 +73,7 @@ Los mínimos se numeran con la época E = round((T − T₀) / P) y se ajustan c
 
 ponderados con 1/σ² de cada mínimo. El ajuste se hace alrededor de la época central (donde T₀ y P están menos correlacionados) y se traslada a la época indicada. O − C = T_observado − T₀ − P E. dP/dt se da en segundos por año.
 
-## Tercer cuerpo y movimiento apsidal
+## Tercer cuerpo y movimiento apsidal {#methods-third-body-apsidal-motion}
 **Efecto de tiempo de luz** (Irwin 1952, ApJ 116, 211). La pareja eclipsante se mueve con una tercera estrella alrededor del centro de masas, así que la luz llega antes o después en
 
     τ = A [ (1 − e²) / (1 + e cos ν) · sin(ν + ω) + e sin ω ],     A = a₁₂ sin i / c
@@ -87,7 +87,7 @@ ponderados con 1/σ² de cada mínimo. El ajuste se hace alrededor de la época 
 
 Los mínimos primarios y secundarios oscilan en sentidos opuestos; el período apsidal es U = 360° / ω̇ ciclos. Para e mayor de ~0,1 importan los términos de orden superior.
 
-## Curva de luz de una binaria eclipsante
+## Curva de luz de una binaria eclipsante {#methods-eclipsing-binary-light-curve}
 Dos esferas en una órbita kepleriana (la aproximación esférica de EBOP / JKTEBOP, Popper & Etzel 1981, AJ 86, 102; Southworth 2013, A&A 557, A119). Con los radios r₁, r₂ en unidades del semieje mayor, la separación proyectada es
 
     d = (1 − e²) / (1 + e cos ν) · √(1 − sin² i sin²(ν + ω))
@@ -98,7 +98,7 @@ Cada estrella tiene oscurecimiento al limbo cuadrático I(μ) = I₀ [1 − u₁
 
 El flujo del modelo, F = (1 − L₃)(F₁ + F₂ − ΔF)/(F₁ + F₂) + L₃ (1 fuera de los eclipses, la tercera luz L₃ como fracción del total), se ajusta por mínimos cuadrados (y por MCMC si se pide). No se modelan la reflexión, la deformación de marea ni el oscurecimiento gravitatorio; las binarias cercanas necesitan PHOEBE o WD (botones de exportación).
 
-## Velocidades radiales y órbitas espectroscópicas
+## Velocidades radiales y órbitas espectroscópicas {#methods-radial-velocities-spectroscopic-orbits}
 **Correlación cruzada** (Tonry & Davis 1979, AJ 84, 1511). Espectro y plantilla en una malla de ln λ, donde una velocidad es un desplazamiento: Δln λ = v/c. La correlación normalizada C(v) tiene su pico en la velocidad; una parábola por los tres puntos más altos la da, y el error sigue a Zucker (2003, MNRAS 342, 1291):
 
     σᵥ² = −[N · C''/C · C² / (1 − C²)]⁻¹
@@ -122,7 +122,7 @@ ajustada por mínimos cuadrados con √e cos ω y √e sin ω como parámetros (
 
 Con la inclinación y los radios de la curva de luz: masas, radios R = r · a y log g, a partir de las mismas extracciones aleatorias de cada dato (como JKTABSDIM), de modo que los errores se propagan con sus correlaciones.
 
-## Órbita de una binaria visual
+## Órbita de una binaria visual {#methods-visual-binary-orbit}
 Forma de Thiele–Innes (Heintz 1978, Double Stars). Con la anomalía excéntrica E de la ecuación de Kepler:
 
     X = cos E − e,    Y = √(1 − e²) sin E
@@ -130,7 +130,7 @@ Forma de Thiele–Innes (Heintz 1978, Double Stars). Con la anomalía excéntric
 
 Para P, T y e fijos, las constantes A, B, F, G son lineales: se resuelven exactamente. P, T, e se buscan en una malla y luego los siete elementos se refinan juntos con Levenberg–Marquardt. Los elementos de Campbell a, i, Ω, ω salen de A, B, F, G; la masa total, de la tercera ley de Kepler: M₁ + M₂ = a³ / (ϖ³ P²) (a y la paralaje ϖ en segundos de arco, P en años).
 
-## Espectros: longitud de onda, atmósfera, telúricas, separación
+## Espectros: longitud de onda, atmósfera, telúricas, separación {#methods-spectra-wavelength-atmosphere-telluric}
 **Solución de longitud de onda**: las líneas del arco se centran con un ajuste gaussiano; λ(x) = Σ cₖ xᵏ se ajusta con recorte sigma, como IRAF identify. En espectros echelle la ecuación de la red hace de m·λ una función suave del píxel x y del orden m, así que una sola superficie Σ cᵢⱼ xⁱ mʲ cubre todos los órdenes (IRAF ecidentify; Baranne et al. 1996).
 
 **Parámetros atmosféricos** (el enfoque de iSpec / SME, sobre una malla precalculada): el espectro observado se modela como
@@ -143,7 +143,7 @@ S interpolado en la malla PHOENIX (Husser et al. 2013), Pₖ un polinomio de gra
 
 **Separación espectral** (González & Levato 2006, A&A 448, 283): el espectro de cada estrella es la media de los espectros observados, desplazados a su sistema en reposo, tras restar el espectro actual de la otra estrella; se repite hasta converger.
 
-## Fotometría
+## Fotometría {#methods-photometry}
 **Fotometría de apertura**: el cielo es el nivel con recorte sigma de un anillo; F = suma en la apertura − N_ap · cielo; su error es la ecuación del CCD con el ruido del cielo σ_cielo medido en el anillo (Merline & Howell 1995, Exp. Astron. 6, 163):
 
     σ_F² = F / ganancia + N_ap (1 + N_ap / N_cielo) σ_cielo²

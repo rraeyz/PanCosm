@@ -3,7 +3,7 @@ Das Fenster **Kalibrierung** macht aus Rohaufnahmen kalibrierte Bilder: Sie erke
 
 ![Das Fenster Kalibrierung](images/de/window-calibrate.jpg)
 
-## 1. Die Rohaufnahmen einlesen
+## 1. Die Rohaufnahmen einlesen {#calibration-1-scan-raw-frames}
 **Zwei Ordner, wie eine Nacht meist abgelegt wird:** Geben Sie die Lights (Ihre Daten) unter **Lights** und die Bias-, Dark- und Flat-Bilder unter **BDF** an. Jedes Bild im Light-Ordner ist ein Light, wie immer es heißt — Wissenschaftsbilder werden meist nach dem Stern benannt (`nsvs01286630_017.fits`); nur ein Bild, dessen Header Bias, Dark oder Flat angibt, zählt als solches. Der BDF-Ordner wird in Bias, Dark und Flat eingeordnet. Alles in einem Ordner? Geben Sie ihn nur als **BDF** an und lassen Sie **Lights** leer: die Bilder werden dann wie unten nach Header und Name eingeordnet.
 
 Wählen Sie den Ordner mit Ihren Rohaufnahmen (Lights, Bias, Darks und Flats dürfen gemischt sein, Unterordner eingeschlossen) und drücken Sie **Einlesen**. Die Tabelle listet jede Datei mit **Typ**, **Belichtung**, **Filter**, **Temperatur** und **Binning**.
@@ -18,13 +18,13 @@ Unterordner werden mitgelesen. Liegen die Lights und die Kalibrierbilder in getr
 
 Rohaufnahmen aus Archiven funktionieren, wie sie kommen: ESOs `.fits.Z`-Dateien (Unix compress) werden nach fits_from_raw entpackt, ESO-Aufnahmetypen (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT) erkannt, und Grism oder Gitter eines Spektrographen gehören zum Filter, sodass ein Flat mit einem anderen Grism nie verwendet wird.
 
-## Wie Master zugeordnet werden
+## Wie Master zugeordnet werden {#calibration-how-masters-matched}
 - **Bias:** gleiches Binning und gleiche Größe.
 - **Dark:** gleiches Binning, gleiche Belichtungszeit und eine Temperatur innerhalb von 2 °C. Ein Dark anderer Belichtung wird nur dann auf die Belichtung des Lights skaliert, wenn Bias-Aufnahmen vorhanden sind (der Dunkelstrom ist nach Abzug des Bias proportional zur Zeit).
 - **Flat:** gleicher Filter und gleiches Binning; Flats werden um Bias/Dark bereinigt und auf einen Median von 1 normiert.
 - Jeder Master ist der sigma-geclippte Mittelwert seiner Aufnahmen; **Verwerfung (Sigma)** (Voreinstellung 3) entfernt Satelliten, kosmische Strahlen und Hotpixel, die nur in einigen Aufnahmen vorkommen.
 
-## 2. Ausgabeordner und Optionen
+## 2. Ausgabeordner und Optionen {#calibration-2-output-folder-options}
 Wählen Sie, wohin Master und kalibrierte Bilder geschrieben werden. Rohdateien werden nie verändert.
 
 - **Kosmische Strahlen aus Lights entfernen** beseitigt Einzelpixel-Treffer mit der L.A.Cosmic-Methode (astroscrappy). Verwenden Sie es für lange Belichtungen; für kurze photometrische Reihen ist es nicht nötig.
@@ -36,13 +36,13 @@ Wählen Sie, wohin Master und kalibrierte Bilder geschrieben werden. Rohdateien 
 
 - **Spektren: nicht durch das Flat teilen:** für Echelle- und Langspalt-Aufnahmen ankreuzen. Deren Flat ist zwischen den Ordnungen fast null; Teilen würde das Rauschen explodieren lassen (IRAF-Nutzer normieren ein solches Flat erst mit apflatten / apnormalize). Bias und Dark werden weiter abgezogen; das Master-Flat wird trotzdem erstellt — geben Sie es dem Fenster Spektroskopie, die darauf die Ordnungen verfolgt und durch ihren Blaze teilt. Die Defektkarte stammt dann nur aus dem Dark.
 
-## 3. Kalibrieren
+## 3. Kalibrieren {#calibration-3-calibrate}
 Drücken Sie **Kalibrieren**. Die Aufgabe läuft im Hintergrund; am Ende sehen Sie, wie viele Bilder kalibriert und wie viele Master geschrieben wurden. Jedes kalibrierte Bild hält in seinem Header fest, welche Master benutzt wurden (`CALB`, `CALD`, `CALF`), sodass Sie es jederzeit prüfen können. **4. Im Fenster Photometrie messen →** schickt danach die kalibrierten Lights dorthin und öffnet das Fenster (bei mehreren Filtern wählen Sie einen: eine Lichtkurve wird in einem Filter gemessen). Das Kontextmenü des Fensters Bilder hat dasselbe: **Die geöffneten Bilder an die Photometrie schicken**.
 
-## 4. Ausrichten und stapeln
+## 4. Ausrichten und stapeln {#calibration-4-align-stack}
 **Ausrichten und stapeln…** richtet die kalibrierten Bilder an den Sternen aus (Verschiebung per Kreuzkorrelation) und kombiniert sie mit einem sigma-geclippten Mittelwert zu einem tiefen Bild. Eine Abdeckungskarte, als zweite Erweiterung der Datei gespeichert, zeigt, wie viele Aufnahmen zu jedem Pixel beigetragen haben. Stapeln Sie nur Aufnahmen desselben Filters. Das Stapeln ist freiwillig und **nicht für eine Lichtkurve**: ein Stapel hat nur eine Zeit, die Photometrie misst jedes einzelne Bild. Stapeln Sie für ein tiefes Bild, Astrometrie schwacher Objekte oder ein Farbbild.
 
-## Stapeloptionen
+## Stapeloptionen {#calibration-stacking-options}
 Die Auswahl neben der Stapel-Schaltfläche funktioniert wie in Siril, PixInsight oder MaxIm DL:
 
 - **Kombinieren:** *Mittelwert* (geringstes Rauschen), *Median* (robust, etwa 25 % mehr Rauschen) oder *Summe* (Mittelwert mal Zahl der Aufnahmen, sodass das Niveau dem einer langen Belichtung entspricht, auch wo eine Aufnahme das Pixel nicht abdeckt).
@@ -54,16 +54,16 @@ Die Auswahl neben der Stapel-Schaltfläche funktioniert wie in Siril, PixInsight
 
 Der Header des Stapels hält die Auswahl (STACKMTH, STACKNRM, STACKWGT) und das Gewicht jeder Aufnahme fest.
 
-## Drizzle
+## Drizzle {#calibration-drizzle}
 Für unterabgetastete Bilder (Sterne nur ein oder zwei Pixel breit), die mit kleinen Dither-Versätzen zwischen den Aufnahmen gemacht wurden, kreuzen Sie vor dem Stapeln **Drizzle auf ein 2× feineres Raster** an. Jedes Pixel wird auf 60 % seiner Größe verkleinert und an seiner ausgerichteten Position auf ein Raster mit doppelt so vielen Pixeln gelegt (Fruchter & Hook 2002); mit acht oder mehr geditherten Aufnahmen werden die Sterne schärfer als in einem normalen Stapel. Der Fluss bleibt erhalten, die Himmelskoordinaten (WCS) werden mitskaliert, und das Gewicht jedes Ausgabepixels wird als zweite Erweiterung gespeichert. Entfernen Sie vorher bei der Kalibrierung die kosmischen Strahlen: Drizzle verwirft keine Ausreißer.
 
-## Farbkameras und DSLR-Rohdateien
+## Farbkameras und DSLR-Rohdateien {#calibration-colour-cameras-dslr-raw}
 - **Kamera-Rohdateien** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) im gewählten Ordner werden beim **Einlesen** umgewandelt: Jede wird zu einer FITS-Datei im Unterordner `fits_from_raw`, die Sensorwerte bleiben unverändert (kein Weißabgleich, kein Gamma, keine Interpolation). Legen Sie sie in Ordner mit Namen wie `bias`, `darks`, `flats`, `lights`: Der Ordnername gibt den Aufnahmetyp. Belichtungszeit, ISO, Schwarz- und Weißwert werden aus der Datei gelesen. Fujifilm-X-Trans- und Foveon-Sensoren sind keine 2 × 2-Bayer-Sensoren und werden abgelehnt.
 - **Zeit**: Eine DSLR speichert ihre eigene Uhr, oft Ortszeit und um Minuten falsch. Stellen Sie vor dem Einlesen **DSLR-Uhr − UTC** ein (z. B. 1 für eine Uhr auf MEZ) und vergleichen Sie die Kamerauhr mit einem Zeitsignal: Ein Zeitfehler geht direkt in Minima und O−C ein. Der ursprüngliche Wert bleibt als DATE-CAM erhalten. Bis Sie ihn einstellen, gilt die UTC-Differenz des Computers (richtig für eine Kamera auf derselben Ortszeit). Der Wert wird gespeichert und für jede Kamera-Rohdatei und jedes Handyfoto verwendet, das in irgendeinem Fenster geöffnet wird (Photometrie, Bilder, Suche nach Veränderlichen…); das Fenster Photometrie zeigt, mit welcher Differenz ihre Aufnahmen gelesen wurden.
 - **Farbkameras (One-Shot-Color)** schreiben BAYERPAT; DSLR-Dateien erhalten es aus der Rohdatei. Mit **Farbkamera: jede Farbe als eigenes Bild** (standardmäßig an) wird das Mosaik unverändert kalibriert, dann wird jedes Light als drei Bilder halber Größe `_R`, `_G`, `_B` geschrieben (Filter TR, TG, TB): ein Wert pro 2 × 2-Zelle, Grün als Mittel der beiden grünen Pixel, ohne Interpolation, die Pixel mischen und die Sternprofile verändern würde. Heiße und tote Pixel werden aus Pixeln derselben Farbe repariert. Das ist die Methode des AAVSO DSLR Observing Manual; der Grünkanal (TG) liegt Johnson V am nächsten und geht daher an das Fenster Photometrie.
 - **Stapel entstehen pro Filter**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (bei Monochromkameras einer pro Filter). Zu einem Farbbild fügen Sie sie mit **Farbe → Farbbild aus drei Filtern…** im Fenster Bilder zusammen.
 
-## Tipps
+## Tipps {#calibration-tips}
 - Nehmen Sie mindestens 20 Bias und 10–20 Darks bei derselben Temperatur wie die Lights auf; 10–20 Flats pro Filter, mit einem Mittelwert um die halbe Full-Well-Kapazität.
 - Zwischen Flats und Lights weder den Fokussierer bewegen noch die Kamera drehen: Staubringe wandern mit.
 - Die Automatisierung *Kalibrierung und Stacking am Ende der Nacht* erledigt Einlesen, Kalibrieren und Stapeln in einem Durchgang.

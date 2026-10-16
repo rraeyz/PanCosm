@@ -3,7 +3,7 @@ The **Photometry** window measures the brightness of a target star relative to c
 
 ![The Photometry window](images/en/window-photometry.jpg)
 
-## Choosing images and stars
+## Choosing images and stars {#photometry-choosing-images-stars}
 1. **Choose images…** — calibrated frames of one field and one filter. They are sorted by time.
 2. On the first image, **click the target star**, then **one or more comparison stars**. Clicks snap to the star's centre. **Clear stars** starts again.
 3. Or press **Suggest comparison stars**: it picks stars of similar brightness, not saturated, without bright neighbours and inside the frame in every image. Check them before measuring. When the field was identified (below), they come from Gaia instead: about as bright as the target, of a similar colour where the field has one, not variable (Gaia, VSX), alone and unsaturated, as Siril's catalogue choice does.
@@ -26,7 +26,7 @@ TESS and Kepler / K2 target pixel files, also TESScut cut-outs from MAST, can be
 
 **The same stars on another night:** **Save the star list…** (also in the **Stars** menu) writes the target, the comparison and check stars and the three radii to a small `.stars.json` file, in RA / Dec when the first frame is plate-solved. **Open a star list…** puts them back on another night's images through that night's plate solution, so the pointing, the rotation and even the camera may differ; without a solution on both nights the saved pixels are used (the same pointing). Stars that fall outside the frame are named; Ctrl+Z takes the list back off.
 
-## Differential photometry: targets, comparison and check stars
+## Differential photometry: targets, comparison and check stars {#photometry-differential-photometry-targets-comparison}
 **Clicks add** chooses what the next clicks are: *target, then comparison stars* (the first click is the target T1, the next ones comparison stars C1, C2…), *check stars* (K1, K2…) or *more targets* (T2, T3…). Check stars and further targets are measured on every frame against the same comparison stars but are not part of them — as the check star of MaxIm DL, VPhot or AIJ. A constant check star shows how good the photometry really is: its scatter (in mmag) is listed under the plot.
 
 The **Stars** tab lists every star with its role and position. Type the comparison stars' **known magnitudes** (from an AAVSO chart, a catalogue or your own calibration) into the last column: the target, the other targets and the check stars then get **magnitudes** frame by frame (each comparison star gives a zero point; a comparison star that disagrees by more than 0.1 mag is left out and named). **Standard magnitudes (APASS / Gaia)** fills the same column from the catalogues.
@@ -45,10 +45,10 @@ The **Plot** tab chooses what is drawn: T1 relative flux, its differential magni
 
 **Export for ETD / VarAstro (text)…** (Export tab, File → Export) writes the light curve for the Exoplanet Transit Database upload in the format its FAQ gives: the Julian date in the first column, the brightness in the second — the magnitude when known magnitudes were given, else Δm against the comparison stars — and the error in the third. After saving, the window says which time standard (BJD_TDB, or JD_UTC without the target's position) and which unit to choose in the upload form. The CSV export opens on the Models page as it is.
 
-## Frame quality
+## Frame quality {#photometry-frame-quality}
 **Find the bad frames (clouds, focus, trails)** measures every chosen frame: the size of the stars (FWHM), how many stars are seen and the sky level. The plot shows the three through the night; frames far worse than the night's typical frame are marked red, with the reason — *stars blurred* (wind, focus, seeing), *few stars* or *no stars* (clouds, dew), *bright sky* (twilight, Moon). **Leave out the bad frames** removes them before measuring. The *Eclipsing binary night* and *Exoplanet transit* automations do this by themselves.
 
-## Apertures
+## Apertures {#photometry-apertures}
 Every star gets three rings, drawn on the image: the **aperture** (solid), and the inner and outer edge of the **sky annulus** (dashed). The radii are in image pixels, so the rings grow and shrink with the zoom: zoom in to see whether the star sits in ring 1 and only sky between rings 2 and 3. **Shift + mouse wheel** on the image makes all three rings larger or smaller (by 0.5 px); the boxes on the right show the numbers. On a frame zoomed far out, where the rings would be smaller than a few screen pixels, a small cross marks each star instead.
 
 - **Ring 1, the aperture:** the circle in which the star's light is summed.
@@ -81,57 +81,57 @@ The plot shows the star's profile with the aperture (green), the left-out gap an
 
 **The target follows the field (not centred)** (under the stars, step 2): a faint target beside a bright star is then not re-centred on each frame, which could pull it onto the bright star; it moves with the other stars by their median shift. On a simulated night with a star about 70 times brighter 6 px away, the target stays on itself within 0.3 px. Defocused stars, even rings ("donuts") wider than the centring box, are centred on their centre of light (within 0.2 px for a 30 px ring). The measurements table shows how far centring moved each star on each frame (`Centring_Move`); a move larger than the limit keeps the predicted position.
 
-## Time and BJD
+## Time and BJD {#photometry-time-bjd}
 Times are taken from `DATE-OBS` and `EXPTIME` (the middle of the exposure). With the **Target RA Dec** (or `OBJCTRA`/`OBJCTDEC` in the header) and the site in the header, times are converted to **BJD_TDB**, the standard for timing eclipses and transits.
 
-## Measure the light curve
+## Measure the light curve {#photometry-measure-light-curve}
 **Measure light curve** runs in the background and draws the relative flux (target / comparison ensemble) against time. Under the plot you see the number of points and the scatter in percent. Points from frames that could not be measured (clouds, star outside) are left out and reported. The first view is the **differential plot** as it is usually drawn: Δm of the target against the comparison below, and above it the check star against the same comparison (or C1 − C2 when no check star is marked) with its scatter in mmag. A flat upper row means the comparison is constant; its scatter is the precision of the target's points. Photometry only measures: the fits come next — **Period search →** opens Light curves and period (which already has the curve; times of minimum go to the O−C window by themselves), **Fit an eclipse or transit model →** saves the curve as CSV and opens it in the Models window; the time of one minimum is fitted on the Minimum tab here.
 
 **Scintillation:** the twinkling of a star adds noise that photon statistics do not know; for bright stars and short exposures it is the largest error. When the **Telescope aperture (m)** is given (or APTDIA, in mm, is in the header) and the site and the target position are known, every flux error includes it — σ² = 10⁻⁵ · 1.5² · D^(−4/3) · t⁻¹ · X³ · e^(−2h/8000 m) (Osborn et al. 2015, the corrected form of Young 1967; D aperture, t exposure, X airmass, h height). The line under the plot says whether it was included and how large it was (mmag per frame). The measured fluxes do not change, only their error bars.
 
 **Saturation and linearity:** a point where the target or a comparison star reaches the saturation level (SATURATE / DATAMAX, or the 16-bit limit) is ringed red; above the **Linearity limit** (under the plot; from LINLIMIT or MAXLIN in the header, or typed in) the camera no longer counts in proportion to the light, and such points are ringed orange. The measurements table colours the star's Peak with the reason. **Leave out saturated and non-linear points** takes those frames out of every result (Ctrl+Z brings them back).
 
-## Deleting bad points and spacing the curves
+## Deleting bad points and spacing the curves {#photometry-deleting-bad-points-spacing}
 In the **Plot** tab tick **Click a point to delete it** and click a point of the light curve (a cloud, a satellite, a frame where the star was lost): that frame is left out of the light curve, the magnitudes, the detrending, the time of minimum and the export. **Restore deleted points** brings them all back. **Spacing between curves** sets how far apart the curves are drawn in the views with several curves (*all stars*, *comparison stars against the others*); 0 puts them on top of each other, for example to see that two standard stars give the same flat line.
 
 Every plot of the application has **Open in a new window** in its toolbar: a copy of the plot in its own window, to look at it large (zoom, pan, save) while you keep working.
 
-## Detrending
+## Detrending {#photometry-detrending}
 Slow changes that are not the star's — extinction changing with airmass, a drifting sky, focus or the star moving over the chip — can be divided out (as in AstroImageJ or EXOTIC). In the **Plot** tab tick what to detrend against (airmass, FWHM, sky, x, y, time), give the start and end of the eclipse or transit under **Leave out from … to …** so the event itself is not fitted, and press **Detrend**: ln(flux) is fitted linearly in the ticked quantities on the points outside that range and divided out of all points. The line under the plot gives the scatter before and after. **Undo detrending** returns to the measured curve. FWHM is available when *Radii follow the seeing* was on; airmass needs the site and the target's position. The time of minimum, the export and the AAVSO report use the detrended curve.
 
 **Trend degree** 1 divides out a straight-line dependence on each ticked quantity; 2 or 3 fits a curve (e.g. extinction that is not linear in airmass, or a slow drift in time that bends). Use the lowest degree that removes the trend: a higher degree can also bend a long eclipse.
 
 **Choose the detrending (BIC)** fits every set of the quantities this light curve has — and a step at the **Meridian flip** — to the points outside the left-out range and lists the BIC of each (χ² + k ln n, with the reduced χ²), lowest first, as AstroImageJ does; the set with the fewest terms within 2 of the lowest BIC is ticked and applied (a term is kept only when it lowers the BIC by more than 2). The flip time is read from PIERSIDE in the headers when it changes during the night, or typed in; after the flip the stars fall on other pixels, so the flux jumps. **Smooth trend (spline)** divides out a slow change of any shape after the ticked quantities: a spline in time whose knot spacing is chosen by the BIC, bridging the left-out range (keep the eclipse shorter than the spacing). **Leave out outliers** removes the points more than 4σ from the median of their neighbours in time (Ctrl+Z brings them back). Times can be typed in full (2461000.42) or as the plot's axis shows them (0.42). On a simulated night with an airmass trend and a flip jump the true model has the lowest BIC, and FWHM and sky, which add nothing, are not kept.
 
-## Time of minimum
+## Time of minimum {#photometry-time-minimum}
 - Enter the **Ephemeris T0 (BJD)** and **Period (d)** if you know them (optional): then the epoch and O-C are given too.
 - Under **What kind of minimum is it?** choose **Eclipsing binary: Kwee–van Woerden method** (the default; Kwee & van Woerden 1956, the method of O−C databases) or **Exoplanet transit: trapezoid fit**, which suits flat-bottomed dips and also gives depth and duration.
 - With the trapezoid, **Fit the ticked detrending quantities together with the transit** fits the trend in the quantities ticked in the Plot tab (airmass, FWHM, sky, x, y) and the transit in one χ², on the curve before detrending, as AstroImageJ does: a trend cannot pull the depth or the mid-time. The result gives the trend's coefficients and the BIC; the time of minimum goes to O−C as usual. On a simulated transit over a curved airmass trend, depth and mid-time come back within their errors.
 - **Time of minimum** gives the time with its error (for KvW the larger of the KvW and bootstrap errors), in days and minutes.
 - When the light curve covers several eclipses (TESS, several nights), give T0 and the period — after a **Period search** on this light curve they are filled in for you — and every primary and secondary minimum is timed in its own window and sent to the O−C window with its type; without them the window asks for them instead of giving one meaningless time.
 
-## Standard magnitudes
+## Standard magnitudes {#photometry-standard-magnitudes}
 With a plate-solved first image (Images window: Astrometry → Plate solve), choose the filter of your images and press **Standard magnitudes (APASS / Gaia)**. The comparison stars are looked up on the internet: B, V, g′, r′, i′ come from APASS DR9; R and I (and V where APASS has no value) are computed from Gaia DR3 with the published Gaia-to-Johnson-Cousins relations (about 0.03 mag scatter); G is Gaia's own. The light curve then becomes magnitudes in the standard system: a zero point for every frame from all comparison stars and, when three or more comparison stars have colours, a colour term fitted for the night — only when the stars show one (its slope more than three times its error): a few stars of similar colour cannot measure it, and a slope from their scatter, carried to a target of another colour, moved a real RR Lyrae star by 0.27 mag. When VizieR does not answer, Gaia comes straight from the ESA Gaia archive. A comparison star that disagrees with the catalogue by more than 0.1 mag (variable, blended, or a bad catalogue value) is reported and left out. The magnitudes are drawn (brighter up), go into the CSV export, and fill the comparison magnitudes of the AAVSO report.
 
-## The measurements table
+## The measurements table {#photometry-measurements-table}
 The **Measurements** tab under the image holds every number of every frame, one row per frame, with the columns named as AstroImageJ names them, so the two tables can be put side by side: `Label`, `slice`, `J.D.-2400000`, `JD_UTC`, `BJD_TDB`, `AIRMASS`, `FWHM_Mean`, and for every star (T1 the target, C2, C3 … the comparison stars, further targets and check stars T after them) `X(FITS)`, `Y(FITS)`, `Source-Sky`, `Source_Error`, `Source_SNR`, `Source_AMag`, `Peak`, `Sky/Pixel`, `N_Src_Pixels`, `N_Sky_Pixels` and the three radii; then `rel_flux_T1`, its error and S/N, `tot_C_cnts` and `tot_C_err`. A saturated peak is coloured, with the level in its tooltip. Click a column title to sort, a row to show that frame; **Columns** chooses what is shown; the filter keeps the rows that pass, e.g. `rel_flux_err_T1 < 0.002 and AIRMASS < 2`; **Export the table (CSV)…** writes the rows and columns shown, and Ctrl+C copies the selected rows.
 
-## Exporting
+## Exporting {#photometry-exporting}
 - **Export CSV…** writes the time, relative flux, Δm and their errors, the magnitudes when known, every check star and further target, the raw fluxes, airmass and FWHM, for other programs.
 - **Export AAVSO report…** writes the AAVSO extended format: star name (as in VSX), your observer code, filter, the catalogue magnitudes of the comparison stars, chart ID and notes; the first check star goes into KNAME / KMAG, as the AAVSO asks for ensemble photometry. MERR is the photon error together with the scatter of the comparison stars' zero points in that frame. Checked on real LCO frames: the transformation found from APASS on Landolt's SA 98 field (1 s exposures in B and V) gives Landolt's V to 0.03 mag (median −0.008) and B−V to 0.05 mag for 31 standard stars.
 
-## Live light curve
+## Live light curve {#photometry-live-light-curve}
 (under **Other tools**) **Live: follow a folder during the night…** watches the folder the camera writes to. Each new frame is calibrated (with the masters you choose, or none) and measured as it arrives, and the light curve grows by itself. Click the target and comparison stars on the first frame before starting. Frames that cannot be measured are skipped and counted.
 
-## Polarimetry (dual beam)
+## Polarimetry (dual beam) {#photometry-polarimetry-dual-beam}
 (under **Other tools**) For a dual-beam polarimeter (Wollaston prism + half-wave plate): click the **ordinary** image of the star as target and the **extraordinary** image as the first comparison, then **Polarimetry (dual beam)**. The half-wave plate angle is read from the header. The result is the Stokes q and u, the degree of polarisation P (also debiased) and the angle θ with their errors.
 
-## PSF photometry and searching for variables
+## PSF photometry and searching for variables {#photometry-psf-photometry-searching-variables}
 **PSF photometry** (tick it in the Photometry window) fits a star image of each frame's FWHM to every star instead of summing an aperture; stars closer than 2.5 FWHM are fitted together, so a blended neighbour does not leak into the target. Use it in crowded fields (clusters, the Milky Way); in sparse fields apertures are as good.
 
 **Light curves and period → Variable star search** measures every star of the first frame on all frames (aperture or PSF), puts all frames on a common zero point from the constant stars (so clouds and airmass cancel) and plots each star's scatter against its brightness. Constant stars follow a curve that rises towards faint magnitudes (photon noise); stars well above it are **candidates** (red circles, listed by index). Click a point or a row to see that star's light curve, and **Send this star to Period search** to find its period. This is what Muniwin's *varfind* does: check candidates in VSX before announcing a discovery.
 
-## Extinction and transformation coefficients
+## Extinction and transformation coefficients {#photometry-extinction-transformation-coefficients}
 **Analyse → Photometric coefficients…** (Images window)
 - **Extinction of the night:** from the comparison stars of the light curve you measured (the frames must give the sky position, so the airmass is known): every star's instrumental magnitude against airmass, one slope k for all (mag per airmass), with the Bouguer plot. Typical values in V: 0.15–0.3 at a good site.
 - **Transformation coefficients:** two plate-solved images of a standard field (e.g. a Landolt field or M67) in two filters. The stars are measured on both, their magnitudes come from APASS (B, V, g′, r′, i′) or Gaia (V, R, I), and the coefficients are fitted in the AAVSO convention: Tbv from (B−V) against (b−v), Tv and Tb from V−v and B−b against (B−V). Enter them in your reports or in AAVSO's transformation tool.

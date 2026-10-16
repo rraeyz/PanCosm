@@ -3,7 +3,7 @@ An **automation** chains steps into your own pipeline — "calibrate the frames 
 
 ![The Automation window](images/en/window-automation.jpg)
 
-## Ready templates
+## Ready templates {#automation-plugins-ready-templates}
 The **Automation** window lists ready templates (marked "template") and your own automations:
 
 - **Eclipsing binary night** — a dusk-to-dawn sequence, then calibration, comparison stars, light curve, time of minimum (Kwee–van Woerden) and O-C.
@@ -14,15 +14,15 @@ The **Automation** window lists ready templates (marked "template") and your own
 
 Select one to see its description and its steps.
 
-## Running an automation
+## Running an automation {#automation-plugins-running-automation}
 1. Fill in the **Inputs** on the right (folders and files have a **…** button). Only what no step can produce is asked: for example the raw-frame folder and the target position.
 2. Press **Run**. Each step runs as a normal task in the Tasks panel and is recorded in the project; the next starts when the previous one has finished. The line under the button says which step is running.
 3. When it is done, the results of the last step (e.g. the time of minimum and O-C) are shown below. If a step fails, the automation stops there and the error is shown.
 
-## The observing part
+## The observing part {#automation-plugins-observing-part}
 Templates with an observing sequence have **To the Observing window**: it fills in the target, start and end (e.g. dusk and dawn) and the exposure rows. Add the coordinates, check the exposure times and start it there. Tick **Process after the sequence** before sending it: when the sequence ends (also when the weather stops it early, if frames were taken), the automation runs by itself on the sequence's folder. With a remote observatory the frames are first copied to this computer, then processed.
 
-## Building your own
+## Building your own {#automation-plugins-building-your-own}
 1. **New** starts an empty automation (or start from a template and change it).
 2. Choose a step in the list under **Steps, in order** and press **Add step**. **Remove**, **Up** and **Down** change the order.
 3. Select a step to see its **settings**:
@@ -34,7 +34,7 @@ Templates with an observing sequence have **To the Observing window**: it fills 
 
 Automations are plain JSON files, so they can be shared: copy the file into another user's `automations` folder.
 
-## Plugins
+## Plugins {#automation-plugins-plugins}
 **What they are:** a plugin is a small extra tool you add to the application yourself — for a calculation the application does not have, or one only your group needs. It is one Python file. Once it is in the plugins folder it appears in the **Plugins** menu, opens a small form for its inputs, runs like every built-in step (in the background, with progress and Cancel, recorded in the project) and can be used as a step of an automation.
 
 **You do not need to program to try them.** **Plugins → Install the example plugins** adds three ready ones:
@@ -44,7 +44,7 @@ Automations are plain JSON files, so they can be shared: copy the file into anot
 
 Choose one in the **Plugins** menu, fill in the form, press OK; the result opens in a window when it is ready. A plugin that has an error is listed as "Failed to load" with the reason; it never stops the application. Plugins run with your rights like any program you install: use only files you trust.
 
-## Writing your own plugin
+## Writing your own plugin {#automation-plugins-writing-your-own-plugin}
 Open **Plugins → Open plugins folder**, copy one of the examples, rename it and change it. This is the whole sky-level example:
 
 ```python

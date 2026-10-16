@@ -3,7 +3,7 @@
 
 ![Görüntüler penceresi](images/tr/window-image.jpg)
 
-## Açmak ve bakmak
+## Açmak ve bakmak {#images-opening-viewing}
 - **Dosya → Aç…** (Ctrl+O ya da Başlangıç sayfası) `.fits`, `.fit`, `.fts` ve bunların `.gz` hallerini açar. Birden çok görüntü içeren bir dosya (çok uzantılı FITS: mozaik kameralar, HST/JWST ürünleri) hangisinin gösterileceğini sorar; o görüntü orijinalin yanına ayrı bir dosya olarak kaydedilir (`<ad>_<EXTNAME>_<n>.fits`, birincil başlığın anahtarları korunur) ve açılır; böylece her araç — başlık düzenleme, işleme, plaka çözme, fotometri — onun üzerinde çalışır. Orijinal dosya değişmez. Dosyalar bir pencerenin üzerine bırakılabilir de: Görüntüler ve Fotometri onları açar, Kalibrasyon klasörlerini ışık kareleri klasörü yapar, Işık eğrileri bir CSV okur, Tayf bilim karesini, Uzaktan algılama bantları alır; **Dosya → Son açılanlar** son dosyaları listeler.
 - **Her türlü görüntü:** **Dosya → Aç…** FITS'in yanında kamera raw dosyalarını (CR2, NEF, ARW, DNG, …) ve telefon ya da fotoğraf makinesinden gelen sıradan resimleri (JPEG, PNG, TIFF, BMP, WebP) de açar. Bunların yanındaki *fits_from_raw* klasöründe bir kez FITS kopyası yapılır; zaman, poz ve ISO dosyadan alınır, renkli resimler tek bir parlaklık görüntüsü olur. Görüntü isteyen her pencerede (Fotometri, Blink, Değişken yıldız arama, Kalibrasyon, renkli görüntü, işlemler) aynısı geçerlidir. JPEG ve diğer 8 bitlik resimler kamera tarafından işlenmiştir ve doğrusal değildir: bakmak, yığmak ve konum ölçmek için iyidir, hassas fotometri için değil — onun için raw dosyaları kullanın. Dosyalar (ve bir proje) pencerenin üzerine sürüklenip bırakılarak da açılabilir.
 - **Birçok görüntüyü birden açmak:** **Dosya → Aç…** içinde birden çok dosya seçin (Ctrl ya da Shift) — 200 ya da 1000 dosya sorun değildir. Görüntünün yanında küçük resimleriyle listelenirler; birine tıklayın, listede ok tuşlarını kullanın ya da **Görünüm → Önceki / Sonraki görüntü** (görüntü üzerindeyken Page Up / Page Down) ile aralarında gezinin. Yalnız ekrandaki görüntü okunur, bu yüzden dosya sayısı arttıkça bellek büyümez. **Dosya → Görüntüyü kapat** ya da **Tüm görüntüleri kapat** onları listeden çıkarır; dosyalara dokunulmaz. Görüntünün üstündeki küçük simgeler menülere kısayoldur: aç, kaydet, önceki / sonraki, sığdır ve yakınlaştır, seviyeler ve renkler, blink, katmanlar, işlemler ve plaka çözümü.
@@ -12,12 +12,12 @@
 - Görüntünün yanındaki tablo her başlık anahtarını değeri ve açıklamasıyla listeler.
 - **Görüntüye sağ tık**, faredeki yıldız ya da yer için bir menü açar: *Bu yıldızı ölç*, *Fotometri: bu yıldız hedef* (açık görüntüler bu yıldız işaretli olarak Fotometri penceresine gider; zamanca ilk görüntüde işaretleyin), *Fotometri: karşılaştırma yıldızı olarak ekle*, *Konumu kopyala* (piksel ve plaka çözülmüş görüntüde RA ile Dec), *SIMBAD'da ara* (tarayıcıyı açar; plaka çözülmüş görüntü), *Görünümü buraya ortala*, *Sığdır* ve *Tüm görüntünün istatistikleri*.
 
-## Görüntü germe
+## Görüntü germe {#images-display-stretch}
 **Görünüm → Aralık** hangi değerlerin siyaha ve beyaza eşleneceğini seçer: **ZScale** (astronomide olağan seçim), **En küçük–en büyük** ya da **%99,5**. **Görünüm → Germe** eğriyi seçer: Doğrusal, Karekök, Logaritmik ya da Asinh. Sönük bulutsular Asinh ya da Logaritmik ile en iyi görünür. Yalnızca gösterim değişir; veriye dokunulmaz.
 
 **Görünüm → Görüntü düzeyleri ve renkler…** (Ctrl+L) görüntünün histogramını, siyah ve beyaz düzeyleri iki çizgi olarak gösterir: elle germek için düzeyleri yazın ya da aralığa dönmek için **Otomatik**'e basın. **Renkler** sönük ayrıntıları ve küçük farkları görmeyi kolaylaştıran yalancı renk haritaları verir (ısı, viridis, inferno, magma, cividis, soğuk, gökkuşağı); **Ters** basılı haritalardaki gibi beyaz gök üzerinde siyah yıldızlar gösterir.
 
-## Katmanlar: kontur, ızgara, kataloglar, DS9 bölgeleri
+## Katmanlar: kontur, ızgara, kataloglar, DS9 bölgeleri {#images-overlays-contours-grid-catalogues}
 **Katmanlar** görüntünün üstüne çizer (yeni görüntü açılınca silinir):
 
 - **Konturlar…** — eşit parlaklık çizgileri; gökyüzünün 3 σ üstünden en parlak piksele logaritmik aralıklarla.
@@ -28,7 +28,7 @@
 - **Bulucu harita…** AAVSO tarzında bir harita yapar (PNG ya da PDF): beyaz üzerinde siyah yıldızlar, koordinat ızgarası, kuzey ve doğu okları, iki çizgi arasında hedef ve V kadirinin 10 katıyla, ondalık noktasız etiketlenmiş en parlak yıldızlar (11,2 → 112, Gaia'dan). Açık, plaka çözülmüş görüntüyü kullanır; açık görüntü yoksa koordinat sorar ve alanın DSS görüntüsünü indirir (internet).
 - **Katmanları temizle** hepsini kaldırır.
 
-## Görüntü üzerinde ölçmek
+## Görüntü üzerinde ölçmek {#images-measuring-image}
 Görüntünün üstündeki düğmeler (ve **Analiz** menüsündeki aynı araçlar) farenin ne yapacağını seçer (MaxIm DL'nin Information ve Graph pencereleri ya da AstroImageJ'nin araçları gibi). Sonuçlar **Bilgi** sekmesinde, grafikler **Grafik** sekmesinde çıkar; tabloyu dışa aktarmak ya da kopyalamak için sağ tıklayın, **Veriyi dışa aktar (CSV)…** grafiğin arkasındaki sayıları yazar. MaxIm DL'deki gibi, bir yıldıza tıklamak ya da bir çizgi veya dikdörtgen çizmek görüntünün üstünde iki küçük yüzen pencere açar: **Bilgi** (sayılar) ve **Grafik**; üstte kalırlar, her yeni ölçümle güncellenirler, istediğiniz yere taşınabilir ve kapatılabilirler (sonraki ölçüm yeniden açar). Sekmelerin köşesindeki **⧉** düğmesi bunları kapatır: sonuçlar o zaman görüntünün yanındaki sekmelerde görünür.
 
 - **Kaydır:** görüntüyü kaydırmak için sürükleyin, yakınlaştırmak için tekerleği çevirin.
@@ -40,10 +40,10 @@ Bütün konumlar, durum çubuğunda ve diğer programlarda olduğu gibi FITS pik
 
 **Görüntü üzerindeki tuşlar** (IRAF imexamine gibi), hangi araç seçili olursa olsun: **a** imlecin altındaki yıldızı ölçer, **m** çevresindeki 11 × 11 pikselin istatistiğini, **l** ve **c** içinden geçen satırın ya da sütunun profilini verir. **Görünüm → Büyüteç** imlecin çevresindeki pikselleri görüntünün bir köşesinde büyütür; **Görünüm → Kaplamalar → Katmanlar** her kaplamayı gizler ya da gösterir; **Görünüm → Yönlendirme** çözülmüş bir görüntüyü Kuzey yukarıda, Doğu solda gösterir, pusula ve ölçek çubuğuyla.
 
-## Plaka çözümü
+## Plaka çözümü {#images-plate-solving}
 **Astrometri → Plaka çözümü** görüntünün gökteki tam konumunu, ölçeğini ve dönüklüğünü bulur ve bunları (WCS) dosyanın bir kopyasına yazar; kopya sonra açılır. Bilgisayarınızda kurulu **ASTAP**'ı (yıldız veritabanlarından biriyle) ya da **astrometry.net**'i kullanır; internete hiçbir şey gönderilmez. Başlıktaki yaklaşık koordinatlar (`RA`/`DEC` ya da `OBJCTRA`/`OBJCTDEC`) aramayı hızlandırır; yoksa çok daha uzun sürebilir. astrometry.net için dörtlüleri alanınızdan küçük indeks dosyaları kurun: 30′ bir alan için gözlediğiniz gök bölgesinin 4205 ve 4206 dosyaları (11–22′); Linux dağıtımlarının Tycho-2 dosyaları (22′ ve üstü) böyle bir alanı çözemez (gerçek bir 30′ LCO karesinde denendi: 4205/4206 ile 4 s, yalnız Tycho-2 ile çözüm yok). Çözüm indeks kataloğu kadar iyidir: 2MASS tabanlı 4200 dosyalarıyla Gaia DR3'e göre 0,6″. Bu yüzden internete ulaşılabiliyorsa çözüm ardından **Gaia DR3'e yeniden fit edilir** (karedeki yıldızlar, öz hareketleriyle gecenin tarihine taşınmış Gaia konumlarıyla eşleştirilir; SIP bozulmalı TAN; iç içe yıldızlar ayıklanır): gerçek LCO karelerinde Gaia'ya göre 0,02″, 433 Eros asteroidi JPL Horizons'tan 0,03–0,11″ içinde (LCO'nun kendi WCS'i: 0,26″). Başlık sonra `ASTCAT = Gaia3`, yıldız sayısı ve rms'lerini yazar; internet yoksa çözücünün çözümü kalır ve `ASTRNOTE` nedenini söyler.
 
-## Görüntü işlemleri
+## Görüntü işlemleri {#images-image-operations}
 **İşle** geçerli görüntü üzerinde çalışır ve yanına yeni bir dosya yazar (ada `_bin` gibi bir ek gelir); dosya sonra açılır. Koordinatlar (WCS) tam olarak taşınır. **İşle → Tüm açık görüntülere uygula** seçiliyken sonraki işlemler listedeki her görüntüye uygulanır (arka planda, her biri ayrı görev); her işlenmiş kopya listede kendi aslının yerini alır, asıllar diskte değişmeden kalır.
 
 - **Piksel matematiği…** — `A` bu görüntü, `B`, `C`, … seçtiğiniz diğer görüntüler olmak üzere bir ifade, ör. `A - 0.95 * B`.
@@ -53,25 +53,25 @@ Bütün konumlar, durum çubuğunda ve diğer programlarda olduğu gibi FITS pik
 - **Arka plan eğimini kaldır…** (kutu boyu): ışık kirliliği ya da ay ışığı gibi yumuşak bir arka planı fit edip çıkarır.
 - **Çekirdek filtresi…**: 3 × 3 alçak geçiren, yüksek geçiren (keskinleştir), Laplace, Sobel kenarları, dikey ya da yatay kenarlar. **Dekonvolüsyon (Richardson–Lucy)…**: yıldızların FWHM'sini (Yıldız aracıyla ölçün) ve yineleme sayısını girin; gökyüzü düzeyi ve toplam sayım korunur, yineleme arttıkça görüntü keskinleşir ve gürültü artar. **Dijital geliştirme (DDP)**: sönük kısımlar doğrusal kalır, parlak çekirdekler sıkıştırılır; bulutsu ile yıldızları birlikte görünür. **Başka bir görüntünün histogramına eşle…** bu görüntüye bir referansın parlaklık dağılımını verir (her piksel, referansta aynı sıradaki değeri alır); ör. bir mozaiğin ya da canlandırmanın kareleri aynı görünsün diye. Bunlar görüntüye bakmak içindir; ölçümü özgün görüntüde yapın.
 
-## Renkli görüntü
+## Renkli görüntü {#images-colour-image}
 **Renk → Üç filtreden renkli görüntü…** bir kırmızı, bir yeşil ve bir mavi kare (ör. R, V, B ya da r′, g′, B birleştirmeleri) ve bir PNG dosyası sorar. Yeşil ve mavi kareler kırmızıya hizalanır, her birinin gökyüzü çıkarılır ve kanallar dengelenir; sonra Lupton ve ark. (2004) asinh germesi üçüne birlikte uygulanır, böylece parlak yıldızlar beyaza dönmeden renklerini korur. Görüntü hazır olunca açılır.
 
 **Renk → Renk kanallarına ayır (R, G, B)** renkli bir kameranın ham görüntüsünü (başlığında Bayer deseni, BAYERPAT, olan) yarı boyutta üç görüntüye ayırır: `<ad>_R.fits`, `_G.fits` ve `_B.fits`; algılayıcının her 2 × 2 hücresi bir piksel olur (iki yeşilin ortalaması alınır, ara değerleme yapılmaz), Kalibrasyon'un fotometriden önce yaptığı gibi. Koordinatlar ve piksel boyutu buna uyar. Görüntünün yanındaki listede açılırlar.
 
-## Asteroitler ve kuyruklu yıldızlar
+## Asteroitler ve kuyruklu yıldızlar {#images-asteroids-comets}
 **Astrometri → Asteroit ve kuyruklu yıldız astrometrisi…** hareketli bir cismi Küçük Gezegen Merkezi (MPC) için ölçer. Kareleri seçin (kalibre ve plaka çözümlü), ilk karede cisme, sonra son karede yine cisme tıklayın; her kare bu hareketten tahmin edilen konumda ölçülüp yeniden merkezlenir, RA/Dec o karenin kendi plaka çözümünden, poz ortasının UTC zamanında alınır. Artık sütunu her konumun düz bir hareketten ne kadar saptığını gösterir: yaklaşık 1″'den fazlası o karede karışmış bir yıldız ya da zayıf bir çözüm demektir. Cismi (geçici adlandırma, numara ya da yeni bir cisim için kendi adınız), MPC gözlemevi kodunuzu ve gözlemcileri yazıp **MPC raporunu yaz (ADES)…**'e basın: dosya MPC'nin ADES PSV biçimindedir, gönderilmeye hazırdır. **Katalog** alanı, plaka çözümlerinin dayandığı yıldız kataloğudur (ADES astCat): astrometry.net kullandığı indeksi kaydetmişse karelerden doldurulur (4100 = Tycho-2 `Tyc2`, 4200 = `2MASS`, 5200 = Gaia DR2 `Gaia2`); MPC her kataloğun bilinen hatalarını düzeltmek için buna gerek duyar.
 
 Plaka çözümü olmayan kareler önce çözülür (ASTAP ya da astrometry.net kurulu olmalı; yönelim ve piksel ölçeği başlıktan okunur); çözücünün çözemediği bir kare dışarıda bırakılır ve pencere kaç kare olduğunu söyler.
 
-## Kaydetmek
+## Kaydetmek {#images-saving}
 **Dosya → FITS'i farklı kaydet…** geçerli görüntüyü yeni bir dosyaya yazar; başlık korunur ve bir geçmiş (HISTORY) satırı eklenir.
 
 **Dosya → Resim olarak kaydet (PNG / JPEG / TIFF)…** görüntüyü ekranda göründüğü gibi (düzeyler ve renklerle) bir rapor ya da web sayfası için kaydeder; TIFF seçilirse piksel değerlerinin kendisini (32 bit) başka programlar için yazar. **Dosya → Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…** aynısını bir FITS kümesinin tamamına birden yapar (görünümdeki aralık ve germeyle), ör. bir canlandırma ya da web galerisi için; adlar korunur, hiçbir dosyanın üstüne yazılmaz.
 
-## Başlığı düzenlemek
+## Başlığı düzenlemek {#images-editing-header}
 **Başlık** sekmesinde (ya da **Düzen** menüsünde) **Anahtar sözcük ekle ya da değiştir…** bir anahtar sözcüğü ayarlar (değiştirmek için önce satırı seçin; değerler metin, sayı ya da T / F olabilir), **Anahtar sözcüğü sil** seçili olanı kaldırır. Değişiklikler hemen görünür ve **Bu başlık değişiklikleriyle bir kopya kaydet…** ile yeni bir dosyaya yazılır, o dosya açılır — asıl dosya hiç değişmez. Veriyi tanımlayan anahtar sözcükler (SIMPLE, BITPIX, NAXIS…, BZERO, BSCALE) düzenlenemez; FITS standardı yalnızca düz ASCII metne izin verir (Türkçe harf kullanılamaz). Bir satıra çift tıklamak aynı pencereyi o satır için açar. Sağ tık → **Kopyala** (ya da Ctrl+C) seçili hücreleri kopyalar; bir sütun, başlığının kenarı sürüklenerek genişletilir; uzun bir değer, fare üzerinde durunca tamamen görünür. **Düzen → Başlığı kopyala** başlığın tamamını metin olarak kopyalar.
 
-## Üst üste eklemek ve yanıp söndürmek (blink)
+## Üst üste eklemek ve yanıp söndürmek (blink) {#images-stacking-blinking}
 **Birleştir → Açık görüntüleri üst üste ekle…** listede açık görüntüleri yıldızlarına göre hizalar ve aykırı değerleri (uydular, kozmik ışınlar) 3 σ'da atarak ortalamasını alır; **Açık görüntüleri drizzle ile birleştir…** kaydırılarak çekilmiş, az örneklenmiş görüntüleri iki kat ince bir ızgaraya yerleştirir. Sonuç seçtiğiniz yere yazılır ve açılır. Bunlar olağan ayarları kullanır; üst üste eklemenin bütün seçenekleri **Kalibrasyon** penceresindedir.
 
 **Birleştir → Görüntüleri yanıp söndür…** seçilen kareleri aynı görüntü düzeyleriyle, yıldızlara göre hizalı olarak art arda gösterir; bir blink karşılaştırıcısı gibi: asteroitler, kuyruklu yıldızlar, novalar ve değişenler göze çarpar. **Oynat** / **Duraklat**, oklar ve kaydırıcı kareler arasında gezdirir; **Aralık** hızı ayarlar.

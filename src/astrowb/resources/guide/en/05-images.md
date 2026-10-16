@@ -3,7 +3,7 @@ The **Images** window shows a FITS image, its header and coordinates, and runs i
 
 ![The Images window](images/en/window-image.jpg)
 
-## Opening and viewing
+## Opening and viewing {#images-opening-viewing}
 - **File → Open…** (Ctrl+O, or the Start page) opens `.fits`, `.fit`, `.fts` and their `.gz` versions. A file with several images (multi-extension FITS: mosaic cameras, HST/JWST products) asks which one to show; that image is saved as a file of its own next to the original (`<name>_<EXTNAME>_<n>.fits`, the primary header's keywords kept) and opened, so every tool — header editing, processing, plate solving, photometry — works on it. The original file is not changed. Files can also be dropped on a window: Images and Photometry open them, Calibration takes their folder as the lights folder, Light curves reads a CSV, Spectroscopy takes the science frame, Remote sensing the bands; **File → Open recent** lists the last ones.
 - **Any kind of image:** besides FITS, **File → Open…** opens camera raw files (CR2, NEF, ARW, DNG, …) and ordinary pictures from a phone or a camera (JPEG, PNG, TIFF, BMP, WebP). They get a FITS copy in a folder *fits_from_raw* next to them (made once), with the time, exposure and ISO from the file; colour pictures become one brightness image. The same works in every window that asks for images (Photometry, Blink, Variable-star search, Calibrate, colour image, processing). JPEG and other 8-bit pictures are processed by the camera and not linear: good for viewing, stacking and positions, not for accurate photometry — use raw files for that. Files (and a project) can also be dragged onto the window to open them.
 - **Many images at once:** choose several files (Ctrl or Shift) in **File → Open…** — 200 or 1000 are fine. They are listed with small pictures beside the image; click one, use the arrow keys in the list, or **View → Previous / Next image** (Page Up / Page Down over the image) to step through them. Only the image on the screen is read, so memory does not grow with the number of files. **File → Close image** or **Close all images** takes them out of the list; the files are not touched. The small icons above the image are short cuts to the menus: open, save, previous / next, fit and zoom, levels and colours, blink, overlays, processing and plate solving.
@@ -12,12 +12,12 @@ The **Images** window shows a FITS image, its header and coordinates, and runs i
 - The table beside the image lists every header keyword with its value and comment.
 - **Right click on the image** opens a menu for the star or place under the mouse: *Measure this star*, *Photometry: this star as the target* (the open images go to the Photometry window with this star marked; mark it on the first image in time), *Photometry: add as a comparison star*, *Copy the position* (pixel and, on a plate-solved image, RA and Dec), *Look up in SIMBAD* (opens the browser; plate-solved image), *Centre the view here*, *Zoom to fit* and *Statistics of the whole image*.
 
-## Display stretch
+## Display stretch {#images-display-stretch}
 **View → Interval** chooses which values are mapped to black and white: **ZScale** (the usual astronomical choice), **Min–max** or **99.5 %**. **View → Stretch** chooses the curve: Linear, Square root, Logarithmic or Asinh. Faint nebulosity shows best with Asinh or Logarithmic. Only the display changes; the data are untouched.
 
 **View → Display levels and colours…** (Ctrl+L) shows the image's histogram with the black and white levels as two lines: type the levels to stretch by hand, or press **Automatic** to go back to the interval. **Colours** gives false-colour maps (heat, viridis, inferno, magma, cividis, cool, rainbow) that make faint detail and small differences easier to see; **Inverted** shows black stars on a white sky, as on printed charts.
 
-## Overlays: contours, grid, catalogues, DS9 regions
+## Overlays: contours, grid, catalogues, DS9 regions {#images-overlays-contours-grid-catalogues}
 **Overlays** draws over the image (a new image clears them):
 
 - **Contours…** — lines of equal brightness, spaced logarithmically from 3 σ above the sky to the brightest pixel.
@@ -28,7 +28,7 @@ The **Images** window shows a FITS image, its header and coordinates, and runs i
 - **Finder chart…** makes a chart in the AAVSO style (PNG or PDF): black stars on white, coordinate grid, north and east arrows, the target between two ticks and the brightest stars labelled with their V magnitude × 10 without the decimal point (11.2 → 112, from Gaia). It uses the current plate-solved image; with no image open it asks for coordinates and downloads a DSS image of the field (internet).
 - **Clear overlays** removes them all.
 
-## Measuring on the image
+## Measuring on the image {#images-measuring-image}
 The buttons above the image (and the same tools in **Analyse**) choose what the mouse does (as the Information and Graph windows of MaxIm DL, or AstroImageJ's tools). Results appear in the **Information** tab, graphs in the **Graph** tab; right-click the table to export or copy it, and **Export data (CSV)…** writes the numbers behind the graph. As in MaxIm DL, clicking a star or drawing a line or rectangle opens two small floating windows over the image, **Information** (the numbers) and **Graph**; they stay on top, follow every new measurement, can be moved anywhere and closed (the next measurement opens them again). The **⧉** button at the corner of the tabs switches them off: the results then appear in the tabs beside the image.
 
 - **Move:** drag to move the image, wheel to zoom.
@@ -41,10 +41,10 @@ All positions are in FITS pixels (the first pixel is 1, 1), as in the status bar
 **Keys over the image** (as IRAF's imexamine), whatever tool is chosen: **a** measures the star under the cursor, **m** gives the statistics of the 11 × 11 pixels round it, **l** and **c** the profile of the line or the column through it. **View → Magnifier** shows the pixels round the cursor enlarged in a corner of the image; **View → Overlays → Layers** hides or shows each overlay; **View → Orientation** turns the display North up and East left on a solved image, with a compass and a scale bar.
 
 
-## Plate solving
+## Plate solving {#images-plate-solving}
 **Astrometry → Plate solve** finds the exact sky position, scale and rotation of the image and writes them (WCS) into a copy of the file, which is then opened. It uses **ASTAP** (with one of its star databases) or **astrometry.net** installed on your computer; nothing is sent over the internet. Approximate coordinates in the header (`RA`/`DEC` or `OBJCTRA`/`OBJCTDEC`) make the search fast; without them it can take much longer. With astrometry.net, install index files whose quads are smaller than your field: for a 30′ field the 4205 and 4206 files (11–22′) of the part of the sky you observe; the Tycho-2 files of Linux distributions (22′ and larger) do not solve such a field (tested on a real 30′ LCO frame: 4 s with 4205/4206, no solution with Tycho-2 alone). The solution is as good as the index catalogue: 0.6″ against Gaia DR3 with the 2MASS-based 4200 files. So when the internet can be reached, the solution is then **fitted again to Gaia DR3** (the stars of the frame matched to Gaia positions carried to the night's date by their proper motions; TAN with SIP distortion; blends clipped): on real LCO frames 0.02″ against Gaia, and the asteroid 433 Eros within 0.03–0.11″ of JPL Horizons (LCO's own pipeline WCS: 0.26″). The header then says `ASTCAT = Gaia3`, the number of stars and their rms; without internet the solver's solution stays and `ASTRNOTE` says why.
 
-## Image operations
+## Image operations {#images-image-operations}
 **Process** works on the current image and writes a new file next to it (the name gets a suffix such as `_bin`), which then opens. The coordinates (WCS) are carried over exactly. **Process → Apply to all open images** makes the next operations run on every image in the list (in the background, one task each); each processed copy takes the place of its original in the list, and the originals stay unchanged on disk.
 
 - **Pixel math…** — an expression where `A` is this image and `B`, `C`, … are other images you choose, e.g. `A - 0.95 * B`.
@@ -54,25 +54,25 @@ All positions are in FITS pixels (the first pixel is 1, 1), as in the status bar
 - **Remove background gradient…** (box size): fits and subtracts a smooth background, e.g. light pollution or moonlight gradients.
 - **Kernel filter…**: 3 × 3 low pass, high pass (sharpen), Laplacian, Sobel edges, vertical or horizontal edges. **Deconvolution (Richardson–Lucy)…**: give the stars' FWHM (measure it with the Star tool) and the number of iterations; the sky level and the total counts are kept, more iterations sharpen more and raise the noise. **Digital development (DDP)**: faint parts stay linear and bright cores are compressed, so a nebula and its stars show at once. **Match the histogram of another image…** gives this image the brightness distribution of a reference (each pixel takes the reference's value at the same rank), e.g. so the frames of a mosaic or an animation look alike. These are for looking at an image; measure on the original.
 
-## Colour image
+## Colour image {#images-colour-image}
 **Colour → Colour image from three filters…** asks for a red, a green and a blue frame (e.g. stacks in R, V, B or r′, g′, B) and a PNG file. The green and blue frames are aligned on the red one, each sky is removed and the channels are balanced, then the asinh stretch of Lupton et al. (2004) is applied to all three together, so bright stars keep their colours instead of turning white. The picture opens when it is ready.
 
 **Colour → Split into colour channels (R, G, B)** takes a colour camera's raw image (one with its Bayer pattern in the header, BAYERPAT) apart into three half-size images, `<name>_R.fits`, `_G.fits` and `_B.fits`, one pixel per 2 × 2 cell of the sensor (the two greens averaged, nothing interpolated), as Calibration does before photometry; the coordinates and the pixel size follow. They open in the list beside the image.
 
-## Asteroids and comets
+## Asteroids and comets {#images-asteroids-comets}
 **Astrometry → Asteroid and comet astrometry…** measures a moving object for the Minor Planet Center. Choose the frames (calibrated and plate-solved), click the object on the first frame, then on the last one; every frame is measured at the position predicted from that motion and re-centred, and its RA/Dec comes from the frame's own plate solution, at mid-exposure UTC. The residual column shows how far each position lies from a straight-line motion: more than about 1″ means a blended star or a poor solution in that frame. Fill in the object (provisional designation, number, or your own name for a new object), your MPC observatory code and the observers, then **Write MPC report (ADES)…**: the file is in the MPC's ADES PSV format, ready to send. The **Catalogue** field is the star catalogue the plate solutions rest on (ADES astCat): it is filled in from the frames when astrometry.net recorded its index (4100 = Tycho-2 `Tyc2`, 4200 = `2MASS`, 5200 = Gaia DR2 `Gaia2`); the MPC needs it to correct each catalogue's known errors.
 
 Frames without a plate solution are solved first (ASTAP or astrometry.net must be installed; the pointing and the pixel scale are read from the header); a frame the solver cannot solve is left out and the window says how many.
 
-## Saving
+## Saving {#images-saving}
 **File → Save FITS as…** writes the current image to a new file; the header is kept and a history line is added.
 
 **File → Save picture (PNG / JPEG / TIFF)…** saves the image as shown (with the levels and colours) for a report or a web page, or, as TIFF, the pixel values themselves (32-bit) for other programs. **File → Convert many images (PNG / JPEG / TIFF)…** does the same for a whole set of FITS files at once (with the current display interval and stretch), e.g. for an animation or a web gallery; the names are kept and nothing is overwritten.
 
-## Editing the header
+## Editing the header {#images-editing-header}
 In the **Header** tab (or the **Edit** menu), **Add or change keyword…** sets a keyword (select a row first to change it; values are text, numbers or T / F) and **Delete keyword** removes the selected one. The changes are shown at once and written by **Save a copy with these header changes…** into a new file, which then opens — the original file is never changed. Keywords that describe the data (SIMPLE, BITPIX, NAXIS…, BZERO, BSCALE) cannot be edited, and the FITS standard allows only plain ASCII text (no accented letters). Double-clicking a row opens the same dialog for it. Right-click → **Copy** (or Ctrl+C) copies the selected cells; a column is widened by dragging the edge of its title, and a long value shows whole when the mouse rests on it. **Edit → Copy the header** copies the whole header as text.
 
-## Stacking and blinking
+## Stacking and blinking {#images-stacking-blinking}
 **Stack → Stack the open images…** aligns the images open in the list on their stars and averages them with outliers (satellites, cosmic rays) rejected at 3 σ; **Drizzle the open images…** puts dithered, undersampled images onto a grid twice as fine. The result is written where you choose and opens. These use the usual settings; the **Calibration** window has every stacking option.
 
 **Stack → Blink images…** shows the chosen frames one after the other with the same display levels, aligned on the stars, like a blink comparator: asteroids, comets, novae and variables catch the eye. **Play** / **Pause**, the arrows and the slider move through the frames; **Interval** sets the speed.

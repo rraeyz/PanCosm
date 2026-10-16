@@ -3,7 +3,7 @@
 
 ![Gözlem penceresi](images/tr/window-observe.jpg)
 
-## Gözlemevini yapılandırmak
+## Gözlemevini yapılandırmak {#observing-configuring-observatory}
 **Gözlemevini kur…** aşağıdakilerin hepsi için bir pencere açar: gözlem yeri, cihazlar (**Ağdaki Alpaca cihazlarını bul** yanıt veren her ASCOM Alpaca cihazını listeler; INDI cihazları sunucu adresi ve INDI cihaz adıyla elle eklenir), güvenlik sınırları, PHD2 ve başka bilgisayarların bağlanıp bağlanamayacağı. Riskli seçimlerde uyarır, ör. hava sensörü olmayan bir kundak. **Kaydet ve başlat** dosyayı yazar ve gözlemevini bu bilgisayarda başlatır; **Aç…** var olan bir dosyayı düzenler.
 
 Yazdığı dosya düz JSON'dur, elle de düzenlenebilir:
@@ -29,13 +29,13 @@ Yazdığı dosya düz JSON'dur, elle de düzenlenebilir:
 - `monitor` bir güvenlik izleyicisidir (bulut/yağmur sensörü), `conditions` bir gözlem koşulları cihazıdır (nem, rüzgâr, yağmur, bulut).
 - `listen` gözlemevi API'sinin adresidir. Başka bir bilgisayardan denetlemek istemiyorsanız `127.0.0.1` olarak bırakın.
 
-## Başlatmak ve bağlanmak
+## Başlatmak ve bağlanmak {#observing-starting-connecting}
 - **Gözlemevini bu bilgisayarda başlat…** yapılandırma dosyasını sorar, gözlemevi sürecini arka planda başlatır ve bağlanır. İlk seferde gizli bir **erişim anahtarı** (token) oluşturulup dosyaya yazılır.
 - Uzaktaki bir gözlemevi için orada `--observatory config.json` ile başlatın, sonra burada **Gözlemevi adresi** ve **Erişim anahtarı**nı yazıp **Bağlan**'a basın.
 - **HTTPS:** kurulumda *Bağlantıyı şifrele*'yi işaretleyin (başka bilgisayarların bağlanmasına izin verince kendiliğinden işaretlenir). Gözlemevi kendi sertifikasını üretir ve başlarken **parmak izini** yazar; denetlediğiniz bilgisayarda bunu *Sertifika parmak izi* alanına yazın ve `https://` adresi kullanın. Uygulama yalnızca tam olarak o sertifikaya sahip gözlemeviyle konuşur; aradaki kimse erişim anahtarını ya da komutları okuyamaz. Aynı bilgisayarda parmak izi kendiliğinden doldurulur.
 - Renkli satır durumu gösterir: **Güvenli** (yeşil), nedenleriyle **GÜVENLİ DEĞİL** (kırmızı) ya da **bağlantı yok**.
 
-## Güvenlik denetçisi
+## Güvenlik denetçisi {#observing-safety-supervisor}
 Denetçi birkaç saniyede bir kuralları denetler. Herhangi bir şey güvensizse **pozlamayı keser, sekansı durdurur, kundağı park eder ve kubbeyi kapatır**. Güvensiz konumlara yönelmeyi de reddeder. Kurallar (yapılandırmadaki `"rules"`):
 
 - `min_alt` (15°) ve isteğe bağlı bir `horizon` (ufuk) profili `[[az, irtifa], …]`;
@@ -52,24 +52,24 @@ Yönelmeler de aynı nedenle "teleskop hareket ettirilmedi" sözleriyle reddedil
 bırakırsa güvenlik satırı "güvenlik denetçisi … sn'dir denetim yapmadı" yazısıyla kırmızıya döner: gözlemevini yeniden
 başlatın (**Aygıtlar → Gözlemevini bu bilgisayarda başlat** ya da gözlemevi bilgisayarında).
 
-## Teleskobu hareket ettirmek
+## Teleskobu hareket ettirmek {#observing-moving-telescope}
 Koordinatı yazın (`02:04:10 +46:41:16`) ve **Yönel**'e basın. Yanında **Park et**, **Durdur** (her şeyi hemen durdurur), **Devam et** ve **Otomatik odak** vardır. Kundak satırı irtifayı, azimutu ve izleyip izlemediğini ya da park hâlinde olduğunu gösterir.
 
 **Ortala** hedefi tam ortaya getirir: gözlemevi yönelir, kısa bir kare çeker, plaka çözer, kundağa gerçekte nereye baktığını söyler (sync) ve yeniden yönelir; hedef 30″ içine girene kadar. Gözlemevi bilgisayarında ASTAP ya da astrometry.net gerekir.
 
 **Kutup hizalama** ekvatoral kundağın RA ekseninin gök kutbundan ne kadar saptığını ölçer: kabaca kuzeye (güney yarıkürede güneye), dik açıklık 60–80°'ye yönelin ve düğmeye basın; yalnızca RA ekseni 30°'lik adımlarla dönerken çözülen üç kare çekilir. Sonuç ekseni ne kadar yükseltmeniz ya da indirmeniz ve doğuya ya da batıya ne kadar çevirmeniz gerektiğini yay dakikası olarak söyler. Ayarlayıp hata birkaç yay dakikasına inene kadar yeniden ölçün.
 
-## Kamera, odaklayıcı ve filtre
+## Kamera, odaklayıcı ve filtre {#observing-camera-focuser-filter}
 - **Önizleme:** verilen süre ve seçili filtreyle tek poz; çıktı klasörünün `preview` alt klasörüne kaydedilir ve hemen görüntüleyicide açılır (kadraj ve odak için). Gözlemevi başka bir bilgisayardaysa kare önce buraya, ev klasörünüzdeki `observations/preview` içine kopyalanır.
 - **Soğutucu:** **Soğut** kamera sıcaklığını ayarlar ve soğutucuyu açar; **Kapat** kapatır. Geceden önce yavaş soğutun, kamerayı kapatmadan önce ısıtın.
 - **Odaklayıcı:** **Taşı** odaklayıcıyı mutlak bir konuma götürür.
 - **Filtre:** liste filtre tekerinden okunur; **Değiştir** tekeri çevirir.
 - Gri satır kamera sıcaklığını ve soğutucu durumunu, odaklayıcı konumunu ve geçerli filtreyi gösterir.
 
-## Otomatik odak
+## Otomatik odak {#observing-autofocus}
 **Otomatik odak** birkaç odaklayıcı konumunda kare alır, yıldızların yarı akı yarıçapını (HFR) ölçer ve bir V eğrisi fit eder; odaklayıcı en iyi konuma götürülür. Önce yıldızlı bir alana yönelin.
 
-## Sekanslar
+## Sekanslar {#observing-sequences}
 Sağ tarafta:
 
 - **Hedef adı** ve **RA Dec** (dark ve bias için koordinatı boş bırakın: yönelme olmaz).
@@ -83,19 +83,19 @@ Gözlemevi başka bir bilgisayardaysa, biten bir sekansın kareleri bu bilgisaya
 
 Her kare, sonraki adımların gerektirdiği başlıklarla FITS olarak kaydedilir: tür, poz, başlangıç zamanı (UTC), filtre, binning, sıcaklık, kazanç, cisim ve koordinatlar, gözlem yeri.
 
-## Meridyen dönüşü ve kılavuzlama
+## Meridyen dönüşü ve kılavuzlama {#observing-meridian-flips-guiding}
 Alman ekvatoral kundaklar hedef meridyeni geçince kendiliğinden döndürülür; kılavuzlama dönüş sırasında durdurulup yeniden başlatılır. Kılavuzlama ve dither **PHD2** ile yapılır (`"phd2"` ayarı).
 
-## Gökyüzü flatları
+## Gökyüzü flatları {#observing-sky-flats}
 İstediğiniz filtre ve adetin olduğu satırı seçin, teleskobu flat noktasına çevirin (izleme kapalı) ve **Gökyüzü flatları**'na basın. Alacakaranlıkta poz süresi gök parlaklığını izler; her flat iyi bir düzeye ulaşır.
 
-## Gözetimsiz bir gece
+## Gözetimsiz bir gece {#observing-unattended-night}
 Hedeflere başlangıç olarak `dusk`, bitiş olarak `dawn` verin. Sekans karanlığı bekler, şafağa kadar tekrarlar; denetçi gün doğarken ya da hava bozulunca teleskobu park eder. *Örten çift gecesi* ve *Gece sonu kalibrasyonu* otomasyon şablonları sekansı sizin için doldurur.
 
-## Önce simülatörle deneyin
+## Önce simülatörle deneyin {#observing-test-simulators-first}
 Gerçek cihazlardan önce aynı yapılandırmayı simülatörlerle çalıştırın (ASCOM Alpaca simülatörleri ya da INDI simülatör sürücüleriyle `indiserver`). Güvensiz koşulların kundağı park edip kubbeyi kapattığını görün.
 
-## Kamera ayarları, odak ofsetleri, rotator ve düz alan paneli
+## Kamera ayarları, odak ofsetleri, rotator ve düz alan paneli {#observing-camera-settings-focus-offsets}
 Her poz satırında **Kazanç**, **Ofset**, **Okuma modu** (kameranın listesindeki sırası) ve birleştirilmiş piksel cinsinden **Alt kare** `x, y, genişlik, yükseklik` vardır. Boş hücreler kameranın kendi ayarını ve tam kareyi korur. Değerler her FITS başlığına yazılır (GAIN, OFFSET, READOUTM, XORGSUBF/YORGSUBF). Dark, bias ve flatları ışık kareleriyle aynı kazanç, ofset ve alt karede çekin; yoksa kalibrasyon onları eşleştiremez.
 
 **Filtre odak ofsetleri** ve **sıcaklık düzeltmesi** *Gözlemevini kur…* penceresinde ayarlanır: ofsetler `L=0, B=-30, V=15` biçiminde (odaklayıcı adımı; filtre değişince odaklayıcı farkı kadar hareket eder), katsayı °C başına adım (iki sıcaklıkta odaklayarak ölçün). Sekans sırasında odaklayıcı, kendi sıcaklığı 0,5 °C değiştikçe onu izler.

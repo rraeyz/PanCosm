@@ -3,7 +3,7 @@ The **Spectroscopy** window reduces spectra and measures radial velocities. Its 
 
 ![The Spectroscopy window](images/en/window-spectroscopy.jpg)
 
-## If you know IRAF
+## If you know IRAF {#spectroscopy-if-you-know-iraf}
 Every tab has its **Workflow** line at the top (click it to open): the steps in the order you know from IRAF, each marked done (✓), skipped (–) or next (▶), and what to do next. Nothing is locked: start where your data are. Where each IRAF task is:
 - **ccdproc** (zerocombine, darkcombine, flatcombine) → the **Calibration** window. Echelle frames and every arc: bias and dark only (tick *Spectra: do not divide by the flat*).
 - **apall: apfind, aptrace** (interactive) → Reduce: **3. Extract** draws the trace and the aperture on the frame for you to check; Echelle: **3. Find the orders on the flat** — check them, click to remove or add; without the check the orders found automatically are extracted.
@@ -13,16 +13,16 @@ Every tab has its **Workflow** line at the top (click it to open): the steps in 
 - **dispcor, scombine** → the **Fit wavelengths … and save** button (the echelle orders are divided by the blaze and merged).
 - **continuum** → Spectrum tools: *Normalise*; **telluric** → the Telluric tab; **fxcor** → Radial velocity & orbit: *Measure radial velocities*, then click a row to see its correlation peak.
 
-## Spectra already reduced
+## Spectra already reduced {#spectroscopy-spectra-already-reduced}
 If your spectra are already extracted (IRAF apall output, a 1-D spectrum, a pipeline's *e2ds* with one row per order) and only the wavelengths are missing, start there: choose the extracted science spectrum and the arc extracted with the same aperture(s). The header tells the program (1-D data, IRAF *APNUM* / *multispec* keywords, the HARPS DRS e2ds); on the Echelle tab **Already extracted** is then ticked — tick it yourself for another pipeline's files. Tracing, the order check and extraction are skipped; **Extract** only reads the files and shows the arc, and you identify the lines and fit as usual (IRAF identify / ecidentify, dispcor). Checked on HARPS: orders extracted beforehand give the same wavelengths as the raw frames (within 10⁻¹⁰ Å). A spectrum that already has wavelengths needs none of this: open it on the Radial velocity or Spectrum tools tab.
 
-## Instrument profiles
+## Instrument profiles {#spectroscopy-instrument-profiles}
 Settings that belong to a spectrograph (orientation, aperture and sky widths, line list, gain, read noise…) can be stored as an **instrument profile**: choose a profile at the top, change the settings, **Save as…** under a name such as "1 m telescope + Shelyak LHIRES", or **Delete** it. Profiles are kept in your settings, so they are there in every project.
 
-## Orientation
+## Orientation {#spectroscopy-orientation}
 **Dispersion along** rows (x) or columns (y), and **blue on the right** when wavelengths decrease from left to right. Set these once per instrument; everything else follows.
 
-## Long-slit reduction (Reduce)
+## Long-slit reduction (Reduce) {#spectroscopy-long-slit-reduction-reduce}
 1. Choose the **Science frame** (calibrated 2-D image) and, for wavelengths, the **Arc lamp** frame. The line under the files says which frames it takes as calibrated (their header says bias and dark were taken off, as the Calibration window writes) and which are still raw.
 2. **Optimal extraction (Horne)** weights each pixel by the spatial profile — better signal-to-noise for faint stars. **Aperture width**, **Sky offset** and **Sky width** (pixels) set the extraction window and the two sky bands on both sides of the trace. The spectrum is followed along the frame step by step from where it is brightest, so curved traces are kept (as IRAF's aptrace). When the frame holds several spectra (the two orders of a cross-dispersed spectrograph, a second star), give **Spectrum at row**, a row it crosses. The traced line and the aperture are drawn on the frame under the plots: check them before going on.
 3. **3. Extract**: the spectrum is traced along the dispersion and extracted; the arc is extracted with the same trace and its lines are found. Check the trace and the aperture on the frame at the bottom (IRAF apall's trace); if it is not your star, give its row and extract again.
@@ -30,7 +30,7 @@ Settings that belong to a spectrograph (orientation, aperture and sky widths, li
 5. **5. Fit wavelengths and save**: a polynomial wavelength solution is fitted; its rms (Å) and the number of lines are shown, and the residual of every line is plotted against its pixel (as IRAF identify after *f*): click a point to leave that line out, then **Refit without the left-out lines**. The 1-D spectrum is saved as FITS with wavelengths. The degree of the polynomial is chosen by the lines themselves: the one that predicts each line best from the others (up to 5), shown with the rms. Catalogue lines too close to a neighbour to be told apart at your resolution are not added. **Zero point from the night-sky lines** (on by default): the spectrograph flexes between the arc and the star, so the night-sky lines [O I] 5577, 6300 and 6363 Å in the sky bands shift the zero point — only when two of them agree or one is very strong (long exposures; on a real ESO EFOSC2 night 7 Å); the status line says the shift or that the arc's zero point was kept.
    **Lines identified before (reference arc, IRAF database).** If the observatory or an earlier night left an IRAF *identify* database (`database/id…`) and the wavelength-calibrated arc it was made on — e.g. the LCO FLOYDS pipeline's `ftn_red_2.0.fits` with `database/idftn_red_2.0` — press **Lines from a reference arc / IRAF database…** after **1. Extract** and choose either file. Your arc is matched to the reference over a range of dispersions and shifts (as PypeIt and IRAF reidentify), the known lines are put on your arc's peaks and fill the table, with how many were found and how well they agree. Check them on the arc plot, delete wrong rows, then **3. Solve**. A database without a reference spectrum is taken as made on this spectrograph's own pixels: only a shift is found (IRAF's method). The identified wavelengths always join the line list in the solution (e.g. Hg lines of an HgAr lamp).
 
-## Echelle
+## Echelle {#spectroscopy-echelle}
 Calibrate the frames first in the Calibration window with **Spectra: do not divide by the flat** ticked (bias, dark and cosmic rays only), then give the master flat here.
 
 1. Choose the **Science frame**, the **Flat** (traces the orders and gives the blaze) and the **Arc lamp (ThAr)**. Tick **Fibre-fed** when there is no sky between the orders.
@@ -47,10 +47,10 @@ Calibrate the frames first in the Calibration window with **Spectra: do not divi
 
 **Zero point from the night-sky lines (slit echelles):** when the orders leave sky between them (not *Fibre-fed*), the [O I] 5577, 6300 and 6363 Å lines are measured in the inter-order sky of the orders that hold them and the wavelengths are shifted by their offset — the flexure since the arc, as on the Reduce tab (used when two lines agree or one is strong; the status line and the header's `WAVSKYSH` give the shift).
 
-## Telluric correction
+## Telluric correction {#spectroscopy-telluric-correction}
 Choose the **Spectrum (1-D)** and the spectrum of a **telluric standard** (a hot, fast-rotating star observed close in time and airmass). The standard gives the atmospheric transmission; its strength (airmass, water vapour) and a small wavelength shift are fitted inside the telluric bands. **Correct and save** writes the corrected spectrum and shows the before/after plot.
 
-## Radial velocity and orbit
+## Radial velocity and orbit {#spectroscopy-radial-velocity-orbit}
 1. **Add…** the 1-D spectra (FITS tables, 1-D FITS with wavelength WCS, or text files).
 2. Choose a **Template** (a spectrum of a similar star, or a synthetic one). For a **double-lined binary**, add a **Second template**: both stars are then measured with TODCOR.
 3. **Method:** *Cross-correlation* for sharp-lined stars (TODCOR when a second template is given); *Broadening function* for fast rotators (one star) and contact or close binaries (two stars). The broadening function is the Doppler profile itself, so each star appears as its own rotational profile even when the lines are very broad; it gives the velocities, **v sin i** of each star and their light ratio. Use a sharp-lined template of a similar spectral type and a velocity range wider than both profiles.
@@ -60,15 +60,15 @@ Choose the **Spectrum (1-D)** and the spectrum of a **telluric standard** (a hot
 6. **Period guess (d)** (e.g. from the period search) and **Fit orbit:** P, e, ω, K, γ with errors and the rms. For double-lined binaries also K2, the mass ratio q, M sin³i of both stars and a sin i; for single-lined ones the mass function f(m). **Export results (CSV / LaTeX)…** writes the orbit as a table for a paper; the plot shows the velocities with the residuals (O−C) below.
    An eccentricity smaller than 2.45 times its error is not significant (Lucy & Sweeney 1971): the orbit is then fitted circular (e = 0, ω fixed at 90°) and the result says so; with e free a circular orbit leaves T_peri and ω undefined and spoils the other errors.
 
-## Disentangling a double-lined binary
+## Disentangling a double-lined binary {#spectroscopy-disentangling-double-lined-binary}
 After measuring both stars' velocities (TODCOR or the broadening function), **Separate the two stars' spectra (disentangling)** recovers each star's own spectrum from the series (iterative shift-and-add, González & Levato 2006). It uses the velocities measured on these spectra and the light ratio, and writes `star1.fits` and `star2.fits`. Use at least four spectra spread over the orbit, ideally several near both quadratures; the separated spectra are the best templates for a second, more precise velocity measurement, and show each star's lines for classification.
 
-## Spectral type and templates
+## Spectral type and templates {#spectroscopy-spectral-type-templates}
 **Spectral type of the first spectrum (and a template)** on the Radial velocity tab compares the first spectrum with the Pickles (1998) library of 131 stars, O5 to M6 in all luminosity classes (downloaded from STScI the first time, about 6 MB, then kept in the settings folder). Both spectra are divided by their own smooth continuum, so the instrument's colour response does not matter; the template is smoothed to your resolution and the telluric bands are left out. The three closest types are listed and the best one becomes the template for the radial velocities. You can also put your own spectra (with SPTYPE in the header or the type in the file name) into the `templates` folder.
 
 **The MK type** comes from the MK standard stars themselves: Gray & Corbally's libnor36 library (MK standards O6–M5, all luminosity classes, 3800–5600 Å at 3.6 Å, the library of their MKCLASS program; downloaded from the authors' page the first time, about 9 MB, only the standards are kept). Your spectrum is smoothed to 3.6 Å, the standards are interpolated in temperature within each luminosity class, each is multiplied by a smooth instrument response, and the closest are listed with their scores (smaller is better), e.g. *K1 III (0.062), K2 III (0.063), K0 III (0.064)*. This is MKCLASS's matching step (Gray & Corbally 2014, AJ 147, 80) with part of its rule-based refinement (below): treat it as a suggestion and look at the spectrum against the standards before you use it in a paper. Checked on standards left out of the library (86 % within one subclass, luminosity class right in 90 %) and on real echelle spectra: the Sun G0 V, Vega A0 V, Arcturus K1 III; and on HARPS spectra of 23 bright stars of published type (B6–K5, dwarfs, subgiants and giants): 78 % within one subclass, 91 % within two, luminosity class right in 78 % and never more than one class off. The spectrum must cover part of 3800–5600 Å; otherwise only the Pickles ranking is given. With the type comes MKCLASS's word for the quality of the match (excellent, very good, good, fair, poor: from the S/N and the fit). For an A or early F star (B9–F5) the types from the Ca II K line, the hydrogen lines and the metal lines are also given, each from those lines alone, as a classifier writes kA1hA1mF0; metal lines three subclasses later than the hydrogen lines point to an Am star, K line and metals earlier to a metal-weak star (λ Boo, horizontal branch) — hints for you to check, never applied. The lines that mark Ap stars (Sr II 4077, Si II 4128–30) and barium giants (Ba II 4554) are measured in the star and in its best standard; one stronger by more than 0.35 Å (normal stars differ by 0.1 Å, at most 0.3 Å) is pointed out. For G5–M stars the luminosity class is decided, at the fitted temperature type, by the gravity-sensitive lines alone (Sr II 4077 and 4216, Ca I 4226, the 4172–4179 blend, Y II 4376 / Fe I 4383, Mg b, MgH 4780), as a classifier does; on the standards left out of the library this raised the right luminosity class of late-type stars from 80 % to 84 %. CN-strong and CH giants are pointed out when the CN band or the G band, divided by the best standard (fitted without that region), is much deeper than in any normal standard; this never flagged a normal standard and finds strong cases (a G band 10 % deeper in about 7 of 10 giants).
 
-## Stellar parameters (Teff, log g, [Fe/H])
+## Stellar parameters (Teff, log g, [Fe/H]) {#spectroscopy-stellar-parameters-teff-log}
 **Spectrum tools → Stellar parameters** fits synthetic spectra to the open spectrum of an FGK star and gives the effective temperature, surface gravity, metallicity, v sin i and radial velocity, with errors.
 
 1. Open the spectrum (wavelength-calibrated; flux calibration and normalisation are not needed: each 100 Å piece gets its own smooth continuum).
@@ -80,13 +80,13 @@ After measuring both stars' velocities (TODCOR or the broadening function), **Se
 
 **Limits.** It is meant for FGK stars; for stars far from the Sun (the result says so) the solar reference is less reliable. So far the method has been checked on the Sun only: before publishing parameters, check it on a few benchmark stars with known parameters (Gaia FGK benchmark stars) observed with your spectrograph, or at least use a solar spectrum from your own spectrograph.
 
-## IFU data cubes
+## IFU data cubes {#spectroscopy-ifu-data-cubes}
 **Load cube** opens a 3-D FITS cube (x, y, wavelength).
 
 - **Mean over a wavelength window** shows an image; **Line map (continuum subtracted)** shows the emission of one line: give its **Centre (Å)** and **Width (Å)**, then **Show image**.
 - **Click a spaxel** to see its spectrum; **Spaxel aperture radius** sums the spaxels around it. **Save spectrum…** writes it.
 
-## Spectrum tools
+## Spectrum tools {#spectroscopy-spectrum-tools}
 The **Spectrum tools** tab works on one 1-D spectrum, as IRAF splot, BASS or ISIS do. **Open spectrum…** reads the application's own spectra, 1-D FITS images with a wavelength solution (ISIS, BASS, IRAF) and text files.
 
 **Combine exposures…** makes one spectrum of several exposures of one star in one night, as IRAF scombine: they are put on one wavelength grid, scaled to one level (or to one continuum shape), cosmic rays are rejected pixel by pixel, and the rest averaged. The result is saved beside the first file and opened here; the line under it says how many exposures and pixels went in. A warning says when the exposures span more than half a day: the star's velocity changes from night to night. The settings (median or sum, rejection, scaling, weights) are in the Automation window's step *Combine the exposures*.

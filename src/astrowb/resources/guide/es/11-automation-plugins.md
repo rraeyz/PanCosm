@@ -3,7 +3,7 @@ Una **automatización** encadena pasos en su propio flujo de trabajo — «calib
 
 ![La ventana Automatización](images/es/window-automation.jpg)
 
-## Plantillas listas
+## Plantillas listas {#automation-plugins-ready-templates}
 La ventana **Automatización** lista las plantillas listas (marcadas con «plantilla») y sus propias automatizaciones:
 
 - **Noche de una binaria eclipsante** — una secuencia del anochecer al amanecer y después calibración, estrellas de comparación, curva de luz, instante del mínimo (Kwee–van Woerden) y O-C.
@@ -14,15 +14,15 @@ La ventana **Automatización** lista las plantillas listas (marcadas con «plant
 
 Seleccione una para ver su descripción y sus pasos.
 
-## Ejecutar una automatización
+## Ejecutar una automatización {#automation-plugins-running-automation}
 1. Rellene las **Entradas** de la derecha (carpetas y archivos tienen un botón **…**). Solo se pide lo que ningún paso puede producir: por ejemplo, la carpeta de tomas brutas y la posición del objetivo.
 2. Pulse **Ejecutar**. Cada paso se ejecuta como una tarea normal en el panel de tareas y queda registrado en el proyecto; el siguiente empieza cuando termina el anterior. La línea bajo el botón dice qué paso se está ejecutando.
 3. Al terminar, se muestran debajo los resultados del último paso (p. ej. el instante del mínimo y O-C). Si un paso falla, la automatización se detiene ahí y se muestra el error.
 
-## La parte de observación
+## La parte de observación {#automation-plugins-observing-part}
 Las plantillas con una secuencia de observación tienen **A la ventana Observación**: rellena el objetivo, el inicio y el fin (p. ej. dusk y dawn) y las filas de exposición. Añada las coordenadas, revise los tiempos de exposición e iníciela allí. Marque **Procesar tras la secuencia** antes de enviarla: cuando la secuencia termina (también si el tiempo la detiene antes, siempre que se hayan tomado imágenes), la automatización se ejecuta sola sobre la carpeta de la secuencia. Con un observatorio remoto, las tomas se copian primero a este ordenador y luego se procesan.
 
-## Crear la suya
+## Crear la suya {#automation-plugins-building-your-own}
 1. **Nuevo** empieza una automatización vacía (o parta de una plantilla y cámbiela).
 2. Elija un paso en la lista bajo **Pasos, en orden** y pulse **Añadir paso**. **Quitar**, **Arriba** y **Abajo** cambian el orden.
 3. Seleccione un paso para ver sus **ajustes**:
@@ -34,7 +34,7 @@ Las plantillas con una secuencia de observación tienen **A la ventana Observaci
 
 Las automatizaciones son archivos JSON sencillos, así que pueden compartirse: copie el archivo en la carpeta `automations` de otro usuario.
 
-## Complementos
+## Complementos {#automation-plugins-plugins}
 **Qué son:** un complemento es una pequeña herramienta que usted mismo añade a la aplicación — para un cálculo que la aplicación no tiene o que solo necesita su grupo. Es un único archivo Python. Cuando está en la carpeta de complementos aparece en el menú **Complementos**, abre un pequeño formulario para sus entradas, se ejecuta como cualquier paso integrado (en segundo plano, con progreso y Cancelar, registrado en el proyecto) y puede usarse como paso de una automatización.
 
 **No hace falta programar para probarlos.** **Complementos → Instalar los complementos de ejemplo** añade tres listos:
@@ -44,7 +44,7 @@ Las automatizaciones son archivos JSON sencillos, así que pueden compartirse: c
 
 Elija uno en el menú **Complementos**, rellene el formulario y pulse Aceptar; el resultado se abre en una ventana. Un complemento con un error aparece como «No se pudo cargar» con el motivo; nunca detiene la aplicación. Los complementos se ejecutan con sus permisos, como cualquier programa que instale: use solo archivos de confianza.
 
-## Escribir su propio complemento
+## Escribir su propio complemento {#automation-plugins-writing-your-own-plugin}
 Abra **Complementos → Abrir la carpeta de complementos**, copie un ejemplo, cámbiele el nombre y modifíquelo. Este es el ejemplo del cielo completo:
 
 ```python

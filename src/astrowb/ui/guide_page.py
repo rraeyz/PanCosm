@@ -6,6 +6,7 @@ is adding a folder, like the .ts files for the interface; screenshots are in ima
 (tools/guide_screenshots.py), and the tests require every interface language to be complete.
 """
 
+import re
 from pathlib import Path
 
 from PySide6.QtCore import Qt
@@ -25,15 +26,37 @@ from .workspaces import _title
 GUIDE = Path(__file__).resolve().parents[1] / "resources" / "guide"
 
 
+ANCHOR = re.compile(r"\s*\{#([a-z0-9-]+)\}\s*$")
+
+
 def load(lang="en"):
-    """[(category title, intro, [(topic title, markdown), ...]), ...] in file order."""
+    """[(category title, intro, [(topic title, markdown), ...]), ...] in file order. A topic's heading may end in a
+    stable anchor "{#photometry-apertures}" (the same in every language); it is taken off here (anchors())."""
+    return [(title, intro, [(name, md) for name, md, _a in topics]) for title, intro, topics in _parse(lang)]
+
+
+def anchors(lang="en"):
+    """{anchor: (category title, topic title, markdown)}; a topic not yet translated comes from English."""
+    out = {}
+    for code in ("en", lang) if lang != "en" else ("en",):
+        for title, _intro, topics in _parse(code):
+            out.update({a: (title, name, md) for name, md, a in topics if a})
+    return out
+
+
+def _parse(lang):
     out = []
     for path in sorted((GUIDE / "en").glob("*.md")):
         own = GUIDE / lang / path.name
         text = (own if own.exists() else path).read_text(encoding="utf-8")
         head, *sections = text.split("\n## ")
         title, _, intro = head.removeprefix("# ").partition("\n")
-        topics = [(s.split("\n", 1)[0].strip(), "## " + s) for s in sections]
+        topics = []
+        for s in sections:
+            first, _, body = s.partition("\n")
+            m = ANCHOR.search(first)
+            name = ANCHOR.sub("", first).strip()
+            topics.append((name, f"## {name}\n{body}", m.group(1) if m else None))
         out.append((title.strip(), intro.strip(), topics))
     return out
 
@@ -41,7 +64,8 @@ def load(lang="en"):
 class GuidePage(QWidget):
     def __init__(self, settings, parent=None):
         super().__init__(parent)
-        self.categories = load(settings.get("ui.language", "en"))
+        self.lang = settings.get("ui.language", "en")
+        self.categories = load(self.lang)
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         ll = QVBoxLayout(left)
@@ -67,12 +91,29 @@ class GuidePage(QWidget):
         split.addWidget(self.text)
         split.setSizes([300, 900])
         QVBoxLayout(self).addWidget(split)
-        for title, intro, topics in self.categories:
+        self.items = {}  # anchor -> tree item
+        for title, intro, topics in _parse(self.lang):
             cat = QTreeWidgetItem(self.tree, [title])
-            cat.setData(0, Qt.UserRole, f"# {title}\n\n{intro}\n\n" + "\n\n".join(md for _, md in topics))
-            for name, md in topics:
-                QTreeWidgetItem(cat, [name]).setData(0, Qt.UserRole, md)
+            cat.setData(0, Qt.UserRole, f"# {title}\n\n{intro}\n\n" + "\n\n".join(md for _, md, _a in topics))
+            for name, md, anchor in topics:
+                item = QTreeWidgetItem(cat, [name])
+                item.setData(0, Qt.UserRole, md)
+                if anchor:
+                    self.items[anchor] = item
         self.tree.setCurrentItem(self.tree.topLevelItem(0))
+
+    def show_anchor(self, anchor):
+        """Open the topic with this anchor (False when there is none: the anchor is wrong or not yet written)."""
+        item = self.items.get(anchor)
+        if item is None:
+            found = anchors(self.lang).get(anchor)
+            if found is None:
+                return False
+            self.text.setMarkdown(found[2])  # a topic this language has not translated yet: the English one
+            return True
+        self.search.clear()
+        self.tree.setCurrentItem(item)
+        return True
 
     def _show(self, item, _previous=None):
         if item is not None:
