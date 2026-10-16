@@ -265,14 +265,6 @@ def bin_time(t, y, width, err=None):
     return tb, yb, np.where(n > 1, np.maximum(own, spread), own)
 
 
-def flux_to_mag(flux):
-    return -2.5 * np.log10(np.asarray(flux, float))
-
-
-def mag_to_flux(mag):
-    return 10 ** (-0.4 * np.asarray(mag, float))
-
-
 def _complex_dft(t, y, freqs):
     return _exp_sums(t, y, freqs) / t.size
 

@@ -294,16 +294,16 @@ class PeriodPage(Undoable, QWidget):
 
     def _convert(self):
         if self.time:
-            f = fourier_edit()
+            from ..core.units import flux_to_mag, mag_to_flux
+
             y = np.asarray(self.flux, float)
             if not self.magnitudes and np.any(y <= 0):
                 self.source.setText(self.tr("Fluxes must be positive to convert to magnitudes."))
                 return
             e = self._errs()
             self.magnitudes = not self.magnitudes
-            if e is not None:  # σm = 1.0857 σF / F, and back
-                e = 2.5 / np.log(10) * e / y if self.magnitudes else e * f.mag_to_flux(y) * np.log(10) / 2.5
-            y = f.flux_to_mag(y) if self.magnitudes else f.mag_to_flux(y)
+            convert = flux_to_mag if self.magnitudes else mag_to_flux  # σm = 1.0857 σF / F, and back
+            y, e = convert(y, e) if e is not None else (convert(y), None)
             self._edited(self.time, y, self.tr("magnitudes") if self.magnitudes else self.tr("flux"), e)
 
     def _undo(self):
