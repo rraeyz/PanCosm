@@ -4,7 +4,7 @@
 set -u
 arch=$(dpkg --print-architecture)
 mirror=http://mirrors.edge.kernel.org/ubuntu/
-[ "$arch" = arm64 ] && mirror=http://mirrors.edge.kernel.org/ubuntu-ports/
+[ "$arch" = arm64 ] && mirror=http://ftp.tu-chemnitz.de/pub/linux/ubuntu-ports/  # kernel.org has no ports
 for i in 1 2 3; do
   sudo apt-get update && sudo apt-get install -y "$@" && exit 0
   if [ "$i" = 1 ]; then
