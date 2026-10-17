@@ -180,3 +180,20 @@ def test_table_view_count_line_and_number_font(qtbot):
     assert view.count.text() == "12 of 48 rows · 2 selected"
     assert view.model.data(view.model.index(0, 0), Qt.FontRole).family() == MONO
     assert view.model.data(view.model.index(0, 1), Qt.FontRole) is None
+
+
+def test_header_menu_sorts_fits_and_hides(qapp):
+    """UI-11: the header's menu sorts by the column clicked, fits its width and shows or hides columns."""
+    from astropy.table import Table
+
+    from astrowb.ui.kit.table import TableView
+
+    v = TableView()
+    v.set_table(Table({"a": [3.0, 1.0, 2.0], "b": ["x", "y", "z"]}))
+    names = [a.text() for a in v.column_menu(0).actions() if not a.isSeparator()]
+    assert names[:3] == ["Sort ascending", "Sort descending", "Fit the width"] and names[3:] == ["a", "b"]
+    v.column_menu(0).actions()[1].trigger()  # descending
+    assert list(v.shown_rows()) == [0, 2, 1]
+    hide_b = next(a for a in v.column_menu(0).actions() if a.text() == "b")
+    hide_b.toggle()
+    assert v.view.isColumnHidden(1) and [a.text() for a in v.column_menu(-1).actions()] == ["a", "b"]

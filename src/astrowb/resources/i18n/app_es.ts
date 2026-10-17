@@ -14230,22 +14230,37 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="246"/>
+        <location filename="../../ui/kit/table.py" line="228"/>
+        <source>Sort ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="229"/>
+        <source>Sort descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="230"/>
+        <source>Fit the width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="263"/>
         <source>Copy</source>
         <translation type="unfinished">Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="247"/>
+        <location filename="../../ui/kit/table.py" line="264"/>
         <source>Export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="251"/>
+        <location filename="../../ui/kit/table.py" line="268"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="252"/>
+        <location filename="../../ui/kit/table.py" line="269"/>
         <source>Export table</source>
         <translation type="unfinished">Exportar tabla</translation>
     </message>
