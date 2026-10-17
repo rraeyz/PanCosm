@@ -9102,7 +9102,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>gruplandı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="300"/>
+        <location filename="../../ui/period_page.py" line="301"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Kadire çevirmek için akılar pozitif olmalı.</translation>
     </message>
@@ -12743,257 +12743,272 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../ui/settings_window.py" line="23"/>
+        <location filename="../../ui/settings_window.py" line="33"/>
         <source>Site name</source>
         <translation>Konum adı</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="24"/>
+        <location filename="../../ui/settings_window.py" line="34"/>
         <source>Shown in the start window&apos;s Tonight line</source>
         <translation>Başlangıç penceresindeki Bu gece satırında görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="29"/>
+        <location filename="../../ui/settings_window.py" line="39"/>
         <source>Latitude</source>
         <translation>Enlem</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="30"/>
+        <location filename="../../ui/settings_window.py" line="40"/>
         <source>North positive</source>
         <translation>Kuzey pozitif</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="35"/>
+        <location filename="../../ui/settings_window.py" line="45"/>
         <source>Longitude</source>
         <translation>Boylam</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="36"/>
+        <location filename="../../ui/settings_window.py" line="46"/>
         <source>East positive</source>
         <translation>Doğu pozitif</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="41"/>
+        <location filename="../../ui/settings_window.py" line="51"/>
         <source>Height</source>
         <translation>Yükseklik</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="42"/>
+        <location filename="../../ui/settings_window.py" line="52"/>
         <source>Above sea level</source>
         <translation>Deniz seviyesinden</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="47"/>
+        <location filename="../../ui/settings_window.py" line="57"/>
         <source>Gain</source>
         <translation>Kazanç (gain)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="48"/>
+        <location filename="../../ui/settings_window.py" line="58"/>
         <source>Electrons per ADU</source>
         <translation>ADU başına elektron</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="53"/>
+        <location filename="../../ui/settings_window.py" line="63"/>
         <source>Read noise</source>
         <translation>Okuma gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="54"/>
+        <location filename="../../ui/settings_window.py" line="64"/>
         <source>Noise of one read-out</source>
         <translation>Bir okumanın gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="59"/>
+        <location filename="../../ui/settings_window.py" line="69"/>
         <source>Dark current</source>
         <translation>Karanlık akım</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="60"/>
+        <location filename="../../ui/settings_window.py" line="70"/>
         <source>Electrons per second per pixel</source>
         <translation>Piksel başına saniyede elektron</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="65"/>
+        <location filename="../../ui/settings_window.py" line="75"/>
         <source>Linear up to</source>
         <translation>Doğrusal üst sınır</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="66"/>
+        <location filename="../../ui/settings_window.py" line="76"/>
         <source>Where the response stops being linear (0: unknown)</source>
         <translation>Tepkinin doğrusallığının bittiği değer (0: bilinmiyor)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="71"/>
+        <location filename="../../ui/settings_window.py" line="81"/>
         <source>Saturation</source>
         <translation>Doyum</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="72"/>
+        <location filename="../../ui/settings_window.py" line="82"/>
         <source>The largest value a pixel holds (0: unknown)</source>
         <translation>Bir pikselin alabileceği en büyük değer (0: bilinmiyor)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="77"/>
+        <location filename="../../ui/settings_window.py" line="87"/>
         <source>Observer</source>
         <translation>Gözlemci</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="78"/>
+        <location filename="../../ui/settings_window.py" line="88"/>
         <source>Your name, in reports and FITS headers</source>
         <translation>Adınız; raporlarda ve FITS başlıklarında</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="83"/>
+        <location filename="../../ui/settings_window.py" line="93"/>
         <source>AAVSO code</source>
         <translation>AAVSO kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="84"/>
+        <location filename="../../ui/settings_window.py" line="94"/>
         <source>Your observer code for AAVSO reports</source>
         <translation>AAVSO raporları için gözlemci kodunuz</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="89"/>
+        <location filename="../../ui/settings_window.py" line="99"/>
         <source>MPC code</source>
         <translation>MPC kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="90"/>
+        <location filename="../../ui/settings_window.py" line="100"/>
         <source>Your observatory code for minor-planet reports</source>
         <translation>Küçük gezegen raporları için gözlemevi kodunuz</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="112"/>
+        <location filename="../../ui/settings_window.py" line="122"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="116"/>
+        <location filename="../../ui/settings_window.py" line="126"/>
         <source>Find a setting</source>
         <translation>Bir ayar bulun</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="165"/>
+        <location filename="../../ui/settings_window.py" line="175"/>
         <source>General</source>
         <translation>Genel</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="169"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="169"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>The language of the program (after a restart)</source>
         <translation>Programın dili (yeniden başlatınca)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="181"/>
         <source>Dark</source>
         <translation>Karanlık (gece)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="181"/>
         <source>Light</source>
         <translation>Aydınlık</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="174"/>
+        <location filename="../../ui/settings_window.py" line="184"/>
         <source>Look</source>
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="174"/>
+        <location filename="../../ui/settings_window.py" line="184"/>
         <source>Dark or light windows</source>
         <translation>Karanlık ya da aydınlık pencereler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="179"/>
+        <location filename="../../ui/settings_window.py" line="189"/>
         <source>Text size</source>
         <translation>Yazı boyutu</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="179"/>
+        <location filename="../../ui/settings_window.py" line="189"/>
         <source>The size of the text in every window</source>
         <translation>Tüm pencerelerdeki yazının boyutu</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="182"/>
+        <location filename="../../ui/settings_window.py" line="192"/>
         <source>Toolbar text</source>
         <translation>Araç çubuğu yazıları</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="182"/>
+        <location filename="../../ui/settings_window.py" line="192"/>
         <source>The names beside the toolbar&apos;s icons</source>
         <translation>Araç çubuğundaki simgelerin yanındaki adlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="183"/>
+        <location filename="../../ui/settings_window.py" line="193"/>
         <source>Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)</source>
         <translation>Tüm seçenekler açık; Temel modda seyrek değişenler katlanır (hiçbiri kaldırılmaz)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="184"/>
+        <location filename="../../ui/settings_window.py" line="194"/>
         <source>Expert mode</source>
         <translation>Uzman modu</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="194"/>
+        <location filename="../../ui/settings_window.py" line="204"/>
         <source>Profiles</source>
         <translation>Profiller</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="209"/>
+        <location filename="../../ui/settings_window.py" line="205"/>
+        <source>Fill from a FITS header…</source>
+        <translation>Bir FITS başlığından doldur…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="207"/>
+        <source>Site, camera and observer as an image&apos;s header gives them</source>
+        <translation>Bir görüntünün başlığındaki konum, kamera ve gözlemci bilgileri</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="229"/>
+        <source>An image of your telescope and camera</source>
+        <translation>Teleskobunuzla ve kameranızla çekilmiş bir görüntü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="245"/>
         <source>Processing</source>
         <translation>İşlem</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="212"/>
+        <location filename="../../ui/settings_window.py" line="248"/>
         <source>Automatic (GPU when useful)</source>
         <translation>Otomatik (yararlıysa GPU)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="212"/>
+        <location filename="../../ui/settings_window.py" line="248"/>
         <source>CPU only</source>
         <translation>Yalnızca işlemci (CPU)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="213"/>
+        <location filename="../../ui/settings_window.py" line="249"/>
         <source>GPU</source>
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="215"/>
+        <location filename="../../ui/settings_window.py" line="251"/>
         <source>Processing device</source>
         <translation>İşlem birimi</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="215"/>
+        <location filename="../../ui/settings_window.py" line="251"/>
         <source>Where the heavy computations run</source>
         <translation>Ağır hesapların yapıldığı yer</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="218"/>
+        <location filename="../../ui/settings_window.py" line="254"/>
         <source>Online services</source>
         <translation>Çevrimiçi hizmetler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="220"/>
+        <location filename="../../ui/settings_window.py" line="256"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation>Kataloglar, arşivler ve ad sorguları yalnızca daha önce indirilenlerden yanıt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="221"/>
+        <location filename="../../ui/settings_window.py" line="257"/>
         <source>Work offline</source>
         <translation>Çevrimdışı çalış</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="222"/>
+        <location filename="../../ui/settings_window.py" line="258"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation>Çevrimiçiyken haftada bir güncellenir (IERS&apos;ten yaklaşık 3 MB)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="223"/>
+        <location filename="../../ui/settings_window.py" line="259"/>
         <source>Earth-rotation tables</source>
         <translation>Dünya dönme tabloları</translation>
     </message>

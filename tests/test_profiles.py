@@ -40,3 +40,17 @@ def test_a_site_with_a_name_is_saved(tmp_path):
     s = Settings(tmp_path)
     profiles.update(s, "site", name="TUG", lat=36.8, lon=30.3, height=2500.0)
     assert profiles.section(s, "site")["name"] == "TUG" and s.get("site")["lat"] == 36.8
+
+
+def test_profile_from_a_fits_header():
+    """ARC-16 item 2: what a header gives about site, camera and observer; nothing it does not give."""
+    from astropy.io import fits
+
+    from astrowb.core.profiles import from_header
+
+    h = fits.Header({"SITELAT": 36.8247, "SITELONG": 30.3353, "SITEELEV": 2500.0, "SITENAME": "TUG", "EGAIN": 1.4,
+                     "RDNOISE": 7.2, "SATURATE": 65000, "OBSERVER": "A. Observer", "GAIN": 0})  # fmt: skip
+    got = from_header(h)
+    assert got["site"] == {"lat": 36.8247, "lon": 30.3353, "height": 2500.0, "name": "TUG"}
+    assert got["camera"] == {"gain": 1.4, "read_noise": 7.2, "saturation": 65000.0}
+    assert got["observer"] == {"name": "A. Observer"} and from_header(fits.Header()) == {}
