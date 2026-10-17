@@ -1048,7 +1048,8 @@ the suite is green after each.
   job is not one the release waits for — shared CI machines vary by more than 1.5× from run to run often enough
   that a release could stop for noise; it stays visible red. Pending: `speed/baseline-ci.json` from the first CI
   run, cases for the budget rows whose code does not exist yet (Roche, transit, échelle) and the interface rows
-  (window opening, six windows' memory).
+  (six windows' memory). Done since: "start window" (0.33 s here, budget 1.0 s) and "open the Photometry window (first
+  time)" (0.55 s, budget 1.0 s); they join the CI comparison when the baseline is next taken.
 - **Ours now:** `tools/speed.py`.
 - **Build:** `tools/speed.py` becomes a benchmark suite with named cases bound to the budgets above (data generated
   or from `data/`), results written to `speed/<date>-<commit>.json` (machine described); `tools/speed.py compare A B`

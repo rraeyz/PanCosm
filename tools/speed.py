@@ -129,8 +129,35 @@ def cases(tmp, ci):
 
         eccentric_anomaly(rng.uniform(0, 100, 1_000_000), 0.3)
 
+    def start_window():  # from source: the budget's "Start window visible" (< 1.0 s)
+        import os
+
+        os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+        from PySide6.QtWidgets import QApplication
+
+        from astrowb.settings import Settings
+        from astrowb.ui.main_window import MainWindow
+
+        keep["app"] = QApplication.instance() or QApplication([])
+        folder = Path(tmp) / "settings"
+        folder.mkdir(exist_ok=True)
+        keep["main"] = MainWindow(Settings(folder))
+        keep["main"].show()
+        keep["app"].processEvents()
+
+    def open_window():  # the first time: the budget's "Open an area window" (first time < 1.0 s)
+        main = keep.pop("main")
+        try:
+            main.show_workspace("photometry")
+            keep["app"].processEvents()
+        finally:
+            main.engine.shutdown()
+            main.close()
+
     return [
         (f"open a {size}x{size} FITS", "Show a frame", lambda: read_image(raw / "l00.fits"), 3),
+        ("start window", "Start window visible", start_window, 1),
+        ("open the Photometry window (first time)", "Open an area window", open_window, 1),
         (f"display conversion {size}x{size}", "Show a frame", display, 3),
         (f"calibrate: 3 masters of 5 + {n} lights", "Calibrate", calibrate, 1),
         (f"stack {n} lights (sigma clip)", "Calibrate", stack, 1),
