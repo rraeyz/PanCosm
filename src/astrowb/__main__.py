@@ -316,6 +316,9 @@ def _app(argv) -> int:
     from .ui.main_window import MainWindow
 
     _show_unexpected_errors(settings)
+    from .core import log
+
+    log.start(settings.path.parent)
     win = MainWindow(settings)
     area = app.primaryScreen().availableGeometry()  # never larger than the screen, and on it
     win.resize(min(1500, int(area.width() * 0.92)), min(950, int(area.height() * 0.9)))

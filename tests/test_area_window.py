@@ -155,6 +155,11 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     runs = [{"step": "photometry.measure", "params": params, "status": "failed", "error": error,
              "inputs": {"images": ["/x/y.fits"]}}]  # fmt: skip
     (tmp_path / "cfg" / "gpu-report.json").write_text(json.dumps({"adapter": {"device": "RTX"}, "jobs": []}))
+    from astrowb.core import log, profiles
+
+    profiles.update(settings, "observer", name="Ayşe Gözlemci", aavso_code="AGZ")
+    profiles.update(settings, "site", name="Bahçe", lat=39.91234, lon=32.85678)
+    (tmp_path / "cfg" / log.NAME).write_text("2026-11-11 10:00:00 INFO astrowb.engine: step started\n")
     out = make_report(settings, tmp_path / "report.zip", runs)
     with zipfile.ZipFile(out) as z:
         names = set(z.namelist())
@@ -166,7 +171,10 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
         assert "ValueError: x" in z.read("error.log").decode() and "application " in z.read("system.txt").decode()
     assert home not in text and "/data/owner" not in text and "/x/y.fits" not in text
     assert steps[0]["params"] == {"radius": 5.0, "dark": "dark.fits"} and "inputs" not in steps[0]
-    assert json.loads(zipfile.ZipFile(out).read("settings.json"))["photometry.last_folder"] == "2026-11-02"
+    sent = json.loads(zipfile.ZipFile(out).read("settings.json"))
+    assert sent["photometry.last_folder"] == "2026-11-02"
+    assert "Ayşe" not in text and "AGZ" not in text and "Bahçe" not in text  # ARC-17: no names, no codes
+    assert sent["profile"]["site"]["lat"] == 39.9 and "step started" in zipfile.ZipFile(out).read("app.log").decode()
     win = _area(qtbot, settings)
     monkeypatch.setattr("astrowb.ui.kit.window.QMessageBox.information", lambda *a: None)
     assert win.report_problem(tmp_path / "r2.zip") and (tmp_path / "r2.zip").exists()
@@ -392,3 +400,20 @@ def test_f1_opens_the_help_panel_for_the_control_in_focus(qtbot, tmp_path):
     win.centralWidget().setFocus()
     section.button.setFocus()
     assert not win.show_help("no-such-anchor")
+
+
+def test_app_log_rotates_and_keeps_the_newest_lines(tmp_path):
+    """ARC-17: app.log in the settings folder; tail gives its newest lines."""
+    import logging
+
+    from astrowb.core import log
+
+    handler = log.start(tmp_path)
+    try:
+        assert handler is not None and log.start(tmp_path) is None  # once
+        logging.getLogger("astrowb.test").info("hello %d", 42)
+        handler.flush()
+        assert log.tail(tmp_path, 5).strip().endswith("INFO astrowb.test: hello 42")
+    finally:
+        logging.getLogger().removeHandler(handler)
+        handler.close()

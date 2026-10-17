@@ -30,6 +30,28 @@ def _scrub(value):
     return value
 
 
+PERSONAL = ("name", "observers", "aavso_code", "mpc_code")  # the profile's names and codes
+
+
+def _anonymous(values):
+    """The settings without the observer's names and codes and with the site to 0.1° (about 10 km): enough to
+    reproduce a time or altitude problem, not to find the observer (ARC-17)."""
+    values = json.loads(json.dumps(values, default=str))
+    profile = values.get("profile") or {}
+    for part in ("observer", "site"):
+        for key in PERSONAL:
+            if key in (profile.get(part) or {}):
+                profile[part][key] = "(removed)"
+    for site in (profile.get("site"), values.get("site")):
+        for key in ("lat", "lon"):
+            if isinstance(site, dict) and isinstance(site.get(key), int | float):
+                site[key] = round(site[key], 1)
+    if isinstance(values.get("site"), dict) and "name" in values["site"]:
+        values["site"]["name"] = "(removed)"
+    values.pop("mpc", None)  # the older place of the MPC code and observers
+    return values
+
+
 def system_text():
     from .. import __version__, compute
 
@@ -71,7 +93,10 @@ def make_report(settings, out_path, runs=None):
         else:
             z.writestr("error.log", "")
         z.writestr("system.txt", system_text())
-        z.writestr("settings.json", json.dumps(_scrub(settings.values), indent=1, default=str))
+        z.writestr("settings.json", json.dumps(_scrub(_anonymous(settings.values)), indent=1, default=str))
+        from ..core import log
+
+        z.writestr("app.log", _home(log.tail(settings.path.parent)))
         keep = ("step", "params", "status", "error", "started", "finished")
         steps = [{k: _scrub(r.get(k)) for k in keep} for r in (runs or [])][-30:]
         z.writestr("last_steps.json", json.dumps(steps, indent=1, default=str))
