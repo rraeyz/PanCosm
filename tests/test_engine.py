@@ -224,3 +224,15 @@ def test_frames_on_every_core_from_inside_a_task_worker():
     finally:
         q.shutdown()
     assert out == [math.sqrt(i) for i in range(40)]
+
+
+def test_task_timeline_in_the_log(tq, caplog):
+    """ARC-17: every task's start and end, with how long it took, are in the log (app.log at run time)."""
+    import logging
+
+    with caplog.at_level(logging.INFO, logger="astrowb.engine.tasks"):
+        t = tq.submit(add, 2, 3, name="adding")
+        t.wait(60)
+    lines = [r.getMessage() for r in caplog.records]
+    assert any(f"task {t.id} adding running" in line for line in lines)
+    assert any(f"task {t.id} adding done after" in line for line in lines)

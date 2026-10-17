@@ -10,6 +10,7 @@ runs in a process of its own.
 
 import atexit
 import itertools
+import logging
 import multiprocessing as mp
 import os
 import queue
@@ -18,6 +19,8 @@ import threading
 import time
 import traceback
 from collections import deque
+
+log = logging.getLogger(__name__)
 
 CANCEL_GRACE_S = 5.0  # a task that ignores cancel() is terminated after this
 SPARE_DELAY_S = 2.0  # the first spare starts after this, so it does not compete with the window opening
@@ -111,8 +114,15 @@ class Task:
         return self._result
 
     def _update(self, **kw):
+        before = self.state
         for k, v in kw.items():
             setattr(self, k, v)
+        if self.state != before:  # the task timeline in app.log (ARC-17)
+            if self.state == "running":
+                self._started = time.monotonic()
+            took = time.monotonic() - getattr(self, "_started", time.monotonic())
+            log.info("task %s %s %s%s", self.id, self.name, self.state,
+                     f" after {took:.1f} s" if self.state in ("done", "failed", "cancelled") else "")  # fmt: skip
         if self.state in ("done", "failed", "cancelled"):
             self._done.set()
         for fn in self._callbacks:
