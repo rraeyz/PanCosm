@@ -987,7 +987,7 @@ the suite is green after each.
   `tests/test_locale_files.py`.
 
 ### ARC-19. Screens, scaling, accessibility  (P2)
-**open**
+**partial** — done (2026-11-11): every visible button of every window has a name a screen reader can say (text, accessible name or tooltip; `ui_gallery.unnamed`, in the gallery test); text contrast from the tokens (UI-1's test). Left: the scale-factor runs, the focus-chain walk, hit targets.
 - **Build:** tests at device pixel ratios 1, 1.25, 1.5, 2 (Qt `QT_SCALE_FACTOR`) and with the Windows default font
   metrics (`Segoe UI` 9 pt emulated by a fixed font with its widths); minimum hit target 28 px; every control
   reachable by Tab in reading order (a test walks the focus chain of every window); accessible names on icon-only

@@ -52,6 +52,16 @@ def sideways(window):
             if s.isVisible() and s.widget() is not None and s.horizontalScrollBar().isVisible()]  # fmt: skip
 
 
+def unnamed(window):
+    """[(object name or class, "no name")] of visible buttons with no text, accessible name or tooltip: a screen
+    reader says nothing for them (ARC-19). Qt's own select-all corner of tables is left out."""
+    from PySide6.QtWidgets import QAbstractButton
+
+    return [(b.objectName() or type(b).__name__, "no name") for b in window.findChildren(QAbstractButton)
+            if b.isVisible() and b.objectName() != "qt_tableview_cornerbutton"
+            and not (b.text().strip() or b.accessibleName() or b.toolTip())]  # fmt: skip
+
+
 def pseudo_translator():
     """A translator that lengthens every text by 40 % and accents its letters (ARC-18 item 3): the cuts a German or
     Spanish translation would cause show before any translator works. Placeholders and markup stay as they are."""
@@ -116,7 +126,7 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
                     for key, win in windows(main):
                         win.show()
                         app.processEvents()
-                        found[f"{key}-{lang}-{name}"] = cut_texts(win) + sideways(win)
+                        found[f"{key}-{lang}-{name}"] = cut_texts(win) + sideways(win) + unnamed(win)
                         if out:
                             Path(out).mkdir(parents=True, exist_ok=True)
                             win.grab().save(str(Path(out) / f"{key}-{lang}-{name}.png"))

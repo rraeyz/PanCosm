@@ -1,5 +1,6 @@
 """UI-15: every window, in every interface language and both themes, at 1366 × 768: no label or button cuts its
-text (tools/ui_gallery.py; its screenshots are for looking at, this test for the measurements)."""
+text, no panel scrolls sideways, every button has a name a screen reader can say (ARC-19). tools/ui_gallery.py:
+its screenshots are for looking at, this test for the measurements."""
 
 import importlib.util
 import sys
