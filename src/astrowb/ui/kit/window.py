@@ -497,7 +497,7 @@ class AreaWindow(Anatomy, QMainWindow):
         from ..step_names import step_name
         from .tasks import TaskChip
 
-        self.task_chip = TaskChip(self.toolbar, step_name)
+        self.task_chip = TaskChip(self.toolbar, step_name, self.report_problem)
         self.toolbar.addWidget(self.task_chip)
         self.toolbar.addAction(self.help_action)
         self.set_icons({self.help_action: "help"})

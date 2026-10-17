@@ -14253,43 +14253,48 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>TaskChip</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>failed</source>
         <translation type="unfinished">fallida</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="61"/>
         <source>cancelled</source>
         <translation type="unfinished">cancelada</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="65"/>
+        <location filename="../../ui/kit/tasks.py" line="66"/>
         <source> · about {left} left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
         <source>{n} tasks running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="70"/>
-        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
+        <location filename="../../ui/kit/tasks.py" line="87"/>
         <source>No task running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="82"/>
+        <location filename="../../ui/kit/tasks.py" line="80"/>
+        <source>Report a problem…</source>
+        <translation type="unfinished">Informar de un problema…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="85"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancelar</translation>
     </message>
