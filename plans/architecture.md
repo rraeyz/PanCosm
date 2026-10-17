@@ -680,8 +680,8 @@ the suite is green after each.
   in its outputs and wrote since it started (masters, processed images, spectra, archives, plugins' products too),
   unless its writer recorded it already; input files listed in the outputs are never touched; more than 50 input
   files are named with their sizes, without checksums. **Changed from the plan:** no per-writer calls and no test
-  listing writers — one place covers every present and future step. Pending: ECSV / CSV products, citations (3),
-  methods text (4), reproduce (5).
+  listing writers — one place covers every present and future step. ECSV products carry it too (in their meta, by the same engine pass;
+  CSV is left as it is: no place for it that every reader skips). Pending: citations (3), methods text (4), reproduce (5).
 - **Why:** AD-12. A referee asks "how were the frames calibrated, which stars, which radii, which version?"; today
   the project records runs but the products do not carry it and nothing writes it for a paper.
 - **Reference:** IRAF writes `HISTORY` and processing keywords (`CCDPROC`, `ZEROCOR`, `FLATCOR`); ESO pipelines
