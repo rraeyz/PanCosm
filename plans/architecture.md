@@ -754,8 +754,9 @@ the suite is green after each.
   photometry, minima and orbits, spectroscopy, files) for the templates whose text does not already say what to
   do, all in Turkish; `advice(message)`, `for_trace(traceback)`; the Task failed dialog shows the advice under the
   error. `messages.error_line()` split out of `task_error()` (the English line, untranslated). Tests: every advice
-  belongs to a real template; messages with and without a type find their advice. Pending: `ui/kit/errors.py`
-  (reduced item 2, with UI-3) and `core.errors.AppError` (reduced item 3, when a raise is touched).
+  belongs to a real template; messages with and without a type find their advice. Reduced item 2 done with UI-3:
+  `kit/dialogs.ErrorDialog` (what happened, the advice, details, Copy, Report…) shows every failed task. Pending:
+  `core.errors.AppError` (reduced item 3, when a raise is touched).
 - **Why:** AD-7. `ui/messages.py` matches English engine messages against 400 templates with regular expressions.
 - **Build:**
   1. `core/errors.py`: `class AppError(Exception)` with `code` (dotted, e.g. `photometry.star_off_frame`), `values`
