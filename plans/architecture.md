@@ -964,7 +964,7 @@ the suite is green after each.
   plan:** "plate solve" is "plaka çözümü" (used in 28 strings), not the plan's "astrometrik çözüm"; accepted
   variants where both are correct Turkish (dalga boyu / dalgaboyu, flat / düz alan, master / ana kare, irtifa /
   yükseklik, genlik spektrumu for an amplitude spectrum). **For the owner:** read the Turkish column of
-  `glossary.toml` once. Pending: the 1.6× length list, the pseudo-locale layout test (item 3), 150 terms.
+  `glossary.toml` once. Done since: `translation_review.py long` lists translations over 1.6 × the English (34 in Turkish; none is cut, the gallery test says); item 3: `tools/ui_gallery.py` language "pseudo" (every text 40 % longer and accented) and `tests/test_gallery.py` — every window survives it with no cut text and no panel scrolling sideways. Pending: 150 terms, identical translations of different sources.
 - **Why:** four languages are a promise; machine-filled strings drift ("mukayese" had to be replaced in 28 places).
 - **Build:**
   1. `resources/i18n/glossary.toml`: the astronomy terms and their fixed translation per language (comparison star

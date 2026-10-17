@@ -119,7 +119,25 @@ def glossary_problems(lang="tr"):
     return out
 
 
-if __name__ == "__main__" and sys.argv[1:2] == ["glossary"]:
+def long_translations(lang="tr", factor=1.6, shortest=12):
+    """[(source, translation, ratio)] of translations longer than factor × the English (ARC-18 item 2: where a label
+    may be cut); very short sources (a word, a unit) are left out, their ratios mean nothing."""
+    out = []
+    for _ctx, _where, m in _messages(lang):
+        source, tr = m.findtext("source") or "", m.find("translation")
+        if tr is None or not tr.text or tr.get("type") in ("obsolete", "vanished") or len(source) < shortest:
+            continue
+        if len(tr.text) > factor * len(source):
+            out.append((source, tr.text, len(tr.text) / len(source)))
+    return sorted(out, key=lambda r: -r[2])
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["long"]:
+    found = long_translations(sys.argv[2] if len(sys.argv) > 2 else "tr")
+    for source, tr, ratio in found:
+        print(f"{ratio:.2f}×  {source}\n       {tr}")
+    print(f"{len(found)} translations longer than 1.6 × the English")
+elif __name__ == "__main__" and sys.argv[1:2] == ["glossary"]:
     found = glossary_problems()
     for source, tr, term, stems in found:
         print(f"{term} -> {' / '.join(stems)}\n  {source}\n  {tr}\n")
