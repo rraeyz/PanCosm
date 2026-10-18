@@ -220,6 +220,14 @@ class ImageViewer(QGraphicsView):
         self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
         self._update_reticles()
 
+    def actual_size(self):
+        """One image pixel on one screen pixel (100 %), around the centre of the view."""
+        centre = self.mapToScene(self.viewport().rect().center())
+        self._fit_mode = False
+        self.resetTransform()
+        self.centerOn(centre)
+        self._update_reticles()
+
     def zoom(self, factor: float):
         self._fit_mode = False
         self.scale(factor, factor)
@@ -490,9 +498,19 @@ class ImageViewer(QGraphicsView):
         self._press = None
 
     def keyPressEvent(self, event):
-        """Keys over the image, as IRAF's imexamine (ARC-7 item 4): a the star, m statistics of the 11 × 11 box,
-        l / c the line / column through the cursor (the same results as the area and line tools)."""
+        """Keys over the image: + / − zoom, 0 fit, 1 100 %; and as IRAF's imexamine (ARC-7 item 4): a the star,
+        m statistics of the 11 × 11 box, l / c the line / column through the cursor (as the area and line tools)."""
         key = event.text().lower()
+        views = {
+            "+": lambda: self.zoom(1.25),
+            "=": lambda: self.zoom(1.25),
+            "-": lambda: self.zoom(0.8),
+            "0": self.fit,
+            "1": self.actual_size,
+        }  # fmt: skip  (UI-12: the same keys in every image)
+        if key in views and self.data is not None and not event.modifiers() & ~Qt.KeypadModifier & ~Qt.ShiftModifier:
+            views[key]()
+            return None
         if not key or key not in "amlc" or self.cursor_pixel is None or event.modifiers() or self.data is None:
             return super().keyPressEvent(event)
         y, x = self.cursor_pixel

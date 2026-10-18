@@ -119,3 +119,27 @@ def test_imexamine_keys_over_the_image(qapp):
     QTest.keyClick(v, Qt.Key_M, Qt.ControlModifier)  # with a modifier: not an examine key
     assert len(got) == 4
     v.close()
+
+
+def test_zoom_keys_over_the_image(qtbot):
+    """UI-12: + / − zoom, 1 shows image pixels 1:1, 0 fits the image again."""
+    import numpy as np
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    qtbot.addWidget(v)
+    v.resize(300, 300)
+    v.show()
+    v.set_image(np.random.default_rng(1).normal(100, 5, (600, 600)).astype(np.float32))
+    fitted = v.transform().m11()
+    assert fitted < 1  # 600 px fitted into 300
+    qtbot.keyClicks(v, "+")
+    assert v.transform().m11() > fitted
+    qtbot.keyClick(v, Qt.Key_1)
+    assert v.transform().m11() == 1.0
+    qtbot.keyClick(v, Qt.Key_Minus)
+    assert v.transform().m11() == 0.8
+    qtbot.keyClick(v, Qt.Key_0)
+    assert abs(v.transform().m11() - fitted) < 1e-9 and v._fit_mode
