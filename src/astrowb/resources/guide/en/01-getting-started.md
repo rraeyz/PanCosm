@@ -64,3 +64,14 @@ A project is one file with the extension `.astroproj`. It records every file you
 
 ## Graphics card (GPU) {#getting-started-graphics-card-gpu}
 Heavy array work (for example sigma-clipped stacking) can run on the graphics card through Vulkan, Metal or DirectX 12. Every GPU calculation has a CPU twin that gives the same result, and *Automatic* only uses the card when it is actually faster. If no usable graphics driver is found, the processor is used and nothing else changes.
+
+## Privacy {#getting-started-privacy}
+No usage data is sent anywhere. The program goes online only for what you start yourself — catalogue and archive
+queries, name look-ups, the update check — and, while Settings → "Keep the Earth-rotation tables up to date" is on,
+once a week for those tables (about 3 MB from the IERS). Settings → Work offline stops even that.
+
+Plugins run with your rights, like any program you install. A plugin file that is new, or that changed since you
+allowed it, waits in the Plugins menu as "Allow …" until you allow it; the warning names its file.
+
+Help → Report a problem makes a zip you can look into before sending it: no data files, every path cut to its
+file name, your name, observer codes and site name removed, the site's position rounded to 0.1°.

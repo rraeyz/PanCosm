@@ -64,3 +64,15 @@ Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı
 
 ## Ekran kartı (GPU) {#getting-started-graphics-card-gpu}
 Ağır dizi hesapları (ör. sigma kırpmalı yığma) Vulkan, Metal ya da DirectX 12 üzerinden ekran kartında çalışabilir. Her GPU hesabının aynı sonucu veren bir işlemci (CPU) karşılığı vardır; *Otomatik* kartı yalnızca gerçekten daha hızlıysa kullanır. Kullanılabilir bir sürücü bulunmazsa işlemci kullanılır, başka hiçbir şey değişmez.
+
+## Gizlilik {#getting-started-privacy}
+Hiçbir yere kullanım verisi gönderilmez. Program yalnızca sizin başlattığınız işler için internete çıkar — katalog ve
+arşiv sorguları, ad sorguları, güncelleme denetimi — ve Ayarlar → "Dünya dönme tablolarını güncel tut" açıkken
+haftada bir bu tablolar için (IERS'ten yaklaşık 3 MB). Ayarlar → Çevrimdışı çalış bunu da durdurur.
+
+Eklentiler, kurduğunuz her program gibi sizin yetkilerinizle çalışır. Yeni olan ya da izin verdiğinizden beri
+değişen bir eklenti dosyası, siz izin verene kadar Eklentiler menüsünde "… için izin ver" olarak bekler; uyarı
+dosyanın adını söyler.
+
+Yardım → Sorun bildir, göndermeden önce içine bakabileceğiniz bir zip hazırlar: veri dosyası yoktur, her yol dosya
+adına kısaltılır, adınız, gözlemci kodlarınız ve konum adınız çıkarılır, konumunuz 0,1°'ye yuvarlanır.

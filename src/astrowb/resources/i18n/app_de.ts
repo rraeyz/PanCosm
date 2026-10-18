@@ -5284,12 +5284,12 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="22"/>
+        <location filename="../../ui/main_settings.py" line="32"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="23"/>
+        <location filename="../../ui/main_settings.py" line="33"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>Die neue Sprache wird nach dem Neustart von {app} verwendet.</translation>
     </message>
@@ -5324,7 +5324,7 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Menüs: Plugins für Ihre eigenen Werkzeuge, Einstellungen für Sprache, Aussehen und CPU/GPU, Hilfe für diese Tour und die Anleitung; das Fenster jedes Bereichs hat eigene Menüs und eine eigene Werkzeugleiste.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="47"/>
+        <location filename="../../ui/main_settings.py" line="57"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Textgröße: {pt:g} pt</translation>
     </message>
@@ -5349,22 +5349,27 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Installation und Internetdienste werden geprüft…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="71"/>
+        <location filename="../../ui/main_settings.py" line="17"/>
+        <source>No usage data is sent anywhere. The program goes online only for what you start (catalogues, archives, name look-ups, update checks) and, when left on, the weekly Earth-rotation tables. Plugins run with your rights: a new or changed one waits until you allow it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_settings.py" line="81"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Erdrotationstabellen aktualisiert: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="77"/>
+        <location filename="../../ui/main_settings.py" line="87"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Erdrotationstabellen nicht aktualisiert (offline?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="82"/>
+        <location filename="../../ui/main_settings.py" line="92"/>
         <source>Earth-rotation tables</source>
         <translation>Erdrotationstabellen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="83"/>
+        <location filename="../../ui/main_settings.py" line="93"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5373,47 +5378,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen Sie es erneut, wenn Sie online sind.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="95"/>
+        <location filename="../../ui/main_settings.py" line="105"/>
         <source>Folder for the practice data</source>
         <translation>Ordner für die Übungsdaten</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="102"/>
+        <location filename="../../ui/main_settings.py" line="112"/>
         <source>practice</source>
         <translation>Übung</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="104"/>
+        <location filename="../../ui/main_settings.py" line="114"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Übungsdaten in {f}: folgen Sie „Ihre erste Nacht“ in der Anleitung.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="126"/>
+        <location filename="../../ui/main_settings.py" line="136"/>
         <source>Could not check for updates: {e}</source>
         <translation>Suche nach Updates fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="128"/>
+        <location filename="../../ui/main_settings.py" line="138"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>Version {v} ist verfügbar (Sie haben {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="131"/>
+        <location filename="../../ui/main_settings.py" line="141"/>
         <source>Open the download page</source>
         <translation>Download-Seite öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="134"/>
+        <location filename="../../ui/main_settings.py" line="144"/>
         <source>You have the latest version ({c}).</source>
         <translation>Sie haben die neueste Version ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="135"/>
+        <location filename="../../ui/main_settings.py" line="145"/>
         <source>Updates</source>
         <translation>Updates</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="143"/>
+        <location filename="../../ui/main_settings.py" line="153"/>
         <source>About {app}</source>
         <translation>Über {app}</translation>
     </message>
