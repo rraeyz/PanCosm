@@ -583,3 +583,24 @@ def test_empty_plots_say_what_is_running(qtbot, tmp_path):
     task.state, task.finished = "done", True
     win.task_update(task)
     assert plot.hint.text() == "Measure to see the light curve"
+
+
+def test_legend_click_hides_and_shows_a_series(qtbot):
+    """UI-10: a click on a legend entry hides its series and shows it again, on every plot."""
+    from types import SimpleNamespace
+
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    ax = plot.figure.add_subplot()
+    ax.plot([1, 2], [1, 2], label="V")
+    ax.scatter([1, 2], [2, 1], label="comparison")
+    ax.legend()
+    plot.canvas.draw()
+    handles = {text.get_text(): handle for handle, (_t, text) in plot._legend_map.items()}
+    assert set(handles) == {"V", "comparison"}
+    plot._legend_picked(SimpleNamespace(artist=handles["V"]))
+    assert not ax.get_lines()[0].get_visible()
+    plot._legend_picked(SimpleNamespace(artist=handles["V"]))
+    assert ax.get_lines()[0].get_visible()

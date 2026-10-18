@@ -501,7 +501,7 @@ for the window concerned.
 - **Files:** `ui/kit/tasks.py`, `ui/shell/tasks_panel.py`, `engine/tasks.py` (phase and ETA fields), tests.
 
 ### UI-10. Plot behaviour standard  (P1)
-**partial** — done: every PlotCanvas (the plots the windows show) has the right-click menu Show all, Copy picture, Copy data, Save data…, Publication figure…. Left: the PlotToolbar of ARC-6's PlotView and the rest, with UI-16 when the windows move to PlotView.
+**partial** — done: every PlotCanvas (the plots the windows show) has the right-click menu Show all, Copy picture, Copy data, Save data…, Publication figure…; a click on a legend entry hides or shows its series. Left: the PlotToolbar of ARC-6's PlotView and the rest, with UI-16 when the windows move to PlotView.
 - **Build:** on top of ARC-6: the `PlotToolbar` (show all, box zoom, select range, pick points, lasso, measure
   (Δx, Δy between two clicks), export…, publication figure…, pop out); axis menus (time as BJD_TDB − offset / UT /
   phase; flux / magnitude with the y axis inverted for magnitudes; wavelength in Å / nm / µm, velocity space around a
