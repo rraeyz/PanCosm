@@ -145,6 +145,8 @@ class SettingsActions:
         self.update_box = QMessageBox(QMessageBox.Information, translate("MainWindow", "Updates"), text, parent=self)
         self.update_box.setTextFormat(Qt.RichText)
         self.update_box.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        if release and release.get("notes"):  # what changed: the release's notes, under "Show Details…"
+            self.update_box.setDetailedText(release["notes"])
         self.update_box.open()
 
     def about(self):

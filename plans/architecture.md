@@ -997,7 +997,7 @@ the suite is green after each.
 - **Files:** `tests/ui/test_scaling.py`, `tests/ui/test_focus_chain.py`, `ui/kit/theme.py`.
 
 ### ARC-20. Packaging, optional data packs, updates  (P2)
-**open**
+**partial** — item 4 done (2026-11-11): a release's notes list every change since the previous one (CI writes them from the commit subjects), and Help → Check for updates shows them under Show Details. Installer size: the largest is 193 MB (budget 350 MB). Left: the data manager (1), Flatpak / PKGBUILD / portable zip (3), signing scripts (5).
 - **Ours now:** PyInstaller bundles; Inno Setup, dmg, AppImage; distro containers; "Check for updates" on request.
 - **Build:**
   1. Data manager (Settings → Data): optional packs with size, licence, source and "used by": synthetic spectra
