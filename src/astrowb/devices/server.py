@@ -27,6 +27,7 @@ import os
 import secrets
 import shutil
 import threading
+import time
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -321,7 +322,13 @@ class Controller:
         return out
 
 
+MAX_WRONG = 10  # wrong tokens in a row from one address before it is locked out (ARC-22)
+LOCK_S = 300.0  # how long the lock-out lasts
+
+
 def make_handler(ctrl: Controller, token: str):
+    wrong, lock = {}, threading.Lock()  # address -> (wrong tokens in a row, locked until)
+
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):  # no console noise; the observatory log has the events
             pass
@@ -335,9 +342,20 @@ def make_handler(ctrl: Controller, token: str):
             self.wfile.write(body)
 
         def _authorised(self):
+            address, now = self.client_address[0], time.monotonic()
+            with lock:
+                count, until = wrong.get(address, (0, 0.0))
+            if until > now:  # guessing the token: every request is refused for a while, the right one too
+                self._reply(429, {"error": f"too many wrong tokens; try again in {until - now:.0f} s"})
+                return False
             given = self.headers.get("Authorization", "")
             if hmac.compare_digest(given.encode(), f"Bearer {token}".encode()):
+                with lock:
+                    wrong.pop(address, None)
                 return True
+            count += 1
+            with lock:
+                wrong[address] = (0, now + LOCK_S) if count >= MAX_WRONG else (count, 0.0)
             self._reply(401, {"error": "missing or wrong token"})
             return False
 

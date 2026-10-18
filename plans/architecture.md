@@ -1030,7 +1030,7 @@ the suite is green after each.
 - **Files:** `resources/guide/*`, `sampledata.py`, `tools/guide_screenshots.py`, CI.
 
 ### ARC-22. Security and privacy  (P2)
-**open**
+**partial** — done (2026-11-11): the observatory API locks an address out for 5 minutes after 10 wrong tokens in a row (429, the right token too; a right token clears the count; `devices/server.py`, test). The problem report sends no names or codes (ARC-17). Left: the statement in About and the guide, the plugin prompt, `pip-audit`.
 - **Build:** a written statement in Help → About and the guide: no telemetry; network only for the services the user
   starts (and ARC-1's weekly table if left on); plugins and recipes run with the user's rights — the Plugins dialog
   shows the file path and a warning before the first run of a new or changed plugin (hash remembered); the
