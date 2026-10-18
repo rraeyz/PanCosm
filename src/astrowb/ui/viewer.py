@@ -26,6 +26,7 @@ class ImageViewer(QGraphicsView):
     line_selected = Signal(float, float, float, float)
     # Shift + wheel while marking stars: +1 / -1 to make the measuring rings larger / smaller (the image keeps its zoom)
     rings_wheel = Signal(int)
+    step_frame = Signal(int)  # [ or ] over the image: the previous / next frame of the series (UI-12)
     star_key = Signal(float, float)  # the a key over the image: 0-based array x, y under the cursor (imexamine)
     _rendered = Signal(int, object)  # generation, full-resolution picture (from the render thread)
 
@@ -510,6 +511,9 @@ class ImageViewer(QGraphicsView):
         }  # fmt: skip  (UI-12: the same keys in every image)
         if key in views and self.data is not None and not event.modifiers() & ~Qt.KeypadModifier & ~Qt.ShiftModifier:
             views[key]()
+            return None
+        if key in "[]" and key and not event.modifiers() & ~Qt.ShiftModifier:
+            self.step_frame.emit(-1 if key == "[" else 1)
             return None
         if not key or key not in "amlc" or self.cursor_pixel is None or event.modifiers() or self.data is None:
             return super().keyPressEvent(event)

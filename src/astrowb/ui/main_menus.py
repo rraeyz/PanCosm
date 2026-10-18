@@ -81,6 +81,7 @@ def _view_and_image(main):
         v, translate("MainWindow", "&Previous image"), lambda: main.image_page.step_image(-1)
     )
     main.next_action = main._action(v, translate("MainWindow", "&Next image"), lambda: main.image_page.step_image(1))
+    main.image_page.viewer.step_frame.connect(main.image_page.step_image)  # [ and ] over the image
     for act, key in ((main.previous_action, Qt.Key_PageUp), (main.next_action, Qt.Key_PageDown)):
         act.setShortcut(key)
         act.setShortcutContext(Qt.WidgetWithChildrenShortcut)  # only over the image: tables keep their keys

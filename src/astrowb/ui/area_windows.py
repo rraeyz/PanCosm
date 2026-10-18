@@ -161,6 +161,7 @@ def _photometry_stages(win, page):
         last[0] = now  # a stage the user went back to stays shown
 
     page.steps_shown = follow
+    page.viewer.step_frame.connect(lambda d: page.frame_slider.setValue(page.frame_slider.value() + d))  # [ ]
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)
