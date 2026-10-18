@@ -9,6 +9,13 @@ deepest point of a light-curve CSV). Copy one and change it to start your own. T
 plugins) explains the same for users who do not program.
 
 
+**Allowing a plugin:** a plugin runs with your rights, like any program. A file that is new, or changed since it
+was allowed, waits in the Plugins menu as "Allow …" until you allow it (its SHA-256 is kept in `.trusted.json` in
+the plugins folder). The bundled examples, and the files that were there before this check, are trusted.
+
+**Steps a plugin can call:** every built-in step, with its inputs, parameters and defaults, is listed in
+[`docs/api/`](api/README.md) (generated from the step registry).
+
 A plugin is a Python file in the `plugins` folder of the settings folder
 (**Plugins → Open plugins folder** opens it). Each file registers one or more steps with the same
 decorator the built-in steps use; they appear in the **Plugins** menu, which builds a form from the
