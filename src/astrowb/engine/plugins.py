@@ -8,12 +8,16 @@
         ...
         return {"result": ...}
 
-Plugins run with the user's rights like any program they install: only put files there that you trust.
+Plugins run with the user's rights like any program they install: only put files there that you trust. A new or
+changed file waits until the user allows it (Plugins → Allow…); its SHA-256 is then kept in .trusted.json in the
+folder (ARC-22). Files already there when this check first ran, and the bundled examples, are trusted.
 A plugin that fails to import is reported and skipped; it never stops the application.
 Step ids of plugins must start with "plugin." so they cannot replace built-in steps.
 """
 
+import hashlib
 import importlib.util
+import json
 import sys
 import traceback
 from pathlib import Path
@@ -23,6 +27,8 @@ from . import steps
 
 _loaded: set[Path] = set()  # plugin files already imported (a file added later is loaded on the next call)
 ERRORS: dict[str, str] = {}  # file name -> error text
+WAITING: dict[str, Path] = {}  # file name -> path of a new or changed plugin not allowed yet
+TRUST = ".trusted.json"  # {file name: sha256} of the allowed plugins, in the plugins folder
 PREFIX = "plugin."
 
 
@@ -33,9 +39,15 @@ def plugin_dir() -> Path:
 def load_plugins(folder: Path | None = None) -> list[str]:
     """Import every plugin file once; returns the ids of the steps they registered."""
     folder = Path(folder) if folder else plugin_dir()
-    for path in sorted(folder.glob("*.py")) if folder.is_dir() else []:
+    files = sorted(folder.glob("*.py")) if folder.is_dir() else []
+    trusted = _trusted(folder, files)
+    for path in files:
         if path.resolve() in _loaded:
             continue
+        if trusted.get(path.name) != _digest(path):
+            WAITING[path.name] = path  # never run before the user allows it
+            continue
+        WAITING.pop(path.name, None)
         _loaded.add(path.resolve())
         before = set(steps.REGISTRY)
         name = f"astrowb_plugin_{path.stem}"
@@ -55,6 +67,37 @@ def load_plugins(folder: Path | None = None) -> list[str]:
     return plugin_steps()
 
 
+def _digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def _trusted(folder, files):
+    """The allowed plugins' hashes; the first time, every file already in the folder (they ran before this check)."""
+    store = Path(folder) / TRUST
+    try:
+        return json.loads(store.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        known = {p.name: _digest(p) for p in files}
+        if files:
+            store.write_text(json.dumps(known, indent=1), encoding="utf-8")
+        return known
+    except (OSError, ValueError):
+        return {}
+
+
+def allow(path):
+    """Trust this file as it is now (Plugins → Allow…); it loads on the next load_plugins()."""
+    path = Path(path)
+    store = path.parent / TRUST
+    try:
+        known = json.loads(store.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        known = {}
+    known[path.name] = _digest(path)
+    store.write_text(json.dumps(known, indent=1), encoding="utf-8")
+    WAITING.pop(path.name, None)
+
+
 def examples_dir() -> Path:
     return Path(__file__).resolve().parents[1] / "resources" / "plugins"
 
@@ -70,6 +113,7 @@ def install_examples(folder: Path | None = None) -> list[str]:
         dest = folder / src.name
         if not dest.exists():
             shutil.copy2(src, dest)
+            allow(dest)  # ours, shipped with the program
             copied.append(src.name)
     return copied
 

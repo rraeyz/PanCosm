@@ -438,7 +438,7 @@
 <context>
     <name>App</name>
     <message>
-        <location filename="../../__main__.py" line="185"/>
+        <location filename="../../__main__.py" line="188"/>
         <source>Unexpected error</source>
         <translation>Unerwarteter Fehler</translation>
     </message>
@@ -730,13 +730,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="95"/>
-        <location filename="../../ui/report.py" line="105"/>
+        <location filename="../../ui/report.py" line="120"/>
+        <location filename="../../ui/report.py" line="130"/>
         <source>Report a problem</source>
         <translation>Problem melden</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="106"/>
+        <location filename="../../ui/report.py" line="131"/>
         <source>The report is saved:
 {path}
 
@@ -5095,7 +5095,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Plugin-Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="206"/>
+        <location filename="../../ui/file_actions.py" line="205"/>
+        <source>Allow {f}…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="210"/>
         <source>Open plugins folder</source>
         <translation>Plugin-Ordner öffnen</translation>
     </message>
@@ -5147,22 +5152,34 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Bildoperation</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="209"/>
         <source>Install the example plugins</source>
         <translation>Beispiel-Plugins installieren</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="207"/>
+        <location filename="../../ui/file_actions.py" line="211"/>
         <source>What are plugins?</source>
         <translation>Was sind Plugins?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="216"/>
+        <location filename="../../ui/file_actions.py" line="217"/>
+        <source>{path}
+
+This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="223"/>
+        <source>Allow a plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="237"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Installiert: {names}. Sie stehen jetzt im Menü Plugins.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="220"/>
+        <location filename="../../ui/file_actions.py" line="241"/>
         <source>The example plugins are already installed.</source>
         <translation>Die Beispiel-Plugins sind bereits installiert.</translation>
     </message>

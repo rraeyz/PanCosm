@@ -113,3 +113,41 @@ def test_example_plugins_install_and_give_right_answers(tmp_path, qtbot):
             steps.REGISTRY.pop(sid)
         plugins.ERRORS.clear()
         win.engine.shutdown()
+
+
+def test_a_new_or_changed_plugin_waits_until_allowed(tmp_path, qtbot, monkeypatch):
+    """ARC-22: plugins already there run (they ran before the check); a new one, or one that changed, waits in the
+    Plugins menu until the user allows it."""
+    from PySide6.QtWidgets import QMessageBox
+
+    from astrowb.engine import plugins, steps
+    from astrowb.settings import Settings
+    from astrowb.ui.main_window import MainWindow
+
+    folder = tmp_path / "plugins"
+    folder.mkdir()
+    (folder / "first.py").write_text(GOOD)
+    try:
+        assert plugins.load_plugins(folder) == ["plugin.double"]  # there before: trusted
+        (folder / "second.py").write_text(GOOD.replace("double", "triple"))
+        assert "plugin.triple" not in plugins.load_plugins(folder) and "second.py" in plugins.WAITING
+        win = MainWindow(Settings(tmp_path))
+        qtbot.addWidget(win)
+        try:
+            monkeypatch.setattr(plugins, "plugin_dir", lambda: folder)
+            win._fill_plugins_menu()
+            assert "Allow second.py…" in [a.text() for a in win.plugins_menu.actions()]
+            monkeypatch.setattr(QMessageBox, "warning", lambda *a, **k: QMessageBox.No)
+            assert not win.allow_plugin(folder / "second.py") and "second.py" in plugins.WAITING
+            assert win.allow_plugin(folder / "second.py", ask=False) and "plugin.triple" in plugins.plugin_steps()
+        finally:
+            win.engine.shutdown()
+        (folder / "first.py").write_text(GOOD + "\n# changed\n")
+        plugins._loaded.clear()
+        plugins.load_plugins(folder)
+        assert "first.py" in plugins.WAITING  # changed since it was allowed
+    finally:
+        for sid in plugins.plugin_steps():
+            steps.REGISTRY.pop(sid)
+        plugins.WAITING.clear()
+        plugins._loaded.clear()
