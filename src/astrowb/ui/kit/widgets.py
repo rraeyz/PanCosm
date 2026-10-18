@@ -213,7 +213,8 @@ class PlotCanvas(QWidget):
         self._windows = []
         # said over the empty plot until something is drawn (UI-6: no blank rectangle without words); a page
         # sets its own words with set_empty_hint
-        self.hint = QLabel(self.tr("Nothing to show yet: the plot appears here once there are results"), self.canvas)
+        self._empty_text = self.tr("Nothing to show yet: the plot appears here once there are results")
+        self.hint = QLabel(self._empty_text, self.canvas)
         self.hint.setWordWrap(True)
         self.hint.setAlignment(Qt.AlignCenter)
         self.hint.setProperty("muted", True)
@@ -224,8 +225,13 @@ class PlotCanvas(QWidget):
         self.canvas.customContextMenuRequested.connect(self._context_menu)
 
     def set_empty_hint(self, text):
+        self._empty_text = text
         self.hint.setText(text)
         self._update_hint()
+
+    def set_busy(self, text):
+        """UI-6's loading state: while the window's task runs, an empty plot says so (None: back to its hint)."""
+        self.hint.setText(text or getattr(self, "_empty_text", self.hint.text()))
 
     def is_empty(self):
         return not any(

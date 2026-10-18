@@ -240,6 +240,8 @@ class AreaWindow(Anatomy, QMainWindow):
         name = step_name(task.name)
         self.task_chip.update_task(task)
         running = [t for t in self._tasks.values() if not t.finished]
+        now = running[-1] if running else None
+        self._show_busy(f"{step_name(now.name)} — {int(now.progress * 100)} %" if now else None)
         if task.finished and task.state == "done":
             from .toast import Toast
 
@@ -266,6 +268,13 @@ class AreaWindow(Anatomy, QMainWindow):
             self.task_progress.setValue(int(shown.progress * 100))
             extra = len(running) - 1
             self.task_progress.setFormat("%p %" if not extra else self.tr("%p % (+{n} more)").format(n=extra))
+
+    def _show_busy(self, text):
+        """Empty plots of the window say what is running instead of "nothing to show" (UI-6)."""
+        from .widgets import PlotCanvas
+
+        for plot in self.findChildren(PlotCanvas):
+            plot.set_busy(self.tr("Working: {task}").format(task=text) if text else None)
 
     def cancel_tasks(self):
         for task in list(self._tasks.values()):

@@ -637,95 +637,100 @@
         <translation>Bu pencere için çalışan işi durdur</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="246"/>
-        <location filename="../../ui/kit/window.py" line="250"/>
+        <location filename="../../ui/kit/window.py" line="248"/>
+        <location filename="../../ui/kit/window.py" line="252"/>
         <source>{name}: finished</source>
         <translation>{name}: bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="251"/>
+        <location filename="../../ui/kit/window.py" line="253"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: başarısız (iletiye bakın)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="252"/>
+        <location filename="../../ui/kit/window.py" line="254"/>
         <source>{name}: cancelled</source>
         <translation>{name}: iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="268"/>
+        <location filename="../../ui/kit/window.py" line="270"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} iş daha)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="273"/>
+        <location filename="../../ui/kit/window.py" line="277"/>
+        <source>Working: {task}</source>
+        <translation>Çalışıyor: {task}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="282"/>
         <source>Stopping…</source>
         <translation>Durduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="290"/>
+        <location filename="../../ui/kit/window.py" line="299"/>
         <source>(none yet)</source>
         <translation>(henüz yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="293"/>
+        <location filename="../../ui/kit/window.py" line="302"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="324"/>
+        <location filename="../../ui/kit/window.py" line="333"/>
         <source>Session saved: {path}</source>
         <translation>Oturum kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="333"/>
+        <location filename="../../ui/kit/window.py" line="342"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="336"/>
+        <location filename="../../ui/kit/window.py" line="345"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="341"/>
+        <location filename="../../ui/kit/window.py" line="350"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="345"/>
+        <location filename="../../ui/kit/window.py" line="354"/>
         <source>Session opened: {path}</source>
         <translation>Oturum açıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="347"/>
-        <location filename="../../ui/kit/window.py" line="358"/>
+        <location filename="../../ui/kit/window.py" line="356"/>
+        <location filename="../../ui/kit/window.py" line="367"/>
         <source>Open session</source>
         <translation>Oturum aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="352"/>
+        <location filename="../../ui/kit/window.py" line="361"/>
         <source>Save session</source>
         <translation>Oturumu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="352"/>
-        <location filename="../../ui/kit/window.py" line="358"/>
+        <location filename="../../ui/kit/window.py" line="361"/>
+        <location filename="../../ui/kit/window.py" line="367"/>
         <source>Session (*.session.json)</source>
         <translation>Oturum (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="368"/>
+        <location filename="../../ui/kit/window.py" line="377"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="428"/>
+        <location filename="../../ui/kit/window.py" line="437"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="491"/>
+        <location filename="../../ui/kit/window.py" line="500"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
@@ -1935,12 +1940,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="582"/>
+        <location filename="../../ui/kit/window.py" line="591"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="583"/>
+        <location filename="../../ui/kit/window.py" line="592"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -11530,7 +11535,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <name>PlotCanvas</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="199"/>
-        <location filename="../../ui/kit/widgets.py" line="315"/>
+        <location filename="../../ui/kit/widgets.py" line="321"/>
         <source>Publication figure…</source>
         <translation>Yayın şekli…</translation>
     </message>
@@ -11555,37 +11560,37 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="258"/>
+        <location filename="../../ui/kit/widgets.py" line="264"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="309"/>
+        <location filename="../../ui/kit/widgets.py" line="315"/>
         <source>Show all</source>
         <translation>Tümünü göster</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="311"/>
+        <location filename="../../ui/kit/widgets.py" line="317"/>
         <source>Copy picture</source>
         <translation>Resmi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="312"/>
+        <location filename="../../ui/kit/widgets.py" line="318"/>
         <source>Copy data</source>
         <translation>Veriyi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="314"/>
+        <location filename="../../ui/kit/widgets.py" line="320"/>
         <source>Save data…</source>
         <translation>Veriyi kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="342"/>
+        <location filename="../../ui/kit/widgets.py" line="348"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="358"/>
+        <location filename="../../ui/kit/widgets.py" line="364"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
     </message>
@@ -13019,7 +13024,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/settings_window.py" line="260"/>
         <source>The camera&apos;s clock minus UTC, for camera raw files and pictures without a UTC time (DSLR)</source>
-        <translation>Kamera saatinin UTC'den farkı; UTC zamanı olmayan ham kamera dosyaları ve resimler için (DSLR)</translation>
+        <translation>Kamera saatinin UTC&apos;den farkı; UTC zamanı olmayan ham kamera dosyaları ve resimler için (DSLR)</translation>
     </message>
     <message>
         <location filename="../../ui/settings_window.py" line="261"/>
