@@ -60,3 +60,40 @@ def make(folder, n_lights=48, seed=7):
     truth |= {"ra": RA, "dec": DEC, "depth": 0.45}
     (Path(folder) / "truth.json").write_text(json.dumps(truth, indent=1), encoding="utf-8")
     return truth
+
+
+# --- practice sets for the other areas (ARC-21): small, synthetic, the answer known -----------------------------
+PULSATOR = {"f1": 8.1234, "a1": 0.010, "f2": 11.4700, "a2": 0.004}  # c/d and relative flux
+LTTE = {"t0": 2455000.1234, "period": 0.8123456, "amplitude": 0.0050, "p3": 2900.0}  # days
+
+
+def pulsator(folder, seed=3):
+    """pulsator.csv (time BJD, flux): 27 days at 10-minute cadence of a star pulsating at two frequencies
+    (PULSATOR), the noise 1 mmag. Light curves → Frequency analysis finds f1 first."""
+    rng = np.random.default_rng(seed)
+    t = 2460000.0 + np.arange(0, 27, 10 / 1440)
+    p = PULSATOR
+    flux = (1 + p["a1"] * np.sin(2 * np.pi * p["f1"] * (t - t[0]))
+            + p["a2"] * np.sin(2 * np.pi * p["f2"] * (t - t[0]) + 1.0) + rng.normal(0, 0.001, t.size))  # fmt: skip
+    path = Path(folder) / "pulsator.csv"
+    np.savetxt(path, np.column_stack([t, flux]), delimiter=",", header="time,flux", comments="", fmt="%.6f")
+    return path
+
+
+def minima(folder, seed=5):
+    """minima.txt ("time error I"): 12 years of primary minima of an eclipsing binary (LTTE's ephemeris) moved by a
+    third body on a circular orbit (amplitude, period p3). O−C → fit the third body finds p3."""
+    rng = np.random.default_rng(seed)
+    e = np.sort(rng.choice(np.arange(0, int(12 * 365.25 / LTTE["period"])), 160, replace=False))
+    t = LTTE["t0"] + LTTE["period"] * e
+    t = t + LTTE["amplitude"] * np.sin(2 * np.pi * (t - LTTE["t0"]) / LTTE["p3"]) + rng.normal(0, 0.0004, t.size)
+    path = Path(folder) / "minima.txt"
+    path.write_text("# time  error  kind (practice data)\n" + "".join(f"{x:.5f} 0.0004 I\n" for x in t))
+    return path
+
+
+def practice_sets(folder):
+    """The light-curve and O−C practice files in folder; returns {name: path} and the answers."""
+    Path(folder).mkdir(parents=True, exist_ok=True)
+    files = {"pulsator": str(pulsator(folder)), "minima": str(minima(folder))}
+    return {"files": files, "answers": {"pulsator": PULSATOR, "minima": LTTE}}

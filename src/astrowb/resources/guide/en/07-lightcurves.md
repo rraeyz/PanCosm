@@ -55,3 +55,15 @@ The result gives the new T0 and P with errors; the quadratic fit also gives the 
 - A parabola: the period changes (mass transfer, magnetic activity, angular-momentum loss).
 - A wave: light-travel time effect of a third body, or apsidal motion (primary and secondary minima moving opposite to each other in eccentric systems).
 - Errors matter: minima without errors are given equal weight.
+
+## Try it (practice data) {#lightcurves-try-it-practice}
+**Help → Practice data for a first night…** also writes two files for this chapter into the folder you choose:
+
+1. `pulsator.csv` — 27 days of a star that pulsates at two frequencies. Open it in Light curves → Frequency
+   analysis and run it: the first frequency found is **8.123 c/d** (amplitude 10 mmag), the second **11.470 c/d**.
+2. `minima.txt` — 12 years of primary minima of an eclipsing binary with period 0.8123456 d. Load it in the O−C
+   window with T0 = 2455000.1234 and that period, choose Third body and fit: the third body's period comes out
+   near **2900 days** and the light-travel-time amplitude near **0.005 d** (7 minutes).
+
+If you find these numbers, the steps work as they should on your machine.
+

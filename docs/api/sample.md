@@ -7,7 +7,8 @@ Python: `from astrowb import api; api.sample.<step>(…)`; command line: `astrow
 ```text
 sample.night
 
-Practice data: a simulated night of an eclipsing binary with calibration frames (see the Guide).
+Practice data: a simulated night of an eclipsing binary with calibration frames, a pulsating star's light
+curve and a list of minima with a third body (see the Guide).
 
 inputs:      folder
 outputs:     truth
