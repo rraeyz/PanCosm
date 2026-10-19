@@ -27,6 +27,7 @@ class ImageViewer(QGraphicsView):
     # Shift + wheel while marking stars: +1 / -1 to make the measuring rings larger / smaller (the image keeps its zoom)
     rings_wheel = Signal(int)
     step_frame = Signal(int)  # [ or ] over the image: the previous / next frame of the series (UI-12)
+    blink_key = Signal()  # b over the image: blink the series (UI-12)
     star_key = Signal(float, float)  # the a key over the image: 0-based array x, y under the cursor (imexamine)
     _rendered = Signal(int, object)  # generation, full-resolution picture (from the render thread)
 
@@ -499,9 +500,9 @@ class ImageViewer(QGraphicsView):
         self._press = None
 
     def keyPressEvent(self, event):
-        """Keys over the image (UI-12): + / − zoom, 0 fit, 1 100 %, i invert, n North up, [ / ] frames; and as IRAF's
-        imexamine (ARC-7 item 4): a the star, m statistics of the 11 × 11 box, l / c the line / column through the
-        cursor (as the area and line tools)."""
+        """Keys over the image (UI-12): + / − zoom, 0 fit, 1 100 %, i invert, n North up, [ / ] frames, b blink;
+        and as IRAF's imexamine (ARC-7 item 4): a the star, m statistics of the 11 × 11 box, l / c the line /
+        column through the cursor (as the area and line tools)."""
         key = event.text().lower()
         views = {
             "+": lambda: self.zoom(1.25),
@@ -517,6 +518,9 @@ class ImageViewer(QGraphicsView):
             return None
         if key in "[]" and key and not event.modifiers() & ~Qt.ShiftModifier:
             self.step_frame.emit(-1 if key == "[" else 1)
+            return None
+        if key == "b" and not event.modifiers():
+            self.blink_key.emit()
             return None
         if not key or key not in "amlc" or self.cursor_pixel is None or event.modifiers() or self.data is None:
             return super().keyPressEvent(event)
