@@ -11,6 +11,14 @@ from astrowb.engine.tasks import Cancelled, TaskFailed, TaskQueue
 
 
 # Task functions must live at module level so the spawned worker can import them.
+def phased(ctx):
+    ctx.progress(0.1, "reading")
+    time.sleep(0.05)
+    ctx.progress(0.6, "measuring")
+    time.sleep(0.05)
+    return 1
+
+
 def add(a, b, ctx):
     ctx.progress(0.5, "half")
     return a + b
@@ -236,3 +244,14 @@ def test_task_timeline_in_the_log(tq, caplog):
     lines = [r.getMessage() for r in caplog.records]
     assert any(f"task {t.id} adding running" in line for line in lines)
     assert any(f"task {t.id} adding done after" in line for line in lines)
+
+
+def test_task_phases_in_the_log(tq, caplog):
+    """ARC-17: "why was this slow?" — the log names each phase a step reported and how long it took."""
+    import logging
+
+    with caplog.at_level(logging.INFO, logger="astrowb.engine.tasks"):
+        t = tq.submit(phased)
+        t.wait(60)
+    line = next(r.getMessage() for r in caplog.records if "phases:" in r.getMessage())
+    assert f"task {t.id} phases: reading" in line and "measuring" in line
