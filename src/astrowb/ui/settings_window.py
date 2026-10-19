@@ -152,9 +152,10 @@ class SettingsWindow(Dialog):
         self.categories.addItem(title)
         return self.pages.count() - 1
 
-    def _row(self, category, label, control, description, unit=None):
+    def _row(self, category, label, control, description, unit=None, default=None):
+        """default: the program's own value; the row then shows a dot while the setting differs, a click resets."""
         page = self.pages.widget(category)
-        row = FormRow(label, control, unit=unit, help=description, reset=False)
+        row = FormRow(label, control, unit=unit, help=description, reset=default is not None, default=default)
         note = QLabel(description, page)
         note.setProperty("muted", True)
         note.setWordWrap(True)
@@ -181,17 +182,17 @@ class SettingsWindow(Dialog):
             [("dark", self.tr("Dark")), ("light", self.tr("Light"))], self.settings.get("ui.theme", "dark")
         )
         look.currentIndexChanged.connect(lambda _i: main.set_theme(look.value()))
-        self._row(c, self.tr("Look"), look, self.tr("Dark or light windows"))
+        self._row(c, self.tr("Look"), look, self.tr("Dark or light windows"), default="dark")
         from . import theme
 
         size = NumberField(theme.font_size(self.settings), theme.FONT_MIN, theme.FONT_MAX, 1, 0, parent=self)
         size.valueChanged.connect(lambda v: main._change_font(int(v) - theme.font_size(self.settings)))
-        self._row(c, self.tr("Text size"), size, self.tr("The size of the text in every window"), "pt")
+        self._row(c, self.tr("Text size"), size, self.tr("The size of the text in every window"), "pt", theme.FONT_PT)
         names = Toggle("", bool(self.settings.get("ui.toolbar_text", False)), self)
         names.toggled.connect(self._toolbar_text)
-        self._row(c, self.tr("Toolbar text"), names, self.tr("The names beside the toolbar's icons"))
+        self._row(c, self.tr("Toolbar text"), names, self.tr("The names beside the toolbar's icons"), default=False)
         expert = self.tr("Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)")
-        self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert)
+        self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert, default=False)
 
     def _toolbar_text(self, on):
         from .kit.window import AreaWindow
@@ -248,7 +249,7 @@ class SettingsWindow(Dialog):
         device = ChoiceField([("auto", self.tr("Automatic (GPU when useful)")), ("cpu", self.tr("CPU only")),
                               ("gpu", self.tr("GPU"))], compute.mode(), self)  # fmt: skip
         device.currentIndexChanged.connect(lambda _i: self.main.set_compute(device.value()))
-        self._row(c, self.tr("Processing device"), device, self.tr("Where the heavy computations run"))
+        self._row(c, self.tr("Processing device"), device, self.tr("Where the heavy computations run"), default="auto")
 
     def _time(self):
         c = self._category(self.tr("Time"))
@@ -264,9 +265,9 @@ class SettingsWindow(Dialog):
         c = self._category(self.tr("Online services"))
         main = self.main
         offline = self.tr("Catalogues, archives and name look-ups answer only from what was fetched before")
-        self._row(c, self.tr("Work offline"), self._mirror(main.offline_action), offline)
+        self._row(c, self.tr("Work offline"), self._mirror(main.offline_action), offline, default=False)
         tables = self.tr("Kept up to date once a week when online (about 3 MB from the IERS)")
-        self._row(c, self.tr("Earth-rotation tables"), self._mirror(main.time_tables_action), tables)
+        self._row(c, self.tr("Earth-rotation tables"), self._mirror(main.time_tables_action), tables, default=True)
 
     # --- search -----------------------------------------------------------------------------------------------
     def filter(self, text):

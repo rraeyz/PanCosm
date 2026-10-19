@@ -1926,3 +1926,17 @@ def test_start_window_says_when_working_offline(window):
     finally:
         window.offline_action.setChecked(False)
     assert not page.offline_banner.isVisibleTo(page)
+
+
+def test_settings_reset_to_the_default(window):
+    """UI-13: a setting changed from the program's default shows a dot; a click on it puts the default back."""
+    win = window.show_settings()
+    try:
+        row = next(r for _c, r, _n, _w in win.rows if r.label.text() == "Processing device")
+        assert not row.is_changed()
+        row.control.setValue("cpu")
+        assert row.is_changed() and row.dot.isEnabled()
+        row.dot.click()
+        assert row.control.value() == "auto" and not row.is_changed()
+    finally:
+        win.close()
