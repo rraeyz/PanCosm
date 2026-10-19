@@ -66,6 +66,7 @@ def _simbad(name: str) -> Target:
     from astroquery.simbad import Simbad
 
     from ..mirrors import cds
+    from ..services.cache import cached
 
     def query(server):
         s = Simbad()
@@ -73,7 +74,7 @@ def _simbad(name: str) -> Target:
         s.add_votable_fields("V")
         return s.query_object(name)
 
-    table = cds("simbad", query)
+    table = cached("simbad", name, lambda: cds("simbad", query))  # offline: names looked up before still resolve
     if table is None or len(table) == 0:
         raise TargetError(f"SIMBAD does not know '{name}'")
     row = table[0]
