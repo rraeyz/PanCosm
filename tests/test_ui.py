@@ -1933,6 +1933,7 @@ def test_settings_reset_to_the_default(window):
     win = window.show_settings()
     try:
         row = next(r for _c, r, _n, _w in win.rows if r.label.text() == "Processing device")
+        row.control.setValue("auto")  # another test may have left the device on the CPU
         assert not row.is_changed()
         row.control.setValue("cpu")
         assert row.is_changed() and row.dot.isEnabled()
