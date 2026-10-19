@@ -4227,7 +4227,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="71"/>
         <source>Stack</source>
-        <translation>Birleştir</translation>
+        <translation>Yığ</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="75"/>
@@ -4755,7 +4755,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/main_menus.py" line="182"/>
         <source>&amp;Look</source>
-        <translation>&amp;Görünüm</translation>
+        <translation>&amp;Tema</translation>
     </message>
     <message>
         <location filename="../../ui/main_menus.py" line="183"/>
@@ -8402,7 +8402,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/observe_page.py" line="408"/>
         <source>Off</source>
-        <translation>Kapat</translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="410"/>
@@ -8626,7 +8626,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/overlay_actions.py" line="13"/>
         <source>&amp;Overlays</source>
-        <translation>&amp;Katmanlar</translation>
+        <translation>&amp;Kaplamalar</translation>
     </message>
     <message>
         <location filename="../../ui/overlay_actions.py" line="14"/>
@@ -8671,7 +8671,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/overlay_actions.py" line="31"/>
         <source>Clear overlays</source>
-        <translation>Katmanları temizle</translation>
+        <translation>Kaplamaları temizle</translation>
     </message>
     <message>
         <location filename="../../ui/overlay_actions.py" line="35"/>
@@ -12929,7 +12929,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/settings_window.py" line="184"/>
         <source>Look</source>
-        <translation>Görünüm</translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../../ui/settings_window.py" line="184"/>

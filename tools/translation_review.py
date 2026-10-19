@@ -132,7 +132,28 @@ def long_translations(lang="tr", factor=1.6, shortest=12):
     return sorted(out, key=lambda r: -r[2])
 
 
-if __name__ == "__main__" and sys.argv[1:2] == ["long"]:
+def same_translations(lang="tr"):
+    """{translation: [sources]} where different English texts got the same translation (ARC-18 item 2): either two
+    sources mean the same (fine) or a distinction was lost (look). Case, "&" and a final "…" are ignored."""
+    by = {}
+    for _ctx, _where, m in _messages(lang):
+        source, tr = m.findtext("source") or "", m.find("translation")
+        if tr is None or not tr.text or tr.get("type") in ("obsolete", "vanished"):
+            continue
+        by.setdefault(tr.text, set()).add(source)
+
+    def key(text):
+        return text.replace("&", "").rstrip("…").strip().casefold()
+
+    return {t: sorted(s) for t, s in by.items() if len({key(x) for x in s}) > 1}
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["same"]:
+    found = same_translations(sys.argv[2] if len(sys.argv) > 2 else "tr")
+    for tr, sources in found.items():
+        print(f"{tr}\n" + "".join(f"    {s}\n" for s in sources))
+    print(f"{len(found)} translations stand for more than one English text")
+elif __name__ == "__main__" and sys.argv[1:2] == ["long"]:
     found = long_translations(sys.argv[2] if len(sys.argv) > 2 else "tr")
     for source, tr, ratio in found:
         print(f"{ratio:.2f}×  {source}\n       {tr}")

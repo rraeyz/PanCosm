@@ -1,5 +1,5 @@
 # Görüntüler
-**Görüntüler** penceresi bir FITS görüntüsünü, başlığını ve koordinatlarını gösterir ve görüntü işlemlerini çalıştırır. Görüntüler kendi penceresinde açılır (Başlangıç sayfasındaki bloğu, Pencere menüsü ya da açılan herhangi bir görüntü); menüleri MaxIm DL ve AstroImageJ'deki gibi gruplanmıştır — Dosya, Düzen (başlık), Görünüm (yakınlaştırma, düzeyler, germe), İşle, Analiz, Katmanlar, Astrometri, Renk ve Birleştir — imleç okuması (x, y, değer, RA / Dec) durum çubuğundadır.
+**Görüntüler** penceresi bir FITS görüntüsünü, başlığını ve koordinatlarını gösterir ve görüntü işlemlerini çalıştırır. Görüntüler kendi penceresinde açılır (Başlangıç sayfasındaki bloğu, Pencere menüsü ya da açılan herhangi bir görüntü); menüleri MaxIm DL ve AstroImageJ'deki gibi gruplanmıştır — Dosya, Düzen (başlık), Görünüm (yakınlaştırma, düzeyler, germe), İşle, Analiz, Kaplamalar, Astrometri, Renk ve Birleştir — imleç okuması (x, y, değer, RA / Dec) durum çubuğundadır.
 
 ![Görüntüler penceresi](images/tr/window-image.jpg)
 
@@ -17,8 +17,8 @@
 
 **Görünüm → Görüntü düzeyleri ve renkler…** (Ctrl+L) görüntünün histogramını, siyah ve beyaz düzeyleri iki çizgi olarak gösterir: elle germek için düzeyleri yazın ya da aralığa dönmek için **Otomatik**'e basın. **Renkler** sönük ayrıntıları ve küçük farkları görmeyi kolaylaştıran yalancı renk haritaları verir (ısı, viridis, inferno, magma, cividis, soğuk, gökkuşağı); **Ters** basılı haritalardaki gibi beyaz gök üzerinde siyah yıldızlar gösterir.
 
-## Katmanlar: kontur, ızgara, kataloglar, DS9 bölgeleri {#images-overlays-contours-grid-catalogues}
-**Katmanlar** görüntünün üstüne çizer (yeni görüntü açılınca silinir):
+## Kaplamalar: kontur, ızgara, kataloglar, DS9 bölgeleri {#images-overlays-contours-grid-catalogues}
+**Kaplamalar** görüntünün üstüne çizer (yeni görüntü açılınca silinir):
 
 - **Konturlar…** — eşit parlaklık çizgileri; gökyüzünün 3 σ üstünden en parlak piksele logaritmik aralıklarla.
 - **Koordinat ızgarası** — etiketli sabit RA ve Dec çizgileri (görüntü plaka çözülmüş olmalı).
@@ -26,7 +26,7 @@
 - **Asteroitler ve kuyruklu yıldızlar (SkyBoT)** — görüntünün poz ortası zamanında alandaki bilinen küçük gezegenler ve kuyruklu yıldızlar, adlarıyla, IMCCE SkyBoT hizmetinden (internet; DATE-OBS'lu, plaka çözülmüş görüntü). Hareketli bir cismi yeni bir değişenden ayırmak ya da ölçmek istediğiniz asteroiti bulmak için.
 - **DS9 bölgelerini yükle…** bir DS9 `.reg` dosyasını okur (daire, kutu, çizgi, nokta, yazı; görüntü ya da fk5 koordinatları). **İşaretleri DS9 bölgesi olarak kaydet…** görüntüde işaretli yıldızları (ör. hedef ve karşılaştırmalar) DS9 ya da AstroImageJ için yazar.
 - **Bulucu harita…** AAVSO tarzında bir harita yapar (PNG ya da PDF): beyaz üzerinde siyah yıldızlar, koordinat ızgarası, kuzey ve doğu okları, iki çizgi arasında hedef ve V kadirinin 10 katıyla, ondalık noktasız etiketlenmiş en parlak yıldızlar (11,2 → 112, Gaia'dan). Açık, plaka çözülmüş görüntüyü kullanır; açık görüntü yoksa koordinat sorar ve alanın DSS görüntüsünü indirir (internet).
-- **Katmanları temizle** hepsini kaldırır.
+- **Kaplamaları temizle** hepsini kaldırır.
 
 ## Görüntü üzerinde ölçmek {#images-measuring-image}
 Görüntünün üstündeki düğmeler (ve **Analiz** menüsündeki aynı araçlar) farenin ne yapacağını seçer (MaxIm DL'nin Information ve Graph pencereleri ya da AstroImageJ'nin araçları gibi). Sonuçlar **Bilgi** sekmesinde, grafikler **Grafik** sekmesinde çıkar; tabloyu dışa aktarmak ya da kopyalamak için sağ tıklayın, **Veriyi dışa aktar (CSV)…** grafiğin arkasındaki sayıları yazar. MaxIm DL'deki gibi, bir yıldıza tıklamak ya da bir çizgi veya dikdörtgen çizmek görüntünün üstünde iki küçük yüzen pencere açar: **Bilgi** (sayılar) ve **Grafik**; üstte kalırlar, her yeni ölçümle güncellenirler, istediğiniz yere taşınabilir ve kapatılabilirler (sonraki ölçüm yeniden açar). Sekmelerin köşesindeki **⧉** düğmesi bunları kapatır: sonuçlar o zaman görüntünün yanındaki sekmelerde görünür.
