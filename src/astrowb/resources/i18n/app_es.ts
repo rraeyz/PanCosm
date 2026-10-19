@@ -4813,17 +4813,17 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="42"/>
+        <location filename="../../ui/online_actions.py" line="44"/>
         <source>Clear the saved catalogue answers…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="48"/>
+        <location filename="../../ui/online_actions.py" line="50"/>
         <source>Delete {n} saved answers of catalogues and archives ({mb:.0f} MB)? They are fetched again when needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="52"/>
+        <location filename="../../ui/online_actions.py" line="54"/>
         <source>Saved catalogue answers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13934,22 +13934,27 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="175"/>
+        <location filename="../../ui/start_page.py" line="172"/>
+        <source>Working offline: catalogues, archives and look-ups answer only from what was fetched before (Settings → Work offline).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="188"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="201"/>
+        <location filename="../../ui/start_page.py" line="214"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="202"/>
+        <location filename="../../ui/start_page.py" line="215"/>
         <source>your site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="209"/>
+        <location filename="../../ui/start_page.py" line="222"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>

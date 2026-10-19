@@ -4813,17 +4813,17 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kataloglar, arşivler ve ad sorguları yalnızca daha önce indirilenlerden yanıt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="42"/>
+        <location filename="../../ui/online_actions.py" line="44"/>
         <source>Clear the saved catalogue answers…</source>
         <translation>Kaydedilmiş katalog yanıtlarını sil…</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="48"/>
+        <location filename="../../ui/online_actions.py" line="50"/>
         <source>Delete {n} saved answers of catalogues and archives ({mb:.0f} MB)? They are fetched again when needed.</source>
         <translation>Katalog ve arşivlerin kaydedilmiş {n} yanıtı ({mb:.0f} MB) silinsin mi? Gerektiğinde yeniden indirilirler.</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="52"/>
+        <location filename="../../ui/online_actions.py" line="54"/>
         <source>Saved catalogue answers</source>
         <translation>Kaydedilmiş katalog yanıtları</translation>
     </message>
@@ -13936,22 +13936,27 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Yeniden açmak için tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="175"/>
+        <location filename="../../ui/start_page.py" line="172"/>
+        <source>Working offline: catalogues, archives and look-ups answer only from what was fetched before (Settings → Work offline).</source>
+        <translation>Çevrimdışı çalışılıyor: kataloglar, arşivler ve sorgular yalnızca daha önce indirilenlerden yanıt verir (Ayarlar → Çevrimdışı çalış).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="188"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation>Bu gecenin gökyüzünü görmek için konumunuzu girin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="201"/>
+        <location filename="../../ui/start_page.py" line="214"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation>Bu gece {site}: karanlık {dusk}–{dawn} · Ay %{moon}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="202"/>
+        <location filename="../../ui/start_page.py" line="215"/>
         <source>your site</source>
         <translation>konumunuz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="209"/>
+        <location filename="../../ui/start_page.py" line="222"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>

@@ -163,6 +163,19 @@ class StartPage(QWidget):
         self.tonight_ready.connect(self.set_tonight)
         return self.tonight
 
+    def show_offline(self, on):
+        """A banner while Settings → Work offline is on: catalogues and look-ups then answer only from what was
+        fetched before, which looks like "not found" when forgotten (UI-5 item 5)."""
+        if on and getattr(self, "offline_banner", None) is None:
+            from .kit.banners import InfoBanner
+
+            text = self.tr("Working offline: catalogues, archives and look-ups answer only from what was fetched "
+                           "before (Settings → Work offline).")  # fmt: skip
+            self.offline_banner = InfoBanner("attention", text, parent=self)
+            self.layout().insertWidget(1, self.offline_banner)
+        if getattr(self, "offline_banner", None) is not None:
+            self.offline_banner.setVisible(on)
+
     def set_tonight(self, text):
         self.tonight.setText(text)
         self.tonight.setVisible(bool(text))
