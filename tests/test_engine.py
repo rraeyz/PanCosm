@@ -19,6 +19,18 @@ def phased(ctx):
     return 1
 
 
+def from_cache(folder, ctx):
+    import os
+
+    from astrowb import settings
+    from astrowb.services import cache
+
+    os.environ[settings.ENV_CONFIG_DIR] = folder  # a cache of its own, not the user's
+
+    cache.cached("vizier", "q", lambda: 1)  # fetched and kept
+    return cache.cached("vizier", "q", lambda: 2)  # the kept answer
+
+
 def add(a, b, ctx):
     ctx.progress(0.5, "half")
     return a + b
@@ -255,3 +267,11 @@ def test_task_phases_in_the_log(tq, caplog):
         t.wait(60)
     line = next(r.getMessage() for r in caplog.records if "phases:" in r.getMessage())
     assert f"task {t.id} phases: reading" in line and "measuring" in line
+
+
+def test_task_says_which_answers_came_from_the_cache(tq, tmp_path):
+    """ARC-14: a window says "from the cache, fetched on …": the worker tells which online answers were saved ones."""
+    t = tq.submit(from_cache, str(tmp_path))
+    assert t.result(60) == 1
+    fetched, was_cached = t.sources["vizier"]
+    assert was_cached and abs(fetched - time.time()) < 120

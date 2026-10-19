@@ -417,3 +417,16 @@ def test_app_log_rotates_and_keeps_the_newest_lines(tmp_path):
     finally:
         logging.getLogger().removeHandler(handler)
         handler.close()
+
+
+def test_cache_note_names_the_oldest_saved_answer(qtbot, tmp_path):
+    """ARC-14: a task that used saved online answers says so, with the fetch date that may be out of date."""
+    from types import SimpleNamespace
+
+    from PySide6.QtCore import QDateTime
+
+    win = _area(qtbot, Settings(tmp_path))
+    assert win.cache_note(SimpleNamespace(sources={"vizier": (1.0e9, False)})) == ""  # fetched now: nothing to say
+    old = QDateTime.fromString("2026-11-02 10:00", "yyyy-MM-dd HH:mm").toSecsSinceEpoch()
+    note = win.cache_note(SimpleNamespace(sources={"vizier": (old + 86400, True), "simbad": (old, True)}))
+    assert "2026-11-02 10:00" in note

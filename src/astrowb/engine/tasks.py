@@ -87,6 +87,7 @@ class Task:
         self._cancel_time = None
         self._done = threading.Event()
         self._callbacks = []
+        self.sources = {}  # online services asked: service -> (fetched time, from the cache?)
 
     def add_callback(self, fn):
         """fn(task) is called on every update, from a background thread."""
@@ -140,7 +141,12 @@ def _worker(task_id, fn, args, kwargs, messages, cancel_event):
     _own_group()
     ctx = Context(task_id, messages, cancel_event)
     try:
-        messages.put((task_id, "done", fn(*args, ctx=ctx, **kwargs)))
+        result = fn(*args, ctx=ctx, **kwargs)
+        from ..services import cache
+
+        if cache.last:  # which online answers came from the cache, and when they were fetched (ARC-14)
+            messages.put((task_id, "sources", dict(cache.last)))
+        messages.put((task_id, "done", result))
     except Cancelled:
         messages.put((task_id, "cancelled", None))
     except BaseException:
@@ -295,10 +301,12 @@ class TaskQueue:
             try:  # drain after collecting dead workers, so their last message is not missed
                 while True:
                     tid, kind, payload = self._messages.get(timeout=0.1)
-                    if kind == "progress":
+                    if kind in ("progress", "sources"):
                         with self._lock:
                             entry = self._running.get(tid)
-                        if entry:
+                        if entry and kind == "sources":
+                            entry[0].sources = payload  # service -> (fetched time, from the cache?)
+                        elif entry:
                             entry[0]._update(progress=payload[0], message=payload[1])
                     else:
                         self._finish(tid, kind, payload)
