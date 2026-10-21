@@ -139,6 +139,8 @@ class SettingsWindow(Dialog):
         self._processing()
         self._time()
         self._online()
+        self._plugins()
+        self._advanced()
         self.categories.setCurrentRow(0)
         if self.width() < 400:
             self.resize(760, 560)
@@ -268,6 +270,54 @@ class SettingsWindow(Dialog):
         self._row(c, self.tr("Work offline"), self._mirror(main.offline_action), offline, default=False)
         tables = self.tr("Kept up to date once a week when online (about 3 MB from the IERS)")
         self._row(c, self.tr("Earth-rotation tables"), self._mirror(main.time_tables_action), tables, default=True)
+
+    def _plugins(self):
+        from ..engine import plugins
+
+        c = self._category(self.tr("Plugins"))
+        folder = self._open_button(plugins.plugin_dir())
+        self._row(c, self.tr("Plugins folder"), folder, self.tr("Python files put here add steps and menu entries"))
+        self.waiting = QPushButton(self)
+        self.waiting.clicked.connect(self.allow_waiting)
+        self._show_waiting()
+        note = self.tr("New or changed plugins run only once you allow them: they run with your rights")
+        self._row(c, self.tr("Waiting to be allowed"), self.waiting, note)
+
+    def _show_waiting(self):
+        from ..engine import plugins
+
+        names = sorted(plugins.WAITING)
+        self.waiting.setText(", ".join(names) + " — " + self.tr("Allow…") if names else self.tr("None"))
+        self.waiting.setEnabled(bool(names))
+
+    def allow_waiting(self):
+        """Each waiting plugin is asked about in turn (the same question as at start-up)."""
+        from ..engine import plugins
+
+        for path in list(plugins.WAITING.values()):
+            self.main.allow_plugin(path)
+        self._show_waiting()
+
+    def _advanced(self):
+        from ..settings import config_dir
+
+        c = self._category(self.tr("Advanced"))
+        note = self.tr("The settings, app.log and error.log: what a problem report is made from")
+        self._row(c, self.tr("Settings and logs folder"), self._open_button(config_dir()), note)
+
+    def _open_button(self, folder):
+        from PySide6.QtCore import QUrl
+        from PySide6.QtGui import QDesktopServices
+
+        button = QPushButton(self.tr("Open the folder"), self)
+        button.setToolTip(str(folder))
+
+        def show():
+            folder.mkdir(parents=True, exist_ok=True)
+            QDesktopServices.openUrl(QUrl.fromLocalFile(str(folder)))
+
+        button.clicked.connect(show)
+        return button
 
     # --- search -----------------------------------------------------------------------------------------------
     def filter(self, text):
