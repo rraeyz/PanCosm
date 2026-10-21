@@ -267,6 +267,8 @@ def test_task_phases_in_the_log(tq, caplog):
         t.wait(60)
     line = next(r.getMessage() for r in caplog.records if "phases:" in r.getMessage())
     assert f"task {t.id} phases: reading" in line and "measuring" in line
+    used = next(r.getMessage() for r in caplog.records if "processor time" in r.getMessage())  # ARC-17
+    assert used.startswith(f"task {t.id} used") and t.cpu_s >= 0 and (t.peak_mb is None or t.peak_mb > 10)
 
 
 def test_task_says_which_answers_came_from_the_cache(tq, tmp_path):
