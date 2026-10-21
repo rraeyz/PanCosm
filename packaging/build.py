@@ -2,6 +2,7 @@
 
 Linux   -> packaging/out/<short>-<ver>-linux-<arch>.AppImage
 Windows -> packaging/out/<short>-<ver>-windows-x64-setup.exe   (needs Inno Setup 6: iscc)
+           packaging/out/<short>-<ver>-windows-x64-portable.zip
 macOS   -> packaging/out/<short>-<ver>-macos-<arch>.dmg
 """
 
@@ -102,6 +103,8 @@ def windows():
         "IconFile": OUT / "icon.ico",
     }
     run(iscc, *[f"/D{k}={v}" for k, v in defines.items()], HERE / "windows" / "installer.iss")
+    # the same program as a zip, for a computer where nothing may be installed (unzip and start the .exe; ARC-20)
+    shutil.make_archive(str(OUT / f"{SHORT}-{VERSION}-windows-x64-portable"), "zip", DIST, SHORT)
     return OUT / f"{base}.exe"
 
 

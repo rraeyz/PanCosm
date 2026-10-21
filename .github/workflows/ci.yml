@@ -111,6 +111,7 @@ jobs:
           path: |
             packaging/out/*.AppImage
             packaging/out/*.exe
+            packaging/out/*-portable.zip
             packaging/out/*.dmg
           if-no-files-found: error
 
