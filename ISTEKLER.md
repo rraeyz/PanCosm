@@ -47,6 +47,18 @@ Yapılanları "Bitti" altına taşıyacağım.
 - **Neden:** Testler sanal ekranda 1366 × 768'de çalışıyor. Gerçek ölçeklemede yazı kesilmesi ya da taşma olup
   olmadığını ancak böyle görebilirim (UI-5, UI-16.1).
 
+### 9. CachyOS'ta PKGBUILD ile kurulum (bir sonraki sürümden sonra)
+- **Ne:** Sürüm sayfasındaki `PKGBUILD` dosyasını boş bir klasöre koy, orada `makepkg -si` çalıştır. Program
+  menüde görünüyor ve açılıyor mu? Hata verirse terminal çıktısını gönder.
+- **Neden:** Arch paketi artık her sürümle geliyor (ARC-20), ama gerçek bir Arch sisteminde denenmedi; senin
+  CachyOS'un tek gerçek deneme.
+
+### 10. Windows'ta taşınabilir zip (bir sonraki sürümden sonra)
+- **Ne:** `…-windows-x64-portable.zip` dosyasını bir klasöre (ya da USB belleğe) aç, içindeki `.exe`'yi çalıştır.
+  Açılıyor mu, SmartScreen ne diyor?
+- **Neden:** Kurulum yapılamayan bilgisayarlar (okul, gözlemevi) için ekledim (ARC-20); CI yalnızca kurulumlu
+  sürümü deniyor.
+
 ## Bitti
 
 (henüz yok)
