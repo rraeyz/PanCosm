@@ -227,6 +227,8 @@ jobs:
           pattern: installer-*
           path: out
           merge-multiple: true
+      - name: Arch Linux PKGBUILD for the AppImages (makepkg -si; ARC-20)
+        run: python3 packaging/linux/pkgbuild.py out
       - name: What changed since the last release (the notes; Help → Check for updates shows them)
         run: |
           PREV=$(git tag --list 'v*' --sort=-v:refname | grep -vx "$TAG" | head -1)
