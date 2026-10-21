@@ -179,6 +179,10 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     monkeypatch.setattr("astrowb.ui.kit.window.QMessageBox.information", lambda *a: None)
     assert win.report_problem(tmp_path / "r2.zip") and (tmp_path / "r2.zip").exists()
     assert "Report a problem…" in [a.text() for a in win.help_menu.actions()]
+    win.session = (lambda: {"images": [f"{home}/nights/a.fits"], "radius": 5}, None)  # ARC-17: the window's state
+    win.report_problem(tmp_path / "r3.zip")
+    state = json.loads(zipfile.ZipFile(tmp_path / "r3.zip").read("session.json"))
+    assert state == {"area": "test", "state": {"images": ["a.fits"], "radius": 5}}
 
 
 @pytest.mark.slow

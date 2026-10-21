@@ -391,7 +391,11 @@ class AreaWindow(Anatomy, QMainWindow):
     def report_problem(self, path=None):
         from ..report import report_dialog
 
-        return report_dialog(self, self.settings, getattr(self.parent(), "engine", None), path)
+        try:  # the window's state goes with the report (ARC-17); a state that cannot be read must not stop it
+            session = {"area": self.key, "state": self.session[0]()} if self.session is not None else None
+        except Exception:  # noqa: BLE001
+            session = None
+        return report_dialog(self, self.settings, getattr(self.parent(), "engine", None), path, session)
 
     def commands(self):
         """[(path shown, action)] of every action of the menus and the toolbar, e.g. "View › Reset layout"."""
