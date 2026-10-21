@@ -85,6 +85,7 @@ TEMPLATES = (
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown airmass formula {formula}"),
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}; known: {known}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown velocity frame {frame}; known: {known}"),
     # timing.py
     QT_TRANSLATE_NOOP(
         "Messages", "time system {value} (TIMESYS) is not known: give the times in UTC, TT, TAI, TDB or GPS"

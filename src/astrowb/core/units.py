@@ -120,7 +120,8 @@ def velocity_correction(time, target, site, frame="barycentric"):
     the barycentre or the Sun (astropy's radial_velocity_correction), or the local standard of rest (barycentric
     plus the Sun's motion relative to it, Schönrich, Binney & Dehnen 2010, projected on the line of sight)."""
     if frame not in FRAMES:
-        raise ValueError(f"unknown velocity frame {frame}; known: {', '.join(FRAMES)}")
+        known = ", ".join(FRAMES)
+        raise ValueError(f"unknown velocity frame {frame}; known: {known}")
     from astropy.time import Time
 
     kind = "heliocentric" if frame == "heliocentric" else "barycentric"
