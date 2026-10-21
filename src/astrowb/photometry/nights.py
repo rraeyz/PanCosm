@@ -17,6 +17,7 @@ def join_nights(nights):
     recomputes from them), "night" (index per point) and "night_offsets" (mag the joining moved each night)."""
     if len(nights) < 2:
         raise ValueError("join needs two nights or more")
+    mixed_standards(nights)
     comps = [np.asarray(lc["comp_flux"], float).reshape(len(lc["time"]), -1) for lc in nights]
     if len({c.shape[1] for c in comps}) != 1:
         raise ValueError("the nights were measured with different numbers of comparison stars")
@@ -44,6 +45,14 @@ def join_nights(nights):
             "night_offsets": offsets, "file": [files[i] for i in order],
             "time_scale": nights[0].get("time_scale", "BJD_TDB")}  # fmt: skip
     return out
+
+
+def mixed_standards(curves):
+    """A join of BJD_TDB with HJD_UTC is wrong by up to minutes: refused, never done silently (ARC-15 item 2)."""
+    scales = sorted({lc.get("time_scale") for lc in curves if lc.get("time_scale")})
+    if len(scales) > 1:
+        raise ValueError(f"the light curves have times in different standards ({', '.join(scales)}): convert them "
+                         "to one first")  # fmt: skip
 
 
 def read_export(path):
