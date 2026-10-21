@@ -235,11 +235,7 @@ def online():
     import astropy.units as u
     from astropy.coordinates import SkyCoord
 
-    from . import overlays, updates
-    from .photometry import catalog
-    from .planning import ephemerides, targets
-    from .spectroscopy import atmosphere, templates
-    from .timeseries import surveys
+    from .services.cache import fresh
 
     vega = SkyCoord(279.2347 * u.deg, 38.7837 * u.deg)
 
@@ -250,35 +246,47 @@ def online():
         return f"{len(rows)} TESS observations"
 
     def iers():
-        from ..core import earth_orientation
+        from .core import earth_orientation
 
         return earth_orientation.describe(earth_orientation.status())
 
-    return _run(
-        {
-            "GitHub releases (update check)": lambda: updates.latest_release()["version"],
-            "SIMBAD (target names)": lambda: targets._simbad("Vega").name,
-            "VizieR: Gaia DR3 (overlays)": lambda: (
-                f"{len(overlays.query_catalogue(vega.ra.deg, vega.dec.deg, 0.05, 'gaia', 12))} stars"
-            ),
-            "VizieR: APASS / Gaia (standard magnitudes)": lambda: f"{len(catalog.vizier_fetch(vega, 30.0))} catalogues",
-            "VSX (variable-star ephemerides)": lambda: ephemerides.vsx("Algol"),
-            "NASA Exoplanet Archive": lambda: ephemerides.exoplanet("HAT-P-32 b"),
-            "IMCCE SkyBoT (asteroids and comets)": lambda: (
-                f"{len(overlays.minor_planets(83.8, 22.0, 0.5, 2461000.5))} objects"
-            ),
-            "CDS hips2fits (DSS images)": lambda: overlays.dss_image(83.82, -5.39, 0.1, 64)[0].shape,
-            "IRSA ZTF light curves": lambda: f"{len(surveys.ztf(SkyCoord(285.6 * u.deg, 30.5 * u.deg)))} points",
-            "AAVSO International Database": lambda: (
-                f"{len(surveys.aavso('SS Cyg', from_jd=2460600, to_jd=2460620))} points"
-            ),
-            "MAST (TESS / Kepler)": mast,
-            "PHOENIX spectra (stellar parameters)": lambda: _head(atmosphere.PHOENIX),
-            "Kurucz solar atlas": lambda: _head(atmosphere.KURUCZ_SUN),
-            "Pickles templates (spectral types)": lambda: _head(templates.PICKLES_URL.format(i=1)),
-            "IERS Earth orientation": iers,
-        }
-    )
+    with fresh():  # the network itself, not the answers kept from earlier
+        return _run(_checks(vega, mast, iers))
+
+
+def _checks(vega, mast, iers):
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+
+    from . import overlays, updates
+    from .photometry import catalog
+    from .planning import ephemerides, targets
+    from .spectroscopy import atmosphere, templates
+    from .timeseries import surveys
+
+    return {
+        "GitHub releases (update check)": lambda: updates.latest_release()["version"],
+        "SIMBAD (target names)": lambda: targets._simbad("Vega").name,
+        "VizieR: Gaia DR3 (overlays)": lambda: (
+            f"{len(overlays.query_catalogue(vega.ra.deg, vega.dec.deg, 0.05, 'gaia', 12))} stars"
+        ),
+        "VizieR: APASS / Gaia (standard magnitudes)": lambda: f"{len(catalog.vizier_fetch(vega, 30.0))} catalogues",
+        "VSX (variable-star ephemerides)": lambda: ephemerides.vsx("Algol"),
+        "NASA Exoplanet Archive": lambda: ephemerides.exoplanet("HAT-P-32 b"),
+        "IMCCE SkyBoT (asteroids and comets)": lambda: (
+            f"{len(overlays.minor_planets(83.8, 22.0, 0.5, 2461000.5))} objects"
+        ),
+        "CDS hips2fits (DSS images)": lambda: overlays.dss_image(83.82, -5.39, 0.1, 64)[0].shape,
+        "IRSA ZTF light curves": lambda: f"{len(surveys.ztf(SkyCoord(285.6 * u.deg, 30.5 * u.deg)))} points",
+        "AAVSO International Database": lambda: (
+            f"{len(surveys.aavso('SS Cyg', from_jd=2460600, to_jd=2460620))} points"
+        ),
+        "MAST (TESS / Kepler)": mast,
+        "PHOENIX spectra (stellar parameters)": lambda: _head(atmosphere.PHOENIX),
+        "Kurucz solar atlas": lambda: _head(atmosphere.KURUCZ_SUN),
+        "Pickles templates (spectral types)": lambda: _head(templates.PICKLES_URL.format(i=1)),
+        "IERS Earth orientation": iers,
+    }
 
 
 def report(results):

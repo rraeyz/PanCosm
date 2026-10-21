@@ -15,12 +15,13 @@ import os
 import pickle
 import sqlite3
 import time
-from contextlib import closing
+from contextlib import closing, contextmanager
 
 ENV = "ASTROWB_OFFLINE"
 MAX_BYTES = 2 << 30
 DAY = 86400.0
 AGES = {"ephemerides": 7 * DAY, "lightcurves": DAY, "updates": DAY}  # services not listed: answers never age
+_fresh = [False]  # inside fresh(): every answer asked of the network (the installation check)
 last = {}  # service -> (fetched time, from the cache?) of the latest answer: windows say "from cache, fetched on …"
 
 
@@ -94,13 +95,24 @@ def _write(service, key, request, value):
                 total -= size
 
 
+@contextmanager
+def fresh():
+    """Answers asked of the network, not taken from the cache (they are still kept): the internet check must test
+    the network, not the disk."""
+    _fresh[0] = True
+    try:
+        yield
+    finally:
+        _fresh[0] = False
+
+
 def cached(service, request, fetch):
     """fetch() once per request (and again when the answer has aged); errors of fetch() fall back to an older
     answer when there is one."""
     key, text = _key(service, request)
     hit = _read(service, key)
     age = AGES.get(service)
-    if hit is not None and (age is None or time.time() - hit[1] < age):
+    if hit is not None and not _fresh[0] and (age is None or time.time() - hit[1] < age):
         last[service] = (hit[1], True)
         return hit[0]
     if offline():
@@ -113,7 +125,7 @@ def cached(service, request, fetch):
     except LookupError:  # the service answered "not there": that is an answer, not a network failure
         raise
     except Exception:
-        if hit is None:
+        if hit is None or _fresh[0]:
             raise
         last[service] = (hit[1], True)
         return hit[0]
