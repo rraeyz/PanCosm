@@ -64,6 +64,7 @@ class Anatomy:
         self.rail.pinned_changed.connect(  # the names take their own room, not the stage's controls'
             lambda on: self.resizeDocks([dock], [dock.width() + (WIDE - NARROW) * (1 if on else -1)], Qt.Horizontal)
         )
+        self._key_action(self.tr("Run the stage's main action"), "F5", self.run_stage)
         for i, s in enumerate(stages[:9], 1):
             self._key_action(s.title, f"Ctrl+{i}", lambda _on=False, k=s.key: self.show_stage(k))
         if stages:
@@ -73,6 +74,19 @@ class Anatomy:
         self.rail.set_current(key)
         self.stage_stack.setCurrentWidget(self.stage_panels[key])
         self.docks["stages"].show()
+
+    def run_stage(self):
+        """F5 (UI-12): the stage's main button (the kit's "primary" one) is pressed, if it can be now."""
+        from PySide6.QtWidgets import QPushButton
+
+        panel = self.stage_panels.get(self.current_stage())
+        main = [b for b in (panel.findChildren(QPushButton) if panel else []) if b.property("primary")]
+        ready = [b for b in main if b.isVisible() and b.isEnabled()]
+        if ready:
+            ready[0].click()
+        else:
+            self.statusBar().showMessage(self.tr("This stage has no main action to run now"))
+        return bool(ready)
 
     def current_stage(self):
         return self.rail.current

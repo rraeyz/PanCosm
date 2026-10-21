@@ -224,6 +224,13 @@ class AreaWindow(Anatomy, QMainWindow):
         for w in (self.task_progress, self.task_cancel):
             self.statusBar().addPermanentWidget(w)
             w.hide()
+        # Esc stops the work (UI-12); enabled only while work runs, so that Esc still reaches fields and popups
+        self.cancel_action = QAction(self.tr("Stop the running work"), self)
+        self.cancel_action.setShortcut(QKeySequence(Qt.Key_Escape))
+        self.cancel_action.setShortcutContext(Qt.WindowShortcut)
+        self.cancel_action.setEnabled(False)
+        self.cancel_action.triggered.connect(self.cancel_tasks)
+        self.addAction(self.cancel_action)
 
     def track(self, task):
         """Show a task started for this window (engine task: name, state, progress, message) in its status bar."""
@@ -264,6 +271,7 @@ class AreaWindow(Anatomy, QMainWindow):
         shown = running[-1] if running else None
         for w in (self.task_progress, self.task_cancel):
             w.setVisible(shown is not None)
+        self.cancel_action.setEnabled(shown is not None)
         if shown is not None:
             self.task_progress.setValue(int(shown.progress * 100))
             extra = len(running) - 1
