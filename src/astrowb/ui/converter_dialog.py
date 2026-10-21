@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
 from ..core import profiles, units
 from .messages import translate
 
-COLUMNS = (*units.STANDARDS, "alt", "az", "ha", "airmass")
+COLUMNS = (*units.STANDARDS, "alt", "az", "ha", "airmass", "v_bary")  # v_bary: km/s to add to an observed velocity
 
 
 class ConverterDialog(QDialog):
