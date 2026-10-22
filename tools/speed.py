@@ -101,6 +101,7 @@ def cases(tmp, ci):
         d.render(read_image(raw / "l00.fits")[0], limits=(700, 2000))
 
     t = np.sort(rng.uniform(0, 27, 15000 if ci else 100_000))
+    t_model = np.linspace(0, 10, 100_000)
     flux = 1 - 0.3 * (np.abs(((t - 0.3) / 2.15 + 0.5) % 1 - 0.5) < 0.02) + rng.normal(0, 0.002, t.size)
 
     def period():
@@ -129,6 +130,23 @@ def cases(tmp, ci):
         from astrowb.spectroscopy.orbit import eccentric_anomaly
 
         eccentric_anomaly(rng.uniform(0, 100, 1_000_000), 0.3)
+
+    def eclipses():  # the transit row's shape: an eclipse model over 10^5 times (limb darkening, two stars)
+        from astrowb.models.eb import light_curve as eb_curve
+
+        eb_curve(t_model, 2.15, 0.3, 0.15, 0.1, 87.0, j=0.5, ld1=(0.4, 0.2), ld2=(0.4, 0.2))
+
+    orders, width = (20, 1024) if ci else (70, 4096)
+    rows = 20 + 14 * np.arange(orders)
+    yy = np.arange(rows[-1] + 20)[:, None]
+    frame = 50 + sum(2000 * np.exp(-0.5 * ((yy - r) / 1.5) ** 2) for r in rows) * np.ones((1, width))
+    frame = frame + rng.normal(0, 5, frame.shape)
+    coefs = [np.array([0.0, float(r)]) for r in rows]
+
+    def echelle():
+        from astrowb.spectroscopy.echelle import extract
+
+        extract(frame, coefs, method="optimal")
 
     def close_main():
         main = keep.pop("main", None)
@@ -175,6 +193,8 @@ def cases(tmp, ci):
         ("plot decimation, 30 pans of 10^6 points", "Any click that only changes the view", decimate, 3),
         ("table filter and sort, 10^6 rows", "Any click that only changes the view", table_sort, 3),
         ("Kepler's equation, 10^6 anomalies", "Roche / transit models (native)", kepler, 3),
+        ("eclipse model, 10^5 times", "Exact transit model", eclipses, 3),
+        (f"échelle extraction, {orders} orders × {width} px, optimal", "Échelle extraction", echelle, 1),
     ]
 
 
