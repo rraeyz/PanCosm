@@ -576,6 +576,10 @@ class AreaWindow(Anatomy, QMainWindow):
     def closeEvent(self, event):
         self.save_layout()
         super().closeEvent(event)
+        main = self.parent()  # the last window closed while the start window was hidden: the program ends (UI-14)
+        if main is not None and getattr(main, "_hidden_by_user", False) and not main.isVisible():
+            if not [w for w in AreaWindow.shown() if w is not self]:
+                main.close()
 
 
 def on_screen(window):

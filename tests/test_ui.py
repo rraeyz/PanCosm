@@ -1956,3 +1956,22 @@ def test_settings_reset_to_the_default(window):
         assert row.control.value() == "auto" and not row.is_changed()
     finally:
         win.close()
+
+
+def test_closing_the_start_window_keeps_the_area_windows(window, qtbot):
+    """UI-14: the user closes the start window while an area window is open: it hides, the area goes on, and the
+    program ends with the last window (File → Quit, a close that is not the user's, still ends everything)."""
+    from types import SimpleNamespace
+
+    window.show()
+    window.show_workspace("photometry")
+    area = window.area_windows["photometry"]
+    assert area.isVisible()
+    ignored = []
+    window.closeEvent(SimpleNamespace(spontaneous=lambda: True, ignore=lambda: ignored.append(1)))
+    assert ignored and not window.isVisible() and area.isVisible() and window.engine is not None
+    ended, real = [], window.engine.shutdown
+    window.engine.shutdown = lambda *a, **k: ended.append(1)
+    area.close()
+    window.engine.shutdown = real  # the fixture ends the workers
+    assert ended == [1]
