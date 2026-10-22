@@ -14470,28 +14470,28 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="66"/>
+        <location filename="../../ui/kit/tasks.py" line="69"/>
         <source> · about {left} left</source>
         <translation> · yaklaşık {left} kaldı</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="71"/>
+        <location filename="../../ui/kit/tasks.py" line="74"/>
         <source>{n} tasks running</source>
         <translation>{n} görev çalışıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="71"/>
-        <location filename="../../ui/kit/tasks.py" line="87"/>
+        <location filename="../../ui/kit/tasks.py" line="74"/>
+        <location filename="../../ui/kit/tasks.py" line="96"/>
         <source>No task running</source>
         <translation>Çalışan görev yok</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="80"/>
+        <location filename="../../ui/kit/tasks.py" line="85"/>
         <source>Report a problem…</source>
         <translation>Sorun bildir…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="85"/>
+        <location filename="../../ui/kit/tasks.py" line="94"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>

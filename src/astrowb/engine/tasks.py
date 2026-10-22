@@ -131,7 +131,8 @@ class Task:
             log.info("task %s %s %s%s", self.id, self.name, self.state, f" after {took:.1f} s" if ended else "")
             if ended and getattr(self, "phases", None):  # why it was slow: how long each phase took
                 marks = [*self.phases, ("", now)]
-                parts = [f"{name} {nxt - t:.1f} s" for (name, t), (_n, nxt) in zip(marks, marks[1:], strict=False)]
+                self.timeline = [(name, nxt - t) for (name, t), (_n, nxt) in zip(marks, marks[1:], strict=False)]
+                parts = [f"{name} {took:.1f} s" for name, took in self.timeline]
                 log.info("task %s phases: %s", self.id, ", ".join(parts))
             if ended and getattr(self, "cpu_s", None) is not None:
                 peak = f", peak memory {self.peak_mb:.0f} MB" if self.peak_mb else ""
