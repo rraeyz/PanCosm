@@ -34,6 +34,7 @@ class _Model(QAbstractTableModel):
         self.table, self.rows, self.marks, self.cache = None, np.arange(0), {}, {}
         self.editable = set()  # names of the columns a user may change
         self.numeric = set()  # names of the number columns: right-aligned, monospace
+        self.errors = {}  # value column -> its error column: shown to the error's digits
         from ..theme import MONO
 
         self.mono = QFont(MONO)
@@ -89,6 +90,10 @@ class _Model(QAbstractTableModel):
 
     def data(self, index, role=Qt.DisplayRole):
         row, name = int(self.rows[index.row()]), self.table.colnames[index.column()]
+        if role == Qt.DisplayRole and name in self.errors:  # digits by the error (UI-11): 12345.678 ± 12 → 12346
+            shown = _by_error(self.table[name][row], self.table[self.errors[name]][row])
+            if shown is not None:
+                return shown
         if role in (Qt.DisplayRole, Qt.EditRole):
             return _text(self.table[name], row)
         if role == Qt.TextAlignmentRole:
@@ -101,6 +106,34 @@ class _Model(QAbstractTableModel):
         if mark and role == Qt.ToolTipRole:
             return mark[1]
         return None
+
+
+ERROR_SUFFIXES = ("_err", "_error", "_sigma", "_e")
+
+
+def _errors(table):
+    """{value column: its error column} for float columns with a partner named <name>_err (or _error, _sigma, _e)
+    and no format of their own; an error column is shown by itself, to two significant digits."""
+    out = {}
+    for name in table.colnames:
+        col = table[name]
+        if col.dtype.kind != "f" or col.format:
+            continue
+        partner = next((name + s for s in ERROR_SUFFIXES if name + s in table.colnames), None)
+        if partner is not None and table[partner].dtype.kind == "f":
+            out[name] = partner
+            out.setdefault(partner, partner)
+    return out
+
+
+def _by_error(value, error):
+    """value with as many decimals as two significant digits of error need; None when either is not a number."""
+    import math
+
+    if not (np.isfinite(value) and np.isfinite(error)) or error <= 0:
+        return None
+    decimals = max(0, 1 - math.floor(math.log10(error)))
+    return f"{value:.{decimals}f}"
 
 
 def _text(column, row):
@@ -159,6 +192,7 @@ class TableView(QWidget):
         self.model.table, self.model.marks, self.model.editable = table, dict(marks or {}), set(editable)
         # found once: asked per cell and role, a column look-up made a million-row table open late
         self.model.numeric = {n for n in table.colnames if table[n].dtype.kind in "iuf"}
+        self.model.errors = _errors(table)
         self.model.rows = np.arange(len(table))
         self.model.endResetModel()
         self._apply()

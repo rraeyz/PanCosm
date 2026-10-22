@@ -212,3 +212,19 @@ def test_an_empty_table_says_why(qapp):
     v.filter.setText("a > 5")
     v._apply()
     assert v.count.text() == "No row matches the filter (2 rows in all)"
+
+
+def test_numbers_are_shown_to_the_digits_their_error_allows(qtbot):
+    """UI-11: a value with an error column shows as many decimals as two significant digits of its error; the copy
+    keeps every digit; a value without an error, or with a format of its own, is left as it is."""
+    from astropy.table import Table
+
+    from astrowb.ui.kit.table import TableView
+
+    t = Table({"flux": [12345.678, 1.23456], "flux_err": [12.3, 0.00456], "mag": [10.123456, 9.5]})
+    view = TableView()
+    qtbot.addWidget(view)
+    view.set_table(t)
+    shown = [[view.model.data(view.model.index(r, c)) for c in range(3)] for r in range(2)]
+    assert shown == [["12346", "12", "10.123456"], ["1.2346", "0.0046", "9.5"]]
+    assert "12345.678" in view.copy_text(rows=[0])
