@@ -466,3 +466,20 @@ def test_f5_runs_the_stage_and_esc_stops_the_work(qtbot, tmp_path):
     win.track(task)
     qtbot.keyClick(win, Qt.Key_Escape)
     assert stopped == [1]
+
+
+def test_tile_and_gather_windows(qtbot, tmp_path):
+    """UI-14: Window → Tile side by side splits the screen's free area; Bring all … puts a lost window back."""
+    from PySide6.QtGui import QGuiApplication
+
+    from astrowb.ui.kit import screens
+
+    a, b = _area(qtbot, Settings(tmp_path / "a")), _area(qtbot, Settings(tmp_path / "b"))
+    room = QGuiApplication.primaryScreen().availableGeometry()
+    left, right = screens.tile([a, b])
+    assert left.x() == room.x() and right.x() == room.x() + room.width() // 2 and left.height() == room.height()
+    b.move(room.right() + 5000, room.bottom() + 5000)  # on a monitor that was unplugged
+    screens.gather([a, b])
+    assert room.contains(b.geometry().topLeft()) and room.contains(a.geometry().topLeft())
+    texts = [act.text() for act in (a._fill_window_menu() or a.window_menu.actions())]
+    assert "Tile side by side" in texts and "Bring all windows to this screen" in texts

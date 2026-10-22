@@ -750,9 +750,19 @@
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="523"/>
+        <location filename="../../ui/kit/window.py" line="524"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="662"/>
+        <source>Tile side by side</source>
+        <translation>Yan yana diz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="663"/>
+        <source>Bring all windows to this screen</source>
+        <translation>Bütün pencereleri bu ekrana getir</translation>
     </message>
     <message>
         <location filename="../../ui/report.py" line="122"/>
@@ -1960,12 +1970,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="614"/>
+        <location filename="../../ui/kit/window.py" line="615"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="615"/>
+        <location filename="../../ui/kit/window.py" line="616"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -3721,22 +3731,22 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kılavuz</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="42"/>
+        <location filename="../../ui/window_menu.py" line="46"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Tabloyu dışa aktar (CSV ya da LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="41"/>
+        <location filename="../../ui/window_menu.py" line="45"/>
         <source>Copy table</source>
         <translation>Tabloyu kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="39"/>
+        <location filename="../../ui/window_menu.py" line="43"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="48"/>
+        <location filename="../../ui/window_menu.py" line="52"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
     </message>

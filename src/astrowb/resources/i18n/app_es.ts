@@ -750,8 +750,18 @@
         <translation>Ventana principal</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="523"/>
+        <location filename="../../ui/kit/window.py" line="524"/>
         <source>Find an action (Ctrl+K)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="662"/>
+        <source>Tile side by side</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="663"/>
+        <source>Bring all windows to this screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1960,12 +1970,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="614"/>
+        <location filename="../../ui/kit/window.py" line="615"/>
         <source>Type what you want to do…</source>
         <translation>Escriba lo que quiere hacer…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="615"/>
+        <location filename="../../ui/kit/window.py" line="616"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Palabras en cualquier orden; ↑ ↓ eligen, Intro ejecuta, Esc cierra</translation>
     </message>
@@ -3721,22 +3731,22 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guía</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="42"/>
+        <location filename="../../ui/window_menu.py" line="46"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Exportar tabla (CSV o LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="41"/>
+        <location filename="../../ui/window_menu.py" line="45"/>
         <source>Copy table</source>
         <translation>Copiar la tabla</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="39"/>
+        <location filename="../../ui/window_menu.py" line="43"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/window_menu.py" line="48"/>
+        <location filename="../../ui/window_menu.py" line="52"/>
         <source>Export table</source>
         <translation>Exportar tabla</translation>
     </message>

@@ -558,7 +558,7 @@ for the window concerned.
 - **Files:** `ui/shell/settings/*.py`, tests.
 
 ### UI-14. Windows on several monitors  (P2)
-**open**
+**partial** — done: every Window menu (the main window's and each area window's) lists the open windows and adds "Tile side by side" and "Bring all windows to this screen" (`kit/screens.py`; the screen of the window the menu belongs to); a window whose title bar is on no screen at start comes back (`kit/window.on_screen`). Left: floating result tabs remembering their screen, the two-screen QTest (offscreen with two screens needs its own process), closing the start window keeping area windows open.
 - **Build:** Window menu: list of open windows, "Tile side by side", "Bring all to this screen"; floating result
   tabs remember their screen; the Photometry image and its plot can live on two monitors; closing the start window
   with area windows open asks nothing and keeps them (the program ends when the last window closes, or by File →

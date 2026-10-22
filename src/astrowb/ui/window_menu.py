@@ -29,6 +29,10 @@ class WindowMenu:
         sub = self.window_menu.addMenu(translate("MainWindow", "Open an area"))
         for key, _, name, _ in areas():
             self._action(sub, name, lambda k=key: self.open_area(k))
+        if open_now:
+            from .kit.window import arrange_menu
+
+            arrange_menu(self, self.window_menu, [self, *open_now])
 
     def _table_menu(self, table, pos):
         from PySide6.QtWidgets import QApplication, QMenu

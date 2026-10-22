@@ -463,6 +463,7 @@ class AreaWindow(Anatomy, QMainWindow):
             act = self._action(self.window_menu, win.windowTitle(), lambda w=win: _raise(w))
             act.setCheckable(True)
             act.setChecked(win is self)
+        arrange_menu(self, self.window_menu, [main, *AreaWindow.shown()])
 
     def _first_sizes(self):
         """Side panels wide enough to read (Qt starts them at their smallest: titles were cut off), the view keeps
@@ -646,3 +647,17 @@ class CommandSearch(QDialog):
         self.close()
         if item is not None:
             item.data(Qt.UserRole).trigger()
+
+
+def arrange_menu(window, menu, windows):
+    """Tile side by side / Bring all here (UI-14) on the screen window is on; shared by every Window menu."""
+    from PySide6.QtCore import QCoreApplication
+
+    from . import screens
+
+    translate = QCoreApplication.translate  # a literal context: pyside6-lupdate reads it
+    shown = [w for w in windows if w is not None]
+    here = window.screen()
+    menu.addSeparator()
+    menu.addAction(translate("AreaWindow", "Tile side by side"), lambda: screens.tile(shown, here))
+    menu.addAction(translate("AreaWindow", "Bring all windows to this screen"), lambda: screens.gather(shown, here))
