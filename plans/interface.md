@@ -488,7 +488,7 @@ for the window concerned.
 - **Depends on:** the windows it drives (added as each UI-16.x lands).
 
 ### UI-9. Tasks, progress, notifications  (P1)
-**partial** — done: `kit/tasks.TaskChip` in every area window's toolbar (running count; popover with state, progress, elapsed, estimate from 5 %, Cancel); a Toast in the window when its task finishes. Left: phase text and timeline (ARC-17), system notification after 60 s, (done since: a failed task in the popover offers Report a problem…) the primary button as Stop.
+**partial** — done: `kit/tasks.TaskChip` in every area window's toolbar (running count; popover with state, progress, elapsed, estimate from 5 %, Cancel); a Toast in the window when its task finishes. System notification: work longer than 60 s that ends while its window is not in front also gives a desktop notification (`kit/notify.py`, a tray icon made once; Settings → General → Notifications turns it off). Left: phase text and timeline in the popover (ARC-17 logs them), (done since: a failed task in the popover offers Report a problem…) the primary button as Stop.
 - **Ours now:** `engine/tasks.TaskQueue` (progress, cancel), the Tasks dock, status-bar progress of area windows (I2.7).
 - **Build:** `TaskChip` in every window (running count; pulses when one finishes); `TaskPopover` (name of the step
   in words, the window that started it, phase text, progress or "working…", elapsed and estimated time, Cancel,

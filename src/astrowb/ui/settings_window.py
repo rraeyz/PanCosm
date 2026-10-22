@@ -112,8 +112,8 @@ def _tr(text):
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
 INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
             "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset")  # fmt: skip
-SHOWN = ("ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "profile", "compute.device",
-         "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
+SHOWN = ("ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
+         "compute.device", "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
 
 
 class SettingsWindow(Dialog):
@@ -193,6 +193,10 @@ class SettingsWindow(Dialog):
         names = Toggle("", bool(self.settings.get("ui.toolbar_text", False)), self)
         names.toggled.connect(self._toolbar_text)
         self._row(c, self.tr("Toolbar text"), names, self.tr("The names beside the toolbar's icons"), default=False)
+        tell = Toggle("", bool(self.settings.get("ui.notify", True)), self)
+        tell.toggled.connect(lambda _on: self.settings.set("ui.notify", tell.isChecked()))
+        note = self.tr("A desktop notification when work longer than a minute ends while the program is not in front")
+        self._row(c, self.tr("Notifications"), tell, note, default=True)
         expert = self.tr("Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)")
         self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert, default=False)
 

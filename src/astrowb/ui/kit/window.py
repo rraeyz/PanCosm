@@ -265,6 +265,10 @@ class AreaWindow(Anatomy, QMainWindow):
                 from PySide6.QtWidgets import QApplication
 
                 QApplication.alert(self)
+                from .notify import notify, worth_it
+
+                if worth_it(task, self.settings):  # long work: the desktop says so too (UI-9)
+                    notify(self, self.windowTitle(), ends.get(task.state, "{name}").format(name=name))
             running = [t for t in self._tasks.values() if not t.finished]
         else:
             self.statusBar().showMessage(f"{name} — {translate(task.message)}".rstrip(" —"))
