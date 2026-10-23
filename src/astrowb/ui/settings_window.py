@@ -225,8 +225,11 @@ class SettingsWindow(Dialog):
         for win in AreaWindow.alive():  # the open windows follow at once
             win.toolbar_text_action.setChecked(on)
 
+    def show_profiles(self):
+        self.categories.setCurrentRow(self.profiles_category)
+
     def _profiles(self):
-        c = self._category(self.tr("Profiles"))
+        c = self.profiles_category = self._category(self.tr("Profiles"))
         fill = QPushButton(self.tr("Fill from a FITS header…"), self)
         fill.clicked.connect(lambda: self.fill_from_header())
         self._row(c, "", fill, self.tr("Site, camera and observer as an image's header gives them"))

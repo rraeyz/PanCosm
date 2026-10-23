@@ -85,6 +85,7 @@ class TaskActions:
             "new_project": self.new_project_dialog,
             "open_project": self.open_project_dialog,
             "open_fits": self.open_fits_dialog,
+            "profiles": lambda: self.show_settings().show_profiles(),
         }
         actions[key]() if key in actions else self.open_area(key)
 

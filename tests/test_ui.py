@@ -1778,8 +1778,8 @@ def test_saturated_and_non_linear_points_are_marked_and_left_out(window, qtbot, 
 
 
 def test_start_window_tonight_line(qtbot, tmp_path):
-    """UI-5 item 3: without a site the start window offers to set one up (a link to Planning); with one it shows
-    tonight's dark hours and the Moon."""
+    """UI-5 item 3: without a site the start window offers to set one up (a link to Settings → Profiles); with one
+    it shows tonight's dark hours and the Moon."""
     from astrowb.core import profiles
     from astrowb.settings import Settings
     from astrowb.ui.start_page import StartPage
@@ -1790,9 +1790,9 @@ def test_start_window_tonight_line(qtbot, tmp_path):
     chosen = []
     page.action.connect(chosen.append)
     page.show_tonight(settings)
-    assert "plan" in page.tonight.text() and page.tonight.isVisibleTo(page)
-    page.tonight.linkActivated.emit("plan")
-    assert chosen == ["plan"]
+    assert "profiles" in page.tonight.text() and page.tonight.isVisibleTo(page)
+    page.tonight.linkActivated.emit("profiles")
+    assert chosen == ["profiles"]
     profiles.update(settings, "site", name="Ankara", lat=39.9, lon=32.8, height=900.0)
     page.show_tonight(settings)
     qtbot.waitUntil(lambda: "Ankara" in page.tonight.text(), timeout=30000)
@@ -2047,3 +2047,13 @@ def test_start_window_status_strip(window):
     window.set_compute("cpu")
     assert window.compute_chip.text() == "Processing: CPU"
     window.set_compute("auto")
+
+
+def test_the_site_hint_opens_settings_at_profiles(window, qtbot):
+    """UI-5 item 3: the start window's "Set up your site" link opens Settings at Profiles."""
+    from astrowb.ui.settings_window import SettingsWindow
+
+    window._start_action("profiles")
+    win = window.findChildren(SettingsWindow)[-1]
+    qtbot.addWidget(win)
+    assert win.categories.currentItem().text() == "Profiles"
