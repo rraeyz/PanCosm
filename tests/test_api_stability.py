@@ -54,3 +54,12 @@ def test_scripting_reference_is_up_to_date():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     assert module.stale(root / "docs" / "api") == []
+
+
+def test_calibrate_night_in_one_call(tmp_path):
+    """ARC-12 item 1: the hand-written helper chains the scan and the calibration of a night's folder."""
+    from astrowb import api, sampledata
+
+    sampledata.make(tmp_path / "raw", n_lights=4)
+    lights = api.calibrate_night(tmp_path / "raw", tmp_path / "cal")
+    assert len(lights) == 4 and all(str(tmp_path / "cal") in p for p in lights)

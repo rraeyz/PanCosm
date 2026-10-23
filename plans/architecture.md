@@ -718,7 +718,7 @@ the suite is green after each.
   command line in `main`, the window and its options in `_app`. Item 1: `astrowb.api` — every step as
   `api.<area>.<name>(**keywords)` with its help generated from the registry, `api.run`, `api.steps`; wrong keywords
   raise TypeError; `tests/test_api_stability.py` with `tests/data/api_steps.json` fails when a step or keyword is
-  removed. Pending: the hand-written helpers (`calibrate_night`, result objects with `.to_table()`), and: `session --run` (needs the windows on
+  removed. `api.calibrate_night(folder, output_dir, **params)` chains the scan and the calibration (returns the calibrated lights). Pending: the other hand-written helpers (`light_curve`, `period_search`, result objects with `.to_table()`), and: `session --run` (needs the windows on
   ARC-5), the API module (item 1), Save as recipe / Copy as Python (item 3), generated docs (item 4); parameters
   have no units in the registry yet, so `help` shows defaults only.
 - **Ours now:** `__main__.py` (argparse: files, `--smoke-test`, `--benchmark`, `--check-online`, `--observatory`), `engine/automation.py` (run chains), project re-run in the Project page.

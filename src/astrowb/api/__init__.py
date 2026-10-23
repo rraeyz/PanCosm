@@ -5,6 +5,7 @@
     api.run("timeseries.period", time=t, flux=f, method="bls")
     api.steps()                                   # every step id
     help(api.models.visual_orbit)                 # its inputs, parameters and defaults
+    lights = api.calibrate_night("raw/", "cal/")  # the hand-written helpers chain several steps
 
 Keywords that are inputs of the step are inputs, the others must be its parameters (TypeError otherwise, as for a
 Python function). Steps run in this process, as `astrowb-cli run` does; the outputs are returned as a dict.
@@ -70,6 +71,15 @@ class _Area:
 
     def __dir__(self):
         return [s.split(".", 1)[1] for s in steps() if s.startswith(self._name + ".")]
+
+
+def calibrate_night(folder, output_dir, **params):
+    """A night's folder of raw frames (bias, darks, flats, lights in any order) calibrated into output_dir, the way
+    the Calibration window does it: the frames sorted by their headers, masters made, the lights calibrated.
+    Returns the paths of the calibrated lights. Keywords are calibration.run's parameters."""
+    frames = run("calibration.scan", folder=str(folder))["frames"]
+    out = run("calibration.run", frames=frames, output_dir=str(output_dir), **params)
+    return sorted(out["calibrated"])
 
 
 def __getattr__(name):
