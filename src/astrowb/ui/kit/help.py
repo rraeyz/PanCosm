@@ -77,3 +77,39 @@ def help_line(text, anchor, parent):
     label.setTextFormat(Qt.RichText)
     label.linkActivated.connect(lambda a: open_help(label, a))
     return label
+
+
+class WhatsThis:
+    """Shift+F1 (UI-7): the pointer becomes a question mark; the next click on a control opens its guide topic (as
+    F1 does for the control in focus) instead of acting; Esc ends it without a topic."""
+
+    def __init__(self, window):
+        from PySide6.QtCore import QObject, Qt
+        from PySide6.QtGui import QGuiApplication
+        from PySide6.QtWidgets import QApplication
+
+        self.window = window
+
+        class Filter(QObject):
+            def eventFilter(inner, obj, event):  # noqa: N805
+                from PySide6.QtCore import QEvent
+
+                if event.type() == QEvent.MouseButtonPress and hasattr(obj, "mapTo"):
+                    self.end()
+                    window.help_for_widget(obj)
+                    return True
+                if event.type() == QEvent.KeyPress and event.key() == Qt.Key_Escape:
+                    self.end()
+                    return True
+                return False
+
+        self.filter = Filter(window)
+        QApplication.instance().installEventFilter(self.filter)
+        QGuiApplication.setOverrideCursor(Qt.WhatsThisCursor)
+
+    def end(self):
+        from PySide6.QtGui import QGuiApplication
+        from PySide6.QtWidgets import QApplication
+
+        QApplication.instance().removeEventFilter(self.filter)
+        QGuiApplication.restoreOverrideCursor()

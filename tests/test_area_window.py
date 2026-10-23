@@ -501,3 +501,30 @@ def test_long_work_is_worth_a_desktop_notification(qtbot, tmp_path):
     assert not notify.worth_it(long, settings)
     win = _area(qtbot, settings)
     assert notify.notify(win, "Photometry", "Measure: finished") in (True, False)
+
+
+def test_shift_f1_then_a_click_opens_that_controls_topic(qtbot, tmp_path):
+    """UI-7: Help → What is this? (Shift+F1): the next click opens the clicked control's guide topic and does not
+    act; Esc ends it with nothing opened."""
+    from PySide6.QtWidgets import QPushButton
+
+    from astrowb.ui.kit.sections import Section
+
+    section = Section("Apertures", help="photometry-apertures")
+    button = QPushButton("Measure")
+    pressed = []
+    button.clicked.connect(lambda: pressed.append(1))
+    section.body.addWidget(button)
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), section)
+    qtbot.addWidget(win)
+    win.show()
+    win.whats_this()
+    qtbot.mouseClick(button, Qt.LeftButton)
+    assert win.docks["help"].isVisible() and "Apertures" in win.help_panel.title.text() and not pressed
+    qtbot.mouseClick(button, Qt.LeftButton)  # the mode lasts one click
+    assert pressed == [1]
+    win.docks["help"].hide()
+    win.whats_this()
+    qtbot.keyClick(button, Qt.Key_Escape)
+    qtbot.mouseClick(button, Qt.LeftButton)
+    assert pressed == [1, 1] and not win.docks["help"].isVisible()
