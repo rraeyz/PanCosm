@@ -21,6 +21,7 @@ DEFAULTS = {
         "pixel_size": 0.0,
     },  # fmt: skip
     "optics": {"aperture": 0.0, "focal_length": 0.0},  # mm; with a reducer: the focal length with it
+    "filters": {"names": {}},  # a header's filter name -> its AAVSO band, where the guess below is wrong
     "observer": {"name": "", "aavso_code": "", "mpc_code": "", "observers": "", "catalog": "Gaia3"},
 }
 
@@ -101,3 +102,30 @@ def pixel_scale(settings):
     """Arcseconds per pixel from the camera's pixel size and the optics' focal length; None until both are given."""
     pixel, focal = section(settings, "camera")["pixel_size"], section(settings, "optics")["focal_length"]
     return 206.264806 * pixel / focal if pixel > 0 and focal > 0 else None
+
+
+AAVSO_BANDS = ("V", "B", "R", "I", "CV", "CR", "TG", "TB", "TR", "SG", "SR", "SI", "U")
+_GUESS = {  # what capture programs write, upper-cased, -> AAVSO's band (only names that cannot mean another band)
+    **{k: "CV" for k in ("CLEAR", "C", "L", "LUM", "LUMINANCE", "NONE", "OPEN", "NO FILTER", "UNFILTERED")},
+    **{k: "V" for k in ("JOHNSON V", "BESSELL V", "V-BAND", "JV", "V JOHNSON")},
+    **{k: "B" for k in ("JOHNSON B", "BESSELL B", "B-BAND", "JB", "B JOHNSON")},
+    **{k: "R" for k in ("COUSINS R", "BESSELL R", "RC", "R-BAND")},
+    **{k: "I" for k in ("COUSINS I", "BESSELL I", "IC", "I-BAND")},
+    **{k: "SG" for k in ("SDSS G", "G'", "SLOAN G", "GP")},
+    **{k: "SR" for k in ("SDSS R", "R'", "SLOAN R", "RP")},
+    **{k: "SI" for k in ("SDSS I", "I'", "SLOAN I", "IP")},
+    **{k: "TG" for k in ("GREEN", "TRI-COLOUR GREEN", "TRICOLOR GREEN")},
+    **{k: "TB" for k in ("BLUE",)},
+    **{k: "TR" for k in ("RED",)},
+}
+
+
+def aavso_band(settings, name):
+    """The AAVSO band of a filter as a header names it ("Johnson V" -> "V", "Luminance" -> "CV"), the profile's
+    own table first; None when it cannot be told (the user chooses)."""
+    text = str(name or "").strip()
+    own = section(settings, "filters")["names"].get(text)
+    if own:
+        return own
+    upper = text.upper()
+    return upper if upper in AAVSO_BANDS else _GUESS.get(upper)

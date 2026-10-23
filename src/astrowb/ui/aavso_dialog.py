@@ -10,7 +10,7 @@ from ..settings import Settings
 class AavsoDialog(QDialog):
     """The fields an AAVSO Extended report needs that the light curve does not know."""
 
-    FILTERS = ("V", "B", "R", "I", "CV", "CR", "TG", "TB", "TR", "SG", "SR", "SI", "U")
+    FILTERS = profiles.AAVSO_BANDS
 
     def __init__(self, n_comps, parent=None, settings=None):
         super().__init__(parent)
@@ -50,6 +50,21 @@ class AavsoDialog(QDialog):
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         form.addRow(buttons)
+
+    def band_of(self, images):
+        """The AAVSO band of the first image's FILTER (ARC-16: the profile's table, then the usual names); None
+        when it cannot be told."""
+        if not images:
+            return None
+        from astropy.io import fits
+
+        from ..io.fits import readable
+
+        try:
+            name = fits.getheader(readable(images[0])).get("FILTER")
+        except (OSError, ValueError):
+            return None
+        return profiles.aavso_band(self.settings, name)
 
     def accept(self):
         profiles.update(self.settings, "observer", aavso_code=self.obscode.text().strip().upper())
