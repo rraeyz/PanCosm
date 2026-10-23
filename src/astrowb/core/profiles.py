@@ -11,7 +11,16 @@ shortcut: one profile ("Default"); several sites and cameras with a chooser come
 DEFAULTS = {
     "site": {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0},  # east-positive longitude, metres
     # e-/ADU, e-, e-/s, ADU (where the response stops being linear), ADU
-    "camera": {"gain": 0.0, "read_noise": 0.0, "dark_current": 0.0, "linearity": 0.0, "saturation": 0.0},
+    # pixel_size: µm (binned, as XPIXSZ gives it)
+    "camera": {
+        "gain": 0.0,
+        "read_noise": 0.0,
+        "dark_current": 0.0,
+        "linearity": 0.0,
+        "saturation": 0.0,
+        "pixel_size": 0.0,
+    },  # fmt: skip
+    "optics": {"aperture": 0.0, "focal_length": 0.0},  # mm; with a reducer: the focal length with it
     "observer": {"name": "", "aavso_code": "", "mpc_code": "", "observers": "", "catalog": "Gaia3"},
 }
 
@@ -73,11 +82,22 @@ def from_header(header):
         "dark_current": get(header, "DARKCUR"),
         "saturation": get(header, "SATURATE", "DATAMAX"),
         "linearity": get(header, "MAXLIN"),
+        "pixel_size": get(header, "XPIXSZ", "PIXSIZE1"),
     }
     camera = {k: float(v) for k, v in camera.items() if v is not None and v > 0}
     if camera:
         out["camera"] = camera
+    optics = {"aperture": get(header, "APTDIA"), "focal_length": get(header, "FOCALLEN")}
+    optics = {k: float(v) for k, v in optics.items() if v is not None and v > 0}
+    if optics:
+        out["optics"] = optics
     observer = str(header.get("OBSERVER") or "").strip()
     if observer:
         out["observer"] = {"name": observer}
     return out
+
+
+def pixel_scale(settings):
+    """Arcseconds per pixel from the camera's pixel size and the optics' focal length; None until both are given."""
+    pixel, focal = section(settings, "camera")["pixel_size"], section(settings, "optics")["focal_length"]
+    return 206.264806 * pixel / focal if pixel > 0 and focal > 0 else None

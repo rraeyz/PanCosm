@@ -54,3 +54,19 @@ def test_profile_from_a_fits_header():
     assert got["site"] == {"lat": 36.8247, "lon": 30.3353, "height": 2500.0, "name": "TUG"}
     assert got["camera"] == {"gain": 1.4, "read_noise": 7.2, "saturation": 65000.0}
     assert got["observer"] == {"name": "A. Observer"} and from_header(fits.Header()) == {}
+
+
+def test_optics_and_pixel_scale(tmp_path):
+    """ARC-16: aperture, focal length and pixel size from a header; the pixel scale follows (206.265 × µm / mm)."""
+    from astropy.io import fits
+
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+
+    settings = Settings(tmp_path)
+    assert profiles.pixel_scale(settings) is None
+    got = profiles.from_header(fits.Header({"FOCALLEN": 2000.0, "APTDIA": 280.0, "XPIXSZ": 3.76}))
+    assert got["optics"] == {"aperture": 280.0, "focal_length": 2000.0} and got["camera"] == {"pixel_size": 3.76}
+    for part, values in got.items():
+        profiles.update(settings, part, **values)
+    assert abs(profiles.pixel_scale(settings) - 0.38778) < 1e-4

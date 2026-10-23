@@ -913,7 +913,7 @@ the suite is green after each.
   measured with. **Found while doing it:** two `Settings` objects on the same file undid each other's keys (each
   wrote its whole stale copy); `Settings.set` now reads the file first. Done since: the profile's fields in Settings → Profiles (UI-13) and "Fill from a FITS header…"
   (`profiles.from_header`: site by `timing.location`, gain, read noise, dark current, saturation, linearity, observer;
-  a field the header lacks is left as it is). Pending: several profiles, optics and filters, spectrograph, the pixel-scale
+  a field the header lacks is left as it is). Optics (aperture, focal length) and the camera's pixel size, from FOCALLEN / APTDIA / XPIXSZ too; Settings → Profiles shows the pixel scale (`profiles.pixel_scale`). Pending: several profiles, filters, spectrograph, the pixel-scale
   check against a plate solution, copying the profile into a project.
 - **Ours now:** the Planning window's site (and `planning/sites.py`), gain / read noise typed in Photometry, observatory set-up JSON (`devices/setup.py`); settings in `settings.py`.
 - **Why:** AD-10.

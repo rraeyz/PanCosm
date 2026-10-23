@@ -1975,3 +1975,13 @@ def test_closing_the_start_window_keeps_the_area_windows(window, qtbot):
     area.close()
     window.engine.shutdown = real  # the fixture ends the workers
     assert ended == [1]
+
+
+def test_settings_show_the_pixel_scale(window, qtbot):
+    """ARC-16: Settings → Profiles works the pixel scale out of the pixel size and the focal length."""
+    win = window.show_settings()
+    qtbot.addWidget(win)
+    assert "both" in win.scale.text()
+    win.profile_controls[("camera", "pixel_size")].setValue(3.76)
+    win.profile_controls[("optics", "focal_length")].setValue(2000)
+    assert win.scale.text().startswith("0.388")
