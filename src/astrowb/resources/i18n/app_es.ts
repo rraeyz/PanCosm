@@ -5014,7 +5014,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Iteraciones:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="420"/>
+        <location filename="../../ui/image_actions.py" line="402"/>
+        <source>The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel size in Settings → Profiles.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_actions.py" line="436"/>
         <source>Open two or more images to stack them.</source>
         <translation>Abra dos o más imágenes para apilarlas.</translation>
     </message>
@@ -5120,27 +5125,27 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Imagen en color</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="197"/>
+        <location filename="../../ui/file_actions.py" line="203"/>
         <source>No plugins installed</source>
         <translation>No hay complementos instalados</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="199"/>
+        <location filename="../../ui/file_actions.py" line="205"/>
         <source>Failed to load: {f}</source>
         <translation>No se pudo cargar: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="202"/>
+        <location filename="../../ui/file_actions.py" line="208"/>
         <source>Plugin error</source>
         <translation>Error del complemento</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="211"/>
         <source>Allow {f}…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="210"/>
+        <location filename="../../ui/file_actions.py" line="216"/>
         <source>Open plugins folder</source>
         <translation>Abrir la carpeta de complementos</translation>
     </message>
@@ -5155,19 +5160,19 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="68"/>
+        <location filename="../../ui/file_actions.py" line="74"/>
         <source>Open FITS</source>
         <translation>Abrir FITS</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="129"/>
+        <location filename="../../ui/file_actions.py" line="135"/>
         <source>Cannot open file</source>
         <translation>No se puede abrir el archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="174"/>
+        <location filename="../../ui/file_actions.py" line="180"/>
         <location filename="../../ui/image_actions.py" line="91"/>
-        <location filename="../../ui/image_actions.py" line="426"/>
+        <location filename="../../ui/image_actions.py" line="442"/>
         <source>Save FITS as</source>
         <translation>Guardar FITS como</translation>
     </message>
@@ -5192,34 +5197,34 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>operación de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="209"/>
+        <location filename="../../ui/file_actions.py" line="215"/>
         <source>Install the example plugins</source>
         <translation>Instalar los complementos de ejemplo</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="211"/>
+        <location filename="../../ui/file_actions.py" line="217"/>
         <source>What are plugins?</source>
         <translation>¿Qué son los complementos?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="217"/>
+        <location filename="../../ui/file_actions.py" line="223"/>
         <source>{path}
 
 This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="223"/>
+        <location filename="../../ui/file_actions.py" line="229"/>
         <source>Allow a plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="237"/>
+        <location filename="../../ui/file_actions.py" line="243"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Instalados: {names}. Ya están en el menú Complementos.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="241"/>
+        <location filename="../../ui/file_actions.py" line="247"/>
         <source>The example plugins are already installed.</source>
         <translation>Los complementos de ejemplo ya están instalados.</translation>
     </message>
@@ -5229,12 +5234,12 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>No se puede abrir el proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="116"/>
+        <location filename="../../ui/file_actions.py" line="122"/>
         <source>Image extension</source>
         <translation>Extensión de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="117"/>
+        <location filename="../../ui/file_actions.py" line="123"/>
         <source>This file holds several images:</source>
         <translation>Este archivo contiene varias imágenes:</translation>
     </message>
@@ -5314,12 +5319,12 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Instale ASTAP y una de sus bases de estrellas (hnsky.org/astap.htm), o astrometry.net, y vuelva a intentarlo. No se envía nada por internet.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="444"/>
+        <location filename="../../ui/image_actions.py" line="460"/>
         <source>Stack written: {path}</source>
         <translation>Apilado escrito: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="452"/>
+        <location filename="../../ui/image_actions.py" line="468"/>
         <source>value</source>
         <translation>valor</translation>
     </message>

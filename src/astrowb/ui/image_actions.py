@@ -388,8 +388,24 @@ class ImageActions:
         return self.run_step(
             "astrometry.solve",
             {"image": str(self.current_path)},
-            on_done=lambda out: self.open_fits(Path(out["solved"])),
+            on_done=lambda out: (self.open_fits(Path(out["solved"])), self._check_scale(Path(out["solved"]))),
         )
+
+    def _check_scale(self, path):
+        """The solution against the profile's pixel scale (ARC-16): a difference is said in the status bar."""
+        from astropy.io import fits
+
+        from ..core import profiles
+
+        found = profiles.scale_differs(self.settings, fits.getheader(path))
+        if found:
+            text = translate(
+                "MainWindow",
+                "The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel "
+                "size in Settings → Profiles.",
+            ).format(mine=found[0], solved=found[1])
+            self.area_windows.get("image", self).statusBar().showMessage(text, 15000)
+        return found
 
     def split_channels(self):
         """The current colour-camera raw image as three half-size FITS files (R, G, B superpixels, as calibration
