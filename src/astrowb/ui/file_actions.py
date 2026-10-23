@@ -39,6 +39,12 @@ class FileActions:
         if self.engine.project:
             self.engine.project.close()
         self.engine.project = project
+        if project.meta("profile") is None:  # the site, camera and observer it was made with go with it (ARC-16)
+            import json
+
+            from ..core import profiles
+
+            project.set_meta("profile", json.dumps({p: profiles.section(self.settings, p) for p in profiles.DEFAULTS}))
         self.project_page.name_label.setText(f"<b>{path}</b>")
         recent = [str(path)] + [p for p in self.settings.get("recent_projects", []) if p != str(path)]
         self.settings.set("recent_projects", recent[:10])
