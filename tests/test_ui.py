@@ -2078,3 +2078,16 @@ def test_a_run_copied_as_python_runs_again(window, tmp_path):
     assert called == {"step": "image.process", "image": "a.fits", "output": "b.fits", "operation": "median", "size": 3}
     window.project_page.show_run({**run, "status": "done", "started": "now"})
     assert window.project_page.copy_python() == text
+
+
+def test_a_run_saved_as_a_recipe_loads_as_an_automation(window, tmp_path):
+    """ARC-12 item 3: History → Save as recipe… writes an automation with the step and its settings; its inputs are
+    asked for when it runs."""
+    from astrowb.engine import automation
+
+    run = {"step": "image.process", "status": "done", "started": "2026-11-11 21:00",
+           "inputs": {"image": "a.fits"}, "params": {"operation": "median"}}  # fmt: skip
+    window.project_page.show_run(run)
+    auto = automation.load(window.project_page.save_recipe(tmp_path / "r.json"))
+    assert auto["steps"] == [{"step": "image.process", "params": {"operation": "median"}}]
+    assert "image" in automation.needed(auto)
