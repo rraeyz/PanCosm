@@ -82,6 +82,38 @@ def linux():
     target = OUT / f"{SHORT}-{VERSION}-linux-{ARCH}.AppImage"
     env = os.environ | {"ARCH": ARCH, "APPIMAGE_EXTRACT_AND_RUN": "1"}  # works without FUSE (CI, containers)
     run(tool, "--no-appstream", appdir, target, env=env)
+    if shutil.which("dpkg-deb"):
+        deb(desktop)
+    return target
+
+
+def deb(desktop):
+    """A .deb for Debian and Ubuntu (ARC-20): the same program under /opt, a command in /usr/bin and a menu entry;
+    `sudo apt install ./<file>.deb` installs it, apt removes it."""
+    app_id = BRAND["app_id"]
+    root = OUT / "deb"
+    shutil.rmtree(root, ignore_errors=True)
+    shutil.copytree(DIST / SHORT, root / "opt" / app_id)
+    (root / "usr" / "bin").mkdir(parents=True)
+    (root / "usr" / "bin" / app_id).symlink_to(f"/opt/{app_id}/{SHORT}")
+    apps = root / "usr" / "share" / "applications"
+    apps.mkdir(parents=True)
+    (apps / f"{app_id}.desktop").write_text(desktop.replace(f"Exec={SHORT} ", f"Exec={app_id} "))
+    icons = root / "usr" / "share" / "icons" / "hicolor" / "512x512" / "apps"
+    icons.mkdir(parents=True)
+    shutil.copy(ICON_PNG, icons / f"{app_id}.png")
+    size_kb = sum(f.stat().st_size for f in root.rglob("*") if f.is_file() and not f.is_symlink()) // 1024
+    (root / "DEBIAN").mkdir()
+    (root / "DEBIAN" / "control").write_text(
+        f"Package: {app_id}\nVersion: {VERSION}\nSection: science\nPriority: optional\n"
+        f"Architecture: {'amd64' if ARCH == 'x86_64' else 'arm64'}\nInstalled-Size: {size_kb}\n"
+        f"Maintainer: {BRAND['organization']} <{BRAND['issues_url']}>\nHomepage: {BRAND['homepage']}\n"
+        "Depends: libegl1, libgl1, libxkbcommon0, libfontconfig1, libdbus-1-3\n"
+        f"Description: {BRAND['display_name']} astronomy workbench\n"
+        " Calibration, photometry, light curves, spectroscopy, timing and orbits in one program.\n"
+    )
+    target = OUT / f"{SHORT}-{VERSION}-linux-{'amd64' if ARCH == 'x86_64' else 'arm64'}.deb"
+    run("dpkg-deb", "--build", "--root-owner-group", root, target)
     return target
 
 

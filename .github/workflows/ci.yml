@@ -110,6 +110,7 @@ jobs:
           name: installer-${{ runner.os }}-${{ runner.arch }}
           path: |
             packaging/out/*.AppImage
+            packaging/out/*.deb
             packaging/out/*.exe
             packaging/out/*-portable.zip
             packaging/out/*.dmg
