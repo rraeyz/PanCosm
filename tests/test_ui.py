@@ -2112,3 +2112,13 @@ def test_help_lists_the_libraries_and_their_licences(window, qtbot):
     dialog = help_checks._licences(window)
     qtbot.addWidget(dialog)
     assert dialog.findChild(TableView).model.rowCount() == len(found)
+
+
+def test_about_names_the_processing_setting_without_opening_the_gpu(window, monkeypatch):
+    from astrowb import compute
+
+    monkeypatch.setattr(compute, "device", lambda: (_ for _ in ()).throw(AssertionError("GPU opened")))
+    shown = []
+    monkeypatch.setattr("astrowb.ui.main_settings.QMessageBox.about", lambda *a: shown.append(a[2]))
+    window.about()
+    assert "Processing:" in shown[0]
