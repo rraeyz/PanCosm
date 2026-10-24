@@ -136,11 +136,19 @@ class Task:
                 log.info("task %s phases: %s", self.id, ", ".join(parts))
             if ended and getattr(self, "cpu_s", None) is not None:
                 peak = f", peak memory {self.peak_mb:.0f} MB" if self.peak_mb else ""
-                log.info("task %s used %.1f s of processor time%s", self.id, self.cpu_s, peak)
+                gpu = f", GPU {self.gpu}" if getattr(self, "gpu", None) else ""
+                log.info("task %s used %.1f s of processor time%s%s", self.id, self.cpu_s, peak, gpu)
         if self.state in ("done", "failed", "cancelled"):
             self._done.set()
         for fn in self._callbacks:
             fn(self)
+
+
+def _gpu_used():
+    """The GPU this worker used, or None (it opens one only when a step asked for it: nothing is probed here)."""
+    compute = sys.modules.get("astrowb.compute")
+    state = getattr(compute, "_state", {}) if compute else {}
+    return state["adapter"].info["device"] if state.get("device") is not None else None
 
 
 def _peak_mb():
@@ -162,7 +170,7 @@ def _worker(task_id, fn, args, kwargs, messages, cancel_event):
 
         # which online answers came from the cache and when they were fetched (ARC-14); the worker's cost (ARC-17)
         messages.put((task_id, "facts", {"sources": dict(cache.last), "cpu_s": time.process_time(),
-                                         "peak_mb": _peak_mb()}))  # fmt: skip
+                                         "peak_mb": _peak_mb(), "gpu": _gpu_used()}))  # fmt: skip
         messages.put((task_id, "done", result))
     except Cancelled:
         messages.put((task_id, "cancelled", None))
