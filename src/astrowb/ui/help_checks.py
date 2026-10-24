@@ -20,6 +20,11 @@ def add_menu(win):
     )
     win.tour_action = win._action(h, QCoreApplication.translate("MainWindow", "Quick &tour"), win.start_tour)
     win._action(h, QCoreApplication.translate("MainWindow", "&Practice data for a first night…"), win.practice_data)
+    guided_menu = h.addMenu(QCoreApplication.translate("MainWindow", "Guided tasks"))
+    from .kit import guided
+
+    for task in guided.available(win.settings.get("ui.language", "en")):
+        win._action(guided_menu, task["title"], lambda _=False, t=task: start_guided(win, t))
     win._action(
         h,
         QCoreApplication.translate("MainWindow", "Check the &installation and internet services"),
@@ -82,3 +87,12 @@ def _licences(win):
     from . import licences
 
     return licences.show(win)
+
+
+def start_guided(win, task):
+    """A guided task (UI-8): its area's window opens with the task's bar at the top."""
+    from .kit.guided import GuidedBar
+
+    win.show_workspace(task["area"])
+    window = win.area_windows.get(task["area"], win)
+    return GuidedBar(window, getattr(win, win.PAGES[task["area"]]), task)

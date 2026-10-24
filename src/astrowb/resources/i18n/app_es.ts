@@ -456,321 +456,321 @@
 <context>
     <name>AreaWindow</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="73"/>
+        <location filename="../../ui/kit/window.py" line="74"/>
         <source>Steps</source>
         <translation>Pasos</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="76"/>
-        <location filename="../../ui/kit/window.py" line="165"/>
+        <location filename="../../ui/kit/window.py" line="77"/>
+        <location filename="../../ui/kit/window.py" line="166"/>
         <source>Toolbar</source>
         <translation>Barra de herramientas</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="78"/>
+        <location filename="../../ui/kit/window.py" line="79"/>
         <source>The frequent actions of this window</source>
         <translation>Las acciones frecuentes de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="86"/>
+        <location filename="../../ui/kit/window.py" line="87"/>
         <source>Ready</source>
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="122"/>
+        <location filename="../../ui/kit/window.py" line="123"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="126"/>
+        <location filename="../../ui/kit/window.py" line="127"/>
         <source>&amp;Open…</source>
         <translation>&amp;Abrir…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="127"/>
+        <location filename="../../ui/kit/window.py" line="128"/>
         <source>Choose files for this window (you can also drop them on it)</source>
         <translation>Elija archivos para esta ventana (también puede soltarlos sobre ella)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="129"/>
+        <location filename="../../ui/kit/window.py" line="130"/>
         <source>Open &amp;recent</source>
         <translation>Abrir &amp;recientes</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="134"/>
+        <location filename="../../ui/kit/window.py" line="135"/>
         <source>&amp;Save session…</source>
         <translation>&amp;Guardar sesión…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="135"/>
+        <location filename="../../ui/kit/window.py" line="136"/>
         <source>Keep everything chosen in this window (data, stars, settings) in one file to go on later</source>
         <translation>Guarda todo lo elegido en esta ventana (datos, estrellas, ajustes) en un archivo para seguir más tarde</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="138"/>
+        <location filename="../../ui/kit/window.py" line="139"/>
         <source>Open s&amp;ession…</source>
         <translation>Abrir s&amp;esión…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="139"/>
+        <location filename="../../ui/kit/window.py" line="140"/>
         <source>Go on with work saved earlier with Save session</source>
         <translation>Seguir con un trabajo guardado antes con Guardar sesión</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="142"/>
+        <location filename="../../ui/kit/window.py" line="143"/>
         <source>&amp;Close window</source>
         <translation>&amp;Cerrar ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="143"/>
+        <location filename="../../ui/kit/window.py" line="144"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="146"/>
+        <location filename="../../ui/kit/window.py" line="147"/>
         <source>&amp;Undo</source>
         <translation>&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="148"/>
+        <location filename="../../ui/kit/window.py" line="149"/>
         <source>&amp;Redo</source>
         <translation>&amp;Rehacer</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="155"/>
+        <location filename="../../ui/kit/window.py" line="156"/>
         <source>Find an action…</source>
         <translation>Buscar una acción…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="156"/>
+        <location filename="../../ui/kit/window.py" line="157"/>
         <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
         <translation>Escriba unas letras de lo que quiere hacer: se encuentra cada acción de los menús y la barra de herramientas de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="158"/>
+        <location filename="../../ui/kit/window.py" line="159"/>
         <source>&amp;View</source>
         <translation>&amp;Ver</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="162"/>
+        <location filename="../../ui/kit/window.py" line="163"/>
         <source>Show or hide this panel</source>
         <translation>Mostrar u ocultar este panel</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="168"/>
+        <location filename="../../ui/kit/window.py" line="169"/>
         <source>Toolbar &amp;text</source>
         <translation>&amp;Texto de la barra</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="169"/>
+        <location filename="../../ui/kit/window.py" line="170"/>
         <source>The names beside the toolbar&apos;s icons (kept for next time)</source>
         <translation>Los nombres junto a los iconos de la barra (se conserva para la próxima vez)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="177"/>
+        <location filename="../../ui/kit/window.py" line="178"/>
         <source>&amp;Larger text</source>
         <translation>Texto más &amp;grande</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="178"/>
+        <location filename="../../ui/kit/window.py" line="179"/>
         <source>&amp;Smaller text</source>
         <translation>Texto más &amp;pequeño</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="179"/>
+        <location filename="../../ui/kit/window.py" line="180"/>
         <source>&amp;Normal text size</source>
         <translation>Tamaño de texto &amp;normal</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="183"/>
+        <location filename="../../ui/kit/window.py" line="184"/>
         <source>The size of the text in every window (kept for next time)</source>
         <translation>El tamaño del texto en todas las ventanas (se guarda para la próxima vez)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="186"/>
+        <location filename="../../ui/kit/window.py" line="187"/>
         <source>&amp;Reset layout</source>
         <translation>&amp;Restablecer disposición</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="187"/>
+        <location filename="../../ui/kit/window.py" line="188"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Devuelve cada panel a donde estaba cuando se abrió la ventana por primera vez</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="193"/>
+        <location filename="../../ui/kit/window.py" line="194"/>
         <source>&amp;Window</source>
         <translation>Ven&amp;tana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="198"/>
+        <location filename="../../ui/kit/window.py" line="199"/>
         <source>&amp;Help</source>
         <translation>A&amp;yuda</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="201"/>
+        <location filename="../../ui/kit/window.py" line="202"/>
         <source>Guide for this window</source>
         <translation>Guía de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="202"/>
+        <location filename="../../ui/kit/window.py" line="203"/>
         <source>Opens the page of the guide that explains this window</source>
         <translation>Abre la página de la guía que explica esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="205"/>
+        <location filename="../../ui/kit/window.py" line="206"/>
         <source>What is this?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="206"/>
+        <location filename="../../ui/kit/window.py" line="207"/>
         <source>Click a control afterwards to read about it in the guide (Esc: never mind)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="209"/>
+        <location filename="../../ui/kit/window.py" line="210"/>
         <source>Keyboard shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="210"/>
+        <location filename="../../ui/kit/window.py" line="211"/>
         <source>Every key of this window, with a search field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="213"/>
+        <location filename="../../ui/kit/window.py" line="214"/>
         <source>Report a problem…</source>
         <translation>Informar de un problema…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="214"/>
+        <location filename="../../ui/kit/window.py" line="215"/>
         <source>Makes one file with the error log, the version, the system and the last steps, to send to the developer. Your data files are not in it.</source>
         <translation>Crea un archivo con el registro de errores, la versión, el sistema y los últimos pasos, para enviarlo al desarrollador. Sus archivos de datos no van en él.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="225"/>
+        <location filename="../../ui/kit/window.py" line="226"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="226"/>
+        <location filename="../../ui/kit/window.py" line="227"/>
         <source>Stop the work running for this window</source>
         <translation>Detener el trabajo en curso de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="232"/>
+        <location filename="../../ui/kit/window.py" line="233"/>
         <source>Stop the running work</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="259"/>
-        <location filename="../../ui/kit/window.py" line="263"/>
+        <location filename="../../ui/kit/window.py" line="261"/>
+        <location filename="../../ui/kit/window.py" line="268"/>
         <source>{name}: finished</source>
         <translation>{name}: terminado</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="264"/>
+        <location filename="../../ui/kit/window.py" line="269"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: falló (vea el mensaje)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="265"/>
+        <location filename="../../ui/kit/window.py" line="270"/>
         <source>{name}: cancelled</source>
         <translation>{name}: cancelado</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="286"/>
+        <location filename="../../ui/kit/window.py" line="291"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} más)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="297"/>
+        <location filename="../../ui/kit/window.py" line="302"/>
         <source> · from the cache, fetched on {date}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="304"/>
+        <location filename="../../ui/kit/window.py" line="309"/>
         <source>Working: {task}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="309"/>
+        <location filename="../../ui/kit/window.py" line="314"/>
         <source>Stopping…</source>
         <translation>Deteniendo…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="326"/>
+        <location filename="../../ui/kit/window.py" line="331"/>
         <source>(none yet)</source>
         <translation>(ninguno aún)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="329"/>
+        <location filename="../../ui/kit/window.py" line="334"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="360"/>
+        <location filename="../../ui/kit/window.py" line="365"/>
         <source>Session saved: {path}</source>
         <translation>Sesión guardada: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="369"/>
+        <location filename="../../ui/kit/window.py" line="374"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} no es un archivo de sesión o está dañado.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="372"/>
+        <location filename="../../ui/kit/window.py" line="377"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} es una sesión de otra ventana ({area}): ábrala allí.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="377"/>
+        <location filename="../../ui/kit/window.py" line="382"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} se guardó con una versión más nueva de la aplicación: actualícela para abrir esta sesión.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="381"/>
+        <location filename="../../ui/kit/window.py" line="386"/>
         <source>Session opened: {path}</source>
         <translation>Sesión abierta: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="383"/>
-        <location filename="../../ui/kit/window.py" line="394"/>
+        <location filename="../../ui/kit/window.py" line="388"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
         <source>Open session</source>
         <translation>Abrir sesión</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="388"/>
+        <location filename="../../ui/kit/window.py" line="393"/>
         <source>Save session</source>
         <translation>Guardar sesión</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="388"/>
-        <location filename="../../ui/kit/window.py" line="394"/>
+        <location filename="../../ui/kit/window.py" line="393"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
         <source>Session (*.session.json)</source>
         <translation>Sesión (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="404"/>
+        <location filename="../../ui/kit/window.py" line="409"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Tamaño del texto: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="478"/>
+        <location filename="../../ui/kit/window.py" line="483"/>
         <source>Main window</source>
         <translation>Ventana principal</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="542"/>
+        <location filename="../../ui/kit/window.py" line="547"/>
         <source>Find an action (Ctrl+K)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="684"/>
+        <location filename="../../ui/kit/window.py" line="689"/>
         <source>Tile side by side</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="685"/>
+        <location filename="../../ui/kit/window.py" line="690"/>
         <source>Bring all windows to this screen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1980,12 +1980,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="637"/>
+        <location filename="../../ui/kit/window.py" line="642"/>
         <source>Type what you want to do…</source>
         <translation>Escriba lo que quiere hacer…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="638"/>
+        <location filename="../../ui/kit/window.py" line="643"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Palabras en cualquier orden; ↑ ↓ eligen, Intro ejecuta, Esc cierra</translation>
     </message>
@@ -3098,6 +3098,45 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <location filename="../../ui/guide_page.py" line="138"/>
         <source>{n} topics found</source>
         <translation>{n} temas encontrados</translation>
+    </message>
+</context>
+<context>
+    <name>GuidedBar</name>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="42"/>
+        <source>Show me</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="43"/>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="44"/>
+        <location filename="../../ui/kit/guided.py" line="67"/>
+        <source>Next</source>
+        <translation type="unfinished">Siguiente</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="45"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="64"/>
+        <source>Step {i} of {n}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="67"/>
+        <source>Done</source>
+        <translation type="unfinished">Hecho</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/guided.py" line="74"/>
+        <source>That control is folded away: open its section first</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4948,42 +4987,47 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>&amp;Datos de práctica para una primera noche…</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="25"/>
-        <source>Check the &amp;installation and internet services</source>
-        <translation>Comprobar la &amp;instalación y los servicios de internet</translation>
-    </message>
-    <message>
-        <location filename="../../ui/help_checks.py" line="28"/>
-        <source>Check the &amp;GPU…</source>
+        <location filename="../../ui/help_checks.py" line="23"/>
+        <source>Guided tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="30"/>
+        <source>Check the &amp;installation and internet services</source>
+        <translation>Comprobar la &amp;instalación y los servicios de internet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/help_checks.py" line="33"/>
+        <source>Check the &amp;GPU…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/help_checks.py" line="35"/>
         <source>Check for &amp;updates…</source>
         <translation>Buscar &amp;actualizaciones…</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="32"/>
+        <location filename="../../ui/help_checks.py" line="37"/>
         <source>Licences of the libraries…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="33"/>
+        <location filename="../../ui/help_checks.py" line="38"/>
         <source>&amp;About {app}</source>
         <translation>&amp;Acerca de {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="66"/>
+        <location filename="../../ui/help_checks.py" line="71"/>
         <source>GPU check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="68"/>
+        <location filename="../../ui/help_checks.py" line="73"/>
         <source>The report is also saved in {path} (Report a problem includes it).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="76"/>
+        <location filename="../../ui/help_checks.py" line="81"/>
         <source>Checking the GPU: every GPU job against the CPU (about a minute)…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5439,22 +5483,22 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Tamaño del texto: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="43"/>
+        <location filename="../../ui/help_checks.py" line="48"/>
         <source>Installation and internet services</source>
         <translation>Instalación y servicios de internet</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="46"/>
+        <location filename="../../ui/help_checks.py" line="51"/>
         <source>Everything works.</source>
         <translation>Todo funciona.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="48"/>
+        <location filename="../../ui/help_checks.py" line="53"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Algunas comprobaciones fallaron (ver abajo). Un servicio web que falla suele deberse a la red o al propio servicio.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="56"/>
+        <location filename="../../ui/help_checks.py" line="61"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Comprobando la instalación y los servicios de internet…</translation>
     </message>

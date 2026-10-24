@@ -2122,3 +2122,20 @@ def test_about_names_the_processing_setting_without_opening_the_gpu(window, monk
     monkeypatch.setattr("astrowb.ui.main_settings.QMessageBox.about", lambda *a: shown.append(a[2]))
     window.about()
     assert "Processing:" in shown[0]
+
+
+def test_guided_task_drives_the_real_window(window, qtbot):
+    """UI-8: Help → Guided tasks: every step's Show me marks a control of the real window; Next goes to the end."""
+    from astrowb.ui import help_checks
+    from astrowb.ui.kit import guided
+
+    tasks = guided.available("en")
+    assert tasks and all(t["steps"] for t in tasks)
+    for task in tasks:
+        bar = help_checks.start_guided(window, task)
+        bar.window_.show()
+        for i in range(len(task["steps"])):
+            assert bar.show_me() and bar.mark.isVisible(), (task["title"], i)
+            bar.next()
+        assert bar.window_.findChild(guided.GuidedBar) is None or not bar.isVisible()
+    assert guided.load(tasks[0]["path"], "tr")["title"] != tasks[0]["title"]  # the Turkish script
