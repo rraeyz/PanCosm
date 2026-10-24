@@ -555,9 +555,24 @@ def _spectrum_measure_velocity(job, red, ech, tel, vel, cube, tools):
         ),
         (
             QCoreApplication.translate("MainWindow", "Velo&city"),
-            [job(vel, vel.rv_button), job(vel, vel.separate_button), job(vel, vel.orbit_button)],
+            [
+                job(vel, vel.rv_button),
+                job(vel, vel.separate_button),
+                job(vel, vel.orbit_button),
+                None,
+                _velocity_table(vel),
+            ],  # fmt: skip
         ),
     ]
+
+
+def _velocity_table(vel):
+    from . import velocity_table
+
+    act = QAction(QCoreApplication.translate("MainWindow", "Open a velocity table…"), vel)
+    act.setToolTip(QCoreApplication.translate("MainWindow", "Times and velocities (CSV or text) for an orbit fit"))
+    act.triggered.connect(lambda _=False: velocity_table.open_dialog(vel))
+    return act
 
 
 def _undo_source(page):

@@ -127,3 +127,7 @@ def test_practice_exercises_find_their_answers(tmp_path):
     params = {"t0": sampledata.LTTE["t0"], "period": sampledata.LTTE["period"]}
     fit = execute("timeseries.oc_fit", {"minima": text}, params, Ctx())["fit"]
     assert abs(fit.p3 - 2900) < 100 and abs(fit.amplitude - 0.005) < 0.0005  # O−C → third body: about 2900 d
+    rv = np.loadtxt(sets["files"]["sb2"], delimiter=",", skiprows=1)
+    inputs = {"time": rv[:, 0].tolist(), "rv": rv[:, 1].tolist(), "rv2": rv[:, 2].tolist()}
+    sb2 = execute("spectroscopy.orbit", inputs, {"period": 4.6}, Ctx())["orbit"]  # Spectroscopy → orbit, SB2
+    assert abs(sb2["k"] - 62) < 1.5 and abs(sb2["k2"] - 91) < 1.5 and abs(sb2["q"] - 0.68) < 0.02

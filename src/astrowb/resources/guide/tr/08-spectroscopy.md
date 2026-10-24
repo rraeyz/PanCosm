@@ -60,6 +60,13 @@ Kareleri önce Kalibrasyon penceresinde **Tayf: flat'e bölme** işaretliyken ka
 6. **Periyot tahmini (gün)** (ör. periyot aramadan) ve **Yörünge fit et:** P, e, ω, K, γ hatalarıyla ve rms. Çift çizgili çiftlerde ayrıca K2, kütle oranı q, iki yıldızın M sin³i değerleri ve a sin i; tek çizgililerde kütle fonksiyonu f(m). **Sonuçları dışa aktar (CSV / LaTeX)…** yörüngeyi makaleye hazır bir tablo olarak yazar; grafik hızları ve altında artıkları (O−C) gösterir.
    Hatasının 2,45 katından küçük bir dışmerkezlik anlamlı değildir (Lucy & Sweeney 1971): yörünge bu durumda çembersel uydurulur (e = 0, ω 90°'de sabit) ve sonuç bunu söyler; e serbest bırakılırsa çembersel bir yörüngede T_peri ve ω tanımsız kalır ve diğer hataları bozar.
 
+## Deneyin (alıştırma verisi) {#spectroscopy-try-it-practice}
+**Yardım → İlk gece için alıştırma verisi…** `sb2.csv` dosyasını da yazar: çift çizgili bir çift yıldızın iki
+bileşeninin 30 gecelik dikine hızları. Tayf penceresinde **Hız → Bir hız tablosu aç…** ile açın; **Periyot
+tahmini**ni 4,6 gün yapıp **Yörünge fit et**'e basın. Sonuç P = **4,634 g**, e = **0,18**, K1 = **62 km/s**,
+K2 = **91 km/s** ve kütle oranı q = **0,68** olmalı. Kendi hızlarınızın tablosu da aynı yolla açılır: bir zaman
+sütunu (time ya da bjd), rv1 ve ikinci yıldız için rv2; hata sütunları (err1, err2) isteğe bağlıdır.
+
 ## Çift çizgili bir çifti ayrıştırmak {#spectroscopy-disentangling-double-lined-binary}
 İki yıldızın hızları ölçüldükten sonra (TODCOR ya da genişleme fonksiyonu) **İki yıldızın tayfını ayır (disentangling)** dizideki tayflardan her yıldızın kendi tayfını çıkarır (yinelemeli kaydır-ve-topla, González & Levato 2006). Bu tayflarda ölçülen hızları ve ışık oranını kullanır, `star1.fits` ve `star2.fits` dosyalarını yazar. Yörünge boyunca dağılmış en az dört tayf kullanın, tercihen iki kavuşum noktası yakınında birkaçar tane; ayrılmış tayflar ikinci, daha hassas bir hız ölçümü için en iyi şablonlardır ve her yıldızın çizgilerini sınıflandırma için gösterir.
 
