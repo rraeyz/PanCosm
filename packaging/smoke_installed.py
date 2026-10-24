@@ -38,6 +38,9 @@ def install() -> Path:
         subprocess.run(["cp", "-R", mount / f"{NAME}.app", apps], check=True)
         subprocess.run(["hdiutil", "detach", mount], check=True)
         return apps / f"{NAME}.app" / "Contents" / "MacOS" / SHORT
+    if os.environ.get("SMOKE_DEB"):  # Debian / Ubuntu (as root in CI's containers): the .deb, through apt
+        subprocess.run(["apt-get", "install", "-y", str(one("*-linux-amd64.deb").resolve())], check=True)
+        return Path("/usr/bin") / BRAND["app_id"]
     image = one("*.AppImage")
     image.chmod(0o755)
     return image
