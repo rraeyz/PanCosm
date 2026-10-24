@@ -3711,12 +3711,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="98"/>
+        <location filename="../../ui/main_window.py" line="97"/>
         <source>Tasks</source>
         <translation>Tareas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="160"/>
         <source>Start</source>
         <translation>Inicio</translation>
     </message>
@@ -3731,12 +3731,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Guide</source>
         <translation>Guía</translation>
     </message>
@@ -4628,12 +4628,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Tra&amp;bajo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="323"/>
+        <location filename="../../ui/main_window.py" line="321"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="324"/>
+        <location filename="../../ui/main_window.py" line="322"/>
         <source>Copies the selected cells or text</source>
         <translation>Copia las celdas o el texto seleccionados</translation>
     </message>
@@ -4964,21 +4964,26 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="32"/>
+        <source>Licences of the libraries…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/help_checks.py" line="33"/>
         <source>&amp;About {app}</source>
         <translation>&amp;Acerca de {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="65"/>
+        <location filename="../../ui/help_checks.py" line="66"/>
         <source>GPU check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="67"/>
+        <location filename="../../ui/help_checks.py" line="68"/>
         <source>The report is also saved in {path} (Report a problem includes it).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="75"/>
+        <location filename="../../ui/help_checks.py" line="76"/>
         <source>Checking the GPU: every GPU job against the CPU (about a minute)…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5434,22 +5439,22 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Tamaño del texto: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="42"/>
+        <location filename="../../ui/help_checks.py" line="43"/>
         <source>Installation and internet services</source>
         <translation>Instalación y servicios de internet</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="45"/>
+        <location filename="../../ui/help_checks.py" line="46"/>
         <source>Everything works.</source>
         <translation>Todo funciona.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="47"/>
+        <location filename="../../ui/help_checks.py" line="48"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Algunas comprobaciones fallaron (ver abajo). Un servicio web que falla suele deberse a la red o al propio servicio.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="55"/>
+        <location filename="../../ui/help_checks.py" line="56"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Comprobando la instalación y los servicios de internet…</translation>
     </message>
@@ -5530,6 +5535,26 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../ui/velocity_table.py" line="48"/>
         <source>Open a velocity table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="39"/>
+        <source>Licences of the libraries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Licence</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
