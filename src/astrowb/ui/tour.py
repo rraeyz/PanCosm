@@ -250,4 +250,11 @@ def _later_steps(main, rect_of, dock):
                 "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area's window has its own menus and toolbar.",  # noqa: E501
             ),
         ),
+        (
+            lambda: rect_of(main.menuBar(), main),  # Help → Practice data is there
+            translate(
+                "MainWindow",
+                "In every area window: the stages on the left (Ctrl+1…9), F5 runs the stage's main action, F1 or Shift+F1 opens help, Ctrl+K finds any action, Ctrl+/ lists every key. To try it all, Help → Practice data for a first night gives data with known answers.",  # noqa: E501
+            ),
+        ),
     ]

@@ -922,7 +922,7 @@ rail           stage panel (example: 3 Indices)            main: the map        
 - **Files:** `resources/i18n/app_{tr,de,es}.ts`, `resources/i18n/glossary.toml`, `resources/guide/{tr,de,es}/`
 
 ### UI-19. Onboarding refreshed  (P3)
-**open**
+**open** — done (2026-11-11): the tour's last stop names the area windows' keys (stages Ctrl+1…9, F5, F1 / Shift+F1, Ctrl+K, Ctrl+/) and offers Help → Practice data. Left: the tour on the area window's anatomy itself.
 - **Build:** the quick tour redone on the new start window and anatomy (six steps: the areas, a window's rail, the
   primary action, results dock, help with F1, find anything with Ctrl+K); "Practice night in five minutes" as the
   tour's last offer (UI-8 task 1).

@@ -5124,6 +5124,11 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guía: cada ventana explicada paso a paso, por categorías, con búsqueda. Ayuda → Guía de formación la abre; F1 en una ventana abre su propia página.</translation>
     </message>
     <message>
+        <location filename="../../ui/tour.py" line="255"/>
+        <source>In every area window: the stages on the left (Ctrl+1…9), F5 runs the stage&apos;s main action, F1 or Shift+F1 opens help, Ctrl+K finds any action, Ctrl+/ lists every key. To try it all, Help → Practice data for a first night gives data with known answers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/image_actions.py" line="134"/>
         <source>Rotate</source>
         <translation>Girar</translation>
