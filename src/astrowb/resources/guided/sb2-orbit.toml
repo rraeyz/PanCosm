@@ -1,0 +1,19 @@
+# A guided task (plans/interface.md UI-8). Practice data: Help → Practice data → sb2.csv.
+area = "spectroscopy"
+title.en = "The orbit of a double-lined binary"
+title.tr = "Çift çizgili bir çift yıldızın yörüngesi"
+
+[[step]]
+widget = "velocity_tab.table"
+text.en = "Open the velocities: Velocity → Open a velocity table… and choose sb2.csv from the practice data (Help → Practice data for a first night). They fill this table."
+text.tr = "Hızları açın: Hız → Bir hız tablosu aç… ile alıştırma verisindeki sb2.csv'yi seçin (Yardım → İlk gece için alıştırma verisi). Hızlar bu tabloya dolar."
+
+[[step]]
+widget = "velocity_tab.period"
+text.en = "Give a period guess: 4.6 days."
+text.tr = "Bir periyot tahmini girin: 4,6 gün."
+
+[[step]]
+widget = "velocity_tab.orbit_button"
+text.en = "Fit orbit. You should find P = 4.634 d, e = 0.18, K1 = 62 km/s, K2 = 91 km/s and q = 0.68."
+text.tr = "Yörüngeyi fit edin. Sonuç P = 4,634 g, e = 0,18, K1 = 62 km/s, K2 = 91 km/s ve q = 0,68 olmalı."
