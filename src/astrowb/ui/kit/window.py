@@ -31,6 +31,7 @@ from PySide6.QtWidgets import (
 )
 
 from .anatomy import Anatomy
+from .shortcuts import own_keys
 from .tasks import hold
 from .widgets import bar_menu
 
@@ -115,6 +116,7 @@ class AreaWindow(Anatomy, QMainWindow):
         if tip:
             act.setToolTip(tip)
             act.setStatusTip(tip)
+        own_keys(act, slot, self.settings)  # the user's keys from Settings → Shortcuts
         menu.addAction(act)
         return act
 

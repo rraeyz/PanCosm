@@ -6,7 +6,7 @@
 """
 
 from PySide6.QtCore import QCoreApplication, Qt
-from PySide6.QtGui import QKeySequence
+from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QHeaderView, QLineEdit, QTableWidget, QTableWidgetItem, QVBoxLayout
 
 from .dialogs import Dialog
@@ -79,3 +79,49 @@ class ShortcutSheet(Dialog):
         for i in range(self.table.rowCount()):
             row = f"{self.table.item(i, 0).text()} {self.table.item(i, 1).text()}".casefold()
             self.table.setRowHidden(i, not all(w in row for w in words))
+
+
+# --- the user's own keys (UI-12: the map editable in Settings → Shortcuts) -------------------------------------
+SETTING = "shortcuts"  # {action name: keys in portable text ("Ctrl+Shift+M"); "" for none}
+
+
+def name_of(slot):
+    """A stable name for the action a slot runs (its method's name), or None for a lambda: only named actions can
+    take the user's keys, since their translated texts change with the language."""
+    name = getattr(slot, "__name__", "")
+    return name if name and name != "<lambda>" else None
+
+
+def own_keys(action, slot, settings):
+    """Name the action after its slot, remember its default keys and give it the user's keys when there are."""
+    name = name_of(slot)
+    if name is None:
+        return
+    action.setObjectName(f"act_{name}")
+    action.setProperty("default_keys", action.shortcut().toString(QKeySequence.PortableText))
+    keys = (settings.get(SETTING) or {}).get(name) if settings is not None else None
+    if keys is not None:
+        action.setShortcut(QKeySequence(keys))
+
+
+def set_keys(settings, name, keys, windows):
+    """Keep the user's keys for the named action and give them to that action in every open window."""
+    mine = dict(settings.get(SETTING) or {})
+    mine[name] = keys
+    settings.set(SETTING, mine)
+    for window in windows:
+        for act in window.findChildren(QAction, f"act_{name}"):
+            act.setShortcut(QKeySequence(keys))
+
+
+def KeyField(keys, parent=None):  # noqa: N802 (a widget made like a class)
+    """A key field the kit's FormRow can bind (reset dot to the default)."""
+    from PySide6.QtWidgets import QKeySequenceEdit
+
+    field = QKeySequenceEdit(QKeySequence(keys), parent)
+    field.kit_binding = lambda: (
+        field.keySequenceChanged,
+        lambda: field.keySequence().toString(QKeySequence.PortableText),
+        lambda v: field.setKeySequence(QKeySequence(v)),
+    )
+    return field

@@ -6,6 +6,7 @@ settings actions and methods, so the menus and this window always agree.
 """
 
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
+from PySide6.QtGui import QKeySequence
 from PySide6.QtWidgets import (
     QFileDialog,
     QHBoxLayout,
@@ -130,7 +131,7 @@ def _tr(text):
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
 INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
             "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset")  # fmt: skip
-SHOWN = ("ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
+SHOWN = ("shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
          "compute.device", "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
 
 
@@ -157,6 +158,7 @@ class SettingsWindow(Dialog):
         self._processing()
         self._time()
         self._online()
+        self._shortcuts()
         self._plugins()
         self._advanced()
         self.categories.setCurrentRow(0)
@@ -305,6 +307,33 @@ class SettingsWindow(Dialog):
         self._row(c, self.tr("Work offline"), self._mirror(main.offline_action), offline, default=False)
         tables = self.tr("Kept up to date once a week when online (about 3 MB from the IERS)")
         self._row(c, self.tr("Earth-rotation tables"), self._mirror(main.time_tables_action), tables, default=True)
+
+    def _shortcuts(self):
+        """Every named action of the open windows with its keys; a change applies at once in every window (UI-12)."""
+        from PySide6.QtGui import QAction
+
+        from .kit.shortcuts import KeyField, set_keys
+        from .kit.window import AreaWindow
+
+        c = self._category(self.tr("Shortcuts"))
+        windows = [self.main, *AreaWindow.alive()]
+        seen = {}
+        for window in windows:
+            for act in window.findChildren(QAction):
+                name = act.objectName()
+                if name.startswith("act_") and name not in seen and act.text():
+                    seen[name] = act
+        note = self.tr("Click the field and press the keys; the dot puts the program's keys back")
+        for name, act in sorted(seen.items(), key=lambda kv: kv[1].text().replace("&", "").casefold()):
+            keys = act.shortcut().toString(QKeySequence.PortableText)
+            field = KeyField(keys, self)
+            field.keySequenceChanged.connect(
+                lambda seq, n=name[4:]: set_keys(
+                    self.settings, n, seq.toString(QKeySequence.PortableText), [self.main, *AreaWindow.alive()]
+                )  # fmt: skip
+            )
+            self._row(c, act.text().replace("&", ""), field, note, default=act.property("default_keys") or "")
+        self.shortcut_fields = seen
 
     def _plugins(self):
         from ..engine import plugins
