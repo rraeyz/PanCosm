@@ -1,0 +1,25 @@
+# A guided task (plans/interface.md UI-8): tonight's eclipses of a known binary (needs the internet once for the
+# star's ephemeris; the site comes from Settings → Profiles).
+area = "plan"
+title.en = "Plan tonight's eclipses"
+title.tr = "Bu gecenin tutulmalarını planla"
+
+[[step]]
+widget = "site_name"
+text.en = "Check the site: its name and position come from Settings → Profiles."
+text.tr = "Gözlem yerini denetleyin: adı ve konumu Ayarlar → Profiller'den gelir."
+
+[[step]]
+widget = "target_input"
+text.en = "Type an eclipsing binary, for example Algol."
+text.tr = "Bir örten çift yazın, örneğin Algol."
+
+[[step]]
+widget = "ephemeris_button"
+text.en = "Add with ephemeris: the star's T0 and period come from AAVSO VSX, so its eclipses can be listed."
+text.tr = "Efemerisle ekle'ye basın: yıldızın T0'ı ve periyodu AAVSO VSX'ten gelir, böylece tutulmaları listelenebilir."
+
+[[step]]
+widget = "plan_button"
+text.en = "Plan the night: the eclipses visible tonight appear with their times, altitude and the Moon."
+text.tr = "Geceyi planla'ya basın: bu gece görülebilen tutulmalar zamanları, yükseklikleri ve Ay ile birlikte görünür."
