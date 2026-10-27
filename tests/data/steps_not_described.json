@@ -12,15 +12,9 @@
  "image.rgb",
  "models.eb_fit",
  "models.visual_orbit",
- "photometry.apertures",
- "photometry.catalog",
  "photometry.light_curve",
  "photometry.multifilter",
  "photometry.polarimetry",
- "photometry.quality",
- "photometry.suggest_comparisons",
- "photometry.transformation",
- "photometry.varfind",
  "planning.ephemeris",
  "planning.night",
  "rs.classify",
@@ -35,8 +29,5 @@
  "spectroscopy.reduce",
  "spectroscopy.rv",
  "stacking.drizzle",
- "stacking.stack",
- "timeseries.minimum",
- "timeseries.mission_lc",
- "timeseries.period"
+ "stacking.stack"
 ]

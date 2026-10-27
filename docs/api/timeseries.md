@@ -31,9 +31,9 @@ Time of minimum of a light curve; with t0 and period also epoch and O-C (days). 
 inputs:      light_curve
 outputs:     minimum
 parameters (default):
-  method = "kvw"
-  t0 = null
-  period = null
+  method = "kvw"  (choice, one of kvw, trapezoid)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits
+  t0 = null  (time, d)  Reference T0: With the period: every eclipse in the curve gets its own time
+  period = null  (float, d, >= 0.0)  Period: Period of the ephemeris used to count the cycles
   detrend_with = []
 ```
 
@@ -47,8 +47,8 @@ TESS / Kepler / K2 pipeline light curves of a target from MAST, joined (needs th
 inputs:      target, folder
 outputs:     light_curve
 parameters (default):
-  mission = "TESS"
-  flux = "PDCSAP"
+  mission = "TESS"  (choice, one of TESS, Kepler, K2)  Mission: The space telescope whose light curves are fetched
+  flux = "PDCSAP"  (text)  Flux: PDCSAP: corrected for the spacecraft; SAP: as measured
 ```
 
 ## timeseries.oc_fit
@@ -79,9 +79,9 @@ inputs:      time, flux
 optional:    err
 outputs:     periods, power, best, warnings
 parameters (default):
-  method = "lomb-scargle"
-  p_min = 0.05
-  p_max = null
+  method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova)  Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA
+  p_min = 0.05  (float, d, >= 0.0)  Shortest period: The search starts here
+  p_max = null  (float, d, >= 0.0)  Longest period: Empty: half the time span
 ```
 
 ## timeseries.survey_lc
