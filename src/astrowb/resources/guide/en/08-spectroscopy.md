@@ -67,6 +67,11 @@ double-lined binary. In the Spectroscopy window choose **Velocity → Open a vel
 K2 = **91 km/s** and the mass ratio q = **0.68**. A table of your own velocities opens the same way: a time column
 (time or bjd), rv1 and, for a second star, rv2; error columns (err1, err2) are optional.
 
+The same folder has `slit_science.fits` and `slit_arc.fits`, a long-slit frame and its He-Ne arc. In **Reduce**
+choose both, **Extract**, click the arc lines at pixels 269, 578 and 1062 and give 4471.477, 5015.675 and
+5875.618 Å, then **Fit wavelengths and save**: Hβ comes out at **4862.0 Å** (4861.3 at rest: the star recedes at
+45 km/s). Help → Guided tasks walks you through it.
+
 ## Disentangling a double-lined binary {#spectroscopy-disentangling-double-lined-binary}
 After measuring both stars' velocities (TODCOR or the broadening function), **Separate the two stars' spectra (disentangling)** recovers each star's own spectrum from the series (iterative shift-and-add, González & Levato 2006). It uses the velocities measured on these spectra and the light ratio, and writes `star1.fits` and `star2.fits`. Use at least four spectra spread over the orbit, ideally several near both quadratures; the separated spectra are the best templates for a second, more precise velocity measurement, and show each star's lines for classification.
 
