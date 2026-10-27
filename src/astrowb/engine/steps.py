@@ -17,6 +17,7 @@ class Step:
     outputs: tuple[str, ...]
     optional: tuple[str, ...] = ()
     defaults: dict = field(default_factory=dict)
+    params: tuple = ()  # engine.params.P descriptions (AUT-1); empty for a step in the old form
 
 
 REGISTRY: dict[str, Step] = {}
@@ -28,13 +29,15 @@ class MissingInput(Exception):
         self.step_id, self.names = step_id, list(names)
 
 
-def step(id, inputs=(), outputs=(), optional=(), **defaults):
-    """Decorator that registers a step function."""
+def step(id, inputs=(), outputs=(), optional=(), params=(), **defaults):
+    """Decorator that registers a step function. params: engine.params.P descriptions (their defaults join the
+    keyword defaults); without them the keyword defaults are the whole description (the old form)."""
 
     def register(func):
         if id in REGISTRY:
             raise ValueError(f"duplicate step id {id}")
-        REGISTRY[id] = Step(id, func, tuple(inputs), tuple(outputs), tuple(optional), defaults)
+        merged = {**{p.name: p.default for p in params}, **defaults}
+        REGISTRY[id] = Step(id, func, tuple(inputs), tuple(outputs), tuple(optional), merged, tuple(params))
         return func
 
     return register
@@ -62,6 +65,10 @@ def execute(step_id, inputs, params, ctx):
     missing = [n for n in s.inputs if n not in inputs]
     if missing:
         raise MissingInput(step_id, missing)
+    if s.params:  # described settings are checked before anything runs (AUT-1 item 3)
+        from .params import check
+
+        check(s.params, s.defaults | dict(params))
     started = time.time()
     from ..services import cache
 

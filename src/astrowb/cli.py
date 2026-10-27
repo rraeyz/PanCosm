@@ -79,8 +79,17 @@ def describe(step_id, out):
     print("outputs:     " + (", ".join(s.outputs) or "none"), file=out)
     if s.defaults:
         print("parameters (default):", file=out)
+        described = {p.name: p for p in s.params}  # AUT-1: kind, unit, range and what it is for
         for key, value in s.defaults.items():
-            print(f"  {key} = {json.dumps(value)}", file=out)
+            p = described.get(key)
+            if p is None:
+                print(f"  {key} = {json.dumps(value)}", file=out)
+                continue
+            limits = [f">= {p.min}" if p.min is not None else "", f"<= {p.max}" if p.max is not None else ""]
+            if p.choices:
+                limits.append("one of " + ", ".join(map(str, p.choices)))
+            extra = ", ".join(x for x in (p.kind, p.unit or "", *limits) if x)
+            print(f"  {key} = {json.dumps(value)}  ({extra})  {p.label}: {p.help}".rstrip(": "), file=out)
 
 
 def _split(step_id, values):

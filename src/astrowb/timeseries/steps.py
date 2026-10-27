@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from ..engine.params import QT_TRANSLATE_NOOP, P
 from ..engine.steps import step
 
 
@@ -20,11 +21,53 @@ from ..engine.steps import step
         "zero_point",
         "clean_spectrum",
     ),
-    f_max=50.0,
-    n_max=10,
-    snr_min=4.0,
-    magnitudes=False,
-    clean=False,
+    params=(
+        P(
+            "f_max",
+            "float",
+            50.0,
+            unit="c/d",
+            min=0.0,
+            label=QT_TRANSLATE_NOOP("Steps", "Highest frequency"),
+            help=QT_TRANSLATE_NOOP("Steps", "The spectrum is computed from 0 up to this frequency"),
+        ),
+        P(
+            "n_max",
+            "int",
+            10,
+            min=1,
+            max=200,
+            label=QT_TRANSLATE_NOOP("Steps", "Most frequencies"),
+            help=QT_TRANSLATE_NOOP("Steps", "Prewhitening stops after this many frequencies"),
+        ),
+        P(
+            "snr_min",
+            "float",
+            4.0,
+            min=0.0,
+            label=QT_TRANSLATE_NOOP("Steps", "Smallest S/N"),
+            help=QT_TRANSLATE_NOOP("Steps", "A peak below this signal-to-noise ends the prewhitening (Breger 1993: 4)"),
+        ),
+        P(
+            "magnitudes",
+            "bool",
+            False,
+            label=QT_TRANSLATE_NOOP("Steps", "Magnitudes"),
+            help=QT_TRANSLATE_NOOP(
+                "Steps", "The values are magnitudes (brighter is smaller), for the times of maximum"
+            ),
+        ),
+        P(
+            "clean",
+            "bool",
+            False,
+            label=QT_TRANSLATE_NOOP("Steps", "CLEAN spectrum"),
+            advanced=True,
+            help=QT_TRANSLATE_NOOP(
+                "Steps", "Also a spectrum with the aliases of the sampling removed (Roberts et al. 1987)"
+            ),
+        ),
+    ),
 )
 def frequencies_step(inputs, params, ctx):
     """Amplitude spectrum, spectral window, prewhitened multi-frequency fit and times of maximum."""
@@ -66,8 +109,23 @@ def frequencies_step(inputs, params, ctx):
     inputs=("target",),
     outputs=("light_curve",),
     optional=("cache_file",),
-    source="ZTF",
-    band=None,
+    params=(
+        P(
+            "source",
+            "choice",
+            "ZTF",
+            choices=("ZTF", "AAVSO"),
+            label=QT_TRANSLATE_NOOP("Steps", "Archive"),
+            help=QT_TRANSLATE_NOOP("Steps", "Where the light curve comes from"),
+        ),
+        P(
+            "band",
+            "band",
+            None,
+            label=QT_TRANSLATE_NOOP("Steps", "Band"),
+            help=QT_TRANSLATE_NOOP("Steps", "One band of the archive; empty: the first"),
+        ),
+    ),
 )
 def survey_lc_step(inputs, params, ctx):
     """ZTF (IRSA) or AAVSO light curve of a star, one band, times in BJD_TDB (needs the internet)."""
@@ -90,7 +148,48 @@ def survey_lc_step(inputs, params, ctx):
     return {"light_curve": surveys.to_light_curve(rows, coord, params["band"], params["source"])}
 
 
-@step("timeseries.oc_fit", inputs=("minima",), outputs=("fit",), model="ltte", t0=0.0, period=1.0, mcmc_steps=0)
+@step(
+    "timeseries.oc_fit",
+    inputs=("minima",),
+    outputs=("fit",),
+    params=(
+        P(
+            "model",
+            "choice",
+            "ltte",
+            choices=("ltte", "apsidal"),
+            label=QT_TRANSLATE_NOOP("Steps", "Model"),
+            help=QT_TRANSLATE_NOOP("Steps", "Third body (light-travel time) or apsidal motion"),
+        ),
+        P(
+            "t0",
+            "time",
+            0.0,
+            unit="d",
+            label=QT_TRANSLATE_NOOP("Steps", "Reference T0"),
+            help=QT_TRANSLATE_NOOP("Steps", "Epoch zero of the ephemeris"),
+        ),
+        P(
+            "period",
+            "float",
+            1.0,
+            unit="d",
+            min=0.0,
+            label=QT_TRANSLATE_NOOP("Steps", "Period"),
+            help=QT_TRANSLATE_NOOP("Steps", "Period of the ephemeris used to count the cycles"),
+        ),
+        P(
+            "mcmc_steps",
+            "int",
+            0,
+            min=0,
+            max=1_000_000,
+            label=QT_TRANSLATE_NOOP("Steps", "MCMC steps"),
+            advanced=True,
+            help=QT_TRANSLATE_NOOP("Steps", "Length of the Markov chain for the errors; 0: none"),
+        ),
+    ),
+)
 def oc_fit_step(inputs, params, ctx):
     """Third-body or apsidal-motion fit to "time [error] [I/II]" lines, with MCMC errors when mcmc_steps > 0: a task,
     so the page stays usable during the chain and it can be cancelled."""
