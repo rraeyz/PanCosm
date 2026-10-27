@@ -1,0 +1,197 @@
+"""The Spectroscopy steps' settings described (plans/automation.md AUT-1.3): kind, unit, range, label, help."""
+
+from ..engine.params import QT_TRANSLATE_NOOP, P
+from ..engine.steps import describe
+
+describe(
+    "spectroscopy.orbit",
+    P(
+        "period",
+        "float",
+        None,
+        unit="d",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Period guess"),
+        help=QT_TRANSLATE_NOOP("Steps", "Where the orbit fit starts (e.g. from the period search)"),
+    ),
+    P(
+        "fix_period",
+        "bool",
+        False,
+        label=QT_TRANSLATE_NOOP("Steps", "Keep the period"),
+        help=QT_TRANSLATE_NOOP("Steps", "The period is not fitted (known better from photometry)"),
+    ),
+)
+describe(
+    "spectroscopy.disentangle",
+    P(
+        "iterations",
+        "int",
+        40,
+        min=1,
+        max=1000,
+        label=QT_TRANSLATE_NOOP("Steps", "Iterations"),
+        help=QT_TRANSLATE_NOOP("Steps", "Rounds of shift-and-add (González & Levato 2006)"),
+    ),
+)
+describe(
+    "spectroscopy.classify",
+    P(
+        "fwhm",
+        "float",
+        None,
+        unit="Å",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Resolution FWHM"),
+        help=QT_TRANSLATE_NOOP("Steps", "The templates are smoothed to it; empty: measured from the spectrum"),
+    ),
+)
+describe(
+    "spectroscopy.atmosphere",
+    P(
+        "resolution",
+        "float",
+        None,
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Resolving power"),
+        help=QT_TRANSLATE_NOOP("Steps", "R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum"),
+    ),
+    P(
+        "vacuum",
+        "bool",
+        False,
+        label=QT_TRANSLATE_NOOP("Steps", "Vacuum wavelengths"),
+        help=QT_TRANSLATE_NOOP("Steps", "The spectrum's wavelengths are in vacuum, not air"),
+    ),
+)
+describe(
+    "spectroscopy.combine",
+    P(
+        "method",
+        "choice",
+        "mean",
+        choices=("mean", "median", "sum"),
+        label=QT_TRANSLATE_NOOP("Steps", "Method"),
+        help=QT_TRANSLATE_NOOP("Steps", "mean: the least noise; median: robust; sum: keeps the counts"),
+    ),
+    P(
+        "rejection",
+        "choice",
+        "sigma",
+        choices=("none", "sigma", "minmax"),
+        label=QT_TRANSLATE_NOOP("Steps", "Rejection"),
+        help=QT_TRANSLATE_NOOP("Steps", "Pixels left out before combining (cosmic rays, bad pixels)"),
+    ),
+    P(
+        "sigma",
+        "float",
+        3.0,
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Sigma"),
+        help=QT_TRANSLATE_NOOP("Steps", "Rejection limit in standard deviations"),
+    ),
+    P(
+        "scale",
+        "choice",
+        "median",
+        choices=("none", "median", "shape"),
+        label=QT_TRANSLATE_NOOP("Steps", "Scaling"),
+        help=QT_TRANSLATE_NOOP("Steps", "Each spectrum to the common level (median) or also to the common shape"),
+    ),
+    P(
+        "weight",
+        "choice",
+        "none",
+        choices=("none", "variance"),
+        label=QT_TRANSLATE_NOOP("Steps", "Weights"),
+        help=QT_TRANSLATE_NOOP("Steps", "variance: 1/σ² weights in the mean"),
+    ),
+)
+describe(
+    "spectroscopy.rv",
+    P(
+        "v_min",
+        "float",
+        -300.0,
+        unit="km/s",
+        label=QT_TRANSLATE_NOOP("Steps", "Lowest velocity"),
+        help=QT_TRANSLATE_NOOP("Steps", "The velocity range searched"),
+    ),
+    P(
+        "v_max",
+        "float",
+        300.0,
+        unit="km/s",
+        label=QT_TRANSLATE_NOOP("Steps", "Highest velocity"),
+        help=QT_TRANSLATE_NOOP("Steps", "The velocity range searched"),
+    ),
+    P(
+        "wave_min",
+        "float",
+        None,
+        unit="Å",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "From wavelength"),
+        help=QT_TRANSLATE_NOOP("Steps", "Only this window is used (avoid telluric bands); empty: all"),
+    ),
+    P(
+        "wave_max",
+        "float",
+        None,
+        unit="Å",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "To wavelength"),
+        help=QT_TRANSLATE_NOOP("Steps", "Only this window is used (avoid telluric bands); empty: all"),
+    ),
+    P(
+        "method",
+        "choice",
+        "ccf",
+        choices=("ccf", "bf"),
+        label=QT_TRANSLATE_NOOP("Steps", "Method"),
+        help=QT_TRANSLATE_NOOP("Steps", "Cross-correlation (TODCOR with a second template) or the broadening function"),
+    ),
+    P(
+        "components",
+        "int",
+        1,
+        min=1,
+        max=2,
+        label=QT_TRANSLATE_NOOP("Steps", "Stars"),
+        help=QT_TRANSLATE_NOOP("Steps", "How many stars the broadening function looks for"),
+    ),
+    P(
+        "template_rv",
+        "float",
+        0.0,
+        unit="km/s",
+        label=QT_TRANSLATE_NOOP("Steps", "Template velocity"),
+        help=QT_TRANSLATE_NOOP("Steps", "The template's own radial velocity"),
+    ),
+    P(
+        "template2_rv",
+        "float",
+        None,
+        unit="km/s",
+        label=QT_TRANSLATE_NOOP("Steps", "Second template velocity"),
+        help=QT_TRANSLATE_NOOP("Steps", "The second template's own radial velocity"),
+    ),
+    P(
+        "template_vsini",
+        "float",
+        0.0,
+        unit="km/s",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Template v sin i"),
+        help=QT_TRANSLATE_NOOP("Steps", "Broadens a sharp-lined template to a fast rotator"),
+    ),
+    P(
+        "template2_vsini",
+        "float",
+        0.0,
+        unit="km/s",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Second template v sin i"),
+        help=QT_TRANSLATE_NOOP("Steps", "Broadens the second template the same way"),
+    ),
+)

@@ -19,15 +19,9 @@
  "planning.night",
  "rs.classify",
  "rs.pca",
- "spectroscopy.atmosphere",
- "spectroscopy.classify",
- "spectroscopy.combine",
- "spectroscopy.disentangle",
  "spectroscopy.echelle",
- "spectroscopy.orbit",
  "spectroscopy.orders",
  "spectroscopy.reduce",
- "spectroscopy.rv",
  "stacking.drizzle",
  "stacking.stack"
 ]
