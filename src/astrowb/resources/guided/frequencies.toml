@@ -1,0 +1,14 @@
+# A guided task (plans/interface.md UI-8). Practice data: Help → Practice data → pulsator.csv.
+area = "timeseries"
+title.en = "The frequencies of a pulsating star"
+title.tr = "Zonklayan bir yıldızın frekansları"
+
+[[step]]
+widget = "period_page.load_button"
+text.en = "Load the light curve: choose pulsator.csv from the practice data (Help → Practice data)."
+text.tr = "Işık eğrisini yükleyin: alıştırma verisindeki pulsator.csv'yi seçin (Yardım → Alıştırma verisi)."
+
+[[step]]
+widget = "frequency_page.button"
+text.en = "Analyse frequencies. The first frequency found is 8.123 c/d (10 mmag), the second 11.470 c/d."
+text.tr = "Frekansları analiz edin. Bulunan ilk frekans 8,123 c/g (10 mmag), ikincisi 11,470 c/g."

@@ -57,7 +57,21 @@ class GuidedBar(QToolBar):
         self._show()
 
     def widget(self):
-        return getattr(self.page, self.task["steps"][self.index][0])
+        found = self.page
+        for name in self.task["steps"][self.index][0].split("."):  # "frequency_page.button": a tab's control
+            found = getattr(found, name)
+        return found
+
+    @staticmethod
+    def _bring_forward(w):
+        """The tabs and stacks around the control show the page that holds it."""
+        from PySide6.QtWidgets import QStackedWidget
+
+        child, parent = w, w.parentWidget()
+        while parent is not None:
+            if isinstance(parent, QStackedWidget) and parent.indexOf(child) >= 0:
+                parent.setCurrentWidget(child)
+            child, parent = parent, parent.parentWidget()
 
     def _show(self):
         n = len(self.task["steps"])
@@ -70,6 +84,7 @@ class GuidedBar(QToolBar):
     def show_me(self):
         """Mark the step's control for three seconds (and give it the focus); False when it is not shown now."""
         w = self.widget()
+        self._bring_forward(w)
         if not w.isVisible():
             self.window_.statusBar().showMessage(self.tr("That control is folded away: open its section first"), 6000)
             return False

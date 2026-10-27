@@ -11,8 +11,8 @@ text.tr = "Minimum zamanlarını yükleyin: Dosya yükle… ile alıştırma ver
 
 [[step]]
 widget = "t0"
-text.en = "Type the reference epoch: T0 = 2455000.1234."
-text.tr = "Başlangıç anını yazın: T0 = 2455000.1234."
+text.en = "Type the reference epoch: T0 = 2455000,1234 (nokta ile yazın: 2455000.1234)."
+text.tr = "Başlangıç anını yazın: T0 = 2455000,1234 (nokta ile yazın: 2455000.1234)."
 
 [[step]]
 widget = "period"
