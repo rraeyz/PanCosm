@@ -426,6 +426,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "checking"),
     QT_TRANSLATE_NOOP("Messages", "downloading"),
     QT_TRANSLATE_NOOP("Messages", "simulating"),
+    QT_TRANSLATE_NOOP("Messages", "simulating a transit night"),
     QT_TRANSLATE_NOOP("Messages", "photometry"),
     QT_TRANSLATE_NOOP("Messages", "quality"),
     QT_TRANSLATE_NOOP("Messages", "catalogue"),
