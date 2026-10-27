@@ -18,9 +18,10 @@ def _text(entry, lang):
 
 
 def load(path, lang="en"):
-    """{"area", "title", "steps": [(widget attribute, text)]} of a script in the language (English as fallback)."""
+    """{"area", "title", "steps": [(widget attribute, text, area)]} of a script in the language (English as
+    fallback); a step's own area (another window of the task) is optional."""
     doc = tomllib.loads(Path(path).read_text(encoding="utf-8"))
-    steps = [(s["widget"], _text(s["text"], lang)) for s in doc["step"]]
+    steps = [(s["widget"], _text(s["text"], lang), s.get("area", doc["area"])) for s in doc["step"]]
     return {"area": doc["area"], "title": _text(doc["title"], lang), "steps": steps}
 
 
@@ -29,10 +30,12 @@ def available(lang="en"):
 
 
 class GuidedBar(QToolBar):
-    def __init__(self, window, page, task):
+    def __init__(self, window, page, task, resolve=None):
+        """resolve(area) -> (window, page) of another area a step works in (a task across windows)."""
         super().__init__(task["title"], window)
         self.setObjectName("guided_task")
         self.window_, self.page, self.task, self.index = window, page, task, 0
+        self.resolve = resolve or (lambda _area: (window, page))
         self.count, self.text = QLabel(self), QLabel(self)
         self.text.setWordWrap(True)
         self.addWidget(self.count)
@@ -56,15 +59,20 @@ class GuidedBar(QToolBar):
         window.addToolBar(Qt.TopToolBarArea, self)
         self._show()
 
+    def target(self):
+        """(window, page) of the current step."""
+        area = self.task["steps"][self.index][2]
+        return (self.window_, self.page) if area == self.task["area"] else self.resolve(area)
+
     def widget(self):
-        found = self.page
+        found = self.target()[1]
         for name in self.task["steps"][self.index][0].split("."):  # "frequency_page.button": a tab's control
             found = getattr(found, name)
         return found
 
     @staticmethod
     def _bring_forward(w):
-        """The tabs and stacks around the control show the page that holds it."""
+        """The tabs, stacks and stages around the control show the page that holds it."""
         from PySide6.QtWidgets import QStackedWidget
 
         child, parent = w, w.parentWidget()
@@ -72,6 +80,10 @@ class GuidedBar(QToolBar):
             if isinstance(parent, QStackedWidget) and parent.indexOf(child) >= 0:
                 parent.setCurrentWidget(child)
             child, parent = parent, parent.parentWidget()
+        window = w.window()
+        for key, panel in getattr(window, "stage_panels", {}).items():  # an area window's stage: the rail follows
+            if panel.isAncestorOf(w):
+                window.show_stage(key)
 
     def _show(self):
         n = len(self.task["steps"])
@@ -83,12 +95,17 @@ class GuidedBar(QToolBar):
 
     def show_me(self):
         """Mark the step's control for three seconds (and give it the focus); False when it is not shown now."""
+        window = self.target()[0]
+        window.show()
+        window.raise_()
         w = self.widget()
         self._bring_forward(w)
         if not w.isVisible():
-            self.window_.statusBar().showMessage(self.tr("That control is folded away: open its section first"), 6000)
+            window.statusBar().showMessage(self.tr("That control is folded away: open its section first"), 6000)
             return False
-        top_left = w.mapTo(self.window_, w.rect().topLeft())
+        if self.mark.parentWidget() is not window:
+            self.mark.setParent(window)
+        top_left = w.mapTo(window, w.rect().topLeft())
         self.mark.setGeometry(QRect(top_left, w.size()).adjusted(-4, -4, 4, 4))
         self.mark.show()
         self.mark.raise_()
