@@ -29,6 +29,24 @@ def test_practice_night_end_to_end(tmp_path):
     assert m["time"] == pytest.approx(truth["t_min_bjd_tdb"], abs=1.5 / 1440)  # within 1.5 minutes
 
 
+@pytest.mark.slow
+def test_practice_transit_night_with_the_exoplanet_template(tmp_path):
+    """ARC-21 / UI-8 task 2: the practice transit (1.2 %, 2.2 h) through the exoplanet template: mid-transit within
+    3 minutes."""
+    from astrowb import sampledata
+
+    truth = sampledata.make(tmp_path, n_lights=120, transit=True)
+    q = TaskQueue(max_workers=2)
+    try:
+        eng = Engine(queue=q)
+        auto = automation.load(automation.TEMPLATES / "20-exoplanet-transit.json")
+        inputs = {"folder": str(tmp_path / "raw"), "output_dir": str(tmp_path / "cal"), "target_xy": truth["target_xy"]}
+        out = automation.run(eng, auto, inputs)
+    finally:
+        q.shutdown()
+    assert out["minimum"]["time"] == pytest.approx(truth["t_min_bjd_tdb"], abs=3 / 1440)
+
+
 def test_help_menu_makes_practice_data_and_opens_the_guide(qtbot, tmp_path):
     from astrowb.settings import Settings
     from astrowb.ui.main_window import MainWindow

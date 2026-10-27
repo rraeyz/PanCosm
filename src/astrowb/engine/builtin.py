@@ -290,10 +290,16 @@ def update_time_tables(inputs, params, ctx):
 
 @step("sample.night", inputs=("folder",), outputs=("truth",))
 def sample_night(inputs, params, ctx):
-    """Practice data: a simulated night of an eclipsing binary with calibration frames, a pulsating star's light
-    curve and a list of minima with a third body (see the Guide)."""
+    """Practice data: a simulated night of an eclipsing binary with calibration frames, a transit night in
+    transit/, a pulsating star's light curve, a list of minima with a third body, a double-lined binary's velocities
+    and a long-slit frame with its arc (see the Guide)."""
     from .. import sampledata
 
     ctx.progress(0.1, "simulating")
     truth = sampledata.make(inputs["folder"])
-    return {"truth": {**truth, "practice": sampledata.practice_sets(inputs["folder"])}}
+    from pathlib import Path
+
+    ctx.progress(0.5, "simulating a transit night")
+    transit = sampledata.make(Path(inputs["folder"]) / "transit", n_lights=120, transit=True)
+    practice = sampledata.practice_sets(inputs["folder"])
+    return {"truth": {**truth, "transit": transit, "practice": practice}}
