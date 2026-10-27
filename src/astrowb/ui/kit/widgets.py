@@ -224,6 +224,7 @@ class PlotCanvas(QWidget):
         # a: show all (UI-12's plot key; matplotlib's own keys stay: o zoom box, p pan, h home)
         self.canvas.mpl_connect("key_press_event", lambda e: e.key == "a" and self.show_all())
         self._update_hint()
+        self._guard_drawing()
         self.canvas.setContextMenuPolicy(Qt.CustomContextMenu)  # the same right-click menu on every plot (UI-10)
         self.canvas.customContextMenuRequested.connect(self._context_menu)
 
@@ -255,6 +256,32 @@ class PlotCanvas(QWidget):
         event.artist.set_alpha(1.0 if target.get_visible() else 0.25)
         text.set_alpha(1.0 if target.get_visible() else 0.4)
         self.canvas.draw_idle()
+
+    def _guard_drawing(self):
+        """UI-6's error state: a plot whose drawing fails (a bad value, a broken axis) says why over itself instead of
+        staying a blank rectangle; the next good drawing takes the words away."""
+        draw = self.canvas.draw
+
+        def guarded(*args, **kwargs):
+            try:
+                out = draw(*args, **kwargs)
+            except Exception as e:  # noqa: BLE001 (any failure inside matplotlib: the window must go on)
+                import logging
+
+                logging.getLogger(__name__).warning("plot not drawn: %s", e, exc_info=True)
+                self.failed = str(e)
+                self.hint.setText(self.tr("This plot could not be drawn: {error}").format(error=e))
+                self.hint.setGeometry(self.canvas.rect().adjusted(24, 24, -24, -24))
+                self.hint.show()
+                self.hint.raise_()
+                return None
+            if getattr(self, "failed", None):
+                self.failed = None
+                self.hint.setText(self._empty_text)
+                self._update_hint()
+            return out
+
+        self.canvas.draw = guarded
 
     def set_busy(self, text):
         """UI-6's loading state: while the window's task runs, an empty plot says so (None: back to its hint)."""

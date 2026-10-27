@@ -11729,7 +11729,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <name>PlotCanvas</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="199"/>
-        <location filename="../../ui/kit/widgets.py" line="348"/>
+        <location filename="../../ui/kit/widgets.py" line="375"/>
         <source>Publication figure…</source>
         <translation>Yayın şekli…</translation>
     </message>
@@ -11754,37 +11754,42 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="291"/>
+        <location filename="../../ui/kit/widgets.py" line="273"/>
+        <source>This plot could not be drawn: {error}</source>
+        <translation>Bu grafik çizilemedi: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="318"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="342"/>
+        <location filename="../../ui/kit/widgets.py" line="369"/>
         <source>Show all</source>
         <translation>Tümünü göster</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="344"/>
+        <location filename="../../ui/kit/widgets.py" line="371"/>
         <source>Copy picture</source>
         <translation>Resmi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="345"/>
+        <location filename="../../ui/kit/widgets.py" line="372"/>
         <source>Copy data</source>
         <translation>Veriyi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="347"/>
+        <location filename="../../ui/kit/widgets.py" line="374"/>
         <source>Save data…</source>
         <translation>Veriyi kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="375"/>
+        <location filename="../../ui/kit/widgets.py" line="402"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="391"/>
+        <location filename="../../ui/kit/widgets.py" line="418"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
     </message>

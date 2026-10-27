@@ -612,3 +612,21 @@ def test_legend_click_hides_and_shows_a_series(qtbot):
     assert not ax.get_lines()[0].get_visible()
     plot._legend_picked(SimpleNamespace(artist=handles["V"]))
     assert ax.get_lines()[0].get_visible()
+
+
+def test_a_plot_that_cannot_be_drawn_says_why(qtbot, monkeypatch):
+    """UI-6: an error while drawing is shown over the plot (and logged), not a blank rectangle."""
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    plot.show()
+    ax = plot.figure.add_subplot()
+    ax.plot([1, 2], [3, 4])
+    real = plot.figure.draw
+    monkeypatch.setattr(plot.figure, "draw", lambda *a: (_ for _ in ()).throw(ValueError("bad axis limits")))
+    plot.canvas.draw()
+    assert plot.hint.isVisible() and "bad axis limits" in plot.hint.text()
+    monkeypatch.setattr(plot.figure, "draw", real)
+    plot.canvas.draw()
+    assert not plot.hint.isVisible() and plot.failed is None
