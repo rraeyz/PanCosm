@@ -205,7 +205,8 @@ guided tasks' names (bringing their tab or stage forward), clicks (check boxes o
 language writes them, clicks on images through the viewport, answers file dialogs, triggers menu commands by their
 English text, waits for the tasks, and fails on message boxes, uncaught exceptions, labels / buttons / tooltips left in
 English, clicks slower than 2 s; a screenshot after every action. Walks in English and Turkish: the practice night
-(raw frames → time of minimum), frequencies, O−C third body, SB2 orbit. Its first find: the plot toolbar's own
+(raw frames → time of minimum), the practice transit (suggested comparisons → ETD file), frequencies, O−C third
+body, SB2 orbit. Its first find: the plot toolbar's own
 matplotlib buttons spoke English in every language. Left: walks for Plan, Observe, Images, Remote sensing, Models,
 Automation and the long-slit task (clicks on a plot), one real set per walk, German and Spanish, the gallery tool on the
 harness.
