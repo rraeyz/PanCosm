@@ -262,12 +262,13 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
     for path in (Path(astrowb.__file__).parent / "resources" / "automations").glob("*.json"):
         for entry in json.loads(path.read_text())["steps"]:
             s = steps.get(entry["step"])
+            described = {p.name for p in s.params if p.label}  # AUT-1: a described setting names itself
             for key in (*s.inputs, *s.optional, *s.defaults):
-                if f"{entry['step']}.{key}" not in NAMES and key not in NAMES:
+                if f"{entry['step']}.{key}" not in NAMES and key not in NAMES and key not in described:
                     unnamed.add(key)
     assert not unnamed, unnamed
     assert setting_name("calibration.scan", "clock_utc_offset") == "Camera clock − UTC (h)"
-    assert setting_name("stacking.stack", "method") == "Combine by"  # a name that depends on the step
+    assert setting_name("stacking.stack", "method") == "Combine"  # from the step's own description
     assert setting_name("myplugin.thing", "my_value") == "my value"
 
 

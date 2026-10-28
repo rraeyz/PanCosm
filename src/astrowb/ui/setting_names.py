@@ -32,82 +32,23 @@ NAMES = {
     "template": QT_TRANSLATE_NOOP("Settings", "Template spectrum"),
     "template2": QT_TRANSLATE_NOOP("Settings", "Template of the second star"),
     "time": QT_TRANSLATE_NOOP("Settings", "Times"),
-    "align": QT_TRANSLATE_NOOP("Settings", "Alignment"),
-    "aperture_m": QT_TRANSLATE_NOOP("Settings", "Telescope aperture (m)"),
-    "fixed": QT_TRANSLATE_NOOP("Settings", "Stars that follow the field (not centred)"),
-    "sky_method": QT_TRANSLATE_NOOP("Settings", "Sky from the ring (median, mode, mean, plane)"),
-    "header_time": QT_TRANSLATE_NOOP("Settings", "What the header's time marks (start, middle, end)"),
-    "shutter_delay": QT_TRANSLATE_NOOP("Settings", "Shutter delay (s)"),
-    "detrend_with": QT_TRANSLATE_NOOP("Settings", "Quantities fitted together with the transit"),
     "apertures": QT_TRANSLATE_NOOP("Settings", "Further aperture radii measured to choose later (px)"),
-    "t_ab": QT_TRANSLATE_NOOP("Settings", "Colour transformation coefficient (T_ab)"),
-    "comp_colour": QT_TRANSLATE_NOOP("Settings", "Catalogue colour of the comparison stars"),
-    "camera": QT_TRANSLATE_NOOP("Settings", "Camera noise (read noise e⁻, dark e⁻/s)"),
-    "photometry.apertures.rule": QT_TRANSLATE_NOOP("Settings", "Radii rule (snr or aij)"),
-    "auto_apertures": QT_TRANSLATE_NOOP("Settings", "Choose the radii from the stars"),
-    "background_factor": QT_TRANSLATE_NOOP("Settings", "Sky brighter than (× median)"),
-    "clock_utc_offset": QT_TRANSLATE_NOOP("Settings", "Camera clock − UTC (h)"),
     "components": QT_TRANSLATE_NOOP("Settings", "Stars in the spectrum (1 or 2)"),
-    "cosmic_rays": QT_TRANSLATE_NOOP("Settings", "Remove cosmic rays"),
-    "divide_flat": QT_TRANSLATE_NOOP("Settings", "Divide by the flat"),
-    "exclude": QT_TRANSLATE_NOOP("Settings", "Lines left out"),
-    "fix_defects": QT_TRANSLATE_NOOP("Settings", "Repair bad pixels"),
-    "fix_period": QT_TRANSLATE_NOOP("Settings", "Keep the period fixed"),
-    "follow_seeing": QT_TRANSLATE_NOOP("Settings", "Radii follow the seeing"),
-    "fwhm_factor": QT_TRANSLATE_NOOP("Settings", "Stars wider than (× median FWHM)"),
-    "gain": QT_TRANSLATE_NOOP("Settings", "Gain (e⁻/ADU)"),
-    "guess_row": QT_TRANSLATE_NOOP("Settings", "Row of the spectrum (guess)"),
-    "line_list": QT_TRANSLATE_NOOP("Settings", "Arc line list"),
-    "linearity": QT_TRANSLATE_NOOP("Settings", "Linearity correction"),
-    "n": QT_TRANSLATE_NOOP("Settings", "Number of comparison stars"),
-    "normalize": QT_TRANSLATE_NOOP("Settings", "Normalisation"),
-    "optimal": QT_TRANSLATE_NOOP("Settings", "Optimal extraction"),
-    "optimize_dark": QT_TRANSLATE_NOOP("Settings", "Scale the dark to fit"),
-    "orientation": QT_TRANSLATE_NOOP("Settings", "Dispersion direction (x or y)"),
-    "p_max": QT_TRANSLATE_NOOP("Settings", "Longest period (d)"),
-    "p_min": QT_TRANSLATE_NOOP("Settings", "Shortest period (d)"),
-    "period": QT_TRANSLATE_NOOP("Settings", "Period (d)"),
-    "psf": QT_TRANSLATE_NOOP("Settings", "PSF photometry"),
-    "r_ap": QT_TRANSLATE_NOOP("Settings", "Aperture radius (px)"),
-    "r_in": QT_TRANSLATE_NOOP("Settings", "Sky ring, inner radius (px)"),
-    "r_out": QT_TRANSLATE_NOOP("Settings", "Sky ring, outer radius (px)"),
-    "read_noise": QT_TRANSLATE_NOOP("Settings", "Read noise (e⁻)"),
-    "rejection": QT_TRANSLATE_NOOP("Settings", "Rejection"),
-    "reverse": QT_TRANSLATE_NOOP("Settings", "Wavelength runs backwards"),
-    "sigma": QT_TRANSLATE_NOOP("Settings", "Clipping (σ)"),
-    "sky_lines": QT_TRANSLATE_NOOP("Settings", "Check with the sky lines"),
-    "sky_offset": QT_TRANSLATE_NOOP("Settings", "Sky band distance (px)"),
-    "sky_width": QT_TRANSLATE_NOOP("Settings", "Sky band width (px)"),
-    "split_colour": QT_TRANSLATE_NOOP("Settings", "Split colour frames into R, G, B"),
-    "star_fraction": QT_TRANSLATE_NOOP("Settings", "Fewer stars than (× median)"),
-    "t0": QT_TRANSLATE_NOOP("Settings", "Time of a primary minimum (BJD)"),
-    "temp_tol": QT_TRANSLATE_NOOP("Settings", "Temperature tolerance (°C)"),
-    "template2_rv": QT_TRANSLATE_NOOP("Settings", "Velocity of the second template (km/s)"),
-    "template2_vsini": QT_TRANSLATE_NOOP("Settings", "v sin i of the second template (km/s)"),
-    "template_rv": QT_TRANSLATE_NOOP("Settings", "Velocity of the template (km/s)"),
-    "template_vsini": QT_TRANSLATE_NOOP("Settings", "v sin i of the template (km/s)"),
-    "trace_row": QT_TRANSLATE_NOOP("Settings", "Row to start the trace"),
-    "v_max": QT_TRANSLATE_NOOP("Settings", "Highest velocity (km/s)"),
-    "v_min": QT_TRANSLATE_NOOP("Settings", "Lowest velocity (km/s)"),
-    "wave_max": QT_TRANSLATE_NOOP("Settings", "Longest wavelength (Å)"),
-    "wave_min": QT_TRANSLATE_NOOP("Settings", "Shortest wavelength (Å)"),
-    "weighting": QT_TRANSLATE_NOOP("Settings", "Weighting"),
-    "weight": QT_TRANSLATE_NOOP("Settings", "Weighting"),
-    "stacking.stack.method": QT_TRANSLATE_NOOP("Settings", "Combine by"),
-    "spectroscopy.combine.method": QT_TRANSLATE_NOOP("Settings", "Combine by"),
-    "spectroscopy.combine.scale": QT_TRANSLATE_NOOP("Settings", "Scaling"),
-    "stacking.stack.low": QT_TRANSLATE_NOOP("Settings", "Reject below (σ or count)"),
-    "stacking.stack.high": QT_TRANSLATE_NOOP("Settings", "Reject above (σ or count)"),
-    "spectroscopy.reduce.order": QT_TRANSLATE_NOOP("Settings", "Order of the wavelength fit"),
-    "spectroscopy.reduce.width": QT_TRANSLATE_NOOP("Settings", "Extraction width (px)"),
-    "spectroscopy.rv.method": QT_TRANSLATE_NOOP("Settings", "Velocity method"),
-    "timeseries.minimum.method": QT_TRANSLATE_NOOP("Settings", "Minimum method"),
-    "timeseries.period.method": QT_TRANSLATE_NOOP("Settings", "Search method"),
 }
 
 
 def setting_name(step_id, key):
     """The setting's name in the interface language; one without a name (a plugin's, a rare one) is its key with
     spaces."""
+    from ..engine import steps
+
+    try:  # a described setting names itself (AUT-1 item 4): the description is the one source
+        described = {p.name: p for p in steps.get(step_id).params}
+    except KeyError:
+        described = {}
+    p = described.get(key)
+    if p is not None and p.label:
+        name = QCoreApplication.translate("Steps", p.label)
+        return f"{name} ({p.unit})" if p.unit else name
     text = NAMES.get(f"{step_id}.{key}") or NAMES.get(key)
     return QCoreApplication.translate("Settings", text) if text else str(key).replace("_", " ")
