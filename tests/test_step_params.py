@@ -64,3 +64,16 @@ def test_a_form_is_made_from_the_description(qtbot):
     qtbot.addWidget(dialog)
     dialog.step_form.rows["method"].control.setValue("bls")
     assert dialog.values()[1] == {"method": "bls", "p_min": 0.05}  # p_max left automatic
+
+
+def test_recipe_schema_knows_every_step_and_its_settings():
+    """AUT-1 item 5: docs/api/recipe.schema.json (generated with the scripting reference) names every step and,
+    for a described one, each setting's kind, range and choices, for editors that check JSON against a schema."""
+    schema = json.loads((Path(__file__).resolve().parents[1] / "docs" / "api" / "recipe.schema.json").read_text())
+    step = schema["properties"]["steps"]["items"]
+    steps._load_builtin()
+    assert set(step["properties"]["step"]["enum"]) == set(steps.REGISTRY)
+    rule = next(r for r in step["allOf"] if r["if"]["properties"]["step"]["const"] == "timeseries.period")
+    params = rule["then"]["properties"]["params"]
+    assert params["properties"]["method"]["enum"][:4] == ["lomb-scargle", "bls", "pdm", "anova"]
+    assert params["properties"]["p_min"]["minimum"] == 0.0 and params["additionalProperties"] is False
