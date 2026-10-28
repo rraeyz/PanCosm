@@ -69,7 +69,9 @@ def test_a_form_is_made_from_the_description(qtbot):
 def test_recipe_schema_knows_every_step_and_its_settings():
     """AUT-1 item 5: docs/api/recipe.schema.json (generated with the scripting reference) names every step and,
     for a described one, each setting's kind, range and choices, for editors that check JSON against a schema."""
-    schema = json.loads((Path(__file__).resolve().parents[1] / "docs" / "api" / "recipe.schema.json").read_text())
+    schema = json.loads(
+        (Path(__file__).resolve().parents[1] / "docs" / "api" / "recipe.schema.json").read_text("utf-8")
+    )
     step = schema["properties"]["steps"]["items"]
     steps._load_builtin()
     assert set(step["properties"]["step"]["enum"]) == set(steps.REGISTRY)
