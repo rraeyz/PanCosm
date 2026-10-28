@@ -29,6 +29,9 @@ Rewriting the history to drop them needs a force-push, which the owner's setting
 
 ## How to download
 
+**One command:** `python tools/fetch_data.py <set id> | --area photometry | --all` reads `data/registry.toml`, downloads
+into the set's folder and checks the SHA-256 of each file. The commands below are for doing it by hand.
+
 - **LCO archive** (public frames), one frame by name:
   ```bash
   url=$(curl -s "https://archive-api.lco.global/frames/?basename_exact=<name without .fits.fz>" \
