@@ -2,6 +2,7 @@
 
 from ..engine.params import QT_TRANSLATE_NOOP, P
 from ..engine.steps import describe
+from . import steps as _steps  # noqa: F401  (the steps first, whichever module is imported first)
 
 describe(
     "spectroscopy.orbit",

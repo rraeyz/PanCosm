@@ -1,6 +1,7 @@
 """The settings of the image, planning, models, remote-sensing and astrometry steps described (plans/automation.md
 AUT-1.4 … 1.8): kind, unit, range, label, help. Imported once every step is registered (engine/builtin.py)."""
 
+from . import builtin as _builtin  # noqa: F401  (every step first, whichever module is imported first)
 from .params import QT_TRANSLATE_NOOP, P
 from .steps import describe
 
