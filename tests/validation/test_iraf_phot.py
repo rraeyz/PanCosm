@@ -35,16 +35,22 @@ def both():
     return lc, {k: ref[k].reshape(n, 3) for k in ("x", "y", "flux", "flux_err")}
 
 
-def test_same_centres(both):
+def test_same_centres(both, measured):
     lc, ref = both
     xy = np.asarray(lc["xy"])
-    assert np.max(np.abs(xy[..., 0] - ref["x"])) < 0.01 and np.max(np.abs(xy[..., 1] - ref["y"])) < 0.01
+    worst = float(max(np.max(np.abs(xy[..., 0] - ref["x"])), np.max(np.abs(xy[..., 1] - ref["y"]))))
+    measured("Photometry", "aperture centre", "IRAF phot", "0.05 px", f"{worst:.4f} px", worst < 0.01,
+             "HAT-P-32 (EXOTIC sample)", "photometry item 1")  # fmt: skip
+    assert worst < 0.01
 
 
-def test_fluxes_and_relative_flux_agree_with_iraf(both):
+def test_fluxes_and_relative_flux_agree_with_iraf(both, measured):
     lc, ref = both
     ours = np.column_stack([lc["target_flux"], lc["comp_flux"]])
     ratio = ref["flux"] / ours
+    worst = float(np.max(np.abs(np.median(ratio, axis=0) - 1)))
+    measured("Photometry", "aperture flux (median per star)", "IRAF phot", "0.1 %", f"{100 * worst:.3f} %",
+             worst < 0.001, "HAT-P-32 (EXOTIC sample)", "photometry item 1")  # fmt: skip
     assert np.all(np.abs(np.median(ratio, axis=0) - 1) < 0.001)  # the plan's limit: 0.1 % per frame (median)
     assert np.max(np.abs(ratio - 1)) < 0.008  # integer sky medians (see above)
     rel_iraf = ref["flux"][:, 0] / ref["flux"][:, 1:].sum(axis=1)
@@ -52,7 +58,10 @@ def test_fluxes_and_relative_flux_agree_with_iraf(both):
     assert np.median(np.abs(d)) < 0.001 and np.max(np.abs(d)) < 0.008
 
 
-def test_flux_errors_agree_with_iraf(both):
+def test_flux_errors_agree_with_iraf(both, measured):
     lc, ref = both
     ours = np.column_stack([lc["target_flux_err"], lc["comp_flux_err"]])
+    worst = float(np.max(np.abs(np.median(ref["flux_err"] / ours, axis=0) - 1)))
+    measured("Photometry", "aperture flux error", "IRAF phot", "10 %", f"{100 * worst:.1f} %", worst < 0.1,
+             "HAT-P-32 (EXOTIC sample)", "photometry item 1")  # fmt: skip
     assert np.all(np.abs(np.median(ref["flux_err"] / ours, axis=0) - 1) < 0.1)  # the plan's limit: 10 %

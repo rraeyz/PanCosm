@@ -178,6 +178,14 @@ jobs:
       - run: pytest -v tests/validation
         env:
           ASTROWB_VALIDATION_DATA: ../validation-data
+      - name: The validation report (VAL-3)
+        if: always()
+        run: python tools/validation_report.py validation-results validation-report.md
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-report
+          path: validation-report.md
 
   # Device control against the real INDI simulator drivers
   speed:  # ARC-23: not needed by the release; a case 1.5x slower than speed/baseline-ci.json turns it red

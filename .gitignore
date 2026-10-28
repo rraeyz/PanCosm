@@ -28,3 +28,4 @@ packaging/out/
 /native/target/
 /src/astrowb/_native.*
 gallery/
+validation-results/

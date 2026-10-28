@@ -52,10 +52,13 @@ def test_photometry_quality(lc):
     assert np.all(np.abs(f - 1) < 0.06)  # no lost stars or bad frames
 
 
-def test_transit_time_depth_duration(lc):
+def test_transit_time_depth_duration(lc, measured):
     t, f, err, tc, _ = lc
     fit = trapezoid_fit(t, f, err)
     oc_min = (fit["t0"] - tc) * 1440
+    ok = abs(oc_min) < 3 * fit["t0_err"] * 1440 and abs(oc_min) < 15
+    measured("Photometry", "transit mid-time", "the published ephemeris", "3σ and 15 min", f"{oc_min:+.1f} min", ok,
+             "HAT-P-32 b (EXOTIC sample)", "PHO-26")  # fmt: skip
     assert abs(oc_min) < 3 * fit["t0_err"] * 1440 and abs(oc_min) < 15, oc_min
     assert 0.016 < fit["depth"] < 0.028
     assert 2.5 < fit["t14"] * 24 < 3.6

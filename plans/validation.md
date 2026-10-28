@@ -100,7 +100,7 @@ before each release; VAL-10 for 1.0.
 - **Files:** `tools/reference_env.sh`, `tests/validation/scripts/`, `tests/test_reference_manifests.py`.
 
 ### VAL-3. The tolerance tables and the generated report  (P1)
-**open**
+**partial** — done (2026-11-12): the `measured` fixture (`tests/validation/conftest.py`) writes each test's rows (area, quantity, compared with, tolerance, measured, verdict, data, step, test, versions) to `validation-results/`; `tools/validation_report.py` builds the report beside this table, a planned row whose step no test names is "not yet tested"; the CI validation job uploads it as `validation-report`. Rows written now: IRAF `phot` centres, fluxes and errors, the HAT-P-32 b mid-time. Left: rows for every other validation test as they come, the guide's chapter "How results are checked", the report attached to a release.
 - **Build:** every validation test writes its measured differences to `validation-results/<test>.json` (quantity,
   reference, tolerance, measured, data set, versions); `tools/validation_report.py` builds `docs/validation/
   report.md` (one table per area: quantity, compared with, tolerance, measured, verdict, test id, data set) and
