@@ -44,3 +44,23 @@ def test_a_described_step_refuses_a_bad_value_before_running():
         execute("timeseries.frequencies", {"time": [1, 2, 3], "flux": [1, 2, 1]}, {"n_max": 0}, None)
     s = steps.get("timeseries.frequencies")
     assert s.defaults["f_max"] == 50.0 and {p.name for p in s.params} == set(s.defaults)  # one description
+
+
+def test_a_form_is_made_from_the_description(qtbot):
+    """AUT-1 item 5: calibration.run's described settings give a form with their controls and defaults; a change
+    reaches the values; the plugin dialog uses the form for a described step."""
+    from astrowb.ui.kit.fields import NumberField, Toggle
+    from astrowb.ui.kit.stepform import StepForm
+    from astrowb.ui.plugin_dialog import PluginDialog
+
+    step = steps.get("calibration.run")
+    form = StepForm(step)
+    qtbot.addWidget(form)
+    assert form.values() == json.loads(json.dumps(step.defaults))  # a list for a tuple, as a recipe keeps it
+    assert isinstance(form.rows["sigma"].control, NumberField) and isinstance(form.rows["cosmic_rays"].control, Toggle)
+    form.rows["sigma"].control.setValue(2.5)
+    assert form.values()["sigma"] == 2.5 and form.rows["sigma"].label.text() == "Sigma"
+    dialog = PluginDialog(steps.get("timeseries.period"))
+    qtbot.addWidget(dialog)
+    dialog.step_form.rows["method"].control.setValue("bls")
+    assert dialog.values()[1] == {"method": "bls", "p_min": 0.05}  # p_max left automatic

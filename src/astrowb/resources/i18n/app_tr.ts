@@ -11857,7 +11857,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Adımın bir girdisi: bir dosya, klasör ya da değer</translation>
     </message>
     <message>
-        <location filename="../../ui/plugin_dialog.py" line="39"/>
+        <location filename="../../ui/plugin_dialog.py" line="46"/>
         <source>A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON</source>
         <translation>Adımın bir ayarı; sayılar, true / false, listeler [ ] ve tablolar { } JSON&apos;daki gibi</translation>
     </message>
@@ -14377,6 +14377,19 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>StepForm</name>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="39"/>
+        <source>automatic</source>
+        <translation>otomatik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="67"/>
+        <source>More settings</source>
+        <translation>Daha fazla ayar</translation>
+    </message>
+</context>
+<context>
     <name>StepGuide</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="121"/>
@@ -15007,7 +15020,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../photometry/steps.py" line="747"/>
         <source>Each frame&apos;s radii follow its FWHM</source>
-        <translation>Her karenin yarıçapları kendi FWHM'sini izler</translation>
+        <translation>Her karenin yarıçapları kendi FWHM&apos;sini izler</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="753"/>
@@ -15017,7 +15030,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../photometry/steps.py" line="754"/>
         <source>Stars fitted with the frame&apos;s PSF (crowded fields)</source>
-        <translation>Yıldızlar karenin PSF'siyle fit edilir (kalabalık alanlar)</translation>
+        <translation>Yıldızlar karenin PSF&apos;siyle fit edilir (kalabalık alanlar)</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="762"/>
@@ -15097,7 +15110,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../photometry/steps.py" line="825"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
-        <translation>Dönüşümün T_ab'si; karşılaştırma rengiyle standart bir renk verir</translation>
+        <translation>Dönüşümün T_ab&apos;si; karşılaştırma rengiyle standart bir renk verir</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="832"/>
@@ -15919,7 +15932,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../spectroscopy/step_params.py" line="334"/>
         <location filename="../../spectroscopy/step_params.py" line="410"/>
         <source>Where the orders cross; empty: found on the flat</source>
-        <translation>Düzenlerin geçtiği yerler; boş: flat'te bulunur</translation>
+        <translation>Düzenlerin geçtiği yerler; boş: flat&apos;te bulunur</translation>
     </message>
     <message>
         <location filename="../../spectroscopy/step_params.py" line="344"/>

@@ -11855,7 +11855,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Eine Eingabe des Schritts: eine Datei, ein Ordner oder ein Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/plugin_dialog.py" line="39"/>
+        <location filename="../../ui/plugin_dialog.py" line="46"/>
         <source>A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON</source>
         <translation>Eine Einstellung des Schritts; Zahlen, true / false, Listen [ ] und Tabellen { } wie in JSON</translation>
     </message>
@@ -14372,6 +14372,19 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/kit/status.py" line="28"/>
         <source>Cancel</source>
         <translation type="unfinished">Abbrechen</translation>
+    </message>
+</context>
+<context>
+    <name>StepForm</name>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="39"/>
+        <source>automatic</source>
+        <translation type="unfinished">automatisch</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="67"/>
+        <source>More settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

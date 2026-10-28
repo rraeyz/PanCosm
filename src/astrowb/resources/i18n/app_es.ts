@@ -11855,7 +11855,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Una entrada del paso: un archivo, una carpeta o un valor</translation>
     </message>
     <message>
-        <location filename="../../ui/plugin_dialog.py" line="39"/>
+        <location filename="../../ui/plugin_dialog.py" line="46"/>
         <source>A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON</source>
         <translation>Un ajuste del paso; números, true / false, listas [ ] y tablas { } como en JSON</translation>
     </message>
@@ -14372,6 +14372,19 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/kit/status.py" line="28"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>StepForm</name>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="39"/>
+        <source>automatic</source>
+        <translation type="unfinished">automático</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/stepform.py" line="67"/>
+        <source>More settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

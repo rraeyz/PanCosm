@@ -33,14 +33,20 @@ class PluginDialog(QDialog):
             edit.setToolTip(self.tr("An input of the step: a file, a folder or a value"))
             form.addRow(name, edit)
             self.fields[("in", name)] = edit
-        for name, default in step.defaults.items():
+        lay.addLayout(form)
+        self.step_form = None
+        if getattr(step, "params", ()):  # described settings (AUT-1): the form made from the description
+            from .kit.stepform import StepForm
+
+            self.step_form = StepForm(step, self)
+            lay.addWidget(self.step_form)
+        for name, default in () if self.step_form else step.defaults.items():
             edit = QLineEdit(json.dumps(default) if not isinstance(default, str) else default, self)
             edit.setToolTip(
                 self.tr("A setting of the step; numbers, true / false, lists [ ] and tables { } as in JSON")
             )
             form.addRow(name, edit)
             self.fields[("param", name)] = edit
-        lay.addLayout(form)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
@@ -53,4 +59,6 @@ class PluginDialog(QDialog):
             if v is None:
                 continue
             (inputs if kind == "in" else params)[name] = v
+        if self.step_form is not None:
+            params |= {k: v for k, v in self.step_form.values().items() if v is not None}
         return inputs, params
