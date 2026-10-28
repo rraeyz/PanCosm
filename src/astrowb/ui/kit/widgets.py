@@ -196,6 +196,20 @@ class PlotCanvas(QWidget):
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
         toolbar.setIconSize(QSize(20, 20))  # as the Images toolbar: 24 px cut it in narrow side panels (macOS)
+        own = {  # matplotlib's own buttons say their names in English: the program's words (VAL-8 found them)
+            "home": (self.tr("Home"), self.tr("Show the whole plot again")),
+            "back": (self.tr("Back"), self.tr("Back to the previous view")),
+            "forward": (self.tr("Forward"), self.tr("Forward to the next view")),
+            "pan": (self.tr("Pan"), self.tr("Drag to move the plot; with the right button, to stretch an axis")),
+            "zoom": (self.tr("Zoom"), self.tr("Drag a box to zoom into")),
+            "configure_subplots": (self.tr("Margins"), self.tr("The margins and spacing of the plots")),
+            "edit_parameters": (self.tr("Axes"), self.tr("Axis ranges, titles, curves and images")),
+            "save_figure": (self.tr("Save"), self.tr("Save the plot as a picture")),
+        }
+        for name, act in getattr(toolbar, "_actions", {}).items():
+            if name in own:
+                act.setText(own[name][0])
+                act.setToolTip(own[name][1])
         publication = toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
         data = toolbar.addAction(self.tr("Export data (CSV)…"), self.export_data)
         data.setToolTip(self.tr("The numbers of every plotted series (axis, series, x, y) in a CSV file"))

@@ -11771,68 +11771,148 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PlotCanvas</name>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="199"/>
-        <location filename="../../ui/kit/widgets.py" line="375"/>
+        <location filename="../../ui/kit/widgets.py" line="200"/>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="200"/>
+        <source>Show the whole plot again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="201"/>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="201"/>
+        <source>Back to the previous view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="202"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="202"/>
+        <source>Forward to the next view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="203"/>
+        <source>Pan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="203"/>
+        <source>Drag to move the plot; with the right button, to stretch an axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="204"/>
+        <source>Zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="204"/>
+        <source>Drag a box to zoom into</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="205"/>
+        <source>Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="205"/>
+        <source>The margins and spacing of the plots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="206"/>
+        <source>Axes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="206"/>
+        <source>Axis ranges, titles, curves and images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="207"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="207"/>
+        <source>Save the plot as a picture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="213"/>
+        <location filename="../../ui/kit/widgets.py" line="389"/>
         <source>Publication figure…</source>
         <translation>Publikationsgrafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="200"/>
+        <location filename="../../ui/kit/widgets.py" line="214"/>
         <source>Export data (CSV)…</source>
         <translation>Daten exportieren (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="201"/>
+        <location filename="../../ui/kit/widgets.py" line="215"/>
         <source>The numbers of every plotted series (axis, series, x, y) in a CSV file</source>
         <translation>Die Zahlen jeder gezeichneten Reihe (Achse, Reihe, x, y) in einer CSV-Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="202"/>
+        <location filename="../../ui/kit/widgets.py" line="216"/>
         <source>Open in a new window</source>
         <translation>In neuem Fenster öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="216"/>
+        <location filename="../../ui/kit/widgets.py" line="230"/>
         <source>Nothing to show yet: the plot appears here once there are results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="273"/>
+        <location filename="../../ui/kit/widgets.py" line="287"/>
         <source>This plot could not be drawn: {error}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="318"/>
+        <location filename="../../ui/kit/widgets.py" line="332"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="369"/>
+        <location filename="../../ui/kit/widgets.py" line="383"/>
         <source>Show all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="371"/>
+        <location filename="../../ui/kit/widgets.py" line="385"/>
         <source>Copy picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="372"/>
+        <location filename="../../ui/kit/widgets.py" line="386"/>
         <source>Copy data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="374"/>
+        <location filename="../../ui/kit/widgets.py" line="388"/>
         <source>Save data…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="402"/>
+        <location filename="../../ui/kit/widgets.py" line="416"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="418"/>
+        <location filename="../../ui/kit/widgets.py" line="432"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>
@@ -14441,8 +14521,8 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../photometry/steps.py" line="513"/>
         <location filename="../../photometry/steps.py" line="545"/>
         <location filename="../../photometry/steps.py" line="581"/>
-        <location filename="../../spectroscopy/step_params.py" line="74"/>
-        <location filename="../../spectroscopy/step_params.py" line="151"/>
+        <location filename="../../spectroscopy/step_params.py" line="75"/>
+        <location filename="../../spectroscopy/step_params.py" line="152"/>
         <source>Method</source>
         <translation type="unfinished">Methode</translation>
     </message>
@@ -14509,7 +14589,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="51"/>
+        <location filename="../../engine/step_params.py" line="52"/>
         <location filename="../../photometry/steps.py" line="590"/>
         <source>Shortest period</source>
         <translation type="unfinished"></translation>
@@ -14520,7 +14600,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="60"/>
+        <location filename="../../engine/step_params.py" line="61"/>
         <location filename="../../photometry/steps.py" line="599"/>
         <source>Longest period</source>
         <translation type="unfinished"></translation>
@@ -14653,13 +14733,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="732"/>
-        <location filename="../../spectroscopy/step_params.py" line="230"/>
+        <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
         <translation type="unfinished">Verstärkung (Gain)</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="733"/>
-        <location filename="../../spectroscopy/step_params.py" line="231"/>
+        <location filename="../../spectroscopy/step_params.py" line="232"/>
         <source>Empty: from the header or the profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14804,870 +14884,870 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="16"/>
+        <location filename="../../engine/step_params.py" line="17"/>
         <source>Lowest altitude</source>
         <translation type="unfinished">Niedrigste Höhe</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="17"/>
+        <location filename="../../engine/step_params.py" line="18"/>
         <source>A target lower than this is not observable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="25"/>
+        <location filename="../../engine/step_params.py" line="26"/>
         <source>Time step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="26"/>
+        <location filename="../../engine/step_params.py" line="27"/>
         <source>The night is computed at this spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="35"/>
-        <location filename="../../engine/step_params.py" line="155"/>
+        <location filename="../../engine/step_params.py" line="36"/>
+        <location filename="../../engine/step_params.py" line="156"/>
         <source>Catalogue</source>
         <translation type="unfinished">Katalog</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="36"/>
+        <location filename="../../engine/step_params.py" line="37"/>
         <source>auto: VSX for variable stars, the NASA Exoplanet Archive for planets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="39"/>
+        <location filename="../../engine/step_params.py" line="40"/>
         <source>Classes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="40"/>
+        <location filename="../../engine/step_params.py" line="41"/>
         <source>How many k-means classes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="41"/>
+        <location filename="../../engine/step_params.py" line="42"/>
         <source>Components</source>
         <translation type="unfinished">Komponenten</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="42"/>
+        <location filename="../../engine/step_params.py" line="43"/>
         <source>How many principal components are kept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="52"/>
+        <location filename="../../engine/step_params.py" line="53"/>
         <source>With the longest: the search stays inside; empty: free</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="61"/>
+        <location filename="../../engine/step_params.py" line="62"/>
         <source>With the shortest: the search stays inside; empty: free</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="69"/>
+        <location filename="../../engine/step_params.py" line="70"/>
         <source>Parallax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="70"/>
+        <location filename="../../engine/step_params.py" line="71"/>
         <source>Gives the total mass; empty: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="79"/>
+        <location filename="../../engine/step_params.py" line="80"/>
         <source>Free parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="81"/>
+        <location filename="../../engine/step_params.py" line="82"/>
         <source>The model&apos;s parameters that are fitted; empty: the usual set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="87"/>
+        <location filename="../../engine/step_params.py" line="88"/>
         <source>Limb darkening, star 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="88"/>
-        <location filename="../../engine/step_params.py" line="95"/>
+        <location filename="../../engine/step_params.py" line="89"/>
+        <location filename="../../engine/step_params.py" line="96"/>
         <source>Quadratic coefficients u1, u2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="94"/>
+        <location filename="../../engine/step_params.py" line="95"/>
         <source>Limb darkening, star 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="103"/>
+        <location filename="../../engine/step_params.py" line="104"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="105"/>
+        <location filename="../../engine/step_params.py" line="106"/>
         <location filename="../../timeseries/steps.py" line="189"/>
         <source>Length of the Markov chain for the errors; 0: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="112"/>
+        <location filename="../../engine/step_params.py" line="113"/>
         <source>Export for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="113"/>
+        <location filename="../../engine/step_params.py" line="114"/>
         <source>PHOEBE, Wilson–Devinney or a transit-fitting program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="125"/>
+        <location filename="../../engine/step_params.py" line="126"/>
         <source>Search radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="126"/>
+        <location filename="../../engine/step_params.py" line="127"/>
         <source>Around the header&apos;s position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="132"/>
+        <location filename="../../engine/step_params.py" line="133"/>
         <source>Refine on Gaia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="133"/>
+        <location filename="../../engine/step_params.py" line="134"/>
         <source>The solution is fitted again on Gaia DR3 stars (higher-order distortion)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="145"/>
+        <location filename="../../engine/step_params.py" line="146"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="146"/>
+        <location filename="../../engine/step_params.py" line="147"/>
         <source>The object is looked for in a box this wide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="156"/>
+        <location filename="../../engine/step_params.py" line="157"/>
         <source>The stars shown over the image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../engine/step_params.py" line="163"/>
-        <location filename="../../engine/step_params.py" line="207"/>
-        <location filename="../../engine/step_params.py" line="219"/>
-        <source>Faintest magnitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="164"/>
         <location filename="../../engine/step_params.py" line="208"/>
+        <location filename="../../engine/step_params.py" line="220"/>
+        <source>Faintest magnitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="165"/>
+        <location filename="../../engine/step_params.py" line="209"/>
         <source>Fainter stars are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="173"/>
+        <location filename="../../engine/step_params.py" line="174"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="174"/>
+        <location filename="../../engine/step_params.py" line="175"/>
         <source>png, jpg or tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="180"/>
+        <location filename="../../engine/step_params.py" line="181"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="181"/>
+        <location filename="../../engine/step_params.py" line="182"/>
         <source>How the black and white points are chosen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="187"/>
-        <location filename="../../engine/step_params.py" line="230"/>
+        <location filename="../../engine/step_params.py" line="188"/>
+        <location filename="../../engine/step_params.py" line="231"/>
         <source>Stretch</source>
         <translation type="unfinished">Streckung</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="188"/>
+        <location filename="../../engine/step_params.py" line="189"/>
         <source>linear, log, sqrt, asinh…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="199"/>
+        <location filename="../../engine/step_params.py" line="200"/>
         <source>Field of view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="200"/>
+        <location filename="../../engine/step_params.py" line="201"/>
         <source>Width of the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="214"/>
+        <location filename="../../engine/step_params.py" line="215"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="215"/>
+        <location filename="../../engine/step_params.py" line="216"/>
         <source>Above the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="220"/>
+        <location filename="../../engine/step_params.py" line="221"/>
         <source>Fainter bodies are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="221"/>
+        <location filename="../../engine/step_params.py" line="222"/>
         <source>Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="222"/>
+        <location filename="../../engine/step_params.py" line="223"/>
         <source>The operation&apos;s own settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="231"/>
+        <location filename="../../engine/step_params.py" line="232"/>
         <source>Lupton&apos;s stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="238"/>
+        <location filename="../../engine/step_params.py" line="239"/>
         <source>Softening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="239"/>
+        <location filename="../../engine/step_params.py" line="240"/>
         <source>Lupton&apos;s Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="246"/>
+        <location filename="../../engine/step_params.py" line="247"/>
         <source>The three images are aligned on their stars first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="255"/>
+        <location filename="../../engine/step_params.py" line="256"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="256"/>
+        <location filename="../../engine/step_params.py" line="257"/>
         <source>An existing file of that name is replaced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="262"/>
+        <location filename="../../engine/step_params.py" line="263"/>
         <source>Header cards to set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="263"/>
+        <location filename="../../engine/step_params.py" line="264"/>
         <source>Keyword: value pairs written into the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="269"/>
+        <location filename="../../engine/step_params.py" line="270"/>
         <source>Header cards to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="270"/>
+        <location filename="../../engine/step_params.py" line="271"/>
         <source>Keywords taken out of the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="14"/>
+        <location filename="../../spectroscopy/step_params.py" line="15"/>
         <source>Period guess</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="15"/>
+        <location filename="../../spectroscopy/step_params.py" line="16"/>
         <source>Where the orbit fit starts (e.g. from the period search)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="21"/>
+        <location filename="../../spectroscopy/step_params.py" line="22"/>
         <source>Keep the period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="22"/>
+        <location filename="../../spectroscopy/step_params.py" line="23"/>
         <source>The period is not fitted (known better from photometry)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="33"/>
+        <location filename="../../spectroscopy/step_params.py" line="34"/>
         <source>Iterations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="34"/>
+        <location filename="../../spectroscopy/step_params.py" line="35"/>
         <source>Rounds of shift-and-add (González &amp; Levato 2006)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="45"/>
+        <location filename="../../spectroscopy/step_params.py" line="46"/>
         <source>Resolution FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="46"/>
+        <location filename="../../spectroscopy/step_params.py" line="47"/>
         <source>The templates are smoothed to it; empty: measured from the spectrum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="56"/>
+        <location filename="../../spectroscopy/step_params.py" line="57"/>
         <source>Resolving power</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="57"/>
+        <location filename="../../spectroscopy/step_params.py" line="58"/>
         <source>R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="63"/>
+        <location filename="../../spectroscopy/step_params.py" line="64"/>
         <source>Vacuum wavelengths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="64"/>
+        <location filename="../../spectroscopy/step_params.py" line="65"/>
         <source>The spectrum&apos;s wavelengths are in vacuum, not air</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="15"/>
+        <location filename="../../calibration/step_params.py" line="16"/>
         <source>Camera clock − UTC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="16"/>
+        <location filename="../../calibration/step_params.py" line="17"/>
         <source>For camera raw files and pictures without a UTC time (DSLR)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="27"/>
+        <location filename="../../calibration/step_params.py" line="28"/>
         <source>Rejection limit of the masters in standard deviations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="35"/>
+        <location filename="../../calibration/step_params.py" line="36"/>
         <source>Temperature tolerance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="36"/>
+        <location filename="../../calibration/step_params.py" line="37"/>
         <source>A dark is used for a light within this sensor temperature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="42"/>
+        <location filename="../../calibration/step_params.py" line="43"/>
         <source>Remove cosmic rays</source>
         <translation type="unfinished">Kosmische Strahlen entfernen</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="43"/>
+        <location filename="../../calibration/step_params.py" line="44"/>
         <source>L.A.Cosmic (astroscrappy) on every light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="51"/>
-        <location filename="../../spectroscopy/step_params.py" line="239"/>
+        <location filename="../../calibration/step_params.py" line="52"/>
+        <location filename="../../spectroscopy/step_params.py" line="240"/>
         <source>Read noise</source>
         <translation type="unfinished">Ausleserauschen</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="52"/>
+        <location filename="../../calibration/step_params.py" line="53"/>
         <source>For the cosmic-ray search when the header does not give it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="58"/>
+        <location filename="../../calibration/step_params.py" line="59"/>
         <source>Scale the dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="59"/>
+        <location filename="../../calibration/step_params.py" line="60"/>
         <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="65"/>
+        <location filename="../../calibration/step_params.py" line="66"/>
         <source>Mend bad pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="66"/>
+        <location filename="../../calibration/step_params.py" line="67"/>
         <source>Hot and cold pixels found in the masters are replaced by their neighbours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="72"/>
+        <location filename="../../calibration/step_params.py" line="73"/>
         <source>Divide by the flat</source>
         <translation type="unfinished">Durch das Flat teilen</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="73"/>
+        <location filename="../../calibration/step_params.py" line="74"/>
         <source>Off: bias and dark only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="79"/>
+        <location filename="../../calibration/step_params.py" line="80"/>
         <source>Split colour frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="80"/>
+        <location filename="../../calibration/step_params.py" line="81"/>
         <source>A colour camera&apos;s frames become one file per colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="86"/>
+        <location filename="../../calibration/step_params.py" line="87"/>
         <source>Linearity correction</source>
         <translation type="unfinished">Linearitätskorrektur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="87"/>
+        <location filename="../../calibration/step_params.py" line="88"/>
         <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="106"/>
+        <location filename="../../calibration/step_params.py" line="107"/>
         <source>Combine</source>
         <translation type="unfinished">Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="107"/>
-        <location filename="../../spectroscopy/step_params.py" line="75"/>
+        <location filename="../../calibration/step_params.py" line="108"/>
+        <location filename="../../spectroscopy/step_params.py" line="76"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="114"/>
-        <location filename="../../spectroscopy/step_params.py" line="82"/>
+        <location filename="../../calibration/step_params.py" line="115"/>
+        <location filename="../../spectroscopy/step_params.py" line="83"/>
         <source>Rejection</source>
         <translation type="unfinished">Verwerfung</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="115"/>
+        <location filename="../../calibration/step_params.py" line="116"/>
         <source>Pixels left out before combining (satellites, cosmic rays)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="122"/>
+        <location filename="../../calibration/step_params.py" line="123"/>
         <source>Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="124"/>
+        <location filename="../../calibration/step_params.py" line="125"/>
         <source>Frames or percent dropped at the low end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="131"/>
+        <location filename="../../calibration/step_params.py" line="132"/>
         <source>High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="133"/>
+        <location filename="../../calibration/step_params.py" line="134"/>
         <source>Frames or percent dropped at the high end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="140"/>
+        <location filename="../../calibration/step_params.py" line="141"/>
         <source>Normalise</source>
         <translation type="unfinished">Normieren</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="141"/>
+        <location filename="../../calibration/step_params.py" line="142"/>
         <source>Each frame shifted or scaled to the first before combining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="149"/>
+        <location filename="../../calibration/step_params.py" line="150"/>
         <source>noise: 1/σ² weights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="156"/>
-        <location filename="../../engine/step_params.py" line="245"/>
+        <location filename="../../calibration/step_params.py" line="157"/>
+        <location filename="../../engine/step_params.py" line="246"/>
         <source>Align</source>
         <translation type="unfinished">Ausrichten</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="157"/>
+        <location filename="../../calibration/step_params.py" line="158"/>
         <source>Shift only, or star patterns (rotation and scale too)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="168"/>
+        <location filename="../../calibration/step_params.py" line="169"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="169"/>
+        <location filename="../../calibration/step_params.py" line="170"/>
         <source>The output pixels are this many times finer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="177"/>
+        <location filename="../../calibration/step_params.py" line="178"/>
         <source>Drop size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="178"/>
+        <location filename="../../calibration/step_params.py" line="179"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="83"/>
+        <location filename="../../spectroscopy/step_params.py" line="84"/>
         <source>Pixels left out before combining (cosmic rays, bad pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="26"/>
-        <location filename="../../calibration/step_params.py" line="98"/>
-        <location filename="../../spectroscopy/step_params.py" line="90"/>
+        <location filename="../../calibration/step_params.py" line="27"/>
+        <location filename="../../calibration/step_params.py" line="99"/>
+        <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Sigma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="99"/>
-        <location filename="../../spectroscopy/step_params.py" line="91"/>
+        <location filename="../../calibration/step_params.py" line="100"/>
+        <location filename="../../spectroscopy/step_params.py" line="92"/>
         <source>Rejection limit in standard deviations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="98"/>
+        <location filename="../../spectroscopy/step_params.py" line="99"/>
         <source>Scaling</source>
         <translation type="unfinished">Skalierung</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="99"/>
+        <location filename="../../spectroscopy/step_params.py" line="100"/>
         <source>Each spectrum to the common level (median) or also to the common shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="148"/>
-        <location filename="../../spectroscopy/step_params.py" line="106"/>
+        <location filename="../../calibration/step_params.py" line="149"/>
+        <location filename="../../spectroscopy/step_params.py" line="107"/>
         <source>Weights</source>
         <translation type="unfinished">Gewichte</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="107"/>
+        <location filename="../../spectroscopy/step_params.py" line="108"/>
         <source>variance: 1/σ² weights in the mean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="117"/>
+        <location filename="../../spectroscopy/step_params.py" line="118"/>
         <source>Lowest velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="118"/>
-        <location filename="../../spectroscopy/step_params.py" line="126"/>
+        <location filename="../../spectroscopy/step_params.py" line="119"/>
+        <location filename="../../spectroscopy/step_params.py" line="127"/>
         <source>The velocity range searched</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="125"/>
+        <location filename="../../spectroscopy/step_params.py" line="126"/>
         <source>Highest velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="134"/>
+        <location filename="../../spectroscopy/step_params.py" line="135"/>
         <source>From wavelength</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="135"/>
-        <location filename="../../spectroscopy/step_params.py" line="144"/>
+        <location filename="../../spectroscopy/step_params.py" line="136"/>
+        <location filename="../../spectroscopy/step_params.py" line="145"/>
         <source>Only this window is used (avoid telluric bands); empty: all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="143"/>
+        <location filename="../../spectroscopy/step_params.py" line="144"/>
         <source>To wavelength</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="152"/>
+        <location filename="../../spectroscopy/step_params.py" line="153"/>
         <source>Cross-correlation (TODCOR with a second template) or the broadening function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="160"/>
+        <location filename="../../spectroscopy/step_params.py" line="161"/>
         <source>Stars</source>
         <translation type="unfinished">Sterne</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="161"/>
+        <location filename="../../spectroscopy/step_params.py" line="162"/>
         <source>How many stars the broadening function looks for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="168"/>
+        <location filename="../../spectroscopy/step_params.py" line="169"/>
         <source>Template velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="169"/>
+        <location filename="../../spectroscopy/step_params.py" line="170"/>
         <source>The template&apos;s own radial velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="176"/>
+        <location filename="../../spectroscopy/step_params.py" line="177"/>
         <source>Second template velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="177"/>
+        <location filename="../../spectroscopy/step_params.py" line="178"/>
         <source>The second template&apos;s own radial velocity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="185"/>
+        <location filename="../../spectroscopy/step_params.py" line="186"/>
         <source>Template v sin i</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="186"/>
+        <location filename="../../spectroscopy/step_params.py" line="187"/>
         <source>Broadens a sharp-lined template to a fast rotator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="194"/>
+        <location filename="../../spectroscopy/step_params.py" line="195"/>
         <source>Second template v sin i</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="195"/>
+        <location filename="../../spectroscopy/step_params.py" line="196"/>
         <source>Broadens the second template the same way</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="205"/>
+        <location filename="../../spectroscopy/step_params.py" line="206"/>
         <source>Dispersion along</source>
         <translation type="unfinished">Dispersion entlang</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="206"/>
+        <location filename="../../spectroscopy/step_params.py" line="207"/>
         <source>The axis the spectrum runs along</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="212"/>
+        <location filename="../../spectroscopy/step_params.py" line="213"/>
         <source>Reversed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="213"/>
+        <location filename="../../spectroscopy/step_params.py" line="214"/>
         <source>Wavelength decreases along the axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="221"/>
+        <location filename="../../spectroscopy/step_params.py" line="222"/>
         <source>Optimal extraction</source>
         <translation type="unfinished">Optimale Extraktion</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="222"/>
+        <location filename="../../spectroscopy/step_params.py" line="223"/>
         <source>Horne (1986): each pixel counts by its signal-to-noise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="240"/>
+        <location filename="../../spectroscopy/step_params.py" line="241"/>
         <source>For the optimal weights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="246"/>
+        <location filename="../../spectroscopy/step_params.py" line="247"/>
         <source>Night-sky lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="247"/>
+        <location filename="../../spectroscopy/step_params.py" line="248"/>
         <source>The wavelength zero point is checked on the sky&apos;s own lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="253"/>
+        <location filename="../../spectroscopy/step_params.py" line="254"/>
         <source>Lines left out</source>
         <translation type="unfinished">Ausgelassene Linien</translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="255"/>
+        <location filename="../../spectroscopy/step_params.py" line="256"/>
         <source>Arc lines kept out of the wavelength fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="266"/>
+        <location filename="../../spectroscopy/step_params.py" line="267"/>
         <source>Spectrum row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="267"/>
+        <location filename="../../spectroscopy/step_params.py" line="268"/>
         <source>Where the spectrum crosses; empty: the brightest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="275"/>
+        <location filename="../../spectroscopy/step_params.py" line="276"/>
         <source>Reference trace row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="277"/>
+        <location filename="../../spectroscopy/step_params.py" line="278"/>
         <source>A brighter spectrum whose trace shape is used (IRAF apall)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="285"/>
+        <location filename="../../spectroscopy/step_params.py" line="286"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="286"/>
+        <location filename="../../spectroscopy/step_params.py" line="287"/>
         <source>Extraction width across the spectrum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="294"/>
+        <location filename="../../spectroscopy/step_params.py" line="295"/>
         <source>Sky offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="295"/>
+        <location filename="../../spectroscopy/step_params.py" line="296"/>
         <source>Distance of the sky bands from the trace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="303"/>
+        <location filename="../../spectroscopy/step_params.py" line="304"/>
         <source>Sky width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="304"/>
+        <location filename="../../spectroscopy/step_params.py" line="305"/>
         <source>Width of each sky band</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../spectroscopy/step_params.py" line="311"/>
-        <location filename="../../spectroscopy/step_params.py" line="359"/>
-        <source>Line list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../spectroscopy/step_params.py" line="312"/>
         <location filename="../../spectroscopy/step_params.py" line="360"/>
+        <source>Line list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="313"/>
+        <location filename="../../spectroscopy/step_params.py" line="361"/>
         <source>The arc lamp&apos;s lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="320"/>
+        <location filename="../../spectroscopy/step_params.py" line="321"/>
         <source>Highest degree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="321"/>
+        <location filename="../../spectroscopy/step_params.py" line="322"/>
         <source>Of the wavelength solution; the lines choose up to it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="332"/>
-        <location filename="../../spectroscopy/step_params.py" line="408"/>
+        <location filename="../../spectroscopy/step_params.py" line="333"/>
+        <location filename="../../spectroscopy/step_params.py" line="409"/>
         <source>Order rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="334"/>
-        <location filename="../../spectroscopy/step_params.py" line="410"/>
+        <location filename="../../spectroscopy/step_params.py" line="335"/>
+        <location filename="../../spectroscopy/step_params.py" line="411"/>
         <source>Where the orders cross; empty: found on the flat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="344"/>
+        <location filename="../../spectroscopy/step_params.py" line="345"/>
         <source>First order number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="345"/>
+        <location filename="../../spectroscopy/step_params.py" line="346"/>
         <source>The physical number of the first order; empty: found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="351"/>
+        <location filename="../../spectroscopy/step_params.py" line="352"/>
         <source>Order step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="352"/>
+        <location filename="../../spectroscopy/step_params.py" line="353"/>
         <source>+1 or −1: how the numbers run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="368"/>
+        <location filename="../../spectroscopy/step_params.py" line="369"/>
         <source>Degree along the order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="369"/>
-        <location filename="../../spectroscopy/step_params.py" line="378"/>
+        <location filename="../../spectroscopy/step_params.py" line="370"/>
+        <location filename="../../spectroscopy/step_params.py" line="379"/>
         <source>Of the 2-D wavelength solution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="377"/>
+        <location filename="../../spectroscopy/step_params.py" line="378"/>
         <source>Degree across the orders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="386"/>
+        <location filename="../../spectroscopy/step_params.py" line="387"/>
         <source>Lowest blaze</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="387"/>
+        <location filename="../../spectroscopy/step_params.py" line="388"/>
         <source>The order ends below this share of the peak are left out of the merge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="394"/>
+        <location filename="../../spectroscopy/step_params.py" line="395"/>
         <source>Subtract the sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="395"/>
+        <location filename="../../spectroscopy/step_params.py" line="396"/>
         <source>From the gaps between the orders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="401"/>
+        <location filename="../../spectroscopy/step_params.py" line="402"/>
         <source>Scattered light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="402"/>
+        <location filename="../../spectroscopy/step_params.py" line="403"/>
         <source>A smooth scattered-light surface is subtracted first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="416"/>
+        <location filename="../../spectroscopy/step_params.py" line="417"/>
         <source>Extracted orders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../spectroscopy/step_params.py" line="418"/>
+        <location filename="../../spectroscopy/step_params.py" line="419"/>
         <source>Orders extracted elsewhere, for the wavelengths only</source>
         <translation type="unfinished"></translation>
     </message>
