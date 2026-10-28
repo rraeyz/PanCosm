@@ -286,3 +286,6 @@ def stack_step(inputs, params, ctx):
     image, coverage, header = stack(timing.chronological(inputs["images"]), ctx=ctx, **{k: params[k] for k in keys})
     provenance.to_fits(header, provenance.record("stacking.stack", params, {"images": list(inputs["images"])}))
     return {"stack": save_stack(inputs["output"], image, coverage, header)}
+
+
+from . import step_params  # noqa: E402, F401  (the settings described, AUT-1.2; after the steps exist)

@@ -1,8 +1,6 @@
 [
  "astrometry.moving",
  "astrometry.solve",
- "calibration.run",
- "calibration.scan",
  "fits.save_as",
  "image.catalogue",
  "image.convert",
@@ -21,7 +19,5 @@
  "rs.pca",
  "spectroscopy.echelle",
  "spectroscopy.orders",
- "spectroscopy.reduce",
- "stacking.drizzle",
- "stacking.stack"
+ "spectroscopy.reduce"
 ]
