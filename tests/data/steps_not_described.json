@@ -1,8 +1,1 @@
-[
- "photometry.light_curve",
- "photometry.multifilter",
- "photometry.polarimetry",
- "spectroscopy.echelle",
- "spectroscopy.orders",
- "spectroscopy.reduce"
-]
+[]

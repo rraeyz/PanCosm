@@ -54,20 +54,20 @@ inputs:      images, target_xy, comps_xy
 optional:    coord, extra_xy, ref_image
 outputs:     light_curve
 parameters (default):
-  r_ap = 4.0
-  r_in = 10.0
-  r_out = 16.0
-  gain = null
-  auto_apertures = false
-  follow_seeing = false
-  psf = false
-  aperture_m = null
-  camera = null
-  sky_method = "median"
-  fixed = []
-  header_time = "auto"
-  shutter_delay = 0.0
-  apertures = []
+  r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
+  r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
+  r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: The sky annulus ends here
+  gain = null  (float, e⁻/ADU, >= 0.0)  Gain: Empty: from the header or the profile
+  auto_apertures = false  (bool)  Radii from the profiles: The radii are chosen from the stars' own profiles
+  follow_seeing = false  (bool)  Scale radii with seeing: Each frame's radii follow its FWHM
+  psf = false  (bool)  PSF photometry: Stars fitted with the frame's PSF (crowded fields)
+  aperture_m = null  (float, m, >= 0.0)  Telescope aperture: For the scintillation noise (Young 1967); empty: left out
+  camera = null  (object)  Camera: Read noise, dark current and linearity when the header lacks them
+  sky_method = "median"  (choice, one of median, mode, mean, plane)  Sky: How the sky level is read
+  fixed = []  (table)  Fixed positions: Stars measured where marked, not re-centred
+  header_time = "auto"  (choice, one of auto, start, mid, end)  Header time marks: What the header's time marks: the start, middle or end of the exposure
+  shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
+  apertures = []  (table)  Other radii: More aperture radii measured at the same time
 ```
 
 ## photometry.multifilter
@@ -82,22 +82,22 @@ inputs:      images, target_xy, comps_xy
 optional:    coord, extra_xy, ref_image
 outputs:     curves, colour
 parameters (default):
-  r_ap = 4.0
-  r_in = 10.0
-  r_out = 16.0
-  gain = null
-  auto_apertures = false
-  follow_seeing = false
-  psf = false
-  aperture_m = null
-  camera = null
-  sky_method = "median"
-  fixed = []
-  header_time = "auto"
-  shutter_delay = 0.0
-  apertures = []
-  t_ab = null
-  comp_colour = null
+  r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
+  r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
+  r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: The sky annulus ends here
+  gain = null  (float, e⁻/ADU, >= 0.0)  Gain: Empty: from the header or the profile
+  auto_apertures = false  (bool)  Radii from the profiles: The radii are chosen from the stars' own profiles
+  follow_seeing = false  (bool)  Scale radii with seeing: Each frame's radii follow its FWHM
+  psf = false  (bool)  PSF photometry: Stars fitted with the frame's PSF (crowded fields)
+  aperture_m = null  (float, m, >= 0.0)  Telescope aperture: For the scintillation noise (Young 1967); empty: left out
+  camera = null  (object)  Camera: Read noise, dark current and linearity when the header lacks them
+  sky_method = "median"  (choice, one of median, mode, mean, plane)  Sky: How the sky level is read
+  fixed = []  (table)  Fixed positions: Stars measured where marked, not re-centred
+  header_time = "auto"  (choice, one of auto, start, mid, end)  Header time marks: What the header's time marks: the start, middle or end of the exposure
+  shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
+  apertures = []  (table)  Other radii: More aperture radii measured at the same time
+  t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
+  comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```
 
 ## photometry.polarimetry
@@ -111,11 +111,11 @@ half-wave-plate angle from the header (or 0, 22.5, 45, 67.5 deg repeating in tim
 inputs:      images, o_xy, e_xy
 outputs:     polarimetry
 parameters (default):
-  r_ap = 4.0
-  r_in = 10.0
-  r_out = 16.0
-  angle_key = null
-  zero_point = 0.0
+  r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
+  r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
+  r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: The sky annulus ends here
+  angle_key = null  (text)  Angle keyword: The header keyword of the half-wave plate angle
+  zero_point = 0.0  (float, °)  Angle zero point: Added to the measured position angle
 ```
 
 ## photometry.quality

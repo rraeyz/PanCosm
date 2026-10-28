@@ -34,7 +34,7 @@ parameters (default):
   method = "kvw"  (choice, one of kvw, trapezoid)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits
   t0 = null  (time, d)  Reference T0: With the period: every eclipse in the curve gets its own time
   period = null  (float, d, >= 0.0)  Period: Period of the ephemeris used to count the cycles
-  detrend_with = []
+  detrend_with = []  (table)  Detrend against: Airmass, sky, position… fitted with the transit (trapezoid only)
 ```
 
 ## timeseries.mission_lc
