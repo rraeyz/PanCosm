@@ -13,7 +13,7 @@ inputs:      raster
 optional:    output, bands
 outputs:     product
 parameters (default):
-  k = 5
+  k = 5  (int, >= 2, <= 50)  Classes: How many k-means classes
 ```
 
 ## rs.expression
@@ -39,5 +39,5 @@ inputs:      raster
 optional:    output
 outputs:     product
 parameters (default):
-  n = 3
+  n = 3  (int, >= 1, <= 50)  Components: How many principal components are kept
 ```

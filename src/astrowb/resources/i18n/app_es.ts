@@ -14823,6 +14823,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="51"/>
         <location filename="../../photometry/steps.py" line="582"/>
         <source>Shortest period</source>
         <translation type="unfinished"></translation>
@@ -14833,6 +14834,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="60"/>
         <location filename="../../photometry/steps.py" line="591"/>
         <source>Longest period</source>
         <translation type="unfinished"></translation>
@@ -14938,13 +14940,286 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="16"/>
+        <source>Lowest altitude</source>
+        <translation type="unfinished">Altura mínima</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="17"/>
+        <source>A target lower than this is not observable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="25"/>
+        <source>Time step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="26"/>
+        <source>The night is computed at this spacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="35"/>
+        <location filename="../../engine/step_params.py" line="155"/>
+        <source>Catalogue</source>
+        <translation type="unfinished">Catálogo</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="36"/>
+        <source>auto: VSX for variable stars, the NASA Exoplanet Archive for planets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="39"/>
+        <source>Classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="40"/>
+        <source>How many k-means classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="41"/>
+        <source>Components</source>
+        <translation type="unfinished">Componentes</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="42"/>
+        <source>How many principal components are kept</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="52"/>
+        <source>With the longest: the search stays inside; empty: free</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="61"/>
+        <source>With the shortest: the search stays inside; empty: free</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="69"/>
+        <source>Parallax</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="70"/>
+        <source>Gives the total mass; empty: none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="79"/>
+        <source>Free parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="81"/>
+        <source>The model&apos;s parameters that are fitted; empty: the usual set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="87"/>
+        <source>Limb darkening, star 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="88"/>
+        <location filename="../../engine/step_params.py" line="95"/>
+        <source>Quadratic coefficients u1, u2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="94"/>
+        <source>Limb darkening, star 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="103"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="105"/>
         <location filename="../../timeseries/steps.py" line="189"/>
         <source>Length of the Markov chain for the errors; 0: none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="112"/>
+        <source>Export for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="113"/>
+        <source>PHOEBE, Wilson–Devinney or a transit-fitting program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="125"/>
+        <source>Search radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="126"/>
+        <source>Around the header&apos;s position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="132"/>
+        <source>Refine on Gaia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="133"/>
+        <source>The solution is fitted again on Gaia DR3 stars (higher-order distortion)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="145"/>
+        <source>Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="146"/>
+        <source>The object is looked for in a box this wide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="156"/>
+        <source>The stars shown over the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="163"/>
+        <location filename="../../engine/step_params.py" line="207"/>
+        <location filename="../../engine/step_params.py" line="219"/>
+        <source>Faintest magnitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="164"/>
+        <location filename="../../engine/step_params.py" line="208"/>
+        <source>Fainter stars are left out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="173"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="174"/>
+        <source>png, jpg or tif</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="180"/>
+        <source>Levels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="181"/>
+        <source>How the black and white points are chosen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="187"/>
+        <location filename="../../engine/step_params.py" line="230"/>
+        <source>Stretch</source>
+        <translation type="unfinished">Estiramiento</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="188"/>
+        <source>linear, log, sqrt, asinh…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="199"/>
+        <source>Field of view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="200"/>
+        <source>Width of the chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="214"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="215"/>
+        <source>Above the chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="220"/>
+        <source>Fainter bodies are left out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="221"/>
+        <source>Arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="222"/>
+        <source>The operation&apos;s own settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="231"/>
+        <source>Lupton&apos;s stretch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="238"/>
+        <source>Softening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="239"/>
+        <source>Lupton&apos;s Q</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="246"/>
+        <source>The three images are aligned on their stars first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="255"/>
+        <source>Overwrite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="256"/>
+        <source>An existing file of that name is replaced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="262"/>
+        <source>Header cards to set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="263"/>
+        <source>Keyword: value pairs written into the header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="269"/>
+        <source>Header cards to delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="270"/>
+        <source>Keywords taken out of the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -15161,6 +15436,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="156"/>
+        <location filename="../../engine/step_params.py" line="245"/>
         <source>Align</source>
         <translation type="unfinished">Alinear</translation>
     </message>

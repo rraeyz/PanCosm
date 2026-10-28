@@ -14,11 +14,11 @@ inputs:      light_curve, start
 optional:    orbit, export_dir
 outputs:     model
 parameters (default):
-  free = null
-  ld1 = [0.0, 0.0]
-  ld2 = [0.0, 0.0]
-  mcmc_steps = 0
-  export_format = "phoebe"
+  free = null  (object)  Free parameters: The model's parameters that are fitted; empty: the usual set
+  ld1 = [0.0, 0.0]  (table)  Limb darkening, star 1: Quadratic coefficients u1, u2
+  ld2 = [0.0, 0.0]  (table)  Limb darkening, star 2: Quadratic coefficients u1, u2
+  mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: Length of the Markov chain for the errors; 0: none
+  export_format = "phoebe"  (choice, one of phoebe, wd, transit)  Export for: PHOEBE, Wilson–Devinney or a transit-fitting program
 ```
 
 ## models.visual_orbit
@@ -31,7 +31,7 @@ Visual-binary orbit from "epoch theta rho [rho_err] [theta_err]" lines (see mode
 inputs:      measures
 outputs:     orbit
 parameters (default):
-  p_min = null
-  p_max = null
-  parallax_mas = null
+  p_min = null  (float, yr, >= 0.0)  Shortest period: With the longest: the search stays inside; empty: free
+  p_max = null  (float, yr, >= 0.0)  Longest period: With the shortest: the search stays inside; empty: free
+  parallax_mas = null  (float, mas, >= 0.0)  Parallax: Gives the total mass; empty: none
 ```
