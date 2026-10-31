@@ -44,7 +44,6 @@ class ImagePage(Undoable, QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.owner = parent  # the main window, which opens the files: the page itself moves into the Images window
         self.init_undo()
         from PySide6.QtWidgets import QButtonGroup
 
@@ -333,7 +332,8 @@ class ImagePage(Undoable, QWidget):
 
     # --- state ------------------------------------------------------------
     def _files_window(self):
-        return self.owner if hasattr(self.owner, "current_path") else self.window()
+        owner = getattr(self, "owner", None)  # the main window, which opens the files (set where the page is made)
+        return owner if hasattr(owner, "current_path") else self.window()
 
     def undo_state(self):
         win = self._files_window()
