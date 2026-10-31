@@ -4,6 +4,9 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(
+    0, str(Path(__file__).resolve().parents[2])
+)  # the data makers of the other tests (test_remotesensing.scene)
 from harness import Harness  # noqa: E402
 
 

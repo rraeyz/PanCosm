@@ -168,7 +168,8 @@ class Harness:
         self._act(f"type into {name}", typing, budget)
 
     def choose(self, name, row, budget=BUDGET_S):
-        """Click a list's row (a combo box is set: its popup is not a widget offscreen clicks reach)."""
+        """Click a list's row; a combo box is set and says `activated`, as a choice in its popup does (offscreen clicks
+        do not reach the popup)."""
         w = self.find(name)
         if hasattr(w, "visualItemRect"):
             pos = w.visualItemRect(w.item(row)).center()
@@ -176,7 +177,7 @@ class Harness:
                 f"choose {name} row {row}", lambda: QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos), budget
             )
         else:
-            self._act(f"choose {name} item {row}", lambda: w.setCurrentIndex(row), budget)
+            self._act(f"choose {name} item {row}", lambda: (w.setCurrentIndex(row), w.activated.emit(row)), budget)
 
     def cell(self, name, row, column, text, budget=BUDGET_S):
         """Double-click a table's cell, type over it, Enter."""
