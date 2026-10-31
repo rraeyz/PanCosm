@@ -22,6 +22,7 @@ packaging/out/
 !/data/**/*.txt
 !/data/**/*.json
 !/data/**/*.srl
+!/data/registry.toml
 !/data/owner/**
 
 # compiled routines (tools/build_native.py builds them from native/)

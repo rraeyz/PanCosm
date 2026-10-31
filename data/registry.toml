@@ -1,0 +1,124 @@
+# The validation data sets (plans/validation.md VAL-1): where each comes from and the exact files the checks use.
+# `python tools/fetch_data.py <id> | --area <area> | --all` downloads them into data/<id>/ (or $ASTROWB_DATA/<id>/)
+# and checks the SHA-256 written here; `--record` writes the checksums of verified downloads. The SOURCE.md
+# beside each set stays the human note (licence, citation, use); tests/test_data_registry.py keeps both in step.
+# source: "lco" (LCO archive, by file name), "url" (base + file name), "archive" (a tar file, members by name),
+# "manual" (an account or a form is needed: the SOURCE.md says how).
+
+[[set]]
+id = "astrometry/eros-lco"
+title = "Asteroid 433 Eros, LCO 0.4 m (cpt, sq39), 2026-08-08, three frames, proposal TSO2026B-001."
+area = "astrometry"
+source = "lco"
+files = ["cpt0m439-sq39-20260808-0080-e91.fits.fz", "cpt0m439-sq39-20260808-0081-e91.fits.fz", "cpt0m439-sq39-20260808-0082-e91.fits.fz"]
+[set.sha256]
+"cpt0m439-sq39-20260808-0080-e91.fits.fz" = "8946cff0e95b71b67647708fa4acc2d53b7a4765198bd4e6e137723e672df655"
+"cpt0m439-sq39-20260808-0081-e91.fits.fz" = "7cb511704de23ce10393067e339181d9c53cf59a790efab6c9c53e59f5863fd5"
+"cpt0m439-sq39-20260808-0082-e91.fits.fz" = "93570b6671519dfe9e1a3fc3a96f8f92d1d3e4d16c67e8ce1bb4c5fe42ca70af"
+
+[[set]]
+id = "calibration/palomar-lfc"
+title = "Palomar 5 m Large Format Camera, chip 0, a raw night: 3 bias (`ccd.001`–`003`), g flats (`014`, `015`), i flats (`017`, `018`), lights VV 124 in g (`037`) and i (`043`), 300 s darks in `darks/` (`013`–`015`); `observing_log.csv` from the night"
+area = "calibration"
+source = "archive"
+url = "https://zenodo.org/records/3254683/files/example-cryo-LFC.tar.bz2?download=1"
+files = ["ccd.001.0.fits", "ccd.002.0.fits", "ccd.003.0.fits", "ccd.014.0.fits", "ccd.015.0.fits", "ccd.017.0.fits", "ccd.018.0.fits", "ccd.037.0.fits", "ccd.043.0.fits", "darks/ccd.013.0.fits", "darks/ccd.014.0.fits", "darks/ccd.015.0.fits", "observing_log.csv"]
+
+[[set]]
+id = "photometry/ai-dra-tess"
+title = "TESS full-frame-image cut-out of AI Dra (eclipsing binary), sector 24, 21 × 21 pixels, 1226 cadences of 30 min."
+area = "photometry"
+source = "archive"
+url = "https://mast.stsci.edu/tesscut/api/v0.1/astrocut?ra=254.0758&dec=52.6983&y=21&x=21&sector=24"
+files = ["tess-s0024-2-1_254.075800_52.698300_21x21_astrocut.fits"]
+[set.sha256]
+"tess-s0024-2-1_254.075800_52.698300_21x21_astrocut.fits" = "2292510cfd92bcf7fdc028391fe837507122add610fb00578afa308d6a306866"
+
+[[set]]
+id = "photometry/qatar1-lco"
+title = "Qatar-1 b transit night, LCO 0.4 m (elp, sq41), 2026-11-02/03, proposal LCOEPO2020B-004"
+area = "photometry"
+source = "lco"
+files = ["elp0m400-sq41-20261102-0105-e91.fits.fz", "elp0m400-sq41-20261102-0106-e91.fits.fz", "elp0m400-sq41-20261102-0107-e91.fits.fz", "elp0m400-sq41-20261102-0108-e91.fits.fz", "elp0m400-sq41-20261102-0109-e91.fits.fz", "elp0m400-sq41-20261102-0110-e91.fits.fz", "elp0m400-sq41-20261102-0111-e91.fits.fz", "elp0m400-sq41-20261102-0112-e91.fits.fz", "elp0m400-sq41-20261102-0113-e91.fits.fz", "elp0m400-sq41-20261102-0114-e91.fits.fz", "elp0m400-sq41-20261102-0115-e91.fits.fz", "elp0m400-sq41-20261102-0116-e91.fits.fz", "elp0m400-sq41-20261102-0117-e91.fits.fz", "elp0m400-sq41-20261102-0118-e91.fits.fz", "elp0m400-sq41-20261102-0119-e91.fits.fz", "elp0m400-sq41-20261102-0120-e91.fits.fz", "elp0m400-sq41-20261102-0121-e91.fits.fz", "elp0m400-sq41-20261102-0122-e91.fits.fz", "elp0m400-sq41-20261102-0123-e91.fits.fz", "elp0m400-sq41-20261102-0124-e91.fits.fz", "elp0m400-sq41-20261102-0125-e91.fits.fz", "elp0m400-sq41-20261102-0126-e91.fits.fz", "elp0m400-sq41-20261102-0127-e91.fits.fz", "elp0m400-sq41-20261102-0128-e91.fits.fz"]
+
+[[set]]
+id = "photometry/sa98-landolt-lco"
+title = "Landolt field SA 98, LCO 1 m (elp, fa16), 2024-12-12, B (`-0096`) and V (`-0101`), proposal CLN2024B-007."
+area = "photometry"
+source = "lco"
+files = ["elp1m008-fa16-20241212-0096-e91.fits.fz", "elp1m008-fa16-20241212-0101-e91.fits.fz"]
+[set.sha256]
+"elp1m008-fa16-20241212-0096-e91.fits.fz" = "5a872a65fd857c1295737c8cd1b91339a38e99ce108de9c460e2460c08862791"
+"elp1m008-fa16-20241212-0101-e91.fits.fz" = "826f232d9d1819884dc0160ae7d3ad009210f22ce13dd0df5b088baac6eb43d0"
+
+[[set]]
+id = "reference/kurucz-solar-atlas"
+title = "Kurucz (2005) solar flux atlas, air wavelengths in nm, normalised flux, telluric-free."
+area = "reference"
+source = "url"
+url = "http://kurucz.harvard.edu/sun/fluxatlas2005/"
+files = ["fluxspliced.2005"]
+[set.sha256]
+"fluxspliced.2005" = "be32c70551c5ed81e5fa4a1b0c5783d02dc38190e7fee00872fed33b6c2e7280"
+
+[[set]]
+id = "reference/nist"
+title = "Xe I lines 3800–10000 Å (air) from the NIST Atomic Spectra Database, as CSV."
+area = "reference"
+source = "manual"
+files = ["xe.csv"]
+
+[[set]]
+id = "reference/pickles"
+title = "Pickles (1998) stellar spectral flux library, UVKLIB, 131 spectra (`pickles_uk_*.fits`)."
+area = "reference"
+source = "url"
+url = "https://archive.stsci.edu/hlsps/reference-atlases/cdbs/grid/pickles/dat_uvk/"
+files = ["pickles_uk_1.fits", "pickles_uk_10.fits", "pickles_uk_100.fits", "pickles_uk_101.fits", "pickles_uk_102.fits", "pickles_uk_103.fits", "pickles_uk_104.fits", "pickles_uk_105.fits", "pickles_uk_106.fits", "pickles_uk_107.fits", "pickles_uk_108.fits", "pickles_uk_109.fits", "pickles_uk_11.fits", "pickles_uk_110.fits", "pickles_uk_111.fits", "pickles_uk_112.fits", "pickles_uk_113.fits", "pickles_uk_114.fits", "pickles_uk_115.fits", "pickles_uk_116.fits", "pickles_uk_117.fits", "pickles_uk_118.fits", "pickles_uk_119.fits", "pickles_uk_12.fits", "pickles_uk_120.fits", "pickles_uk_121.fits", "pickles_uk_122.fits", "pickles_uk_123.fits", "pickles_uk_124.fits", "pickles_uk_125.fits", "pickles_uk_126.fits", "pickles_uk_127.fits", "pickles_uk_128.fits", "pickles_uk_129.fits", "pickles_uk_13.fits", "pickles_uk_130.fits", "pickles_uk_131.fits", "pickles_uk_14.fits", "pickles_uk_15.fits", "pickles_uk_16.fits", "pickles_uk_17.fits", "pickles_uk_18.fits", "pickles_uk_19.fits", "pickles_uk_2.fits", "pickles_uk_20.fits", "pickles_uk_21.fits", "pickles_uk_22.fits", "pickles_uk_23.fits", "pickles_uk_24.fits", "pickles_uk_25.fits", "pickles_uk_26.fits", "pickles_uk_27.fits", "pickles_uk_28.fits", "pickles_uk_29.fits", "pickles_uk_3.fits", "pickles_uk_30.fits", "pickles_uk_31.fits", "pickles_uk_32.fits", "pickles_uk_33.fits", "pickles_uk_34.fits", "pickles_uk_35.fits", "pickles_uk_36.fits", "pickles_uk_37.fits", "pickles_uk_38.fits", "pickles_uk_39.fits", "pickles_uk_4.fits", "pickles_uk_40.fits", "pickles_uk_41.fits", "pickles_uk_42.fits", "pickles_uk_43.fits", "pickles_uk_44.fits", "pickles_uk_45.fits", "pickles_uk_46.fits", "pickles_uk_47.fits", "pickles_uk_48.fits", "pickles_uk_49.fits", "pickles_uk_5.fits", "pickles_uk_50.fits", "pickles_uk_51.fits", "pickles_uk_52.fits", "pickles_uk_53.fits", "pickles_uk_54.fits", "pickles_uk_55.fits", "pickles_uk_56.fits", "pickles_uk_57.fits", "pickles_uk_58.fits", "pickles_uk_59.fits", "pickles_uk_6.fits", "pickles_uk_60.fits", "pickles_uk_61.fits", "pickles_uk_62.fits", "pickles_uk_63.fits", "pickles_uk_64.fits", "pickles_uk_65.fits", "pickles_uk_66.fits", "pickles_uk_67.fits", "pickles_uk_68.fits", "pickles_uk_69.fits", "pickles_uk_7.fits", "pickles_uk_70.fits", "pickles_uk_71.fits", "pickles_uk_72.fits", "pickles_uk_73.fits", "pickles_uk_74.fits", "pickles_uk_75.fits", "pickles_uk_76.fits", "pickles_uk_77.fits", "pickles_uk_78.fits", "pickles_uk_79.fits", "pickles_uk_8.fits", "pickles_uk_80.fits", "pickles_uk_81.fits", "pickles_uk_82.fits", "pickles_uk_83.fits", "pickles_uk_84.fits", "pickles_uk_85.fits", "pickles_uk_86.fits", "pickles_uk_87.fits", "pickles_uk_88.fits", "pickles_uk_89.fits", "pickles_uk_9.fits", "pickles_uk_90.fits", "pickles_uk_91.fits", "pickles_uk_92.fits", "pickles_uk_93.fits", "pickles_uk_94.fits", "pickles_uk_95.fits", "pickles_uk_96.fits", "pickles_uk_97.fits", "pickles_uk_98.fits", "pickles_uk_99.fits"]
+
+[[set]]
+id = "spectroscopy/efosc-longslit"
+title = "ESO NTT EFOSC2 long-slit raw frames, 2018-12-31 / 2019-01-01 (LZW-compressed `.Z`, needs `uncompresspy` or `gzip -d`), with `night.csv`."
+area = "spectroscopy"
+source = "manual"
+files = ["EFOSC.2018-12-31T19_21_38.992.fits.Z", "EFOSC.2018-12-31T19_22_09.794.fits.Z", "EFOSC.2018-12-31T19_22_40.366.fits.Z", "EFOSC.2018-12-31T19_23_10.887.fits.Z", "EFOSC.2018-12-31T19_23_41.429.fits.Z", "EFOSC.2019-01-01T04_06_59.255.fits.Z", "EFOSC.2019-01-01T07_49_08.109.fits.Z", "EFOSC.2019-01-01T08_35_33.795.fits.Z", "night.csv"]
+
+[[set]]
+id = "spectroscopy/feros-ai-phe"
+title = "FEROS reduced spectra of the eclipsing binary AI Phe and of tau Cet, programme 091.D-0414(B); `list.csv` lists the epochs."
+area = "spectroscopy"
+source = "manual"
+files = ["ADP.2016-09-27T11_56_48.124.fits", "ADP.2016-09-27T11_56_48.254.fits", "ADP.2016-09-27T11_56_48.546.fits", "ADP.2016-09-27T11_56_48.622.fits", "ADP.2016-09-27T11_56_49.113.fits", "ADP.2016-09-27T11_56_49.549.fits", "ADP.2016-09-27T11_56_49.655.fits", "ADP.2017-06-11T01_04_35.219.fits", "ADP.2017-06-12T01_03_34.222.fits", "ADP.2017-06-14T07_30_18.279.fits", "list.csv", "tauceti_s1d.fits"]
+
+[[set]]
+id = "spectroscopy/feros-telluric"
+title = "FEROS (MPG/ESO 2.2 m) reduced spectra of tau Cet (with a telluric-corrected copy) and zeta Phe, programme 091.D-0414(B)."
+area = "spectroscopy"
+source = "manual"
+files = ["taucet.fits", "taucet_tell.fits", "zetaphe.fits"]
+
+[[set]]
+id = "spectroscopy/floyds-lco"
+title = "LCO FLOYDS (2 m, ogg, en06), 2026-10-26: BD+28 4211 spectrum (`-0001-e00`, also its 1-D product), lamp flat (`-0002-w00`), HgAr arc (`-0003-a00`)."
+area = "spectroscopy"
+source = "lco"
+files = ["ogg2m001-en06-20261026-0001-e00.fits.fz", "ogg2m001-en06-20261026-0001-e00_1d.fits", "ogg2m001-en06-20261026-0002-w00.fits.fz", "ogg2m001-en06-20261026-0003-a00.fits.fz"]
+[set.sha256]
+"ogg2m001-en06-20261026-0001-e00.fits.fz" = "ee9beb081402360f30b6524e919af341d5063d23f04c486afc658c9e78c41dd0"
+"ogg2m001-en06-20261026-0002-w00.fits.fz" = "5b2b6abe950e8722bc34f077314d193fd6052678c6881f10641937b173359527"
+"ogg2m001-en06-20261026-0003-a00.fits.fz" = "0e575f020d6dec48e0b8f0f5c8c99aaf408c4eab8c14f79b4e69a06e9aea519c"
+
+[[set]]
+id = "spectroscopy/harps-beta-pic"
+title = "HARPS (ESO 3.6 m) reduced spectra of beta Pic (HD 39060), programme 0102.C-0584(A) and a 2025 epoch."
+area = "spectroscopy"
+source = "manual"
+files = ["betapic.fits", "betapic2025.fits"]
+
+[[set]]
+id = "spectroscopy/tofes-echelle"
+title = "TOFES fibre echelle (Tartu Observatory), R 32 000, 46 orders, test night 2024-06-21: bias, flats, darks, ThAr (`*_Calibration_*`), the Sun (sky), Arcturus, Vega"
+area = "spectroscopy"
+source = "archive"
+url = "https://zenodo.org/records/17968312/files/TOFES_testobservations_2024-06-21.tar.gz?download=1"
+files = ["00Readme.md", "Arcturus.obs.srl", "Arcturus_Calibration_30s_20240621_222456-1.fit", "Arcturus_Object_300s_20240621_214724-1.fit", "Arcturus_Object_300s_20240621_215459-1.fit", "Bias_0s_20240621_191216-1.fit", "Bias_0s_20240621_191216-10.fit", "Bias_0s_20240621_191216-11.fit", "Dark_20s_20240621_191508-1.fit", "Dark_20s_20240621_191508-10.fit", "Dark_60s_20240621_221843-1.fit", "Flat_5s_20240621_192503-1.fit", "Flat_5s_20240621_192503-10.fit", "Flat_5s_20240621_192503-11.fit", "Sun.obs.srl", "Sun_Calibration_35s_20240621_184136-1.fit", "Sun_Calibration_35s_20240621_184136-10.fit", "Sun_Object_20s_20240621_183427-1.fit", "Sun_Object_20s_20240621_183427-10.fit", "Vega.obs.srl", "Vega_Calibration_30s_20240621_225633-1.fit", "Vega_Object_25s_20240621_224908-1.fit"]
