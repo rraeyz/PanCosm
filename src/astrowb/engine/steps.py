@@ -78,6 +78,9 @@ def execute(step_id, inputs, params, ctx):
     missing = [n for n in s.inputs if n not in inputs]
     if missing:
         raise MissingInput(step_id, missing)
+    from . import io
+
+    io.check(step_id, inputs)  # a file or folder that is not there, said before anything runs (AUT-1 item 3)
     if s.params:  # described settings are checked before anything runs (AUT-1 item 3)
         from .params import check
 

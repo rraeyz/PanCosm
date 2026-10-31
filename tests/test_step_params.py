@@ -79,3 +79,18 @@ def test_recipe_schema_knows_every_step_and_its_settings():
     params = rule["then"]["properties"]["params"]
     assert params["properties"]["method"]["enum"][:4] == ["lomb-scargle", "bls", "pdm", "anova"]
     assert params["properties"]["p_min"]["minimum"] == 0.0 and params["additionalProperties"] is False
+
+
+def test_every_input_is_described_and_a_missing_file_is_named_before_running(tmp_path):
+    """AUT-1 items 1 and 3: every input of every built-in step is in engine.io's vocabulary; a file or folder given
+    as a path that is not there stops the run before it starts, naming the input."""
+    from astrowb.engine import io
+    from astrowb.engine.steps import execute
+
+    steps._load_builtin()
+    missing = {f"{k}.{n}" for k, s in steps.REGISTRY.items() for n in (*s.inputs, *s.optional) if not io.describe(k, n)}
+    assert not missing, f"add these to engine/io.py INPUTS: {sorted(missing)}"
+    with pytest.raises(ValueError, match="folder: there is no"):
+        execute("calibration.scan", {"folder": str(tmp_path / "nowhere")}, {}, None)
+    io.check("sample.night", {"folder": str(tmp_path / "new")})  # a folder the step makes is not checked
+    io.check("photometry.light_curve", {"images": [{"in": "memory"}], "target_xy": [1, 2]})  # only paths are

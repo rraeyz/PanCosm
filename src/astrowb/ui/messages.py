@@ -383,6 +383,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
     QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    # engine/io.py: a file or folder input that is not there (AUT-1)
+    QT_TRANSLATE_NOOP("Messages", "{name}: there is no {path}"),
     # engine/params.py: a described setting out of its range or kind (AUT-1)
     QT_TRANSLATE_NOOP("Messages", "{name} must be a number, not {value}"),
     QT_TRANSLATE_NOOP("Messages", "{name} must be a whole number, not {value}"),
