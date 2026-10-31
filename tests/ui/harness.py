@@ -99,7 +99,11 @@ class Harness:
         return shape(self._answers.pop(0))
 
     def _exception(self, kind, value, tb):
-        self.problems.append(f"exception: {kind.__name__}: {value}")
+        import traceback
+
+        where = traceback.extract_tb(tb)[-1] if tb else None
+        at = f" at {Path(where.filename).name}:{where.lineno} ({where.name})" if where else ""
+        self.problems.append(f"exception: {kind.__name__}: {value}{at}")
 
     # finding and acting
     def area(self, key):
@@ -173,6 +177,22 @@ class Harness:
             )
         else:
             self._act(f"choose {name} item {row}", lambda: w.setCurrentIndex(row), budget)
+
+    def cell(self, name, row, column, text, budget=BUDGET_S):
+        """Double-click a table's cell, type over it, Enter."""
+        w = self.find(name)
+        pos = w.visualRect(w.model().index(row, column)).center()
+
+        def typing():
+            QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos)
+            QTest.mouseDClick(w.viewport(), Qt.LeftButton, pos=pos)
+            editor = QApplication.focusWidget()
+            if isinstance(editor, QLineEdit):
+                editor.selectAll()
+            QTest.keyClicks(editor, text)
+            QTest.keyClick(editor, Qt.Key_Return)
+
+        self._act(f"type into {name} cell {row},{column}", typing, budget)
 
     def menu(self, text, budget=BUDGET_S):
         """Trigger the window's menu command with this English source text ("&Open…") or its translation."""

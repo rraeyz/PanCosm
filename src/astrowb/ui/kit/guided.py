@@ -73,12 +73,16 @@ class GuidedBar(QToolBar):
     @staticmethod
     def _bring_forward(w):
         """The tabs, stacks and stages around the control show the page that holds it."""
-        from PySide6.QtWidgets import QStackedWidget
+        from PySide6.QtWidgets import QStackedWidget, QTabWidget
 
         child, parent = w, w.parentWidget()
         while parent is not None:
             if isinstance(parent, QStackedWidget) and parent.indexOf(child) >= 0:
-                parent.setCurrentWidget(child)
+                # by index, through the tab widget that owns the stack (its tab bar follows): setCurrentWidget on this
+                # passing wrapper made PySide drop the Python objects under the page (a plot's toolbar actions; the
+                # next fit then failed to draw, found by VAL-8)
+                owner = parent.parentWidget()
+                (owner if isinstance(owner, QTabWidget) else parent).setCurrentIndex(parent.indexOf(child))
             child, parent = parent, parent.parentWidget()
         window = w.window()
         for key, panel in getattr(window, "stage_panels", {}).items():  # an area window's stage: the rail follows

@@ -630,3 +630,22 @@ def test_a_plot_that_cannot_be_drawn_says_why(qtbot, monkeypatch):
     monkeypatch.setattr(plot.figure, "draw", real)
     plot.canvas.draw()
     assert not plot.hint.isVisible() and plot.failed is None
+
+
+def test_showing_a_control_in_a_tab_keeps_the_plots_beside_it_working(qtbot):
+    """VAL-8 found it: Show me on a control of a tab dropped the Python objects of the plot's toolbar there (PySide,
+    setCurrentWidget on a passing wrapper), and the next fit failed to draw."""
+    from PySide6.QtWidgets import QPushButton, QSplitter, QTabWidget
+
+    from astrowb.ui.kit.guided import GuidedBar
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    tabs = QTabWidget()
+    qtbot.addWidget(tabs)
+    split = QSplitter(tabs)
+    button, plot = QPushButton("Fit", split), PlotCanvas(split)
+    tabs.addTab(QPushButton("other"), "first")
+    tabs.addTab(split, "second")
+    GuidedBar._bring_forward(button)
+    assert tabs.currentIndex() == 1
+    plot.figure.clear()  # raised "Internal C++ object (QAction) already deleted"
