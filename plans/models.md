@@ -189,7 +189,13 @@ the 2 ms surface.
 - **Files:** `models/roche/{potential,critical,surface,volume}.py`, `tests/test_roche_geometry.py`.
 
 ### MOD-2. Radiation: temperatures, intensities, limb darkening  (P1)
-**open**
+**partial** — done (2026-11-12), the parts without tables: the seven limb-darkening laws are `occult/laws.py`
+(shared with the transits) with their disc integrals now in closed form; `models/radiation.py`: `temperatures`
+(gravity darkening T = T_pole (g/g_pole)^β with T_pole set by the area-weighted mean of T⁴), `planck` and
+`band_intensity` (the blackbody through a passband linear between its points). Tests: every law's disc flux equals
+adaptive quadrature to 1e-10; the gravity-darkened mean T_eff equals the input to 0.01 K on a Roche surface; band
+intensities equal adaptive quadrature to 1e-8 at 3500–20000 K. Left: local log g, coefficient tables (MOD-6),
+atmosphere intensities with the blackbody ramp, bolometric terms for reflection, the passband registry.
 - **Read first:** von Zeipel 1924; Lucy 1967; Claret & Bloemen 2011 (A&A 529, A75: limb- and gravity-darkening
   coefficients for many passbands; the laws' definitions), Claret 2017 (TESS), Claret 2000 (four-parameter law);
   Van Hamme 1993 (the WD tables' scheme); Prša et al. 2016 §5 (passband intensities and why per-element

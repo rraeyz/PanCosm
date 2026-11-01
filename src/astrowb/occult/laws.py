@@ -10,8 +10,6 @@ centre, each written from its definition.
 import numpy as np
 
 COUNT = {"uniform": 0, "linear": 1, "quadratic": 2, "sqrt": 2, "log": 2, "power2": 2, "nonlinear": 4}
-_MU, _W = np.polynomial.legendre.leggauss(64)
-_MU, _W = 0.5 * (_MU + 1), 0.5 * _W  # Gauss–Legendre on 0 … 1
 
 
 def intensity(mu, law, coeffs=()):
@@ -38,8 +36,23 @@ def intensity(mu, law, coeffs=()):
 
 
 def disc_flux(law, coeffs=()):
-    """∫ I(μ) 2μ dμ over the unit disc divided by π: the disc's flux in units of π I(1) R²."""
-    return float(np.sum(_W * intensity(_MU, law, coeffs) * 2 * _MU))
+    """∫ I(μ) 2μ dμ over the unit disc divided by π: the disc's flux in units of π I(1) R², in closed form."""
+    c = tuple(coeffs)
+    if len(c) != COUNT[law]:
+        intensity(1.0, law, c)  # raises the message
+    if law == "uniform":
+        return 1.0
+    if law == "linear":
+        return 1 - c[0] / 3
+    if law == "quadratic":
+        return 1 - c[0] / 3 - c[1] / 6
+    if law == "sqrt":
+        return 1 - c[0] / 3 - c[1] / 5
+    if law == "log":
+        return 1 - c[0] / 3 + 2 * c[1] / 9  # ∫ 2μ² ln μ dμ = −2/9
+    if law == "power2":
+        return 1 - c[0] * c[1] / (c[1] + 2)
+    return 1 - sum(a * k / (k + 4) for k, a in enumerate(c, 1))  # nonlinear
 
 
 def problem(law, coeffs=()):
