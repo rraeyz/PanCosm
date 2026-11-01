@@ -43,3 +43,23 @@ def test_the_flux_is_smooth_in_the_inclination():
     f = np.array([lc.flux([0.01], i, s1, s2)[0] for i in incl])
     second = np.abs(np.diff(f, 2))
     assert second.max() < 20 * np.median(second) + 1e-9  # no jumps where elements change state
+
+
+def test_flux_weighted_velocities_follow_the_centres_and_show_the_rossiter_effect():
+    q, a, p = 0.5, 10.0, 3.0  # a in R☉, P in days
+    s1 = lc.star(0.1, 1.0, ("uniform", ()), n_theta=60)
+    s2 = lc.star(0.01, 0.0, ("uniform", ()), n_theta=12, second=True)  # a small dark body
+    k1 = 2 * np.pi * a * 6.957e5 / (p * 86400) * q / (1 + q)  # sin i = 1
+    out = np.array([0.1, 0.2, 0.3, 0.45])  # out of eclipse
+    rv1, _ = lc.velocities(out, 90.0, s1, s2, q, a, p)
+    assert rv1 == pytest.approx(-k1 * np.sin(2 * np.pi * out), abs=1e-3)  # the centre's motion (sign: approaching)
+    # during the transit: the hidden spot's own rotation velocity removed from the mean (first order, uniform disc)
+    ph = 0.004
+    rv1, _ = lc.velocities([ph], 90.0, s1, s2, q, a, p)
+    centre = -k1 * np.sin(2 * np.pi * ph)
+    x = np.sin(2 * np.pi * ph) * 1.0  # the dark body's offset across star 1's disc (separation 1)
+    # after mid-transit a prograde, synchronous star shows the body its receding half (+v at +x)
+    v_spot = 2 * np.pi * a * 6.957e5 / (p * 86400) * x
+    delta = (0.01 / 0.1) ** 2
+    expected = centre - delta * v_spot / (1 - delta)  # the hidden light's velocity missing from the mean
+    assert rv1[0] - centre == pytest.approx(expected - centre, rel=0.03)

@@ -7,7 +7,8 @@ other star's circumscribed sphere or passes behind it, hidden when it enters the
 other star's potential is followed along the line and the element is hidden where it rises above the surface
 value. Elements near the other star's limb are split into k × k sub-elements and their visible share counted, so
 the curve is smooth in the parameters (item 2). Frame: star 1 at the origin, star 2 at x = 1 (separation 1),
-z along the orbital axis; at phase 0 the observer looks along +x tilted by the inclination, star 2 in front.
+z along the orbital axis (the orbit turns about +z); at phase 0 the observer looks along +x tilted by the
+inclination, star 2 in front; in this frame the observer turns the other way.
 """
 
 import numpy as np
@@ -176,9 +177,30 @@ def flux(phases, incl, star1, star2, k=5):
     out = []
     for ph in np.atleast_1d(np.asarray(phases, float)):
         a = 2 * np.pi * ph
-        view = np.array([np.sin(i) * np.cos(a), np.sin(i) * np.sin(a), np.cos(i)])
+        view = np.array([np.sin(i) * np.cos(a), -np.sin(i) * np.sin(a), np.cos(i)])  # the orbit turns about +z
         total = 0.0
         for me, other in ((star1, star2), (star2, star1)):
             total += float(np.sum(_light(me, other, view, k)))
         out.append(total)
     return np.array(out)
+
+
+def velocities(phases, incl, star1, star2, q, a_rsun, period_days, spin=(1.0, 1.0), k=5):
+    """Flux-weighted radial velocities (km/s, positive away from the observer) of both stars at each phase
+    (MOD-7): every visible element moves with its star's centre about the barycentre and spins about the centre at
+    F times the orbital rate (F = 1 synchronous); light as in flux(). Circular orbit."""
+    i = np.radians(incl)
+    omega = 2 * np.pi / (period_days * 86400.0) * a_rsun * 6.957e5  # km/s per unit of separation
+    cm = np.array([q / (1 + q), 0, 0])
+    z = np.array([0, 0, 1.0])
+    out = []
+    for ph in np.atleast_1d(np.asarray(phases, float)):
+        a = 2 * np.pi * ph
+        view = np.array([np.sin(i) * np.cos(a), -np.sin(i) * np.sin(a), np.cos(i)])  # the orbit turns about +z
+        row = []
+        for me, other, f in ((star1, star2, spin[0]), (star2, star1, spin[1])):
+            light = _light(me, other, view, k)
+            v = np.cross(z, me["centre"] - cm) + f * np.cross(z, me["xyz"] - me["centre"])
+            row.append(-omega * float(np.sum(light * (v @ view)) / max(np.sum(light), 1e-300)))
+        out.append(row)
+    return np.array(out).T
