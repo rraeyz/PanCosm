@@ -393,6 +393,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}"),
     # models/roche.py (MOD-1)
     QT_TRANSLATE_NOOP("Messages", "the potential is below the critical one: the surface is not closed"),
+    # models/spots.py (MOD-8)
+    QT_TRANSLATE_NOOP("Messages", "at most {MAX_SPOTS} spots per star"),
+    QT_TRANSLATE_NOOP("Messages", "unknown spot overlap rule: {rule}"),
     # occult/laws.py (EXO-1)
     QT_TRANSLATE_NOOP("Messages", "the {law} law takes {need} coefficients"),
     QT_TRANSLATE_NOOP("Messages", "the limb-darkening coefficients make the intensity negative near the limb"),
