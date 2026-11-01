@@ -12,6 +12,7 @@ Catalogue stars (Gaia DR3 or VSX, from VizieR) inside a plate-solved image, with
 inputs:      image
 outputs:     stars
   image  (file)  Image
+  stars  (object)  Stars
 parameters (default):
   catalogue = "gaia"  (text)  Catalogue: The stars shown over the image
   mag_limit = 16.0  (float, mag)  Faintest magnitude: Fainter stars are left out
@@ -29,6 +30,7 @@ inputs:      images, output_dir
 outputs:     written
   images  (files)  Images
   output_dir  (new_folder)  Folder for masters and calibrated frames
+  written  (files)  Files written
 parameters (default):
   fmt = "png"  (text)  Format: png, jpg or tif
   interval = "zscale"  (text)  Levels: How the black and white points are chosen
@@ -50,6 +52,8 @@ outputs:     chart, labelled
   image  (file)  Image
   ra  (number)  Right ascension (°)
   dec  (number)  Declination (°)
+  chart  (new_file)  Finder chart
+  labelled  (object)  Labelled objects
 parameters (default):
   fov_deg = 0.3  (float, °, >= 0.0)  Field of view: Width of the chart
   mag_limit = 14.0  (float, mag)  Faintest magnitude: Fainter stars are left out
@@ -66,6 +70,7 @@ Asteroids and comets inside a plate-solved image at its mid-exposure time (IMCCE
 inputs:      image
 outputs:     objects
   image  (file)  Image
+  objects  (object)  Minor planets in the field
 parameters (default):
   mag_limit = 20.0  (float, mag)  Faintest magnitude: Fainter bodies are left out
 ```
@@ -85,6 +90,7 @@ outputs:     image
   operation  (text)  Operation
   others  (files)  Other images
   output  (new_file)  Output file
+  image  (file)  Image
 parameters (default):
   args = {}  (object)  Arguments: The operation's own settings
 ```
@@ -102,6 +108,7 @@ outputs:     rgb
   green  (file)  Green frame
   blue  (file)  Blue frame
   output  (new_file)  Output file
+  rgb  (new_file)  Colour image
 parameters (default):
   stretch = 0.5  (float, >= 0.0)  Stretch: Lupton's stretch
   q = 8.0  (float, >= 0.0)  Softening: Lupton's Q

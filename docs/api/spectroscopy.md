@@ -19,6 +19,7 @@ outputs:     atmosphere
   cache  (new_folder)  Folder for downloaded files
   grid  (folder)  Folder of model spectra
   sun  (file)  Solar spectrum
+  atmosphere  (object)  Stellar parameters
 parameters (default):
   resolution = null  (float, >= 0.0)  Resolving power: R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum
   vacuum = false  (bool)  Vacuum wavelengths: The spectrum's wavelengths are in vacuum, not air
@@ -36,6 +37,7 @@ inputs:      spectrum, library
 outputs:     classes
   spectrum  (file)  Spectrum
   library  (new_folder)  Library of standard spectra
+  classes  (object)  Spectral classes
 parameters (default):
   fwhm = null  (float, Å, >= 0.0)  Resolution FWHM: The templates are smoothed to it; empty: measured from the spectrum
 ```
@@ -52,6 +54,7 @@ optional:    output
 outputs:     combined
   spectra  (files)  Spectra
   output  (new_file)  Output file
+  combined  (new_file)  Combined spectrum
 parameters (default):
   method = "mean"  (choice, one of mean, median, sum)  Method: mean: the least noise; median: robust; sum: keeps the counts
   rejection = "sigma"  (choice, one of none, sigma, minmax)  Rejection: Pixels left out before combining (cosmic rays, bad pixels)
@@ -75,6 +78,7 @@ outputs:     components
   rv2  (object)  Radial velocities, second star
   output_dir  (new_folder)  Folder for masters and calibrated frames
   light_ratio  (number)  Light ratio of the two stars
+  components  (files)  Spectra of the components
 parameters (default):
   iterations = 40  (int, >= 1, <= 1000)  Iterations: Rounds of shift-and-add (González & Levato 2006)
 ```
@@ -106,6 +110,7 @@ outputs:     echelle
   arc  (file)  Arc frame
   guesses  (object)  Line identifications
   output  (new_file)  Output file
+  echelle  (new_file)  Merged échelle spectrum
 parameters (default):
   first_order = null  (int, >= 1)  First order number: The physical number of the first order; empty: found
   order_step = 1  (int)  Order step: +1 or −1: how the numbers run
@@ -141,6 +146,7 @@ outputs:     orbit
   error  (object)  Velocity errors
   rv2  (object)  Radial velocities, second star
   error2  (object)  Velocity errors, second star
+  orbit  (object)  Spectroscopic orbit
 parameters (default):
   period = null  (float, d, >= 0.0)  Period guess: Where the orbit fit starts (e.g. from the period search)
   fix_period = false  (bool)  Keep the period: The period is not fitted (known better from photometry)
@@ -158,6 +164,7 @@ the automatic search (after the user removed or added orders).
 inputs:      image
 outputs:     orders
   image  (file)  Image
+  orders  (object)  Échelle orders
 parameters (default):
   orientation = "x"  (choice, one of x, y)  Dispersion along: The axis the spectrum runs along
   reverse = false  (bool)  Reversed: Wavelength decreases along the axis
@@ -179,6 +186,7 @@ outputs:     spectrum
   arc  (file)  Arc frame
   guesses  (object)  Line identifications
   output  (new_file)  Output file
+  spectrum  (file)  Spectrum
 parameters (default):
   guess_row = null  (float, px, >= 0.0)  Spectrum row: Where the spectrum crosses; empty: the brightest
   trace_row = null  (float, px, >= 0.0)  Reference trace row: A brighter spectrum whose trace shape is used (IRAF apall)
@@ -217,6 +225,8 @@ outputs:     rvs, skipped
   coord  (sky)  Sky position of the target
   site  (object)  Observatory site
   template2  (file)  Template of the second star
+  rvs  (object)  Radial velocities
+  skipped  (object)  Spectra left out
 parameters (default):
   v_min = -300.0  (float, km/s)  Lowest velocity: The velocity range searched
   v_max = 300.0  (float, km/s)  Highest velocity: The velocity range searched
@@ -243,4 +253,5 @@ outputs:     telluric
   spectrum  (file)  Spectrum
   standard  (file)  Spectrum of the telluric standard
   output  (new_file)  Output file
+  telluric  (new_file)  Telluric-corrected spectrum
 ```

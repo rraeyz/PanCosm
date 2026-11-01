@@ -88,8 +88,9 @@ def test_every_input_is_described_and_a_missing_file_is_named_before_running(tmp
     from astrowb.engine.steps import execute
 
     steps._load_builtin()
-    missing = {f"{k}.{n}" for k, s in steps.REGISTRY.items() for n in (*s.inputs, *s.optional) if not io.describe(k, n)}
-    assert not missing, f"add these to engine/io.py INPUTS: {sorted(missing)}"
+    named = {k: (*s.inputs, *s.optional, *s.outputs) for k, s in steps.REGISTRY.items()}
+    missing = {f"{k}.{n}" for k, names in named.items() for n in names if not io.describe(k, n)}
+    assert not missing, f"add these to engine/io.py INPUTS or OUTPUTS: {sorted(missing)}"
     with pytest.raises(ValueError, match="folder not found"):
         execute("calibration.scan", {"folder": str(tmp_path / "nowhere")}, {}, None)
     io.check("sample.night", {"folder": str(tmp_path / "new")})  # a folder the step makes is not checked

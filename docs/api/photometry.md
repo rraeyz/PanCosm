@@ -16,6 +16,7 @@ outputs:     apertures
   images  (files)  Images
   target_xy  (xy)  Target position in the first frame (x y)
   comps_xy  (positions)  Comparison stars (x y)
+  apertures  (object)  Measurements at each aperture radius
 parameters (default):
   rule = "snr"  (choice, one of snr, aij)  Rule: snr: the radius of the best signal-to-noise; aij: AstroImageJ's, from the FWHM
 ```
@@ -32,6 +33,7 @@ outputs:     catalog
   image  (file)  Image
   comps_xy  (positions)  Comparison stars (x y)
   target_xy  (xy)  Target position in the first frame (x y)
+  catalog  (object)  Catalogue magnitudes
 parameters (default):
   filter = "V"  (band)  Band: The band of the standard magnitudes
 ```
@@ -47,6 +49,7 @@ its header is in it (field.identify).
 inputs:      image
 outputs:     field
   image  (file)  Image
+  field  (object)  Identified field
 ```
 
 ## photometry.light_curve
@@ -66,6 +69,7 @@ outputs:     light_curve
   coord  (sky)  Sky position of the target
   extra_xy  (positions)  Check stars and other targets (x y)
   ref_image  (file)  Frame the stars were marked on
+  light_curve  (file)  Light curve
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -100,6 +104,8 @@ outputs:     curves, colour
   coord  (sky)  Sky position of the target
   extra_xy  (positions)  Check stars and other targets (x y)
   ref_image  (file)  Frame the stars were marked on
+  curves  (object)  Light curves
+  colour  (object)  Colour curve
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -132,6 +138,7 @@ outputs:     polarimetry
   images  (files)  Images
   o_xy  (positions)  Ordinary images (x y)
   e_xy  (positions)  Extraordinary images (x y)
+  polarimetry  (object)  Polarisation
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -150,6 +157,8 @@ FWHM, background, star count of every frame; "good" lists the frames that pass (
 inputs:      images
 outputs:     quality, good
   images  (files)  Images
+  quality  (object)  Frame quality
+  good  (files)  Good frames
 parameters (default):
   fwhm_factor = 1.5  (float, >= 1.0)  FWHM limit: A frame whose FWHM exceeds this times the median is bad (focus, trails)
   star_fraction = 0.5  (float, >= 0.0, <= 1.0)  Star fraction: A frame that finds fewer than this share of the stars is bad (clouds)
@@ -171,6 +180,8 @@ outputs:     comps_xy, catalogue
   images  (files)  Images
   target_xy  (xy)  Target position in the first frame (x y)
   field  (object)  Identified field
+  comps_xy  (positions)  Comparison stars (x y)
+  catalogue  (object)  Catalogue stars
 parameters (default):
   r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: No other star may fall inside it
   n = 4  (int, >= 1, <= 50)  Comparison stars: How many to suggest
@@ -187,6 +198,8 @@ inputs:      image_a, image_b
 outputs:     transformation, stars
   image_a  (file)  Image in the first filter
   image_b  (file)  Image in the second filter
+  transformation  (object)  Transformation coefficients
+  stars  (object)  Stars
 parameters (default):
   band_a = "B"  (band)  First band: The filter of the first image
   band_b = "V"  (band)  Second band: The filter of the second image
@@ -202,6 +215,8 @@ Every star of the field on every frame, and which of them vary (fieldstars.py).
 inputs:      images
 outputs:     field, variability
   images  (files)  Images
+  field  (object)  Identified field
+  variability  (object)  Variability of the stars
 parameters (default):
   max_stars = 300  (int, >= 1)  Most stars: The brightest stars of the field that are measured
   method = "aperture"  (choice, one of aperture, psf)  Method: Aperture photometry, or PSF fitting for crowded fields

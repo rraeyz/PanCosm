@@ -12,6 +12,7 @@ Coordinates, period, epoch and duration from VSX or the NASA Exoplanet Archive.
 inputs:      name
 outputs:     target
   name  (text)  Name
+  target  (text)  Target
 parameters (default):
   catalogue = "auto"  (text)  Catalogue: auto: VSX for variable stars, the NASA Exoplanet Archive for planets
 ```
@@ -28,6 +29,7 @@ outputs:     night
   site  (object)  Observatory site
   date  (date)  Date of the night
   targets  (object)  Targets
+  night  (object)  The night's plan
 parameters (default):
   min_alt = 20.0  (float, °, >= 0.0, <= 90.0)  Lowest altitude: A target lower than this is not observable
   step_min = 5.0  (float, min, >= 0.1)  Time step: The night is computed at this spacing
@@ -44,4 +46,5 @@ inputs:      name, cache_file
 outputs:     target
   name  (text)  Name
   cache_file  (new_file)  File for the answers kept offline
+  target  (text)  Target
 ```

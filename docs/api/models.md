@@ -17,6 +17,7 @@ outputs:     model
   start  (object)  Starting values
   orbit  (object)  Spectroscopic orbit
   export_dir  (new_folder)  Folder for the exported files
+  model  (object)  Model fit
 parameters (default):
   free = null  (object)  Free parameters: The model's parameters that are fitted; empty: the usual set
   ld1 = [0.0, 0.0]  (table)  Limb darkening, star 1: Quadratic coefficients u1, u2
@@ -35,6 +36,7 @@ Visual-binary orbit from "epoch theta rho [rho_err] [theta_err]" lines (see mode
 inputs:      measures
 outputs:     orbit
   measures  (object)  Measures of the visual binary
+  orbit  (object)  Spectroscopic orbit
 parameters (default):
   p_min = null  (float, yr, >= 0.0)  Shortest period: With the longest: the search stays inside; empty: free
   p_max = null  (float, yr, >= 0.0)  Longest period: With the shortest: the search stays inside; empty: free

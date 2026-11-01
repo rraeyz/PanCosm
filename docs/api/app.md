@@ -11,6 +11,8 @@ The installation (every module, library and data file) and every web service the
 
 inputs:      none
 outputs:     report, ok
+  report  (object)  Report
+  ok  (object)  Passed
 ```
 
 ## app.check_gpu
@@ -22,6 +24,8 @@ Every GPU job against its CPU twin (time and result), as text and as gpu-report.
 
 inputs:      none
 outputs:     report, path
+  report  (object)  Report
+  path  (object)  Path
 ```
 
 ## app.update_time_tables
@@ -33,4 +37,5 @@ Download the Earth-orientation (IERS-A) and leap-second tables and keep them for
 
 inputs:      none
 outputs:     status
+  status  (object)  Status
 ```

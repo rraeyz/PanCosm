@@ -80,7 +80,7 @@ def describe(step_id, out):
     if s.optional:
         print("optional:    " + ", ".join(s.optional), file=out)
     print("outputs:     " + (", ".join(s.outputs) or "none"), file=out)
-    for name in (*s.inputs, *s.optional):  # AUT-1: what each input is
+    for name in (*s.inputs, *s.optional, *s.outputs):  # AUT-1: what each input and output is
         put = io.describe(step_id, name)
         if put:
             print(f"  {name}  ({put.kind})  {put.label}", file=out)
