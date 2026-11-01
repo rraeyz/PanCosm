@@ -216,8 +216,9 @@ in English, clicks slower than 2 s; a screenshot after every action. Walks in En
 clicked on the plot, Hβ checked), frequencies, O−C third body, SB2 orbit, Images (open, bin, Undo, save), Automation
 (the eclipsing-binary template on the practice night). Its finds: the plot toolbar's own matplotlib buttons spoke
 English in every language; Undo of an image operation in the Images window did nothing (the page looked for the open
-file in its own window). Left: a walk for Observe (device simulators), Automation, one real set per walk, German and
-Spanish, the gallery tool on the harness.
+file in its own window). Observing (connect, slew, two darks and the safety change on simulated devices over the
+observatory protocol): every area has a walk. Left: one real set per walk, German and Spanish, the gallery
+tool on the harness.
 - **Build:** `tests/ui/harness.py` (the lost container script rebuilt and kept): start the real application
   offscreen, find controls by their accessible names / object names, click, type, drag on images and plots, wait
   for tasks, collect every dialog, banner and uncaught exception, take screenshots at each step, measure the time
