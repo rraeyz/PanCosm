@@ -1063,47 +1063,47 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation> — her {name} için</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="299"/>
+        <location filename="../../ui/automation_page.py" line="326"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Otomasyonun bu girdisi için bir değer, dosya ya da klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="304"/>
+        <location filename="../../ui/automation_page.py" line="331"/>
         <source>Choose in a dialog</source>
         <translation>Bir pencereden seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="312"/>
+        <location filename="../../ui/automation_page.py" line="339"/>
         <source>Choose a folder</source>
         <translation>Klasör seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="314"/>
+        <location filename="../../ui/automation_page.py" line="341"/>
         <source>Choose a file</source>
         <translation>Dosya seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="316"/>
+        <location filename="../../ui/automation_page.py" line="343"/>
         <source>Choose files</source>
         <translation>Dosyaları seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="333"/>
+        <location filename="../../ui/automation_page.py" line="360"/>
         <source>Cannot run: {e}</source>
         <translation>Çalıştırılamıyor: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="341"/>
+        <location filename="../../ui/automation_page.py" line="368"/>
         <source>Running step {n}: {step}</source>
         <translation>{n}. adım çalışıyor: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="344"/>
+        <location filename="../../ui/automation_page.py" line="371"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="348"/>
+        <location filename="../../ui/automation_page.py" line="375"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
     </message>
@@ -13979,12 +13979,12 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>StepForm</name>
     <message>
-        <location filename="../../ui/kit/stepform.py" line="39"/>
+        <location filename="../../ui/kit/stepform.py" line="41"/>
         <source>automatic</source>
         <translation>otomatik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/stepform.py" line="67"/>
+        <location filename="../../ui/kit/stepform.py" line="76"/>
         <source>More settings</source>
         <translation>Daha fazla ayar</translation>
     </message>
