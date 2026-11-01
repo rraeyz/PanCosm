@@ -85,7 +85,14 @@ before each release; VAL-10 for 1.0.
 - **Files:** `data/registry.toml`, `tools/fetch_data.py`, `tests/test_data_registry.py`, CI.
 
 ### VAL-2. Reference environments  (P1)
-**open**
+**partial** — done (2026-11-12): `tools/reference_env.sh` (IRAF through apt; a Python program in its own venv under
+`~/.cache/astrowb-reference/<name>`); `tests/validation/scripts/iraf/hatp32_phot.py` makes the IRAF `phot` table of
+the HAT-P-32 night again (IRAF 2.17 from Ubuntu's archive, our centres, 1-based pixels, sigma rejection of the sky)
+and reproduces the committed table to the last digit; it writes the manifest beside it (program, version, date,
+command, SHA-256 of the 142 frames); `tests/test_reference_manifests.py` refuses a table without a manifest or
+whose script is missing, and any import of a reference program outside those scripts. Left: the programs of the
+other areas' tables as those tables come (PHOEBE 2, ellc, batman, TLS, lightkurve, JKTEBOP, WD, GDAL,
+astrometry.net).
 - **Build:** `tools/reference_env.sh <program>`: creates an isolated environment outside the repository's own
   (`~/.cache/astrowb-reference/<program>`): IRAF (`apt-get install iraf iraf-noao`), PHOEBE 2, ellc, batman, the
   TLS reference package, lightkurve, JKTEBOP and the Wilson–Devinney program (built from their authors' public

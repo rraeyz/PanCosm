@@ -2,7 +2,8 @@
 see test_hatp32b.py) measured by IRAF 2.17 phot with our centres, the same radii (4, 10, 16 px) and the same sky
 algorithm (median after 3-sigma rejection, 10 times), gain 1, no read noise. The reduced IRAF table
 (data/hatp32_iraf_phot.csv: flux, sky, its scatter and pixel count, aperture area and IRAF's flux error for the
-target and two comparison stars on all 142 frames) was made with the scratchpad script p1/hatp.py.
+target and two comparison stars on all 142 frames) is made again by scripts/iraf/hatp32_phot.py (VAL-2), which
+reproduces it to the last digit.
 
 Agreement: the fluxes differ by +0.015 % (IRAF weights the aperture's edge pixels linearly, we by the exact area).
 These frames are raw integer ADU: IRAF's median of the sky ring is sometimes a whole number and sometimes interpolated,
