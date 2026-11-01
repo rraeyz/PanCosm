@@ -14018,257 +14018,257 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>Steps</name>
     <message>
-        <location filename="../../ui/step_names.py" line="7"/>
+        <location filename="../../engine/titles.py" line="8"/>
         <source>Check the installation</source>
         <translation>Installation prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="8"/>
+        <location filename="../../engine/titles.py" line="9"/>
         <source>Check the GPU</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="9"/>
+        <location filename="../../engine/titles.py" line="10"/>
         <source>Update the Earth-rotation tables</source>
         <translation>Erdrotationstabellen aktualisieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="10"/>
+        <location filename="../../engine/titles.py" line="11"/>
         <source>Positions of a moving object</source>
         <translation>Positionen eines bewegten Objekts</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="11"/>
+        <location filename="../../engine/titles.py" line="12"/>
         <source>Plate solve</source>
         <translation>Plate Solving</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="12"/>
+        <location filename="../../engine/titles.py" line="13"/>
         <source>Calibrate the frames</source>
         <translation>Aufnahmen kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="13"/>
+        <location filename="../../engine/titles.py" line="14"/>
         <source>Scan the frames</source>
         <translation>Aufnahmen einlesen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="14"/>
+        <location filename="../../engine/titles.py" line="15"/>
         <source>Save the image</source>
         <translation>Bild speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="15"/>
+        <location filename="../../engine/titles.py" line="16"/>
         <source>Catalogue stars on the image</source>
         <translation>Katalogsterne im Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="16"/>
+        <location filename="../../engine/titles.py" line="17"/>
         <source>Convert images</source>
         <translation>Bilder umwandeln</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="17"/>
+        <location filename="../../engine/titles.py" line="18"/>
         <source>Finder chart</source>
         <translation>Aufsuchkarte</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="18"/>
+        <location filename="../../engine/titles.py" line="19"/>
         <source>Minor planets in the field</source>
         <translation>Kleinplaneten im Feld</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="19"/>
+        <location filename="../../engine/titles.py" line="20"/>
         <source>Process the image</source>
         <translation>Bild bearbeiten</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="20"/>
+        <location filename="../../engine/titles.py" line="21"/>
         <source>Colour image from three filters</source>
         <translation>Farbbild aus drei Filtern</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="21"/>
+        <location filename="../../engine/titles.py" line="22"/>
         <source>Fit the light-curve model</source>
         <translation>Lichtkurvenmodell anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="22"/>
+        <location filename="../../engine/titles.py" line="23"/>
         <source>Fit the visual orbit</source>
         <translation>Visuelle Bahn anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="23"/>
+        <location filename="../../engine/titles.py" line="24"/>
         <source>Choose the aperture radii</source>
         <translation>Aperturradien wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="24"/>
+        <location filename="../../engine/titles.py" line="25"/>
         <source>Standard magnitudes from a catalogue</source>
         <translation>Standardhelligkeiten aus einem Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="25"/>
+        <location filename="../../engine/titles.py" line="26"/>
         <source>Identify the field</source>
         <translation>Feld identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="26"/>
+        <location filename="../../engine/titles.py" line="27"/>
         <source>Measure the light curve</source>
         <translation>Lichtkurve messen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="27"/>
+        <location filename="../../engine/titles.py" line="28"/>
         <source>Measure every filter and the colour index</source>
         <translation>Jeden Filter und den Farbindex messen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="28"/>
+        <location filename="../../engine/titles.py" line="29"/>
         <source>Polarimetry</source>
         <translation>Polarimetrie</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="29"/>
+        <location filename="../../engine/titles.py" line="30"/>
         <source>Find the bad frames</source>
         <translation>Schlechte Aufnahmen finden</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="30"/>
+        <location filename="../../engine/titles.py" line="31"/>
         <source>Suggest comparison stars</source>
         <translation>Vergleichssterne vorschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="31"/>
+        <location filename="../../engine/titles.py" line="32"/>
         <source>Transformation coefficients</source>
         <translation>Transformationskoeffizienten</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="32"/>
+        <location filename="../../engine/titles.py" line="33"/>
         <source>Search for variable stars</source>
         <translation>Veränderliche suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="33"/>
+        <location filename="../../engine/titles.py" line="34"/>
         <source>Look up the ephemeris</source>
         <translation>Ephemeride nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="34"/>
+        <location filename="../../engine/titles.py" line="35"/>
         <source>Plan the night</source>
         <translation>Die Nacht planen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="35"/>
+        <location filename="../../engine/titles.py" line="36"/>
         <source>Find the target</source>
         <translation>Ziel finden</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="36"/>
+        <location filename="../../engine/titles.py" line="37"/>
         <source>Classify (k-means)</source>
         <translation>Klassifizieren (k-Means)</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="37"/>
+        <location filename="../../engine/titles.py" line="38"/>
         <source>Compute a band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="38"/>
+        <location filename="../../engine/titles.py" line="39"/>
         <source>Principal components</source>
         <translation>Hauptkomponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="39"/>
+        <location filename="../../engine/titles.py" line="40"/>
         <source>Make practice data</source>
         <translation>Übungsdaten erzeugen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="40"/>
+        <location filename="../../engine/titles.py" line="41"/>
         <source>Stellar parameters (Teff, log g, [Fe/H])</source>
         <translation>Sternparameter (Teff, log g, [Fe/H])</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="41"/>
+        <location filename="../../engine/titles.py" line="42"/>
         <source>Combine the exposures</source>
         <translation>Aufnahmen kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="42"/>
+        <location filename="../../engine/titles.py" line="43"/>
         <source>Spectral type</source>
         <translation>Spektraltyp</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="43"/>
+        <location filename="../../engine/titles.py" line="44"/>
         <source>Disentangle the spectra</source>
         <translation>Spektren entflechten</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="44"/>
+        <location filename="../../engine/titles.py" line="45"/>
         <source>Reduce the echelle spectrum</source>
         <translation>Echelle-Spektrum reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="45"/>
+        <location filename="../../engine/titles.py" line="46"/>
         <source>Fit the spectroscopic orbit</source>
         <translation>Spektroskopische Bahn anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="46"/>
+        <location filename="../../engine/titles.py" line="47"/>
         <source>Find the echelle orders</source>
         <translation>Echelle-Ordnungen finden</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="47"/>
+        <location filename="../../engine/titles.py" line="48"/>
         <source>Reduce the long-slit spectrum</source>
         <translation>Langspaltspektrum reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="48"/>
+        <location filename="../../engine/titles.py" line="49"/>
         <source>Measure radial velocities</source>
         <translation>Radialgeschwindigkeiten messen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="49"/>
+        <location filename="../../engine/titles.py" line="50"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="50"/>
+        <location filename="../../engine/titles.py" line="51"/>
         <source>Drizzle the frames</source>
         <translation>Aufnahmen drizzeln</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="51"/>
+        <location filename="../../engine/titles.py" line="52"/>
         <source>Stack the frames</source>
         <translation>Aufnahmen stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="52"/>
+        <location filename="../../engine/titles.py" line="53"/>
         <source>Frequency analysis</source>
         <translation>Frequenzanalyse</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="53"/>
+        <location filename="../../engine/titles.py" line="54"/>
         <source>Time of minimum</source>
         <translation>Minimumszeit</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="54"/>
+        <location filename="../../engine/titles.py" line="55"/>
         <source>Download a mission light curve</source>
         <translation>Lichtkurve einer Mission herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="55"/>
+        <location filename="../../engine/titles.py" line="56"/>
         <source>Fit the O−C diagram</source>
         <translation>O−C-Diagramm anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="56"/>
+        <location filename="../../engine/titles.py" line="57"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/step_names.py" line="57"/>
+        <location filename="../../engine/titles.py" line="58"/>
         <source>Download a survey light curve</source>
         <translation>Lichtkurve einer Durchmusterung herunterladen</translation>
     </message>

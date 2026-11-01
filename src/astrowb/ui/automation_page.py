@@ -32,7 +32,7 @@ from PySide6.QtWidgets import (
 from ..engine import automation, steps
 from .kit.widgets import _title
 from .messages import translate
-from .setting_names import setting_name
+from .names import setting_name
 
 
 def _json_or_text(text):
@@ -89,7 +89,7 @@ class AutomationPage(QWidget):
         ml.addWidget(self.steps, 1)
         self.step_choice = QComboBox(self)
         steps.get("fits.save_as")  # loads the built-in steps and plugins
-        from .step_names import step_name
+        from .names import step_name
 
         for sid in sorted(steps.REGISTRY, key=step_name):  # the user reads names; the id is kept as the item's data
             self.step_choice.addItem(step_name(sid), sid)
@@ -220,7 +220,7 @@ class AutomationPage(QWidget):
 
     # --- steps ----------------------------------------------------------------
     def _fill_steps(self, row=0):
-        from .step_names import step_name
+        from .names import step_name
 
         self.steps.blockSignals(True)
         self.steps.clear()
@@ -336,7 +336,7 @@ class AutomationPage(QWidget):
         self.run_requested.emit(self.auto, inputs)
 
     def step_started(self, n, step_id):
-        from .step_names import step_name
+        from .names import step_name
 
         self.status.setText(self.tr("Running step {n}: {step}").format(n=n, step=step_name(step_id)))
 

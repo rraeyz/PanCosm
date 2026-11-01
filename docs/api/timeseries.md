@@ -5,12 +5,14 @@ Python: `from astrowb import api; api.timeseries.<step>(…)`; command line: `as
 ## timeseries.frequencies
 
 ```text
-timeseries.frequencies
+timeseries.frequencies  (Frequency analysis)
 
 Amplitude spectrum, spectral window, prewhitened multi-frequency fit and times of maximum.
 
 inputs:      time, flux
 outputs:     frequencies, grid, spectrum, residual_spectrum, window, maxima, rms, t_ref, zero_point, clean_spectrum
+  time  (object)  Times
+  flux  (object)  Flux
 parameters (default):
   f_max = 50.0  (float, c/d, >= 0.0)  Highest frequency: The spectrum is computed from 0 up to this frequency
   n_max = 10  (int, >= 1, <= 200)  Most frequencies: Prewhitening stops after this many frequencies
@@ -22,7 +24,7 @@ parameters (default):
 ## timeseries.minimum
 
 ```text
-timeseries.minimum
+timeseries.minimum  (Time of minimum)
 
 Time of minimum of a light curve; with t0 and period also epoch and O-C (days). detrend_with: quantities
 (airmass, fwhm, sky, x, y) fitted together with the trapezoid, on the light curve before any detrending
@@ -30,6 +32,7 @@ Time of minimum of a light curve; with t0 and period also epoch and O-C (days). 
 
 inputs:      light_curve
 outputs:     minimum
+  light_curve  (file)  Light curve
 parameters (default):
   method = "kvw"  (choice, one of kvw, trapezoid)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits
   t0 = null  (time, d)  Reference T0: With the period: every eclipse in the curve gets its own time
@@ -40,12 +43,14 @@ parameters (default):
 ## timeseries.mission_lc
 
 ```text
-timeseries.mission_lc
+timeseries.mission_lc  (Download a mission light curve)
 
 TESS / Kepler / K2 pipeline light curves of a target from MAST, joined (needs the internet).
 
 inputs:      target, folder
 outputs:     light_curve
+  target  (text)  Target
+  folder  (folder)  Folder of the night's frames
 parameters (default):
   mission = "TESS"  (choice, one of TESS, Kepler, K2)  Mission: The space telescope whose light curves are fetched
   flux = "PDCSAP"  (text)  Flux: PDCSAP: corrected for the spacecraft; SAP: as measured
@@ -54,13 +59,14 @@ parameters (default):
 ## timeseries.oc_fit
 
 ```text
-timeseries.oc_fit
+timeseries.oc_fit  (Fit the O−C diagram)
 
 Third-body or apsidal-motion fit to "time [error] [I/II]" lines, with MCMC errors when mcmc_steps > 0: a task,
 so the page stays usable during the chain and it can be cancelled.
 
 inputs:      minima
 outputs:     fit
+  minima  (object)  Times of minimum
 parameters (default):
   model = "ltte"  (choice, one of ltte, apsidal)  Model: Third body (light-travel time) or apsidal motion
   t0 = 0.0  (time, d)  Reference T0: Epoch zero of the ephemeris
@@ -71,13 +77,16 @@ parameters (default):
 ## timeseries.period
 
 ```text
-timeseries.period
+timeseries.period  (Period search)
 
 Period search of a light curve (Lomb-Scargle, BLS, PDM or ANOVA): the periodogram and the best periods.
 
 inputs:      time, flux
 optional:    err
 outputs:     periods, power, best, warnings
+  time  (object)  Times
+  flux  (object)  Flux
+  err  (object)  Errors
 parameters (default):
   method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova)  Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA
   p_min = 0.05  (float, d, >= 0.0)  Shortest period: The search starts here
@@ -87,13 +96,15 @@ parameters (default):
 ## timeseries.survey_lc
 
 ```text
-timeseries.survey_lc
+timeseries.survey_lc  (Download a survey light curve)
 
 ZTF (IRSA) or AAVSO light curve of a star, one band, times in BJD_TDB (needs the internet).
 
 inputs:      target
 optional:    cache_file
 outputs:     light_curve
+  target  (text)  Target
+  cache_file  (new_file)  File for the answers kept offline
 parameters (default):
   source = "ZTF"  (choice, one of ZTF, AAVSO)  Archive: Where the light curve comes from
   band = null  (band)  Band: One band of the archive; empty: the first

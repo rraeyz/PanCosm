@@ -5,12 +5,14 @@ Python: `from astrowb import api; api.stacking.<step>(…)`; command line: `astr
 ## stacking.drizzle
 
 ```text
-stacking.drizzle
+stacking.drizzle  (Drizzle the frames)
 
 Dithered, undersampled frames onto a finer grid (see calibration/drizzle.py); weights as extension 2.
 
 inputs:      images, output
 outputs:     stack
+  images  (files)  Images
+  output  (new_file)  Output file
 parameters (default):
   scale = 2  (int, >= 1, <= 4)  Scale: The output pixels are this many times finer
   pixfrac = 0.6  (float, >= 0.0, <= 1.0)  Drop size: The share of each input pixel that is dropped (pixfrac)
@@ -19,13 +21,15 @@ parameters (default):
 ## stacking.stack
 
 ```text
-stacking.stack
+stacking.stack  (Stack the frames)
 
 Calibrated frames aligned and combined into one image (mean or median, with rejection); the coverage as a
 second extension.
 
 inputs:      images, output
 outputs:     stack
+  images  (files)  Images
+  output  (new_file)  Output file
 parameters (default):
   sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit in standard deviations
   method = "mean"  (choice, one of mean, median, sum)  Combine: mean: the least noise; median: robust; sum: keeps the counts

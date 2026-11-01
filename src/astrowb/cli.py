@@ -67,7 +67,10 @@ def describe(step_id, out):
         s = steps.get(step_id)
     except KeyError:
         raise UsageError(f"no step {step_id} (astrowb-cli steps lists them)") from None
-    print(step_id, file=out)
+    from .engine import io
+    from .engine.titles import TITLES
+
+    print(f"{step_id}  ({TITLES[step_id]})" if step_id in TITLES else step_id, file=out)
     import inspect
 
     doc = inspect.cleandoc(s.func.__doc__ or "")  # the docstring's own indentation taken off
@@ -77,6 +80,10 @@ def describe(step_id, out):
     if s.optional:
         print("optional:    " + ", ".join(s.optional), file=out)
     print("outputs:     " + (", ".join(s.outputs) or "none"), file=out)
+    for name in (*s.inputs, *s.optional):  # AUT-1: what each input is
+        put = io.describe(step_id, name)
+        if put:
+            print(f"  {name}  ({put.kind})  {put.label}", file=out)
     if s.defaults:
         print("parameters (default):", file=out)
         described = {p.name: p for p in s.params}  # AUT-1: kind, unit, range and what it is for

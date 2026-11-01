@@ -41,7 +41,7 @@ class TaskActions:
             "failed": translate("MainWindow", "failed"),
             "cancelled": translate("MainWindow", "cancelled"),
         }
-        from .step_names import step_name
+        from .names import step_name
 
         text = f"{step_name(task.name)} — {states[task.state]} {int(task.progress * 100)}% {message_text(task.message)}"
         if task.id not in self._task_items:

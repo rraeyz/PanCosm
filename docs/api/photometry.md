@@ -5,7 +5,7 @@ Python: `from astrowb import api; api.photometry.<step>(…)`; command line: `as
 ## photometry.apertures
 
 ```text
-photometry.apertures
+photometry.apertures  (Choose the aperture radii)
 
 Aperture and sky annulus from the stars' own profiles on the first frame given (see choose_apertures). rule
 "snr": the best signal-to-noise, then the steadiest light curve of a series; "aij": AstroImageJ's radii.
@@ -13,6 +13,9 @@ Aperture and sky annulus from the stars' own profiles on the first frame given (
 inputs:      images, target_xy
 optional:    comps_xy
 outputs:     apertures
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  comps_xy  (positions)  Comparison stars (x y)
 parameters (default):
   rule = "snr"  (choice, one of snr, aij)  Rule: snr: the radius of the best signal-to-noise; aij: AstroImageJ's, from the FWHM
 ```
@@ -20,12 +23,15 @@ parameters (default):
 ## photometry.catalog
 
 ```text
-photometry.catalog
+photometry.catalog  (Standard magnitudes from a catalogue)
 
 Catalogue magnitudes (APASS / Gaia) of the comparison stars and the target, found by the image's WCS.
 
 inputs:      image, comps_xy, target_xy
 outputs:     catalog
+  image  (file)  Image
+  comps_xy  (positions)  Comparison stars (x y)
+  target_xy  (xy)  Target position in the first frame (x y)
 parameters (default):
   filter = "V"  (band)  Band: The band of the standard magnitudes
 ```
@@ -33,19 +39,20 @@ parameters (default):
 ## photometry.identify_field
 
 ```text
-photometry.identify_field
+photometry.identify_field  (Identify the field)
 
 The frame solved against Gaia (no solver to install), the VSX variable stars in it, and whether the OBJECT of
 its header is in it (field.identify).
 
 inputs:      image
 outputs:     field
+  image  (file)  Image
 ```
 
 ## photometry.light_curve
 
 ```text
-photometry.light_curve
+photometry.light_curve  (Measure the light curve)
 
 Differential aperture photometry of the target against the comparison stars on every frame: the light curve
 and its table.
@@ -53,6 +60,12 @@ and its table.
 inputs:      images, target_xy, comps_xy
 optional:    coord, extra_xy, ref_image
 outputs:     light_curve
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  comps_xy  (positions)  Comparison stars (x y)
+  coord  (sky)  Sky position of the target
+  extra_xy  (positions)  Check stars and other targets (x y)
+  ref_image  (file)  Frame the stars were marked on
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -73,7 +86,7 @@ parameters (default):
 ## photometry.multifilter
 
 ```text
-photometry.multifilter
+photometry.multifilter  (Measure every filter and the colour index)
 
 A mixed sequence of filters (plans/photometry.md item 11): a light curve per filter, with the same stars,
 radii and options, and the colour-index curve of the bluer pair (multifilter.colour_curve).
@@ -81,6 +94,12 @@ radii and options, and the colour-index curve of the bluer pair (multifilter.col
 inputs:      images, target_xy, comps_xy
 optional:    coord, extra_xy, ref_image
 outputs:     curves, colour
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  comps_xy  (positions)  Comparison stars (x y)
+  coord  (sky)  Sky position of the target
+  extra_xy  (positions)  Check stars and other targets (x y)
+  ref_image  (file)  Frame the stars were marked on
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -103,13 +122,16 @@ parameters (default):
 ## photometry.polarimetry
 
 ```text
-photometry.polarimetry
+photometry.polarimetry  (Polarimetry)
 
 Dual-beam linear polarimetry: ordinary and extraordinary images of one star on each frame, the
 half-wave-plate angle from the header (or 0, 22.5, 45, 67.5 deg repeating in time order).
 
 inputs:      images, o_xy, e_xy
 outputs:     polarimetry
+  images  (files)  Images
+  o_xy  (positions)  Ordinary images (x y)
+  e_xy  (positions)  Extraordinary images (x y)
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
   r_in = 10.0  (float, px, >= 0.0)  Inner sky radius: The sky annulus starts here
@@ -121,12 +143,13 @@ parameters (default):
 ## photometry.quality
 
 ```text
-photometry.quality
+photometry.quality  (Find the bad frames)
 
 FWHM, background, star count of every frame; "good" lists the frames that pass (for photometry/stacks).
 
 inputs:      images
 outputs:     quality, good
+  images  (files)  Images
 parameters (default):
   fwhm_factor = 1.5  (float, >= 1.0)  FWHM limit: A frame whose FWHM exceeds this times the median is bad (focus, trails)
   star_fraction = 0.5  (float, >= 0.0, <= 1.0)  Star fraction: A frame that finds fewer than this share of the stars is bad (clouds)
@@ -136,7 +159,7 @@ parameters (default):
 ## photometry.suggest_comparisons
 
 ```text
-photometry.suggest_comparisons
+photometry.suggest_comparisons  (Suggest comparison stars)
 
 Comparison stars around the target. With the field identified on the marked frame (photometry.identify_field)
 they come from Gaia, as Siril chooses them (field.comparison_stars); "catalogue" then holds the target's colour
@@ -145,6 +168,9 @@ and whether the stars share it. Without it, from the image (aperture.suggest_com
 inputs:      images, target_xy
 optional:    field
 outputs:     comps_xy, catalogue
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  field  (object)  Identified field
 parameters (default):
   r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: No other star may fall inside it
   n = 4  (int, >= 1, <= 50)  Comparison stars: How many to suggest
@@ -153,12 +179,14 @@ parameters (default):
 ## photometry.transformation
 
 ```text
-photometry.transformation
+photometry.transformation  (Transformation coefficients)
 
 Transformation coefficients from two plate-solved images of a standard field (catalogue from VizieR).
 
 inputs:      image_a, image_b
 outputs:     transformation, stars
+  image_a  (file)  Image in the first filter
+  image_b  (file)  Image in the second filter
 parameters (default):
   band_a = "B"  (band)  First band: The filter of the first image
   band_b = "V"  (band)  Second band: The filter of the second image
@@ -167,12 +195,13 @@ parameters (default):
 ## photometry.varfind
 
 ```text
-photometry.varfind
+photometry.varfind  (Search for variable stars)
 
 Every star of the field on every frame, and which of them vary (fieldstars.py).
 
 inputs:      images
 outputs:     field, variability
+  images  (files)  Images
 parameters (default):
   max_stars = 300  (int, >= 1)  Most stars: The brightest stars of the field that are measured
   method = "aperture"  (choice, one of aperture, psf)  Method: Aperture photometry, or PSF fitting for crowded fields

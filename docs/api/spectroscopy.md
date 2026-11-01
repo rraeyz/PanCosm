@@ -5,7 +5,7 @@ Python: `from astrowb import api; api.spectroscopy.<step>(…)`; command line: `
 ## spectroscopy.atmosphere
 
 ```text
-spectroscopy.atmosphere
+spectroscopy.atmosphere  (Stellar parameters (Teff, log g, [Fe/H]))
 
 Teff, log g, [Fe/H], v sin i and RV of an FGK star relative to the Sun (spectroscopy/atmosphere.py).
 grid: a folder of synthetic spectra (else PHOENIX points are downloaded into `cache` as needed); sun: a solar
@@ -15,6 +15,10 @@ spectrograph's R = lambda / FWHM.
 inputs:      spectrum, cache
 optional:    grid, sun
 outputs:     atmosphere
+  spectrum  (file)  Spectrum
+  cache  (new_folder)  Folder for downloaded files
+  grid  (folder)  Folder of model spectra
+  sun  (file)  Solar spectrum
 parameters (default):
   resolution = null  (float, >= 0.0)  Resolving power: R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum
   vacuum = false  (bool)  Vacuum wavelengths: The spectrum's wavelengths are in vacuum, not air
@@ -23,13 +27,15 @@ parameters (default):
 ## spectroscopy.classify
 
 ```text
-spectroscopy.classify
+spectroscopy.classify  (Spectral type)
 
 Spectral type from the best-matching library templates; the Pickles library is fetched if the folder
 is empty (needs the internet once).
 
 inputs:      spectrum, library
 outputs:     classes
+  spectrum  (file)  Spectrum
+  library  (new_folder)  Library of standard spectra
 parameters (default):
   fwhm = null  (float, Å, >= 0.0)  Resolution FWHM: The templates are smoothed to it; empty: measured from the spectrum
 ```
@@ -37,13 +43,15 @@ parameters (default):
 ## spectroscopy.combine
 
 ```text
-spectroscopy.combine
+spectroscopy.combine  (Combine the exposures)
 
 Several exposures of one star in a night combined into one spectrum (IRAF scombine), see combine.py.
 
 inputs:      spectra
 optional:    output
 outputs:     combined
+  spectra  (files)  Spectra
+  output  (new_file)  Output file
 parameters (default):
   method = "mean"  (choice, one of mean, median, sum)  Method: mean: the least noise; median: robust; sum: keeps the counts
   rejection = "sigma"  (choice, one of none, sigma, minmax)  Rejection: Pixels left out before combining (cosmic rays, bad pixels)
@@ -55,13 +63,18 @@ parameters (default):
 ## spectroscopy.disentangle
 
 ```text
-spectroscopy.disentangle
+spectroscopy.disentangle  (Disentangle the spectra)
 
 The two stars' spectra of a double-lined binary from the series and its observed velocities.
 
 inputs:      spectra, rv1, rv2, output_dir
 optional:    light_ratio
 outputs:     components
+  spectra  (files)  Spectra
+  rv1  (object)  Radial velocities, first star
+  rv2  (object)  Radial velocities, second star
+  output_dir  (new_folder)  Folder for masters and calibrated frames
+  light_ratio  (number)  Light ratio of the two stars
 parameters (default):
   iterations = 40  (int, >= 1, <= 1000)  Iterations: Rounds of shift-and-add (González & Levato 2006)
 ```
@@ -69,7 +82,7 @@ parameters (default):
 ## spectroscopy.echelle
 
 ```text
-spectroscopy.echelle
+spectroscopy.echelle  (Reduce the echelle spectrum)
 
 Echelle / cross-dispersed frame -> orders -> one merged spectrum.
 
@@ -88,6 +101,11 @@ output, a pipeline's e2ds): wavelengths only, as IRAF ecidentify; None: from the
 inputs:      science
 optional:    flat, arc, guesses, output
 outputs:     echelle
+  science  (file)  Science frame
+  flat  (file)  Flat frame
+  arc  (file)  Arc frame
+  guesses  (object)  Line identifications
+  output  (new_file)  Output file
 parameters (default):
   first_order = null  (int, >= 1)  First order number: The physical number of the first order; empty: found
   order_step = 1  (int)  Order step: +1 or −1: how the numbers run
@@ -111,13 +129,18 @@ parameters (default):
 ## spectroscopy.orbit
 
 ```text
-spectroscopy.orbit
+spectroscopy.orbit  (Fit the spectroscopic orbit)
 
 Keplerian orbit; double-lined (shared elements, K1 and K2) when rv2 is given.
 
 inputs:      time, rv
 optional:    error, rv2, error2
 outputs:     orbit
+  time  (object)  Times
+  rv  (object)  Radial velocities
+  error  (object)  Velocity errors
+  rv2  (object)  Radial velocities, second star
+  error2  (object)  Velocity errors, second star
 parameters (default):
   period = null  (float, d, >= 0.0)  Period guess: Where the orbit fit starts (e.g. from the period search)
   fix_period = false  (bool)  Keep the period: The period is not fitted (known better from photometry)
@@ -126,7 +149,7 @@ parameters (default):
 ## spectroscopy.orders
 
 ```text
-spectroscopy.orders
+spectroscopy.orders  (Find the echelle orders)
 
 Orders of an echelle flat (or bright star) found and traced, to be checked on the Echelle tab: rows at the
 central column, trace coefficients, and the rows that could not be traced. rows: start from these instead of
@@ -134,6 +157,7 @@ the automatic search (after the user removed or added orders).
 
 inputs:      image
 outputs:     orders
+  image  (file)  Image
 parameters (default):
   orientation = "x"  (choice, one of x, y)  Dispersion along: The axis the spectrum runs along
   reverse = false  (bool)  Reversed: Wavelength decreases along the axis
@@ -143,7 +167,7 @@ parameters (default):
 ## spectroscopy.reduce
 
 ```text
-spectroscopy.reduce
+spectroscopy.reduce  (Reduce the long-slit spectrum)
 
 2-D long-slit/slitless frame (dispersion along x) -> 1-D spectrum; wavelengths from an arc
 when an arc and at least two identified (pixel, wavelength) pairs are given.
@@ -151,6 +175,10 @@ when an arc and at least two identified (pixel, wavelength) pairs are given.
 inputs:      science
 optional:    arc, guesses, output
 outputs:     spectrum
+  science  (file)  Science frame
+  arc  (file)  Arc frame
+  guesses  (object)  Line identifications
+  output  (new_file)  Output file
 parameters (default):
   guess_row = null  (float, px, >= 0.0)  Spectrum row: Where the spectrum crosses; empty: the brightest
   trace_row = null  (float, px, >= 0.0)  Reference trace row: A brighter spectrum whose trace shape is used (IRAF apall)
@@ -171,7 +199,7 @@ parameters (default):
 ## spectroscopy.rv
 
 ```text
-spectroscopy.rv
+spectroscopy.rv  (Measure radial velocities)
 
 Radial velocity of each spectrum against a template, barycentric-corrected when the header
 gives the time and the sky position (or coord) and a site is known. With a second template
@@ -184,6 +212,11 @@ the templates' lines broadened by rotation (km/s) to match each star (a fast rot
 inputs:      spectra, template
 optional:    coord, site, template2
 outputs:     rvs, skipped
+  spectra  (files)  Spectra
+  template  (file)  Template spectrum
+  coord  (sky)  Sky position of the target
+  site  (object)  Observatory site
+  template2  (file)  Template of the second star
 parameters (default):
   v_min = -300.0  (float, km/s)  Lowest velocity: The velocity range searched
   v_max = 300.0  (float, km/s)  Highest velocity: The velocity range searched
@@ -200,11 +233,14 @@ parameters (default):
 ## spectroscopy.telluric
 
 ```text
-spectroscopy.telluric
+spectroscopy.telluric  (Telluric correction)
 
 Divide out the atmosphere measured in a telluric standard (strength and shift fitted).
 
 inputs:      spectrum, standard
 optional:    output
 outputs:     telluric
+  spectrum  (file)  Spectrum
+  standard  (file)  Spectrum of the telluric standard
+  output  (new_file)  Output file
 ```

@@ -30,7 +30,7 @@ def _clock(seconds):
 class TaskChip(QToolButton):
     def __init__(self, parent=None, name_of=str, report=None):
         super().__init__(parent)
-        self.name_of = name_of  # step id -> words (ui/step_names.step_name)
+        self.name_of = name_of  # step id -> words (ui/names.step_name)
         self.report = report  # Help → Report a problem…, offered under a failed task
         self.tasks, self.started = {}, {}  # id -> task, id -> monotonic start
         self.setIcon(icon("tasks", self, 16))
