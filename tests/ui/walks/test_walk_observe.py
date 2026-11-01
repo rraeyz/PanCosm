@@ -44,9 +44,10 @@ def test_connect_slew_take_darks_and_see_the_safety(walk, observatory, tmp_path,
     h.type("out_dir", str(tmp_path / "frames"))
     h.click("buttons.start")
     h.wait(lambda: len(list((tmp_path / "frames").glob("*.fits"))) == 2, timeout=60)
+    safe_text = page.safety.text()  # "Safe" in the window's language
     obs.devices["monitor"].IsSafe = False
     obs.supervise_once()
     page._poll()  # the window asks the observatory every few seconds; the walk does not wait for the timer
-    h.wait(lambda: page.safety.text() != h.main.tr("Safe") and obs.devices["mount"].AtPark, timeout=30)
+    h.wait(lambda: page.safety.text() not in ("", safe_text) and obs.devices["mount"].AtPark, timeout=30)
     h.check()
-    assert page.safety.text() not in ("", "Safe", "Güvenli")
+    assert page.safety.text() not in ("", safe_text)

@@ -194,10 +194,9 @@ class Harness:
             index = w.model().index(row, column)
             QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos)
             QTest.mouseDClick(w.viewport(), Qt.LeftButton, pos=pos)
-            editor = QApplication.focusWidget()
-            if not (isinstance(editor, QLineEdit) and w.isAncestorOf(editor)):  # macOS: a double-click may not open it
+            if not self._cell_editor(w):  # macOS: a double-click may not open it
                 w.edit(index)
-            editor = QApplication.focusWidget()
+            editor = self._cell_editor(w) or QApplication.focusWidget()  # macOS offscreen: the focus stays put
             if isinstance(editor, QLineEdit):
                 editor.selectAll()
             QTest.keyClicks(editor, text)
@@ -207,6 +206,11 @@ class Harness:
         shown = w.model().data(w.model().index(row, column))  # committed once the events ran
         if shown != text:
             self.problems.append(f"{name} cell {row},{column} shows {shown!r}, typed {text!r}")
+
+    @staticmethod
+    def _cell_editor(table):
+        """The line edit a table opened over a cell, or None."""
+        return next((e for e in table.viewport().findChildren(QLineEdit) if e.isVisible()), None)
 
     def menu(self, text, budget=BUDGET_S):
         """Trigger the window's menu command with this English source text ("&Open…") or its translation."""
