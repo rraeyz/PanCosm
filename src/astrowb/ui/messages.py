@@ -391,6 +391,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the template does not match this eclipse"),
     QT_TRANSLATE_NOOP("Messages", "no template for this kind of minimum"),
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}"),
+    # models/roche.py (MOD-1)
+    QT_TRANSLATE_NOOP("Messages", "the potential is below the critical one: the surface is not closed"),
     # occult/laws.py (EXO-1)
     QT_TRANSLATE_NOOP("Messages", "the {law} law takes {need} coefficients"),
     QT_TRANSLATE_NOOP("Messages", "the limb-darkening coefficients make the intensity negative near the limb"),

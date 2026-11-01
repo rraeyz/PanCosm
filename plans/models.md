@@ -154,7 +154,15 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
 20; P3: 22.
 
 ### MOD-1. Roche geometry  (P1)
-**open**
+**partial** — done (2026-11-12), items 1–2 and the volume radius in one module, `models/roche.py`: Wilson's modified
+Kopal potential (q, D, F), L1–L3 by bracketed roots on the line of centres, Ω_in and Ω_out, fillout both ways, the
+radius along any direction (the first crossing outward, never past L1 towards the companion; a potential below
+Ω_out refused as an open surface), pole / side / back / point radii, the volume-equivalent radius (Gauss in cos θ ×
+48 longitudes) and its inverse. Tests: L1 at ½ and Ω_in = 3.75 for q = 1, L2 and L3 mirror images; the Roche-lobe
+volume radius within 1 % of Eggleton 1983 for q = 0.1–1; a small star a sphere to 1e-5; radii round-trip to 1e-9;
+fillout 0 and 1 at the critical surfaces. Left: gradients and second derivatives, the surface grid with normals,
+gravity and areas, contact envelopes split at the neck, eccentric volumes, Mochnacki's tables to 1e-5, error codes,
+the 2 ms surface.
 - **Read first:** Wilson 1979 (the potential and its derivatives; volume conservation); Kopal 1959 ch. 3;
   Mochnacki 1984 (ApJS 55, 551: tables of critical potentials and radii to test against); Horvat et al. 2018 §2–3
   (robust computation of critical points, areas and volumes); Kallrath & Milone ch. 3 and appendix on potentials.
