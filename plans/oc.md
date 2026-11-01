@@ -110,7 +110,14 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
 - **Files:** `ui/oc/{window,controller,state,menus}.py`, `ui/oc/panels/{minima,ephemeris,models,uncertainty,report,parameters}.py`, `tests/ui/walks/oc.py`, guide 07
 
 ### OC-1. A minimum is a record  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/minima_table.py`: rows with every column of item 1 and a stable id;
+`parse_text` reads a time anywhere on the line (grouped `2 451 234.5678`, an implied 2 400 000 or 2 450 000,
+footnote marks), its error (plain, `±`, `(3)` in units of the last digits), the kind (I/II, p/s, pri/sec, 1/2), the
+method (CCD, pe, pg, vis, DSLR, TESS / Kepler → space) and a filter; default errors by method with `error_assumed`;
+`add_bjd` (core.units): every standard to BJD_TDB, "HJD unknown" read as HJD_UTC with TT − UTC at its date added in
+quadrature and noted; `mark_duplicates`, `mark_epoch_conflicts`; ECSV (exact round trip), CSV, LaTeX. Tests: ten
+texts in the common styles, HJD_UTC → BJD_TDB against Astropy within 0.1 s for 1900–2030. Left: the column-mapping
+dialog, the services' layouts (OC-4), the OEJV / IBVS / BAV / B.R.N.O. writers, the O−C window on these records.
 - **Ours now:** `ephemeris.Minimum(time, error, kind, source)`; `parse_minima(text)`.
 - **Build:**
   1. `timeseries/minima_table.py`: columns `time_original`, `standard_original` (HJD_UTC | HJD_TT | HJD unknown |
