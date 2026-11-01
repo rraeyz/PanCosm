@@ -162,6 +162,7 @@ def minimum_step(inputs, params, ctx):
     (airmass, fwhm, sky, x, y) fitted together with the trapezoid, on the light curve before any detrending
     (plans/photometry.md item 16)."""
     from ..timeseries.minima import dips, each_minimum
+    from ..timeseries.timing_methods import time_minimum
 
     lc = inputs["light_curve"]
     t, y = np.asarray(lc["time"]), np.asarray(lc["rel_flux"])
@@ -170,6 +171,9 @@ def minimum_step(inputs, params, ctx):
     if params["t0"] is not None and params["period"] and np.ptp(t) > 0.6 * params["period"]:
 
         def timer(tw, yw):  # one minimum in its window
+            if params["method"] not in ("kvw", "trapezoid"):  # OC-2's other methods
+                r = time_minimum(tw, yw, method=params["method"], bootstrap=100)
+                return r.t_min, r.error
             if params["method"] == "kvw":
                 tm, s_kvw, s_boot = kwee_van_woerden(tw, yw)
                 return tm, float(np.nanmax([s_kvw, s_boot]))
@@ -201,6 +205,10 @@ def minimum_step(inputs, params, ctx):
     if params["method"] == "kvw":
         tm, s_kvw, s_boot = kwee_van_woerden(t, y_norm)
         out = {"time": tm, "error": float(np.nanmax([s_kvw, s_boot])), "method": "kvw"}
+    elif params["method"] != "trapezoid":  # OC-2: the three errors and the quality of the timing beside the time
+        r = time_minimum(t, y_norm, None if err is None else err / np.median(y), method=params["method"])
+        out = {"time": r.t_min, "error": r.error, "method": r.method, "errors": r.errors, "quality": r.quality,
+               "notes": r.notes}  # fmt: skip
     else:
         cov = None
         if params.get("detrend_with"):
@@ -541,9 +549,13 @@ describe(
         "method",
         "choice",
         "kvw",
-        choices=("kvw", "trapezoid"),
+        choices=("kvw", "trapezoid", "mikulasek", "gaussian", "lorentzian", "bisector", "polynomial"),
         label=QT_TRANSLATE_NOOP("Steps", "Method"),
-        help=QT_TRANSLATE_NOOP("Steps", "Kwee–van Woerden for eclipses, a trapezoid for transits"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps",
+            "Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek's eclipse model, a Gaussian, a "
+            "Lorentzian, the bisector or a polynomial (each with its three errors)",
+        ),
     ),
     P(
         "t0",

@@ -194,7 +194,8 @@ class Harness:
             index = w.model().index(row, column)
             QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos)
             QTest.mouseDClick(w.viewport(), Qt.LeftButton, pos=pos)
-            if not isinstance(QApplication.focusWidget(), QLineEdit):  # macOS: a double-click may not open it
+            editor = QApplication.focusWidget()
+            if not (isinstance(editor, QLineEdit) and w.isAncestorOf(editor)):  # macOS: a double-click may not open it
                 w.edit(index)
             editor = QApplication.focusWidget()
             if isinstance(editor, QLineEdit):

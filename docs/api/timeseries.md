@@ -45,7 +45,7 @@ outputs:     minimum
   light_curve  (file)  Light curve
   minimum  (object)  Time of minimum
 parameters (default):
-  method = "kvw"  (choice, one of kvw, trapezoid)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits
+  method = "kvw"  (choice, one of kvw, trapezoid, mikulasek, gaussian, lorentzian, bisector, polynomial)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek's eclipse model, a Gaussian, a Lorentzian, the bisector or a polynomial (each with its three errors)
   t0 = null  (time, d)  Reference T0: With the period: every eclipse in the curve gets its own time
   period = null  (float, d, >= 0.0)  Period: Period of the ephemeris used to count the cycles
   detrend_with = []  (table)  Detrend against: Airmass, sky, position… fitted with the transit (trapezoid only)

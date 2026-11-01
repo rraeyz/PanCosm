@@ -2068,10 +2068,15 @@
          "type": "object",
          "properties": {
           "method": {
-           "description": "Method: Kwee–van Woerden for eclipses, a trapezoid for transits",
+           "description": "Method: Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek's eclipse model, a Gaussian, a Lorentzian, the bisector or a polynomial (each with its three errors)",
            "enum": [
             "kvw",
             "trapezoid",
+            "mikulasek",
+            "gaussian",
+            "lorentzian",
+            "bisector",
+            "polynomial",
             null
            ]
           },
