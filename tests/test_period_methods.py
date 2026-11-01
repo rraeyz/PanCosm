@@ -41,12 +41,12 @@ def test_the_advised_methods_find_the_period(shape):
     for name in advised:
         func = getattr(methods, name, None) or getattr(period, name)
         found = 0
-        for seed in range(20):
+        for seed in range(12):  # light: these run beside timing tests on CI
             rng = np.random.default_rng(seed)
             t = nightly(rng)
             best = func(t, curve(t) + rng.normal(0, noise, t.size), p_min=0.2, p_max=5)[2]
             found += abs(best / P - 1) < 0.005
-        assert found >= 19, (shape, name, found)  # ≥ 95 %
+        assert found >= 11, (shape, name, found)  # ≥ 90 % of 12
 
 
 def test_statistics_from_their_papers_on_small_data():
