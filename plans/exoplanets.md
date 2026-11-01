@@ -143,7 +143,14 @@ native twin and the 30 ms budget (0.75 s now for 10⁵ × 5 points in NumPy), th
   `tests/validation/scripts/batman_reference.py`.
 
 ### EXO-2. Radial-velocity model  (P1)
-**open**
+**partial** — done (2026-11-12): `exoplanets/rv.py`: `Planet(P, tc, √e cos ω, √e sin ω, K)` with e, ω and the
+periastron time (the transit at ν = 90° − ω, as occult.model), `model` (Keplerians from spectroscopy.orbit, a zero
+point per instrument, linear and quadratic trend about t_ref), `log_likelihood` (jitter per instrument in the
+variance), `fit_rv` (weighted least squares with the jitters taken from the residuals, then the likelihood with them
+free; errors from the inverse Hessian). Tests: one planet equals `rv_model` to 1e-9; two planets, two instruments:
+every parameter within 3 σ; over 20 realisations 82 % within 1.5 σ (87 % expected for exact errors) and the
+jitters within 20 % on average. Left: the residual periodogram, `spectroscopy/orbit.py` using it, the 90 % with
+EXO-5's sampler.
 - **Read first:** Fulton et al. 2018 (PASP 130, 044504: bases, the bias of fitting e and ω directly, jitter in the
   likelihood); Eastman et al. 2013 §4; Lucy & Sweeney 1971.
 - **Ours now:** `spectroscopy/orbit.py` (`rv_model`, SB1 and SB2 fits).
