@@ -240,7 +240,7 @@ def minimum_step(inputs, params, ctx):
 @step(
     "timeseries.period",
     inputs=("time", "flux"),
-    outputs=("periods", "power", "best", "warnings"),
+    outputs=("periods", "power", "best", "warnings", "peaks", "fap"),
     optional=("err",),
     method="lomb-scargle",
     p_min=0.05,
@@ -270,8 +270,15 @@ def period_step(inputs, params, ctx):
     ctx.progress(0.0, params["method"])
     weighted = {"err": e} if e is not None and params["method"] in ("lomb-scargle", "bls", "gls", "aovmh") else {}
     periods, power, best = func(t, y, p_min=params["p_min"], p_max=p_max, **weighted)
+    from ..timeseries import significance
+
+    peaks = significance.peak_table(periods, power, t)  # PER-4: the aliases and harmonics of each peak
+    fap = None
+    if params["method"] in ("lomb-scargle", "gls") and len(power):  # Baluev's analytic bound for LS-type power
+        fap = significance.fap_baluev(t, y, e, float(np.max(power)), 1 / p_max, 1 / params["p_min"])
     return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best,
-            "warnings": period_warnings(np.ptp(t), params["p_min"], p_max, best, power)}  # fmt: skip
+            "warnings": period_warnings(np.ptp(t), params["p_min"], p_max, best, power), "peaks": peaks,
+            "fap": fap}  # fmt: skip
 
 
 def period_warnings(span, p_min, p_max, best, power=()):
