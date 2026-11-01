@@ -92,7 +92,8 @@ parameters (default):
 ```text
 timeseries.period  (Period search)
 
-Period search of a light curve (Lomb-Scargle, BLS, PDM or ANOVA): the periodogram and the best periods.
+Period search of a light curve (Lomb-Scargle, BLS, PDM, ANOVA, generalised LS, multi-harmonic AoV,
+conditional entropy or string length): the periodogram and the best periods.
 
 inputs:      time, flux
 optional:    err
@@ -105,7 +106,7 @@ outputs:     periods, power, best, warnings
   best  (object)  Best period
   warnings  (object)  Warnings
 parameters (default):
-  method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova)  Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA
+  method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova, gls, aovmh, conditional_entropy, string_length)  Method: Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy
   p_min = 0.05  (float, d, >= 0.0)  Shortest period: The search starts here
   p_max = null  (float, d, >= 0.0)  Longest period: Empty: half the time span
 ```

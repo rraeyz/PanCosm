@@ -247,7 +247,8 @@ def minimum_step(inputs, params, ctx):
     p_max=None,
 )
 def period_step(inputs, params, ctx):
-    """Period search of a light curve (Lomb-Scargle, BLS, PDM or ANOVA): the periodogram and the best periods."""
+    """Period search of a light curve (Lomb-Scargle, BLS, PDM, ANOVA, generalised LS, multi-harmonic AoV,
+    conditional entropy or string length): the periodogram and the best periods."""
     from ..timeseries import period
     from ..timeseries.fourier import anova
 
@@ -260,10 +261,14 @@ def period_step(inputs, params, ctx):
     p_max = params["p_max"] or np.ptp(t) / 2
     if p_max <= params["p_min"]:  # a period needs at least two cycles in the data
         raise ValueError(f"the light curve spans {24 * np.ptp(t):.2g} h: too short to search for periods")
-    funcs = {"lomb-scargle": period.lomb_scargle, "bls": period.bls, "pdm": period.pdm, "anova": anova}
+    from ..timeseries import methods
+
+    funcs = {"lomb-scargle": period.lomb_scargle, "bls": period.bls, "pdm": period.pdm, "anova": anova,
+             "gls": methods.gls, "aovmh": methods.aovmh, "conditional_entropy": methods.conditional_entropy,
+             "string_length": methods.string_length}  # fmt: skip
     func = funcs[params["method"]]
     ctx.progress(0.0, params["method"])
-    weighted = {"err": e} if e is not None and params["method"] in ("lomb-scargle", "bls") else {}  # 1/σ² weights
+    weighted = {"err": e} if e is not None and params["method"] in ("lomb-scargle", "bls", "gls", "aovmh") else {}
     periods, power, best = func(t, y, p_min=params["p_min"], p_max=p_max, **weighted)
     return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best,
             "warnings": period_warnings(np.ptp(t), params["p_min"], p_max, best, power)}  # fmt: skip
@@ -589,9 +594,13 @@ describe(
         "method",
         "choice",
         "lomb-scargle",
-        choices=("lomb-scargle", "bls", "pdm", "anova"),
+        choices=("lomb-scargle", "bls", "pdm", "anova", "gls", "aovmh", "conditional_entropy", "string_length"),
         label=QT_TRANSLATE_NOOP("Steps", "Method"),
-        help=QT_TRANSLATE_NOOP("Steps", "Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps",
+            "Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: "
+            "multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy",
+        ),
     ),
     P(
         "p_min",

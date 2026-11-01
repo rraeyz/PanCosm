@@ -2204,12 +2204,16 @@
          "type": "object",
          "properties": {
           "method": {
-           "description": "Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA",
+           "description": "Method: Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy",
            "enum": [
             "lomb-scargle",
             "bls",
             "pdm",
             "anova",
+            "gls",
+            "aovmh",
+            "conditional_entropy",
+            "string_length",
             null
            ]
           },
