@@ -39,3 +39,17 @@ def test_fillout_marks_the_two_critical_surfaces():
     assert roche.omega_from_fillout(0.5, 0.4) == pytest.approx((om_in + om_out) / 2)
     with pytest.raises(ValueError, match="not closed"):
         roche.radius(om_out * 0.9, 0.4, 0.0, 0.0)
+
+
+def test_the_surface_grid_of_a_sphere_and_of_a_stretched_star():
+    s = roche.surface(100.0, 1e-6, n_theta=30)  # a small star: a sphere of r = 0.01
+    assert s["total_area"] == pytest.approx(4 * np.pi * 1e-4, rel=1e-4)
+    assert s["volume"] == pytest.approx(4 / 3 * np.pi * 1e-6, rel=1e-4)
+    assert np.allclose(np.sum(s["normal"] * s["xyz"], axis=1) / np.linalg.norm(s["xyz"], axis=1), 1, atol=1e-4)
+    om = roche.omega_for_volume_radius(0.35, 0.6)
+    t = roche.surface(om, 0.6, n_theta=30)
+    assert (3 * t["volume"] / (4 * np.pi)) ** (1 / 3) == pytest.approx(0.35, rel=2e-3)  # the same star two ways
+    pole = t["gravity"][np.argmax(t["xyz"][:, 2])]
+    nose = t["gravity"][np.argmax(t["xyz"][:, 0])]
+    assert pole > nose  # weakest gravity towards the companion, where gravity darkening dims the star most
+    assert t["total_area"] > 4 * np.pi * 0.35**2  # a stretched star has more surface than its sphere
