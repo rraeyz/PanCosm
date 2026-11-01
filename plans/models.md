@@ -223,7 +223,18 @@ atmosphere intensities with the blackbody ramp, bolometric terms for reflection,
   A hot-star table (sdB, white dwarfs: the owner's NY Vir is an sdB binary) is a later data pack of MOD-6.
 
 ### MOD-3. Visibility, eclipses and the light curve  (P1)
-**open**
+**partial** — done (2026-11-12): `models/roche_lc.py`: a star as a grid (a sphere, or the Roche surface of MOD-1 with
+gravity-dependent intensity), the second star turned by 180° about z; the eclipse test of item 1 (circumscribed /
+inscribed spheres, then the other star's potential along the sight line); the projected area of each cell from
+its exact ∫u dω (r² M·v for a sphere, first order for Roche); horizon cells split k × k with their own μ; cells near
+the other star's limb split k × k, each sub-point a ramp across its own width (no aliasing, smooth in the
+parameters) weighted by its projected area; `flux(phases, i, star1, star2)`. Measured against the analytic
+two-sphere eclipses (models.eb, quadratic law; total, annular and partial): 1.8–2.8e-5 of the flux with 60 rows
+("normal"), 0.9–2.1e-5 with 90 ("fine") — the plan's 2e-5 / 5e-6 not yet; a Roche pair's ellipsoidal light at
+i = 40°; no jumps in the flux over small steps of i. **Found:** equal sub-point weights biased the depth by 5e-4,
+the midpoint rule of each cell's projected area by O(h²) — both gone. Left: the 5e-6 of "fine", contact
+envelopes and the neck's self-eclipse, sub-point radii on Roche surfaces (the centre's now), the PHOEBE
+comparison (MOD-9), normalisation options and magnitudes, outputs for the views.
 - **Read first:** Wilson & Devinney 1971 §III and the WD documentation on horizon and eclipse computation
   (fractional-area corrections); Prša et al. 2016 §4 (horizon and eclipse detection on a mesh); Maxted 2016 §2
   (ellc's integration scheme and its accuracy tests); Hilditch ch. 5.
