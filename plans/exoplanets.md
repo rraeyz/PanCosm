@@ -184,7 +184,13 @@ EXO-5's sampler.
 - **Files:** `stars/limbdark.py`, `models/roche/limbdark.py` (shares it), `tests/test_limbdark_tables.py`
 
 ### EXO-4. Parameters and everything derived from them  (P1)
-**open**
+**partial** — done (2026-11-12): `exoplanets/derived.py`, pure functions on numbers or posterior samples with their
+sources: ρ★ ↔ a/R★, b for transit and occultation, T14, T23, transit probability (Winn 2010), Mp from the mass
+function, g_p without the star's mass (Southworth et al. 2007), T_eq with albedo and redistribution, incident flux,
+Safronov number, TSM (Kempton et al. 2018); constants from astropy's IAU 2015 B3 nominal values (a test). Tests:
+the Sun's density and the Earth's flux and 255 K from the Earth's orbit, a hot Jupiter's durations by hand,
+Jupiter's mass and gravity from the Sun's 12.5 m/s. Left: the sampling set and its conversions, observed depth per
+band, T_FWHM and τ, ESM, RM amplitude, occultation timing, the HAT-P-3 b comparison with EXOFASTv2.
 - **Read first:** Winn 2010 (equations 14–19, 27–30: durations, probabilities, ρ★); Seager & Mallén-Ornelas 2003;
   Southworth, Wheatley & Sams 2007 (planet surface gravity from K and the light curve without the stellar mass);
   Eastman et al. 2019 table of derived parameters (`derivepars.pro`: the full list and definitions); Kempton et
