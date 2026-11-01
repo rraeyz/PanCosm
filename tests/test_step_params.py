@@ -90,7 +90,7 @@ def test_every_input_is_described_and_a_missing_file_is_named_before_running(tmp
     steps._load_builtin()
     missing = {f"{k}.{n}" for k, s in steps.REGISTRY.items() for n in (*s.inputs, *s.optional) if not io.describe(k, n)}
     assert not missing, f"add these to engine/io.py INPUTS: {sorted(missing)}"
-    with pytest.raises(ValueError, match="folder: there is no"):
+    with pytest.raises(ValueError, match="folder not found"):
         execute("calibration.scan", {"folder": str(tmp_path / "nowhere")}, {}, None)
     io.check("sample.night", {"folder": str(tmp_path / "new")})  # a folder the step makes is not checked
     io.check("photometry.light_curve", {"images": [{"in": "memory"}], "target_xy": [1, 2]})  # only paths are
