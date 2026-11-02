@@ -392,7 +392,11 @@ the energies follow their printed inputs. Left: the damped / quasi-periodic sinu
 - **Files:** `timeseries/oc_dynamical.py`, `tests/test_oc_dynamical.py`
 
 ### OC-11. Cyclic and general terms; periodogram of residuals  (P2)
-**open**
+**partial** — done (2026-11-12): `ephemeris_models.fit(cycles=…)` (sinusoids of given periods in cycles with the
+polynomial, linear), `find_cycle` (χ² over a period grid, refined at its minimum), `cyclic_terms` (semi-amplitude,
+error, phase), `dp_dt_days_per_myr`; the residual periodogram is `ltte.residual_periodogram`. Tests: an RR Lyrae's
+0.3 d/Myr within 1σ in 60–78 % of 100 realisations; a 7000-cycle term found within 2 %. Left: "Fit the highest
+peak as LTTE", the tab, the guide's case.
 - **Build:** sinusoid(s) + polynomial as a quick model (for first looks and for pulsators' O−C); the residual
   periodogram tab (OC-6.3) for every model; "Fit the highest peak as LTTE" one click; O−C of maxima for pulsating
   stars with the same tools (period change rates of RR Lyrae / δ Scuti / Cepheids in d/Myr; the Blazhko-like
