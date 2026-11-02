@@ -110,6 +110,17 @@ def cases(tmp, ci):
     def frequencies():
         execute("timeseries.frequencies", {"time": t.tolist(), "flux": flux.tolist()}, {}, ctx)
 
+    t_freq = np.sort(rng.uniform(0, 100, 100_000))
+    f_true = 1 + np.arange(50) * 0.731
+    y_freq = sum(np.sin(2 * np.pi * (f * t_freq + 0.1 * k)) for k, f in enumerate(f_true))
+    y_freq = y_freq + rng.normal(0, 0.1, t_freq.size)
+
+    def improve_all():  # PER-6: "Improve all" for 50 frequencies on 10^5 points (< 2 s)
+        from astrowb.timeseries import frequency as fq
+
+        terms = [fq.term(f"F{k + 1}", f + 1e-5, 1.0, 0.1 * k) for k, f in enumerate(f_true)]
+        fq.improve_all(t_freq, y_freq, terms, t_ref=0.0)
+
     big = np.linspace(0, 80, 1_000_000)
 
     def decimate():
@@ -199,6 +210,7 @@ def cases(tmp, ci):
         (f"light curve, {n} frames, 4 stars", "Light curve", light_curve, 1),
         (f"period search, {t.size} points (Lomb-Scargle)", "Period search", period, 1),
         (f"frequency analysis, {t.size} points", "Period search", frequencies, 1),
+        ("improve all: 50 frequencies, 10^5 points", "Period search", improve_all, 1),
         ("plot decimation, 30 pans of 10^6 points", "Any click that only changes the view", decimate, 3),
         ("table filter and sort, 10^6 rows", "Any click that only changes the view", table_sort, 3),
         ("Kepler's equation, 10^6 anomalies", "Roche / transit models (native)", kepler, 3),
