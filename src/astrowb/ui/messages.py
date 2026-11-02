@@ -393,6 +393,11 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}"),
     # models/roche.py (MOD-1)
     QT_TRANSLATE_NOOP("Messages", "the potential is below the critical one: the surface is not closed"),
+    # core/inference (EXO-5)
+    QT_TRANSLATE_NOOP("Messages", "the upper limit must be above the lower one"),
+    QT_TRANSLATE_NOOP("Messages", "a log-uniform prior needs a positive lower limit"),
+    QT_TRANSLATE_NOOP("Messages", "the width of a Gaussian prior must be positive"),
+    QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
     # models/spots.py (MOD-8)
     QT_TRANSLATE_NOOP("Messages", "at most {MAX_SPOTS} spots per star"),
     QT_TRANSLATE_NOOP("Messages", "unknown spot overlap rule: {rule}"),
