@@ -181,11 +181,11 @@ def roche_check(r1, r2, q=None):
 
 
 def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=2000, ctx=None, seed=1):
-    """Posterior of the free parameters around a least-squares result (affine-invariant ensemble sampler,
-    emcee; Goodman & Weare 2010). Flat priors inside BOUNDS. Without errors the noise is taken from the
-    fit's rms. Returns {name: (median, minus, plus)} (16th / 84th percentiles), the samples (thinned) and the
-    acceptance fraction. Slower than the least squares: about walkers x steps model evaluations."""
-    import emcee
+    """Posterior of the free parameters around a least-squares result (the shared inference engine:
+    differential-evolution chains that stop when converged, at most `steps` generations). Flat priors inside
+    BOUNDS. Without errors the noise is taken from the fit's rms. Returns {name: (median, minus, plus)} (16th /
+    84th percentiles), the samples (thinned), the acceptance fraction and whether the chains converged."""
+    from ..core.inference import mcmc as engine
 
     t, flux = np.asarray(t, float), np.asarray(flux, float)
     sigma = np.full(len(t), result["rms"]) if err is None else np.asarray(err, float)
@@ -200,24 +200,14 @@ def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=
     hi = np.array([BOUNDS[n][1] for n in free] + [np.inf])
 
     def log_prob(x):
-        if np.any(x <= lo) or np.any(x >= hi):
-            return -np.inf
         q = base | dict(zip(free, x[:-1], strict=True))
         r = (x[-1] * model(t - tref, q, ld1, ld2) - flux) / sigma
         return -0.5 * float(r @ r)
 
-    ndim = len(x0)
-    walkers = max(24, 4 * ndim)
-    rng = np.random.default_rng(seed)
-    start = x0 + scale0 * rng.normal(size=(walkers, ndim))
-    start = np.clip(start, lo + 1e-9, np.where(np.isfinite(hi), hi - 1e-9, np.inf))
-    sampler = emcee.EnsembleSampler(walkers, ndim, log_prob)
-    for i, _ in enumerate(sampler.sample(start, iterations=steps)):
-        if ctx and i % 50 == 0:
-            ctx.check()
-            ctx.progress(0.2 + 0.8 * i / steps, "MCMC")
-    chain = sampler.get_chain(discard=steps // 2, thin=5, flat=True)
+    post = engine.around(log_prob, x0, scale0, [*free, "scale"], lo, hi, steps, seed, ctx, (0.2, 1.0))
+    chain = post.samples.copy()
     chain[:, [i for i, n in enumerate(free) if n == "t0"]] += tref
+    rng = np.random.default_rng(seed)
     out = {}
     for i, n in enumerate(free):
         p16, p50, p84 = np.percentile(chain[:, i], [16, 50, 84])
@@ -227,5 +217,6 @@ def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=
         "params": out,
         "names": free,
         "samples": keep[:, :-1].tolist(),
-        "acceptance": float(np.mean(sampler.acceptance_fraction)),
+        "acceptance": post.acceptance,
+        "converged": post.converged,
     }

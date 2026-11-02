@@ -84,7 +84,7 @@ parameters (default):
   model = "ltte"  (choice, one of ltte, apsidal)  Model: Third body (light-travel time) or apsidal motion
   t0 = 0.0  (time, d)  Reference T0: Epoch zero of the ephemeris
   period = 1.0  (float, d, >= 0.0)  Period: Period of the ephemeris used to count the cycles
-  mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: Length of the Markov chain for the errors; 0: none
+  mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none
 ```
 
 ## timeseries.period

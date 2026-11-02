@@ -22,7 +22,7 @@ parameters (default):
   free = null  (object)  Free parameters: The model's parameters that are fitted; empty: the usual set
   ld1 = [0.0, 0.0]  (table)  Limb darkening, star 1: Quadratic coefficients u1, u2
   ld2 = [0.0, 0.0]  (table)  Limb darkening, star 2: Quadratic coefficients u1, u2
-  mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: Length of the Markov chain for the errors; 0: none
+  mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none
   export_format = "phoebe"  (choice, one of phoebe, wd, transit)  Export for: PHOEBE, Wilson–Devinney or a transit-fitting program
 ```
 

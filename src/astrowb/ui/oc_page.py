@@ -149,7 +149,7 @@ class OCPage(QWidget):
         self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
         self.use_mcmc.setToolTip(
             self.tr(
-                "After the fit, a Markov chain (emcee) explores the third-body or apsidal parameters: 68 % "
+                "After the fit, Markov chains explore the third-body or apsidal parameters: 68 % "
                 "intervals of every parameter, e and ω included, when they depend on each other. A linear or "
                 "quadratic ephemeris is a linear problem: its least-squares errors are already exact."
             )
@@ -159,7 +159,7 @@ class OCPage(QWidget):
         self.mcmc_steps.setSingleStep(500)
         self.mcmc_steps.setValue(2000)
         self.mcmc_steps.setSuffix(self.tr(" steps"))
-        self.mcmc_steps.setToolTip(self.tr("Length of the Markov chain; more steps give steadier errors"))
+        self.mcmc_steps.setToolTip(self.tr("The most steps of the Markov chains; they stop earlier once converged"))
         row.addWidget(self.use_mcmc, 1)
         row.addWidget(self.mcmc_steps)
         lay.addLayout(row)
@@ -264,7 +264,7 @@ class OCPage(QWidget):
             "O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ > 1)."
         ).format(n=n, model=model)
         if getattr(f, "mcmc", None):
-            caption += " " + self.tr("Errors: the larger side of the MCMC 68 % intervals (emcee, {s} steps).").format(
+            caption += " " + self.tr("Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).").format(
                 s=self.mcmc_steps.value()
             )
         return rows, caption

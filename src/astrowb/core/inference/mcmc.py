@@ -142,7 +142,8 @@ def _generation(problem, state, halves, pool, snooker):
 
 
 def _diagnose(problem, state):
-    burn = diagnostics.burn_in(state.lps[: state.step])
+    # a chain that never reaches the final median would discard everything: keep at least the second half
+    burn = min(diagnostics.burn_in(state.lps[: state.step]), state.step // 2)
     post = state.chain[burn : state.step]
     if len(post) < 50:
         return burn, None
@@ -166,7 +167,7 @@ def _next_check(step, every):
 
 def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_limit=1.01, ess_min=1000,
         max_seconds=None, snooker=0.1, spread=1.0, workers=1, temperatures=1, t_max=100.0, checkpoint=None,
-        ctx=None):  # fmt: skip
+        ctx=None, progress=(0.0, 1.0)):  # fmt: skip
     """Sample the problem; returns a results.Posterior. n_chains: at least 2 d and 16 (even). checkpoint: a file
     written every check_every generations and at the end; if it exists the run continues from it. temperatures > 1:
     parallel tempering, n_chains at each of that many temperatures spaced geometrically up to t_max (for posteriors
@@ -191,7 +192,7 @@ def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_l
                 if checkpoint:
                     state.save(checkpoint)
                 if ctx is not None:
-                    ctx.progress(state.step / max_steps)
+                    ctx.progress(progress[0] + (progress[1] - progress[0]) * state.step / max_steps, "MCMC")
                     ctx.check()
                 if max_seconds and time.monotonic() - began > max_seconds:
                     break
@@ -215,3 +216,17 @@ def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_l
     return Posterior(problem.names, post.reshape(-1, problem.dim), state.lps[burn : state.step].ravel(),
                      diagnostics=diag, burn=burn, steps=state.step, converged=converged,
                      chains=state.chain[: state.step], log_probs=state.lps[: state.step])  # fmt: skip
+
+
+def around(log_prob, x0, scale, names, lo=None, hi=None, steps=2000, seed=1, ctx=None, progress=(0.0, 1.0)):
+    """Sample log_prob(x) (flat priors between lo and hi) around a least-squares x0 with scales: the callers'
+    MCMC after a fit. steps: the most generations; the run stops earlier when it has converged."""
+    from .priors import Flat
+    from .problem import Problem
+
+    n = len(x0)
+    lo = np.full(n, -np.inf) if lo is None else np.asarray(lo, float)
+    hi = np.full(n, np.inf) if hi is None else np.asarray(hi, float)
+    params = {k: (Flat(a, b), float(x), float(s)) for k, a, b, x, s in zip(names, lo, hi, x0, scale, strict=True)}
+    problem = Problem(params, lambda v: log_prob(np.array([v[k] for k in names])))
+    return run(problem, seed=seed, max_steps=steps, check_every=100, ctx=ctx, progress=progress)

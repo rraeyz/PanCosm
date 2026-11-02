@@ -161,7 +161,7 @@ class ModelsPage(Undoable, QWidget):
         self.mcmc_steps.setSingleStep(500)
         self.mcmc_steps.setValue(2000)
         self.mcmc_steps.setSuffix(self.tr(" steps"))
-        self.mcmc_steps.setToolTip(self.tr("Length of the Markov chain; more steps give steadier errors"))
+        self.mcmc_steps.setToolTip(self.tr("The most steps of the Markov chains; they stop earlier once converged"))
         row.addWidget(self.use_mcmc, 1)
         row.addWidget(self.mcmc_steps)
         lay.addLayout(row)
