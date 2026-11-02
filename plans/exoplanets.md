@@ -399,7 +399,11 @@ Left: the depth against wavelength, the practice nights through the interface, t
 - **Files:** `services/{exoplanet_archive,exofop,exoclock}.py`, `exoplanets/priors_from_archive.py`, `tests/data/services/…`, `tests/test_exo_archive.py`
 
 ### EXO-11. Candidates: search and vetting  (P2)
-**open**
+**partial** — done (2026-11-12): `exoplanets/vetting.py`: odd / even depths and their difference in σ, the
+secondary at phase 0.5, the SWEET sinusoids at P, P/2 and 2P out of transit, the V-shape (b + k), each with a
+green / amber / red mark: a synthetic planet all green; an eclipsing binary folded at half its period red on odd /
+even; a secondary and an ellipsoidal variation red. Left: the search front end, centroids and difference images
+(PHO-32), Gaia neighbours, the catalogue matches, the one-page sheet.
 - **Read first:** Thompson et al. 2018 (ApJS 235, 38: the Kepler DR25 Robovetter tests); Twicken et al. 2018 (data
   validation: odd / even, secondary, centroid, ghost tests); Eisner et al. 2020 (LATTE); Kostov et al. 2019 (DAVE);
   Giacalone et al. 2021 (TRICERATOPS: probabilities of false-positive scenarios, as background); the TFOP SG1
