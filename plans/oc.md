@@ -405,7 +405,11 @@ peak as LTTE", the tab, the guide's case.
 - **Files:** `timeseries/oc_models.py` (cyclic terms), `timeseries/methods/gls.py` (residual periodogram), `tests/test_oc_cyclic.py`
 
 ### OC-12. Report: tables and figures for a paper, and for observers  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/oc_report.py`: `paren` / `plusminus` (the error's two significant
+digits), `parameter_table` (every model side by side, a dash where a model lacks a parameter; AASTeX deluxetable or
+A&A table; the A&A text stored in the test), `next_minima` (primaries and secondaries in a window, from the linear
+ephemeris or any model's prediction), `methods_text`. Left: compiling the tables in both classes on CI, the
+two-panel figure, the observers' submission layouts, sending predictions to Planning, the interface.
 - **Ours now:** `ui/oc_page.py` → Export results (CSV / LaTeX through `ui/export.save_results`), the O−C plot's publication figure.
 - **Build:** the minima table (OC-1.6 writers); the parameters table with errors in the journal style (value(err)
   and ± forms), for every fitted model side by side; the O−C figure through `ui/plot/publish` (two-panel: O−C with
