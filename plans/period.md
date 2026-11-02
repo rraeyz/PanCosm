@@ -477,7 +477,9 @@ BAV summaries, the W UMa and δ Scuti report checks.
 - **Files:** `timeseries/report.py`, `resources/methods/period_*.txt`, `tests/test_period_report.py`
 
 ### PER-17. Period search for many stars  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/batch.py`: GLS over a list of curves in threads, a row per star (best
+period, power, Baluev's FAP, the second peak and its ratio to the first): 20 stars found, a flat one left
+insignificant. Left: the class suggestion column, thumbnails, the folder input, the GPU batch and its timing.
 - **Build:** batch mode behind PHO-30 and for a folder of light-curve files: one GPU / threaded batch across stars,
   a results table (best period, FAP, second peak, class suggestion) with thumbnails; export.
 - **Accept:** 2000 curves × 300 points × 20 000 frequencies < 2 min CPU, < 20 s GPU.
