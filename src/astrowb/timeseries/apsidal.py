@@ -56,10 +56,10 @@ def times(epochs, t0, ps, e, omega0, d_omega, incl=90.0):
     return t0 + pa * cycle + pa * (m - m0) / (2 * np.pi)
 
 
-def fit(epochs, observed, errors, incl=90.0, e_grid=None, rate_grid=None):
+def fit(epochs, observed, errors, incl=90.0, e_grid=None, rate_grid=None, start=None):
     """T0, Pₛ, e, ω₀, ω̇ by least squares from the best point of a grid over e and ω̇ (with ω₀ on a grid too and
     T0, Pₛ solved linearly there). Returns the parameters, their errors, χ² and the grid's χ² map (e × ω̇) that
-    shows the e–ω̇ valley."""
+    shows the e–ω̇ valley. start: (T0, Pₛ, e, ω₀, ω̇) to refine without the grid (no map then)."""
     ep, t, err = (np.asarray(v, float) for v in (epochs, observed, errors))
     sec = np.abs(ep % 1 - 0.5) < 1e-6
     if sec.sum() < 3 or (~sec).sum() < 3:
@@ -70,8 +70,11 @@ def fit(epochs, observed, errors, incl=90.0, e_grid=None, rate_grid=None):
     rate_grid = np.geomspace(360 / (30 * span), 360 / (span / 4), 60) if rate_grid is None else rate_grid
     w = 1 / err
     best, chi_map = None, np.full((len(e_grid), len(rate_grid)), np.inf)
+    if start is not None:
+        best = (0.0, *start)
+        e_grid = rate_grid = []
     ps0 = np.polyfit(cycle[~sec], t[~sec], 1)[0]
-    omegas = np.arange(0, 360, 30.0)[:, None]  # every ω₀ at once (rows)
+    omegas = np.arange(0, 360, 30.0)[:, None] if start is None else np.zeros((1, 1))  # every ω₀ at once (rows)
     a = np.column_stack([np.ones_like(t), cycle]) * w[:, None]
     proj = a @ np.linalg.pinv(a)  # the fitted T0 + Pₛ E of any data vector
     for i, ecc in enumerate(e_grid):
@@ -87,8 +90,10 @@ def fit(epochs, observed, errors, incl=90.0, e_grid=None, rate_grid=None):
                 best = (float(chi2[k]), coef[0], ps0, ecc, float(omegas[k, 0]), rate)
     t_ref = float(np.round(np.median(t)))
 
+    rel = t - t_ref  # relative times: at 2.45e6 the finite differences of the Jacobian drown in rounding
+
     def resid(p):
-        return (times(ep, p[0] + t_ref, p[1], p[2], p[3], p[4], incl) - t) * w
+        return (times(ep, p[0], p[1], p[2], p[3], p[4], incl) - rel) * w
 
     p0 = np.array([best[1] - t_ref, best[2], best[3], best[4], best[5]])
     sol = least_squares(resid, p0, bounds=([-np.inf, 0, 0, -np.inf, -np.inf], [np.inf, np.inf, 0.95, np.inf, np.inf]),
