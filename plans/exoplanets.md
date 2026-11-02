@@ -326,7 +326,13 @@ its stage.
 - **Files:** `stars/{catalogues,sed,isochrones,star}.py`, data-pack entries, UI star panel, tests, guide 09.
 
 ### EXO-7. The global fit  (P1)
-**open**
+**partial** — done (2026-11-12): `exoplanets/global_fit.py`: the likelihood written data set by data set in the
+module text (transit nights with a baseline polynomial solved by least squares, velocity instruments with γ solved
+exactly and a sampled jitter, flat bounds); planets (P, tc, k, ln a/R★, b at transit, √e cos ω, √e sin ω, K) shared
+by every set; a least-squares start (x_scale="jac" stalled where tc and e start at 0), then the shared engine's
+posterior. Test: three nights in two bands with trends and two RV instruments: P, k, K, b, a/R★ and tc within 3σ.
+Left: the star's constraints (EXO-6), dilution, occultations, TTVs, model selection, the HAT-P-3 validation, the
+speed (2.4 ms per evaluation: a vectorised transit for the chains).
 - **Read first:** `exofast_chi2v2.pro` (how the likelihood is assembled: every data set's contribution, the
   penalties, the bounds — write the list under this step); Eastman et al. 2019 §5–6 (multi-band, multi-instrument
   conventions; error scaling per data set; what is fitted per transit).
