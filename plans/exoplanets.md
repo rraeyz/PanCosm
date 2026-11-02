@@ -285,7 +285,10 @@ models/fit.py and timeseries/oc_models.py (item 8); the speed acceptance (item 4
 - **Files:** `ui/exoplanets/{window,controller,state,menus}.py`, `ui/exoplanets/panels/{data,star,planets,model,fit,uncertainty,results}.py`, `ui/shell/area_registry.py` (new area `exoplanets`), `tests/ui/walks/exoplanets.py`, guide 09b (new chapter) in four languages
 
 ### EXO-6. The host star  (P1)
-**open**
+**partial** — done (2026-11-12): `stars/relations.py`: Torres et al. 2010's calibration of M and R from Teff,
+log g and [Fe/H] (coefficients read from the paper's Table 1, its scatter added to the inputs' errors); the Sun
+gives their 1.051 M☉ and 1.018 R☉. Left: catalogues, the SED, the MIST tracks (data pack), the star object and
+its stage.
 - **Read first:** Eastman et al. 2019 §4 (the star in the global model: SED, parallax, MIST, the error floors on
   broadband photometry and on the models: Teff 2 %, bolometric flux 2 %, as Tayar et al. 2022 argue); Stassun &
   Torres 2016 and Stassun et al. 2018 (SED fitting, Gaia parallax zero point: Lindegren et al. 2021); Dotter 2016
