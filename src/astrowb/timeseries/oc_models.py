@@ -306,18 +306,19 @@ def fit_apsidal(minima, t0_ref, period_ref, mcmc_steps=0, ctx=None):
             best = (chi2, dw, coef)
     _, dw, (t0, ps, ec, es) = best
 
-    def resid(x):
-        return (
-            times - _apsidal(e_int, kinds, x[0], x[1], np.hypot(x[2], x[3]), np.degrees(np.arctan2(x[3], x[2])), x[4])
-        ) / errs
+    rel = times - t0_ref  # T0 as an offset: at 2.4e6 the finite-difference steps of the fit are hours
 
-    sol = least_squares(resid, (t0, ps, ec, es, dw), x_scale="jac")
+    def resid(x):
+        w = np.degrees(np.arctan2(x[3], x[2]))
+        return (rel - _apsidal(e_int, kinds, x[0], x[1], np.hypot(x[2], x[3]), w, x[4])) / errs
+
+    sol = least_squares(resid, (t0 - t0_ref, ps, ec, es, dw), x_scale="jac")
     err, chi2r = _covariance(sol, resid)
 
     def physical(x):
         t0, ps, ec, es, dw = x
         return {
-            "t0": t0,
+            "t0": t0 + t0_ref,
             "period": ps,
             "e": np.hypot(ec, es),
             "omega0": np.degrees(np.arctan2(es, ec)) % 360,
