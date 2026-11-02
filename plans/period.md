@@ -109,7 +109,13 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 - **Files:** `ui/lightcurves/{window,controller,state,menus}.py`, `ui/lightcurves/panels/{data,clean,search,fold,frequencies,report,peaks}.py` (jobs Minima and Variable search as sub-packages), `tests/ui/walks/lightcurves.py`, guide 07
 
 ### PER-1. The light-curve container and its sources  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/lightcurve.py`: `LightCurve` (time with its standard, flux or
+magnitude with errors, set, band, flag bits USER / OUTLIER / QUALITY / UPPER, metadata; select, flagged,
+to_mag / to_flux, normalised per set, phase, append with the sets renumbered, Astropy tables both ways);
+`zero_points` (per-set offsets fitted with the periodic model, as Period04): a 0.03 mag offset between two cameras
+recovered within its error (< 0.003); `weights` (none, errors, per set, Period04's deviation weights). Left: the
+readers of every source (item 2), the CSV wizard, BJD_TDB on load (item 3), the overlap join and band scaling, the
+Data stage, the 5 × 10⁶-point plot check.
 - **Reference:** Period04's time strings with four attributes per point (date, observatory, observer, other),
   weights and zero-point adjustment per subset; lightkurve's `LightCurve` (time, flux, flux_err, quality, meta) and
   `LightCurveCollection.stitch`; AAVSO, ASAS-SN Sky Patrol (v1 and v2), ZTF (IRSA), ATLAS forced photometry, Gaia
