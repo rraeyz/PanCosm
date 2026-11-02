@@ -239,7 +239,17 @@ odd/even averaging, KIC 6525196 against the stored solution, the Light curves wi
 - **Files:** `services/minima_*.py`, UI dialog, tests.
 
 ### OC-5. Ephemeris: linear, quadratic, higher order, segmented; significance  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/ephemeris_models.py`: `fit` (any polynomial order, period
+changes after break epochs with a continuous O−C, an optional offset of the secondaries; weights from errors or
+`weights_by_method` (1 / 3 / 10, editable); robust "huber" or iterative "clip" with the rejected rows marked;
+fitted around the middle epoch, returned in the caller's numbering with the covariance; χ², χ²ᵣ, BIC, AIC);
+`segmented` (1–2 breaks on a full grid, more by moving one at a time; the periods and ΔP/P); `f_test`, `compare`
+(with the one-line verdict), `dp_dt` (s/yr and P/Ṗ), `ecosw` from the secondary offset, `mass_transfer`
+(conservative), `ambiguous` (|O−C| > P/4), `updated` (T0 and P at the middle or the latest epoch) and
+`observer_form` ("Min I = BJD_TDB 2459000.12346(12) + 0.365123451(31) E"). Tests: dP/dt inside 1σ in 60–76 % and
+2σ in ≥ 92 % of 200 realisations; the F-test rejects a parabola on linear data in ≤ 2 % at the 1 % level; a period
+jump located within 300 cycles in 45 of 50. Left: the W UMa published dP/dt check, the interface panel, sending
+the updated ephemeris to Planning.
 - **Ours now:** `ephemeris.fit` (linear / quadratic, weighted, centred epochs).
 - **Build:**
   1. Weights: from errors; or by method (a table of relative weights the user can edit; default 1 / 3 / 10 for
