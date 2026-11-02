@@ -427,7 +427,10 @@ signal shapes, the contour plot, the GPU batch and its 2-minute target.
 - **Files:** `timeseries/injection.py`, `ui/lightcurves/panels/limits.py`, `tests/test_injection.py`
 
 ### PER-13. Multi-band and sparse survey data together  (P2)
-**open**
+**partial** — done (2026-11-12): `methods.multiband` (VanderPlas & Ivezić 2015: a mean per band, shared harmonics
+and each band's own, through the same coarse-to-fine search as the other methods): two sparse bands of an RRab with
+different means and amplitudes give the period within 1e-4. Left: the survey readers' cleaning presets, the
+stacked folded plot, the stored RR Lyrae set's alias check.
 - **Build:** on PER-3's `multiband` and Clarke's string length: joint period search over g / r (ZTF), V / g
   (ASAS-SN), G / BP / RP (Gaia), o / c (ATLAS) with per-band amplitudes and means; the folded plot stacked by band;
   survey-specific cleaning presets (ASAS-SN camera offsets as sets; ZTF `catflags`; ATLAS error cuts) applied by
