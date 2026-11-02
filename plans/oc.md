@@ -311,7 +311,14 @@ oc_models.fit_ltte in the O−C page.
 - **Files:** `timeseries/oc_models.py`, UI models panel, tests, guide 07.
 
 ### OC-7. Apsidal motion: complete  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/apsidal.py`: exact times of minima (the least projected
+separation for any e and i, Kepler's equation, the mean anomaly followed continuously; agrees with the first-order
+displacement (P/π) e cos ω (1 + cosec² i) to e²); `fit` (a grid over e, ω̇ and ω₀ with T0 and Pₛ solved linearly,
+vectorised over ω₀, the χ² map of the e–ω̇ valley kept; then least squares of all five); `derived` (Pₐ, U, ω̇ per
+year), `relativistic` (Giménez 1985), `k2_observed` (Kopal's c₂ᵢ with pseudo-synchronous rotation by default).
+Tests: e = 0.25, U = 80 yr, i = 85° recovered within 2σ; 500 minima in 1.2 ms per evaluation (NumPy). Left: the
+Giménez series twin, a prior on e from the light curve, apsidal + LTTE, the diagram's branches, the published
+system's check, replacing oc_models.fit_apsidal in the O−C page.
 - **Read first:** Giménez & García-Pelayo 1983 (equations 15–21: the series to e⁵ with the inclination terms);
   Giménez & Bastero 1995 (Ap&SS 226, 99: weighted fitting, use of both minima); Lacy 1992 (AJ 104, 2213: the exact
   method: times of conjunction from Kepler's equation); Giménez 1985 (ApJ 297, 405: relativistic term); Claret &
