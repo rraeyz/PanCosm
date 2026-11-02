@@ -36,7 +36,8 @@ def test_a_correlated_20_dimensional_gaussian_with_the_default_stopping_rule():
     sd = np.sqrt(np.diag(cov))
     assert np.all(np.abs(post.samples.mean(axis=0) - mu) / sd < 4 / np.sqrt(ess))
     got = np.cov(post.samples, rowvar=False)
-    assert np.max(np.abs(got - cov) / np.sqrt(np.outer(np.diag(cov), np.diag(cov)))) < 0.03
+    # a covariance element's own Monte Carlo error is about √(2 / ESS) of σᵢσⱼ (3 % at this run's ESS ≈ 2000)
+    assert np.max(np.abs(got - cov) / np.sqrt(np.outer(np.diag(cov), np.diag(cov)))) < 4 * np.sqrt(2 / ess.min())
 
 
 @pytest.mark.slow
@@ -46,7 +47,7 @@ def test_the_banana():
 
     p = Problem({"x": (priors.Uniform(-10, 10), 1.0, 1.0), "y": (priors.Uniform(-10, 50), 1.0, 1.0)}, ll,
                 vectorized=True)  # fmt: skip
-    post = mcmc.run(p, seed=3, max_steps=40000)
+    post = mcmc.run(p, seed=3, max_steps=100000, n_chains=32)  # a curved valley: more chains, more steps
     assert post.converged
     x, y = post.samples.T
     assert np.mean(x) == pytest.approx(1.0, abs=0.08) and np.std(x) == pytest.approx(1.0, rel=0.06)
