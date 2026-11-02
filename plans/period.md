@@ -369,7 +369,11 @@ campaign check, the interface (items 1–2, 6), the native DFT (item 8).
 - **Files:** `native/src/{fold,dft}.rs`, `compute/{gls,dft,aov,entropy,tls,permutation}.py`, `compute/thresholds.json`, `tests/test_compute.py`, `tools/speed.py`
 
 ### PER-9. Time–frequency analysis  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/timefreq.py`: Foster's WWZ (Z, amplitude, N_eff; masked where the
+effective or the absolute weight is below a minimum — N_eff alone counted far points across a gap), `ridge` (the
+peak frequency per time, parabola-refined). Tests: a 300 → 330 d chirp traced within 2 %; a switch from 1.0 to
+1.3 c/d seen on either side of a gap that stays empty. Left: the sliding GLS, the native / GPU twin for the 5 s
+target (NumPy: 2.5 s for a quarter of the grid), the Mira set, the panel.
 - **Read first:** Foster 1996 (AJ 112, 1709: the weighted wavelet Z-transform, constant c and its meaning);
   Templeton 2004 (JAAVSO 32, 41); lightkurve's sliding periodograms.
 - **Build:** `timeseries/timefreq.py`: WWZ (frequency × time grid; Z statistic and the amplitude; decay constant
