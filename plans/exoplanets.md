@@ -438,7 +438,11 @@ coverage test.
 - **Files:** `exoplanets/noise.py`, `pyproject.toml` (celerite2, after the licence and wheel check), `tests/test_exo_gp.py`
 
 ### EXO-14. Observing planets: can I see it, and when  (P2)
-**open**
+**partial** — done (2026-11-12): `exoplanets/observability.py`: `scintillation` (Young 1967), `precision` (the CCD
+equation of planning.exposure, scintillation, the comparisons' share), `detectability` (depth over σ √(1/n_in +
+1/n_out)), `rank` (detectable first, then detectability × the ephemeris drift; transit_timing.drift gives the drift,
+planning.visibility.events the transits of a night). Left: the equipment profile, the recommended exposure and
+filter, the ExoClock priority, the Qatar-1 night check, the delivery to Planning.
 - **Build:** for the user's equipment profile (ARC-16) and a planet: predicted photometric precision per exposure
   and per transit (the noise budget of PHO-34 with the star's magnitude), the transit's detectability in σ, the
   recommended exposure and filter; the list of tonight's / this month's observable transits ranked by
