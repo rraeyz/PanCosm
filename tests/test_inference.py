@@ -134,3 +134,36 @@ def test_posterior_summary_rounding_and_storage(tmp_path):
     post.save(tmp_path / "p.npz")
     back = Posterior.load(tmp_path / "p.npz")
     assert np.array_equal(back.samples, post.samples) and np.allclose(back.column("c"), post.column("c"))
+
+
+def test_the_optimiser_finds_the_best_point_and_reports_both_modes():
+    from astrowb.core.inference import optimise
+
+    def ll(v):  # two separated peaks, the one at +3 higher
+        a = -0.5 * ((v["x"] - 3) ** 2 + (v["y"] - 1) ** 2) / 0.04
+        b = -0.5 * ((v["x"] + 3) ** 2 + (v["y"] + 1) ** 2) / 0.04 - 2.0
+        return np.logaddexp(a, b)
+
+    p = Problem({"x": (priors.Uniform(-10, 10), -3.0, 0.2), "y": (priors.Gaussian(0, 3), -1.0, 0.2)}, ll)
+    x, lp = optimise.best(p)
+    y = 1 / (1 + 0.04 / 9)  # the Gaussian prior on y pulls the peak in
+    assert x == pytest.approx([3, y], abs=1e-5)
+    found = optimise.modes(p, n_starts=32)
+    assert len(found) == 2
+    assert found[0][0] == pytest.approx([3, y], abs=1e-4) and found[1][0] == pytest.approx([-3, -y], abs=1e-4)
+    assert found[0][1] - found[1][1] == pytest.approx(2.0, abs=1e-6)
+
+
+def test_parallel_tempering_weighs_two_separated_modes():
+    def ll(v):  # 30 % at (−3, −3), 70 % at (+3, +3), σ = 0.5: no chain crosses between them without tempering
+        a = -0.5 * ((v["x"] + 3) ** 2 + (v["y"] + 3) ** 2) / 0.25 + np.log(0.3)
+        b = -0.5 * ((v["x"] - 3) ** 2 + (v["y"] - 3) ** 2) / 0.25 + np.log(0.7)
+        return np.logaddexp(a, b)
+
+    p = Problem({"x": (priors.Uniform(-10, 10), 3.0, 0.5), "y": (priors.Uniform(-10, 10), 3.0, 0.5)}, ll,
+                vectorized=True)  # fmt: skip
+    cold = mcmc.run(p, seed=4, max_steps=3000, ess_min=1e9)
+    assert np.mean(cold.samples[:, 0] < 0) < 0.02  # stuck in the mode it started in
+    hot = mcmc.run(p, seed=4, max_steps=40000, temperatures=6, t_max=200)
+    assert hot.converged
+    assert np.mean(hot.samples[:, 0] < 0) == pytest.approx(0.3, rel=0.1)

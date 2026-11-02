@@ -219,8 +219,11 @@ spread by the parameters' scales — a tight start next to the truth passed its 
 73 % coverage); `results.py` (Posterior: summary with 68 / 95 % intervals and mode, derived quantities, correlation,
 rounding to the error's digits, NPZ storage). Tests: the 20-dimensional correlated Gaussian (covariance within 3 %,
 means within 4 Monte Carlo errors — at ESS 1000 a mean is itself good only to 3 % of σ), the banana, coverage 62–74 %
-over 300 intervals, the resumed chain identical. Left: item 3 (optimiser), parallel tempering and the bimodal test,
-the emcee alternative, nested sampling, ECSV / FITS export, the interface kit (item 7) and the migration of
+over 300 intervals, the resumed chain identical. Also done: `optimise.py` (bounds from the priors, differential
+evolution from a Sobol start polished by restarted Nelder–Mead; `modes` from scattered starts, each separate
+maximum reported with its log-probability); parallel tempering in `mcmc.run` (temperatures, t_max; swaps between
+neighbours; cold chains kept): a 30 / 70 % mixture of two modes 8.5 σ apart is weighed within 10 %, where the
+untempered chains stay in the mode they start in. Left: the emcee alternative, nested sampling, ECSV / FITS export, the interface kit (item 7) and the migration of
 models/fit.py and timeseries/oc_models.py (item 8); the speed acceptance (item 4).
 - **Read first:** ter Braak 2006 (Stat. Comput. 16, 239: DE-MC) and ter Braak & Vrugt 2008 (snooker update);
   Goodman & Weare 2010 and Foreman-Mackey et al. 2013 (emcee); Eastman et al. 2013 §2 and 2019 (EXOFAST's
