@@ -99,8 +99,6 @@ dask-image==2026.5.0
     # via reproject
 donfig==0.8.1.post1
     # via zarr
-emcee==3.1.6
-    # via astrowb
 enum-tools==0.13.0
     # via alpyca
 execnet==2.1.2
@@ -196,7 +194,6 @@ numpy==2.4.6 ; python_full_version < '3.12'
     #   contourpy
     #   dask
     #   dask-image
-    #   emcee
     #   gwcs
     #   h5py
     #   imagecodecs
@@ -230,7 +227,6 @@ numpy==2.5.4 ; python_full_version >= '3.12'
     #   contourpy
     #   dask
     #   dask-image
-    #   emcee
     #   gwcs
     #   h5py
     #   imagecodecs

@@ -36,7 +36,6 @@ LIBRARIES = (
     "contourpy",
     "cryptography.hazmat.primitives.asymmetric",
     "cryptography.x509.oid",
-    "emcee",
     "h5py",
     "imagecodecs",
     "matplotlib.backends.backend_qtagg",

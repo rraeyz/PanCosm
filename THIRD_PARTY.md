@@ -34,7 +34,6 @@ copied. Projects consulted are listed below.
 | PySide6 (Qt for Python) | LGPL-3.0 | user interface |
 | photutils | BSD-3-Clause | aperture photometry, centroids |
 | scipy | BSD-3-Clause | fitting, filters |
-| emcee | MIT | MCMC uncertainties of model fits |
 | h5py | BSD-3-Clause | HDF5 / NetCDF-4 rasters |
 | imagecodecs | BSD-3-Clause | JPEG2000 rasters |
 | rawpy (bundles LibRaw: LGPL-2.1 or CDDL-1.0, as a separate shared library; source: https://www.libraw.org) | MIT | DSLR / mirrorless raw files (CR2, NEF, ARW, DNG…) read as the undeveloped sensor mosaic |
@@ -104,7 +103,6 @@ copied. Projects consulted are listed below.
 | contourpy | 1.4.0 | BSD-3-Clause |
 | cryptography | 48.0.1 | Apache-2.0 OR BSD-3-Clause |
 | cycler | 0.12.1 | BSD License |
-| emcee | 3.1.6 | MIT License |
 | enum-tools | 0.13.0 | GNU Lesser General Public License v3 or later (LGPLv3+) |
 | fonttools | 4.68.0 | MIT |
 | h5py | 3.16.0 | BSD-3-Clause |
