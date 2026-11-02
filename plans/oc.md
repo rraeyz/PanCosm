@@ -273,7 +273,17 @@ the updated ephemeris to Planning.
 - **Files:** `timeseries/ephemeris.py`, UI ephemeris panel, tests.
 
 ### OC-6. Light-travel-time effect: complete  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/ltte.py`: one or two orbits on a linear or quadratic
+ephemeris; `search` without start values (differential evolution over P₃, the phase of T₃, √e cos ω, √e sin ω with
+T0, P, Q and the A's solved linearly for the whole population at once; orbits found one at a time, each earlier
+one searched again with the later held — a joint 8-parameter search fell into two orbits of nearly one period);
+`fit` (least squares of everything, errors from the covariance, ω turned by 180° for a negative A); `posterior`
+(the shared inference engine); `derived` (a₁₂ sin i₃, f(m₃), m₃ minimum / at 60° / 30°, the systemic-velocity
+amplitude, cycles covered with a warning below 1.5); `stable` (Mardling & Aarseth 2001). Tests: e₃ = 0.4 over 2.3
+cycles found in 30 of 30 realisations, each parameter within 1.5σ in ≥ 22 of 30; with a parabola; two orbits
+(800 d and 3000 d); 300 minima searched in 1.6 s. Left: the residual periodogram tab (item 3), the Gaia parallax
+and magnitude checks, the diagram's parts and prediction band (item 5), the published system's check, replacing
+oc_models.fit_ltte in the O−C page.
 - **Read first:** Irwin 1952 and 1959; Mayer 1990 (BAICz 41, 231: practical formulas, mass function); OCFit's model
   list (which combinations exist); Zasche & Wolf 2007 (combination with astrometry).
 - **Ours now:** `oc_models.fit_ltte` (one body + linear ephemeris; P₃ grid; eccentric starts; emcee).
