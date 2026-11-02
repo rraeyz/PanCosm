@@ -63,3 +63,30 @@ def test_flux_weighted_velocities_follow_the_centres_and_show_the_rossiter_effec
     delta = (0.01 / 0.1) ** 2
     expected = centre - delta * v_spot / (1 - delta)  # the hidden light's velocity missing from the mean
     assert rv1[0] - centre == pytest.approx(expected - centre, rel=0.03)
+
+
+def test_a_contact_envelope_shows_its_true_outline():
+    """Uniform discs of intensity 1 at i = 90°: the flux is the projected area of the common envelope, measured
+    independently on a pixel grid (along the line of centres at phases 0 and 0.5, across it at quadrature)."""
+    q = 0.4
+    om = roche.omega_from_fillout(0.5, q)
+    s1 = lc.star(None, 1.0, ("uniform", ()), 30, roche_q=q, om=om)
+    s2 = lc.star(None, 1.0, ("uniform", ()), 30, second=True, roche_q=1 / q, om=om / q + (q - 1) / (2 * q))
+    f = lc.flux([0.0, 0.25, 0.5], 90.0, s1, s2)
+    l1, l2, l3 = roche.lagrange(q)
+    x = np.linspace(l3, l2, 801)
+    yz = np.linspace(-0.7, 0.7, 561)
+
+    def inside(px, py, pz):
+        r = np.sqrt(px * px + py * py + pz * pz)
+        with np.errstate(all="ignore"):
+            return roche.omega(r, px / r, pz / r, q) >= om
+
+    xx, zz = np.meshgrid(x, yz)
+    across = inside(xx, 0 * xx, zz).sum() * (x[1] - x[0]) * (yz[1] - yz[0])
+    yy, zz = np.meshgrid(yz, yz)
+    along = np.zeros(yy.shape, bool)
+    for px in x[::4]:
+        along |= inside(px, yy, zz)
+    along = along.sum() * (yz[1] - yz[0]) ** 2
+    assert f == pytest.approx([along, across, along], rel=3e-3)

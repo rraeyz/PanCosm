@@ -52,26 +52,73 @@ def star(radius, intensity, ld=("quadratic", (0.0, 0.0)), n_theta=40, second=Fal
         r = np.full(len(u), float(radius))
         normal, gravity = u, np.ones(len(u))
     else:
-        r = np.array([roche.radius(om, roche_q, x, z) for x, _y, z in u])
+        r = np.array([roche.radius(om, roche_q, x, z, neck=True) for x, _y, z in u])
         g = np.array(roche.gradient(*(u * r[:, None]).T, roche_q))
         gravity = np.linalg.norm(g, axis=0)
         normal = -(g / gravity).T
     area = r * r * cells[:, 4] / np.clip(np.sum(u * normal, axis=1), 1e-6, None)
-    xyz = u * r[:, None]
-    own_normal = normal  # in the star's own frame, for the sub-elements
     # the projected area towards v is r²/(u·n) [(n − u)·v dω + M·v]: exact for a sphere (n = u), first order else
     moment = (normal - u) * cells[:, 4, None] + _moment(cells)
     scale = r * r / np.clip(np.sum(u * normal, axis=1), 1e-6, None)
+    if radius is None:  # steep cells and a contact star's neck: measured piece by piece, the neck plane left dark
+        dark = _fix_rim(cells, u, normal, gravity, r, roche_q, om, area, moment, scale)
+    xyz = u * r[:, None]
+    own_normal = normal  # in the star's own frame, for the sub-elements
     if second:  # turned by 180° about z and moved to x = 1
         xyz = xyz * [-1, -1, 1] + [1.0, 0, 0]
         normal = normal * [-1, -1, 1]
         moment = moment * [-1, -1, 1]
     i0 = intensity(gravity) if callable(intensity) else np.full(len(u), float(intensity))
+    if radius is None:
+        i0 = np.where(dark, 0.0, i0)
     return {
         "xyz": xyz, "normal": normal, "normal_own": own_normal, "area": area, "moment": moment, "scale": scale,
         "r": r, "cells": cells, "i0": i0, "ld": ld, "centre": np.array([1.0 if second else 0.0, 0, 0]),
         "r_min": r.min(), "r_max": r.max(), "second": second, "roche": (roche_q, om) if radius is None else None,
+        "neck": roche.lagrange(roche_q)[0] if radius is None else np.inf,
     }  # fmt: skip
+
+
+def _rim(cell, q, om, l1, m=6):
+    """A cell the radial rays cross badly (nearly along the surface, or partly out through a contact star's neck):
+    split into m × m sub-cells, each a quadrilateral of its corners on the surface; the sub-cells on the neck plane
+    are dropped. Returns (area, area-weighted normal sum, centroid, mean gravity) of the rest, or None if none."""
+    a, b, p, qq, _w = cell
+    th, ph = np.linspace(a, b, m + 1), np.linspace(p, qq, m + 1)
+    u = _dirs(*np.meshgrid(th, ph, indexing="ij"))
+    pts = u * np.array([[roche.radius(om, q, x, z, neck=True) for x, _y, z in row] for row in u])[..., None]
+    on_neck = pts[..., 0] >= l1 * (1 - 1e-9)
+    total, moment, centroid, gravity = 0.0, np.zeros(3), np.zeros(3), 0.0
+    for i in range(m):
+        for j in range(m):
+            if on_neck[i : i + 2, j : j + 2].all():
+                continue
+            c00, c10, c11, c01 = pts[i, j], pts[i + 1, j], pts[i + 1, j + 1], pts[i, j + 1]
+            area = 0.5 * np.linalg.norm(np.cross(c11 - c00, c01 - c10))
+            mid = 0.25 * (c00 + c10 + c11 + c01)
+            g = np.array(roche.gradient(*mid, q))
+            total += area
+            moment += -g / np.linalg.norm(g) * area
+            centroid += mid * area
+            gravity += np.linalg.norm(g) * area
+    return None if total == 0 else (total, moment, centroid / total, gravity / total)
+
+
+def _fix_rim(cells, u, normal, gravity, r, q, om, area, moment, scale, limit=0.5):
+    """Where r̂ · n̂ < limit (the area r² dω / (r̂ · n̂) diverges) or the centre ray leaves through the neck, the
+    cell is measured by _rim (arrays changed in place). Returns the cells left dark (wholly on the neck plane)."""
+    l1 = roche.lagrange(q)[0]
+    neck = u[:, 0] * r >= l1 * (1 - 1e-9)
+    dark = np.zeros(len(u), bool)
+    for i in np.flatnonzero(neck | (np.sum(u * normal, axis=1) < limit)):
+        got = _rim(cells[i], q, om, l1)
+        if got is None:
+            dark[i], normal[i] = True, [1.0, 0, 0]
+            continue
+        area[i], moment[i], centre, gravity[i] = got
+        normal[i] = moment[i] / np.linalg.norm(moment[i])
+        r[i], u[i], scale[i] = np.linalg.norm(centre), centre / np.linalg.norm(centre), 1.0
+    return dark
 
 
 def _inside(star_b, points):
@@ -84,7 +131,8 @@ def _inside(star_b, points):
         return d < star_b["r_min"]
     q, om = star_b["roche"]
     d = np.maximum(d, 1e-12)
-    return roche.omega(d, rel[:, 0] / d, rel[:, 2] / d, q) > om
+    # only B's own side of the L1 plane: a contact envelope's other half is the other star
+    return (roche.omega(d, rel[:, 0] / d, rel[:, 2] / d, q) > om) & (rel[:, 0] < star_b["neck"])
 
 
 def _hidden(points, view, star_b, samples=24):

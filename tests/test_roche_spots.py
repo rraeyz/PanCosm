@@ -38,18 +38,17 @@ def test_overlap_rules_and_limits():
 
 @pytest.mark.slow
 def test_a_cool_spot_makes_the_oconnell_asymmetry_and_a_fit_finds_it():
-    # shortcut: a close detached pair, not a contact one — the grids are not yet cut at the neck (MOD-3)
-    q = 0.8
-    s1 = lc.star(None, 1.0, ("linear", (0.6,)), 24, roche_q=q, om=roche.omega_for_volume_radius(0.33, q))
-    om2 = roche.omega_for_volume_radius(0.29, 1 / q)
-    s2 = lc.star(None, 0.9, ("linear", (0.6,)), 24, second=True, roche_q=1 / q, om=om2)
+    q = 0.4  # a W UMa contact system, fillout 0.3
+    om = roche.omega_from_fillout(0.3, q)
+    s1 = lc.star(None, 1.0, ("linear", (0.6,)), 24, roche_q=q, om=om)
+    s2 = lc.star(None, 0.95, ("linear", (0.6,)), 24, second=True, roche_q=1 / q, om=om / q + (q - 1) / (2 * q))
     ph = np.linspace(0, 1, 24, endpoint=False)
 
     def curve(lon, factor):
-        return spots.flux(ph, 82, s1, s2, spots=([(90, lon, 20, factor)], ()), k=4)
+        return spots.flux(ph, 80, s1, s2, spots=([(90, lon, 20, factor)], ()), k=4)
 
-    data = curve(90.0, 0.94)
+    data = curve(90.0, 0.95)
     assert -2.5 * np.log10(data[6] / data[18]) == pytest.approx(-0.02, abs=0.002)  # maximum II fainter by 0.02 mag
     fit = minimize(lambda p: np.sum((curve(*p) - data) ** 2), [120.0, 0.9], method="Nelder-Mead",
                    options={"xatol": 0.01, "fatol": 1e-18})  # fmt: skip
-    assert fit.x[0] == pytest.approx(90.0, abs=0.5) and fit.x[1] == pytest.approx(0.94, abs=0.002)
+    assert fit.x[0] == pytest.approx(90.0, abs=0.5) and fit.x[1] == pytest.approx(0.95, abs=0.002)
