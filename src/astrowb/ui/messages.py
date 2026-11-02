@@ -400,6 +400,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
     # timeseries/frequency.py (PER-6)
     QT_TRANSLATE_NOOP("Messages", "{child} is related to {parent}, which is itself related"),
+    QT_TRANSLATE_NOOP("Messages", "unknown frequency unit: {freq_unit}"),
     # models/spots.py (MOD-8)
     QT_TRANSLATE_NOOP("Messages", "at most {MAX_SPOTS} spots per star"),
     QT_TRANSLATE_NOOP("Messages", "unknown spot overlap rule: {rule}"),

@@ -89,3 +89,41 @@ def test_improve_all_fits_fifty_terms_together():  # its speed on 10^5 points: t
     got, info = fq.improve_all(t, y, terms, t_ref=0.0)
     assert info["rms"] == pytest.approx(0.1, rel=0.03)
     assert np.allclose([v["freq"] for v in got], f, atol=5e-6)
+
+
+def test_the_periodic_time_shift_of_a_pulsator_in_a_binary():
+    from astrowb.timeseries.oc_models import _tau
+
+    rng = np.random.default_rng(6)
+    t = np.sort(rng.uniform(0, 200, 6000))
+    orbit = {"period": 50.0, "a": 100 / 86400, "t_peri": 12.0, "e": 0.3, "omega": 60.0}
+    emitted = t - _tau(t, orbit["a"], orbit["period"], orbit["t_peri"], orbit["e"], orbit["omega"])
+    y = 10 * np.sin(2 * np.pi * (15.0 * emitted + 0.2)) + 6 * np.sin(2 * np.pi * (18.7 * emitted + 0.6))
+    y = y + rng.normal(0, 1.0, t.size)
+    terms, info = fq.improve_all(t, y, [fq.term("F1", 15.0), fq.term("F2", 18.7)], linear_start=True)
+    start = {"period": 51.0, "a": 70 / 86400, "t_peri": 15.0, "e": 0.2, "omega": 80.0}
+    terms, info, got, err = fq.time_shift(t, y, terms, info, start)
+    assert info["rms"] == pytest.approx(1.0, rel=0.03)
+    for key in ("period", "a", "e", "omega"):
+        assert abs(got[key] - orbit[key]) < 4 * err[key], key
+    assert err["a"] * 86400 < 5  # the light-time amplitude to a few seconds
+
+
+def test_the_table_in_both_units_and_its_exports(tmp_path):
+    from astropy.table import Table
+
+    t, y = three_modes(2, n=1500)
+    terms = start_terms()
+    terms[3]["relation"] = {"F1": 2}
+    terms, info = fq.improve_all(t, y, terms, linear_start=True)
+    cd = fq.to_table(terms, info, amp_unit="mmag")
+    uhz = fq.to_table(terms, info, "uHz")
+    assert uhz["frequency"][0] == pytest.approx(cd["frequency"][0] * 1e6 / 86400)
+    assert cd["relation"][3] == "2F1" and cd["relation"][0] == ""
+    cd.write(tmp_path / "f.ecsv", format="ascii.ecsv")
+    back = Table.read(tmp_path / "f.ecsv")
+    assert back.meta["t_ref"] == info["t_ref"] and str(back["amplitude"].unit) == "mmag"
+    cd.write(tmp_path / "f.tex", format="ascii.latex")
+    assert "\\begin{table}" in (tmp_path / "f.tex").read_text()
+    with pytest.raises(ValueError):
+        fq.to_table(terms, info, "Hz")
