@@ -55,7 +55,10 @@ class System:
         """Impose the morphology on the potentials; the rows it sets are marked locked with the reason."""
         p = self.params
         for k in ("omega1", "omega2"):
-            p[k].locked = ""
+            if k in p:
+                p[k].locked = ""
+        if self.morphology == "detached":
+            return
         q = p["q"].value
         if self.morphology == "semi-detached-1":
             p["omega1"].value, p["omega1"].locked = roche.critical(q)[0], "star 1 fills its Roche lobe"
@@ -65,7 +68,7 @@ class System:
             om = roche.omega_from_fillout(p["fillout"].value, q)
             p["omega1"].value, p["omega1"].locked = om, "set by the fill-out (contact)"
             p["omega2"].value, p["omega2"].locked = to_own_frame(om, q), "the same surface as star 1 (contact)"
-        elif self.morphology != "detached":
+        else:
             morphology = self.morphology
             raise ValueError(f"unknown morphology: {morphology}")
 

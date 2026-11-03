@@ -481,7 +481,13 @@ step and the one-click table.
 - **Files:** `models/estimate.py`, step `models.estimate`, `tests/test_model_estimate.py`
 
 ### MOD-12. Fitting, with a history the user can walk  (P1)
-**open**
+**partial** — done (2026-11-12): `models/fitting.py` on MOD-10's System: the objective over data sets with their
+noise scales and Gaussian priors, weights by the errors or by each set's scatter; the flux scale / zero point solved
+exactly inside; optimisers lm, nelder_mead, powell, de, basin (kicked local fits), careful (DE over the geometric
+parameters, then lm); every run a History row (optimiser, free, χ² before / after, time, values, formal errors)
+restored exactly. Tests on the analytic eclipse model with an unknown flux scale: lm, Nelder–Mead and basin recover
+r₁, r₂, i, J within 4σ; careful from a poor start reaches i within 0.3°; the history restores the earlier row.
+Left: per-iteration sub-rows, live feedback, residual diagnostics, the 40-system test with Roche models, speed.
 - **Ours now:** `models/fit.fit_light_curve` (bounded least squares, covariance errors) — kept as the Simple-level fitter and migrated into `models/fitting.py`.
 - **Read first:** the WD documentation on differential corrections (subsets, damping, why solutions oscillate);
   Conroy et al. 2020 §4.2 (optimisers; differential corrections as a Levenberg–Marquardt variant); Prša & Zwitter
