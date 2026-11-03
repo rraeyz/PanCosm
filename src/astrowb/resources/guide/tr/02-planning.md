@@ -1,0 +1,42 @@
+# Planlama
+**Plan** sayfası hedeflerinizin bu gece ne zaman gözlenebileceğini ve gece boyunca hangi örtme ya da geçişlerin olacağını söyler.
+
+## Gözlem yeriniz
+Gözlemevinin **enlemini** (derece, kuzey artı), **boylamını** (derece, doğu artı) ve **yüksekliğini** (metre) girin. Bunlar hatırlanır. Dikine hızların barisentrik düzeltmesinde ve alacakaranlık zamanlarında da kullanılır.
+
+## Gece ve yükseklik sınırı
+- **Gece başlangıcı:** gecenin başladığı akşamın tarihi.
+- **En düşük yükseklik (°):** bunun altındaki hedef gözlenemez sayılır (ağaçlar, binalar, kalın hava). 20–30° tipiktir.
+
+## Hedef eklemek
+Bir **ad** (SIMBAD'da aranır, ör. `HAT-P-32`, `V523 Cas`, `M 42`) ya da **koordinat** (`02:04:10 +46:41:16` veya ondalık derece) yazıp **Ekle**'ye basın.
+
+**Efemerisle ekle** adı AAVSO **VSX** kataloğunda (değişen yıldızlar) ya da **NASA Ötegezegen Arşivi**'nde (`HAT-P-32 b` gibi gezegenler) arar; koordinat, periyot, başlangıç zamanı ve süreyi doldurur, böylece gecenin örtmeleri ya da geçişleri hemen listelenir. Örten çiftlerde başlangıç zamanı VSX'in birinci minimum zamanıdır (HJD; BJD'den saniyeler kadar farklı) ve *İkincil* işaretlenir; zonklayan yıldızlarda yalnızca periyot gösterilir. İnternet gerekir.
+
+- Bir kez bulunan adlar önbelleğe alınır; sonradan internet olmadan da planlama yapılabilir.
+- **Seçileni kaldır** tablodaki satırları siler.
+
+## Örtmeler ve geçişler
+Örten çiftler ve ötegezegenler için hedef tablosunun sütunlarını doldurun:
+
+- **T0 (BJD):** bir birinci minimum ya da geçiş ortası zamanı (BJD_TDB).
+- Örtmenin ya da geçişin **Periyodu (g)** ve **Süresi (g)**.
+- **İkincil:** ikinci minimumları da (evre 0,5) listelemek için işaretleyin.
+
+Plan, gecenin her olayını UTC olarak başlangıç, orta ve bitiş zamanıyla, yükseklik sınırına ve karanlığa göre **gözlenebilir** olup olmadığıyla (*evet*, *kısmen* ya da hiç) listeler.
+
+## Grafiği okumak
+**Geceyi planla** her hedefin yüksekliğini bütün gece boyunca UTC zamana karşı çizer:
+
+- mavi gölge gün batımından itibaren sivil (−6°), denizcilik (−12°) ve astronomik (−18°) alacakaranlıkla adım adım koyulaşır; en koyu kısım astronomik gecedir;
+- kesikli gri eğri **Ay**'dır, aydınlanma yüzdesi açıklamada yazar;
+- noktalı kırmızı çizgi en düşük yükseklik sınırınızdır;
+- sağ eksen **hava kütlesini** verir; fotometri için hava kütlesi 2'nin (yükseklik 30°'nin üstü) altı en iyisidir;
+- kırmızı üçgenler hedefin eğrisi üzerinde her örtmenin ya da geçişin ortasını gösterir.
+
+Grafiğin altındaki satır astronomik gecenin UTC başlangıç ve bitişini ve olay sayısını verir. Yazın kutuplara yakın yerlerde **astronomik gece olmayabilir**.
+
+## Plandan gözleme
+**Program yap** (*Geceyi planla*'dan sonra) geceyi birden çok hedef için bir programa çevirir: önce gözlenebilir her örtme ya da geçiş, öncesinde ve sonrasında 30 dakikalık taban çizgisiyle (ikisi çakışırsa listenizde üstte olan hedef kazanır); karanlık zamanın geri kalanı birer saatlik bloklarla, her blokta yükseklik sınırınızın en üstünde kalan hedefe. **Gözlem sayfasına gönder** her bloğu başlangıç ve bitişiyle sekansa verir; orada ayarladığınız poz satırları her hedef için kullanılır.
+
+Plandaki zamanları Gözlem sayfasında bir sekansın **Başlangıç** ve **Bitiş**'i olarak kullanın (ya da `dusk` ve `dawn` yazın) veya *Örten çift gecesi* ya da *Ötegezegen geçişi* gibi bir otomasyon şablonundan başlayın.

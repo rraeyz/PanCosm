@@ -1,0 +1,84 @@
+{
+  "name": {
+    "en": "End-of-night calibration and stack",
+    "tr": "Gece sonu kalibrasyonu ve yığma",
+    "de": "Kalibrierung und Stacking am Ende der Nacht",
+    "es": "Calibración y apilado al final de la noche"
+  },
+  "description": {
+    "en": "Take darks and bias at the end of the night with the dome closed, then build masters, calibrate every light frame (matched by exposure, binning, temperature and filter) and stack the aligned frames into one deep image.",
+    "tr": "Gecenin sonunda kubbe kapalıyken dark ve bias çek; sonra master'ları oluştur, her ışık karesini (pozlama, binning, sıcaklık ve filtreye göre eşleyerek) kalibre et ve hizalanmış kareleri tek derin görüntüde yığ.",
+    "de": "Am Ende der Nacht bei geschlossener Kuppel Darks und Bias aufnehmen, dann Master erstellen, jede Light-Aufnahme kalibrieren (passend nach Belichtungszeit, Binning, Temperatur und Filter) und die ausgerichteten Aufnahmen zu einem tiefen Bild stapeln.",
+    "es": "Toma darks y bias al final de la noche con la cúpula cerrada; después crea los másteres, calibra cada toma de ciencia (emparejada por exposición, binning, temperatura y filtro) y apila las tomas alineadas en una sola imagen profunda."
+  },
+  "inputs": {
+    "folder": {
+      "kind": "folder",
+      "label": {
+        "en": "Folder with the night's frames",
+        "tr": "Gecenin kareleri",
+        "de": "Ordner mit den Aufnahmen der Nacht",
+        "es": "Carpeta con las tomas de la noche"
+      }
+    },
+    "output_dir": {
+      "kind": "folder",
+      "label": {
+        "en": "Folder for masters and calibrated frames",
+        "tr": "Master ve kalibre kareler için klasör",
+        "de": "Ordner für Master und kalibrierte Aufnahmen",
+        "es": "Carpeta para los másteres y las tomas calibradas"
+      }
+    },
+    "output": {
+      "kind": "text",
+      "label": {
+        "en": "Stacked image file (.fits)",
+        "tr": "Yığılmış görüntü dosyası (.fits)",
+        "de": "Datei des gestapelten Bildes (.fits)",
+        "es": "Archivo de la imagen apilada (.fits)"
+      }
+    }
+  },
+  "sequence": {
+    "name": "calibration",
+    "start": "dawn",
+    "dither_every": 0,
+    "exposures": [
+      {
+        "kind": "dark",
+        "filter": null,
+        "exptime": 60,
+        "count": 20,
+        "binning": 1
+      },
+      {
+        "kind": "bias",
+        "filter": null,
+        "exptime": 0,
+        "count": 30,
+        "binning": 1
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": "calibration.scan"
+    },
+    {
+      "step": "calibration.run",
+      "params": {
+        "cosmic_rays": true
+      }
+    },
+    {
+      "step": "stacking.stack",
+      "inputs": {
+        "images": "calibrated"
+      },
+      "params": {
+        "sigma": 3.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+"""Calibration as engine steps (run in worker processes, recorded in the project)."""
+
+import re
+from pathlib import Path
+
+from .. import __version__
+from ..engine.steps import step
+from ..io import bayer
+from . import masters
+from .frames import Frame, scan
+from .matching import best_bias, best_dark, group_key, make_plan
+
+
+@step("calibration.scan", inputs=("folder",), outputs=("frames", "problems", "raw_converted"), clock_utc_offset=0.0)
+def scan_step(inputs, params, ctx):
+    """Camera raw files (DSLR, mirrorless) in the folder are first written as FITS to folder/fits_from_raw."""
+    from ..io.bayer import convert_raw_folder
+
+    if not Path(inputs["folder"]).is_dir():
+        raise ValueError(f"folder not found: {inputs['folder']}")
+    raw, raw_problems = convert_raw_folder(
+        inputs["folder"], clock_utc_offset_h=params["clock_utc_offset"], progress=lambda f, n: ctx.progress(0.5 * f, n)
+    )
+    ctx.progress(0.5, "reading headers")
+    frames, problems = scan(Path(inputs["folder"]))
+    return {"frames": [f.as_dict() for f in frames], "problems": raw_problems + problems, "raw_converted": len(raw)}
+
+
+def _frames(dicts):
+    return [Frame(**d | {"binning": tuple(d["binning"]), "shape": tuple(d["shape"])}) for d in dicts]
+
+
+@step(
+    "calibration.run",
+    inputs=("frames", "output_dir"),
+    outputs=("masters", "calibrated", "missing"),
+    sigma=3.0,
+    temp_tol=2.0,
+    cosmic_rays=False,
+    read_noise=10.0,
+    optimize_dark=False,
+    fix_defects=False,
+    divide_flat=True,
+    split_colour=True,
+    linearity=(),
+)
+def run_step(inputs, params, ctx):
+    """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
+    linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty."""
+    with masters.linearity(params["linearity"]):
+        return _run(inputs, params, ctx)
+
+
+def _run(inputs, params, ctx):
+    import numpy as np
+    from astropy.io import fits
+
+    frames = _frames(inputs["frames"])
+    plan = make_plan(frames, params["temp_tol"])
+    out = Path(inputs["output_dir"])
+    (out / "masters").mkdir(parents=True, exist_ok=True)
+    built = {}  # group key -> (data, header, path)
+    kinds = {key: key[0] for key in plan.groups}
+    reps = {group_key(f): f for f in frames if f.kind in kinds.values()}  # one representative frame per group
+
+    def best(kind, rep):  # the already built master of `kind` that matches frame `rep`, by the plan's rules
+        cands = [reps[k] for k in built if k[0] == kind]
+        m = best_bias(rep, cands) if kind == "bias" else best_dark(rep, cands, temp_tol, lambda _: has_bias())
+        return built[group_key(m)] if m else (None, None, None)
+
+    def has_bias():
+        return any(k[0] == "bias" for k in built)
+
+    temp_tol = params["temp_tol"]
+    order = sorted(plan.groups, key=lambda k: ("bias", "dark", "flat").index(kinds[k]))  # flats need bias + dark
+    for n, key in enumerate(order):
+        ctx.check()
+        ctx.progress(0.5 * n / max(1, len(order)), f"master {kinds[key]}")
+        paths, rep = plan.groups[key], reps[key]
+        bias = best("bias", rep)[0]
+        if kinds[key] == "bias":
+            data, h = masters.master_bias(paths, params["sigma"])
+        elif kinds[key] == "dark":
+            data, h = masters.master_dark(paths, bias, params["sigma"])
+        else:  # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
+            dark, dh, _ = best("dark", rep)
+            data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"])
+        name = f"master_{kinds[key]}_{n:02d}.fits"
+        built[key] = (data, h, masters.save(out / "masters" / name, data, h))
+
+    calibrated, defect_maps = [], {}
+    lights = plan.lights
+    for n, entry in enumerate(lights):
+        ctx.check()
+        ctx.progress(0.5 + 0.5 * n / max(1, len(lights)), "calibrating")
+        light, header = masters.load(entry["light"])
+        b = built[entry["bias"]][0] if entry["bias"] else None
+        d, dh = (built[entry["dark"]][0], built[entry["dark"]][1]) if entry["dark"] else (None, None)
+        # spectra: an echelle / long-slit flat is not a sensitivity map (its gaps between orders are near zero);
+        # it is built as a master and used by the spectroscopy page for tracing and the blaze instead
+        f = built[entry["flat"]][0] if entry["flat"] and params["divide_flat"] else None
+        exptime = float(header.get("EXPTIME", 0))
+        k, defects = 1.0, None
+        if params["optimize_dark"] and d is not None:
+            signal = masters.dark_for(exptime, b, d, dh)
+            k = masters.dark_scale(light - (b if b is not None else 0), signal)
+            header["DARKSCAL"] = (round(k, 4), "dark scale that minimised the noise")
+        if params["fix_defects"] and (d is not None or f is not None):
+            pair = (entry["dark"], entry["flat"])
+            if pair not in defect_maps:  # one map per dark / flat pair, saved next to the masters
+                signal = None if d is None else d if dh.get("BIASSUB") or b is None else d - b
+                bad = masters.defect_map(signal, f)
+                path = out / "masters" / f"defects_{len(defect_maps):02d}.fits"
+                masters.save(
+                    path, bad.astype(np.float32), fits.Header({"IMAGETYP": "Defect map", "NBAD": int(bad.sum())})
+                )
+                defect_maps[pair] = (bad, path)
+            defects, path = defect_maps[pair]
+            header["CALDEF"] = (path.name, f"{int(defects.sum())} hot / dead pixels repaired")
+        pattern = bayer.pattern_of(header) if params["split_colour"] else None
+        data = masters.calibrate(light, exptime, b, d, dh, f, dark_factor=k, defects=None if pattern else defects)
+        if pattern and defects is not None:  # fill from pixels of the same colour only
+            data = bayer.repair_cfa(data, defects, masters.repair)
+        for kind in ("bias", "dark", "flat"):
+            used = built[entry[kind]][2] if entry[kind] and (kind != "flat" or f is not None) else "none"
+            header[f"CAL{kind[0].upper()}"] = (Path(used).name, f"{kind} used for calibration")
+        header.add_history(f"calibrated by astrowb {__version__}")
+        # shortcut: lights with the same file name in different sub-folders overwrite each other; add the
+        # sub-folder to the name if users keep such layouts
+        stem = re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", Path(entry["light"]).name, flags=re.I)
+        # a colour mosaic: each colour its own half-size image (cosmic rays are found per colour, after the split)
+        channels = bayer.split(data, pattern).items() if pattern else [("", data)]
+        for colour, plane in channels:
+            h = bayer.channel_header(header, pattern, colour) if pattern else header
+            if params["cosmic_rays"]:
+                plane = _remove_cosmic_rays(plane, h, params["read_noise"])
+            calibrated.append(masters.save(out / f"{stem}{'_' + colour if colour else ''}.fits", plane, h))
+    written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
+    return {"masters": written, "calibrated": calibrated, "missing": plan.missing}
+
+
+def _remove_cosmic_rays(data, header, read_noise):
+    import astroscrappy
+    import numpy as np
+
+    gain = float(header.get("EGAIN", header.get("GAIN", 1.0)) or 1.0)
+    mask, clean = astroscrappy.detect_cosmics(np.nan_to_num(data), gain=gain, readnoise=read_noise)
+    header["CRCLEAN"] = (int(mask.sum()), "pixels replaced by astroscrappy")
+    return np.where(np.isnan(data), np.nan, clean).astype(np.float32)
+
+
+@step("stacking.drizzle", inputs=("images", "output"), outputs=("stack",), scale=2, pixfrac=0.6)
+def drizzle_step(inputs, params, ctx):
+    """Dithered, undersampled frames onto a finer grid (see calibration/drizzle.py); weights as extension 2."""
+    from astropy.io import fits
+
+    from .. import timing
+    from .drizzle import drizzle, scaled_header
+    from .stacking import align_offsets
+
+    paths = timing.chronological(inputs["images"])
+    offsets = align_offsets(paths, ctx)
+    ctx.progress(0.4, "drizzle")
+    image, weight = drizzle((masters.load(p)[0] for p in paths), offsets, params["scale"], params["pixfrac"])
+    header = scaled_header(masters.load(paths[0])[1], params["scale"])
+    header["NCOMBINE"] = (len(paths), "frames drizzled")
+    header["DRIZSCAL"], header["DRIZPIXF"] = (params["scale"], "output pixels per input pixel"), params["pixfrac"]
+    header.add_history(f"drizzled by astrowb {__version__}")
+    fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(weight, name="WEIGHT")]).writeto(
+        inputs["output"], overwrite=True
+    )
+    return {"stack": str(inputs["output"])}
+
+
+@step(
+    "stacking.stack",
+    inputs=("images", "output"),
+    outputs=("stack",),
+    sigma=3.0,
+    method="mean",
+    rejection="sigma",
+    low=1,
+    high=1,
+    normalize="none",
+    weighting="none",
+    align="translation",
+)
+def stack_step(inputs, params, ctx):
+    from .. import timing
+    from .stacking import save_stack, stack
+
+    keys = ("sigma", "method", "rejection", "low", "high", "normalize", "weighting", "align")
+    image, coverage, header = stack(timing.chronological(inputs["images"]), ctx=ctx, **{k: params[k] for k in keys})
+    header.add_history(f"stacked by astrowb {__version__}")
+    return {"stack": save_stack(inputs["output"], image, coverage, header)}

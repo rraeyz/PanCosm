@@ -1,0 +1,75 @@
+# Tayf
+**Tayf** sayfası tayfları indirger ve dikine hızları ölçer. Sekmeleri işin sırasını izler: **İndirgeme** (uzun yarık ve yarıksız), **Eşel**, **Tellürik**, **Radyal hız ve yörünge** ve **IFU küpü**.
+
+## Cihaz profilleri
+Bir spektrografa ait ayarlar (yön, açıklık ve gök genişlikleri, çizgi listesi, kazanç, okuma gürültüsü…) bir **cihaz profili** olarak saklanabilir: üstten bir profil seçin, ayarları değiştirin, "1 m teleskop + Shelyak LHIRES" gibi bir adla **Farklı kaydet…** ya da **Sil**. Profiller ayarlarınızda tutulur; her projede hazırdır.
+
+## Yön
+**Dağılma yönü** satırlar (x) ya da sütunlar (y); dalga boyları soldan sağa azalıyorsa **mavi sağda**. Bunları her cihaz için bir kez ayarlayın; gerisi buna göre işler.
+
+## Uzun yarık indirgeme (İndirgeme)
+1. **Bilim karesini** (kalibre 2-B görüntü) ve dalga boyları için **Ark lambası** karesini seçin.
+2. **Optimal çıkarım (Horne)** her pikseli uzaysal profile göre ağırlıklandırır — sönük yıldızlarda daha iyi sinyal/gürültü. **Açıklık genişliği**, **Gök uzaklığı** ve **Gök genişliği** (piksel) çıkarım penceresini ve izin iki yanındaki gök bantlarını belirler.
+3. **1. Çıkar**: tayf dağılma yönü boyunca izlenir ve çıkarılır; ark da aynı izle çıkarılır ve çizgileri bulunur.
+4. **2. Ark çizgilerine** alttaki grafikte tıklayın ve dalga boylarını (Å) tabloya yazın. En az iki çizgi gerekir; bütün aralığa yayılmış 4–6 çizgi çok daha iyidir. Lambanıza uygun **Ark çizgi listesini** (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…) seçin: kalan çizgiler ondan kendiliğinden tanımlanır.
+5. **3. Dalga boyunu çöz ve kaydet**: bir polinom dalga boyu çözümü fit edilir; rms'i (Å) ve çizgi sayısı gösterilir. 1-B tayf dalga boylarıyla FITS olarak kaydedilir.
+
+## Eşel
+Kareleri önce Kalibrasyon sayfasında **Tayf: flat'e bölme** işaretliyken kalibre edin (yalnızca bias, dark ve kozmik ışınlar), sonra master flat'i burada verin.
+
+1. **Bilim karesini**, **Flat**'i (mertebeleri izler ve blaze'i verir) ve **Ark lambasını (ThAr)** seçin. Mertebeler arasında gök yoksa **Fiber beslemeli**'yi işaretleyin.
+2. **En alt mertebe numarası:** görüntüdeki en alt mertebenin mutlak numarası, spektrograf kılavuzundan. Bilinmiyorsa: m = λ2 / (λ2 − λ1); λ1, λ2 komşu iki mertebede aynı pikseldeki dalga boyları (λ2 uzun olan). **Mertebe numaralarının** yukarı doğru arttığını ya da azaldığını belirtin.
+3. **1. Mertebeleri izle ve çıkar.** **Gösterilen mertebe** hangi mertebenin arkının gösterileceğini seçer.
+   **Mertebeleri denetleme (isteğe bağlı):** **Mertebeleri flat üzerinde göster**, programın bulduğu izleri flat'in üzerine çizer. İyi veride izler doğrudur ve bir şey yapmak gerekmez. Yanlış bir izi (hayalet, kusur, kenarda yarım mertebe) silmek için üzerine tıklayın. Kaçan bir mertebeyi eklemek için onun herhangi bir yerine tıklayın: komşu mertebelerin eğriliği boyunca orta sütuna taşınır ve izlenir. İzlenemeyen mertebeler kırmızı çarpıyla gösterilir ve dışarıda bırakılır. Çıkarma tam olarak gösterilen mertebelerle yapılır. IRAF apfind/aptrace'in aksine ayarlanacak bir şey yoktur: arama penceresi mertebe aralığına göre belirlenir.
+4. **2. Ark çizgilerine tıklayın** — en az iki mertebede, mertebe başına en az üç — ve dalga boylarını yazın.
+5. **3. Çöz, birleştir ve kaydet:** küresel 2-B çözüm (piksel ve mertebe) fit edilir, mertebeler blaze'e bölünüp tek tayfta birleştirilir ve kaydedilir.
+6. **Fiti IRAF ecidentify'daki gibi denetleyin:** alttaki grafik her ark çizgisinin artığını (mÅ) pikseline karşı, mertebeye göre renklendirilmiş olarak gösterir; 3σ kırpmayla reddedilen çizgiler gri çarpıdır. Bir çizgiyi dışarıda bırakmak için (karışmış bir çizgi, yanlış eşleme) noktasına tıklayın, sonra **Dışarıda bırakılan çizgiler olmadan yeniden fitle**'ye basın; **Bütün çizgileri yeniden kullan** bunları unutur.
+7. Birleştirilmiş tayfın yanında her mertebe ayrıca `<ad>_orders.fits` dosyasına kaydedilir (akı, hata ve dalga boyu görüntüleri, mertebe başına bir satır; ORDERS anahtar sözcüğü mertebe numaralarını verir); mertebe mertebe çalışmak için.
+
+**Saçılmış ışığı çıkar** (IRAF apscatter gibi) mertebeler arası boşluklardaki ışığı fitler — dağılıma dik yönde kırpmalı bir polinomla, sonra dağılım boyunca yumuşatarak — ve çıkarmadan önce bilim karesinden ve flat'ten çıkarır. Parlak yıldızlarda ve mertebeleri bir parıltı üstünde duran spektrograflarda kullanın; en az 3 piksellik boşluk gerekir (sık dizilmiş fiber mertebeleri için değil).
+
+## Tellürik düzeltme
+**Tayf (1-B)**'yi ve bir **tellürik standardın** (zamanca ve hava kütlesince yakın gözlenmiş sıcak, hızlı dönen bir yıldız) tayfını seçin. Standart atmosferin geçirgenliğini verir; gücü (hava kütlesi, su buharı) ve küçük bir dalga boyu kayması tellürik bantların içinde fit edilir. **Düzelt ve kaydet** düzeltilmiş tayfı yazar ve önce/sonra grafiğini gösterir.
+
+## Radyal hız ve yörünge
+1. 1-B tayfları **Ekle…** (FITS tablosu, dalga boyu WCS'li 1-B FITS ya da metin dosyası).
+2. Bir **Şablon** seçin (benzer bir yıldızın tayfı ya da sentetik tayf). **Çift çizgili bir çift** için **İkinci şablon** ekleyin: iki yıldız da TODCOR ile ölçülür.
+3. **Yöntem:** keskin çizgili yıldızlar için *Çapraz ilişki* (ikinci şablon verilirse TODCOR); hızlı dönen yıldızlar (tek yıldız) ve temaslı ya da yakın çiftler (iki yıldız) için *Genişleme fonksiyonu*. Genişleme fonksiyonu Doppler profilinin kendisidir; çizgiler çok geniş olsa bile her yıldız kendi dönme profiliyle ayrı görünür. Hızları, her yıldızın **v sin i** değerini ve ışık oranlarını verir. Benzer tayf türünden keskin çizgili bir şablon ve iki profilden de geniş bir hız aralığı kullanın.
+4. **Hedef RA Dec** (boşsa başlıktan alınır), **hız aralığı** ve isteğe bağlı bir **dalga boyu penceresi** (tellürik bantlardan kaçının).
+5. **Radyal hızları ölç:** her tayf şablonla çapraz ilişkilendirilir. Tabloda gözlenen RV, hatası, **barisentrik düzeltme** ve düzeltilmiş RV yer alır. Düzeltme için gözlem zamanı, hedefin konumu ve gözlem yeri (Plan sayfası) gerekir; yoksa "uygulanmadı" yazar.
+6. **Periyot tahmini (gün)** (ör. periyot aramadan) ve **Yörünge fit et:** P, e, ω, K, γ hatalarıyla ve rms. Çift çizgili çiftlerde ayrıca K2, kütle oranı q, iki yıldızın M sin³i değerleri ve a sin i; tek çizgililerde kütle fonksiyonu f(m).
+
+## Çift çizgili bir çifti ayrıştırmak
+İki yıldızın hızları ölçüldükten sonra (TODCOR ya da genişleme fonksiyonu) **İki yıldızın tayfını ayır (disentangling)** dizideki tayflardan her yıldızın kendi tayfını çıkarır (yinelemeli kaydır-ve-topla, González & Levato 2006). Bu tayflarda ölçülen hızları ve ışık oranını kullanır, `star1.fits` ve `star2.fits` dosyalarını yazar. Yörünge boyunca dağılmış en az dört tayf kullanın, tercihen iki kavuşum noktası yakınında birkaçar tane; ayrılmış tayflar ikinci, daha hassas bir hız ölçümü için en iyi şablonlardır ve her yıldızın çizgilerini sınıflandırma için gösterir.
+
+## Tayf türü ve şablonlar
+Radyal hız sekmesindeki **İlk tayfın tayf türü (ve şablon)** ilk tayfı, O5'ten M6'ya bütün ışınım sınıflarından 131 yıldızlık Pickles (1998) kütüphanesiyle karşılaştırır (ilk seferde STScI'den indirilir, yaklaşık 6 MB, sonra ayar klasöründe saklanır). İki tayf da kendi yumuşak sürekliliğine bölünür; böylece aletin renk duyarlılığı önemli olmaz; şablon sizin çözünürlüğünüze yumuşatılır, tellürik bantlar dışarıda bırakılır. En yakın üç tür listelenir, en iyisi radyal hızlar için şablon olur. `templates` klasörüne kendi tayflarınızı da (başlıkta SPTYPE ya da dosya adında tür) koyabilirsiniz.
+
+## Yıldız parametreleri (Teff, log g, [Fe/H])
+**Tayf araçları → Yıldız parametreleri**, açık olan FGK yıldızı tayfına sentetik tayflar uydurur; etkin sıcaklığı, yüzey çekimini, metal bolluğunu, v sin i'yi ve dikine hızı hatalarıyla verir.
+
+1. Tayfı açın (dalgaboyu kalibre edilmiş olmalı; akı kalibrasyonu ve normalizasyon gerekmez: her 100 Å'lık parçaya kendi düzgün sürekliliği uydurulur).
+2. Spektrografınızın **ayırma gücü R** = λ / Δλ değerini girin (λ'nın bir ark çizgisinin FWHM'ine bölümü).
+3. İsterseniz **aynı spektrografla alınmış bir Güneş tayfı** seçin (alacakaranlık göğü, Ay ya da bir asteroit). En iyi referans budur; verilmezse Kurucz (2005) Güneş akı atlası kullanılır.
+4. **Teff, log g, [Fe/H], v sin i bul.** İlk seferde model tayfları indirilir: PHOENIX kütüphanesi (Husser vd. 2013), yalnızca gereken noktalar (her biri yaklaşık 6 MB, 1 MB olarak saklanır) ve Güneş atlası (30 MB, bir kez). Sonraki çalıştırmalar saniyeler sürer.
+
+**Nasıl dürüst kalıyor.** Model tayfları gerçek yıldızları çizgi çizgi vermez: gerçek Güneş'e uydurulduğunda PHOENIX tek başına dalgaboyu aralığına ve ayırma gücüne göre Teff'i 250 K'e, [Fe/H]'yi 0,4 dex'e kadar düşük verir. Bu yüzden program dikkatli tayfçıların yaptığını yapar: Güneş'i tam aynı biçimde (aynı pikseller, aynı ayırma gücü) uydurur, modellerin Güneş'i doğru veremediği dalgaboylarını dışarıda bırakır ve yıldızı **Güneş'e göre** verir. Gerçek Güneş'le R = 20 000'de denendiğinde 5738 ± 21 K, log g 4,40 ± 0,05, [Fe/H] −0,02 ± 0,02 veriyor (gerçek değerler: 5772 K, 4,44, 0,00). Hatalar gürültüyü, Güneş referansını ve ızgara noktaları arasındaki ara değerlemeyi içerir.
+
+**Sınırlar.** FGK yıldızları içindir; Güneş'ten uzak yıldızlarda (sonuç bunu söyler) Güneş referansı daha az güvenilirdir. Yöntem şimdiye kadar yalnızca Güneş'le denetlendi: parametreleri yayımlamadan önce kendi spektrografınızla gözlediğiniz, parametreleri bilinen birkaç ölçüt yıldızında (Gaia FGK ölçüt yıldızları) deneyin ya da en azından kendi spektrografınızdan bir Güneş tayfı kullanın.
+
+## IFU veri küpleri
+**Küpü yükle** 3-B bir FITS küpünü (x, y, dalga boyu) açar.
+
+- **Bir dalgaboyu aralığında ortalama** bir görüntü gösterir; **Çizgi haritası (süreklilik çıkarılmış)** bir çizginin salmasını gösterir: **Merkez (Å)** ve **Genişlik (Å)** verip **Görüntüyü göster**'e basın.
+- Tayfını görmek için **bir spaksele tıklayın**; **Spaksel açıklık yarıçapı** çevresindeki spakselleri toplar. **Tayfı kaydet…** onu yazar.
+
+## Tayf araçları
+**Tayf araçları** sekmesi tek bir 1-B tayf üzerinde çalışır (IRAF splot, BASS, ISIS gibi). **Tayf aç…** uygulamanın kendi tayflarını, dalga boyu çözümlü 1-B FITS görüntülerini (ISIS, BASS, IRAF) ve metin dosyalarını okur.
+
+- **Çizgi işaretleri:** H, He I/II, Ca II, Na D, Mg b, Fe, O I, C, N ve yasak çizgiler; yıldıza uysun diye dikine hız kadar kaydırılabilir.
+- **Çizgi ölç:** grafikte çizginin üstünde sürükleyin (ya da sınırları yazın) ve **Ölç**'e basın. Süreklilik, aralığın iki ucundan geçen düz çizgidir; iki yanda biraz süreklilik bırakın. Sonuç: integralle eşdeğer genişlik ve hatası (piksel gürültüsü + süreklilik yeri), **Gauss** ya da **Voigt** fitinin merkezi, FWHM'si, derinliği ve EW'si, çizgi akısı ve sürekliliğin S/G'si. EW soğurmada pozitif, salmada negatiftir. Her ölçüm tabloya bir satır olarak eklenir (sağ tık: CSV ya da LaTeX).
+- **V/R:** normalize tayfta çift tepeli salma (Be yıldızları): (I_V − 1) / (I_R − 1) ve tepe hızları.
+- **Birçok tayfta ölç…:** aynı aralık birçok dosyada; her satırda dosya, DATE-OBS, EW ve V/R — bir Be yıldızının Hα izleme dizisi tek tıkla.
+- **Tayfı değiştir:** yumuşatma (Gauss, kutu, medyan), bir sayıyla ya da **B tayfıyla** aritmetik (B bu tayfın dalga boylarına örneklenir), eşit adıma yeniden örnekleme, otomatik normalizasyon ya da tıkladığınız noktalardan süreklilik (**Süreklilik noktaları seç**, sonra **Noktalardan normalize et**). **Geri al** bir adım geri gider.
+- **Alet tepkisi:** bir referans yıldızın tayfını açın, **Alet tepkisi…**'ne basın ve bilinen akı dağılımını seçin (aynı türden bir Pickles tayfı — tayf türü aracının indirdiği kütüphane — ya da spektrofotometrik bir standart). Yıldız çizgileri ve tellürik bantlar dışarıda bırakılır, oran spline ile yumuşatılır. Sonra hedefi açın (aynı düzen, aynı gece) ve **Tepkiye böl**'e basın: sonuç göreli akıdadır.
+- **Farklı kaydet…** sonucu yazar; **BeSS / ARAS için dışa aktar…** BeSS veritabanının istediği anahtar kelimelerle (cisim, gözlemci, tarih, poz, alet, yer, güneş merkezli düzeltme, tellürik ve kozmik bayrakları) eşit dalga boyu adımlı 1-B FITS yazar. Göndermeden önce dosyayı BeSS'in kendi denetleyicisiyle kontrol edin.

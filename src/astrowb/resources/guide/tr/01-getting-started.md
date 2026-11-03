@@ -1,0 +1,61 @@
+# Başlarken
+Uygulama gözlem işinin tamamını tek pencerede toplar: hedef seç, geceyi planla, gözle, kalibre et, ölç, modelle ve raporla. Elinizdeki veriyle istediğiniz adımdan başlayabilirsiniz.
+
+## İlk açılış
+Uygulama ilk kez açıldığında İngilizce kısa bir karşılama penceresi üç seçim sorar:
+
+- **Language (Dil)** — arayüz dili. Hemen uygulanır; sonradan **Ayarlar → Dil** menüsünden değiştirilebilir.
+- **Computations run on (Hesaplamalar nerede)** — *Automatic (Otomatik)* ekran kartını işlemciden hızlı olduğunda kullanır (önerilen), *Graphics card (Ekran kartı)* her zaman kullanır, *Processor (CPU) only (Yalnız işlemci)* hiç kullanmaz.
+- **Look (Görünüm)** — *Dark (Karanlık, gece)*: mavimsi siyah, varsayılan; ya da *Light (Aydınlık)*.
+
+**Start (Başla)** düğmesine basın. Seçimler kaydedilir ve bir daha sorulmaz. Ardından bir dakikalık **kısa tur** gelir; atlanabilir ve **Yardım → Kısa tur** ile tekrar açılabilir.
+
+## İlk geceniz (alıştırma verisi)
+Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir örten çiftin minimum zamanına kadar.
+
+1. **Yardım → İlk gece için alıştırma verisi…** ve boş bir klasör seçin. Bir `raw` klasörü oluşur: birincil örtmeden geçen bir çiftin 7 bias, 7 dark (60 sn), 7 V flat ve 48 V ışık karesi; doğru cevaplar da `truth.json` dosyasında.
+2. **Kalibrasyon:** `raw` klasörünü seçip **Tara**'ya basın: tablo 7 bias, 7 dark, 7 flat ve 48 ışık karesi gösterir, eksik yok. Bir çıktı klasörü seçin (ör. `cal`) ve **Kalibre et**'e basın.
+
+![Taramadan sonra Kalibrasyon sayfası](images/tr/first-night-calibrate.png)
+
+3. **Fotometri:** **Görüntüleri seç…** ile kalibre edilmiş `light_V_*.fits` dosyalarını seçin. **Kare kalitesini denetle**'ye basın: bütün kareler iyi. Görüntünün ortasındaki yıldıza (çift, x = 100, y = 80) tıklayın, sonra **Karşılaştırma yıldızı öner** (ya da diğer üç yıldıza tıklayın). Zamanlar BJD_TDB olsun diye *Hedef RA Dec* alanına `02:04:10.3 +46:41:16` yazın ve **Işık eğrisini ölç**'e basın: yaklaşık %45 derinliğinde bir örtme görünür.
+4. **Kwee–van Woerden**'i işaretleyip **Minimum zamanı**'na basın. Sonucu `truth.json` içindeki `t_min_bjd_tdb` ile karşılaştırın: ikisi bir iki dakika içinde uyuşur.
+
+![Işık eğrisi ve minimum zamanıyla Fotometri sayfası](images/tr/first-night-photometry.png)
+
+5. **Aynısı tek seferde:** **Otomasyon** sayfasında *Örten çift gecesi*'ni seçin; `raw` klasörünü, yeni bir çıktı klasörünü ve hedef konumu `100 80` olarak verip **Çalıştır**'a basın. Kalibrasyon, kare kalitesi, mukayese yıldızları, ışık eğrisi ve minimum art arda çalışır; sonuç altta görünür.
+
+![Çalışmaya hazır Örten çift gecesi otomasyonu](images/tr/first-night-automation.png)
+
+6. Daha ileri gitmek için: minimumu kendi referans T0 ve periyodunuzla **O-C** sekmesine yapıştırın, ışık eğrisini dışa aktarın (**CSV olarak dışa aktar…**) ya da **Yörünge ve modeller** sayfasında fit edin.
+
+## Pencere
+- **Kenar çubuğu (sol):** sayfalar bir gözlem gecesinin sırasıyla dizilidir — Başlangıç, Plan, Gözlem, Kalibrasyon, Görüntüler, Fotometri, Işık eğrileri ve O-C, Tayf, Yörüngeler ve modeller, Uzaktan algılama, Otomasyon, Proje ve bu Kılavuz.
+- **Görevler paneli (alt):** her uzun iş (kalibrasyon, fotometri, fit, tayf…) arka planda kendi sürecinde çalışır. Panel ilerlemesini ve durumunu gösterir (sırada, çalışıyor, bitti, başarısız, iptal). Görevler çalışırken çalışmaya devam edebilirsiniz; çöken bir görev pencereyi düşürmez.
+- **Durum çubuğu:** görüntü açıkken farenin altındaki pikselin değeri ve gök koordinatları; görevler çalışırken ilerleme çubuğu.
+- **Menüler:** Dosya (projeler, FITS), Görünüm (yakınlaştırma ve görüntü germe), Görüntü (plaka çözümü, işlemler), Eklentiler, Ayarlar ve Yardım.
+
+## Başlangıç sayfası
+Elinizde ne varsa oradan başlayın:
+
+- **Yeni proje / Proje aç…** kareleri, ayarları ve sonuçları bir arada tutar.
+- **FITS görüntüsü aç** bir görüntüye ve başlığına bakmak için.
+- **Ham karelerim var** → Kalibrasyon. **Kalibre görüntülerim var** → Fotometri. **Tayflarım var** → Tayf. **Minimum ya da RV listelerim var** → Işık eğrileri ve O-C. **Bir gece planlamak istiyorum** → Plan.
+
+## Projeler
+Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı ve çalıştırdığınız her adımı kaydeder: hangi adım, ayarları, ne zaman başladığı, başarılı olup olmadığı ve sonuçları, kullanılan kütüphanelerin sürümleriyle birlikte. Böylece iş tekrar üretilebilir: aylar sonra bir sayının nasıl elde edildiğini tam olarak görebilirsiniz.
+
+- **Dosya → Yeni proje…** dosyayı oluşturur; **Dosya → Proje aç…** önceki işe devam eder.
+- Dosya yolları proje dosyasına göre göreli saklanır; proje klasörünü verisiyle birlikte başka bir bilgisayara taşıyabilirsiniz.
+- **Proje** sayfası dosyaları (türleriyle) ve çalıştırmaların geçmişini ayarlarıyla listeler.
+- Geçmişte bir satır seçince o çalıştırmanın her şeyi görünür: girdileri, ayarları, sonuçları (ya da hatası) ve kütüphane sürümleri. **Aynı girdi ve ayarlarla yeniden çalıştır** onu birebir tekrarlar; tekrar yeni bir çalıştırma olarak kaydedilir.
+- Proje açmadan da çalışabilirsiniz; o zaman hiçbir şey kaydedilmez.
+
+## Ayarlar
+- **Ayarlar → Dil:** İngilizce, Türkçe, Almanca ya da İspanyolca. Bütün metinlerin değişmesi için yeniden başlatmak gerekebilir.
+- **Ayarlar → Görünüm:** Karanlık (gece) ya da Aydınlık. Ekrandaki grafikler yeni renklere geçer. Her grafiğin araç çubuğundaki **Yayın şekli…** görünüm ne olursa olsun onu beyaz zemine siyah olarak kaydeder (PDF, SVG, EPS ya da 300 dpi PNG); her tabloya sağ tıklayıp CSV ya da LaTeX olarak dışa aktarabilirsiniz.
+- **Ayarlar → İşlem birimi:** Otomatik, Yalnız işlemci ya da GPU. Durum çubuğu hangi birimin kullanıldığını gösterir. İkisinin hızını ölçmek için uygulamayı `--benchmark` ile çalıştırın.
+- Ayarlar kullanıcı ayar klasörünüzde küçük bir JSON dosyasında durur; eklentiler ve kendi otomasyonlarınız da onun yanındadır.
+
+## Ekran kartı (GPU)
+Ağır dizi hesapları (ör. sigma kırpmalı yığma) Vulkan, Metal ya da DirectX 12 üzerinden ekran kartında çalışabilir. Her GPU hesabının aynı sonucu veren bir işlemci (CPU) karşılığı vardır; *Otomatik* kartı yalnızca gerçekten daha hızlıysa kullanır. Kullanılabilir bir sürücü bulunmazsa işlemci kullanılır, başka hiçbir şey değişmez.
