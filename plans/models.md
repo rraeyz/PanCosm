@@ -564,7 +564,11 @@ red-noise inflation, storing the chain.
 - **Files:** `models/uncertainty.py`, `core/inference/` (EXO-5), `models/fit.py` (old `mcmc` becomes a wrapper), `tests/test_model_uncertainty.py`, `tests/coverage/test_binary_coverage.py`
 
 ### MOD-15. Absolute dimensions, distance, where the stars sit  (P1)
-**open**
+**partial** — done (2026-11-12): `models/absolute.py` with the IAU 2015 nominal values (tested: the Sun's L = 1,
+M_bol = 4.74, log g = 4.438, ρ = 1.41 g cm⁻³): `derived` (log g, density, L, M_bol, synchronous v), `distance`
+(apparent magnitude, M_bol, the band's BC, extinction), `combined_magnitude`, `against_parallax` (the one-line
+comparison with Gaia). Left: the bolometric corrections from tables, the surface-brightness route, the diagrams,
+the Torres-layout table, AI Phe.
 - **Read first:** Torres, Andersen & Giménez 2010 (A&ARv 18, 67: accurate masses and radii, the nominal solar
   values to use, the consistency checks); IAU 2015 Resolution B3 (nominal solar and conversion constants); Wilson
   2008 (direct distance); Stassun & Torres 2016 (eclipsing binaries against Gaia parallaxes).
