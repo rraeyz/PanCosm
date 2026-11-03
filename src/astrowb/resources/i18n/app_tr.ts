@@ -3619,12 +3619,17 @@
         <translation>{n} konum. En büyük artık {w:.2f}″ (~1″&apos;den büyükse o kareyi kontrol edin).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="151"/>
+        <location filename="../../ui/moving_dialog.py" line="124"/>
+        <source>{k} frames could not be plate-solved and were left out.</source>
+        <translation>{k} kare plaka çözümü yapılamadığı için dışarıda bırakıldı.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>MPC report</source>
         <translation>MPC raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="155"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Rapor yazıldı: {p}. MPC&apos;ye gönderin (obs@minorplanetcenter.net ya da web formu).</translation>
     </message>

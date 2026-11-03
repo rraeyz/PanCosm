@@ -182,6 +182,16 @@ def finder_chart_step(inputs, params, ctx):
 @step("astrometry.solve", inputs=("image",), outputs=("solved",), radius_deg=30.0)
 def plate_solve(inputs, params, ctx):
     """Plate-solve an image; the solution goes into a copy (<name>_wcs.fits), the original is untouched."""
+    from pathlib import Path
+
+    src = Path(inputs["image"])
+    ctx.progress(0.0, "plate solving")
+    return {"solved": str(solved_copy(src, params["radius_deg"]))}
+
+
+def solved_copy(src, radius_deg=30.0):
+    """Plate-solve src; the solution goes into a copy (<name>_wcs.fits), the original is untouched. Returns the
+    copy's path."""
     import re
     from pathlib import Path
 
@@ -190,8 +200,7 @@ def plate_solve(inputs, params, ctx):
     from .. import astrometry
     from ..photometry.lightcurve import target_coord
 
-    src = Path(inputs["image"])
-    ctx.progress(0.0, "plate solving")
+    src = Path(src)
     from ..hdr import get
 
     with fits.open(src) as hdul:
@@ -202,11 +211,11 @@ def plate_solve(inputs, params, ctx):
     pixel_um, focal_mm = get(h, "XPIXSZ", "PIXSIZE1"), get(h, "FOCALLEN")
     scale = 206.265 * pixel_um / focal_mm if pixel_um and focal_mm else None  # arcsec per (binned) pixel
     fov = scale * ny / 3600 if scale else 0.0
-    wcs = astrometry.solve(src, None, ra, dec, params["radius_deg"], fov_deg=fov, scale_arcsec=scale)
+    wcs = astrometry.solve(src, None, ra, dec, radius_deg, fov_deg=fov, scale_arcsec=scale)
     out = src.with_name(re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", src.name, flags=re.I) + "_wcs.fits")
     fitsio.save_as(src, out, history="copy for plate solving", overwrite=True)
     astrometry.apply_solution(out, wcs, (astrometry.find_solver() or ("", []))[0])
-    return {"solved": str(out)}
+    return out
 
 
 @step("image.rgb", inputs=("red", "green", "blue", "output"), outputs=("rgb",), stretch=0.5, q=8.0, align=True)

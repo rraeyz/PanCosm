@@ -3619,12 +3619,17 @@
         <translation>{n} posiciones. Mayor residuo {w:.2f}″ (más de ~1″: revise esa imagen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="151"/>
+        <location filename="../../ui/moving_dialog.py" line="124"/>
+        <source>{k} frames could not be plate-solved and were left out.</source>
+        <translation>{k} tomas no se pudieron resolver astrométricamente y se dejaron fuera.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>MPC report</source>
         <translation>Informe MPC</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="155"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Informe escrito: {p}. Envíelo al MPC (obs@minorplanetcenter.net o el formulario web).</translation>
     </message>

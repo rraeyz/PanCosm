@@ -56,6 +56,8 @@ Todas las posiciones están en píxeles FITS (el primer píxel es 1, 1), como en
 ## Asteroides y cometas
 **Imagen → Astrometría de asteroides y cometas…** mide un objeto en movimiento para el Minor Planet Center. Elija las tomas (calibradas y con reducción astrométrica), haga clic en el objeto en la primera toma y luego en la última; cada toma se mide en la posición prevista a partir de ese movimiento y se recentra, y su AR/Dec sale de la propia solución astrométrica de la toma, a mitad de la exposición en UTC. La columna de residuos muestra cuánto se aleja cada posición de un movimiento rectilíneo: más de 1″ aproximadamente indica una estrella mezclada o una mala solución en esa toma. Rellene el objeto (designación provisional, número o un nombre propio para un objeto nuevo), su código de observatorio del MPC y los observadores, y pulse **Escribir informe MPC (ADES)…**: el archivo está en el formato ADES PSV del MPC, listo para enviar.
 
+Las tomas sin solución astrométrica se resuelven primero (debe estar instalado ASTAP o astrometry.net; el apuntado y la escala del píxel se leen de la cabecera); una toma que no se puede resolver se deja fuera y la ventana indica cuántas.
+
 ## Guardar
 **Archivo → Guardar FITS como…** escribe la imagen actual en un archivo nuevo; la cabecera se conserva y se añade una línea de historial.
 

@@ -1022,7 +1022,7 @@ class MainWindow(QMainWindow):
                 "astrometry.moving",
                 {"images": images, "first_xy": first, "last_xy": last},
                 {},
-                on_done=lambda out: dlg.show_positions(out["positions"]),
+                on_done=lambda out: dlg.show_positions(out["positions"], out.get("unsolved", ())),
             )
         )
         dlg.open()

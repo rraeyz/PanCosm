@@ -56,6 +56,8 @@ Alle Positionen sind in FITS-Pixeln angegeben (das erste Pixel ist 1, 1), wie in
 ## Asteroiden und Kometen
 **Bild → Astrometrie von Asteroiden und Kometen…** vermisst ein bewegtes Objekt für das Minor Planet Center. Wählen Sie die Aufnahmen (kalibriert und astrometrisch gelöst), klicken Sie das Objekt auf der ersten und dann auf der letzten Aufnahme an; jede Aufnahme wird an der aus dieser Bewegung vorhergesagten Position gemessen und neu zentriert, und RA/Dek stammen aus der eigenen astrometrischen Lösung der Aufnahme, zur Belichtungsmitte in UTC. Die Residuenspalte zeigt, wie weit jede Position von einer geradlinigen Bewegung abweicht: mehr als etwa 1″ bedeutet einen verschmolzenen Stern oder eine schlechte Lösung in dieser Aufnahme. Tragen Sie das Objekt (vorläufige Bezeichnung, Nummer oder Ihren eigenen Namen für ein neues Objekt), Ihren MPC-Sternwartencode und die Beobachter ein, dann **MPC-Bericht schreiben (ADES)…**: Die Datei ist im ADES-PSV-Format des MPC und kann sofort verschickt werden.
 
+Bilder ohne astrometrische Lösung werden zuerst gelöst (ASTAP oder astrometry.net muss installiert sein; Ausrichtung und Pixelmaßstab kommen aus dem Header); ein Bild, das sich nicht lösen lässt, wird weggelassen, und das Fenster sagt, wie viele.
+
 ## Speichern
 **Datei → FITS speichern unter…** schreibt das aktuelle Bild in eine neue Datei; der Header bleibt erhalten, und eine History-Zeile wird hinzugefügt.
 

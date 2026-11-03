@@ -108,7 +108,7 @@ class MovingObjectDialog(QDialog):
             self.hint.setText(self.tr("Press Measure positions."))
             self.measure_button.setEnabled(True)
 
-    def show_positions(self, rows):
+    def show_positions(self, rows, unsolved=()):
         self.positions = rows
         self.table.setRowCount(len(rows))
         for r, p in enumerate(rows):
@@ -119,6 +119,11 @@ class MovingObjectDialog(QDialog):
         self.hint.setText(
             self.tr("{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).").format(
                 n=len(rows), w=worst
+            )
+            + (
+                " " + self.tr("{k} frames could not be plate-solved and were left out.").format(k=len(unsolved))
+                if unsolved
+                else ""
             )
         )
         self.export_button.setEnabled(bool(rows))

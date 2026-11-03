@@ -56,6 +56,8 @@ Bütün konumlar, durum çubuğunda ve diğer programlarda olduğu gibi FITS pik
 ## Asteroitler ve kuyruklu yıldızlar
 **Görüntü → Asteroit ve kuyruklu yıldız astrometrisi…** hareketli bir cismi Küçük Gezegen Merkezi (MPC) için ölçer. Kareleri seçin (kalibre ve plaka çözümlü), ilk karede cisme, sonra son karede yine cisme tıklayın; her kare bu hareketten tahmin edilen konumda ölçülüp yeniden merkezlenir, RA/Dec o karenin kendi plaka çözümünden, poz ortasının UTC zamanında alınır. Artık sütunu her konumun düz bir hareketten ne kadar saptığını gösterir: yaklaşık 1″'den fazlası o karede karışmış bir yıldız ya da zayıf bir çözüm demektir. Cismi (geçici adlandırma, numara ya da yeni bir cisim için kendi adınız), MPC gözlemevi kodunuzu ve gözlemcileri yazıp **MPC raporunu yaz (ADES)…**'e basın: dosya MPC'nin ADES PSV biçimindedir, gönderilmeye hazırdır.
 
+Plaka çözümü olmayan kareler önce çözülür (ASTAP ya da astrometry.net kurulu olmalı; yönelim ve piksel ölçeği başlıktan okunur); çözücünün çözemediği bir kare dışarıda bırakılır ve pencere kaç kare olduğunu söyler.
+
 ## Kaydetmek
 **Dosya → FITS'i farklı kaydet…** geçerli görüntüyü yeni bir dosyaya yazar; başlık korunur ve bir geçmiş (HISTORY) satırı eklenir.
 

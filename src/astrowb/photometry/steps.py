@@ -237,13 +237,32 @@ def mission_lc_step(inputs, params, ctx):
     return {"light_curve": archive.join(curves)}
 
 
-@step("astrometry.moving", inputs=("images", "first_xy", "last_xy"), outputs=("positions",), box=11)
+@step("astrometry.moving", inputs=("images", "first_xy", "last_xy"), outputs=("positions", "unsolved"), box=11)
 def moving_step(inputs, params, ctx):
     """Positions of a moving object on plate-solved frames (marked on the first and the last frame)."""
+    from astropy.io import fits
+    from astropy.wcs import WCS
+
+    from ..engine.builtin import solved_copy
+    from ..io.fits import find_image_hdu
     from .moving import track
 
-    ctx.progress(0.1, "astrometry")
-    return {"positions": track(inputs["images"], inputs["first_xy"], inputs["last_xy"], params["box"])}
+    paths, unsolved = [], []
+    for n, p in enumerate(inputs["images"]):  # frames without sky coordinates are plate-solved first
+        with fits.open(p) as hdul:
+            solved = WCS(hdul[find_image_hdu(hdul)].header).has_celestial
+        if solved:
+            paths.append(str(p))
+            continue
+        ctx.progress(0.8 * n / len(inputs["images"]), "plate solving")
+        try:
+            paths.append(str(solved_copy(p)))
+        except Exception:  # a frame the solver cannot solve (clouds, trails) is left out, the others count
+            unsolved.append(str(p))
+    if len(paths) < 2:
+        raise ValueError("the image has no sky coordinates: plate-solve it first (Image menu)")
+    ctx.progress(0.9, "astrometry")
+    return {"positions": track(paths, inputs["first_xy"], inputs["last_xy"], params["box"]), "unsolved": unsolved}
 
 
 @step(

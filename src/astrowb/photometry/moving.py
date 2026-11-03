@@ -28,7 +28,7 @@ def track(paths, first_xy, last_xy, box=11):
     for p, (data, header), t in zip(paths, frames, times, strict=True):
         wcs = WCS(header)
         if not wcs.has_celestial:
-            raise ValueError("the first image has no sky coordinates: plate-solve it first (Image menu)")
+            raise ValueError("the image has no sky coordinates: plate-solve it first (Image menu)")
         f = (t - times[0]) / span if span > 0 else 0.0
         guess = np.asarray(first_xy, float) + f * (np.asarray(last_xy, float) - np.asarray(first_xy, float))
         x, y = recenter(data, [guess], box, max_move=box / 2)[0]
