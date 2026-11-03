@@ -892,3 +892,5 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "Added to the measured position angle"),
     ),
 )
+
+from . import fit_steps  # noqa: E402, F401  (registers photometry.transit_fit)

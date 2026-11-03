@@ -29,6 +29,7 @@ TITLES = {
     "photometry.polarimetry": QT_TRANSLATE_NOOP("Steps", "Polarimetry"),
     "photometry.quality": QT_TRANSLATE_NOOP("Steps", "Find the bad frames"),
     "photometry.suggest_comparisons": QT_TRANSLATE_NOOP("Steps", "Suggest comparison stars"),
+    "photometry.transit_fit": QT_TRANSLATE_NOOP("Steps", "Fit the transit"),
     "photometry.transformation": QT_TRANSLATE_NOOP("Steps", "Transformation coefficients"),
     "photometry.varfind": QT_TRANSLATE_NOOP("Steps", "Search for variable stars"),
     "planning.ephemeris": QT_TRANSLATE_NOOP("Steps", "Look up the ephemeris"),

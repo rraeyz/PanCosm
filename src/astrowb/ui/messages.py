@@ -406,6 +406,8 @@ TEMPLATES = (
     # timeseries/lightcurve.py (PER-1)
     QT_TRANSLATE_NOOP("Messages", "append curves in the same unit and time standard"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting: {kind}"),
+    # photometry/fit_steps.py (PHO-26)
+    QT_TRANSLATE_NOOP("Messages", "unknown detrending series: {name}"),
     # photometry/steps.py (PHO-17)
     QT_TRANSLATE_NOOP("Messages", "no comparison star passed the rules; most were removed by: {reasons}"),
     # timeseries/clean.py (PER-2)

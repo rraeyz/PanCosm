@@ -452,7 +452,14 @@ at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 - **Depends on:** ARC-14.
 
 ### PHO-26. Exact transit and eclipse model fitted in the Photometry window  (P1)
-**open**
+**partial** — done (2026-11-13), the engine and the step: `photometry/transitfit.py` (baseline × occult.model's
+transit × exp(Σ c z) with the detrending series scaled to unit spread; bounded least squares with Gaussian priors;
+times relative to the first point; values, covariance errors, depth in ppt and mmag, inclination, T14, T23, ρ★,
+χ², χ²ᵣ, BIC, RMS, β; `planet_radius`; `compare_detrending` by BIC) and the step `photometry.transit_fit` (series
+airmass, fwhm, sky, x, y from the light curve; limb darkening fixed unless asked). Tests: in 40 synthetic nights
+with an airmass trend all four parameters within 2.5σ in ≥ 36; BIC keeps the airmass term; a prior narrows a/R★;
+265 points in about 65 ms. Left: the Timing stage's table and plot, the archive fill, limb darkening from tables,
+MCMC, the eclipse variant, the Qatar-1 checks, sending the mid-time.
 - **Why:** AstroImageJ's most used feature after the light curve: fit the transit with detrending and priors and read
   depth, duration and mid-time at once. Ours fits a trapezoid; the exact model is one window away.
 - **Reference:** AstroImageJ fit panel (see the table above): parameters and their priors, locks, "auto-update
