@@ -1,32 +1,31 @@
-# Astronomy workbench (working title)
+# PanCosm
 
-**One desktop application for the whole observing workflow** — from choosing a target to the number that goes
-into a paper:
+**An astronomy workbench for the whole observing workflow — from choosing a target to the number that goes
+into a paper.**
 
 > plan the night → control the telescope and camera → calibrate the frames → measure (photometry,
-> spectroscopy, remote sensing) → times of minimum, O-C, periods, orbits and models → reports.
+> spectroscopy, remote sensing) → times of minimum, O-C, periods, orbits and models → reports
 
-Most observers today chain five or six programs together: one to plan, one to run the telescope, one to
-calibrate, one for photometry, a spreadsheet for O-C, another program for spectra. Every hand-over is a chance
-to lose a header keyword, mix up time systems or type a number wrong. This application keeps the whole chain in
-one place, records every step it runs, and lets you **start at whatever step your data are at**: raw FITS
-frames, calibrated images, reduced spectra, a GeoTIFF from a satellite, a list of minimum times or a table of
-radial velocities.
+Most observers chain five or six programs together: one to plan, one to run the telescope, one to calibrate,
+one for photometry, a spreadsheet for O-C, another program for spectra. Every hand-over is a chance to lose a
+header keyword, mix up time systems or type a number wrong. PanCosm keeps the whole chain in one place,
+records every step it runs, and lets you **start at whatever step your data are at**: raw FITS frames,
+calibrated images, reduced spectra, a satellite GeoTIFF, a list of minimum times or a table of radial
+velocities.
 
-It is meant for everyone from amateurs with a small telescope to professional observatories: the defaults do
+It is made for everyone from amateurs with a small telescope to professional observatories: the defaults do
 the right thing, and every setting is there when you need it.
 
-- **Platforms:** Windows 10/11, macOS 12+ (Apple Silicon and Intel), Linux (Ubuntu 22.04+, Debian 12+, Fedora,
-  Arch / CachyOS) on 64-bit PCs and on 64-bit ARM (e.g. a Raspberry Pi at the telescope).
-- **Speed:** heavy array work runs on the graphics card (Vulkan / Metal / DirectX 12) when that is faster, on
-  the processor otherwise — automatically.
-- **Languages:** English, Turkish, German and Spanish — interface, training guide (with screenshots), automation
-  templates and messages, all bundled (no online translation). German and Spanish are drafts awaiting review by native
-  speakers; more languages can be added without touching the code.
-- **Look:** a blue-black dark theme (default) and a light theme.
-
-The product name is defined in one file only (`src/astrowb/resources/brand/brand.toml`), so it can still change;
-this README says "the application".
+- **Free and open source** — GPL-3.0-or-later.
+- **Windows, macOS and Linux** — Windows 10/11, macOS 12+ (Apple Silicon and Intel), Linux on 64-bit PCs and
+  64-bit ARM (e.g. a Raspberry Pi at the telescope).
+- **Fast** — heavy array work runs on the graphics card (Vulkan / Metal / DirectX 12) when that is faster, on
+  the processor otherwise, automatically.
+- **Four languages** — English, Turkish, German and Spanish: interface, built-in training guide, automation
+  templates and messages (German and Spanish are drafts awaiting review by native speakers).
+- **Safe at the telescope** — an independent safety supervisor parks the mount and closes the dome even if
+  the window crashes.
+- **Reproducible** — a project file records every step, its settings and the library versions used.
 
 ---
 
@@ -34,82 +33,71 @@ this README says "the application".
 
 1. [Download and install](#download-and-install)
 2. [First start](#first-start)
-3. [What it does, page by page](#what-it-does-page-by-page)
+3. [What it does](#what-it-does)
 4. [Typical workflows](#typical-workflows)
 5. [Observatory control and safety](#observatory-control-and-safety)
 6. [Projects, automations and plugins](#projects-automations-and-plugins)
 7. [File formats](#file-formats)
 8. [How the results are checked](#how-the-results-are-checked)
 9. [Run from source](#run-from-source)
-10. [Documentation](#documentation)
+10. [Contributing](#contributing)
 11. [Licence](#licence)
 
 ---
 
 ## Download and install
 
-**Releases:** the repository's **Releases** page has the installers of every published version (the
-first is 0.1.0). *Help → Check for updates…* in the application tells you when a newer one is out.
+Download the installer for your system from the **[Releases](https://github.com/rraeyz/PanCosm/releases)**
+page. *Help → Check for updates…* in the application tells you when a newer version is out.
 
-**Latest development build:** every change is built, installed and tested automatically on all three
-systems, and the tested installers can be downloaded from GitHub:
+| Your system | File |
+|---|---|
+| Windows 10 / 11 (64-bit) | `PanCosm-<version>-windows-x64-setup.exe` |
+| macOS 12+ on Apple Silicon (M1–M4) | `PanCosm-<version>-macos-arm64.dmg` |
+| macOS on an Intel Mac | `PanCosm-<version>-macos-x86_64.dmg` |
+| Linux, 64-bit PC | `PanCosm-<version>-linux-x86_64.AppImage` |
+| Linux on 64-bit ARM (Raspberry Pi 4/5 with a 64-bit OS) | `PanCosm-<version>-linux-aarch64.AppImage` |
 
-1. Open the repository on GitHub and go to the **Actions** tab (you need to be signed in to GitHub).
-2. Click the most recent run of the **ci** workflow with a green tick.
-3. Scroll down to **Artifacts** and download the one for your system:
+The installers are **not code-signed yet**, so your system warns the first time; the steps below show how to
+get past that warning.
 
-| Your system | Artifact | File inside the zip |
-|---|---|---|
-| Windows 10 / 11 (64-bit) | `installer-Windows-X64` | `<name>-<version>-windows-x64-setup.exe` |
-| macOS 12+ on Apple Silicon (M1–M4) | `installer-macOS-ARM64` | `<name>-<version>-macos-arm64.dmg` |
-| macOS on an Intel Mac | `installer-macOS-X64` | `<name>-<version>-macos-x86_64.dmg` |
-| Linux, 64-bit PC | `installer-Linux-X64` | `<name>-<version>-linux-x86_64.AppImage` |
-| Linux on 64-bit ARM (Raspberry Pi 4/5 with a 64-bit OS, other ARM boards) | `installer-Linux-ARM64` | `<name>-<version>-linux-aarch64.AppImage` |
+<details>
+<summary><b>Development builds</b> (the newest changes, before a release)</summary>
 
-GitHub delivers artifacts as a `.zip`; unpack it first. Artifacts are kept for 90 days by default; a newer run always
-has fresh ones.
-
-The installers are **not code-signed yet** (signing certificates are a later decision), so the system warns
-the first time. The steps below show how to get past that warning.
+Every change is built, installed and tested automatically on all three systems. Signed in to GitHub, open the
+**Actions** tab, click the newest **ci** run with a green tick and download your system's installer from
+**Artifacts** (`installer-Windows-X64`, `installer-macOS-ARM64`, `installer-macOS-X64`, `installer-Linux-X64`,
+`installer-Linux-ARM64`). GitHub delivers them as `.zip` files; unpack first.
+</details>
 
 ### Windows 10 / 11
 
-1. Double-click `…-windows-x64-setup.exe`.
-2. If Windows SmartScreen says *"Windows protected your PC"*, click **More info → Run anyway**.
-3. The installer needs no administrator rights: it installs for your user (under
-   `%LOCALAPPDATA%\Programs`) unless you choose *install for all users*. It adds a Start-menu entry and
-   optionally a desktop shortcut.
-4. Start it from the Start menu.
+1. Double-click `PanCosm-…-windows-x64-setup.exe`.
+2. If SmartScreen says *"Windows protected your PC"*, click **More info → Run anyway**.
+3. No administrator rights are needed: it installs for your user unless you choose *install for all users*,
+   and adds a Start-menu entry (a desktop shortcut is optional).
 
-Uninstall: *Settings → Apps → Installed apps*, or *Control Panel → Programs and Features*. Your settings,
-plugins and automations stay in `%LOCALAPPDATA%\<name>`, so a reinstall keeps them.
+Uninstall from *Settings → Apps → Installed apps*. Settings, plugins and automations stay in
+`%LOCALAPPDATA%\pancosm`, so a reinstall keeps them.
 
-Installed and started in CI on the current Windows image and on Windows Server 2022.
+### macOS
 
-### macOS (Apple Silicon and Intel)
+1. Open the `.dmg` and drag PanCosm into **Applications**.
+2. The first time, **right-click (or Control-click) PanCosm → Open → Open**.
+   On macOS 15 and later: try to open it once, then **System Settings → Privacy & Security → Open Anyway**.
+   Or in Terminal: `xattr -dr com.apple.quarantine /Applications/PanCosm.app`
 
-1. Double-click the `.dmg`, drag the application into **Applications**.
-2. The first time, **right-click (or Control-click) the application → Open → Open**. A double-click shows
-   *"cannot be opened because the developer cannot be verified"* until you have done this once.
-   - On macOS 15 (Sequoia) and later, open **System Settings → Privacy & Security**, scroll down and click
-     **Open Anyway** after the first attempt.
-   - Or, in Terminal: `xattr -dr com.apple.quarantine /Applications/<name>.app`
-3. Start it from Applications or Launchpad.
+Uninstall by moving it to the Bin. Settings are in `~/Library/Application Support/pancosm`.
 
-Uninstall: move the application to the Bin. Settings are in `~/Library/Application Support/<name>`.
-
-### Linux (AppImage — all distributions)
-
-An AppImage is a single file that runs without installation:
+### Linux (AppImage — every distribution)
 
 ```bash
-chmod +x ./*-linux-*.AppImage
-./*-linux-*.AppImage
+chmod +x PanCosm-*-linux-*.AppImage
+./PanCosm-*-linux-*.AppImage
 ```
 
 Or right-click the file → *Properties → Permissions → Allow executing file as program*, then double-click it.
-
-AppImages need **FUSE 2**. Most desktops have it; if the file does not start and the terminal mentions FUSE:
+AppImages need **FUSE 2**; if the file does not start and the terminal mentions FUSE:
 
 | Distribution | Command |
 |---|---|
@@ -118,194 +106,179 @@ AppImages need **FUSE 2**. Most desktops have it; if the file does not start and
 | Fedora | `sudo dnf install fuse fuse-libs` |
 | Arch / CachyOS / Manjaro | `sudo pacman -S fuse2` |
 
-Without FUSE it still runs with `./…AppImage --appimage-extract-and-run`.
-
-For a menu entry, put the file in `~/Applications` and use a tool such as *Gear Lever* or *AppImageLauncher*,
-or create a `.desktop` file yourself. Settings are in `~/.config/<name>`.
-
-Tested in CI on Ubuntu 22.04 and 24.04, Debian 12, Fedora and Arch Linux.
+Without FUSE it still runs with `--appimage-extract-and-run`. For a menu entry use *Gear Lever* or
+*AppImageLauncher*. Settings are in `~/.config/pancosm`. Tested on Ubuntu 22.04 and 24.04, Debian 12, Fedora
+and Arch Linux.
 
 ### Graphics card
 
-Nothing to install for the GPU part: the application uses the graphics driver you already have (Vulkan on
-Linux and Windows, Metal on macOS, DirectX 12 on Windows). If no usable driver is found, everything runs on the
-processor. To compare the two on your machine run the application with `--benchmark`
-(on Linux: `./…AppImage --benchmark`).
+Nothing to install: PanCosm uses the driver you already have (Vulkan on Linux and Windows, Metal on macOS,
+DirectX 12 on Windows) and falls back to the processor when there is none. Compare the two on your machine with
+`--benchmark`.
 
 ### Optional programs that work together with it
 
-None of these is needed to start; install them when you use the matching feature.
-
-| For | Program | Notes |
-|---|---|---|
-| Plate solving | [ASTAP](https://www.hnsky.org/astap.htm) + one star database, or astrometry.net | Runs locally; nothing is sent over the internet |
-| Telescope / camera / focuser / filter wheel / dome | ASCOM Alpaca drivers, or INDI (`indiserver`) | Classic Windows ASCOM drivers through *ASCOM Remote* |
-| Autoguiding and dithering | [PHD2](https://openphdguiding.org/) | Controlled over its network API |
-| Roche-model light curves | PHOEBE 2 | The application exports the data and a starting solution |
+| For | Program |
+|---|---|
+| Plate solving (runs locally) | [ASTAP](https://www.hnsky.org/astap.htm) with one star database, or astrometry.net |
+| Telescope, camera, focuser, filter wheel, rotator, dome | ASCOM Alpaca drivers, or INDI (`indiserver`); classic ASCOM drivers through *ASCOM Remote* |
+| Autoguiding and dithering | [PHD2](https://openphdguiding.org/) |
+| Roche-model light curves | PHOEBE 2 or the Wilson-Devinney program (PanCosm writes their input) |
 
 ---
 
 ## First start
 
-The first window is in English and asks three things, all changeable later in the **Settings** menu:
-
-- **Language** — English, Turkish, German or Spanish; applied at once.
-- **Computations run on** — *Automatic* (graphics card when it is faster; recommended), *Graphics card* or
-  *Processor only*.
-- **Look** — *Dark* (blue-black) or *Light*.
-
-A one-minute **quick tour** then points at the pages, the Tasks panel and the menus (skip it, or reopen it with
-*Help → Quick tour*). Everything is explained in detail on the **Guide** page (*Help → Training guide*, F1):
-twelve categories from *Getting started* to *Troubleshooting*, searchable, in every interface language.
+The first window asks for the **language**, where computations run (**Automatic** is recommended: the
+graphics card when it is faster) and the **look** (dark or light); all can be changed later in *Settings*.
+A one-minute **quick tour** shows the pages, the Tasks panel and the menus. The **Guide** page
+(*Help → Training guide*, F1) is the full manual: twelve searchable chapters, from *Getting started* to
+*Troubleshooting*, in every interface language.
 
 ---
 
-## What it does, page by page
+## What it does
 
 The sidebar lists the pages in the order of an observing night. Long jobs run in the background in separate
-processes with their progress in the **Tasks** panel, so the window never freezes and a crash in one job never
-takes the application down.
-
-### Start
-Pick what you have — raw frames, calibrated images, spectra, a list of minima or radial velocities, or
-nothing yet and you want to plan — and you are taken to the right page. New or existing project, or just
-open a FITS file.
+processes, with progress in the **Tasks** panel: the window never freezes, and a crash in one job never takes
+the application down. Right-click any page in the sidebar to show it as a **panel beside the image**; every
+border can be dragged.
 
 ### Plan
-Your site, the date and the targets (looked up in SIMBAD by name, cached for offline use, or typed as
-coordinates). The plot shows the altitude of every target through the night, with civil / nautical /
-astronomical twilight, the Moon and its phase, the airmass scale and your altitude limit. With T0 and the
-period of an eclipsing binary or exoplanet, every eclipse or transit of the night is listed with its start,
-middle and end and whether it can be observed.
+Your site, the date and the targets (SIMBAD by name, cached for offline use, or coordinates). Altitude of
+every target through the night with twilights, the Moon and its phase, airmass and your altitude limit.
+Eclipses and transits of the night from T0 and the period — or from **VSX** and the **NASA Exoplanet Archive**
+— with start, middle and end and whether they can be observed, and a **schedule** for several targets.
 
 ### Observe
-Connect to the observatory (see [Observatory control and safety](#observatory-control-and-safety)). Slew,
-park, abort, autofocus; preview frames; camera cooler, focuser and filter wheel; imaging **sequences** with
-several filters and exposure rows, dithering, meridian flips, start at dusk, repeat until dawn; twilight
-**sky flats** with automatic exposure times. The safety state is always visible.
+Slew, park, abort; preview frames; cooler, gain, offset, binning and readout mode; focuser, filter wheel and
+rotator. **Sequences** with several filters and exposure rows, dithering, meridian flips, start at dusk and
+repeat until dawn. **Autofocus** (with temperature compensation), **sky flats** with automatic exposures or
+**flat-panel** flats, **plate-solve centring** and a **polar-alignment** measurement. The safety state is
+always visible.
 
 ### Calibrate
-Point it at a folder of raw frames (sub-folders included). It recognises bias, dark, flat and light frames
-from the headers (or file names), shows exposure, filter, temperature and binning, builds sigma-clipped master
-frames and applies the right ones to every light frame — darks matched by exposure and temperature (scaled when
-bias frames allow it), flats by filter and binning. Missing calibration frames are reported, never silently
-ignored. Optional cosmic-ray removal (L.A.Cosmic). Then align and stack into a deep image with a coverage map.
+Point it at a folder of raw frames: bias, dark, flat and light frames are recognised from the headers (or file
+names), sigma-clipped **master frames** are built and the right ones applied to every light frame — darks
+matched by exposure and temperature (scaled when possible), flats by filter and binning. Missing calibration
+is reported, never silently ignored. Overscan (row by row), **linearity correction**, cosmic-ray removal
+(L.A.Cosmic), **frame quality** checks (FWHM, sky, star count) that leave bad frames out, colour (Bayer) cameras
+and **DSLR raw files**. Then align and **stack** into a deep image with a coverage map, or **drizzle**
+dithered frames onto a finer grid.
 
 ### Images
-A FITS viewer with zoom, pan and display stretches (ZScale, min–max, 99.5 %; linear, square root, log, asinh),
-the header, and pixel value + sky coordinates under the mouse. **Plate solving** with ASTAP or astrometry.net.
-**Image processing:** pixel math between images, flips, 90° rotations, binning and cropping with the WCS
-carried along exactly, Gaussian / median / unsharp filters, background-gradient removal.
+- **Many images at once** in a list with thumbnails (only the shown one is read, so hundreds are fine);
+  arrow keys or Page Up / Page Down step through them, and **Blink** compares them.
+- A **toolbar** of the common commands and a **right-click menu** on the image: measure this star, start
+  photometry with it, copy its position, look it up in **SIMBAD**.
+- Display: ZScale / min–max / percentile intervals, linear / square-root / log / asinh stretches, levels by hand,
+  false-colour maps, inverted display.
+- **Measuring** as in MaxIm DL, in small floating Information and Graph windows: a star (net counts,
+  signal-to-noise, FWHM, HFD, ellipticity, saturation), a rectangle (statistics, histogram, profiles, 3-D surface)
+  or a line (profile, length and angle).
+- **Overlays:** contours, a coordinate grid, Gaia DR3 and **VSX** stars, known **asteroids and comets**
+  (SkyBoT) at the exposure time, DS9 regions, and AAVSO-style **finder charts**.
+- **Plate solving** with ASTAP or astrometry.net; **asteroid and comet astrometry** with an MPC (ADES) report;
+  **colour images** from three filters.
+- **Processing** that carries the WCS along: pixel math between images, flips, rotations, resampling, binning,
+  cropping, Gaussian / median / unsharp / kernel filters, background removal, Richardson–Lucy deconvolution,
+  DDP, histogram matching — on one image or on **every open image** at once.
+- Header editing (into a copy), multi-extension FITS, and batch conversion to PNG / JPEG / TIFF.
 
 ### Photometry
-Click the target and comparison stars (or let the application suggest comparison stars: similar brightness,
-unsaturated, isolated, inside every frame). Aperture photometry with errors from the CCD equation, an ensemble
-of comparison stars, re-centring and drift tracking through the night, times in **BJD_TDB**. Times of minimum
-(Kwee–van Woerden or trapezoid fit, with bootstrap errors) and O-C against an ephemeris. Export to CSV or the
-**AAVSO extended format**. A **live** mode follows the camera's folder during the night and grows the light
-curve frame by frame. **Polarimetry** for dual-beam (Wollaston + half-wave plate) and single-beam data.
+Click the target and comparison stars, or let PanCosm suggest comparison stars (similar brightness,
+unsaturated, isolated, inside every frame). Aperture or PSF photometry with errors from the CCD equation, an
+ensemble of weighted comparison stars, check stars, re-centring and drift tracking, times in **BJD_TDB**,
+detrending against airmass, FWHM, sky or position. Catalogue magnitudes (APASS, Gaia) for standard magnitudes,
+**extinction and transformation coefficients**, and export to CSV or the **AAVSO extended format**. A **live**
+mode grows the light curve frame by frame during the night. **Variable-star search** measures every star of the
+field and marks the candidates. **Polarimetry** for dual-beam and single-beam data.
 
 ### Light curves & O-C
-**Period search** with Lomb–Scargle (pulsators), BLS (transits, Algol-type eclipses) or PDM (any shape), with
-the periodogram and the folded light curve. **O-C diagrams** from a list of minimum times (paste or load;
-primary and secondary, with errors and sources): linear or quadratic ephemeris, the new T0 and P with errors,
-and dP/dt in seconds per year.
+- **Times of minimum** (Kwee–van Woerden, polynomial or trapezoid fit, with errors) and **O-C** diagrams with
+  linear or quadratic ephemerides, the **light-travel-time effect** of a third body and **apsidal motion**.
+- **Period search:** Lomb–Scargle, BLS and PDM; **frequency analysis** with the spectral window, Fourier fits,
+  prewhitening, signal-to-noise and CLEAN.
+- **Light curves from archives:** TESS and Kepler/K2 (MAST), AAVSO, ZTF and ASAS-SN.
 
 ### Spectroscopy
-- **Long-slit and slitless** reduction: tracing, optimal (Horne) or box extraction with sky subtraction, arc
-  line identification from a few clicked lines and bundled line lists (He-Ne-Ar, Th-Ar, Cu-Ar, Fe-Ar…),
-  polynomial wavelength solution with its rms.
-- **Echelle**: order tracing on the flat, blaze, per-order extraction, a global 2-D wavelength solution,
-  absolute order numbers and a blaze-corrected merged spectrum. Fibre-fed and coudé instruments are supported;
-  settings are saved as named **instrument profiles**.
-- **Telluric correction** from a standard star (strength and shift fitted in the telluric bands).
-- **Radial velocities**: cross-correlation; **TODCOR** for double-lined binaries; the **broadening function**
-  for fast rotators and contact (W UMa) binaries, which also gives v sin i and the light ratio. Barycentric
-  correction from the time, the target position and the site.
-- **Orbits**: single- and double-lined spectroscopic orbits (P, e, ω, K, γ; K2, q, M sin³i, a sin i).
-- **IFU data cubes**: images over a wavelength window, continuum-subtracted line maps, spectra of single
-  spaxels; cubes larger than the memory are read directly from the file.
+- **Long-slit and slitless** reduction: tracing, optimal or box extraction with sky subtraction, arc-line
+  identification with bundled line lists, wavelength solution with its rms.
+- **Echelle:** order tracing, blaze, per-order extraction, a global 2-D wavelength solution and a merged
+  spectrum; settings saved as **instrument profiles**.
+- **Telluric correction**, line measurements (equivalent width, V/R), spectrum arithmetic, instrument response
+  and **BeSS** export.
+- **Radial velocities:** cross-correlation, **TODCOR** for double-lined binaries, the **broadening function**
+  (also v sin i and the light ratio), barycentric correction, and **spectral disentangling**.
+- **Stellar parameters** (Teff, log g, [Fe/H], v sin i) by fitting PHOENIX synthetic spectra, relative to the Sun.
+- **Orbits** of single- and double-lined binaries, and **IFU data cubes** (line maps, spaxel spectra).
 
 ### Orbits & models
-A detached eclipsing-binary / transit light-curve model (limb-darkened spheres on a Keplerian orbit) fitted to
-your light curve: inclination, radii, surface-brightness ratio, third light, eccentricity. Combined with a
-double-lined orbit it gives **absolute dimensions** (masses, radii, separation, log g with errors). Close and
-contact systems: export the data and the starting solution for **PHOEBE**, and overlay a model computed there.
+An eclipsing-binary / transit light-curve model fitted to your data (inclination, radii, surface-brightness
+ratio, third light, eccentricity) with MCMC errors; with a double-lined orbit, **absolute dimensions**
+(masses, radii, log g). **Visual binary orbits** from position angles and separations. A transit report, and
+input files for **PHOEBE** and **Wilson-Devinney** for close and contact systems.
 
 ### Remote sensing
-Satellite and aerial images (Landsat, Sentinel-2, drones): multi-band GeoTIFF / Cloud-Optimised GeoTIFF or FITS
-with map coordinates; NDVI, NDWI, EVI, SAVI, NDBI; your own band math (parsed safely, never executed as code);
-statistics, unsupervised classification (k-means), principal components, change detection. Every product is a
-GeoTIFF that opens in the right place in QGIS.
+Landsat, Sentinel-2 and drone images (GeoTIFF / Cloud-Optimised GeoTIFF, FITS, JPEG2000, NetCDF, HDF5): NDVI,
+NDWI, EVI, SAVI, NDBI, your own band math (parsed safely, never executed as code), statistics, k-means
+classification, principal components and change detection. Products are GeoTIFFs that open in place in QGIS.
 
-### Automation
-Chain steps into your own pipeline, or start from a ready template:
-*Eclipsing binary night*, *Exoplanet transit*, *End-of-night calibration and stack*,
-*Spectroscopy night → RV → orbit*, *Variable star: light curve → period*. Templates with an observing part send
-the sequence to the Observe page; tick one box and the processing starts by itself when the night's sequence
-ends (frames from a remote observatory are copied over first).
-
-### Project and Guide
-The **Project** page lists the files and the full history of every step with its settings. The **Guide** is
-the built-in training manual.
+### Automation, Project and Guide
+Chain steps into your own pipeline or start from a template (*Eclipsing binary night*, *Exoplanet transit*,
+*End-of-night calibration and stack*, *Spectroscopy night → RV → orbit*, *Variable star: light curve → period*);
+tick one box and the processing starts by itself when the night's sequence ends. The **Project** page shows
+the files and the full history of every step; the **Guide** is the built-in training manual.
 
 ---
 
 ## Typical workflows
 
-**An eclipsing binary minimum.** Plan → see that the minimum is observable from 21:40 to 01:10 UTC → Observe:
-a V-filter sequence from dusk to dawn, darks and bias at the end → Calibrate the folder → Photometry: click the
-star, *Suggest comparison stars*, *Measure light curve* → *Time of minimum* (Kwee–van Woerden) with T0 and
-period → the epoch and O-C → paste it with your earlier minima on the O-C page. The *Eclipsing binary night*
-automation does everything after the observation in one run.
+**An eclipsing-binary minimum.** Plan → the minimum is observable from 21:40 to 01:10 UTC → Observe: a V-filter
+sequence from dusk to dawn → Calibrate the folder → Photometry: click the star, *Suggest comparison stars*,
+*Measure light curve* → *Time of minimum* → paste it with your earlier minima on the O-C page. The *Eclipsing
+binary night* automation does everything after the observation in one run.
 
-**An exoplanet transit.** The same, with the trapezoid fit, which gives the mid-transit time, depth and
-duration; export the light curve for further modelling or fit it on the Orbits & models page.
+**An exoplanet transit.** The same, with the trapezoid fit (mid-transit time, depth, duration), then the model
+fit on Orbits & models.
 
-**A double-lined spectroscopic binary.** Reduce each spectrum (Reduce or Echelle tab) → Telluric correction if
-needed → Radial velocity: two templates (TODCOR) or the broadening function → *Fit orbit* → with the light curve
-on Orbits & models: masses and radii.
+**A double-lined spectroscopic binary.** Reduce each spectrum → telluric correction → radial velocities with
+TODCOR or the broadening function → *Fit orbit* → with the light curve: masses and radii.
 
-**A satellite image.** Remote sensing → open the GeoTIFF → set the band roles → NDVI → classify → save the
-products and open them in QGIS.
+**A satellite image.** Remote sensing → open the GeoTIFF → set the band roles → NDVI → classify → open the
+products in QGIS.
 
 ---
 
 ## Observatory control and safety
 
 Telescope safety does not depend on the window. The devices are owned by a separate **observatory process**
-with a **safety supervisor**, which checks every few seconds:
+with a **safety supervisor** that checks every few seconds:
 
-- the weather (safety monitor, humidity, wind, rain, cloud cover), with your limits;
+- the weather (safety monitor, humidity, wind, rain, cloud cover) against your limits;
 - the Sun (no slews near it; at sunrise the night is over);
 - the altitude limit and an optional horizon profile;
 - that every device still answers.
 
 When anything is unsafe it aborts the exposure, stops the sequence, **parks the mount and closes the dome** —
-even if the window has crashed or was closed. Nothing restarts by itself; the operator presses *Resume*.
+even if the window has crashed or was closed. Nothing restarts by itself: the operator presses *Resume*.
 
-Devices: **ASCOM Alpaca** and **INDI** (mount, camera, filter wheel, focuser, dome, safety monitor, observing
-conditions), classic Windows ASCOM drivers through ASCOM Remote, **PHD2** for guiding and dithering. The
-observatory is described by one JSON file (example in the Guide, *Observing and safety*).
-
-The observatory can run on another computer (e.g. at the telescope) and be controlled over the network through
-a token-protected API. Frames of a finished sequence are copied back for processing; the observatory only
-hands out frames it has saved itself.
-
-Before using real hardware, test the same configuration with the ASCOM Alpaca or INDI simulators.
+Devices: **ASCOM Alpaca** and **INDI** (mount, camera, filter wheel, focuser, rotator, dome, flat panel, safety
+monitor, observing conditions), classic Windows ASCOM drivers through ASCOM Remote, and **PHD2**. The
+observatory can run on another computer at the telescope and be controlled over the network through a
+token-protected API; finished frames are copied back for processing. Test your configuration with the Alpaca
+or INDI simulators before using real hardware.
 
 ---
 
 ## Projects, automations and plugins
 
-- **Projects** (`.astroproj`, one file) record the files and every step run: the step, its settings, the start
-  time, the result and the versions of the libraries used — months later you can see exactly how a number was
-  obtained. Paths are relative, so the project folder can be moved with its data.
-- **Automations** are JSON files; build them on the Automation page or edit them by hand, and share them by
-  copying the file.
-- **Plugins** are Python files in the settings folder that register new steps with the same decorator the
-  built-in steps use. They appear in the *Plugins* menu (with a generated form) and in the automation editor,
-  and run in worker processes with progress and cancel. See [`docs/PLUGINS.md`](docs/PLUGINS.md).
+- **Projects** (`.astroproj`, one file) record the files and every step: its settings, start time, result and
+  the versions of the libraries used — months later you can see exactly how a number was obtained. Paths are
+  relative, so a project folder can be moved with its data.
+- **Automations** are JSON files: build them on the Automation page or by hand, and share them by copying the file.
+- **Plugins** are Python files that add new steps with the same decorator the built-in steps use; they appear in
+  the *Plugins* menu with a generated form and run in worker processes. See [`docs/PLUGINS.md`](docs/PLUGINS.md).
 
 ---
 
@@ -313,80 +286,72 @@ Before using real hardware, test the same configuration with the ASCOM Alpaca or
 
 | Reads | Writes |
 |---|---|
-| FITS images (also `.gz`, any image extension), FITS headers of all common capture programs | FITS (calibrated frames, masters, stacks with coverage, processed images; history in the header) |
-| 1-D spectra: FITS tables, 1-D FITS with a wavelength WCS, text | 1-D spectra as FITS tables with wavelength, flux, error |
-| IFU cubes (3-D FITS with a spectral WCS) | Spaxel spectra |
-| GeoTIFF / Cloud-Optimised GeoTIFF, FITS, JPEG2000, NetCDF, HDF5 (remote sensing) | GeoTIFF with the input's georeferencing |
-| Light curves (CSV), minimum-time lists (text), radial-velocity tables | CSV, AAVSO extended format, PHOEBE input files |
-| Automations (JSON), observatory configuration (JSON) | Projects (`.astroproj`, SQLite) |
-
-Remote sensing also reads JPEG2000 (e.g. Sentinel-2 band files, without their map position), NetCDF 3 / 4 and HDF5.
+| FITS images (also `.gz` and any image extension), headers of all common capture programs, DSLR raw files | FITS (calibrated frames, masters, stacks, processed images; history in the header), PNG / JPEG / TIFF |
+| 1-D spectra: FITS tables, 1-D FITS with a wavelength WCS, text | 1-D spectra as FITS tables (wavelength, flux, error), BeSS FITS |
+| IFU cubes (3-D FITS with a spectral WCS) | Line maps, spaxel spectra |
+| GeoTIFF / COG, FITS, JPEG2000, NetCDF, HDF5 (remote sensing) | GeoTIFF with the input's georeferencing |
+| Light curves (CSV, TESS / Kepler files), minimum lists, radial-velocity tables, DS9 regions | CSV, AAVSO extended format, MPC ADES, PHOEBE and Wilson-Devinney input, DS9 regions |
+| Automations and observatory configuration (JSON) | Projects (`.astroproj`) |
 
 ---
 
 ## How the results are checked
 
-*"A wrong number silently entering a table"* is treated as the biggest risk, so:
+*A wrong number silently entering a table* is treated as the biggest risk, so:
 
-- Every science module is tested on **simulated data with a known answer** (calibration against ccdproc,
-  photometry, minima, periods, wavelength solutions, TODCOR, the broadening function, orbits, light-curve
-  models, band math…): over 230 automatic tests.
+- Every science module is tested on **simulated data with a known answer** — calibration, photometry, minima,
+  periods, wavelength solutions, radial velocities, orbits, light-curve models, band math…: over 450 automatic
+  tests on Windows, macOS and Linux for every change.
 - **Real data:** the HAT-P-32 b transit time from public MicroObservatory frames agrees with the published
-  ephemeris (+1.5 ± 4.8 min), checked in CI on every change.
-- **Hardware:** sequences, safety rules and the supervisor are tested against simulated devices and against
-  the real INDI simulators.
-- **Packages:** on every change, the installers for Windows, macOS and Linux are built, **installed and
-  started** in CI (current Windows and Windows Server 2022; Ubuntu 22.04/24.04, Debian 12, Fedora, Arch), and a smoke test
-  runs real calibration, photometry, planning, spectroscopy, model fitting and remote sensing inside the
-  installed application.
-- Comparisons with AstroImageJ, IRAF, published orbits and real observatory hardware on real data are the
-  next step.
+  ephemeris, checked automatically on every change.
+- **Hardware:** sequences, safety rules and the supervisor are tested against simulated devices and the real
+  INDI simulators.
+- **Installers** for Windows, macOS and Linux are built, **installed and started** for every change (current
+  Windows and Windows Server 2022; Ubuntu 22.04 / 24.04, Debian 12, Fedora, Arch), and an end-to-end check runs
+  calibration, photometry, planning, spectroscopy, model fitting and remote sensing inside the installed application.
 
 ---
 
 ## Run from source
 
-Works on every platform, including Intel Macs, with Python 3.11 or newer.
+Python 3.11 or newer, on every platform:
 
 ```bash
-git clone <this repository>
-cd <repository folder>
+git clone https://github.com/rraeyz/PanCosm.git
+cd PanCosm
 python -m venv .venv
 . .venv/bin/activate                 # Windows: .venv\Scripts\activate
 pip install -e ".[gui,dev]"
 python tools/i18n.py                 # compile the translations
-python -m astrowb                    # start the application
+python -m astrowb                    # start PanCosm
 ```
 
-Linux without a desktop needs a few system libraries for Qt:
-`sudo apt install libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3` (Debian/Ubuntu).
-
-Useful commands:
+Linux without a desktop needs `libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3`.
 
 ```bash
 python -m astrowb --benchmark                 # CPU vs GPU timing on this machine
 python -m astrowb --observatory config.json   # the observatory process alone (at the telescope)
-python -m astrowb --smoke-test /tmp/smoke     # the same end-to-end check the installers pass
+python -m astrowb --smoke-test /tmp/smoke     # the end-to-end check the installers pass
 sh tools/precommit.sh                         # every check CI runs: lint, brand guard, translations, tests
 python packaging/build.py                     # build the installer for this system
 ```
 
 ---
 
-## Documentation
+## Contributing
 
-| File | What |
-|---|---|
-| The **Guide** page in the application | The full user manual, by category, searchable (in every interface language) |
-| [`docs/PLUGINS.md`](docs/PLUGINS.md) | Writing plugins |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Setting up the code, the rules of every change, code map |
-| [`THIRD_PARTY.md`](THIRD_PARTY.md) | Libraries, data and sources used |
+Bug reports, ideas and pull requests are welcome in [Issues](https://github.com/rraeyz/PanCosm/issues).
+Before your first pull request please read [`CONTRIBUTING.md`](CONTRIBUTING.md): setup, the rules every change
+follows, a map of the code and the licence terms of contributions. Libraries, data and sources used are listed
+in [`THIRD_PARTY.md`](THIRD_PARTY.md).
 
 ---
 
 ## Licence
 
-Copyright © 2026 the authors (see the Git history). The application is free software: you can redistribute it and/or modify it under
-the terms of the **GNU General Public License, version 3 or (at your option) any later version** — see
-[`LICENSE`](LICENSE). It is distributed in the hope that it will be useful, but **without any warranty**.
-The libraries it bundles keep their own licences ([`THIRD_PARTY.md`](THIRD_PARTY.md)).
+Copyright © 2026 the PanCosm authors (see the Git history).
+
+PanCosm is free software: you can redistribute it and/or modify it under the terms of the **GNU General Public
+License, version 3 or (at your option) any later version** — see [`LICENSE`](LICENSE). It is distributed in the
+hope that it will be useful, but **without any warranty**. The libraries it bundles keep their own licences
+([`THIRD_PARTY.md`](THIRD_PARTY.md)).
