@@ -1121,6 +1121,18 @@ class CalibratePage(QWidget):
                 n=len(out["calibrated"]), m=len(out["masters"]), folder=self.output.text()
             )
         )
+        from .messages import translate
+
+        failed = out.get("failed_masters") or []
+        if failed:  # said where the user looks for problems, the frames list's note box
+            kinds = {"bias": self.tr("bias"), "dark": self.tr("dark"), "flat": self.tr("flat")}
+            lines = [
+                self.tr("Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}").format(
+                    kind=kinds.get(f["kind"], f["kind"]), n=f["frames"], file=f["file"], why=translate(f["reason"])
+                )
+                for f in failed
+            ]
+            self.warnings.setPlainText("\n".join(lines + [self.warnings.toPlainText()]).strip())
 
 
 class PlotCanvas(QWidget):

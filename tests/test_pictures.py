@@ -118,3 +118,19 @@ def test_files_dropped_on_the_window_open(qtbot, tmp_path):
         assert win.current_path.name == "IMG_0001.fits" and win.engine.project is not None
     finally:
         win.engine.shutdown()
+
+
+def test_previews_next_to_fits_frames_are_not_frames(tmp_path):
+    """PNG / JPEG exports in a folder of FITS frames stay out of the calibration; a folder of pictures only
+    (a phone's night) is converted."""
+    from astrowb.io.bayer import convert_raw_folder
+
+    (tmp_path / "night").mkdir()
+    fits.PrimaryHDU(np.zeros((10, 10), np.float32), fits.Header({"IMAGETYP": "Light Frame"})).writeto(
+        tmp_path / "night" / "l1.fits"
+    )
+    phone_picture(tmp_path / "night" / "l1.png")
+    assert convert_raw_folder(tmp_path / "night") == ([], [])
+    (tmp_path / "phone").mkdir()
+    phone_picture(tmp_path / "phone" / "IMG_0001.jpg")
+    assert len(convert_raw_folder(tmp_path / "phone")[0]) == 1

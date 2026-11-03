@@ -265,6 +265,9 @@ def main(argv=None) -> int:
 
     _show_unexpected_errors(settings)
     win = MainWindow(settings)
+    area = app.primaryScreen().availableGeometry()  # never larger than the screen, and on it
+    win.resize(min(1500, int(area.width() * 0.92)), min(950, int(area.height() * 0.9)))
+    win.move(area.center() - win.rect().center())
     for f in args.files:
         win.open_project(f) if f.suffix == ".astroproj" else win.open_fits(f, ask=True)
     win.show()

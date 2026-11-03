@@ -45,3 +45,20 @@ def test_page_says_why_calibrate_is_off_and_adds_folders(qtbot, tmp_path):
     page._add_folder(str(tmp_path / "Light"))
     assert page.folder.text() == f"{tmp_path / 'BDF'}; {tmp_path / 'Light'}"
     assert page.output.text() == str(tmp_path / "BDF" / "calibrated")
+
+
+def test_a_bad_flat_group_does_not_stop_the_night(tmp_path):
+    """Flats that are not flats (darker than the bias) cannot make a master: the lights are calibrated without
+    it and the failure is reported, instead of the whole calibration failing."""
+    night = tmp_path / "night"
+    for i in range(3):
+        write(night / "BDF", f"b{i}.fits", "Bias Frame", 0.0)
+        write(night / "Light", f"l{i}.fits", "Light Frame")
+    for i in range(3):  # "flats" at 50 ADU, below the 100 ADU bias
+        night.joinpath("BDF").mkdir(exist_ok=True)
+        h = fits.Header({"IMAGETYP": "Flat Field", "EXPTIME": 1.0, "CCD-TEMP": -10.0})
+        fits.PrimaryHDU(np.full((8, 8), 50, np.float32), h).writeto(night / "BDF" / f"f{i}.fits")
+    frames = execute("calibration.scan", {"folder": str(night)}, {}, Ctx())["frames"]
+    out = execute("calibration.run", {"frames": frames, "output_dir": str(tmp_path / "cal")}, {}, Ctx())
+    assert len(out["calibrated"]) == 3 and [f["kind"] for f in out["failed_masters"]] == ["flat"]
+    assert fits.getheader(out["calibrated"][0])["CALF"] == "none"

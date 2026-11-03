@@ -114,6 +114,8 @@ def period_step(inputs, params, ctx):
     ok = np.isfinite(t) & np.isfinite(y)
     t, y = t[ok], y[ok]
     p_max = params["p_max"] or np.ptp(t) / 2
+    if p_max <= params["p_min"]:  # a period needs at least two cycles in the data
+        raise ValueError(f"the light curve spans {24 * np.ptp(t):.2g} h: too short to search for periods")
     funcs = {"lomb-scargle": period.lomb_scargle, "bls": period.bls, "pdm": period.pdm, "anova": anova}
     func = funcs[params["method"]]
     ctx.progress(0.0, params["method"])

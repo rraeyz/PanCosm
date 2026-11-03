@@ -956,6 +956,7 @@ class CubeTab(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         self.viewer = ImageViewer(self)
         self.viewer.clicked.connect(self._clicked)
+        self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
         split.addWidget(self.viewer)
         side = QWidget(self)
         lay = QVBoxLayout(side)

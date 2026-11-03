@@ -50,6 +50,7 @@ def real_messages():
     out += ["fewer than 5 stars found on the first frame"]  # photometry/fieldstars.py
     out += ["fewer than 3 usable stars", "the airmass hardly changed during the series: no extinction from it"]
     out += ["the image has no sky coordinates: plate-solve it first (Image menu)"]  # engine/builtin.py
+    out += ["the light curve spans 0.12 h: too short to search for periods"]  # photometry/steps.py
     out += ["the keyword NAXIS1 describes the data and cannot be edited"]  # io/fits.py
     out += ["the value of SITE must be plain ASCII text (FITS standard)"]
     from astrowb.photometry.catalog import calibrate
