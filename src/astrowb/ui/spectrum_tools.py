@@ -396,13 +396,21 @@ class SpectrumToolsTab(QWidget):
             return None
         self.last = m
         self._add_row(Path(self.path).name, m)
-        self.status.setText(
-            self.tr(
-                "Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}"
-            ).format(
-                c=m["centre"], ce=m["centre_err"], f=m["fwhm"], ew=m["ew"], ee=m["ew_err"], ef=m["ew_fit"], s=m["snr"]
-            )
-        )
+        text = self.tr(
+            "Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}"
+        ).format(c=m["centre"], ce=m["centre_err"], f=m["fwhm"], ew=m["ew"], ee=m["ew_err"], ef=m["ew_fit"], s=m["snr"])
+        lo, hi = sorted((self.lo.value(), self.hi.value()))
+        inside = (self.wave >= lo) & (self.wave <= hi)
+        ww, ff = self.wave[inside], self.flux[inside]
+        edges = np.interp(ww, [ww[0], ww[-1]], [np.median(ff[:3]), np.median(ff[-3:])])
+        deepest = ww[np.argmax(np.abs(ff - edges))]  # where the data depart most from the edges' continuum
+        step = float(np.median(np.diff(ww)))
+        if not lo + m["fwhm"] < m["centre"] < hi - m["fwhm"] or abs(deepest - m["centre"]) > max(
+            m["fwhm"] / 2, 2 * step
+        ):
+            # the continuum is read at the window's edges: a window inside the line gives a fit off the line
+            text += " " + self.tr("The line reaches the edge of the window: widen it so both sides show continuum.")
+        self.status.setText(text)
         self._plot()
         return m
 

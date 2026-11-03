@@ -1455,14 +1455,14 @@ class MainWindow(QMainWindow):
         if spectrum.get("path"):
             if self.engine.project:
                 self.engine.project.add_file(Path(spectrum["path"]), "spectrum")
-            self.spectro_page.velocity_tab.files.addItem(spectrum["path"])  # ready for radial velocities
+            self.spectro_page.velocity_tab.add_files([spectrum["path"]])  # ready for radial velocities
 
     def _echelle_done(self, result):
         self.spectro_page.echelle_tab.show_result(result)
         if result.get("path"):
             if self.engine.project:
                 self.engine.project.add_file(Path(result["path"]), "spectrum")
-            self.spectro_page.velocity_tab.files.addItem(result["path"])
+            self.spectro_page.velocity_tab.add_files([result["path"]])
 
     def _telluric_done(self, result):
         self.spectro_page.telluric_tab.show_result(result)

@@ -750,7 +750,12 @@ class VelocityTab(QWidget):
 
     def _add(self):
         paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Add spectra"), "", FITS + ";;Text (*.txt *.dat *.csv)")
-        self.files.addItems(paths)
+        self.add_files(paths)
+
+    def add_files(self, paths):
+        """Spectra for the velocities, each once (a reduced spectrum is added on its own, then often again)."""
+        have = {self.files.item(i).text() for i in range(self.files.count())}
+        self.files.addItems([p for p in paths if p not in have])
 
     def _measure(self):
         spectra = [self.files.item(i).text() for i in range(self.files.count())]

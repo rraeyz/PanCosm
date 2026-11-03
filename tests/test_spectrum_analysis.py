@@ -125,3 +125,25 @@ def test_spectrum_tools_tab(qtbot, tmp_path):
     out = tab._bess(str(tmp_path / "b.fits"), {"object": "gam Cas"})
     assert fits.getheader(out)["OBJNAME"] == "gam Cas"
     assert spectrum_io.read(tab._save(str(tmp_path / "saved.fits")))[0].size == w.size
+
+
+def test_a_window_that_cuts_the_line_is_pointed_out(qtbot, tmp_path):
+    """The continuum is read at the window's edges: a window inside the line gives nonsense, so the tab says so."""
+    import numpy as np
+
+    from astrowb.spectroscopy import spectrum_io
+    from astrowb.ui.spectrum_tools import SpectrumToolsTab
+
+    w = np.arange(6500.0, 6620.0, 0.25)
+    f = 1 - 0.55 * np.exp(-0.5 * ((w - 6563.5) / 1.6) ** 2)
+    spectrum_io.write(tmp_path / "s.fits", w, f, np.full(w.size, 0.005))
+    tab = SpectrumToolsTab()
+    qtbot.addWidget(tab)
+    tab._open(str(tmp_path / "s.fits"))
+    tab.lo.setValue(6545)
+    tab.hi.setValue(6585)
+    m = tab._measure()
+    assert abs(m["centre"] - 6563.5) < 0.05 and "edge of the window" not in tab.status.text()
+    tab.lo.setValue(6561)
+    tab._measure()
+    assert "edge of the window" in tab.status.text()
