@@ -2169,3 +2169,39 @@ def test_shortcuts_are_changed_in_settings_and_kept(window, qtbot, tmp_path):
         again.engine.shutdown()
     row.reset()
     assert acts[0].shortcut().toString(QKeySequence.PortableText) == "Ctrl+,"
+
+
+def test_why_these_stars(window):
+    """PHO-17: after a suggestion from Gaia the table of every judged star opens, its verdicts in words."""
+    page = window.photometry_page
+    page.target, page._radii_set = (10.0, 10.0), True  # no images: the radii are not chosen again
+    row = {"index": 1, "x": 40.0, "y": 30.0, "mag": 12.1, "colour": 0.8, "distance": 36.0, "peak": 9000.0,
+           "snr": 300.0}  # fmt: skip
+    table = [row | {"verdict": "chosen"}, row | {"index": 2, "verdict": "neighbour"}]
+    page.set_comparisons([(40.0, 30.0)], {"colour": 0.7, "same_colour": True, "table": table})
+    assert page.why_button.isEnabled() and "Why these stars?" in page.result.text()
+    from astrowb.ui.kit.table_view import DataTable
+    from astrowb.ui.photometry_stars import why_dialog
+
+    d = why_dialog(page, page.judged_stars)
+    view = d.findChild(DataTable)
+    assert view.table.rowCount() == 2
+    texts = {view.table.item(r, 0).text() for r in range(2)}
+    assert texts == {"chosen", "a neighbour in its aperture or sky ring"}
+    page.set_comparisons([], None)
+    assert not page.why_button.isEnabled()
+
+
+def test_the_checks_tab(window):
+    """PHO-33: the Photometry window's Checks tab lists the frames behind cloud."""
+    window.show_workspace("photometry")
+    page = window.photometry_page
+    n = 40
+    comp = np.full((n, 2), 1e5)
+    comp[10:13] *= 0.5
+    lc = {"comp_flux": comp.tolist(), "fwhm": [3.0] * n, "xy": [[[100.0, 100.0]]] * n, "peak": [[2e4]] * n,
+          "saturation": 6e4, "file": [f"f{i}.fits" for i in range(n)], "rel_flux": [1.0] * n}  # fmt: skip
+    flags = page.checks.show_checks(lc)
+    assert flags["cloud"] == [10, 11, 12] and page.checks.table.table.rowCount() == 3
+    assert "behind cloud" in page.checks.verdict.text()
+    assert page.checks.table.table.item(0, 1).text() == "f10.fits"

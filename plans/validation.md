@@ -198,12 +198,12 @@ release procedure, the first stored version.
 - **Files:** `tools/owner_checklist.py`, `docs/validation/for-the-owner.md` (generated), `tests/validation/test_owner_cases.py`
 
 ### VAL-7. Coverage of the error bars  (P1)
-**partial** — done (2026-11-12): `tests/coverage/harness.py` (`run`: N realisations → in-68 %, in-95 %, bias in
+**partial** — done (2026-11-12): `tests/errorbars/harness.py` (`run`: N realisations → in-68 %, in-95 %, bias in
 stated errors, stated / actual scatter per parameter; `assert_honest`) with rows for the quadratic ephemeris, the
-frequency fit and the apsidal motion (300 realisations each, 16 s together: in the normal run). Further rows already
+frequency fit and the apsidal motion (300 realisations each, 16 s together: in the normal run; the folder is tests/errorbars because "coverage" clashed with coverage.py on CI). Further rows already
 live beside their tools (inference, LTTE, apsidal, timing methods, Fourier shape, transit nights). Left: the rows
 for photometry, RV, orbits, lines, astrometry, detectors; the weekly job once rows get slow; the report table.
-- **Build:** `tests/coverage/` (marker `slow`, weekly in CI): one harness that, for a fitting tool and a simulator
+- **Build:** `tests/errorbars/` (marker `slow`, weekly in CI): one harness that, for a fitting tool and a simulator
   of its data, runs N realisations and reports the fraction of truths inside the stated 68 % and 95 % intervals,
   the bias in units of the stated error, and the ratio of stated to actual scatter; applied to: aperture
   photometry errors, every minimum-timing method (OC-2), ephemeris and O−C models (OC-5 … OC-8), period and
@@ -211,7 +211,7 @@ for photometry, RV, orbits, lines, astrometry, detectors; the weekly job once ro
   transit fits (PHO-26, EXO-7), binary solutions (MOD-14), astrometric positions (AST-3), the detector
   measurements (CAL-9). Results go to the report (VAL-3).
 - **Accept:** every listed tool has a coverage row within its step's stated range.
-- **Files:** `tests/coverage/harness.py`, `tests/coverage/test_*_coverage.py`, CI weekly job
+- **Files:** `tests/errorbars/harness.py`, `tests/errorbars/test_*_coverage.py`, CI weekly job
 
 ### VAL-8. Using the program as a user, by script  (P1)
 **partial** — done (2026-11-12): `tests/ui/harness.py` starts the real main window in a language, finds controls by

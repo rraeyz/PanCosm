@@ -38,6 +38,7 @@ from .aavso_dialog import AavsoDialog
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
+from .photometry_stars import add_star_buttons, suggestion_text
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -61,6 +62,7 @@ class PhotometryPage(Undoable, QWidget):
         super().__init__(parent)
         self.init_undo()
         self.images, self.target, self.comps, self.light_curve = [], None, [], None
+        self.judged_stars = None  # PHO-17: every catalogue star with its verdict, after a suggestion from Gaia
         self.ref, self.shown, self.skipped = None, 0, set()  # the frame the stars are marked on, the one shown, unused
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
@@ -303,13 +305,7 @@ class PhotometryPage(Undoable, QWidget):
         lists.addWidget(self.save_stars_button)
         lists.addWidget(self.load_stars_button)
         self.sections[1].body.addLayout(lists)
-        self.suggest_button = QPushButton(self.tr("Suggest comparison stars"), self)
-        self.suggest_button.setEnabled(False)
-        self.suggest_button.setToolTip(
-            self.tr("Similar brightness, not saturated, no bright neighbour, inside the frame in every image")
-        )
-        self.suggest_button.clicked.connect(lambda: self._suggest(auto=False))
-        self.sections[1].body.addWidget(self.suggest_button)
+        add_star_buttons(self, self.sections[1].body)
         side.addWidget(self.sections[1])
         grid = QGridLayout()
         self.r_ap, self.r_in, self.r_out = (self._spin(v) for v in (4.0, 10.0, 16.0))
@@ -1788,7 +1784,7 @@ class PhotometryPage(Undoable, QWidget):
         self._auto_for = self.target if auto else None
         if auto:
             self.result.setText(self.tr("Choosing the comparison stars…"))
-        self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
+        self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value(), "rules": {}})
 
     def _choose_radii(self):
         self.apertures_requested.emit(
@@ -1800,15 +1796,10 @@ class PhotometryPage(Undoable, QWidget):
         if auto is not None and (auto != self.target or self.comps):
             return  # the target changed, or stars were clicked, while the suggestion was on its way
         self.edit(self.tr("suggested comparison stars"), self._set_comps, [tuple(c) for c in comps])
+        self.judged_stars = (catalogue or {}).get("table")
+        self.why_button.setEnabled(bool(self.judged_stars))
         if comps and catalogue:
-            text = self.tr("{n} comparison stars chosen from Gaia: about as bright as the target, not variable, "
-                           "alone, unsaturated, inside every frame.").format(n=len(comps))  # fmt: skip
-            if not catalogue.get("same_colour"):
-                text += " " + self.tr(
-                    "No star of the target's colour (BP−RP {c:.2f}) is in the field: with stars of another colour "
-                    "the light curve can drift slowly with airmass; detrend it against airmass."
-                ).format(c=catalogue["colour"])
-            self.result.setText(text)
+            self.result.setText(suggestion_text(len(comps), catalogue))
         if comps and not self._radii_set:
             self._choose_radii()
 
@@ -2306,6 +2297,8 @@ class PhotometryPage(Undoable, QWidget):
         return tab
 
     def _fill_measurements(self):
+        if getattr(self, "checks", None) and self.light_curve:  # the Checks tab (in the window, not the bare page)
+            self.checks.show_checks(self.light_curve)
         from PySide6.QtGui import QColor
 
         from ..photometry.measurements import filter_rows, measurements
