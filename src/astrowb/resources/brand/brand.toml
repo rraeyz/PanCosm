@@ -2,12 +2,12 @@
 # To rename the product, edit this file and follow CONTRIBUTING.md (Renaming the product).
 
 [brand]
-display_name = "Pancosm"            # shown in window titles, About box, installers
-short_name = "Pancosm"              # executable / installer file name (no spaces)
-organization = "Pancosm Project"    # vendor shown by installers
+display_name = "PanCosm"            # shown in window titles, About box, installers
+short_name = "PanCosm"              # executable / installer file name (no spaces)
+organization = "PanCosm Project"    # vendor shown by installers
 app_id = "pancosm"                  # lowercase id: settings/data folder names, Linux desktop id
 bundle_id = "org.pancosm.desktop"   # macOS CFBundleIdentifier
-windows_app_user_model_id = "Pancosm.Desktop"
+windows_app_user_model_id = "PanCosm.Desktop"
 homepage = "https://github.com/rraeyz/PanCosm"
 issues_url = "https://github.com/rraeyz/PanCosm/issues"
 icon = "icon.png"                   # relative to this folder; .ico/.icns are generated at build time
