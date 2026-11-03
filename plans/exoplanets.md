@@ -356,7 +356,11 @@ speed (2.4 ms per evaluation: a vectorised transit for the chains).
 - **Files:** `exoplanets/{system,likelihood,fit}.py`, step `exoplanets.global_fit`, `tests/test_exo_global.py`, `tests/validation/test_exofast_hat3.py`
 
 ### EXO-8. Rossiter–McLaughlin and occultation details  (P2)
-**open**
+**partial** — done (2026-11-12): `exoplanets/rm.py`: the RM anomaly as the first moment of the hidden light on a
+401² grid of the limb-darkened disc (v sin i★, λ): antisymmetric when aligned, one-signed for a polar orbit, the
+small-planet amplitude k² v x / (1 − k²) within 3 %, λ recovered exactly from noise-free data and within 3σ from
+one noisy realisation. Left: Hirano's line-profile terms, the anomaly in the global fit, phase curves and
+occultations per band, a published data set.
 - **Read first:** Ohta, Taruya & Suto 2005; Hirano et al. 2011 (the anomaly as measured by cross-correlation);
   Triaud 2018 (review); Albrecht et al. 2022.
 - **Build:** the RM anomaly in the velocity model (λ, v sin i, with the stellar line broadening terms of Hirano's
