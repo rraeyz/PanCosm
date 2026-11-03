@@ -9,6 +9,19 @@ from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
 from .lightcurve import light_curve
 
 
+def _check_positions(image, target, comps=()):
+    """Stars given outside the frame (a typo, the wrong frame's coordinates) are named, before photometry fails
+    with a message about arrays."""
+    from ..calibration.masters import load
+
+    ny, nx = load(image)[0].shape[-2:]
+    if not (0 <= target[0] < nx and 0 <= target[1] < ny):
+        raise ValueError(f"the target position {target[0]:g}, {target[1]:g} is outside the image ({nx} × {ny} px)")
+    for i, xy in enumerate(comps or (), 1):
+        if not (0 <= xy[0] < nx and 0 <= xy[1] < ny):
+            raise ValueError(f"comparison star {i} at {xy[0]:g}, {xy[1]:g} is outside the image ({nx} × {ny} px)")
+
+
 @step(
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),
@@ -24,8 +37,10 @@ from .lightcurve import light_curve
     aperture_m=None,
 )
 def light_curve_step(inputs, params, ctx):
+    images = timing.chronological(inputs["images"])
+    _check_positions(images[0], inputs["target_xy"], inputs["comps_xy"])
     lc = light_curve(
-        timing.chronological(inputs["images"]),
+        images,
         inputs["target_xy"],
         inputs["comps_xy"],
         params["r_ap"],
@@ -65,7 +80,9 @@ def apertures_step(inputs, params, ctx):
     from ..calibration.masters import load
     from .aperture import choose_apertures
 
-    data, header = load(timing.chronological(inputs["images"])[0])
+    first = timing.chronological(inputs["images"])[0]
+    _check_positions(first, inputs["target_xy"], inputs.get("comps_xy"))
+    data, header = load(first)
     ctx.progress(0.2, "photometry")
     gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     stars = [inputs["target_xy"], *(inputs.get("comps_xy") or [])]
@@ -130,6 +147,7 @@ def suggest_step(inputs, params, ctx):
     from .aperture import suggest_comparisons
 
     images = timing.chronological(inputs["images"])
+    _check_positions(images[0], inputs["target_xy"])
     offsets = align_offsets(images, ctx)  # stars must stay in the frame for the whole series
     data, _ = load(images[0])
     picks = suggest_comparisons(data, inputs["target_xy"], params["r_out"], n=params["n"], r_in=None, offsets=offsets)

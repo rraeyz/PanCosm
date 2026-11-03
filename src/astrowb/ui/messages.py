@@ -64,6 +64,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "stars blurred"),
     QT_TRANSLATE_NOOP("Messages", "few stars (clouds?)"),
     QT_TRANSLATE_NOOP("Messages", "bright sky"),
+    # photometry/steps.py
+    QT_TRANSLATE_NOOP("Messages", "the target position {x}, {y} is outside the image ({nx} × {ny} px)"),
+    QT_TRANSLATE_NOOP("Messages", "comparison star {n} at {x}, {y} is outside the image ({nx} × {ny} px)"),
     # photometry/catalog.py, steps.py
     QT_TRANSLATE_NOOP("Messages", "no comparison star has a catalogue magnitude"),
     QT_TRANSLATE_NOOP("Messages", "the first image has no sky coordinates: plate-solve it first (Image menu)"),

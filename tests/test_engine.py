@@ -1,5 +1,6 @@
 import time
 
+import numpy as np
 import pytest
 from astropy.io import fits
 
@@ -152,6 +153,18 @@ def test_steps_fail_fast_on_wrong_inputs(tmp_path):
     assert time.perf_counter() - t < 2
     with pytest.raises(ValueError, match="target's name"):
         execute("timeseries.mission_lc", {"target": " ", "folder": str(tmp_path)}, {}, Ctx())
+    frame = tmp_path / "f.fits"
+    fits.PrimaryHDU(np.zeros((40, 60), np.float32), fits.Header({"DATE-OBS": "2026-11-15T20:00:00"})).writeto(frame)
+    for step_id in ("photometry.light_curve", "photometry.apertures", "photometry.suggest_comparisons"):
+        with pytest.raises(ValueError, match="target position 5000, 5000 is outside the image"):
+            execute(step_id, {"images": [str(frame)], "target_xy": [5000, 5000], "comps_xy": [[1, 1]]}, {}, Ctx())
+    with pytest.raises(ValueError, match=r"comparison star 2 at 70, 3 is outside the image \(60 × 40 px\)"):
+        execute(
+            "photometry.light_curve",
+            {"images": [str(frame)], "target_xy": [5, 5], "comps_xy": [[1, 1], [70, 3]]},
+            {},
+            Ctx(),
+        )
 
 
 def test_a_worker_that_dies_is_reported(tq):
