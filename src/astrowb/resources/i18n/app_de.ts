@@ -9643,32 +9643,47 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="27"/>
+        <location filename="../../ui/photometry_checks.py" line="28"/>
         <source>Measure the light curve to check the night.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="40"/>
+        <location filename="../../ui/photometry_checks.py" line="30"/>
+        <source>Leave out the flagged points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="32"/>
+        <source>Their points leave the light curve; Undo brings them back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="55"/>
+        <source>leave out the flagged points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="66"/>
         <source>Flagged frames: {list}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="42"/>
+        <location filename="../../ui/photometry_checks.py" line="68"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="47"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>Frame</source>
         <translation type="unfinished">Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="47"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>File</source>
         <translation type="unfinished">Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="48"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>

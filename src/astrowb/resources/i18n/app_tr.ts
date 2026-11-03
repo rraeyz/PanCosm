@@ -9645,32 +9645,47 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>doymaya yakın</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="27"/>
+        <location filename="../../ui/photometry_checks.py" line="28"/>
         <source>Measure the light curve to check the night.</source>
         <translation>Geceyi denetlemek için ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="40"/>
+        <location filename="../../ui/photometry_checks.py" line="30"/>
+        <source>Leave out the flagged points</source>
+        <translation>İşaretli noktaları dışarıda bırak</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="32"/>
+        <source>Their points leave the light curve; Undo brings them back</source>
+        <translation>Noktaları ışık eğrisinden çıkar; Geri al onları geri getirir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="55"/>
+        <source>leave out the flagged points</source>
+        <translation>işaretli noktaları dışarıda bırakma</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="66"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="42"/>
+        <location filename="../../ui/photometry_checks.py" line="68"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="47"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="47"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="48"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>

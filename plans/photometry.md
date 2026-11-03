@@ -649,8 +649,8 @@ at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 comparison counts, bad seeing, a jump of the field, near saturation; frame indices per kind and the one-line
 verdict): a 6-frame cloud, a focus drift and a flip each flagged on their frames, a quiet night unflagged;
 `lc_checks` takes them from a measured light curve; the Photometry window's **Checks** results tab
-(`ui/photometry_checks.py`) shows the verdict and the flagged frames after every measurement. Left: the stacked
-plots, "Leave out flagged frames", the Qatar-1 check.
+(`ui/photometry_checks.py`) shows the verdict and the flagged frames after every measurement, a row shows its frame,
+"Leave out the flagged points" goes through the undoable exclusion. Left: the stacked plots, the Qatar-1 check.
 - **Ours now:** `photometry/quality.py` (`measure_run`, `measure`, `judge`: FWHM, star count, sky per frame; bad frames marked with reasons) and the Frames table — extend these, do not write a second quality module.
 - **Why:** users must see at a glance whether a dip is real or a cloud; AstroImageJ users plot airmass, sky, FWHM,
   X / Y by hand.

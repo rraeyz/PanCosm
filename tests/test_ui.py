@@ -238,6 +238,13 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     qtbot.waitUntil(lambda: page.light_curve is not None, timeout=60000)
     rel = np.array(page.light_curve["rel_flux"])
     assert abs(rel[12] / rel[2] - 0.97) < 0.01 and page.light_curve["time_scale"] == "BJD_TDB"
+    # the Checks tab (PHO-33) saw a clear night; flagged points leave through the undoable exclusion
+    assert "No frame flagged" in page.checks.verdict.text() and not page.checks.leave_out.isEnabled()
+    page.checks.flags = {"cloud": [3, 4]}
+    page.checks.leave_out_flagged()
+    assert len(page.light_curve["rel_flux"]) == 28
+    page.undo_stack.undo()
+    assert len(page.light_curve["rel_flux"]) == 30
     out = tmp_path / "lc.csv"
     from astrowb.ui.photometry_page import export_csv
 
