@@ -38,6 +38,12 @@ def display_limits(data: np.ndarray, interval: str = "zscale") -> tuple[float, f
     if sample.size == 0:
         return 0.0, 1.0
     lo, hi = INTERVALS[interval]().get_limits(sample)
+    inside = sample[(sample >= lo) & (sample <= hi)]
+    if interval == "zscale" and np.unique(inside).size < 16 and np.unique(sample).size >= 16:
+        # coarsely quantised data (8-bit phone / camera pictures): the sky noise is under one level, zscale picks a
+        # range one or two levels wide and the frame shows as black and white only; this range keeps it readable
+        lo, hi = np.percentile(sample, [0.5, 99.9])
+        hi = max(hi, float(np.median(sample)) + 16)  # a sky flat to one level: dark grey, the stars above it white
     if interval == "minmax":  # extremes must come from every pixel, not a sample
         lo, hi = np.nanmin(data), np.nanmax(data)
     if not hi > lo:

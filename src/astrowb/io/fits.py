@@ -48,7 +48,10 @@ def thumbnail(path, size=64):
         h = hdu.header
         step = max(1, -(-max(h["NAXIS1"], h["NAXIS2"]) // size))  # at most `size` pixels across
         index = (0,) * (int(h["NAXIS"]) - 2) + (slice(None, None, step), slice(None, None, step))
-        small = np.array(hdu.section[index], dtype=np.float32)
+        if getattr(hdul._file, "compression", None):  # .gz/.bz2/.zip: every seek decompresses from the start again
+            small = np.array(hdu.data[index], dtype=np.float32)  # (a 600 x 800 .fits.gz took 44 s row by row)
+        else:
+            small = np.array(hdu.section[index], dtype=np.float32)
     return to_display(small)
 
 
