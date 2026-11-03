@@ -96,7 +96,19 @@ def test_main_window_and_photometry_open_pictures(qtbot, tmp_path):
         assert win.current_path.suffix == ".fits" and win.viewer.data.shape == (60, 80)
         win.photometry_page.set_images(paths)
         assert all(p.endswith(".fits") for p in win.photometry_page.images)
+        from datetime import datetime
+
+        local = datetime.now().astimezone().utcoffset().total_seconds() / 3600  # the default: the computer's zone
+        assert f"camera clock − {local:g} h" in win.photometry_page.images_label.text()
+        win.calibrate_page.clock_offset.setValue(3)  # a phone on Turkish time: one setting for every page
+        win.photometry_page.set_images(paths)
+        assert fits.getheader(win.photometry_page.images[0])["DATE-OBS"] == "2025-08-12T20:40:05"
+        assert "camera clock − 3 h" in win.photometry_page.images_label.text()
+        assert Settings(tmp_path).get("camera.clock_utc_offset") == 3.0  # remembered for the next session
     finally:
+        from astrowb.io import bayer
+
+        bayer.CLOCK_UTC_OFFSET_H = 0.0
         win.engine.shutdown()
 
 

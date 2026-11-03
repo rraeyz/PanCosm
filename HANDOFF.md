@@ -59,24 +59,43 @@ and commits in English. Delete this file once the work is finished.
 - On the owner's real TUG night every engine step runs; the end-of-night, eclipsing-binary and transit
   automations run through.
 
-## In progress / to do
+## Second campaign (real mouse events on real-like data, all pushed to main)
 
-1. **CI**: check that the run for commit `c508204` (cryptography pin) and later is green on every job,
-   above all `package (macos-15-intel)`. If the smoke test still fails there, read its log.
-2. **Done in the handoff commit**: `OPEN_PATTERNS` in `src/astrowb/io/bayer.py` now lists every
-   FITS suffix (`.fit.gz`, `.fts.gz` were missing from the open dialog). Covered by the existing tests.
-3. **Timing headers** (`src/astrowb/timing.py`, was being reviewed): make sure every common way of writing
-   the time works: `DATE-OBS` with date only plus `TIME-OBS` / `UT` / `UTSTART` / `TIME_OBS`, `DATE` + `UT`,
-   only `JD` / `MJD-OBS`, `EXPOSURE` vs `EXPTIME`, local times with a time zone. `UTSTART` and `TIME_OBS`
-   are not read yet. Add a test for each.
-4. **GUI sweep on real data** (done once more at the end): 231 buttons and menu entries clicked on the
-   real night, no exception. The remaining messages are expected (empty plots answer "no Axes to edit"; the
-   automatic save dialog gave `.fits` names to plot saving; a FITS file opened as a project is refused).
-   Every engine step also ran on the real night: all OK, except two correct messages (period search on a
-   7-minute series; colour transformation on a frame without sky coordinates). Repeat the sweep after
-   larger changes.
-5. **Spectroscopy** with real data: the owner offered to send spectra; ask for them.
-6. Test unusual data more: colour (RGB) FITS, one-shot-colour Bayer FITS, data only in an extension (MEF),
-   8-bit / float / negative / NaN images, very large frames, phone night through photometry.
-7. Build the package locally (`packaging/build.py`) and run `--smoke-test` and `--check-online` in it.
-8. When everything is green and tested: ask the owner about a new release (tag `v*` starts the release job).
+Driving scripts with QTest clicks on generated data that imitates MaxIm DL nights, phone pictures, long-slit
+spectra, eclipsing binaries, a delta Scuti star, O-C minima, a visual binary and a 5-band UTM GeoTIFF, plus the
+INDI simulators (`apt install indi-bin`). Fixed on the way, each with a test:
+
+- Marked stars visible on a zoomed-out frame (fixed-size rings); gzipped FITS thumbnails 44 s -> instant;
+  8-bit pictures (phone, JPEG, colour PNG) readable on every astropy version (quantised data found from the data).
+- Plan page look-ups failed on a background thread (Qt crash risk): `run_step(..., on_fail=...)` runs on the GUI
+  thread; error texts drop module paths.
+- Observation times: date + UTSTART / UT-START / TIME_OBS / UTC, old dd/mm/yy, MJD, EXP_TIME / ITIME; a date
+  without a time of day is an error instead of midnight.
+- Spectroscopy: a line window that cuts the line is pointed out; reduced spectra not listed twice.
+- Light curves: "Remove outliers" judged points against the median and deleted the eclipses; now against the
+  neighbours in time (per night) and, with a period, in phase (cf. lightkurve: flatten, then clip).
+- Downloads name their archive and show their error; O-C asks for T0 and P; MCMC shows T0 with decimals; model
+  and automation failures are shown on their pages; the area tool's 3-D surface exports as CSV.
+- 98 engine error messages had no template (shown in English in every language): translated, and
+  `test_every_engine_error_has_a_template` keeps it so.
+- A target or comparison star outside the frame is named (photutils gave an array message).
+- Observe page: a finished slew shows 100 % and "Finished.".
+- Camera clock: one setting (Calibrate page, saved) now applies to pictures and raw files opened on every page;
+  default = the computer's UTC offset (as Siril via libraw); the Photometry page shows the offset used.
+
+Checked and correct, nothing to fix: Images page tools and all 16 Process operations, levels, blink, overlays,
+save/convert; period search (BLS/PDM exact, LS/ANOVA give P/2 on an Algol, as expected); frequency analysis
+(12.3454 / 15.0994 c/d vs 12.3456 / 15.1); O-C linear/quadratic/LTTE/apsidal; EB fit (i 86.46 vs 86.5);
+transit export; visual orbit (P 31.38 vs 31.4 yr); remote sensing (pixel read-out, UTM -> lon/lat, NDVI,
+k-means, PCA); eclipsing-binary automation (minimum 15.7 s from an independent astropy BJD, 2 sigma); Observe
+page with INDI simulators (slew, preview, cooler, focuser, filter, sequence, abort, resume, park).
+
+## Still to do
+
+1. **CI**: confirm the latest run is green on every job (the macOS 8-bit test failure is fixed in `ccc34e3`).
+2. Not reachable from the build container: SIMBAD, VizieR, VSX, AAVSO, ZTF, hips2fits (CDS / IRSA blocked) and
+   MAST through the container's CA bundle. The owner checks them with Help -> "Check the installation and
+   internet services".
+3. **Spectroscopy and photometry with the owner's real data**: ask for spectra and a night.
+4. Known limit: the third-body O-C fit has a linear ephemeris only (no simultaneous period change term).
+5. When everything is green and tested: ask the owner about a new release (tag `v*` starts the release job).

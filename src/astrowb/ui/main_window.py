@@ -107,6 +107,13 @@ class MainWindow(QMainWindow):
     def __init__(self, settings: Settings | None = None):
         super().__init__()
         self.settings = settings or Settings()
+        from datetime import datetime
+
+        from ..io import bayer
+
+        # cameras and phones keep local time: by default the computer's offset from UTC (as Siril via libraw)
+        local = datetime.now().astimezone().utcoffset().total_seconds() / 3600
+        bayer.CLOCK_UTC_OFFSET_H = float(self.settings.get("camera.clock_utc_offset", local))  # every picture opened
         self.engine = Engine()
         self.current_path: Path | None = None
         self.wcs = None
@@ -690,10 +697,21 @@ class MainWindow(QMainWindow):
 
     def _make_calibrate_page(self):
         page = CalibratePage(self)
+        from ..io import bayer
+
+        page.clock_offset.setValue(bayer.CLOCK_UTC_OFFSET_H)
+        page.clock_offset.valueChanged.connect(self._set_clock_offset)
         page.scan_requested.connect(self.scan_raw)
         page.run_requested.connect(self.calibrate)
         page.stack_requested.connect(self.stack_images)
         return page
+
+    def _set_clock_offset(self, hours):
+        """Camera clock - UTC, for every camera raw file and picture opened from now on (all pages)."""
+        from ..io import bayer
+
+        bayer.CLOCK_UTC_OFFSET_H = float(hours)
+        self.settings.set("camera.clock_utc_offset", float(hours))
 
     def show_workspace(self, key):
         self.nav.setCurrentItem(self._nav_items()[key])
