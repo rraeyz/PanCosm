@@ -458,7 +458,10 @@ times relative to the first point; values, covariance errors, depth in ppt and m
 χ², χ²ᵣ, BIC, RMS, β; `planet_radius`; `compare_detrending` by BIC) and the step `photometry.transit_fit` (series
 airmass, fwhm, sky, x, y from the light curve; limb darkening fixed unless asked). Tests: in 40 synthetic nights
 with an airmass trend all four parameters within 2.5σ in ≥ 36; BIC keeps the airmass term; a prior narrows a/R★;
-265 points in about 65 ms. Left: the Timing stage's table and plot, the archive fill, limb darkening from tables,
+265 points in about 65 ms. The window: "Exact transit model → Fit the transit" under Time of minimum
+(`ui/photometry_transit.py`: the period typed above, start values from the smoothed dip, airmass detrending when
+the curve has it; the result sentence with the mid-time, depth, durations, a/R★, b, i, ρ★, χ²ᵣ, RMS, β). Left: the
+parameter table and plot, the archive fill, limb darkening from tables,
 MCMC, the eclipse variant, the Qatar-1 checks, sending the mid-time.
 - **Why:** AstroImageJ's most used feature after the light curve: fit the transit with detrending and priors and read
   depth, duration and mid-time at once. Ours fits a trapezoid; the exact model is one window away.
