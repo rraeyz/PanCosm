@@ -11,9 +11,9 @@ By submitting a contribution (a pull request, a patch, a translation, an image o
 confirm that you wrote it or otherwise have the right to submit it, and you agree that:
 
 1. your contribution is licensed under GPL-3.0-or-later, and
-2. you grant the project owner a perpetual, worldwide, non-exclusive, royalty-free and irrevocable licence to
-   use, copy, modify, distribute, sublicense and relicense your contribution, also under other licence terms
-   (including a later change of the project's licence or a separate commercial licence).
+2. you grant the project owner (rraeyz) a perpetual, worldwide, non-exclusive, royalty-free and irrevocable
+   licence to use, copy, modify, distribute, sublicense and relicense your contribution, also under other
+   licence terms (including a later change of the project's licence or a separate commercial licence).
 
 You keep the copyright of your contribution. Please say so in the pull request if you cannot agree.
 
@@ -31,8 +31,9 @@ The INDI simulator test needs `indi-bin` (skipped otherwise).
 
 ## Rules checked by CI
 
-- **The product name lives only in `src/astrowb/resources/brand/brand.toml`.** Never write it anywhere else
-  (code, docs, tests, settings keys, file formats); say "the application". `tools/check_brand.py` fails the build.
+- **The product name lives only in `src/astrowb/resources/brand/brand.toml`** (and in `README.md`). Never write
+  it anywhere else (code, docs, tests, settings keys, file formats); say "the application".
+  `tools/check_brand.py` fails the build.
 - **No GPL / AGPL library inside the installers** (`tools/check_licenses.py`); LGPL and permissive libraries
   only, GPL tools only as external programs. This keeps every future licensing option open.
 - **Every user-interface string is translatable** (`self.tr(...)`) and no translation is left unfinished:
