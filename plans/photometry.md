@@ -213,7 +213,15 @@ rings, the rules section, "Use anyway", the pixel-only table, the guide, the NY 
   `brightness2DistanceWeight 50`, `maxSuggestedStars 12`; `Seeing_Profile.java`: radii 1.7 / 3.4 / 6.8 FWHM.
 
 ### PHO-18. Crowded fields: PSF photometry with an empirical PSF, and neighbour removal  (P1)
-**open**
+**partial** — done (2026-11-13), the engine: `photometry/psf.py` on photutils (BSD): `select_psf_stars` (bright,
+unsaturated, isolated, inside), `build_epsf` (EPSFBuilder on the sky-subtracted frame), `gaussian` (the analytic
+fallback), `measure` (forced positions or within ± max_move, groups at 2.5 FWHM with the neighbours fitted too,
+flux errors), `subtract` (the fitted neighbours removed for "aperture after removing neighbours"). Test: a pair
+1.5 FWHM apart (1 : 3): PSF within 1 %, apertures after removal within 1.5 %, a plain aperture off by more than 10 %,
+all as ratios to an isolated star (the ePSF's own normalisation is about 2 % off and cancels; PSF stars need
+sub-pixel positions — on a grid of whole pixels the ePSF came out 2 % wrong). Left: method in light_curve and
+the live path, the catalogue neighbours, the measurements-table columns, the Measure stage choice and banner, the
+PSF tab, the eclipse-of-the-fainter-star test, error codes.
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
