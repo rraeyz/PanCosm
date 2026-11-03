@@ -209,13 +209,35 @@ def is_fits(path):
     return str(path).lower().endswith(FITS_SUFFIXES)
 
 
+def _is_cube(path):
+    from .fits import find_image_hdu
+
+    with fits.open(path) as hdul:
+        return int(hdul[find_image_hdu(hdul)].header.get("NAXIS", 2)) > 2
+
+
 def fits_copy(path, clock_utc_offset_h=0.0):
     """The file itself when it is FITS; for a camera raw file or a picture, a FITS copy in fits_from_raw next to
     it (made once, kept while the original is unchanged), so every tool can work on it."""
     path = Path(path)
-    if is_fits(path):
+    cube = is_fits(path) and _is_cube(path)
+    if is_fits(path) and not cube:
         return path
-    target = path.parent / "fits_from_raw" / (path.stem + ".fits")
+    stem = next((path.name[: -len(x)] for x in FITS_SUFFIXES if path.name.lower().endswith(x)), path.stem)
+    target = path.parent / "fits_from_raw" / (stem + ".fits")
+    if cube:  # a 3-D FITS (colour cube, a stack of one plane): the 2-D image every tool works on
+        from .fits import find_image_hdu, plane
+
+        if not (target.exists() and target.stat().st_mtime >= path.stat().st_mtime):
+            with fits.open(path) as hdul:
+                hdu = hdul[find_image_hdu(hdul)]
+                data, h = np.asarray(plane(hdu.data), np.float32), hdu.header.copy()
+            for key in ("NAXIS3", "NAXIS4", "CTYPE3", "CRPIX3", "CRVAL3", "CDELT3", "CUNIT3"):
+                h.remove(key, ignore_missing=True)
+            h.add_history(f"2-D image from the cube {path.name}")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            fits.PrimaryHDU(data, h).writeto(target, overwrite=True, output_verify="silentfix")
+        return target
     if target.exists() and target.stat().st_mtime >= path.stat().st_mtime:
         if fits.getheader(target).get("CLKOFFS") == float(clock_utc_offset_h):
             return target

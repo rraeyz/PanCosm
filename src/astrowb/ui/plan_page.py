@@ -42,6 +42,18 @@ class PlanPage(QWidget):
         site = self.settings.get("site", {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0})
         grid = QGridLayout()
         self.site_name = QLineEdit(site["name"], self)
+        self.site_name.setPlaceholderText(self.tr("observatory name, e.g. TUG, Roque de los Muchachos"))
+        self.site_name.setToolTip(self.tr("Type the name of a known observatory to fill in its position"))
+        from PySide6.QtWidgets import QCompleter
+
+        from ..planning.sites import observatories
+
+        completer = QCompleter(sorted(observatories(), key=str.lower), self)
+        completer.setCaseSensitivity(Qt.CaseInsensitive)
+        completer.setFilterMode(Qt.MatchContains)
+        self.site_name.setCompleter(completer)
+        completer.activated.connect(self._known_site)
+        self.site_name.editingFinished.connect(lambda: self._known_site(self.site_name.text()))
         self.lat, self.lon, self.height = (
             self._spin(site[k], lo, hi, d)
             for k, lo, hi, d in (("lat", -90, 90, 4), ("lon", -180, 180, 4), ("height", -500, 6000, 0))
@@ -230,6 +242,16 @@ class PlanPage(QWidget):
         self.plan_requested.emit(
             self.site(), self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
         )
+
+    def _known_site(self, name):
+        """A known observatory's name fills its latitude, longitude and height."""
+        from ..planning.sites import find
+
+        where = find(name)
+        if where:
+            for box, value in zip((self.lat, self.lon, self.height), where, strict=True):
+                box.setValue(value)
+        return where
 
     def exposure_dialog(self):
         from .exposure_dialog import ExposureDialog

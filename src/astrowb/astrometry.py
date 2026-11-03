@@ -79,8 +79,11 @@ def find_solver() -> tuple[str, list[str]] | None:
     return ("astrometry.net", [exe]) if exe else None
 
 
-def solve(path, solver=None, ra_deg=None, dec_deg=None, radius_deg=30.0, fov_deg=0.0, timeout=600) -> fits.Header:
-    """Return a header holding only the WCS solution of the image at path."""
+def solve(
+    path, solver=None, ra_deg=None, dec_deg=None, radius_deg=30.0, fov_deg=0.0, timeout=600, scale_arcsec=None
+) -> fits.Header:
+    """Return a header holding only the WCS solution of the image at path. scale_arcsec: the pixel scale when
+    known (from the focal length and pixel size), which makes solving much faster."""
     solver = solver or find_solver()
     if solver is None:
         raise SolveError("no plate solver installed: install ASTAP (with a star database) or astrometry.net")
@@ -106,6 +109,9 @@ def solve(path, solver=None, ra_deg=None, dec_deg=None, radius_deg=30.0, fov_deg
         else:
             cmd = argv + [
                 "--no-plots",
+                "--no-remove-lines",  # these two steps need Python modules many installations lack (Debian, Ubuntu)
+                "--uniformize",
+                "0",
                 "--overwrite",
                 "--dir",
                 tmp,
@@ -119,6 +125,9 @@ def solve(path, solver=None, ra_deg=None, dec_deg=None, radius_deg=30.0, fov_deg
             ]
             if ra_deg is not None and dec_deg is not None:
                 cmd += ["--ra", str(ra_deg), "--dec", str(dec_deg), "--radius", str(radius_deg)]
+            if scale_arcsec:
+                cmd += ["--scale-units", "arcsecperpix", "--scale-low", str(0.8 * scale_arcsec)]
+                cmd += ["--scale-high", str(1.25 * scale_arcsec)]
         try:
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
         except subprocess.TimeoutExpired:

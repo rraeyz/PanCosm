@@ -154,6 +154,32 @@ def smoke_test(workdir: Path) -> None:
     assert np.allclose(img, ref, rtol=1e-4), "GPU and CPU disagree"
 
 
+def _show_unexpected_errors(settings):
+    """An error nobody caught (in a button's handler) is shown, and kept in error.log in the settings folder,
+    instead of only being printed where no user sees it: a button that "does nothing" is worse than a message."""
+    import datetime
+
+    from PySide6.QtWidgets import QApplication, QMessageBox
+
+    log = settings.path.parent / "error.log"
+
+    def hook(kind, value, tb):
+        text = "".join(traceback.format_exception(kind, value, tb))
+        try:
+            with log.open("a", encoding="utf-8") as f:
+                f.write(f"--- {datetime.datetime.now().isoformat(timespec='seconds')}\n{text}\n")
+        except OSError:  # a read-only settings folder must not hide the message
+            pass
+        sys.__stderr__ and sys.__stderr__.write(text)
+        if QApplication.instance():
+            title = QApplication.translate("App", "Unexpected error")
+            box = QMessageBox(QMessageBox.Critical, title, f"{kind.__name__}: {value}")
+            box.setDetailedText(text)
+            box.exec()
+
+    sys.excepthook = hook
+
+
 def main(argv=None) -> int:
     multiprocessing.freeze_support()  # required for worker processes in frozen (installed) builds
     if getattr(sys, "frozen", False) and "SSL_CERT_FILE" not in os.environ:
@@ -237,6 +263,7 @@ def main(argv=None) -> int:
 
     from .ui.main_window import MainWindow
 
+    _show_unexpected_errors(settings)
     win = MainWindow(settings)
     for f in args.files:
         win.open_project(f) if f.suffix == ".astroproj" else win.open_fits(f, ask=True)

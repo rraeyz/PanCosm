@@ -2,6 +2,7 @@
 screen theme, and any table as CSV or a LaTeX tabular."""
 
 import pickle
+from pathlib import Path
 
 INK = "black"
 
@@ -34,9 +35,14 @@ def publication_copy(figure, width_in=6.5, font_size=9):
 
 
 def save_publication(figure, path):
+    """A white, print-ready copy of the figure; a name without a picture type (or with one matplotlib cannot
+    write, e.g. .fits) gets .png."""
     fig = publication_copy(figure)
+    path = Path(path)
+    if path.suffix.lower().lstrip(".") not in fig.canvas.get_supported_filetypes():
+        path = path.with_name(path.name + ".png")
     fig.savefig(path, dpi=300, facecolor="white", bbox_inches="tight")
-    return path
+    return str(path)
 
 
 def table_rows(table):

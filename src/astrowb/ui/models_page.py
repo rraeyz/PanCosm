@@ -216,7 +216,13 @@ class ModelsPage(QWidget):
     def load_overlay(self, path):
         from ..models.data import read_model_curve
 
-        x, f = read_model_curve(path)
+        try:
+            x, f = read_model_curve(path)
+        except Exception as e:  # not a table of phase (or time) and flux
+            from PySide6.QtWidgets import QMessageBox
+
+            QMessageBox.warning(self, self.tr("Model curve"), f"{path}\n\n{e}")
+            return None
         if self.result and np.nanmax(np.abs(x)) > 2:  # times: fold with the fitted ephemeris
             p = self.result["params"]
             x = ((x - p["t0"]) / p["period"] + 0.25) % 1 - 0.25

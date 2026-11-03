@@ -4,6 +4,8 @@ Die Seite **Planen** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und wel
 ## Ihr Standort
 Geben Sie **Breite** (Grad, Nord positiv), **Länge** (Grad, Ost positiv) und **Höhe** (Meter) der Sternwarte ein. Die Werte werden gespeichert. Sie dienen auch der baryzentrischen Korrektur von Radialgeschwindigkeiten und den Dämmerungszeiten.
 
+Geben Sie in **Standort** den Namen einer bekannten Sternwarte ein (zum Beispiel *TUG*, *Roque de los Muchachos*, *Kitt Peak*): beim Tippen erscheint eine Liste von etwa 380 Sternwarten, und die Auswahl trägt Breite, Länge und Höhe ein. Die Liste stammt aus astropy und funktioniert offline.
+
 ## Die Nacht und die Höhengrenze
 - **Nacht beginnend am:** das Datum des Abends, an dem die Nacht beginnt.
 - **Niedrigste Höhe (°):** Darunter gilt ein Ziel als nicht beobachtbar (Bäume, Gebäude, dicke Luft). Üblich sind 20–30°.
