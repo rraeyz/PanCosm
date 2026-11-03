@@ -139,8 +139,11 @@ def test_eight_bit_pictures_are_not_shown_black_and_white():
     sky = 300 + 20000 * np.exp(-((xx - 200) ** 2 + (yy - 150) ** 2) / 8) + rng.normal(0, 10, yy.shape)
     eight = np.clip(sky / 80, 0, 255).astype(np.uint8).astype(np.float32)  # the sky is one level: 3
     shown = display.to_display(eight)
-    assert len(np.unique(shown)) > 16
-    assert int(shown[150, 200]) - int(np.median(shown)) > 150 and np.median(shown) < 60  # white star, dark sky
+    assert len(np.unique(shown)) >= 8  # the star's levels, not two greys
+    assert int(shown[150, 200]) - int(np.median(shown)) > 150 and 10 < np.median(shown) < 60  # white star, dark sky
+    assert display.display_limits(eight) == (1.0, 19.0)  # the same with every astropy version (zscale is not)
+    luminance = (0.299 * eight + 0.587 * eight + 0.114 * eight).astype(np.float32)  # a colour PNG: not quite integers
+    assert np.allclose(display.display_limits(luminance), (1.0, 19.0), atol=1e-4)
     sixteen = np.clip(sky, 0, 65535).astype(np.uint16).astype(np.float32)
     from astropy.visualization import ZScaleInterval
 

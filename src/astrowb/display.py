@@ -38,12 +38,16 @@ def display_limits(data: np.ndarray, interval: str = "zscale") -> tuple[float, f
     if sample.size == 0:
         return 0.0, 1.0
     lo, hi = INTERVALS[interval]().get_limits(sample)
-    inside = sample[(sample >= lo) & (sample <= hi)]
-    if interval == "zscale" and np.unique(inside).size < 16 and np.unique(sample).size >= 16:
-        # coarsely quantised data (8-bit phone / camera pictures): the sky noise is under one level, zscale picks a
-        # range one or two levels wide and the frame shows as black and white only; this range keeps it readable
+    vals, counts = np.unique(sample, return_counts=True)
+    top = np.argsort(counts)[-3:]
+    if interval == "zscale" and 16 <= vals.size <= 1024 and top.size > 1 and counts[top].sum() > 0.8 * sample.size:
+        # coarsely quantised data (8-bit phone / camera pictures, also as colour luminance): the sky sits on one or
+        # two levels and zscale gives a range one level wide (black and white only) or, with other astropy versions,
+        # the whole range (sky black); this one keeps the frame readable whatever the version
+        step = float(np.min(np.diff(np.sort(vals[top]))))  # one quantisation level
+        med = float(np.median(sample))
         lo, hi = np.percentile(sample, [0.5, 99.9])
-        hi = max(hi, float(np.median(sample)) + 16)  # a sky flat to one level: dark grey, the stars above it white
+        lo, hi = min(lo, med - 2 * step), max(hi, med + 16 * step)  # sky dark grey, the stars above it white
     if interval == "minmax":  # extremes must come from every pixel, not a sample
         lo, hi = np.nanmin(data), np.nanmax(data)
     if not hi > lo:
