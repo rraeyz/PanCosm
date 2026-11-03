@@ -100,6 +100,150 @@ TEMPLATES = (
     # io/fits.py
     QT_TRANSLATE_NOOP("Messages", "the keyword {key} describes the data and cannot be edited"),
     QT_TRANSLATE_NOOP("Messages", "the value of {key} must be plain ASCII text (FITS standard)"),
+    # errors raised in the engine (shown when a task fails)
+    # astrometry.py
+    QT_TRANSLATE_NOOP("Messages", "the solver's output has no celestial WCS"),
+    QT_TRANSLATE_NOOP("Messages", "solver did not finish within {timeout} s"),
+    # calibration/masters.py
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "dark ({t_dark} s) without bias subtraction cannot be scaled to {exptime} s; add bias frames or darks with the same exposure",  # noqa: E501
+    ),
+    QT_TRANSLATE_NOOP("Messages", "linearity coefficients: give at least c0 and c1, with c1 > 0"),
+    QT_TRANSLATE_NOOP("Messages", "frames have different sizes: {shapes}"),
+    QT_TRANSLATE_NOOP("Messages", "no frames to combine"),
+    QT_TRANSLATE_NOOP("Messages", "{name}: no EXPTIME"),
+    QT_TRANSLATE_NOOP("Messages", "darks with different exposure times cannot be combined: {times}"),
+    QT_TRANSLATE_NOOP("Messages", "{name}: flat level {level} is not positive"),
+    # calibration/starmatch.py
+    QT_TRANSLATE_NOOP("Messages", "too few stars to match the frames"),
+    QT_TRANSLATE_NOOP("Messages", "the star patterns of the frames do not match"),
+    # compute/__init__.py
+    QT_TRANSLATE_NOOP("Messages", "no GPU adapter"),
+    QT_TRANSLATE_NOOP("Messages", "only a software adapter: {device}"),
+    # devices/focus.py
+    QT_TRANSLATE_NOOP("Messages", "too few focus measurements"),
+    # devices/indi.py
+    QT_TRANSLATE_NOOP("Messages", "INDI server connection lost"),
+    QT_TRANSLATE_NOOP("Messages", "pier side not reported"),
+    QT_TRANSLATE_NOOP("Messages", "{device} cannot bin"),
+    QT_TRANSLATE_NOOP("Messages", "{device}: property {name} not available"),
+    QT_TRANSLATE_NOOP("Messages", "{device}: {name} did not reach {states}"),
+    # devices/phd2.py
+    QT_TRANSLATE_NOOP("Messages", "PHD2 closed the connection"),
+    QT_TRANSLATE_NOOP("Messages", "PHD2 did not answer in time"),
+    QT_TRANSLATE_NOOP("Messages", "PHD2 connection lost: {error}"),
+    QT_TRANSLATE_NOOP("Messages", "guiding did not settle: {error}"),
+    # devices/pointing.py
+    QT_TRANSLATE_NOOP("Messages", "not centred after {n} images ({error} arcsec off)"),
+    QT_TRANSLATE_NOOP("Messages", "the three positions are too close together: turn the RA axis further"),
+    # devices/sequence.py
+    QT_TRANSLATE_NOOP("Messages", "filter {name} is not in the wheel {names}"),
+    QT_TRANSLATE_NOOP("Messages", "camera did not deliver the image in time"),
+    # devices/server.py
+    QT_TRANSLATE_NOOP("Messages", "no {what} tonight at this site"),
+    QT_TRANSLATE_NOOP("Messages", "request too large"),
+    # engine/automation.py
+    QT_TRANSLATE_NOOP("Messages", "{path}: not an automation (no step list)"),
+    QT_TRANSLATE_NOOP("Messages", "two numbers expected: x y"),
+    QT_TRANSLATE_NOOP("Messages", "pairs expected: a b; c d; ..."),
+    QT_TRANSLATE_NOOP("Messages", "latitude longitude [height in m] expected"),
+    # engine/builtin.py
+    QT_TRANSLATE_NOOP("Messages", "unknown operation {op}"),
+    # engine/project.py
+    QT_TRANSLATE_NOOP("Messages", "project file must end with {extension}"),
+    QT_TRANSLATE_NOOP("Messages", "project was written by a newer version (schema {version})"),
+    # io/bayer.py
+    QT_TRANSLATE_NOOP("Messages", "{name}: not a 2-D picture (shape {shape})"),
+    QT_TRANSLATE_NOOP("Messages", "{name}: not a 2 x 2 Bayer sensor (e.g. Fujifilm X-Trans, Foveon)"),
+    # io/fits.py
+    QT_TRANSLATE_NOOP("Messages", "no image data in file"),
+    QT_TRANSLATE_NOOP("Messages", "destination must differ from source"),
+    # io/inspect.py
+    QT_TRANSLATE_NOOP("Messages", "the rectangle is outside the image"),
+    QT_TRANSLATE_NOOP("Messages", "the rectangle has no valid pixels"),
+    # io/process.py
+    QT_TRANSLATE_NOOP("Messages", "empty crop region"),
+    QT_TRANSLATE_NOOP("Messages", "the factor must be positive"),
+    QT_TRANSLATE_NOOP("Messages", "the image has no valid pixels"),
+    QT_TRANSLATE_NOOP("Messages", "image too small for this box size"),
+    QT_TRANSLATE_NOOP("Messages", "the images do not have the same size"),
+    # models/data.py
+    QT_TRANSLATE_NOOP("Messages", "{name}: need at least a time and a value column"),
+    QT_TRANSLATE_NOOP("Messages", "not a table with two columns (time or phase, flux)"),
+    # models/fit.py
+    QT_TRANSLATE_NOOP("Messages", "give the period and the time of primary minimum"),
+    # models/visual.py
+    QT_TRANSLATE_NOOP("Messages", "a visual orbit needs at least 7 measures (seven elements)"),
+    QT_TRANSLATE_NOOP("Messages", "no measures"),
+    QT_TRANSLATE_NOOP("Messages", "each line needs epoch, position angle and separation"),
+    # photometry/aperture.py
+    QT_TRANSLATE_NOOP("Messages", "the telescope aperture and the exposure time must be positive"),
+    # photometry/differential.py
+    QT_TRANSLATE_NOOP("Messages", "too few points outside the left-out range to detrend"),
+    # photometry/export.py
+    QT_TRANSLATE_NOOP("Messages", "give one catalogue magnitude per comparison star"),
+    QT_TRANSLATE_NOOP("Messages", "star name, observer code and filter are required"),
+    # photometry/polarimetry.py
+    QT_TRANSLATE_NOOP("Messages", "need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)"),
+    # planning/targets.py
+    QT_TRANSLATE_NOOP("Messages", "SIMBAD does not know '{name}'"),
+    QT_TRANSLATE_NOOP("Messages", "cannot reach SIMBAD and '{name}' is not in the local cache ({error})"),
+    # remotesensing/analysis.py
+    QT_TRANSLATE_NOOP("Messages", "not allowed in an expression: {expr}"),
+    QT_TRANSLATE_NOOP("Messages", "the two images are not on the same pixel grid"),
+    QT_TRANSLATE_NOOP("Messages", "cannot read the expression: {error}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown band {band}; available: {bands}"),
+    # remotesensing/raster.py
+    QT_TRANSLATE_NOOP("Messages", "no image (2-D variable) in this file"),
+    # spectroscopy/analysis.py
+    QT_TRANSLATE_NOOP("Messages", "too few points in the window"),
+    QT_TRANSLATE_NOOP("Messages", "too few points on one side of the line"),
+    QT_TRANSLATE_NOOP("Messages", "no red emission peak above the continuum"),
+    QT_TRANSLATE_NOOP("Messages", "pick at least two continuum points"),
+    QT_TRANSLATE_NOOP("Messages", "the reference spectrum does not cover the observed one"),
+    # spectroscopy/atmosphere.py
+    QT_TRANSLATE_NOOP("Messages", "no grid spectra"),
+    QT_TRANSLATE_NOOP("Messages", "the grid does not cover this spectrum's wavelengths"),
+    QT_TRANSLATE_NOOP("Messages", "the grid has no complete box of points"),
+    # spectroscopy/bf.py
+    QT_TRANSLATE_NOOP("Messages", "observed and template spectra hardly overlap for this velocity range"),
+    QT_TRANSLATE_NOOP("Messages", "the broadening function shows fewer than {n} peaks"),
+    # spectroscopy/cube.py
+    QT_TRANSLATE_NOOP("Messages", "the cube has no wavelength axis (CRVAL3 / CDELT3)"),
+    QT_TRANSLATE_NOOP("Messages", "unknown wavelength unit {unit}"),
+    QT_TRANSLATE_NOOP("Messages", "no 3-D data cube in this file"),
+    # spectroscopy/disentangle.py
+    QT_TRANSLATE_NOOP("Messages", "the spectra hardly overlap"),
+    # spectroscopy/echelle.py
+    QT_TRANSLATE_NOOP("Messages", "no orders found"),
+    QT_TRANSLATE_NOOP("Messages", "identify at least four lines in at least two orders"),
+    QT_TRANSLATE_NOOP("Messages", "order at row {row} could not be traced"),
+    QT_TRANSLATE_NOOP("Messages", "too few lines matched: check the identified lines, order numbers and line list"),
+    QT_TRANSLATE_NOOP("Messages", "at least two orders are needed to measure the scattered light"),
+    # spectroscopy/rv.py
+    QT_TRANSLATE_NOOP("Messages", "observed and template spectra hardly overlap"),
+    QT_TRANSLATE_NOOP("Messages", "CCF peak at the edge of the velocity range: widen the range"),
+    # spectroscopy/sb2.py
+    QT_TRANSLATE_NOOP("Messages", "TODCOR peak at the edge of the velocity range: widen the range"),
+    # spectroscopy/spectrum_io.py
+    QT_TRANSLATE_NOOP("Messages", "{name}: no spectrum found"),
+    QT_TRANSLATE_NOOP("Messages", "{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)"),
+    # spectroscopy/steps.py
+    QT_TRANSLATE_NOOP("Messages", "give a period guess (e.g. from the period search)"),
+    # spectroscopy/telluric.py
+    QT_TRANSLATE_NOOP("Messages", "the spectrum does not cover a telluric band"),
+    # spectroscopy/wavecal.py
+    QT_TRANSLATE_NOOP("Messages", "identify at least two lines"),
+    QT_TRANSLATE_NOOP("Messages", "too few lines matched: check the identified lines and the line list"),
+    # timeseries/minima.py
+    QT_TRANSLATE_NOOP("Messages", "the minimum must have data on both sides"),
+    QT_TRANSLATE_NOOP("Messages", "no minimum found"),
+    # timing.py
+    QT_TRANSLATE_NOOP("Messages", "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)"),
+    QT_TRANSLATE_NOOP("Messages", "not an angle: {value}"),
+    # updates.py
+    QT_TRANSLATE_NOOP("Messages", "no GitHub repository configured for update checks"),
     # progress shown in the task list (ctx.progress in the steps)
     QT_TRANSLATE_NOOP("Messages", "reading headers"),
     QT_TRANSLATE_NOOP("Messages", "master bias"),

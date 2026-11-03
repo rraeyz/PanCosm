@@ -1140,7 +1140,7 @@ class MainWindow(QMainWindow):
         try:
             project = Project(path)  # first the new one: a file that is not a project must not close the open one
         except Exception as e:  # not a project file, damaged, no permission
-            QMessageBox.warning(self, self.tr("Cannot open project"), f"{path}\n\n{e}")
+            QMessageBox.warning(self, self.tr("Cannot open project"), f"{path}\n\n{translate(str(e))}")
             return False
         if self.engine.project:
             self.engine.project.close()
@@ -1226,7 +1226,7 @@ class MainWindow(QMainWindow):
                 path = fitsio.extract_extension(path, extension)
             data, header, _ = fitsio.read_image(path)
         except Exception as e:  # unreadable or non-image file: tell the user, keep the current image
-            QMessageBox.warning(self, self.tr("Cannot open file"), f"{path}\n\n{e}")
+            QMessageBox.warning(self, self.tr("Cannot open file"), f"{path}\n\n{translate(str(e))}")
             return False
         self.current_path = path
         try:
