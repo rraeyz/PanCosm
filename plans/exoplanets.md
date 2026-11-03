@@ -375,7 +375,8 @@ occultations per band, a published data set.
 (k, a/R★, b) and a polynomial baseline per night solved linearly inside every evaluation, on a linear ephemeris or
 with a free mid-time per night; started at several impact parameters (the b–a/R★ valley); times as parameters
 relative to the first mid-time (absolute JDs made the finite-difference steps 0.04 d and the fit stopped anywhere).
-Tests: three nights with different trends give T0 and P within 3σ and k with an error √3 smaller than one night's.
+Tests: three nights with different trends give T0 and P within 3σ and a sharper k than a night alone (not √3
+exactly: alone, nights slide to b = 0 at the edge of the b–a/R★ valley, where k's formal error is small).
 Left: the depth against wavelength, the practice nights through the interface, the One-transit way in.
 - **Build:** the "One transit" way in: the same model and table as PHO-26 with the star and archive stages of this
   window; "Many transits": a list of nights (our own light-curve files, PHO-48) fitted together with a shared
