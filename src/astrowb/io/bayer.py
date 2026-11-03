@@ -27,7 +27,7 @@ PICTURE_SUFFIXES = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp")
 FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
 # for file dialogs: everything the application can open as an image
 OPEN_PATTERNS = " ".join(
-    f"*{s} *{s.upper()}" for s in FITS_SUFFIXES[:4] + (".fits.fz",) + RAW_SUFFIXES + PICTURE_SUFFIXES
+    f"*{s} *{s.upper()}" for s in FITS_SUFFIXES + RAW_SUFFIXES + PICTURE_SUFFIXES
 )
 
 
