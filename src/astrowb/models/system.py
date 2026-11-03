@@ -28,7 +28,7 @@ class Parameter:
 
 @dataclass
 class DataSet:
-    kind: str  # "lc" (with band), "rv1", "rv2", "minima"
+    kind: str  # "lc" (with band), "rv1", "rv2", "minima" (time: epochs, value: times of minimum)
     time: np.ndarray
     value: np.ndarray
     error: np.ndarray | None = None
@@ -43,6 +43,7 @@ class System:
     params: dict = field(default_factory=dict)
     data: list = field(default_factory=list)
     morphology: str = "detached"
+    constraints: list = field(default_factory=list)  # (label, function(values), mean, σ): MOD-17
 
     def __getitem__(self, key):
         return self.params[key].value

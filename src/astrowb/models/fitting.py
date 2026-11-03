@@ -10,7 +10,9 @@ Optimisers: "lm" (bounded trust-region least squares with finite differences), "
 "careful" (DE over the parameters given as geometric, then lm over all). Every run is a history row that can be
 restored exactly.
 
-model(values, dataset) → the model at the data set's times (before its linear scale or zero point).
+model(values, dataset) → the model at the data set's times (before its linear scale or zero point); for a data set
+of kind "minima" the times of minimum at its epochs. system.constraints: (label, function(values), mean, σ) —
+Gaussian constraints on derived quantities (a spectroscopic light ratio, a known third light, a parallax).
 """
 
 import time
@@ -54,11 +56,14 @@ def _sigmas(system, model, weights):
 
 
 def _linear(d, m):
-    """The data set's linear term solved: a flux scale for light curves, a zero point otherwise; (model, resid)."""
+    """The data set's linear term solved: a flux scale for light curves, a zero point for velocities, none for
+    times of minimum (the model gives the times themselves); (model, resid)."""
     y = np.asarray(d.value, float)
     if d.kind == "lc":
         scale = (m @ y) / max(m @ m, 1e-300)
         fitted = scale * m
+    elif d.kind == "minima":
+        fitted = m
     else:
         fitted = m + np.mean(y - m)
     return fitted, y - fitted
@@ -71,6 +76,8 @@ def residuals(system, model, sigmas, free, x):
         prior = system.params[k].prior
         if prior and prior[0] == "gaussian":
             out.append(np.array([(vals[k] - prior[1]) / prior[2]]))
+    for _label, function, mu, sigma in getattr(system, "constraints", ()):  # MOD-17: a light ratio, l₃, a distance
+        out.append(np.array([(function(vals) - mu) / sigma]))
     return np.concatenate(out)
 
 

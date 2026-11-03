@@ -601,7 +601,11 @@ the Torres-layout table, AI Phe.
 - **Files:** `ui/models/panels/view3d.py`, `models/roche/render.py` (projection and shading without Qt), `tests/test_roche_render.py`
 
 ### MOD-17. More kinds of data in the same fit  (P2)
-**open**
+**partial** — done (2026-11-12): data sets of kind "minima" (epochs → times, no zero point) and `System.constraints`
+(Gaussian constraints on any derived quantity: a spectroscopic light ratio, a known third light, a parallax) in
+MOD-12's objective. Tests: minima over 6000 cycles shrink the period's error more than fiftyfold; a light-ratio
+constraint narrows J. Left: dP/dt, dω/dt and third-body terms in the minima model, v sin i on F, colour curves,
+the OC-7 apsidal system.
 - **Build:** times of minimum as a data set (constraining P, T0, dP/dt, dω/dt, third-body terms — as WD 2015 and
   JKTEBOP); a spectroscopic light ratio at a wavelength as a constraint (Gaussian prior on L₂ / L₁ in that band);
   a known third-light fraction from imaging; v sin i measurements constraining F; a parallax prior with the
