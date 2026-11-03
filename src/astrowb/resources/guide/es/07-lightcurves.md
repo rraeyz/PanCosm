@@ -15,7 +15,7 @@ La curva de luz medida en la página Fotometría se usa automáticamente; o bien
 
 Fije el **Período más corto** y el **Período más largo** (el más largo es, por defecto, la mitad del intervalo de tiempo) y pulse **Buscar**. Se muestran el periodograma y la curva de luz plegada con el mejor período. Revise la curva plegada: la mitad o el doble del período es un alias frecuente, sobre todo en binarias eclipsantes con mínimos iguales.
 
-**Intervalos de fase** dibuja la curva media sobre los puntos plegados. **Editar la curva de luz:** *Quitar valores atípicos (σ)*, *Agrupar en tiempo (min)*, *Borrar puntos con un clic* (luego haga clic en un punto de la gráfica), *Flujo ↔ magnitud* y *Deshacer ediciones*. La búsqueda de periodo y el análisis de frecuencias usan la curva editada.
+**Intervalos de fase** dibuja la curva media sobre los puntos plegados. **Editar la curva de luz:** *Quitar valores atípicos (σ)*, *Agrupar en tiempo (min)*, *Borrar puntos con un clic* (luego haga clic en un punto de la gráfica), *Flujo ↔ magnitud* y *Deshacer ediciones*. La búsqueda de periodo y el análisis de frecuencias usan la curva editada. *Quitar valores atípicos* compara cada punto con sus vecinos en el tiempo (y, una vez hallado un periodo, en la curva plegada), así que los eclipses y las pulsaciones se conservan.
 
 ## Análisis de frecuencias
 Para estrellas pulsantes con varios modos (δ Scuti, γ Dor, β Cep), como Period04. Indique la **frecuencia máxima** (ciclos por día) y pulse **Analizar frecuencias**:

@@ -15,7 +15,7 @@ Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya
 
 **En kısa** ve **en uzun periyodu** ayarlayın (en uzun, varsayılan olarak zaman aralığının yarısıdır) ve **Ara**'ya basın. Periyodogram ve en iyi periyoda göre katlanmış ışık eğrisi gösterilir. Katlanmış eğriyi kontrol edin: periyodun yarısı ya da iki katı sık görülen bir yanılsamadır, özellikle minimumları eşit örten çiftlerde.
 
-**Evre aralıkları** katlanmış noktaların üstüne ortalama eğriyi çizer. **Işık eğrisini düzenleme:** *Aykırı noktaları at (σ)*, *Zamanda grupla (dk)*, *Tıklayarak nokta sil* (sonra grafikte bir noktaya tıklayın), *Akı ↔ kadir* ve *Düzenlemeleri geri al*. Periyot arama ve frekans analizi düzenlenmiş eğriyi kullanır.
+**Evre aralıkları** katlanmış noktaların üstüne ortalama eğriyi çizer. **Işık eğrisini düzenleme:** *Aykırı noktaları at (σ)*, *Zamanda grupla (dk)*, *Tıklayarak nokta sil* (sonra grafikte bir noktaya tıklayın), *Akı ↔ kadir* ve *Düzenlemeleri geri al*. Periyot arama ve frekans analizi düzenlenmiş eğriyi kullanır. *Aykırı noktaları at* her noktayı zamandaki komşularıyla (periyot bulunduktan sonra katlanmış eğrideki komşularıyla da) karşılaştırır; tutulmalar ve zonklamalar silinmez.
 
 ## Frekans analizi
 Birden çok modlu zonklayan yıldızlar için (δ Scuti, γ Dor, β Cep), Period04 gibi. **En yüksek frekansı** (gün başına çevrim) girin ve **Frekansları analiz et**'e basın:

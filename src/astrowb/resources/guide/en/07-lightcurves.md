@@ -15,7 +15,7 @@ The light curve measured on the Photometry page is used automatically; or **Load
 
 Set the **shortest** and **longest period** (the longest defaults to half the time span) and press **Search**. The periodogram and the light curve folded on the best period are shown. Check the folded curve: half or double the period is a common alias, especially for eclipsing binaries with equal minima.
 
-**Phase bins** draws the mean curve over the folded points. **Editing the light curve:** *Remove outliers (σ)*, *Bin in time (min)*, *Delete points by clicking* (then click a point on the plot), *Flux ↔ magnitude* and *Undo edits*. The edited curve is what the period search and the frequency analysis use.
+**Phase bins** draws the mean curve over the folded points. **Editing the light curve:** *Remove outliers (σ)*, *Bin in time (min)*, *Delete points by clicking* (then click a point on the plot), *Flux ↔ magnitude* and *Undo edits*. The edited curve is what the period search and the frequency analysis use. *Remove outliers* compares each point with its neighbours in time (and, once a period is found, in the folded curve), so eclipses and pulsations are kept.
 
 ## Frequency analysis
 For pulsating stars with several modes (δ Scuti, γ Dor, β Cep), as Period04 does. Set the **highest frequency** (cycles per day) and press **Analyse frequencies**:

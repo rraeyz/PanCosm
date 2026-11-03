@@ -89,6 +89,9 @@ TEMPLATES = (
     # timeseries/oc_models.py
     QT_TRANSLATE_NOOP("Messages", "need at least 8 minima for a third-body orbit"),
     QT_TRANSLATE_NOOP("Messages", "apsidal motion needs at least 3 primary and 3 secondary minima"),
+    # timeseries/ephemeris.py
+    QT_TRANSLATE_NOOP("Messages", "line {n}: '{value}' is not a time"),
+    QT_TRANSLATE_NOOP("Messages", "need at least {n} minima"),
     # engine
     QT_TRANSLATE_NOOP("Messages", "{step}: missing input(s): {names}"),
     QT_TRANSLATE_NOOP("Messages", "the automation has no steps"),
