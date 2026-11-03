@@ -99,7 +99,13 @@ class PlanPage(QWidget):
         lay.addWidget(self.table, 1)
         remove = QPushButton(self.tr("Remove selected"), self)
         remove.clicked.connect(lambda: self.table.removeRow(self.table.currentRow()))
-        lay.addWidget(remove)
+        exposure = QPushButton(self.tr("Exposure time…"), self)
+        exposure.setToolTip(self.tr("How long to expose for a wanted signal-to-noise, and when a star saturates"))
+        exposure.clicked.connect(self.exposure_dialog)
+        row = QHBoxLayout()
+        row.addWidget(remove)
+        row.addWidget(exposure)
+        lay.addLayout(row)
         self.plan_button = QPushButton(self.tr("Plan the night"), self)
         self.plan_button.clicked.connect(self._plan)
         lay.addWidget(self.plan_button)
@@ -224,6 +230,13 @@ class PlanPage(QWidget):
         self.plan_requested.emit(
             self.site(), self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
         )
+
+    def exposure_dialog(self):
+        from .exposure_dialog import ExposureDialog
+
+        dlg = ExposureDialog(self.settings, self)
+        dlg.show()
+        return dlg
 
     def make_schedule(self):
         from astropy.time import Time

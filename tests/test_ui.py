@@ -891,3 +891,34 @@ def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file)
     window.resize(900, 600)  # a smaller window: the image shrinks with it, still whole
     qtbot.waitUntil(lambda: viewer.transform().m11() < big)
     assert fitted()
+
+
+def test_photometry_star_picking(window, tmp_path):
+    """A cross cursor with the aperture rings under the mouse, and a click on a marked star takes it off."""
+    from PySide6.QtCore import QPointF, Qt
+    from PySide6.QtGui import QMouseEvent
+
+    yy, xx = np.mgrid[:60, :80]
+    img = (
+        100
+        + 5000 * np.exp(-((xx - 30) ** 2 + (yy - 20) ** 2) / 4.0)
+        + 3000 * np.exp(-((xx - 60) ** 2 + (yy - 40) ** 2) / 4.0)
+    )
+    p = tmp_path / "f.fits"
+    fits.PrimaryHDU(img.astype(np.float32)).writeto(p)
+    page = window.photometry_page
+    page.set_images([str(p)])
+    viewer = page.viewer
+    assert viewer.viewport().cursor().shape() == Qt.CrossCursor and len(viewer._hover_rings) == 3
+    window.show()
+    viewer.resize(400, 300)
+    pos = viewer.mapFromScene(QPointF(31, 40))
+    viewer.mouseMoveEvent(QMouseEvent(QMouseEvent.MouseMove, QPointF(pos), Qt.NoButton, Qt.NoButton, Qt.NoModifier))
+    # the rings sit under the mouse (to the pixel rounding of the view)
+    assert len(viewer._hover_items) == 3 and viewer._hover_items[0].pos().x() == pytest.approx(31, abs=3)
+    page._clicked(30.0, 20.0)
+    page._clicked(60.0, 40.0)
+    assert page.target == (30.0, 20.0) and page.comps == [(60.0, 40.0)]
+    page._clicked(61.0, 40.5)  # on the comparison again: taken off, not marked twice
+    assert page.comps == [] and len(viewer.marker_list) == 3
+    assert not page.show_what.isEnabled() and page.show_what.placeholderText()

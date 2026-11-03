@@ -13,7 +13,11 @@ def smoke_test(workdir: Path) -> None:
     import numpy as np
     from astropy.io import fits
 
+    from . import selfcheck
     from .ui.main_window import MainWindow
+
+    failed = [r for r in selfcheck.offline() if not r[1]]  # every module, library and shipped data file
+    assert not failed, selfcheck.report(failed)
 
     workdir.mkdir(parents=True, exist_ok=True)
     src, dst = workdir / "smoke_in.fits", workdir / "smoke_out.fits"
@@ -152,10 +156,19 @@ def smoke_test(workdir: Path) -> None:
 
 def main(argv=None) -> int:
     multiprocessing.freeze_support()  # required for worker processes in frozen (installed) builds
+    if getattr(sys, "frozen", False) and "SSL_CERT_FILE" not in os.environ:
+        # the bundled OpenSSL looks for certificates where the build machine keeps them, which is not where
+        # every system keeps them: HTTPS (SIMBAD, VizieR, MAST, ...) failed on Arch. Use the bundled list.
+        import certifi
+
+        os.environ["SSL_CERT_FILE"] = certifi.where()  # worker processes inherit it
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs="*", type=Path, help="FITS files or a project to open")
     parser.add_argument("--smoke-test", type=Path, metavar="DIR")
     parser.add_argument("--benchmark", action="store_true", help="time CPU vs GPU and exit")
+    parser.add_argument(
+        "--check-online", action="store_true", help="check the installation and every web service it uses, and exit"
+    )
     parser.add_argument("--observatory", type=Path, metavar="CONFIG", help="run the observatory process (no window)")
     args = parser.parse_args(argv)
 
@@ -170,6 +183,12 @@ def main(argv=None) -> int:
 
         observatory_main(args.observatory)
         return 0
+    if args.check_online:
+        from . import selfcheck
+
+        results = selfcheck.offline() + selfcheck.online()
+        print(selfcheck.report(results))
+        return 0 if all(ok for _, ok, _ in results) else 1
     if args.benchmark:
         from .compute.combine import benchmark
 

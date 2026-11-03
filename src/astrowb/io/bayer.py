@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 from astropy.io import fits
 
+from ..hdr import get
+
 PATTERNS = ("RGGB", "BGGR", "GRBG", "GBRG")
 RAW_SUFFIXES = (".cr2", ".cr3", ".crw", ".nef", ".nrw", ".arw", ".srf", ".sr2", ".dng", ".orf", ".rw2", ".raf",
                 ".pef", ".srw", ".erf", ".3fr", ".iiq", ".mrw", ".x3f", ".raw")  # fmt: skip
@@ -29,7 +31,7 @@ def pattern_of(header):
     if pat not in PATTERNS:
         return None
     cell = np.array(list(pat)).reshape(2, 2)
-    dx, dy = int(header.get("XBAYROFF", 0) or 0) % 2, int(header.get("YBAYROFF", 0) or 0) % 2
+    dx, dy = int(get(header, "XBAYROFF", default=0)) % 2, int(get(header, "YBAYROFF", default=0)) % 2
     return "".join(np.roll(cell, (-dy, -dx), axis=(0, 1)).ravel())
 
 
@@ -75,13 +77,13 @@ def channel_header(header, pattern, colour):
     h["CFACHAN"] = (colour, f"colour channel of a {pattern} sensor (superpixel)")
     h["FILTER"] = (FILTER_CODE[colour], "AAVSO code of the colour-camera channel")
     for k in ("XPIXSZ", "YPIXSZ", "PIXSIZE1", "PIXSIZE2"):
-        if k in h:
-            h[k] = float(h[k]) * 2
+        if get(h, k) is not None:
+            h[k] = get(h, k) * 2
     if n == 2:  # the mean of two pixels: twice the electrons per ADU, read noise / sqrt(2)
         if "EGAIN" in h:
-            h["EGAIN"] = (float(h["EGAIN"]) * 2, "e-/ADU of the mean of the two green pixels")
+            h["EGAIN"] = (get(h, "EGAIN", default=1.0) * 2, "e-/ADU of the mean of the two green pixels")
         if "RDNOISE" in h:
-            h["RDNOISE"] = float(h["RDNOISE"]) / np.sqrt(2)
+            h["RDNOISE"] = get(h, "RDNOISE", default=0.0) / np.sqrt(2)
     # pixel j (1-based) of the channel sits at 1-based mosaic coordinate 2 j - 1 + offset
     for axis, off in ((1, ox), (2, oy)):
         if f"CRPIX{axis}" in h:
@@ -157,7 +159,7 @@ def convert_raw_folder(folder, out_dir=None, clock_utc_offset_h=0.0, progress=No
             if kind:
                 h["IMAGETYP"] = (kind, "from the folder name")
             target.parent.mkdir(parents=True, exist_ok=True)
-            fits.PrimaryHDU(data, h).writeto(target, overwrite=True)
+            fits.PrimaryHDU(data, h).writeto(target, overwrite=True, output_verify="silentfix")
             written.append(str(target))
         except Exception as e:  # one unreadable file must not stop the night
             problems.append((str(p), f"{type(e).__name__}: {e}"))

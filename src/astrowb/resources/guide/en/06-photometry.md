@@ -8,6 +8,8 @@ The **Photometry** page measures the brightness of a target star relative to com
 
 Good comparison stars have a similar colour and brightness to the target and are not variable. Use several: their sum (an ensemble) is less noisy than one star.
 
+Over the image the pointer is a cross, and the aperture and sky-annulus rings that the next click will place follow it, in the colour of the star it will mark (green target, red comparison, orange check star). A click on a star that is already marked takes it off. Drag to move the image, wheel to zoom.
+
 ## Differential photometry: targets, comparison and check stars
 **Clicks add** chooses what the next clicks are: *target, then comparison stars* (the first click is the target T1, the next ones comparison stars C1, C2…), *check stars* (K1, K2…) or *more targets* (T2, T3…). Check stars and further targets are measured on every frame against the same comparison stars but are not part of them — as the check star of MaxIm DL, VPhot or AIJ. A constant check star shows how good the photometry really is: its scatter (in mmag) is listed under the plot.
 

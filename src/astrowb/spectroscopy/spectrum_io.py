@@ -20,7 +20,9 @@ def write(path, wave, flux, error, header=None):
         fits.Column(name="ERROR", format="D", array=np.asarray(error, float)),
     ]
     prim = fits.PrimaryHDU(header=fits.Header() if header is None else _clean(header))
-    fits.HDUList([prim, fits.BinTableHDU.from_columns(cols, name="SPECTRUM")]).writeto(path, overwrite=True)
+    fits.HDUList([prim, fits.BinTableHDU.from_columns(cols, name="SPECTRUM")]).writeto(
+        path, overwrite=True, output_verify="silentfix"
+    )
     return str(path)
 
 

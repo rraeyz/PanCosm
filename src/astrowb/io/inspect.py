@@ -7,6 +7,8 @@ image's own unit (ADU for raw and calibrated frames); multiplied by the gain the
 
 import numpy as np
 
+from ..hdr import number
+
 SATURATION_KEYS = ("SATURATE", "DATAMAX", "MAXLIN")
 
 
@@ -15,10 +17,8 @@ def saturation_level(header, data=None):
     the unsigned 16-bit range when the data look like a 16-bit camera, else None."""
     for key in SATURATION_KEYS:
         if header is not None and key in header:
-            try:
-                return float(header[key])
-            except (TypeError, ValueError):
-                pass
+            if number(header[key]) is not None:
+                return number(header[key])
     if data is not None and np.nanmax(data) <= 65535 and np.nanmax(data) > 4095:
         return 65535.0
     return None

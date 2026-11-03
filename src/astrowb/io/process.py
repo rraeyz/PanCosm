@@ -11,6 +11,8 @@ import numpy as np
 from astropy.io import fits
 from astropy.wcs import WCS
 
+from ..hdr import number
+
 
 def _with_wcs(header, m, t):
     """Header whose celestial WCS follows a pixel mapping old = M @ new + t (0-based (x, y) pixels):
@@ -118,7 +120,7 @@ def bin_image(data, header, factor=2, mode="mean"):
     h = _with_wcs(header, f * np.eye(2), [(f - 1) / 2, (f - 1) / 2])
     for key in ("XBINNING", "YBINNING"):
         if key in h:
-            h[key] = int(h[key]) * f
+            h[key] = int(number(h[key], 1)) * f
     return out.astype(np.float32), h
 
 

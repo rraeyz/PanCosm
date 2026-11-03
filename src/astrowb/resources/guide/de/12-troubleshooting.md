@@ -4,6 +4,8 @@ Häufige Probleme und was zu tun ist.
 ## Eine Aufgabe ist fehlgeschlagen
 Der Aufgabenbereich zeigt *fehlgeschlagen*, und ein Fenster nennt den Fehler. Typische Ursachen: eine unlesbare Datei, eine fehlende Eingabe (die Meldung nennt sie), zu wenige Sterne oder Aufnahmen. Das Fenster bleibt benutzbar; korrigieren Sie die Eingabe und führen Sie den Schritt erneut aus. Der Projektverlauf behält den fehlgeschlagenen Lauf mit seinen Einstellungen.
 
+Das Fehlerfenster zeigt den Fehler selbst; **Details anzeigen…** enthält den vollständigen Bericht. Um die Installation und jeden Webdienst der Anwendung (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …) zu prüfen, starten Sie sie einmal im Terminal mit `--check-online`: jede Zeile sagt OK oder FAIL und warum. Ein FAIL bei einem Dienst liegt meist am Dienst oder am Netz; ein FAIL in den ersten Zeilen bedeutet, dass ein Teil der Installation fehlt — bitte melden.
+
 ## Die Kalibrierung meldet fehlende Aufnahmen
 „no flat for filter …“, „no dark for … s“, „no bias“ — diese Lights werden trotzdem kalibriert, nur ohne diese Korrektur. Nehmen Sie die fehlenden Aufnahmen auf (gleicher Filter, gleiches Binning, gleiche Belichtung und Temperatur) oder akzeptieren Sie das Ergebnis. Darks anderer Belichtung lassen sich nur zusammen mit Bias-Aufnahmen verwenden.
 

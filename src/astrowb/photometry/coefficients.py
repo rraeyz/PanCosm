@@ -12,6 +12,8 @@
 
 import numpy as np
 
+from ..hdr import get
+
 
 def _clipped_line(x, y, clip=3.0, iterations=5):
     """Slope, intercept, their errors, rms, mask of points used."""
@@ -93,10 +95,10 @@ def standard_stars(image_a, image_b, band_a, band_b, max_stars=150, catalogue=No
     inside = (xb > 15) & (xb < nx - 15) & (yb > 15) & (yb < ny - 15)
     xy_a, sky = xy_a[inside], sky[inside]
     xy_b = recenter(db, np.column_stack([xb[inside], yb[inside]]), 11)
-    ra = choose_apertures(da, xy_a[:10], float(ha.get("EGAIN", ha.get("GAIN", 1.0)) or 1.0))
+    ra = choose_apertures(da, xy_a[:10], get(ha, "EGAIN", "GAIN", default=1.0) or 1.0)
     radii = (ra["r_ap"], ra["r_in"], ra["r_out"])
-    fa = measure(da, xy_a, *radii)[0] / float(ha.get("EXPTIME", 1.0) or 1.0)
-    fb = measure(db, xy_b, *radii)[0] / float(hb.get("EXPTIME", 1.0) or 1.0)
+    fa = measure(da, xy_a, *radii)[0] / (get(ha, "EXPTIME", "EXPOSURE", default=1.0) or 1.0)
+    fb = measure(db, xy_b, *radii)[0] / (get(hb, "EXPTIME", "EXPOSURE", default=1.0) or 1.0)
     with np.errstate(divide="ignore", invalid="ignore"):
         ia, ib = -2.5 * np.log10(np.where(fa > 0, fa, np.nan)), -2.5 * np.log10(np.where(fb > 0, fb, np.nan))
     cat = (catalogue or catalogue_magnitudes)(sky, (band_a, band_b))

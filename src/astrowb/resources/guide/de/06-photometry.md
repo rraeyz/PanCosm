@@ -8,6 +8,8 @@ Die Seite **Photometrie** misst auf einer Reihe kalibrierter Bilder die Helligke
 
 Gute Vergleichssterne haben eine ähnliche Farbe und Helligkeit wie das Ziel und sind nicht veränderlich. Verwenden Sie mehrere: Ihre Summe (ein Ensemble) rauscht weniger als ein einzelner Stern.
 
+Über dem Bild ist der Zeiger ein Kreuz, und die Blenden- und Himmelsringe, die der nächste Klick setzt, folgen ihm in der Farbe des Sterns, den er markiert (grün Ziel, rot Vergleich, orange Prüfstern). Ein Klick auf einen schon markierten Stern entfernt ihn. Ziehen verschiebt das Bild, das Mausrad zoomt.
+
 ## Differentielle Photometrie: Ziele, Vergleichs- und Prüfsterne
 **Klicks fügen hinzu** wählt, was die nächsten Klicks sind: *Ziel, dann Vergleichssterne* (der erste Klick ist das Ziel T1, die nächsten die Vergleichssterne C1, C2…), *Prüfsterne* (K1, K2…) oder *weitere Ziele* (T2, T3…). Prüfsterne und weitere Ziele werden auf jeder Aufnahme gegen dieselben Vergleichssterne gemessen, gehören aber nicht dazu — wie der Prüfstern in MaxIm DL, VPhot oder AIJ. Ein konstanter Prüfstern zeigt, wie gut die Photometrie wirklich ist: seine Streuung (in mmag) steht unter dem Diagramm.
 

@@ -8,6 +8,8 @@ Wählen Sie den Ordner mit Ihren Rohaufnahmen (Lights, Bias, Darks und Flats dü
 - Unlesbare Dateien und Dateien unbekannten Typs werden unter der Tabelle aufgeführt und ignoriert.
 - Dieselbe Liste nennt **fehlende** Kalibrieraufnahmen, zum Beispiel „no flat for filter 'R'“ — diese Lights werden trotzdem kalibriert, nur ohne diese Korrektur, und Sie erfahren es.
 
+Unterordner werden mitgelesen. Liegen die Lights und die Kalibrierbilder in getrennten Ordnern (zum Beispiel *Light* und *BDF*), wählen Sie den Ordner, der beide enthält. Bilder an anderer Stelle, etwa eine Kalibrierbibliothek, kommen mit **Ordner hinzufügen…** dazu (mehrere Ordner werden durch `;` getrennt). Wird kein Light gefunden, sagt es die Liste unter der Tabelle, und **Kalibrieren** bleibt aus, bis eines da ist.
+
 ## Wie Master zugeordnet werden
 - **Bias:** gleiches Binning und gleiche Größe.
 - **Dark:** gleiches Binning, gleiche Belichtungszeit und eine Temperatur innerhalb von 2 °C. Ein Dark anderer Belichtung wird nur dann auf die Belichtung des Lights skaliert, wenn Bias-Aufnahmen vorhanden sind (der Dunkelstrom ist nach Abzug des Bias proportional zur Zeit).

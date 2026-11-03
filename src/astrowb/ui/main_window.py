@@ -1045,7 +1045,11 @@ class MainWindow(QMainWindow):
         menu.clear()
         ids = plugins.load_plugins()
         for sid in ids:
-            self._action(menu, sid, lambda _=False, i=sid: self.run_plugin(steps.REGISTRY[i]))
+            doc = (steps.REGISTRY[sid].func.__doc__ or "").strip().splitlines()
+            act = self._action(
+                menu, doc[0].rstrip(".") if doc else sid, lambda _=False, i=sid: self.run_plugin(steps.REGISTRY[i])
+            )
+            act.setToolTip(sid)
         if not ids:
             menu.addAction(self.tr("No plugins installed")).setEnabled(False)
         for name, err in plugins.ERRORS.items():

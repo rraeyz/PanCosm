@@ -58,7 +58,8 @@ def test_plugins_load_and_run(plugin_folder, qtbot, monkeypatch, tmp_path):
     try:
         win._fill_plugins_menu()
         texts = [a.text() for a in win.plugins_menu.actions()]
-        assert "plugin.double" in texts and any("broken.py" in t for t in texts)
+        assert "Multiply a number" in texts and any("broken.py" in t for t in texts)  # the docstring, not the id
+        assert "plugin.double" in [a.toolTip() for a in win.plugins_menu.actions()]
         dlg = PluginDialog(steps.REGISTRY["plugin.double"], win)
         dlg.fields[("in", "value")].setText("21")
         assert dlg.values() == ({"value": 21}, {"factor": 2})

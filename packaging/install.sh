@@ -60,7 +60,7 @@ Type=Application
 Name=$NAME
 Comment=Astronomy workbench
 Exec="$HOME_DIR/AppRun" %F
-Icon=$ID
+Icon=$HOME_DIR/$ID.png
 Categories=Science;Astronomy;Education;
 Terminal=false
 EOF

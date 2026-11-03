@@ -160,6 +160,11 @@ def translate(text: str) -> str:
 
 
 def task_error(traceback_text: str) -> str:
-    """The last line of a worker's traceback (the error itself), translated."""
+    """The error itself from a worker's traceback (its "Type: message" line and the lines of a message that runs
+    over several lines, at most ten), translated."""
     lines = [line for line in str(traceback_text).strip().splitlines() if line.strip()]
-    return translate(lines[-1]) if lines else ""
+    frames = [i for i, line in enumerate(lines) if line.startswith(("Traceback", "  File "))]
+    after = frames[-1] + 1 if frames else 0  # the error follows the last frame and its indented code line
+    start = next((i for i in range(after, len(lines)) if not lines[i][:1].isspace()), len(lines) - 1)
+    text = "\n".join(lines[start : start + 10])
+    return translate(text) if lines else ""

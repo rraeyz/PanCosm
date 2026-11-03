@@ -209,6 +209,6 @@ def stack(
 
 def save_stack(path, image, count, header):
     fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(count.astype(np.int16), name="COVERAGE")]).writeto(
-        path, overwrite=True
+        path, overwrite=True, output_verify="silentfix"
     )
     return str(path)

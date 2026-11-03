@@ -8,6 +8,8 @@ La página **Fotometría** mide el brillo de una estrella objetivo respecto a es
 
 Las buenas estrellas de comparación tienen color y brillo parecidos a los del objetivo y no son variables. Use varias: su suma (un conjunto) tiene menos ruido que una sola estrella.
 
+Sobre la imagen el puntero es una cruz, y los anillos de apertura y de cielo que pondrá el siguiente clic lo siguen, en el color de la estrella que marcará (verde objetivo, rojo comparación, naranja de control). Un clic sobre una estrella ya marcada la quita. Arrastre para mover la imagen y use la rueda para el zoom.
+
 ## Fotometría diferencial: objetivos, estrellas de comparación y de control
 **Los clics añaden** elige qué son los clics siguientes: *objetivo y luego estrellas de comparación* (el primer clic es el objetivo T1 y los siguientes las estrellas de comparación C1, C2…), *estrellas de control* (K1, K2…) o *más objetivos* (T2, T3…). Las estrellas de control y los demás objetivos se miden en cada toma frente a las mismas estrellas de comparación, pero no forman parte de ellas — como la estrella de control de MaxIm DL, VPhot o AIJ. Una estrella de control constante muestra lo buena que es de verdad la fotometría: su dispersión (en mmag) aparece bajo el gráfico.
 

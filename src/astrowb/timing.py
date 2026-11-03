@@ -13,6 +13,8 @@ from astropy.coordinates import AltAz, EarthLocation, SkyCoord
 from astropy.time import Time, TimeDelta
 from astropy.utils import iers
 
+from .hdr import get, number
+
 # Observatories are often offline: never block on an IERS download; for dates beyond the bundled
 # table astropy then warns and uses predictions (affects airmass/alt-az only, not BJD).
 iers.conf.auto_download = False
@@ -55,7 +57,8 @@ def start_time(header) -> Time:
             continue
     for key, fmt in (("JD-OBS", "jd"), ("JD", "jd"), ("MJD-OBS", "mjd")):
         if key in header:
-            return Time(float(header[key]), format=fmt, scale="utc")
+            if number(header[key]) is not None:
+                return Time(number(header[key]), format=fmt, scale="utc")
     raise TimeError("no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)")
 
 
@@ -63,9 +66,9 @@ def mid_time(header) -> Time:
     """Mid-exposure UTC. JD-MID / DATE-AVG are used as given when present."""
     if header.get("DATE-AVG"):
         return _parse_iso(header["DATE-AVG"])
-    if "JD-MID" in header:
-        return Time(float(header["JD-MID"]), format="jd", scale="utc")
-    exptime = float(header.get("EXPTIME", header.get("EXPOSURE", 0.0)) or 0.0)
+    if number(header.get("JD-MID")) is not None:
+        return Time(number(header["JD-MID"]), format="jd", scale="utc")
+    exptime = get(header, "EXPTIME", "EXPOSURE", default=0.0)
     return start_time(header) + TimeDelta(exptime / 2, format="sec")
 
 
@@ -78,18 +81,46 @@ def location(header) -> EarthLocation | None:
     for lat_key, lon_key in (("SITELAT", "SITELONG"), ("LAT-OBS", "LONG-OBS"), ("OBSGEO-B", "OBSGEO-L")):
         if lat_key in header and lon_key in header:
             lat = _angle(header[lat_key])
-            lon = _angle(header[lon_key])
-            height = float(header.get("SITEELEV", header.get("ALT-OBS", header.get("OBSGEO-H", 0.0))) or 0.0)
+            lon = _longitude(header, _angle(header[lon_key]))
+            height = get(header, "SITEELEV", "ALT-OBS", "OBSGEO-H", default=0.0)  # e.g. '2496.00 / Meters'
             return EarthLocation.from_geodetic(lon * u.deg, lat * u.deg, height * u.m)
     return None
+
+
+def _longitude(header, lon):
+    """Some control systems (MaxIm DL with ACE, e.g. at TUBITAK National Observatory) write SITELONG in hours
+    ('02 01 20.533' is 30.33 deg). When the header has the local sidereal time, the reading of the longitude that
+    agrees with it is taken; without it the value is taken as degrees."""
+    lst = header.get("SIDEREAL", header.get("LST"))
+    if lst is None or abs(lon) > 24:
+        return lon
+    try:
+        from astropy.coordinates import Angle
+
+        t = start_time(header)
+        given = Angle(lst, unit=u.hourangle).hour
+
+        def miss(deg):
+            d = abs(t.sidereal_time("mean", longitude=deg * u.deg).hour - given) % 24
+            return min(d, 24 - d)
+
+        return min((lon, lon * 15), key=miss) if min(miss(lon), miss(lon * 15)) < 0.05 else lon
+    except Exception:  # no time, an unreadable LST or no Earth-orientation data: keep degrees
+        return lon
 
 
 def _angle(value) -> float:
     if isinstance(value, str) and (":" in value or " " in value.strip()):
         from astropy.coordinates import Angle
 
-        return Angle(value, unit=u.deg).deg
-    return float(value)
+        try:
+            return Angle(value, unit=u.deg).deg
+        except ValueError:  # '39.9 deg N' and such: the number in front
+            pass
+    x = number(value)
+    if x is None:
+        raise ValueError(f"not an angle: {value!r}")
+    return x
 
 
 def bjd_tdb(t: Time, target: SkyCoord, where: EarthLocation | None = None) -> Time:

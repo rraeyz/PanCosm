@@ -28,7 +28,8 @@ dependencies = [
     "emcee>=3.1",  # MCMC uncertainties of model fits (MIT)
     "h5py>=3.10",  # HDF5 / NetCDF-4 rasters (BSD-3)
     "rawpy>=0.21",  # DSLR / mirrorless raw files (MIT; bundles LibRaw, LGPL-2.1 or CDDL-1.0)
-    "imagecodecs>=2024.1",  # JPEG2000 rasters, e.g. Sentinel-2 bands (BSD-3)  # self-signed certificate for the observatory's HTTPS (Apache-2.0 / BSD)
+    "imagecodecs>=2024.1",  # JPEG2000 rasters, e.g. Sentinel-2 bands (BSD-3)
+    "certifi",  # CA certificates for HTTPS in the installed application (MPL-2.0)
 ]
 
 [project.optional-dependencies]
