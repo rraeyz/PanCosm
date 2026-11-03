@@ -156,3 +156,34 @@ def test_images_then_measure_is_the_whole_of_it(qtbot, tmp_path):
     assert page.comps == [(x[4], y[4])]
     page.undo_stack.undo()  # the hand-clicked comparison, then the target, come off one by one
     assert page.comps == [] and page.target is not None
+
+
+class _Ctx:
+    def progress(self, *a):
+        pass
+
+    def check(self):
+        pass
+
+    def log(self, *a):
+        pass
+
+
+def test_the_suggest_step_with_rules_gives_a_reason_for_every_star(tmp_path):
+    from astrowb.engine import builtin  # noqa: F401  (registers the steps)
+    from astrowb.engine.steps import execute
+    from astrowb.photometry.comprules import REASONS
+
+    cat = _sky()
+    img, _, x, y = _frame(cat)
+    path = tmp_path / "f.fits"
+    fits.PrimaryHDU(img.astype(np.float32), _header()).writeto(path)
+    ny_vir = {"name": "NY Vir", "ra": float(cat["ra"][0]), "dec": float(cat["dec"][0]), "mag": 13.3}
+    out = field.identify(path, catalogue=cat, variables=[ny_vir], resolve=lambda name: (233.456, 37.991))
+    inputs = {"images": [str(path)], "target_xy": [float(x[0]), float(y[0])], "field": out}
+    got = execute("photometry.suggest_comparisons", inputs, {"n": 3, "rules": {"min_snr": 20}}, _Ctx())
+    table = got["catalogue"]["table"]
+    assert len(got["comps_xy"]) == 3 and sum(r["verdict"] == "chosen" for r in table) == 3
+    assert all(r["verdict"] in (*REASONS, "chosen", "not_needed") for r in table)
+    with pytest.raises(ValueError, match="no comparison star passed"):
+        execute("photometry.suggest_comparisons", inputs, {"rules": {"min_snr": 1e9}}, _Ctx())

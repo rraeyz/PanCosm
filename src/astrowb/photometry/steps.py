@@ -310,6 +310,7 @@ def period_warnings(span, p_min, p_max, best, power=()):
     optional=("field",),
     r_out=16.0,
     n=4,
+    rules=None,
 )
 def suggest_step(inputs, params, ctx):
     """Comparison stars around the target. With the field identified on the marked frame (photometry.identify_field)
@@ -325,6 +326,8 @@ def suggest_step(inputs, params, ctx):
     data, header = load(images[0])
     # stars must stay in the frame for the whole series: a tenth of a binned pixel is plenty for that check
     offsets = np.asarray(align_offsets(images, ctx, binning=2 if data.size > 4_000_000 else 1))
+    if inputs.get("field") and params.get("rules") is not None:
+        return _suggest_by_rules(images, offsets, inputs, params, data, header)
     if inputs.get("field"):
         from .field import comparison_stars
 
@@ -336,6 +339,35 @@ def suggest_step(inputs, params, ctx):
         return {"comps_xy": [[x, y] for x, y, *_ in out["stars"]], "catalogue": out}
     picks = suggest_comparisons(data, inputs["target_xy"], params["r_out"], n=params["n"], r_in=None, offsets=offsets)
     return {"comps_xy": [list(p) for p in picks], "catalogue": None}
+
+
+def _suggest_by_rules(images, offsets, inputs, params, data, header):
+    """PHO-17: the user's rules (comprules.ComparisonRules fields as a dict) judged on ten frames spread over the
+    night; "catalogue" carries the table with a verdict for every star."""
+    from ..calibration.masters import load
+    from ..io.inspect import saturation_level
+    from .comprules import ComparisonRules, judge, most_common_reasons
+
+    field = inputs["field"]
+    st = field["stars"]
+    tx, ty = inputs["target_xy"]
+    i_t = int(np.argmin(np.hypot(np.asarray(st["x"]) - tx, np.asarray(st["y"]) - ty)))
+    rules = ComparisonRules(**({"saturation": saturation_level(header, data), "count": params["n"],
+                                "r_out": params["r_out"]} | dict(params["rules"])))  # fmt: skip
+    pick = np.unique(np.linspace(0, len(images) - 1, min(10, len(images))).round().astype(int))
+    frames = [data if k == 0 else load(images[k])[0] for k in pick]
+    shifts = [tuple(offsets[k]) if len(offsets) else (0.0, 0.0) for k in pick]
+    rows = judge(st, i_t, frames, shifts, rules, field.get("scale"),
+                 [(v["x"], v["y"]) for v in field.get("variables", [])])  # fmt: skip
+    chosen = [r for r in rows if r["verdict"] == "chosen"]
+    if not chosen:
+        reasons = ", ".join(most_common_reasons(rows))
+        raise ValueError(f"no comparison star passed the rules; most were removed by: {reasons}")
+    colour = float(np.asarray(st["bp_rp"], float)[i_t])
+    same = all(abs(r["colour"] - colour) <= rules.colour_tolerance for r in chosen) if np.isfinite(colour) else True
+    catalogue = {"stars": [(r["x"], r["y"], r["mag"], r["colour"]) for r in chosen], "colour": colour,
+                 "same_colour": bool(same), "table": rows}  # fmt: skip
+    return {"comps_xy": [[r["x"], r["y"]] for r in chosen], "catalogue": catalogue}
 
 
 @step("photometry.identify_field", inputs=("image",), outputs=("field",))
@@ -647,6 +679,13 @@ describe(
         max=50,
         label=QT_TRANSLATE_NOOP("Steps", "Comparison stars"),
         help=QT_TRANSLATE_NOOP("Steps", "How many to suggest"),
+    ),
+    P(
+        "rules",
+        "object",
+        None,
+        label=QT_TRANSLATE_NOOP("Steps", "Comparison-star rules"),
+        help=QT_TRANSLATE_NOOP("Steps", "The rules' settings; each star left out is given its reason (with a field)"),
     ),
 )
 describe(

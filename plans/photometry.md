@@ -139,7 +139,15 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Files:** `ui/photometry/{window,controller,state,menus}.py`, `ui/photometry/panels/{images,field,stars,apertures,measure,lightcurve,timing,report,frames,checks}.py`, `tests/ui/walks/photometry.py`, guide 06
 
 ### PHO-17. Comparison-star rules the user can set, with the reason for every star left out  (P1)
-**open** (agent2's claim of 2026-11-09 is released; nothing was pushed for it)
+**partial** — done (2026-11-12), the engine: `photometry/comprules.py`: `ComparisonRules` with the defaults of
+Build 1, `judge` (every star brighter than the target + 3 mag gets `chosen`, `not_needed` or the first failed rule
+in the order of REASONS; peaks checked on a sample of frames over the night with the drift; ranking by colour and
+brightness closeness scaled by their tolerances, then nearness), `most_common_reasons`; the step
+`photometry.suggest_comparisons` takes `rules` (a dict of those fields) and returns the table in "catalogue";
+none passing raises the message naming the three rules that removed most stars. Tests: a synthetic field with one
+star per reason gets each reason; a star saturating only late is caught where the first frame alone misses it; the
+step on a solved frame. Left: GCVS, the interface (suggested rings, the rules section, "Why these stars?", "Use
+anyway"), the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
 - **Why:** the choice of comparison stars decides the light curve; today the rules are fixed in code and a star left
   out is left out silently.
 - **Reference:** Siril `findcompstars` (`src/algos/comparison_stars.c`): ΔV ≤ 3 mag, Δ(B−V) ≤ 0.5, catalogue error ≤
