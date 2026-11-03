@@ -25,6 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
+from .files import images_filter
 from .i18n import LANGUAGES
 from .messages import task_error, translate
 from .workspaces import (
@@ -891,12 +892,14 @@ class MainWindow(QMainWindow):
             return self.process_image(*op)
         if op == "pixel_math":
             others, _ = QFileDialog.getOpenFileNames(
-                self, self.tr("Other images, named B, C, … (optional)"), "", FITS_FILTER
+                self, self.tr("Other images, named B, C, … (optional)"), "", images_filter()
             )
             expr, ok = QInputDialog.getText(
                 self, self.tr("Pixel math"), self.tr("Expression (A is this image), e.g. A - 0.95 * B:")
             )
-            return self.process_image("pixel_math", {"expression": expr}, others) if ok and expr else None
+            from ..io.bayer import fits_paths
+
+            return self.process_image("pixel_math", {"expression": expr}, fits_paths(others)) if ok and expr else None
         if op == "crop":
             text, ok = QInputDialog.getText(
                 self, self.tr("Crop"), self.tr("x0 x1 y0 y1 (pixels, 0-based, end excluded):")
@@ -912,8 +915,10 @@ class MainWindow(QMainWindow):
             )
             return self.process_image("rotate", {"angle": angle}) if ok else None
         if op == "histogram_match":
-            ref, _ = QFileDialog.getOpenFileName(self, self.tr("Reference image"), "", FITS_FILTER)
-            return self.process_image("histogram_match", {"reference": ref}) if ref else None
+            ref, _ = QFileDialog.getOpenFileName(self, self.tr("Reference image"), "", images_filter())
+            from ..io.bayer import fits_copy
+
+            return self.process_image("histogram_match", {"reference": str(fits_copy(ref))}) if ref else None
         if op == "kernel":
             kinds = {
                 self.tr("Low pass (smooth)"): "lowpass",
@@ -981,14 +986,16 @@ class MainWindow(QMainWindow):
         if paths is None:
             paths = []
             for label in (self.tr("Red frame"), self.tr("Green frame"), self.tr("Blue frame")):
-                path, _ = QFileDialog.getOpenFileName(self, label, "", FITS_FILTER)
+                path, _ = QFileDialog.getOpenFileName(self, label, "", images_filter())
                 if not path:
                     return None
                 paths.append(path)
             output, _ = QFileDialog.getSaveFileName(self, self.tr("Colour image"), "colour.png", "PNG (*.png)")
             if not output:
                 return None
-        inputs = dict(zip(("red", "green", "blue"), paths, strict=True)) | {"output": output}
+        from ..io.bayer import fits_paths
+
+        inputs = dict(zip(("red", "green", "blue"), fits_paths(paths), strict=True)) | {"output": output}
         return self.run_step("image.rgb", inputs, {}, on_done=lambda out: self.show_picture(out["rgb"]))
 
     def coefficients_dialog(self):
@@ -1145,7 +1152,7 @@ class MainWindow(QMainWindow):
 
     # --- FITS ---------------------------------------------------------------
     def open_fits_dialog(self):
-        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Open FITS"), "", FITS_FILTER)
+        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Open FITS"), "", images_filter())
         return self.open_many(paths)
 
     def open_many(self, paths):
@@ -1181,6 +1188,9 @@ class MainWindow(QMainWindow):
         chosen one is opened as a file of its own, so every tool works on what is shown. Results the application
         writes (stacks with a coverage map, drizzle with a weight map) open on their first image without asking."""
         try:
+            from ..io.bayer import fits_copy
+
+            path = fits_copy(path)  # a camera raw file or a picture (phone, JPEG, TIFF): its FITS copy
             choices = fitsio.image_hdus(path)
             if extension is None and ask and len(choices) > 1:
                 from PySide6.QtWidgets import QInputDialog
@@ -1268,9 +1278,12 @@ class MainWindow(QMainWindow):
         from PySide6.QtWidgets import QInputDialog
 
         if paths is None:
-            paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Images to convert"), "", FITS_FILTER)
+            paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Images to convert"), "", images_filter())
             if not paths:
                 return None
+        from ..io.bayer import fits_paths
+
+        paths = fits_paths(paths)
         if fmt is None:
             choices = {"PNG": "png", "JPEG": "jpg", self.tr("TIFF, 32-bit data"): "tif"}
             name, ok = QInputDialog.getItem(

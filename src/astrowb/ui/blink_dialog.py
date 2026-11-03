@@ -63,13 +63,18 @@ class BlinkDialog(QDialog):
         self.timer.timeout.connect(lambda: self.show_frame(self.index + 1))
 
     def _choose(self):
-        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Choose images"), "", "FITS (*.fits *.fit *.fts)")
+        from .files import images_filter
+
+        paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Choose images"), "", images_filter())
         if len(paths) >= 2:
             self.set_images(paths)
 
     def set_images(self, paths):
         from .. import timing
         from ..display import display_limits
+        from ..io.bayer import fits_paths
+
+        paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
 
         self.paths, self.cache, self.offsets = timing.chronological(paths), {}, {}
         first = self._data(0)

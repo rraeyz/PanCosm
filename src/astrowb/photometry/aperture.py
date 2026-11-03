@@ -60,7 +60,10 @@ def despike(data, rows=512):
     """3x3 median filter: removes single hot/cold pixels and cosmic-ray hits, keeps stars (FWHM > 1.5 px).
     Same result as scipy.ndimage.median_filter(size=3, mode="reflect") on float32, about twice as fast (12 MP:
     2.1 s -> 1.0 s on two cores); done in blocks of rows so the memory stays small."""
-    a = np.nan_to_num(np.asarray(data, dtype=np.float32))
+    a = np.asarray(data, dtype=np.float32)
+    bad = ~np.isfinite(a)
+    if bad.any():  # pixels the flat could not correct: the sky level, not 0 (a hole would look like stars at its rim)
+        a = np.where(bad, np.float32(np.nanmedian(a[::4, ::4])), a)
     ny, nx = a.shape
     padded = np.pad(a, 1, mode="symmetric")  # = scipy "reflect": the edge pixel is repeated
     out = np.empty_like(a)

@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .files import images_filter
 from .workspaces import PlotCanvas
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
@@ -45,7 +46,7 @@ class VarFindPage(QWidget):
         lay.addWidget(info)
         choose = QPushButton(self.tr("Choose frames…"), self)
         choose.clicked.connect(
-            lambda: self.set_images(QFileDialog.getOpenFileNames(self, self.tr("Frames"), "", FITS)[0])
+            lambda: self.set_images(QFileDialog.getOpenFileNames(self, self.tr("Frames"), "", images_filter())[0])
         )
         lay.addWidget(choose)
         self.source = QLabel(self.tr("No frames."), self)
@@ -90,7 +91,9 @@ class VarFindPage(QWidget):
         QVBoxLayout(self).addWidget(split)
 
     def set_images(self, paths):
-        self.images = list(paths)
+        from ..io.bayer import fits_paths
+
+        self.images = fits_paths(paths)  # camera raw files and pictures get a FITS copy
         self.source.setText(self.tr("{n} frames").format(n=len(self.images)))
         self.button.setEnabled(len(self.images) >= 5)
 

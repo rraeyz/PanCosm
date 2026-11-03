@@ -22,6 +22,13 @@ PATTERNS = ("RGGB", "BGGR", "GRBG", "GBRG")
 RAW_SUFFIXES = (".cr2", ".cr3", ".crw", ".nef", ".nrw", ".arw", ".srf", ".sr2", ".dng", ".orf", ".rw2", ".raf",
                 ".pef", ".srw", ".erf", ".3fr", ".iiq", ".mrw", ".x3f", ".raw")  # fmt: skip
 FILTER_CODE = {"R": "TR", "G": "TG", "B": "TB"}  # AAVSO codes for DSLR / colour-camera channels
+# ordinary pictures: phones, compact cameras, programs that save JPEG / PNG / TIFF
+PICTURE_SUFFIXES = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp")
+FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
+# for file dialogs: everything the application can open as an image
+OPEN_PATTERNS = " ".join(
+    f"*{s} *{s.upper()}" for s in FITS_SUFFIXES[:4] + (".fits.fz",) + RAW_SUFFIXES + PICTURE_SUFFIXES
+)
 
 
 def pattern_of(header):
@@ -137,13 +144,113 @@ def read_raw(path, clock_utc_offset_h=0.0):
     return data, h
 
 
+_EXIF_IFD, _DATE_ORIGINAL, _EXPOSURE, _ISO, _MODEL, _FOCAL = 0x8769, 36867, 33434, 34855, 272, 37386
+
+
+def read_picture(path, clock_utc_offset_h=0.0):
+    """(image as float32, FITS header) of an ordinary picture (JPEG, PNG, TIFF, ... from a phone or a camera).
+    Colour pictures become one brightness image (0.2126 R + 0.7152 G + 0.0722 B); rows are turned so the top of
+    the picture is at the top on screen (FITS rows count upwards). From the EXIF data: the time (camera clock minus
+    clock_utc_offset_h), exposure, ISO, camera and focal length.
+
+    8-bit pictures are nearly always gamma-encoded and processed by the camera: fine for viewing, stacking and
+    star positions, not for accurate photometry (raw files are); the header says so (LINEAR = F)."""
+    path = Path(path)
+    exif = {}
+    if path.suffix.lower() in (".tif", ".tiff"):
+        import tifffile
+
+        data = tifffile.imread(path)
+    else:
+        from PIL import Image
+
+        with Image.open(path) as im:
+            ex = im.getexif()
+            exif = dict(ex) | dict(ex.get_ifd(_EXIF_IFD))
+            if im.mode not in ("L", "I", "I;16", "F", "RGB"):
+                im = im.convert("RGB")
+            data = np.asarray(im)
+    data = np.asarray(data)
+    bits = 8 * data.dtype.itemsize if data.dtype.kind in "ui" else 32
+    while data.ndim > 2 and data.shape[-1] not in (3, 4) and data.shape[0] in (3, 4):
+        data = np.moveaxis(data, 0, -1)  # planes first (some TIFF writers)
+    if data.ndim == 3:
+        rgb = data[..., :3].astype(np.float32)
+        data = rgb[..., 0] * 0.2126 + rgb[..., 1] * 0.7152 + rgb[..., 2] * 0.0722
+    if data.ndim != 2:
+        raise ValueError(f"{path.name}: not a 2-D picture (shape {data.shape})")
+    h = fits.Header()
+    h["PICTURE"] = (path.name, "converted from an ordinary picture")
+    h["LINEAR"] = (bits > 8, "8-bit pictures are gamma-encoded: not for accurate photometry")
+    if exif.get(_EXPOSURE):
+        h["EXPTIME"] = (float(exif[_EXPOSURE]), "[s] from the EXIF data")
+    if exif.get(_ISO):
+        iso = exif[_ISO]
+        h["ISOSPEED"] = (float(iso[0] if isinstance(iso, tuple) else iso), "ISO setting")
+    if exif.get(_MODEL):
+        h["INSTRUME"] = (str(exif[_MODEL]).strip()[:60], "camera")
+    if exif.get(_FOCAL):
+        h["FOCALLEN"] = (float(exif[_FOCAL]), "[mm] focal length")
+    if exif.get(_DATE_ORIGINAL):
+        from datetime import datetime
+
+        try:
+            stamp = datetime.strptime(str(exif[_DATE_ORIGINAL]).strip(), "%Y:%m:%d %H:%M:%S")
+            h["DATE-CAM"] = (stamp.isoformat(), "camera clock (EXIF)")
+            utc = stamp - timedelta(hours=float(clock_utc_offset_h))
+            h["DATE-OBS"] = (utc.isoformat(), f"UTC = camera clock - {clock_utc_offset_h:g} h")
+        except ValueError:  # an odd date format: no time rather than a wrong one
+            pass
+    h["CLKOFFS"] = (float(clock_utc_offset_h), "[h] camera clock minus UTC, given by the user")
+    return np.ascontiguousarray(data[::-1]).astype(np.float32), h
+
+
+def is_fits(path):
+    return str(path).lower().endswith(FITS_SUFFIXES)
+
+
+def fits_copy(path, clock_utc_offset_h=0.0):
+    """The file itself when it is FITS; for a camera raw file or a picture, a FITS copy in fits_from_raw next to
+    it (made once, kept while the original is unchanged), so every tool can work on it."""
+    path = Path(path)
+    if is_fits(path):
+        return path
+    target = path.parent / "fits_from_raw" / (path.stem + ".fits")
+    if target.exists() and target.stat().st_mtime >= path.stat().st_mtime:
+        if fits.getheader(target).get("CLKOFFS") == float(clock_utc_offset_h):
+            return target
+    data, h = (
+        read_raw(path, clock_utc_offset_h)
+        if path.suffix.lower() in RAW_SUFFIXES
+        else read_picture(path, clock_utc_offset_h)
+    )
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fits.PrimaryHDU(data, h).writeto(target, overwrite=True, output_verify="silentfix")
+    return target
+
+
+def fits_paths(paths, clock_utc_offset_h=0.0):
+    """FITS paths for a selection of files of any kind (see fits_copy); a file that cannot be read is left out
+    with a warning instead of stopping the rest."""
+    import warnings
+
+    out = []
+    for p in paths:
+        try:
+            out.append(str(fits_copy(p, clock_utc_offset_h)))
+        except Exception as e:  # e.g. a damaged file among many
+            warnings.warn(f"{Path(p).name}: {type(e).__name__}: {e}", stacklevel=2)
+    return out
+
+
 def convert_raw_folder(folder, out_dir=None, clock_utc_offset_h=0.0, progress=None):
-    """Every camera raw file under folder -> FITS under out_dir (default folder/fits_from_raw), keeping the
+    """Every camera raw file and picture under folder -> FITS under out_dir (default folder/fits_from_raw), keeping the
     sub-folders; IMAGETYP from the folder names. Files already converted with the same clock offset are kept.
     Returns (written paths, problems)."""
     folder = Path(folder)
     out_dir = Path(out_dir) if out_dir else folder / "fits_from_raw"
-    files = sorted(p for p in folder.rglob("*") if p.is_file() and p.suffix.lower() in RAW_SUFFIXES)
+    suffixes = RAW_SUFFIXES + PICTURE_SUFFIXES
+    files = sorted(p for p in folder.rglob("*") if p.is_file() and p.suffix.lower() in suffixes)
     files = [p for p in files if out_dir not in p.parents]
     written, problems = [], []
     for n, p in enumerate(files):
@@ -154,7 +261,8 @@ def convert_raw_folder(folder, out_dir=None, clock_utc_offset_h=0.0, progress=No
             if target.exists() and fits.getheader(target).get("CLKOFFS") == float(clock_utc_offset_h):
                 written.append(str(target))
                 continue
-            data, h = read_raw(p, clock_utc_offset_h)
+            reader = read_raw if p.suffix.lower() in RAW_SUFFIXES else read_picture
+            data, h = reader(p, clock_utc_offset_h)
             kind = _kind_from_path(p, folder)
             if kind:
                 h["IMAGETYP"] = (kind, "from the folder name")

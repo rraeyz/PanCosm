@@ -17,19 +17,15 @@ NEIGHBOURS = 6
 
 
 def stars(data, n=N_STARS, fwhm=3.0):
-    """(x, y) of the n brightest stars, brightest first (0-based pixels)."""
-    from astropy.stats import sigma_clipped_stats
-    from photutils.detection import DAOStarFinder
+    """(x, y) of the n brightest stars, brightest first (0-based pixels): unsaturated (a flat-topped star has a
+    poor centre) and away from the edges, where bright rims, overscan and frame-to-frame shifts make sources that
+    are not stars (real frames failed to match with them)."""
+    from ..photometry.fieldstars import detect_stars
 
-    from ..photometry.aperture import despike
-
-    clean = despike(data)
-    _, med, std = sigma_clipped_stats(clean[::2, ::2])
-    found = DAOStarFinder(fwhm=fwhm, threshold=5 * std)(clean - med)
-    if found is None:
-        return np.empty((0, 2))
-    order = np.argsort(-np.asarray(found["flux"]))[:n]
-    return np.column_stack([np.asarray(found["x_centroid"])[order], np.asarray(found["y_centroid"])[order]])
+    finite = np.asarray(data)[np.isfinite(data)]
+    saturation = 0.95 * float(finite.max()) if finite.size else None
+    margin = max(20, int(0.02 * max(np.shape(data))))
+    return detect_stars(data, max_stars=n, fwhm=fwhm, margin=margin, saturation=saturation)
 
 
 def _triangles(xy, k=NEIGHBOURS):
