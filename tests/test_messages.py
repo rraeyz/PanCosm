@@ -111,4 +111,12 @@ def test_task_error_keeps_a_message_over_several_lines():
         "        Card keyword 'exptime' is not upper case.\nNote: astropy.io.fits uses zero-based indexing.\n"
     )
     text = task_error(trace)
-    assert text.startswith("astropy.io.fits.verify.VerifyError:") and "'exptime' is not upper case" in text
+    assert text.startswith("VerifyError:")  # no module path for the user and "'exptime' is not upper case" in text
+
+
+def test_task_errors_do_not_show_module_paths():
+    trace = (
+        'Traceback (most recent call last):\n  File "x.py", line 1\n'
+        "astrowb.planning.targets.TargetError: cannot reach SIMBAD and 'Vega' is not in the local cache\n"
+    )
+    assert task_error(trace).startswith("TargetError: cannot reach SIMBAD")

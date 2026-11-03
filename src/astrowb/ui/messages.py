@@ -170,4 +170,7 @@ def task_error(traceback_text: str) -> str:
     after = frames[-1] + 1 if frames else 0  # the error follows the last frame and its indented code line
     start = next((i for i in range(after, len(lines)) if not lines[i][:1].isspace()), len(lines) - 1)
     text = "\n".join(lines[start : start + 10])
+    text = re.sub(
+        r"^(?:[A-Za-z_]\w*\.)+(?=\w+:)", "", text
+    )  # "astrowb.planning.targets.TargetError:" -> "TargetError:"
     return translate(text) if lines else ""

@@ -924,3 +924,18 @@ def test_photometry_star_picking(window, tmp_path):
     page._clicked(61.0, 40.5)  # on the comparison again: taken off, not marked twice
     assert page.comps == [] and len(viewer.marker_list) == 3
     assert not page.show_what.isEnabled() and page.show_what.placeholderText()
+
+
+def test_a_failed_lookup_is_reported_on_the_gui_thread(window, qtbot, tmp_path):
+    """Target look-ups wrote their error into the Plan page from the task's callback, which runs on a background
+    thread (a Qt widget touched from another thread can crash the application). on_fail runs on the GUI thread."""
+    import threading
+
+    got = []
+    window.run_step(
+        "calibration.scan",
+        {"folder": str(tmp_path / "not-there")},
+        on_fail=lambda msg: got.append((msg, threading.current_thread() is threading.main_thread())),
+    )
+    qtbot.waitUntil(lambda: bool(got), timeout=60000)
+    assert "not-there" in got[0][0] and got[0][1]
