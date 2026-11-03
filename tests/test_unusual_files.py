@@ -125,3 +125,17 @@ def test_wrong_files_give_a_message(tmp_path):
     fits.PrimaryHDU(data).writeto(bad)
     with pytest.raises(ValueError, match="two columns"):
         read_model_curve(bad)
+
+
+def test_thumbnail_of_16_bit_camera_files_with_bzero(tmp_path):
+    """The most common camera format (unsigned 16-bit with BZERO 32768) cannot be memory-mapped; its thumbnail
+    was never drawn."""
+    from astrowb.io.fits import thumbnail
+
+    data = (np.arange(256 * 300) % 60000).astype(np.uint16).reshape(256, 300)
+    fits.PrimaryHDU(data).writeto(tmp_path / "u16.fits")
+    assert "BZERO" in fits.getheader(tmp_path / "u16.fits")
+    assert thumbnail(tmp_path / "u16.fits").shape == (52, 60)
+    cube = np.stack([data, data, data]).astype(np.uint16)
+    fits.PrimaryHDU(cube).writeto(tmp_path / "cube.fits")
+    assert thumbnail(tmp_path / "cube.fits").shape == (52, 60)

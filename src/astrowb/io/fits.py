@@ -38,18 +38,17 @@ def read_image(path: Path):
 
 
 def thumbnail(path, size=64):
-    """A small screen picture (uint8, row 0 at the bottom as in FITS) of a file's first image, read through a
-    memory map with a pixel step so a list of hundreds of large files is drawn quickly."""
+    """A small screen picture (uint8, row 0 at the bottom as in FITS) of a file's first image, read with a pixel
+    step (only those rows from the disk), so a list of hundreds of large files is drawn quickly. Works for
+    16-bit camera files with BZERO, which cannot be memory-mapped."""
     from ..display import to_display
 
-    with fits.open(path, memmap=True) as hdul:
+    with fits.open(path, memmap=False, lazy_load_hdus=True) as hdul:
         hdu = hdul[find_image_hdu(hdul)]
         h = hdu.header
         step = max(1, -(-max(h["NAXIS1"], h["NAXIS2"]) // size))  # at most `size` pixels across
-        data = hdu.data
-        while data.ndim > 2:
-            data = data[0]
-        small = np.array(data[::step, ::step], dtype=np.float32)
+        index = (0,) * (int(h["NAXIS"]) - 2) + (slice(None, None, step), slice(None, None, step))
+        small = np.array(hdu.section[index], dtype=np.float32)
     return to_display(small)
 
 

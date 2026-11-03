@@ -76,3 +76,16 @@ def test_cube_tab(tmp_path, qtbot):
     w, f, _, h = spectrum_io.read(out)
     assert w[np.argmax(f)] == pytest.approx(6563, abs=0.8) and h["SPAXELX"] == 20
     assert page.velocity_tab.files.count() == 1
+
+
+def test_scaled_integer_cube_is_read(tmp_path):
+    """16-bit cubes with BZERO cannot be memory-mapped: read whole instead of an error."""
+    import numpy as np
+    from astropy.io import fits
+
+    from astrowb.spectroscopy.cube import read_cube
+
+    h = fits.Header({"CRVAL3": 5000.0, "CDELT3": 1.0, "CRPIX3": 1.0, "CUNIT3": "Angstrom"})
+    fits.PrimaryHDU((np.arange(5 * 6 * 7) % 60000).astype(np.uint16).reshape(5, 6, 7), h).writeto(tmp_path / "c.fits")
+    data, wave, _ = read_cube(tmp_path / "c.fits")
+    assert data.shape == (5, 6, 7) and wave[0] == 5000.0 and data.max() > 200
