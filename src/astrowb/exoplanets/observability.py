@@ -2,18 +2,17 @@
 equation of planning.exposure and scintillation), the transit's detectability in σ, and a ranking of coming
 transits by detectability and by the value of a new mid-time (how far the ephemeris has drifted).
 
-Scintillation (Young 1967, with Osborn et al. 2015's correction factor of about 1.5 left to the caller):
-σ_sc = 0.09 D^(−2/3) X^(1.75) exp(−h / 8000 m) / √(2 t)   (D aperture in cm, X airmass, h altitude, t seconds).
+Scintillation: photometry.aperture.scintillation (Osborn et al. 2015).
 """
 
 import math
 
+from ..photometry.aperture import scintillation as _osborn
 from ..planning.exposure import snr
 
 
-def scintillation(diameter_cm, airmass, altitude_m, seconds, factor=1.0):
-    return factor * 0.09 * diameter_cm ** (-2 / 3) * airmass**1.75 * math.exp(-altitude_m / 8000) / math.sqrt(
-        2 * seconds)  # fmt: skip
+def scintillation(diameter_cm, airmass, altitude_m, seconds):
+    return float(_osborn(diameter_cm / 100, seconds, airmass, altitude_m))
 
 
 def precision(seconds, magnitude, zero_point, diameter_cm, airmass=1.2, altitude_m=0.0, sky=0.0, read_noise=0.0,

@@ -652,7 +652,11 @@ at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 - **Files:** `photometry/quality.py`, UI checks panel, tests.
 
 ### PHO-34. Errors that match the scatter; red noise  (P1)
-**open**
+**partial** — done (2026-11-12): `photometry/errors.py`: `scatter_ratio` (observed over predicted, the factor
+offered above 1.2), `rms_vs_bin` (the binned RMS against the white-noise line), β from exoplanets.noise,
+`budget` (photon, sky, dark, read, scintillation). White noise: ratio 1.00 ± 0.05, β 1.0 ± 0.1; exoplanets'
+observability now uses aperture.scintillation (Osborn) instead of its own Young formula. Left: the banner, the
+scaled-error column, scintillation on every aperture radius, the Inspector's bar, the Qatar-1 χ².
 - **Ours now:** `aperture.scintillation` (Young's formula, one radius only) and the camera noise model of done item 2; no observed-vs-predicted ratio, no β.
 - **Reference:** Pont, Zucker & Queloz 2006 (MNRAS 373, 231: red noise); Winn et al. 2008 (ApJ 683, 1076: the
   time-averaging β factor); Carter & Winn 2009 (wavelets); Young 1967 / Osborn et al. 2015 (MNRAS 452, 1707:
