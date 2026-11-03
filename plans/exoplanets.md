@@ -422,7 +422,10 @@ even; a secondary and an ellipsoidal variation red. Left: the search front end, 
 - **Files:** `exoplanets/vetting.py`, `ui/exoplanets/panels/vetting.py`, `tests/test_exo_vetting.py`
 
 ### EXO-12. Results for a paper  (P1)
-**open**
+**partial** — done (2026-11-12): `exoplanets/report.py`: the parameter table grouped as EXOFAST lays it out, each
+row symbol / description / median^{+a}_{−b} with the smaller error's digits, in A&A and AASTeX LaTeX and in
+Markdown; the posterior file is core.inference.results' NPZ (reload tested in EXO-5). Left: the prior table, the
+figures, the methods text, the HAT-P-3 table, the ExoClock / AAVSO / TFOP files.
 - **Build:** the parameter table in EXOFAST's familiar layout (stellar, planetary, wavelength, telescope and
   transit parameters; symbol, description with units, median and 68 % interval) as LaTeX (AASTeX and A&A), ECSV and
   Markdown, with the right number of digits; a prior table (what was assumed, with sources); figures through
