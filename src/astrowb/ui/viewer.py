@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import render
 
+RETICLE = 9  # screen pixels: radius of the fixed-size ring around a marked star on a zoomed-out frame
+
 
 class ImageViewer(QGraphicsView):
     # FITS 1-based pixel coordinates and the value under the cursor
@@ -81,15 +83,30 @@ class ImageViewer(QGraphicsView):
     def fit(self):
         self._fit_mode = True
         self.fitInView(self._item, Qt.KeepAspectRatio)
+        self._update_reticles()
 
     def zoom(self, factor: float):
         self._fit_mode = False
         self.scale(factor, factor)
+        self._update_reticles()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         if self._fit_mode and self.data is not None:
             self.fitInView(self._item, Qt.KeepAspectRatio)
+        self._update_reticles()
+
+    def _update_reticles(self):
+        """Fixed-size rings only where the real rings are small on screen; zoomed in, the real rings speak."""
+        scale = abs(self.transform().m11()) or 1.0
+        for item in getattr(self, "_markers", []):
+            r = item.data(0)
+            if r is not None:
+                item.setVisible(r * scale < RETICLE)
+        for item in getattr(self, "_hover_items", []):
+            r = item.data(0)
+            if r is not None:
+                item.setVisible(r * scale < RETICLE)
 
     def wheelEvent(self, event):
         self.zoom(1.25 if event.angleDelta().y() > 0 else 0.8)
@@ -100,7 +117,7 @@ class ImageViewer(QGraphicsView):
     def set_markers(self, markers):
         """markers: [(x, y, radius, colour name, label)] or (..., label, "dash") in 0-based array coordinates."""
         from PySide6.QtCore import Qt
-        from PySide6.QtGui import QColor, QPen
+        from PySide6.QtGui import QColor, QPen, QTransform
         from PySide6.QtWidgets import QGraphicsEllipseItem, QGraphicsSimpleTextItem
 
         for item in self._markers:
@@ -109,6 +126,24 @@ class ImageViewer(QGraphicsView):
         self.marker_list = list(markers)  # kept for saving as DS9 regions
         if self.data is None:
             return
+        biggest = {}
+        for x, y, r, colour, *_ in markers:
+            biggest[(x, y)] = (max(r, biggest.get((x, y), (0, ""))[0]), colour)
+        for (x, y), (r, colour) in biggest.items():
+            # a ring of fixed screen size around each marked star, shown while its real rings are only a few screen
+            # pixels across (a large frame fitted to the window): the user always sees which stars are marked
+            sx, sy = self._to_scene(x, y)
+            reticle = QGraphicsEllipseItem(-RETICLE, -RETICLE, 2 * RETICLE, 2 * RETICLE)
+            pen = QPen(QColor(colour))
+            pen.setWidth(2)
+            pen.setCosmetic(True)
+            reticle.setPen(pen)
+            reticle.setPos(sx, sy)
+            reticle.setFlag(QGraphicsEllipseItem.ItemIgnoresTransformations)
+            reticle.setData(0, r)
+            self.scene().addItem(reticle)
+            self._markers.append(reticle)
+        self._update_reticles()
         for x, y, r, colour, label, *style in markers:
             sx, sy = self._to_scene(x, y)
             circle = QGraphicsEllipseItem(sx - r, sy - r, 2 * r, 2 * r)
@@ -121,6 +156,7 @@ class ImageViewer(QGraphicsView):
             text.setBrush(QColor(colour))
             text.setPos(sx + r, sy - r)
             text.setFlag(QGraphicsSimpleTextItem.ItemIgnoresTransformations)
+            text.setTransform(QTransform.fromTranslate(4, -16))  # screen pixels: clear of the fixed-size ring
             for item in (circle, text):
                 self.scene().addItem(item)
                 self._markers.append(item)
@@ -192,6 +228,17 @@ class ImageViewer(QGraphicsView):
                 item.setOpacity(0.7)
                 self.scene().addItem(item)
                 self._hover_items.append(item)
+            if self._hover_rings:  # the fixed-size ring that shows where a click lands on a zoomed-out frame
+                reticle = QGraphicsEllipseItem(-RETICLE, -RETICLE, 2 * RETICLE, 2 * RETICLE)
+                pen = QPen(QColor(self._hover_colour))
+                pen.setWidth(2)
+                pen.setCosmetic(True)
+                reticle.setPen(pen)
+                reticle.setFlag(QGraphicsEllipseItem.ItemIgnoresTransformations)
+                reticle.setData(0, max(r for r, _ in self._hover_rings))
+                self.scene().addItem(reticle)
+                self._hover_items.append(reticle)
+            self._update_reticles()
         for item in self._hover_items:
             item.setPos(sx, sy)
 
