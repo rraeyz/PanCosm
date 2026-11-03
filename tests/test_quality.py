@@ -63,3 +63,23 @@ def test_photometry_page_leaves_out_bad_frames(qtbot, tmp_path):
     page._drop_bad()  # unticked in the frame list, not deleted: the frame numbers of marked stars stay valid
     assert len(page.images) == 4 and all("b.fits" not in p for p in page._series())
     assert "3 of them used" in page.images_label.text()
+
+
+def test_night_flags():
+    from astrowb.photometry.quality import night_flags
+
+    n = 120
+    rng = np.random.default_rng(3)
+    ensemble = 1e6 * (1 + 0.01 * rng.normal(size=n))
+    ensemble[40:46] *= 0.6  # a cloud: −40 % for six frames
+    fwhm = 3.0 + 0.05 * rng.normal(size=n)
+    fwhm[90:] += np.linspace(0, 3, 30)  # the focus drifts at the end
+    x = 100 + 0.1 * rng.normal(size=n)
+    y = 100 + 0.1 * rng.normal(size=n)
+    x[70:] += 25  # a meridian flip moves the field
+    flags, verdict = night_flags(ensemble, fwhm, x, y, peak=np.full(n, 30000.0), linearity=50000)
+    assert flags["cloud"] == list(range(40, 46)) and flags["jump"] == [70] and flags["near_saturation"] == []
+    assert flags["seeing"] and min(flags["seeing"]) >= 100
+    assert verdict.startswith("6 frames behind cloud")
+    quiet, line = night_flags(1e6 * (1 + 0.01 * rng.normal(size=n)))
+    assert quiet["cloud"] == [] and line == "no frame flagged"

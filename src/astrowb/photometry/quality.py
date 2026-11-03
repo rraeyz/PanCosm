@@ -64,3 +64,34 @@ def judge(rows, fwhm_factor=1.5, star_fraction=0.5, background_factor=3.0):
             why.append("bright sky")
         r["good"], r["why"] = not why, why
     return rows
+
+
+def _running_upper(y, half=10):
+    """A running upper envelope: the 90th percentile within ± half frames."""
+    y = np.asarray(y, float)
+    return np.array([np.nanpercentile(y[max(0, i - half) : i + half + 1], 90) for i in range(len(y))])
+
+
+def night_flags(ensemble=None, fwhm=None, x=None, y=None, peak=None, linearity=None, cloud_drop=0.2,
+                seeing_factor=1.5, jump_px=5.0, near_saturation=0.9):  # fmt: skip
+    """PHO-33: flags per frame from the night's series (any can be missing): "cloud" (the comparison stars' summed
+    counts more than cloud_drop below their running upper envelope), "seeing" (FWHM above seeing_factor × the
+    median), "jump" (the field moved by more than jump_px since the previous frame: a meridian flip or lost
+    guiding), "near_saturation" (the target's peak above near_saturation × the linearity limit).
+    Returns {kind: frame indices} and the one-line verdict."""
+    flags = {}
+    if ensemble is not None:
+        e = np.asarray(ensemble, float)
+        flags["cloud"] = np.flatnonzero(e < (1 - cloud_drop) * _running_upper(e)).tolist()
+    if fwhm is not None:
+        f = np.asarray(fwhm, float)
+        flags["seeing"] = np.flatnonzero(f > seeing_factor * np.nanmedian(f)).tolist()
+    if x is not None and y is not None:
+        step = np.hypot(np.diff(np.asarray(x, float)), np.diff(np.asarray(y, float)))
+        flags["jump"] = (np.flatnonzero(step > jump_px) + 1).tolist()
+    if peak is not None and linearity:
+        flags["near_saturation"] = np.flatnonzero(np.asarray(peak, float) > near_saturation * linearity).tolist()
+    words = {"cloud": "behind cloud", "seeing": "with bad seeing", "jump": "after a jump of the field",
+             "near_saturation": "near saturation"}  # fmt: skip
+    verdict = "; ".join(f"{len(v)} frames {words[k]}" for k, v in flags.items() if v) or "no frame flagged"
+    return flags, verdict
