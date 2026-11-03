@@ -4,7 +4,7 @@ Sık karşılaşılan sorunlar ve yapılacaklar.
 ## Bir görev başarısız oldu
 Görevler paneli *başarısız* gösterir ve bir pencere hatayı verir. Tipik nedenler: okunamayan bir dosya, eksik bir girdi (ileti adını söyler), çok az yıldız ya da kare. Pencere kullanılabilir kalır; girdiyi düzeltip adımı yeniden çalıştırın. Projenin geçmişi başarısız çalıştırmayı ayarlarıyla saklar.
 
-Hata penceresi hatanın kendisini gösterir; **Ayrıntıları Göster…** tam raporu içerir. Kurulumu ve uygulamanın kullandığı her web servisini (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …) denetlemek için uygulamayı bir kez terminalden `--check-online` ile çalıştırın: her satır OK ya da FAIL ve nedenini söyler. Tek bir servisteki FAIL genelde o servisten ya da ağınızdan kaynaklanır; ilk satırlardaki bir FAIL kurulumun bir parçasının eksik olduğu anlamına gelir — lütfen bildirin.
+Hata penceresi hatanın kendisini gösterir; **Ayrıntıları Göster…** tam raporu içerir. Kurulumu ve uygulamanın kullandığı her web servisini (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …) denetlemek için **Yardım → Kurulumu ve internet servislerini denetle**'yi seçin (ya da uygulamayı terminalden `--check-online` ile çalıştırın): her satır OK ya da FAIL ve nedenini söyler. Tek bir servisteki FAIL genelde o servisten ya da ağınızdan kaynaklanır; ilk satırlardaki bir FAIL kurulumun bir parçasının eksik olduğu anlamına gelir — lütfen bildirin.
 
 ## Kalibrasyon karelerin eksik olduğunu söylüyor
 "no flat for filter …", "no dark for … s", "no bias" — o light'lar yine o düzeltme olmadan kalibre edilir. Eksik kareleri alın (aynı filtre, binning, poz ve sıcaklık) ya da sonucu kabul edin. Başka pozdaki dark'lar yalnızca bias kareleriyle kullanılabilir.

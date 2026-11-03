@@ -4,7 +4,7 @@ Common problems and what to do.
 ## A task failed
 The Tasks panel shows *failed* and a window gives the error. Typical causes: a file that cannot be read, a missing input (the message names it), too few stars or frames. The window stays usable; correct the input and run the step again. The project's history keeps the failed run with its settings.
 
-The error window shows the error itself; **Show Details…** has the full report. To check the installation and every web service the application uses (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …), run it once from a terminal with `--check-online`: each line says OK or FAIL and why. A FAIL for one service is usually that service or your network; a FAIL in the first lines means part of the installation is missing — please report it.
+The error window shows the error itself; **Show Details…** has the full report. To check the installation and every web service the application uses (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …), choose **Help → Check the installation and internet services** (or run the application from a terminal with `--check-online`): each line says OK or FAIL and why. A FAIL for one service is usually that service or your network; a FAIL in the first lines means part of the installation is missing — please report it.
 
 ## The calibration says frames are missing
 "no flat for filter …", "no dark for … s", "no bias" — those lights are still calibrated without that correction. Take the missing frames (same filter, binning, exposure and temperature) or accept the result. Darks of another exposure can be used only with bias frames.

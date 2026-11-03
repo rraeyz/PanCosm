@@ -881,6 +881,7 @@ class MainWindow(QMainWindow):
         self._action(h, self.tr("Training &guide"), lambda: self.show_workspace("guide"), QKeySequence.HelpContents)
         self._action(h, self.tr("Quick &tour"), self.start_tour)
         self._action(h, self.tr("&Practice data for a first night…"), self.practice_data)
+        self._action(h, self.tr("Check the &installation and internet services"), self.check_installation)
         self._action(h, self.tr("Check for &updates…"), self.check_updates)
         self._action(h, self.tr("&About {app}").format(app=BRAND.display_name), self.about)
 
@@ -1653,6 +1654,25 @@ class MainWindow(QMainWindow):
         self.settings.set("compute.device", code)
         compute.set_mode(code)  # new worker processes inherit it
         self.statusBar().showMessage(compute.describe(), 8000)
+
+    def check_installation(self):
+        """Every part of the installation and every web service (SIMBAD, VizieR, MAST, ...) in one report: what to
+        send when something does not work."""
+
+        def done(out):
+            box = QMessageBox(QMessageBox.Information, self.tr("Installation and internet services"), "", parent=self)
+            box.setText(
+                self.tr("Everything works.")
+                if out["ok"]
+                else self.tr(
+                    "Some checks failed (see below). A failing web service is often the network or the service."
+                )
+            )
+            box.setDetailedText(out["report"])
+            box.exec()
+
+        self.statusBar().showMessage(self.tr("Checking the installation and the internet services…"), 60000)
+        return self.run_step("app.check", {}, {}, on_done=done)
 
     def practice_data(self, folder=None):
         """Simulated raw frames of an eclipsing binary night, for the Guide's first-night exercise."""

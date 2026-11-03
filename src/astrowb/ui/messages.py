@@ -110,6 +110,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "reading"),
     QT_TRANSLATE_NOOP("Messages", "writing"),
     QT_TRANSLATE_NOOP("Messages", "plate solving"),
+    QT_TRANSLATE_NOOP("Messages", "checking"),
     QT_TRANSLATE_NOOP("Messages", "simulating"),
     QT_TRANSLATE_NOOP("Messages", "photometry"),
     QT_TRANSLATE_NOOP("Messages", "quality"),
