@@ -69,9 +69,12 @@ and commits in English. Delete this file once the work is finished.
    the time works: `DATE-OBS` with date only plus `TIME-OBS` / `UT` / `UTSTART` / `TIME_OBS`, `DATE` + `UT`,
    only `JD` / `MJD-OBS`, `EXPOSURE` vs `EXPTIME`, local times with a time zone. `UTSTART` and `TIME_OBS`
    are not read yet. Add a test for each.
-4. **GUI sweep on real data**: click every button and menu entry of every page with real frames loaded,
-   with file dialogs answered automatically, and collect exceptions and "Task failed" boxes. The last sweep
-   was started but its result was not read. Earlier sweeps' findings are all fixed.
+4. **GUI sweep on real data** (done once more at the end): 231 buttons and menu entries clicked on the
+   real night, no exception. The remaining messages are expected (empty plots answer "no Axes to edit"; the
+   automatic save dialog gave `.fits` names to plot saving; a FITS file opened as a project is refused).
+   Every engine step also ran on the real night: all OK, except two correct messages (period search on a
+   7-minute series; colour transformation on a frame without sky coordinates). Repeat the sweep after
+   larger changes.
 5. **Spectroscopy** with real data: the owner offered to send spectra; ask for them.
 6. Test unusual data more: colour (RGB) FITS, one-shot-colour Bayer FITS, data only in an extension (MEF),
    8-bit / float / negative / NaN images, very large frames, phone night through photometry.
