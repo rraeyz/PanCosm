@@ -42,23 +42,50 @@ def _parse_iso(text: str) -> Time:
     return Time(text, format="isot", scale="utc") - TimeDelta(offset_h * 3600, format="sec")
 
 
+# keywords that hold the time of day when DATE-OBS has the date only (IRAF, NOAO, MaxIm, ... spell it differently)
+TIME_KEYS = ("TIME-OBS", "TIME_OBS", "UT", "UTSTART", "UT-START", "UT_START", "UTC", "UTC-OBS", "UT-OBS")
+
+
+def _date_and_time(value, header):
+    """An ISO date-time from a DATE-OBS value, completed by a time-of-day keyword when it holds the date only.
+    None when no time of day is known (a date alone is not an observation time: it would silently mean 00:00)."""
+    value = value.strip()
+    old = re.fullmatch(r"(\d\d)/(\d\d)/(\d\d)", value)  # FITS before 1999: dd/mm/yy
+    if old:
+        value = f"19{old.group(3)}-{old.group(2)}-{old.group(1)}"
+    if re.match(r"\d{4}-\d\d-\d\d \d", value):  # a space instead of the T
+        value = value.replace(" ", "T", 1)
+    if "T" in value:
+        return value
+    for key in TIME_KEYS:
+        tod = header.get(key)
+        if isinstance(tod, str) and re.match(r"\s*\d{1,2}:\d\d", tod):
+            return f"{value}T{tod.strip()}"
+    return None
+
+
 def start_time(header) -> Time:
     """Exposure start in UTC. Prefers explicit UT keywords; MJD/JD only when nothing better exists
     (some cameras round them to 0.001 d = 86 s)."""
+    date_only = None
     for key in ("UT-OBS", "DATE-BEG", "DATE-OBS", "DATE_OBS"):
         value = header.get(key)
-        if not value or not isinstance(value, str):
+        if not value or not isinstance(value, str) or not re.match(r"\s*(\d{4}-|\d\d/)", value):
             continue
-        if "T" not in value and header.get("TIME-OBS", header.get("UT")):  # old style: date and time apart
-            value = f"{value}T{header.get('TIME-OBS', header.get('UT'))}"
+        full = _date_and_time(value, header)
+        if full is None:
+            date_only = key
+            continue
         try:
-            return _parse_iso(value)
+            return _parse_iso(full)
         except ValueError:
             continue
-    for key, fmt in (("JD-OBS", "jd"), ("JD", "jd"), ("MJD-OBS", "mjd")):
+    for key, fmt in (("JD-OBS", "jd"), ("JD", "jd"), ("MJD-OBS", "mjd"), ("MJD", "mjd")):
         if key in header:
             if number(header[key]) is not None:
                 return Time(number(header[key]), format=fmt, scale="utc")
+    if date_only:
+        raise TimeError(f"{date_only} holds a date but no time of day, and no time keyword was found")
     raise TimeError("no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)")
 
 
@@ -68,7 +95,7 @@ def mid_time(header) -> Time:
         return _parse_iso(header["DATE-AVG"])
     if number(header.get("JD-MID")) is not None:
         return Time(number(header["JD-MID"]), format="jd", scale="utc")
-    exptime = get(header, "EXPTIME", "EXPOSURE", default=0.0)
+    exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
     return start_time(header) + TimeDelta(exptime / 2, format="sec")
 
 

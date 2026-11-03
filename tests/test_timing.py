@@ -88,3 +88,38 @@ def test_chronological_order(tmp_path):
         fits.PrimaryHDU(np.zeros((2, 2), np.float32), h).writeto(tmp_path / name)
     order = [p.split("/")[-1].split("\\")[-1] for p in timing.chronological(tmp_path.glob("*.fits"))]
     assert order == ["light_1.fits", "light_2.fits", "light_10.fits", "notime.fits"]
+
+
+@pytest.mark.parametrize(
+    "cards, expected",
+    [
+        ({"DATE-OBS": "2026-11-15T20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15T20:00:00.5Z"}, "2026-11-15T20:00:00.500"),
+        ({"DATE-OBS": "2026-11-15T23:00:00+03:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15 20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "TIME-OBS": "20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "UT": "20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "UTSTART": "20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "UT-START": "20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "TIME_OBS": "20:00:00"}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "UTC": "20:00:00.25"}, "2026-11-15T20:00:00.250"),
+        ({"DATE-OBS": "15/11/97", "UT": "20:00:00"}, "1997-11-15T20:00:00.000"),
+        ({"MJD-OBS": 61359.833333333333}, "2026-11-15T20:00:00.000"),
+        ({"MJD": 61359.833333333333}, "2026-11-15T20:00:00.000"),
+        ({"DATE-OBS": "2026-11-15", "JD": 2461360.3333333335}, "2026-11-15T20:00:00.000"),
+    ],
+)
+def test_every_common_way_of_writing_the_time(cards, expected):
+    """Cameras and pipelines write the start time in many ways; a date without a time must never become 00:00."""
+    from astropy.io import fits
+
+    assert timing.start_time(fits.Header(cards)).isot == expected
+
+
+def test_a_date_without_a_time_of_day_is_an_error_not_midnight():
+    from astropy.io import fits
+
+    with pytest.raises(timing.TimeError, match="no time of day"):
+        timing.start_time(fits.Header({"DATE-OBS": "2026-11-15"}))
+    mid = timing.mid_time(fits.Header({"DATE-OBS": "2026-11-15T20:00:00", "EXP_TIME": 60.0}))
+    assert mid.isot == "2026-11-15T20:00:30.000"  # EXP_TIME is an exposure time too
