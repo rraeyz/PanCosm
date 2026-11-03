@@ -406,6 +406,13 @@ TEMPLATES = (
     # timeseries/lightcurve.py (PER-1)
     QT_TRANSLATE_NOOP("Messages", "append curves in the same unit and time standard"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting: {kind}"),
+    # photometry/reports/aavso_exoplanet.py (PHO-27)
+    QT_TRANSLATE_NOOP("Messages", "the AAVSO exoplanet file takes at most four detrending columns"),
+    QT_TRANSLATE_NOOP("Messages", "the first line must be #TYPE=EXOPLANET"),
+    QT_TRANSLATE_NOOP("Messages", "line {n} is blank: WebObs rejects a blank line not commented with #"),
+    QT_TRANSLATE_NOOP("Messages", "line {n}: unknown header key {key}"),
+    QT_TRANSLATE_NOOP("Messages", "the header needs #{key}"),
+    QT_TRANSLATE_NOOP("Messages", "line {n}: {expected} columns expected"),
     # photometry/fit_steps.py (PHO-26)
     QT_TRANSLATE_NOOP("Messages", "unknown detrending series: {name}"),
     # photometry/steps.py (PHO-17)
