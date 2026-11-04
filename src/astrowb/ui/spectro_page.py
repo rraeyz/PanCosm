@@ -26,7 +26,37 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .undo import Undoable
 from .workspaces import PlotCanvas
+
+
+def _rows(table):
+    return [
+        [table.item(r, c).text() if table.item(r, c) else "" for c in range(table.columnCount())]
+        for r in range(table.rowCount())
+    ]
+
+
+def _set_rows(table, rows):
+    table.blockSignals(True)
+    table.setRowCount(len(rows))
+    for r, row in enumerate(rows):
+        for c, text in enumerate(row):
+            table.setItem(r, c, QTableWidgetItem(text))
+    table.blockSignals(False)
+
+
+def _track_typing(page, table):
+    """Values typed into the table of identified lines become undoable steps."""
+    page._typed_from = page.undo_state()
+    table.itemChanged.connect(
+        lambda _item: (
+            page.record(page.tr("type a wavelength"), page._typed_from),
+            setattr(page, "_typed_from", page.undo_state()),
+        )
+    )
+    page.undo_stack.indexChanged.connect(lambda _i: setattr(page, "_typed_from", page.undo_state()))
+
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 
@@ -92,11 +122,12 @@ class _FileRow(QWidget):
         return self.edit.text().strip()
 
 
-class ReduceTab(QWidget):
+class ReduceTab(Undoable, QWidget):
     reduce_requested = Signal(dict, dict)  # inputs, params
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.result = None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
@@ -142,10 +173,11 @@ class ReduceTab(QWidget):
         self.guesses = QTableWidget(0, 2, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        _track_typing(self, self.guesses)
         lay.addWidget(self.guesses, 1)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
-        clear.clicked.connect(lambda: self.guesses.setRowCount(0))
+        clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
         self.solve_button = QPushButton(self.tr("3. Solve wavelengths and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(with_guesses=True))
         row.addWidget(clear)
@@ -271,14 +303,20 @@ class ReduceTab(QWidget):
         if peaks.size == 0:
             return
         p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
-        r = self.guesses.rowCount()
-        self.guesses.insertRow(r)
-        self.guesses.setItem(r, 0, QTableWidgetItem(f"{p:.2f}"))
-        self.guesses.setItem(r, 1, QTableWidgetItem(""))
-        self.guesses.editItem(self.guesses.item(r, 1))
+        self.edit(self.tr("identify a line"), self._add_line, [f"{p:.2f}", ""])
+        self.guesses.editItem(self.guesses.item(self.guesses.rowCount() - 1, 1))
+
+    def _add_line(self, row):
+        _set_rows(self.guesses, _rows(self.guesses) + [row])
+
+    def undo_state(self):
+        return {"guesses": _rows(self.guesses)}
+
+    def set_undo_state(self, st):
+        _set_rows(self.guesses, st["guesses"])
 
 
-class EchelleTab(QWidget):
+class EchelleTab(Undoable, QWidget):
     """Echelle / cross-dispersed spectra: orders traced on a flat, global 2-D wavelength solution
     from lines identified in a few orders, blaze-corrected merged spectrum."""
 
@@ -287,6 +325,7 @@ class EchelleTab(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.result, self.excluded_lines, self._resid_ax = None, [], None
         self.order_rows, self.order_traces, self._orders_source, self._flat_ax = None, [], None, None
         split = QSplitter(Qt.Horizontal, self)
@@ -354,10 +393,11 @@ class EchelleTab(QWidget):
         self.guesses = QTableWidget(0, 3, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Order"), self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        _track_typing(self, self.guesses)
         lay.addWidget(self.guesses, 1)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
-        clear.clicked.connect(lambda: self.guesses.setRowCount(0))
+        clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
         self.solve_button = QPushButton(self.tr("3. Solve, merge and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(True))
         row.addWidget(clear)
@@ -370,7 +410,7 @@ class EchelleTab(QWidget):
         )
         self.refit_button.clicked.connect(lambda: self._run(True))
         forget = QPushButton(self.tr("Use all lines again"), self)
-        forget.clicked.connect(self.forget_excluded)
+        forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.forget_excluded))
         row.addWidget(self.refit_button)
         row.addWidget(forget)
         lay.addLayout(row)
@@ -490,8 +530,7 @@ class EchelleTab(QWidget):
             dist = [abs(np.polyval(c, x) - y) for c in self.order_traces]
             i = int(np.argmin(dist))
             if dist[i] < max(3.0, 0.5 * order_window(self.order_rows)):  # on a trace: remove that order
-                del self.order_rows[i], self.order_traces[i]
-                self._draw_orders()
+                self.edit(self.tr("remove an order"), self._remove_order, i)
                 return
         new = row_at_centre(self.order_traces, x, y, self._order_nx)
         self._find_orders(sorted(self.order_rows + [new]))  # traced again in the worker, with the new order
@@ -583,7 +622,7 @@ class EchelleTab(QWidget):
             i = int(np.argmin(np.hypot(pix[:, 0] - event.x, pix[:, 1] - event.y)))
             line = [float(a[i, 0]), float(a[i, 1])]
             if line not in self.excluded_lines:
-                self.excluded_lines.append(line)
+                self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, line)
                 self._resid_ax.plot(a[i, 1], a[i, 3] * 1000, "o", mfc="none", color="#e5484d", ms=9)
                 self.plot.draw()
             self.status.setText(
@@ -600,12 +639,31 @@ class EchelleTab(QWidget):
             return
         p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
         orders = self._orders()
-        r = self.guesses.rowCount()
-        self.guesses.insertRow(r)
-        self.guesses.setItem(r, 0, QTableWidgetItem(str(orders[k] if orders else "")))
-        self.guesses.setItem(r, 1, QTableWidgetItem(f"{p:.2f}"))
-        self.guesses.setItem(r, 2, QTableWidgetItem(""))
-        self.guesses.editItem(self.guesses.item(r, 2))
+        self.edit(self.tr("identify a line"), self._add_line, [str(orders[k] if orders else ""), f"{p:.2f}", ""])
+        self.guesses.editItem(self.guesses.item(self.guesses.rowCount() - 1, 2))
+
+    def _add_line(self, row):
+        _set_rows(self.guesses, _rows(self.guesses) + [row])
+
+    def _remove_order(self, i):
+        del self.order_rows[i], self.order_traces[i]
+        self._draw_orders()
+
+    def undo_state(self):
+        return {
+            "guesses": _rows(self.guesses),
+            "excluded": [list(v) for v in self.excluded_lines],
+            "rows": None if self.order_rows is None else [float(r) for r in self.order_rows],
+            "traces": [[float(v) for v in c] for c in self.order_traces],
+        }
+
+    def set_undo_state(self, st):
+        _set_rows(self.guesses, st["guesses"])
+        self.excluded_lines = [list(v) for v in st["excluded"]]
+        if st["rows"] != self.order_rows and st["rows"] is not None:
+            self.order_rows, self.order_traces = list(st["rows"]), [np.array(c) for c in st["traces"]]
+            if self._flat_ax is not None:
+                self._draw_orders()
 
 
 class TelluricTab(QWidget):

@@ -34,6 +34,7 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 - **Panel de tareas (abajo):** cada trabajo largo (calibración, fotometría, ajustes, espectros…) se ejecuta en segundo plano en su propio proceso. El panel muestra su progreso y estado (en cola, en curso, hecha, fallida, cancelada). Puede seguir trabajando mientras se ejecutan las tareas, y una tarea que falla nunca cierra la ventana.
 - **Barra de estado:** el valor del píxel y las coordenadas celestes bajo el ratón cuando hay una imagen abierta, y una barra de progreso mientras se ejecutan tareas.
 - **Menús:** Archivo (proyectos, FITS), Ver (zoom y estiramiento de la visualización), Imagen (reducción astrométrica, procesado), Complementos, Configuración y Ayuda.
+- **Deshacer y rehacer:** Editar → Deshacer (Ctrl+Z) revierte el último cambio en la página mostrada — una estrella marcada o quitada, puntos borrados, una eliminación de tendencia, valores atípicos quitados, una operación de imagen, un cambio en la cabecera, una línea del arco identificada u omitida — y Editar → Rehacer (Ctrl+Y o Ctrl+Mayús+Z) lo vuelve a hacer paso a paso. El menú nombra el paso. En un campo de texto Ctrl+Z deshace lo escrito en ese campo.
 
 ## La página de inicio
 Empiece por lo que tenga:

@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from PySide6.QtCore import QRect, QSize, Qt, Signal
-from PySide6.QtGui import QAction, QActionGroup, QIcon, QKeySequence
+from PySide6.QtGui import QAction, QActionGroup, QIcon, QKeySequence, QUndoGroup
 from PySide6.QtWidgets import (
     QDockWidget,
     QFileDialog,
@@ -137,6 +137,7 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.progress)
 
         self._build_menus()
+        self._follow_undo()
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         self._fill_image_toolbar()
         self._update_title()
@@ -278,6 +279,22 @@ class MainWindow(QMainWindow):
             page = getattr(self, self.PAGES[key])
             self.pages.setCurrentWidget(self._frames.get(page, page))
             self._key = key
+            self._follow_undo(page)
+
+    def _follow_undo(self, page=None):
+        """Edit -> Undo / Redo act on the page shown (on its open tab when it has tabs)."""
+        if not hasattr(self, "undo_group"):  # pages shown while the window is built, before its menus
+            return
+        page = page or getattr(self, self.PAGES.get(self._key, ""), None)
+        tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
+        if tabs is not None and not getattr(tabs, "_follows_undo", False):
+            tabs.currentChanged.connect(lambda _=0: self._follow_undo())
+            tabs._follows_undo = True
+        inner = tabs.currentWidget() if tabs is not None else None
+        stack = getattr(inner, "undo_stack", None) or getattr(page, "undo_stack", None)
+        if stack is not None and stack not in self.undo_group.stacks():
+            self.undo_group.addStack(stack)
+        self.undo_group.setActiveStack(stack)
 
     def dock_page(self, key, on=True):
         """Show a page as a panel beside the image, as MaxIm DL's tool windows (it can be dragged out as a window
@@ -804,6 +821,21 @@ class MainWindow(QMainWindow):
         m.addSeparator()
         self._action(m, self.tr("&Quit"), self.close, QKeySequence.Quit)
 
+        e = self.menuBar().addMenu(self.tr("&Edit"))
+        self.undo_group = QUndoGroup(self)
+        self.undo_action = self.undo_group.createUndoAction(self, self.tr("&Undo"))
+        self.undo_action.setShortcuts([QKeySequence(QKeySequence.Undo)])
+        self.redo_action = self.undo_group.createRedoAction(self, self.tr("&Redo"))
+        redo = [QKeySequence("Ctrl+Y"), QKeySequence("Ctrl+Shift+Z")] + QKeySequence.keyBindings(QKeySequence.Redo)
+        unique = {k.toString(): k for k in redo}  # one key twice on one action is "ambiguous": it would do nothing
+        self.redo_action.setShortcuts(list(unique.values()))
+        for act, tip in (
+            (self.undo_action, self.tr("Take back the last change on this page (stars marked, points deleted, …)")),
+            (self.redo_action, self.tr("Do again what Undo took back")),
+        ):
+            act.setToolTip(tip)
+            e.addAction(act)
+
         v = self.menuBar().addMenu(self.tr("&View"))
         self.fit_action = self._action(v, self.tr("Zoom to &fit"), self.viewer.fit, "F")
         self.zoom_in_action = self._action(v, self.tr("Zoom &in"), lambda: self.viewer.zoom(1.25), QKeySequence.ZoomIn)
@@ -1011,7 +1043,8 @@ class MainWindow(QMainWindow):
         if self.apply_all_action.isChecked():
             self.image_page.replace_open(source, out["image"])
         if source == str(self.current_path) or not self.apply_all_action.isChecked():
-            self.open_fits(Path(out["image"]))
+            # Ctrl+Z shows the image before the operation again (the processed copy stays on disk)
+            self.image_page.edit(self.tr("image operation"), self.open_fits, Path(out["image"]))
 
     def colour_dialog(self, paths=None, output=None):
         """Red, green and blue frames -> a colour PNG (aligned, Lupton asinh stretch), shown when ready."""
