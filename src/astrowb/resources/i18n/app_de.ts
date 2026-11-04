@@ -11836,32 +11836,92 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="39"/>
-        <source>Exact transit model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="41"/>
-        <source>Fit the transit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_transit.py" line="43"/>
-        <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
+        <source>Transit fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="46"/>
+        <source>fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <source>Parameter</source>
+        <translation type="unfinished">Parameter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <source>Value</source>
+        <translation type="unfinished">Wert</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="50"/>
+        <source>Error</source>
+        <translation type="unfinished">Fehler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/photometry_transit.py" line="57"/>
+        <source>model</source>
+        <translation type="unfinished">Modell</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <source>Relative flux</source>
+        <translation type="unfinished">Relativer Fluss</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <source>O − C (ppt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="63"/>
+        <source>Days from {t0:.5f}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
+        <source>Exact transit model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="76"/>
+        <source>Fit the transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="78"/>
+        <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="86"/>
+        <source>Parameters and plot…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="100"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <location filename="../../ui/photometry_transit.py" line="105"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="66"/>
+        <location filename="../../ui/photometry_transit.py" line="109"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>
