@@ -66,6 +66,13 @@ def test_light_curve_with_a_variable_neighbour_removed(tmp_path):
     xy = [s[:2] for s in STARS]
     rel = lambda lc: np.asarray(lc["target_flux"]) / np.asarray(lc["comp_flux"]).sum(axis=1)  # noqa: E731
     plain = rel(light_curve(paths, xy[0], xy[1:3], 6, 15, 20))
-    clean = rel(light_curve(paths, xy[0], xy[1:3], 6, 15, 20, remove_neighbours=True))
+    night = light_curve(paths, xy[0], xy[1:3], 6, 15, 20, remove_neighbours=True)
+    clean = rel(night)
     assert plain.max() / plain.min() > 1.2
     assert clean / clean.mean() == pytest.approx(np.ones(3), abs=0.015)
+    from astrowb.photometry.live import LiveLightCurve  # PHO-19: the live path measures with the same code
+
+    live = LiveLightCurve(xy[0], xy[1:3], 6, 15, 20, remove_neighbours=True)
+    for p in paths:
+        live.add(p)
+    assert live.light_curve()["rel_flux"] == pytest.approx(night["rel_flux"], rel=1e-9)

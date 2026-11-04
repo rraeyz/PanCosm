@@ -14,8 +14,9 @@ from .. import timing
 from ..calibration.frames import classify
 from ..calibration.masters import calibrate, load
 from ..hdr import get
-from .aperture import frame_shift, measure, recenter
-from .lightcurve import target_coord
+from .aperture import frame_shift, recenter
+from .lightcurve import _measure_at, target_coord
+from .psf import neighbours_setup
 
 FITS_SUFFIXES = (".fits", ".fit", ".fts")
 
@@ -48,8 +49,12 @@ def load_masters(paths):
 
 
 class LiveLightCurve:
-    def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None):
+    def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None, **method):
+        """method: psf, remove_neighbours, sky_method — measured by light_curve's own per-frame code (PHO-19)."""
         self.xy = np.array([target_xy, *comps_xy], dtype=float)
+        self.psf = bool(method.get("psf"))
+        self.remove_neighbours = bool(method.get("remove_neighbours")) and not self.psf
+        self.opts = {"sky_method": method.get("sky_method", "median"), "fixed": ()}
         self.r = (r_ap, r_in, r_out)
         self.coord, self.gain, self.box = coord, gain, box
         self.masters = masters or {}
@@ -85,10 +90,14 @@ class LiveLightCurve:
                 shift = (0.0, 0.0)
                 self.xy = recenter(data, self.xy, self.box, max_move=self.box / 2)  # snap the clicks onto the stars
                 self.ref = data
+                if self.remove_neighbours:
+                    self.opts["neighbours"] = neighbours_setup(data, self.xy, len(self.xy) - 1, self.r[2])
             else:  # against the first frame, as light_curve does: one bad frame does not carry on to the rest
                 shift = frame_shift(self.ref, data)
-            xy = recenter(data, self.xy + shift, self.box)
-            flux, err, _ = measure(data, xy, *self.r, self.gain)
+            pred = self.xy + shift
+            xy, flux, err, *_ = _measure_at(
+                data, h, pred, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.opts
+            )
             t = timing.mid_time(h)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"

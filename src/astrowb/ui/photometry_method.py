@@ -28,3 +28,12 @@ def add_method_boxes(page, body):
     for box, other in ((page.psf, page.remove_neighbours), (page.remove_neighbours, page.psf)):
         box.toggled.connect(lambda on, other=other: on and other.setChecked(False))
         body.addWidget(box)
+
+
+def method_params(page):
+    """The method settings for the light-curve step and the live light curve alike."""
+    return {
+        "psf": page.psf.isChecked(),
+        "remove_neighbours": page.remove_neighbours.isChecked(),
+        "sky_method": page.sky_method.currentData(),
+    }

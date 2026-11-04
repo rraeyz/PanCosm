@@ -280,7 +280,11 @@ measurements-table columns, the banner, the PSF tab, the eclipse-of-the-fainter-
   messages, tests, guide 06.
 
 ### PHO-19. Real-time photometry is the same code as the night run  (P1)
-**open**
+**partial** — done (2026-11-13): each live frame is measured by `lightcurve._measure_at`, the night run's own
+per-frame code, so the PSF path, "remove neighbours" (set up on the first frame) and every sky method reach the live
+light curve; the window passes the same method settings to both (`ui/photometry_method.method_params`). Test: the
+variable-neighbour night measured live equals the night run to 1e-9. Left: the camera noise model, missing
+comparison stars, star lists, the shared result table.
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the

@@ -38,7 +38,7 @@ from .aavso_dialog import AavsoDialog
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
-from .photometry_method import add_method_boxes
+from .photometry_method import add_method_boxes, method_params
 from .photometry_stars import add_star_buttons, suggestion_text
 from .undo import Undoable
 from .viewer import ImageViewer
@@ -1049,6 +1049,7 @@ class PhotometryPage(Undoable, QWidget):
             self.r_out.value(),
             self.coord.text().strip() or None,
             masters=live.load_masters(masters),
+            **method_params(self),
         )
         self.live_folder, self.live_seen = folder, set()
         self.live_updated.connect(self._live_show)
@@ -1816,8 +1817,7 @@ class PhotometryPage(Undoable, QWidget):
         params["follow_seeing"] = self.follow_seeing.isChecked()
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
-        params |= {"psf": self.psf.isChecked(), "remove_neighbours": self.remove_neighbours.isChecked()}
-        params["sky_method"] = self.sky_method.currentData()
+        params |= method_params(self)
         params["header_time"] = self.header_time.currentData()
         if self.more_apertures.isChecked():
             params["apertures"] = [round(self.r_ap.value() * k, 2) for k in (0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
