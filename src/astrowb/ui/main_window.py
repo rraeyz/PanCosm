@@ -578,7 +578,7 @@ class MainWindow(QMainWindow):
                 "spectroscopy.classify",
                 {"spectrum": spectrum, "library": str(self.settings.path.parent / "templates")},
                 {},
-                on_done=lambda out: vt.show_classes(out["classes"]),
+                on_done=lambda out: vt.show_classes(out["classes"], out.get("mk"), out.get("mk_note")),
             )
         )
         vt.orbit_requested.connect(

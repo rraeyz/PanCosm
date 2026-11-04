@@ -435,7 +435,17 @@ def classify_step(inputs, params, ctx):
         paths = templates.download_pickles(folder)
     ctx.progress(0.5, "comparing")
     ranked = templates.classify(w, f, paths, params["fwhm"])
-    return {"classes": [{"type": t, "rms": r, "template": p} for t, r, p in ranked]}
+    out = {"classes": [{"type": t, "rms": r, "template": p} for t, r, p in ranked], "mk": None, "mk_note": None}
+    # the MK type against the MK standards themselves (Gray & Corbally), as a ranked suggestion
+    from . import mkstandards
+
+    try:
+        ctx.progress(0.7, "comparing with the MK standards")
+        folder = mkstandards.download(Path(inputs["library"]) / "mk_libnor36")
+        out["mk"], out["mk_model"] = mkstandards.classify(w, f, folder, params["fwhm"])
+    except (OSError, ValueError) as e:  # offline, or the spectrum misses 3800-5600 A: the library ranking stays
+        out["mk_note"] = str(e)
+    return out
 
 
 @step(

@@ -52,6 +52,7 @@ copied. Projects consulted are listed below.
 | Data | Source | Use |
 |---|---|---|
 | Pickles (1998) stellar spectral library, 131 stars | STScI CDBS grid (ssb.stsci.edu/cdbs/grid/pickles) | spectral type, RV templates |
+| MK standard stars, libnor36 (Gray & Corbally 2014, AJ 147, 80; Dark Sky Observatory) | the MKCLASS page, appstate.edu/~grayro/mkclass (mklib.tar.gz; only libnor36 kept) | MK spectral type; cite Gray & Corbally 2014 |
 | APASS DR9, Gaia DR3 | VizieR (CDS) | comparison-star magnitudes |
 | TESS / Kepler / K2 light curves | MAST (STScI) | light curves |
 
