@@ -68,6 +68,7 @@ _COPY_KEYS = (
 
 HOT_SIGMA = 8.0
 COLD_LEVEL = 0.5
+DEAD_FLAT = 0.05  # flat response below 5 % of the median: a dead column or the chip's masked edge, not light
 
 
 class CalibrationError(ValueError):
@@ -352,8 +353,9 @@ def calibrate(light, exptime, bias=None, dark=None, dark_header=None, flat=None,
     if d is not None:
         out = out - d * np.float32(dark_factor)
     if flat is not None:
+        live = flat > DEAD_FLAT * np.nanmedian(flat[::4, ::4])  # IRAF ccdproc's minreplace, ccdproc's min_value
         with np.errstate(divide="ignore", invalid="ignore"):
-            out = np.where(flat > 0, out / flat, np.nan).astype(np.float32)  # dead flat pixels -> NaN, not inf
+            out = np.where(live, out / flat, np.nan).astype(np.float32)  # dead flat pixels -> NaN, not 1e8
     if defects is not None:
         out = repair(out, defects)
     return out
