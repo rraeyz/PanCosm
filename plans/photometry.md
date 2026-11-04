@@ -283,8 +283,10 @@ measurements-table columns, the banner, the PSF tab, the eclipse-of-the-fainter-
 **partial** — done (2026-11-13): each live frame is measured by `lightcurve._measure_at`, the night run's own
 per-frame code, so the PSF path, "remove neighbours" (set up on the first frame) and every sky method reach the live
 light curve; the window passes the same method settings to both (`ui/photometry_method.method_params`). Test: the
-variable-neighbour night measured live equals the night run to 1e-9. Left: the camera noise model, missing
-comparison stars, star lists, the shared result table.
+variable-neighbour night measured live equals the night run to 1e-9. Also `_measure_frame` (the night run's search
+by the field offset and the star pattern): a live frame without its target or a comparison star is left out with
+the reason, as in the night run. Left: the camera noise model, measuring against the comparisons a frame has, star
+lists, the shared result table.
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the
