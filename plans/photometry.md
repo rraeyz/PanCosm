@@ -741,7 +741,14 @@ scaled-error column, scintillation on every aperture radius, the Inspector's bar
 - **Files:** `photometry/transform.py`, `photometry/coefficients.py`, `photometry/export.py` (`TRANS=YES`), `tests/test_transform.py`
 
 ### PHO-36. Bad pixels, cosmic rays and trails inside an aperture are flagged  (P1)
-**open**
+**partial** — done (2026-11-13), the part that needs no mask plane: `photometry/flags.aperture_flags` on every frame
+(both light-curve paths): "C" a pixel above the mean of its four neighbours by more than a star of the stamp's own
+core width can be (width from the half-maximum area of the median-filtered stamp or the second moment, the
+narrower) and by 5σ; "E" the aperture off the frame. The light curve carries `flags` (per frame and star), the
+measurements table `Flags_<star>` with each flagged cell explained, the light-curve file keeps them. Tests: a cosmic
+ray 2 px from the target on frames 2–3 flags exactly those; clean Gaussian stars of FWHM 1.8–7 px, Moffat β 2.5 and
+an undersampled core (FWHM 1.5 px) are never flagged. Left: the mask and variance planes (CAL-13), trails, flagged
+points coloured and left out by "Leave out flagged points".
 - **Why:** AD-8. A hot pixel or a satellite trail in the aperture makes an outlier that today is found only by eye.
 - **Build:** `aperture.measure` takes the frame's mask plane (CAL-13: bits for bad pixel, saturated, cosmic ray
   repaired, satellite trail, no data) and variance plane; a flagged pixel in the aperture sets a per-star, per-frame
