@@ -252,6 +252,7 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     page.transit_button.click()
     qtbot.waitUntil(lambda: page.transit_result.text().startswith("Mid-transit"), timeout=60000)
     assert page.transit_details.isEnabled()  # the parameter table and the model over the curve
+    assert "this work (transit fit)" in window.oc_page.text.toPlainText()  # the mid-time is ready for O−C
     from astrowb.ui.kit.table_view import DataTable
     from astrowb.ui.photometry_transit import details_dialog
 
