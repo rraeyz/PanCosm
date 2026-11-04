@@ -253,6 +253,15 @@ def test_section_overscan_and_trim(tmp_path):
     assert combined.shape == (NY, 70) and np.median(combined) == pytest.approx(150, abs=1)
     _write(tmp_path / "m.fits", np.ones((NY, NX)), IMAGETYP="Bias Frame", EXPTIME=0.0, TRIMSEC="[1:70, :]")
     assert masters.load(tmp_path / "m.fits")[0].shape == (NY, 70)  # the whole y axis written as ':'
+    # LCO FLOYDS: TRIMSEC 'UNKNOWN' and a DATASEC over the whole width, the overscan included
+    img = np.full((NY, NX), 500.0)
+    img[:, :70] += 100.0
+    floyds = {"TRIMSEC": "UNKNOWN", "DATASEC": f"[1:{NX},1:{NY}]", "BIASSEC": f"[72:{NX},1:{NY}]"}
+    _write(tmp_path / "f.fits", img, IMAGETYP="Bias Frame", EXPTIME=0.0, **floyds)
+    data, _ = masters.load(tmp_path / "f.fits")
+    assert data.shape == (NY, 71) and np.median(data) == pytest.approx(100, abs=1)
+    rows, cols = masters._without_overscan((slice(0, 60), slice(0, 80)), (slice(0, 60), slice(0, 8)))
+    assert cols == slice(8, 80) and rows == slice(0, 60)  # an overscan strip on the left
 
 
 def test_dark_scale_and_defects(built, night):
