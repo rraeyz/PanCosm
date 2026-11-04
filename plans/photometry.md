@@ -856,7 +856,8 @@ iterated auto the default is for the owner to decide. Real nights (2026-11-13, t
 (EXOTIC, 142 frames, 6-inch): RMS auto 6.77, gauss 6.58, moments 6.57 ppt; Tc within 24 s (error ±5 min); positions
 differ by 0.25 px median. Qatar-1 (LCO 0.4 m, 265 frames): RMS 5.12 / 5.13 / 5.14 ppt, Tc within 2 s (±0.7 min),
 positions 0.04 px apart: on a well-sampled night with good shifts the three agree; on undersampled stars gauss and
-moments scatter about 3 % less. Asked the owner (2026-11-13) whether gauss becomes the default. Left: `Centring_Method` in the provenance, box and max_move
+moments scatter about 3 % less. Gauss takes 13.5 s against 11 s for the Qatar-1 night (warm cache). The owner
+decided (2026-11-13): the default stays; the window says gauss is the most precise and slower. Left: `Centring_Method` in the provenance, box and max_move
 in the window.
 - **Reference:** IRAF `centerpars.calgorithm` = centroid | gauss | ofilter | none with `cbox`, `cthreshold`,
   `minsnratio`, `cmaxiter`, `maxshift`; AstroImageJ Howell centroid.

@@ -10191,7 +10191,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/photometry_method.py" line="35"/>
-        <source>2-D Gaussian (most precise)</source>
+        <source>2-D Gaussian (most precise, slower)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="40"/>
+        <source>How each star is found on every frame. The 2-D Gaussian is the most precise (about 3 % less scatter on small, sharp stars) but about a quarter slower; the default is fast and good enough for most nights.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -10202,11 +10207,6 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/photometry_method.py" line="37"/>
         <source>none: the positions follow the field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_method.py" line="40"/>
-        <source>How each star is found on every frame from where the field&apos;s shift puts it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

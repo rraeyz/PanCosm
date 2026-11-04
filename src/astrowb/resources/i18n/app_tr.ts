@@ -10189,12 +10189,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_method.py" line="34"/>
         <source>1-D Gaussians (default)</source>
-        <translation>1-B Gauss'lar (varsayılan)</translation>
+        <translation>1-B Gauss&apos;lar (varsayılan)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_method.py" line="35"/>
-        <source>2-D Gaussian (most precise)</source>
-        <translation>2-B Gauss (en hassas)</translation>
+        <source>2-D Gaussian (most precise, slower)</source>
+        <translation>2-B Gauss (en hassas, daha yavaş)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="40"/>
+        <source>How each star is found on every frame. The 2-D Gaussian is the most precise (about 3 % less scatter on small, sharp stars) but about a quarter slower; the default is fast and good enough for most nights.</source>
+        <translation>Her yıldızın her karede nasıl bulunduğu. 2-B Gauss en hassasıdır (küçük, keskin yıldızlarda yaklaşık %3 daha az saçılma) ama yaklaşık dörtte bir daha yavaştır; varsayılan hızlıdır ve çoğu gece için yeterlidir.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_method.py" line="36"/>
@@ -10205,11 +10210,6 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/photometry_method.py" line="37"/>
         <source>none: the positions follow the field</source>
         <translation>yok: konumlar alanı izler</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_method.py" line="40"/>
-        <source>How each star is found on every frame from where the field&apos;s shift puts it</source>
-        <translation>Her yıldızın, alanın kaymasının koyduğu yerden her karede nasıl bulunduğu</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="376"/>
