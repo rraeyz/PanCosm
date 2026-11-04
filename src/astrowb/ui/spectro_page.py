@@ -878,9 +878,18 @@ class VelocityTab(QWidget):
             for k in ("vsini", "vsini2")
             if rows and all(r.get(k) is not None for r in rows)
         ]
+        sites = {
+            (round(r["site"]["lat"], 3), round(r["site"]["lon"], 3), r["site"]["from"]) for r in rows if r.get("site")
+        }
+        where = [
+            (self.tr("site from the Plan page") if src == "plan" else self.tr("site from the file header"))
+            + f" ({lat:+.3f}°, {lon:+.3f}°)"
+            for lat, lon, src in sorted(sites)
+        ]
         self.status.setText(
             self.tr("{n} velocities.").format(n=len(rows))
             + "".join(" " + w for w in widths)
+            + (" " + self.tr("Barycentric correction for: {w}.").format(w="; ".join(where)) if where else "")
             + (
                 ""
                 if all(r["v_corr"] is not None for r in rows)

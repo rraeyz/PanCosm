@@ -1684,6 +1684,10 @@ class PhotometryPage(QWidget):
         if sky is not None and not self.coord.text():
             self.coord.setText(sky.to_string("hmsdms", sep=":", precision=1))
         text = self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
+        if "TPFSKIP" in header:  # a TESS / Kepler file: say what was left out, the user may want them back
+            text += "\n" + self.tr(
+                "Target pixel file: {n} cadences left out (no time, or flagged as useless by the mission)."
+            ).format(n=header["TPFSKIP"])
         if "DATE-CAM" in header:  # a phone or camera picture: its time is the camera clock, often local time
             text += "\n" + self.tr(
                 "Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC on the Calibrate page."

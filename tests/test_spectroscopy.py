@@ -244,6 +244,7 @@ def test_reduce_rv_orbit_steps(frames, tmp_path):
             Ctx(),
         )["rvs"][0]
     assert own["v_corr"] == pytest.approx(r["v_corr"], abs=0.01)  # it was 'not applied' without the Plan page
+    assert own["site"]["from"] == "header" and r["site"]["from"] == "plan"  # shown with the velocities
     with pytest.raises(ValueError, match="period guess"):
         steps.execute("spectroscopy.orbit", {"time": [1, 2, 3], "rv": [1, 2, 3]}, {}, Ctx())
 
