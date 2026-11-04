@@ -115,6 +115,19 @@ def _exports_menu(win, page, actions):
     box.insertWidget(box.indexOf(page.export_button), page.save_all_button)
 
 
+def _aavso_header(win, page):
+    """What the AAVSO exoplanet file needs that the program knows: the observer code (profile), the star (the files'
+    OBJECT in the field), the band (the catalogue's, else the FILTER keyword through the profile's table)."""
+    from ..core import profiles
+    from .aavso_dialog import band_of
+
+    settings = win.settings
+    band = page.catalog["filter"] if page.catalog else band_of(settings, getattr(page, "images", None))
+    star = ((page.field or {}).get("object") or {}).get("name")
+    code = profiles.section(settings, "observer")["aavso_code"]
+    return {"OBSCODE": code, "STAR_NAME": star, "FILTER": band}
+
+
 def _save_all(win, page, folder=None):
     """PHO-27 item 5: the light curve, the measurements table, the star list, the transit fit and the plot."""
     from PySide6.QtWidgets import QFileDialog
@@ -133,7 +146,7 @@ def _save_all(win, page, folder=None):
         stars = {"target": page.target, "comps": page.comps, "extras": page.extras, "wcs": wcs,
                  "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
     fit = (getattr(page, "transit_fit", None) or (None, None))[1]
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure)
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, aavso=_aavso_header(win, page))
     page.result.setText(translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder))
     return files
 

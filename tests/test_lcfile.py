@@ -51,6 +51,12 @@ def test_save_all_writes_the_whole_night(tmp_path):
            "derived": {"depth_ppt": 20.0, "t14_h": 2.1}, "beta": 1.1, "chi2r": 1.1, "model": [1]}  # fmt: skip
     stars = {"target": (100, 100), "comps": [(50, 60), (150, 40), (30, 170)], "radii": (4, 10, 16)}
     files = save_all(tmp_path / "night", lc, stars, fit, fig)
+    aavso = save_all(tmp_path / "aavso", lc, aavso={"OBSCODE": "XYZ", "STAR_NAME": "Qatar-1", "FILTER": "R"})
+    from astrowb.photometry.reports import aavso_exoplanet
+
+    text = (tmp_path / "aavso" / "AAVSO_exoplanet.txt").read_text(encoding="utf-8")
+    assert "AAVSO_exoplanet.txt" in {p.name for p in aavso} and aavso_exoplanet.validate(text) == []
+    assert "AAVSO_exoplanet.txt" not in {p.name for p in save_all(tmp_path / "x", lc, aavso={"STAR_NAME": "Q"})}
     names = sorted(p.name for p in files)
     assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",
                      "measurements.csv", "methods.txt", "references.bib", "stars.json", "summary.pdf",
