@@ -206,6 +206,91 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   tr / de / es). `tests/test_tooltips.py` fails when a new control has none, and checks one Turkish tooltip.
   Not covered by the test: dialogs (exposure, AAVSO, BeSS, observatory set-up) — most of their fields have tips.
 
+## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
+
+Agent session 01RxUU stopped on 2026-11-04 because the owner's weekly quota ended. State at that moment:
+
+- `main` = `0108d6e`, everything on it passed `tools/precommit.sh` (580 passed, 3 skipped) and is pushed.
+  CI: run for `d180798` green; later runs (`7cd4187` … `0108d6e`) were not yet checked — check them first
+  (GitHub MCP `actions_list` → `list_workflow_runs`, branch main). No release was made (only after asking the owner).
+- **Unfinished task T11 (paper-quality output) is on branch `wip-t11-results-export` (commit `2d57cb3`, pushed,
+  one commit on top of `0108d6e`; NOT merged, NOT passing precommit yet because its new strings are untranslated).**
+  To continue: `git fetch origin wip-t11-results-export && git checkout -b t11 origin/wip-t11-results-export`, finish
+  the list below, run precommit, then fast-forward `main` to it (`git checkout main && git merge --ff-only t11`) and
+  push `main`. Delete the wip branch after.
+  - DONE in that commit:
+    1. `ui/export.py`: `rounded(value, error)` (error to 2 significant digits, value to the same decimal place),
+       `save_results(path, rows, caption)` (rows = (parameter, value, error|None, unit); `.tex` → a LaTeX `table`
+       with caption + booktabs tabular, values as `$v \pm e$`; otherwise CSV with a `# caption` first line), and
+       `results_button(parent, rows_and_caption)` (a QPushButton "Export results (CSV / LaTeX)…"; its texts use
+       `QCoreApplication.translate("Export", …)`).
+    2. `ui/spectro_page.py` (VelocityTab): `show_orbit` now draws velocities + model curves + γ line on top and an
+       **O−C (km/s) residual panel** below (2 rows, shared x, height ratio 3:1, hspace 0; secondary in orange), keeps
+       `self.orbit_result`; new `orbit_table()` → rows (P, T_peri, e, ω, K1, γ, and K2, q, M1/M2 sin³i, a sin i, rms
+       for SB2; f(m), a1 sin i, rms for SB1) + caption ("Keplerian least-squares … errors from the covariance
+       matrix (e and ω from its draws)" — true, see `spectroscopy/orbit.py` lines 84-110); results button under
+       "Fit orbit". Checked visually: `/tmp/claude-0/real/t11_orbit.png` (looked right: two orbits, residuals).
+    3. `ui/workspaces.py` (OCPage): `self.fit_result`, `fit_table()` for linear / quadratic (T0, P, Q, dP/dt),
+       light-travel time (T0, P, A in min, P3 in yr, T3, e3, ω3, f(m3)) and apsidal motion (T0, Ps, e, ω0, dω/dE,
+       U), + χ²ᵣ; caption says weighted least squares, errors scaled by √χ²ᵣ when > 1 (true: `timeseries/ephemeris.py`,
+       `oc_models.py::_covariance`); results button under "Fit and draw O-C".
+    4. `tests/test_sb2.py::test_velocity_tab_shows_sb2` checks the residual panel and a PDF export (passes).
+  - LEFT TO DO for T11 (in this order):
+    a. ModelsPage (`ui/models_page.py`, `show_fit` stores `self.result = r`): add `fit_table()` from `r["params"]` /
+       `r["errors"]` (only the free ones have errors; names in `models/fit.py::NAMES`: period, t0, r_sum, k, incl, j,
+       ecosw, esinw, l3), `r["derived"]` / `r["derived_err"]` (r1, r2, e, omega, light_ratio), `r["absolute"]`
+       (m1, m2, r1, r2, a, logg1, logg2 with *_err) and `r["transit"]` (tc, tc_err, depth, t14); caption: "two
+       limb-darkened spheres on a Keplerian orbit (EBOP/JKTEBOP approximation); errors from the covariance, or from
+       MCMC when ticked" (check `models/fit.py` for which); add `results_button(self, self.fit_table)` into the
+       buttons grid (two per row).
+    b. Run `python tools/i18n.py update`, translate the new strings (list them with the snippet in "How the
+       translations were done" below), `python tools/i18n.py`.
+    c. Tests: `rounded` (e.g. (1.234567, 0.000123) → ('1.23457', '0.00012'); (12.3, None) → ('12.3', '')),
+       `save_results` both formats, `fit_table` of OCPage after a linear fit, ModelsPage table after `show_fit`.
+    d. Period page light curve (`workspaces.py` ~line 3057 `ax.set_xlabel(self.tr("Time"))`): label with the time
+       scale and offset as the Photometry plot does (`f"{lc['time_scale']} − {t_ref:.0f}"`), plot errors if known.
+    e. Frequency page (`ui/frequency_page.py` ~166): amplitude axis with its unit (mag or relative flux).
+    f. Then precommit, merge to main, update this board (T11 DONE) and push.
+
+- **Owner's newest wish (not done yet, task T13 below):** for technical terms keep the English word next to the
+  Turkish one where Turkish astronomers also say it in English, e.g. "order/mertebe" (owner: "türkçede de order
+  diyoruz … order/mertebe şeklinde olsun"). Apply to the Turkish translations (`src/astrowb/resources/i18n/app_tr.ts`)
+  and the Turkish guide (`resources/guide/tr`): echelle order → "order/mertebe"; consider also blaze, flat, bias,
+  dark, light, arc (already kept in English), FWHM, seeing ("seeing/görüş"), airmass ("airmass/hava kütlesi"),
+  detrend. Do it consistently (grep the .ts translations), then `python tools/i18n.py`.
+
+### Tools and files the last agent used (all in the ephemeral container; recreate if needed)
+
+- Scratchpad `the session scratchpad (`/tmp/claude-0/<project>/<session>/scratchpad/`)`: `tips/apply.py` (inserts
+  `x.setToolTip(self.tr("…"))` after an anchor line; input blocks: `file | anchor | target` then EN, TR, DE, ES
+  lines; writes a TSV), `fill3.py <tsv>` (fills unfinished tr/de/es entries in the three .ts files from lines
+  `English<TAB>Türkçe<TAB>Deutsch<TAB>Español`; the English must equal the source text exactly), `wt/` a git
+  worktree used to run the full precommit on a commit while working on the next (`git worktree add --detach wt
+  <commit>`; run with `PYTHONPATH=wt/src`, since the venv's package is an editable install of the main checkout).
+- How the translations were done: `. .venv/bin/activate; python tools/i18n.py update`; list unfinished entries with
+  `python -c "import re;s=open('src/astrowb/resources/i18n/app_tr.ts',encoding='utf-8').read();[print(m.group(1)) for m in re.finditer(r'<source>([^<]*)</source>\s*(?:<comment>[^<]*</comment>\s*)?<translation type=\"unfinished\">',s)]"`;
+  write the TSV, `python fill3.py x.tsv`, then `python tools/i18n.py` (must say "… finished and 0 unfinished").
+  Turkish terms in use: mertebe (order), kalibre, ark, flat, bias, dark, light, açıklık (aperture), mukayese
+  yıldızı (comparison), kontrol yıldızı (check), periyot (Period search names), sönükleşme…
+- `/tmp/claude-0/real/`: `harness.py` (drives the real main window: every dialog/exception collected, `wait()` for
+  tasks, real clicks), `audit_ui.py` (controls without tooltip per page + every checkbox default), `audit_dialogs.py`
+  (same for the ten dialogs), `t6/arcs.py`, `t6/proto.py`, `t6/check.py`, `t6/gui.py` (FLOYDS reidentify session),
+  `t7_proto.py`, `t7_bench.py`, `t7_loo.py`, `t7_tofes.py` (MK classification prototypes and benchmarks),
+  `t11_orbit.py` (renders the RV orbit publication figure).
+- Run any Qt script with `QT_QPA_PLATFORM=offscreen`; driving scripts need `if __name__ == "__main__":` (spawn).
+
+### Data and sources downloaded in this round (all outside the repository; never commit them)
+
+| What | From | Used for / result |
+|---|---|---|
+| LCO FLOYDS pipeline (reference arcs + IRAF databases per telescope/arm/slit) | `git clone --depth 1 https://github.com/LCOGT/floyds_pipeline` → `src/floyds/archive/ftn/en06/arc/{red,blu}/<slit>/` (`ftn_red_2.0.fits` + `database/idftn_red_2.0`, `ftn_blue_2.0.fits` + `database/idftn_blue_2.0`) | T6. Reference arcs are wavelength-resampled 1-D spectra (red CRVAL1 4850, CDELT1 2.956; blue 3300, 1.687) |
+| IRAF source (sparse) | `/tmp/claude-0/ref/iraf/iraf` (git clone --sparse https://github.com/iraf-community/iraf; `git sparse-checkout add noao/onedspec/ecidentify noao/onedspec/identify noao/twodspec/apextract`) | read `identify/iddb.x`, `ecidentify/ecdb.x`, `identify/idshift.x` (database formats, id_shift1) |
+| FLOYDS raw frames (OGG 2026-10-27) | LCO archive API (see the table of the third campaign) in `/tmp/claude-0/realdata/floyds/` | T5 trimming, T6 end-to-end (red: 13/13 lines, rms 0.143 Å; Hα 6563.0 Å; O2 A band 7605.8 Å) |
+| MKCLASS v1.07 source, documentation, paper | `https://www.appstate.edu/~grayro/mkclass/` : `mkclassv107.tar.gz`, `mklib.tar.gz` (libraries libnor36, libr18, libr18_225/27/30, libr36), `mkclassdoc.pdf`, `mkclass.pdf` (Gray & Corbally 2014, AJ 147, 80) → `/tmp/claude-0/src_ref/mkclass/` | T7. No licence in the source (+ Numerical Recipes code): nothing copied/bundled. Building/running it was refused by the session's safety check. The server answers 403 to Python's default User-Agent; the application sends "astronomy-workbench (MK standards download)" |
+| Pickles library (131 FITS) | `https://ssb.stsci.edu/cdbs/grid/pickles/dat_uvk/pickles_uk_{1..131}.fits` → `/tmp/claude-0/realdata/pickles/` (also holds `mk_libnor36/` after a test run) | T7 benchmark (Pickles types are inhomogeneous: 62 % within one subclass) |
+| NutMaat 0.1.1 wheel (Python MK classifier, 2025, arXiv 2501.17698) | `pip download --no-deps nutmaat` → `/tmp/claude-0/src_ref/nutmaat/` | downloaded, NOT yet read — worth reading for MKCLASS's rule-based refinement (T7 follow-up) |
+| TOFES merged spectra (Sun, Vega, Arcturus) | made in the third campaign: `/tmp/claude-0/realdata/tofes_out/*_1d.fits` | T7: Sun G0 V, Vega A0 V, Arcturus K1 III |
+
 ## Task board (keep this up to date: it is how agents hand work over)
 
 **Protocol.** Before starting a task, change its status to `CLAIMED by <agent / session>, <date>` and push that
@@ -221,7 +306,7 @@ Status of everything so far:
 |---|---|---|
 | 1-4 | Campaigns 1-3 (sections above) and the fourth round (undo / redo, defaults audit, tooltips on pages) | DONE (up to `433f6f2`) |
 | A | Long slit, curved traces (FLOYDS): trace followed as IRAF aptrace, "Spectrum at row", traced line drawn | DONE (`c4168a9`) |
-| T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | CLAIMED by agent session 01RxUU (2026-11-04) |
+| T1 | Minimum tab: both methods visible as a clear choice, Kwee–van Woerden (eclipsing binaries) the default | DONE (`aeb876e`) |
 | T2 | Undo / redo for the remaining editors: Spectrum tools (into Ctrl+Z), Plan targets, Observe exposure rows, Models parameters | DONE (see notes) |
 | T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | DONE (see notes) |
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
@@ -231,8 +316,9 @@ Status of everything so far:
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
-| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | CLAIMED by agent session 01RxUU (2026-11-04) |
+| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | IN PROGRESS on branch `wip-t11-results-export` (see the section above) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
+| T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | TODO |
 
 ### Notes per task
 
@@ -339,3 +425,25 @@ interpolated in temperature (running numbers) within each luminosity class, × q
    standard magnitudes (needs CDS, blocked here).
 6. CI: confirm green for the latest commits. Release only after asking the owner.
 7. Undo / redo for the remaining editors (Spectrum tools into the same Ctrl+Z; Plan / Observe / Models tables).
+
+### How to do the remaining tasks (suggestions of the last agent)
+
+- **T4 user-control review:** go page by page with `/tmp/claude-0/real/harness.py` (or a new script) and list each
+  automatic choice: suggested comparison stars (Photometry), automatic apertures ("Choose the radii from the star
+  profiles"), outlier clipping (Period search), arc line auto-matching (Reduce / Echelle: the line list after the
+  user's identifications), order tracing on the flat, template choice (Pickles best → RV template), BJD site from
+  the header (velocities), camera clock offset, dark scaling. For each: is it shown, explained (tooltip/status), and
+  can the user override it? Fix the gaps; write the list here.
+- **T8 error messages:** `tests/test_messages.py::test_every_engine_error_has_a_template` already forces a
+  template for every engine `raise`. Remaining: messages raised in `ui/` code (QMessageBox texts, status texts)
+  — check that each says what happened and what to do; check `translate()` is applied to engine texts shown in
+  the UI (grep `str(e)` in `src/astrowb/ui/*.py`; several places show `str(e)` without `translate`).
+- **T9 real ground photometry:** needs a public multi-frame night (e.g. LCO archive public imaging of a known
+  eclipsing binary or exoplanet transit: `https://archive-api.lco.global/frames/?RLEVEL=91&public=true&OBJECT=…`;
+  check the BANZAI-reduced e91 frames). Run calibrate (or use e91), photometry, minimum (KvW), AAVSO export;
+  compare the minimum with the literature ephemeris. CDS (VizieR) and AAVSO were blocked from the container.
+- **T10 simple long-slit / archive spectra:** ESO archive 1-D (ADP) spectra or LAMOST DR spectra through RV,
+  line measurement and the new MK type; specreduce-data has raw long-slit sets.
+- **T7 follow-up (optional):** read NutMaat (wheel above) and the MKCLASS paper's rules (Ca II K, hydrogen,
+  G band, Mg b luminosity criteria) to add peculiarity hints; draw the star over the best MK standard (the step
+  returns `mk_model`).
