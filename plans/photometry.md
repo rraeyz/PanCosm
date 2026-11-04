@@ -831,8 +831,12 @@ budget's largest term, the pointing offset, flats' contribution, the ingress tak
 ### PHO-45. Sky ring: catalogue star mask and IRAF's histogram centroid  (P2)
 **partial** — done (2026-11-13): `sky_method = "centroid"` (`aperture._histogram_centroid`: ± 3σ around the median,
 bins of 0.1σ, 3σ rejection, 10 iterations at most), in the step's choices and the Sky combo; test: a ring with a
-neighbour's wing in 7 % of the pixels gives the sky within 0.2σ where the mean is 1.6σ off. Left: the star mask,
-the rejected-pixel counts in the table, the IRAF reference run (no IRAF here).
+neighbour's wing in 7 % of the pixels gives the sky within 0.2σ where the mean is 1.6σ off. Also done: the star
+mask (`aperture.star_mask`, `measure(sky_mask=…)`: pixels left out of every ring, for every sky method), used by
+"remove neighbours" (2 FWHM around each neighbour); test: over 20 noise draws a neighbour in the ring biases the
+clipped median by 0.08σ, masked 0.02σ. Note: the clipped median alone is already within 0.1σ for a compact
+neighbour, so the plan's "> 0.5σ" holds only for broad halos. Left: Gaia positions for the mask (with the solved
+field), radius scaled with brightness, the rejected-pixel counts in the table, the IRAF reference run.
 - **Build:** stars known from the catalogue (Gaia to G + 7 of the target) are masked in every sky ring by position
   (radius 1.5 FWHM scaled with brightness) before any statistic — better than rejection alone because faint wings
   are removed too; `sky_method = "centroid"` (IRAF's `salgorithm = centroid`: histogram of the ring within ± 3σ in bins of 0.1σ,

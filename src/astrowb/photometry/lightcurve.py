@@ -400,21 +400,24 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         f_psf = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
         flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
     else:
+        sky_mask = None
         if opts.get("neighbours") is not None:
             from .psf import remove_neighbours
 
             f_now = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
-            data = remove_neighbours(data, pred, f_now, *opts["neighbours"])  # a centroid is pulled by the neighbour
+            data, sky_mask = remove_neighbours(
+                data, pred, f_now, *opts["neighbours"]
+            )  # a centroid is pulled by the neighbour
             xy[~np.isin(np.arange(len(xy)), fixed)] = recenter(data, pred, box)[~np.isin(np.arange(len(xy)), fixed)]
         cam = None
         if camera:  # dark current over this frame's exposure
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
             cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
-        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method)
+        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method, sky_mask)
     multi = None
     if opts.get("apertures") and not psf:  # item 10: every radius asked for, the same sky ring, kept to choose later
         rs = [r * k for r in opts["apertures"]]
-        both = [measure(data, xy, r, radii[1], radii[2], g, h.get("PIXNOISE"), cam, sky_method)[:2] for r in rs]
+        both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask)[:2] for r in rs]
         multi = np.array([[fl for fl, _ in both], [e for _, e in both]])  # (flux / error, radius, star)
     return xy, flux, err, skylev, radii, f, multi, found
 

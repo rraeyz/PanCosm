@@ -120,14 +120,17 @@ def neighbours_setup(ref, stars0, n_comp, r_out):
 
 
 def remove_neighbours(data, xy, fwhm, neighbours, stars0):
-    """data with the neighbours (positions on the reference frame, moved by this frame's median shift of the
-    measured stars xy from stars0) fitted together with the measured stars and subtracted.
+    """(data with the neighbours fitted together with the measured stars and subtracted, a mask of 2 FWHM around
+    each neighbour for the sky rings); neighbours are positions on the reference frame, moved by this frame's
+    median shift of the measured stars xy from stars0.
     shortcut: a circular Gaussian of the frame's FWHM, not the ePSF; build an ePSF per frame if the residuals show."""
     neighbours = np.asarray(neighbours, float).reshape(-1, 2)
     if not len(neighbours) or not np.isfinite(fwhm):
-        return data
+        return data, None
     shift = np.median(np.asarray(xy, float) - np.asarray(stars0, float), axis=0)
     model = gaussian(fwhm)
     _f, _e, table = measure(data, model, xy, fwhm, neighbours=neighbours + shift, fit_positions=True)
     n = len(np.asarray(xy).reshape(-1, 2))
-    return subtract(data, model, table, range(n, len(table)))
+    from .aperture import star_mask
+
+    return subtract(data, model, table, range(n, len(table))), star_mask(data.shape, neighbours + shift, 2 * fwhm)
