@@ -444,7 +444,7 @@ def _peaks(data, xy, r_ap):
 
     from .flags import aperture_flags
 
-    peak = np.atleast_1d(ApertureStats(np.asarray(data, float), CircularAperture(xy, r=r_ap)).max).tolist()
+    peak = np.atleast_1d(ApertureStats(np.asarray(data), CircularAperture(xy, r=r_ap)).max).tolist()  # no float copy
     return peak, aperture_flags(data, xy, r_ap)
 
 
