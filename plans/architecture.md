@@ -687,7 +687,7 @@ the suite is green after each.
   noise model, ePSF and PSF fitting; a test fails for a cited key without its entry. Item 4, photometry part:
   `photometry/reports/methods.py` writes the paragraph (frames, radii, ensemble, BJD_TDB, scintillation, the transit
   fit with its mid-time, depth and β) and its BibTeX, into Save all's folder (methods.txt, references.bib).
-  Pending: the other methods' marks, the methods text of the other areas and the Project window, reproduce (5).
+  Also marked: Torres et al. (2010), the biweight trend (wotan). Pending: the other methods' marks, the methods text of the other areas and the Project window, reproduce (5).
 - **Why:** AD-12. A referee asks "how were the frames calibrated, which stars, which radii, which version?"; today
   the project records runs but the products do not carry it and nothing writes it for a paper.
 - **Reference:** IRAF writes `HISTORY` and processing keywords (`CCDPROC`, `ZEROCOR`, `FLATCOR`); ESO pipelines
