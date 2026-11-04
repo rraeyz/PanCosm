@@ -2558,12 +2558,26 @@ class AavsoDialog(QDialog):
         self.filter = QComboBox(self)
         self.filter.addItems(self.FILTERS)
         self.mags.setPlaceholderText(self.tr("{n} values, e.g. 11.20, 11.85").format(n=n_comps))
+        self.notes.setToolTip(self.tr("Anything a reader of the data should know (clouds, Moon, instrument)"))
+        self.chart.setToolTip(self.tr("The identifier of the AAVSO chart (VSP) the comparison magnitudes come from"))
+        self.filter.setToolTip(self.tr("Filter of the images, as AAVSO names it (CV: unfiltered, reduced to V)"))
+        self.obscode.setToolTip(self.tr("Your AAVSO observer code"))
+        self.star.setToolTip(self.tr("The variable's name as in AAVSO's VSX, e.g. AI DRA"))
+        self.mags.setToolTip(
+            self.tr("The comparison stars' magnitudes from the AAVSO chart (VSP), in the order the stars were marked")
+        )
         form.addRow(self.tr("Star name (AAVSO VSX)"), self.star)
         form.addRow(self.tr("Observer code"), self.obscode)
         form.addRow(self.tr("Filter"), self.filter)
         form.addRow(self.tr("Catalogue magnitudes of the comparison stars"), self.mags)
         self.check = QLineEdit(self)
         self.check.setPlaceholderText(self.tr("label on the chart, e.g. 123"))
+        self.check.setToolTip(
+            self.tr(
+                "The first check star's label on the chart; its magnitude goes into the report as a test of"
+                " the comparison stars"
+            )
+        )
         form.addRow(self.tr("Check star (KNAME)"), self.check)
         form.addRow(self.tr("Chart ID"), self.chart)
         form.addRow(self.tr("Notes"), self.notes)

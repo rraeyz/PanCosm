@@ -702,10 +702,21 @@ class BessDialog(QDialog):
         for field, key, label in zip(self.FIELDS, self.KEYS, labels, strict=True):
             e = QLineEdit(str((header or {}).get(key, "")), self)
             self.edits[field] = e
+            e.setToolTip(self.tr("A keyword BeSS requires; filled from the spectrum's header when it has it"))
             form.addRow(label, e)
         self.telluric = QCheckBox(self.tr("Telluric lines removed"), self)
         self.cosmic = QCheckBox(self.tr("Cosmic rays removed"), self)
+        self.cosmic.setToolTip(self.tr("Tick if cosmic-ray hits were removed; written into the header for BeSS"))
+        self.telluric.setToolTip(
+            self.tr("Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS")
+        )
         self.vhel = QLineEdit("0", self)
+        self.vhel.setToolTip(
+            self.tr(
+                "The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS "
+                "needs it to compare spectra"
+            )
+        )
         form.addRow(self.telluric)
         form.addRow(self.cosmic)
         form.addRow(self.tr("Heliocentric correction applied (km/s)"), self.vhel)

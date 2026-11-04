@@ -51,6 +51,7 @@ class CoefficientsDialog(QDialog):
         for r, default in enumerate(("B", "V")):
             self.band[r].addItems(BANDS)
             self.band[r].setCurrentText(default)
+            self.band[r].setToolTip(self.tr("Filter of this image of the standard field"))
             pick = QPushButton(self.tr("Plate-solved image…"), self)
             pick.clicked.connect(
                 lambda _=False, i=r: self.set_image(i, QFileDialog.getOpenFileName(self, "", "", images_filter())[0])
@@ -58,10 +59,22 @@ class CoefficientsDialog(QDialog):
             g.addWidget(QLabel(self.tr("Filter {n}").format(n=r + 1), self), r, 0)
             g.addWidget(self.band[r], r, 1)
             g.addWidget(pick, r, 2)
+            pick.setToolTip(
+                self.tr(
+                    "An image of a standard field (e.g. Landolt) through this filter, with a plate solution in "
+                    "its header"
+                )
+            )
             g.addWidget(self.file_labels[r], r, 3)
         self.tr_button = QPushButton(self.tr("Compute (catalogue magnitudes from VizieR)"), self)
         self.tr_button.setEnabled(False)
         self.tr_button.clicked.connect(self._transform)
+        self.tr_button.setToolTip(
+            self.tr(
+                "Measures the stars of both images, looks up their catalogue magnitudes and fits the colour"
+                " terms of the transformation to the standard system (needs the internet)"
+            )
+        )
         g.addWidget(self.tr_button, 2, 0, 1, 4)
         self.tr_result = QLabel(self)
         self.tr_result.setTextInteractionFlags(Qt.TextSelectableByMouse)

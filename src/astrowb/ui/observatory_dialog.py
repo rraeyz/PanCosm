@@ -53,6 +53,11 @@ class ObservatoryDialog(QDialog):
         form.addRow(self.tr("Latitude (°, N+)"), self.lat)
         form.addRow(self.tr("Longitude (°, E+)"), self.lon)
         form.addRow(self.tr("Height (m)"), self.height)
+        self.height.setToolTip(self.tr("Height above sea level in metres"))
+        self.lon.setToolTip(
+            self.tr("Longitude of the telescope in degrees, east positive (west of Greenwich is negative)")
+        )
+        self.lat.setToolTip(self.tr("Latitude of the telescope in degrees, north positive"))
         lay.addLayout(form)
 
         lay.addWidget(QLabel(self.tr("Devices"), self))
@@ -65,10 +70,17 @@ class ObservatoryDialog(QDialog):
         row = QHBoxLayout()
         self.find_button = QPushButton(self.tr("Find Alpaca devices on the network"), self)
         self.find_button.clicked.connect(self.find)
+        self.find_button.setToolTip(
+            self.tr("Asks the local network which ASCOM Alpaca devices are there and adds them to the list")
+        )
         add = QPushButton(self.tr("Add device"), self)
         add.clicked.connect(lambda: self.add_device())
+        add.setToolTip(
+            self.tr("A row for a device by hand: kind, protocol (Alpaca or INDI), address and number or name")
+        )
         remove = QPushButton(self.tr("Remove device"), self)
         remove.clicked.connect(lambda: self.table.removeRow(self.table.currentRow()))
+        remove.setToolTip(self.tr("Removes the selected device"))
         for b in (self.find_button, add, remove):
             row.addWidget(b)
         lay.addLayout(row)
@@ -85,9 +97,23 @@ class ObservatoryDialog(QDialog):
         form.addRow(self.tr("The night ends when the Sun is above"), self.sun_max_alt)
         form.addRow(self.tr("Highest humidity"), self.max_humidity)
         form.addRow(self.tr("Highest wind speed"), self.max_wind)
+        self.max_wind.setToolTip(self.tr("Above this wind speed (from the weather station) the observatory closes"))
+        self.max_humidity.setToolTip(
+            self.tr(
+                "Above this humidity (from the weather station) the observatory closes, before dew forms on the optics"
+            )
+        )
+        self.sun_max_alt.setToolTip(
+            self.tr(
+                "Observing stops and the telescope parks when the Sun rises above this altitude (−6°: civil"
+                " twilight, −12°: nautical)"
+            )
+        )
+        self.min_alt.setToolTip(self.tr("The mount never points lower than this"))
         self.phd2 = QLineEdit(self)
         self.phd2.setPlaceholderText(self.tr("empty: no guiding; or host:port, e.g. 127.0.0.1:4400"))
         form.addRow(self.tr("PHD2 guiding"), self.phd2)
+        self.phd2.setToolTip(self.tr("Address of a running PHD2 for guiding and dithering during sequences"))
         self.focus_offsets = QLineEdit(self)
         self.focus_offsets.setPlaceholderText(self.tr("e.g. L=0, B=-30, V=15 (focuser steps)"))
         self.focus_offsets.setToolTip(self.tr("The focuser moves by the difference when the filter changes"))
@@ -99,19 +125,28 @@ class ObservatoryDialog(QDialog):
         form.addRow(self.tr("Temperature compensation"), self.temp_coeff)
         self.remote = QCheckBox(self.tr("Other computers may connect (protected by the token)"), self)
         form.addRow("", self.remote)
+        self.remote.setToolTip(
+            self.tr("Off: only this computer can control the telescope. On: others on the network can, with the token.")
+        )
         self.tls = QCheckBox(self.tr("Encrypt the connection (HTTPS; recommended when others may connect)"), self)
         self.remote.toggled.connect(lambda on: self.tls.setChecked(on or self.tls.isChecked()))
         form.addRow("", self.tls)
+        self.tls.setToolTip(
+            self.tr("The connection is encrypted, so the token and commands cannot be read on the network")
+        )
         lay.addLayout(form)
 
         row = QHBoxLayout()
         self.open_button = QPushButton(self.tr("Open…"), self)
         self.open_button.clicked.connect(self._open_dialog)
+        self.open_button.setToolTip(self.tr("Loads a saved observatory configuration"))
         save = QPushButton(self.tr("Save…"), self)
         save.clicked.connect(lambda: self._save_dialog(start=False))
+        save.setToolTip(self.tr("Saves this configuration to a file"))
         start = QPushButton(self.tr("Save and start"), self)
         start.setProperty("primary", True)
         start.clicked.connect(lambda: self._save_dialog(start=True))
+        start.setToolTip(self.tr("Saves the configuration and starts the observatory program on this computer"))
         row.addWidget(self.open_button)
         row.addStretch(1)
         row.addWidget(save)
@@ -131,6 +166,13 @@ class ObservatoryDialog(QDialog):
         p.addItem("ASCOM Alpaca", "alpaca")
         p.addItem("INDI", "indi")
         p.setCurrentIndex(0 if protocol == "alpaca" else 1)
+        k.setToolTip(
+            self.tr(
+                "What the device is: mount, camera, focuser, filter wheel, dome, safety monitor, weather station, "
+                "rotator, flat panel"
+            )
+        )
+        p.setToolTip(self.tr("ASCOM Alpaca (Windows drivers, network devices) or INDI (Linux, Raspberry Pi)"))
         self.table.setCellWidget(r, 0, k)
         self.table.setCellWidget(r, 1, p)
         self.table.setItem(r, 2, QTableWidgetItem(address))

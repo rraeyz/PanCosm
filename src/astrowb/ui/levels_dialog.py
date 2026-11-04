@@ -38,8 +38,17 @@ class LevelsDialog(QDialog):
         grid.addWidget(self.black, 0, 1)
         grid.addWidget(QLabel(self.tr("White level"), self), 1, 0)
         grid.addWidget(self.white, 1, 1)
+        self.white.setToolTip(
+            self.tr(
+                "Pixel value shown as white; higher values are white too. Only the display changes, never the data."
+            )
+        )
+        self.black.setToolTip(self.tr("Pixel value shown as black; lower values are black too"))
         auto = QPushButton(self.tr("Automatic (from the interval)"), self)
         auto.clicked.connect(self.automatic)
+        auto.setToolTip(
+            self.tr("Black and white levels chosen from the image (zscale or the interval set in the View menu)")
+        )
         grid.addWidget(auto, 0, 2, 2, 1)
         names = {
             "grey": self.tr("Grey"),
@@ -56,11 +65,23 @@ class LevelsDialog(QDialog):
             self.cmap.addItem(names[key], key)
         self.cmap.setCurrentIndex(self.cmap.findData(viewer.cmap))
         self.cmap.currentIndexChanged.connect(self._apply)
+        self.cmap.setToolTip(
+            self.tr(
+                "Colour table of the display; grey is best for judging faint detail, others make small "
+                "differences stand out"
+            )
+        )
         grid.addWidget(QLabel(self.tr("Colours"), self), 2, 0)
         grid.addWidget(self.cmap, 2, 1)
         self.invert = QCheckBox(self.tr("Inverted (black stars on white)"), self)
         self.invert.setChecked(viewer.invert)
         self.invert.toggled.connect(self._apply)
+        self.invert.setToolTip(
+            self.tr(
+                "Black stars on a white sky, as on photographic plates and finding charts; faint objects "
+                "are often easier to see"
+            )
+        )
         grid.addWidget(self.invert, 2, 2)
         lay.addLayout(grid)
         self._lines = []
