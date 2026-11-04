@@ -87,3 +87,47 @@ def subtract(data, psf, table, rows):
         m.x_0, m.y_0, m.flux = table["x_fit"][r], table["y_fit"][r], table["flux_fit"][r]
         out -= m(xx, yy)
     return out
+
+
+def neighbours_of(data, stars, fwhm, r_out, find):
+    """Stars that are not measured stars but lie within r_out + 2 FWHM of one (their light falls in an aperture or a
+    sky ring): found by find(image) on the frame with the measured stars fitted and subtracted (DAOPHOT's way: a
+    neighbour blended with a brighter star shows only in the residuals)."""
+    stars = np.asarray(stars, float).reshape(-1, 2)
+    model = gaussian(fwhm)
+    _f, _e, table = measure(data, model, stars, fwhm, fit_positions=True)
+    residual = subtract(data, model, table, range(len(stars)))
+    detected = np.vstack([np.asarray(find(img), float).reshape(-1, 2) for img in (data, residual)])
+    if not len(detected):
+        return detected
+    d = np.hypot(*(detected[:, None, :] - stars[None, :, :]).transpose(2, 0, 1)).min(axis=1)
+    near = detected[(d > 1.0 * fwhm) & (d < r_out + 2 * fwhm)]  # closer: the residual of a measured star itself
+    keep = []  # the same star found in both images
+    for p in near:
+        if all(np.hypot(*(p - q)) > 0.7 * fwhm for q in keep):
+            keep.append(p)
+    return np.array(keep).reshape(-1, 2)
+
+
+def neighbours_setup(ref, stars0, n_comp, r_out):
+    """(neighbours, stars0) for remove_neighbours, from the reference frame (light_curve's remove_neighbours)."""
+    from .aperture import seeing_fwhm
+    from .fieldstars import detect_stars
+
+    f_ref = seeing_fwhm(ref, stars0[: 1 + n_comp])
+    f_ref = f_ref if np.isfinite(f_ref) else 3.0
+    return neighbours_of(ref, stars0, f_ref, r_out, lambda img: detect_stars(img, 500, f_ref, 5)), stars0
+
+
+def remove_neighbours(data, xy, fwhm, neighbours, stars0):
+    """data with the neighbours (positions on the reference frame, moved by this frame's median shift of the
+    measured stars xy from stars0) fitted together with the measured stars and subtracted.
+    shortcut: a circular Gaussian of the frame's FWHM, not the ePSF; build an ePSF per frame if the residuals show."""
+    neighbours = np.asarray(neighbours, float).reshape(-1, 2)
+    if not len(neighbours) or not np.isfinite(fwhm):
+        return data
+    shift = np.median(np.asarray(xy, float) - np.asarray(stars0, float), axis=0)
+    model = gaussian(fwhm)
+    _f, _e, table = measure(data, model, xy, fwhm, neighbours=neighbours + shift, fit_positions=True)
+    n = len(np.asarray(xy).reshape(-1, 2))
+    return subtract(data, model, table, range(n, len(table)))

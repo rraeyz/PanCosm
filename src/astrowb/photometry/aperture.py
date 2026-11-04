@@ -292,7 +292,7 @@ def camera_pixel_noise(sky, gain, read_noise, dark):
     return np.sqrt(sky * gain + dark + read_noise**2 + (QUANTISATION * gain) ** 2) / gain
 
 
-SKY_METHODS = ("median", "mode", "mean", "plane")
+SKY_METHODS = ("median", "mode", "mean", "plane", "centroid")
 
 
 def sky_estimate(values, dx, dy, method="median"):
@@ -302,7 +302,10 @@ def sky_estimate(values, dx, dy, method="median"):
     - "mode": IRAF's 3 median - 2 mean after iterative 3-sigma clipping (fitskypars salgorithm=mode);
     - "mean": AstroImageJ's: pixels within mean +- 2 sigma, iterated until the mean changes by < 1e-4 (100 at most);
     - "plane": a plane a + b dx + c dy fitted to the ring with 3-sigma clipping of the residuals (gradients from the
-      Moon or twilight); its value at the centre is the sky, and over a whole circular aperture the tilt cancels."""
+      Moon or twilight); its value at the centre is the sky, and over a whole circular aperture the tilt cancels;
+    - "centroid": IRAF's (fitskypars salgorithm=centroid): the centroid of the ring's histogram within ± 3 sigma of
+      the median in bins of 0.1 sigma, pixels beyond 3 sigma of it rejected and the histogram made again (10 times
+      at most)."""
     v, dx, dy = (np.asarray(a, float) for a in (values, dx, dy))
     ok = np.isfinite(v)
     v, dx, dy = v[ok], dx[ok], dy[ok]
@@ -333,10 +336,31 @@ def sky_estimate(values, dx, dy, method="median"):
                 break
             mean = m2
         return float(mean), float(v[keep].std()), int(keep.sum())
+    if method == "centroid":
+        return _histogram_centroid(v)
     kept = _CLIP(v, masked=True).compressed()
     if method == "mode":
         return float(3 * np.median(kept) - 2 * kept.mean()), float(kept.std()), int(kept.size)
     return float(_grouped_median(kept)), float(kept.std()), int(kept.size)
+
+
+def _histogram_centroid(v, khist=3.0, binsize=0.1, reject=3.0, maxiter=10):
+    keep = np.ones(v.size, bool)
+    centre, sd = float(np.median(v)), float(v.std())
+    for _ in range(maxiter):
+        if sd <= 0:
+            return centre, 0.0, int(keep.sum())
+        edges = np.arange(centre - khist * sd, centre + khist * sd + binsize * sd / 2, binsize * sd)
+        counts, edges = np.histogram(v[keep], edges)
+        if counts.sum() == 0:
+            break
+        centre = float(np.sum(counts * (edges[:-1] + edges[1:]) / 2) / counts.sum())
+        new = keep & (np.abs(v - centre) <= reject * sd)
+        sd = float(v[new].std())
+        if (new == keep).all():
+            break
+        keep = new
+    return centre, sd, int(keep.sum())
 
 
 def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median"):

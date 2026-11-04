@@ -469,6 +469,7 @@ def _photometry_menu_table(
                 radii,
                 mirror(page.follow_seeing),
                 mirror(page.psf),
+                mirror(page.remove_neighbours),
                 None,
                 measure,
                 mirror(page.catalog_button),

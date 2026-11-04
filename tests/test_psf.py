@@ -47,3 +47,25 @@ def test_a_close_pair():
     assert aperture_flux(clean, *target[:2]) / aperture_flux(clean, *xy[0]) == pytest.approx(2 / 3, rel=0.015)
     g_flux, _e, _t = psf.measure(img, psf.gaussian(3.0), [target[:2], xy[0]], 3.0, neighbours=[neighbour[:2]])
     assert g_flux[0] / g_flux[1] == pytest.approx(2 / 3, rel=0.02)
+
+
+def test_light_curve_with_a_variable_neighbour_removed(tmp_path):
+    """A constant target with a variable star 1.5 FWHM away: plain apertures follow the neighbour, apertures after
+    removing it stay flat."""
+    from astropy.io import fits
+    from test_apertures import STARS, field
+
+    from astrowb.photometry.lightcurve import light_curve
+
+    paths = []
+    for i, nb in enumerate((5e4, 1.5e5, 3e5)):
+        stars = [*STARS, (STARS[0][0] + 6.0, STARS[0][1] + 0.4, nb)]
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(field(4.0, stars=stars, seed=20 + i).astype(np.float32), h).writeto(tmp_path / f"f{i}.fits")
+        paths.append(tmp_path / f"f{i}.fits")
+    xy = [s[:2] for s in STARS]
+    rel = lambda lc: np.asarray(lc["target_flux"]) / np.asarray(lc["comp_flux"]).sum(axis=1)  # noqa: E731
+    plain = rel(light_curve(paths, xy[0], xy[1:3], 6, 15, 20))
+    clean = rel(light_curve(paths, xy[0], xy[1:3], 6, 15, 20, remove_neighbours=True))
+    assert plain.max() / plain.min() > 1.2
+    assert clean / clean.mean() == pytest.approx(np.ones(3), abs=0.015)
