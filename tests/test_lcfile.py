@@ -47,13 +47,15 @@ def test_save_all_writes_the_whole_night(tmp_path):
     lc = measured() | {"target_flux": [5e4] * 12, "target_flux_err": [200.0] * 12}
     fig = Figure()
     fig.add_subplot().plot(lc["time"], lc["rel_flux"])
-    fit = {"values": {"tc": 2459800.51}, "errors": {"tc": np.float64(3e-4)}, "derived": {"depth_ppt": 20.0},
-           "beta": 1.1, "chi2r": 1.1, "model": [1]}  # fmt: skip
+    fit = {"values": {"tc": 2459800.51}, "errors": {"tc": np.float64(3e-4)},
+           "derived": {"depth_ppt": 20.0, "t14_h": 2.1}, "beta": 1.1, "chi2r": 1.1, "model": [1]}  # fmt: skip
     stars = {"target": (100, 100), "comps": [(50, 60), (150, 40), (30, 170)], "radii": (4, 10, 16)}
     files = save_all(tmp_path / "night", lc, stars, fit, fig)
     names = sorted(p.name for p in files)
     assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",
-                     "measurements.csv", "methods.txt", "references.bib", "stars.json", "transit_fit.json"]  # fmt: skip
+                     "measurements.csv", "methods.txt", "references.bib", "stars.json", "summary.pdf",
+                     "transit_fit.json"]  # fmt: skip
+    assert (tmp_path / "night" / "summary.pdf").read_bytes().startswith(b"%PDF")
     text = (tmp_path / "night" / "methods.txt").read_text(encoding="utf-8")
     assert "12 frames" in text and "aperture of 4.0 px" in text and "3 comparison stars" in text
     assert "Eastman et al. (2010)" in text and "2459800.51000 ± 0.00030 BJD_TDB" in text

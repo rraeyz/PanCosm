@@ -41,6 +41,9 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None):
         (folder / "ExoClock_form.txt").write_text(exoclock.form(lc, fit) + "\n", encoding="utf-8")
         out.append(folder / "ExoClock_form.txt")
     from .methods import methods
+    from .summary import summary_page
+
+    out.append(Path(summary_page(folder / "summary.pdf", lc, fit)))
 
     text, bib = methods(lc, fit)  # the paragraph for a paper and what it cites
     (folder / "methods.txt").write_text(text + "\n", encoding="utf-8")
