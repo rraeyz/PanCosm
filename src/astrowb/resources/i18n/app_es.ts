@@ -3895,13 +3895,13 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar &amp;imagen (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="403"/>
+        <location filename="../../ui/area_windows.py" line="416"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Convertir muchas imágenes (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="399"/>
+        <location filename="../../ui/area_windows.py" line="412"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>&amp;Cerrar imagen</translation>
@@ -3923,142 +3923,148 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="102"/>
+        <location filename="../../ui/area_windows.py" line="106"/>
         <source>Save all into a folder…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="112"/>
-        <location filename="../../ui/area_windows.py" line="135"/>
+        <location filename="../../ui/area_windows.py" line="108"/>
+        <source>Light curve, measurements, star list, fit, plots, summary page, methods text and references, and the ExoClock files when the times are BJD_TDB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="125"/>
+        <location filename="../../ui/area_windows.py" line="148"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="114"/>
+        <location filename="../../ui/area_windows.py" line="127"/>
         <source>Folder for everything</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="124"/>
+        <location filename="../../ui/area_windows.py" line="137"/>
         <source>Saved {n} files in {folder}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="137"/>
+        <location filename="../../ui/area_windows.py" line="150"/>
         <source>Light-curve file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="141"/>
+        <location filename="../../ui/area_windows.py" line="154"/>
         <source>Saved {name}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="150"/>
+        <location filename="../../ui/area_windows.py" line="163"/>
         <source>Images</source>
         <translation type="unfinished">Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="150"/>
+        <location filename="../../ui/area_windows.py" line="163"/>
         <source>Stars</source>
         <translation type="unfinished">Estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="151"/>
+        <location filename="../../ui/area_windows.py" line="164"/>
         <source>Apertures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="171"/>
+        <location filename="../../ui/area_windows.py" line="184"/>
         <source>Other tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="176"/>
+        <location filename="../../ui/area_windows.py" line="189"/>
         <source>Light curve</source>
         <translation type="unfinished">Curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="180"/>
+        <location filename="../../ui/area_windows.py" line="193"/>
         <source>Timing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="181"/>
+        <location filename="../../ui/area_windows.py" line="194"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="225"/>
+        <location filename="../../ui/area_windows.py" line="238"/>
         <source>Frames</source>
         <translation type="unfinished">Cuadros</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="229"/>
+        <location filename="../../ui/area_windows.py" line="242"/>
         <source>Checks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="250"/>
+        <location filename="../../ui/area_windows.py" line="263"/>
         <source>target</source>
         <translation type="unfinished">objetivo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="250"/>
+        <location filename="../../ui/area_windows.py" line="263"/>
         <source>comparison</source>
         <translation type="unfinished">comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="251"/>
+        <location filename="../../ui/area_windows.py" line="264"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="253"/>
+        <location filename="../../ui/area_windows.py" line="266"/>
         <source>not marked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="254"/>
+        <location filename="../../ui/area_windows.py" line="267"/>
         <source>saturated</source>
         <translation type="unfinished">saturado</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="256"/>
+        <location filename="../../ui/area_windows.py" line="269"/>
         <source>Role</source>
         <translation type="unfinished">Papel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="257"/>
+        <location filename="../../ui/area_windows.py" line="270"/>
         <source>x, y (FITS pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="258"/>
+        <location filename="../../ui/area_windows.py" line="271"/>
         <source>Peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="259"/>
+        <location filename="../../ui/area_windows.py" line="272"/>
         <source>Sky per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="260"/>
+        <location filename="../../ui/area_windows.py" line="273"/>
         <source>Net counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="261"/>
+        <location filename="../../ui/area_windows.py" line="274"/>
         <source>Signal-to-noise</source>
         <translation type="unfinished">Señal-ruido</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="270"/>
+        <location filename="../../ui/area_windows.py" line="283"/>
         <source>Star</source>
         <translation type="unfinished">Estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="401"/>
+        <location filename="../../ui/area_windows.py" line="414"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>Cerrar &amp;todas las imágenes</translation>
@@ -4227,7 +4233,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="43"/>
-        <location filename="../../ui/area_windows.py" line="151"/>
+        <location filename="../../ui/area_windows.py" line="164"/>
         <source>Measure</source>
         <translation>Medir</translation>
     </message>
@@ -4244,7 +4250,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="492"/>
+        <location filename="../../ui/area_windows.py" line="505"/>
         <source>&amp;Measure</source>
         <translation>&amp;Medir</translation>
     </message>
@@ -4265,69 +4271,69 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="81"/>
-        <location filename="../../ui/area_windows.py" line="464"/>
+        <location filename="../../ui/area_windows.py" line="477"/>
         <source>F&amp;rames</source>
         <translation>T&amp;omas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="478"/>
+        <location filename="../../ui/area_windows.py" line="491"/>
         <source>&amp;Stars</source>
         <translation>E&amp;strellas</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="375"/>
-        <location filename="../../ui/area_windows.py" line="373"/>
-        <location filename="../../ui/area_windows.py" line="505"/>
+        <location filename="../../ui/area_windows.py" line="386"/>
+        <location filename="../../ui/area_windows.py" line="518"/>
         <source>&amp;Analyse</source>
         <translation>A&amp;nalizar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="351"/>
+        <location filename="../../ui/area_windows.py" line="364"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Separar en canales de color (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="353"/>
+        <location filename="../../ui/area_windows.py" line="366"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>La imagen en bruto de una cámara de color como tres imágenes de la mitad de tamaño, una por color (sin interpolación)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="359"/>
+        <location filename="../../ui/area_windows.py" line="372"/>
         <source>Stack the open images…</source>
         <translation>Apilar las imágenes abiertas…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="361"/>
+        <location filename="../../ui/area_windows.py" line="374"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Las imágenes abiertas alineadas en sus estrellas y promediadas rechazando los valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="364"/>
+        <location filename="../../ui/area_windows.py" line="377"/>
         <source>Drizzle the open images…</source>
         <translation>Combinar las imágenes abiertas con drizzle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="366"/>
+        <location filename="../../ui/area_windows.py" line="379"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Imágenes desplazadas sobre una rejilla el doble de fina (más nítida para estrellas submuestreadas)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="377"/>
+        <location filename="../../ui/area_windows.py" line="390"/>
         <source>A&amp;strometry</source>
         <translation>Astro&amp;metría</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="378"/>
+        <location filename="../../ui/area_windows.py" line="391"/>
         <source>&amp;Colour</source>
         <translation>&amp;Color</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="379"/>
+        <location filename="../../ui/area_windows.py" line="392"/>
         <source>S&amp;tack</source>
         <translation>A&amp;pilar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="402"/>
         <source>Copy the header</source>
         <translation>Copiar la cabecera</translation>
     </message>
@@ -4713,7 +4719,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar el espectro como…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="312"/>
+        <location filename="../../ui/area_windows.py" line="325"/>
         <source>&amp;Job</source>
         <translation>Tra&amp;bajo</translation>
     </message>
