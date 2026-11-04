@@ -87,7 +87,10 @@ class ChecksTab(QWidget):
             )
         except (OSError, ValueError, IndexError):  # no frame to read: the advice that needs no exposure time
             pass
-        lines = advice_lines(next_night(lc, exptime=exptime))
+        fit = getattr(self.page, "transit_fit", None)  # the ingress from the fitted transit, when there is one
+        d = fit[1]["derived"] if fit else {}
+        ingress = (d["t14_h"] - d["t23_h"]) / 2 / 24 if d.get("t14_h", 0) > d.get("t23_h", 0) else None
+        lines = advice_lines(next_night(lc, exptime=exptime, ingress_days=ingress))
         title = translate("PhotometryChecks", "For next time:")
         return "\n".join([title, *("• " + x for x in lines)]) if lines else ""
 

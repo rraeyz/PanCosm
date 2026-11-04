@@ -91,6 +91,8 @@ def attach(main, page):
 
     def done(out):
         page.transit_fit = (page.light_curve, out["transit"])
+        if getattr(page, "checks", None) is not None:  # the next-night advice can now judge the cadence
+            page.checks.show_checks(page.light_curve)
         page.transit_result.setText(result_text(out["transit"]))
         page.transit_details.setEnabled(True)
         oc = getattr(main, "oc_page", None)
