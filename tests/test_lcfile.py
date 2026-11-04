@@ -33,3 +33,28 @@ def test_round_trip(tmp_path):
     t.write(tmp_path / "old.lc.ecsv", format="ascii.ecsv")
     with pytest.raises(ValueError, match="not a light-curve file"):
         lcfile.read(tmp_path / "old.lc.ecsv")
+
+
+def test_save_all_writes_the_whole_night(tmp_path):
+    """PHO-27 item 5: one folder with the light curve, the measurements table, the star list, the fit and the plot."""
+    import csv
+    import json
+
+    from matplotlib.figure import Figure
+
+    from astrowb.photometry.reports.save_all import save_all
+
+    lc = measured() | {"target_flux": [5e4] * 12, "target_flux_err": [200.0] * 12}
+    fig = Figure()
+    fig.add_subplot().plot(lc["time"], lc["rel_flux"])
+    fit = {"values": {"tc": 2459800.51}, "errors": {"tc": np.float64(3e-4)}, "derived": {}, "chi2r": 1.1, "model": [1]}
+    stars = {"target": (100, 100), "comps": [(50, 60), (150, 40), (30, 170)], "radii": (4, 10, 16)}
+    files = save_all(tmp_path / "night", lc, stars, fit, fig)
+    names = sorted(p.name for p in files)
+    assert names == ["light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png", "measurements.csv", "stars.json",
+                     "transit_fit.json"]  # fmt: skip
+    assert lcfile.read(tmp_path / "night" / "light_curve.lc.ecsv")["rel_flux"] == lc["rel_flux"]
+    rows = list(csv.reader(open(tmp_path / "night" / "measurements.csv", encoding="utf-8")))
+    assert len(rows) == 13 and "rel_flux_T1" in rows[0]
+    back = json.loads((tmp_path / "night" / "transit_fit.json").read_text(encoding="utf-8"))
+    assert back["errors"]["tc"] == 3e-4 and "model" not in back
