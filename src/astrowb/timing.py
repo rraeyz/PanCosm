@@ -111,7 +111,39 @@ def location(header) -> EarthLocation | None:
             lon = _longitude(header, _angle(header[lon_key]))
             height = get(header, "SITEELEV", "ALT-OBS", "OBSGEO-H", default=0.0)  # e.g. '2496.00 / Meters'
             return EarthLocation.from_geodetic(lon * u.deg, lat * u.deg, height * u.m)
+    if "LATITUDE" in header and "LONGITUD" in header:  # used when the sign of the longitude is known
+        lon = _angle(header["LONGITUD"])
+        sign = _sign_from_lst(header, lon)
+        note = header.comments["LONGITUD"].lower() if hasattr(header, "comments") else ""
+        if sign is None and re.search(r"e\+|east|degrees e\b|\(e\)", note):  # Palomar, Tartu
+            sign = 1
+        elif sign is None and re.search(r"w\+|west", note):
+            sign = -1
+        if sign:
+            height = get(header, "SITEELEV", "ALT-OBS", "OBSGEO-H", default=0.0)
+            return EarthLocation.from_geodetic(sign * lon * u.deg, _angle(header["LATITUDE"]) * u.deg, height * u.m)
     return None
+
+
+def _sign_from_lst(header, lon):
+    """+1 or -1 when the local sidereal time in the header agrees with the longitude read east- or
+    west-positive, None when it cannot tell (no LST, no time, or neither agrees)."""
+    lst = header.get("LST", header.get("SIDEREAL", header.get("ST")))
+    if lst is None:
+        return None
+    try:
+        from astropy.coordinates import Angle
+
+        t, given = start_time(header), Angle(lst, unit=u.hourangle).hour
+
+        def miss(deg):
+            d = abs(t.sidereal_time("apparent", longitude=deg * u.deg).hour - given) % 24
+            return min(d, 24 - d)
+
+        sign = min((1, -1), key=lambda s: miss(s * lon))
+        return sign if miss(sign * lon) < 0.05 else None  # within 3 minutes (the LST at start or mid-exposure)
+    except Exception:  # an unreadable LST or no Earth-orientation data
+        return None
 
 
 def _longitude(header, lon):

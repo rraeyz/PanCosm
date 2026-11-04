@@ -64,6 +64,14 @@ def test_location_from_header():
     loc = timing.location(fits.Header({"SITELAT": "31:40:48", "SITELONG": "-110:52:48", "SITEELEV": 2300}))
     assert abs(loc.lat.deg - 31.68) < 1e-6 and abs(loc.lon.deg + 110.88) < 1e-6
     assert timing.location(fits.Header({"LATITUDE": 31.68, "LONGITUD": 110.88})) is None  # ambiguous sign
+    tartu = fits.Header()  # the TOFES spectrograph: east-positive, as the comment says
+    tartu["LATITUDE"], tartu["LONGITUD"] = (58.265777, "[deg] Latitude"), (26.459702, "[deg] Longitude (E+)")
+    assert timing.location(tartu).lon.deg == pytest.approx(26.459702)
+    palomar = fits.Header({"DATE-OBS": "2016-01-16", "UT": "09:47:21.00", "ST": "09:40:51.65"})  # a real LFC frame
+    palomar["LATITUDE"], palomar["LONGITUD"] = 33.4, -116.9  # no comment: the sidereal time tells the sign
+    assert timing.location(palomar).lon.deg == pytest.approx(-116.9)
+    palomar["LONGITUD"] = 116.9  # the same site written west-positive
+    assert timing.location(palomar).lon.deg == pytest.approx(-116.9)
 
 
 def test_airmass_offline():
