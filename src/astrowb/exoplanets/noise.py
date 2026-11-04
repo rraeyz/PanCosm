@@ -5,7 +5,10 @@ measured to that expectation, taken as the median over bin sizes around the time
 
 import numpy as np
 
+from ..core.citations import cites
 
+
+@cites("winn2008")
 def beta_factor(residuals, sizes):
     """β = median over the bin sizes N (points per bin) of σ_N / (σ₁ / √N · √(M / (M − 1))), at least 1."""
     r = np.asarray(residuals, float)

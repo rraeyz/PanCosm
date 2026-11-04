@@ -14,6 +14,8 @@ from astropy.utils.exceptions import AstropyUserWarning
 from photutils.aperture import ApertureStats, CircularAnnulus, CircularAperture, aperture_photometry
 from photutils.centroids import centroid_sources
 
+from ..core.citations import cites
+
 _CLIP = SigmaClip(sigma=3.0, maxiters=10)
 
 
@@ -295,6 +297,7 @@ def _sky_medians(data, an, sky):
 QUANTISATION = 0.289  # rms of the rounding to whole ADU, 1/sqrt(12) (Merline & Howell 1995; AstroImageJ)
 
 
+@cites("collins2017")
 def camera_pixel_noise(sky, gain, read_noise, dark):
     """Noise of one sky pixel (ADU) from the camera: sky photons, dark current and read noise in electrons, and the
     rounding to whole ADU — sqrt(S g + D + R^2 + 0.289^2 g^2) / g, AstroImageJ's model (Collins et al. 2017, appendix

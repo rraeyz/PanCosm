@@ -10,6 +10,8 @@ import numpy as np
 from astropy.stats import sigma_clipped_stats
 from astropy.table import Table
 
+from ..core.citations import cites
+
 
 def _sky(data):
     _mean, median, std = sigma_clipped_stats(data, sigma=3.0)
@@ -41,6 +43,7 @@ def select_psf_stars(data, xy, fluxes, size=25, n=25, saturation=None, others=No
     return out
 
 
+@cites("anderson2000")
 def build_epsf(data, xy, size=25, oversampling=2):
     """The effective PSF from the stars at xy (an ImagePSF, flux-normalised)."""
     from photutils.psf import EPSFBuilder, extract_stars
@@ -60,6 +63,7 @@ def gaussian(fwhm):
     return CircularGaussianPRF(fwhm=fwhm)
 
 
+@cites("stetson1987")
 def measure(data, psf, xy, fwhm, neighbours=(), fit_positions=False, max_move=1.0, fit_size=None):
     """Flux and error of the stars at xy, fitted together with their neighbours in groups (separation 2.5 FWHM).
     Returns (flux, flux_err, table) — the arrays for xy only; the table holds every fitted star (xy first)."""

@@ -15,6 +15,7 @@
 
 import numpy as np
 
+from ..core.citations import cites
 from .period import _refine, search
 
 
@@ -26,6 +27,7 @@ def _prepare(t, y, err=None):
     return t - t[0], y, w
 
 
+@cites("zechmeister2009")
 def gls(t, y, err=None, p_min=0.05, p_max=None, nterms=1, oversample=5):
     from astropy.timeseries import LombScargle
 

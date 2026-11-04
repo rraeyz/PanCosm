@@ -13,6 +13,7 @@ from astropy.coordinates import AltAz, EarthLocation, SkyCoord
 from astropy.time import Time, TimeDelta
 
 from .core import earth_orientation
+from .core.citations import cites
 from .hdr import get, number
 from .io.lzw import readable
 
@@ -253,6 +254,7 @@ def _angle(value) -> float:
     return x
 
 
+@cites("eastman2010")
 def bjd_tdb(t: Time, target: SkyCoord, where: EarthLocation | None = None) -> Time:
     """Barycentric Julian Date in TDB for times t (UTC) of a target."""
     t = Time(t, location=_GEOCENTRE if where is None else where)
