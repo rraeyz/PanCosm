@@ -66,7 +66,7 @@ Langsame Änderungen, die nicht vom Stern stammen — Extinktion, die sich mit d
 
 ## Minimumszeit
 - Tragen Sie **Ephemeride T0 (BJD)** und **Periode (d)** ein, wenn Sie sie kennen (optional): Dann werden auch Epoche und O-C angegeben.
-- Kreuzen Sie **Kwee–van Woerden** für Bedeckungsveränderliche an; ohne Häkchen gilt die **Trapez-Anpassung**, die zu Transits und Bedeckungen mit flachem Boden passt und auch Tiefe und Dauer liefert.
+- Unter **Welche Art von Minimum ist es?** wählen Sie **Bedeckungsveränderlicher: Methode von Kwee–van Woerden** (Voreinstellung; Kwee & van Woerden 1956, die Methode der O−C-Datenbanken) oder **Exoplanetentransit: Trapezanpassung**, die zu Einbrüchen mit flachem Boden passt und auch Tiefe und Dauer liefert.
 - **Minimumszeit** gibt die Zeit mit ihrem Fehler (bei KvW der größere von KvW- und Bootstrap-Fehler) in Tagen und Minuten an.
 - Umfasst die Lichtkurve mehrere Bedeckungen (TESS, mehrere Nächte), T0 und die Periode angeben — nach einer **Periodensuche** auf dieser Lichtkurve werden sie eingetragen —, dann wird jedes Haupt- und Nebenminimum in seinem eigenen Fenster bestimmt und mit seiner Art auf die O-C-Seite geschickt; ohne sie fragt die Seite danach, statt eine sinnlose Zeit zu geben.
 

@@ -966,3 +966,17 @@ def test_a_failed_lookup_is_reported_on_the_gui_thread(window, qtbot, tmp_path):
     )
     qtbot.waitUntil(lambda: bool(got), timeout=60000)
     assert "not-there" in got[0][0] and got[0][1]
+
+
+def test_minimum_method_is_a_visible_choice_with_kvw_first(window):
+    """Both methods are offered; eclipsing binaries (Kwee–van Woerden) are the default, transits one click away."""
+    page = window.photometry_page
+    sent = []
+    page.minimum_requested.connect(lambda lc, params: sent.append(params["method"]))
+    page.light_curve = {"time": [0.0, 1.0], "rel_flux": [1.0, 1.0]}
+    assert page.kvw.isChecked() and not page.trapezoid.isChecked()
+    page._minimum()
+    page.trapezoid.setChecked(True)
+    assert not page.kvw.isChecked()
+    page._minimum()
+    assert sent == ["kvw", "trapezoid"]

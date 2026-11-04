@@ -66,7 +66,7 @@ El **grado de la tendencia** 1 elimina una dependencia lineal de cada magnitud m
 
 ## Instante del mínimo
 - Introduzca **Efemérides T0 (BJD)** y **Período (d)** si los conoce (opcional): entonces también se dan la época y O-C.
-- Marque **Kwee–van Woerden** para binarias eclipsantes; sin marcar se usa el **ajuste trapezoidal**, adecuado para tránsitos y eclipses de fondo plano, que además da profundidad y duración.
+- En **¿Qué tipo de mínimo es?** elija **Binaria eclipsante: método de Kwee–van Woerden** (por defecto; Kwee y van Woerden 1956, el método de las bases de datos O−C) o **Tránsito de exoplaneta: ajuste de trapecio**, adecuado para caídas de fondo plano, que además da profundidad y duración.
 - **Instante del mínimo** da el instante con su error (en KvW, el mayor entre el error de KvW y el de bootstrap), en días y minutos.
 - Si la curva de luz abarca varios eclipses (TESS, varias noches), indique T0 y el período —tras una **Búsqueda de períodos** en esta curva se rellenan solos— y cada mínimo primario y secundario se mide en su propia ventana y se envía a la página O-C con su tipo; sin ellos la página los pide en lugar de dar un instante sin sentido.
 

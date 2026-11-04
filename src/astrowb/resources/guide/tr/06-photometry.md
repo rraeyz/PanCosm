@@ -66,7 +66,7 @@ Yıldızın kendisinden gelmeyen yavaş değişimler — hava kütlesiyle deği�
 
 ## Minimum zamanı
 - Biliyorsanız **Efemeris T0 (BJD)** ve **Periyot (gün)** girin (isteğe bağlı): o zaman çevrim ve O-C de verilir.
-- Örten çiftler için **Kwee–van Woerden**'i işaretleyin; geçişlere ve düz tabanlı örtmelere uyan ve derinlik ile süreyi de veren **yamuk fiti** için boş bırakın.
+- **Ne tür bir minimum?** altında **Örten çift yıldız: Kwee–van Woerden yöntemi** (varsayılan; Kwee & van Woerden 1956, O−C veritabanlarının yöntemi) ya da düz tabanlı düşüşlere uyan ve derinlik ile süreyi de veren **Ötegezegen geçişi: yamuk fiti** seçin.
 - **Minimum zamanı** zamanı hatasıyla (KvW için KvW ve bootstrap hatalarının büyüğü) gün ve dakika olarak verir.
 - Işık eğrisi birden çok tutulmayı kapsıyorsa (TESS, birkaç gece) T0'ı ve dönemi girin — bu ışık eğrisinde **Dönem arama** yaptıysanız kendiliğinden dolar — her birincil ve ikincil minimum kendi penceresinde zamanlanır ve türüyle O-C sayfasına gönderilir; bunlar verilmezse sayfa anlamsız tek bir zaman vermek yerine onları ister.
 

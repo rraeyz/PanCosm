@@ -19,7 +19,7 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 ![Taramadan sonra Kalibrasyon sayfası](images/tr/first-night-calibrate.png)
 
 3. **Fotometri:** **Görüntüleri seç…** ile kalibre edilmiş `light_V_*.fits` dosyalarını seçin. **Kare kalitesini denetle**'ye basın: bütün kareler iyi. Görüntünün ortasındaki yıldıza (çift, x = 100, y = 80) tıklayın, sonra **Karşılaştırma yıldızı öner** (ya da diğer üç yıldıza tıklayın). Zamanlar BJD_TDB olsun diye *Hedef RA Dec* alanına `02:04:10.3 +46:41:16` yazın ve **Işık eğrisini ölç**'e basın: yaklaşık %45 derinliğinde bir örtme görünür.
-4. **Kwee–van Woerden**'i işaretleyip **Minimum zamanı**'na basın. Sonucu `truth.json` içindeki `t_min_bjd_tdb` ile karşılaştırın: ikisi bir iki dakika içinde uyuşur.
+4. **Örten çift yıldız: Kwee–van Woerden yöntemi** seçili kalsın (varsayılan) ve **Minimum zamanı**'na basın. Sonucu `truth.json` içindeki `t_min_bjd_tdb` ile karşılaştırın: ikisi bir iki dakika içinde uyuşur.
 
 ![Işık eğrisi ve minimum zamanıyla Fotometri sayfası](images/tr/first-night-photometry.png)
 
