@@ -748,7 +748,8 @@ narrower) and by 5σ; "E" the aperture off the frame. The light curve carries `f
 measurements table `Flags_<star>` with each flagged cell explained, the light-curve file keeps them. Tests: a cosmic
 ray 2 px from the target on frames 2–3 flags exactly those; clean Gaussian stars of FWHM 1.8–7 px, Moffat β 2.5 and
 an undersampled core (FWHM 1.5 px) are never flagged. Left: the mask and variance planes (CAL-13), trails, flagged
-points coloured and left out by "Leave out flagged points".
+points coloured. Done: the Checks tab lists the frames with a spike in the target's or a comparison's aperture
+and "Leave out the flagged points" takes them.
 - **Why:** AD-8. A hot pixel or a satellite trail in the aperture makes an outlier that today is found only by eye.
 - **Build:** `aperture.measure` takes the frame's mask plane (CAL-13: bits for bad pixel, saturated, cosmic ray
   repaired, satellite trail, no data) and variance plane; a flagged pixel in the aperture sets a per-star, per-frame

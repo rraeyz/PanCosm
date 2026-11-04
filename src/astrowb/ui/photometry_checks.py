@@ -17,6 +17,7 @@ def kinds():
         "seeing": translate("PhotometryChecks", "bad seeing"),
         "jump": translate("PhotometryChecks", "the field jumped"),
         "near_saturation": translate("PhotometryChecks", "near saturation"),
+        "spike": translate("PhotometryChecks", "cosmic ray or hot pixel in an aperture"),
     }
 
 
