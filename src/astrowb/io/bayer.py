@@ -224,6 +224,11 @@ def fits_copy(path, clock_utc_offset_h=None):
     if clock_utc_offset_h is None:
         clock_utc_offset_h = CLOCK_UTC_OFFSET_H
     path = Path(path)
+    if is_fits(path):
+        from . import tpf
+
+        if tpf.is_tpf(path):  # a TESS / Kepler target pixel file: its first good cadence (fits_paths: all of them)
+            return Path(tpf.frames(path)[0])
     cube = is_fits(path) and _is_cube(path)
     if is_fits(path) and not cube:
         return path
@@ -261,8 +266,13 @@ def fits_paths(paths, clock_utc_offset_h=None):
     import warnings
 
     out = []
+    from . import tpf
+
     for p in paths:
         try:
+            if is_fits(p) and tpf.is_tpf(p):  # one frame per cadence
+                out.extend(tpf.frames(p))
+                continue
             out.append(str(fits_copy(p, clock_utc_offset_h)))
         except Exception as e:  # e.g. a damaged file among many
             warnings.warn(f"{Path(p).name}: {type(e).__name__}: {e}", stacklevel=2)

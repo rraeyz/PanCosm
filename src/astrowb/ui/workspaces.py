@@ -1775,7 +1775,7 @@ class PhotometryPage(QWidget):
         # the rings of the next click follow the mouse, in the colour of the star it will mark
         self.viewer.set_pick(True, [(r, False), (r_in, True), (r_out, True)], colours[nxt])
         self.apertures_button.setEnabled(bool(self.images and self.target))
-        self.measure_button.setEnabled(bool(self.images and self.target and self.comps))
+        self.measure_button.setEnabled(bool(self.images and self.target))  # no comparison: the target's own flux
         self.catalog_button.setEnabled(bool(self.images and self.target and self.comps))
         self.suggest_button.setEnabled(bool(self.images and self.target))
 
@@ -2020,6 +2020,13 @@ class PhotometryPage(QWidget):
                     lo=np.nanmin(sc), hi=np.nanmax(sc)
                 )
             )
+        elif not np.size(lc.get("comp_flux", [])):  # space data (TESS, Kepler): no atmosphere to divide out
+            lines.append(
+                self.tr(
+                    "No comparison star: the target's own flux over its median. Right for space data (TESS, Kepler); "
+                    "from the ground, clouds and airmass stay in the light curve."
+                )
+            )
         elif "scintillation" in lc:
             lines.append(self.tr("Scintillation is not in the errors: give the telescope aperture (and the site)."))
         for x in lc["extra"]:
@@ -2192,6 +2199,30 @@ class PhotometryPage(QWidget):
 
     def show_minimum(self, m):
         methods = {"kvw": self.tr("Kwee–van Woerden"), "trapezoid": self.tr("trapezoid fit")}
+        if "minima" in m:  # every eclipse of a long series (TESS, several nights)
+            ms = m["minima"]
+            oc = np.array([x["o_minus_c"] for x in ms]) * 1440
+            text = self.tr(
+                "{n} minima timed ({p} primary, {s} secondary), {method}; O−C {mean:+.2f} min, scatter {sd:.2f} min"
+            ).format(
+                n=len(ms),
+                p=sum(x["kind"] == "I" for x in ms),
+                s=sum(x["kind"] == "II" for x in ms),
+                method=methods[m["method"]],
+                mean=float(np.mean(oc)),
+                sd=float(np.std(oc)),
+            )
+            if m.get("skipped"):
+                text += "\n" + self.tr("{n} predicted minima left out: not covered on both sides, or no dip.").format(
+                    n=m["skipped"]
+                )
+            self.result.setText(text + "\n" + self.tr("All of them are on the O-C page."))
+            ax = self.plot.figure.axes[0]
+            t_ref = np.floor(min(self.light_curve["time"]))
+            for x in ms:
+                ax.axvline(x["time"] - t_ref, color="red" if x["kind"] == "I" else "orange", lw=0.8)
+            self.plot.draw()
+            return
         text = self.tr("Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}").format(
             t=m["time"], e=m["error"], scale=m["time_scale"], e_min=m["error"] * 1440, method=methods[m["method"]]
         )
@@ -2378,8 +2409,8 @@ class OCPage(QWidget):
         if path:
             self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
 
-    def add_minimum(self, time, error, source=""):
-        self.text.appendPlainText(f"{time:.6f} {error:.6f} I {source}".rstrip())
+    def add_minimum(self, time, error, source="", kind="I"):
+        self.text.appendPlainText(f"{time:.6f} {error:.6f} {kind} {source}".rstrip())
 
     def run_fit(self):
         from ..timeseries.ephemeris import fit, parse_minima

@@ -92,10 +92,39 @@ def apertures_step(inputs, params, ctx):
 @step("timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="trapezoid", t0=None, period=None)
 def minimum_step(inputs, params, ctx):
     """Time of minimum of a light curve; with t0 and period also epoch and O-C (days)."""
+    from ..timeseries.minima import dips, each_minimum
+
     lc = inputs["light_curve"]
     t, y = np.asarray(lc["time"]), np.asarray(lc["rel_flux"])
     err = np.asarray(lc["rel_flux_err"]) if lc.get("rel_flux_err") else None
     y_norm = y / np.median(y)
+    if params["t0"] is not None and params["period"] and np.ptp(t) > 0.6 * params["period"]:
+
+        def timer(tw, yw):  # one minimum in its window
+            if params["method"] == "kvw":
+                tm, s_kvw, s_boot = kwee_van_woerden(tw, yw)
+                return tm, float(np.nanmax([s_kvw, s_boot]))
+            fit = trapezoid_fit(tw, yw)
+            return fit["t0"], fit["t0_err"]
+
+        found, skipped = each_minimum(t, y_norm, params["t0"], params["period"], timer)
+        if not found:
+            raise ValueError("no whole eclipse at the times predicted by T0 and the period")
+        minima = []
+        for tm, e, k in found:  # a secondary minimum is half a cycle on: its epoch ends in .5
+            half = 0.5 * params["period"] if k == "II" else 0.0
+            n, oc = o_minus_c([tm - half], params["t0"], params["period"])
+            epoch = int(n[0]) + (0.5 if k == "II" else 0)
+            minima.append({"time": tm, "error": e, "kind": k, "epoch": epoch, "o_minus_c": float(oc[0])})
+            minima[-1]["method"] = params["method"]
+        for m in minima:
+            m["time_scale"] = lc.get("time_scale")
+        return {"minimum": minima[0] | {"minima": minima, "skipped": skipped}}
+    n = dips(t, y_norm)
+    if n > 1:  # one fit through several eclipses gives a meaningless time
+        raise ValueError(
+            f"the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one"
+        )
     if params["method"] == "kvw":
         tm, s_kvw, s_boot = kwee_van_woerden(t, y_norm)
         out = {"time": tm, "error": float(np.nanmax([s_kvw, s_boot])), "method": "kvw"}

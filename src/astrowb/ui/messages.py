@@ -92,6 +92,13 @@ TEMPLATES = (
     # timeseries/oc_models.py
     QT_TRANSLATE_NOOP("Messages", "need at least 8 minima for a third-body orbit"),
     QT_TRANSLATE_NOOP("Messages", "apsidal motion needs at least 3 primary and 3 secondary minima"),
+    # photometry/steps.py, io/tpf.py (minima of a long series, target pixel files)
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one",
+    ),
+    QT_TRANSLATE_NOOP("Messages", "no whole eclipse at the times predicted by T0 and the period"),
+    QT_TRANSLATE_NOOP("Messages", "{name}: no cadence with a time and good quality"),
     # timeseries/ephemeris.py
     QT_TRANSLATE_NOOP("Messages", "line {n}: '{value}' is not a time"),
     QT_TRANSLATE_NOOP("Messages", "need at least {n} minima"),

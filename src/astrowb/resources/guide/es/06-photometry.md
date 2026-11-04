@@ -10,6 +10,8 @@ Las buenas estrellas de comparación tienen color y brillo parecidos a los del o
 
 Sobre la imagen el puntero es una cruz, y los anillos de apertura y de cielo que pondrá el siguiente clic lo siguen, en el color de la estrella que marcará (verde objetivo, rojo comparación, naranja de control). Un clic sobre una estrella ya marcada la quita. Arrastre para mover la imagen y use la rueda para el zoom.
 
+Los archivos de píxeles de TESS y Kepler / K2, también los recortes TESScut de MAST, se pueden elegir tal cual: cada cadencia se convierte en una toma (se omiten las cadencias que la misión marca como inútiles) con el BJD_TDB del archivo. Sin atmósfera que dividir, el objetivo se puede medir **sin estrellas de comparación**: el flujo relativo es entonces el flujo propio del objetivo dividido por su mediana.
+
 ## Fotometría diferencial: objetivos, estrellas de comparación y de control
 **Los clics añaden** elige qué son los clics siguientes: *objetivo y luego estrellas de comparación* (el primer clic es el objetivo T1 y los siguientes las estrellas de comparación C1, C2…), *estrellas de control* (K1, K2…) o *más objetivos* (T2, T3…). Las estrellas de control y los demás objetivos se miden en cada toma frente a las mismas estrellas de comparación, pero no forman parte de ellas — como la estrella de control de MaxIm DL, VPhot o AIJ. Una estrella de control constante muestra lo buena que es de verdad la fotometría: su dispersión (en mmag) aparece bajo el gráfico.
 
@@ -66,6 +68,7 @@ El **grado de la tendencia** 1 elimina una dependencia lineal de cada magnitud m
 - Introduzca **Efemérides T0 (BJD)** y **Período (d)** si los conoce (opcional): entonces también se dan la época y O-C.
 - Marque **Kwee–van Woerden** para binarias eclipsantes; sin marcar se usa el **ajuste trapezoidal**, adecuado para tránsitos y eclipses de fondo plano, que además da profundidad y duración.
 - **Instante del mínimo** da el instante con su error (en KvW, el mayor entre el error de KvW y el de bootstrap), en días y minutos.
+- Si la curva de luz abarca varios eclipses (TESS, varias noches), indique T0 y el período —tras una **Búsqueda de períodos** en esta curva se rellenan solos— y cada mínimo primario y secundario se mide en su propia ventana y se envía a la página O-C con su tipo; sin ellos la página los pide en lugar de dar un instante sin sentido.
 
 ## Magnitudes estándar
 Con una primera imagen con reducción astrométrica (Imagen → Reducción astrométrica), elija el filtro de sus imágenes y pulse **Magnitudes estándar (APASS / Gaia)**. Las estrellas de comparación se consultan en internet: B, V, g′, r′, i′ vienen de APASS DR9; R e I (y V donde APASS no tiene valor) se calculan a partir de Gaia DR3 con las relaciones publicadas de Gaia a Johnson-Cousins (dispersión de unas 0,03 mag); G es la propia de Gaia. La curva de luz pasa entonces a magnitudes en el sistema estándar: un punto cero para cada toma a partir de todas las estrellas de comparación y, si tres o más de ellas tienen colores, un término de color ajustado para la noche. Una estrella de comparación que difiere del catálogo en más de 0,1 mag (variable, mezclada o con un mal valor de catálogo) se notifica y se deja fuera. Las magnitudes se dibujan (más brillante arriba), entran en la exportación CSV y rellenan las magnitudes de comparación del informe AAVSO.
