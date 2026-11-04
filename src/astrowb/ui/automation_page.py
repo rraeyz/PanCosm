@@ -61,8 +61,10 @@ class AutomationPage(QWidget):
         row = QHBoxLayout()
         new = QPushButton(self.tr("New"), self)
         new.clicked.connect(self.new)
+        new.setToolTip(self.tr("An empty automation to fill with steps"))
         save = QPushButton(self.tr("Save as…"), self)
         save.clicked.connect(self._save_dialog)
+        save.setToolTip(self.tr("Saves the automation under a name, to run it again on other data"))
         row.addWidget(new)
         row.addWidget(save)
         ll.addLayout(row)
@@ -83,17 +85,22 @@ class AutomationPage(QWidget):
         self.step_choice.addItems(sorted(steps.REGISTRY))
         self.step_choice.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.step_choice.setMinimumContentsLength(14)  # long step ids do not widen the page; the list shows them whole
+        self.step_choice.setToolTip(
+            self.tr("Every task of the application as a step (calibrate, stack, photometry, period search…)")
+        )
         add = QPushButton(self.tr("Add step"), self)
         add.clicked.connect(lambda: self.add_step(self.step_choice.currentText()))
+        add.setToolTip(self.tr("Adds the chosen step at the end; its settings appear below"))
         ml.addWidget(self.step_choice)  # one above the other: the page fits narrow windows in every language
         ml.addWidget(add)
         row = QHBoxLayout()
-        for text, slot in (
-            (self.tr("Remove"), self._remove),
-            (self.tr("Up"), lambda: self._move(-1)),
-            (self.tr("Down"), lambda: self._move(1)),
+        for text, slot, tip in (
+            (self.tr("Remove"), self._remove, self.tr("Removes the selected step")),
+            (self.tr("Up"), lambda: self._move(-1), self.tr("Moves the selected step one place earlier")),
+            (self.tr("Down"), lambda: self._move(1), self.tr("Moves the selected step one place later")),
         ):
             b = QPushButton(text, self)
+            b.setToolTip(tip)
             b.clicked.connect(slot)
             row.addWidget(b)
         ml.addLayout(row)
@@ -117,6 +124,9 @@ class AutomationPage(QWidget):
         self.run_button = QPushButton(self.tr("Run"), self)
         self.run_button.setProperty("primary", True)
         self.run_button.clicked.connect(self._run)
+        self.run_button.setToolTip(
+            self.tr("Runs the steps one after the other with these inputs; each step's result is kept in the project")
+        )
         self.sequence_button = QPushButton(self.tr("To the Observe page"), self)
         self.sequence_button.setToolTip(self.tr("Send sequence to the Observe page"))
         self.sequence_button.clicked.connect(self._send_sequence)
@@ -268,10 +278,12 @@ class AutomationPage(QWidget):
             edit = QLineEdit(self.values.get(name, ""), self)
             edit.textChanged.connect(lambda text, n=name: self.values.__setitem__(n, text))
             self.edits[name] = edit
+            edit.setToolTip(self.tr("A value, a file or a folder for this input of the automation"))
             row = QHBoxLayout()
             row.addWidget(edit, 1)
             if spec.get("kind") in ("folder", "file", "files"):
                 b = QPushButton("…", self)
+                b.setToolTip(self.tr("Choose in a dialog"))
                 b.clicked.connect(lambda _=False, e=edit, k=spec["kind"]: self._browse(e, k))
                 row.addWidget(b)
             self.form.addRow(automation.text(spec.get("label"), self.lang) or name, row)

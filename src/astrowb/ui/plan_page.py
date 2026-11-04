@@ -75,6 +75,15 @@ class PlanPage(QWidget):
         grid.addWidget(self.date, 4, 1)
         self.min_alt = self._spin(20.0, 0, 80, 0)
         grid.addWidget(QLabel(self.tr("Lowest altitude (°)"), self), 5, 0)
+        self.min_alt.setToolTip(
+            self.tr(
+                "Targets below this altitude count as not observable (trees, buildings, thick air near the horizon)"
+            )
+        )
+        self.date.setToolTip(self.tr("The evening on which the night begins (local date)"))
+        self.height.setToolTip(self.tr("Height above sea level in metres"))
+        self.lon.setToolTip(self.tr("Longitude of the site in degrees, east positive (west of Greenwich is negative)"))
+        self.lat.setToolTip(self.tr("Latitude of the site in degrees, north positive"))
         grid.addWidget(self.min_alt, 5, 1)
         lay.addLayout(grid)
 
@@ -83,8 +92,12 @@ class PlanPage(QWidget):
         self.target_input = QLineEdit(self)
         self.target_input.setPlaceholderText("HAT-P-32  |  02:04:10 +46:41:16")
         self.target_input.returnPressed.connect(self._add)
+        self.target_input.setToolTip(
+            self.tr("A star name (looked up in SIMBAD, needs the internet) or coordinates RA Dec; Enter adds it")
+        )
         add = QPushButton(self.tr("Add"), self)
         add.clicked.connect(self._add)
+        add.setToolTip(self.tr("Adds the target to the list with its coordinates only"))
         ephem = QPushButton(self.tr("Add with ephemeris"), self)
         ephem.setToolTip(
             self.tr("Coordinates, period, epoch and duration from VSX (variable stars) or the NASA Exoplanet Archive")
@@ -111,6 +124,7 @@ class PlanPage(QWidget):
         lay.addWidget(self.table, 1)
         remove = QPushButton(self.tr("Remove selected"), self)
         remove.clicked.connect(lambda: self.table.removeRow(self.table.currentRow()))
+        remove.setToolTip(self.tr("Removes the selected target from the list"))
         exposure = QPushButton(self.tr("Exposure time…"), self)
         exposure.setToolTip(self.tr("How long to expose for a wanted signal-to-noise, and when a star saturates"))
         exposure.clicked.connect(self.exposure_dialog)
@@ -120,6 +134,12 @@ class PlanPage(QWidget):
         lay.addLayout(row)
         self.plan_button = QPushButton(self.tr("Plan the night"), self)
         self.plan_button.clicked.connect(self._plan)
+        self.plan_button.setToolTip(
+            self.tr(
+                "Altitude of every target through the night with twilight and the Moon, and the minima / "
+                "transits that fall in the dark hours"
+            )
+        )
         lay.addWidget(self.plan_button)
         row = QHBoxLayout()
         self.schedule_button = QPushButton(self.tr("Make a schedule"), self)
@@ -129,6 +149,9 @@ class PlanPage(QWidget):
         self.schedule_button.clicked.connect(self.make_schedule)
         self.send_button = QPushButton(self.tr("Send to the Observe page"), self)
         self.send_button.clicked.connect(lambda: self.schedule_requested.emit(self.blocks))
+        self.send_button.setToolTip(
+            self.tr("The schedule becomes the night plan of the Observe page; you still check it and start it there")
+        )
         for b in (self.schedule_button, self.send_button):
             b.setEnabled(False)
             row.addWidget(b)

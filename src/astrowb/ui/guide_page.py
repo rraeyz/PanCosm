@@ -49,6 +49,7 @@ class GuidePage(QWidget):
         self.search = QLineEdit(self)
         self.search.setPlaceholderText(self.tr("Search the guide…"))
         self.search.setClearButtonEnabled(True)
+        self.search.setToolTip(self.tr("Shows only the guide sections that contain these words"))
         self.search.textChanged.connect(self.filter)
         ll.addWidget(self.search)
         self.tree = QTreeWidget(self)

@@ -55,6 +55,12 @@ class SpectrumToolsTab(QWidget):
 
         opn = QPushButton(self.tr("Open spectrum…"), self)
         opn.clicked.connect(lambda: self._open())
+        opn.setToolTip(
+            self.tr(
+                "A wavelength-calibrated 1-D spectrum: FITS (table or wavelength WCS) or a text file of "
+                "wavelength and flux"
+            )
+        )
         self.source = QLabel(self.tr("No spectrum."), self)
         self.source.setWordWrap(True)
         lay.addWidget(opn)
@@ -62,6 +68,9 @@ class SpectrumToolsTab(QWidget):
         marks = QGridLayout()
         self.markers = QCheckBox(self.tr("Show line markers"), self)
         self.markers.toggled.connect(lambda _: self._plot())
+        self.markers.setToolTip(
+            self.tr("Marks common stellar lines (Balmer, Na D, Mg b, Ca II…) on the plot to help identify them")
+        )
         self.marker_rv = _spin(self, 0.0, -5000, 5000, 1)
         self.marker_rv.setToolTip(self.tr("Shift the markers by this radial velocity (km/s)"))
         self.marker_rv.valueChanged.connect(lambda _: self.markers.isChecked() and self._plot())
@@ -75,8 +84,27 @@ class SpectrumToolsTab(QWidget):
         self.profile = QComboBox(self)
         self.profile.addItem(self.tr("Gaussian"), "gauss")
         self.profile.addItem(self.tr("Voigt"), "voigt")
+        self.profile.setToolTip(
+            self.tr("Gaussian for most lines; Voigt for strong lines with broad wings (Balmer lines, Na D)")
+        )
+        self.hi.setToolTip(
+            self.tr(
+                "Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot"
+            )
+        )
+        self.lo.setToolTip(
+            self.tr(
+                "Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot"
+            )
+        )
         measure = QPushButton(self.tr("Measure"), self)
         measure.clicked.connect(self._measure)
+        measure.setToolTip(
+            self.tr(
+                "Equivalent width, centre, FWHM and depth of the line from a profile fitted over a straight"
+                " continuum at the window's edges"
+            )
+        )
         g.addWidget(QLabel(self.tr("From / to (Å) — or drag on the plot"), self), 0, 0, 1, 2)
         g.addWidget(self.lo, 1, 0)
         g.addWidget(self.hi, 1, 1)
@@ -84,6 +112,10 @@ class SpectrumToolsTab(QWidget):
         g.addWidget(measure, 2, 1)
         self.vr_centre = _spin(self, 6562.80, 0, 1e6)
         self.vr_half = _spin(self, 15.0, 0.1, 1000)
+        self.vr_half.setToolTip(
+            self.tr("The violet peak is searched below the centre and the red one above it, within this half width")
+        )
+        self.vr_centre.setToolTip(self.tr("Rest wavelength of the emission line, e.g. 6562.80 for Hα"))
         vr = QPushButton(self.tr("V/R"), self)
         vr.setToolTip(self.tr("Violet / red emission peaks of a normalised spectrum: (I_V − 1) / (I_R − 1)"))
         vr.clicked.connect(self._vr)
@@ -106,36 +138,64 @@ class SpectrumToolsTab(QWidget):
             (self.tr("Median (px)"), "median"),
         ):
             self.smooth_kind.addItem(text, key)
+            self.smooth_kind.setToolTip(
+                self.tr(
+                    "Gaussian: lowers the resolution like a poorer spectrograph; boxcar: a running mean; "
+                    "median: removes spikes and keeps edges"
+                )
+            )
         self.smooth_width = _spin(self, 3, 1, 999, 1)
+        self.smooth_width.setToolTip(self.tr("Width of the smoothing in pixels"))
         smooth = QPushButton(self.tr("Smooth"), self)
         smooth.clicked.connect(self._smooth)
+        smooth.setToolTip(self.tr("Smooths the spectrum (Undo takes it back)"))
         g.addWidget(self.smooth_kind, 0, 0)
         g.addWidget(self.smooth_width, 0, 1)
         g.addWidget(smooth, 0, 2)
         self.op = QComboBox(self)
         self.op.addItems(["+", "−", "×", "÷"])
+        self.op.setToolTip(
+            self.tr("Operation with a number or with spectrum B (e.g. divide by a standard star's spectrum)")
+        )
         self.constant = QLineEdit(self)
         self.constant.setPlaceholderText(self.tr("number, or empty for spectrum B"))
+        self.constant.setToolTip(self.tr("A number; empty: spectrum B, resampled onto this spectrum's wavelengths"))
         arith = QPushButton(self.tr("Apply"), self)
         arith.clicked.connect(self._arith)
+        arith.setToolTip(self.tr("Applies the operation to the spectrum (Undo takes it back)"))
         open_b = QPushButton(self.tr("Spectrum B…"), self)
         open_b.clicked.connect(self._open_b)
+        open_b.setToolTip(self.tr("A second spectrum for the operation with two spectra"))
         g.addWidget(self.op, 1, 0)
         g.addWidget(self.constant, 1, 1)
         g.addWidget(arith, 1, 2)
         g.addWidget(open_b, 2, 2)
         self.step = _spin(self, 1.0, 0.001, 1000, 3)
+        self.step.setToolTip(self.tr("Step of the new, even wavelength grid in Å"))
         resample = QPushButton(self.tr("Resample (Å step)"), self)
         resample.clicked.connect(self._resample)
+        resample.setToolTip(
+            self.tr(
+                "Puts the spectrum on an even wavelength grid with this step by linear interpolation "
+                "(needed by some programs and archives)"
+            )
+        )
         g.addWidget(self.step, 2, 1)
         g.addWidget(resample, 2, 0)
         auto = QPushButton(self.tr("Normalise (automatic)"), self)
         auto.clicked.connect(self._normalise)
+        auto.setToolTip(
+            self.tr(
+                "Divides by a smooth curve through the top of the spectrum (absorption lines left out); "
+                "check the result, or pick the points yourself"
+            )
+        )
         self.pick = QPushButton(self.tr("Pick continuum points"), self)
         self.pick.setCheckable(True)
         self.pick.setToolTip(self.tr("Click continuum points on the plot, then press Normalise through points"))
         through = QPushButton(self.tr("Normalise through points"), self)
         through.clicked.connect(self._normalise_points)
+        through.setToolTip(self.tr("Divides by a spline through the continuum points you clicked"))
         g.addWidget(auto, 3, 0)
         g.addWidget(self.pick, 3, 1)
         g.addWidget(through, 3, 2)
@@ -149,15 +209,28 @@ class SpectrumToolsTab(QWidget):
         self.apply_resp = QPushButton(self.tr("Divide by response"), self)
         self.apply_resp.setEnabled(False)
         self.apply_resp.clicked.connect(self._apply_response)
+        self.apply_resp.setToolTip(
+            self.tr(
+                "Divides the open spectrum by the instrument response measured from a reference star: relative fluxes"
+            )
+        )
         undo = QPushButton(self.tr("Undo"), self)
         undo.clicked.connect(self._undo)
+        undo.setToolTip(self.tr("Takes back the last change of the spectrum"))
         g.addWidget(response, 4, 0)
         g.addWidget(self.apply_resp, 4, 1)
         g.addWidget(undo, 4, 2)
         save = QPushButton(self.tr("Save as…"), self)
         save.clicked.connect(lambda: self._save())
+        save.setToolTip(self.tr("Saves the spectrum as it is now, as FITS or text"))
         bess = QPushButton(self.tr("Export for BeSS / ARAS…"), self)
         bess.clicked.connect(lambda: self._bess())
+        bess.setToolTip(
+            self.tr(
+                "A FITS file in the format of the BeSS database and ARAS (header keywords they ask for, "
+                "even wavelength grid)"
+            )
+        )
         g.addWidget(save, 5, 0)
         g.addWidget(bess, 5, 1, 1, 2)
         lay.addWidget(box)
@@ -180,6 +253,7 @@ class SpectrumToolsTab(QWidget):
             )
         )
         sun_pick = QPushButton(self.tr("Browse…"), self)
+        sun_pick.setToolTip(self.tr("Choose the file in a dialog"))
         sun_pick.clicked.connect(
             lambda: self.sun_file.setText(
                 QFileDialog.getOpenFileName(self, self.tr("Solar spectrum"), "", SPECTRA)[0] or self.sun_file.text()
