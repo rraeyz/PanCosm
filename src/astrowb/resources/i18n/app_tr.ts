@@ -3895,149 +3895,154 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Resim olarak kaydet (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="378"/>
+        <location filename="../../ui/area_windows.py" line="379"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="374"/>
+        <location filename="../../ui/area_windows.py" line="375"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Görüntüyü &amp;kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="66"/>
+        <location filename="../../ui/area_windows.py" line="45"/>
+        <source>Leave out</source>
+        <translation>Dışarıda bırak</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="67"/>
         <source>Results: light curve, stars, measurements</source>
         <translation>Sonuçlar: ışık eğrisi, yıldızlar, ölçümler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="99"/>
+        <location filename="../../ui/area_windows.py" line="100"/>
         <source>Light-curve file, nothing left out (.lc.ecsv)…</source>
         <translation>Işık eğrisi dosyası, eksiksiz (.lc.ecsv)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="110"/>
+        <location filename="../../ui/area_windows.py" line="111"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="112"/>
+        <location filename="../../ui/area_windows.py" line="113"/>
         <source>Light-curve file</source>
         <translation>Işık eğrisi dosyası</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="116"/>
+        <location filename="../../ui/area_windows.py" line="117"/>
         <source>Saved {name}</source>
         <translation>Kaydedildi: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="125"/>
+        <location filename="../../ui/area_windows.py" line="126"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="125"/>
+        <location filename="../../ui/area_windows.py" line="126"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="126"/>
+        <location filename="../../ui/area_windows.py" line="127"/>
         <source>Apertures</source>
         <translation>Açıklıklar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="146"/>
+        <location filename="../../ui/area_windows.py" line="147"/>
         <source>Other tools</source>
         <translation>Diğer araçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="151"/>
+        <location filename="../../ui/area_windows.py" line="152"/>
         <source>Light curve</source>
         <translation>Işık eğrisi</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="155"/>
+        <location filename="../../ui/area_windows.py" line="156"/>
         <source>Timing</source>
         <translation>Zamanlama</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="156"/>
+        <location filename="../../ui/area_windows.py" line="157"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="200"/>
+        <location filename="../../ui/area_windows.py" line="201"/>
         <source>Frames</source>
         <translation>Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="204"/>
+        <location filename="../../ui/area_windows.py" line="205"/>
         <source>Checks</source>
         <translation>Denetimler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="225"/>
+        <location filename="../../ui/area_windows.py" line="226"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="225"/>
+        <location filename="../../ui/area_windows.py" line="226"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="226"/>
+        <location filename="../../ui/area_windows.py" line="227"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="228"/>
+        <location filename="../../ui/area_windows.py" line="229"/>
         <source>not marked</source>
         <translation>işaretli değil</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="229"/>
+        <location filename="../../ui/area_windows.py" line="230"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="231"/>
+        <location filename="../../ui/area_windows.py" line="232"/>
         <source>Role</source>
         <translation>Rol</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="232"/>
+        <location filename="../../ui/area_windows.py" line="233"/>
         <source>x, y (FITS pixels)</source>
         <translation>x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="233"/>
+        <location filename="../../ui/area_windows.py" line="234"/>
         <source>Peak</source>
         <translation>Tepe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="234"/>
+        <location filename="../../ui/area_windows.py" line="235"/>
         <source>Sky per pixel</source>
         <translation>Piksel başına gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="235"/>
+        <location filename="../../ui/area_windows.py" line="236"/>
         <source>Net counts</source>
         <translation>Net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="236"/>
+        <location filename="../../ui/area_windows.py" line="237"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="245"/>
+        <location filename="../../ui/area_windows.py" line="246"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="376"/>
+        <location filename="../../ui/area_windows.py" line="377"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Tüm görüntüleri kapat</translation>
@@ -4206,7 +4211,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="43"/>
-        <location filename="../../ui/area_windows.py" line="126"/>
+        <location filename="../../ui/area_windows.py" line="127"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
@@ -4218,95 +4223,95 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="193"/>
         <location filename="../../ui/area_menus.py" line="402"/>
-        <location filename="../../ui/area_windows.py" line="45"/>
+        <location filename="../../ui/area_windows.py" line="46"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="467"/>
+        <location filename="../../ui/area_windows.py" line="468"/>
         <source>&amp;Measure</source>
         <translation>Ö&amp;lç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="48"/>
+        <location filename="../../ui/area_windows.py" line="49"/>
         <source>Make the chosen variable star the target</source>
         <translation>Seçili değişen yıldızı hedef yap</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="50"/>
+        <location filename="../../ui/area_windows.py" line="51"/>
         <source>Mark check stars</source>
         <translation>Kontrol yıldızlarını işaretle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="51"/>
+        <location filename="../../ui/area_windows.py" line="52"/>
         <source>The next clicks on the image mark check stars (K1, K2…)</source>
         <translation>Görüntüdeki sonraki tıklamalar kontrol yıldızlarını işaretler (K1, K2…)</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="81"/>
-        <location filename="../../ui/area_windows.py" line="439"/>
+        <location filename="../../ui/area_windows.py" line="440"/>
         <source>F&amp;rames</source>
         <translation>&amp;Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="453"/>
+        <location filename="../../ui/area_windows.py" line="454"/>
         <source>&amp;Stars</source>
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="375"/>
-        <location filename="../../ui/area_windows.py" line="348"/>
-        <location filename="../../ui/area_windows.py" line="480"/>
+        <location filename="../../ui/area_windows.py" line="349"/>
+        <location filename="../../ui/area_windows.py" line="481"/>
         <source>&amp;Analyse</source>
         <translation>&amp;Analiz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="326"/>
+        <location filename="../../ui/area_windows.py" line="327"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Renk kanallarına ayır (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="328"/>
+        <location filename="../../ui/area_windows.py" line="329"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Renkli kameranın ham görüntüsü, her renk için bir tane olmak üzere yarı boyutta üç görüntü olarak (ara değerleme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="334"/>
+        <location filename="../../ui/area_windows.py" line="335"/>
         <source>Stack the open images…</source>
         <translation>Açık görüntüleri üst üste ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="336"/>
+        <location filename="../../ui/area_windows.py" line="337"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Açık görüntüler yıldızlarına göre hizalanır, aykırı değerler atılarak ortalaması alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="339"/>
+        <location filename="../../ui/area_windows.py" line="340"/>
         <source>Drizzle the open images…</source>
         <translation>Açık görüntüleri drizzle ile birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="341"/>
+        <location filename="../../ui/area_windows.py" line="342"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Kaydırılarak çekilmiş görüntüler iki kat ince bir ızgaraya (az örneklenmiş yıldızlar için daha keskin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="352"/>
+        <location filename="../../ui/area_windows.py" line="353"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="353"/>
+        <location filename="../../ui/area_windows.py" line="354"/>
         <source>&amp;Colour</source>
         <translation>&amp;Renk</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="354"/>
+        <location filename="../../ui/area_windows.py" line="355"/>
         <source>S&amp;tack</source>
         <translation>&amp;Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="364"/>
+        <location filename="../../ui/area_windows.py" line="365"/>
         <source>Copy the header</source>
         <translation>Başlığı kopyala</translation>
     </message>
@@ -4314,7 +4319,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/area_menus.py" line="205"/>
         <location filename="../../ui/area_menus.py" line="414"/>
         <location filename="../../ui/area_menus.py" line="468"/>
-        <location filename="../../ui/area_windows.py" line="96"/>
+        <location filename="../../ui/area_windows.py" line="97"/>
         <source>&amp;Export</source>
         <translation>Dışa a&amp;ktar</translation>
     </message>
@@ -4692,7 +4697,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Tayfı farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="287"/>
+        <location filename="../../ui/area_windows.py" line="288"/>
         <source>&amp;Job</source>
         <translation>&amp;İş</translation>
     </message>
@@ -9707,7 +9712,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_checks.py" line="26"/>
         <source>Expose {suggest:.0f} s instead of {now:.0f} s: the highest peak reached {peak:.0f} of the limit {limit:.0f}; this puts it at 60 %.</source>
-        <translation>{now:.0f} s yerine {suggest:.0f} s poz verin: en yüksek tepe {limit:.0f} sınırının {peak:.0f} değerine ulaştı; bu onu %60'a getirir.</translation>
+        <translation>{now:.0f} s yerine {suggest:.0f} s poz verin: en yüksek tepe {limit:.0f} sınırının {peak:.0f} değerine ulaştı; bu onu %60&apos;a getirir.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_checks.py" line="31"/>
@@ -10249,7 +10254,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="624"/>
-        <location filename="../../ui/photometry_page.py" line="1550"/>
+        <location filename="../../ui/photometry_page.py" line="1551"/>
         <location filename="../../ui/photometry_page.py" line="2898"/>
         <source>none</source>
         <translation>yok</translation>
@@ -10731,245 +10736,245 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>İlk karede hedef ve karşılaştırma yıldızlarına tıklayın, sonra Canlı&apos;yı başlatın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1058"/>
+        <location filename="../../ui/photometry_page.py" line="1059"/>
         <source>Live: waiting for frames in {f}</source>
         <translation>Canlı: {f} içinde kareler bekleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1103"/>
+        <location filename="../../ui/photometry_page.py" line="1104"/>
         <source>{n} frames skipped.</source>
         <translation>{n} kare atlandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1117"/>
+        <location filename="../../ui/photometry_page.py" line="1118"/>
         <source>Choose images</source>
         <translation>Görüntüleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1178"/>
+        <location filename="../../ui/photometry_page.py" line="1179"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Alan tanınıyor (Gaia, VSX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1183"/>
+        <location filename="../../ui/photometry_page.py" line="1184"/>
         <source>{n} images, first: {name}</source>
         <translation>{n} görüntü, ilki: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1186"/>
+        <location filename="../../ui/photometry_page.py" line="1187"/>
         <source>Target pixel file: {n} cadences left out (no time, or flagged as useless by the mission).</source>
         <translation>Hedef piksel dosyası: {n} kadans dışarıda bırakıldı (zamanı yok ya da görev tarafından işe yaramaz diye işaretlenmiş).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1229"/>
+        <location filename="../../ui/photometry_page.py" line="1230"/>
         <source>mark or unmark a star</source>
         <translation>yıldız işaretleme / kaldırma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1235"/>
+        <location filename="../../ui/photometry_page.py" line="1236"/>
         <source>The stars are marked on frame {k}: go back to it to change them, or Clear stars to mark them on this frame.</source>
         <translation>Yıldızlar {k}. karede işaretli: değiştirmek için o kareye dönün ya da bu karede işaretlemek için Yıldızları temizle&apos;ye basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1249"/>
+        <location filename="../../ui/photometry_page.py" line="1250"/>
         <source>The target was removed: click the new target.</source>
         <translation>Hedef kaldırıldı: yeni hedefe tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1276"/>
+        <location filename="../../ui/photometry_page.py" line="1277"/>
         <source>Mark the target (and the comparison stars) first, then save the list.</source>
         <translation>Önce hedefi (ve karşılaştırma yıldızlarını) işaretleyin, sonra listeyi kaydedin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1280"/>
+        <location filename="../../ui/photometry_page.py" line="1281"/>
         <source>Save the star list</source>
         <translation>Yıldız listesini kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1280"/>
-        <location filename="../../ui/photometry_page.py" line="1305"/>
+        <location filename="../../ui/photometry_page.py" line="1281"/>
+        <location filename="../../ui/photometry_page.py" line="1306"/>
         <source>Star lists (*.stars.json *.json)</source>
         <translation>Yıldız listeleri (*.stars.json *.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1288"/>
+        <location filename="../../ui/photometry_page.py" line="1289"/>
         <source>Star list saved in RA / Dec: {path}</source>
         <translation>Yıldız listesi RA / Dec olarak kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1290"/>
+        <location filename="../../ui/photometry_page.py" line="1291"/>
         <source>Star list saved (pixels only: the first frame is not plate-solved): {path}</source>
         <translation>Yıldız listesi kaydedildi (yalnızca pikseller: ilk karenin plaka çözümü yok): {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1301"/>
+        <location filename="../../ui/photometry_page.py" line="1302"/>
         <source>Choose the images first, then open the star list.</source>
         <translation>Önce görüntüleri seçin, sonra yıldız listesini açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1305"/>
+        <location filename="../../ui/photometry_page.py" line="1306"/>
         <source>Open a star list</source>
         <translation>Yıldız listesi aç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1317"/>
+        <location filename="../../ui/photometry_page.py" line="1318"/>
         <source>open a star list</source>
         <translation>yıldız listesi açma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1318"/>
+        <location filename="../../ui/photometry_page.py" line="1319"/>
         <source>through this night&apos;s plate solution</source>
         <translation>bu gecenin plaka çözümüyle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1319"/>
+        <location filename="../../ui/photometry_page.py" line="1320"/>
         <source>at the saved pixels (no plate solution on both nights)</source>
         <translation>kaydedilen piksellere (iki gecede de plaka çözümü yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1320"/>
+        <location filename="../../ui/photometry_page.py" line="1321"/>
         <source>{n} stars put back {how}.</source>
         <translation>{n} yıldız {how} geri kondu.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1322"/>
+        <location filename="../../ui/photometry_page.py" line="1323"/>
         <source>Outside this frame: {names}.</source>
         <translation>Bu karenin dışında: {names}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1348"/>
+        <location filename="../../ui/photometry_page.py" line="1349"/>
         <source>Frame {k} of {n}: {name}</source>
         <translation>Kare {k} / {n}: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1353"/>
+        <location filename="../../ui/photometry_page.py" line="1354"/>
         <source>The stars are marked on this frame.</source>
         <translation>Yıldızlar bu karede işaretli.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1355"/>
+        <location filename="../../ui/photometry_page.py" line="1356"/>
         <source>The stars are marked on frame {k}.</source>
         <translation>Yıldızlar {k}. karede işaretli.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1389"/>
-        <location filename="../../ui/photometry_page.py" line="1445"/>
+        <location filename="../../ui/photometry_page.py" line="1390"/>
+        <location filename="../../ui/photometry_page.py" line="1446"/>
         <location filename="../../ui/photometry_page.py" line="1951"/>
         <source>{n} images, {k} of them used</source>
         <translation>{n} görüntü, {k} tanesi kullanılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1479"/>
+        <location filename="../../ui/photometry_page.py" line="1480"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1479"/>
+        <location filename="../../ui/photometry_page.py" line="1480"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1479"/>
+        <location filename="../../ui/photometry_page.py" line="1480"/>
         <source>check</source>
         <translation>kontrol</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1518"/>
+        <location filename="../../ui/photometry_page.py" line="1519"/>
         <source>use or leave out a comparison star</source>
         <translation>bir karşılaştırma yıldızını kullan ya da dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1528"/>
+        <location filename="../../ui/photometry_page.py" line="1529"/>
         <source>Measure a light curve with at least three comparison stars first.</source>
         <translation>Önce en az üç karşılaştırma yıldızıyla bir ışık eğrisi ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1547"/>
+        <location filename="../../ui/photometry_page.py" line="1548"/>
         <source>Best comparison set: {set} ({mmag:.2f} mmag); left out: {out}.</source>
         <translation>En iyi karşılaştırma kümesi: {set} ({mmag:.2f} mmag); dışarıda kalan: {out}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1561"/>
+        <location filename="../../ui/photometry_page.py" line="1562"/>
         <source>use the best comparison set</source>
         <translation>en iyi karşılaştırma kümesini kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1674"/>
+        <location filename="../../ui/photometry_page.py" line="1675"/>
         <source>1. Images</source>
         <translation>1. Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1674"/>
+        <location filename="../../ui/photometry_page.py" line="1675"/>
         <source>2. Target and comparison stars</source>
         <translation>2. Hedef ve karşılaştırma yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1674"/>
+        <location filename="../../ui/photometry_page.py" line="1675"/>
         <source>3. Aperture and sky ring</source>
         <translation>3. Açıklık ve gök halkası</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1675"/>
+        <location filename="../../ui/photometry_page.py" line="1676"/>
         <source>4. Measure</source>
         <translation>4. Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1700"/>
+        <location filename="../../ui/photometry_page.py" line="1701"/>
         <source>Field solved against Gaia: {n} stars, {scale:.2f}″ per pixel.</source>
         <translation>Alan Gaia&apos;ya karşı çözüldü: {n} yıldız, piksel başına {scale:.2f}″.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1708"/>
+        <location filename="../../ui/photometry_page.py" line="1709"/>
         <source>⚠ The files say OBJECT = {name}, but that star is {deg:.1f}° from this field: the name in the files is wrong. Choose the target from the variable stars below, or by its position.</source>
         <translation>⚠ Dosyalarda OBJECT = {name} yazıyor ama o yıldız bu alandan {deg:.1f}° uzakta: dosyalardaki ad yanlış. Hedefi aşağıdaki değişen yıldızlardan ya da konumuna göre seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1714"/>
+        <location filename="../../ui/photometry_page.py" line="1715"/>
         <source>OBJECT {name} is in the field, at x {x:.0f}, y {y:.0f}.</source>
         <translation>OBJECT {name} alanın içinde, x {x:.0f}, y {y:.0f} konumunda.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1724"/>
+        <location filename="../../ui/photometry_page.py" line="1725"/>
         <source>{n} known variable star(s) in the field (marked in cyan on the first frame).</source>
         <translation>Alanda bilinen {n} değişen yıldız var (ilk karede camgöbeği ile işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1728"/>
+        <location filename="../../ui/photometry_page.py" line="1729"/>
         <source>No known variable star (AAVSO VSX) in the field.</source>
         <translation>Alanda bilinen değişen yıldız (AAVSO VSX) yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1736"/>
+        <location filename="../../ui/photometry_page.py" line="1737"/>
         <source>the target from the files</source>
         <translation>dosyalardaki hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1741"/>
+        <location filename="../../ui/photometry_page.py" line="1742"/>
         <source>The field was not identified ({why}): mark the stars by hand.</source>
         <translation>Alan tanınamadı ({why}): yıldızları elle işaretleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1757"/>
+        <location filename="../../ui/photometry_page.py" line="1758"/>
         <source>make a variable star the target</source>
         <translation>bir değişen yıldızı hedef yap</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1768"/>
+        <location filename="../../ui/photometry_page.py" line="1769"/>
         <source>T1 = {name}; its catalogue position is used for the barycentric times (BJD).</source>
         <translation>T1 = {name}; barisentrik zamanlar (BJD) için katalog konumu kullanılıyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1781"/>
+        <location filename="../../ui/photometry_page.py" line="1782"/>
         <source>Choosing the comparison stars…</source>
         <translation>Karşılaştırma yıldızları seçiliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1793"/>
+        <location filename="../../ui/photometry_page.py" line="1794"/>
         <source>suggested comparison stars</source>
         <translation>önerilen karşılaştırma yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1805"/>
+        <location filename="../../ui/photometry_page.py" line="1806"/>
         <source>No suitable comparison star found; click them by hand.</source>
         <translation>Uygun karşılaştırma yıldızı bulunamadı; elle tıklayarak seçin.</translation>
     </message>
@@ -11444,12 +11449,12 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Işık eğrisini CSV dosyası olarak kaydeder ve Modeller penceresinde açar: örten çiftin ya da gezegen geçişinin fiziksel modeli (formüller: Kılavuz, Yöntemlerin matematiği)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1190"/>
+        <location filename="../../ui/photometry_page.py" line="1191"/>
         <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC in the Calibration window.</source>
         <translation>Zamanlar: kamera saati − {h} sa. Yerel saate ayarlı bir kamera için Kalibrasyon penceresinde DSLR saati − UTC değerini girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1809"/>
+        <location filename="../../ui/photometry_page.py" line="1810"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
         <translation>{n} karşılaştırma yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gök halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
     </message>

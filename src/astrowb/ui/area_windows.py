@@ -42,6 +42,7 @@ def photometry_window(main, page):
     radii = mirror(page.apertures_button, translate("MainWindow", "Radii"), "radii")
     measure = mirror(page.measure_button, translate("MainWindow", "Measure"), "measure")
     minimum = mirror(page.minimum_button, translate("MainWindow", "Minimum"), "minimum")
+    leave_out = mirror(page.outlier_button, translate("MainWindow", "Leave out"), "leave_out")
     export = mirror(page.export_button, translate("MainWindow", "Export"), "export")
     target = mirror(page.make_target)
     target.setText(
@@ -53,7 +54,7 @@ def photometry_window(main, page):
     menus = _photometry_menu_table(
         main, page, mirror, images, blink, prev, nxt, bad, comps, radii, measure, minimum, target, check
     )
-    actions = [images, blink, prev, nxt, None, bad, comps, radii, measure, None, minimum, export]
+    actions = [images, blink, prev, nxt, None, bad, comps, radii, measure, leave_out, None, minimum, export]
     name = next(n for k, _, n, _ in areas() if k == "photometry")
     win = AreaWindow(
         "photometry",
