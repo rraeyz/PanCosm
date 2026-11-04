@@ -34,6 +34,12 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None):
         path = folder / "transit_fit.json"
         path.write_text(json.dumps(keep, indent=1, default=_plain), encoding="utf-8")
         out.append(path)
+    if lc.get("time_scale") == "BJD_TDB":  # the ExoClock upload and the form's values to paste
+        from . import exoclock
+
+        out.append(exoclock.write(lc, folder / "ExoClock.txt", fit))
+        (folder / "ExoClock_form.txt").write_text(exoclock.form(lc, fit) + "\n", encoding="utf-8")
+        out.append(folder / "ExoClock_form.txt")
     if figure is not None:
         for ext in ("png", "pdf"):
             figure.savefig(folder / f"light_curve.{ext}", dpi=200)

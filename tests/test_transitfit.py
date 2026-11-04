@@ -67,3 +67,24 @@ def test_the_step_on_a_light_curve():
     assert out["values"]["tc"] == pytest.approx(TC, abs=4 * out["errors"]["tc"])
     with pytest.raises(ValueError, match="unknown detrending"):
         execute("photometry.transit_fit", {"light_curve": lc}, {"period": P, "detrend": "humidity"}, Ctx())
+
+
+def test_exoclock_file_is_detrended_and_valid(tmp_path):
+    """PHO-27: the ExoClock upload divides by the fitted baseline and airmass trend; its validator finds broken
+    files."""
+    from astrowb.photometry.reports import exoclock
+
+    t, f, e, am = night(2)
+    fit = tf.fit(t, f, e, P, {"tc": TC, "k": 0.14, "a_rs": 6.3, "b": 0.5}, detrend={"airmass": am})
+    lc = {"time": t.tolist(), "time_scale": "BJD_TDB", "rel_flux": f.tolist(), "rel_flux_err": e.tolist()}
+    path = exoclock.write(lc, tmp_path / "ExoClock.txt", fit)
+    assert exoclock.validate(path) == []
+    data = np.loadtxt(path)
+    out = np.abs(t - TC) > 0.08  # out of transit: flat at 1 within the noise once the airmass trend is gone
+    assert np.mean(data[out, 1]) == pytest.approx(1.0, abs=5e-4) and np.std(data[out, 1]) < 0.0018
+    assert "Mid-transit time (BJD_TDB)" in exoclock.form(lc, fit, 60, "R")
+    (tmp_path / "bad.txt").write_text("# x\n2459500.1 1.0 0.001\n2459500.0 1.0\n2459500.2 3.0 0.001\n")
+    assert exoclock.validate(tmp_path / "bad.txt") == ["row 2: 2 columns, 3 expected",
+                                                       "row 3: flux 3.0 or error 0.001 out of range"]  # fmt: skip
+    with pytest.raises(ValueError, match="BJD_TDB"):
+        exoclock.write(lc | {"time_scale": "JD_UTC"}, tmp_path / "x.txt")

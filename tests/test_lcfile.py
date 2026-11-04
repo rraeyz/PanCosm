@@ -47,12 +47,13 @@ def test_save_all_writes_the_whole_night(tmp_path):
     lc = measured() | {"target_flux": [5e4] * 12, "target_flux_err": [200.0] * 12}
     fig = Figure()
     fig.add_subplot().plot(lc["time"], lc["rel_flux"])
-    fit = {"values": {"tc": 2459800.51}, "errors": {"tc": np.float64(3e-4)}, "derived": {}, "chi2r": 1.1, "model": [1]}
+    fit = {"values": {"tc": 2459800.51}, "errors": {"tc": np.float64(3e-4)}, "derived": {"depth_ppt": 20.0},
+           "chi2r": 1.1, "model": [1]}  # fmt: skip
     stars = {"target": (100, 100), "comps": [(50, 60), (150, 40), (30, 170)], "radii": (4, 10, 16)}
     files = save_all(tmp_path / "night", lc, stars, fit, fig)
     names = sorted(p.name for p in files)
-    assert names == ["light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png", "measurements.csv", "stars.json",
-                     "transit_fit.json"]  # fmt: skip
+    assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",
+                     "measurements.csv", "stars.json", "transit_fit.json"]  # fmt: skip
     assert lcfile.read(tmp_path / "night" / "light_curve.lc.ecsv")["rel_flux"] == lc["rel_flux"]
     rows = list(csv.reader(open(tmp_path / "night" / "measurements.csv", encoding="utf-8")))
     assert len(rows) == 13 and "rel_flux_T1" in rows[0]

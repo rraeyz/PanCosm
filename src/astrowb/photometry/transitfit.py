@@ -70,6 +70,9 @@ def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), 
            "chi2": chi2, "chi2r": chi2r, "bic": chi2 + k * np.log(n), "dof": n - k,
            "rms_ppt": float(np.std(resid_rel) * 1000), "beta": beta_factor(resid_rel, [5, 10, 20]),
            "model": m, "residuals": f - m}  # fmt: skip
+    p_t = sol.x[len(names) :]
+    out["trend"] = v["baseline"] * (np.exp(sum(c * z[k2] for c, k2 in zip(p_t, z_names, strict=True))) if z_names
+                                    else np.ones(n))  # fmt: skip
     out["derived"] = {"depth_ppt": float(v["k"] ** 2 * 1000), "inc": inc, "t14_h": float(t14(period, v["a_rs"],
                       inc, v["k"]) * 24), "t23_h": float(t23(period, v["a_rs"], inc, v["k"]) * 24),
                       "rho_star": float(density_from_a(v["a_rs"], period))}  # fmt: skip
