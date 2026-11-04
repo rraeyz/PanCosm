@@ -99,6 +99,9 @@ def built(night):
         ("Light Frame", "light"),
         ("object", "light"),
         ("Dark Flat", "dark"),
+        ("comp", "arc"),  # IRAF and the TOFES echelle: a ThAr exposure
+        ("ThAr", "arc"),
+        ("Arc Lamp", "arc"),
     ],
 )
 def test_classify_header_conventions(value, kind):
@@ -109,6 +112,7 @@ def test_classify_fallbacks():
     assert classify(fits.Header(), "/data/M31_flat_003.fits") == "flat"
     assert classify(fits.Header({"EXPTIME": 0.0}), "x.fits") == "bias"
     assert classify(fits.Header({"EXPTIME": 10.0}), "x.fits") == "unknown"
+    assert classify(fits.Header({"EXPTIME": 5.0}), "Arcturus_Object_5s-1.fit") == "light"  # not an 'arc'
 
 
 def test_scan_and_plan(night):
@@ -347,3 +351,42 @@ def test_readout_settings_match_where_both_headers_state_them(tmp_path):
     entries = {Path(e["light"]).name: e for e in plan.lights}
     assert all(entries["l.fit"][k] for k in ("bias", "dark", "flat"))
     assert not any(entries["g.fit"][k] for k in ("bias", "dark", "flat"))
+
+
+def test_arc_lamps_are_calibrated_without_flat_and_kept_apart(tmp_path):
+    """The TOFES echelle night: ThAr frames (IMAGETYP 'comp') were 'unknown, ignored'."""
+    from astrowb.calibration.steps import _run
+
+    rng = np.random.default_rng(5)
+    for i in range(3):
+        _write(tmp_path / f"b{i}.fits", rng.normal(500, 3, (NY, NX)), IMAGETYP="bias", EXPTIME=0.0)
+        _write(tmp_path / f"f{i}.fits", rng.normal(20500, 30, (NY, NX)), IMAGETYP="flat", EXPTIME=5.0)
+    _write(tmp_path / "sci.fits", rng.normal(1500, 10, (NY, NX)), IMAGETYP="object", EXPTIME=30.0)
+    _write(tmp_path / "thar.fits", rng.normal(900, 10, (NY, NX)), IMAGETYP="comp", EXPTIME=30.0)
+    frames, _ = scan(tmp_path)
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    out = _run(
+        {"frames": [vars(f) for f in frames], "output_dir": str(tmp_path / "cal")},
+        {
+            "sigma": 3.0,
+            "temp_tol": 2.0,
+            "cosmic_rays": False,
+            "read_noise": 10.0,
+            "optimize_dark": False,
+            "fix_defects": False,
+            "divide_flat": True,
+            "split_colour": False,
+        },
+        Ctx(),
+    )
+    assert [Path(p).name for p in out["arcs"]] == ["thar.fits"] and len(out["calibrated"]) == 1
+    h = fits.getheader(out["arcs"][0])
+    assert h["CALF"] == "none" and h["CALB"].startswith("master_bias")  # bias taken off, never flat-fielded
+    assert not [m for m in out["missing"] if "thar" in m[0]]  # no "no flat" warning for a lamp

@@ -1061,6 +1061,7 @@ class CalibratePage(QWidget):
             "dark": self.tr("dark"),
             "flat": self.tr("flat"),
             "light": self.tr("light"),
+            "arc": self.tr("arc lamp"),
             "unknown": self.tr("unknown"),
         }
         self.table.setRowCount(len(frames))
@@ -1095,7 +1096,7 @@ class CalibratePage(QWidget):
                 ),
             )
         self.warnings.setPlainText("\n".join(lines))
-        self.run_button.setEnabled(counts["light"] > 0)
+        self.run_button.setEnabled(counts["light"] + counts["arc"] > 0)
         self.run_button.setToolTip("" if counts["light"] else self.tr("Needs at least one light frame"))
 
     def _missing_text(self, kind, w):
@@ -1130,6 +1131,11 @@ class CalibratePage(QWidget):
         self.result.setText(
             self.tr("Done: {n} images calibrated, {m} master frames written to {folder}.").format(
                 n=len(out["calibrated"]), m=len(out["masters"]), folder=self.output.text()
+            )
+            + (
+                " " + self.tr("{n} arc lamp frames calibrated (bias and dark only).").format(n=len(out["arcs"]))
+                if out.get("arcs")
+                else ""
             )
         )
         from .messages import translate

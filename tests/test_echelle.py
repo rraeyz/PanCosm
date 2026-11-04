@@ -337,3 +337,37 @@ def test_orders_checked_by_hand(frames, tmp_path, qtbot):
     assert np.allclose(sig.args[1]["rows"], order_y(NX // 2, ORDERS), atol=0.2)  # click refined to the order
     out = execute("spectroscopy.echelle", {"science": str(flat), "flat": str(flat)}, sig.args[1], Ctx())["echelle"]
     assert out["n_orders"] == len(ORDERS)
+
+
+def test_solution_from_three_middle_orders_reaches_all_46():
+    """The TOFES echelle (R 32000, orders 87-42, a real ThAr): lines identified in three middle orders only. The
+    growth used a cubic in m from a handful of orders and ran off (order 87 at -1700 A); now every order is right."""
+    rng = np.random.default_rng(4)
+    cat = np.sort(wavecal.load_line_list("thar"))
+    orders = np.arange(87, 41, -1)
+    x = np.arange(2048.0)
+
+    def lam(xx, m):  # m * lambda depends mostly on x, a little on m (as in the real spectrograph)
+        u = (xx - 1024) / 1024
+        return (338200 + 4900 * u + 400 * u**2 + 60 * u**3 + 300 * (m - 65) / 22 + 120 * ((m - 65) / 22) ** 2) / m
+
+    peaks = []
+    for m in orders:
+        w = lam(x, m)
+        inside = cat[(cat > w[150]) & (cat < w[1900])]
+        lines = rng.choice(inside, size=min(len(inside), 35), replace=False)
+        px = np.interp(lines, w, x) + rng.normal(0, 0.03, len(lines))
+        fake = rng.uniform(150, 1900, len(lines) // 5)  # lamp impurities, ghosts: not in the catalogue
+        peaks.append(np.sort(np.r_[px, fake]))
+    guesses = []
+    for m in (58, 57, 59):
+        k = int(np.flatnonzero(orders == m)[0])
+        for px in peaks[k][::7][:5]:
+            lam_px = lam(px, m)
+            j = np.argmin(np.abs(cat - lam_px))
+            if abs(cat[j] - lam_px) < 0.01:
+                guesses.append((m, px, cat[j]))
+    sol = echelle.solve_2d(peaks, orders, cat, guesses, nx=2048)
+    centre = x[300:1750]
+    worst = max(np.max(np.abs(sol(centre, m) - lam(centre, m))) for m in orders)
+    assert worst < 0.02 and sol.rms < 0.01  # Angstrom
