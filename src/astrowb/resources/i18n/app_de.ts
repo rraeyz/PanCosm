@@ -10180,6 +10180,36 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_method.py" line="32"/>
+        <source>Centring</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="34"/>
+        <source>1-D Gaussians (default)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="35"/>
+        <source>2-D Gaussian (most precise)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="36"/>
+        <source>centre of light (IRAF centroid)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="37"/>
+        <source>none: the positions follow the field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_method.py" line="40"/>
+        <source>How each star is found on every frame from where the field&apos;s shift puts it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_page.py" line="376"/>
         <source>Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16</source>
         <translation>Ziel RA Dek (für BJD), z. B. 02:04:10.3 +46:41:16</translation>
@@ -15091,7 +15121,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="670"/>
+        <location filename="../../photometry/steps.py" line="672"/>
         <location filename="../../timeseries/steps.py" line="125"/>
         <source>Band</source>
         <translation>Band</translation>
@@ -15112,7 +15142,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="537"/>
+        <location filename="../../photometry/steps.py" line="539"/>
         <location filename="../../timeseries/steps.py" line="169"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
@@ -15123,57 +15153,57 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="485"/>
+        <location filename="../../photometry/steps.py" line="487"/>
         <source>Most stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="486"/>
+        <location filename="../../photometry/steps.py" line="488"/>
         <source>The brightest stars of the field that are measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="493"/>
-        <location filename="../../photometry/steps.py" line="525"/>
-        <location filename="../../photometry/steps.py" line="565"/>
+        <location filename="../../photometry/steps.py" line="495"/>
+        <location filename="../../photometry/steps.py" line="527"/>
+        <location filename="../../photometry/steps.py" line="567"/>
         <location filename="../../spectroscopy/step_params.py" line="75"/>
         <location filename="../../spectroscopy/step_params.py" line="152"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="494"/>
+        <location filename="../../photometry/steps.py" line="496"/>
         <source>Aperture photometry, or PSF fitting for crowded fields</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="501"/>
+        <location filename="../../photometry/steps.py" line="503"/>
         <source>Threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="502"/>
+        <location filename="../../photometry/steps.py" line="504"/>
         <source>How many times its expected scatter a star must vary to be listed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="512"/>
+        <location filename="../../photometry/steps.py" line="514"/>
         <source>Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="513"/>
+        <location filename="../../photometry/steps.py" line="515"/>
         <source>snr: the radius of the best signal-to-noise; aij: AstroImageJ&apos;s, from the FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="538"/>
+        <location filename="../../photometry/steps.py" line="540"/>
         <source>With the period: every eclipse in the curve gets its own time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="26"/>
-        <location filename="../../photometry/steps.py" line="546"/>
+        <location filename="../../photometry/steps.py" line="548"/>
         <location filename="../../timeseries/steps.py" line="178"/>
         <source>Period</source>
         <translation type="unfinished"></translation>
@@ -15255,127 +15285,127 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="547"/>
+        <location filename="../../photometry/steps.py" line="549"/>
         <location filename="../../timeseries/steps.py" line="179"/>
         <source>Period of the ephemeris used to count the cycles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="40"/>
-        <location filename="../../photometry/steps.py" line="553"/>
+        <location filename="../../photometry/steps.py" line="555"/>
         <source>Detrend against</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="554"/>
+        <location filename="../../photometry/steps.py" line="556"/>
         <source>Airmass, sky, position… fitted with the transit (trapezoid only)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="52"/>
-        <location filename="../../photometry/steps.py" line="578"/>
+        <location filename="../../photometry/steps.py" line="580"/>
         <source>Shortest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="579"/>
+        <location filename="../../photometry/steps.py" line="581"/>
         <source>The search starts here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="61"/>
-        <location filename="../../photometry/steps.py" line="587"/>
+        <location filename="../../photometry/steps.py" line="589"/>
         <source>Longest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="588"/>
+        <location filename="../../photometry/steps.py" line="590"/>
         <source>Empty: half the time span</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="599"/>
-        <location filename="../../photometry/steps.py" line="718"/>
+        <location filename="../../photometry/steps.py" line="601"/>
+        <location filename="../../photometry/steps.py" line="720"/>
         <source>Outer sky radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="600"/>
+        <location filename="../../photometry/steps.py" line="602"/>
         <source>No other star may fall inside it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="608"/>
+        <location filename="../../photometry/steps.py" line="610"/>
         <source>Comparison stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="609"/>
+        <location filename="../../photometry/steps.py" line="611"/>
         <source>How many to suggest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="626"/>
+        <location filename="../../photometry/steps.py" line="628"/>
         <source>FWHM limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="627"/>
+        <location filename="../../photometry/steps.py" line="629"/>
         <source>A frame whose FWHM exceeds this times the median is bad (focus, trails)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="635"/>
+        <location filename="../../photometry/steps.py" line="637"/>
         <source>Star fraction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="636"/>
+        <location filename="../../photometry/steps.py" line="638"/>
         <source>A frame that finds fewer than this share of the stars is bad (clouds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="643"/>
+        <location filename="../../photometry/steps.py" line="645"/>
         <source>Sky limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="644"/>
+        <location filename="../../photometry/steps.py" line="646"/>
         <source>A frame whose sky exceeds this times the median is bad (Moon, twilight)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="653"/>
+        <location filename="../../photometry/steps.py" line="655"/>
         <source>First band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="654"/>
+        <location filename="../../photometry/steps.py" line="656"/>
         <source>The filter of the first image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="660"/>
+        <location filename="../../photometry/steps.py" line="662"/>
         <source>Second band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="661"/>
+        <location filename="../../photometry/steps.py" line="663"/>
         <source>The filter of the second image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="671"/>
+        <location filename="../../photometry/steps.py" line="673"/>
         <source>The band of the standard magnitudes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="681"/>
+        <location filename="../../photometry/steps.py" line="683"/>
         <source>Mission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="682"/>
+        <location filename="../../photometry/steps.py" line="684"/>
         <source>The space telescope whose light curves are fetched</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15482,7 +15512,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/io.py" line="40"/>
-        <location filename="../../photometry/steps.py" line="688"/>
+        <location filename="../../photometry/steps.py" line="690"/>
         <source>Flux</source>
         <translation>Fluss</translation>
     </message>
@@ -15898,194 +15928,204 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="526"/>
+        <location filename="../../photometry/steps.py" line="528"/>
         <source>Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek&apos;s eclipse model, a Gaussian, a Lorentzian, the bisector or a polynomial (each with its three errors)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="566"/>
+        <location filename="../../photometry/steps.py" line="568"/>
         <source>Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="615"/>
+        <location filename="../../photometry/steps.py" line="617"/>
         <source>Comparison-star rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="616"/>
+        <location filename="../../photometry/steps.py" line="618"/>
         <source>The rules&apos; settings; each star left out is given its reason (with a field)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="689"/>
+        <location filename="../../photometry/steps.py" line="691"/>
         <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="700"/>
+        <location filename="../../photometry/steps.py" line="702"/>
         <source>Aperture radius</source>
         <translation>Aperturradius</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="701"/>
+        <location filename="../../photometry/steps.py" line="703"/>
         <source>Light inside it is the star&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="709"/>
+        <location filename="../../photometry/steps.py" line="711"/>
         <source>Inner sky radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="710"/>
+        <location filename="../../photometry/steps.py" line="712"/>
         <source>The sky annulus starts here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="719"/>
+        <location filename="../../photometry/steps.py" line="721"/>
         <source>The sky annulus ends here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="727"/>
+        <location filename="../../photometry/steps.py" line="729"/>
         <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
         <translation>Verstärkung (Gain)</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="728"/>
+        <location filename="../../photometry/steps.py" line="730"/>
         <location filename="../../spectroscopy/step_params.py" line="232"/>
         <source>Empty: from the header or the profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="734"/>
+        <location filename="../../photometry/steps.py" line="736"/>
         <source>Radii from the profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="735"/>
+        <location filename="../../photometry/steps.py" line="737"/>
         <source>The radii are chosen from the stars&apos; own profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="741"/>
+        <location filename="../../photometry/steps.py" line="743"/>
         <source>Scale radii with seeing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="742"/>
+        <location filename="../../photometry/steps.py" line="744"/>
         <source>Each frame&apos;s radii follow its FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="748"/>
+        <location filename="../../photometry/steps.py" line="750"/>
         <source>PSF photometry</source>
         <translation type="unfinished">PSF-Photometrie</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="749"/>
+        <location filename="../../photometry/steps.py" line="751"/>
         <source>Stars fitted with the frame&apos;s PSF (crowded fields)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="755"/>
-        <source>Remove neighbours</source>
+        <location filename="../../photometry/steps.py" line="758"/>
+        <source>Centring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="756"/>
-        <source>Stars near the measured ones are fitted and subtracted before the apertures</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../photometry/steps.py" line="764"/>
-        <source>Telescope aperture</source>
+        <location filename="../../photometry/steps.py" line="759"/>
+        <source>How each star is centred on every frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="765"/>
-        <source>For the scintillation noise (Young 1967); empty: left out</source>
+        <source>Remove neighbours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="772"/>
-        <source>Camera</source>
+        <location filename="../../photometry/steps.py" line="766"/>
+        <source>Stars near the measured ones are fitted and subtracted before the apertures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="774"/>
+        <source>Telescope aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="775"/>
+        <source>For the scintillation noise (Young 1967); empty: left out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="782"/>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="784"/>
         <source>Read noise, dark current and linearity when the header lacks them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="781"/>
+        <location filename="../../photometry/steps.py" line="791"/>
         <source>Sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="782"/>
+        <location filename="../../photometry/steps.py" line="792"/>
         <source>How the sky level is read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="788"/>
+        <location filename="../../photometry/steps.py" line="798"/>
         <source>Fixed positions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="790"/>
+        <location filename="../../photometry/steps.py" line="800"/>
         <source>Stars measured where marked, not re-centred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="797"/>
+        <location filename="../../photometry/steps.py" line="807"/>
         <source>Header time marks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="798"/>
+        <location filename="../../photometry/steps.py" line="808"/>
         <source>What the header&apos;s time marks: the start, middle or end of the exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="805"/>
+        <location filename="../../photometry/steps.py" line="815"/>
         <source>Shutter delay</source>
         <translation>Verschlussverzögerung</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="807"/>
+        <location filename="../../photometry/steps.py" line="817"/>
         <source>Added to the header time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="813"/>
+        <location filename="../../photometry/steps.py" line="823"/>
         <source>Other radii</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="815"/>
+        <location filename="../../photometry/steps.py" line="825"/>
         <source>More aperture radii measured at the same time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="826"/>
+        <location filename="../../photometry/steps.py" line="836"/>
         <source>Colour coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="827"/>
+        <location filename="../../photometry/steps.py" line="837"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="834"/>
+        <location filename="../../photometry/steps.py" line="844"/>
         <source>Comparison colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="835"/>
+        <location filename="../../photometry/steps.py" line="845"/>
         <source>The comparison ensemble&apos;s catalogue colour</source>
         <translation type="unfinished"></translation>
     </message>

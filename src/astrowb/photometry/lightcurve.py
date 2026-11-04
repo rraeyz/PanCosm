@@ -62,6 +62,7 @@ def light_curve(
     shutter_delay=0.0,
     apertures=(),
     remove_neighbours=False,
+    centring="auto",
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -78,7 +79,7 @@ def light_curve(
     camera: {"read_noise": e-, "dark": e- per pixel per second}: the sky noise of every pixel from the camera's numbers
     and the sky level, as AstroImageJ (Collins et al. 2017, appendix B), instead of the scatter measured in the sky
     ring (aperture.measure).
-    sky_method: how the sky ring gives the sky (aperture.sky_estimate): median, mode, mean or plane.
+    sky_method: the sky estimate (aperture.sky_estimate); centring: auto, moments, gauss or none (aperture.recenter).
     fixed: indices of stars (0 the target, then comparisons, then extra stars) that are not re-centred but follow the
     field: the median shift the centred stars took on that frame (AstroImageJ's per-aperture centroid off; a faint
     star beside a bright one is not pulled onto it).
@@ -88,8 +89,7 @@ def light_curve(
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
     ref, h0 = load(paths[0])
-    # the clicked positions are snapped onto the stars once, within half the centroid box: with the 2.5 px limit
-    # used between frames, a click 2.7 px off Qatar-1 (real LCO night) was kept and the aperture sat off the star
+    # clicks snap onto the stars once, within half the box (at 2.5 px a click 2.7 px off Qatar-1 was kept: LCO night)
     # all night (light lost with the seeing, a transit moved by 20 min with radii following the seeing)
     if ref_path and str(ref_path) != paths[0]:
         marked = load(ref_path)[0]
@@ -99,8 +99,8 @@ def light_curve(
     stars0 = recenter(ref, stars0, box, max_move=box / 2)
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
-    opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay)}
-    opts["apertures"] = tuple(float(r) for r in apertures if 0 < r < r_in)  # inside the sky ring (item 10)
+    opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
+            "centring": centring, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in)}  # fmt: skip
     sky = target_coord(h0, coord)
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
@@ -384,7 +384,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     opts = opts or {}
     camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
-    xy, found = recenter(data, pred, box, found=True)
+    xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"))
     fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
     if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars
         free = [k for k in range(len(xy)) if k not in fixed and found[k]]

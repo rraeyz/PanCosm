@@ -44,6 +44,7 @@ def _check_positions(image, target, comps=()):
     shutter_delay=0.0,
     apertures=(),
     remove_neighbours=False,
+    centring="auto",
 )
 def light_curve_step(inputs, params, ctx):
     """Differential aperture photometry of the target against the comparison stars on every frame: the light curve
@@ -74,6 +75,7 @@ def light_curve_step(inputs, params, ctx):
         shutter_delay=params.get("shutter_delay", 0.0),
         apertures=tuple(params.get("apertures") or ()),
         remove_neighbours=bool(params.get("remove_neighbours")),
+        centring=params.get("centring", "auto"),
     )
     return {"light_curve": lc}
 
@@ -747,6 +749,14 @@ _MEASURE = (  # the light-curve settings shared by the single- and multi-filter 
         False,
         label=QT_TRANSLATE_NOOP("Steps", "PSF photometry"),
         help=QT_TRANSLATE_NOOP("Steps", "Stars fitted with the frame's PSF (crowded fields)"),
+    ),
+    P(
+        "centring",
+        "choice",
+        "auto",
+        choices=("auto", "moments", "gauss", "none"),
+        label=QT_TRANSLATE_NOOP("Steps", "Centring"),
+        help=QT_TRANSLATE_NOOP("Steps", "How each star is centred on every frame"),
     ),
     P(
         "remove_neighbours",

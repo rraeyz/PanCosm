@@ -50,11 +50,15 @@ def load_masters(paths):
 
 class LiveLightCurve:
     def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None, **method):
-        """method: psf, remove_neighbours, sky_method — measured by light_curve's own per-frame code (PHO-19)."""
+        """method: psf, remove_neighbours, sky_method, centring — light_curve's own per-frame code (PHO-19)."""
         self.xy = np.array([target_xy, *comps_xy], dtype=float)
         self.psf = bool(method.get("psf"))
         self.remove_neighbours = bool(method.get("remove_neighbours")) and not self.psf
-        self.opts = {"sky_method": method.get("sky_method", "median"), "fixed": ()}
+        self.opts = {
+            "sky_method": method.get("sky_method", "median"),
+            "fixed": (),
+            "centring": method.get("centring", "auto"),
+        }
         self.r = (r_ap, r_in, r_out)
         self.coord, self.gain, self.box = coord, gain, box
         self.masters = masters or {}
