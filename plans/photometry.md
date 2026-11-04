@@ -817,7 +817,8 @@ scaled-error column, scintillation on every aperture radius, the Inspector's bar
 limit, defocus when the brightest pixel holds > 15 % of the target's light, comparison stars missing and on which
 share of frames, cadence against a given ingress), worded with its reason under the Checks tab's verdict ("For next
 time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. Left: the noise
-budget's largest term, the pointing offset, flats' contribution. Done: the ingress from the fitted transit (T14 − T23) / 2 judges the cadence.
+pointing offset, flats' contribution. Done: the noise budget's largest term when it is not the photon noise (sky,
+scintillation; the gain from the header), with what lowers it; the ingress from the fitted transit (T14 − T23) / 2 judges the cadence.
 - **Why:** beyond every reference program: the program has the numbers to say how to observe better.
 - **Build:** after a measurement, a "For next time" card: exposure time that would bring the target's peak to 60 %
   of the linearity limit; whether to defocus (peak / total and the pixel-to-pixel term); the noise budget's largest
