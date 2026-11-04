@@ -73,7 +73,9 @@ def reduce_step(inputs, params, ctx):
         out["arc"] = arc1d.tolist()
         out["arc_peaks"] = peaks.tolist()
         if inputs.get("guesses") and len(inputs["guesses"]) >= 2:
-            sol = wavecal.solve(peaks, wavecal.load_line_list(params["line_list"]), inputs["guesses"], params["order"])
+            # the user's identified wavelengths are lines of the lamp too (e.g. Hg in an HgAr lamp, not in the list)
+            catalogue = np.union1d(wavecal.load_line_list(params["line_list"]), [g[1] for g in inputs["guesses"]])
+            sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"])
             out["wave"] = sol(np.arange(len(flux))).tolist()
             out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines}
     if inputs.get("output") and out["wave"] is not None:
@@ -159,7 +161,7 @@ def echelle_step(inputs, params, ctx):
             sol = echelle.solve_2d(
                 peaks,
                 orders,
-                wavecal.load_line_list(params["line_list"]),
+                np.union1d(wavecal.load_line_list(params["line_list"]), [g[2] for g in inputs["guesses"]]),
                 inputs["guesses"],
                 params["deg_x"],
                 params["deg_m"],

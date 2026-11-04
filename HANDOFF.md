@@ -226,8 +226,8 @@ Status of everything so far:
 | T3 | Tooltips in the dialogs (exposure calculator, AAVSO, BeSS, observatory set-up, levels, blink, coefficients, moving objects, plugins) with a test | DONE (see notes) |
 | T4 | User-control review, page by page: every automatic choice visible, explained, overridable | TODO |
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
-| T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | CLAIMED by agent session 01RxUU (2026-11-04) |
-| T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | TODO |
+| T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
+| T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | CLAIMED by agent session 01RxUU (2026-11-04) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
@@ -263,6 +263,31 @@ first-run welcome — English only there, the owner's rule) has a tooltip, trans
 (LCO writes TRIMSEC = 'UNKNOWN'; before, DATASEC was then never looked at and nothing was trimmed), and
 `_without_overscan()` cuts a BIASSEC strip off the side it is on when the data section covers it (FLOYDS:
 DATASEC [1:2079,1:512], BIASSEC [2049:2079,1:512] → 512 x 2048 now). Test in `test_section_overscan_and_trim`.
+
+**T6 (done).** New `spectroscopy/reidentify.py` (read before writing: IRAF `noao/onedspec/identify/iddb.x`,
+`ecidentify/ecdb.x`, `identify/idshift.x`; PypeIt's shift-and-stretch reidentification idea).
+- `read_database`: IRAF identify / ecidentify text databases (user wavelength, or the fit when INDEF; weight-0
+  lines left out; IRAF's "features N" may exceed the lines written — read until the next keyword).
+- **Key finding:** LCO's FLOYDS reference arcs (`floyds_pipeline/src/floyds/archive/<tel>/en06/arc/{red,blu}/<slit>/`)
+  are *wavelength-resampled* 1-D spectra (red: CRVAL1 4850, CDELT1 2.956) and their databases' pixels are on that
+  grid — that is why mapping them onto raw pixels "by a shift and scale" failed before. They are atlases.
+  `from_reference` cross-correlates the night's arc with the reference over 400 dispersions (1/3 to 3x the
+  reference step) and every shift, both axis directions (FFT, 0.3 s), then carries each database line to the
+  nearest arc peak and refits (degree 1→3, tolerance 8→1.5 px). `shift_features`: databases on raw pixels (IRAF
+  id_shift1: mode of peak − feature differences; the window is as wide as the number of lines).
+- UI: Reduce tab **Lines from a reference arc / IRAF database…** (either file may be chosen; the other is found:
+  `database/id<name>` ↔ `<name>.fits`), Echelle tab **Lines from an IRAF ecidentify database…** (needs the lowest
+  order number; orders matched by absolute number). Both fill the table through `edit()` (Ctrl+Z), say how many
+  lines were found and how well they agree, and warn when few agree. The user still checks and presses Solve.
+- `reduce_step` / echelle: the user's identified wavelengths are added to the chosen line list (Hg lines of an HgAr
+  lamp are in no list). `wavecal.solve`: the final fit uses as many terms as the lines carry (`len // 4`, at most
+  the order): before, a cubic through 3-4 lines gave "rms 0.000".
+- **Real FLOYDS result** (OGG 2026-10-27, BD+28 4211, red order, `ctiohear` + database lines): 13/13 database lines
+  found (correlation 0.78), solution 17 lines, rms 0.143 Å (≈ 0.04 px). Independent check on the star: Hα minimum
+  at 6563.0 Å (lab 6562.8), telluric O2 A band minimum at 7605.8 Å (band 7594–7621). Blue order: the HgAr lamp has
+  only 4 lines there (database 4), 3 found, linear solution rms 1.9 Å — not enough lines for a good blue solution;
+  the status says so. Tests: `tests/test_reidentify.py` (8). Guide 08 updated in four languages.
+- Turkish terminology fixed on the way: echelle "order" is "mertebe" (as in the guide), not "düzen".
 
 ## Earlier "next steps" list (kept for its details; superseded by the task board)
 
