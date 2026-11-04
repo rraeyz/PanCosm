@@ -2703,6 +2703,10 @@ class OCPage(QWidget):
             self.tr("Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number")
         )
         lay.addWidget(self.fit_button)
+        from .export import results_button
+
+        self.fit_result = None
+        lay.addWidget(results_button(self, self.fit_table))
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
@@ -2722,6 +2726,48 @@ class OCPage(QWidget):
 
     def add_minimum(self, time, error, source="", kind="I"):
         self.text.appendPlainText(f"{time:.6f} {error:.6f} {kind} {source}".rstrip())
+
+    def fit_table(self):
+        """(rows, caption) of the last O−C fit for the results export."""
+        f = self.fit_result
+        if f is None:
+            self.result.setText(self.tr("Fit the O−C diagram first."))
+            return None
+        n = len(f.epochs)
+        if hasattr(f, "p3"):  # light-travel time
+            e = f.errors
+            rows = [
+                ("T0", f.t0, e["t0"], "d"),
+                ("P", f.period, e["period"], "d"),
+                ("A (semi-amplitude)", f.amplitude * 1440, e["amplitude"] * 1440, "min"),
+                ("P3", f.p3 / 365.25, e["p3"] / 365.25, "yr"),
+                ("T3 (periastron)", f.t3, e["t3"], "d"),
+                ("e3", f.e, None, ""),
+                ("omega3", f.omega, None, "deg"),
+                ("f(m3)", f.mass_function, None, "Msun"),
+            ]
+            model = self.tr("light-travel time in a third-body orbit (Irwin 1952)")
+        elif hasattr(f, "d_omega"):  # apsidal motion
+            rows = [
+                ("T0", f.t0, f.errors["t0"], "d"),
+                ("Ps (sidereal)", f.period, f.errors["period"], "d"),
+                ("e", f.e, None, ""),
+                ("omega0", f.omega0, None, "deg"),
+                ("d omega / dE", f.d_omega, f.errors["d_omega"], "deg/cycle"),
+                ("U", f.u_years, None, "yr"),
+            ]
+            model = self.tr("apsidal motion of an eccentric orbit")
+        else:
+            rows = [("T0", f.t0, f.t0_err, "d"), ("P", f.period, f.period_err, "d")]
+            if f.order == 2:
+                rows += [("Q", f.q, f.q_err, "d"), ("dP/dt", f.dp_dt, f.dp_dt_err, "s/yr")]
+            model = self.tr("quadratic ephemeris") if f.order == 2 else self.tr("linear ephemeris")
+        rows.append(("chi2_r", f.chi2r, None, ""))
+        caption = self.tr(
+            "O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when "
+            "χ²ᵣ > 1)."
+        ).format(n=n, model=model)
+        return rows, caption
 
     def run_fit(self):
         from ..timeseries.ephemeris import fit, parse_minima

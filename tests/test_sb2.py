@@ -115,7 +115,7 @@ def test_rv_and_orbit_steps_in_sb2_mode(tmp_path):
     assert fit["orbit"]["k2"] == pytest.approx(95, abs=1.5) and fit["orbit"]["k"] == pytest.approx(70, abs=1.5)
 
 
-def test_velocity_tab_shows_sb2(qtbot):
+def test_velocity_tab_shows_sb2(qtbot, tmp_path):
     from astrowb.ui.spectro_page import VelocityTab
 
     tab = VelocityTab()
@@ -147,6 +147,12 @@ def test_velocity_tab_shows_sb2(qtbot):
     _, v2, e2 = (np.asarray(a, float) for a in tab._series(2))
     tab.show_orbit(orbit.fit_sb2(tt, v1, tt, v2, e1, e2, period=3.0))
     assert "K2" in tab.status.text()
+    ax, res = tab.plot.figure.axes  # velocities with both orbits, and the residuals panel below
+    assert res.get_ylabel() == "O−C (km/s)" and len(ax.get_lines()) >= 3
+    from astrowb.ui.export import save_publication
+
+    out = save_publication(tab.plot.figure, tmp_path / "orbit.pdf")
+    assert out.endswith("orbit.pdf") and (tmp_path / "orbit.pdf").stat().st_size > 1000
 
 
 def test_velocities_follow_the_optical_doppler_convention():
