@@ -35,3 +35,19 @@ def test_none_and_the_default():
     img = star(20.3, 19.6)
     assert np.array_equal(recenter(img, [[21.0, 20.0]], method="none"), [[21.0, 20.0]])
     assert np.array_equal(recenter(img, [[21.0, 20.0]]), recenter(img, [[21.0, 20.0]], method="auto"))
+
+
+def test_a_click_snaps_onto_the_nearest_star():
+    """A click several pixels off moves onto the star; one beside a faint star next to a bright one stays on the
+    faint star; a click on empty sky stays where it is."""
+    from astrowb.photometry.aperture import snap_to_star
+
+    rng = np.random.default_rng(3)
+    yy, xx = np.mgrid[:60, :60]
+    img = 100 + rng.normal(0, 5, (60, 60))
+    for x, y, f in ((20.3, 30.6, 2e4), (38.2, 30.1, 3e5), (44.0, 30.0, 1.5e4)):  # a faint star 5.8 px from a bright
+        img += f / (2 * np.pi * 1.5**2) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * 1.5**2))
+    got = snap_to_star(img, [(24.0, 33.0), (45.5, 31.0), (8.0, 8.0)], radius=6)
+    assert np.hypot(*(got[0] - (20.3, 30.6))) < 0.1
+    assert np.hypot(*(got[1] - (44.0, 30.0))) < 0.3  # the faint one, not its bright neighbour
+    assert np.array_equal(got[2], [8.0, 8.0])

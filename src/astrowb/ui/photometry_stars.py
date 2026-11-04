@@ -99,3 +99,16 @@ def add_star_buttons(page, layout):
     )
     layout.addWidget(page.suggest_button)
     layout.addWidget(page.why_button)
+
+
+def snap_click(page, x, y):
+    """A click on the image moved onto the star it was meant for (photometry.aperture.snap_to_star): within three
+    screen pixels, at least 4 image pixels (on a frame shown smaller than its pixels a click lands pixels off)."""
+    from ..photometry.aperture import snap_to_star
+
+    data = page.viewer.data
+    if data is None or data.ndim != 2:
+        return x, y
+    scale = abs(page.viewer.transform().m11()) or 1.0  # screen pixels per image pixel
+    sx, sy = snap_to_star(data, [(x, y)], radius=max(4.0, 3.0 / scale))[0]
+    return float(sx), float(sy)

@@ -232,6 +232,37 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
     return (out, ~bad) if found else out
 
 
+def snap_to_star(data, xy, radius=6.0, box=11):
+    """Each (x, y) moved onto the star it was meant for: the nearest peak (hot pixels left out) within radius
+    that stands 5 sigma above the stamp (a click on a frame shown smaller than its pixels lands several pixels off;
+    the nearest, not the brightest, so a faint target beside a bright star stays the target), then the centre found
+    from there by 2-D Gaussians. A position with no star within radius is kept as it is."""
+    from scipy.ndimage import maximum_filter
+
+    data = np.asarray(data)
+    ny, nx = data.shape
+    out = np.array(xy, dtype=float).reshape(-1, 2)
+    r = int(np.ceil(radius))
+    sample = np.asarray(data[::8, ::8], np.float32)  # the frame's pixel noise: a bright star's wing is not noise
+    noise = 1.4826 * float(np.nanmedian(np.abs(sample - np.nanmedian(sample)))) or 1.0
+    for i, (x, y) in enumerate(out):
+        if not (np.isfinite(x) and np.isfinite(y)):
+            continue
+        y0, y1 = max(int(round(y)) - r - 1, 0), min(int(round(y)) + r + 2, ny)
+        x0, x1 = max(int(round(x)) - r - 1, 0), min(int(round(x)) + r + 2, nx)
+        if y1 - y0 < 3 or x1 - x0 < 3:
+            continue
+        stamp = _unspike(np.asarray(data[y0:y1, x0:x1], np.float32))  # spikes out, peaks kept (a median erased one)
+        level = np.median(stamp)
+        yy, xx = np.mgrid[y0:y1, x0:x1]
+        d2 = (xx - x) ** 2 + (yy - y) ** 2
+        peaks = (stamp == maximum_filter(stamp, 3)) & (stamp - level > 5 * noise) & (d2 <= radius * radius)
+        if peaks.any():
+            k = np.unravel_index(np.argmin(np.where(peaks, d2, np.inf)), stamp.shape)
+            out[i] = recenter(data, [(x0 + k[1], y0 + k[0])], box, max_move=2.5, method="gauss")[0]
+    return out
+
+
 def _wide_centroid(img, x, y, box, frame_sky, max_box=301):
     """Centre of a star wider than the centroid box (defocused; or a donut, whose centre is dark): the extent of
     the star from its azimuthally averaged profile around (x, y) (a neighbour fills only a little of each ring, so
