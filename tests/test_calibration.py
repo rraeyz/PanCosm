@@ -232,6 +232,8 @@ def test_calibration_steps_end_to_end(night, tmp_path):
 def test_section_overscan_and_trim(tmp_path):
     assert masters.section("[1:70, 1:60]") == (slice(0, 60), slice(0, 70))
     assert masters.section("[80:72,1:60]") == (slice(0, 60), slice(71, 80)) and masters.section("bad") is None
+    assert masters.section("[1:4096, :]") == (slice(None), slice(0, 4096))  # MaxIm DL on a real camera
+    assert masters.section("[*,2:5]") == (slice(1, 5), slice(None)) and masters.section("[4096:4109]") is None
     rng = np.random.default_rng(3)
     paths = []
     for i, level in enumerate((480.0, 520.0)):  # the bias level drifts between frames
@@ -245,6 +247,8 @@ def test_section_overscan_and_trim(tmp_path):
     assert h["OVERSCAN"] == pytest.approx(520, abs=1) and "TRIMSEC" not in h and "BIASSEC" not in h
     combined, _, _ = masters.combine_files(paths)  # read in row blocks with the same correction
     assert combined.shape == (NY, 70) and np.median(combined) == pytest.approx(150, abs=1)
+    _write(tmp_path / "m.fits", np.ones((NY, NX)), IMAGETYP="Bias Frame", EXPTIME=0.0, TRIMSEC="[1:70, :]")
+    assert masters.load(tmp_path / "m.fits")[0].shape == (NY, 70)  # the whole y axis written as ':'
 
 
 def test_dark_scale_and_defects(built, night):
@@ -323,3 +327,23 @@ def test_dead_flat_pixels_become_nan_not_huge():
     flat[3, 7] = 0.3  # deep vignetting is still light
     out = masters.calibrate(light, 10.0, flat=flat)
     assert np.isnan(out[:, 5]).all() and np.nanmax(out) == pytest.approx(1000 / 0.3, rel=1e-5)
+
+
+def test_readout_settings_match_where_both_headers_state_them(tmp_path):
+    """A real MaxIm DL night: the lights have READOUTM and READMODE, the bias, darks and flats only READOUTM.
+    Nothing was matched and the lights were left uncalibrated; a real difference (another gain) still counts."""
+
+    def write(name, kind, **keys):
+        h = fits.Header({"IMAGETYP": kind, "EXPTIME": 0.0 if kind == "Bias Frame" else 90.0, "FILTER": "r"} | keys)
+        fits.PrimaryHDU(np.zeros((NY, NX), np.float32), h).writeto(tmp_path / name)
+
+    write("b.fit", "Bias Frame", READOUTM="Monochrome")
+    write("d.fit", "Dark Frame", READOUTM="Monochrome")
+    write("f.fit", "Flat Field", READOUTM="Monochrome")
+    write("l.fit", "Light Frame", READOUTM="Monochrome", READMODE="Monochrome")
+    write("g.fit", "Light Frame", READOUTM="Fast")
+    frames, _ = scan(tmp_path)
+    plan = make_plan(frames)
+    entries = {Path(e["light"]).name: e for e in plan.lights}
+    assert all(entries["l.fit"][k] for k in ("bias", "dark", "flat"))
+    assert not any(entries["g.fit"][k] for k in ("bias", "dark", "flat"))
