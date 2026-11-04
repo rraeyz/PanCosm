@@ -805,7 +805,11 @@ scaled-error column, scintillation on every aperture radius, the Inspector's bar
 - **Files:** `photometry/stacked.py`, `calibration/stacking.py` (in-memory combine), `tests/test_photometry_stacked.py`
 
 ### PHO-43. Advice for the next night  (P2)
-**open**
+**partial** — done (2026-11-13): `photometry/advice.next_night` (exposure to bring the highest peak to 60 % of the
+limit, defocus when the brightest pixel holds > 15 % of the target's light, comparison stars missing and on which
+share of frames, cadence against a given ingress), worded with its reason under the Checks tab's verdict ("For next
+time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. Left: the noise
+budget's largest term, the pointing offset, flats' contribution, the ingress taken from the fitted event.
 - **Why:** beyond every reference program: the program has the numbers to say how to observe better.
 - **Build:** after a measurement, a "For next time" card: exposure time that would bring the target's peak to 60 %
   of the linearity limit; whether to defocus (peak / total and the pixel-to-pixel term); the noise budget's largest
