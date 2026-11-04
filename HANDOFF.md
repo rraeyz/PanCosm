@@ -1,4 +1,4 @@
-# Handoff: full test & fix campaign (state on 2026-11-03)
+# Handoff: full test & fix campaign (state on 2026-11-04)
 
 Notes for whoever continues the work. The owner speaks Turkish: answer in Turkish; code, comments
 and commits in English. Delete this file once the work is finished.
@@ -10,6 +10,24 @@ and commits in English. Delete this file once the work is finished.
   phone pictures (JPEG/PNG/TIFF), DSLR raw, cubes, compressed FITS, odd headers, other observatories.
 - Problems that only show up on one distribution (Arch / CachyOS) must be fixed too. The owner also tests on Windows.
 - Push straight to `main`. A new release only after CI is fully green, and only after asking the owner.
+- Latest (2026-11-04), in the owner's words, summarised:
+  - Use the newest `main`, never the v0.1.0 release (its errors are known).
+  - After the work is done, test again from the start **like a scientist**: download real observations and spectra
+    from the internet (or, if impossible, generate realistic FITS / FIT / TIFF data) and really use the application,
+    down to the smallest button. Real problems only show up that way.
+  - Error messages must say what happened and what to do, in every interface language.
+  - **Look at the code of the established programs for each topic** (IRAF, ccdproc / astropy, Siril, AstroImageJ,
+    lightkurve, specreduce, PypeIt, iSpec, MKCLASS, PHOEBE, ...) instead of working from memory or tuning a method
+    on a few known stars. A method must hold for an unknown star and an unknown spectrograph.
+  - **The user must stay in control.** Calibration steps (e.g. identifying arc lines) may stay with the user; the
+    astronomy community does not like everything automatic and opaque. Automatic help is fine as a suggestion the
+    user can see, check and override.
+  - On wavelength calibration the owner remembers IRAF work with a ThAr *atlas* made for the spectrograph in use.
+    (Facts: the line *wavelengths* are physics and the same for every instrument, so one line list serves all; an
+    *atlas* is pictures of the lamp spectrum at a given resolution that help a person recognise the pattern. IRAF's
+    identify / ecidentify leave the identification to the user, then reidentify / autoidentify with the line list.
+    Keep that model: the user identifies, the application fits and matches, and shows every line it used.)
+  - Write everything done, downloaded and planned into this file so another agent can continue.
 
 ## Rules of the repository
 
@@ -90,12 +108,93 @@ transit export; visual orbit (P 31.38 vs 31.4 yr); remote sensing (pixel read-ou
 k-means, PCA); eclipsing-binary automation (minimum 15.7 s from an independent astropy BJD, 2 sigma); Observe
 page with INDI simulators (slew, preview, cooler, focuser, filter, sequence, abort, resume, park).
 
-## Still to do
 
-1. **CI**: confirm the latest run is green on every job (the macOS 8-bit test failure is fixed in `ccc34e3`).
-2. Not reachable from the build container: SIMBAD, VizieR, VSX, AAVSO, ZTF, hips2fits (CDS / IRSA blocked) and
-   MAST through the container's CA bundle. The owner checks them with Help -> "Check the installation and
-   internet services".
-3. **Spectroscopy and photometry with the owner's real data**: ask for spectra and a night.
-4. Known limit: the third-body O-C fit has a linear ephemeris only (no simultaneous period change term).
-5. When everything is green and tested: ask the owner about a new release (tag `v*` starts the release job).
+## Third campaign: real data from the internet (2026-11-04)
+
+All data below were downloaded into `/tmp/claude-0/realdata/` of the build container. **That directory and the
+driving scripts in `/tmp/claude-0/real/` are lost when the container ends**; the sources are listed so they can be
+fetched again. None of it is committed (data files never go into the repository). The scripts drive the real main
+window with QTest clicks; `harness.py` there collects every dialog and exception (`App`, `wait`, `click`, `report`).
+
+### Data used (sources, licences)
+
+| Data | Source | What it is |
+|---|---|---|
+| Palomar 5 m LFC chip 0, raw night | Zenodo record 3254683, `example-cryo-LFC.tar.bz2` (162 MB) — astropy CCD Data Reduction Guide | bias, darks (sub-folder), g' and i' flats, two 300 s VV 124 frames; overscan in BIASSEC, DATASEC; DATE-OBS date only + UT; LATITUDE / LONGITUD |
+| Thermo-electric CCD (MaxIm DL 6), raw night | Zenodo record 3245296, `example-thermo-electric.tar.bz2` (483 MB) — same guide | 10 bias, 10 darks 90 s, 10 r flats, 2 KELT-16 b frames; TRIMSEC '[1:4096, :]', BIASSEC '[4096:4109]' (overscan contaminated by light) |
+| TESS FFI cut-out of AI Dra | MAST TESScut API `https://mast.stsci.edu/tesscut/api/v0.1/astrocut?ra=254.0758&dec=52.6983&y=21&x=21&sector=24` (follow the 303 redirect, `curl -L`) | target pixel file, 1226 cadences of 30 min, TIME in BTJD, CADENCENO 0 on every row |
+| TOFES fibre echelle, raw | Zenodo record 17968312, `TOFES_testobservations_2024-06-21.tar.gz` (720 MB, CC-BY 4.0), Tartu Observatory | R 32000, 46 orders 87-42 (index 0 = order 87, numbers decrease upwards), ThAr ('comp'), flats, bias, darks; Sun (sky), Vega, Arcturus, CN Boo |
+| Kurucz solar flux atlas | `http://kurucz.harvard.edu/sun/fluxatlas2005/fluxspliced.2005` | air wavelengths in nm, normalised flux; telluric-free (the daylight sky spectrum has H2O bands it lacks) |
+| LCO FLOYDS raw (2-order cross-dispersed long slit) | LCO archive API `https://archive-api.lco.global/frames/?INSTRUME=en06&RLEVEL=0&public=true&start=2026-10-26&end=2026-10-28` (file URLs in the JSON) | BD+28 4211 spectrum, lamp flat, HgAr arc of 2026-10-27 (OGG); TRIMSEC 'UNKNOWN', DATASEC includes the overscan |
+| lightkurve 2.6.0 source | `pip download --no-deps lightkurve` | read for the outlier clipping and the TESS quality bitmask |
+| Siril source (src/io) | `https://gitlab.com/free-astro/siril/-/archive/master/siril-master.tar.gz?path=src/io` | read for how camera EXIF times are taken (libraw timestamp, local time zone) |
+
+Reachable from the container: Zenodo, MAST, Exoplanet Archive, LCO archive, JPL Horizons, NED, HEASARC, Kurucz,
+PyPI. Blocked: CDS (SIMBAD, VizieR, hips2fits), AAVSO, IRSA/ZTF, data.astropy.org, SDSS, NOIRLab, GitHub API
+(git clone of public repositories works). Plate solving is not installed in the container (ASTAP / astrometry.net).
+
+### What the real data showed, and what was fixed (each with a test; commits on main)
+
+- `bb63dc6` Palomar LFC: dead flat pixels (1e-5 of the median) gave calibrated values of 1e8 → flat below 5 % of
+  the median is dead (NaN, repaired with *fix defects*), as IRAF ccdproc's `minreplace`. One frame per filter is
+  not "stacked"; stack names without a stray "_". Measured FWHM 0.87" agrees with the night log's 0.9" seeing.
+- `a8beacc` TE-cooled night: lights had READOUTM and READMODE, calibration frames only READOUTM → nothing matched,
+  lights stayed uncalibrated. Readout settings now compared where both headers state them. Sections with a whole
+  axis (`[1:4096, :]`, `[*,1:100]`) are read; a one-axis BIASSEC is ignored (this camera's overscan holds leaked
+  light, as the astropy guide also says).
+- `269faf5` TESS: a target pixel file opened as its 21x21 APERTURE mask. Now `io/tpf.py` writes one frame per
+  good cadence (lightkurve's default quality bitmask) into `fits_from_raw/<name>/`, with DATE-AVG chosen so the
+  application's BJD_TDB equals the archive's (to < 1 ms). Photometry without comparison stars (space data; the
+  page explains what that means from the ground). With T0 and P every primary and secondary minimum is timed in
+  its own window and sent to O-C with its type; without them the page asks. AI Dra sector 24: P = 1.19880448 ±
+  0.00006527 d from 42 minima (literature 1.19881).
+- `3b8e009` TOFES: ThAr frames (`IMAGETYP='comp'`) were "unknown, ignored" → arc lamps are a kind of their own,
+  bias / dark subtracted, never flat-fielded or stacked. The echelle 2-D wavelength fit, started from lines in three
+  middle orders, ran away in the other orders (order 87 at −1700 Å) → it now grows one order at a time with few
+  terms in m while few orders are matched, ignores catalogue lines that cannot be told apart at the tolerance, and
+  clips on a robust scale. Solar spectrum: 886 lines, rms 0.005 Å; Na D, Hα, Hβ, Ca 6122 within 0.02 Å of the
+  laboratory values. NOTE: an earlier bad result (rms 0.13 Å) came from *my own wrong identifications* made with
+  the generic line list; with lines identified properly (checked against the solar Na D lines and the grating
+  equation between neighbouring orders) the solver worked. That is the owner's point about atlases: the user must
+  be able to identify lines with confidence.
+- `a60d3c1` TOFES velocities: the barycentric correction used only the Plan page's site → the spectrum's own
+  LATITUDE / LONGITUD are used when the longitude's sign is known (the comment says E+/W+, or the header's LST
+  agrees). Arcturus −5.77 ± 0.20 km/s against the solar spectrum (literature −5.19; the solar template carries the
+  Sun's +0.64 km/s gravitational redshift). Vega against the Sun is meaningless (A0 vs G2 template) — expected.
+  Spectral types: a R 32000 spectrum was compared with the 5 Å Pickles library at full resolution and with an
+  underexposed blue → Arcturus "B2IV" with equal scores. Now both are compared at the coarser resolution, each over
+  a local continuum, only where the signal is clear: Sun G0-G2, Vega A2-A0, Arcturus G8-K2 (true K1.5 III).
+  **Owner's objection (valid, open):** this must be checked against established classification codes (MKCLASS,
+  Gray & Corbally; iSpec) and must not be tuned on a few stars; it should stay a *suggestion* shown with its
+  scores, never a silent automatic decision.
+
+### Wavelength identifications used for TOFES (for re-running)
+
+Order index 0 = absolute order 87, numbers decrease upwards (Echelle tab: lowest order 87, "decrease upwards").
+Found from the solar spectrum: Na D2/D1 at x 1079.7 / 1149.5 in index 29 and Hα at x 1009.2 in index 35 give
+m = 58 for index 29 through the grating equation (m λ the same at the same pixel). ThAr lines (pixel, Å):
+order 58: 994.49 5882.6242, 1030.00 5885.7016, 1063.52 5888.5841, 1096.89 5891.451, 1195.52 5899.8441;
+order 57: 857.72 5973.6649, 1011.27 5987.3016, 1053.47 5991.0071, 1089.25 5994.1287, 1239.29 6007.0722;
+order 59: 1073.55 5789.6451, 1106.59 5792.4304, 1149.88 5796.0683, 1206.94 5800.8297, 1246.84 5804.1412.
+The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
+
+## Next steps (in this order)
+
+1. **Long slit, curved traces (FLOYDS):** `longslit.trace` searches a fixed ±10-row window around one row, so a
+   trace bending by ~200 rows is lost (extraction follows the sky; flux down to −7500). A rewrite that follows the
+   trace bin by bin with a slope prediction (as `echelle.trace_orders` and IRAF `aptrace` with `step`) was written
+   and **reverted untested** on the owner's instruction: first read IRAF apextract (apfind / aptrace), specreduce
+   `FitTrace` and PypeIt's tracing, then implement, with a synthetic curved-trace test and the FLOYDS frames. Also
+   for FLOYDS: TRIMSEC 'UNKNOWN' and a DATASEC that includes the BIASSEC columns (trim the overscan strip off the
+   data section), the second (blue) order, and a HgAr line list.
+2. **Spectral classification:** read MKCLASS (rules on line ratios at a known resolution) and iSpec; decide with
+   the owner whether to show it only as a ranked suggestion with scores (keep the user's choice of template).
+3. **User control review, page by page** (owner: nothing silently automatic): list every automatic choice
+   (suggested comparison stars, automatic apertures, outlier clipping, line auto-identification, order tracing,
+   template choice, BJD site from the header) and make sure each is visible, explained and can be overridden.
+4. Long-slit real data with a simple spectrograph (LHIRES / Alpy-like amateur data, or another public archive);
+   ESO / LAMOST reduced spectra for the RV and line tools.
+5. Photometry with real ground data and many frames (the two Zenodo nights have only 1-2 science frames): a
+   public time series (e.g. LCO or an AAVSO-style night) through the whole Photometry page, the AAVSO export and the
+   standard magnitudes (needs CDS, blocked here).
+6. CI: confirm green for the latest commits (`a60d3c1` and later). Release only after asking the owner.
