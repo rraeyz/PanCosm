@@ -684,8 +684,10 @@ the suite is green after each.
   CSV is left as it is: no place for it that every reader skips). Item 3 started (2026-11-13): `core/citations.py`
   (`@cites(keys)` beside the code, `entries`, `short` — "Kwee & van Woerden (1956)", `bibtex`) and
   `resources/citations/citations.bib` (ten entries); marked so far: Kwee–van Woerden, GLS, BJD_TDB, β, the camera
-  noise model, ePSF and PSF fitting; a test fails for a cited key without its entry. Pending: the other methods'
-  marks, methods text (4), reproduce (5).
+  noise model, ePSF and PSF fitting; a test fails for a cited key without its entry. Item 4, photometry part:
+  `photometry/reports/methods.py` writes the paragraph (frames, radii, ensemble, BJD_TDB, scintillation, the transit
+  fit with its mid-time, depth and β) and its BibTeX, into Save all's folder (methods.txt, references.bib).
+  Pending: the other methods' marks, the methods text of the other areas and the Project window, reproduce (5).
 - **Why:** AD-12. A referee asks "how were the frames calibrated, which stars, which radii, which version?"; today
   the project records runs but the products do not carry it and nothing writes it for a paper.
 - **Reference:** IRAF writes `HISTORY` and processing keywords (`CCDPROC`, `ZEROCOR`, `FLATCOR`); ESO pipelines
