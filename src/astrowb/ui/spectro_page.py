@@ -109,6 +109,14 @@ class ReduceTab(QWidget):
         lay.addWidget(self.orientation)
         grid = QGridLayout()
         self.width, self.sky_offset, self.sky_width = _spin(self, 10), _spin(self, 15), _spin(self, 10)
+        self.row = _spin(self, 0, 0, 100000, 0)
+        self.row.setSpecialValueText(self.tr("the brightest"))
+        self.row.setToolTip(
+            self.tr(
+                "A row the spectrum crosses, when the frame holds several (two orders, a second star): it is "
+                "followed from there along the frame. Check the traced line drawn on the frame after extracting."
+            )
+        )
         self.optimal = QCheckBox(self.tr("Optimal extraction (Horne)"), self)
         self.optimal.setChecked(True)
         self.line_list = QComboBox(self)
@@ -116,6 +124,7 @@ class ReduceTab(QWidget):
         self.line_list.setCurrentText("henear")
         for r, (label, w) in enumerate(
             (
+                (self.tr("Spectrum at row"), self.row),
                 (self.tr("Aperture width (px)"), self.width),
                 (self.tr("Sky offset (px)"), self.sky_offset),
                 (self.tr("Sky width (px)"), self.sky_width),
@@ -185,12 +194,14 @@ class ReduceTab(QWidget):
             "sky_width": self.sky_width.value(),
             "optimal": self.optimal.isChecked(),
             "line_list": self.line_list.currentText(),
+            "guess_row": self.row.value() or None,
         } | self.orientation.params()
         self.status.setText(self.tr("Working…"))
         self.reduce_requested.emit(inputs, params)
 
     def state(self):
         return {
+            "row": self.row.value(),
             "width": self.width.value(),
             "sky_offset": self.sky_offset.value(),
             "sky_width": self.sky_width.value(),
@@ -200,7 +211,7 @@ class ReduceTab(QWidget):
         }
 
     def restore(self, st):
-        for key in ("width", "sky_offset", "sky_width"):
+        for key in ("row", "width", "sky_offset", "sky_width"):
             if key in st:
                 getattr(self, key).setValue(float(st[key]))
         self.optimal.setChecked(bool(st.get("optimal", True)))
@@ -211,7 +222,8 @@ class ReduceTab(QWidget):
         self.result = s
         self.plot.figure.clear()
         has_arc = bool(s.get("arc"))
-        axes = self.plot.figure.subplots(2 if has_arc else 1, 1, squeeze=False)[:, 0]
+        axes = self.plot.figure.subplots(3 if has_arc else 2, 1, squeeze=False)[:, 0]
+        self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
         x = s["wave"] if s["wave"] is not None else s["pixel"]
         axes[0].plot(x, s["flux"], lw=0.7)
         axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
@@ -233,6 +245,24 @@ class ReduceTab(QWidget):
             self.status.setText(
                 self.tr("Extracted {n} columns; {m} arc lines found.").format(n=len(s["flux"]), m=len(s["arc_peaks"]))
             )
+
+    def _draw_trace(self, ax, coef):
+        from ..spectroscopy.steps import _load
+
+        try:
+            d = _load(self.science.text(), self.orientation.params())[0]
+        except (OSError, ValueError):
+            return
+        lo, hi = np.nanpercentile(d[:: max(1, d.shape[0] // 256), :: max(1, d.shape[1] // 512)], [5, 99.5])
+        ax.imshow(d, origin="lower", cmap="gray", vmin=lo, vmax=hi, aspect="auto", interpolation="nearest")
+        x = np.arange(d.shape[1])
+        y = np.polyval(coef, x)
+        half = self.width.value() / 2
+        for off, style in ((0, "-"), (-half, ":"), (half, ":")):
+            ax.plot(x, y + off, style, color="#3fb950", lw=0.8)
+        ax.set_xlim(0, d.shape[1] - 1)
+        ax.set_ylim(0, d.shape[0] - 1)
+        ax.set_title(self.tr("Traced spectrum and aperture (choose another row if this is not your star)"), fontsize=8)
 
     def _plot_clicked(self, event):
         if not self.result or getattr(self, "_arc_ax", None) is not event.inaxes or event.xdata is None:
