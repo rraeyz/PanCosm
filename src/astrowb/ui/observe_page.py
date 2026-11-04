@@ -34,6 +34,7 @@ from PySide6.QtWidgets import (
 
 from ..devices.client import Client
 from .messages import translate
+from .undo import Undoable, track_typing
 from .workspaces import _title
 
 KINDS = ("light", "dark", "bias", "flat")
@@ -71,7 +72,7 @@ def launch_observatory(config_path: Path):
     return scheme + cfg.get("listen", "127.0.0.1:11112").replace("0.0.0.0", "127.0.0.1"), cfg["token"], proc
 
 
-class ObservePage(QWidget):
+class ObservePage(Undoable, QWidget):
     status_arrived = Signal(object)  # from the polling thread
     preview_ready = Signal(str)  # a preview frame that this computer can open (local observatory)
     sequence_finished = Signal(str)  # out_dir of a sequence that ended with frames written
@@ -80,6 +81,7 @@ class ObservePage(QWidget):
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.settings = settings
         self.client = None
         self.status = None
@@ -297,12 +299,14 @@ class ObservePage(QWidget):
         rl.addWidget(self.exposures, 1)
         row = QHBoxLayout()
         add = QPushButton(self.tr("Add exposure row"), self)
-        add.clicked.connect(self.add_exposure_row)
+        add.clicked.connect(lambda: self.edit(self.tr("add an exposure row"), self.add_exposure_row))
         add.setToolTip(
             self.tr("A new row: type, filter, exposure time, count, binning (gain, offset and the rest may stay empty)")
         )
         remove = QPushButton(self.tr("Remove row"), self)
-        remove.clicked.connect(lambda: self.exposures.removeRow(self.exposures.currentRow()))
+        remove.clicked.connect(
+            lambda: self.edit(self.tr("remove an exposure row"), self.exposures.removeRow, self.exposures.currentRow())
+        )
         remove.setToolTip(self.tr("Removes the selected exposure row"))
         self.start_button = QPushButton(self.tr("Start sequence"), self)
         self.start_button.clicked.connect(self._start_sequence)
@@ -336,6 +340,7 @@ class ObservePage(QWidget):
         split.setSizes([500, 700])
         QVBoxLayout(self).addWidget(split)
         self.add_exposure_row()
+        track_typing(self, self.exposures, self.tr("type a value"))
 
         self.status_arrived.connect(self._show_status)
         self.frames_copied.connect(lambda folder, done: done(folder))
@@ -654,6 +659,7 @@ class ObservePage(QWidget):
                 "shutter closed; flat: an evenly lit field"
             )
         )
+        kind.currentIndexChanged.connect(self._widget_changed)
         self.exposures.setCellWidget(r, 0, kind)
         self.exposures.setItem(r, 1, QTableWidgetItem(""))
         exp = QDoubleSpinBox(self.exposures)
@@ -661,6 +667,7 @@ class ObservePage(QWidget):
         exp.setDecimals(3)
         exp.setValue(60)
         exp.setToolTip(self.tr("Exposure time of each frame in seconds"))
+        exp.valueChanged.connect(self._widget_changed)
         self.exposures.setCellWidget(r, 2, exp)
         for c, (lo, hi, v) in ((3, (1, 10000, 10)), (4, (1, 8, 1))):
             s = QSpinBox(self.exposures)
@@ -669,9 +676,41 @@ class ObservePage(QWidget):
             s.setToolTip(
                 self.tr("How many frames") if c == 3 else self.tr("Binning: 1 is full resolution, 2 adds 2×2 pixels")
             )
+            s.valueChanged.connect(self._widget_changed)
             self.exposures.setCellWidget(r, c, s)
         for c in range(5, 9):
             self.exposures.setItem(r, c, QTableWidgetItem(""))
+
+    # --- undo / redo of the exposure rows (Edit menu, Ctrl+Z / Ctrl+Y) ---------
+    def undo_state(self):
+        rows = []
+        for r in range(self.exposures.rowCount()):
+            cells = [self.exposures.item(r, c).text() if self.exposures.item(r, c) else "" for c in range(9)]
+            w = [self.exposures.cellWidget(r, c) for c in range(5)]
+            rows.append((w[0].currentIndex(), cells[1], w[2].value(), w[3].value(), w[4].value(), *cells[5:]))
+        return tuple(rows)
+
+    def set_undo_state(self, rows):
+        self.exposures.blockSignals(True)
+        self.exposures.setRowCount(0)
+        for row in rows:
+            self.add_exposure_row()
+            r = self.exposures.rowCount() - 1
+            widgets = [self.exposures.cellWidget(r, c) for c in (0, 2, 3, 4)]
+            for w in widgets:
+                w.blockSignals(True)
+            widgets[0].setCurrentIndex(row[0])
+            for w, v in zip(widgets[1:], row[2:5], strict=True):
+                w.setValue(v)
+            for w in widgets:
+                w.blockSignals(False)
+            for c, text in zip((1, 5, 6, 7, 8), (row[1], *row[5:]), strict=True):
+                self.exposures.item(r, c).setText(text)
+        self.exposures.blockSignals(False)
+
+    def _widget_changed(self, *_):
+        if hasattr(self, "_typed_from"):  # not while the first row is built
+            self.record(self.tr("change an exposure row"), self._typed_from)
 
     def _camera_cells(self, r):
         """Gain, offset, read-out mode and sub-frame of a row; empty cells are left out."""
@@ -757,8 +796,12 @@ class ObservePage(QWidget):
         self.dither.setValue(int(target.get("dither_every", 0)))
         self.seq_start.setText(target.get("start") or "")
         self.seq_end.setText(target.get("end") or "")
+        self.edit(self.tr("load a sequence"), self._load_rows, target.get("exposures", []))
+        self.rotation.setText("" if target.get("rotation") is None else str(target["rotation"]))
+
+    def _load_rows(self, exposures):
         self.exposures.setRowCount(0)
-        for e in target.get("exposures", []):
+        for e in exposures:
             self.add_exposure_row()
             r = self.exposures.rowCount() - 1
             self.exposures.cellWidget(r, 0).setCurrentText(e.get("kind", "light"))
@@ -769,7 +812,6 @@ class ObservePage(QWidget):
             for c, key in ((5, "gain"), (6, "offset"), (7, "readout")):
                 self.exposures.item(r, c).setText("" if e.get(key) is None else str(e[key]))
             self.exposures.item(r, 8).setText(", ".join(str(v) for v in e.get("roi") or []))
-        self.rotation.setText("" if target.get("rotation") is None else str(target["rotation"]))
 
     def _start_sequence(self):
         try:

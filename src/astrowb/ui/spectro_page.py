@@ -26,7 +26,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .undo import Undoable
+from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas
 
 
@@ -44,18 +44,6 @@ def _set_rows(table, rows):
         for c, text in enumerate(row):
             table.setItem(r, c, QTableWidgetItem(text))
     table.blockSignals(False)
-
-
-def _track_typing(page, table):
-    """Values typed into the table of identified lines become undoable steps."""
-    page._typed_from = page.undo_state()
-    table.itemChanged.connect(
-        lambda _item: (
-            page.record(page.tr("type a wavelength"), page._typed_from),
-            setattr(page, "_typed_from", page.undo_state()),
-        )
-    )
-    page.undo_stack.indexChanged.connect(lambda _i: setattr(page, "_typed_from", page.undo_state()))
 
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
@@ -215,7 +203,7 @@ class ReduceTab(Undoable, QWidget):
         self.guesses = QTableWidget(0, 2, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        _track_typing(self, self.guesses)
+        track_typing(self, self.guesses, self.tr("type a wavelength"))
         lay.addWidget(self.guesses, 1)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)
@@ -477,7 +465,7 @@ class EchelleTab(Undoable, QWidget):
         self.guesses = QTableWidget(0, 3, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Order"), self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        _track_typing(self, self.guesses)
+        track_typing(self, self.guesses, self.tr("type a wavelength"))
         lay.addWidget(self.guesses, 1)
         row = QHBoxLayout()
         clear = QPushButton(self.tr("Clear"), self)

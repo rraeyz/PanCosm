@@ -19,12 +19,13 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
 
 TARGET_COLUMNS = ("name", "ra", "dec", "t0", "period", "duration", "secondary")
 
 
-class PlanPage(QWidget):
+class PlanPage(Undoable, QWidget):
     resolve_requested = Signal(str)
     ephemeris_requested = Signal(str)  # name: VSX or NASA Exoplanet Archive
     plan_requested = Signal(dict, str, list, dict)  # site, date (YYYY-MM-DD), targets, params
@@ -32,6 +33,7 @@ class PlanPage(QWidget):
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.settings = settings
         self.result = None
         split = QSplitter(Qt.Horizontal, self)
@@ -122,8 +124,11 @@ class PlanPage(QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.setToolTip(self.tr("Enter T0 and period to list minima / transits of the night."))
         lay.addWidget(self.table, 1)
+        track_typing(self, self.table, self.tr("type a value"))
         remove = QPushButton(self.tr("Remove selected"), self)
-        remove.clicked.connect(lambda: self.table.removeRow(self.table.currentRow()))
+        remove.clicked.connect(
+            lambda: self.edit(self.tr("remove a target"), self.table.removeRow, self.table.currentRow())
+        )
         remove.setToolTip(self.tr("Removes the selected target from the list"))
         exposure = QPushButton(self.tr("Exposure time…"), self)
         exposure.setToolTip(self.tr("How long to expose for a wanted signal-to-noise, and when a star saturates"))
@@ -212,7 +217,36 @@ class PlanPage(QWidget):
             self.status.setText(self.tr("Looking up {name}…").format(name=text))
             self.resolve_requested.emit(text)
 
+    # --- undo / redo (Edit menu, Ctrl+Z / Ctrl+Y) -----------------------------
+    def undo_state(self):
+        return tuple(
+            (*(self._cell(r, c) for c in range(6)), bool(w and w.isChecked()))
+            for r in range(self.table.rowCount())
+            for w in [self.table.cellWidget(r, 6)]
+        )
+
+    def set_undo_state(self, rows):
+        self.table.blockSignals(True)
+        self.table.setRowCount(0)
+        for row in rows:
+            r = self.table.rowCount()
+            self.table.insertRow(r)
+            for c, text in enumerate(row[:6]):
+                self.table.setItem(r, c, QTableWidgetItem(text))
+            self._secondary_box(r, row[6])
+        self.table.blockSignals(False)
+
+    def _secondary_box(self, r, on):
+        check = QCheckBox(self.table)
+        check.setChecked(on)
+        check.setToolTip(self.tr("Also list the secondary minima (half a period after the primary)"))
+        check.toggled.connect(lambda _on: self.record(self.tr("secondary minima"), self._typed_from))
+        self.table.setCellWidget(r, 6, check)
+
     def add_target(self, target: dict):
+        self.edit(self.tr("add a target"), self._add_target, target)
+
+    def _add_target(self, target: dict):
         r = self.table.rowCount()
         self.table.insertRow(r)
         for c, key in enumerate(TARGET_COLUMNS[:3]):
@@ -221,9 +255,7 @@ class PlanPage(QWidget):
         for c, key in zip(range(3, 6), ("t0", "period", "duration"), strict=True):
             value = target.get(key)
             self.table.setItem(r, c, QTableWidgetItem("" if value is None else repr(float(value))))
-        check = QCheckBox(self.table)
-        check.setChecked(bool(target.get("secondary")))
-        self.table.setCellWidget(r, 6, check)
+        self._secondary_box(r, bool(target.get("secondary")))
         self.target_input.clear()
         self.status.setText(self.tr("{name} added ({source}).").format(name=target["name"], source=target["source"]))
 
