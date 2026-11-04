@@ -307,7 +307,12 @@ lists, the shared result table.
 - **Files:** `photometry/{live,lightcurve}.py`, `photometry/options.py` (new), UI images panel, tests.
 
 ### PHO-20. The same run without the window  (P2)
-**open**
+**partial** — done (2026-11-13): File → Export → "Recipe for the command line (.json)…" writes the last measurement
+as an automation file (`photometry/recipe.py`: the step photometry.light_curve with the window's parameters, the
+frames, stars, position and reference frame carried as the inputs' values — automations now take an input's
+`value` as its default, `engine/automation.defaults`); `astrowb-cli recipe night.json [--set images=[…]]` runs it.
+Test: the command line gives the window's relative fluxes to 1e-12; three frames given with --set replace the
+recipe's. Left: star list by RA / Dec in the recipe, exports in it, `api.light_curve`, the guide's example.
 - **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
   option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
   documented with an example notebook-style script in the guide.

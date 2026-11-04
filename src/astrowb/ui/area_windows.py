@@ -100,6 +100,8 @@ def _exports_menu(win, page, actions):
     exports.addAction(translate("MainWindow", "Light-curve file, nothing left out (.lc.ecsv)…"),
                       lambda: _save_lc_file(win, page))  # fmt: skip
     exports.addAction(translate("MainWindow", "Save all into a folder…"), lambda: _save_all(win, page))
+    exports.addAction(translate("MainWindow", "Recipe for the command line (.json)…"), lambda: _save_recipe(win, page))
+    page.measure_requested.connect(lambda *run: setattr(page, "last_measure", run))  # the run a recipe repeats
     from PySide6.QtWidgets import QPushButton
 
     box = page.export_button.parentWidget().layout()  # the Report stage: everything at once, first
@@ -159,6 +161,28 @@ def _save_all(win, page, folder=None):
         )
     page.result.setText(text)
     return files
+
+
+def _save_recipe(win, page, path=None):
+    """PHO-20: the last measurement as an automation file that astrowb-cli recipe runs without the window."""
+    from PySide6.QtWidgets import QFileDialog
+
+    from ..photometry.recipe import light_curve_recipe, save
+
+    run = getattr(page, "last_measure", None)
+    if run is None:
+        page.result.setText(translate("MainWindow", "Measure the light curve first."))
+        return None
+    path = path or QFileDialog.getSaveFileName(win, translate("MainWindow", "Recipe"), "light_curve.json",
+                                               "JSON (*.json)")[0]  # fmt: skip
+    if not path:
+        return None
+    images, target, comps, coord, params = run
+    params = dict(params)
+    extra, ref = params.pop("extra_xy", ()), params.pop("ref_image", None)
+    save(light_curve_recipe(images, target, comps, params, coord, extra, ref), path)
+    page.result.setText(translate("MainWindow", "Saved {name}").format(name=path))
+    return path
 
 
 def _save_lc_file(win, page):

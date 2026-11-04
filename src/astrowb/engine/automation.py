@@ -80,8 +80,15 @@ def needed(auto, available=()) -> list[str]:
     return need
 
 
+def defaults(auto) -> dict:
+    """The values an automation carries for its own inputs (a saved recipe: the frames and stars it was made with);
+    what the caller gives replaces them."""
+    return {k: v["value"] for k, v in (auto.get("inputs") or {}).items() if isinstance(v, dict) and "value" in v}
+
+
 def check(auto, inputs) -> None:
     """Fail before anything runs: unknown step, no steps, or inputs nobody provides."""
+    inputs = defaults(auto) | dict(inputs)
     if not auto["steps"]:
         raise ValueError("the automation has no steps")
     for entry in auto["steps"]:
@@ -108,7 +115,7 @@ def calls(auto, inputs):
     """Generator of (step_id, inputs, params), one per task; send each task's outputs back.
     Its return value (StopIteration.value) is all data at the end."""
     check(auto, inputs)
-    data = dict(inputs)
+    data = defaults(auto) | dict(inputs)
     for entry in auto["steps"]:
         s = steps.get(entry["step"])
         links, each = entry.get("inputs", {}), entry.get("each")
