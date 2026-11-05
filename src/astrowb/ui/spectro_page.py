@@ -1195,6 +1195,13 @@ class VelocityTab(QWidget):
                         q=words[mk[0]["quality"]]
                     )
                 )
+            if (mk_model or {}).get("luminosity_from_lines"):
+                lines.append(
+                    self.tr(
+                        "Luminosity class from the gravity-sensitive lines (Sr II 4077, 4216, Ca I 4226, Y II 4376, "
+                        "Mg b, MgH), as a classifier decides it for G5–M stars."
+                    )
+                )
             strong = (mk_model or {}).get("strong_lines") or []
             if strong:
                 hint_words = {"Ap (Sr)": self.tr("an Ap (Sr) star?"), "Ap (Si)": self.tr("an Ap (Si) star?"),
@@ -1204,6 +1211,17 @@ class VelocityTab(QWidget):
                         l=", ".join(
                             f"{x['line']} (+{x['excess']:.2f} Å): {hint_words.get(x['hint'], x['hint'])}"
                             for x in strong
+                        )
+                    )
+                )
+            bands = (mk_model or {}).get("strong_bands") or []
+            if bands:
+                band_words = {"CN-strong": self.tr("a CN-strong giant?"), "CH star": self.tr("a CH star?")}
+                lines.append(
+                    self.tr("Bands much deeper than in the standard: {b}.").format(
+                        b=", ".join(
+                            f"{x['band']} ({100 * (x['ratio'] - 1):+.0f} %): {band_words.get(x['hint'], x['hint'])}"
+                            for x in bands
                         )
                     )
                 )

@@ -155,3 +155,31 @@ def test_strong_sr_line_points_to_an_ap_star(qtbot):
     m = {"wave": grid.tolist(), "star": star.tolist(), "model": model.tolist(), "strong_lines": found}
     tab.show_classes([], [{"type": "A5 V", "score": 0.03, "quality": "vgood"}], None, m)
     assert "Sr II 4077 (+0.4" in tab.status.text() and "Ap (Sr)" in tab.status.text()
+
+
+def test_late_type_luminosity_and_bands_from_lines(qtbot):
+    grid = np.arange(3800.0, 5600.0, 1.0)
+
+    def star(lum, g_depth=0.3):  # Sr II 4077 grows with luminosity, MgH 4780 is a dwarf's band
+        f = np.ones_like(grid)
+        f -= (0.05 + 0.08 * (5 - lum)) * np.exp(-0.5 * ((grid - 4077.7) / 1.5) ** 2)
+        f -= 0.04 * lum * np.exp(-0.5 * ((grid - 4780.0) / 6.0) ** 2)
+        f -= g_depth * ((grid > 4281) & (grid < 4316))
+        f -= 0.2 * np.exp(-0.5 * ((grid - 5172.7) / 2.0) ** 2)
+        return f
+
+    lib = {(t, lum): star(lum) for t in (33.0, 34.0, 35.0) for lum in (0.0, 1.0, 3.0, 5.0)}
+    assert mkstandards.luminosity_from_lines(star(3.0), grid, lib, 34.0) == 3.0
+    assert mkstandards.luminosity_from_lines(star(5.0), grid, lib, 34.0) == 5.0
+    assert mkstandards.strong_bands(star(3.0), grid, lib, 34.0, 3.0) == []
+    ch = mkstandards.strong_bands(star(3.0, g_depth=0.45), grid, lib, 34.0, 3.0)
+    assert [b["hint"] for b in ch] == ["CH star"] and ch[0]["ratio"] < 0.945
+    assert mkstandards.strong_bands(star(5.0, g_depth=0.45), grid, lib, 34.0, 5.0) == []  # dwarfs: not checked
+    from astrowb.ui.spectro_page import VelocityTab
+
+    tab = VelocityTab()
+    qtbot.addWidget(tab)
+    m = {"wave": grid.tolist(), "star": star(3.0).tolist(), "model": star(3.0).tolist(), "strong_bands": ch,
+         "luminosity_from_lines": True}  # fmt: skip
+    tab.show_classes([], [{"type": "K0 III", "score": 0.03, "quality": "vgood"}], None, m)
+    assert "gravity-sensitive lines" in tab.status.text() and "a CH star?" in tab.status.text()

@@ -574,10 +574,16 @@ interpolated in temperature (running numbers) within each luminosity class, × q
   recognised. (3) Lines of peculiar stars, each measured in the star and in its best standard over the same continuum:
   Sr II 4077 and Si II 4128-30 for B9–F5 (Ap), Ba II 4554 for G5–K5 giants (barium stars); flagged above 0.35 Å
   excess (normal standards: scatter 0.07–0.10 Å, max 0.29 Å). Validated: 0 of 174 standards flagged, +0.5 Å lines found.
-  Tests in `tests/test_mkstandards.py`. CN / CH flags tried and left out: over the Lick windows CN1 and G4300
-  (Worthey et al. 1994) normal standards differ from their best match by 3–4 Å, as much as a CN-strong star differs
-  from a normal one — not measurable this way at 3.6 Å with the library's own scatter. Still not done: the luminosity
-  criteria of late-type stars (the whole-spectrum match gives the luminosity class: 90 % right in the leave-one-out).
+  Tests in `tests/test_mkstandards.py`.
+  (4) Luminosity of G5–M stars from the gravity-sensitive lines (Gray & Corbally 2009: Sr II 4077, 4216, Ca I 4226,
+  the 4172–79 blend, Y II 4376 / Fe I 4383, Mg b, MgH 4780) at the fitted temperature type: late standards left out
+  (S/N 50 and 20) right in 47 of 56 against 45 from the whole-spectrum match (mixing both scores did worse).
+  (5) CN / CH (owner asked for a better method than equivalent widths, whose scatter on normal standards was 3–4 Å):
+  the star divided by its best standard — fitted with 4140–4340 Å left out, so a strong band does not pull the type —
+  band against continuum over the Lick windows CN1 and G4300. Normal giants: CN 0.985 ± 0.032 (never < 0.917), G band
+  0.998 ± 0.014 (never < 0.971); limits 0.87 and 0.945. 0 of 174 standards flagged; G band 10 % deeper found in
+  25 of 35 G0–K7 IV–I stars, CN 20 % deeper in 17 of 35 (the rest: the deep band makes the star look like a dwarf
+  or too faint in the blue). Hints, never applied.
 - Follow-up done (agent session 019Lu3): the Velocity tab draws the star over the best MK standard after "Spectral
   type…" (the user judges the suggestion by eye, as MK classification is done); the standard is drawn only where it
   has flux. The MK type no longer fails when the Pickles library cannot be downloaded (it did in this container,
