@@ -109,7 +109,9 @@ def minimum_step(inputs, params, ctx):
 
         found, skipped = each_minimum(t, y_norm, params["t0"], params["period"], timer)
         if not found:
-            raise ValueError("no whole eclipse at the times predicted by T0 and the period")
+            raise ValueError(
+                "no whole eclipse at the times predicted by T0 and the period: check T0, the period and the time scale"
+            )
         minima = []
         for tm, e, k in found:  # a secondary minimum is half a cycle on: its epoch ends in .5
             half = 0.5 * params["period"] if k == "II" else 0.0

@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .messages import translate
 from .undo import Undoable
 from .workspaces import PlotCanvas
 
@@ -360,7 +361,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         try:
             return spectrum_io.read(path)
         except (OSError, ValueError, IndexError) as e:
-            self.status.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=e))
+            self.status.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
             return None
 
     def _open(self, path=None):
@@ -484,7 +485,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         try:
             m = measure_line(self.wave, self.flux, self.lo.value(), self.hi.value(), self.profile.currentData())
         except (ValueError, RuntimeError) as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return None
         self.last = m
         self._add_row(Path(self.path).name, m)
@@ -514,7 +515,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         try:
             v = v_over_r(self.wave, self.flux, self.vr_centre.value(), self.vr_half.value())
         except ValueError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return None
         self.status.setText(
             self.tr("V/R = {vr:.3f}; peaks at {vv:.0f} and {rv:.0f} km/s").format(
@@ -611,7 +612,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         try:
             cont = continuum_from_points(self.wave, self.flux, self.points)
         except ValueError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return
         self.pick.setChecked(False)
         self.edit(self.tr("normalise through points"), self._through_points, cont)
@@ -629,7 +630,7 @@ class SpectrumToolsTab(Undoable, QWidget):
         try:
             self.resp = (self.wave.copy(), response(self.wave, self.flux, got[0], got[1]))
         except ValueError as e:
-            self.status.setText(str(e))
+            self.status.setText(translate(e))
             return None
         self.apply_resp.setEnabled(True)
         self.status.setText(self.tr("Response computed; open a target spectrum and press Divide by response."))

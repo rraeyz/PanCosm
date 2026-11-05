@@ -60,7 +60,9 @@ def trace_orders(flat, rows=None, n_bins=64, order=4, clip=3.0, half_window=None
     """Polynomial coefficients y(x) (numpy.polyval order) for each order of a flat."""
     rows = find_orders(flat) if rows is None else np.asarray(rows, float)
     if len(rows) == 0:
-        raise ValueError("no orders found")
+        raise ValueError(
+            "no orders found: check that the flat shows the orders as bright stripes, or add them by hand on the flat"
+        )
     nx = flat.shape[1]
     half = half_window or order_window(rows)
     edges = np.linspace(0, nx, n_bins + 1).astype(int)

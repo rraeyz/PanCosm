@@ -77,7 +77,9 @@ def calibrate(lc, comps, target_colour=None, colour_term=True):
     flux_t = np.asarray(lc["target_flux"], float)
     use = [i for i, c in enumerate(comps) if c and c.get("mag") is not None]
     if not use:
-        raise ValueError("no comparison star has a catalogue magnitude")
+        raise ValueError(
+            "no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia"
+        )
     m_cat = np.array([comps[i]["mag"] for i in use])
     with np.errstate(divide="ignore", invalid="ignore"):
         m_inst = -2.5 * np.log10(flux_c[:, use])

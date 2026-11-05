@@ -12,7 +12,7 @@ def find_image_hdu(hdul) -> int:
         # header only: touching .data would load (or refuse to memory-map) scaled integer data
         if isinstance(hdu, (fits.PrimaryHDU, fits.ImageHDU, fits.CompImageHDU)) and hdu.header.get("NAXIS", 0) >= 2:
             return i
-    raise ValueError("no image data in file")
+    raise ValueError("no image data in file: open a FITS image, a picture or a camera raw file")
 
 
 def plane(data) -> np.ndarray:

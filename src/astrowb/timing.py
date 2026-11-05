@@ -86,7 +86,9 @@ def start_time(header) -> Time:
                 return Time(number(header[key]), format=fmt, scale="utc")
     if date_only:
         raise TimeError(f"{date_only} holds a date but no time of day, and no time keyword was found")
-    raise TimeError("no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS)")
+    raise TimeError(
+        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS on the Images page's Header tab"
+    )
 
 
 def mid_time(header) -> Time:
