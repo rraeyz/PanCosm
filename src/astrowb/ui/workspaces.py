@@ -1452,7 +1452,8 @@ class PhotometryPage(Undoable, QWidget):
         self.follow_seeing.setToolTip(
             self.tr(
                 "Each frame's radii are scaled by its FWHM over the first frame's, so the aperture holds "
-                "the same part of the light when the seeing changes during the night"
+                "the same part of the light when the seeing changes during the night. In a crowded field a changing "
+                "aperture can add trends of its own: measure once with fixed radii too and compare"
             )
         )
         side.addWidget(self.follow_seeing)
