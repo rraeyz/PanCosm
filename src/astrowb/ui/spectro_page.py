@@ -167,6 +167,14 @@ class ReduceTab(Undoable, QWidget):
                 "Width of the strip across the spectrum that is added up; about two to three times the spectrum's FWHM"
             )
         )
+        self.trace_row = _spin(self, 0, 0, 100000, 0)
+        self.trace_row.setSpecialValueText(self.tr("its own"))
+        self.trace_row.setToolTip(
+            self.tr(
+                "For a spectrum too faint to follow: the row of a brighter spectrum in the slit, whose traced shape is "
+                "moved to the faint one (IRAF apall's reference aperture)"
+            )
+        )
         self.row = _spin(self, 0, 0, 100000, 0)
         self.row.setSpecialValueText(self.tr("the brightest"))
         self.row.setToolTip(
@@ -204,6 +212,7 @@ class ReduceTab(Undoable, QWidget):
         for r, (label, w) in enumerate(
             (
                 (self.tr("Spectrum at row"), self.row),
+                (self.tr("Trace shape from row"), self.trace_row),
                 (self.tr("Aperture width (px)"), self.width),
                 (self.tr("Sky offset (px)"), self.sky_offset),
                 (self.tr("Sky width (px)"), self.sky_width),
@@ -301,6 +310,7 @@ class ReduceTab(Undoable, QWidget):
             "sky_lines": self.sky_lines.isChecked(),
             "line_list": self.line_list.currentText(),
             "guess_row": self.row.value() or None,
+            "trace_row": self.trace_row.value() or None,
         } | self.orientation.params()
         self.status.setText(self.tr("Working…"))
         self.reduce_requested.emit(inputs, params)

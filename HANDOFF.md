@@ -496,6 +496,20 @@ reference arc + IRAF database, 9 lines He I 3888.7 … Ar I 7383.9). Found and f
   lines", status line says the shift or that the arc's zero point was kept; header WAVSKYSH). SN 2018kzr: −7.14 Å
   from 3 lines; LTT 3864 (80 s): no line strong enough, nothing shifted. Echelle step: not done.
 
+**Benchmark against an IRAF pipeline (agent session 019Lu3, the owner asked for IRAF-level spectra).** ESO publishes
+PESSTO's reduced spectra (IRAF-based pipeline) of the same EFOSC2 night: TAP `ivoa.ObsCore` with
+`instrument_name='EFOSC' AND dataproduct_type='spectrum' AND t_min BETWEEN 58484 AND 58485` → SN 2018kzr
+`ADP.2021-03-23T16:54:29.889` (from raw `EFOSC.2019-01-01T04:06:59.255`), AT 2018hyz `ADP.2021-03-23T16:54:29.601`
+(raw `EFOSC.2019-01-01T08:03:09.038`); both carry WAVE, FLUX (flux-calibrated), BGFLUX (the sky). PESSTO trims about 99
+columns off the start: their aperture centre 449.4 is our row 548. Our reduction of the same raw frames (bias, nine
+He-Ar lines, sky zero point, optimal extraction) against theirs, on a 2.5 Å grid 4000–7300 Å:
+SN 2018kzr feature correlation 0.84 (ratio ours/theirs smooth within 3.1 %), AT 2018hyz 0.88 (1.5 %), a different star
+as control 0.00 (10 %); wavelength difference ours − PESSTO −1.0 and −1.1 Å (a quarter of a pixel). Night-sky lines
+against the laboratory: ours +0.23, +0.15, −0.87 Å ([O I] 5577, 6300, 6363); PESSTO's sky −0.40, +1.62, +0.41 Å.
+Added on the way: "Trace shape from row" (IRAF apall's reference aperture: a faint spectrum traced with a brighter
+one's shape, `longslit.shifted_trace`), and the trace error now says so. Not compared: flux calibration (ours is not
+flux-calibrated in this run).
+
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on
 how to choose, a tooltip on each. `self.kvw` / `self.trapezoid` in `PhotometryPage`. The engine step

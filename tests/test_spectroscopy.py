@@ -561,3 +561,18 @@ def test_reduce_tab_reports_the_sky_zero_point(qtbot):
     assert "+6.95 Å" in tab._sky_text(
         {"shift": -6.95, "lines": [[5577.338, -6.94, 0.1, 46], [6300.304, -6.96, 0.1, 21]]}
     )
+
+
+def test_faint_spectrum_traced_with_a_brighter_ones_shape():
+    # as IRAF apall's reference aperture: a curved bright trace, a faint spectrum 60 rows away
+    rng = np.random.default_rng(4)
+    ny, nx = 200, 600
+    x = np.arange(nx)
+    yb = 60 + 15 * ((x - 300) / 300) ** 2
+    yy = np.arange(ny)[:, None]
+    img = 2000 * np.exp(-0.5 * ((yy - yb) / 2.0) ** 2) + 5 * np.exp(-0.5 * ((yy - (yb + 60)) / 2.0) ** 2)
+    img = img + rng.normal(0, 4, (ny, nx))
+    with pytest.raises(ValueError, match="brighter spectrum's row"):
+        longslit.trace(img, guess_row=120, nlost=1)
+    coef = longslit.shifted_trace(img, longslit.trace(img, 60), 120)
+    assert np.allclose(np.polyval(coef, x), yb + 60, atol=0.5)
