@@ -376,13 +376,15 @@ Found and fixed (each with a test):
 Result with the defaults: transit at 2461347.608994 ± 0.000595 BJD_TDB, O−C −3.1 ± 0.9 min against ExoClock (with a
 fixed 14 px aperture −0.5 min; KvW −2.3 to −4.5 min); depth 3.1 % (r = 10 px) / 2.4 % (r = 14 px), literature
 2.3–2.5 %. BJD_TDB of the frames checked against astropy (same frame: identical).
-**Finding on "Radii follow the seeing"** (off by default): on this night it gave −22 min and twice the scatter
-(1.32 % vs 0.59 %). The per-frame FWHM is not the problem: BANZAI's own L1FWHM jitters even more (0.57 px frame to
-frame, r = 0.87 with ours), so the seeing really changes that fast at 30 s. With identical star images the ratio
-would cancel (the synthetic test shows it); in this crowded field it does not, most likely because a sky bias per
-pixel scales with the aperture area and differs from star to star. Tried and reverted: a running median of the FWHM
-(halved the scatter, timing unchanged) and a fixed sky annulus (no change). Done: the checkbox's tooltip now says
-that in a crowded field a changing aperture can add trends and to compare with fixed radii (4 languages).
+**Finding on "Radii follow the seeing" — cause found (agent session 019Lu3).** On this night radii following the
+seeing gave −22 min and twice the scatter. Curves of growth on the real frames: the target's light grows +0.5 to
++0.7 % more than every comparison star's between 10 and 12–14 px (the comparisons agree among themselves), i.e.
+something faint sits in the target's wings (not in BANZAI's catalogue). A fixed aperture holds a constant share of
+it (depth slightly diluted, timing right); an aperture following the seeing holds a share that changes with the
+seeing, which here peaked late in the transit. The per-frame FWHM is not the problem (BANZAI's own jitters more).
+Done: `choose_apertures` returns `target_excess` (target's growth between 1 and 1.5 apertures minus the comparisons'
+median; Qatar-1 +0.9 to +1.5 %, comparisons as "target" −0.6 to +0.1 %), and the page warns above 1 % to keep the
+radii fixed; the checkbox tooltip warns about crowded fields. Test `test_a_neighbour_in_the_target_wings_is_pointed_out`.
 Not done: AAVSO report and standard magnitudes (need VizieR / APASS, blocked here); the ExoClock / ETD export from
 the Models page with this light curve.
 

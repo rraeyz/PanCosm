@@ -322,7 +322,15 @@ def choose_apertures(data, stars_xy, gain=1.0):
     r_in = max(r_in, 3.0 * fwhm, r_ap + 1.0)
     r_out = float(np.sqrt(r_in**2 + SKY_RATIO * r_ap**2))
     centres, binned = profiles[b]["bins"]
+    # a target whose light grows faster outside the aperture than the comparisons' has something next to it (a faint
+    # neighbour in its wings): radii that follow the seeing then take a varying share of it (Qatar-1 b, LCO: +0.5 %
+    # at 1.5 apertures, the transit moved by 20 min with variable radii)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        g = np.interp(1.5 * r_ap, radii, growth[0]) / np.interp(r_ap, radii, growth[0])
+        others = [np.interp(1.5 * r_ap, radii, gr) / np.interp(r_ap, radii, gr) for gr in growth[1:]]
+    excess = float(g - np.median(others)) if others else 0.0
     return {
+        "target_excess": excess if np.isfinite(excess) else 0.0,
         "fwhm": fwhm,
         "r_ap": round(r_ap, 2),
         "r_in": round(r_in, 2),
