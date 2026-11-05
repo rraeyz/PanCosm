@@ -212,6 +212,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the telescope aperture and the exposure time must be positive"),
     # photometry/differential.py
     QT_TRANSLATE_NOOP("Messages", "too few points outside the left-out range to detrend"),
+    # io/lzw.py
+    QT_TRANSLATE_NOOP("Messages", "not a .Z (compress) file: check the file name, or download it again"),
+    QT_TRANSLATE_NOOP("Messages", "unsupported .Z file: decompress it with gzip -d or 7-Zip and open the .fits"),
+    QT_TRANSLATE_NOOP("Messages", "damaged .Z file: download it again"),
     QT_TRANSLATE_NOOP("Messages", "no spectrum covers the chosen wavelengths: widen the range or set it to 0 (all)"),
     QT_TRANSLATE_NOOP(
         "Messages", "{k} in the left-out range is far from its values at the fitted points: leave out only the eclipse"

@@ -332,8 +332,13 @@ class ReduceTab(Undoable, QWidget):
         self.plot.draw()
         if s["solution"]:
             self.status.setText(
-                self.tr("Wavelength solution: {n} lines, rms {rms:.3f} Å. Saved: {path}").format(
-                    n=s["solution"]["n_lines"], rms=s["solution"]["rms"], path=s.get("path", "—")
+                self.tr(
+                    "Wavelength solution: {n} lines, polynomial of degree {d}, rms {rms:.3f} Å. Saved: {path}"
+                ).format(
+                    n=s["solution"]["n_lines"],
+                    d=s["solution"].get("degree") or "—",
+                    rms=s["solution"]["rms"],
+                    path=s.get("path", "—"),
                 )
             )
         else:

@@ -17,14 +17,14 @@ from ..io.fits import find_image_hdu
 KINDS = ("bias", "dark", "flat", "light")
 FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
 
-_TYPE_KEYS = ("IMAGETYP", "IMAGETYPE", "FRAME", "FRAMETYP", "OBSTYPE", "EXPTYPE")
+_TYPE_KEYS = ("IMAGETYP", "IMAGETYPE", "FRAME", "FRAMETYP", "OBSTYPE", "EXPTYPE", "HIERARCH ESO DPR TYPE")
 _PATTERNS = [  # order matters: "dark flat" is a dark for the flat, "flat dark" too
     ("dark", re.compile(r"dark", re.I)),
     ("bias", re.compile(r"bias|zero|offset", re.I)),
     ("flat", re.compile(r"flat|sky ?flat|dome ?flat|twilight", re.I)),
     # wavelength-calibration lamps (IRAF 'comp'): calibrated like lights, never divided by a flat nor stacked
-    ("arc", re.compile(r"(?<![a-z])(comp|arc|lamp|thar|th-ar|fear|hear|cuar|neon|argon|wavecal)(?![a-z])", re.I)),
-    ("light", re.compile(r"light|object|science|sci\b|target", re.I)),
+    ("arc", re.compile(r"(?<![a-z])(comp|arc|lamp|thar|th-ar|fear|hear|cuar|neon|argon|wavecal|wave)(?![a-z])", re.I)),
+    ("light", re.compile(r"light|object|science|sci\b|target|(?<![a-z])std(?![a-z])", re.I)),  # ESO: STD = a standard
 ]
 
 
@@ -80,7 +80,20 @@ def read_frame(path: Path) -> Frame:
     mode = h.get("READOUTM", h.get("READMODE"))  # the same setting under two names (MaxIm writes both to lights)
     settings = {"GAIN": h.get("GAIN"), "EGAIN": h.get("EGAIN"), "OFFSET": h.get("OFFSET"), "MODE": mode}
     readout = "|".join(f"{k}={v}" for k, v in settings.items() if v is not None)
-    filt = _first(h, "FILTER", "FILTER1", "FILTNAME", "FILTERS")
+    filt = _first(h, "FILTER", "FILTER1", "FILTNAME", "FILTERS", "HIERARCH ESO INS FILT1 NAME")
+    # the disperser of a spectrograph belongs to the setting: a flat taken with another grism must not be used
+    disperser = _first(
+        h,
+        "GRISM",
+        "GRATING",
+        "DISPERSR",
+        "HIERARCH ESO INS GRIS1 NAME",
+        "HIERARCH ESO INS GRAT1 NAME",
+        "HIERARCH ESO INS GRAT NAME",
+    )
+    if disperser is not None and str(disperser).strip().lower() not in ("", "free", "none", "open"):
+        filt = f"{str(filt).strip()} / {str(disperser).strip()}" if filt is not None else str(disperser).strip()
+    ccdsum = str(h.get("CCDSUM", "")).split()  # '2 2' (NOAO, LCO)
     return Frame(
         path=str(path),
         kind=classify(h, str(path)),
@@ -88,8 +101,16 @@ def read_frame(path: Path) -> Frame:
         filter=str(filt).strip() if filt is not None else None,
         temperature=_float(_first(h, "CCD-TEMP", "CCD_TEMP", "SENSOR-T", "DET-TEMP", "SET-TEMP")),
         binning=(
-            int(_float(_first(h, "XBINNING", "BINX", "CCDXBIN")) or 1),
-            int(_float(_first(h, "YBINNING", "BINY", "CCDYBIN")) or 1),
+            int(
+                _float(_first(h, "XBINNING", "BINX", "CCDXBIN", "HIERARCH ESO DET WIN1 BINX"))
+                or (_float(ccdsum[0]) if len(ccdsum) == 2 else None)
+                or 1
+            ),
+            int(
+                _float(_first(h, "YBINNING", "BINY", "CCDYBIN", "HIERARCH ESO DET WIN1 BINY"))
+                or (_float(ccdsum[1]) if len(ccdsum) == 2 else None)
+                or 1
+            ),
         ),
         shape=shape,
         readout=readout,

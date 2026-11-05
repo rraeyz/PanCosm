@@ -512,3 +512,21 @@ def test_emission_lines_are_masked_against_an_absorption_template():
     assert n > 5 and masked[np.argmin(np.abs(w - 5411.5))] == 1.0
     _, n_emission_template = rv.mask_emission(obs, obs)  # the template itself in emission: nothing masked
     assert n_emission_template == 0
+
+
+def test_wavelength_solution_degree_chosen_by_the_lines():
+    # EFOSC2 grism 11 (real ESO night): nine identified He-Ar lines need a quartic (0.2 A rms; the solver allowed
+    # only a quadratic, 1-3 A); blended catalogue lines at 4 A per pixel must not be matched as single lines
+    def disp(p):
+        return 3041 + 4.41 * p - 2.3e-4 * p**2 + 1.6e-7 * p**3 - 8e-11 * p**4
+
+    rng = np.random.default_rng(2)
+    lines = np.sort(rng.uniform(3200, 7400, 40))
+    blend = lines[5] + 1.5  # a neighbour too close to tell apart at this resolution
+    px = np.linspace(0, 1030, 4001)
+    peaks = np.array([px[np.argmin(np.abs(disp(px) - lam))] for lam in lines])
+    guesses = [[peaks[i], lines[i]] for i in range(0, 40, 4)]
+    sol = wavecal.solve(peaks, np.r_[lines, blend], guesses, order=5)
+    assert sol.degree == 4 and sol.rms < 0.3
+    flat = wavecal.solve(peaks, 3000 + 4.4 * peaks, [[p, 3000 + 4.4 * p] for p in peaks[::4]], order=5)
+    assert flat.degree == 1
