@@ -223,6 +223,7 @@ class ImagePage(Undoable, QWidget):
         export = QPushButton(self.tr("Export data (CSV)…"), self)
         export.clicked.connect(lambda: self.export_graph())
         export.setToolTip(self.tr("The numbers of the graph shown, as a table for a spreadsheet"))
+        export.setMinimumWidth(export.sizeHint().width())  # the narrow side panel cut the longer translations
         row.addWidget(export)
         gl.addLayout(row)
         self.tabs = QTabWidget(self)
@@ -230,7 +231,7 @@ class ImagePage(Undoable, QWidget):
         hl = QVBoxLayout(header_tab)
         hl.setContentsMargins(0, 0, 0, 0)
         hl.addWidget(self.header_table, 1)
-        hrow = QHBoxLayout()
+        hrow = QVBoxLayout()  # one under the other: side by side the longer translations did not fit the panel
         for text, slot in (
             (self.tr("Add or change keyword…"), self.edit_keyword_dialog),
             (self.tr("Delete keyword"), self.delete_selected_keyword),

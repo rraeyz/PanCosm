@@ -343,8 +343,8 @@ Status of everything so far:
 | U2 | Plan page: explain "ephemeris"; short explanation (tooltip) on "add to ephemeris" and the button next to it | DONE (see notes) |
 | U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | DONE (see notes) |
 | U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | DONE (see notes) |
-| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | PARTLY: mirrors DONE; AAVSO report / standard magnitudes CLAIMED (session 019Lu3, 2026-11-05) |
-| U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | open |
+| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
+| U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-05): automatic sweep DONE in 4 languages; real-data use per page in progress |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | open |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
@@ -383,6 +383,25 @@ least squares alone stay instant on the page. Real test: KIC 6525196 (Kepler, 18
 the outer orbit of this spectroscopic triple is ~418 d), A = 4.25 +- 0.10 min, e3 = 0.34 +- 0.04. MCMC 3000 steps as a
 task: 20 s, the page answered throughout (longest pause 0.05 s). Note: BLS gave 1.7103 d = P/2 (equal eclipses);
 the timings were still right (all eclipses as "I"), but a user must know the true period is 3.42 d.
+**U5 (done).** Real LCO Qatar-1 night (265 frames): "Standard magnitudes (APASS / Gaia)" found the four comparison
+stars in APASS DR9 through the VizieR mirror in 19.5 s; the target came out at 12.745 (median, CV), APASS gives
+12.761 +- 0.031. The AAVSO Extended report (#DATE=JD from jd_utc, ENSEMBLE / CMAG=na, MTYPE=STD, AIRMASS) is well
+formed. Note: MERR (0.003) is the photon error; the scatter is 0.012 because scintillation is only added when the
+telescope aperture is known (the page says so).
+**U6 sweep (done).** `scratchpad/real/u6_sweep.py`: every page and tab in Turkish, German, Spanish (and English):
+every control's tooltip, cut texts, texts left untranslated, every enabled button clicked with no data (dialogs,
+menus and file pickers answered "cancel"), with the time of each click. Found and fixed: "Export results (CSV /
+LaTeX)…" and its tooltip were English in every language (a module-level tr() helper made the translation tool file
+them under an empty context; test `test_no_translation_is_filed_without_a_context`); two buttons in the image side
+panel cut in Turkish / German / Spanish (keyword buttons now one under the other, "Export data (CSV)" keeps its
+width). Now: 0 controls without a tooltip, 0 untranslated texts, 0 cut texts, 0 exceptions in 273 clicks per
+language; the only click over 1 s is "Plan the night" (4.2 s, empty target list: the worker start and the Sun /
+Moon ephemeris).
+**U9 photometry speed.** Profile of the light curve (30 LCO frames of 2400 x 2400): 0.76 s per frame, mostly the
+frame-to-frame shift (despike + statistics + FFT of the whole frame) and reading the compressed file. Now the shift of
+large frames (> 4 MP) is found on 2x2-binned frames (every star is re-centred afterwards anyway; stacking keeps the
+full resolution) and the next frame is read in a thread while one is measured: 60 frames 35.2 s -> 13.6 s, relative
+fluxes identical to 2.5e-5. Test `test_binned_frame_shift_is_close_enough_for_re_centring`.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -407,6 +426,10 @@ Users are not affected (certifi has it).
 | Time every minimum (Kwee–van Woerden + bootstrap) | 801 Kepler eclipses | 125 s | slow-ish (0.16 s per minimum, the bootstrap); acceptable for a one-off, keep an eye on it |
 | O−C fits on the page | 801 minima | linear 0.2 s, third body 1.0 s, apsidal 0.3 s | fine |
 | O−C third body + MCMC 3000 steps (task) | 801 minima | 20 s, page responsive (longest pause 0.05 s) | fine; before it froze the page |
+| Photometry: measure a light curve (GUI, 265 LCO frames 2400 x 2400, 5 stars) | Qatar-1 | 447 s before (1.7 s / frame, other work running alongside) | too slow: profiled and fixed, see next line |
+| Photometry: light curve, 60 frames (same data, script) | Qatar-1 | before 35.2 s, now 13.6 s | 2x2-binned frame shift + reading ahead; same fluxes |
+| Photometry: standard magnitudes (APASS / Gaia, mirror) | 4 comparison stars + target | 19.5 s | acceptable (network) |
+| Every button of every page with no data (sweep) | 273 clicks per language | all < 1 s except "Plan the night" 4.2 s | fine |
 
 ### Notes per task
 

@@ -81,14 +81,23 @@ def light_curve(
     fwhm0 = seeing_fwhm(ref, recenter(ref, stars0, box)) if follow_seeing else None
     radii, fwhms, peaks = [], [], []
     saturation = saturation_level(h0, ref)
+    from concurrent.futures import ThreadPoolExecutor
+
+    reader = ThreadPoolExecutor(1)  # the next frame is read (and decompressed) while this one is measured
+    upcoming = reader.submit(load, paths[1]) if len(paths) > 1 else None
+    binning = 2 if ref.size > 4e6 else 1  # large frames: the shift from 2x2-binned frames, then re-centred anyway
     for i, p in enumerate(paths):
         if ctx:
             ctx.check()
             ctx.progress(i / len(paths), "photometry")
-        data, h = (ref, h0) if i == 0 else load(p)
+        if i:
+            data, h = upcoming.result()
+            upcoming = reader.submit(load, paths[i + 1]) if i + 1 < len(paths) else None
+        else:
+            data, h = ref, h0
         # track frame to frame: the field can drift hundreds of pixels over a night, but little
         # between frames; positions are re-centred every frame, so errors do not accumulate
-        dx, dy = (0.0, 0.0) if i == 0 else frame_shift(prev, data)
+        dx, dy = (0.0, 0.0) if i == 0 else frame_shift(prev, data, binning)
         xy = recenter(data, xy + [dx, dy], box)
         prev = data
         k = 1.0
@@ -110,6 +119,7 @@ def light_curve(
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0)))
+    reader.shutdown(wait=False)
     if any(r[1] is None for r in rows):  # without times the light curve is against the frame number
         times, tvals, scale = None, np.arange(len(rows), dtype=float), "frame number"
     else:

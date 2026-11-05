@@ -20,8 +20,10 @@ _CLIP = SigmaClip(sigma=3.0, maxiters=10)
 _last_fft = []  # [image, its transform] of the latest frame_shift call
 
 
-def frame_shift(ref: np.ndarray, img: np.ndarray) -> tuple[float, float]:
+def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[float, float]:
     """(dx, dy) to add to positions in ref to find them in img: FFT phase correlation, sub-pixel peak.
+    binning > 1 correlates binned frames: binning^2 times less work, about a tenth of a binned pixel of accuracy -
+    enough where every star is re-centred afterwards (light curves), not for stacking.
 
     shortcut: translation only; rotated frames (alt-az, meridian flip) need plate solving or
     star-pattern matching before this."""
@@ -29,16 +31,20 @@ def frame_shift(ref: np.ndarray, img: np.ndarray) -> tuple[float, float]:
     from scipy import fft as sfft
 
     def prep(a):
+        if binning > 1:
+            ny, nx = (s // binning * binning for s in a.shape)
+            a = np.asarray(a[:ny, :nx], np.float32).reshape(ny // binning, binning, nx // binning, binning).mean((1, 3))
         a = despike(a)  # hot pixels are fixed on the chip and would pull the peak to zero shift
         _, med, std = sigma_clipped_stats(a[::2, ::2])
         stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
         return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
     # frame to frame, this frame is the next call's reference: its transform is kept, not computed twice
-    fa = _last_fft[1] if _last_fft and _last_fft[0] is ref else prep(ref)
+    fa = _last_fft[1] if _last_fft and _last_fft[0] is ref and _last_fft[2] == binning else prep(ref)
     fb = prep(img)
-    _last_fft[:] = [img, fb]
-    corr = sfft.irfft2(fb * np.conj(fa), s=img.shape, workers=-1)
+    _last_fft[:] = [img, fb, binning]
+    shape = tuple(s // binning for s in img.shape)
+    corr = sfft.irfft2(fb * np.conj(fa), s=shape, workers=-1)
     py, px = np.unravel_index(np.argmax(corr), corr.shape)
 
     def refine(c_m, c_0, c_p):
@@ -48,7 +54,7 @@ def frame_shift(ref: np.ndarray, img: np.ndarray) -> tuple[float, float]:
     ny, nx = corr.shape
     dy = py + refine(corr[(py - 1) % ny, px], corr[py, px], corr[(py + 1) % ny, px])
     dx = px + refine(corr[py, (px - 1) % nx], corr[py, px], corr[py, (px + 1) % nx])
-    return (dx - nx if dx > nx / 2 else dx), (dy - ny if dy > ny / 2 else dy)
+    return binning * (dx - nx if dx > nx / 2 else dx), binning * (dy - ny if dy > ny / 2 else dy)
 
 
 # Paeth's median-of-9 exchange network (19 min/max pairs): the 3x3 median of every pixel at once.
