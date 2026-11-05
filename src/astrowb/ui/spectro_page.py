@@ -1166,6 +1166,18 @@ class VelocityTab(QWidget):
                         q=words[mk[0]["quality"]]
                     )
                 )
+            strong = (mk_model or {}).get("strong_lines") or []
+            if strong:
+                hint_words = {"Ap (Sr)": self.tr("an Ap (Sr) star?"), "Ap (Si)": self.tr("an Ap (Si) star?"),
+                              "Ba star": self.tr("a barium star?")}  # fmt: skip
+                lines.append(
+                    self.tr("Lines much stronger than in the standard: {l}.").format(
+                        l=", ".join(
+                            f"{x['line']} (+{x['excess']:.2f} Å): {hint_words.get(x['hint'], x['hint'])}"
+                            for x in strong
+                        )
+                    )
+                )
             pec = (mk_model or {}).get("peculiarity")
             if pec:
                 hints = {

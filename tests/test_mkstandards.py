@@ -137,3 +137,21 @@ def test_peculiarity_from_separate_k_hydrogen_and_metal_types():
     weak = mkstandards.peculiarity(star(16, 20, 16), grid, lib, 19.0, 5.0)
     assert weak["hint"] == "metal-weak"
     assert mkstandards.peculiarity(star(33, 33, 33), grid, lib, 33.0, 5.0) is None  # G8: not an A-F star
+
+
+def test_strong_sr_line_points_to_an_ap_star(qtbot):
+    grid = np.arange(3800.0, 5600.0, 1.0)
+    model = np.ones_like(grid)
+    s = 3.6 / 2.355
+    star = 1 - 0.5 / (s * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((grid - 4077.7) / s) ** 2)  # EW 0.5 A
+    found = mkstandards.strong_lines(star, model, grid, 20.0, 5.0)
+    assert [x["hint"] for x in found] == ["Ap (Sr)"] and found[0]["excess"] > 0.4
+    assert mkstandards.strong_lines(star, model, grid, 34.0, 3.0) == []  # Sr II is not checked for a K giant
+    assert mkstandards.strong_lines(model, model, grid, 20.0, 5.0) == []
+    from astrowb.ui.spectro_page import VelocityTab
+
+    tab = VelocityTab()
+    qtbot.addWidget(tab)
+    m = {"wave": grid.tolist(), "star": star.tolist(), "model": model.tolist(), "strong_lines": found}
+    tab.show_classes([], [{"type": "A5 V", "score": 0.03, "quality": "vgood"}], None, m)
+    assert "Sr II 4077 (+0.4" in tab.status.text() and "Ap (Sr)" in tab.status.text()
