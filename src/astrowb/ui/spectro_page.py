@@ -1228,6 +1228,14 @@ class VelocityTab(QWidget):
             + "".join(" " + w for w in widths)
             + (" " + self.tr("Barycentric correction for: {w}.").format(w="; ".join(where)) if where else "")
             + (
+                " "
+                + self.tr(
+                    "{n} spectra are already on the barycentric scale (SPECSYS in the header): not corrected again."
+                ).format(n=sum(bool(r.get("already_barycentric")) for r in rows))
+                if any(r.get("already_barycentric") for r in rows)
+                else ""
+            )
+            + (
                 ""
                 if all(r["v_corr"] is not None for r in rows)
                 else " "

@@ -362,6 +362,13 @@ def rv_step(inputs, params, ctx):
             "rv": None,
             "site": None,  # where the barycentric correction was computed for, shown to the user
         } | r2
+        # archive spectra (ESO Phase 3, many pipelines) may already be on the barycentric wavelength scale:
+        # correcting them again put a constant star 27 km/s off
+        already = str(h.get("SPECSYS", "")).strip().upper().startswith("BARYCENT")
+        if already:
+            row |= {"v_corr": 0.0, "rv": r["rv"], "already_barycentric": True}
+            if r2:
+                row["rv2"] = r2["rv2_obs"]
         try:
             t = timing.mid_time(h)
             sky = target_coord(h, inputs.get("coord"))
@@ -369,7 +376,7 @@ def rv_step(inputs, params, ctx):
             where = site if site is not None else timing.location(h)  # the Plan page's site, else the header
             if sky is not None:
                 row["bjd"] = timing.bjd_tdb(t, sky, where).jd
-                if where is not None:
+                if where is not None and not already:
                     row["v_corr"] = rv.barycentric_correction(t, sky, where)
                     geo = where.to_geodetic()
                     row["site"] = {

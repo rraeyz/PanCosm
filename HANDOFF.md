@@ -315,7 +315,7 @@ Status of everything so far:
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
-| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | CLAIMED by agent session 019Lu3, 2026-11-05 |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | ESO part DONE (see notes); LAMOST and raw long-slit of a small spectrograph still open |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
@@ -384,6 +384,27 @@ pixel scales with the aperture area and differs from star to star. Tried and rev
 that in a crowded field a changing aperture can add trends and to compare with fixed radii (4 languages).
 Not done: AAVSO report and standard magnitudes (need VizieR / APASS, blocked here); the ExoClock / ETD export from
 the Models page with this light curve.
+
+**T10 (ESO archive spectra done; agent session 019Lu3).** Data: ESO archive, reduced HARPS spectra (Phase 3 ADP)
+of tau Ceti (HD 10700), six epochs 2003–2013. Query: TAP `https://archive.eso.org/tap_obs/sync` with
+`SELECT dp_id, t_min, snr FROM ivoa.ObsCore WHERE dataproduct_type='spectrum' AND instrument_name='HARPS' AND
+target_name='HD10700' AND snr > 150`; file: `https://dataportal.eso.org/dataportal_new/file/<dp_id>` (5 MB each).
+Template: the Kurucz solar flux atlas (third campaign's table) written as a FITS spectrum 3800–6900 Å.
+Found and fixed (test `tests/test_spectroscopy.py::test_eso_archive_spectrum_already_barycentric`, fails on the old
+code): ESO's format is one table row whose cells are whole arrays (WAVE, FLUX, ERR) — they were read as 1 × N
+arrays and the ERR column was ignored; the spectra carry `SPECSYS = 'BARYCENT'` (wavelengths already on the
+barycentric scale) and would have been corrected a second time (up to 27 km/s for tau Ceti, BERV −27.5 on one epoch):
+now not corrected again and the Velocity tab says so; ESO's site keywords (`ESO TEL GEOLAT / GEOLON / GEOELEV`,
+east-positive) are read as the site for ESO spectra that are not yet barycentric.
+Result: tau Ceti −16.058 km/s with a scatter of 0.006 km/s over the six epochs (CCF against the Kurucz Sun,
+5000–6800 Å). Independent check by Gaussian centres of 16 Fe I lines against laboratory air wavelengths: tau Ceti
+−16.22, the Kurucz Sun −0.16, difference −16.06 (identical). The HARPS pipeline value −16.68 differs by the known
+template zero-point (gravitational redshift / convective blueshift of the template). Spectrum tools on the 313 109
+points: opens in 0.2 s; equivalent widths Fe I 6173 62.0 ± 0.6 mÅ (direct integration 62.3), Fe I 6151 44.5 (44.8),
+centres at the star's velocity. Not done: the spectral type of these spectra (the library download from
+ssb.stsci.edu failed with an SSL error in this container, also with curl: the container's proxy or the server's
+chain; it worked the day before); LAMOST spectra (`https://dr7.lamost.org/` is reachable); raw long-slit data of a
+small spectrograph (none found on Zenodo; specreduce-data holds only reference files).
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on
