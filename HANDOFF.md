@@ -342,8 +342,8 @@ Status of everything so far:
 | U1 | Contact (W UMa) binaries: warn that the Models page's detached (spheres) model does not hold, point to the PHOEBE export | DONE (see notes) |
 | U2 | Plan page: explain "ephemeris"; short explanation (tooltip) on "add to ephemeris" and the button next to it | DONE (see notes) |
 | U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | DONE (see notes) |
-| U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | CLAIMED (session 019Lu3, 2026-11-05) |
-| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | PARTLY: mirrors DONE; AAVSO report / standard magnitudes still open |
+| U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | DONE (see notes) |
+| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | PARTLY: mirrors DONE; AAVSO report / standard magnitudes CLAIMED (session 019Lu3, 2026-11-05) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | open |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | open |
@@ -377,6 +377,12 @@ Harvard; the working server is remembered (also in `mirrors.json` in the config 
 Harvard's VizieR returns nothing for Gaia / APASS, hence IDIA first. VSX ephemerides fall back to VSX's copy in VizieR
 (B/vsx/vsx; aliases such as Algol through SIMBAD's position) when aavso.org does not answer. Still open in U5: the
 AAVSO report and standard magnitudes on the real LCO night.
+**U4 (done).** The O−C page hands an MCMC to the task engine (`timeseries.oc_fit` step; progress, cancel in Tasks);
+least squares alone stay instant on the page. Real test: KIC 6525196 (Kepler, 18 quarters, 65 267 points) -> BLS ->
+"time every minimum" (801 minima) -> O−C page, third body: P3 = 1.1453 +- 0.0032 yr = 418.3 +- 1.2 d (literature:
+the outer orbit of this spectroscopic triple is ~418 d), A = 4.25 +- 0.10 min, e3 = 0.34 +- 0.04. MCMC 3000 steps as a
+task: 20 s, the page answered throughout (longest pause 0.05 s). Note: BLS gave 1.7103 d = P/2 (equal eclipses);
+the timings were still right (all eclipses as "I"), but a user must know the true period is 3.42 d.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -397,6 +403,10 @@ Users are not affected (certifi has it).
 | Plan: add a planet / the Moon | Saturn, Jupiter, Moon | 0.5–1.5 s | fine (offline) |
 | Plan: plan the night | 6 targets incl. planets and the Moon | 4.1–4.2 s | fine |
 | Add with ephemeris (VSX through VizieR when aavso.org does not answer) | NY Vir, W UMa, Algol | 1.1–2.6 s (Algol 16 s: alias through SIMBAD on the first call) | fine |
+| Kepler download, 18 quarters (MAST) | KIC 6525196, 65 267 points | 216 s | MAST itself answered slowly then (astroquery query 90–120 s; minutes later 1.3 s): not the program |
+| Time every minimum (Kwee–van Woerden + bootstrap) | 801 Kepler eclipses | 125 s | slow-ish (0.16 s per minimum, the bootstrap); acceptable for a one-off, keep an eye on it |
+| O−C fits on the page | 801 minima | linear 0.2 s, third body 1.0 s, apsidal 0.3 s | fine |
+| O−C third body + MCMC 3000 steps (task) | 801 minima | 20 s, page responsive (longest pause 0.05 s) | fine; before it froze the page |
 
 ### Notes per task
 

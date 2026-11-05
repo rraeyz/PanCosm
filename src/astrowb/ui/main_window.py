@@ -692,6 +692,22 @@ class MainWindow(QMainWindow):
         fp.to_oc.clicked.connect(
             lambda: [page.oc_page.add_minimum(tm, err, "maximum") for tm, err in (fp.result or {}).get("maxima", [])]
         )
+        oc = page.oc_page
+
+        def oc_background(model, text, t0, period, steps, minima):
+            from .messages import translate
+
+            params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
+            fail = oc.tr("Cannot fit: {error}")
+            self.run_step(
+                "timeseries.oc_fit",
+                {"minima": text},
+                params,
+                on_done=lambda out: oc.show_fit(out["fit"], minima),
+                on_fail=lambda msg: oc.result.setText(fail.format(error=translate(msg))),
+            )
+
+        oc.background = oc_background
         pp = page.period_page
 
         def fetch(target, mission):

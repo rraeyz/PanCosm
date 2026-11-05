@@ -130,7 +130,7 @@ def _covariance(sol, resid):
         return np.full(len(x), np.nan), chi2r
 
 
-def _posterior(resid, x0, err, chi2r, physical, steps, seed=1):
+def _posterior(resid, x0, err, chi2r, physical, steps, seed=1, ctx=None):
     """{name: (median, minus, plus)} (16th / 84th percentiles) of physical(x) over an emcee chain started around
     the least-squares x0 (Goodman & Weare 2010). Flat priors on the fitted parameters; chi2 is divided by
     chi2r > 1 as the least-squares errors are scaled."""
@@ -148,7 +148,10 @@ def _posterior(resid, x0, err, chi2r, physical, steps, seed=1):
     rng = np.random.default_rng(seed)
     scale = np.where(np.isfinite(err) & (err > 0), err, 1e-6 * np.maximum(np.abs(x0), 1.0))
     sampler = emcee.EnsembleSampler(walkers, ndim, log_prob)
-    sampler.run_mcmc(x0 + 0.1 * scale * rng.normal(size=(walkers, ndim)), steps)
+    for i, _ in enumerate(sampler.sample(x0 + 0.1 * scale * rng.normal(size=(walkers, ndim)), iterations=steps)):
+        if ctx and i % 50 == 0:  # a task: show progress, stop when cancelled
+            ctx.check()
+            ctx.progress(0.1 + 0.9 * i / steps, "MCMC")
     chain = sampler.get_chain(discard=steps // 2, thin=5, flat=True)
     best = physical(x0)
     values = {k: np.array([physical(x)[k] for x in chain]) for k in best}
@@ -197,7 +200,7 @@ def _eccentric_starts(times, errs, e, base, p3, t_mid, best=6):
     return out
 
 
-def fit_ltte(minima, t0_ref, period_ref, p3_range=None, mcmc_steps=0):
+def fit_ltte(minima, t0_ref, period_ref, p3_range=None, mcmc_steps=0, ctx=None):
     """Linear ephemeris + light-travel-time orbit of a third body."""
     from scipy.optimize import least_squares
 
@@ -274,7 +277,7 @@ def fit_ltte(minima, t0_ref, period_ref, p3_range=None, mcmc_steps=0):
         ref_period=period_ref,
     )
     if mcmc_steps:
-        _use_posterior(fit, _posterior(resid, sol.x, err, chi2r, physical, mcmc_steps))
+        _use_posterior(fit, _posterior(resid, sol.x, err, chi2r, physical, mcmc_steps, ctx=ctx))
     return fit
 
 
@@ -285,7 +288,7 @@ def _apsidal(e_int, kinds, t0, ps, ecc, omega0, d_omega):
     return t0 + ps * e_int + np.where(sign > 0, pa / 2, 0.0) + sign * pa / np.pi * ecc * np.cos(w)
 
 
-def fit_apsidal(minima, t0_ref, period_ref, mcmc_steps=0):
+def fit_apsidal(minima, t0_ref, period_ref, mcmc_steps=0, ctx=None):
     """Apsidal motion from primary and secondary minima (first order in e, see the module text)."""
     from scipy.optimize import least_squares
 
@@ -339,5 +342,5 @@ def fit_apsidal(minima, t0_ref, period_ref, mcmc_steps=0):
         ref_period=period_ref,
     )
     if mcmc_steps:
-        _use_posterior(fit, _posterior(resid, sol.x, err, chi2r, physical, mcmc_steps))
+        _use_posterior(fit, _posterior(resid, sol.x, err, chi2r, physical, mcmc_steps, ctx=ctx))
     return fit

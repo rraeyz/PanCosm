@@ -11,7 +11,6 @@ import numpy as np
 from PySide6.QtCore import QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
-    QApplication,
     QCheckBox,
     QComboBox,
     QDialog,
@@ -2770,6 +2769,7 @@ class OCPage(QWidget):
         from .export import results_button
 
         self.fit_result = None
+        self.background = None  # set by the main window: runs the MCMC as a task
         lay.addWidget(results_button(self, self.fit_table))
         self.result = QLabel(self)
         self.result.setWordWrap(True)
@@ -2849,19 +2849,24 @@ class OCPage(QWidget):
         try:
             minima = parse_minima(self.text.toPlainText())
             steps = self.mcmc_steps.value() if self.use_mcmc.isChecked() and self.use_mcmc.isEnabled() else 0
-            QApplication.setOverrideCursor(Qt.WaitCursor)  # an MCMC takes a few seconds
-            try:
-                if self.ltte.isChecked():
-                    f = fit_ltte(minima, t0, period, mcmc_steps=steps)
-                elif self.apsidal.isChecked():
-                    f = fit_apsidal(minima, t0, period, mcmc_steps=steps)
-                else:
-                    f = fit(minima, t0, period, order=2 if self.quadratic.isChecked() else 1)
-            finally:
-                QApplication.restoreOverrideCursor()
+            model = "ltte" if self.ltte.isChecked() else "apsidal" if self.apsidal.isChecked() else None
+            if steps and self.background:  # the chain runs as a task: the page stays usable, Tasks can cancel it
+                self.result.setText(self.tr("Fitting, then the MCMC ({s} steps) runs as a task…").format(s=steps))
+                self.background(model, self.text.toPlainText(), t0, period, steps, minima)
+                return None
+            if model == "ltte":
+                f = fit_ltte(minima, t0, period, mcmc_steps=steps)
+            elif model == "apsidal":
+                f = fit_apsidal(minima, t0, period, mcmc_steps=steps)
+            else:
+                f = fit(minima, t0, period, order=2 if self.quadratic.isChecked() else 1)
         except ValueError as e:
             self.result.setText(self.tr("Cannot fit: {error}").format(error=translate(str(e))))
             return None
+        return self.show_fit(f, minima)
+
+    def show_fit(self, f, minima):
+        """Draw a fit (also the result of the background task) and write its numbers."""
         self.fit_result = f
         if not hasattr(f, "order"):
             return self._show_oc_model(f, minima)
