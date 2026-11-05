@@ -332,7 +332,8 @@ dimensions and the transit mid-time when present, rms and χ²ᵣ; the caption n
 from) and its "Export results (CSV / LaTeX)…" button; Period page time axis "Time − 2459500 (d)" (point deletion
 still hits the right point); Frequency page amplitude axis in mag or relative flux. Tests:
 `tests/test_results_export.py` (rounding, both formats, O−C table), Models table in `tests/test_ui.py`. Not done:
-error bars on the Period page (it keeps no errors); the guide does not mention the export button yet.
+error bars on the Period page (it keeps no errors). The guide describes the export button (pages 07, 08, 09, four
+languages).
 
 **T13 (done).** In the Turkish translations and the Turkish guide the first use of the term in each text (each
 UI string, each guide paragraph) is "order/mertebe", "seeing/görüş", "airmass/hava kütlesi" (capitalised at the

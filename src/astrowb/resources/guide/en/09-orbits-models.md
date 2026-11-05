@@ -8,7 +8,7 @@ Two limb-darkened spheres on a Keplerian orbit. It suits detached binaries and t
 1. Choose the **Light curve** (CSV from the Photometry page or another source; a time column and relative flux or magnitudes).
 2. Give the **Period (d)** and **Primary minimum (BJD)** (from the O-C page).
 3. Starting values: **r1 + r2** (sum of radii as a fraction of the separation a), **k = r2 / r1**, **Inclination (°)**, **Surface brightness ratio J**, **Third light**, eccentricity terms, and the limb darkening **u1, u2** of each star. Tick the parameters to fit.
-4. **Fit**: the result gives i, r1, r2, the light ratio L2/L1 and e with errors, the rms and χ²ᵣ. The plot shows the data, the model and the residuals (O−C) against phase.
+4. **Fit**: the result gives i, r1, r2, the light ratio L2/L1 and e with errors, the rms and χ²ᵣ. The plot shows the data, the model and the residuals (O−C) against phase. **Export results (CSV / LaTeX)…** writes every parameter (free ones with errors, fixed ones marked, MCMC values when sampled), the derived and absolute quantities, as a table for a paper.
 
 ## MCMC uncertainties
 The errors of a least-squares fit assume the parameters are independent; in eclipsing binaries and transits they are not (inclination, radii and limb darkening trade off). Tick **MCMC uncertainties** to sample the posterior around the fit (affine-invariant ensemble sampler, emcee) with the number of **steps** you choose: the result gives each free parameter as median −/+ its 16th/84th percentiles, and **Posterior…** shows the corner plot (histograms and pairs), where correlations are seen at once. It takes about a minute per 1000 points for 2000 steps; it runs in the background and can be cancelled.
