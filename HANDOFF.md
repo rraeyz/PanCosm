@@ -313,18 +313,19 @@ Status of everything so far:
 | T5 | FLOYDS-type headers: TRIMSEC 'UNKNOWN', DATASEC that includes the BIASSEC columns | DONE (see notes) |
 | T6 | "Load identifications from an IRAF database" (Reduce and Echelle tabs) + reidentify-style shift search; FLOYDS wavelengths end to end | DONE (see notes) |
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
-| T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
+| T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | CLAIMED by agent session 019Lu3, 2026-11-05 |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
-| T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | CLAIMED by agent session 019Lu3, 2026-11-05 |
+| T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
 
 ### Notes per task
 
 (Each agent adds its notes here under the task number.)
 
-**T11 (done; agent session 019Lu3 finished the wip branch, rebased it on main, merged; wip branch deleted).** On top
+**T11 (done; agent session 019Lu3 finished the wip branch, rebased it on main, merged. The remote branch `wip-t11-results-export` is still there (deleting it was refused by the session's
+safety check): the owner can delete it on GitHub; nothing on it is missing from main).** On top
 of the wip commit: Models page `fit_table()` (free parameters with covariance errors, MCMC medians with the larger
 side of the 68 % interval where sampled, fixed ones marked "(fixed)", derived r1, r2, e, ω, L2/L1, absolute
 dimensions and the transit mid-time when present, rms and χ²ᵣ; the caption names the model and where the errors come
@@ -332,6 +333,13 @@ from) and its "Export results (CSV / LaTeX)…" button; Period page time axis "T
 still hits the right point); Frequency page amplitude axis in mag or relative flux. Tests:
 `tests/test_results_export.py` (rounding, both formats, O−C table), Models table in `tests/test_ui.py`. Not done:
 error bars on the Period page (it keeps no errors); the guide does not mention the export button yet.
+
+**T13 (done).** In the Turkish translations and the Turkish guide the first use of the term in each text (each
+UI string, each guide paragraph) is "order/mertebe", "seeing/görüş", "airmass/hava kütlesi" (capitalised at the
+start: "Order/mertebe numaraları"); later uses in the same text stay Turkish only. The old "Düzenleri flat üzerinde
+izler" (order mistranslated as "düzen") is "Order/mertebeleri…". Unit texts stay short ("kadir / hava kütlesi").
+Kept in English already: flat, bias, dark, light, arc, blaze, FWHM, detrend. The script used: first match of
+`(?<![/\w])([Mm])ertebe`, `([Gg])örüş(?!me|ler)`, `([Hh])ava kütle` per `<translation>` and per guide line.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

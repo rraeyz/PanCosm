@@ -33,7 +33,7 @@ Plan, gecenin her olayını UTC olarak başlangıç, orta ve bitiş zamanıyla, 
 - mavi gölge gün batımından itibaren sivil (−6°), denizcilik (−12°) ve astronomik (−18°) alacakaranlıkla adım adım koyulaşır; en koyu kısım astronomik gecedir;
 - kesikli gri eğri **Ay**'dır, aydınlanma yüzdesi açıklamada yazar;
 - noktalı kırmızı çizgi en düşük yükseklik sınırınızdır;
-- sağ eksen **hava kütlesini** verir; fotometri için hava kütlesi 2'nin (yükseklik 30°'nin üstü) altı en iyisidir;
+- sağ eksen **airmass/hava kütlesini** verir; fotometri için hava kütlesi 2'nin (yükseklik 30°'nin üstü) altı en iyisidir;
 - kırmızı üçgenler hedefin eğrisi üzerinde her örtmenin ya da geçişin ortasını gösterir.
 
 Grafiğin altındaki satır astronomik gecenin UTC başlangıç ve bitişini ve olay sayısını verir. Yazın kutuplara yakın yerlerde **astronomik gece olmayabilir**.

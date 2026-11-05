@@ -642,7 +642,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="983"/>
         <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy page.</source>
-        <translation>Eşel ve uzun yarık kareleri için: flat mertebeler arasında sıfıra yakındır, ona bölmek gürültüyü patlatır. Master flat yine yapılır; onu Tayf sayfasına verin.</translation>
+        <translation>Eşel ve uzun yarık kareleri için: flat order/mertebeler arasında sıfıra yakındır, ona bölmek gürültüyü patlatır. Master flat yine yapılır; onu Tayf sayfasına verin.</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="987"/>
@@ -974,7 +974,7 @@
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="40"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
-        <translation>Önce kareleri gök konumunu (hava kütlesi) veren bir ışık eğrisi ölçün</translation>
+        <translation>Önce kareleri gök konumunu (airmass/hava kütlesi) veren bir ışık eğrisi ölçün</translation>
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="47"/>
@@ -1024,7 +1024,7 @@
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="112"/>
         <source>Airmass</source>
-        <translation>Hava kütlesi</translation>
+        <translation>Airmass/hava kütlesi</translation>
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="113"/>
@@ -1201,7 +1201,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="449"/>
         <source>Flat (orders and blaze)</source>
-        <translation>Flat (kırınım mertebeleri ve blaze)</translation>
+        <translation>Flat (kırınım order/mertebeleri ve blaze)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="450"/>
@@ -1211,17 +1211,17 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="454"/>
         <source>Fibre-fed: no sky between the orders</source>
-        <translation>Fiber beslemeli: mertebeler arasında gökyüzü yok</translation>
+        <translation>Fiber beslemeli: order/mertebeler arasında gökyüzü yok</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="457"/>
         <source>Tick for a spectrograph fed by an optical fibre: there is no sky beside the orders, so none is subtracted</source>
-        <translation>Optik lifle beslenen bir tayfçeker için işaretleyin: mertebelerin yanında gökyüzü yoktur, bu yüzden çıkarılmaz</translation>
+        <translation>Optik lifle beslenen bir tayfçeker için işaretleyin: order/mertebelerin yanında gökyüzü yoktur, bu yüzden çıkarılmaz</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="462"/>
         <source>Subtract scattered light (fitted in the gaps between the orders)</source>
-        <translation>Saçılmış ışığı çıkar (mertebeler arası boşluklarda fitlenir)</translation>
+        <translation>Saçılmış ışığı çıkar (order/mertebeler arası boşluklarda fitlenir)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="463"/>
@@ -1236,7 +1236,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="471"/>
         <source>Absolute order number of the lowest order in the image (from the spectrograph manual). If unknown: m = λ2 / (λ2 − λ1) with λ1, λ2 the wavelengths at the same pixel in two neighbouring orders (λ2 the longer).</source>
-        <translation>Görüntüdeki en alt mertebenin mutlak mertebe numarası (spektrograf kılavuzundan). Bilinmiyorsa: m = λ2 / (λ2 − λ1); λ1, λ2 komşu iki mertebede aynı pikseldeki dalgaboyları (λ2 uzun olanı).</translation>
+        <translation>Görüntüdeki en alt order/mertebenin mutlak mertebe numarası (spektrograf kılavuzundan). Bilinmiyorsa: m = λ2 / (λ2 − λ1); λ1, λ2 komşu iki mertebede aynı pikseldeki dalgaboyları (λ2 uzun olanı).</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="477"/>
@@ -1251,12 +1251,12 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="480"/>
         <source>Whether the absolute order number grows towards the top of the image or towards the bottom (red orders have lower numbers)</source>
-        <translation>Mutlak mertebe numarasının görüntünün üstüne doğru mu altına doğru mu arttığı (kırmızı mertebelerin numarası küçüktür)</translation>
+        <translation>Mutlak order/mertebe numarasının görüntünün üstüne doğru mu altına doğru mu arttığı (kırmızı mertebelerin numarası küçüktür)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="489"/>
         <source>The gas of the arc lamp (ThAr for most echelles): after your identified lines, further lines of this list are found in every order</source>
-        <translation>Ark lambasının gazı (çoğu eşel için ThAr): sizin tanımladığınız çizgilerden sonra bu listedeki başka çizgiler her mertebede bulunur</translation>
+        <translation>Ark lambasının gazı (çoğu eşel için ThAr): sizin tanımladığınız çizgilerden sonra bu listedeki başka çizgiler her order/mertebede bulunur</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="493"/>
@@ -1271,17 +1271,17 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="506"/>
         <source>Which extracted order to show in the plots (counted from the first one found, not the absolute number)</source>
-        <translation>Grafiklerde hangi çıkarılmış mertebenin gösterileceği (mutlak numara değil, bulunan ilkinden itibaren sayılır)</translation>
+        <translation>Grafiklerde hangi çıkarılmış order/mertebenin gösterileceği (mutlak numara değil, bulunan ilkinden itibaren sayılır)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="511"/>
         <source>Lowest order number</source>
-        <translation>En alt mertebe numarası</translation>
+        <translation>En alt order/mertebe numarası</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="512"/>
         <source>Order numbers</source>
-        <translation>Mertebe numaraları</translation>
+        <translation>Order/mertebe numaraları</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="513"/>
@@ -1291,38 +1291,38 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="514"/>
         <source>Show order (index)</source>
-        <translation>Gösterilen mertebe (sıra)</translation>
+        <translation>Gösterilen order/mertebe (sıra)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="521"/>
         <source>Show the orders on the flat (check, remove, add)</source>
-        <translation>Mertebeleri flat üzerinde göster (denetle, sil, ekle)</translation>
+        <translation>Order/mertebeleri flat üzerinde göster (denetle, sil, ekle)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="524"/>
         <source>Optional: the orders found automatically are drawn on the flat. Click a wrong trace to remove it, click on an order that was missed to add it. Without this step the orders are found automatically.</source>
-        <translation>İsteğe bağlı: otomatik bulunan mertebeler flat üzerine çizilir. Yanlış bir izi silmek için üzerine, kaçan bir mertebeyi eklemek için onun üzerine tıklayın. Bu adım atlanırsa mertebeler otomatik bulunur.</translation>
+        <translation>İsteğe bağlı: otomatik bulunan order/mertebeler flat üzerine çizilir. Yanlış bir izi silmek için üzerine, kaçan bir mertebeyi eklemek için onun üzerine tıklayın. Bu adım atlanırsa mertebeler otomatik bulunur.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="530"/>
         <source>1. Trace and extract orders</source>
-        <translation>1. Mertebeleri izle ve çıkar</translation>
+        <translation>1. Order/mertebeleri izle ve çıkar</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="534"/>
         <source>Traces the orders on the flat, extracts science and arc along them and divides by the flat&apos;s blaze; then identify arc lines</source>
-        <translation>Düzenleri flat üzerinde izler, bilim ve ark tayflarını bunlar boyunca çıkarır ve flat&apos;ın blaze&apos;ine böler; sonra ark çizgilerini tanımlayın</translation>
+        <translation>Order/mertebeleri flat üzerinde izler, bilim ve ark tayflarını bunlar boyunca çıkarır ve flat&apos;ın blaze&apos;ine böler; sonra ark çizgilerini tanımlayın</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="540"/>
         <source>2. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):</source>
-        <translation>2. Ark çizgilerine tıklayın (en az 2 mertebede, mertebe başına 3+) ve dalgaboylarını yazın (Å):</translation>
+        <translation>2. Ark çizgilerine tıklayın (en az 2 order/mertebede, mertebe başına 3+) ve dalgaboylarını yazın (Å):</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="543"/>
         <location filename="../../ui/spectro_page.py" line="773"/>
         <source>Order</source>
-        <translation>Mertebe</translation>
+        <translation>Order/mertebe</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="543"/>
@@ -1374,7 +1374,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="564"/>
         <source>One wavelength solution for all orders together (λ·m as a polynomial in pixel and order), then the orders are merged into one spectrum and saved</source>
-        <translation>Tüm mertebeler için birlikte tek bir dalga boyu çözümü (λ·m, piksel ve mertebenin polinomu); sonra mertebeler tek bir tayfta birleştirilip kaydedilir</translation>
+        <translation>Tüm order/mertebeler için birlikte tek bir dalga boyu çözümü (λ·m, piksel ve mertebenin polinomu); sonra mertebeler tek bir tayfta birleştirilip kaydedilir</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="572"/>
@@ -1409,7 +1409,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="634"/>
         <source>An arc, the lowest order number and at least four lines in two orders are needed.</source>
-        <translation>Bir ark, en alt mertebe numarası ve iki mertebede en az dört çizgi gerekli.</translation>
+        <translation>Bir ark, en alt order/mertebe numarası ve iki mertebede en az dört çizgi gerekli.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="638"/>
@@ -1424,17 +1424,17 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="650"/>
         <source>Tracing the orders…</source>
-        <translation>Mertebeler izleniyor…</translation>
+        <translation>Order/mertebeler izleniyor…</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="680"/>
         <source>{n} orders. Click a trace to remove it; click on a missed order to add it.</source>
-        <translation>{n} mertebe. Silmek için bir izin üzerine, eklemek için kaçan bir mertebenin üzerine tıklayın.</translation>
+        <translation>{n} order/mertebe. Silmek için bir izin üzerine, eklemek için kaçan bir mertebenin üzerine tıklayın.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="687"/>
         <source>{n} orders traced.</source>
-        <translation>{n} mertebe izlendi.</translation>
+        <translation>{n} order/mertebe izlendi.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="689"/>
@@ -1444,17 +1444,17 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="699"/>
         <source>remove an order</source>
-        <translation>mertebe kaldırma</translation>
+        <translation>order/mertebe kaldırma</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="730"/>
         <source>{k} orders merged; wavelength solution: {n} lines, rms {rms:.4f} Å. Saved: {path}</source>
-        <translation>{k} mertebe birleştirildi; dalgaboyu çözümü: {n} çizgi, rms {rms:.4f} Å. Kaydedildi: {path}</translation>
+        <translation>{k} order/mertebe birleştirildi; dalgaboyu çözümü: {n} çizgi, rms {rms:.4f} Å. Kaydedildi: {path}</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="735"/>
         <source>{k} orders traced and extracted.</source>
-        <translation>{k} mertebe izlendi ve çıkarıldı.</translation>
+        <translation>{k} order/mertebe izlendi ve çıkarıldı.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="753"/>
@@ -1464,7 +1464,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="761"/>
         <source>Arc, order {m}: pixel (click a line to identify it)</source>
-        <translation>Ark, mertebe {m}: piksel (tanımlamak için bir çizgiye tıklayın)</translation>
+        <translation>Ark, order/mertebe {m}: piksel (tanımlamak için bir çizgiye tıklayın)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="769"/>
@@ -1484,7 +1484,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="784"/>
         <source>Extract with an arc first and give the lowest order number: the database names orders.</source>
-        <translation>Önce bir arkla çıkarın ve en alt mertebe numarasını verin: veritabanı mertebeleri numarasıyla anar.</translation>
+        <translation>Önce bir arkla çıkarın ve en alt order/mertebe numarasını verin: veritabanı mertebeleri numarasıyla anar.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="787"/>
@@ -1494,7 +1494,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="793"/>
         <source>no echelle orders in it (an identify database is for the Reduce tab)</source>
-        <translation>içinde eşel mertebesi yok (identify veritabanı İndirgeme sekmesi içindir)</translation>
+        <translation>içinde eşel order/mertebesi yok (identify veritabanı İndirgeme sekmesi içindir)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="800"/>
@@ -1617,7 +1617,7 @@
     <message>
         <location filename="../../ui/exposure_dialog.py" line="79"/>
         <source>Size of the star images (seeing and focus): sets how fast the brightest pixel fills</source>
-        <translation>Yıldız görüntülerinin boyutu (görüş ve odak): en parlak pikselin ne kadar hızlı dolacağını belirler</translation>
+        <translation>Yıldız görüntülerinin boyutu (seeing/görüş ve odak): en parlak pikselin ne kadar hızlı dolacağını belirler</translation>
     </message>
     <message>
         <location filename="../../ui/exposure_dialog.py" line="87"/>
@@ -3293,7 +3293,7 @@
     <message>
         <location filename="../../ui/main_window.py" line="1649"/>
         <source>Plan: when your targets are visible, airmass, the Moon, predicted eclipses and transits.</source>
-        <translation>Planla: hedefleriniz ne zaman görünür, hava kütlesi, Ay, öngörülen tutulmalar ve geçişler.</translation>
+        <translation>Planla: hedefleriniz ne zaman görünür, airmass/hava kütlesi, Ay, öngörülen tutulmalar ve geçişler.</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1654"/>
@@ -3676,7 +3676,7 @@
     <message>
         <location filename="../../ui/messages.py" line="79"/>
         <source>the airmass hardly changed during the series: no extinction from it</source>
-        <translation>dizi boyunca hava kütlesi neredeyse değişmedi: ondan sönümleme bulunamaz</translation>
+        <translation>dizi boyunca airmass/hava kütlesi neredeyse değişmedi: ondan sönümleme bulunamaz</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="81"/>
@@ -4176,27 +4176,27 @@
     <message>
         <location filename="../../ui/messages.py" line="229"/>
         <source>no orders found</source>
-        <translation>hiç mertebe bulunamadı</translation>
+        <translation>hiç order/mertebe bulunamadı</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="230"/>
         <source>identify at least four lines in at least two orders</source>
-        <translation>en az iki mertebede en az dört çizgi tanımlayın</translation>
+        <translation>en az iki order/mertebede en az dört çizgi tanımlayın</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="231"/>
         <source>order at row {row} could not be traced</source>
-        <translation>{row}. satırdaki mertebe izlenemedi</translation>
+        <translation>{row}. satırdaki order/mertebe izlenemedi</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="232"/>
         <source>too few lines matched: check the identified lines, order numbers and line list</source>
-        <translation>çok az çizgi eşleşti: tanımlanan çizgileri, mertebe numaralarını ve çizgi listesini denetleyin</translation>
+        <translation>çok az çizgi eşleşti: tanımlanan çizgileri, order/mertebe numaralarını ve çizgi listesini denetleyin</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="233"/>
         <source>at least two orders are needed to measure the scattered light</source>
-        <translation>saçılan ışığı ölçmek için en az iki mertebe gerekli</translation>
+        <translation>saçılan ışığı ölçmek için en az iki order/mertebe gerekli</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="235"/>
@@ -6518,12 +6518,12 @@
     <message>
         <location filename="../../ui/workspaces.py" line="1449"/>
         <source>Radii follow the seeing (scaled by each frame&apos;s FWHM)</source>
-        <translation>Yarıçaplar görüşü izlesin (her karenin FWHM&apos;sine göre ölçeklenir)</translation>
+        <translation>Yarıçaplar seeing/görüşü izlesin (her karenin FWHM&apos;sine göre ölçeklenir)</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="1452"/>
         <source>Each frame&apos;s radii are scaled by its FWHM over the first frame&apos;s, so the aperture holds the same part of the light when the seeing changes during the night</source>
-        <translation>Her karenin yarıçapları, o karenin FWHM&apos;sinin ilk karenin FWHM&apos;sine oranıyla ölçeklenir; böylece gece boyunca görüş değişse de açıklık ışığın aynı payını içerir</translation>
+        <translation>Her karenin yarıçapları, o karenin FWHM&apos;sinin ilk karenin FWHM&apos;sine oranıyla ölçeklenir; böylece gece boyunca seeing/görüş değişse de açıklık ışığın aynı payını içerir</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="1457"/>
@@ -6633,7 +6633,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="1569"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
-        <translation>Hangi eğrinin çizileceği: hedefin mukayese yıldızlarına göre eğrisi, kontrol yıldızları, mukayese yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, hava kütlesi…</translation>
+        <translation>Hangi eğrinin çizileceği: hedefin mukayese yıldızlarına göre eğrisi, kontrol yıldızları, mukayese yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, airmass/hava kütlesi…</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="1575"/>
@@ -6673,7 +6673,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="1600"/>
         <source>airmass</source>
-        <translation>hava kütlesi</translation>
+        <translation>airmass/hava kütlesi</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="1601"/>
@@ -6699,7 +6699,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="1609"/>
         <source>Seeing: larger star images lose more light outside the aperture</source>
-        <translation>Görüş: büyük yıldız görüntüleri açıklığın dışında daha çok ışık kaybeder</translation>
+        <translation>Seeing/görüş: büyük yıldız görüntüleri açıklığın dışında daha çok ışık kaybeder</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="1610"/>
@@ -7099,7 +7099,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="2201"/>
         <source>Airmass, sky, FWHM and position</source>
-        <translation>Hava kütlesi, gök, FWHM ve konum</translation>
+        <translation>Airmass/hava kütlesi, gök, FWHM ve konum</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2280"/>
@@ -7114,7 +7114,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="2294"/>
         <source>No comparison star: the target&apos;s own flux over its median. Right for space data (TESS, Kepler); from the ground, clouds and airmass stay in the light curve.</source>
-        <translation>Karşılaştırma yıldızı yok: hedefin kendi akısı, medyanına bölünmüş. Uzay verisi (TESS, Kepler) için doğrudur; yerden alınan veride bulutlar ve hava kütlesi ışık eğrisinde kalır.</translation>
+        <translation>Karşılaştırma yıldızı yok: hedefin kendi akısı, medyanına bölünmüş. Uzay verisi (TESS, Kepler) için doğrudur; yerden alınan veride bulutlar ve airmass/hava kütlesi ışık eğrisinde kalır.</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2299"/>
@@ -7185,7 +7185,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="2435"/>
         <source>Not in this light curve: {names} (FWHM needs ‘Radii follow the seeing’; airmass needs the site and RA/Dec).</source>
-        <translation>Bu ışık eğrisinde yok: {names} (FWHM için ‘Yarıçaplar görüşü izlesin’, hava kütlesi için yer ve RA/Dec gerekir).</translation>
+        <translation>Bu ışık eğrisinde yok: {names} (FWHM için ‘Yarıçaplar seeing/görüşü izlesin’, airmass/hava kütlesi için yer ve RA/Dec gerekir).</translation>
     </message>
     <message>
         <location filename="../../ui/workspaces.py" line="2445"/>
@@ -7558,7 +7558,7 @@
     <message>
         <location filename="../../ui/plan_page.py" line="373"/>
         <source>Airmass</source>
-        <translation>Hava kütlesi</translation>
+        <translation>Airmass/hava kütlesi</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="379"/>
@@ -7741,7 +7741,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="174"/>
         <source>A row the spectrum crosses, when the frame holds several (two orders, a second star): it is followed from there along the frame. Check the traced line drawn on the frame after extracting.</source>
-        <translation>Karede birden çok tayf varsa (iki mertebe, ikinci bir yıldız) tayfın geçtiği bir satır: tayf oradan kare boyunca izlenir. Çıkarımdan sonra karenin üzerine çizilen izi denetleyin.</translation>
+        <translation>Karede birden çok tayf varsa (iki order/mertebe, ikinci bir yıldız) tayfın geçtiği bir satır: tayf oradan kare boyunca izlenir. Çıkarımdan sonra karenin üzerine çizilen izi denetleyin.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="178"/>
@@ -8140,7 +8140,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="1545"/>
         <source>Saved settings of a spectrograph (orientation, widths, line list, order numbers…): choose one to fill the Reduce and Echelle tabs</source>
-        <translation>Bir tayfçekerin kaydedilmiş ayarları (yönelim, genişlikler, çizgi listesi, mertebe numaraları…): İndirgeme ve Eşel sekmelerini doldurmak için birini seçin</translation>
+        <translation>Bir tayfçekerin kaydedilmiş ayarları (yönelim, genişlikler, çizgi listesi, order/mertebe numaraları…): İndirgeme ve Eşel sekmelerini doldurmak için birini seçin</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1549"/>
@@ -8827,7 +8827,7 @@
     <message>
         <location filename="../../ui/workspaces.py" line="101"/>
         <source>Visibility, airmass, targets</source>
-        <translation>Görünürlük, hava kütlesi, hedefler</translation>
+        <translation>Görünürlük, airmass/hava kütlesi, hedefler</translation>
     </message>
 </context>
 <context>
@@ -8845,7 +8845,7 @@
     <message>
         <location filename="../../ui/spectro_page.py" line="889"/>
         <source>The standard&apos;s spectrum gives the atmospheric transmission. Its strength (airmass, water vapour) and a small wavelength shift are fitted inside the telluric bands.</source>
-        <translation>Standardın tayfı atmosferin geçirgenliğini verir. Gücü (hava kütlesi, su buharı) ve küçük bir dalgaboyu kayması tellürik bantlarda fit edilir.</translation>
+        <translation>Standardın tayfı atmosferin geçirgenliğini verir. Gücü (airmass/hava kütlesi, su buharı) ve küçük bir dalgaboyu kayması tellürik bantlarda fit edilir.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="896"/>
