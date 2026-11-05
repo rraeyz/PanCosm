@@ -142,7 +142,7 @@ def star_info(data, x, y, r_ap=None, r_in=None, r_out=None, gain=1.0, exptime=No
 def _star_info(data, x, y, r_ap, r_in, r_out, gain, exptime, saturation):
     from ..photometry.aperture import choose_apertures, measure, recenter, star_profile
 
-    cx, cy = recenter(data, [(x, y)])[0]
+    cx, cy = recenter(data, [(x, y)], max_move=5.5)[0]  # a click: snapped onto the star within half the box
     if not r_ap:
         chosen = choose_apertures(data, [(cx, cy)], gain or 1.0)
         r_ap, r_in, r_out = chosen["r_ap"], chosen["r_in"], chosen["r_out"]

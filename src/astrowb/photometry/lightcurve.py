@@ -65,6 +65,10 @@ def light_curve(
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
     ref, h0 = load(paths[0])
+    # the clicked positions are snapped onto the stars once, within half the centroid box: with the 2.5 px limit
+    # used between frames, a click 2.7 px off Qatar-1 (real LCO night) was kept and the aperture sat off the star
+    # all night (light lost with the seeing, a transit moved by 20 min with radii following the seeing)
+    stars0 = recenter(ref, stars0, box, max_move=box / 2)
     sky = target_coord(h0, coord)
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)

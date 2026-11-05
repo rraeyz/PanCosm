@@ -83,6 +83,7 @@ class LiveLightCurve:
                 g = self.gain or get(h, "EGAIN", "GAIN", default=1.0) or 1.0
                 self.gain = float(g)
                 shift = (0.0, 0.0)
+                self.xy = recenter(data, self.xy, self.box, max_move=self.box / 2)  # snap the clicks onto the stars
             else:
                 shift = frame_shift(self.prev, data)
             xy = recenter(data, self.xy + shift, self.box)
