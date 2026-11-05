@@ -134,3 +134,12 @@ def test_centroids_of_defocused_stars(kind):
     img = rng.poisson(model + 100).astype(float)
     got = recenter(img, [[x0 + 1.5, y0 - 1.0]])[0]
     assert np.hypot(got[0] - x0, got[1] - y0) < 0.2, got
+
+
+def test_suggested_comparisons_near_the_target_first():
+    from astrowb.photometry.aperture import suggest_comparisons
+
+    stars = [(100.0, 100.0, 1e5), (130.0, 120.0, 1e5), (320.0, 330.0, 1e5)]  # the target, a near and a far twin
+    img = field(4.0, stars=stars, shape=(400, 400))
+    picks = suggest_comparisons(img, (100.0, 100.0), r_out=20)
+    assert len(picks) == 2 and picks[0] == pytest.approx((130.0, 120.0), abs=0.5)

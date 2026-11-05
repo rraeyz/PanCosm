@@ -122,7 +122,7 @@ def minimum_step(inputs, params, ctx):
         for m in minima:
             m["time_scale"] = lc.get("time_scale")
         return {"minimum": minima[0] | {"minima": minima, "skipped": skipped}}
-    n = dips(t, y_norm)
+    n = 1 if params["t0"] is not None and params["period"] else dips(t, y_norm)  # the ephemeris says which one
     if n > 1:  # one fit through several eclipses gives a meaningless time
         raise ValueError(
             f"the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one"

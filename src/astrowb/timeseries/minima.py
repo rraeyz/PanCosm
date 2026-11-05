@@ -143,17 +143,38 @@ def o_minus_c(times, t0, period):
 
 
 def dips(t, y):
-    """How many separate dips (eclipses, transits) a normalised light curve shows: runs of points below half
-    the deepest dip, split where the time between two such points is long."""
+    """How many separate dips (eclipses, transits) a normalised light curve shows. The curve is smoothed enough
+    for its noise; a dip is a run of points below half the deepest dip, and runs merge unless the curve stays out
+    of the dip for longer than the dips last (or a gap in time, e.g. the next night, lies between them): a real
+    2.4 % transit in 1.3 % scatter with a slow drift (LCO, Qatar-1 b) was counted as three or four."""
     t, y = np.asarray(t, float), np.asarray(y, float)
-    order = np.argsort(t)
-    t, ys = t[order], _smooth(y[order])
-    floor = np.nanpercentile(ys, 1)
-    low = t[ys < 1 - 0.5 * (1 - floor)]
-    if low.size < 2:
-        return int(low.size)
+    ok = np.isfinite(t) & np.isfinite(y)
+    order = np.argsort(t[ok])
+    t, y = t[ok][order], y[ok][order]
+    if t.size < 3:
+        return 0
+    sigma = 1.4826 * np.median(np.abs(np.diff(y))) / np.sqrt(2)
+    ys = _smooth(y)
+    depth = np.median(ys[ys >= np.median(ys)]) - np.percentile(ys, 1)
+    if depth <= 0:
+        return 0
+    ys = _smooth(y, int(np.clip((10 * sigma / depth) ** 2, 5, len(y) // 5)))
+    base = np.median(ys[ys >= np.median(ys)])  # the median of all points lies inside a long transit
+    low = ys < base - 0.5 * (base - np.percentile(ys, 1))
+    edges = np.flatnonzero(np.diff(np.r_[0, low.astype(int), 0]))
+    runs = [(t[a], t[b - 1]) for a, b in zip(edges[::2], edges[1::2], strict=True)]
     gap = max(10 * np.median(np.diff(t)), 0.05 * np.ptp(t))
-    return 1 + int(np.sum(np.diff(low) > gap))
+    merged = []
+    for start, end in runs:
+        if merged:
+            p_start, p_end = merged[-1]
+            between = t[(t > p_end) & (t < start)]
+            steps = np.diff(np.r_[p_end, between, start])
+            if start - p_end < max(p_end - p_start, end - start) and steps.max() <= gap:
+                merged[-1] = (p_start, end)
+                continue
+        merged.append((start, end))
+    return len(merged)
 
 
 def each_minimum(t, y, t0, period, timer, window=0.1):

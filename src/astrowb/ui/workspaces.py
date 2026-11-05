@@ -2313,8 +2313,11 @@ class PhotometryPage(Undoable, QWidget):
         if lc.get("detrend"):
             dt = lc["detrend"]
             lines.append(
-                self.tr("Detrended ({k}): scatter {a:.2f} % → {b:.2f} %").format(
-                    k=", ".join(dt["coefficients"]), a=100 * dt["scatter_before"], b=100 * dt["scatter_after"]
+                self.tr("Detrended ({k}): scatter of the {n} points fitted {a:.2f} % → {b:.2f} %").format(
+                    k=", ".join(dt["coefficients"]),
+                    n=dt["points_fitted"],
+                    a=100 * dt["scatter_before"],
+                    b=100 * dt["scatter_after"],
                 )
             )
         for i in lc.get("mag_suspect") or []:
