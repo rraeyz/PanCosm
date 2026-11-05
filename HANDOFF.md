@@ -37,6 +37,19 @@ and commits in English. Delete this file once the work is finished.
     (task board below), write each step into this file *before* starting it (claimed) and after finishing it (done),
     so another agent can continue when this one's quota ends. The aim: a complete, high-quality program whose
     output is at the level of a journal paper — a professor working with it must see that.
+  - **Newest (2026-11-05, evening) — the fifth campaign, the "last heavy test".** Commits in the owner's name only
+    (see the rules). If anything is unfinished, finish it; then test **everything, one by one**, not only the science
+    but the use: every button, label, tooltip and text, sitting at the program like an astronomer. Run every feature
+    on **real data from the internet**. Then find **raw data together with its published processed version**, reduce
+    the raw data here and compare; where no processed version exists, process it with an established program
+    (IRAF etc., installed here) and compare. Re-test after every fix. **Note the time** every operation takes (speed
+    log below), give an opinion, and fix anything slow (then measure again). Concretely asked: a warning for contact
+    (W UMa) binaries about the Roche geometry; the Plan page must explain "ephemeris" and give short explanations on
+    its "add to ephemeris" button and the button next to it; several objects (e.g. NY Vir, Saturn, Jupiter,
+    Betelgeuse, Moon, Arcturus) in **one** visibility chart, the Moon drawn dashed even when not typed (as other
+    programs do); the O−C MCMC must not freeze the page and must be tried on a real minimum-times list. The
+    Basic / Expert interface is postponed — **do not forget it** (task U11). Work step by step through the task
+    board (claim before, done after), never stop until finished.
 
 ## Rules of the repository
 
@@ -51,6 +64,13 @@ and commits in English. Delete this file once the work is finished.
 - Engine steps (`@step`) run in worker processes started with *spawn*: any script that drives the
   application needs an `if __name__ == "__main__":` guard.
 - Never commit the owner's data files.
+- **Commits are made in the owner's name**: `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`
+  (GitHub user `rraeyz`). No "Claude" anywhere in a commit: no author, no co-author or session trailer (the owner's
+  explicit wish, 2026-11-05).
+- Network from the agent's container: CDS in Strasbourg (vizier.cds.unistra.fr, simbad.cds.unistra.fr, cdsarc) cuts
+  the connection; the Harvard mirrors `vizier.cfa.harvard.edu` and `simbad.harvard.edu` work, as do MAST, ESO, LCO,
+  Gaia, IRSA, the Exoplanet Archive, JPL Horizons, PyPI and the Ubuntu archive (IRAF: `apt-get install iraf
+  iraf-noao`). github.com release downloads and aavso.org answer 403.
 
 ## Done (all pushed to main)
 
@@ -319,6 +339,22 @@ Status of everything so far:
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | green at `37f1073` (2026-11-05); keep checking after each push |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
+| U1 | Contact (W UMa) binaries: warn that the Models page's detached (spheres) model does not hold, point to the PHOEBE export | CLAIMED (session 019Lu3, 2026-11-05) |
+| U2 | Plan page: explain "ephemeris"; short explanation (tooltip) on "add to ephemeris" and the button next to it | open |
+| U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | open |
+| U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | open |
+| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | open |
+| U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | open |
+| U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | open |
+| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | open |
+| U10 | Re-run the tests touched by every fix; CI green | open |
+| U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
+
+### Speed log (fifth campaign; machine: the agent's cloud container, 4 cores, no GPU)
+
+| Operation | Data | Time | Opinion / action |
+|---|---|---|---|
 
 ### Notes per task
 
