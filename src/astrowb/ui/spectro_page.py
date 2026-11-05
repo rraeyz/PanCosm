@@ -1230,7 +1230,7 @@ class VelocityTab(QWidget):
             + (
                 " "
                 + self.tr(
-                    "{n} spectra are already on the barycentric scale (SPECSYS in the header): not corrected again."
+                    "{n} spectra are already barycentric (SPECSYS or HELIO in the header): not corrected again."
                 ).format(n=sum(bool(r.get("already_barycentric")) for r in rows))
                 if any(r.get("already_barycentric") for r in rows)
                 else ""

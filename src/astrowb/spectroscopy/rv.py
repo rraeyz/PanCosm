@@ -45,6 +45,25 @@ def continuum_normalise(wave, flux, order=3, iterations=8, low=1.5, high=3.0):
     return flux / cont
 
 
+def match_template(wave, t_wave, t_flux, fwhm_pixels=2.5):
+    """The template smoothed to the observed spectrum's resolution when it is much finer (a solar atlas against a
+    small spectrograph): sampled at the observed pixels it aliases, each pixel catching whatever sharp line edge it
+    lands on (LAMOST R 1800 against the Kurucz atlas came out 60 km/s off). A Gaussian of fwhm_pixels observed
+    pixels (about the resolution of a Nyquist-sampled spectrograph), as IRAF fxcor / iSpec users match templates.
+    A template that is not much finer is returned as it is."""
+    wave, t_wave, t_flux = (np.asarray(a, float) for a in (wave, t_wave, t_flux))
+    d_obs = float(np.median(np.diff(np.log(wave))))
+    ln_t = np.log(t_wave)
+    d_t = float(np.median(np.diff(ln_t)))
+    if not d_t < 0.25 * d_obs:
+        return t_wave, t_flux
+    from scipy.ndimage import gaussian_filter1d
+
+    grid = np.arange(ln_t[0], ln_t[-1], d_t)
+    smooth = gaussian_filter1d(np.interp(grid, ln_t, t_flux), fwhm_pixels * d_obs / 2.3548 / d_t, mode="nearest")
+    return np.exp(grid), smooth
+
+
 def ccf(wave, flux, t_wave, t_flux, v_min=-300.0, v_max=300.0, v_step=None):
     """Return dict(v, ccf, rv, rv_err, peak). Inputs continuum-normalised (lines below 1)."""
     wave, flux, t_wave, t_flux = (np.asarray(a, float) for a in (wave, flux, t_wave, t_flux))

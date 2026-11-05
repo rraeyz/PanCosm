@@ -9370,8 +9370,8 @@
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1233"/>
-        <source>{n} spectra are already on the barycentric scale (SPECSYS in the header): not corrected again.</source>
-        <translation>{n} tayf zaten barimerkezi ölçekte (başlıkta SPECSYS): yeniden düzeltilmedi.</translation>
+        <source>{n} spectra are already barycentric (SPECSYS or HELIO in the header): not corrected again.</source>
+        <translation>{n} tayf zaten barimerkezi (başlıkta SPECSYS ya da HELIO): yeniden düzeltilmedi.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1242"/>
