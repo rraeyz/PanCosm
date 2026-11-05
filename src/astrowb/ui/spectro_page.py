@@ -1264,6 +1264,14 @@ class VelocityTab(QWidget):
                 else ""
             )
             + (
+                " "
+                + self.tr("Emission lines left out of the correlation in {n} spectra (the template has none).").format(
+                    n=sum(bool(r.get("emission_masked")) for r in rows)
+                )
+                if any(r.get("emission_masked") for r in rows)
+                else ""
+            )
+            + (
                 " " + self.tr("Vacuum wavelengths converted to air (VACUUM in the header).")
                 if any(r.get("vacuum_to_air") for r in rows)
                 else ""

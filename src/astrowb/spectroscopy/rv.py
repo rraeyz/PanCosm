@@ -64,21 +64,41 @@ def match_template(wave, t_wave, t_flux, fwhm_pixels=2.5):
     return np.exp(grid), smooth
 
 
+def mask_emission(flux, t_flux, k=3.0):
+    """Emission lines set to the continuum before correlating with an absorption-line template (IRAF fxcor users
+    mask them by hand): they correlate negatively and pull the velocity (an AG Dra spectrum at R 700: -304 instead
+    of -158 km/s). Inputs continuum-normalised. Left as they are when the template shows emission itself. Returns
+    the flux and the number of pixels masked."""
+    flux, t_flux = np.asarray(flux, float), np.asarray(t_flux, float)
+
+    def noise(y):
+        return 1.4826 * np.nanmedian(np.abs(np.diff(y))) / np.sqrt(2)
+
+    if np.nanmean(t_flux - 1 > k * noise(t_flux) + 0.02) > 0.001:  # the template has emission lines too
+        return flux, 0
+    high = (flux - 1) > k * noise(flux)
+    return np.where(high, 1.0, flux), int(high.sum())
+
+
 def chunk_error(wave, flux, t_wave, t_flux, v_min, v_max, chunks=4):
-    """Empirical velocity error: the scatter of the velocities from `chunks` equal parts of the spectrum
-    (std / sqrt(n)), as pipelines check the formal error order by order. None when fewer than three parts give a
-    velocity. On 30 amateur spectra of AG Dra at R 500-1100 the formal CCF errors were 5-10 times too small."""
+    """Empirical velocity error by the jackknife over wavelength chunks: the velocity of the whole spectrum with one
+    chunk left out (set to the continuum) at a time; sigma^2 = (n-1)/n * sum (v_i - mean)^2. A part that disagrees
+    counts as much as it moves the whole result. Pipelines check the formal error in the same spirit, order by order.
+    On 30 amateur spectra of AG Dra at R 500-1100 the formal errors were 5-10 times too small; the plain scatter of
+    the chunks' own velocities overstated LAMOST errors tenfold (a telluric or arm-join chunk is far off on its own
+    but hardly moves the whole). None when fewer than three chunks give a velocity."""
     edges = np.exp(np.linspace(np.log(wave[0]), np.log(wave[-1]), chunks + 1))
     v = []
     for a, b in zip(edges[:-1], edges[1:], strict=True):
-        part = (wave >= a) & (wave <= b)
-        if part.sum() < 50:
-            continue
+        without = np.where((wave >= a) & (wave <= b), 1.0, flux)
         try:
-            v.append(ccf(wave[part], flux[part], t_wave, t_flux, v_min, v_max)["rv"])
-        except ValueError:  # no clear peak in this part
+            v.append(ccf(wave, without, t_wave, t_flux, v_min, v_max)["rv"])
+        except ValueError:  # no clear peak without this part
             continue
-    return float(np.std(v, ddof=1) / np.sqrt(len(v))) if len(v) >= 3 else None
+    if len(v) < 3:
+        return None
+    v = np.asarray(v)
+    return float(np.sqrt((len(v) - 1) / len(v) * np.sum((v - v.mean()) ** 2)))
 
 
 def ccf(wave, flux, t_wave, t_flux, v_min=-300.0, v_max=300.0, v_step=None):

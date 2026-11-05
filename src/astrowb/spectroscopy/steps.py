@@ -351,7 +351,9 @@ def rv_step(inputs, params, ctx):
                 r2 |= {"rv2_obs": c[1]["rv"], "rv2_err": c[1]["rv_err"], "flux_ratio": ratio, "rv2": None}
                 r2 |= {"vsini2": c[1]["vsini"], "vsini2_err": c[1]["vsini_err"]}
         elif t2 is None:
+            f, masked = rv.mask_emission(f, tf)
             r = rv.ccf(w, f, tw, tf, params["v_min"], params["v_max"])
+            r["emission_masked"] = masked
             r["rv_err_formal"] = r["rv_err"]
             empirical = rv.chunk_error(w, f, tw, tf, params["v_min"], params["v_max"])
             if empirical is not None and empirical > r["rv_err"]:  # the parts disagree more than the formula says
@@ -373,6 +375,7 @@ def rv_step(inputs, params, ctx):
             "rv": None,
             "site": None,  # where the barycentric correction was computed for, shown to the user
             "template_matched": matched,  # shown to the user: choices made for them stay visible
+            "emission_masked": r.get("emission_masked", 0),
             "vacuum_to_air": air,
         } | r2
         # archive spectra (ESO Phase 3, LAMOST's HELIO, BeSS / ARAS BSS_VHEL, many pipelines) may already be on the

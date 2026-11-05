@@ -458,6 +458,13 @@ the formal CCF errors were 5–10× too small at R ≈ 500 — an empirical erro
 Sun): R ≥ 9000 spectra mostly −151 to −155 km/s (median of all −154), errors 0.5–5 km/s; R 500–1100 spectra scatter
 −53 to −309 km/s with errors now 8–69 km/s (still several σ off for a few: an emission-line star at R 500 holds
 little velocity information in that range; worth a note in the guide). Not done: raw amateur frames (none found).
+Second pass: emission lines are set to the continuum before correlating with an absorption template
+(`rv.mask_emission`, not when the template has emission itself; the page says in how many spectra) — the worst
+AG Dra case went from −304 to −158 km/s; the empirical error is now a **jackknife** over four chunks (the whole
+spectrum with one chunk at the continuum), because the chunks' own scatter overstated LAMOST errors tenfold
+(telluric / arm-join chunks are far off alone but hardly move the whole). LAMOST: agreement unchanged (scatter 1.9
+km/s), errors ~5 km/s; HARPS 14–48 m/s; ARAS R ≥ 9000 0.5–2 km/s. Several R ≈ 500 spectra stay 30–100 km/s off
+with ±6–35 km/s: most likely their own wavelength calibration (1 Å = 55 km/s at 5500 Å), a data limit.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on
