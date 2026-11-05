@@ -984,3 +984,19 @@ def test_minimum_method_is_a_visible_choice_with_kvw_first(window):
     assert not page.kvw.isChecked()
     page._minimum()
     assert sent == ["kvw", "trapezoid"]
+
+
+def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbot, tmp_path):
+    from astrowb.models.data import read_light_curve
+    from astrowb.ui.workspaces import PeriodPage
+
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    t = np.concatenate([np.linspace(0, 27, 300), np.linspace(700, 727, 300)])
+    page.set_light_curve(t, 1 + 0.01 * np.sin(2 * np.pi * t / 0.3336), "W UMa (TESS 21, TESS 47)")
+    page.save_csv(tmp_path / "lc.csv")
+    tt, ff, _, _ = read_light_curve(tmp_path / "lc.csv")
+    assert np.allclose(tt, t) and np.allclose(ff * np.median(page.flux), page.flux)
+    page.show_result({"best": 0.3336, "periods": [], "power": []})
+    text = page.result.text()  # one cycle more or less across the gap
+    assert "700 d apart" in text and "0.333441 or 0.333759" in text

@@ -84,7 +84,7 @@ def moon(times, site, coord=None):
         "illumination": np.asarray((1 + np.cos(phase)) / 2),
     }
     if coord is not None:
-        out["separation"] = m.separation(coord).deg
+        out["separation"] = m.separation(coord.transform_to(m)).deg  # in the Moon's (geocentric) frame
     return out
 
 

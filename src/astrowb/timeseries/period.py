@@ -16,6 +16,46 @@ def frequency_grid(t, p_min, p_max, phase_resolution):
     return np.arange(1 / p_max, 1 / p_min + df, df)
 
 
+def search(t, p_min, p_max, res, power, budget, peaks=8):
+    """(freqs, power, best frequency) over p_min..p_max, frequency step res / span (res: phase step over the
+    span); t sorted; power(idx, freqs) scores the points t[idx] on trial frequencies.
+
+    Years of data (several TESS sectors or seasons) need millions of trial frequencies, times every point: hours.
+    When frequencies x points exceed the budget, the densest stretch of the data that fits is searched first (a
+    shorter span needs fewer frequencies), then all the data around its best peaks (+-2 coarse steps on the full
+    grid), which decides the cycle count across the gaps. The returned periodogram is then the coarse one."""
+    f_lo, f_hi, span, n = 1 / p_max, 1 / p_min, np.ptp(t), len(t)
+
+    def cost(w, m):
+        return (f_hi - f_lo) * w / res * m
+
+    if cost(span, n) <= budget:
+        freqs = frequency_grid(t, p_min, p_max, res)
+        pw = power(np.arange(n), freqs)
+        return freqs, pw, freqs[int(np.argmax(pw))]
+    shortest = min(span, 2 * p_max)  # two cycles of the longest period must fit
+    w = span
+    while True:
+        w = max(w / 2, shortest)
+        end = np.searchsorted(t, t + w, side="right")
+        i = int(np.argmax(end - np.arange(n)))
+        sel = np.arange(i, end[i])
+        if cost(w, len(sel)) <= budget or w <= shortest:
+            break
+    sel = sel[:: int(np.ceil(cost(w, len(sel)) / budget))]  # still too much: every k-th point of the stretch
+    freqs = frequency_grid(t[sel], p_min, p_max, res)
+    pw = power(sel, freqs)
+    df = freqs[1] - freqs[0]
+    local = np.flatnonzero((pw[1:-1] >= pw[:-2]) & (pw[1:-1] >= pw[2:])) + 1
+    best_f, best_p = freqs[int(np.argmax(pw))], -np.inf
+    for k in local[np.argsort(pw[local])[::-1][:peaks]]:
+        fine = np.arange(freqs[k] - 2 * df, freqs[k] + 2 * df, res / span)
+        fp = power(np.arange(n), fine[fine > 0])
+        if fp.max() > best_p:
+            best_p, best_f = fp.max(), fine[fine > 0][int(np.argmax(fp))]
+    return freqs, pw, best_f
+
+
 def _refine(score, freqs, power):
     """Best frequency refined on a 50x finer grid around the coarse peak."""
     i = int(np.argmax(power))
@@ -34,13 +74,21 @@ def lomb_scargle(t, y, err=None, p_min=0.05, p_max=None, oversample=5):
     return 1 / freqs, power, _refine(lambda f: ls.power(f, method="slow"), freqs, power)
 
 
-def bls(t, y, err=None, p_min=0.2, p_max=None, durations=(0.04, 0.06, 0.08, 0.12, 0.16)):
-    t = np.asarray(t, float) - np.min(t)
+def bls(t, y, err=None, p_min=0.2, p_max=None, durations=(0.04, 0.06, 0.08, 0.12, 0.16), budget=2e9):
+    order = np.argsort(t)
+    t = np.asarray(t, float)[order] - np.min(t)
+    y = np.asarray(y, float)[order]
+    e = None if err is None else np.asarray(err, float)[order]
     p_max = p_max or np.ptp(t) / 2
-    model = BoxLeastSquares(t, y, err)
-    periods = model.autoperiod(durations, minimum_period=max(p_min, 2 * max(durations)), maximum_period=p_max)
-    result = model.power(periods, durations)
-    return np.asarray(periods), np.asarray(result.power), float(periods[np.argmax(result.power)])
+    p_min = max(p_min, 2 * max(durations))
+
+    def power(idx, f):
+        model = BoxLeastSquares(t[idx], y[idx], None if e is None else e[idx])
+        return np.asarray(model.power(1 / f, durations).power)
+
+    # frequency step as astropy's autoperiod at p_max = span / 2: a box moves by less than its duration
+    freqs, pw, best = search(t, p_min, p_max, 0.5 * min(durations) / p_max, power, budget)
+    return 1 / freqs, pw, float(1 / best)
 
 
 def _pdm_power(t, y, periods, n_bins):
@@ -57,13 +105,15 @@ def _pdm_power(t, y, periods, n_bins):
     return out
 
 
-def pdm(t, y, p_min=0.05, p_max=None, n_bins=20, oversample=3):
+def pdm(t, y, p_min=0.05, p_max=None, n_bins=20, oversample=3, budget=2e8):
     """theta = pooled variance in phase bins / total variance; returns power = 1 - theta."""
-    t, y = np.asarray(t, float) - np.min(t), np.asarray(y, float)
+    order = np.argsort(t)
+    t, y = np.asarray(t, float)[order] - np.min(t), np.asarray(y, float)[order]
     p_max = p_max or np.ptp(t) / 2
-    freqs = frequency_grid(t, p_min, p_max, 1 / (n_bins * oversample))
-    power = _pdm_power(t, y, 1 / freqs, n_bins)
-    return 1 / freqs, power, _refine(lambda f: _pdm_power(t, y, 1 / f, n_bins), freqs, power)
+    res = 1 / (n_bins * oversample)
+    freqs, power, best = search(t, p_min, p_max, res, lambda i, f: _pdm_power(t[i], y[i], 1 / f, n_bins), budget)
+    step = res / np.ptp(t)
+    return 1 / freqs, power, _refine(lambda f: _pdm_power(t, y, 1 / f, n_bins), np.array([best - step, best]), [0, 1])
 
 
 def fold(t, period, t0=0.0):

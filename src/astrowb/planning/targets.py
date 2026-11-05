@@ -29,6 +29,26 @@ class Target:
         return SkyCoord(self.ra * u.deg, self.dec * u.deg)
 
 
+# Solar-system bodies by their names in the interface languages. They move: their altitude is computed for every
+# time of the night from astropy's built-in ephemeris (offline), never from fixed coordinates or SIMBAD.
+BODIES = {
+    "moon": ("moon", "ay", "mond", "luna"),
+    "mercury": ("mercury", "merkür", "merkur", "mercurio"),
+    "venus": ("venus", "venüs"),
+    "mars": ("mars", "marte"),
+    "jupiter": ("jupiter", "jüpiter", "júpiter"),
+    "saturn": ("saturn", "satürn", "saturno"),
+    "uranus": ("uranus", "uranüs", "urano"),
+    "neptune": ("neptune", "neptün", "neptun", "neptuno"),
+}
+
+
+def body_of(name) -> str | None:
+    """astropy's name of the solar-system body called name, or None."""
+    key = " ".join(str(name).lower().split())
+    return next((body for body, names in BODIES.items() if key in names), None)
+
+
 def parse_coordinates(text: str) -> SkyCoord | None:
     """'02 04 10.3 +46 41 16', '02:04:10.3 +46:41:16', '31.043 46.688' (degrees if no separators)."""
     parts = text.replace(",", " ").split()
@@ -45,9 +65,15 @@ def parse_coordinates(text: str) -> SkyCoord | None:
 def _simbad(name: str) -> Target:
     from astroquery.simbad import Simbad
 
-    s = Simbad()
-    s.add_votable_fields("V")
-    table = s.query_object(name)
+    from ..mirrors import cds
+
+    def query(server):
+        s = Simbad()
+        s.server = server
+        s.add_votable_fields("V")
+        return s.query_object(name)
+
+    table = cds("simbad", query)
     if table is None or len(table) == 0:
         raise TargetError(f"SIMBAD does not know '{name}'")
     row = table[0]
@@ -76,6 +102,13 @@ class Resolver:
         coord = parse_coordinates(text)
         if coord is not None:
             return Target(coord.to_string("hmsdms", precision=1), coord.ra.deg, coord.dec.deg)
+        body = body_of(text)
+        if body:  # coordinates of now, for the table; the night plan follows the body through the night
+            from astropy.coordinates import get_body
+            from astropy.time import Time
+
+            c = get_body(body, Time.now()).icrs
+            return Target(text, float(c.ra.deg), float(c.dec.deg), source="solar system")
         key = " ".join(text.lower().split())
         if key in self.cache:
             return Target(**self.cache[key] | {"source": "cache"})

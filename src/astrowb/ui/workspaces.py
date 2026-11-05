@@ -2982,7 +2982,18 @@ class PeriodPage(Undoable, QWidget):
             )
         )
         load.clicked.connect(self._load)
-        lay.addWidget(load)
+        save = QPushButton(self.tr("Save light curve (CSV)…"), self)
+        save.setToolTip(
+            self.tr(
+                "The light curve as shown (downloaded, edited) in a CSV file: open it on the Orbits & models page "
+                "or in another program"
+            )
+        )
+        save.clicked.connect(self._save)
+        row = QHBoxLayout()
+        row.addWidget(load, 1)
+        row.addWidget(save)
+        lay.addLayout(row)
         row = QHBoxLayout()
         self.archive_target = QLineEdit(self)
         self.archive_target.setPlaceholderText(self.tr("star name, e.g. AI Dra or TIC 12345678"))
@@ -3220,6 +3231,22 @@ class PeriodPage(Undoable, QWidget):
         except (ValueError, IndexError) as e:
             self.source.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
 
+    def save_csv(self, path):
+        """Time and flux (or magnitude) columns that the Orbits & models page reads back."""
+        column = "mag" if self.magnitudes else "rel_flux"
+        rows = "\n".join(f"{t:.7f},{y:.7g}" for t, y in zip(self.time, self.flux, strict=True))
+        Path(path).write_text(f"time,{column}\n{rows}\n", encoding="utf-8")
+
+    def _save(self):
+        if not self.time:
+            self.source.setText(self.tr("No light curve to save yet."))
+            return
+        name = "".join(c if c.isalnum() or c in "-_" else "_" for c in self.label.split(" (")[0])[:60]
+        path, _ = QFileDialog.getSaveFileName(self, self.tr("Save light curve"), f"{name}.csv", "CSV (*.csv)")
+        if path:
+            self.save_csv(path)
+            self.source.setText(self.tr("Saved {n} points to {file}").format(n=len(self.time), file=Path(path).name))
+
     def _search(self):
         self.result.setText(self.tr("Searching…"))
         params = {"method": self.method.currentData(), "p_min": self.p_min.value(), "p_max": self.p_max.value()}
@@ -3227,7 +3254,20 @@ class PeriodPage(Undoable, QWidget):
 
     def show_result(self, out):
         self.best, self.periodogram = out["best"], out
-        self.result.setText(self.tr("Best period: {p:.6f} d").format(p=self.best))
+        text = self.tr("Best period: {p:.6f} d").format(p=self.best)
+        t = np.sort(self.time)
+        cuts = np.flatnonzero(np.diff(t) > 20 * self.best) + 1  # stretches (seasons, sectors) apart
+        if len(cuts):  # the cycle count across the widest gap is not certain: centre to centre of its sides
+            i = int(np.argmax(t[cuts] - t[cuts - 1]))
+            before = t[(cuts[i - 1] if i else 0) : cuts[i]]
+            after = t[cuts[i] : (cuts[i + 1] if i + 1 < len(cuts) else len(t))]
+            gap = float(np.mean(after) - np.mean(before))
+            f, df = 1 / self.best, 1 / gap
+            text += "\n" + self.tr(
+                "The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or "
+                "{p2:.6f} d) fits almost as well. Check with the times of minimum (O−C)."
+            ).format(g=gap, p1=1 / (f + df), p2=1 / (f - df) if f > df else float("inf"))
+        self.result.setText(text)
         self._plot_phase()
 
     def _plot_phase(self):

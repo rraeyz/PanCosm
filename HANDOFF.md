@@ -339,22 +339,64 @@ Status of everything so far:
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | green at `37f1073` (2026-11-05); keep checking after each push |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
-| U1 | Contact (W UMa) binaries: warn that the Models page's detached (spheres) model does not hold, point to the PHOEBE export | CLAIMED (session 019Lu3, 2026-11-05) |
-| U2 | Plan page: explain "ephemeris"; short explanation (tooltip) on "add to ephemeris" and the button next to it | open |
-| U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | open |
-| U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | open |
-| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | open |
+| U1 | Contact (W UMa) binaries: warn that the Models page's detached (spheres) model does not hold, point to the PHOEBE export | DONE (see notes) |
+| U2 | Plan page: explain "ephemeris"; short explanation (tooltip) on "add to ephemeris" and the button next to it | DONE (see notes) |
+| U3 | Plan page: several objects (stars by name, planets, Moon) in one visibility chart; the Moon always drawn dashed | DONE (see notes) |
+| U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | CLAIMED (session 019Lu3, 2026-11-05) |
+| U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | PARTLY: mirrors DONE; AAVSO report / standard magnitudes still open |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | open |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | open |
-| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | open |
+| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
 | U10 | Re-run the tests touched by every fix; CI green | open |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
+
+### Notes on the fifth campaign (U tasks)
+
+**U1 (done).** `models.fit.roche_check(r1, r2, q)`: Eggleton (1983) lobe radius; "contact" when a star fills >= 90 % of
+its lobe, "distorted" when a radius > 0.25 a. The fit step returns `roche`; the Models page shows a warning (contact:
+spheres model not valid, export PHOEBE / WD; distorted: errors too small). Real test: W UMa, 3 TESS sectors
+downloaded on the Light curves page, saved, fitted on the Models page: "fills 119 % of its Roche lobe". Found on the
+way and fixed: (a) **TESS / Kepler / K2 downloads were broken**: MAST's product list names the pipeline in "project"
+(no "provenance_name"), Kepler / K2 light curves are "LLC" not "LC" (`timeseries/archive.py`); K2 source label "K2 C1".
+(b) The Light curves page had **no way to save** a downloaded / edited light curve, so it could not reach the Models
+page: "Save light curve (CSV)…" added. (c) **PDM and BLS took minutes to hours** on several sectors / seasons:
+`period.search` searches the densest stretch first, then all data around the best peaks (speed log). (d) Periods from
+data in stretches far apart are ambiguous by one cycle across the gap (W UMa: Lomb–Scargle and ANOVA chose the
+neighbouring alias 0.166777 d; BLS 0.333632 d and PDM 2 x 0.166816 d agree with the true 0.333633 d from the times of
+minimum and with VSX 0.3336334 d): the result now says so and gives the two neighbouring periods.
+**U2 (done).** Plan page: visible line under the buttons ("Add: position only…; Add with ephemeris: also the times of
+its eclipses or transits (an ephemeris = T0 and period…)"), longer tooltips on both buttons explaining "ephemeris".
+**U3 (done).** Planets and the Moon by name (English, Turkish, German, Spanish names: `planning.targets.BODIES`) are
+followed through the night with astropy's built-in ephemeris (offline), all targets in one chart; the Moon is drawn
+dashed when not typed, as a normal line when typed. UTC axis wraps at 24 h. The Moon distance no longer floods the
+log with a frame warning. Tested on the owner's example (NY Vir, Saturn, Jupiter, Betelgeuse, Moon, Arcturus) in
+English and Turkish.
+**U5 (mirrors done).** `astrowb/mirrors.py`: SIMBAD and VizieR are tried at Strasbourg, then IDIA (VizieR) and
+Harvard; the working server is remembered (also in `mirrors.json` in the config folder, for later worker processes).
+Harvard's VizieR returns nothing for Gaia / APASS, hence IDIA first. VSX ephemerides fall back to VSX's copy in VizieR
+(B/vsx/vsx; aliases such as Algol through SIMBAD's position) when aavso.org does not answer. Still open in U5: the
+AAVSO report and standard magnitudes on the real LCO night.
+**Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
+scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
+Users are not affected (certifi has it).
 
 ### Speed log (fifth campaign; machine: the agent's cloud container, 4 cores, no GPU)
 
 | Operation | Data | Time | Opinion / action |
 |---|---|---|---|
+| TESS light curve download (Light curves page, 3 sectors, MAST) | W UMa, 47 645 points | 21 s (files cached; first time ~14 s per 2 files) | fine |
+| Period search PDM | W UMa 2 sectors 736 d apart, 35 158 points | before 279.8 s, now 2.6 s | was far too slow (frequency grid over the whole span x every point): two-stage search |
+| Period search PDM | 1 sector, 18 659 points | before 5.4 s, now 1.5 s | fine |
+| Period search BLS | 2 sectors | before > 300 s (stopped, 2.5 GB), now 0.8 s | was unusable: same two-stage search |
+| Period search BLS | 1 sector | before 3.9 s, now 0.7 s | fine |
+| Period search Lomb–Scargle / ANOVA | 2 sectors | 0.4 s / 2.4 s (unchanged) | fine (astropy's fast methods); a two-stage ANOVA picked a wrong alias: kept single-stage |
+| Period search, from the page (worker start included) | 3 sectors, 47 645 points | LS 2.8 s, BLS 1.7 s, PDM 6.1 s, ANOVA 5.9 s | fine |
+| Orbits & models fit (spheres model) | W UMa, 47 645 points | 11.3 s | acceptable |
+| Plan: add a target by name (SIMBAD) | NY Vir, Betelgeuse, Arcturus | first 12–14 s each (Strasbourg times out, then the mirror), now 0.6–2 s | fixed: the working mirror is remembered across worker processes |
+| Plan: add a planet / the Moon | Saturn, Jupiter, Moon | 0.5–1.5 s | fine (offline) |
+| Plan: plan the night | 6 targets incl. planets and the Moon | 4.1–4.2 s | fine |
+| Add with ephemeris (VSX through VizieR when aavso.org does not answer) | NY Vir, W UMa, Algol | 1.1–2.6 s (Algol 16 s: alias through SIMBAD on the first call) | fine |
 
 ### Notes per task
 

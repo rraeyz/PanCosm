@@ -90,26 +90,48 @@ class PlanPage(Undoable, QWidget):
         grid.addWidget(self.min_alt, 5, 1)
         lay.addLayout(grid)
 
-        lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD) or coordinates"), self))
+        lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon"), self))
         row = QHBoxLayout()
         self.target_input = QLineEdit(self)
-        self.target_input.setPlaceholderText("HAT-P-32  |  02:04:10 +46:41:16")
+        self.target_input.setPlaceholderText("HAT-P-32  |  02:04:10 +46:41:16  |  Saturn")
         self.target_input.returnPressed.connect(self._add)
         self.target_input.setToolTip(
-            self.tr("A star name (looked up in SIMBAD, needs the internet) or coordinates RA Dec; Enter adds it")
+            self.tr(
+                "A star name (looked up in SIMBAD, needs the internet), coordinates RA Dec, or a planet / the Moon "
+                "(followed through the night, works offline); Enter adds it"
+            )
         )
         add = QPushButton(self.tr("Add"), self)
         add.clicked.connect(self._add)
-        add.setToolTip(self.tr("Adds the target to the list with its coordinates only"))
+        add.setToolTip(
+            self.tr(
+                "Adds the target with its coordinates only: enough to see when it is high in the sky. Several "
+                "targets (stars, planets, the Moon) are drawn together in one chart"
+            )
+        )
         ephem = QPushButton(self.tr("Add with ephemeris"), self)
         ephem.setToolTip(
-            self.tr("Coordinates, period, epoch and duration from VSX (variable stars) or the NASA Exoplanet Archive")
+            self.tr(
+                "An ephemeris is the timetable of a variable star or planet: the time of one minimum or transit (T0) "
+                "and the period, from which every later one is computed. This button adds the target with its "
+                "coordinates and its T0, period and duration from VSX (variable stars) or the NASA Exoplanet "
+                "Archive; the night plan then lists the eclipses / transits you can observe"
+            )
         )
         ephem.clicked.connect(self._add_ephemeris)
         row.addWidget(self.target_input)
         row.addWidget(add)
         row.addWidget(ephem)
         lay.addLayout(row)
+        hint = QLabel(
+            self.tr(
+                "Add: position only (when is it high?). Add with ephemeris: also the times of its eclipses or "
+                "transits (an ephemeris = T0 and period of a variable star or planet)."
+            ),
+            self,
+        )
+        hint.setWordWrap(True)
+        lay.addWidget(hint)
         self.table = QTableWidget(0, len(TARGET_COLUMNS), self)
         self.table.setHorizontalHeaderLabels(
             [
@@ -356,17 +378,19 @@ class PlanPage(Undoable, QWidget):
             for e in t["events"]:
                 h = (e["mid"] - midnight) * 24
                 ax.plot([h], [e["alt_mid"]], "v", color="red", ms=8)
-        ax.plot(
-            hours,
-            n["moon_alt"],
-            "--",
-            color="gray",
-            lw=1,
-            label=self.tr("Moon ({p:.0f} %)").format(p=100 * n["moon_illumination"]),
-        )
+        if not any(t.get("body") == "moon" for t in n["targets"]):  # typed: drawn above as a target
+            ax.plot(
+                hours,
+                n["moon_alt"],
+                "--",
+                color="gray",
+                lw=1,
+                label=self.tr("Moon ({p:.0f} %)").format(p=100 * n["moon_illumination"]),
+            )
         ax.axhline(self.min_alt.value(), color="red", lw=0.6, ls=":")
         ax.set_ylim(0, 90)
         ax.set_xlim(hours[0], hours[-1])
+        ax.xaxis.set_major_formatter(lambda h, _pos: f"{h % 24:g}")  # 25 h is 1 h UTC the next day
         ax.set_xlabel(self.tr("UTC (hours)"))
         ax.set_ylabel(self.tr("Altitude (°)"))
         secax = ax.secondary_yaxis("right", functions=(_alt_to_airmass, _airmass_to_alt))

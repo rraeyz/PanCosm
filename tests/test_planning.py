@@ -84,3 +84,31 @@ def test_resolver_coordinates_cache_and_offline(tmp_path):
     assert again.source == "cache" and again.vmag == 11.4 and calls == ["HAT-P-32"]
     with pytest.raises(TargetError, match="local cache"):
         r.resolve("offline star")
+
+
+def test_planets_and_the_moon_are_followed_through_the_night(tmp_path):
+    from astropy.coordinates import get_body
+
+    from astrowb.planning.steps import night_step
+    from astrowb.planning.targets import Resolver, body_of
+
+    assert body_of("Satürn") == "saturn" and body_of(" AY ") == "moon" and body_of("Vega") is None
+    sat = Resolver(tmp_path / "t.json", online=lambda n: pytest.fail("planets are not looked up")).resolve("Saturn")
+    assert sat.source == "solar system"
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    site = {"name": "TUG", "lat": 36.824, "lon": 30.335, "height": 2500.0}
+    targets = [{"name": "Saturn", "ra": 0.0, "dec": 0.0}, {"name": "Ay", "ra": 0.0, "dec": 0.0}]
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")  # the Moon distance must not warn about frames
+        inputs = {"site": site, "date": "2026-04-15", "targets": targets}
+        night = night_step(inputs, {"min_alt": 20.0, "step_min": 30.0}, Ctx())
+    saturn, moon_target = night["night"]["targets"]
+    assert saturn["body"] == "saturn" and moon_target["body"] == "moon"
+    assert np.allclose(moon_target["alt"], night["night"]["moon_alt"])  # the stored (0, 0) is not used
+    times = Time(night["night"]["jd"], format="jd")
+    s = Site(**site)
+    assert np.allclose(saturn["alt"], altitudes(get_body("saturn", times, s.location), times, s), atol=1e-6)

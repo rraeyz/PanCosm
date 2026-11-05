@@ -124,9 +124,15 @@ def catalogue_magnitudes(sky, bands, match_arcsec=2.0):
     centre = SkyCoord(np.mean(sky.ra.deg) * u.deg, np.mean(sky.dec.deg) * u.deg)
     radius = centre.separation(sky).max() + 5 * u.arcsec
     out = {b: np.full(len(sky), np.nan) for b in bands}
-    v = Vizier(columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=-1)
+    from ..mirrors import cds
+
     for cat in ("II/336/apass9", "I/355/gaiadr3"):
-        tables = v.query_region(centre, radius=radius, catalog=cat)
+        tables = cds(
+            "vizier",
+            lambda server, cat=cat: Vizier(
+                columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=-1, vizier_server=server
+            ).query_region(centre, radius=radius, catalog=cat),
+        )
         if not len(tables):
             continue
         t = tables[0]
