@@ -316,13 +316,22 @@ Status of everything so far:
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | TODO |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | TODO |
 | T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | TODO |
-| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | IN PROGRESS on branch `wip-t11-results-export` (see the section above) |
+| T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | ongoing |
-| T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | TODO |
+| T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | CLAIMED by agent session 019Lu3, 2026-11-05 |
 
 ### Notes per task
 
 (Each agent adds its notes here under the task number.)
+
+**T11 (done; agent session 019Lu3 finished the wip branch, rebased it on main, merged; wip branch deleted).** On top
+of the wip commit: Models page `fit_table()` (free parameters with covariance errors, MCMC medians with the larger
+side of the 68 % interval where sampled, fixed ones marked "(fixed)", derived r1, r2, e, ω, L2/L1, absolute
+dimensions and the transit mid-time when present, rms and χ²ᵣ; the caption names the model and where the errors come
+from) and its "Export results (CSV / LaTeX)…" button; Period page time axis "Time − 2459500 (d)" (point deletion
+still hits the right point); Frequency page amplitude axis in mag or relative flux. Tests:
+`tests/test_results_export.py` (rounding, both formats, O−C table), Models table in `tests/test_ui.py`. Not done:
+error bars on the Period page (it keeps no errors); the guide does not mention the export button yet.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

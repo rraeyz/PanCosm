@@ -166,8 +166,11 @@ class ModelsPage(Undoable, QWidget):
             )
         )
         self.posterior_button.hide()
+        from .export import results_button
+
+        results = results_button(self, self.fit_table)
         buttons = QGridLayout()  # two per row: the page fits narrow windows in every language
-        for i, b in enumerate((self.fit_button, export, wd, transit, overlay, self.posterior_button)):
+        for i, b in enumerate((self.fit_button, export, wd, transit, overlay, results, self.posterior_button)):
             buttons.addWidget(b, i // 2, i % 2)
         lay.addLayout(buttons)
         self.status = QLabel(self)
@@ -354,6 +357,51 @@ class ModelsPage(Undoable, QWidget):
         self.status.setText(text)
         self._draw()
         self.posterior_button.setVisible(bool(m))
+
+    def fit_table(self):
+        """(rows, caption) of the last light-curve fit for the results export."""
+        r = self.result
+        if not r:
+            self.status.setText(self.tr("Fit the light curve first."))
+            return None
+        units = {"period": "d", "t0": "BJD_TDB", "incl": "deg"}
+        m = (r.get("mcmc") or {}).get("params", {})
+        rows = []
+        for n in NAMES:
+            if n in m:  # median and the larger of the two sides of the 68 % interval
+                rows.append((n, m[n][0], max(m[n][1], m[n][2]), units.get(n, "")))
+            elif n in r["free"]:
+                rows.append((n, r["params"][n], r["errors"][n], units.get(n, "")))
+            else:
+                rows.append((n + " (fixed)", r["params"][n], None, units.get(n, "")))
+        d, de = r["derived"], r["derived_err"]
+        rows += [("r1", d["r1"], de["r1"], "a"), ("r2", d["r2"], de["r2"], "a"), ("e", d["e"], de["e"], "")]
+        rows += [("omega", d["omega"], de["omega"], "deg"), ("L2/L1", d["light_ratio"], de["light_ratio"], "")]
+        a = r.get("absolute") or {}
+        for n, unit in (("m1", "Msun"), ("m2", "Msun"), ("r1", "Rsun"), ("r2", "Rsun"), ("a", "Rsun")):
+            if n in a:
+                rows.append((n.upper() if n != "a" else "a", a[n], a.get(n + "_err"), unit))
+        for n in ("logg1", "logg2"):
+            if n in a:
+                rows.append((n, a[n], a.get(n + "_err"), "cgs"))
+        t = r.get("transit")
+        if t:
+            rows += [
+                ("Tc", t["tc"], t["tc_err"], "BJD_TDB"),
+                ("depth", t["depth"], None, ""),
+                ("T14", t["t14"] * 24, None, "h"),
+            ]
+        rows += [("rms", r["rms"], None, ""), ("chi2_r", r["chi2r"], None, "")]
+        errors = (
+            self.tr("medians and 68 % intervals of the MCMC posterior (the larger side)")
+            if m
+            else self.tr("1σ errors from the covariance matrix, derived quantities from its draws")
+        )
+        caption = self.tr(
+            "Light-curve fit to {n} points: two limb-darkened spheres on a Keplerian orbit (EBOP / JKTEBOP "
+            "approximation), least squares; {errors}."
+        ).format(n=r["n"], errors=errors)
+        return rows, caption
 
     def show_posterior(self):
         """Corner plot of the MCMC samples: histograms on the diagonal, pairs below."""

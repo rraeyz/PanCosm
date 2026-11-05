@@ -2764,8 +2764,7 @@ class OCPage(QWidget):
             model = self.tr("quadratic ephemeris") if f.order == 2 else self.tr("linear ephemeris")
         rows.append(("chi2_r", f.chi2r, None, ""))
         caption = self.tr(
-            "O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when "
-            "χ²ᵣ > 1)."
+            "O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ > 1)."
         ).format(n=n, model=model)
         return rows, caption
 
@@ -3078,7 +3077,7 @@ class PeriodPage(Undoable, QWidget):
             return
         ax = event.inaxes
         t, y = np.asarray(self.time), np.asarray(self.flux)
-        x = t if getattr(ax, "_kind", "") == "time" else fold_phase(t, self.best, self._t0())
+        x = t - ax._t_ref if getattr(ax, "_kind", "") == "time" else fold_phase(t, self.best, self._t0())
         if getattr(ax, "_kind", "") not in ("time", "phase"):
             return
         (x0, x1), (y0, y1) = ax.get_xlim(), ax.get_ylim()
@@ -3099,8 +3098,10 @@ class PeriodPage(Undoable, QWidget):
         self.plot.figure.clear()
         ax = self.plot.figure.subplots()
         ax._kind = "time"
-        ax.plot(self.time, self.flux, ".", ms=2)
-        ax.set_xlabel(self.tr("Time"))
+        t = np.asarray(self.time)
+        ax._t_ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
+        ax.plot(t - ax._t_ref, self.flux, ".", ms=2)
+        ax.set_xlabel(self.tr("Time − {t:.0f} (d)").format(t=ax._t_ref) if ax._t_ref else self.tr("Time (d)"))
         ax.set_ylabel(self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"))
         if self.magnitudes:
             ax.invert_yaxis()
