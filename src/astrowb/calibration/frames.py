@@ -24,7 +24,8 @@ _PATTERNS = [  # order matters: "dark flat" is a dark for the flat, "flat dark" 
     ("flat", re.compile(r"flat|sky ?flat|dome ?flat|twilight", re.I)),
     # wavelength-calibration lamps (IRAF 'comp'): calibrated like lights, never divided by a flat nor stacked
     ("arc", re.compile(r"(?<![a-z])(comp|arc|lamp|thar|th-ar|fear|hear|cuar|neon|argon|wavecal|wave)(?![a-z])", re.I)),
-    ("light", re.compile(r"light|object|science|sci\b|target|(?<![a-z])std(?![a-z])", re.I)),  # ESO: STD = a standard
+    # ESO: STD = a standard; LCO: EXPOSE (imaging), SPECTRUM (FLOYDS), STANDARD
+    ("light", re.compile(r"light|object|science|sci\b|target|expose|spectrum|standard|(?<![a-z])std(?![a-z])", re.I)),
 ]
 
 

@@ -346,7 +346,7 @@ Status of everything so far:
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-05): automatic sweep DONE in 4 languages; real-data use per page in progress |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
-| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | open |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-05): U8a DONE; U8d (IRAF installed) next |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
 | U10 | Re-run the tests touched by every fix; CI green | open |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
@@ -402,6 +402,16 @@ frame-to-frame shift (despike + statistics + FFT of the whole frame) and reading
 large frames (> 4 MP) is found on 2x2-binned frames (every star is re-centred afterwards anyway; stacking keeps the
 full resolution) and the next frame is read in a thread while one is measured: 60 frames 35.2 s -> 13.6 s, relative
 fluxes identical to 2.5e-5. Test `test_binned_frame_shift_is_close_enough_for_re_centring`.
+**U8a (done): LCO raw (e00) through the Calibrate page vs BANZAI (e91).** Data: LCO archive, public: 40 raw Qatar-1
+frames (`OBJECT=Qatar-1&RLEVEL=0&start=2026-11-02&end=2026-11-04`), 30 raw bias and 20 raw darks of that night
+(`INSTRUME=sq41&OBSTYPE=BIAS|DARK&RLEVEL=0&start=2026-11-02T12:00&end=2026-11-03T18:00`), BANZAI's master skyflat
+(`basename=elp0m415-sq41-20261027-skyflat-central30x30-bin1x1-Astrodon-Exo`; only one raw Astrodon-Exo skyflat that
+week). Found and fixed: (a) **LCO science frames were "type unknown, ignored"**: OBSTYPE EXPOSE (and FLOYDS SPECTRUM,
+STANDARD) were not read as lights; (b) **BANZAI's master flat was not used**: it states GAIN = 17291 (the lights 0.78)
+and flats had to agree in gain / offset; flats now match on the read-out mode only (the gain is normalised away,
+the offset is the bias), bias and darks still on every setting. Result: our calibrated frames = BANZAI's x 1.2678
+(constant: e- vs ADU, gain 0.78) to 0.92 ADU per pixel (sky noise 9.7 ADU; our 30-bias / 20-dark masters' own noise
+~0.74 ADU); light curves of Qatar-1 from both sets of frames differ by 0.021 % rms (each scatters 0.679 %).
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -430,6 +440,8 @@ Users are not affected (certifi has it).
 | Photometry: light curve, 60 frames (same data, script) | Qatar-1 | before 35.2 s, now 13.6 s | 2x2-binned frame shift + reading ahead; same fluxes |
 | Photometry: standard magnitudes (APASS / Gaia, mirror) | 4 comparison stars + target | 19.5 s | acceptable (network) |
 | Every button of every page with no data (sweep) | 273 clicks per language | all < 1 s except "Plan the night" 4.2 s | fine |
+| Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
+| Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | 110 s (2.75 s per light) | slow-ish: to be profiled (U9) |
 
 ### Notes per task
 

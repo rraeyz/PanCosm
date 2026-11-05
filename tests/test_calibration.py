@@ -113,6 +113,9 @@ def test_classify_fallbacks():
     assert classify(fits.Header({"EXPTIME": 0.0}), "x.fits") == "bias"
     assert classify(fits.Header({"EXPTIME": 10.0}), "x.fits") == "unknown"
     assert classify(fits.Header({"EXPTIME": 5.0}), "Arcturus_Object_5s-1.fit") == "light"  # not an 'arc'
+    # LCO raw frames (OBSTYPE): science frames were "unknown, ignored" (real night, 0.4 m sq41, 2026-11-02)
+    for value, kind in (("EXPOSE", "light"), ("SPECTRUM", "light"), ("STANDARD", "light"), ("SKYFLAT", "flat")):
+        assert classify(fits.Header({"OBSTYPE": value, "EXPTIME": 30.0})) == kind
 
 
 def test_scan_and_plan(night):
@@ -431,3 +434,17 @@ def test_eso_raw_frames_are_classified_with_their_grism():
         _fits.PrimaryHDU(np.zeros((10, 10), np.float32), header("FLAT", "Gr#16", "OG530")).writeto(p)
         f = read_frame(p)
         assert f.filter == "OG530 / Gr#16" and f.binning == (2, 2) and f.kind == "flat"
+
+
+def test_a_flat_matches_whatever_its_gain_but_not_another_read_out_mode():
+    from astrowb.calibration.frames import Frame
+    from astrowb.calibration.matching import best_bias, best_flat
+
+    def frame(kind, readout):
+        return Frame("x", kind, 30.0, "Astrodon-Exo", None, (1, 1), (2400, 2400), readout, "2026-11-03T03:00", "")
+
+    light = frame("light", "GAIN=0.78")
+    master = frame("flat", "GAIN=17290.87759326866")  # BANZAI's master skyflat (real LCO night)
+    assert best_flat(light, [master]) is master
+    assert best_flat(frame("light", "GAIN=0.78|MODE=HDR"), [frame("flat", "GAIN=0.78|MODE=Photographic")]) is None
+    assert best_bias(light, [frame("bias", "GAIN=17290.87759326866")]) is None  # bias and dark: every setting

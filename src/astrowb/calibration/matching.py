@@ -1,7 +1,8 @@
 """Automatic matching of calibration frames to lights, and the calibration plan.
 
 Rules (MaxIm DL "auto-calibration" style, made explicit):
-  every match: same frame size, binning and readout settings (gain/offset/mode)
+  every match: same frame size, binning and readout settings (gain/offset/mode); for flats the read-out mode
+         only: the flat's pixel pattern does not depend on the gain (normalised away) nor the offset (the bias)
   bias:  nearest sensor temperature
   dark:  temperature within ``temp_tol``; same exposure preferred, otherwise the
          bias-subtracted dark with the nearest exposure (scaled)
@@ -19,15 +20,15 @@ from .frames import Frame
 TEMP_TOL = 2.0  # deg C
 
 
-def _settings_agree(a: str, b: str) -> bool:
-    """Gain, offset and read-out mode agree where both headers state them: a setting one program does not
-    write is no conflict (the real night's lights had READMODE, its bias, darks and flats did not)."""
+def _settings_agree(a: str, b: str, keys=None) -> bool:
+    """Gain, offset and read-out mode (or only keys) agree where both headers state them: a setting one program
+    does not write is no conflict (the real night's lights had READMODE, its bias, darks and flats did not)."""
     da, db = (dict(part.split("=", 1) for part in s.split("|") if part) for s in (a, b))
-    return all(da[k] == db[k] for k in da.keys() & db.keys())
+    return all(da[k] == db[k] for k in da.keys() & db.keys() if keys is None or k in keys)
 
 
-def _compatible(a: Frame, b: Frame) -> bool:
-    return a.shape == b.shape and a.binning == b.binning and _settings_agree(a.readout, b.readout)
+def _compatible(a: Frame, b: Frame, keys=None) -> bool:
+    return a.shape == b.shape and a.binning == b.binning and _settings_agree(a.readout, b.readout, keys)
 
 
 def _temp_diff(a, b):
@@ -67,7 +68,8 @@ def best_dark(light, darks, temp_tol=TEMP_TOL, can_scale=lambda d: True):
 
 
 def best_flat(light, flats):
-    ok = [f for f in flats if _compatible(light, f) and _norm_filter(f.filter) == _norm_filter(light.filter)]
+    # a pipeline's master flat states another GAIN (BANZAI: 17291 against the lights' 0.78): the mode only
+    ok = [f for f in flats if _compatible(light, f, ("MODE",)) and _norm_filter(f.filter) == _norm_filter(light.filter)]
     return min(ok, key=lambda f: abs(_time(f) - _time(light)), default=None)
 
 
