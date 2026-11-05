@@ -315,7 +315,7 @@ Status of everything so far:
 | T7 | Spectral classification checked against MKCLASS (Gray & Corbally) / iSpec; shown as a ranked suggestion with scores | DONE (see notes) |
 | T8 | Error messages (old task 38): every message says what happened and what to do, in all four languages | DONE (see notes) |
 | T9 | Real ground photometry time series through the whole Photometry page, AAVSO export, standard magnitudes | DONE for the photometry and timing (see notes); AAVSO export and standard magnitudes still need CDS (blocked here) |
-| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | ESO and LAMOST DONE (see notes); raw long-slit data of a small spectrograph still open |
+| T10 | Real long-slit data of a simple spectrograph; reduced archive spectra (ESO / LAMOST) through RV and line tools | DONE: ESO, LAMOST and 30 reduced amateur spectra (ARAS); raw (unreduced) amateur frames still not found |
 | T11 | Paper-quality output: every result exported as a figure (vector, error bars, labelled axes, units) and a table with uncertainties (CSV and LaTeX); a reviewer can reproduce it | DONE (see notes) |
 | T12 | CI green for the latest commits; a release only after asking the owner | green at `e7b79a7` (2026-11-05); keep checking after each push |
 | T13 | Turkish terms as "English/Türkçe" where both are used (order/mertebe, seeing/görüş, airmass/hava kütlesi…), translations and guide | DONE (see notes) |
@@ -442,6 +442,21 @@ S/N > 20 (F6–K3): median difference to the LAMOST pipeline +2.5 km/s, robust s
 | Template smoothed to the spectrum's resolution | new: "The template was smoothed to the spectra's resolution" | choose a template of similar resolution |
 | Vacuum → air | new: Velocity tab and Spectrum tools source line say so | — (the file's statement) |
 | MK type / Pickles template | ranked list with scores, "suggestion" | template field |
+
+**T10, amateur spectra (agent session 019Lu3).** ARAS Spectral Database (`https://aras-database.github.io/database/`,
+star pages such as `agdra.html` link `spectra/asdb_<star>_<date>_<n>.fit`; terms: the observations stay their
+observers' — used here only for testing, never committed). 30 reduced spectra of AG Dra (symbiotic, halo star,
+γ ≈ −148 km/s) from 19 instruments: eShel, echelle9000, Alpy 600, LISA, LHIRES III, UVEX, StarEx (R 500–11000), BeSS
+format (1-D image, CTYPE1 'Wavelength', JD-MID). All 30 are read. Found and fixed (tests `test_bess_amateur_spectra`,
+`test_chunk_error_reflects_disagreeing_parts`): `BSS_VHEL` ≠ 0 means the heliocentric correction is already applied
+(four spectra would have been corrected twice); the site in `GEO_LAT / GEO_LONG / GEO_ELEV` (and the BeSS
+`BSS_LAT / BSS_LONG / BSS_ELEV` our own export writes) was not read, and 0, 0 means unknown, not a site; one spectrum
+of 6578–8634 Å among 5000–5800 Å ones crashed the whole batch with a numpy message — it is now left out and named;
+the formal CCF errors were 5–10× too small at R ≈ 500 — an empirical error from four wavelength chunks
+(`rv.chunk_error`, as pipelines check order by order) is used when larger. Result (5000–5800 Å against the Kurucz
+Sun): R ≥ 9000 spectra mostly −151 to −155 km/s (median of all −154), errors 0.5–5 km/s; R 500–1100 spectra scatter
+−53 to −309 km/s with errors now 8–69 km/s (still several σ off for a few: an emission-line star at R 500 holds
+little velocity information in that range; worth a note in the guide). Not done: raw amateur frames (none found).
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

@@ -427,3 +427,76 @@ def test_mk_suggestion_is_drawn_and_survives_without_the_template_library(qtbot)
     assert "G0 V" in tab.status.text() and "choose a template yourself" in tab.status.text()
     ax = tab.plot.figure.axes[0]
     assert len(ax.lines) == 2 and np.isnan(ax.lines[1].get_ydata()[:10]).all()  # no fake drop where it has no data
+
+
+def test_bess_amateur_spectra(tmp_path):
+    # 30 real ARAS spectra of AG Dra (eShel, Alpy 600, LISA, LHIRES III, UVEX, StarEx): BSS_VHEL = the heliocentric
+    # correction already applied; the site in GEO_LAT / GEO_LONG (0, 0 = unknown); one spectrum outside the chosen
+    # wavelengths stopped the whole batch
+    from astropy.io import fits
+
+    from astrowb import timing
+    from astrowb.engine import steps
+    from astrowb.spectroscopy import spectrum_io
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    tw = np.linspace(3900, 7200, 40000)
+    spectrum_io.write(tmp_path / "template.fits", tw, star_spectrum(tw), np.zeros_like(tw))
+
+    def bess(name, start, vhel, lat, lon):
+        h = fits.Header({"CRVAL1": start, "CDELT1": 0.5, "CRPIX1": 1.0, "CTYPE1": "Wavelength", "CUNIT1": "Angstrom"})
+        h["DATE-OBS"], h["JD-MID"], h["BSS_VHEL"] = "2026-10-07T20:10:21", 2461321.3685, vhel
+        h["GEO_LAT"], h["GEO_LONG"], h["GEO_ELEV"] = lat, lon, 318
+        w = start + 0.5 * np.arange(4000)
+        fits.PrimaryHDU(star_spectrum(w, -150.0), h).writeto(tmp_path / name)
+        return str(tmp_path / name)
+
+    corrected = bess("a.fit", 4000.0, -0.639, 41.7203, 1.1063)
+    raw = bess("b.fit", 4000.0, 0.0, 41.7203, 1.1063)
+    unknown = bess("c.fit", 4000.0, 0.0, 0.0, 0.0)
+    red = bess("d.fit", 6600.0, 0.0, 41.7203, 1.1063)  # 6600-8600 A only
+    assert timing.location(fits.getheader(raw)).lat.deg == pytest.approx(41.7203)
+    assert timing.location(fits.getheader(unknown)) is None  # 0, 0 is not a site
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        out = steps.execute(
+            "spectroscopy.rv",
+            {
+                "spectra": [corrected, raw, unknown, red],
+                "template": str(tmp_path / "template.fits"),
+                "coord": "16 01 40.96 +66 48 10.1",
+            },
+            {"v_min": -400, "v_max": 100, "wave_min": 5000, "wave_max": 5800},
+            Ctx(),
+        )
+    rows = {r["file"]: r for r in out["rvs"]}
+    assert [k["file"] for k in out["skipped"]] == ["d.fit"]
+    assert rows["a.fit"]["already_barycentric"] and rows["a.fit"]["v_corr"] == 0.0
+    assert rows["b.fit"]["site"]["from"] == "header" and rows["b.fit"]["v_corr"] != 0.0
+    assert rows["c.fit"]["v_corr"] is None  # unknown site: not corrected, the page asks for the Plan page's site
+    assert (
+        rows["a.fit"]["rv"] == pytest.approx(-150.0, abs=3)
+        and rows["a.fit"]["rv_err"] >= rows["a.fit"]["rv_err_formal"]
+    )
+
+
+def test_chunk_error_reflects_disagreeing_parts():
+    rng = np.random.default_rng(5)
+    centres = rng.uniform(5000, 5800, 300)
+
+    def lines(wave, v):
+        f = np.ones_like(wave)
+        for c in centres:
+            f -= 0.4 * np.exp(-0.5 * ((wave - c * (1 + v / C)) / 0.3) ** 2)
+        return f
+
+    w = np.exp(np.linspace(np.log(5000), np.log(5800), 16000))
+    obs = np.where(w < 5400, lines(w, -150.0), lines(w, -120.0))  # two halves 30 km/s apart
+    assert rv.chunk_error(w, obs, w, lines(w, 0.0), -400, 100) > 5
+    assert rv.chunk_error(w, lines(w, -150.0), w, lines(w, 0.0), -400, 100) < 0.5  # agreeing parts: small

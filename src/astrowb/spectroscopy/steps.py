@@ -8,7 +8,7 @@ import numpy as np
 from .. import timing
 from ..calibration.masters import load
 from ..engine.steps import step
-from ..hdr import get
+from ..hdr import get, number
 from . import bf, echelle, longslit, orbit, rv, sb2, spectrum_io, telluric, wavecal
 
 
@@ -304,7 +304,7 @@ def telluric_step(inputs, params, ctx):
 @step(
     "spectroscopy.rv",
     inputs=("spectra", "template"),
-    outputs=("rvs",),
+    outputs=("rvs", "skipped"),
     optional=("coord", "site", "template2"),
     v_min=-300.0,
     v_max=300.0,
@@ -328,12 +328,15 @@ def rv_step(inputs, params, ctx):
         t2w, t2f, _, _ = spectrum_io.read(inputs["template2"])
         t2 = (t2w, rv.continuum_normalise(t2w, t2f))
     site = Site(**inputs["site"]).location if inputs.get("site") else None
-    rows = []
+    rows, skipped = [], []
     for i, path in enumerate(inputs["spectra"]):
         ctx.check()
         ctx.progress(i / len(inputs["spectra"]), Path(path).name)
         w, f, _, h = spectrum_io.read(path)
         sel = np.isfinite(f) & (w >= (params["wave_min"] or -np.inf)) & (w <= (params["wave_max"] or np.inf))
+        if sel.sum() < 50:  # an ARAS spectrum of 6578-8634 A among 5000-5800 A ones stopped the whole batch
+            skipped.append({"file": Path(path).name, "from": float(np.nanmin(w)), "to": float(np.nanmax(w))})
+            continue
         w, f = w[sel], rv.continuum_normalise(w[sel], f[sel])
         tw, tf = rv.match_template(w, tw0, tf0)  # a much finer template is brought to this spectrum's resolution
         matched = tw is not tw0
@@ -349,6 +352,10 @@ def rv_step(inputs, params, ctx):
                 r2 |= {"vsini2": c[1]["vsini"], "vsini2_err": c[1]["vsini_err"]}
         elif t2 is None:
             r = rv.ccf(w, f, tw, tf, params["v_min"], params["v_max"])
+            r["rv_err_formal"] = r["rv_err"]
+            empirical = rv.chunk_error(w, f, tw, tf, params["v_min"], params["v_max"])
+            if empirical is not None and empirical > r["rv_err"]:  # the parts disagree more than the formula says
+                r["rv_err"] = empirical
             r2 = {}
         else:
             d = sb2.todcor(w, f, tw, tf, *rv.match_template(w, *t2), params["v_min"], params["v_max"])
@@ -358,6 +365,7 @@ def rv_step(inputs, params, ctx):
             "file": Path(path).name,
             "rv_obs": r["rv"],
             "rv_err": r["rv_err"],
+            "rv_err_formal": r.get("rv_err_formal", r["rv_err"]),  # the CCF formula; rv_err may be the empirical one
             "ccf_peak": r["peak"],
             "time_jd": None,
             "bjd": None,
@@ -367,10 +375,12 @@ def rv_step(inputs, params, ctx):
             "template_matched": matched,  # shown to the user: choices made for them stay visible
             "vacuum_to_air": air,
         } | r2
-        # archive spectra (ESO Phase 3, LAMOST's HELIO, many pipelines) may already be on the barycentric (or
-        # heliocentric, within 12 m/s) wavelength scale: correcting them again put a constant star 27 km/s off
+        # archive spectra (ESO Phase 3, LAMOST's HELIO, BeSS / ARAS BSS_VHEL, many pipelines) may already be on the
+        # barycentric (or heliocentric, within 12 m/s) scale: correcting them again put a constant star 27 km/s off
         already = (
-            str(h.get("SPECSYS", "")).strip().upper().startswith(("BARYCENT", "HELIOCEN")) or h.get("HELIO") is True
+            str(h.get("SPECSYS", "")).strip().upper().startswith(("BARYCENT", "HELIOCEN"))
+            or h.get("HELIO") is True
+            or bool(number(h.get("BSS_VHEL")))  # BeSS: the heliocentric correction applied (0 = none)
         )
         if already:
             row |= {"v_corr": 0.0, "rv": r["rv"], "already_barycentric": True}
@@ -397,7 +407,9 @@ def rv_step(inputs, params, ctx):
         except (timing.TimeError, ValueError):
             pass  # no usable time: the velocity is still reported, without correction
         rows.append(row)
-    return {"rvs": rows}
+    if not rows:
+        raise ValueError("no spectrum covers the chosen wavelengths: widen the range or set it to 0 (all)")
+    return {"rvs": rows, "skipped": skipped}
 
 
 @step(

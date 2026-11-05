@@ -557,7 +557,7 @@ class MainWindow(QMainWindow):
                 "spectroscopy.rv",
                 inputs | ({"site": self.settings.get("site")} if self.settings.get("site") else {}),
                 params,
-                on_done=lambda out: vt.show_rvs(out["rvs"]),
+                on_done=lambda out: vt.show_rvs(out["rvs"], out.get("skipped")),
             )
         )
         vt.disentangle_requested.connect(
