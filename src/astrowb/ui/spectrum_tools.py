@@ -375,11 +375,12 @@ class SpectrumToolsTab(Undoable, QWidget):
         self.wave, self.flux = np.asarray(self.wave, float), np.asarray(self.flux, float)
         self.path, self.history, self.points, self.last = path, [], [], None
         self.undo_stack.clear()  # another spectrum: earlier steps do not apply to it
-        self.source.setText(
-            self.tr("{file}: {n} points, {a:.1f}–{b:.1f} Å").format(
-                file=Path(path).name, n=self.wave.size, a=self.wave.min(), b=self.wave.max()
-            )
+        text = self.tr("{file}: {n} points, {a:.1f}–{b:.1f} Å").format(
+            file=Path(path).name, n=self.wave.size, a=self.wave.min(), b=self.wave.max()
         )
+        if "converted to air" in str(self.header.comments["VACUUM"] if "VACUUM" in self.header else ""):
+            text += " " + self.tr("(vacuum wavelengths in the file, converted to air)")
+        self.source.setText(text)
         self._plot()
         return True
 

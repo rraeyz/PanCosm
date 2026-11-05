@@ -336,6 +336,8 @@ def rv_step(inputs, params, ctx):
         sel = np.isfinite(f) & (w >= (params["wave_min"] or -np.inf)) & (w <= (params["wave_max"] or np.inf))
         w, f = w[sel], rv.continuum_normalise(w[sel], f[sel])
         tw, tf = rv.match_template(w, tw0, tf0)  # a much finer template is brought to this spectrum's resolution
+        matched = tw is not tw0
+        air = "converted to air" in str(h.comments["VACUUM"] if "VACUUM" in h else "")
         if params["method"] == "bf":
             b = bf.broadening_function(w, f, tw, tf, params["v_min"], params["v_max"], components=params["components"])
             c = b["components"]
@@ -362,6 +364,8 @@ def rv_step(inputs, params, ctx):
             "v_corr": None,
             "rv": None,
             "site": None,  # where the barycentric correction was computed for, shown to the user
+            "template_matched": matched,  # shown to the user: choices made for them stay visible
+            "vacuum_to_air": air,
         } | r2
         # archive spectra (ESO Phase 3, LAMOST's HELIO, many pipelines) may already be on the barycentric (or
         # heliocentric, within 12 m/s) wavelength scale: correcting them again put a constant star 27 km/s off
