@@ -488,10 +488,13 @@ reference arc + IRAF database, 9 lines He I 3888.7 … Ar I 7383.9). Found and f
   tab offers no degree at all — now the lines choose it by leave-one-out up to 5 (the step's `order`), shown on the
   page; catalogue lines with a neighbour closer than the tolerance are not auto-matched (blended Ar lines at 4 Å/px).
   Result with the nine identified lines: 13 lines, 0.21 Å rms (PESSTO's own solution uses order 5).
-- Open: the four Balmer lines of LTT 3864 all sit 3.1–3.7 Å blue of their laboratory wavelengths (a constant shift
-  in Å, not a velocity): most likely flexure between the arc (08:35) and the star (07:49); the night-sky [O I] 5577
-  line points the same way (−7.7 ± 0.8 Å, the only sky line detected in 80 s). A zero-point correction from
-  night-sky lines (as pipelines do) is a candidate feature; it needs longer exposures to validate.
+- Flexure: the four Balmer lines of LTT 3864 all sit 3.1–3.7 Å blue (a constant shift in Å, not a velocity). Validated
+  on a 45 min exposure of the same night (SN 2018kzr, Gr#11, `EFOSC.2019-01-01T04:06:59.255`): [O I] 5577, 6300, 6363
+  are all −6.9 to −8.0 Å off — flexure since the arc. Done: `wavecal.sky_shift` (fit of the three [O I] lines in the
+  extraction's sky bands; used when two agree within 3σ or one has S/N ≥ 15; each needs S/N ≥ 8, noise from the fit
+  residuals) shifts the zero point in the Reduce step (`sky_lines=True`, checkbox "Zero point from the night-sky
+  lines", status line says the shift or that the arc's zero point was kept; header WAVSKYSH). SN 2018kzr: −7.14 Å
+  from 3 lines; LTT 3864 (80 s): no line strong enough, nothing shifted. Echelle step: not done.
 
 **T1 (done).** Photometry page, Minimum tab: a box "What kind of minimum is it?" with two radio buttons,
 "Eclipsing binary: Kwee–van Woerden method" (default) and "Exoplanet transit: trapezoid fit", a one-line note on

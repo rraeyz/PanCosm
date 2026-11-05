@@ -183,6 +183,15 @@ class ReduceTab(Undoable, QWidget):
                 "faint spectra. Turn off for saturated or very bright spectra."
             )
         )
+        self.sky_lines = QCheckBox(self.tr("Zero point from the night-sky lines"), self)
+        self.sky_lines.setChecked(True)
+        self.sky_lines.setToolTip(
+            self.tr(
+                "The spectrograph flexes between the arc and the star: the night-sky lines [O I] 5577, 6300 and 6363 Å "
+                "in the sky bands give the shift, used only when two lines agree or one is very strong (long "
+                "exposures); otherwise the arc's zero point stays"
+            )
+        )
         self.line_list = QComboBox(self)
         self.line_list.addItems(_line_lists())
         self.line_list.setCurrentText("henear")
@@ -205,6 +214,7 @@ class ReduceTab(Undoable, QWidget):
             grid.addWidget(w, r, 1)
         lay.addLayout(grid)
         lay.addWidget(self.optimal)
+        lay.addWidget(self.sky_lines)
         self.extract_button = QPushButton(self.tr("1. Extract"), self)
         self.extract_button.clicked.connect(lambda: self._run(with_guesses=False))
         self.extract_button.setToolTip(
@@ -288,6 +298,7 @@ class ReduceTab(Undoable, QWidget):
             "sky_offset": self.sky_offset.value(),
             "sky_width": self.sky_width.value(),
             "optimal": self.optimal.isChecked(),
+            "sky_lines": self.sky_lines.isChecked(),
             "line_list": self.line_list.currentText(),
             "guess_row": self.row.value() or None,
         } | self.orientation.params()
@@ -301,6 +312,7 @@ class ReduceTab(Undoable, QWidget):
             "sky_offset": self.sky_offset.value(),
             "sky_width": self.sky_width.value(),
             "optimal": self.optimal.isChecked(),
+            "sky_lines": self.sky_lines.isChecked(),
             "line_list": self.line_list.currentText(),
             "orientation": self.orientation.state(),
         }
@@ -310,6 +322,7 @@ class ReduceTab(Undoable, QWidget):
             if key in st:
                 getattr(self, key).setValue(float(st[key]))
         self.optimal.setChecked(bool(st.get("optimal", True)))
+        self.sky_lines.setChecked(bool(st.get("sky_lines", True)))
         self.line_list.setCurrentText(st.get("line_list", "henear"))
         self.orientation.restore(st.get("orientation", {}))
 
@@ -340,11 +353,22 @@ class ReduceTab(Undoable, QWidget):
                     rms=s["solution"]["rms"],
                     path=s.get("path", "—"),
                 )
+                + " "
+                + self._sky_text(s.get("sky_shift"))
             )
         else:
             self.status.setText(
                 self.tr("Extracted {n} columns; {m} arc lines found.").format(n=len(s["flux"]), m=len(s["arc_peaks"]))
             )
+
+    def _sky_text(self, sky):
+        if not sky:
+            return ""
+        if sky["shift"] is not None:
+            return self.tr("Zero point corrected by {s:+.2f} Å from the night-sky lines ({lines}).").format(
+                s=-sky["shift"], lines=", ".join(f"{line[0]:.0f}" for line in sky["lines"])
+            )
+        return self.tr("No night-sky line strong enough for the zero point: the arc's zero point is kept.")
 
     def _draw_trace(self, ax, coef):
         from ..spectroscopy.steps import _load

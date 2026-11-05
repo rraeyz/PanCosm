@@ -180,3 +180,48 @@ def _best_degree(px, wv, highest):
         if loo < 0.95 * best_err:  # a higher degree must do clearly better
             best, best_err = d, loo
     return best
+
+
+# Night-sky emission lines (air, Angstrom) for the zero point of a long-slit spectrum: the arc is often taken hours
+# before or after, and the spectrograph flexes in between (a real EFOSC2 night: [O I] 5577, 6300 and 6363 all 8.4 A
+# off, the same in every line). Pipelines shift the solution by the sky lines' offset; so does this.
+SKY_LINES = (5577.338, 6300.304, 6363.776)
+
+
+def sky_shift(wave, sky, min_snr=8.0, strong_snr=15.0):
+    """The offset (A) of the night-sky lines in the extracted sky, or None when the lines do not tell it safely:
+    each line counts above min_snr; the offset is used when two lines agree (within 3 sigma) or one has
+    strong_snr. Returns (offset or None, [(line, offset, error, snr)])."""
+    from scipy.optimize import curve_fit
+
+    wave, sky = np.asarray(wave, float), np.asarray(sky, float)
+    disp = float(np.median(np.abs(np.diff(wave))))
+
+    def model(x, a, mu, s, b, k):
+        return b + k * (x - mu) + a * np.exp(-0.5 * ((x - mu) / s) ** 2)
+
+    found = []
+    for lab in SKY_LINES:
+        m = np.isfinite(sky) & (wave > lab - 8 * disp) & (wave < lab + 8 * disp)
+        if m.sum() < 10:
+            continue
+        y, x = sky[m], wave[m]
+        try:
+            p, cov = curve_fit(model, x, y, p0=[np.ptp(y), lab, 1.5 * disp, np.median(y), 0.0], maxfev=4000)
+        except (RuntimeError, ValueError):
+            continue
+        noise = 1.4826 * np.median(np.abs(y - model(x, *p)))  # from the fit: the line's own slope is not noise
+        err = float(np.sqrt(cov[1, 1])) if np.isfinite(cov[1, 1]) else np.inf
+        snr = float(p[0] / noise) if noise > 0 else 0.0
+        if snr >= min_snr and 0.3 * disp < abs(p[2]) < 6 * disp and abs(p[1] - lab) < 6 * disp and err < disp:
+            found.append((lab, float(p[1] - lab), err, snr))
+    if not found:
+        return None, found
+    off = np.array([f[1] for f in found])
+    err = np.array([f[2] for f in found])
+    if len(found) == 1:
+        return (found[0][1] if found[0][3] >= strong_snr else None), found
+    mean = float(np.sum(off / err**2) / np.sum(1 / err**2))
+    if np.all(np.abs(off - mean) < 3 * np.hypot(err, 0.1 * disp)):
+        return mean, found
+    return None, found
