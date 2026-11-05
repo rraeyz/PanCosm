@@ -10,6 +10,8 @@ Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık 
 
 Alt klasörler de okunur. Light'lar ve kalibrasyon kareleri ayrı klasörlerdeyse (örneğin *Light* ve *BDF*) ikisini birden içeren klasörü seçin. Başka bir yerde duran kareler, örneğin bir kalibrasyon arşivi, **Klasör ekle…** ile eklenir (birden çok klasör `;` ile ayrılır). Hiç light karesi bulunamazsa tablonun altındaki liste bunu söyler ve **Kalibre et** bir light olana kadar kapalı kalır.
 
+Arşivlerden gelen ham kareler olduğu gibi kullanılır: ESO'nun `.fits.Z` dosyaları (Unix compress) fits_from_raw klasörüne açılır, ESO kare türleri (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT) tanınır ve bir tayfçekerin grizması ya da ağı filtrenin parçası sayılır; böylece başka bir grizmayla alınmış flat asla kullanılmaz.
+
 ## Master'lar nasıl eşlenir
 - **Bias:** aynı binning ve boyut.
 - **Dark:** aynı binning, aynı poz süresi ve 2 °C içinde sıcaklık. Başka pozdaki bir dark, light'ın pozuna yalnızca bias kareleri varsa ölçeklenir (bias çıkarılınca karanlık akım süreyle orantılıdır).
