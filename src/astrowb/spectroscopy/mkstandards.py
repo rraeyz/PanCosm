@@ -7,12 +7,25 @@ the libnor36 spectra are kept. Each file is named tNNNlnnp00.rbn: NNN the temper
 (MKCLASS's scale: B0 = 7, A0 = 16, F0 = 23, G0 = 30, K0 = 34, M0 = 40.7), nn the luminosity class x 10
 (Ia = 0, Ib = 1, II = 2, III = 3, IV = 4, V = 5).
 
-Method (MKCLASS's matching step, not its rule-based refinement, which is not reproduced): the program spectrum is
+Method (MKCLASS's matching step; of its rule-based refinement, the separate K-line / hydrogen / metal types of A-F
+stars below): the program spectrum is
 smoothed to 3.6 A and put on the library's grid; for every luminosity class the standards are interpolated in
 temperature (between neighbours at most 4 running numbers apart, as MKCLASS interpolates its library), each
 multiplied by a quadratic in wavelength (the unknown instrument response; Gray & Corbally's spectra are flux
 normalised, ours are rarely flux calibrated) and compared with the star where its signal is clear. The ranked
 types are suggestions with their scores, never applied silently.
+
+Quality (MKCLASS rates each type poor / fair / good / vgood / excellent from the S/N and the match): from the score,
+which on the standards themselves behaves as sqrt(0.012^2 + (1 / S/N)^2) (every third standard left out, with
+noise): <= 0.02 excellent (S/N above ~100), 0.03 vgood (~50), 0.055 good (~20), 0.10 fair (~10), else poor.
+
+Peculiar A and early F stars (Gray & Corbally 2014, section 3.4: "MKCLASS first determines separate temperature
+types for the Ca II K-line, the hydrogen lines, and then for the general metallic-line spectrum"): for a best type
+between B9 and F5 the same direct comparison is made in three regions alone — the K line, the hydrogen lines (Hdelta,
+Hgamma, Hbeta) and metal-line regions between them — within the best luminosity class. Metal lines three or more
+running numbers later than the hydrogen lines, with the K line earlier, suggest an Am star; the K line and the metal
+lines both three or more earlier than the hydrogen lines suggest a metal-weak star (lambda Boo, horizontal branch).
+These are shown as hints with the three types, as a classifier would write kA1hA5mF0.
 
 Checked: (1) every third standard left out of the library, tilted by a random response and given S/N 50, is
 classified from the others: 86 % within one subclass, all within two; luminosity class right in 90 %. (2) TOFES
@@ -111,6 +124,65 @@ def _prepare(wave, flux, grid, fwhm):
     return obs
 
 
+QUALITY = ((0.02, "excellent"), (0.03, "vgood"), (0.055, "good"), (0.10, "fair"))
+REGIONS = {  # Angstrom
+    "k": ((3922.0, 3945.0),),
+    "h": ((4085.0, 4120.0), (4325.0, 4356.0), (4845.0, 4880.0)),
+    "metal": ((4140.0, 4300.0), (4370.0, 4460.0), (4500.0, 4620.0), (5150.0, 5350.0)),
+}
+
+
+def quality(score):
+    """MKCLASS's words for how good a classification is, from the match score (see the module text)."""
+    return next((word for limit, word in QUALITY if score <= limit), "poor")
+
+
+def _region_type(obs, grid, lib, lum, regions, near, step=0.25):
+    """Temperature running number of the standards (luminosity class lum) that best match obs in the regions,
+    searched within 6 running numbers of the overall type `near` (the Balmer lines peak at A2: on its own a
+    hydrogen strength fits an earlier and a later type, and a classifier brackets around the rough type)."""
+    inside = np.zeros(grid.size, bool)
+    for a, b in regions:
+        inside |= (grid >= a) & (grid <= b)
+    temps = sorted(t for t, lc in lib if lc == lum and abs(t - near) <= 6.01)
+    best = None
+    for a, b in zip(temps[:-1], temps[1:], strict=True):
+        if b - a > 4.01:
+            continue
+        sa, sb = lib[(a, lum)], lib[(b, lum)]
+        m = inside & (sa > 0) & (sb > 0) & np.isfinite(obs)
+        if m.sum() < 15:
+            return None
+        x = (grid[m] - grid[m].mean()) / max(np.ptp(grid[m]), 1.0)
+        for t in np.arange(a, b + 1e-6, step):
+            w = (t - a) / (b - a)
+            s = (1 - w) * sa[m] + w * sb[m]
+            design = np.vstack([s, s * x]).T  # a straight response within the regions
+            coef, *_ = np.linalg.lstsq(design, obs[m], rcond=None)
+            score = float(np.sqrt(np.mean((obs[m] - design @ coef) ** 2)))
+            if best is None or score < best[0]:
+                best = (score, float(t))
+    return None if best is None else best[1]
+
+
+def peculiarity(obs, grid, lib, t, lum):
+    """For a B9-F5 star: the types from the K line, the hydrogen lines and the metal lines, and a hint when they
+    disagree as in Am or metal-weak stars (see the module text). None outside that range."""
+    if not 15.0 <= t <= 26.0:
+        return None
+    types = {k: _region_type(obs, grid, lib, lum, r, t) for k, r in REGIONS.items()}
+    if None in types.values():
+        return None
+    k, h, m = types["k"], types["h"], types["metal"]
+    hint = None
+    if m - h >= 3 and k < m:
+        hint = "Am"
+    elif h - k >= 3 and h - m >= 3:
+        hint = "metal-weak"
+    letter = {key: type_name(v, lum).split()[0] for key, v in types.items()}
+    return {"k": letter["k"], "h": letter["h"], "metal": letter["metal"], "hint": hint, "t": types}
+
+
 def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
     """[{type, score, t, lum}] best first (score: rms of the relative residual), and the best model on the
     library's wavelengths ({wave, star, model}). fwhm: resolution of the spectrum in A (default two pixels)."""
@@ -147,11 +219,12 @@ def classify(wave, flux, folder, fwhm=None, top=5, step=0.25, degree=2):
         name = type_name(t, lum)
         if name not in seen:
             seen.add(name)
-            out.append({"type": name, "score": score, "t": t, "lum": lum})
+            out.append({"type": name, "score": score, "t": t, "lum": lum, "quality": quality(score)})
         if len(out) == top:
             break
     (t, lum), (score, coef, a, b) = ranked[0]
     w = (t - a) / (b - a)
     model = ((1 - w) * lib[(a, lum)] + w * lib[(b, lum)]) * np.polyval(coef[::-1], x)
     best = {"wave": grid.tolist(), "star": np.where(np.isfinite(obs), obs, np.nan).tolist(), "model": model.tolist()}
+    best["peculiarity"] = peculiarity(obs, grid, lib, t, lum)
     return out, best
