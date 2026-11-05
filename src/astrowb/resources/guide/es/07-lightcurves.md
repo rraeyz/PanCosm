@@ -41,6 +41,7 @@ El resultado da el nuevo T0 y P con sus errores; el ajuste cuadrático da ademá
 ## Tercer cuerpo y movimiento apsidal
 - **Tercer cuerpo (tiempo de luz):** la pareja eclipsante orbita el centro de masas con una tercera estrella, por lo que sus eclipses llegan antes y después a lo largo de una órbita (Irwin 1952). El ajuste da el período del tercer cuerpo P3 (años), la semiamplitud A (minutos), la excentricidad e, el argumento ω y la función de masa f(m3), el límite inferior de la masa de la tercera estrella. Necesita al menos 8 mínimos repartidos en más de un P3.
 - **Movimiento apsidal:** en una órbita excéntrica la línea de los ápsides gira, de modo que los mínimos primarios y secundarios oscilan en sentidos opuestos. Dé ambos tipos (I y II); el ajuste da e, ω en la época 0, dω/dE (grados por ciclo) y el período apsidal U (años). El modelo es de primer orden en e (bueno para e ≲ 0,1).
+- **Incertidumbres MCMC:** en estos dos modelos, la casilla ejecuta una cadena de Markov (emcee) tras el ajuste: intervalos del 68 % de cada parámetro, e y ω incluidos, y de f(m3) y U, honestos cuando los parámetros dependen unos de otros (como en OCFit). Tarda unos segundos; más pasos dan errores más estables. Las efemérides lineal y cuadrática son problemas lineales: sus errores de mínimos cuadrados ya son exactos y la casilla está desactivada.
 
 ## Leer un diagrama O-C
 - Una recta inclinada: el período es ligeramente incorrecto — el ajuste lo corrige.

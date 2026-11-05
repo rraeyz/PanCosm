@@ -22,6 +22,35 @@ def test_ltte_recovers_the_third_body():
     assert f.period == pytest.approx(P, abs=1e-7) and f.chi2r < 1.5
     assert np.std(f.residuals) < 0.0004
     assert 0 < f.mass_function < 1  # solar masses: a plausible companion
+    # one start per (e, omega) stopped in a neighbouring valley here: omega 134 deg, chi2 115 against 79
+    assert f.omega == pytest.approx(truth["w"], abs=5) and np.sum((f.residuals / 0.0003) ** 2) < 90
+    assert 20 < f.errors["t3"] < 60  # omega's 3.6 deg are 36 days of T3 (MCMC agrees); was 4.4
+
+
+@pytest.mark.parametrize("ecc, w", [(0.05, 30.0), (0.6, 250.0), (0.8, 300.0)])
+def test_ltte_finds_eccentric_orbits_at_any_orientation(ecc, w):
+    rng = np.random.default_rng(1)
+    e = np.sort(rng.choice(np.arange(0, 14000), 90, replace=False)).astype(float)
+    t = T0 + P * e
+    t = t + _tau(t, 0.006, 3652.5, T0 + 1000.0, ecc, w) + rng.normal(0, 0.0003, len(e))
+    f = fit_ltte([Minimum(float(x), 0.0003) for x in t], T0, P)
+    assert f.e == pytest.approx(ecc, abs=0.05) and f.chi2r < 1.3
+    if ecc > 0.3:
+        assert abs((f.omega - w + 180) % 360 - 180) < 8
+
+
+def test_mcmc_intervals_hold_the_truth():
+    rng = np.random.default_rng(4)
+    e = np.sort(rng.choice(np.arange(0, 14000), 90, replace=False)).astype(float)
+    t = T0 + P * e
+    t = t + _tau(t, 0.006, 3652.5, T0 + 1000.0, 0.3, 120.0) + rng.normal(0, 0.0003, len(e))
+    f = fit_ltte([Minimum(float(x), 0.0003) for x in t], T0, P + 2e-7, mcmc_steps=800)
+    post = f.mcmc["params"]
+    assert 0.2 < f.mcmc["acceptance"] < 0.7 and {"e", "omega", "f_m3"} <= set(post)
+    for name, true in (("amplitude", 0.006), ("p3", 3652.5), ("e", 0.3), ("omega", 120.0)):
+        mid, lo, hi = post[name]
+        assert mid - 3 * lo < true < mid + 3 * hi, name
+    assert f.errors["e"] == max(post["e"][1:])  # the table shows the larger side
 
 
 def test_apsidal_motion_recovers_omega_dot():
@@ -56,7 +85,13 @@ def test_oc_page_fits_both_models(qtbot):
     page.apsidal.setChecked(True)
     f = page.run_fit()
     assert f.d_omega == pytest.approx(0.1, rel=0.1) and page.result.text().startswith("Apsidal motion:")
+    page.use_mcmc.setChecked(True)
+    page.mcmc_steps.setValue(200)
+    f = page.run_fit()
+    assert f.mcmc and "MCMC" in page.result.text() and page.fit_table()[0][2][2] is not None  # e has an error
     page.ltte.setChecked(True)
     assert page.run_fit() is not None and page.result.text().startswith("Third body:")
     page.text.setPlainText(f"{T0:.5f} 0.001 I")
     assert page.run_fit() is None and "8 minima" in page.result.text()
+    page.linear.setChecked(True)
+    assert not page.use_mcmc.isEnabled()  # a linear problem: least squares are exact

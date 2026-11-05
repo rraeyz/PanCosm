@@ -373,18 +373,31 @@ Found and fixed (each with a test):
   transit), and low runs merge unless the curve stays out of the dip longer than the dips last.
 - Suggested comparison stars were ranked by brightness only and came out at the frame's extreme edges
   (y = 52 and 2378 of 2400): now similar brightness *and* near the target (AstroImageJ practice).
-Result with the defaults: transit at 2461347.608994 ± 0.000595 BJD_TDB, O−C −3.1 ± 0.9 min against ExoClock (with a
+Result with the defaults (before the centring fix below): transit at 2461347.608994 ± 0.000595 BJD_TDB, O−C −3.1 ± 0.9 min against ExoClock (with a
 fixed 14 px aperture −0.5 min; KvW −2.3 to −4.5 min); depth 3.1 % (r = 10 px) / 2.4 % (r = 14 px), literature
 2.3–2.5 %. BJD_TDB of the frames checked against astropy (same frame: identical).
-**Finding on "Radii follow the seeing" — cause found (agent session 019Lu3).** On this night radii following the
-seeing gave −22 min and twice the scatter. Curves of growth on the real frames: the target's light grows +0.5 to
-+0.7 % more than every comparison star's between 10 and 12–14 px (the comparisons agree among themselves), i.e.
-something faint sits in the target's wings (not in BANZAI's catalogue). A fixed aperture holds a constant share of
-it (depth slightly diluted, timing right); an aperture following the seeing holds a share that changes with the
-seeing, which here peaked late in the transit. The per-frame FWHM is not the problem (BANZAI's own jitters more).
-Done: `choose_apertures` returns `target_excess` (target's growth between 1 and 1.5 apertures minus the comparisons'
-median; Qatar-1 +0.9 to +1.5 %, comparisons as "target" −0.6 to +0.1 %), and the page warns above 1 % to keep the
-radii fixed; the checkbox tooltip warns about crowded fields. Test `test_a_neighbour_in_the_target_wings_is_pointed_out`.
+**Finding on "Radii follow the seeing" — corrected (agent session 019Lu3).** The −22 min with radii following the
+seeing (and the extra growth of the target's light between 10 and 14 px, first read as a faint neighbour in its
+wings) came from centring: the clicked position, 2.7 px off Qatar-1, was kept because `recenter` refused moves over
+2.5 px, so the aperture sat off the star all night. Now the clicked positions are snapped once on the first frame
+within half the centroid box (`lightcurve.py`, also `live.py`, `inspect.py`, `choose_apertures`); test
+`test_a_click_three_pixels_off_is_snapped_onto_the_star` (fails on the old code). After the fix: O−C +0.1 min with
+fixed radii, +0.4 min with radii following the seeing. `target_excess` and its warning stay (they catch a real
+blend; tested on a synthetic one, on stars without one the value stays within ±0.4 %).
+**Benchmark against an independent astropy/photutils reduction (owner's request).** Same 265 frames, same stars,
+plain photutils apertures and astropy BJD_TDB written from scratch: relative flux rms difference 0.031 %, BJD within
+0.235 s, transit time the same within 0.1 min. (The first comparison differed by 0.72 % — that is how the centring
+bug above was found.)
+
+**O−C MCMC and two LTTE bugs (agent session 019Lu3, owner asked for a user-selectable MCMC as in OCFit).** O−C page:
+"MCMC uncertainties" checkbox + steps (only for third body / apsidal; linear and quadratic are linear problems).
+`fit_ltte(..., mcmc_steps=)` / `fit_apsidal(..., mcmc_steps=)` → `fit.mcmc = {"params": {name: (median, −, +)},
+"acceptance"}`, errors = larger side, e/ω/f(m3)/U get errors too. Building it found two bugs in the third-body fit,
+on the existing simulated test orbit (e 0.3, ω 120°): (1) all 25 least-squares starts stopped in neighbouring valleys
+(ω 134°, χ² 115 against 79 at the truth) — now a grid over (e, ω, mean anomaly) with the linear (T0, P, A) solved
+for each picks the starts (`_eccentric_starts`), recovers e 0.05–0.8 at any ω, and is faster; (2) the errors used
+least_squares' two-point Jacobian, which carries the Kepler solver's noise: T3 error 4.4 d where MCMC and a central-
+difference Jacobian give 35 d. `_covariance` now differentiates centrally with steps of 1 % of the rough error.
 Not done: AAVSO report and standard magnitudes (need VizieR / APASS, blocked here); the ExoClock / ETD export from
 the Models page with this light curve.
 
