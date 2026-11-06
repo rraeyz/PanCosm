@@ -25,7 +25,7 @@ The **Plot** tab chooses what is drawn: T1 relative flux, its differential magni
 **Check frame quality** measures every chosen frame: the size of the stars (FWHM), how many stars are seen and the sky level. The plot shows the three through the night; frames far worse than the night's typical frame are marked red, with the reason — *stars blurred* (wind, focus, seeing), *few stars* or *no stars* (clouds, dew), *bright sky* (twilight, Moon). **Leave out the bad frames** removes them before measuring. The *Eclipsing binary night* and *Exoplanet transit* automations do this by themselves.
 
 ## Apertures
-Every star gets three rings, drawn on the image: the **aperture** (solid), and the inner and outer edge of the **sky annulus** (dashed).
+Every star gets three rings, drawn on the image: the **aperture** (solid), and the inner and outer edge of the **sky annulus** (dashed). The radii are in image pixels, so the rings grow and shrink with the zoom: zoom in to see whether the star sits in ring 1 and only sky between rings 2 and 3. **Shift + mouse wheel** on the image makes all three rings larger or smaller (by 0.5 px); the boxes on the right show the numbers. On a frame zoomed far out, where the rings would be smaller than a few screen pixels, a small cross marks each star instead.
 
 - **Ring 1, the aperture:** the circle in which the star's light is summed.
 - **Between rings 1 and 2:** left out on purpose. It holds the wings of the star, which would make the sky look brighter than it is.

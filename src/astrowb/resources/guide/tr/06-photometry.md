@@ -25,7 +25,7 @@ TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri oldu�
 **Kare kalitesini denetle** seçilen her kareyi ölçer: yıldızların boyutu (FWHM), kaç yıldız göründüğü ve gökyüzü düzeyi. Grafik bu üçünü gece boyunca gösterir; gecenin olağan karesinden çok daha kötü olanlar nedeniyle kırmızı işaretlenir — *yıldızlar bulanık* (rüzgâr, odak, seeing), *az yıldız* ya da *yıldız yok* (bulut, çiy), *gökyüzü parlak* (alacakaranlık, Ay). **Kötü kareleri dışarıda bırak** onları ölçmeden önce çıkarır. *Örten çift gecesi* ve *Ötegezegen geçişi* otomasyonları bunu kendiliğinden yapar.
 
 ## Açıklıklar
-Her yıldızın görüntü üzerinde çizilen üç halkası vardır: **açıklık** (düz çizgi) ile **gök halkasının** iç ve dış kenarı (kesikli).
+Her yıldızın görüntü üzerinde çizilen üç halkası vardır: **açıklık** (düz çizgi) ile **gök halkasının** iç ve dış kenarı (kesikli). Yarıçaplar görüntü pikseli cinsindendir; halkalar yakınlaştırınca büyür, uzaklaştırınca küçülür: yakınlaştırıp yıldızın 1. halkanın içinde, 2. ile 3. halka arasında yalnız gökyüzü olduğunu görün. Görüntü üzerinde **Shift + fare tekerleği** üç halkayı birlikte büyütür ya da küçültür (0,5 piksel); sağdaki kutular sayıları gösterir. Çok uzaklaştırılmış bir karede, halkalar birkaç ekran pikselinden küçük kalınca her yıldız küçük bir artıyla gösterilir.
 
 - **1. halka, açıklık:** yıldızın ışığının toplandığı daire.
 - **1. ve 2. halka arası:** bilerek dışarıda bırakılır. Burada yıldızın kanatları (dış ışığı) bulunur; ölçülse gök olduğundan parlak görünürdü.

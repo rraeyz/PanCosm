@@ -108,11 +108,13 @@ def test_blink_aligns_the_frames(qtbot, tmp_path):
 
 
 def test_marked_stars_stay_visible_on_a_zoomed_out_frame(qtbot):
-    """On a large frame fitted to the window a 4-pixel aperture is a dot: a ring of fixed screen size shows each
-    marked star until the real rings are big enough on screen (zoomed in)."""
+    """On a large frame fitted to the window a 4-pixel aperture is a dot: a cross of fixed screen size shows each
+    marked star while the real rings are too small to see; the rings themselves are in image pixels and grow with the
+    zoom (a fixed-size ring was taken for the aperture by the owner: "the rings cover the same area when I zoom")."""
     import numpy as np
+    from PySide6.QtWidgets import QGraphicsEllipseItem
 
-    from astrowb.ui.viewer import RETICLE, ImageViewer
+    from astrowb.ui.viewer import TINY, ImageViewer
 
     v = ImageViewer()
     qtbot.addWidget(v)
@@ -123,8 +125,12 @@ def test_marked_stars_stay_visible_on_a_zoomed_out_frame(qtbot):
     v.set_markers([(1000.0, 900.0, 4.0, "lime", "T1"), (1000.0, 900.0, 10.0, "lime", "", "dash")])
     reticles = [m for m in v._markers if m.data(0) is not None]
     assert len(reticles) == 1 and reticles[0].isVisible()  # 4 px of 2048 shown in 400: under one screen pixel
-    v.zoom(2 * RETICLE / (10 * abs(v.transform().m11())))  # the real outer ring now wider than the fixed one
+    assert not isinstance(reticles[0], QGraphicsEllipseItem)  # a cross, not a ring
+    ring = next(m for m in v._markers if isinstance(m, QGraphicsEllipseItem))
+    before = v.transform().mapRect(ring.sceneBoundingRect()).width()
+    v.zoom(1.5 * TINY / (10 * abs(v.transform().m11())))  # the outer ring now 1.5 x TINY screen pixels
     assert not reticles[0].isVisible()
+    assert v.transform().mapRect(ring.sceneBoundingRect()).width() > 3 * before  # grows with the zoom
 
 
 def test_eight_bit_pictures_are_not_shown_black_and_white():

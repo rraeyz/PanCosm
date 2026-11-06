@@ -25,7 +25,7 @@ La pestaña **Gráfico** elige qué se dibuja: el flujo relativo de T1, su magni
 **Comprobar la calidad de las imágenes** mide cada toma elegida: el tamaño de las estrellas (FWHM), cuántas estrellas se ven y el nivel del cielo. El gráfico muestra las tres a lo largo de la noche; las tomas mucho peores que la típica de la noche se marcan en rojo, con el motivo — *estrellas borrosas* (viento, enfoque, seeing), *pocas estrellas* o *sin estrellas* (nubes, rocío), *cielo brillante* (crepúsculo, Luna). **Dejar fuera las imágenes malas** las quita antes de medir. Las automatizaciones *Noche de una binaria eclipsante* y *Tránsito de exoplaneta* lo hacen por sí solas.
 
 ## Aperturas
-Cada estrella recibe tres anillos dibujados sobre la imagen: la **apertura** (línea continua) y los bordes interior y exterior del **anillo de cielo** (discontinuos).
+Cada estrella recibe tres anillos dibujados sobre la imagen: la **apertura** (línea continua) y los bordes interior y exterior del **anillo de cielo** (discontinuos). Los radios están en píxeles de la imagen, así que los anillos crecen y encogen con el zoom: acérquese para ver si la estrella queda en el anillo 1 y solo cielo entre los anillos 2 y 3. **Mayús + rueda del ratón** sobre la imagen agranda o reduce los tres anillos (0,5 px); las casillas de la derecha muestran los números. En una imagen muy alejada, donde los anillos serían menores que unos pocos píxeles de pantalla, una pequeña cruz marca cada estrella.
 
 - **Anillo 1, la apertura:** el círculo en el que se suma la luz de la estrella.
 - **Entre los anillos 1 y 2:** se deja fuera a propósito. Contiene las alas de la estrella, que harían parecer el cielo más brillante de lo que es.

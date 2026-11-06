@@ -237,15 +237,20 @@ starting, mark DONE with results):**
   four addresses (CDS, Harvard, CfA Harvard, the old Strasbourg name). Measured here: CDS did not answer in 15 s,
   Harvard in 0.7 s; 'AI Phe' resolved in 16.8 s on the first try, then Harvard is remembered and asked first.
   Test `test_a_slow_cds_server_is_left_for_the_next`.
-- O2 **IN PROGRESS** Photometry page layout: the light-curve band across the page hid the controls (buttons only
-  found by scrolling). Done so far: controls the whole height on the right; image above the light curve on the left
-  (3:2, draggable); the result tabs scroll instead of taking height. Still to do: the owner finds the lower plot
-  in the way — show it only when there is a light curve (the image takes the whole left until then).
+- O2 **DONE** Photometry page layout: the light-curve band across the page hid the controls (buttons only found by
+  scrolling). Now: controls the whole height on the right (all visible at 1366 x 768, checked on screenshots in
+  English and Turkish); on the left the image alone until a star is marked, then the image above the star table /
+  light curve (3:2, draggable); the result tabs scroll vertically instead of taking height (never cut sideways).
+- O4 **DONE** Aperture rings: they were already drawn in image pixels, but while smaller than 9 screen pixels a
+  fixed-size ring replaced them (meant to show which star is marked) — at the usual zoom the owner saw only that
+  ring and took it for the aperture ("same area when I zoom"). Now a fixed-size cross (not a ring) and only below
+  4 screen pixels; the radii are labelled "Ring 1 — the star's light inside / Ring 2 — the sky starts / Ring 3 —
+  the sky ends" with a note (1–2 not measured, 2–3 sky, rings grow with zoom); Shift + wheel on the image changes
+  all three by 0.5 px. Guide 06 (4 languages). Tests: `test_marked_stars_stay_visible_on_a_zoomed_out_frame`
+  (cross, rings scale with zoom), `test_photometry_star_picking` (lower panel hidden until a star, Shift + wheel).
 - O3 Photometry: see every frame, not only one — a frame browser (previous / next / slider, the frame's name and
   time), stars may be picked on any frame (positions carried to the others by the alignment), a frame can be left
   out from there.
-- O4 Aperture rings must be drawn in image pixels (they kept their screen size when zooming — a bug); label the
-  three radii plainly (1: star aperture, 1–2: gap left out, 2–3: sky); let the radii be changed on the image too.
 - O5 Differential photometry plot as the owner knows it: target − comparison below, comparison − check above (a
   flat line shows the comparisons are constant). Check what the Plot tab already offers; make it the default view.
 - O6 "Where is the fit?": photometry only measures; say on the page what comes next (period search, time of

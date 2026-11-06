@@ -25,7 +25,7 @@ Der Reiter **Diagramm** wählt, was gezeichnet wird: relativer Fluss von T1, sei
 **Bildqualität prüfen** vermisst jede gewählte Aufnahme: die Größe der Sterne (FWHM), wie viele Sterne zu sehen sind und den Himmelshintergrund. Das Diagramm zeigt alle drei über die Nacht; Aufnahmen, die deutlich schlechter als die typische Aufnahme der Nacht sind, werden rot markiert, mit dem Grund — *Sterne unscharf* (Wind, Fokus, Seeing), *wenige Sterne* oder *keine Sterne* (Wolken, Tau), *heller Himmel* (Dämmerung, Mond). **Schlechte Bilder weglassen** entfernt sie vor dem Messen. Die Automatisierungen *Nacht eines Bedeckungsveränderlichen* und *Exoplaneten-Transit* tun das von selbst.
 
 ## Blenden
-Jeder Stern bekommt drei Ringe, die auf dem Bild gezeichnet werden: die **Blende** (durchgezogen) sowie den inneren und äußeren Rand des **Himmelsrings** (gestrichelt).
+Jeder Stern bekommt drei Ringe, die auf dem Bild gezeichnet werden: die **Blende** (durchgezogen) sowie den inneren und äußeren Rand des **Himmelsrings** (gestrichelt). Die Radien sind in Bildpixeln, die Ringe wachsen und schrumpfen also mit dem Zoom: Zoomen Sie hinein, um zu sehen, ob der Stern in Ring 1 liegt und zwischen Ring 2 und 3 nur Himmel. **Umschalt + Mausrad** auf dem Bild macht alle drei Ringe größer oder kleiner (um 0,5 px); die Felder rechts zeigen die Zahlen. Auf einem weit herausgezoomten Bild, wo die Ringe kleiner als ein paar Bildschirmpixel wären, markiert stattdessen ein kleines Kreuz jeden Stern.
 
 - **Ring 1, die Blende:** der Kreis, in dem das Sternlicht aufsummiert wird.
 - **Zwischen Ring 1 und 2:** absichtlich ausgelassen. Hier liegen die Flügel des Sterns, die den Himmel heller erscheinen ließen, als er ist.
