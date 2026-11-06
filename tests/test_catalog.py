@@ -131,6 +131,7 @@ def test_photometry_page_shows_standard_magnitudes(qtbot, tmp_path):
         }
     )
     assert "Comparison 2:" in page.result.text() and "Target V:" in page.result.text()
+    assert "different catalogues (APASS DR9, Gaia DR3 → JC)" in page.result.text()
     assert page.light_curve["mag"][0] == pytest.approx(11.0 + 2.5 * np.log10(1000 / 400), abs=1e-6)
     export_csv(page.light_curve | {"jd_utc": page.light_curve["time"]}, tmp_path / "lc.csv")
     assert "V_mag" in (tmp_path / "lc.csv").read_text().splitlines()[0]
