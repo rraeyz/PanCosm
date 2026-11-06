@@ -21,6 +21,7 @@ copied. Projects consulted are listed below.
 | Data | Source | Licence |
 |---|---|---|
 | Arc-lamp line lists (IRAF: henear, thar, cuar, fear, ctiohear, ctiohenear, idhenear; air wavelengths) | github.com/astropy/specreduce-data | BSD-3-Clause (`resources/linelists/LICENSE-specreduce-data.rst`) |
+| Xenon arc line list (`resources/linelists/xenon.dat`, Xe I air wavelengths, selected by intensity) | NIST Atomic Spectra Database (physics.nist.gov/asd) | Public domain (U.S. Government work) |
 | Observatory positions (`resources/observatories.json`: names, latitude, longitude, height) | astropy site registry, github.com/astropy/astropy-data (`coordinates/sites.json`) | BSD-3-Clause |
 
 ## Runtime dependencies (used as libraries, not copied)

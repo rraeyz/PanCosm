@@ -92,7 +92,7 @@ def reduce_step(inputs, params, ctx):
         if inputs.get("guesses") and len(inputs["guesses"]) >= 2:
             # the user's identified wavelengths are lines of the lamp too (e.g. Hg in an HgAr lamp, not in the list)
             catalogue = np.union1d(wavecal.load_line_list(params["line_list"]), [g[1] for g in inputs["guesses"]])
-            sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"])
+            sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"], n_pixels=len(flux))
             wave = sol(np.arange(len(flux)))
             out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines, "degree": sol.degree}
             if params["sky_lines"]:  # the zero point from the night-sky lines (flexure since the arc)

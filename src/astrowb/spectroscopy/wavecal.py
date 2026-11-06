@@ -48,8 +48,15 @@ def find_lines(arc, fwhm=3.0, snr=5.0):
     """Pixel centres (sub-pixel) of emission lines in a 1-D arc spectrum."""
     arc = np.nan_to_num(np.asarray(arc, float))
     base = np.median(arc)
-    noise = 1.4826 * np.median(np.abs(arc - base))
-    peaks, _ = find_peaks(arc, height=base + snr * max(noise, 1e-9), distance=max(2, int(fwhm)))
+    # noise from pixel-to-pixel differences, the threshold on each line's rise above its own surroundings: a
+    # low-resolution arc is blended lines from end to end, and its scatter about the median (the noise before) hid
+    # all but 14 of a real LT SPRAT Xe arc's lines (ASPIRED finds 70)
+    noise = 1.4826 * np.median(np.abs(np.diff(arc) - np.median(np.diff(arc)))) / np.sqrt(2)
+    peaks, props = find_peaks(arc, prominence=snr * max(noise, 1e-9), distance=max(2, int(fwhm)))
+    # lines below 1/200 of the strongest are seldom in a lamp's line list, and matched to its lines they spoiled a real
+    # EFOSC2 He-Ar solution (34 peaks instead of 16: 2.4 A rms instead of 0.21)
+    if len(peaks):
+        peaks = peaks[props["prominences"] >= 0.005 * props["prominences"].max()]
     centres = []
     x = np.arange(len(arc))
     hw = int(np.ceil(1.5 * fwhm))
@@ -122,8 +129,9 @@ def _clipped_fit(px, wv, deg, clip):
     return coef, keep, sd
 
 
-def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.05):
-    """guesses: [(pixel, wavelength), ...] (>= 2). Returns a Solution or raises ValueError.
+def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.05, n_pixels=None):
+    """guesses: [(pixel, wavelength), ...] (>= 2). Returns a Solution or raises ValueError. n_pixels: the length
+    of the spectrum, over which the solution must stay a dispersion (see _best_degree).
 
     Lines are matched first between the identified ones, where the first (linear) solution is
     good, then the window grows outwards by `grow` of the pixel range per step, refitting each
@@ -142,7 +150,6 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.0
     gap = np.diff(catalogue)
     alone = np.r_[True, gap > tol] & np.r_[gap > tol, True]
     catalogue = np.unique(np.r_[catalogue[alone], g[:, 1]])
-    lo, hi = g[:, 0].min(), g[:, 0].max()
     span = peaks.max() - peaks.min()
     # the identified lines stay what the user said they are (IRAF identify keeps them; only new lines are added): a
     # PESSTO identification of He I 3888.7 was moved to 3928.6 by the matching and the EFOSC2 solution had 5 A rms
@@ -151,11 +158,18 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.0
     def match(pred, tolerance):
         nearest, ok = _match(pred, catalogue, tolerance)
         for i, w in anchors:
-            nearest[i], ok[i] = int(np.searchsorted(catalogue, w)), True
+            j = int(np.searchsorted(catalogue, w))
+            ok[nearest == j] = False  # no other peak takes an identified line (SPRAT: 269 and 280 px both 4671 A)
+            nearest[i], ok[i] = j, True
         return nearest, ok
 
+    # the window grows around each identified line, not from the span between them: between two lines 630 px apart
+    # the straight first guess was 30 A off on a real LT SPRAT arc (4.05-4.67 A/px) and the middle lines were misnamed
+    gp = g[:, 0]
+    reach = np.abs(peaks[:, None] - gp[None, :]).min(axis=1)
+    radius = grow * span
     while True:
-        inside = (peaks >= lo) & (peaks <= hi)
+        inside = reach <= radius
         nearest, ok = match(np.polyval(coef, peaks), tol)
         ok &= inside
         deg = _degree(order, ok.sum())
@@ -163,13 +177,13 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.0
             raise ValueError("too few lines matched: check the identified lines and the line list")
         px, wv = peaks[ok], catalogue[nearest[ok]]
         coef, keep, sd = _clipped_fit(px, wv, deg, clip)
-        if lo <= peaks.min() and hi >= peaks.max():
+        if inside.all():
             break
-        lo, hi = lo - grow * span, hi + grow * span
+        radius += grow * span
     for _ in range(3):  # final passes over all lines with a tightened tolerance
         nearest, ok = match(np.polyval(coef, peaks), max(3 * sd, 0.3 * disp))
         px, wv = peaks[ok], catalogue[nearest[ok]]
-        deg = _best_degree(px, wv, _degree(order, len(px)))
+        deg = _best_degree(px, wv, _degree(order, len(px)), n_pixels)
         if len(px) <= deg + 1:
             raise ValueError("too few lines matched: check the identified lines and the line list")
         coef, keep, sd = _clipped_fit(px, wv, deg, clip)
@@ -177,12 +191,18 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.0
     return Solution(coef, float(np.sqrt(np.mean(resid**2))), px[keep], wv[keep], len(coef) - 1)
 
 
-def _best_degree(px, wv, highest):
+def _best_degree(px, wv, highest, n_pixels=None):
     """The degree whose fit predicts each line best from the others (leave-one-out), up to `highest`: a quartic
     only when it really does better (EFOSC2 grism 11: 0.21 A against 0.97 A for the cubic), a straight line for a
-    grating that is straight."""
+    grating that is straight. With n_pixels, a degree whose curve is no dispersion over the whole spectrum (turns
+    back, or its A per pixel changes more than 3x) is not taken: on a real LT SPRAT arc the Xe lines covered pixels
+    269-963 of 1024 and the quintic chosen between them gave -1435 A at pixel 0."""
     best, best_err = 1, np.inf
     for d in range(1, highest + 1):
+        if n_pixels and d > 1:
+            slope = np.polyval(np.polyder(np.polyfit(px, wv, d)), np.linspace(0, n_pixels - 1, 200))
+            if np.any(slope * np.sign(np.median(slope)) <= 0) or np.ptp(np.abs(slope)) > 2 * np.min(np.abs(slope)):
+                continue
         err = []
         for i in range(len(px)):
             rest = np.arange(len(px)) != i
