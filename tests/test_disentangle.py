@@ -3,8 +3,10 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 from test_sb2 import DEPTH1, DEPTH2, LINES1, LINES2, WAVE, template
 
+from astrowb.spectroscopy import disentangle as disentangle_module
 from astrowb.spectroscopy.disentangle import disentangle
 
 
@@ -22,6 +24,25 @@ def test_both_spectra_are_recovered():
     true1, true2 = template(LINES1, DEPTH1, 0.08, 0.0, w), template(LINES2, DEPTH2, 0.20, 0.0, w)
     assert np.std(s1 - true1) < 0.01 and np.std(s2 - true2) < 0.02  # line depths up to 0.6
     assert np.corrcoef(s2, true2)[0, 1] > 0.98 and np.corrcoef(s2, true1)[0, 1] < 0.3  # no leak of star 1
+
+
+def test_spikes_and_gaps_stay_out_of_the_components():
+    """Cosmic rays / pipeline spikes and NaN (a telluric-corrected spectrum's band cores) in single spectra."""
+    rng = np.random.default_rng(7)
+    phases = np.linspace(0, 1, 10, endpoint=False)
+    v1, v2 = 60 * np.sin(2 * np.pi * phases), -90 * np.sin(2 * np.pi * phases)
+    fluxes = []
+    for a, b in zip(v1, v2, strict=True):
+        f = (template(LINES1, DEPTH1, 0.08, a) + 0.5 * template(LINES2, DEPTH2, 0.20, b)) / 1.5
+        f = f + rng.normal(0, 0.003, len(WAVE))
+        f[rng.choice(len(WAVE), 15, replace=False)] += rng.uniform(0.3, 1.5, 15)
+        f[rng.integers(0, len(WAVE) - 20) + np.arange(20)] = np.nan
+        fluxes.append(f)
+    w, s1, s2 = disentangle([WAVE] * len(fluxes), fluxes, v1, v2, light_ratio=0.5)
+    true1, true2 = template(LINES1, DEPTH1, 0.08, 0.0, w), template(LINES2, DEPTH2, 0.20, 0.0, w)
+    assert np.all(np.isfinite(s1)) and np.all(np.isfinite(s2))
+    assert np.max(np.abs(s1 - true1)) < 0.05 and np.max(np.abs(s2 - true2)) < 0.1  # no spike carried over
+    assert disentangle_module.separable_width(v1, v2) == pytest.approx(2 * 150 * np.sin(2 * np.pi * 0.2), rel=1e-6)
 
 
 def test_step_and_velocity_tab(qtbot, tmp_path):
@@ -67,4 +88,4 @@ def test_step_and_velocity_tab(qtbot, tmp_path):
     c = execute("spectroscopy.disentangle", inputs, params, Ctx())["components"]
     assert all(np.isfinite(c["star1"])) and len(c["paths"]) == 2
     tab.show_components(c)
-    assert "star2.fits" in tab.status.text()
+    assert "star2.fits" in tab.status.text() and "changes by 300 km/s" in tab.status.text()
