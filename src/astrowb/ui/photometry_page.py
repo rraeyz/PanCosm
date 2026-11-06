@@ -35,7 +35,7 @@ from PySide6.QtWidgets import (
 from ..core import profiles
 from ..settings import Settings
 from . import automatic
-from .aavso_dialog import AavsoDialog
+from .aavso_dialog import AavsoDialog, from_sequence
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
@@ -3013,7 +3013,7 @@ class PhotometryPage(Undoable, QWidget):
         from ..brand import BRAND
         from ..photometry.export import aavso_extended
 
-        dialog = AavsoDialog(len(self.comps), self)
+        dialog = AavsoDialog(len(self.comps), self, sequence=lambda filt: from_sequence(self, filt))
         mags = self.known_comp_mags()
         if mags and all(m is not None for m in mags):
             dialog.mags.setText(", ".join(f"{m:.3f}" for m in mags))

@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..spectroscopy.frame_state import calibrated, extracted
 from .kit.help import help_line
 from .kit.widgets import PlotCanvas
 from .messages import translate
@@ -114,44 +115,6 @@ class _Orientation(QWidget):
         self.reverse.setChecked(bool(st.get("reverse", False)))
 
 
-def _by_stat(fn):
-    """fn(path) remembered while the file is unchanged: the file rows ask on every typed character, and each header
-    read of a compressed frame cost tens of ms (typing an arc path froze the window for a second)."""
-    import functools
-    import os
-
-    remembered = functools.lru_cache(maxsize=256)(lambda path, _mtime, _size: fn(path))
-
-    @functools.wraps(fn)
-    def wrapper(path):
-        try:
-            st = os.stat(path)
-        except (OSError, TypeError, ValueError):
-            return fn(path)
-        return remembered(str(path), st.st_mtime_ns, st.st_size)
-
-    return wrapper
-
-
-@_by_stat
-def calibrated(path):
-    """True when a frame's header says bias / dark were taken off (this program's Calibrate page: CALB / CALD; IRAF
-    ccdproc: ZEROCOR / DARKCOR / CCDPROC); False for a raw frame; None when it cannot be read."""
-    from astropy.io import fits
-
-    from ..io.lzw import ready_copy
-
-    path = ready_copy(path)  # ESO's .fits.Z: astropy alone needs a package we do not ship (it crashed the tab)
-    if path is None:
-        return None
-    try:
-        with fits.open(path) as h:
-            keys = set(h[0].header) | (set(h[1].header) if len(h) > 1 else set())
-    except (OSError, ValueError):
-        return None
-    return bool(keys & {"CALB", "CALD", "ZEROCOR", "DARKCOR", "CCDPROC"})
-
-
 def _frame_and_plot(tab, hint):
     """The 2-D frame above the plots, as PypeIt and IRAF apall show the trace on the frame itself
     (plans/spectroscopy.md 1.2): returns the splitter holding the frame viewer and tab.plot."""
@@ -208,25 +171,6 @@ def _say_calibration(tab, chosen, cal):
         )
     if lines:
         tab.status.setText("\n".join(lines))
-
-
-@_by_stat
-def extracted(path):
-    """True when the file is already extracted (a 1-D spectrum, IRAF apall output, a pipeline's e2ds): only the
-    wavelength calibration is left to do."""
-    from astropy.io import fits
-
-    from ..io.lzw import ready_copy
-    from ..spectroscopy.steps import looks_extracted
-
-    path = ready_copy(path)  # a raw .fits.Z not yet decompressed: raw frames are not extracted spectra
-    if path is None:
-        return False
-    try:
-        with fits.open(path) as h:
-            return any(x.is_image and x.header.get("NAXIS", 0) >= 1 and looks_extracted(x.header) for x in h[:2])
-    except (OSError, ValueError):
-        return False
 
 
 class _FileRow(QWidget):
