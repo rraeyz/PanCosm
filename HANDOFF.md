@@ -635,9 +635,103 @@ the work to the next agent with this file. State at that moment:
    classification, visual binaries, remote sensing are, in simple words with an example each; then what was tested
    on which real data, what was wrong and how it was fixed, with the comparison numbers (see the notes and the
    summary above).
+6b. **Second test round (2026-11-06):** results and optional speed / memory suggestions in the section "Second full test round" below — suggestions only, ask the owner first.
 7. **U11 Basic / Expert interface mode** — postponed by the owner, must not be forgotten; ask the owner before
    starting it.
 8. A release only after asking the owner (and after CI is green).
+
+## Second full test round, 2026-11-06 (session 019Lu3; code at `90e106f`, NOTHING was changed)
+
+The owner asked for one more detailed test, with real data, against other programs' output, with timings and CPU /
+memory / GPU use, **and no fixes**. Results below; the suggestions at the end are **suggestions only** — the owner
+decides whether and when to do them (ask before starting).
+
+**How it was run.** The same real-data driver scripts as the fifth campaign (Photometry, Calibrate, IRAF, TESS,
+Kepler, EFOSC2, HARPS, LAMOST / ARAS, ORB6, Sentinel-2, Images, Plan, Project, Automation, interface sweep), one
+after the other, plus a 1-second sampler of total CPU, memory and the running test's whole process tree (GUI + engine
+workers). Container: 4 cores (Xeon 2.1 GHz), 16 GB, no GPU. It had just been restarted: the data were read from a
+cold disk (iowait ~6 % of CPU time, steal 4.5 %), so timings are noisier than in the speed log (IRAF itself went from
+11 s to 59 s); differences under ~25 % are not code changes.
+
+### Science: all results unchanged, no regression
+
+| Test | Compared with | Result |
+|---|---|---|
+| Raw LCO frames calibrated (40 lights) | LCO's BANZAI | 0.919 ADU per pixel (sky noise 9.7 ADU) |
+| Same calibration | IRAF ccdred | identical frames (0.000 ADU, flat scale 1.00139); light curves 0.012 % apart |
+| Aperture photometry, 40 frames | IRAF apphot.phot | centres 0.038 px; light curves 0.063 % apart |
+| Aperture photometry, 265 frames | photutils (independent script) | 0.030 % rms flux, BJD within 0.24 s, centres 0.02–0.05 px |
+| Standard magnitude of Qatar-1 | APASS DR9 | 12.745 vs 12.761 |
+| Transit time, whole night, automation (one click) | ExoClock ephemeris | O−C +0.27 min (same as before) |
+| TESS pixel photometry (W UMa, 18 758 cadences) | SPOC SAP | 0.020 % rms, correlation 1.00000 |
+| W UMa period (TESS, 3 sectors) | literature 0.33363 d | BLS 0.333632 d; Roche warning 119 % |
+| FG Vir frequencies (TESS s46) | Breger et al. 2005 | all 8 modes recovered |
+| KIC 6525196 third body (801 Kepler minima) | literature ~418 d | P3 = 1.1453 yr = 418.3 d, MCMC 20 s, page responsive |
+| EFOSC2 long slit **with the new prescan trim** (1024 x 1024) | PESSTO (IRAF) | SN 2018kzr 0.84, AT 2018hyz 0.88 feature correlation, −1.0 / −1.1 A — identical to the untrimmed frames; wavelength solution 13 lines 0.207 A (GUI) |
+| Raw HARPS (tau Ceti) | ESO DRS 3.5 | wavelengths 0.0 m/s median, 21.6 m/s rms; velocity +9 +- 8 m/s |
+| tau Ceti, 6 HARPS archive spectra | each other | scatter 9 m/s |
+| ARAS amateur spectra (AG Dra), LAMOST MK types | previous round | identical |
+| eta CrB visual orbit (227 INT4 measures) | ORB6 grade 1 | P 41.66 +- 0.27 yr vs 41.63 |
+| **New:** Plan altitudes, La Palma 2026-04-15 | NASA JPL Horizons (airless) | Saturn / Jupiter / Moon rms 0.005–0.010 deg (max 0.11 deg, grid interpolation), Sun 0.001 deg; astronomical dusk / dawn 20:59 / 05:22 vs 20:58 / 05:21 |
+| Sentinel-2 NDVI | numpy | identical |
+| Images page, 16 Process operations | — | 14 make an image (0.9–7.3 s); Crop and Pixel math need the user's region / expression (same as before) |
+| Interface sweep, Turkish, 273 clicks | — | 0 exceptions, 0 missing tooltips, 0 cut texts, 0 untranslated |
+| Project page, Guide | — | as before (history, run again, reopen; 103 topics x 4 languages) |
+
+A scratch benchmark script of the earlier round (`bench_spec.py`, guess row 652) crashed: it measured the *control
+star*, not the supernova (row 548); it had crashed the same way before. Not a program problem.
+
+### Timings (now / speed log)
+
+| Operation | Now | Before |
+|---|---|---|
+| Start the application (from source) | 0.5 s, 125 MB; 275 MB after opening 6 pages | — |
+| TESS download (3 sectors) + LS / BLS / PDM / ANOVA | 20 s + 3.0 / 2.0 / 5.9 / 5.9 s | 21 s + 2.8 / 1.7 / 6.1 / 5.9 s |
+| Orbits & models fit, 47 645 points | 11.2 s | 11.3 s |
+| Plan the night (6 targets) | 4.4–4.6 s | 4.1–4.2 s |
+| 801 Kepler minima / MCMC 3000 steps | 125.5 s / 20.1 s | 125 s / 20 s |
+| Photometry page, 265 frames: quality + suggest + apertures + light curve | 339–587 s in all | 447 s |
+| — the four steps alone (same process) | quality 137 s, suggest comparisons 136 s, apertures 2.4 s, light curve 64 s | — |
+| Standard magnitudes | 2.7 s | 19.5 s (the working catalogue mirror is now remembered) |
+| Calibrate 40 LCO lights / IRAF ccdred | 28.5 s / 59.3 s | 18.4 s / 11 s (cold disk this time) |
+| Our photometry vs IRAF phot, 40 frames | 9.4 s vs 1.4 s | 8.9 s vs 1.0 s |
+| TESS pixel file: open / measure 18 758 cadences | 28 s / 273 s | 17 s / 235 s |
+| Sentinel-2: open / NDVI / PCA / k-means | 29 / 25 / 52 / 62 s | 7–21 / 33–40 / 44 / 56 s |
+| Automation: 40 raw frames / whole night 265 frames | 71 s / 335 s | 81 s / 378 s |
+| FG Vir frequency analysis | 6.9 s | 7.5 s |
+| Images operations | 0.9–7.3 s | 1–8 s |
+| HARPS echelle: orders + arc / with solution | 77 s / 66 s | 60 s / 61 s |
+| Merged echelle velocity (script total) | 9.7 s | 3–6 s |
+
+### CPU, memory, GPU
+
+- **CPU:** almost every operation uses on average 0.6–1.6 of the 4 cores (peaks 2–3.9). Measured averages (cores):
+  photometry steps 1.3, light curve 1.6, calibration 0.9, TESS pixels 1.0, Kepler minima 0.7, echelle 1.0, RV 1.0,
+  Sentinel-2 1.1, automation 1.2–1.3. Most of the work is single-threaded.
+- **Memory (process tree, peak):** Sentinel-2 two-band scene (2 x 120 Mpx): **9.3 GB** (system 9.9 of 15.7 GB) —
+  too much for an 8 GB computer; Images operations 1.9 GB; GPU combine test 1.8 GB; photometry 1.1–1.4 GB;
+  everything else 0.2–1.0 GB.
+- **GPU:** the container has none, so GPU speed could not be measured (needs the owner's machine). With Mesa's
+  software Vulkan driver (llvmpipe, installed in the container only) the GPU code path was checked: the 5 tests in
+  `tests/test_compute.py` (normally skipped here) pass, and `clipped_mean` on 15 real LCO bias frames (2400 x 2400)
+  gives **bit-identical** results on the CPU and GPU paths. The application refuses a software adapter in "auto"
+  mode (correct). The GPU is used only for master-frame combining and stacking.
+
+### Suggestions (NOT tasks — for the owner to decide; do not start without asking)
+
+1. **Photometry page, quality check and comparison-star suggestion** (~0.5 s per frame each, ~4.5 min before the
+   light curve on 265 frames): process frames in parallel (the light curve already reads ahead with a thread pool)
+   and/or work on a sample of frames for the suggestion. Expected 2.5–3.5x on 4 cores.
+2. **Remote sensing memory** (9.3 GB on one Sentinel-2 tile): the band math is already block-wise; the GUI and the
+   worker each keep full copies of the scene. Keeping only one copy (memory-mapped or block-wise display) would fit 8 GB
+   machines.
+3. **TESS / Kepler target pixel files:** opened by splitting into one FITS file per cadence (18 758 files, 28 s; then
+   12–15 ms per cadence). Reading the TPF cube directly would make both open and measure much faster.
+4. **Use the cores:** frame-by-frame steps (quality, suggestions, TESS pixels, echelle extraction per order) could run
+   in parallel; most operations now use about one core of four.
+5. **GPU:** measure on the owner's computer (a real GPU), e.g. Calibrate with large stacks, CPU vs GPU mode.
+6. **Compatibility note:** since `3748b5a` ESO frames are trimmed by their prescan (EFOSC2: x shifts by 6 px); a row
+   or position saved in an older session is 6 px off on such frames. Results are unaffected.
 
 ## Task board (keep this up to date: it is how agents hand work over)
 
