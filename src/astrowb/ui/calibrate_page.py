@@ -265,7 +265,7 @@ class CalibratePage(Undoable, QWidget):
                 "flat into the output folder"
             )
         )
-        add_masters_button(self, row)  # "Choose the masters by hand…", then Calibrate
+        add_masters_button(self, row, lay)  # "Choose the masters by hand…" on its line, then Calibrate
         lay.addLayout(row)
         lay.addWidget(self.cosmics)  # its own line: beside the button it kept the column wider than a small window
         self.linearity = QLineEdit(self)
