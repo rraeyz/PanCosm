@@ -281,7 +281,19 @@ Plan (claim → done, in this order):
   as an offset from the line, started at the brightest pixel (long-slit tests unchanged). Not checked on real data:
   the only raw echelle frames here (TOFES, HARPS) are fibre-fed — no sky between the orders. Test
   `test_zero_point_from_the_sky_lines_over_the_orders`. Guide 08 (4 languages).
-- P6 **CLAIMED (01RxUU)** HARPS: drift between the evening's two ThAr frames.
+- P6 **DONE** HARPS night drift: only one evening ThAr was downloaded (21:59:48, WAVE,WAVE,THAR2), but the science
+  frame (05:33:35, STAR,WAVE,G8) has the simultaneous ThAr in fibre B — the drift over the night is fibre B of the
+  science frame against fibre B of the evening ThAr, as the ESO pipeline measures it. New `echelle.drift(reference,
+  spectrum)`: Bouchy, Pepe & Queloz (2001) photon-weighted shift per order (cosmic rays > 6σ left out), combined by
+  inverse variance. Script: traces on the flat (fibre A), fibre B found 16 px away from the science frame's ThAr light,
+  boxcar 1.2 FWHM; velocity per pixel 818.8 m/s from ESO's e2ds_B wavelength polynomials. Result (blue chip, 46
+  orders): **+0.21 +- 0.08 m/s**; ESO DRS (`ESO DRS DRIFT SPE RV`, ccf_G2_A of ADP.2014-09-24T09:42:58.973):
+  +0.423 +- 0.08 m/s against the 22:05:43 ThAr (THAR1; ours is the 21:59 one) — agrees to 0.2 m/s (1.9 sigma, part
+  of it the 6 min between the two reference frames). Per-order scatter 1.5 m/s. Not in the interface (HARPS-like
+  simultaneous-reference spectrographs only): a library function with test `test_drift_of_a_lamp_spectrum_as_harps_
+  measures_it`. Data: /tmp/claude-0/realdata/harps (ESO archive raw files listed in U8b above; anc.tar = the ESO
+  products of ADP.2014-09-24T09:42:58.973).
+- P7 **CLAIMED (01RxUU)** TODCOR light ratio FEROS vs HARPS.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

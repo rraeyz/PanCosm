@@ -415,3 +415,22 @@ def test_zero_point_from_the_sky_lines_over_the_orders():
     assert abs(shift - 0.12) < 0.005 and len(found) == 2
     weak = [skies[0] - 395 * np.exp(-0.5 * ((waves[0] - 5577.458) / 0.05) ** 2)]  # 5 above the noise of 1: weak
     assert wavecal.sky_shift_orders(waves[:1], weak)[0] is None
+
+
+def test_drift_of_a_lamp_spectrum_as_harps_measures_it():
+    """A ThAr-like order shifted by 0.0005 px (0.4 m/s at HARPS's 820 m/s per pixel) is measured to its photon
+    noise (Bouchy et al. 2001); a cosmic ray does not move it."""
+    from astrowb.spectroscopy.echelle import drift
+
+    rng = np.random.default_rng(6)
+    x = np.arange(4096.0)
+    centres, depths = rng.uniform(20, 4076, 300), rng.uniform(2e3, 6e4, 300)
+
+    def lamp(shift):
+        return 20 + sum(d * np.exp(-0.5 * ((x - c - shift) / 1.4) ** 2) for c, d in zip(centres, depths, strict=True))
+
+    ref = [lamp(0.0) for _ in range(3)]
+    obs = [rng.poisson(lamp(0.0005)).astype(float) for _ in range(3)]
+    obs[1][2000] += 5e4  # a cosmic ray
+    shift, err, per, _ = drift(np.array(ref), np.array(obs))
+    assert abs(shift - 0.0005) < 3 * err and err < 3e-4 and len(per) == 3
