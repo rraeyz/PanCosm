@@ -252,6 +252,14 @@ planned in stages, this file updated as each step is claimed and done; when the 
 | R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
 | R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
 
+**R3 progress (session 019Lu3).** (1) Photometry page before the light curve, 265 Qatar-1 frames (2400 x 2400 fpack),
+measured with the same script before / after on a warm disk cache: `photometry.quality` 137 s -> 80 s (frames
+measured four at a time in threads: the engine's workers are daemon processes and may not start processes; numpy /
+photutils give 1.7x on 4 cores, identical rows); `photometry.suggest_comparisons` 136 s -> 42 s (`align_offsets` reads
+the next frame while one is correlated and takes `binning`: the in-frame check needs no stacking precision, 2x2 for
+frames over 4 Mpx as the light curve does; the same four comparison stars). Notes: a cold disk makes the first step of
+a session up to 2x slower (239 s once for quality); header reading is only 6 ms per fpack file when warm.
+
 **R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
 the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each
 ✓ done / – skipped / ▶ now, and a "Now:" line saying what to do. Echelle: buttons renumbered 3–6 to match; **extraction
