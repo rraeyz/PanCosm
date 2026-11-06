@@ -74,6 +74,12 @@ class Harness:
         settings.set("ui.language", lang)
         self.main = MainWindow(settings)
         qtbot.addWidget(self.main)
+        import importlib
+
+        from astrowb import __main__ as program
+
+        for name in program.WARM:  # what the program loads in the background a second after its window is up
+            importlib.import_module(name)
         self.out = Path(out or Path(folder) / f"walk-{lang}")
         self.out.mkdir(parents=True, exist_ok=True)
         self.problems, self.boxes, self.timings, self.shots = [], [], [], []
