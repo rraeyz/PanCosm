@@ -167,7 +167,6 @@ def picked_transforms(paths, stars, ctx=None, search=25.0):
     puts it (the nearest star within `search` px, photometry.aperture.snap_to_star); one star gives the shift, two or
     more the rotation and scale too (a least-squares similarity, starmatch.similarity)."""
     from ..photometry.aperture import snap_to_star
-    from .starmatch import as_matrix, similarity
 
     stars = np.asarray(stars, float).reshape(-1, 2)
     if not len(stars):
@@ -179,13 +178,21 @@ def picked_transforms(paths, stars, ctx=None, search=25.0):
         if ctx:
             ctx.check()
             ctx.progress(0.3 * i / len(paths), "aligning")
-        found = snap_to_star(load(p)[0], ref @ m.T + t, radius=search)
-        if len(ref) == 1:
-            m, t = np.eye(2), found[0] - ref[0]
-        else:
-            m, t = as_matrix(*similarity(ref, found))
+        m, t = follow_stars(load(p)[0], ref, m, t, search)
         out.append((m.copy(), t.copy()))
     return out
+
+
+def follow_stars(data, ref, m, t, search=25.0):
+    """(M, t) of one frame from stars ref of the first, looked for near where the previous (m, t) puts them: one
+    star gives the shift, two or more the rotation and scale too (picked_transforms, the live light curve)."""
+    from ..photometry.aperture import snap_to_star
+    from .starmatch import as_matrix, similarity
+
+    found = snap_to_star(data, ref @ m.T + t, radius=search)
+    if len(ref) == 1:
+        return np.eye(2), found[0] - ref[0]
+    return as_matrix(*similarity(ref, found))
 
 
 def picked_offsets(paths, stars, ctx=None, search=25.0):
