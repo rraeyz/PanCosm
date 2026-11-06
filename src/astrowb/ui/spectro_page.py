@@ -118,6 +118,11 @@ def calibrated(path):
     ccdproc: ZEROCOR / DARKCOR / CCDPROC); False for a raw frame; None when it cannot be read."""
     from astropy.io import fits
 
+    from ..io.lzw import ready_copy
+
+    path = ready_copy(path)  # ESO's .fits.Z: astropy alone needs a package we do not ship (it crashed the tab)
+    if path is None:
+        return None
     try:
         with fits.open(path) as h:
             keys = set(h[0].header) | (set(h[1].header) if len(h) > 1 else set())
@@ -131,8 +136,12 @@ def extracted(path):
     wavelength calibration is left to do."""
     from astropy.io import fits
 
+    from ..io.lzw import ready_copy
     from ..spectroscopy.steps import looks_extracted
 
+    path = ready_copy(path)  # a raw .fits.Z not yet decompressed: raw frames are not extracted spectra
+    if path is None:
+        return False
     try:
         with fits.open(path) as h:
             return any(x.is_image and x.header.get("NAXIS", 0) >= 1 and looks_extracted(x.header) for x in h[:2])

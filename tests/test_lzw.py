@@ -70,6 +70,11 @@ def test_a_fits_frame_in_z_is_read_everywhere(tmp_path):
     from astrowb.io.fits import read_image
 
     z = tmp_path / "EFOSC.2019-01-01T07_49_08.fits.Z"
+    from astrowb.ui.spectro_page import calibrated, extracted
+
+    # the spectroscopy tabs look at the header when a file is chosen: a .Z raised there (HARPS raw frames)
+    assert calibrated(z) is None and extracted(z) is False  # not decompressed yet: not done on the GUI thread
     assert readable(z).parent.name == "fits_from_raw" and readable(z).read_bytes() == raw
+    assert calibrated(z) is False and extracted(z) is False  # now read from the copy
     assert np.array_equal(read_image(z)[0], img) and np.array_equal(load(z)[0], img)
     assert fits_copy(z).name == "EFOSC.2019-01-01T07_49_08.fits"

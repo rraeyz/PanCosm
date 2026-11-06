@@ -102,3 +102,13 @@ def readable(path):
     folder = path.parent / "fits_from_raw"
     folder.mkdir(exist_ok=True)
     return decompressed_copy(path, folder)
+
+
+def ready_copy(path):
+    """For a quick header look on the GUI thread: path itself, the decompressed copy of a .fits.Z when it exists
+    already, else None (decompressing a 64 MB HARPS frame takes seconds; the step's worker makes the copy)."""
+    path = Path(path)
+    if not is_compress(path):
+        return path
+    target = path.parent / "fits_from_raw" / path.name[:-2]
+    return target if target.exists() and target.stat().st_mtime >= path.stat().st_mtime else None
