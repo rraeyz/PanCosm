@@ -291,6 +291,8 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   decompressed copy in fits_from_raw when it exists; otherwise "unknown" / not extracted — a 64 MB HARPS frame is
   not decompressed on the GUI thread; the step's worker makes the copy). Test in `tests/test_lzw.py`. With it the
   Echelle tab extracts raw HARPS (46 orders) in 5.2 s from the GUI (the step alone 12.7 s cold incl. decompression).
+  Re-run of `r2_echelle_gui.py` with the fixed wait (and this container's file names, `_` for `:`): 5.5 s instead
+  of 609 s; labels unchanged (order 153: 36, 0 wrong, 0.2 mA; index 30/20/44: 41/45/10, 0 wrong, 0.3–0.4 mA).
 - R4 `t10_rv_aras` "robust scatter nan": the script's `np.median` over a list with one NaN (a spectrum with no site
   or coordinates keeps only its observed velocity, as designed) — script issue, not the program.
 - R4 PESSTO AT 2018hyz -8.5 A: its sky shift is None (night-sky lines too weak in that exposure), so the arc's zero
