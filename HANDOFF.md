@@ -262,7 +262,13 @@ Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int 
   BANZAI dRA +0.26..+0.31 dDec +0.20..+0.24"; 2MASS +0.44..+0.76 / +0.15..+0.38"; Gaia refit −0.108..+0.022 /
   −0.023..+0.027". Tests `tests/test_gaia_refine.py` (synthetic field shifted 1.9" and turned 0.05°: 0.1" over the
   frame; too few stars said; cache). Guide 05 (4 languages).
-- P4 **CLAIMED (01RxUU)** Period page error bars.
+- P4 **DONE** Period page errors: `PeriodPage.err` from the Photometry page (rel_flux_err), TESS / Kepler / ZTF /
+  AAVSO downloads, survey files and a third CSV column; error bars on the light curve and the folded curve; kept
+  through clipping, binning (`fourier.bin_time(..., err)`: sqrt(Σσ²)/n or the bin's scatter/√n if larger), deleted
+  points, flux ↔ mag (σm = 1.0857 σF/F), undo; saved as a third column; `timeseries.period` has an optional input
+  `err` and weights Lomb–Scargle and BLS by 1/σ² (PDM / ANOVA unweighted). Tests in `test_period_search_tab`,
+  `test_binned_errors_and_a_weighted_period_search`. Guide 07 (4 languages).
+- P5 **CLAIMED (01RxUU)** Echelle: zero point from the night-sky lines.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
