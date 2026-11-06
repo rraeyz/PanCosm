@@ -228,88 +228,117 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
-Agent session 01RxUU stopped on 2026-11-04 because the owner's weekly quota ended. State at that moment:
+Agent session 019Lu3 stopped on **2026-11-06 (~06:00 UTC)** because the owner's weekly quota ran out. The owner hands
+the work to the next agent with this file. State at that moment:
 
-- `main` = `0108d6e`, everything on it passed `tools/precommit.sh` (580 passed, 3 skipped) and is pushed.
-  CI: run for `d180798` green; later runs (`7cd4187` … `0108d6e`) were not yet checked — check them first
-  (GitHub MCP `actions_list` → `list_workflow_runs`, branch main). No release was made (only after asking the owner).
-- **Unfinished task T11 (paper-quality output) is on branch `wip-t11-results-export` (commit `2d57cb3`, pushed,
-  one commit on top of `0108d6e`; NOT merged, NOT passing precommit yet because its new strings are untranslated).**
-  To continue: `git fetch origin wip-t11-results-export && git checkout -b t11 origin/wip-t11-results-export`, finish
-  the list below, run precommit, then fast-forward `main` to it (`git checkout main && git merge --ff-only t11`) and
-  push `main`. Delete the wip branch after.
-  - DONE in that commit:
-    1. `ui/export.py`: `rounded(value, error)` (error to 2 significant digits, value to the same decimal place),
-       `save_results(path, rows, caption)` (rows = (parameter, value, error|None, unit); `.tex` → a LaTeX `table`
-       with caption + booktabs tabular, values as `$v \pm e$`; otherwise CSV with a `# caption` first line), and
-       `results_button(parent, rows_and_caption)` (a QPushButton "Export results (CSV / LaTeX)…"; its texts use
-       `QCoreApplication.translate("Export", …)`).
-    2. `ui/spectro_page.py` (VelocityTab): `show_orbit` now draws velocities + model curves + γ line on top and an
-       **O−C (km/s) residual panel** below (2 rows, shared x, height ratio 3:1, hspace 0; secondary in orange), keeps
-       `self.orbit_result`; new `orbit_table()` → rows (P, T_peri, e, ω, K1, γ, and K2, q, M1/M2 sin³i, a sin i, rms
-       for SB2; f(m), a1 sin i, rms for SB1) + caption ("Keplerian least-squares … errors from the covariance
-       matrix (e and ω from its draws)" — true, see `spectroscopy/orbit.py` lines 84-110); results button under
-       "Fit orbit". Checked visually: `/tmp/claude-0/real/t11_orbit.png` (looked right: two orbits, residuals).
-    3. `ui/workspaces.py` (OCPage): `self.fit_result`, `fit_table()` for linear / quadratic (T0, P, Q, dP/dt),
-       light-travel time (T0, P, A in min, P3 in yr, T3, e3, ω3, f(m3)) and apsidal motion (T0, Ps, e, ω0, dω/dE,
-       U), + χ²ᵣ; caption says weighted least squares, errors scaled by √χ²ᵣ when > 1 (true: `timeseries/ephemeris.py`,
-       `oc_models.py::_covariance`); results button under "Fit and draw O-C".
-    4. `tests/test_sb2.py::test_velocity_tab_shows_sb2` checks the residual panel and a PDF export (passes).
-  - LEFT TO DO for T11 (in this order):
-    a. ModelsPage (`ui/models_page.py`, `show_fit` stores `self.result = r`): add `fit_table()` from `r["params"]` /
-       `r["errors"]` (only the free ones have errors; names in `models/fit.py::NAMES`: period, t0, r_sum, k, incl, j,
-       ecosw, esinw, l3), `r["derived"]` / `r["derived_err"]` (r1, r2, e, omega, light_ratio), `r["absolute"]`
-       (m1, m2, r1, r2, a, logg1, logg2 with *_err) and `r["transit"]` (tc, tc_err, depth, t14); caption: "two
-       limb-darkened spheres on a Keplerian orbit (EBOP/JKTEBOP approximation); errors from the covariance, or from
-       MCMC when ticked" (check `models/fit.py` for which); add `results_button(self, self.fit_table)` into the
-       buttons grid (two per row).
-    b. Run `python tools/i18n.py update`, translate the new strings (list them with the snippet in "How the
-       translations were done" below), `python tools/i18n.py`.
-    c. Tests: `rounded` (e.g. (1.234567, 0.000123) → ('1.23457', '0.00012'); (12.3, None) → ('12.3', '')),
-       `save_results` both formats, `fit_table` of OCPage after a linear fit, ModelsPage table after `show_fit`.
-    d. Period page light curve (`workspaces.py` ~line 3057 `ax.set_xlabel(self.tr("Time"))`): label with the time
-       scale and offset as the Photometry plot does (`f"{lc['time_scale']} − {t_ref:.0f}"`), plot errors if known.
-    e. Frequency page (`ui/frequency_page.py` ~166): amplitude axis with its unit (mag or relative flux).
-    f. Then precommit, merge to main, update this board (T11 DONE) and push.
+### Repository state
+- `main` = `339bb16`, pushed. Everything on it passed `tools/precommit.sh` locally (634 passed, 3 skipped, ~8–9 min).
+  Commits of this session, newest first: `339bb16` Plan chart in English with local time + echelle velocities,
+  `3748b5a` raw HARPS echelle fixes, `41f4dfb` `show_minimum` CI fix + Project / Guide checked, `aa311ae`, `f3f2d17`,
+  `9b6ba9d`, `1ed1bcd`, `6303702`, `5de120e`, `75ca8ab`, `a2b0113`, `1f9fa16`, `97b70ab`, `f8d523a`, `44948e5`.
+- **CI:** green up to `9b6ba9d` (run 81). Runs for `aa311ae`, `41f4dfb`, `3748b5a`, `339bb16` were NOT checked yet —
+  check them first (GitHub MCP `actions_list`, method `list_workflow_runs`, owner `rraeyz`, repo `pancosm`; on a red
+  run `get_job_logs` with `failed_only`). Run 80 (`1ed1bcd`) was red from an intermittent `IndexError` in
+  `ui/workspaces.py show_minimum` (marker drawn on a figure with no axes); fixed in `41f4dfb` (guard + test).
+  Cancelled runs are normal: a newer push cancels the older run.
+- No release was made (a release only after asking the owner).
+- Uncommitted work: none. No wip branches.
 
-- **Owner's newest wish (not done yet, task T13 below):** for technical terms keep the English word next to the
-  Turkish one where Turkish astronomers also say it in English, e.g. "order/mertebe" (owner: "türkçede de order
-  diyoruz … order/mertebe şeklinde olsun"). Apply to the Turkish translations (`src/astrowb/resources/i18n/app_tr.ts`)
-  and the Turkish guide (`resources/guide/tr`): echelle order → "order/mertebe"; consider also blaze, flat, bias,
-  dark, light, arc (already kept in English), FWHM, seeing ("seeing/görüş"), airmass ("airmass/hava kütlesi"),
-  detrend. Do it consistently (grep the .ts translations), then `python tools/i18n.py`.
+### The owner's standing rules (do not break them)
+- **Commits in the owner's name only:** `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
+  No `Co-Authored-By`, no `Claude-Session` trailer, the word "Claude" nowhere in a commit. Push straight to `main`.
+- **Talk to the owner in Turkish** (every reply and every line of narration). Code, comments, commits and this file
+  in English.
+- **Push right after each finished piece** (owner, 2026-11-06: "Direkt push at her an kota dolabilir"): run the
+  tests the change touches (+ `ruff check src tests` and `ruff format --check src tests`), push, let CI run the
+  full suite, then check CI.
+- The product name appears only in `brand.toml`, `README.md` and `packaging/install.sh`. Never commit owner data or
+  downloaded data. Never touch the owner's GitHub token. Releases only after asking.
+- i18n: every new UI text in `self.tr(...)`; then `python tools/i18n.py update`, fill the translations (tr, de, es)
+  with `tools/fill_translations.py <ts file> "en=>translation" ...`, and `python tools/i18n.py` must say
+  "0 unfinished" for all three. Engine error messages need a template in `src/astrowb/ui/messages.py`. The guide
+  (`src/astrowb/resources/guide/{en,tr,de,es}`) is updated in all four languages when a feature changes.
+- The owner's last explicit asks this campaign: see "The owner's request" above (fifth campaign), plus 2026-11-06:
+  **the Plan chart must be in English** (done) **with UTC and local time** (done: top axis + box, see the U8b /
+  Plan note in the task board notes); and at the very end **a detailed explanation in plain Turkish** of what was
+  done and what the methods are (see "Still to do" item 6).
 
-### Tools and files the last agent used (all in the ephemeral container; recreate if needed)
+### Environment of the agent container (only matters if the next agent runs in a similar container)
+- Venv: `/home/user/PanCosm/.venv` (`export PATH=/home/user/PanCosm/.venv/bin:$PATH`); GUI tests with
+  `QT_QPA_PLATFORM=offscreen`. Engine `@step` functions run in spawn worker processes: driver scripts need
+  `if __name__ == "__main__":` and must be files. To run a step directly in one process:
+  `import astrowb.spectroscopy.steps; from astrowb.engine.steps import execute; execute(step_id, inputs, params, ctx)`
+  with a ctx object having `progress(f, msg)`, `check()`, `cancelled`.
+- Network from the container: CDS Strasbourg is blocked (the app falls back to the IDIA / Harvard mirrors by
+  itself); MAST, ESO TAP (`https://archive.eso.org/tap_obs/sync`), ESO raw/ADP downloads
+  (`https://dataportal.eso.org/dataportal_new/file/<dp_id>`), LCO archive API, Earth Search STAC, arXiv and GSU WDS
+  (plain http) answer; aavso.org and GitHub releases give 403. IRAF 2.17.1 is installed from Ubuntu (needs
+  `USER=root`, `mkiraf`, short paths, plain FITS). The scratch data and driver scripts of this session lived in the
+  container's scratchpad (`data/`, `real/*.py`) and are gone with it; everything needed to redo them is in the notes
+  (sources, dp_ids, numbers).
 
-- Scratchpad `the session scratchpad (`/tmp/claude-0/<project>/<session>/scratchpad/`)`: `tips/apply.py` (inserts
-  `x.setToolTip(self.tr("…"))` after an anchor line; input blocks: `file | anchor | target` then EN, TR, DE, ES
-  lines; writes a TSV), `fill3.py <tsv>` (fills unfinished tr/de/es entries in the three .ts files from lines
-  `English<TAB>Türkçe<TAB>Deutsch<TAB>Español`; the English must equal the source text exactly), `wt/` a git
-  worktree used to run the full precommit on a commit while working on the next (`git worktree add --detach wt
-  <commit>`; run with `PYTHONPATH=wt/src`, since the venv's package is an editable install of the main checkout).
-- How the translations were done: `. .venv/bin/activate; python tools/i18n.py update`; list unfinished entries with
-  `python -c "import re;s=open('src/astrowb/resources/i18n/app_tr.ts',encoding='utf-8').read();[print(m.group(1)) for m in re.finditer(r'<source>([^<]*)</source>\s*(?:<comment>[^<]*</comment>\s*)?<translation type=\"unfinished\">',s)]"`;
-  write the TSV, `python fill3.py x.tsv`, then `python tools/i18n.py` (must say "… finished and 0 unfinished").
-  Turkish terms in use: mertebe (order), kalibre, ark, flat, bias, dark, light, açıklık (aperture), mukayese
-  yıldızı (comparison), kontrol yıldızı (check), periyot (Period search names), sönükleşme…
-- `/tmp/claude-0/real/`: `harness.py` (drives the real main window: every dialog/exception collected, `wait()` for
-  tasks, real clicks), `audit_ui.py` (controls without tooltip per page + every checkbox default), `audit_dialogs.py`
-  (same for the ten dialogs), `t6/arcs.py`, `t6/proto.py`, `t6/check.py`, `t6/gui.py` (FLOYDS reidentify session),
-  `t7_proto.py`, `t7_bench.py`, `t7_loo.py`, `t7_tofes.py` (MK classification prototypes and benchmarks),
-  `t11_orbit.py` (renders the RV orbit publication figure).
-- Run any Qt script with `QT_QPA_PLATFORM=offscreen`; driving scripts need `if __name__ == "__main__":` (spawn).
+### What this session did (fifth campaign), in short — details in the task-board notes below
+- U1 Roche-lobe (contact binary) warning; U2/U3 Plan page explanations, several targets + planets + Moon in one chart;
+  U4 O−C MCMC as a background task, tried on KIC 6525196 (P3 418.3 d); U5 CDS mirror fallback, AAVSO report and
+  standard magnitudes on a real LCO night.
+- U6 every page used on real data in four languages (0 missing tooltips, 0 untranslated texts, 0 exceptions):
+  Plan, Observe (INDI simulators), Calibrate, Images (all 16 process operations), Photometry, Light curves & O−C,
+  Spectroscopy, Orbits & models (incl. eta CrB visual orbit vs ORB6), Remote sensing (Sentinel-2), Automation,
+  Project, Guide.
+- U8 raw vs published: LCO raw vs BANZAI (0.92 ADU / 0.021 %), IRAF ccdred + apphot (0.012 % / 0.063 %), TESS
+  pixels vs SPOC SAP (0.020 %), times of minimum vs published, EFOSC2 vs PESSTO, **raw HARPS vs ESO DRS** (22 m/s
+  rms in wavelength, ~10 m/s in velocity).
+- U9 speed: PDM/BLS 280 s -> 2.6 s / >300 s -> 0.8 s, light curves 35 -> 14 s, calibration 110 -> 18 s, remote
+  sensing out-of-memory -> seconds, RL deconvolution 19 -> 7 s, histogram matching 7.8 -> 2.9 s (speed log).
+- 2026-11-06, last pieces: ESO prescan/overscan, primary-header inheritance for multi-extension frames, HARPS frame
+  types per fibre, echelle order finding (fibre-B ghosts), extraction width from the orders' FWHM, piecewise
+  continuum normalisation for long spectra, Plan chart English + local time axis + "Local time (hours from UTC)" box.
 
-### Data and sources downloaded in this round (all outside the repository; never commit them)
-
-| What | From | Used for / result |
-|---|---|---|
-| LCO FLOYDS pipeline (reference arcs + IRAF databases per telescope/arm/slit) | `git clone --depth 1 https://github.com/LCOGT/floyds_pipeline` → `src/floyds/archive/ftn/en06/arc/{red,blu}/<slit>/` (`ftn_red_2.0.fits` + `database/idftn_red_2.0`, `ftn_blue_2.0.fits` + `database/idftn_blue_2.0`) | T6. Reference arcs are wavelength-resampled 1-D spectra (red CRVAL1 4850, CDELT1 2.956; blue 3300, 1.687) |
-| IRAF source (sparse) | `/tmp/claude-0/ref/iraf/iraf` (git clone --sparse https://github.com/iraf-community/iraf; `git sparse-checkout add noao/onedspec/ecidentify noao/onedspec/identify noao/twodspec/apextract`) | read `identify/iddb.x`, `ecidentify/ecdb.x`, `identify/idshift.x` (database formats, id_shift1) |
-| FLOYDS raw frames (OGG 2026-10-27) | LCO archive API (see the table of the third campaign) in `/tmp/claude-0/realdata/floyds/` | T5 trimming, T6 end-to-end (red: 13/13 lines, rms 0.143 Å; Hα 6563.0 Å; O2 A band 7605.8 Å) |
-| MKCLASS v1.07 source, documentation, paper | `https://www.appstate.edu/~grayro/mkclass/` : `mkclassv107.tar.gz`, `mklib.tar.gz` (libraries libnor36, libr18, libr18_225/27/30, libr36), `mkclassdoc.pdf`, `mkclass.pdf` (Gray & Corbally 2014, AJ 147, 80) → `/tmp/claude-0/src_ref/mkclass/` | T7. No licence in the source (+ Numerical Recipes code): nothing copied/bundled. Building/running it was refused by the session's safety check. The server answers 403 to Python's default User-Agent; the application sends "astronomy-workbench (MK standards download)" |
-| Pickles library (131 FITS) | `https://ssb.stsci.edu/cdbs/grid/pickles/dat_uvk/pickles_uk_{1..131}.fits` → `/tmp/claude-0/realdata/pickles/` (also holds `mk_libnor36/` after a test run) | T7 benchmark (Pickles types are inhomogeneous: 62 % within one subclass) |
-| NutMaat 0.1.1 wheel (Python MK classifier, 2025, arXiv 2501.17698) | `pip download --no-deps nutmaat` → `/tmp/claude-0/src_ref/nutmaat/` | downloaded, NOT yet read — worth reading for MKCLASS's rule-based refinement (T7 follow-up) |
-| TOFES merged spectra (Sun, Vega, Arcturus) | made in the third campaign: `/tmp/claude-0/realdata/tofes_out/*_1d.fits` | T7: Sun G0 V, Vega A0 V, Arcturus K1 III |
+### Still to do (in this order)
+1. **Check CI** for `aa311ae` … `339bb16`; fix anything red (reproduce locally first, then push).
+   Watch especially: `tests/test_calibration.py::test_harps_raw_frames_two_fibres_prescan_and_primary_header`,
+   `tests/test_echelle.py` (two new tests), `tests/test_spectroscopy.py::test_a_merged_echelle_spectrum_is_normalised_in_pieces`,
+   `tests/test_ui.py::test_plan_page_resolve_and_plan` (uses a fixed UTC offset 3; Auto depends on the machine's
+   time zone, the test only checks the range).
+2. **Check the side effects of `3748b5a`** that were reasoned about but not measured on real data again:
+   - ESO frames are now overscan/prescan-subtracted and trimmed from `ESO DET OUT1 PRSCX/OVSCX/PRSCY/OVSCY/NX/NY`
+     when these add up to the frame (`calibration/masters.py _eso_sections`). EFOSC2 frames become 1024 x 1024
+     (6 prescan columns removed): x pixel positions shift by 6 against before. Re-run the EFOSC2 long-slit reduction
+     (raw PESSTO night, notes U6h / U8e) once and confirm the wavelength solution (0.21 A rms, 13 lines) and the
+     PESSTO comparison still hold.
+   - `io/fits.inherited()` now copies the primary header's cards into the image header for every multi-extension
+     file (read_image, masters.load, read_frame, extract_extension). Check one HST/JWST-style MEF and one fpack
+     `.fits.fz` (LCO) open, save and process as before (header size, no duplicated keywords).
+   - `echelle.find_orders` drops a peak a tenth of its neighbour or fainter; check the synthetic TOFES-like data /
+     any real slit echelle still finds all orders (tests pass).
+3. **U8b leftovers (optional):** the HARPS red chip (extension 2; same procedure, absolute orders 114 … 89 in ESO's
+   e2ds rows 46–71); the two raw ThAr arcs of the evening could be compared with each other (drift). The tau Ceti
+   files: science HARPS.2010-08-27T05:33:35.086, flat HARPS.2010-08-26T21:53:56.126 (LAMP,DARK,TUN), bias
+   HARPS.2010-08-26T21:53:03.653, ThAr HARPS.2010-08-26T21:59:48.245; ESO products ADP.2014-09-24T09:43:29.897
+   (s1d, Phase 3) and ADP.2014-09-24T09:42:58.973 (tar: e2ds_A/B, s1d_A/B, ccf_G2_A, bis). Our settings: orientation
+   y, reverse on, sky off, first order 161, order step -1; 9 guesses (3 lines in orders 153, 138, 123) from the
+   thar list. ESO's e2ds wavelengths: `HIERARCH ESO DRS CAL TH COEFF LL{4*o+i}` (degree 3, pixel 0-based).
+4. **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
+   disentangling (`spectroscopy.disentangle`) and SB2 / TODCOR on a real double-lined binary with published
+   velocities (e.g. HARPS or FEROS ADP spectra of a known SB2 from the ESO archive, compare K1, K2 with the
+   literature); broadening function / v sin i on a real fast rotator (compare with a published v sin i); telluric
+   correction on a real red spectrum with a telluric standard; moving-object (asteroid) photometry on real frames
+   (LCO archive has asteroid programmes); drizzle / stacking on real dithered frames; plate solving offline on a real
+   frame. Record each source and comparison in the notes and the speed log.
+5. **U9 speed:** the echelle step takes ~60 s per HARPS chip (46 orders x 4096 columns); profile it (likely the
+   optimal / boxcar extraction loops in `spectroscopy/longslit.py` and `echelle.extract`) and vectorise if it is
+   clearly the bottleneck; measure again. Everything else in the speed log is "fine" or fixed.
+6. **At the very end, the owner asked for a detailed explanation in plain Turkish** (owner, 2026-11-05: "BLS, ANOVA,
+   PDM ... RV, tayf, O−C, fotometri ile neyle uğraştığını anlamadım; en son her şey bittikten sonra bana detaylıca
+   açıkla"). Write it as an answer in the chat (not in the repository): what photometry, light curves, period search
+   (Lomb–Scargle, PDM, ANOVA, BLS), times of minimum and O−C (and the third-body / apsidal models, MCMC),
+   spectroscopy (long slit, echelle, wavelength calibration with arc lamps), radial velocity (RV) and orbits, MK
+   classification, visual binaries, remote sensing are, in simple words with an example each; then what was tested
+   on which real data, what was wrong and how it was fixed, with the comparison numbers (see the notes and the
+   summary above).
+7. **U11 Basic / Expert interface mode** — postponed by the owner, must not be forgotten; ask the owner before
+   starting it.
+8. A release only after asking the owner (and after CI is green).
 
 ## Task board (keep this up to date: it is how agents hand work over)
 
@@ -345,10 +374,10 @@ Status of everything so far:
 | U4 | O−C MCMC in the background (page stays usable, progress, cancel); tried on a real published minimum-times list | DONE (see notes) |
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | DONE (session 019Lu3, 2026-11-06): sweep in 4 languages; real-data use of every page (Plan, Observe with INDI simulators, Calibrate, Images, Photometry, Light curves & O−C, Spectroscopy long slit, Orbits & models incl. a visual orbit on real measures, Remote sensing, Automation, Project, Guide); the echelle on raw HARPS is U8b |
-| U7 | Every feature on new real data from the internet (list in the notes; record sources) | PARTLY: real data so far: LCO (raw + BANZAI), TESS (W UMa, FG Vir), Kepler (KIC 6525196, KIC 8462852), K2, ESO EFOSC2 raw, Sentinel-2 L2A, SIMBAD / VizieR / VSX / Exoplanet Archive through mirrors |
+| U7 | Every feature on new real data from the internet (list in the notes; record sources) | PARTLY: real data so far: LCO (raw + BANZAI), TESS (W UMa, FG Vir), Kepler (KIC 6525196, KIC 8462852), K2, ESO EFOSC2 raw, ESO HARPS raw + DRS products, WDS INT4 / ORB6 (eta CrB), Sentinel-2 L2A, SIMBAD / VizieR / VSX / Exoplanet Archive through mirrors; left: see 'Still to do' 4 |
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | DONE (session 019Lu3, 2026-11-06): U8a, U8b (raw HARPS vs ESO DRS: 22 m/s), U8c, U8d, U8e |
-| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS: period search, light curves, calibration, remote sensing, deconvolution and histogram matching made faster (speed log) |
-| U10 | Re-run the tests touched by every fix; CI green | each fix re-tested on its real data; CI green up to f3f2d17 (check after every push) |
+| U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS: period search, light curves, calibration, remote sensing, deconvolution and histogram matching made faster (speed log); left: echelle step ~60 s per HARPS chip (see 'Still to do' 5) |
+| U10 | Re-run the tests touched by every fix; CI green | each fix re-tested on its real data; CI green up to 9b6ba9d; aa311ae … 339bb16 not checked yet (see 'Still to do' 1) |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
 
 ### Notes on the fifth campaign (U tasks)
