@@ -30,9 +30,10 @@ title = "TESS full-frame-image cut-out of AI Dra (eclipsing binary), sector 24, 
 area = "photometry"
 source = "archive"
 url = "https://mast.stsci.edu/tesscut/api/v0.1/astrocut?ra=254.0758&dec=52.6983&y=21&x=21&sector=24"
+checksum = "data"  # TESScut writes the request date into the header: only the pixels are compared
 files = ["tess-s0024-2-1_254.075800_52.698300_21x21_astrocut.fits"]
 [set.sha256]
-"tess-s0024-2-1_254.075800_52.698300_21x21_astrocut.fits" = "2292510cfd92bcf7fdc028391fe837507122add610fb00578afa308d6a306866"
+"tess-s0024-2-1_254.075800_52.698300_21x21_astrocut.fits" = "2d6980504b3ac4d0439baf73243fc8d0fd72330544e6bcb9ce9280c5ba91f4c3"
 
 [[set]]
 id = "photometry/qatar1-lco"

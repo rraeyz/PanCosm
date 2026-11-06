@@ -29,7 +29,18 @@ def load(path=REGISTRY):
     return tomllib.loads(Path(path).read_text(encoding="utf-8"))["set"]
 
 
-def sha256(path):
+def sha256(path, data_only=False):
+    """The file's SHA-256; data_only: of its FITS data arrays only, for archives that make the file anew on every
+    request (MAST's TESScut writes the request date into the header: the bytes differ, the pixels do not)."""
+    if data_only:
+        from astropy.io import fits
+
+        h = hashlib.sha256()
+        with fits.open(path) as hdul:
+            for hdu in hdul:
+                if hdu.data is not None:
+                    h.update(hdu.data.tobytes())
+        return h.hexdigest()
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for block in iter(lambda: f.read(1 << 20), b""):
@@ -83,7 +94,7 @@ def fetch(entry, base, get=_get, lco_url=_lco_url):
 
     def good(name):
         p = folder / name
-        return p.is_file() and (name not in sums or sha256(p) == sums[name])
+        return p.is_file() and (name not in sums or sha256(p, entry.get("checksum") == "data") == sums[name])
 
     todo = [n for n in entry["files"] if not good(n)]
     if not todo:
@@ -123,7 +134,7 @@ def record(entries, base, path=REGISTRY):
     text = Path(path).read_text(encoding="utf-8")
     for e in entries:
         folder = Path(base) / e["id"]
-        sums = {n: sha256(folder / n) for n in e["files"] if (folder / n).is_file()}
+        sums = {n: sha256(folder / n, e.get("checksum") == "data") for n in e["files"] if (folder / n).is_file()}
         if not sums:
             continue
         block = "[set.sha256]\n" + "".join(f'"{n}" = "{h}"\n' for n, h in sums.items())
