@@ -247,8 +247,8 @@ planned in stages, this file updated as each step is claimed and done; when the 
 | Stage | What | Status |
 |---|---|---|
 | R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | DONE (see the R1 note below the table) |
-| R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | CLAIMED |
-| R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | open |
+| R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | DONE (note below) |
+| R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | CLAIMED |
 | R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
 | R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
 
@@ -265,8 +265,11 @@ wrong, 0.2 mÅ from ESO's solution; other orders 10–45 labels, 0 wrong; EFOSC2
 `spectroscopy.reduce`): EFOSC2 13 lines 0.210 Å → 12 lines 0.090 Å. Radial velocity tab: each spectrum's correlation
 (CCF, BF with the fitted profiles, or TODCOR's best value along each star) is kept (`row["profile"]`) and drawn when a row
 is clicked (as fxcor). Guide: new section "If you know IRAF" (IRAF task → page / button) in 08-spectroscopy and the
-steps renumbered (4 languages). Tests: `test_order_of_work_and_the_atlas_on_the_echelle_tab`. Left in R2: the same
-"Order of work" for the Calibrate and Photometry pages (check what is there first).
+steps renumbered (4 languages). Tests: `test_order_of_work_and_the_atlas_on_the_echelle_tab`. Then also on the
+Photometry page (images → bad frames → target and comparisons → radii → measure → check / minimum / export, as IRAF
+phot / AstroImageJ) and the Orbits & models page (light curve → starting values → fit and warnings → errors / table);
+the Calibrate page was already numbered (Scan, 3. Calibrate, 4. Measure them on the Photometry page →). Every "Now:"
+line names the buttons exactly as they read in each language (checked against the translations). **R2 DONE.**
 
 **R1 / P12 result (done).** TZ For, 22 HARPS ADP s1d (ESO TAP `target_name LIKE '%TZ%For%'`, dataportal), PHOENIX
 templates written in air (4900 K / 3.0 for the G8 III primary, 6300 K / 3.5 for the F7 III secondary; v sin i 6.1 and

@@ -1,5 +1,5 @@
 # Fotometría
-La página **Fotometría** mide el brillo de una estrella objetivo respecto a estrellas de comparación en una serie de imágenes calibradas y da una curva de luz, instantes de mínimo e informes.
+La página **Fotometría** mide el brillo de una estrella objetivo respecto a estrellas de comparación en una serie de imágenes calibradas y da una curva de luz, instantes de mínimo e informes. La página muestra arriba su **Orden de trabajo** — los pasos como en IRAF phot o AstroImageJ, cada uno marcado como hecho o por hacer ahora, con una línea que dice qué hacer ahora.
 
 ## Elegir imágenes y estrellas
 1. **Elegir imágenes…** — tomas calibradas de un campo y un filtro. Se ordenan por tiempo.

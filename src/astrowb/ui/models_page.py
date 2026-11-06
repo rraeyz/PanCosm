@@ -53,8 +53,39 @@ class ModelsPage(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("A light curve: measured here (Photometry) or downloaded (Light curves)"),
+                    self.tr(
+                        "Choose the light curve (CSV from the Photometry or Light curves page: Export CSV / Save "
+                        "light curve)."
+                    ),
+                ),
+                (
+                    self.tr("Starting values: period and time of minimum (the ephemeris)"),
+                    self.tr("Type the period and the time of a primary minimum (from the O−C page or the literature)."),
+                ),
+                (
+                    self.tr("Fit, and look at the residuals and the warnings"),
+                    self.tr(
+                        "Press Fit. Look at the residuals under the curve and read the warnings: a star that fills "
+                        "its Roche lobe (W UMa type) needs PHOEBE or Wilson–Devinney (the export buttons)."
+                    ),
+                ),
+                (
+                    self.tr("Errors and the table for the paper"),
+                    self.tr("Posterior… shows the MCMC errors; Export results (CSV / LaTeX) writes the table."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         self.file = _FileRow(self.tr("Light curve"), self, "Tables (*.csv *.txt *.dat);;All files (*)")
         lay.addWidget(self.file)
+        self.file.edit.textChanged.connect(lambda t: self.guide.set_state(0, "done" if t.strip() else None))
         labels = {
             "period": self.tr("Period (d)"),
             "t0": self.tr("Primary minimum (BJD)"),
@@ -303,6 +334,10 @@ class ModelsPage(Undoable, QWidget):
 
     def show_fit(self, r):
         self.result = r
+        self.guide.set_state(1, "done")
+        self.guide.set_state(2, "done")
+        if r.get("mcmc"):
+            self.guide.set_state(3, "done")
         self.edit(self.tr("fitted values"), self._fill_values, r["params"])
         p, e, d, de = r["params"], r["errors"], r["derived"], r["derived_err"]
         text = self.tr(
