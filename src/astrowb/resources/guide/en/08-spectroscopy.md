@@ -30,6 +30,8 @@ Calibrate the frames first on the Calibrate page with **Spectra: do not divide b
 
 **Subtract scattered light** (as IRAF apscatter) fits the light in the gaps between the orders — across the dispersion with a clipped polynomial, then smoothed along it — and subtracts it from the science frame and the flat before extraction. Use it on bright stars and with spectrographs whose orders sit on a glow; it needs gaps of at least 3 pixels (not for tightly packed fibre orders).
 
+**Zero point from the night-sky lines (slit echelles):** when the orders leave sky between them (not *Fibre-fed*), the [O I] 5577, 6300 and 6363 Å lines are measured in the inter-order sky of the orders that hold them and the wavelengths are shifted by their offset — the flexure since the arc, as on the Reduce tab (used when two lines agree or one is strong; the status line and the header's `WAVSKYSH` give the shift).
+
 ## Telluric correction
 Choose the **Spectrum (1-D)** and the spectrum of a **telluric standard** (a hot, fast-rotating star observed close in time and airmass). The standard gives the atmospheric transmission; its strength (airmass, water vapour) and a small wavelength shift are fitted inside the telluric bands. **Correct and save** writes the corrected spectrum and shows the before/after plot.
 

@@ -120,6 +120,7 @@ def reduce_step(inputs, params, ctx):
     gain=None,
     read_noise=5.0,
     line_list="thar",
+    sky_lines=True,
     deg_x=4,
     deg_m=3,
     min_blaze=0.1,
@@ -198,6 +199,14 @@ def echelle_step(inputs, params, ctx):
                 exclude=params["exclude"],
             )
             waves = sol.wavelengths(nx)
+            if params["sky"] and params["sky_lines"]:  # zero point from the night-sky lines in the inter-order sky
+                raw = echelle.extract(data, coefs, width, method="boxcar", subtract_sky=False)[0]
+                skies = raw - echelle.extract(data, coefs, width, method="boxcar", subtract_sky=True)[0]
+                shift, lines = wavecal.sky_shift_orders(waves, skies)
+                out["sky_shift"] = {"shift": shift, "lines": [list(x) for x in lines]}
+                if shift is not None:
+                    waves = waves - shift
+                    header["WAVSKYSH"] = (round(-shift, 4), "zero point from night-sky lines (Angstrom)")
             w, f, e = echelle.merge(waves, flux, err, bl, params["min_blaze"])
             out["wave"] = waves.tolist()
             out["solution"] = {"rms": sol.rms, "n_lines": sol.n_lines, "lines": sol.lines}

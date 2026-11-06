@@ -767,10 +767,20 @@ class EchelleTab(Undoable, QWidget):
         self.order_view.setRange(0, max(0, r["n_orders"] - 1))
         self._draw()
         if r["solution"]:
+            sky, extra = r.get("sky_shift"), ""
+            if sky and sky["shift"] is not None:
+                extra = " " + self.tr("Zero point corrected by {s:+.2f} Å from the night-sky lines ({lines}).").format(
+                    s=-sky["shift"], lines=", ".join(f"{line[0]:.0f}" for line in sky["lines"])
+                )
+            elif sky:
+                extra = " " + self.tr(
+                    "No night-sky line strong enough for the zero point: the arc's zero point is kept."
+                )
             self.status.setText(
                 self.tr("{k} orders merged; wavelength solution: {n} lines, rms {rms:.4f} Å. Saved: {path}").format(
                     k=r["n_orders"], n=r["solution"]["n_lines"], rms=r["solution"]["rms"], path=r.get("path", "—")
                 )
+                + extra
             )
         else:
             self.status.setText(self.tr("{k} orders traced and extracted.").format(k=r["n_orders"]))

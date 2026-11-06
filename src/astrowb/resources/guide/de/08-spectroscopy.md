@@ -30,6 +30,8 @@ Die Aufnahmen zuerst auf der Seite Kalibrieren mit angekreuztem **Spektren: nich
 
 **Streulicht abziehen** (wie IRAF apscatter) passt das Licht in den Lücken zwischen den Ordnungen an — quer zur Dispersion mit einem geclippten Polynom, dann entlang der Dispersion geglättet — und zieht es vor der Extraktion von Wissenschaftsbild und Flat ab. Verwenden Sie es bei hellen Sternen und bei Spektrographen, deren Ordnungen auf einem Schleier liegen; es braucht Lücken von mindestens 3 Pixeln (nicht für dicht gepackte Faserordnungen).
 
+**Nullpunkt aus den Nachthimmelslinien (Spalt-Echelles):** lassen die Ordnungen Himmel zwischen sich (nicht *Fasergekoppelt*), werden die Linien [O I] 5577, 6300 und 6363 Å im Himmel zwischen den Ordnungen gemessen, die sie enthalten, und die Wellenlängen um ihren Versatz verschoben — die Biegung seit der Bogenlampe, wie im Reiter Reduktion (verwendet, wenn zwei Linien übereinstimmen oder eine stark ist; Statuszeile und `WAVSKYSH` im Header nennen die Verschiebung).
+
 ## Tellurische Korrektur
 Das **Spektrum (1-D)** und das Spektrum eines **tellurischen Standards** wählen (ein heißer, schnell rotierender Stern, zeitlich und in der Luftmasse nahe beobachtet). Der Standard liefert die atmosphärische Transmission; ihre Stärke (Luftmasse, Wasserdampf) und eine kleine Wellenlängenverschiebung werden innerhalb der tellurischen Bänder angepasst. **Korrigieren und speichern** schreibt das korrigierte Spektrum und zeigt das Vorher-Nachher-Diagramm.
 

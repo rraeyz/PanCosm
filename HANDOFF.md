@@ -273,7 +273,15 @@ Plan (claim → done, in this order):
   points, flux ↔ mag (σm = 1.0857 σF/F), undo; saved as a third column; `timeseries.period` has an optional input
   `err` and weights Lomb–Scargle and BLS by 1/σ² (PDM / ANOVA unweighted). Tests in `test_period_search_tab`,
   `test_binned_errors_and_a_weighted_period_search`. Guide 07 (4 languages).
-- P5 **CLAIMED (01RxUU)** Echelle: zero point from the night-sky lines.
+- P5 **DONE** Echelle: zero point from the night-sky lines for slit echelles (`sky` on, not fibre): the inter-order
+  sky (extraction without minus with sky subtraction) of the orders holding [O I] 5577 / 6300 / 6363
+  (`wavecal.sky_shift_orders`, combined with the long-slit rule `combine_sky`), shift applied to every order,
+  `WAVSKYSH`, status line. **Bug found and fixed on the way:** `wavecal.sky_shift` fitted the line in absolute
+  wavelengths; at echelle dispersion (0.03 A/px) curve_fit did not converge at all (every line rejected) — now fitted
+  as an offset from the line, started at the brightest pixel (long-slit tests unchanged). Not checked on real data:
+  the only raw echelle frames here (TOFES, HARPS) are fibre-fed — no sky between the orders. Test
+  `test_zero_point_from_the_sky_lines_over_the_orders`. Guide 08 (4 languages).
+- P6 **CLAIMED (01RxUU)** HARPS: drift between the evening's two ThAr frames.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

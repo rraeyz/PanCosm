@@ -30,6 +30,8 @@ Kareleri önce Kalibrasyon sayfasında **Tayf: flat'e bölme** işaretliyken kal
 
 **Saçılmış ışığı çıkar** (IRAF apscatter gibi) order/mertebeler arası boşluklardaki ışığı fitler — dağılıma dik yönde kırpmalı bir polinomla, sonra dağılım boyunca yumuşatarak — ve çıkarmadan önce bilim karesinden ve flat'ten çıkarır. Parlak yıldızlarda ve mertebeleri bir parıltı üstünde duran spektrograflarda kullanın; en az 3 piksellik boşluk gerekir (sık dizilmiş fiber mertebeleri için değil).
 
+**Gece göğü çizgilerinden sıfır noktası (yarıklı eşeller):** mertebeler arasında gökyüzü kalıyorsa (*Fiber beslemeli* değilse), [O I] 5577, 6300 ve 6363 Å çizgileri onları içeren mertebelerin arasındaki gökte ölçülür ve dalga boyları onların kaymasıyla düzeltilir — arktan bu yana esneme, İndirgeme sekmesindeki gibi (iki çizgi uyuşursa ya da biri güçlüyse kullanılır; kaymayı durum satırı ve başlıktaki `WAVSKYSH` verir).
+
 ## Tellürik düzeltme
 **Tayf (1-B)**'yi ve bir **tellürik standardın** (zamanca ve airmass/hava kütlesince yakın gözlenmiş sıcak, hızlı dönen bir yıldız) tayfını seçin. Standart atmosferin geçirgenliğini verir; gücü (hava kütlesi, su buharı) ve küçük bir dalga boyu kayması tellürik bantların içinde fit edilir. **Düzelt ve kaydet** düzeltilmiş tayfı yazar ve önce/sonra grafiğini gösterir.
 
