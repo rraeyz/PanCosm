@@ -113,6 +113,19 @@ class _Orientation(QWidget):
         self.reverse.setChecked(bool(st.get("reverse", False)))
 
 
+def calibrated(path):
+    """True when a frame's header says bias / dark were taken off (this program's Calibrate page: CALB / CALD; IRAF
+    ccdproc: ZEROCOR / DARKCOR / CCDPROC); False for a raw frame; None when it cannot be read."""
+    from astropy.io import fits
+
+    try:
+        with fits.open(path) as h:
+            keys = set(h[0].header) | (set(h[1].header) if len(h) > 1 else set())
+    except (OSError, ValueError):
+        return None
+    return bool(keys & {"CALB", "CALD", "ZEROCOR", "DARKCOR", "CCDPROC"})
+
+
 class _FileRow(QWidget):
     def __init__(self, label, parent, pattern=FITS):
         super().__init__(parent)
@@ -142,14 +155,61 @@ class ReduceTab(Undoable, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_undo()
-        self.result = None
+        self.result, self.excluded_lines, self._resid_ax, self._arc_ax = None, [], None, None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Calibrate the science frame and the arc: bias, dark, flat (IRAF ccdproc)"),
+                    self.tr(
+                        "Calibrate the science frame and the arc on the Calibrate page (bias and dark; the flat "
+                        "divides the science frame, never the arc), then choose them below."
+                    ),
+                ),
+                (
+                    self.tr("Choose the science frame and the arc"),
+                    self.tr("Choose both files below (Browse…) and how the spectrum runs on the image."),
+                ),
+                (
+                    self.tr("Extract, and check the trace and the aperture on the image (apall)"),
+                    self.tr(
+                        "Press 3. Extract; the image at the bottom shows the traced spectrum and the aperture: if it "
+                        "is not your star, give its row and extract again."
+                    ),
+                ),
+                (
+                    self.tr("Identify arc lines with the atlas: 3 or more (identify)"),
+                    self.tr(
+                        "Click a line in the arc plot and type its wavelength from your lamp's atlas; after three "
+                        "lines the line list's lines are labelled on the arc and a click fills in the wavelength: "
+                        "check it against the atlas."
+                    ),
+                ),
+                (
+                    self.tr("Fit the wavelengths and check the residuals (identify f, d; dispcor)"),
+                    self.tr(
+                        "Press 5. Fit wavelengths and save; in the residual plot click lines that lie far off to "
+                        "leave them out, then Refit."
+                    ),
+                ),
+                (
+                    self.tr("Measure the velocity (fxcor)"),
+                    self.tr("The calibrated spectrum is saved: measure it on the Radial velocity tab."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         self.science = _FileRow(self.tr("Science frame"), self)
         self.arc = _FileRow(self.tr("Arc lamp (optional)"), self)
         lay.addWidget(self.science)
         lay.addWidget(self.arc)
+        for row in (self.science, self.arc):
+            row.edit.textChanged.connect(self._files_changed)
         self.orientation = _Orientation(self)
         lay.addWidget(self.orientation)
         grid = QGridLayout()
@@ -224,7 +284,7 @@ class ReduceTab(Undoable, QWidget):
         lay.addLayout(grid)
         lay.addWidget(self.optimal)
         lay.addWidget(self.sky_lines)
-        self.extract_button = QPushButton(self.tr("1. Extract"), self)
+        self.extract_button = QPushButton(self.tr("3. Extract"), self)
         self.extract_button.clicked.connect(lambda: self._run(with_guesses=False))
         self.extract_button.setToolTip(
             self.tr(
@@ -233,11 +293,12 @@ class ReduceTab(Undoable, QWidget):
             )
         )
         lay.addWidget(self.extract_button)
-        lay.addWidget(QLabel(self.tr("2. Click arc lines in the lower plot, type their wavelengths (Å):"), self))
+        lay.addWidget(QLabel(self.tr("4. Click arc lines in the arc plot, type their wavelengths (Å):"), self))
         self.guesses = QTableWidget(0, 2, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         track_typing(self, self.guesses, self.tr("type a wavelength"))
+        self.guesses.itemChanged.connect(lambda *_: self._lines_changed())
         lay.addWidget(self.guesses, 1)
         self.reference_button = QPushButton(self.tr("Lines from a reference arc / IRAF database…"), self)
         self.reference_button.setToolTip(
@@ -254,7 +315,7 @@ class ReduceTab(Undoable, QWidget):
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
         clear.setToolTip(self.tr("Removes every identified line (Ctrl+Z brings them back)"))
-        self.solve_button = QPushButton(self.tr("3. Solve wavelengths and save"), self)
+        self.solve_button = QPushButton(self.tr("5. Fit wavelengths and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(with_guesses=True))
         self.solve_button.setToolTip(
             self.tr(
@@ -264,6 +325,18 @@ class ReduceTab(Undoable, QWidget):
         )
         row.addWidget(clear)
         row.addWidget(self.solve_button)
+        lay.addLayout(row)
+        row = QHBoxLayout()
+        self.refit_button = QPushButton(self.tr("Refit without the left-out lines"), self)
+        self.refit_button.setToolTip(
+            self.tr("Click points in the residual plot (bottom) to leave those arc lines out, then refit")
+        )
+        self.refit_button.clicked.connect(lambda: self._run(with_guesses=True))
+        forget = QPushButton(self.tr("Use all lines again"), self)
+        forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.excluded_lines.clear))
+        forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
+        row.addWidget(self.refit_button)
+        row.addWidget(forget)
         lay.addLayout(row)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -311,6 +384,7 @@ class ReduceTab(Undoable, QWidget):
             "line_list": self.line_list.currentText(),
             "guess_row": self.row.value() or None,
             "trace_row": self.trace_row.value() or None,
+            "exclude": [float(v) for v in self.excluded_lines],
         } | self.orientation.params()
         self.status.setText(self.tr("Working…"))
         self.reduce_requested.emit(inputs, params)
@@ -338,21 +412,11 @@ class ReduceTab(Undoable, QWidget):
 
     def show_spectrum(self, s):
         self.result = s
-        self.plot.figure.clear()
-        has_arc = bool(s.get("arc"))
-        axes = self.plot.figure.subplots(3 if has_arc else 2, 1, squeeze=False)[:, 0]
-        self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
-        x = s["wave"] if s["wave"] is not None else s["pixel"]
-        axes[0].plot(x, s["flux"], lw=0.7)
-        axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
-        axes[0].set_ylabel(self.tr("Flux"))
-        if has_arc:
-            axes[1].plot(s["pixel"], s["arc"], lw=0.7, color="gray")
-            for p in s["arc_peaks"]:
-                axes[1].axvline(p, color="orange", lw=0.5)
-            axes[1].set_xlabel(self.tr("Pixel (click a line to identify it)"))
-            self._arc_ax = axes[1]
-        self.plot.draw()
+        self._draw()
+        self.guide.set_state(2, "done")
+        if s["solution"]:
+            self.guide.set_state(3, "done")
+            self.guide.set_state(4, "done")
         if s["solution"]:
             self.status.setText(
                 self.tr(
@@ -370,6 +434,76 @@ class ReduceTab(Undoable, QWidget):
             self.status.setText(
                 self.tr("Extracted {n} columns; {m} arc lines found.").format(n=len(s["flux"]), m=len(s["arc_peaks"]))
             )
+
+    def _draw(self):
+        s = self.result
+        if not s:
+            return
+        self.plot.figure.clear()
+        has_arc = bool(s.get("arc"))
+        lines = (s.get("solution") or {}).get("lines") or []
+        axes = self.plot.figure.subplots(2 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
+        self._draw_trace(axes[-1], s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
+        x = s["wave"] if s["wave"] is not None else s["pixel"]
+        axes[0].plot(x, s["flux"], lw=0.7)
+        axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
+        axes[0].set_ylabel(self.tr("Flux"))
+        self._arc_ax = self._resid_ax = None
+        if has_arc:
+            axes[1].plot(s["pixel"], s["arc"], lw=0.7, color="gray")
+            for p in s["arc_peaks"]:
+                axes[1].axvline(p, color="orange", lw=0.5)
+            top = float(np.nanmax(s["arc"]))
+            for p, w in self._atlas():  # the line list's lines on the arc, from the lines identified so far
+                axes[1].text(p, top, f"{w:.2f}", rotation=90, fontsize=6, va="top", ha="center", color="#1f6feb")
+            axes[1].set_xlabel(self.tr("Pixel (click a line to identify it)"))
+            self._arc_ax = axes[1]
+        if lines:  # the fit line by line, as IRAF identify shows it after 'f'
+            ax = axes[2]
+            a = np.asarray(lines, float)
+            ax.plot(a[:, 0], a[:, 2] * 1000, "o", ms=4)
+            ax.axhline(0, color="gray", lw=0.5)
+            ax.set_xlabel(self.tr("Pixel (click a point to leave that arc line out)"))
+            ax.set_ylabel(self.tr("Residual (mÅ)"))
+            self._resid_ax, self._resid_points = ax, a
+        self.plot.draw()
+
+    def _files_changed(self):
+        chosen = [r.text() for r in (self.science, self.arc) if r.text()]
+        self.guide.set_state(1, "done" if len(chosen) == 2 else None)
+        cal = [calibrated(p) for p in chosen]
+        self.guide.set_state(0, "done" if chosen and all(cal) else ("skipped" if len(chosen) == 2 else None))
+
+    def _lines_changed(self):
+        if self.result and self._arc_ax is not None:
+            self._draw()  # the line list's lines appear on the arc as soon as three lines are identified
+
+    def _atlas(self):
+        """[(pixel, wavelength)] of the arc peaks that a line-list line falls on (within 2 px) by a parabola through
+        three or more identified lines (as IRAF identify after its first fit)."""
+        g = np.asarray(self._guesses(), float).reshape(-1, 2)
+        if len(g) < 3 or not self.result or not self.result.get("arc_peaks"):
+            return []
+        from ..spectroscopy import wavecal
+
+        c = np.polyfit(g[:, 0], g[:, 1], 2)
+        peaks = np.asarray(self.result["arc_peaks"], float)
+        # only between the identified lines (and a tenth beyond): further out the parabola is a guess (EFOSC2 grism
+        # 11: 4 of 12 labels wrong, up to 38 A, all outside the three lines)
+        pad = 0.1 * np.ptp(g[:, 0])
+        peaks = peaks[(peaks >= g[:, 0].min() - pad) & (peaks <= g[:, 0].max() + pad)]
+        if not peaks.size:
+            return []
+        disp = abs(float(np.polyval(np.polyder(c), peaks.mean())))
+        cat = np.sort(wavecal.load_line_list(self.line_list.currentText()))
+        pred = np.polyval(c, peaks)
+        idx = np.clip(np.searchsorted(cat, pred), 1, len(cat) - 1)
+        near = np.where(np.abs(cat[idx - 1] - pred) < np.abs(cat[idx] - pred), idx - 1, idx)
+        # a line with a neighbour closer than 4 px is ambiguous at this resolution (a blend): not offered, as the
+        # wavelength solution leaves such lines out
+        gap = np.minimum(np.diff(cat, prepend=-np.inf), np.diff(cat, append=np.inf))
+        ok = (np.abs(cat[near] - pred) < 2 * disp) & (gap[near] > 4 * disp)
+        return [(float(p), float(w)) for p, w in zip(peaks[ok], cat[near][ok], strict=True)]
 
     def _sky_text(self, sky):
         if not sky:
@@ -399,13 +533,28 @@ class ReduceTab(Undoable, QWidget):
         ax.set_title(self.tr("Traced spectrum and aperture (choose another row if this is not your star)"), fontsize=8)
 
     def _plot_clicked(self, event):
-        if not self.result or getattr(self, "_arc_ax", None) is not event.inaxes or event.xdata is None:
+        if self._resid_ax is not None and event.inaxes is self._resid_ax:
+            a = self._resid_points
+            pix = self._resid_ax.transData.transform(np.column_stack([a[:, 0], a[:, 2] * 1000]))
+            i = int(np.argmin(np.hypot(pix[:, 0] - event.x, pix[:, 1] - event.y)))
+            if float(a[i, 0]) not in self.excluded_lines:
+                self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, float(a[i, 0]))
+                self._resid_ax.plot(a[i, 0], a[i, 2] * 1000, "o", mfc="none", color="#e5484d", ms=9)
+                self.plot.draw()
+            self.status.setText(
+                self.tr("{n} arc line(s) left out; press Refit without the left-out lines.").format(
+                    n=len(self.excluded_lines)
+                )
+            )
+            return
+        if not self.result or self._arc_ax is not event.inaxes or event.xdata is None:
             return
         peaks = np.asarray(self.result["arc_peaks"])
         if peaks.size == 0:
             return
         p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
-        self.edit(self.tr("identify a line"), self._add_line, [f"{p:.2f}", ""])
+        known = dict(self._atlas())  # the line list's wavelength at this peak, if the lines so far point to one
+        self.edit(self.tr("identify a line"), self._add_line, [f"{p:.2f}", f"{known[p]:.4f}" if p in known else ""])
         self.guesses.editItem(self.guesses.item(self.guesses.rowCount() - 1, 1))
 
     def _add_line(self, row):
@@ -465,10 +614,11 @@ class ReduceTab(Undoable, QWidget):
         return rows
 
     def undo_state(self):
-        return {"guesses": _rows(self.guesses)}
+        return {"guesses": _rows(self.guesses), "excluded": list(self.excluded_lines)}
 
     def set_undo_state(self, st):
         _set_rows(self.guesses, st["guesses"])
+        self.excluded_lines = list(st.get("excluded", []))
 
 
 class EchelleTab(Undoable, QWidget):
@@ -481,17 +631,73 @@ class EchelleTab(Undoable, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_undo()
-        self.result, self.excluded_lines, self._resid_ax = None, [], None
+        self.result, self.excluded_lines, self._resid_ax, self._arc_ax = None, [], None, None
         self.order_rows, self.order_traces, self._orders_source, self._flat_ax = None, [], None, None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Calibrate the science frame, the flat and the ThAr: bias and dark off (IRAF ccdproc)"),
+                    self.tr(
+                        "Calibrate the science frame, the flat and the ThAr on the Calibrate page (bias, dark; the "
+                        "flat is not divided into echelle frames), then choose them below. Raw frames work too: then "
+                        "only the overscan is taken off, where the header gives it."
+                    ),
+                ),
+                (
+                    self.tr("Choose the science frame, the flat and the ThAr"),
+                    self.tr("Choose the three files below (Browse…) and how the orders run on the image."),
+                ),
+                (
+                    self.tr("Find the orders on the flat and check them by hand (apfind, aptrace)"),
+                    self.tr(
+                        "Press 3. Find the orders on the flat: they are found automatically and drawn on the flat. "
+                        "Check every one: click a wrong trace to remove it, click a missed order to add it."
+                    ),
+                ),
+                (
+                    self.tr("Extract the orders of the science frame, the flat and the ThAr (apall)"),
+                    self.tr("Press 4. Extract the orders."),
+                ),
+                (
+                    self.tr("Identify ThAr lines with the atlas: 3+ lines in 2+ orders (ecidentify)"),
+                    self.tr(
+                        "Give the lowest order number, then click a ThAr line in the arc plot (bottom) and type its "
+                        "wavelength from your spectrograph's ThAr atlas: 3 or more lines in 2 or more orders. After "
+                        "three lines in an order the line list's lines are labelled on the arc and a click fills in "
+                        "the wavelength, as IRAF identify does after a first fit: check it against the atlas."
+                    ),
+                ),
+                (
+                    self.tr("Fit the wavelengths, check the residuals, merge the orders (ecidentify, dispcor)"),
+                    self.tr(
+                        "Press 6. Fit wavelengths, merge and save; in the residual plot click lines that lie far off "
+                        "to leave them out, then Refit."
+                    ),
+                ),
+                (
+                    self.tr("Measure the velocity (fxcor)"),
+                    self.tr(
+                        "The merged spectrum is saved: measure it on the Radial velocity tab (Telluric first, "
+                        "if the red part matters)."
+                    ),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         self.science = _FileRow(self.tr("Science frame"), self)
         self.flat = _FileRow(self.tr("Flat (orders and blaze)"), self)
         self.arc = _FileRow(self.tr("Arc lamp (ThAr)"), self)
         self.orientation = _Orientation(self)
         for w in (self.science, self.flat, self.arc, self.orientation):
             lay.addWidget(w)
+        for row in (self.science, self.flat, self.arc):
+            row.edit.textChanged.connect(self._files_changed)
         self.fibre = QCheckBox(self.tr("Fibre-fed: no sky between the orders"), self)
         self.fibre.setToolTip(
             self.tr(
@@ -559,16 +765,16 @@ class EchelleTab(Undoable, QWidget):
             grid.addWidget(w, r, 1)
         lay.addLayout(grid)
         lay.addWidget(self.optimal)
-        self.find_button = QPushButton(self.tr("Show the orders on the flat (check, remove, add)"), self)
+        self.find_button = QPushButton(self.tr("3. Find the orders on the flat (check, remove, add)"), self)
         self.find_button.setToolTip(
             self.tr(
-                "Optional: the orders found automatically are drawn on the flat. Click a wrong trace to remove it, "
-                "click on an order that was missed to add it. Without this step the orders are found automatically."
+                "The orders found automatically are drawn on the flat. Check them: click a wrong trace to remove "
+                "it, click on an order that was missed to add it. Extraction waits for this check."
             )
         )
         self.find_button.clicked.connect(lambda: self._find_orders())
         lay.addWidget(self.find_button)
-        self.extract_button = QPushButton(self.tr("1. Trace and extract orders"), self)
+        self.extract_button = QPushButton(self.tr("4. Extract the orders"), self)
         self.extract_button.clicked.connect(lambda: self._run(False))
         self.extract_button.setToolTip(
             self.tr(
@@ -578,12 +784,14 @@ class EchelleTab(Undoable, QWidget):
         )
         lay.addWidget(self.extract_button)
         lay.addWidget(
-            QLabel(self.tr("2. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):"), self)
+            QLabel(self.tr("5. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):"), self)
         )
         self.guesses = QTableWidget(0, 3, self)
         self.guesses.setHorizontalHeaderLabels([self.tr("Order"), self.tr("Pixel"), self.tr("Wavelength (Å)")])
         self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         track_typing(self, self.guesses, self.tr("type a wavelength"))
+        self.guesses.itemChanged.connect(lambda *_: self._lines_changed())
+        self.first_order.valueChanged.connect(lambda *_: self._lines_changed())
         lay.addWidget(self.guesses, 1)
         self.database_button = QPushButton(self.tr("Lines from an IRAF ecidentify database…"), self)
         self.database_button.setToolTip(
@@ -598,7 +806,7 @@ class EchelleTab(Undoable, QWidget):
         clear = QPushButton(self.tr("Clear"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the lines"), self.guesses.setRowCount, 0))
         clear.setToolTip(self.tr("Removes every identified line (Ctrl+Z brings them back)"))
-        self.solve_button = QPushButton(self.tr("3. Solve, merge and save"), self)
+        self.solve_button = QPushButton(self.tr("6. Fit wavelengths, merge and save"), self)
         self.solve_button.clicked.connect(lambda: self._run(True))
         self.solve_button.setToolTip(
             self.tr(
@@ -668,6 +876,15 @@ class EchelleTab(Undoable, QWidget):
             params["first_order"] = self.first_order.value()
         if self.order_rows is not None and self._orders_source == self._order_image():
             params["rows"] = list(self.order_rows)  # the orders as checked on the flat
+        elif not solve:  # the owner: found automatically or not, the user checks the orders before extracting
+            self._find_orders()
+            self.status.setText(
+                self.tr(
+                    "First check the orders: they are being drawn on the flat. Remove wrong ones, add missed ones, "
+                    "then press 4. Extract the orders again."
+                )
+            )
+            return
         if solve:
             g = self._guesses()
             if "arc" not in inputs or len(g) < 4 or len({x[0] for x in g}) < 2 or not self.first_order.value():
@@ -681,6 +898,86 @@ class EchelleTab(Undoable, QWidget):
 
     def _order_image(self):
         return self.flat.text() or self.science.text()
+
+    def _files_changed(self):
+        rows = (self.science, self.flat, self.arc)
+        chosen = [r.text() for r in rows if r.text()]
+        self.guide.set_state(1, "done" if len(chosen) == 3 else None)
+        cal = [calibrated(p) for p in chosen]
+        if chosen and all(cal):
+            self.guide.set_state(0, "done")
+        elif chosen:
+            self.guide.set_state(0, "skipped" if len(chosen) == 3 else None)
+            raw = [Path(p).name for p, c in zip(chosen, cal, strict=True) if c is False]
+            if raw:
+                self.status.setText(
+                    self.tr(
+                        "Not calibrated (raw): {files}. Bias and dark are best taken off on the Calibrate page "
+                        "first; the overscan is taken off here where the header gives it."
+                    ).format(files=", ".join(raw))
+                )
+
+    def _lines_changed(self):
+        g = self._guesses()
+        ok = len(g) >= 4 and len({x[0] for x in g}) >= 2 and self.first_order.value()
+        self.guide.set_state(4, "done" if ok else None)
+        if self.result and self._arc_ax is not None:
+            self._draw()  # the line list's lines appear on the arc as soon as there are three in this order
+
+    def _provisional(self, k):
+        """lambda(pixel) of order index k from the identified lines, or None: a parabola through three or more lines of
+        this order (as IRAF identify after its first fit; a straight line through two was 0.7 A off mid-order on
+        HARPS), else m * lambda as a parabola in pixel plus a term in m through five or more lines in two or more
+        orders (the grating equation keeps it nearly the same in every order)."""
+        orders = self._orders()
+        g = np.asarray(self._guesses(), float).reshape(-1, 3)
+        if orders is None or not len(g):
+            return None
+        m = orders[k]
+        here = g[g[:, 0] == m]
+        if len(here) >= 3:
+            c = np.polyfit(here[:, 1], here[:, 2], 2)
+            lo, hi = here[:, 1].min() - 0.1 * np.ptp(here[:, 1]), here[:, 1].max() + 0.1 * np.ptp(here[:, 1])
+            # outside the lines of this order the parabola is a guess: no wavelength offered there
+            return lambda x: np.where(
+                (np.asarray(x, float) >= lo) & (np.asarray(x, float) <= hi), np.polyval(c, x), np.nan
+            )
+        if len(g) >= 5 and len(set(g[:, 0])) >= 2:
+            x0 = float(np.mean(g[:, 1]))
+            a = np.column_stack([np.ones(len(g)), g[:, 1] - x0, (g[:, 1] - x0) ** 2, g[:, 0]])
+            c = np.linalg.lstsq(a, g[:, 0] * g[:, 2], rcond=None)[0]
+            return lambda x: (
+                (c[0] + c[1] * (np.asarray(x, float) - x0) + c[2] * (np.asarray(x, float) - x0) ** 2 + c[3] * m) / m
+            )
+        return None
+
+    def _atlas(self, k):
+        """[(pixel, wavelength)] of the arc peaks in order k that a line-list line falls on (within 2 px) by the
+        provisional solution: what to type, as an atlas shows it."""
+        lam = self._provisional(k)
+        if lam is None or not self.result:
+            return []
+        from ..spectroscopy import wavecal
+
+        peaks = np.asarray(self.result["arc_peaks"][k], float)
+        if not peaks.size:
+            return []
+        fin = peaks[np.isfinite(lam(peaks))]
+        if not fin.size:
+            return []
+        disp = abs(float(lam(np.median(fin) + 1) - lam(np.median(fin))))
+        cat = np.sort(wavecal.load_line_list(self.line_list.currentText()))
+        pred = lam(peaks)
+        peaks, pred = peaks[np.isfinite(pred)], pred[np.isfinite(pred)]
+        if not peaks.size:
+            return []
+        idx = np.clip(np.searchsorted(cat, pred), 1, len(cat) - 1)
+        near = np.where(np.abs(cat[idx - 1] - pred) < np.abs(cat[idx] - pred), idx - 1, idx)
+        # a line with a neighbour closer than 4 px is ambiguous at this resolution (a blend): not offered, as the
+        # wavelength solution leaves such lines out
+        gap = np.minimum(np.diff(cat, prepend=-np.inf), np.diff(cat, append=np.inf))
+        ok = (np.abs(cat[near] - pred) < 2 * disp) & (gap[near] > 4 * disp)
+        return [(float(p), float(w)) for p, w in zip(peaks[ok], cat[near][ok], strict=True)]
 
     def _find_orders(self, rows=None):
         image = self._order_image()
@@ -703,6 +1000,7 @@ class EchelleTab(Undoable, QWidget):
         self._order_nx = o["nx"]
         self._order_data = _load(self._orders_source, self.orientation.params())[0]
         self._draw_orders(o.get("failed") or [])
+        self.guide.set_state(2, "done")
 
     def _draw_orders(self, failed=()):
         self.plot.figure.clear()
@@ -766,7 +1064,10 @@ class EchelleTab(Undoable, QWidget):
         self.result = r
         self.order_view.setRange(0, max(0, r["n_orders"] - 1))
         self._draw()
+        self.guide.set_state(3, "done")
         if r["solution"]:
+            self.guide.set_state(4, "done")
+            self.guide.set_state(5, "done")
             sky, extra = r.get("sky_shift"), ""
             if sky and sky["shift"] is not None:
                 extra = " " + self.tr("Zero point corrected by {s:+.2f} Å from the night-sky lines ({lines}).").format(
@@ -807,6 +1108,9 @@ class EchelleTab(Undoable, QWidget):
             axes[1].plot(r["arc"][k], lw=0.6, color="gray")
             for p in r["arc_peaks"][k]:
                 axes[1].axvline(p, color="orange", lw=0.4)
+            top = float(np.nanmax(r["arc"][k])) if len(r["arc"][k]) else 1.0
+            for p, w in self._atlas(k):  # the line list's lines on this arc, from the lines identified so far
+                axes[1].text(p, top, f"{w:.2f}", rotation=90, fontsize=6, va="top", ha="center", color="#1f6feb")
             orders = self._orders()
             name = orders[k] if orders else k
             axes[1].set_xlabel(self.tr("Arc, order {m}: pixel (click a line to identify it)").format(m=name))
@@ -892,7 +1196,9 @@ class EchelleTab(Undoable, QWidget):
             return
         p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
         orders = self._orders()
-        self.edit(self.tr("identify a line"), self._add_line, [str(orders[k] if orders else ""), f"{p:.2f}", ""])
+        known = dict(self._atlas(k))  # the line list's wavelength at this peak, if the lines so far point to one
+        guess = f"{known[p]:.4f}" if p in known else ""
+        self.edit(self.tr("identify a line"), self._add_line, [str(orders[k] if orders else ""), f"{p:.2f}", guess])
         self.guesses.editItem(self.guesses.item(self.guesses.rowCount() - 1, 2))
 
     def _add_line(self, row):
@@ -998,10 +1304,55 @@ class VelocityTab(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.rvs = []
+        self.rvs, self._template_rv = [], (0.0, 0.0)
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Add the spectra: wavelength-calibrated, one per exposure"),
+                    self.tr(
+                        "Add… the 1-D spectra of one star (from the Reduce or Echelle tab, or an archive). They must "
+                        "have wavelengths."
+                    ),
+                ),
+                (
+                    self.tr("Choose a template: a similar star or a synthetic spectrum (fxcor template)"),
+                    self.tr(
+                        "Choose a template of a similar type (the Spectral type button suggests one). An observed "
+                        "star: type its own velocity; a fast rotator: its v sin i. Two stars: a second template."
+                    ),
+                ),
+                (
+                    self.tr("Measure the velocities (fxcor; TODCOR or broadening function for two stars)"),
+                    self.tr("Press Measure radial velocities."),
+                ),
+                (
+                    self.tr("Check each spectrum's correlation peak (fxcor's plot)"),
+                    self.tr(
+                        "Click a row of the table: its correlation (or broadening function) is drawn with the "
+                        "measured velocity. One clean peak means a reliable velocity; leave out spectra whose peak "
+                        "is doubtful."
+                    ),
+                ),
+                (
+                    self.tr("Fit the orbit"),
+                    self.tr("Give a period guess (from the photometry or a period search) and press Fit orbit."),
+                ),
+                (
+                    self.tr("Two stars: separate their spectra (optional)"),
+                    self.tr(
+                        "Separate the two stars' spectra (disentangling), then classify each, or use them as "
+                        "templates for a second, sharper measurement."
+                    ),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         lay.addWidget(QLabel(self.tr("1-D spectra (FITS table, 1-D FITS with wavelength WCS, or text)"), self))
         self.files = QListWidget(self)
         lay.addWidget(self.files, 1)
@@ -1017,6 +1368,7 @@ class VelocityTab(QWidget):
         lay.addLayout(row)
         self.template = _FileRow(self.tr("Template"), self, FITS + ";;Text (*.txt *.dat *.csv)")
         lay.addWidget(self.template)
+        self.template.edit.textChanged.connect(lambda t: self.guide.set_state(1, "done" if t.strip() else None))
         self.template2 = _FileRow(
             self.tr("Second template (double-lined binary, optional)"), self, FITS + ";;Text (*.txt *.dat *.csv)"
         )
@@ -1161,6 +1513,10 @@ class VelocityTab(QWidget):
         )
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table.setToolTip(
+            self.tr("Click a row to see that spectrum's correlation peak and the velocity read from it")
+        )
+        self.table.cellClicked.connect(lambda r, _c: self.show_profile(r))
         right.addWidget(self.table)
         self.plot = PlotCanvas(self)
         right.addWidget(self.plot)
@@ -1177,6 +1533,32 @@ class VelocityTab(QWidget):
         """Spectra for the velocities, each once (a reduced spectrum is added on its own, then often again)."""
         have = {self.files.item(i).text() for i in range(self.files.count())}
         self.files.addItems([p for p in paths if p not in have])
+        self.guide.set_state(0, "done" if self.files.count() else None)
+
+    def show_profile(self, i):
+        """The correlation (or broadening function) of spectrum i with the velocity read from it, as fxcor shows it."""
+        if not 0 <= i < len(self.rvs) or not self.rvs[i].get("profile"):
+            return
+        row, p = self.rvs[i], self.rvs[i]["profile"]
+        t1, t2 = self._template_rv
+        self.plot.figure.clear()
+        ax = self.plot.figure.add_subplot()
+        v = np.asarray(p["v"], float)
+        names = {"ccf": self.tr("Cross-correlation"), "bf": self.tr("Broadening function"), "todcor": "TODCOR"}
+        ax.plot(v + t1, p["y"], lw=0.9, label=names[p["kind"]] + (" — " + self.tr("star 1") if "y2" in p else ""))
+        if "y2" in p:
+            ax.plot(v + t2, p["y2"], lw=0.9, label="TODCOR — " + self.tr("star 2"))
+        if p.get("model") is not None:
+            ax.plot(v + t1, p["model"], "--", lw=0.8, label=self.tr("fitted rotational profiles"))
+        ax.axvline(row["rv_obs"], color="#e5484d", lw=0.8)
+        if row.get("rv2_obs") is not None:
+            ax.axvline(row["rv2_obs"], color="#e5484d", lw=0.8, ls=":")
+        ax.set_xlabel(self.tr("Velocity, before the barycentric correction (km/s)"))
+        ax.set_ylabel(self.tr("Correlation"))
+        ax.set_title(row["file"], fontsize=9)
+        ax.legend(fontsize="small")
+        self.plot.draw()
+        self.guide.set_state(3, "done")
 
     def _measure(self):
         spectra = [self.files.item(i).text() for i in range(self.files.count())]
@@ -1199,6 +1581,8 @@ class VelocityTab(QWidget):
             "template2_vsini": self.template2_vsini.value(),
         }
         params["method"], params["components"] = self.method.currentData()
+        t1 = self.template_rv.value()
+        self._template_rv = (t1, self.template2_rv.value() if self.template2.text() else t1)
         self.status.setText(self.tr("Measuring…"))
         self.rv_requested.emit(inputs, params)
 
@@ -1336,6 +1720,7 @@ class VelocityTab(QWidget):
         self.disentangle_requested.emit(inputs, {})
 
     def show_components(self, c):
+        self.guide.set_state(5, "done")
         self.plot.figure.clear()
         ax = self.plot.figure.add_subplot()
         ax.plot(c["wave"], c["star1"], lw=0.7, label=self.tr("Star 1"))
@@ -1356,6 +1741,7 @@ class VelocityTab(QWidget):
 
     def show_rvs(self, rows, skipped=None):
         self.rvs = rows
+        self.guide.set_state(2, "done" if rows else None)
         self.table.setRowCount(len(rows))
         for r, row in enumerate(rows):
             v = row["rv"] if row["rv"] is not None else row["rv_obs"]
@@ -1508,6 +1894,7 @@ class VelocityTab(QWidget):
         from ..spectroscopy.orbit import rv_model
 
         self.orbit_result = o
+        self.guide.set_state(4, "done")
 
         t, v, e = (np.asarray(a, float) for a in self._series())
         text = self.tr(

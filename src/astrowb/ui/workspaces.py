@@ -85,6 +85,49 @@ class Collapsible(QWidget):
         self.content.setVisible(on)
 
 
+class StepGuide(QWidget):
+    """The order of work as astronomers are used to it (the IRAF task in brackets), each step marked done, to do
+    now or still to come, and under it one line saying what to do now. The owner: "not knowing what to do and how
+    is what makes a program confusing". steps: [(title, what to do now)]; set_state(i, "done" | "skipped" | None)."""
+
+    def __init__(self, steps, parent=None):
+        super().__init__(parent)
+        self.steps, self.states = list(steps), [None] * len(steps)
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(0, 0, 0, 4)
+        self.box = Collapsible(self.tr("Order of work"), self, expanded=True, mode=None)
+        self.labels = []
+        for _ in self.steps:
+            label = QLabel(self)
+            label.setWordWrap(True)
+            label.setTextFormat(Qt.RichText)
+            self.box.body.addWidget(label)
+            self.labels.append(label)
+        lay.addWidget(self.box)
+        self.now = QLabel(self)
+        self.now.setWordWrap(True)
+        self.now.setTextFormat(Qt.RichText)
+        lay.addWidget(self.now)
+        self._refresh()
+
+    def set_state(self, i, state="done"):
+        self.states[i] = state
+        self._refresh()
+
+    def current(self):
+        return next((i for i, s in enumerate(self.states) if s is None), None)
+
+    def _refresh(self):
+        now = self.current()
+        for i, ((title, _), label, st) in enumerate(zip(self.steps, self.labels, self.states, strict=True)):
+            mark = {"done": "✓", "skipped": "–"}.get(st, "▶" if i == now else "·")
+            text = f"{mark} {i + 1}. {title}"
+            label.setText(f"<b>{text}</b>" if i == now else (f"<span style='color:gray'>{text}</span>" if st else text))
+        self.now.setText(
+            "<b>" + self.tr("Now:") + "</b> " + self.steps[now][1] if now is not None else self.tr("All steps done.")
+        )
+
+
 class StartPage(QWidget):
     """Entry points: the user starts from whatever data they already have."""
 
@@ -3163,8 +3206,51 @@ class OCPage(QWidget):
         left = QWidget(self)
         lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Light curves & O-C"), self))
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Times of minimum: measured (Minimum tab) and from the literature"),
+                    self.tr(
+                        "Put the times of minimum below, one per line: your own from the Minimum tab (Light curves "
+                        "or Photometry page) and the published ones (Load file…; e.g. from the O−C gateway or the "
+                        "papers), all in the same time scale (BJD_TDB preferably)."
+                    ),
+                ),
+                (
+                    self.tr("The ephemeris: reference T0 and period (VSX, GCVS or a paper)"),
+                    self.tr("Type the period (and T0) of a published ephemeris; it counts the cycles."),
+                ),
+                (
+                    self.tr("Linear ephemeris first: look at the O−C diagram"),
+                    self.tr(
+                        "Keep Linear ephemeris and press Fit and draw O-C. Look at the diagram: a straight scatter "
+                        "means a constant period; a parabola, a wave or diverging I and II minima tell you the next "
+                        "model."
+                    ),
+                ),
+                (
+                    self.tr("The model the O−C shape asks for"),
+                    self.tr(
+                        "Parabola: Quadratic (period change). Wave: Third body (light-travel time). Primary and "
+                        "secondary minima drifting apart: Apsidal motion. Fit again."
+                    ),
+                ),
+                (
+                    self.tr("Errors and the table for the paper"),
+                    self.tr(
+                        "For a third body or apsidal motion tick MCMC uncertainties and fit again; then Export "
+                        "results (CSV / LaTeX)."
+                    ),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         lay.addWidget(QLabel(self.tr("Minimum times, one per line: time [error] [I/II] [source]"), self))
         self.text = QPlainTextEdit(self)
+        self.text.textChanged.connect(
+            lambda: self.guide.set_state(0, "done" if self.text.toPlainText().strip() else None)
+        )
         self.text.setPlaceholderText("2455867.40274 0.00005 I  literature\n2458107.71232 0.0033 I  this work")
         lay.addWidget(self.text, 1)
         row = QHBoxLayout()
@@ -3179,6 +3265,7 @@ class OCPage(QWidget):
         grid = QGridLayout()
         self.t0 = QLineEdit(self)
         self.period = QLineEdit(self)
+        self.period.textChanged.connect(lambda t: self.guide.set_state(1, "done" if t.strip() else None))
         grid.addWidget(QLabel(self.tr("Reference T0"), self), 0, 0)
         self.period.setToolTip(self.tr("Period of the ephemeris used to count the cycles; the fit improves it"))
         self.t0.setToolTip(self.tr("Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum"))
@@ -3343,6 +3430,11 @@ class OCPage(QWidget):
     def show_fit(self, f, minima):
         """Draw a fit (also the result of the background task) and write its numbers."""
         self.fit_result = f
+        self.guide.set_state(2, "done")
+        if getattr(f, "order", 2) != 1:  # a model beyond the straight line
+            self.guide.set_state(3, "done")
+        if getattr(f, "mcmc", None):
+            self.guide.set_state(4, "done")
         if not hasattr(f, "order"):
             return self._show_oc_model(f, minima)
         lines = [

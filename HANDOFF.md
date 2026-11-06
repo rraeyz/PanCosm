@@ -252,6 +252,22 @@ planned in stages, this file updated as each step is claimed and done; when the 
 | R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
 | R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
 
+**R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
+the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each
+✓ done / – skipped / ▶ now, and a "Now:" line saying what to do. Echelle: buttons renumbered 3–6 to match; **extraction
+waits for the order check** (the first press shows the orders on the flat); raw (uncalibrated) frames are named in the
+status (`calibrated()` reads CALB / CALD / ZEROCOR / DARKCOR / CCDPROC). **Atlas help** (Reduce and Echelle): after three
+identified lines in an order (or five in two orders for the others) the line list's lines that fall on arc peaks are
+labelled on the arc, only between the identified lines and never an ambiguous (blended) line; a click on such a peak
+fills in its wavelength (IRAF identify's *l*). Real checks: HARPS raw blue chip, 3 lines in order 153 → 36 labels, 0
+wrong, 0.2 mÅ from ESO's solution; other orders 10–45 labels, 0 wrong; EFOSC2 grism 11, 3 lines → 5 labels, max 0.31 Å
+(4.2 Å per pixel). Reduce tab: residual plot after the fit, click a line to leave it out, Refit (`exclude` in
+`spectroscopy.reduce`): EFOSC2 13 lines 0.210 Å → 12 lines 0.090 Å. Radial velocity tab: each spectrum's correlation
+(CCF, BF with the fitted profiles, or TODCOR's best value along each star) is kept (`row["profile"]`) and drawn when a row
+is clicked (as fxcor). Guide: new section "If you know IRAF" (IRAF task → page / button) in 08-spectroscopy and the
+steps renumbered (4 languages). Tests: `test_order_of_work_and_the_atlas_on_the_echelle_tab`. Left in R2: the same
+"Order of work" for the Calibrate and Photometry pages (check what is there first).
+
 **R1 / P12 result (done).** TZ For, 22 HARPS ADP s1d (ESO TAP `target_name LIKE '%TZ%For%'`, dataportal), PHOENIX
 templates written in air (4900 K / 3.0 for the G8 III primary, 6300 K / 3.5 for the F7 III secondary; v sin i 6.1 and
 45.7 km/s from Gallenne et al. 2016, arXiv:1511.07971, Table 1 = their HARPS velocities). Found and fixed:

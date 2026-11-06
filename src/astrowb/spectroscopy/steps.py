@@ -20,6 +20,14 @@ def _oriented(data, params):
     return data[:, ::-1] if params.get("reverse") else data
 
 
+def _thin(profile, n=800):
+    """A velocity profile kept at most n points (a CCF of 3000 velocities is drawn as well with 800)."""
+    step = max(1, len(profile["v"]) // n)
+    return {
+        k: (list(np.asarray(v, float)[::step]) if isinstance(v, (list, np.ndarray)) else v) for k, v in profile.items()
+    }
+
+
 def _load(path, params):
     data, header = load(path)
     return _oriented(data, params), header
@@ -43,6 +51,7 @@ def _load(path, params):
     orientation="x",
     reverse=False,
     sky_lines=True,
+    exclude=[],
 )
 def reduce_step(inputs, params, ctx):
     """2-D long-slit/slitless frame (dispersion along x) -> 1-D spectrum; wavelengths from an arc
@@ -89,12 +98,22 @@ def reduce_step(inputs, params, ctx):
         peaks = wavecal.find_lines(arc1d)
         out["arc"] = arc1d.tolist()
         out["arc_peaks"] = peaks.tolist()
+        if params["exclude"]:  # arc lines left out by hand in the residual plot (IRAF identify: d)
+            ex = np.asarray(params["exclude"], float)
+            peaks = peaks[np.min(np.abs(peaks[:, None] - ex[None, :]), axis=1) > 1.5]
         if inputs.get("guesses") and len(inputs["guesses"]) >= 2:
             # the user's identified wavelengths are lines of the lamp too (e.g. Hg in an HgAr lamp, not in the list)
             catalogue = np.union1d(wavecal.load_line_list(params["line_list"]), [g[1] for g in inputs["guesses"]])
             sol = wavecal.solve(peaks, catalogue, inputs["guesses"], params["order"], n_pixels=len(flux))
             wave = sol(np.arange(len(flux)))
-            out["solution"] = {"coef": sol.coef.tolist(), "rms": sol.rms, "n_lines": sol.n_lines, "degree": sol.degree}
+            out["solution"] = {
+                "coef": sol.coef.tolist(),
+                "rms": sol.rms,
+                "n_lines": sol.n_lines,
+                "degree": sol.degree,
+                # [pixel, wavelength, residual (A)] of every line used, for the residual plot
+                "lines": [[float(p), float(w), float(w - sol(p))] for p, w in zip(sol.pixels, sol.waves, strict=True)],
+            }
             if params["sky_lines"]:  # the zero point from the night-sky lines (flexure since the arc)
                 shift, lines = wavecal.sky_shift(wave, np.asarray(sky, float))
                 out["sky_shift"] = {"shift": shift, "lines": [list(x) for x in lines]}
@@ -396,6 +415,7 @@ def rv_step(inputs, params, ctx):
             b = bf.broadening_function(w, f, tw, tf, params["v_min"], params["v_max"], components=params["components"])
             c = b["components"]
             r = {"rv": c[0]["rv"], "rv_err": c[0]["rv_err"], "peak": None}
+            profile = {"kind": "bf", "v": b["v"], "y": b["bf_smooth"], "model": b["model"]}
             r2 = {"vsini": c[0]["vsini"], "vsini_err": c[0]["vsini_err"]}
             if len(c) > 1:
                 ratio = c[1]["strength"] / c[0]["strength"]
@@ -404,6 +424,7 @@ def rv_step(inputs, params, ctx):
         elif t2 is None:
             f, masked = rv.mask_emission(f, tf)
             r = rv.ccf(w, f, tw, tf, params["v_min"], params["v_max"])
+            profile = {"kind": "ccf", "v": r["v"], "y": r["ccf"]}
             r["emission_masked"] = masked
             r["rv_err_formal"] = r["rv_err"]
             empirical = rv.chunk_error(w, f, tw, tf, params["v_min"], params["v_max"])
@@ -414,6 +435,7 @@ def rv_step(inputs, params, ctx):
             d = sb2.todcor(w, f, tw, tf, *rv.match_template(w, *t2), params["v_min"], params["v_max"])
             r = {"rv": d["rv1"], "rv_err": d["rv1_err"], "peak": d["peak"]}
             r2 = {"rv2_obs": d["rv2"], "rv2_err": d["rv2_err"], "flux_ratio": d["flux_ratio"], "rv2": None}
+            profile = {"kind": "todcor", "v": d["v"], "y": d["profile1"], "y2": d["profile2"]}
         r["rv"] += v_t1  # against the template's rest frame -> the star's velocity
         if r2.get("rv2_obs") is not None:
             r2["rv2_obs"] += v_t2 if t2 is not None else v_t1  # the broadening function's 2nd star: same template
@@ -423,6 +445,9 @@ def rv_step(inputs, params, ctx):
             "rv_err": r["rv_err"],
             "rv_err_formal": r.get("rv_err_formal", r["rv_err"]),  # the CCF formula; rv_err may be the empirical one
             "ccf_peak": r["peak"],
+            # what the velocity was read from (fxcor shows it): CCF, broadening function or TODCOR, in the
+            # template's frame (add the template's own velocity to read it as the star's)
+            "profile": _thin(profile),
             "time_jd": None,
             "bjd": None,
             "v_corr": None,
