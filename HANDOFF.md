@@ -354,6 +354,29 @@ Plan (claim → done, in this order):
   transformation applied to the 31 Landolt stars: V median −0.008, rms 0.032; B−V median −0.003, rms 0.054 (1 s
   exposures). TV Boo: page magnitudes and AAVSO report now agree within 0.02 (flux ensemble vs magnitude mean),
   MERR 0.03–0.07; V 10.66–11.33 over the night, B−V 0.03–0.17 (an RRc of type A7–F2). Guide 06 (4 languages).
+- P10 **DONE — three bugs in TESS pixel-file photometry.** WASP-12 b, TESS sector 20 (MAST, astroquery
+  Observations: tess2019357164649-s0020-0000000086396382-0165-s_tp.fits and _lc.fits, in /tmp/claude-0/realdata/wasp12;
+  script /tmp/claude-0/work/p10_wasp12.py). One transit (±0.15 d around the middle one of the sector, epoch 10 from the
+  sector's first) measured here from the TPF without comparison stars, fitted on the Models step (`models.eb_fit`,
+  t0, r_sum, k, incl free, period from the sector, TESS quadratic limb darkening 0.32/0.22) and exported for
+  ExoClock / ETD. Reference: the same transit in the SPOC PDCSAP light curve, and the ephemeris of all the sector's
+  transits fitted from PDCSAP (P = 1.091413 +- 0.000015 d). NASA Exoplanet Archive now answers scripts with a
+  Cloudflare challenge: not bypassed, not used.
+  (1) Errors 3.3x too large (chi2r 0.09, Tc +- 221 s against SPOC's 44 s): in the 11 x 11 px stamp the sky ring's
+  scatter (1957 e-) is the star's wings and a neighbour, while FLUX_ERR says 264 e- per pixel. `tpf.frames` now writes
+  PIXNOISE (median FLUX_ERR x exposure) and `aperture.measure` uses it instead of the ring's scatter (frames are
+  converted again once: listing frames2.txt). After: chi2r 1.75, Tc +- 66 s. Test
+  `test_errors_of_a_small_stamp_come_from_the_archive_noise` (fails with the old errors: 3.4x).
+  (2) Automatic radii for small stamps put the sky ring in the corners (5.5–7.3 px, where a neighbour sits): scatter
+  0.0036; now a ring from 2 FWHM, 2 px wide (4.1–6.1 px): 0.0028 (best by hand 0.0026). Unchanged for the 21 x 21 px
+  TESScut file (its ring fits).
+  (3) The page's default rings (4 / 10 / 16 px) do not fit an 11 x 11 px frame: every flux was NaN, silently. The
+  light curve now chooses the radii from the stars when the inner ring is beyond half the frame, and the page says so
+  (translated). Same test.
+  Result: Tc = 2458853.919719 +- 0.000768 BJD_TDB; SPOC same transit 2458853.919176 +- 0.000515: +47 s; sector
+  ephemeris +42 +- 70 s. Depth 1.591 % (SPOC 1.579 %), k 0.1213 (0.1181), T14 3.17 h (3.02 h), i 76.9 (82.3; one
+  transit of a noisier light curve: ingress shape poorly fixed). Files: <name>_ExoClock.txt (BJD_TDB, flux, error),
+  _ETD.txt (BJD_TDB, magnitude, error), _summary.txt — formats as before. Guide 06 and 09 (4 languages).
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
