@@ -4,10 +4,12 @@ La página **Curvas de luz y O-C** tiene tres pestañas: **Búsqueda de período
 ## Búsqueda de períodos
 La curva de luz medida en la página Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
 
-- **Lomb–Scargle** — para variaciones sinusoidales (estrellas pulsantes, rotación).
-- **BLS** (mínimos cuadrados con caja) — para caídas cortas: tránsitos y eclipses de tipo Algol.
-- **PDM** (minimización de la dispersión de fase) — para cualquier forma de curva de luz.
-- **ANOVA** (análisis de varianza multiarmónico) — para formas suaves no sinusoidales como RR Lyrae y cefeidas.
+- **Lomb–Scargle** — ajusta una onda sinusoidal en cada período de prueba y elige la que explica la mayor parte de la variación. Para variaciones sinusoidales: estrellas pulsantes, rotación y manchas.
+- **BLS** (mínimos cuadrados con caja) — ajusta una caída corta en forma de caja en cada período de prueba. Para tránsitos de planetas y eclipses de tipo Algol.
+- **PDM** (minimización de la dispersión de fase) — no supone ninguna forma: pliega los datos con cada período de prueba y elige aquel en que los puntos se superponen con más orden. Para cualquier forma de curva de luz, p. ej. binarias eclipsantes con dos mínimos.
+- **ANOVA** (análisis de varianza multiarmónico) — ajusta una curva de dos armónicos en cada período de prueba y la evalúa estadísticamente. Para formas suaves no sinusoidales como RR Lyrae y cefeidas.
+
+Cómo funciona cada método, con sus fórmulas y referencias: **Matemáticas de los métodos** (el último capítulo de esta guía). Al pasar el ratón sobre la lista de métodos aparece un resumen de una línea de cada uno.
 
 **TESS y Kepler:** escriba el nombre de una estrella (o un número TIC / KIC), elija TESS, Kepler o K2 y pulse **Descargar**. Las curvas de luz propias de la misión (flujo PDCSAP, corregido de tendencias instrumentales) vienen del archivo MAST; los puntos marcados se descartan, cada sector o trimestre se normaliza y todos se unen, con tiempos en BJD_TDB. Se guardan en la carpeta de configuración, así que una segunda descarga es instantánea. Luego busque el período como se indica abajo.
 

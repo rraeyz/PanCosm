@@ -1,6 +1,6 @@
 """O-C models beyond a polynomial ephemeris.
 
-Light-travel-time effect (LTTE) of a third body (Irwin 1952, AJ 57, 211): the eclipsing pair orbits the
+Light-travel-time effect (LTTE) of a third body (Irwin 1952, ApJ 116, 211): the eclipsing pair orbits the
 system's centre of mass, so the eclipses come early or late by
     tau(E) = A [ (1 - e^2) / (1 + e cos nu) sin(nu + omega) + e sin omega ],   A = a12 sin i / c,
 with nu the true anomaly of the third-body orbit (period P3, periastron T3) at the time of minimum.

@@ -4,10 +4,12 @@
 ## Periyot arama
 Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
 
-- **Lomb–Scargle** — sinüs biçimli değişimler için (zonklayan yıldızlar, dönme).
-- **BLS** (kutu en küçük kareler) — kısa düşüşler için: geçişler ve Algol türü örtmeler.
-- **PDM** (evre saçılımı en küçükleme) — her biçimdeki ışık eğrisi için.
-- **ANOVA** (çok harmonikli varyans analizi) — RR Lyrae ve sefeid gibi sinüs olmayan düzgün biçimler için.
+- **Lomb–Scargle** — her deneme periyodunda bir sinüs dalgası uydurur ve değişimin en büyük kısmını açıklayanı seçer. Sinüs biçimli değişimler için: zonklayan yıldızlar, dönme ve lekeler.
+- **BLS** (kutu en küçük kareler) — her deneme periyodunda kısa, kutu biçimli bir düşüş uydurur. Gezegen geçişleri ve Algol türü örtmeler için.
+- **PDM** (evre saçılımı en küçükleme) — biçim varsaymaz: veriyi her deneme periyoduyla katlar ve noktaların en düzgün üst üste bindiği periyodu seçer. Her biçimdeki ışık eğrisi için, örneğin iki minimumlu örten çiftler.
+- **ANOVA** (çok harmonikli varyans analizi) — her deneme periyodunda iki harmonikli bir eğri uydurur ve istatistiksel olarak sınar. RR Lyrae ve sefeid gibi sinüs olmayan düzgün biçimler için.
+
+Her yöntemin nasıl çalıştığı, formülleri ve kaynakları: **Yöntemlerin matematiği** (bu kılavuzun son bölümü). Yöntem listesinin üzerine gelince her birinin tek satırlık özeti görünür.
 
 **TESS ve Kepler:** bir yıldız adı (ya da TIC / KIC numarası) yazın, TESS, Kepler ya da K2 seçin ve **İndir**'e basın. Görevin kendi ışık eğrileri (aletsel eğilimleri düzeltilmiş PDCSAP akısı) MAST arşivinden gelir; işaretli noktalar atılır, her sektör ya da çeyrek normalleştirilip birleştirilir, zamanlar BJD_TDB'dir. Ayar klasöründe saklanır; ikinci indirme anında olur. Sonra periyodu aşağıdaki gibi arayın.
 
