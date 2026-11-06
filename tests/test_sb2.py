@@ -104,6 +104,11 @@ def test_rv_and_orbit_steps_in_sb2_mode(tmp_path):
     rows = execute("spectroscopy.rv", inputs, {"v_min": -120, "v_max": 120}, _Ctx())["rvs"]
     assert rows[0]["rv_obs"] == pytest.approx(50, abs=0.5) and rows[0]["rv2_obs"] == pytest.approx(-70, abs=1)
     assert rows[1]["rv_obs"] == pytest.approx(-30, abs=0.5) and rows[1]["rv2_obs"] == pytest.approx(45, abs=1)
+    # templates that are real stars: their own velocities are put on the measured ones (TZ For with tau Ceti, -16.5)
+    params = {"v_min": -120, "v_max": 120, "template_rv": -16.5, "template2_rv": 17.0}
+    moved = execute("spectroscopy.rv", inputs, params, _Ctx())["rvs"]
+    assert moved[0]["rv_obs"] == pytest.approx(rows[0]["rv_obs"] - 16.5, abs=1e-6)
+    assert moved[0]["rv2_obs"] == pytest.approx(rows[0]["rv2_obs"] + 17.0, abs=1e-6)
 
     rng = np.random.default_rng(1)
     t = np.sort(rng.uniform(0, 30, 16))

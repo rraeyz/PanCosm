@@ -352,12 +352,18 @@ def telluric_step(inputs, params, ctx):
     wave_max=None,
     method="ccf",
     components=1,
+    template_rv=0.0,
+    template2_rv=None,
 )
 def rv_step(inputs, params, ctx):
     """Radial velocity of each spectrum against a template, barycentric-corrected when the header
     gives the time and the sky position (or coord) and a site is known. With a second template
     (double-lined binary) both components are measured with TODCOR. method="bf": the broadening
-    function with `components` rotational profiles (fast rotators, contact binaries); also v sin i."""
+    function with `components` rotational profiles (fast rotators, contact binaries); also v sin i.
+    template_rv / template2_rv: the templates' own velocities (km/s; a real star's spectrum is not at rest: tau
+    Ceti -16.5, put on every velocity of TZ For); the second defaults to the first."""
+    v_t1 = float(params["template_rv"] or 0.0)
+    v_t2 = v_t1 if params["template2_rv"] is None else float(params["template2_rv"])
     from ..photometry.lightcurve import target_coord
     from ..planning.visibility import Site
 
@@ -405,6 +411,9 @@ def rv_step(inputs, params, ctx):
             d = sb2.todcor(w, f, tw, tf, *rv.match_template(w, *t2), params["v_min"], params["v_max"])
             r = {"rv": d["rv1"], "rv_err": d["rv1_err"], "peak": d["peak"]}
             r2 = {"rv2_obs": d["rv2"], "rv2_err": d["rv2_err"], "flux_ratio": d["flux_ratio"], "rv2": None}
+        r["rv"] += v_t1  # against the template's rest frame -> the star's velocity
+        if r2.get("rv2_obs") is not None:
+            r2["rv2_obs"] += v_t2 if t2 is not None else v_t1  # the broadening function's 2nd star: same template
         row = {
             "file": Path(path).name,
             "rv_obs": r["rv"],
