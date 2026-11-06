@@ -231,6 +231,90 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+### >>> START HERE (state on 2026-11-06 ~22:30 UTC, session 019Lu3 stopped: the owner's quota) <<<
+
+**Owner's latest instructions (2026-11-06), on top of the R plan below:**
+1. "Do NOT force any order. I have a reduced spectrum and only want the calibration — must I start from the
+   beginning? Absurd. Never do that." → no step may be locked behind another; the order of work is a *guide*.
+2. "These issues were not only in the spectrum part, they were in ALL of them" (not knowing what to do and how).
+   "If it would fill the screen, make it something that opens and closes, called workflow — up to you."
+3. Push everything; keep this file clean (old DONE work stays), describe exactly where work stopped.
+
+**Done in this last stretch (all pushed to main, newest last):**
+- `7d26165` CI fix: run 137 (`c459063`) failed on all three OS in `tests/test_messages.py::
+  test_every_engine_error_has_a_template` — the new `aperture.centroid_1dg` raises "Input data must have a nonzero
+  sum and nonconstant values to fit 1D Gaussians." without a template. Template + tr/de/es added in
+  `ui/messages.py`. **CI for 7d26165 and later was NOT checked yet** (runs 140+): check it first.
+- `3ca2ffc` **Spectra already extracted / only the wavelength calibration** (owner's point 1):
+  - `spectroscopy/steps.py`: `looks_extracted(header)` (1-D data, IRAF `APNUM1` / `WAT0_001 multispec`, ESO
+    `PRO CATG` E2DS, HARPS DRS e2ds = `ESO DRS CAL LOC NBO == NAXIS2`), `_extracted(path, params, force)` → (flux one
+    row per order, IRAF sigma band or None, header), `_poisson` (shortcut: photon noise only when no sigma band).
+    `reduce_step` was split into extraction + `_wavelengths(...)`; a 1-D input goes `_reduce_extracted` (no trace,
+    no sky lines). `echelle_step` was split into extraction + `_echelle_wavelengths(...)`; new param
+    `extracted=None` (None: from the header; True/False: the user's tick); `_echelle_extracted` checks the arc /
+    flat have the same shape ("… extract it with the same apertures", template in messages.py).
+  - Echelle tab: the lock "First check the orders…" is **removed** (unchecked → orders found automatically are
+    extracted; checked rows are still used when present). New tick **Already extracted: one row per order (IRAF
+    apall output, an e2ds)**, set by itself from the science file's header (`extracted(path)` in spectro_page.py),
+    disables "3. Find the orders", marks guide steps 0 and 2 skipped. Reduce tab: a 1-D science file is detected
+    the same way; the trace plot is left out (`_draw` handles `trace is None`). Stale "then 3. Solve" text fixed.
+  - Real check (scratchpad `real/r6_extracted.py`, HARPS 2010-08-27 raw + `_e2ds_A`): orders extracted first and
+    written as an IRAF-style APNUM file, then calibrated alone → identical wavelengths to the raw path (max 1.2e-10 Å),
+    rms 0.0003 Å / 1496 lines both, 22.2 m/s rms vs ESO DRS; the ESO e2ds_A is recognised (72 × 4096) and an arc
+    of another extraction (46 orders) is refused with the reason. 1.5 s.
+  - Tests: `test_echelle.py::test_already_extracted_orders_are_only_wavelength_calibrated`,
+    `test_spectroscopy.py::test_reduce_rv_orbit_steps` (1-D part), `test_order_of_work_and_the_atlas_on_the_echelle_tab`
+    (rewritten: no lock, the tick).
+- `40e80e0` **"Workflow" on every working page** (owner's point 2): `StepGuide` (ui/workspaces.py) is now a folded
+  `Collapsible` whose one-line header reads "Workflow — next: N. <step>" (opens to the steps ✓ / – / ▶, a grey line
+  "The usual order, not a rule…" and "Next: <what to do>"); `reset()` added. New guides with state hooks on:
+  Calibrate (show_frames → 1, show_result → 2–3, photometry / stack → 4), Period search (set_light_curve, edits,
+  show_result), Frequency analysis, Variable star search, Plan, Remote sensing, Telluric, Spectrum tools — besides
+  the existing Photometry, O−C, Models, Reduce, Echelle, Radial velocity. All texts translated (tr/de/es; button
+  names in the hints copied from the existing translations). Guide pages (4 languages): 01-getting-started (new
+  paragraph on the Workflow line), 06-photometry, 08-spectroscopy (Workflow wording, the lock sentences replaced,
+  new section "Spectra already reduced"). Test: `test_ui.py::test_every_working_page_has_a_folded_workflow`.
+  Not given a guide (no sequence to follow): Images viewer, Observe, Automation, IFU cube, Visual orbit (has its
+  own hint line), Start, Guide.
+- The full suite was NOT run after `3ca2ffc` / `40e80e0` (only the touched tests: test_echelle, test_spectroscopy,
+  test_messages, test_ui -k "photometry or oc or models or spectro or reduce or folded_workflow" — all passed;
+  a wider run was still going when the quota ended). **First thing: `sh tools/precommit.sh` and CI.**
+
+**R4 (third full test round) — where it stopped.** Runner `real/T3_run.sh` in the agent's scratchpad (NOT in the
+repo; the scratchpad and the downloaded data are lost with the container — see "How to redo R4" below). Finished
+(rc 0 all) before the quota ended, seconds (round 2 in brackets): t9_photometry 221.5 (586.8), t9var 65.5 (61.0),
+bench_photutils 38.8 (41.1), u5_standard_mags 224.5 (346.8), u8a_calibrate 159.0 (81.1 — **slower, but the agent
+was running pytest on the same 4 cores at that moment; re-measure alone before concluding**), u8d_iraf_ccdproc 129.3
+(114.2, same caveat), u8d_iraf_phot 11.5 (12.4), u8c_tess_tpf 268.6 (322.3), u1_wuma 57.3 (50.1), u6g_fgvir 26.9
+(17.3, same caveat). Not reached: u4_ltte_kepler, u6h_efosc_gui, u8b_harps_solve / rv, t10 (archive, ARAS, LAMOST
+MK), u6i_visual_orb6, u6j_sentinel2, u6e_images, u3_plan, u6l_project, u6k_automation, u6_sweep_tr, PESSTO bench,
+R1 TZ For (TODCOR / BF / orbit), R2 echelle and long-slit atlas, Horizons plan, photometry step timings, TPF open,
+GPU path, startup. Science results of the finished ones were not yet compared with round 2 (the logs are in the
+lost scratchpad) — redo them.
+
+**How to redo R4 (next agent).** The scripts are small Python drivers calling `astrowb.engine.steps.execute` or
+driving the pages with `QT_QPA_PLATFORM=offscreen`; rebuild what you need from the descriptions in "Second full test
+round" (below) and the R1–R3 notes: each comparison names its data source (LCO archive Qatar-1 2026-11-02 e91 /
+raw, TESS s21 W UMa and FG Vir via MAST, HARPS 2010-08-27 raw + ADP from the ESO archive, EFOSC2 2018-12-31 night,
+TZ For 22 HARPS ADP s1d, Sentinel-2 L2A tile B04 / B08, ORB6 η CrB, JPL Horizons). Measure CPU / RAM by sampling
+/proc once per second (whole tree RSS) — run nothing else meanwhile. Compare with the round-2 table; fix only what
+the numbers show, measure again, write the result here.
+
+**R5 still to do (in order):**
+1. `sh tools/precommit.sh` green; CI green for the newest commit (GitHub Actions `ci`, runs 140+).
+2. Last check of every page and button in the four languages (offscreen screenshots of each page in tr/en/de/es;
+   look at texts cut off, untranslated texts, buttons that do nothing; the Workflow lines must fit when folded).
+3. Release: raise `__version__` in `src/astrowb/__init__.py` (now "0.2.2") to "0.2.3", push, then run the `ci`
+   workflow by `workflow_dispatch` on main with input `release=true` (tags pushed from the container are cut by the
+   proxy). The owner HAS authorised this release ("publish the latest release when you think it is ready"). Update
+   this file.
+4. Give the owner (in Turkish, plain language) the final explanation: BLS / ANOVA / PDM / Lomb–Scargle, RV (CCF,
+   BF, TODCOR, orbit, Lucy–Sweeney), spectra (long slit, echelle, atlas, already-extracted path), O−C, photometry;
+   what was tested against what (tables in this file) and what was fixed; **step by step how to use Spectroscopy,
+   RV and O−C, mapped to the IRAF tasks he knows** (ccdproc → Calibrate; apall → Extract / Find the orders;
+   identify / ecidentify → click arc lines + atlas labels; dispcor → Fit wavelengths…; continuum → Spectrum tools;
+   telluric → Telluric; fxcor → Radial velocity). This explanation goes in the chat, not in the repo.
+
 ### Release campaign R (session 019Lu3, from 2026-11-06 ~16:00 UTC) — CURRENT PLAN, read first
 
 **Owner's request (2026-11-06, summarised):** finish the other agent's open work (P12 stopped half-way, then P13);
@@ -249,8 +333,8 @@ planned in stages, this file updated as each step is claimed and done; when the 
 | R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | DONE (see the R1 note below the table) |
 | R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | DONE (note below) |
 | R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | DONE (note below) |
-| R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | CLAIMED |
-| R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
+| R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | IN PROGRESS — see **START HERE** below |
+| R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open — see **START HERE** below |
 
 **R3 progress (session 019Lu3).** (1) Photometry page before the light curve, 265 Qatar-1 frames (2400 x 2400 fpack),
 measured with the same script before / after on a warm disk cache: `photometry.quality` 137 s -> 80 s (frames
@@ -277,8 +361,8 @@ from ESO). **R3 DONE.**
 
 **R2 progress (session 019Lu3).** Done and pushed: `StepGuide` (ui/workspaces.py) — "Order of work" at the top of
 the Reduce, Echelle and Radial velocity tabs and the O−C page: the steps in IRAF's order (task names in brackets), each
-✓ done / – skipped / ▶ now, and a "Now:" line saying what to do. Echelle: buttons renumbered 3–6 to match; **extraction
-waits for the order check** (the first press shows the orders on the flat); raw (uncalibrated) frames are named in the
+✓ done / – skipped / ▶ now, and a "Now:" line saying what to do. Echelle: buttons renumbered 3–6 to match; (the first version made extraction wait for the order check — **the
+owner rejected that on 2026-11-06, it is removed: nothing may be locked**, see START HERE); raw (uncalibrated) frames are named in the
 status (`calibrated()` reads CALB / CALD / ZEROCOR / DARKCOR / CCDPROC). **Atlas help** (Reduce and Echelle): after three
 identified lines in an order (or five in two orders for the others) the line list's lines that fall on arc peaks are
 labelled on the arc, only between the identified lines and never an ambiguous (blended) line; a click on such a peak
@@ -780,7 +864,7 @@ the work to the next agent with this file. State at that moment:
   types per fibre, echelle order finding (fibre-B ghosts), extraction width from the orders' FWHM, piecewise
   continuum normalisation for long spectra, Plan chart English + local time axis + "Local time (hours from UTC)" box.
 
-### Still to do (in this order)
+### Older to-do list of the fifth campaign (every item done or moved into campaign R; kept for its details)
 1. **Check CI** for `aa311ae` … `339bb16`; fix anything red (reproduce locally first, then push).
    Watch especially: `tests/test_calibration.py::test_harps_raw_frames_two_fibres_prescan_and_primary_header`,
    `tests/test_echelle.py` (two new tests), `tests/test_spectroscopy.py::test_a_merged_echelle_spectrum_is_normalised_in_pieces`,
@@ -1554,57 +1638,3 @@ interpolated in temperature (running numbers) within each luminosity class, × q
   has flux. The MK type no longer fails when the Pickles library cannot be downloaded (it did in this container,
   SSL error from ssb.stsci.edu): the page shows the MK type and says to choose a template. Test:
   `test_mk_suggestion_is_drawn_and_survives_without_the_template_library`.
-
-## Earlier "next steps" list (kept for its details; superseded by the task board)
-
-
-1. **Long slit, curved traces (FLOYDS) — DONE (commit after `331d620`):** read first: IRAF apextract `aptrace.x`
-   (`git clone --sparse https://github.com/iraf-community/iraf`, `noao/twodspec/apextract`: steps of `step`
-   columns summing `nsum`, each centre found from the previous one with `center1d`, lost after `nlost` steps, then
-   an interactive Legendre fit) and specreduce 1.9 `FitTrace` (fixed window around one guess, so it does not follow
-   a bend either). `longslit.trace` now does what aptrace does; the Reduce tab has **Spectrum at row** (0 = the
-   brightest) so the user chooses which spectrum, and the traced line with the aperture is drawn on the frame under
-   the plots, so the user checks it (as aptrace shows its fit). Both FLOYDS orders are followed (within 1 px of the
-   ridge over the illuminated part); the extracted blue order of BD+28 4211 shows its Balmer lines.
-   Still open for FLOYDS: TRIMSEC 'UNKNOWN' and a DATASEC that includes the BIASSEC columns (trim the overscan strip
-   off the data section); wavelengths. **The LCO FLOYDS pipeline** (`git clone https://github.com/LCOGT/floyds_pipeline`,
-   `src/floyds/archive/<tel>/en06/arc/{red,blu}/<slit>/`) keeps, per telescope, arm and slit width, a reference arc
-   spectrum and an IRAF `identify` database (`database/idftn_red_2.0`: pixel, fitted and user wavelength, line name;
-   Hg 5460.75 and Ar I lines) — exactly the instrument "atlas" the owner remembers. Their pixels are on their
-   rectified, trimmed frame, so they do not map onto ours by a shift and scale (tried). Idea to discuss with the
-   owner: **"Load identifications from an IRAF database"** in the Reduce / Echelle tabs, filling the editable table
-   of identified lines (the user checks and corrects them; a shift search like IRAF reidentify as an option).
-2. **Spectral classification:** read MKCLASS (rules on line ratios at a known resolution) and iSpec; decide with
-   the owner whether to show it only as a ranked suggestion with scores (keep the user's choice of template).
-3. **User control review, page by page** (owner: nothing silently automatic): list every automatic choice
-   (suggested comparison stars, automatic apertures, outlier clipping, line auto-identification, order tracing,
-   template choice, BJD site from the header) and make sure each is visible, explained and can be overridden.
-4. Long-slit real data with a simple spectrograph (LHIRES / Alpy-like amateur data, or another public archive);
-   ESO / LAMOST reduced spectra for the RV and line tools.
-5. Photometry with real ground data and many frames (the two Zenodo nights have only 1-2 science frames): a
-   public time series (e.g. LCO or an AAVSO-style night) through the whole Photometry page, the AAVSO export and the
-   standard magnitudes (needs CDS, blocked here).
-6. CI: confirm green for the latest commits. Release only after asking the owner.
-7. Undo / redo for the remaining editors (Spectrum tools into the same Ctrl+Z; Plan / Observe / Models tables).
-
-### How to do the remaining tasks (suggestions of the last agent)
-
-- **T4 user-control review:** go page by page with `/tmp/claude-0/real/harness.py` (or a new script) and list each
-  automatic choice: suggested comparison stars (Photometry), automatic apertures ("Choose the radii from the star
-  profiles"), outlier clipping (Period search), arc line auto-matching (Reduce / Echelle: the line list after the
-  user's identifications), order tracing on the flat, template choice (Pickles best → RV template), BJD site from
-  the header (velocities), camera clock offset, dark scaling. For each: is it shown, explained (tooltip/status), and
-  can the user override it? Fix the gaps; write the list here.
-- **T8 error messages:** `tests/test_messages.py::test_every_engine_error_has_a_template` already forces a
-  template for every engine `raise`. Remaining: messages raised in `ui/` code (QMessageBox texts, status texts)
-  — check that each says what happened and what to do; check `translate()` is applied to engine texts shown in
-  the UI (grep `str(e)` in `src/astrowb/ui/*.py`; several places show `str(e)` without `translate`).
-- **T9 real ground photometry:** needs a public multi-frame night (e.g. LCO archive public imaging of a known
-  eclipsing binary or exoplanet transit: `https://archive-api.lco.global/frames/?RLEVEL=91&public=true&OBJECT=…`;
-  check the BANZAI-reduced e91 frames). Run calibrate (or use e91), photometry, minimum (KvW), AAVSO export;
-  compare the minimum with the literature ephemeris. CDS (VizieR) and AAVSO were blocked from the container.
-- **T10 simple long-slit / archive spectra:** ESO archive 1-D (ADP) spectra or LAMOST DR spectra through RV,
-  line measurement and the new MK type; specreduce-data has raw long-slit sets.
-- **T7 follow-up (optional):** read NutMaat (wheel above) and the MKCLASS paper's rules (Ca II K, hydrogen,
-  G band, Mg b luminosity criteria) to add peculiarity hints; draw the star over the best MK standard (the step
-  returns `mk_model`).
