@@ -283,8 +283,14 @@ starting, mark DONE with results):**
   Calibrate 523, Light curves 486, Spectroscopy 683 — same treatment next if the owner meets it (O12).
 - O10 **DONE** "Check frame quality" is now "Find the bad frames (clouds, focus, trails)" with a tooltip saying it is
   optional, what it measures and that nothing is removed by itself; guide 01 / 06 use the new name (4 languages).
-- O11 Spectroscopy: the owner is not sure what he did — a short guided order of steps on the page (later).
-- Then: full local check, push, CI green, release v0.2.1 (manual `release` run).
+- O11 Spectroscopy: the owner is not sure what he did — a short guided order of steps on the page (NOT STARTED;
+  next after the release).
+- O12 Pages still taller than a short window's page area (1100 x 600 → 459 px): Observe 610, Calibrate 523 (fits a
+  1366 x 768 window), Light curves 486, Spectroscopy 683 — give them the Plan / Photometry treatment (fields in
+  their own scroll area, plots in splitters) if the owner meets it. Measuring script: show every workspace in a
+  1100 x 600 window and print `page.minimumSizeHint().height()` against the scroll area's viewport height.
+- Release v0.2.1: **IN PROGRESS** — version raised to 0.2.1; full local check running; then push and the manual
+  `release` run.
 
 **Second update by agent session 01RxUU (2026-11-06, ~07:30 UTC).** The owner asked (in Turkish): (1) a release now
 to try the program; (2) are Lomb–Scargle / BLS / PDM / ANOVA explained in the guide, and do buttons / boxes have hover
