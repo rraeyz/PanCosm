@@ -357,6 +357,17 @@ the work to the next agent with this file. State at that moment:
      and renormalise each component) plus input normalisation differences. To do: disentangle in windows of a few
      hundred A with a renormalisation of each component per window, clip spikes; then re-run this check (expect
      F7 V and K0 IV from the MK standards; the plot script is in the notes below).
+     Tried after that (not committed; experiment code was in the session scratchpad): (a) median instead of mean in
+     the shift-and-add (robust to FEROS spikes): MK match score 0.120 -> 0.070 for the K star and 0.236 -> 0.091 for
+     the F star ("poor" -> "fair") but the types stay wrong (K star G0 V / F8 III, F star B1 Ia); (b) high-pass of
+     the second component (running median 8x or 20x the velocity range) made it worse; (c) renormalising each
+     component by a 25 or 60 A running upper envelope: K star G0 V (fair), F star B1 Ia. Two further reasons the
+     check is weak: the F star gives only ~0.32 of the light, so its disentangled noise is ~4x the input's; and the
+     MK classifier itself puts tau Ceti (G8 V, [Fe/H] −0.5) at G0 V on these FEROS / HARPS spectra (metal-weak stars
+     look earlier by their metal lines; the Sun came out G0 V for G2 V before) — so judge a disentangled component
+     against a template of known type (CCF peak / line depths), not only by the MK type. Suggested next step: median
+     combination (a) + per-window disentangling (100–200 A windows, overlapping) + a test on synthetic composites
+     with spikes and a continuum tilt, then this real check again.
    - **v sin i / broadening function on a real fast rotator — found and fixed a crash.** beta Pic (A6 V), HARPS s1d
      ADP.2025-09-11T01:01:26.555 (S/N 571); template a PHOENIX-ACES model 8000 K / log g 4.0 / [Fe/H] 0 fetched with
      `atmosphere.download_phoenix` and converted to air wavelengths (`vac_to_air`; checked: tau Ceti with a 5400 K
