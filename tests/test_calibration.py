@@ -436,6 +436,39 @@ def test_eso_raw_frames_are_classified_with_their_grism():
         assert f.filter == "OG530 / Gr#16" and f.binning == (2, 2) and f.kind == "flat"
 
 
+def test_harps_raw_frames_two_fibres_prescan_and_primary_header(tmp_path):
+    # a real raw HARPS frame: one chip per extension with 50 prescan + 2048 + 50 overscan columns and no BIASSEC
+    # (245 ADU of bias were left in), the frame type per fibre and the target / site in the primary header only
+    from astrowb.calibration.frames import classify, read_frame
+
+    def frame(kind):
+        primary = fits.PrimaryHDU()
+        primary.header["HIERARCH ESO DPR TYPE"] = kind
+        primary.header["RA"], primary.header["EXPTIME"] = 26.0146, 60.0
+        primary.header["HIERARCH ESO TEL GEOLAT"] = -29.2584
+        data = np.full((8, 20), 245.0, np.float32)
+        data[:, 4:16] += 100.0
+        ext = fits.ImageHDU(data.astype(np.uint16))
+        for k, v in (("PRSCX", 4), ("OVSCX", 4), ("NX", 12), ("NY", 8)):
+            ext.header[f"HIERARCH ESO DET OUT1 {k}"] = v
+        p = tmp_path / f"{kind.replace(',', '_')}.fits"
+        fits.HDUList([primary, ext, ext.copy()]).writeto(p, overwrite=True)
+        return p
+
+    types = ("STAR,WAVE,G8", "LAMP,DARK,TUN", "DARK,LAMP,TUN", "WAVE,WAVE,THAR2")
+    kinds = {k: read_frame(frame(k)).kind for k in types}
+    assert kinds == {"STAR,WAVE,G8": "light", "LAMP,DARK,TUN": "flat", "DARK,LAMP,TUN": "unknown",
+                     "WAVE,WAVE,THAR2": "arc"}  # fmt: skip
+    types = ("BIAS,BIAS", "DARK,DARK", "STAR,DARK,K7")
+    assert [classify(fits.Header({"HIERARCH ESO DPR TYPE": k})) for k in types] == ["bias", "dark", "light"]
+    # UVES writes source,type: left to the patterns
+    assert [classify(fits.Header({"HIERARCH ESO DPR TYPE": k})) for k in ("LAMP,FLAT", "LAMP,WAVE")] == ["flat", "arc"]
+    data, header = masters.load(frame("STAR,WAVE,G8"))
+    assert data.shape == (8, 12) and np.allclose(data, 100.0)
+    assert header["OVERSCAN"] == pytest.approx(245.0) and header["RA"] == 26.0146
+    assert header["HIERARCH ESO TEL GEOLAT"] == -29.2584
+
+
 def test_a_flat_matches_whatever_its_gain_but_not_another_read_out_mode():
     from astrowb.calibration.frames import Frame
     from astrowb.calibration.matching import best_bias, best_flat

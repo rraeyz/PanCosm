@@ -12,7 +12,7 @@ from pathlib import Path
 from astropy.io import fits
 
 from ..hdr import number
-from ..io.fits import find_image_hdu
+from ..io.fits import find_image_hdu, inherited
 
 KINDS = ("bias", "dark", "flat", "light")
 FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
@@ -57,7 +57,23 @@ def _float(v):
     return number(v)  # '10 s', '-95.5 C' ... as some capture programs write them
 
 
+_FIBRES = {"STAR": "light", "SKY": "light", "WAVE": "arc", "FP": "arc", "BIAS": "bias", "DARK": "dark", "LAMP": "flat"}
+
+
+def _fibre_kind(text):
+    """The kind of a fibre-fed ESO frame from its DPR TYPE 'fibre A,fibre B[,lamp]' (HARPS: 'STAR,WAVE,G8' is a star
+    with the ThAr reference beside it, 'LAMP,DARK,TUN' the tungsten flat of fibre A): fibre A, the science fibre,
+    decides; a frame lit in fibre B only is no frame for fibre A. None when the text is not of this form (UVES
+    'LAMP,FLAT', 'LAMP,WAVE' are left to the patterns)."""
+    t = [s.strip().upper() for s in str(text).split(",")]
+    if len(t) < 2 or t[0] not in _FIBRES or t[1] not in _FIBRES or (t[0] == "LAMP" and "TUN" not in t[2:]):
+        return None
+    return "unknown" if t[0] == "DARK" and t[1] != "DARK" else _FIBRES[t[0]]
+
+
 def classify(header, filename: str = "") -> str:
+    if kind := _fibre_kind(_first(header, "HIERARCH ESO DPR TYPE") or ""):
+        return kind
     for text in [str(_first(header, k) or "") for k in _TYPE_KEYS] + [Path(filename).name]:
         for kind, pattern in _PATTERNS:
             if text and pattern.search(text):
@@ -70,8 +86,9 @@ def classify(header, filename: str = "") -> str:
 
 def read_frame(path: Path) -> Frame:
     with fits.open(path, memmap=True) as hdul:
-        hdu = hdul[find_image_hdu(hdul)]
-        h = hdu.header
+        i = find_image_hdu(hdul)
+        hdu = hdul[i]
+        h = inherited(hdul, i)  # the frame type of a multi-extension raw frame (HARPS) is in the primary header
         shape = tuple(int(n) for n in hdu.shape[-2:])
         cube = len(hdu.shape) > 2
     if cube:  # colour cubes and one-plane cubes: calibrated as their 2-D image (a copy in fits_from_raw)

@@ -155,15 +155,20 @@ def echelle_step(inputs, params, ctx):
     gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
     ctx.progress(0.3, "extraction")
     method = "optimal" if params["optimal"] else "boxcar"
+    # three times the orders' width: a fibre's whole light without the second fibre beside it (HARPS's ThAr
+    # reference lies 17 px from the star in orders 34 px apart; 70 % of the spacing put its lines in the star)
+    fwhm = echelle.profile_fwhm(flat if flat is not None else data, coefs)
+    width = 3 * fwhm if fwhm else None
     flux, err = echelle.extract(
-        data, coefs, method=method, subtract_sky=params["sky"], gain=gain, read_noise=params["read_noise"]
+        data, coefs, width, method=method, subtract_sky=params["sky"], gain=gain, read_noise=params["read_noise"]
     )
-    bl = echelle.blaze(echelle.extract(flat, coefs, method="boxcar")[0]) if flat is not None else None
+    bl = echelle.blaze(echelle.extract(flat, coefs, width, method="boxcar")[0]) if flat is not None else None
     nx = data.shape[1]
     first = params["first_order"]
     orders = None if first is None else [int(first) + params["order_step"] * k for k in range(len(coefs))]
     out = {
         "n_orders": len(coefs),
+        "width": width,  # extraction width (pixels) chosen from the orders' profile
         "orders": orders,
         "flux": flux.tolist(),
         "error": err.tolist(),
@@ -177,7 +182,7 @@ def echelle_step(inputs, params, ctx):
     }
     if inputs.get("arc"):
         ctx.progress(0.6, "arc")
-        arc = echelle.extract(_load(inputs["arc"], params)[0], coefs, method="boxcar", subtract_sky=False)[0]
+        arc = echelle.extract(_load(inputs["arc"], params)[0], coefs, width, method="boxcar", subtract_sky=False)[0]
         peaks = [wavecal.find_lines(a) for a in arc]
         out["arc"], out["arc_peaks"] = arc.tolist(), [p.tolist() for p in peaks]
         if inputs.get("guesses") and orders is not None:

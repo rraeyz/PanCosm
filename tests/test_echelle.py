@@ -84,6 +84,30 @@ def test_orders_found_and_traced(frames, traces):
         assert np.max(np.abs(np.polyval(coef, x) - order_y(x, m))) < 0.15
 
 
+def test_faint_bumps_beside_orders_are_not_orders():
+    # a fibre-A flat of a two-fibre spectrograph (HARPS) shows the other fibre's leak or a ghost beside some orders
+    rng = np.random.default_rng(1)
+    y = np.arange(400)[:, None]
+    centres = 30.0 + 40.0 * np.arange(9)
+    flat = 250.0 + rng.normal(0, 3, (400, 512))
+    for k, c in enumerate(centres):
+        flat += 10000.0 * (0.8 + 0.05 * k) * np.exp(-0.5 * ((y - c) / 1.6) ** 2)
+        flat += (60.0 if k % 3 == 0 else 0.0) * np.exp(-0.5 * ((y - c - 9.0) / 1.6) ** 2)
+    rows = echelle.find_orders(flat)
+    assert len(rows) == len(centres)
+    assert np.max(np.abs(rows - centres)) < 0.1
+
+
+def test_the_width_follows_the_orders_not_their_spacing(frames, traces):
+    fwhm = echelle.profile_fwhm(frames["flat"], traces)
+    assert fwhm == pytest.approx(2.3548 * SIGMA_Y, rel=0.05)
+    # a second fibre halfway between the orders (HARPS's ThAr reference): its light stays out of the first fibre
+    y, x = np.arange(NY)[:, None], np.arange(NX)
+    other = sum(np.exp(-0.5 * ((y - order_y(x, m)[None, :] - 11.0) / SIGMA_Y) ** 2) for m in ORDERS)
+    leak, _ = echelle.extract(other, traces, 3 * fwhm, method="boxcar", subtract_sky=False)
+    assert np.max(leak[1:-1]) < 0.005 * np.sqrt(2 * np.pi) * SIGMA_Y  # 70 % of the spacing took 2 %
+
+
 def test_wavelength_solution_and_order_numbers(frames, traces):
     arc, _ = echelle.extract(frames["arc"], traces, method="boxcar", subtract_sky=False)
     peaks = [wavecal.find_lines(a) for a in arc]

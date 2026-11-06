@@ -34,7 +34,18 @@ def find_orders(flat, min_separation=6, snr=10.0, band=21):
     cut = np.nanmedian(flat[:, max(0, c - band // 2) : c + band // 2 + 1], axis=1)
     base = np.nanpercentile(cut, 5)
     noise = 1.4826 * np.nanmedian(np.abs(np.diff(cut))) / np.sqrt(2) + 1e-9
-    peaks, _ = find_peaks(cut - base, height=snr * noise, distance=min_separation, prominence=snr * noise)
+    peaks, props = find_peaks(cut - base, height=snr * noise, distance=min_separation, prominence=snr * noise)
+    # neighbouring orders differ little in brightness; a bump a tenth of its neighbour or fainter is the other
+    # fibre's light leaking in or a ghost (a real HARPS fibre-A flat: 33-119 ADU beside orders of 2000-25000)
+    prom, keep = props["prominences"], np.ones(len(peaks), bool)
+    while keep.sum() > 1:
+        idx = np.flatnonzero(keep)
+        p = prom[idx]
+        weak = p < 0.1 * np.maximum(np.r_[0.0, p[:-1]], np.r_[p[1:], 0.0])
+        if not weak.any():
+            break
+        keep[idx[weak]] = False
+    peaks = peaks[keep]
     rows = []
     for p in peaks:  # parabola through the three highest samples
         if 0 < p < ny - 1:
@@ -138,15 +149,41 @@ def _gaps(coefs, nx):
     return 0.5 * np.minimum(left, right)
 
 
+def profile_fwhm(image, coefs, band=21):
+    """Median full width at half maximum (pixels) of the orders across the dispersion at the central columns, or
+    None. The half-maximum crossings beside the peak: another fibre's light a little further out does not count."""
+    ny, nx = image.shape
+    c = nx // 2
+    cols = np.asarray(image[:, max(0, c - band // 2) : c + band // 2 + 1], float)
+    out = []
+    for coef, g in zip(coefs, _gaps(coefs, nx), strict=True):
+        y0 = np.polyval(coef, c)
+        p = np.nanmedian(cols[int(max(0, y0 - g)) : int(min(ny, y0 + g + 1))], axis=1)
+        if len(p) < 5:
+            continue
+        p = p - np.nanmin(p)
+        k = int(np.nanargmax(p))
+        half = p[k] / 2
+        lo, hi = k, k
+        while lo > 0 and p[lo - 1] > half:
+            lo -= 1
+        while hi < len(p) - 1 and p[hi + 1] > half:
+            hi += 1
+        if half > 0 and 0 < lo and hi < len(p) - 1:
+            out.append(hi + (p[hi] - half) / (p[hi] - p[hi + 1]) - lo + (p[lo] - half) / (p[lo] - p[lo - 1]))
+    return float(np.median(out)) if out else None
+
+
 def extract(image, coefs, width=None, method="optimal", subtract_sky=True, gain=1.0, read_noise=5.0):
-    """Return (flux, error) arrays of shape (n_orders, nx). Width defaults to 70 % of the order spacing;
-    the sky comes from the inter-order gaps (set subtract_sky=False for arcs and for fibres without gaps)."""
+    """Return (flux, error) arrays of shape (n_orders, nx). The width (pixels; e.g. 3 x profile_fwhm) is at most
+    70 % of the order spacing, which it is by default; the sky comes from the inter-order gaps (set
+    subtract_sky=False for arcs and for fibres without gaps)."""
     image = np.asarray(image, float)
     nx = image.shape[1]
     gaps = _gaps(coefs, nx)
     flux, err = np.zeros((len(coefs), nx)), np.zeros((len(coefs), nx))
     for k, coef in enumerate(coefs):
-        w = width or max(3.0, 1.4 * gaps[k])
+        w = max(3.0, min(width or np.inf, 1.4 * gaps[k]))
         off = w / 2 + max(1.0, 0.25 * (2 * gaps[k] - w))
         sky_w = max(1.0, 2 * gaps[k] - off - 0.5)
         if method == "optimal" and subtract_sky:
