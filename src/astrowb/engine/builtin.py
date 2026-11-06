@@ -179,19 +179,20 @@ def finder_chart_step(inputs, params, ctx):
     return {"chart": path, "labelled": sum(1 for s in stars if s.get("v") is not None)}
 
 
-@step("astrometry.solve", inputs=("image",), outputs=("solved",), radius_deg=30.0)
+@step("astrometry.solve", inputs=("image",), outputs=("solved",), radius_deg=30.0, refine_gaia=True)
 def plate_solve(inputs, params, ctx):
     """Plate-solve an image; the solution goes into a copy (<name>_wcs.fits), the original is untouched."""
     from pathlib import Path
 
     src = Path(inputs["image"])
     ctx.progress(0.0, "plate solving")
-    return {"solved": str(solved_copy(src, params["radius_deg"]))}
+    return {"solved": str(solved_copy(src, params["radius_deg"], params["refine_gaia"]))}
 
 
-def solved_copy(src, radius_deg=30.0):
+def solved_copy(src, radius_deg=30.0, refine_gaia=True):
     """Plate-solve src; the solution goes into a copy (<name>_wcs.fits), the original is untouched. Returns the
-    copy's path."""
+    copy's path. refine_gaia: the solution is then fitted again to Gaia DR3 (gaia.refine_wcs) when the catalogue
+    can be reached; without internet the solver's solution stays and the header says why (ASTRNOTE)."""
     import re
     from pathlib import Path
 
@@ -215,6 +216,21 @@ def solved_copy(src, radius_deg=30.0):
     out = src.with_name(re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", src.name, flags=re.I) + "_wcs.fits")
     fitsio.save_as(src, out, history="copy for plate solving", overwrite=True)
     astrometry.apply_solution(out, wcs, (astrometry.find_solver() or ("", []))[0])
+    if refine_gaia:
+        from .. import gaia
+
+        with fits.open(out, mode="update") as hdul:
+            hdu = hdul[fitsio.find_image_hdu(hdul)]
+            try:
+                refined, info = gaia.refine_wcs(np.asarray(hdu.data, float), hdu.header)
+            except Exception as e:  # noqa: BLE001 - offline, too few stars: the solver's solution is kept
+                hdu.header["ASTRNOTE"] = (f"not refined on Gaia DR3: {e}"[:68], "plate solution")
+            else:
+                astrometry.apply_solution_header(hdu.header, refined)
+                hdu.header.add_history(
+                    f"WCS refitted to {info['matched']} Gaia DR3 stars: rms {info['rms_before']:.2f} -> "
+                    f"{info['rms_after']:.2f} arcsec"
+                )
     return out
 
 

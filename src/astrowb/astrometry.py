@@ -173,6 +173,16 @@ def _read_header(path) -> fits.Header:
         return fits.Header.fromtextfile(path)
 
 
+def apply_solution_header(h, wcs_header) -> None:
+    """Replace the WCS (and SIP terms) in header h by wcs_header."""
+    for key in list(h):  # remove an old solution first
+        if key in _WCS_KEYS or key[:2] in ("A_", "B_") or key[:3] in ("AP_", "BP_") or key in ("ASTCAT", "ASTRNOTE"):
+            del h[key]
+    for key in ("PC1_1", "PC1_2", "PC2_1", "PC2_2", "CDELT1", "CDELT2"):  # astropy writes PC + CDELT, solvers CD
+        h.remove(key, ignore_missing=True)
+    h.update(wcs_header)
+
+
 def apply_solution(path, wcs_header, solver_name="") -> None:
     """Write the WCS into the image's header (for calibrated products, not raw frames)."""
     with fits.open(path, mode="update") as hdul:

@@ -249,7 +249,20 @@ Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int 
   are folded in Basic; "basic" sections (Spectroscopy's order of work) the other way; applied to every built page
   and to pages built later (`MainWindow.set_ui_mode`, `_apply_mode`). Nothing is hidden for good. Test
   `test_basic_and_expert_mode`. Guide 01 (4 languages).
-- P3 **CLAIMED (01RxUU)** Gaia DR3 refinement of plate solutions.
+- P3 **DONE** Gaia DR3 refinement of plate solutions (`astrowb/gaia.py`): stars from VizieR (mirrors) or the ESA Gaia
+  archive (gea.esac.esa.int; when its synchronous queue answers 503 "overloaded" the asynchronous queue is used),
+  moved to the frame's epoch by proper motion, cached per cone (x1.3 radius) so a series is fetched once (the ESA
+  archive took 8–53 s per cone here); `refine_wcs` detects the frame's stars (starmatch.stars, not re-centred:
+  median 0.03 px), matches them, fits TAN-SIP (astropy fit_wcs_from_points, degree 3 with ≥ 40 stars), clips
+  blends at 3x the median residual, re-matches 3x; header ASTCAT = Gaia3, ASTRRMS, ASTRNST. `astrometry.solve` step:
+  `refine_gaia=True` (offline → ASTRNOTE says why, solver's WCS kept). The Gaia overlay falls back to the ESA archive
+  too (`gaia.chart_stars`). Real checks: LCO 0.4 m frame of 433 Eros (cpt0m439-sq39-20260808-0080-e91): 141 Gaia
+  stars, against 64 Gaia stars G < 15 centroided independently: BANZAI WCS 0.444", 2MASS solve 0.646", Gaia refit
+  0.021" (median). Eros against JPL Horizons (astrometric, topocentric, mid-exposure), frames 0080/0081/0082:
+  BANZAI dRA +0.26..+0.31 dDec +0.20..+0.24"; 2MASS +0.44..+0.76 / +0.15..+0.38"; Gaia refit −0.108..+0.022 /
+  −0.023..+0.027". Tests `tests/test_gaia_refine.py` (synthetic field shifted 1.9" and turned 0.05°: 0.1" over the
+  frame; too few stars said; cache). Guide 05 (4 languages).
+- P4 **CLAIMED (01RxUU)** Period page error bars.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
