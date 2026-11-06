@@ -20,6 +20,52 @@ def _oriented(data, params):
     return data[:, ::-1] if params.get("reverse") else data
 
 
+def looks_extracted(header):
+    """True when the header says the spectrum is already extracted (one row per order or a single 1-D spectrum):
+    1-D data, an IRAF multispec file (apall / ecidentify input) or an ESO pipeline E2DS (HARPS DRS: one row per
+    order it located)."""
+    return (
+        header.get("NAXIS", 0) == 1
+        or "APNUM1" in header
+        or "multispec" in str(header.get("WAT0_001", ""))
+        or "E2DS" in str(header.get("HIERARCH ESO PRO CATG", "")).upper()
+        or header.get("HIERARCH ESO DRS CAL LOC NBO", -1) == header.get("NAXIS2")
+    )
+
+
+def _extracted(path, params, force=None):
+    """(flux, error or None, header) of an already-extracted spectrum, one row per order (IRAF apall output, a
+    pipeline's e2ds, a 1-D spectrum), or None for a frame still to be extracted. force: the user's choice, None:
+    from the header (looks_extracted). Wavelength calibration only, as IRAF identify / ecidentify on apall output."""
+    from astropy.io import fits
+
+    from ..io.fits import inherited
+    from ..io.lzw import readable
+
+    with fits.open(readable(path)) as hdul:
+        i = next(k for k, h in enumerate(hdul) if h.is_image and h.header.get("NAXIS", 0) >= 1)
+        header = inherited(hdul, i)
+        if not (force if force is not None else looks_extracted(header)):
+            return None
+        data = np.asarray(hdul[i].data, float)
+    err = None
+    if data.ndim == 3:  # IRAF bands: spectrum, raw, sky, sigma (BANDIDn)
+        band = [str(header.get(f"BANDID{k + 1}", "")).lower() for k in range(data.shape[0])]
+        err = next((data[k] for k, b in enumerate(band) if "sigma" in b), None)
+        data = data[0]
+    flux = np.atleast_2d(data)
+    err = None if err is None else np.atleast_2d(err)
+    if params.get("reverse"):
+        flux, err = flux[:, ::-1], (None if err is None else err[:, ::-1])
+    return flux, err, header
+
+
+def _poisson(flux, header, params):
+    # shortcut: photon noise of the counts only (the extraction width is not known); give IRAF's sigma band if needed
+    gain = float(params["gain"] or get(header, "EGAIN", "GAIN", default=1.0) or 1.0)
+    return np.sqrt(np.clip(flux, 0, None) / gain + (params["read_noise"] / gain) ** 2)
+
+
 def _thin(profile, n=800):
     """A velocity profile kept at most n points (a CCF of 3000 velocities is drawn as well with 800)."""
     step = max(1, len(profile["v"]) // n)
@@ -56,6 +102,9 @@ def _load(path, params):
 def reduce_step(inputs, params, ctx):
     """2-D long-slit/slitless frame (dispersion along x) -> 1-D spectrum; wavelengths from an arc
     when an arc and at least two identified (pixel, wavelength) pairs are given."""
+    ext = _extracted(inputs["science"], params)
+    if ext is not None:  # an extracted 1-D spectrum: wavelengths only (IRAF identify, dispcor)
+        return {"spectrum": _reduce_extracted(ext, inputs, params, ctx)}
     data, header = _load(inputs["science"], params)
     ctx.progress(0.1, "trace")
     try:
@@ -82,19 +131,39 @@ def reduce_step(inputs, params, ctx):
     else:
         flux, sky = longslit.boxcar(data, coef, w, so, sw)
         err = np.sqrt(np.clip(flux, 0, None) / gain + w * (params["read_noise"] / gain) ** 2)
+    arc1d = None
+    if inputs.get("arc"):
+        ctx.progress(0.7, "arc")
+        arc1d = longslit.boxcar(_load(inputs["arc"], params)[0], coef, w, subtract_sky=False)[0]
+    return {"spectrum": _wavelengths(flux, err, coef.tolist(), sky, arc1d, header, inputs, params)}
+
+
+def _reduce_extracted(ext, inputs, params, ctx):
+    flux, err, header = ext
+    flux = flux[0]
+    err = _poisson(flux, header, params) if err is None else err[0]
+    arc1d = None
+    if inputs.get("arc"):
+        ctx.progress(0.7, "arc")
+        arc1d = _extracted(inputs["arc"], params, True)[0][0]
+        if arc1d.size != flux.size:
+            raise ValueError("the arc and the spectrum differ in length: extract the arc with the same aperture")
+    return _wavelengths(flux, err, None, None, arc1d, header, inputs, params)
+
+
+def _wavelengths(flux, err, trace, sky, arc1d, header, inputs, params):
+    """The extracted spectrum with its wavelength solution from the arc and the identified lines (IRAF identify,
+    dispcor), written to inputs["output"]; sky (beside the trace) gives the zero point from night-sky lines."""
     out = {
         "pixel": np.arange(len(flux)).tolist(),
         "flux": flux.tolist(),
         "error": err.tolist(),
-        "trace": coef.tolist(),
+        "trace": trace,
         "wave": None,
         "arc_peaks": [],
         "solution": None,
     }
-    if inputs.get("arc"):
-        ctx.progress(0.7, "arc")
-        arc, _ = _load(inputs["arc"], params)
-        arc1d, _ = longslit.boxcar(arc, coef, w, subtract_sky=False)
+    if arc1d is not None:
         peaks = wavecal.find_lines(arc1d)
         out["arc"] = arc1d.tolist()
         out["arc_peaks"] = peaks.tolist()
@@ -114,7 +183,7 @@ def reduce_step(inputs, params, ctx):
                 # [pixel, wavelength, residual (A)] of every line used, for the residual plot
                 "lines": [[float(p), float(w), float(w - sol(p))] for p, w in zip(sol.pixels, sol.waves, strict=True)],
             }
-            if params["sky_lines"]:  # the zero point from the night-sky lines (flexure since the arc)
+            if params["sky_lines"] and sky is not None:  # the zero point from the night-sky lines (flexure)
                 shift, lines = wavecal.sky_shift(wave, np.asarray(sky, float))
                 out["sky_shift"] = {"shift": shift, "lines": [list(x) for x in lines]}
                 if shift is not None:
@@ -125,7 +194,7 @@ def reduce_step(inputs, params, ctx):
         header["WAVSOLRM"] = (out["solution"]["rms"], "wavelength solution rms (Angstrom)")
         header["WAVSOLN"] = (out["solution"]["n_lines"], "arc lines used")
         out["path"] = spectrum_io.write(inputs["output"], out["wave"], flux, err, header)
-    return {"spectrum": out}
+    return out
 
 
 @step(
@@ -149,6 +218,7 @@ def reduce_step(inputs, params, ctx):
     scatter=False,
     exclude=[],
     rows=None,
+    extracted=None,
 )
 def echelle_step(inputs, params, ctx):
     """Echelle / cross-dispersed frame -> orders -> one merged spectrum.
@@ -161,7 +231,12 @@ def echelle_step(inputs, params, ctx):
     scattered light (from the gaps between the orders) from the science frame and the flat first. exclude:
     [(order, pixel)] arc lines left out of the wavelength solution by hand. rows: the orders' rows at the central
     column as checked by hand on the Echelle tab (None: found automatically). With an output file the orders
-    are also written one by one (<output>_orders.fits: flux, error and wavelength images, one row per order)."""
+    are also written one by one (<output>_orders.fits: flux, error and wavelength images, one row per order).
+    extracted: the science frame (and the flat and arc with it) is already extracted, one row per order (IRAF apall
+    output, a pipeline's e2ds): wavelengths only, as IRAF ecidentify; None: from the header (looks_extracted)."""
+    ext = _extracted(inputs["science"], params, params["extracted"])
+    if ext is not None:
+        return {"echelle": _echelle_extracted(ext, inputs, params, ctx)}
     data, header = _load(inputs["science"], params)
     flat = _load(inputs["flat"], params)[0] if inputs.get("flat") else None
     ctx.progress(0.1, "trace orders")
@@ -183,11 +258,43 @@ def echelle_step(inputs, params, ctx):
         data, coefs, width, method=method, subtract_sky=params["sky"], gain=gain, read_noise=params["read_noise"]
     )
     bl = echelle.blaze(echelle.extract(flat, coefs, width, method="boxcar")[0]) if flat is not None else None
-    nx = data.shape[1]
+    arc = None
+    if inputs.get("arc"):
+        ctx.progress(0.6, "arc")
+        arc = echelle.extract(_load(inputs["arc"], params)[0], coefs, width, method="boxcar", subtract_sky=False)[0]
+    skies = None
+    if params["sky"] and params["sky_lines"] and arc is not None and inputs.get("guesses"):
+        raw = echelle.extract(data, coefs, width, method="boxcar", subtract_sky=False)[0]
+        skies = raw - echelle.extract(data, coefs, width, method="boxcar", subtract_sky=True)[0]
+    return {"echelle": _echelle_wavelengths(flux, err, bl, coefs, width, arc, skies, header, inputs, params, ctx)}
+
+
+def _echelle_extracted(ext, inputs, params, ctx):
+    flux, err, header = ext
+    err = _poisson(flux, header, params) if err is None else err
+
+    def same(path):
+        a = _extracted(path, params, True)[0]
+        if a.shape != flux.shape:
+            raise ValueError(
+                f"{Path(path).name} has {a.shape[0]} orders of {a.shape[1]} pixels, the science spectrum "
+                f"{flux.shape[0]} of {flux.shape[1]}: extract it with the same apertures"
+            )
+        return a
+
+    bl = echelle.blaze(same(inputs["flat"])) if inputs.get("flat") else None
+    arc = same(inputs["arc"]) if inputs.get("arc") else None
+    return _echelle_wavelengths(flux, err, bl, [], None, arc, None, header, inputs, params, ctx)
+
+
+def _echelle_wavelengths(flux, err, bl, coefs, width, arc, skies, header, inputs, params, ctx):
+    """The orders with their 2-D wavelength solution from the arc and the identified lines (IRAF ecidentify), merged
+    (dispcor, scombine) and written to inputs["output"]; skies (beside the orders) give the night-sky zero point."""
+    nx = flux.shape[1]
     first = params["first_order"]
-    orders = None if first is None else [int(first) + params["order_step"] * k for k in range(len(coefs))]
+    orders = None if first is None else [int(first) + params["order_step"] * k for k in range(len(flux))]
     out = {
-        "n_orders": len(coefs),
+        "n_orders": len(flux),
         "width": width,  # extraction width (pixels) chosen from the orders' profile
         "orders": orders,
         "flux": flux.tolist(),
@@ -200,9 +307,7 @@ def echelle_step(inputs, params, ctx):
         "wave": None,
         "merged": None,
     }
-    if inputs.get("arc"):
-        ctx.progress(0.6, "arc")
-        arc = echelle.extract(_load(inputs["arc"], params)[0], coefs, width, method="boxcar", subtract_sky=False)[0]
+    if arc is not None:
         peaks = [wavecal.find_lines(a) for a in arc]
         out["arc"], out["arc_peaks"] = arc.tolist(), [p.tolist() for p in peaks]
         if inputs.get("guesses") and orders is not None:
@@ -218,9 +323,7 @@ def echelle_step(inputs, params, ctx):
                 exclude=params["exclude"],
             )
             waves = sol.wavelengths(nx)
-            if params["sky"] and params["sky_lines"]:  # zero point from the night-sky lines in the inter-order sky
-                raw = echelle.extract(data, coefs, width, method="boxcar", subtract_sky=False)[0]
-                skies = raw - echelle.extract(data, coefs, width, method="boxcar", subtract_sky=True)[0]
+            if skies is not None:  # zero point from the night-sky lines in the inter-order sky
                 shift, lines = wavecal.sky_shift_orders(waves, skies)
                 out["sky_shift"] = {"shift": shift, "lines": [list(x) for x in lines]}
                 if shift is not None:
@@ -233,10 +336,10 @@ def echelle_step(inputs, params, ctx):
             if inputs.get("output"):
                 header["WAVSOLRM"] = (sol.rms, "echelle wavelength solution rms (Angstrom)")
                 header["WAVSOLN"] = (sol.n_lines, "arc lines used")
-                header["NORDERS"] = (len(coefs), "orders merged")
+                header["NORDERS"] = (len(flux), "orders merged")
                 out["path"] = spectrum_io.write(inputs["output"], w, f, e, header)
                 out["orders_path"] = _write_orders(inputs["output"], waves, flux, err, orders, header)
-    return {"echelle": out}
+    return out
 
 
 @step(

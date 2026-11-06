@@ -282,6 +282,11 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)"),
     # spectroscopy/steps.py
     QT_TRANSLATE_NOOP("Messages", "give a period guess (e.g. from the period search)"),
+    QT_TRANSLATE_NOOP("Messages", "the arc and the spectrum differ in length: extract the arc with the same aperture"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "{file} has {n} orders of {nx} pixels, the science spectrum {m} of {mx}: extract it with the same apertures",
+    ),
     # spectroscopy/longslit.py
     QT_TRANSLATE_NOOP(
         "Messages",

@@ -264,6 +264,49 @@ def test_echelle_step_saves_every_order(frames, tmp_path):
     assert out["solution"]["lines"] and out["solution"]["rms"] < 0.01
 
 
+def test_already_extracted_orders_are_only_wavelength_calibrated(frames, tmp_path):
+    """The owner: "I have a reduced spectrum, I only want the calibration": orders already extracted (IRAF apall
+    output, one row per order with APNUMn) get the same wavelengths as the raw frames give."""
+    from astropy.io import fits
+
+    from astrowb.engine.steps import execute
+
+    paths = {}
+    for name in ("star", "flat", "arc"):
+        paths[name] = tmp_path / f"{name}.fits"
+        fits.PrimaryHDU(frames[name].astype(np.float32)).writeto(paths[name])
+    inputs = {"science": str(paths["star"]), "flat": str(paths["flat"]), "arc": str(paths["arc"])}
+    raw = execute("spectroscopy.echelle", inputs, {}, _Ctx())["echelle"]
+    guesses = []
+    for k in (3, 12):
+        peaks = np.asarray(raw["arc_peaks"][k])
+        for hint in (300, 1024, 1750):
+            px = peaks[np.argmin(np.abs(peaks - hint))]
+            lam = frames["thar"][np.argmin(np.abs(frames["thar"] - wave_true(px, ORDERS[k])))]
+            guesses.append([int(ORDERS[k]), float(px), float(lam)])
+    params = {"first_order": int(ORDERS[0])}
+    full = execute("spectroscopy.echelle", inputs | {"guesses": guesses}, params, _Ctx())["echelle"]
+    for name in ("flux", "arc"):
+        h = fits.Header({f"APNUM{k + 1}": f"{k + 1} {k + 1}" for k in range(raw["n_orders"])})
+        fits.PrimaryHDU(np.asarray(raw[name], np.float32), h).writeto(tmp_path / f"{name}.ec.fits")
+    ext = execute(
+        "spectroscopy.echelle",
+        {"science": str(tmp_path / "flux.ec.fits"), "arc": str(tmp_path / "arc.ec.fits"), "guesses": guesses},
+        params,
+        _Ctx(),
+    )["echelle"]
+    assert ext["n_orders"] == raw["n_orders"] and not ext["traces"]
+    assert np.allclose(ext["wave"], full["wave"], atol=1e-4) and ext["merged"]
+    fits.PrimaryHDU(np.asarray(raw["arc"], np.float32)[:-1]).writeto(tmp_path / "short.fits")
+    with pytest.raises(ValueError, match="same apertures"):
+        execute(
+            "spectroscopy.echelle",
+            {"science": str(tmp_path / "flux.ec.fits"), "arc": str(tmp_path / "short.fits")},
+            params,
+            _Ctx(),
+        )
+
+
 def test_echelle_tab_leaves_out_clicked_lines(qtbot, tmp_path):
     from types import SimpleNamespace
 
@@ -437,9 +480,10 @@ def test_drift_of_a_lamp_spectrum_as_harps_measures_it():
 
 
 def test_order_of_work_and_the_atlas_on_the_echelle_tab(frames, tmp_path, qtbot):
-    """The owner: "even if found automatically, the user must check the orders"; and IRAF identify labels the line
-    list's lines once a first fit exists. Extraction first shows the orders; after three lines in an order the arc
-    peaks carry the line list's wavelengths, right and only between the identified lines."""
+    """The order of work guides and never locks (the owner: "I have a reduced spectrum, I only want the
+    calibration — must I start over?"): extraction runs without the order check, extracted orders skip it; and IRAF
+    identify labels the line list's lines once a first fit exists: after three lines in an order the arc peaks
+    carry the line list's wavelengths, right and only between the identified lines."""
     from astropy.io import fits
 
     from astrowb.ui.spectro_page import EchelleTab
@@ -452,9 +496,18 @@ def test_order_of_work_and_the_atlas_on_the_echelle_tab(frames, tmp_path, qtbot)
     for row in (tab.science, tab.flat, tab.arc):
         row.edit.setText(str(flat))
     assert tab.guide.states[:2] == ["skipped", "done"] and tab.guide.current() == 2  # raw frames: noted, not blocked
-    with qtbot.waitSignal(tab.orders_requested):
-        tab.extract_button.click()  # not extracted yet: the orders are shown to be checked first
-    assert "check the orders" in tab.status.text().lower()
+    with qtbot.waitSignal(tab.reduce_requested) as sig:
+        tab.extract_button.click()  # orders not checked: extracted as found automatically
+    assert "rows" not in sig.args[1] and sig.args[1]["extracted"] is False
+    ec = tmp_path / "orders.ec.fits"
+    fits.PrimaryHDU(np.ones((5, 100), np.float32), fits.Header({"APNUM1": "1 1"})).writeto(ec)
+    tab.science.edit.setText(str(ec))
+    assert tab.extracted.isChecked() and not tab.find_button.isEnabled()
+    assert tab.guide.states[0] == tab.guide.states[2] == "skipped"
+    with qtbot.waitSignal(tab.reduce_requested) as sig:
+        tab.extract_button.click()
+    assert sig.args[1]["extracted"] is True
+    assert "Workflow" in tab.guide.box.button.text() and not tab.guide.box.content.isVisible()
     traces = echelle.trace_orders(frames["flat"])
     arc, _ = echelle.extract(frames["arc"], traces, method="boxcar", subtract_sky=False)
     peaks = [wavecal.find_lines(a) for a in arc]
