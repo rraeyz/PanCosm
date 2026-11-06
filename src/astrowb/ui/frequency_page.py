@@ -41,6 +41,36 @@ class FrequencyPage(QWidget):
             self,
         )
         info.setWordWrap(True)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Get the light curve on the Period search tab"),
+                    self.tr(
+                        "Load or download the light curve on the Period search tab: it is used here as it is there, "
+                        "edits included."
+                    ),
+                ),
+                (
+                    self.tr("Prewhiten frequency by frequency down to S/N 4 (as Period04)"),
+                    self.tr("Set the highest frequency and the S/N limit, then press Analyse frequencies."),
+                ),
+                (
+                    self.tr("Check the frequencies and the residuals"),
+                    self.tr(
+                        "Read the table (frequency, amplitude, phase, S/N). Peaks 1 c/d apart in ground-based data "
+                        "are often aliases of each other."
+                    ),
+                ),
+                (
+                    self.tr("Optional: times of maximum to the O-C diagram"),
+                    self.tr("Press Send maxima to the O-C diagram."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         lay.addWidget(info)
         form = QFormLayout()
         self.f_max = QDoubleSpinBox(self)
@@ -115,6 +145,7 @@ class FrequencyPage(QWidget):
         self.to_oc.setToolTip(
             self.tr("The times of maximum go to the O−C tab, for a period change of a pulsating star")
         )
+        self.to_oc.clicked.connect(lambda: self.guide.set_state(3, "done"))
         lay.addWidget(self.to_oc)
         split.addWidget(left)
         self.plot = PlotCanvas(self)
@@ -139,6 +170,8 @@ class FrequencyPage(QWidget):
 
     def show_result(self, out):
         self.result = out
+        for i in (0, 1):
+            self.guide.set_state(i, "done")
         rows = out["frequencies"]
         self.table.setRowCount(len(rows))
         for r, row in enumerate(rows):

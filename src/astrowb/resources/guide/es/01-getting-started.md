@@ -1,6 +1,8 @@
 # Primeros pasos
 La aplicación cubre todo el trabajo de observación en una sola ventana: elegir objetivos, planificar la noche, observar, calibrar, medir, modelar e informar. Puede empezar en cualquier paso con los datos que ya tenga.
 
+Cada página y pestaña de trabajo tiene arriba una línea plegada **Flujo de trabajo** que nombra el paso siguiente. Al pulsarla se ve el orden de trabajo habitual (la tarea de IRAF entre paréntesis cuando la hay), cada paso marcado como hecho (✓), omitido (–) o siguiente (▶), y qué hacer en el paso siguiente. Es una guía, nunca un bloqueo: empiece en el paso donde estén sus datos —un espectro ya extraído solo necesita sus longitudes de onda, una curva de luz de un archivo no necesita fotometría— y omita lo que sus datos no necesiten.
+
 ## El primer inicio
 La primera vez que se abre, la aplicación muestra una breve ventana de bienvenida en inglés con tres opciones:
 

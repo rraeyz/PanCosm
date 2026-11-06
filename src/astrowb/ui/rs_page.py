@@ -46,6 +46,36 @@ class RemoteSensingPage(QWidget):
         side = QWidget(self)
         lay = QVBoxLayout(side)
         lay.addWidget(_title(self.tr("Remote sensing"), self))
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Open the image, or the band files of one scene"),
+                    self.tr("Press Open image…; for Sentinel-2 or Landsat select all band files of the scene at once."),
+                ),
+                (
+                    self.tr("Check which band is which"),
+                    self.tr(
+                        "Check the BLUE, GREEN, RED, NIR and SWIR band choices: they are filled from the file names "
+                        "where possible."
+                    ),
+                ),
+                (
+                    self.tr("Compute an index (NDVI, NDWI…) or your own formula"),
+                    self.tr("Choose an index or type a formula and press Compute."),
+                ),
+                (
+                    self.tr("Optional: classify (k-means) or principal components"),
+                    self.tr(
+                        "Classify (k-means) groups similar pixels; Principal components finds the main patterns of "
+                        "the bands."
+                    ),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         open_button = QPushButton(self.tr("Open image (GeoTIFF, FITS, JPEG2000, NetCDF, HDF5)…"), self)
         open_button.clicked.connect(self._open)
         open_button.setToolTip(
@@ -152,6 +182,8 @@ class RemoteSensingPage(QWidget):
             return
         r = self.raster
         self.products = {}
+        self.guide.reset()
+        self.guide.set_state(0, "done")
         self.show_combo.blockSignals(True)
         self.show_combo.clear()
         self.show_combo.addItems(r.names)
@@ -238,6 +270,8 @@ class RemoteSensingPage(QWidget):
 
         n = raster.band_count(product["path"])
         stem = Path(product["path"]).stem
+        for i in (1, 2):
+            self.guide.set_state(i, "done")
         names = [stem] if n == 1 else [f"{stem}{i + 1}" for i in range(n)]  # one entry per component
         for i, name in enumerate(names):
             self.products[name] = (product["path"], i)

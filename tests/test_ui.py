@@ -1116,3 +1116,30 @@ def test_basic_and_expert_mode(window):
     assert not window.spectro_page.steps.content.isVisibleTo(window.spectro_page)
     window.expert_action.setChecked(False)
     assert window.settings.get("ui.mode") == "basic" and window.start_page.basic.isChecked()
+
+
+def test_every_working_page_has_a_folded_workflow(window):
+    """The owner: not knowing what to do and how was the confusion on every page; a folded "Workflow" line names
+    the next step, opens to the usual order, and never locks a step (data can start half way)."""
+    from astrowb.ui.workspaces import StepGuide
+
+    def page_of(g):  # the nearest parent that is a page or a tab of the program, not a Qt container
+        w = g.parent()
+        while type(w).__module__.startswith("PySide6"):
+            w = w.parent()
+        return w
+
+    for name in list(window.workspaces):
+        window.show_workspace(name)  # pages are built when first shown
+    guides = window.findChildren(StepGuide)
+    owners = {type(page_of(g)).__name__ for g in guides}
+    for page in ("CalibratePage", "PhotometryPage", "PeriodPage", "FrequencyPage", "VarFindPage", "OCPage",
+                 "PlanPage", "RemoteSensingPage", "ReduceTab", "EchelleTab", "TelluricTab", "VelocityTab",
+                 "SpectrumToolsTab", "ModelsPage"):  # fmt: skip
+        assert page in owners, page
+    for g in guides:
+        assert not g.box.button.isChecked() and g.box.button.text().startswith("Workflow")
+    period = next(g for g in guides if type(page_of(g)).__name__ == "PeriodPage")
+    page = page_of(period)
+    page.set_light_curve(list(range(20)), [1.0] * 20, "test")
+    assert period.states[0] == "done" and "next: 2." in period.box.button.text()

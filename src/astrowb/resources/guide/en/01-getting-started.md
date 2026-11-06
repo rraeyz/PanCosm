@@ -1,6 +1,8 @@
 # Getting started
 The application covers the whole observing workflow in one window: choose targets, plan the night, observe, calibrate, measure, model and report. You can enter at any step with the data you already have.
 
+Every working page and tab has a folded **Workflow** line at the top that names the next step. Click it to see the usual order of work (the IRAF task in brackets where there is one), each step marked done (✓), skipped (–) or next (▶), and what to do for the next step. It is a guide, never a lock: start at the step where your data are — a spectrum already extracted needs only its wavelengths, a light curve from an archive needs no photometry — and skip what your data do not need.
+
 ## The first start
 The first time the application opens it shows a short welcome window in English with three choices:
 

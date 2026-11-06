@@ -1280,11 +1280,38 @@ class TelluricTab(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Choose the spectrum and a telluric standard of the same night (IRAF telluric)"),
+                    self.tr(
+                        "Choose the calibrated 1-D spectrum and a hot, fast-rotating star observed at a similar "
+                        "airmass."
+                    ),
+                ),
+                (
+                    self.tr("Correct and save"),
+                    self.tr("Press Correct and save: the strength and the shift of the telluric lines are fitted."),
+                ),
+                (
+                    self.tr("Measure the velocity"),
+                    self.tr("Measure the corrected spectrum on the Radial velocity tab."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         spectra = FITS + ";;Text (*.txt *.dat *.csv)"
         self.spectrum = _FileRow(self.tr("Spectrum (1-D)"), self, spectra)
         self.standard = _FileRow(self.tr("Telluric standard (hot, fast-rotating star)"), self, spectra)
         lay.addWidget(self.spectrum)
         lay.addWidget(self.standard)
+        for row in (self.spectrum, self.standard):
+            row.edit.textChanged.connect(
+                lambda *_: self.guide.set_state(0, "done" if self.spectrum.text() and self.standard.text() else None)
+            )
         lay.addWidget(
             QLabel(
                 self.tr(
@@ -1324,6 +1351,8 @@ class TelluricTab(QWidget):
         self.correct_requested.emit({"spectrum": str(src), "standard": self.standard.text(), "output": str(out)}, {})
 
     def show_result(self, r):
+        for i in (0, 1):
+            self.guide.set_state(i, "done")
         self.plot.figure.clear()
         ax, ax2 = self.plot.figure.subplots(2, 1, sharex=True)
         ax.plot(r["wave"], r["flux"], lw=0.6, color="gray", label=self.tr("before"))

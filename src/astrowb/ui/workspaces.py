@@ -125,6 +125,10 @@ class StepGuide(QWidget):
     def current(self):
         return next((i for i, s in enumerate(self.states) if s is None), None)
 
+    def reset(self):
+        self.states = [None] * len(self.steps)
+        self._refresh()
+
     def _refresh(self):
         now = self.current()
         for i, ((title, _), label, st) in enumerate(zip(self.steps, self.labels, self.states, strict=True)):
@@ -929,6 +933,38 @@ class CalibratePage(QWidget):
         left, right = QWidget(self), QWidget(self)  # 1. the frames | 2.–4. what is done with them
         lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Calibrate"), self))
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Choose the folders of the lights and of the bias, dark and flat frames, then Scan"),
+                    self.tr(
+                        "Choose the light frames' folder and the calibration frames' folder (Browse…), then press Scan."
+                    ),
+                ),
+                (
+                    self.tr("Check the frame types found (IRAF ccdlist)"),
+                    self.tr(
+                        "Check the table: each frame's type, exposure, filter and temperature. Double-click a wrong "
+                        "type to change it, and read the problems listed under the table."
+                    ),
+                ),
+                (
+                    self.tr(
+                        "Combine the masters and calibrate the lights (zerocombine, darkcombine, flatcombine, ccdproc)"
+                    ),
+                    self.tr(
+                        "Choose where to write the results and press 3. Calibrate. For spectra tick Spectra: do not "
+                        "divide by the flat."
+                    ),
+                ),
+                (
+                    self.tr("Measure them, or stack them (phot, imcombine)"),
+                    self.tr("Press 4. Measure them on the Photometry page →, or stack them into one deep picture."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         lay.addWidget(QLabel(self.tr("1. Choose your frames: the lights and the calibration frames (BDF)."), self))
         hint = QLabel(
             self.tr(
@@ -1137,6 +1173,7 @@ class CalibratePage(QWidget):
             self.tr("Sends the calibrated lights to the Photometry page and opens it (a light curve, a variable star)")
         )
         self.photometry_button.clicked.connect(lambda: self.photometry_requested.emit(list(self.calibrated)))
+        self.photometry_button.clicked.connect(lambda: self.guide.set_state(3, "done"))
         lay.addWidget(self.photometry_button)
         self.stack_button = QPushButton(self.tr("Or: stack them into one deep picture (not for a light curve)"), self)
         self.stack_button.setEnabled(False)
@@ -1251,6 +1288,7 @@ class CalibratePage(QWidget):
     def _stack(self):
         """One stack per filter (a colour camera's R, G, B channels are filters TR, TG, TB): frames taken through
         different filters must never be combined."""
+        self.guide.set_state(3, "done")
         name = "drizzle" if self.drizzle.isChecked() else "stack"
         groups = by_filter(self.calibrated)
         single = [filt or "—" for filt, paths in groups.items() if len(paths) < 2]
@@ -1322,6 +1360,7 @@ class CalibratePage(QWidget):
 
     def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
         self.frames, self._problems, self._raw_converted = frames, problems, raw_converted
+        self.guide.set_state(0, "done")
         self.table.clearContents()
         base = self.lights.text().strip() or self._first(self.folder.text())
         if not self.output.text() and base:
@@ -1391,6 +1430,8 @@ class CalibratePage(QWidget):
 
     def show_result(self, out: dict):
         self.calibrated = out["calibrated"]
+        for i in (1, 2):
+            self.guide.set_state(i, "done")
         self.stack_button.setEnabled(len(self.calibrated) > 1)
         self.photometry_button.setEnabled(bool(self.calibrated))
         self.result.setText(
@@ -3599,6 +3640,41 @@ class PeriodPage(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Get a light curve: from the Photometry page, a CSV file or an archive"),
+                    self.tr(
+                        "Load a CSV file, or type the star's name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) "
+                        "and press Download. A light curve measured on the Photometry page arrives here by itself."
+                    ),
+                ),
+                (
+                    self.tr("Clean it if needed: outliers, bad points, binning"),
+                    self.tr(
+                        "Remove outliers (σ) or Delete points by clicking; Bin in time for dense data. Skip this "
+                        "when the curve looks clean."
+                    ),
+                ),
+                (
+                    self.tr("Search for the period"),
+                    self.tr(
+                        "Choose the method (Lomb–Scargle for pulsating stars, BLS for transits and Algol-type "
+                        "eclipses, PDM or ANOVA for any shape) and the period range, then press Search."
+                    ),
+                ),
+                (
+                    self.tr("Check the periodogram and the folded light curve"),
+                    self.tr(
+                        "A right period gives a clean fold. For an eclipsing binary the true period is often twice "
+                        "the strongest Lomb–Scargle peak; check the aliases too. Then go on to Frequency analysis or "
+                        "the O-C diagram."
+                    ),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
         self.source = QLabel(
             self.tr("No light curve yet: measure one on the Photometry page or load a CSV file."), self
         )
@@ -3791,6 +3867,10 @@ class PeriodPage(Undoable, QWidget):
             self.undo_stack.clear()  # another star: the edits of the last one do not apply
             self.original, self.magnitudes, self.label = (self.time, self.flux, self.err), False, label
             self.best = None  # a new star: the old period does not apply
+            self.guide.reset()
+        self.guide.set_state(0, "done")
+        if keep_original:
+            self.guide.set_state(1, "done")
         self.source.setText(self.tr("{n} points from {source}").format(n=len(self.time), source=label))
         self.search_button.setEnabled(len(self.time) > 10)
         self._plot_light_curve()
@@ -3935,6 +4015,9 @@ class PeriodPage(Undoable, QWidget):
 
     def show_result(self, out):
         self.best, self.periodogram = out["best"], out
+        if self.guide.states[1] is None:
+            self.guide.set_state(1, "skipped")
+        self.guide.set_state(2, "done")
         text = self.tr("Best period: {p:.6f} d").format(p=self.best)
         t = np.sort(self.time)
         cuts = np.flatnonzero(np.diff(t) > 20 * self.best) + 1  # stretches (seasons, sectors) apart

@@ -44,6 +44,34 @@ class PlanPage(Undoable, QWidget):
         left = QWidget(self)
         lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Plan"), self))
+        from .workspaces import StepGuide
+
+        self.guide = StepGuide(
+            [
+                (
+                    self.tr("Set the site and the night"),
+                    self.tr("Choose the observatory or type its latitude, longitude and height, and set the date."),
+                ),
+                (
+                    self.tr("Add the targets"),
+                    self.tr("Type a name and press Add; for eclipses and transits press Add with ephemeris."),
+                ),
+                (
+                    self.tr("Plan the night: altitude, airmass, the Moon, events"),
+                    self.tr("Press Plan the night and look at the visibility chart."),
+                ),
+                (
+                    self.tr("Optional: exposure time"),
+                    self.tr("Exposure time… estimates the exposure for a signal-to-noise."),
+                ),
+                (
+                    self.tr("Make a schedule and send it to the Observe page"),
+                    self.tr("Press Make a schedule, check it, then Send to the Observe page."),
+                ),
+            ],
+            self,
+        )
+        lay.addWidget(self.guide)
 
         site = self.settings.get("site", {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0})
         grid = QGridLayout()
@@ -192,6 +220,7 @@ class PlanPage(Undoable, QWidget):
         self.schedule_button.clicked.connect(self.make_schedule)
         self.send_button = QPushButton(self.tr("Send to the Observe page"), self)
         self.send_button.clicked.connect(lambda: self.schedule_requested.emit(self.blocks))
+        self.send_button.clicked.connect(lambda: self.guide.set_state(4, "done"))
         self.send_button.setToolTip(
             self.tr("The schedule becomes the night plan of the Observe page; you still check it and start it there")
         )
@@ -297,6 +326,8 @@ class PlanPage(Undoable, QWidget):
         self.edit(self.tr("add a target"), self._add_target, target)
 
     def _add_target(self, target: dict):
+        for i in (0, 1):
+            self.guide.set_state(i, "done")
         r = self.table.rowCount()
         self.table.insertRow(r)
         for c, key in enumerate(TARGET_COLUMNS[:3]):
@@ -363,6 +394,7 @@ class PlanPage(Undoable, QWidget):
         from .exposure_dialog import ExposureDialog
 
         dlg = ExposureDialog(self.settings, self)
+        self.guide.set_state(3, "done")
         dlg.show()
         return dlg
 
@@ -400,6 +432,7 @@ class PlanPage(Undoable, QWidget):
 
         self.result = n
         self.schedule_button.setEnabled(True)
+        self.guide.set_state(2, "done")
         jd = np.asarray(n["jd"])
         midnight = np.floor(jd[0] + 0.5) - 0.5  # 00:00 UTC of the first date (JD days start at noon)
         hours = (jd - midnight) * 24
