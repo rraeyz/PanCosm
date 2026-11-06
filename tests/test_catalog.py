@@ -25,6 +25,20 @@ def test_star_magnitude_prefers_apass_then_gaia():
     assert catalog.star_magnitude({"apass": None, "gaia": None}, "V") is None
 
 
+def test_gspc_comes_first_when_flagged_good():
+    """Qatar-1's AAVSO star 113 (V 11.333 on the AAVSO chart): GSPC V 11.348, flag 1 (the ESA archive, 2026-11-13)."""
+    gspc = {"u_jkc_mag": None, "u_jkc_flag": None, "b_jkc_mag": 12.602, "b_jkc_flag": 1, "v_jkc_mag": 11.348,
+            "v_jkc_flag": 1, "r_jkc_mag": 10.675, "r_jkc_flag": 0, "i_jkc_mag": 10.067, "i_jkc_flag": 1}  # fmt: skip
+    apass = {"Bmag": 12.6, "e_Bmag": 0.02, "Vmag": 11.30, "e_Vmag": 0.03, "g'mag": None, "r'mag": None, "i'mag": None}
+    gaia = {"Gmag": 10.95, "e_Gmag": 0.003, "BPmag": 11.6, "RPmag": 10.2}
+    v = catalog.star_magnitude({"gspc": gspc, "apass": apass, "gaia": gaia}, "V")
+    assert v == {"mag": 11.348, "err": catalog.GSPC_ERR, "colour": pytest.approx(1.3), "source": "Gaia DR3 GSPC"}
+    assert catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": None}, "CV")["mag"] == 11.348
+    assert catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": gaia}, "R")["source"] == "Gaia DR3 → JC"
+    b = catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": None}, "B")
+    assert b["colour"] == pytest.approx(12.602 - 11.348)  # no APASS: the colour from GSPC's own B − V
+
+
 def test_calibrate_recovers_magnitudes_and_colour_term():
     rng = np.random.default_rng(2)
     n, k_true = 60, 0.08

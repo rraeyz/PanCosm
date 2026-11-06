@@ -1,8 +1,9 @@
 """Catalogue magnitudes of the comparison stars and magnitudes of the target in the standard system.
 
-Sources (VizieR, through astroquery): APASS DR9 (B, V, g', r', i') and Gaia DR3 (G, BP, RP). Johnson-Cousins
-V, R and I are also computed from Gaia with the polynomials of Riello et al. 2021 (A&A 649, A3, table C.2;
-scatter ~0.03 mag), so every star of the Gaia sky has a comparison magnitude.
+Sources, in this order for U B V R I: the Gaia Synthetic Photometry Catalogue (GSPC, Gaia Collaboration, Montegriffo
+et al. 2023, A&A 674, A33: Johnson-Cousins magnitudes from the Gaia spectra, flagged good, ~0.02 mag; ESA archive),
+APASS DR9 (B, V, g', r', i'; VizieR), and Gaia DR3 (G, BP, RP) with the polynomials of Riello et al. 2021 (A&A 649,
+A3, table C.2; scatter ~0.03 mag), so every star of the Gaia sky has a comparison magnitude.
 
 Calibration (ensemble zero point with a colour term): for every frame
     m_cat - m_inst = ZP(frame) + k * colour
@@ -18,6 +19,8 @@ GAIA_TO = {
     "R": (-0.02275, 0.3961, -0.1243, -0.01396, 0.003775),
     "I": (0.01753, 0.76, -0.0991),
 }
+GSPC_BANDS = {"U": "u_jkc_mag", "B": "b_jkc_mag", "V": "v_jkc_mag", "R": "r_jkc_mag", "I": "i_jkc_mag"}
+GSPC_ERR = 0.02  # the GSPC paper's standardisation scatter against Landolt and Stetson stars
 APASS_BANDS = {"B": "Bmag", "V": "Vmag", "SG": "g'mag", "SR": "r'mag", "SI": "i'mag"}
 BAND_OF_FILTER = {"CV": "V", "TG": "V", "CR": "R", "TR": "R", "TB": "B"}  # unfiltered / tri-colour: nearest band
 
@@ -32,7 +35,7 @@ def vizier_fetch(coord, radius_arcsec=3.0):
     """{"apass": row or None, "gaia": row or None} of the nearest catalogue entries (the internet, or the cache)."""
     from ..services.cache import cached
 
-    request = ("nearest", round(coord.ra.deg, 6), round(coord.dec.deg, 6), radius_arcsec)
+    request = ("nearest+gspc", round(coord.ra.deg, 6), round(coord.dec.deg, 6), radius_arcsec)
     return cached("vizier", request, lambda: _vizier_fetch(coord, radius_arcsec))
 
 
@@ -64,9 +67,30 @@ def _vizier_fetch(coord, radius_arcsec):
             t = t[np.argsort(coord.separation(_sky(t)).arcsec)] if len(t) else None  # nearest first
         row = None if t is None else t[0]
         out[key] = None if row is None else {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
+    try:
+        out["gspc"] = gspc(coord.ra.deg, coord.dec.deg, radius_arcsec)
+    except Exception as e:  # noqa: BLE001 - the ESA archive did not answer: APASS and the Gaia polynomials remain
+        out["gspc"], error = None, error or e
     if error is not None and not any(out.values()):
         raise error
     return out
+
+
+def gspc(ra, dec, radius_arcsec):
+    """The nearest Gaia star's GSPC magnitudes {u_jkc_mag: …, u_jkc_flag: …, …} (None outside the GSPC: G > 17.65)."""
+    from ..gaia import _run
+
+    cols = [c for b in GSPC_BANDS.values() for c in (b, b.replace("_mag", "_flag"))]
+    t = _run(
+        f"SELECT TOP 5 g.ra, g.dec, {', '.join('s.' + c for c in cols)} FROM gaiadr3.gaia_source AS g "
+        "JOIN gaiadr3.synthetic_photometry_gspc AS s ON s.source_id = g.source_id WHERE 1=CONTAINS(POINT('ICRS', "
+        f"g.ra, g.dec), CIRCLE('ICRS', {float(ra)}, {float(dec)}, {radius_arcsec / 3600}))"
+    )
+    if not len(t):
+        return None
+    d = np.hypot((np.asarray(t["ra"], float) - ra) * np.cos(np.radians(dec)), np.asarray(t["dec"], float) - dec)
+    row = t[int(np.argmin(d))]
+    return {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
 
 
 def _sky(t):
@@ -83,6 +107,12 @@ def star_magnitude(entry, filt):
     colour = None
     if apass and apass.get("Bmag") is not None and apass.get("Vmag") is not None:
         colour = apass["Bmag"] - apass["Vmag"]
+    gspc = entry.get("gspc")
+    col = GSPC_BANDS.get(band)
+    if gspc and col and gspc.get(col) is not None and gspc.get(col.replace("_mag", "_flag")) == 1:
+        if colour is None and gspc.get("b_jkc_mag") is not None and gspc.get("v_jkc_mag") is not None:
+            colour = gspc["b_jkc_mag"] - gspc["v_jkc_mag"]
+        return {"mag": gspc[col], "err": GSPC_ERR, "colour": colour, "source": "Gaia DR3 GSPC"}
     if apass and band in APASS_BANDS and apass.get(APASS_BANDS[band]) is not None:
         err = apass.get("e_" + APASS_BANDS[band]) or 0.03
         return {"mag": apass[APASS_BANDS[band]], "err": err, "colour": colour, "source": "APASS DR9"}
