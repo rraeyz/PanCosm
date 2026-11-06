@@ -65,13 +65,20 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
     diffs = np.arange(lags[0] - lags[-1], lags[-1] - lags[0] + 1)
     c12_d = np.array([g1 @ _unit(grid, dln, d, ln2, t2)[0] for d in diffs])
     c12 = c12_d[(lags[None, :] - lags[:, None]) - diffs[0]]
+    # two stars closer than the templates' own width cannot be split: there C12 -> 1 and 1 - C12^2 -> 0 turns
+    # rounding into a false peak beside the diagonal (AI Phe, one template for both, once HARPS's zero-filled gap was
+    # read as missing: v1 = v2 in every spectrum). Leave out the band where the templates still overlap by half.
+    centre = int(np.argmax(c12_d))
+    wide = np.flatnonzero(c12_d < 0.5)
+    half = int(np.min(np.abs(wide - centre))) if wide.size else 0
+    blend = np.abs((lags[None, :] - lags[:, None]) - diffs[centre]) < half
     a1, a2 = c1[:, None], c2[None, :]
     with np.errstate(invalid="ignore", divide="ignore"):
         if alpha is None:
             r2 = (a1**2 - 2 * a1 * a2 * c12 + a2**2) / (1 - c12**2)
             r = np.sqrt(np.clip(r2, 0, None))
             alphas = (a2 - a1 * c12) / (a1 - a2 * c12)
-            r = np.where((alphas > 0) & np.isfinite(r), r, 0.0)  # both components must add light
+            r = np.where((alphas > 0) & np.isfinite(r) & ~blend, r, 0.0)  # both components must add light
         else:
             r = (a1 + alpha * a2) / np.sqrt(1 + 2 * alpha * c12 + alpha**2)
             alphas = np.full_like(r, alpha)

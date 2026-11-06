@@ -35,8 +35,25 @@ def _clean(header):
 
 
 def read(path):
-    """Return (wave, flux, error or None, header)."""
-    path = Path(path)
+    """Return (wave, flux, error or None, header). A gap filled with zeros (HARPS's s1d between its two CCDs,
+    5304–5337 A) comes back as NaN: read as flux it was the deepest "line" of the spectrum, and correlating with
+    such a template collapsed TODCOR's light ratio (AI Phe: FEROS 0.30 against HARPS 0.61 for the same stars)."""
+    wave, flux, err, header = _read(Path(path))
+    return wave, _gaps_to_nan(flux), err, header
+
+
+def _gaps_to_nan(flux, run=3):
+    """Runs of at least `run` exact zeros (an instrument gap) as NaN; single zeros are left (a saturated core)."""
+    flux = np.asarray(flux, float).copy()
+    zero = np.r_[False, flux == 0, False]
+    starts, ends = np.flatnonzero(zero[1:] & ~zero[:-1]), np.flatnonzero(~zero[1:] & zero[:-1])
+    for a, b in zip(starts, ends, strict=True):
+        if b - a >= run:
+            flux[a:b] = np.nan
+    return flux
+
+
+def _read(path):
     if path.suffix.lower() in (".txt", ".dat", ".csv", ".asc"):
         data = np.genfromtxt(
             path, delimiter="," if path.suffix.lower() == ".csv" else None, comments="#", invalid_raise=False
