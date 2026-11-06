@@ -5602,12 +5602,12 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>ASTAP&apos;ı ve yıldız veritabanlarından birini (hnsky.org/astap.htm) ya da astrometry.net&apos;i kurup tekrar deneyin. İnternete hiçbir şey gönderilmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="460"/>
+        <location filename="../../ui/image_actions.py" line="466"/>
         <source>Stack written: {path}</source>
         <translation>Birleştirilmiş görüntü yazıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="468"/>
+        <location filename="../../ui/image_actions.py" line="474"/>
         <source>value</source>
         <translation>değer</translation>
     </message>
@@ -14691,11 +14691,13 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/star_picker.py" line="71"/>
+        <location filename="../../ui/star_picker.py" line="110"/>
         <source>none (the frames are aligned already)</source>
         <translation>yok (kareler zaten hizalı)</translation>
     </message>
     <message>
         <location filename="../../ui/star_picker.py" line="72"/>
+        <location filename="../../ui/star_picker.py" line="111"/>
         <source>on stars I pick</source>
         <translation>seçtiğim yıldızlara göre</translation>
     </message>
@@ -14718,6 +14720,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/star_picker.py" line="86"/>
         <source>Calibrate the lights first: the stars are picked on them.</source>
         <translation>Önce ışık karelerini kalibre edin: yıldızlar onlarda seçilir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="108"/>
+        <source>shift only (automatic)</source>
+        <translation>yalnızca kayma (otomatik)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="109"/>
+        <source>star patterns: rotation and scale too (automatic)</source>
+        <translation>yıldız desenleri: dönme ve ölçek de (otomatik)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="112"/>
+        <source>Align the images</source>
+        <translation>Görüntüleri hizala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="113"/>
+        <source>How are the images aligned before stacking?</source>
+        <translation>Görüntüler yığılmadan önce nasıl hizalansın?</translation>
     </message>
 </context>
 <context>

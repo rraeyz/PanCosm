@@ -5600,12 +5600,12 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Instale ASTAP y una de sus bases de estrellas (hnsky.org/astap.htm), o astrometry.net, y vuelva a intentarlo. No se envía nada por internet.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="460"/>
+        <location filename="../../ui/image_actions.py" line="466"/>
         <source>Stack written: {path}</source>
         <translation>Apilado escrito: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="468"/>
+        <location filename="../../ui/image_actions.py" line="474"/>
         <source>value</source>
         <translation>valor</translation>
     </message>
@@ -14689,11 +14689,13 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/star_picker.py" line="71"/>
+        <location filename="../../ui/star_picker.py" line="110"/>
         <source>none (the frames are aligned already)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/star_picker.py" line="72"/>
+        <location filename="../../ui/star_picker.py" line="111"/>
         <source>on stars I pick</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14715,6 +14717,26 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../ui/star_picker.py" line="86"/>
         <source>Calibrate the lights first: the stars are picked on them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="108"/>
+        <source>shift only (automatic)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="109"/>
+        <source>star patterns: rotation and scale too (automatic)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="112"/>
+        <source>Align the images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/star_picker.py" line="113"/>
+        <source>How are the images aligned before stacking?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

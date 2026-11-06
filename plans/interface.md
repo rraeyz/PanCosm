@@ -1019,4 +1019,4 @@ Velocities (Add…). Stacking: alignment "none (the frames are aligned already)"
 the first frame; each click snaps onto its star; the stars followed frame to frame, shift only) beside shift and
 star patterns. Test: with every switch off nothing starts by itself and the buttons still work. Left: the same audit
 in Planning, Observing, Images, Astrometry, Models and Remote sensing as their windows are rebuilt; the Images
-window's Stack using these alignment choices; rotation from two or more picked stars.
+window's Stack (done: it now asks how to align, the four ways); rotation from two or more picked stars.

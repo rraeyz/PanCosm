@@ -430,7 +430,7 @@ class ImageActions:
     def stack_open_images(self, drizzle=False, output=None):
         """The images open in the Images window stacked (or drizzled) into one, which then opens (MaxIm DL's
         Combine); the stacking settings are the step's defaults, the Calibration window has them all."""
-        images = self.image_page.open_paths()
+        images, params = self.image_page.open_paths(), {}
         if len(images) < 2:
             win = self.area_windows.get("image", self)
             win.statusBar().showMessage(translate("MainWindow", "Open two or more images to stack them."), 8000)
@@ -443,6 +443,12 @@ class ImageActions:
             )
             if not output:
                 return None
+            if not drizzle:  # the user says how the frames are aligned (shift, patterns, none, stars picked)
+                from .star_picker import choose_alignment
+
+                params = choose_alignment(self, images[0])
+                if params is None:
+                    return None
 
         def done(out):
             if self.engine.project:
@@ -450,7 +456,7 @@ class ImageActions:
             self.open_fits(Path(out["stack"]))
 
         step_id = "stacking.drizzle" if drizzle else "stacking.stack"
-        return self.run_step(step_id, {"images": images, "output": str(output)}, {}, on_done=done, area="image")
+        return self.run_step(step_id, {"images": images, "output": str(output)}, params, on_done=done, area="image")
 
     def stack_images(self, images, output, params):
         def done(out):

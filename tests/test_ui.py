@@ -1871,7 +1871,9 @@ def test_settings_in_one_window(window, qtbot):
     assert names == ["General", "Profiles", "Processing", "Automatic steps", "Time", "Online services", "Shortcuts",
                      "Plugins", "Advanced"]  # fmt: skip
     assert win.filter("offline") == 1
-    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [5]  # Online services, after Automatic steps
+    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [
+        5
+    ]  # Online services, after Automatic steps
     win.filter("")
     toggle = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Work offline")
     toggle.setChecked(not window.offline_action.isChecked())
