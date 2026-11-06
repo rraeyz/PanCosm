@@ -241,6 +241,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the two images are not on the same pixel grid"),
     QT_TRANSLATE_NOOP("Messages", "cannot read the expression: {error}"),
     QT_TRANSLATE_NOOP("Messages", "unknown band {band}; available: {bands}"),
+    QT_TRANSLATE_NOOP("Messages", "no pixel has a value in every band"),
     # remotesensing/raster.py
     QT_TRANSLATE_NOOP("Messages", "the files are not the same size: open bands of one scene at the same resolution"),
     QT_TRANSLATE_NOOP("Messages", "no image (2-D variable) in this file"),
