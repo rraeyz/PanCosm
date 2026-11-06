@@ -60,5 +60,6 @@ def test_photometry_page_leaves_out_bad_frames(qtbot, tmp_path):
     rows = execute("photometry.quality", {"images": paths}, {}, Ctx())["quality"]
     page.show_quality(rows)
     assert page.result.text().startswith("3 of 4 frames are good.") and "stars blurred" in page.result.text()
-    page._drop_bad()
-    assert len(page.images) == 3 and all("b.fits" not in p for p in page.images)
+    page._drop_bad()  # unticked in the frame list, not deleted: the frame numbers of marked stars stay valid
+    assert len(page.images) == 4 and all("b.fits" not in p for p in page._series())
+    assert "3 of them used" in page.images_label.text()
