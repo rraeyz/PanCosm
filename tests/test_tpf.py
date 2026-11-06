@@ -55,6 +55,11 @@ def test_a_target_pixel_file_becomes_frames_with_the_archive_times(tmp_path):
     assert abs(back - bjd[11]) * 86400 < 0.001  # the application's BJD_TDB is the archive's
     assert h["EXPTIME"] == pytest.approx(1800 * 0.792) and h["CTYPE1"] == "RA---TAN"
     assert h["TPFSKIP"] == 1  # the flagged cadence, told to the user on the Photometry page
+    with fits.open(frames[10]) as f:  # written card by card (fast), still a valid FITS file
+        f.verify("exception")
+        with fits.open(path) as src:
+            expect = src[1].data["FLUX"][11] * np.float32(1800 * 0.792)
+        assert np.array_equal(f[0].data, expect) and f[0].header["TPFROW"] == 11 and f[0].header["BITPIX"] == -32
     assert str(bayer.fits_copy(path)) == frames[0]  # opened as one image: its first good cadence
 
 

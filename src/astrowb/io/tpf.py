@@ -78,26 +78,57 @@ def frames(path) -> list[str]:
     utc.precision = 6
     stamps = utc.isot
     folder.mkdir(parents=True, exist_ok=True)
+    h = fits.Header(wcs)
+    h["OBJECT"] = str(prim.get("OBJECT") or prim.get("TICID") or prim.get("KEPLERID") or path.stem)[:60]
+    h["TELESCOP"] = str(prim.get("TELESCOP", ""))
+    h["RA"], h["DEC"] = target.ra.deg, target.dec.deg
+    h["DATE-AVG"] = (stamps[0], "UTC at the geocentre for BJD_TDB")
+    h["EXPTIME"] = (exptime, "[s]")
+    h["GAIN"] = (1.0, "the pixels are electrons")
+    if noise is not None:
+        h["PIXNOISE"] = (0.0, NOISE_COMMENT)
+    h["IMAGETYP"] = "Light Frame"
+    h["TPFROW"] = (0, "row of the target pixel file")
+    h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")
+    h["BJD_TDB"] = (0.0, "mid-exposure time from the archive")
+    writer = _FrameWriter(fits.PrimaryHDU(flux[0], h).header)
     names = []
     for i in range(len(flux)):
-        h = fits.Header(wcs)
-        h["OBJECT"] = str(prim.get("OBJECT") or prim.get("TICID") or prim.get("KEPLERID") or path.stem)[:60]
-        h["TELESCOP"] = str(prim.get("TELESCOP", ""))
-        h["RA"], h["DEC"] = target.ra.deg, target.dec.deg
-        h["DATE-AVG"] = (stamps[i], "UTC at the geocentre for BJD_TDB")
-        h["EXPTIME"] = (exptime, "[s]")
-        h["GAIN"] = (1.0, "the pixels are electrons")
-        if noise is not None and np.isfinite(noise[i]):
-            h["PIXNOISE"] = (float(noise[i] * exptime), "[e-] sky noise per pixel, from the archive's FLUX_ERR")
-        h["IMAGETYP"] = "Light Frame"
-        h["TPFROW"] = (int(rows[i]), "row of the target pixel file")
-        h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")
-        h["BJD_TDB"] = (float(bjd[i].jd), "mid-exposure time from the archive")
+        cards = {"DATE-AVG": (stamps[i], "UTC at the geocentre for BJD_TDB"),
+                 "TPFROW": (int(rows[i]), "row of the target pixel file"),
+                 "BJD_TDB": (float(bjd[i].jd), "mid-exposure time from the archive")}  # fmt: skip
+        if noise is not None:
+            cards["PIXNOISE"] = (float(noise[i] * exptime), NOISE_COMMENT) if np.isfinite(noise[i]) else None
         name = f"{path.name.split('.fits')[0]}_{int(rows[i]):06d}.fits"
-        fits.PrimaryHDU(np.nan_to_num(flux[i] * np.float32(exptime), nan=0.0), h).writeto(folder / name, overwrite=True)
+        writer.write(folder / name, np.nan_to_num(flux[i] * np.float32(exptime), nan=0.0), cards)
         names.append(name)
     listing.write_text("\n".join(names))
     return [str(folder / n) for n in names]
+
+
+NOISE_COMMENT = "[e-] sky noise per pixel, from the archive's FLUX_ERR"
+
+
+class _FrameWriter:
+    """Writes many single-image FITS files that differ only in a few header cards and the pixels: the header is made
+    once and only those cards are formatted again (astropy rebuilt and verified the whole header for each of 17 000
+    TESS cadences: 43 s of opening a pixel file)."""
+
+    def __init__(self, header):
+        self.cards = [c.image for c in header.cards]
+        self.index = {k: i for i, k in enumerate(header.keys())}
+        self.dtype = np.dtype(">f4")
+
+    def write(self, path, image, cards):
+        lines = list(self.cards)
+        for key, value in cards.items():
+            lines[self.index[key]] = " " * 80 if value is None else fits.Card(key, *value).image
+        text = "".join(lines) + "END".ljust(80)
+        head = text.encode("ascii").ljust(-(-len(text) // 2880) * 2880, b" ")
+        data = np.ascontiguousarray(image, self.dtype).tobytes()
+        tmp = Path(str(path) + ".part")
+        tmp.write_bytes(head + data + b"\0" * (-len(data) % 2880))
+        tmp.replace(path)
 
 
 def _utc(bjd, target):
