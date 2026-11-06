@@ -236,6 +236,7 @@ class MainWindow(QMainWindow):
         from PySide6.QtWidgets import QFrame, QScrollArea
 
         _fields_scroll(page)
+        _apply_mode(page, self.ui_mode())
         holder = self._placeholders.pop(attr)
         i = self.pages.indexOf(holder)
         current = self.pages.currentIndex() == i
@@ -369,9 +370,27 @@ class MainWindow(QMainWindow):
 
     # --- pages, built on first use -------------------------------------------
     def _make_start_page(self):
-        page = StartPage(self)
+        page = StartPage(self, self.ui_mode())
         page.action.connect(self._start_action)
+        page.mode_chosen.connect(self.set_ui_mode)
         return page
+
+    def ui_mode(self):
+        return "expert" if self.settings.get("ui.mode", "basic") == "expert" else "basic"
+
+    def set_ui_mode(self, mode):
+        """Basic / Expert: which folding sections start open (workspaces.Collapsible.mode). Nothing is hidden for
+        good; the choice is kept and applied to every page built so far and later."""
+        self.settings.set("ui.mode", mode)
+        self.settings.save()
+        for frame in self._frames.values():
+            _apply_mode(frame.widget(), mode)
+        act = getattr(self, "expert_action", None)
+        if act is not None and act.isChecked() != (mode == "expert"):
+            act.setChecked(mode == "expert")
+        start = self.__dict__.get("start_page")
+        if start is not None:
+            (start.expert if mode == "expert" else start.basic).setChecked(True)
 
     def _make_image_page(self):
         page = ImagePage(self)
@@ -989,6 +1008,12 @@ class MainWindow(QMainWindow):
         self.plugins_menu.aboutToShow.connect(self._fill_plugins_menu)
 
         s = self.menuBar().addMenu(self.tr("&Settings"))
+        self.expert_action = QAction(self.tr("&Expert mode (every option open)"), self)
+        self.expert_action.setCheckable(True)
+        self.expert_action.setChecked(self.ui_mode() == "expert")
+        self.expert_action.toggled.connect(lambda on: self.set_ui_mode("expert" if on else "basic"))
+        s.addAction(self.expert_action)
+        s.addSeparator()
         lang_menu, group = s.addMenu(self.tr("&Language")), QActionGroup(self)
         current = self.settings.get("ui.language")
         for code, native in LANGUAGES.items():
@@ -1935,3 +1960,12 @@ def _fields_scroll(page, tall=200):
         split.insertWidget(i, area)
         area.setWidget(w)
         split.restoreState(state)
+
+
+def _apply_mode(page, mode):
+    """Open or fold the page's sections for the interface mode (workspaces.Collapsible.mode)."""
+    from .workspaces import Collapsible
+
+    for c in page.findChildren(Collapsible):
+        if c.mode in ("basic", "expert"):
+            c.set_expanded(c.mode == mode)

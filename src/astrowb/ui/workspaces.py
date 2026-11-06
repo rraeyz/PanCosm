@@ -58,8 +58,11 @@ class Collapsible(QWidget):
     """A titled section that opens and closes: options that are rarely changed stay out of the way, the main
     steps stay in sight. Add widgets to .body (a QVBoxLayout)."""
 
-    def __init__(self, title, parent=None, expanded=False):
+    def __init__(self, title, parent=None, expanded=False, mode="expert"):
+        """mode: "expert" — open in Expert mode, folded in Basic mode (options rarely changed); "basic" — the other
+        way round (help for a first-time user); None — not touched by the interface mode."""
         super().__init__(parent)
+        self.mode = mode
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         self.button = QToolButton(self)
@@ -86,11 +89,27 @@ class StartPage(QWidget):
     """Entry points: the user starts from whatever data they already have."""
 
     action = Signal(str)  # "new_project" | "open_project" | "open_fits" | workspace key
+    mode_chosen = Signal(str)  # "basic" | "expert"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, mode="basic"):
         super().__init__(parent)
         lay = QVBoxLayout(self)
         lay.addWidget(_title(self.tr("Welcome to {app}").format(app=BRAND.display_name), self))
+        row = QHBoxLayout()
+        row.addWidget(QLabel(self.tr("Interface:"), self))
+        self.basic = QRadioButton(self.tr("Basic — the main steps; the rarely changed options folded"), self)
+        self.expert = QRadioButton(self.tr("Expert — every option open"), self)
+        tip = self.tr(
+            "Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the "
+            "Settings menu at any time."
+        )
+        for b, key in ((self.basic, "basic"), (self.expert, "expert")):
+            b.setToolTip(tip)
+            b.toggled.connect(lambda on, k=key: self.mode_chosen.emit(k) if on else None)
+            row.addWidget(b)
+        row.addStretch(1)
+        (self.expert if mode == "expert" else self.basic).setChecked(True)
+        lay.addLayout(row)
         lay.addWidget(QLabel(self.tr("Start from what you have:"), self))
         grid = QGridLayout()
         entries = [
@@ -1646,7 +1665,8 @@ class PhotometryPage(Undoable, QWidget):
                 "aperture can add trends of its own: measure once with fixed radii too and compare"
             )
         )
-        side.addWidget(self.follow_seeing)
+        self.measure_options = Collapsible(self.tr("More measuring options: seeing, PSF, scintillation"), self)
+        self.measure_options.body.addWidget(self.follow_seeing)
         self.psf = QCheckBox(self.tr("PSF photometry (crowded fields: blended stars fitted together)"), self)
         self.psf.setToolTip(
             self.tr(
@@ -1654,7 +1674,7 @@ class PhotometryPage(Undoable, QWidget):
                 "instead of being added up in a circle. Slower; for isolated stars the aperture is as good."
             )
         )
-        side.addWidget(self.psf)
+        self.measure_options.body.addWidget(self.psf)
         side.addWidget(QLabel(self.tr("Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16"), self))
         self.coord = QLineEdit(self)
         self.coord.setToolTip(
@@ -1678,7 +1698,8 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         tel.addWidget(self.telescope_d)
-        side.addLayout(tel)
+        self.measure_options.body.addLayout(tel)
+        side.addWidget(self.measure_options)
         self.measure_button = QPushButton(self.tr("Measure light curve"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(self._measure)

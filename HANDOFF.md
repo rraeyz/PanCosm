@@ -243,8 +243,14 @@ Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int 
   "Find the bad frames" fills FWHM / sky, colours bad frames red and now shows its plot (the lower panel was hidden);
   "Leave out the bad frames" unticks them instead of deleting them from the list (deleting broke the frame numbers
   of marked stars). Test `test_frame_list_quality_and_blink`. Guide 06 (4 languages).
-- P2 **CLAIMED (01RxUU)** Basic / Expert interface mode.
-- P3 Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
+- P2 **DONE** Basic / Expert interface mode (U11): Start page radio buttons + Settings → Expert mode, kept as `ui.mode`
+  (default basic). `Collapsible(mode=...)`: "expert" sections (more calibration options, stacking options, the new
+  "More measuring options" on Photometry = follow seeing / PSF / telescope aperture, other tools) open in Expert and
+  are folded in Basic; "basic" sections (Spectroscopy's order of work) the other way; applied to every built page
+  and to pages built later (`MainWindow.set_ui_mode`, `_apply_mode`). Nothing is hidden for good. Test
+  `test_basic_and_expert_mode`. Guide 01 (4 languages).
+- P3 **CLAIMED (01RxUU)** Gaia DR3 refinement of plate solutions.
+- P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
 - P5 Echelle step: zero point from the night-sky lines (as long-slit).
@@ -652,7 +658,7 @@ Status of everything so far:
 | U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | DONE (session 019Lu3, 2026-11-06): U8a, U8b (raw HARPS vs ESO DRS: 22 m/s), U8c, U8d, U8e |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | DONE: period search, light curves, calibration, remote sensing, deconvolution, histogram matching, echelle extraction (54.6 -> 5.7 s) and .Z decompression (20 -> 3.8 s) made faster (speed log) |
 | U10 | Re-run the tests touched by every fix; CI green | each fix re-tested on its real data; CI green up to 9b6ba9d; aa311ae … 339bb16 not checked yet (see 'Still to do' 1) |
-| U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
+| U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) | DONE 2026-11-06 (P2) |
 
 ### Notes on the fifth campaign (U tasks)
 

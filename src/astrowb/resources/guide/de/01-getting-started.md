@@ -53,6 +53,7 @@ Ein Projekt ist eine einzige Datei mit der Endung `.astroproj`. Sie hält jede h
 - Ohne Projekt können Sie ebenfalls arbeiten; dann wird nichts festgehalten.
 
 ## Einstellungen
+- **Einfach oder Experte** (auf der Startseite oder **Einstellungen → Expertenmodus**): Im einfachen Modus sind selten geänderte Optionen (weitere Kalibrier- und Stapeloptionen, die Seeing- / PSF- / Szintillationsoptionen der Photometrie, weitere Werkzeuge) eingeklappt — ein Klick öffnet sie, nichts wird entfernt — und die Seite Spektroskopie zeigt die Reihenfolge ihrer Reiter; im Expertenmodus ist jeder Abschnitt offen.
 - **Einstellungen → Sprache:** Englisch, Türkisch, Deutsch oder Spanisch. Damit sich jeder Text ändert, kann ein Neustart nötig sein.
 - **Einstellungen → Aussehen:** Dunkel oder Hell. Bereits angezeigte Diagramme übernehmen die neuen Farben. **Publikationsgrafik…** in der Werkzeugleiste jedes Diagramms speichert es schwarz auf weiß (PDF, SVG, EPS oder PNG mit 300 dpi), unabhängig vom Aussehen; mit einem Rechtsklick auf eine Tabelle exportieren Sie sie als CSV oder LaTeX.
 - **Einstellungen → Recheneinheit:** Automatisch, nur CPU oder GPU. Die Statusleiste zeigt, welche Einheit benutzt wird. Starten Sie die Anwendung mit `--benchmark`, um die Geschwindigkeit beider zu messen.

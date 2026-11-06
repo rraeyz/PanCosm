@@ -444,8 +444,10 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
 
 def test_spectroscopy_instrument_profiles(window):
     page = window.spectro_page
-    assert not page.steps.content.isVisibleTo(page)  # the order of work: one click away, not in the way
-    page.steps.set_expanded(True)
+    window.set_ui_mode("expert")
+    assert not page.steps.content.isVisibleTo(page)  # the order of work: one click away for an expert
+    window.set_ui_mode("basic")
+    assert page.steps.content.isVisibleTo(page)  # open for a beginner
     from PySide6.QtWidgets import QLabel
 
     assert "Telluric" in page.steps.content.findChild(QLabel).text()
@@ -1079,3 +1081,19 @@ def test_every_page_fits_a_short_window(window):
         if frame is not None and page.minimumSizeHint().height() > frame.viewport().height():
             too_tall[key] = (page.minimumSizeHint().height(), frame.viewport().height())
     assert not too_tall, too_tall
+
+
+def test_basic_and_expert_mode(window):
+    """Basic folds the rarely changed options (nothing is removed), Expert opens them; chosen on the Start page or in
+    the Settings menu, kept in the settings, applied to pages built later too."""
+    window.set_ui_mode("basic")
+    phot = window.photometry_page
+    assert not phot.measure_options.content.isVisibleTo(phot) and phot.psf.parent() is not None
+    assert window.spectro_page.steps.content.isVisibleTo(window.spectro_page)  # the order of work: open for beginners
+    window.start_page.expert.setChecked(True)
+    assert window.settings.get("ui.mode") == "expert" and window.expert_action.isChecked()
+    assert phot.measure_options.content.isVisibleTo(phot)
+    assert window.calibrate_page.more_options.content.isVisibleTo(window.calibrate_page)
+    assert not window.spectro_page.steps.content.isVisibleTo(window.spectro_page)
+    window.expert_action.setChecked(False)
+    assert window.settings.get("ui.mode") == "basic" and window.start_page.basic.isChecked()

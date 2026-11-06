@@ -1739,7 +1739,7 @@ class SpectroscopyPage(QWidget):
         from .workspaces import Collapsible
 
         # the owner "did something but was not sure what": the order of the tabs' work, in one place
-        self.steps = Collapsible(self.tr("In what order? (click)"), self)
+        self.steps = Collapsible(self.tr("In what order? (click)"), self, mode="basic")  # open for beginners
         steps = QLabel(
             self.tr(
                 "1. Raw frames from your spectrograph: <b>Reduce</b> (long slit: arc lamp → trace → extraction → "
