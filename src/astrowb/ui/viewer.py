@@ -45,12 +45,16 @@ class ImageViewer(QGraphicsView):
         self._drag_start, self._rubber = None, None
         self._pick, self._hover_rings, self._hover_items = False, [], []
 
-    def set_image(self, data: np.ndarray):
+    def set_image(self, data: np.ndarray, keep_view=False):
+        """keep_view: the next frame of a series (same size) stays at the user's zoom and place (frame browsing,
+        blinking); otherwise the image is fitted to the window."""
         for name in list(self._overlays):  # overlays belong to the previous image
             self.set_overlay(name)
+        same = keep_view and self.data is not None and self.data.shape == np.shape(data)
         self.data = data
         self.refresh()
-        self.fit()
+        if not same:
+            self.fit()
 
     def clear(self):
         """No image shown (the last open image was closed)."""

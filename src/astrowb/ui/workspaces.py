@@ -1503,7 +1503,42 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.use_frame.toggled.connect(self._use_frame)
         side.addWidget(self.use_frame)
-        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame):
+        # every frame in a list, as MaxIm DL shows them: click one to see it, untick to leave it out
+        self.frame_table = QTableWidget(0, 4, self)
+        self.frame_table.setHorizontalHeaderLabels([self.tr("Frame"), self.tr("Time (UTC)"), "FWHM", self.tr("Sky")])
+        self.frame_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.frame_table.horizontalHeader().setStretchLastSection(True)
+        self.frame_table.verticalHeader().setDefaultSectionSize(20)
+        self.frame_table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.frame_table.setSelectionMode(QTableWidget.SingleSelection)
+        self.frame_table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.frame_table.setMinimumHeight(110)
+        self.frame_table.setMaximumHeight(200)
+        self.frame_table.setToolTip(
+            self.tr(
+                "Every frame of the series: click one to show it, untick it to leave it out. FWHM and sky are filled "
+                "by “Find the bad frames”; bad frames are red."
+            )
+        )
+        self.frame_table.currentCellChanged.connect(
+            lambda row, *_: self.frame_slider.setValue(row) if row >= 0 else None
+        )
+        self.frame_table.itemChanged.connect(self._frame_checked)
+        side.addWidget(self.frame_table)
+        self.blink = QPushButton(self.tr("Blink"), self)
+        self.blink.setCheckable(True)
+        self.blink.setToolTip(
+            self.tr(
+                "Shows the frames used one after the other (about 2 a second): a passing cloud, a satellite trail, a "
+                "jump in the pointing or a missing star catches the eye at once. Click again to stop."
+            )
+        )
+        self._blink_timer = QTimer(self)
+        self._blink_timer.setInterval(450)
+        self._blink_timer.timeout.connect(self._blink_step)
+        self.blink.toggled.connect(lambda on: self._blink_timer.start() if on else self._blink_timer.stop())
+        side.addWidget(self.blink)
+        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame, self.blink):
             w.setEnabled(False)
         self.quality_button = QPushButton(self.tr("Find the bad frames (clouds, focus, trails)"), self)
         self.quality_button.setToolTip(
@@ -2113,8 +2148,10 @@ class PhotometryPage(Undoable, QWidget):
         self.frame_slider.setRange(0, len(self.images) - 1)
         self.frame_slider.setValue(0)
         self.frame_slider.blockSignals(False)
-        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame):
+        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame, self.blink):
             w.setEnabled(True)
+        self.quality = []
+        self._fill_frames()
         self._frame_text(header)
         sky = None
         try:
@@ -2226,11 +2263,18 @@ class PhotometryPage(Undoable, QWidget):
             return
         self.shown = max(0, min(int(i), len(self.images) - 1))
         data, header, _ = read_image(self.images[self.shown])
-        self.viewer.set_image(data)
+        self.viewer.set_image(data, keep_view=True)  # browsing and blinking keep the zoom
         self._draw_markers()
         self._frame_text(header)
+        self.frame_table.blockSignals(True)
+        self.frame_table.selectRow(self.shown)
+        self.frame_table.blockSignals(False)
 
     def _use_frame(self, on):
+        item = self.frame_table.item(self.shown, 0)
+        if item is not None:
+            item.setCheckState(Qt.Checked if on else Qt.Unchecked)  # the list does the rest (_frame_checked)
+            return
         path = self.images[self.shown]
         if on:
             self.skipped.discard(path)
@@ -2239,6 +2283,65 @@ class PhotometryPage(Undoable, QWidget):
         self._frame_text()
         used = len(self.images) - len(self.skipped)
         self.images_label.setText(self.tr("{n} images, {k} of them used").format(n=len(self.images), k=used))
+
+    def _fill_frames(self):
+        """The frame list: name, mid-exposure time, the quality numbers when measured, the use box."""
+        from astropy.io import fits
+
+        from .. import timing
+        from ..io.fits import find_image_hdu, inherited
+
+        quality = {r["file"]: r for r in getattr(self, "quality", None) or []}
+        self.frame_table.blockSignals(True)
+        self.frame_table.setRowCount(len(self.images))
+        for i, path in enumerate(self.images):
+            when = ""
+            try:
+                with fits.open(path) as hdul:
+                    when = timing.mid_time(inherited(hdul, find_image_hdu(hdul))).utc.isot[11:19]
+            except Exception:  # no time in the file: the name is enough
+                pass
+            q = quality.get(path, {})
+            fwhm, sky = q.get("fwhm"), q.get("background")
+            cells = (Path(path).name, when, "" if fwhm is None else f"{fwhm:.2f}", "" if sky is None else f"{sky:.0f}")
+            for col, text in enumerate(cells):
+                item = QTableWidgetItem(text)
+                if col == 0:
+                    item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                    item.setCheckState(Qt.Unchecked if path in self.skipped else Qt.Checked)
+                if q and not q.get("good", True):
+                    from PySide6.QtGui import QColor
+
+                    item.setForeground(QColor("#e5484d"))
+                    item.setToolTip(", ".join(translate(w) for w in q.get("why", [])))
+                self.frame_table.setItem(i, col, item)
+        self.frame_table.selectRow(self.shown)
+        self.frame_table.blockSignals(False)
+
+    def _frame_checked(self, item):
+        if item.column() != 0:
+            return
+        path = self.images[item.row()]
+        on = item.checkState() == Qt.Checked
+        if not on and len(self.skipped) + 1 >= len(self.images):  # one frame at least stays in
+            self.frame_table.blockSignals(True)
+            item.setCheckState(Qt.Checked)
+            self.frame_table.blockSignals(False)
+            return
+        (self.skipped.discard if on else self.skipped.add)(path)
+        self._frame_text()
+        self.images_label.setText(
+            self.tr("{n} images, {k} of them used").format(n=len(self.images), k=len(self.images) - len(self.skipped))
+        )
+
+    def _blink_step(self):
+        """The next frame in use (round the series)."""
+        used = [i for i, p in enumerate(self.images) if p not in self.skipped]
+        if len(used) < 2:
+            self.blink.setChecked(False)
+            return
+        later = [i for i in used if i > self.shown]
+        self.frame_slider.setValue(later[0] if later else used[0])
 
     def _series(self):
         """The frames to measure, the frame with the marked stars first (where the positions belong)."""
@@ -2416,6 +2519,8 @@ class PhotometryPage(Undoable, QWidget):
         from .messages import translate
 
         self.quality = rows
+        self._show_lower(True)  # the plot is in the lower panel
+        self._fill_frames()
         n = np.arange(len(rows))
         bad = np.array([not r["good"] for r in rows])
         self.plot.figure.clear()
@@ -2444,9 +2549,16 @@ class PhotometryPage(Undoable, QWidget):
         self.drop_bad.setVisible(bool(reasons))
 
     def _drop_bad(self):
-        good = {r["file"] for r in self.quality if r["good"]}
-        self.images = [p for p in self.images if p in good]
-        self.images_label.setText(self.tr("{n} images (bad frames left out)").format(n=len(self.images)))
+        """The bad frames are unticked in the list (not deleted: a tick brings one back)."""
+        bad = {r["file"] for r in self.quality if not r["good"]}
+        self.skipped |= bad & set(self.images)
+        if len(self.skipped) >= len(self.images):
+            self.skipped -= bad
+        self._fill_frames()
+        self._frame_text()
+        self.images_label.setText(
+            self.tr("{n} images, {k} of them used").format(n=len(self.images), k=len(self.images) - len(self.skipped))
+        )
         self.drop_bad.hide()
 
     def _catalog(self):
