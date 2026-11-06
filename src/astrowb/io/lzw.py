@@ -22,8 +22,7 @@ def unlzw(data: bytes) -> bytes:
     buf = left = 0  # bit buffer, least significant bits first
     bits, mask = 9, 0x1FF
     end = 256 if block else 255  # last code in the table
-    prefix = [0] * 65536
-    suffix = bytearray(range(256)) + bytearray(65536 - 256)
+    table = [bytes((i,)) for i in range(256)] + [b""] * (65536 - 256)  # each code's whole string
     out = bytearray()
     if pos >= n:
         return bytes(out)
@@ -42,12 +41,12 @@ def unlzw(data: bytes) -> bytes:
         left += 8
     if left < bits:
         return bytes(out)
-    prev = final = buf & mask
+    prev = buf & mask
     buf >>= bits
     left -= bits
     if prev > 255:
         raise ValueError("damaged .Z file: download it again")
-    out.append(final)
+    out.append(prev)
     while True:
         if end >= mask and bits < max_bits:  # the table is full at this size: one more bit per code
             flush()
@@ -66,25 +65,17 @@ def unlzw(data: bytes) -> bytes:
             flush()
             bits, mask, end = 9, 0x1FF, 255
             continue
-        temp = code
-        stack = bytearray()
         if code > end:  # the code being defined now (KwKwK)
             if code != end + 1 or prev > end:
                 raise ValueError("damaged .Z file: download it again")
-            stack.append(final)
-            code = prev
-        while code >= 256:
-            stack.append(suffix[code])
-            code = prefix[code]
-        stack.append(code)
-        final = code
+            entry = table[prev] + table[prev][:1]
+        else:
+            entry = table[code]
         if end < mask:
             end += 1
-            prefix[end] = prev
-            suffix[end] = final
-        prev = temp
-        stack.reverse()
-        out += stack
+            table[end] = table[prev] + entry[:1]
+        prev = code
+        out += entry
     return bytes(out)
 
 
