@@ -176,3 +176,9 @@ def test_no_translation_is_filed_without_a_context():
     for ts in (Path(astrowb.__file__).parent / "resources" / "i18n").glob("*.ts"):
         names = [c.findtext("name") for c in ET.parse(ts).getroot().iter("context")]
         assert all(names), ts.name
+
+
+def test_task_error_drops_the_generic_value_error_name():
+    trace = 'Traceback (most recent call last):\n  File "x.py", line 1, in f\n    g()\n'
+    trace += "ValueError: identify at least two lines"
+    assert task_error(trace) == "identify at least two lines"

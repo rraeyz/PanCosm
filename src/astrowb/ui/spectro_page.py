@@ -430,6 +430,8 @@ class ReduceTab(Undoable, QWidget):
             database, reference = _database_and_reference(path)
             features = reidentify.read_database(database)[record]["features"]
             peaks = self.result["arc_peaks"]
+            if reference is not None and reidentify.is_frame(reference):  # its pixels are this spectrograph's
+                reference = None
             if reference is not None:
                 wave, flux = reidentify.reference_arc(reference)
                 lines = [(f["wave"], f["label"]) for f in features]

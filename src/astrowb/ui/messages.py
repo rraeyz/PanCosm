@@ -278,6 +278,10 @@ TEMPLATES = (
         "Messages",
         "the spectrum could not be followed: for a faint one, give a brighter spectrum's row for its trace shape",
     ),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the spectrum runs the other way on this frame: change 'Dispersion along' (rows / columns)",
+    ),
     # spectroscopy/templates.py
     QT_TRANSLATE_NOOP("Messages", "the spectrum has no part with a clear signal to compare"),
     # spectroscopy/telluric.py
@@ -384,4 +388,5 @@ def task_error(traceback_text: str) -> str:
     text = re.sub(
         r"^(?:[A-Za-z_]\w*\.)+(?=\w+:)", "", text
     )  # "astrowb.planning.targets.TargetError:" -> "TargetError:"
+    text = re.sub(r"^ValueError: ", "", text)  # Python's generic type says nothing to an observer; SafetyError etc. do
     return translate(text) if lines else ""

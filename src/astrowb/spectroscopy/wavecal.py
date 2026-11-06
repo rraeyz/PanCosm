@@ -122,12 +122,13 @@ def _clipped_fit(px, wv, deg, clip):
     return coef, keep, sd
 
 
-def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.15):
+def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.05):
     """guesses: [(pixel, wavelength), ...] (>= 2). Returns a Solution or raises ValueError.
 
     Lines are matched first between the identified ones, where the first (linear) solution is
     good, then the window grows outwards by `grow` of the pixel range per step, refitting each
-    time, so curved dispersions are followed instead of extrapolated."""
+    time, so curved dispersions are followed instead of extrapolated (steps of 15 % let the curve of EFOSC2 grism 11
+    run 27 A off in the blue: five correct lines by hand gave 3 A rms; with 5 % two lines are enough for 0.21 A)."""
     peaks, catalogue = np.sort(np.asarray(peaks, float)), np.sort(np.asarray(catalogue, float))
     g = np.asarray(guesses, float)
     if len(g) < 2:
@@ -143,9 +144,19 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.1
     catalogue = np.unique(np.r_[catalogue[alone], g[:, 1]])
     lo, hi = g[:, 0].min(), g[:, 0].max()
     span = peaks.max() - peaks.min()
+    # the identified lines stay what the user said they are (IRAF identify keeps them; only new lines are added): a
+    # PESSTO identification of He I 3888.7 was moved to 3928.6 by the matching and the EFOSC2 solution had 5 A rms
+    anchors = [(int(np.argmin(np.abs(peaks - p))), w) for p, w in g if np.min(np.abs(peaks - p)) <= 2.0]
+
+    def match(pred, tolerance):
+        nearest, ok = _match(pred, catalogue, tolerance)
+        for i, w in anchors:
+            nearest[i], ok[i] = int(np.searchsorted(catalogue, w)), True
+        return nearest, ok
+
     while True:
         inside = (peaks >= lo) & (peaks <= hi)
-        nearest, ok = _match(np.polyval(coef, peaks), catalogue, tol)
+        nearest, ok = match(np.polyval(coef, peaks), tol)
         ok &= inside
         deg = _degree(order, ok.sum())
         if ok.sum() <= deg + 1:
@@ -156,7 +167,7 @@ def solve(peaks, catalogue, guesses, order=3, tolerance=None, clip=3.0, grow=0.1
             break
         lo, hi = lo - grow * span, hi + grow * span
     for _ in range(3):  # final passes over all lines with a tightened tolerance
-        nearest, ok = _match(np.polyval(coef, peaks), catalogue, max(3 * sd, 0.3 * disp))
+        nearest, ok = match(np.polyval(coef, peaks), max(3 * sd, 0.3 * disp))
         px, wv = peaks[ok], catalogue[nearest[ok]]
         deg = _best_degree(px, wv, _degree(order, len(px)))
         if len(px) <= deg + 1:

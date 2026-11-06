@@ -346,7 +346,7 @@ Status of everything so far:
 | U5 | Online catalogues: fall back to CDS mirrors (Harvard) when Strasbourg does not answer; then T9's leftovers: AAVSO report and standard magnitudes on the real LCO night | DONE (see notes) |
 | U6 | Heavy use test, page by page, as an astronomer (every button, tooltip, text, dialog, menu, language, theme), with timings: U6a Start, U6b Plan, U6c Observe, U6d Calibrate, U6e Images, U6f Photometry, U6g Light curves & O−C, U6h Spectroscopy, U6i Orbits & models, U6j Remote sensing, U6k Automation, U6l Project, U6m Guide, U6n menus / settings / dialogs | CLAIMED (session 019Lu3, 2026-11-05): automatic sweep DONE in 4 languages; real-data use per page in progress |
 | U7 | Every feature on new real data from the internet (list in the notes; record sources) | open |
-| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-06): U8a, U8c, U8d DONE; U8b, U8e next |
+| U8 | Raw vs published processed data: U8a LCO raw (e00) vs BANZAI-reduced (e91) frames and photometry; U8b ESO raw echelle (HARPS / FEROS) vs ESO's reduced spectra; U8c TESS FFI photometry vs the SPOC light curve; U8d IRAF installed here: the same raw long-slit and photometry reduced in IRAF vs here; U8e times of minimum vs published | CLAIMED (session 019Lu3, 2026-11-06): U8a, U8c, U8d, U8e DONE; U8b (ESO echelle raw vs reduced) open |
 | U9 | Speed: every operation timed (speed log below), slow ones fixed and measured again | IN PROGRESS (speed log below; period search fixed) |
 | U10 | Re-run the tests touched by every fix; CI green | open |
 | U11 | Basic / Expert interface mode (chosen on the Start page, changeable later; settings stay where they are, only folded) — postponed by the owner, do not forget | postponed |
@@ -434,6 +434,22 @@ aperture 2.5 px = 94 % of the light, sky in the corners 4.9–7.0 px); test `tes
 Result: ours = SPOC SAP_FLUX to 0.020 % rms (correlation 1.00000, amplitude 0.5402 vs 0.5403). PDCSAP's amplitude
 is larger (0.755) because SPOC removes the light of neighbouring stars (CROWDSAP) - the application's light curve
 is the SAP kind.
+**U8e (done).** KIC 6525196 against the Kepler EB catalogue (Kirk et al. 2016, VizieR J/AJ/151/68): P 3.4206042 +-
+0.0000062 d, BJD0 2454954.3521 +- 0.024; ours (linear ephemeris of the 801 minima, both eclipses as "I", so x 2)
+P 3.4205978 +- 0.0000007 d (within the catalogue's 1 sigma), T0 2454954.35372 (within its error; 2.3 min, the third
+body's light-time swing is +-4.25 min).
+**U6h (done): a raw EFOSC2 night on the Calibrate and Spectroscopy pages, as a user.** Found and fixed: (a) the Reduce
+tab said "Working…" behind an error box when a step failed: spectroscopy steps (and remote sensing) now write the
+error on their tab; "ValueError:" is no longer shown to the user; (b) with the default "Dispersion along rows" the
+EFOSC2 spectrum (which runs along y) gave "could not be followed": when the other orientation traces, the message now
+says to change "Dispersion along"; (c) "Lines from a reference arc / IRAF database" with PESSTO's database found 0 of
+9 lines: its reference is the raw 2-D arc frame, read as if it were a 1-D calibrated spectrum; a 2-D reference now
+takes the database's pixels with IRAF reidentify's shift (9 of 9, +2.4 px); (d) the wavelength solver moved an
+identified line to another catalogue line (He I 3888.7 -> 3928.6) and grew its window in steps of 15 % of the arc,
+so the curved grism-11 dispersion ran 27 A off in the blue and five correct lines by hand gave 3.1 A rms: identified
+lines now stay as given and the window grows in 5 % steps. Now every start (2 lines, 4 or 5 by hand in the middle,
+PESSTO's 9) gives 13 lines, degree 4, rms 0.21 A, as before with nine. Tests `tests/test_wavecal_real.py`,
+`test_task_error_drops_the_generic_value_error_name`. Times: scan 3 s, calibrate 3 s, extract 2 s, solve 1.3 s.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
