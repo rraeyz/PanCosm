@@ -1265,6 +1265,15 @@ class CalibratePage(QWidget):
         )
         from .messages import translate
 
+        unused = out.get("unused_groups") or []
+        if unused:  # not combined: no light needs them (another size, binning, filter or setting)
+            self.result.setText(
+                self.result.text()
+                + " "
+                + self.tr("{n} groups of calibration frames fit no light and were not combined (e.g. {file}).").format(
+                    n=len(unused), file=unused[0]["file"]
+                )
+            )
         failed = out.get("failed_masters") or []
         if failed:  # said where the user looks for problems, the frames list's note box
             kinds = {"bias": self.tr("bias"), "dark": self.tr("dark"), "flat": self.tr("flat")}

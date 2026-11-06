@@ -448,3 +448,23 @@ def test_a_flat_matches_whatever_its_gain_but_not_another_read_out_mode():
     assert best_flat(light, [master]) is master
     assert best_flat(frame("light", "GAIN=0.78|MODE=HDR"), [frame("flat", "GAIN=0.78|MODE=Photographic")]) is None
     assert best_bias(light, [frame("bias", "GAIN=17290.87759326866")]) is None  # bias and dark: every setting
+
+
+def test_groups_no_light_needs_are_not_combined():
+    """Real LCO night: half the bias and darks were full-chip (6422 x 9600), the lights a 2400 x 2400 crop."""
+    from astrowb.calibration.frames import Frame
+    from astrowb.calibration.matching import group_key, make_plan
+    from astrowb.calibration.steps import _unused_groups
+
+    def frame(kind, shape, exptime=30.0, filt="V"):
+        return Frame(f"{kind}{shape[0]}", kind, exptime, filt, None, (1, 1), shape, "GAIN=0.78", "2026-11-03", "")
+
+    crop, chip = (2400, 2400), (6422, 9600)
+    frames = [frame("light", crop), frame("bias", crop, 0.0), frame("bias", chip, 0.0), frame("dark", crop, 300.0)]
+    frames += [frame("dark", chip, 300.0), frame("flat", crop, 2.0), frame("flat", crop, 2.0, "R")]
+    plan = make_plan(frames)
+    reps = {group_key(f): f for f in frames if f.kind != "light"}
+    unused = _unused_groups(plan, reps, 2.0)
+    assert sorted((k[0], k[1]) for k in unused) == [("bias", chip), ("dark", chip), ("flat", crop)]
+    assert [k[-1] for k in unused if k[0] == "flat"] == ["r"]  # the R flat: no R light
+    assert _unused_groups(make_plan([f for f in frames if f.kind != "light"]), reps, 2.0) == []  # masters only

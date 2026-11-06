@@ -46,6 +46,26 @@ def _frames(dicts):
     return [Frame(**d | {"binning": tuple(d["binning"]), "shape": tuple(d["shape"])}) for d in dicts]
 
 
+def _unused_groups(plan, reps, temp_tol):
+    """Groups of bias / darks / flats that no light needs, directly or through the flats and darks it uses: not
+    combined (on a real LCO night, full-chip bias and darks of 61 MP next to the lights' 2400 x 2400 crop took most of
+    the time). Without lights every group is a wanted master."""
+    if not plan.lights:
+        return []
+    need = {e[k] for e in plan.lights for k in ("bias", "dark", "flat") if e.get(k)}
+    biases = [reps[k] for k in plan.groups if k[0] == "bias"]
+    darks = [reps[k] for k in plan.groups if k[0] == "dark"]
+    for key in [k for k in need if k[0] in ("dark", "flat")]:  # what a dark or flat master is made with
+        b = best_bias(reps[key], biases)
+        need |= {group_key(b)} if b else set()
+        if key[0] == "flat":
+            d = best_dark(reps[key], darks, temp_tol, lambda _: bool(biases))
+            need |= {group_key(d)} if d else set()
+            if d and (b2 := best_bias(d, biases)):
+                need.add(group_key(b2))
+    return [k for k in plan.groups if k not in need]
+
+
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
@@ -88,7 +108,10 @@ def _run(inputs, params, ctx):
         return any(k[0] == "bias" for k in built)
 
     temp_tol = params["temp_tol"]
-    order = sorted(plan.groups, key=lambda k: ("bias", "dark", "flat").index(kinds[k]))  # flats need bias + dark
+    unused = _unused_groups(plan, reps, temp_tol)  # e.g. full-chip bias next to the cropped lights' (real LCO night)
+    order = sorted(
+        (k for k in plan.groups if k not in unused), key=lambda k: ("bias", "dark", "flat").index(kinds[k])
+    )  # flats need bias + dark
     failed = []  # masters that could not be made: their frames are left out, the lights calibrated without them
     for n, key in enumerate(order):
         ctx.check()
@@ -162,6 +185,9 @@ def _run(inputs, params, ctx):
             (arcs if entry["light"] in lamps else calibrated).append(saved)
     written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
     return {
+        "unused_groups": [
+            {"kind": k[0], "frames": len(plan.groups[k]), "file": Path(plan.groups[k][0]).name} for k in unused
+        ],
         "masters": written,
         "calibrated": calibrated,
         "missing": plan.missing,
