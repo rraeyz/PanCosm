@@ -231,6 +231,27 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+**Owner's go of 2026-11-06 ~12:50 UTC: "start, do all of them in order, do not stop until done"; for missing
+data: download real data with astropy / astroquery / archives (Gaia, TESS…) and try every feature with them.**
+Network from the agent container (12:50 UTC): ESA Gaia archive gea.esac.esa.int OK; VizieR: CDS no answer, CfA OK
+(empty for Gaia / APASS), IDIA slow; ESO archive OK; NASA Exoplanet Archive OK; IRSA OK; MAST API answers; AAVSO 403
+(bot check — never try to get around it); BeSS 500. Plan (claim → done, in this order):
+- P1 **CLAIMED (01RxUU)** Photometry: MaxIm-like list of all frames beside the image (name, time, FWHM, sky, use box; click shows the
+  frame; bad frames red) + "blink" button.
+- P2 Basic / Expert interface mode (U11).
+- P3 Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
+  straight from the ESA Gaia archive when VizieR does not answer.
+- P4 Period page: error bars (the measurement errors carried there).
+- P5 Echelle step: zero point from the night-sky lines (as long-slit).
+- P6 HARPS: drift between the evening's two ThAr frames.
+- P7 TODCOR light ratio FEROS 0.33 vs HARPS 0.66 for the same stars: find why.
+- P8 MK type suggestion: validate against many stars of published type (archive spectra), report the scatter.
+- P9 Standard magnitudes and the AAVSO report on real data (catalogue magnitudes via Gaia archive / VizieR CfA).
+- P10 ExoClock / ETD export from the Models page with a light curve we measure (TESS transit).
+- P11 Raw long-slit frames of a small spectrograph (search public archives again).
+- P12 Disentangling on a real SB2 series that covers the whole orbit (ESO archive).
+- P13 Then every other feature once more on freshly downloaded real data; release.
+
 **Owner's feedback of 2026-11-06 (~09:00 UTC), after trying v0.2.0 — the plan, in this order (claim each before
 starting, mark DONE with results):**
 - O1 **DONE** SIMBAD: a slow mirror is left after 15 s for the next (`mirrors._within`, `patience`); SIMBAD now has
