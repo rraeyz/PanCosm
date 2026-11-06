@@ -88,7 +88,13 @@ class MovingObjectDialog(QDialog):
         self.observers.setPlaceholderText(self.tr("names, separated by commas"))
         self.observers.setToolTip(self.tr("Names of the observers, written into the report"))
         self.catalog = QLineEdit(saved.get("catalog", "Gaia3"), self)
-        self.catalog.setToolTip(self.tr("Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)"))
+        self.catalog.setToolTip(
+            self.tr(
+                "Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver "
+                "recorded it: astrometry.net's 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 "
+                "(Gaia2); ASTAP's star databases come from Gaia (check which release yours is)"
+            )
+        )
         form.addRow(self.tr("Object"), self.designation)
         form.addRow(self.tr("Observatory code"), self.code)
         form.addRow(self.tr("Observers"), self.observers)
@@ -139,6 +145,15 @@ class MovingObjectDialog(QDialog):
 
     def show_positions(self, rows, unsolved=()):
         self.positions = rows
+        cats = {p.get("ast_cat") for p in rows} - {None}
+        note = ""
+        if len(cats) == 1 and (cat := cats.pop()) != self.catalog.text().strip():
+            self.catalog.setText(cat)
+            note = " " + self.tr("Catalogue set to {c}: the frames' plate solutions rest on it.").format(c=cat)
+        elif len(cats) > 1:
+            note = " " + self.tr("The frames were solved against different catalogues ({c}): solve them alike.").format(
+                c=", ".join(sorted(cats))
+            )
         self.table.setRowCount(len(rows))
         for r, p in enumerate(rows):
             resid = "—" if p["resid"] is None else f"{p['resid']:.2f}"
@@ -154,6 +169,7 @@ class MovingObjectDialog(QDialog):
                 if unsolved
                 else ""
             )
+            + note
         )
         self.export_button.setEnabled(bool(rows))
 

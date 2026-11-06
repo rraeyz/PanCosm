@@ -9,6 +9,7 @@ ASTAP command line (hnsky.org/astap.htm): -f file -r radius_deg -fov height_deg 
 """
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -147,7 +148,21 @@ def solve(
             out[key] = solved[key]
     if not WCS(out).has_celestial:
         raise SolveError("the solver's output has no celestial WCS")
+    cat = reference_catalogue(solved)
+    if cat:
+        out["ASTCAT"] = (cat, "star catalogue of the plate solution (ADES astCat)")
     return out
+
+
+def reference_catalogue(solved):
+    """ADES astCat of an astrometry.net solution, from the index it used ("index id: 4206"), or None. The index
+    series are built from Tycho-2 (4100), 2MASS (4200) and Gaia DR2 (5000, 5200); an MPC report must name it."""
+    for card in solved.cards:
+        m = re.match(r"index id:\s*(\d+)", str(card.value)) if card.keyword in ("COMMENT", "HISTORY") else None
+        if m:
+            series = int(m.group(1)) // 100
+            return {41: "Tyc2", 42: "2MASS", 50: "Gaia2", 52: "Gaia2"}.get(series)
+    return None
 
 
 def _read_header(path) -> fits.Header:

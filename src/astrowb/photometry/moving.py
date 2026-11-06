@@ -41,6 +41,7 @@ def track(paths, first_xy, last_xy, box=11):
                 "y": float(y),
                 "ra": float(sky.ra.deg),
                 "dec": float(sky.dec.deg),
+                "ast_cat": header.get("ASTCAT"),  # the plate solution's star catalogue, when the solver said
             }
         )
     return residuals(rows)

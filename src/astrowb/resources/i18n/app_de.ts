@@ -4918,77 +4918,87 @@
         <translation>Namen der Beobachter, werden in den Bericht geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="91"/>
-        <source>Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)</source>
-        <translation>Sternkatalog der astrometrischen Lösungen (ASTAP und astrometry.net: Gaia)</translation>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
+        <translation>Sternkatalog, auf dem die Astrometrielösungen beruhen (ADES astCat). Aus den Aufnahmen übernommen, wenn der Löser ihn vermerkt hat: die 4100-Indizes von astrometry.net sind Tycho-2 (Tyc2), 4200 sind 2MASS, 5200 sind Gaia DR2 (Gaia2); die Sterndatenbanken von ASTAP stammen aus Gaia (prüfen Sie, welche Version Ihre ist)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <location filename="../../ui/moving_dialog.py" line="98"/>
         <source>Object</source>
         <translation>Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <location filename="../../ui/moving_dialog.py" line="99"/>
         <source>Observatory code</source>
         <translation>Sternwartencode</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="100"/>
         <source>Observers</source>
         <translation>Beobachter</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="95"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="97"/>
+        <location filename="../../ui/moving_dialog.py" line="103"/>
         <source>Write MPC report (ADES)…</source>
         <translation>MPC-Bericht schreiben (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="107"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation>Schreibt die Positionen im ADES-Format des MPC, bereit zum Senden an das Minor Planet Center</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="115"/>
+        <location filename="../../ui/moving_dialog.py" line="121"/>
         <source>Click the object on the first frame.</source>
         <translation>Klicken Sie im ersten Bild auf das Objekt.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="120"/>
+        <location filename="../../ui/moving_dialog.py" line="126"/>
         <source>Choose frames</source>
         <translation>Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="133"/>
+        <location filename="../../ui/moving_dialog.py" line="139"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Klicken Sie jetzt im letzten Bild auf das Objekt (die erste Position ist markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="137"/>
+        <location filename="../../ui/moving_dialog.py" line="143"/>
         <source>Press Measure positions.</source>
         <translation>Drücken Sie „Positionen messen“.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="149"/>
+        <location filename="../../ui/moving_dialog.py" line="152"/>
+        <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
+        <translation>Katalog auf {c} gesetzt: Die Astrometrielösungen der Aufnahmen beruhen darauf.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="154"/>
+        <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
+        <translation>Die Aufnahmen wurden mit verschiedenen Katalogen gelöst ({c}): lösen Sie sie gleich.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="164"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="168"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="185"/>
+        <location filename="../../ui/moving_dialog.py" line="201"/>
         <source>MPC report</source>
         <translation>MPC-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="189"/>
+        <location filename="../../ui/moving_dialog.py" line="205"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
     </message>

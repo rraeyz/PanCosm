@@ -4918,77 +4918,87 @@
         <translation>Nombres de los observadores, se escriben en el informe</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="91"/>
-        <source>Star catalogue of the plate solutions (ASTAP and astrometry.net: Gaia)</source>
-        <translation>Catálogo estelar de las reducciones astrométricas (ASTAP y astrometry.net: Gaia)</translation>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
+        <translation>Catálogo estelar en que se basan las soluciones astrométricas (ADES astCat). Se toma de las imágenes cuando el resolvedor lo registró: los índices 4100 de astrometry.net son Tycho-2 (Tyc2), los 4200 son 2MASS y los 5200 son Gaia DR2 (Gaia2); las bases de estrellas de ASTAP proceden de Gaia (compruebe qué versión es la suya)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <location filename="../../ui/moving_dialog.py" line="98"/>
         <source>Object</source>
         <translation>Objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="93"/>
+        <location filename="../../ui/moving_dialog.py" line="99"/>
         <source>Observatory code</source>
         <translation>Código de observatorio</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="100"/>
         <source>Observers</source>
         <translation>Observadores</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="95"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>Catalogue</source>
         <translation>Catálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="97"/>
+        <location filename="../../ui/moving_dialog.py" line="103"/>
         <source>Write MPC report (ADES)…</source>
         <translation>Escribir informe MPC (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="107"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation>Escribe las posiciones en el formato ADES del MPC, listas para enviar al Minor Planet Center</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="115"/>
+        <location filename="../../ui/moving_dialog.py" line="121"/>
         <source>Click the object on the first frame.</source>
         <translation>Pulse el objeto en la primera imagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="120"/>
+        <location filename="../../ui/moving_dialog.py" line="126"/>
         <source>Choose frames</source>
         <translation>Elegir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="133"/>
+        <location filename="../../ui/moving_dialog.py" line="139"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Ahora pulse el objeto en la última imagen (la primera posición está marcada).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="137"/>
+        <location filename="../../ui/moving_dialog.py" line="143"/>
         <source>Press Measure positions.</source>
         <translation>Pulse Medir posiciones.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="149"/>
+        <location filename="../../ui/moving_dialog.py" line="152"/>
+        <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
+        <translation>Catálogo fijado en {c}: las soluciones astrométricas de las imágenes se basan en él.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="154"/>
+        <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
+        <translation>Las imágenes se resolvieron con catálogos distintos ({c}): resuélvalas de la misma manera.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="164"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} posiciones. Mayor residuo {w:.2f}″ (más de ~1″: revise esa imagen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="168"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} tomas no se pudieron resolver astrométricamente y se dejaron fuera.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="185"/>
+        <location filename="../../ui/moving_dialog.py" line="201"/>
         <source>MPC report</source>
         <translation>Informe MPC</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="189"/>
+        <location filename="../../ui/moving_dialog.py" line="205"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Informe escrito: {p}. Envíelo al MPC (obs@minorplanetcenter.net o el formulario web).</translation>
     </message>
