@@ -89,3 +89,21 @@ def test_cds_mirrors_are_tried_in_turn_and_remembered(tmp_path, monkeypatch):
 
     with pytest.raises(TargetError):  # an answer, not a failure: not retried elsewhere
         mirrors.cds("simbad", missing)
+
+
+def test_a_slow_cds_server_is_left_for_the_next(tmp_path, monkeypatch):
+    import time
+
+    from astrowb import mirrors
+
+    monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    monkeypatch.setattr(mirrors, "_working", {})
+
+    def query(server):
+        if "unistra" in server:
+            time.sleep(5)  # up but slow: never answers in time
+        return server
+
+    t0 = time.time()
+    assert mirrors.cds("simbad", query, patience=0.3) == "simbad.harvard.edu" and time.time() - t0 < 2
+    assert len(mirrors.SERVERS["simbad"]) >= 3
