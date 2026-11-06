@@ -354,6 +354,8 @@ def telluric_step(inputs, params, ctx):
     components=1,
     template_rv=0.0,
     template2_rv=None,
+    template_vsini=0.0,
+    template2_vsini=0.0,
 )
 def rv_step(inputs, params, ctx):
     """Radial velocity of each spectrum against a template, barycentric-corrected when the header
@@ -361,7 +363,8 @@ def rv_step(inputs, params, ctx):
     (double-lined binary) both components are measured with TODCOR. method="bf": the broadening
     function with `components` rotational profiles (fast rotators, contact binaries); also v sin i.
     template_rv / template2_rv: the templates' own velocities (km/s; a real star's spectrum is not at rest: tau
-    Ceti -16.5, put on every velocity of TZ For); the second defaults to the first."""
+    Ceti -16.5, put on every velocity of TZ For); the second defaults to the first. template_vsini / template2_vsini:
+    the templates' lines broadened by rotation (km/s) to match each star (a fast rotator against a sharp template)."""
     v_t1 = float(params["template_rv"] or 0.0)
     v_t2 = v_t1 if params["template2_rv"] is None else float(params["template2_rv"])
     from ..photometry.lightcurve import target_coord
@@ -369,12 +372,12 @@ def rv_step(inputs, params, ctx):
 
     tw0, tf0, _, _ = spectrum_io.read(inputs["template"])
     good = np.isfinite(tf0)  # a template's gap (NaN) is bridged by interpolation: no lines, not zero flux
-    tw0, tf0 = tw0[good], rv.continuum_normalise(tw0[good], tf0[good])
+    tw0, tf0 = rv.rotate(tw0[good], rv.continuum_normalise(tw0[good], tf0[good]), params["template_vsini"])
     t2 = None
     if inputs.get("template2"):
         t2w, t2f, _, _ = spectrum_io.read(inputs["template2"])
         good = np.isfinite(t2f)
-        t2 = (t2w[good], rv.continuum_normalise(t2w[good], t2f[good]))
+        t2 = rv.rotate(t2w[good], rv.continuum_normalise(t2w[good], t2f[good]), params["template2_vsini"])
     site = Site(**inputs["site"]).location if inputs.get("site") else None
     rows, skipped = [], []
     for i, path in enumerate(inputs["spectra"]):

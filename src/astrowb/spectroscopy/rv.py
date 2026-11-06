@@ -52,6 +52,22 @@ def continuum_normalise(wave, flux, order=3, iterations=8, low=1.5, high=3.0, pi
     return flux / cont
 
 
+def rotate(wave, flux, vsini):
+    """A continuum-normalised template's lines broadened by rotation (Gray's profile, limb darkening 0.6), as TODCOR
+    and fxcor users match a sharp-lined template to a fast rotator (TZ For's F giant, v sin i 46 km/s: with the sharp
+    template its HARPS velocities came out 40-80 km/s off Gallenne et al. 2016, broadened 0.3-0.7 km/s). Returns the
+    template on a log-uniform grid; vsini 0 returns it unchanged."""
+    if not vsini:
+        return wave, flux
+    from .atmosphere import rotation_kernel
+
+    ln = np.log(np.asarray(wave, float))
+    d = float(np.median(np.diff(ln)))
+    grid = np.arange(ln[0], ln[-1], d)
+    f = np.interp(grid, ln, np.asarray(flux, float)) - 1.0
+    return np.exp(grid), np.convolve(f, rotation_kernel(float(vsini), C_KMS * d), mode="same") + 1.0
+
+
 def match_template(wave, t_wave, t_flux, fwhm_pixels=2.5):
     """The template smoothed to the observed spectrum's resolution when it is much finer (a solar atlas against a
     small spectrograph): sampled at the observed pixels it aliases, each pixel catching whatever sharp line edge it

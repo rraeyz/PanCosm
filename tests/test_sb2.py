@@ -228,3 +228,33 @@ def test_one_smooth_template_does_not_pull_both_stars_together():
     tmpl = star(0.0)
     r = sb2.todcor(wave, obs, wave, tmpl, wave, tmpl.copy(), -150, 150)
     assert abs(r["rv1"] + 33.0) < 0.5 and abs(r["rv2"] - 58.0) < 0.5 and 0.5 < r["flux_ratio"] < 0.7
+
+
+def test_a_circular_double_lined_orbit_is_fitted_circular():
+    # TZ For (HARPS, BF velocities): with e free, T_peri and omega are undefined on a circular orbit and their
+    # covariance spoiled the rest (K errors 15 km/s, a sin i 16.7 instead of 120 R_sun)
+    from astrowb.spectroscopy.orbit import fit_sb2, rv_model, sb2_dimensions
+
+    rng = np.random.default_rng(4)
+    t = np.sort(rng.uniform(0, 400, 22))
+    v1 = rv_model(t, 75.66647, 10.0, 0.0, 90.0, 38.9, 18.0) + rng.normal(0, 0.6, t.size)
+    v2 = rv_model(t, 75.66647, 10.0, 0.0, 270.0, 40.9, 18.0) + rng.normal(0, 3.0, t.size)
+    o = fit_sb2(t, v1, t, v2, period=75.66647, fix_period=True)
+    assert o["circular"] and o["e"] == 0 and o["k_err"] < 1 and o["k2_err"] < 1.5
+    assert o["k"] == pytest.approx(38.9, abs=0.6) and o["k2"] == pytest.approx(40.9, abs=2)
+    assert o["a_sini_rsun"] == pytest.approx(sb2_dimensions(75.66647, 0, o["k"], o["k2"])[2], rel=1e-6)
+    eccentric = fit_sb2(t, v1, t, v2, period=75.66647, fix_period=True, circular=False)
+    assert not eccentric["circular"]
+
+
+def test_a_template_broadened_to_a_fast_rotator():
+    from astrowb.spectroscopy import rv
+
+    wave = np.exp(np.arange(np.log(5000.0), np.log(5100.0), 1 / 200000))
+    sharp = 1 - 0.6 * np.exp(-0.5 * ((wave - 5050.0) / 0.03) ** 2)
+    w2, broad = rv.rotate(wave, sharp, 46.0)
+    depth = lambda w, f: np.trapezoid(1 - f, w)  # noqa: E731
+    assert depth(w2, broad) == pytest.approx(depth(wave, sharp), rel=0.02)  # the line keeps its strength
+    half = w2[broad < 1 - (1 - broad.min()) / 2]
+    assert (half[-1] - half[0]) / 5050 * rv.C_KMS == pytest.approx(2 * 46 * 0.87, rel=0.2)  # ~ 80 km/s wide
+    assert rv.rotate(wave, sharp, 0)[1] is sharp

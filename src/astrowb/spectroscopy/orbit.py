@@ -57,8 +57,18 @@ def sb2_dimensions(period_d, e, k1, k2):
     return base * k2, base * k1, (k1 + k2) * np.asarray(period_d, float) * DAY * root / (2 * np.pi) / R_SUN
 
 
-def fit_orbit(t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k=None, gamma=None, fix_period=False):
-    """Least-squares SB1 orbit. Returns dict of parameters, errors, chi2r, mass function, a sin i."""
+def _circular_now(out, circular):
+    """Lucy & Sweeney (1971): an eccentricity under 2.45 of its error is not significant; the orbit is then fitted
+    circular (e = 0, omega fixed at 90 deg): with e free T_peri and omega are undefined there and their covariance
+    spoiled the other errors (TZ For: K errors of 15 km/s, a sin i 16.7 instead of 120 R_sun)."""
+    return circular is None and not out["e"] > 2.45 * out["e_err"]
+
+
+def fit_orbit(
+    t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k=None, gamma=None, fix_period=False, circular=None
+):
+    """Least-squares SB1 orbit. Returns dict of parameters, errors, chi2r, mass function, a sin i. circular: None
+    decides by the Lucy & Sweeney test (out["circular"] says which), True / False forces it."""
     t, v = np.asarray(t, float), np.asarray(v, float)
     w = np.ones_like(v) if err is None else 1 / np.asarray(err, float)
     tref = float(np.round(t.mean(), 1))  # small numbers for the numerical derivatives
@@ -70,6 +80,9 @@ def fit_orbit(t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k
 
     def unpack(p):
         per = period if fix_period else p[0]
+        if circular:
+            tp, kk, g = p[-3:]
+            return per, tp, 0.0, 90.0, kk, g
         tp, sc, ss, kk, g = p[-5:]
         ee = sc * sc + ss * ss
         return per, tp, min(ee, 0.99), np.degrees(np.arctan2(ss, sc)), kk, g
@@ -78,7 +91,9 @@ def fit_orbit(t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k
         per, tp, ee, om, kk, g = unpack(p)
         return (rv_model(t - tref, per, tp, ee, om, kk, g) - v) * w
 
-    p0 = ([] if fix_period else [period]) + [t_peri, ce, se, k, gamma]
+    if circular:  # T_peri then means the time the star crosses gamma going down (omega 90 deg)
+        t_peri = _sinusoid(t - tref, v, period, 90.0)[2]
+    p0 = ([] if fix_period else [period]) + [t_peri] + ([] if circular else [ce, se]) + [k, gamma]
     res = least_squares(resid, p0, x_scale="jac")
     dof = max(1, len(v) - len(p0))
     chi2r = float(np.sum(res.fun**2) / dof)
@@ -94,7 +109,7 @@ def fit_orbit(t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k
         "period": per,
         "period_err": 0.0 if fix_period else float(sd[0]),
         "t_peri": tp + tref,
-        "t_peri_err": float(sd[-5]),
+        "t_peri_err": float(sd[-3 if circular else -5]),
         "e": ee,
         "e_err": float(np.std(derived[:, 0])),
         "omega": om % 360,
@@ -107,11 +122,14 @@ def fit_orbit(t, v, err=None, period=None, t_peri=None, e=0.1, omega_deg=90.0, k
         "mass_function": float(fm),
         "a_sini_rsun": float(kk_abs * 1e3 * per * DAY * np.sqrt(1 - ee**2) / (2 * np.pi) / R_SUN),
         "rms": float(np.std(rv_model(t - tref, per, tp, ee, om, kk, g) - v)),
+        "circular": bool(circular),
     }
+    if _circular_now(out, circular):
+        return fit_orbit(t + 0, v, err, period, None, e, omega_deg, None, None, fix_period, circular=True)
     return out
 
 
-def fit_sb2(t1, v1, t2, v2, err1=None, err2=None, period=None, fix_period=False, e=0.1, omega_deg=90.0):
+def fit_sb2(t1, v1, t2, v2, err1=None, err2=None, period=None, fix_period=False, e=0.1, omega_deg=90.0, circular=None):
     """Double-lined orbit: both components share P, T_peri, e, omega (secondary at omega + 180 deg)
     and gamma; K1, K2 free. Returns the SB1-style dict plus k2, q = K1/K2, m1 sin^3 i, m2 sin^3 i
     (solar masses) and a sin i (solar radii) of the system."""
@@ -123,10 +141,15 @@ def fit_sb2(t1, v1, t2, v2, err1=None, err2=None, period=None, fix_period=False,
     se, ce = np.sqrt(e) * np.sin(np.radians(omega_deg)), np.sqrt(e) * np.cos(np.radians(omega_deg))
     g1, k1_0, tp0 = _sinusoid(t1 - tref, v1, period, omega_deg)
     g2, k2_0, _ = _sinusoid(t2 - tref, v2, period, omega_deg + 180.0)
-    p0 = ([] if fix_period else [period]) + [tp0, ce, se, k1_0, k2_0, 0.5 * (g1 + g2)]
+    if circular:  # T_peri then means the time the primary crosses gamma going down (omega 90 deg)
+        tp0 = _sinusoid(t1 - tref, v1, period, 90.0)[2]
+    p0 = ([] if fix_period else [period]) + [tp0] + ([] if circular else [ce, se]) + [k1_0, k2_0, 0.5 * (g1 + g2)]
 
     def unpack(p):
         per = period if fix_period else p[0]
+        if circular:
+            tp, k1, k2, g = p[-4:]
+            return per, tp, 0.0, 90.0, k1, k2, g
         tp, sc, ss, k1, k2, g = p[-6:]
         return per, tp, min(sc * sc + ss * ss, 0.99), np.degrees(np.arctan2(ss, sc)), k1, k2, g
 
@@ -147,11 +170,11 @@ def fit_sb2(t1, v1, t2, v2, err1=None, err2=None, period=None, fix_period=False,
     m1, m2, asini = sb2_dimensions(d[:, 0], d[:, 2], d[:, 4], d[:, 5])
     sd = np.sqrt(np.diag(cov))
     r = resid(res.x)
-    return {
+    out = {
         "period": per,
         "period_err": 0.0 if fix_period else float(sd[0]),
         "t_peri": tp + tref,
-        "t_peri_err": float(sd[-6]),
+        "t_peri_err": float(sd[-4 if circular else -6]),
         "e": ee,
         "e_err": float(np.std(d[:, 2])),
         "omega": om % 360,
@@ -168,9 +191,13 @@ def fit_sb2(t1, v1, t2, v2, err1=None, err2=None, period=None, fix_period=False,
         "m1_sin3i_err": float(np.std(m1)),
         "m2_sin3i": float(sb2_dimensions(per, ee, k1, k2)[1]),
         "m2_sin3i_err": float(np.std(m2)),
-        "a_sini_rsun": float(np.median(asini)),
+        "a_sini_rsun": float(sb2_dimensions(per, ee, k1, k2)[2]),  # at the best fit, as the masses
         "a_sini_err": float(np.std(asini)),
         "chi2r": chi2r,
         "rms": float(np.std(r[: len(v1)] / w1)),
         "rms2": float(np.std(r[len(v1) :] / w2)),
+        "circular": bool(circular),
     }
+    if _circular_now(out, circular):
+        return fit_sb2(t1, v1, t2, v2, err1, err2, period, fix_period, e, omega_deg, circular=True)
+    return out

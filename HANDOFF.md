@@ -246,11 +246,37 @@ planned in stages, this file updated as each step is claimed and done; when the 
 
 | Stage | What | Status |
 |---|---|---|
-| R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | CLAIMED |
-| R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | open |
+| R1 | Finish P12 (TZ For: TODCOR / BF velocities vs Gallenne 2016, orbit, disentangling, MK of the components) | DONE (see the R1 note below the table) |
+| R2 | Guided, IRAF-order workflow on the Spectroscopy page (long slit and echelle: calibrate → find / check orders by hand → extract → identify lines with the atlas / line list → fit and check residuals → apply → normalise → velocity), and the same "what to do next" for RV and O−C; guide chapter "If you know IRAF" (IRAF task ↔ page / button) | CLAIMED |
 | R3 | Speed / memory fixes from the second test round (Photometry quality + comparison suggestion 0.5 s per frame, remote-sensing memory 9.3 GB, TESS pixel files split into 18 758 files, single-core work), each measured before and after | open |
 | R4 | P13 + third full test round on the finished program (all features on real data, against other programs, timings, CPU / RAM / GPU), fix, measure again | open |
 | R5 | Last check of every page / button in four languages, full suite, CI green, release, plain-Turkish explanation for the owner (incl. how to use spectra, RV, O−C) | open |
+
+**R1 / P12 result (done).** TZ For, 22 HARPS ADP s1d (ESO TAP `target_name LIKE '%TZ%For%'`, dataportal), PHOENIX
+templates written in air (4900 K / 3.0 for the G8 III primary, 6300 K / 3.5 for the F7 III secondary; v sin i 6.1 and
+45.7 km/s from Gallenne et al. 2016, arXiv:1511.07971, Table 1 = their HARPS velocities). Found and fixed:
+(1) **TODCOR lost the broad-lined F star** with sharp templates (secondary 40–80 km/s off, light ratio 1.06): new
+`template_vsini` / `template2_vsini` (rv step, `rv.rotate`, Velocity tab "Template v sin i (km/s)") — primary
++0.28 +- 0.03 km/s off Gallenne (a constant zero-point difference), secondary within 0.4–0.8 km/s at 6 of 8 epochs.
+(2) **The broadening function failed on 14 of 22 spectra** ("fewer than 2 peaks": the F star's broad, low profile
+sits on the G star's shoulder and makes no peak): `bf._fit` now fits what it finds, looks for the next star in what
+is left (the found stars' profiles left out, 5 sigma of the rest), and fits them together; the model is smoothed like
+the BF it is fitted to (a sharp star's profile otherwise left wings). Now 22 of 22: primary +0.30 +- 0.03 km/s,
+secondary 0.2–1.4 km/s at 6 of 8 epochs; the 2 epochs where the stars are only ~46 km/s apart (= the F star's
+v sin i) stay ~10 km/s off with both methods (Gallenne iterate BF with two templates) — written in the guide.
+(3) **SB2 orbit of a circular binary:** with e free, T_peri and omega were undefined, the covariance spoiled every
+error (K +- 15 km/s) and a sin i came out 16.7 instead of 120 R_sun (median of the broken draws). Lucy & Sweeney
+(1971) test in `fit_orbit` and `fit_sb2` (e < 2.45 sigma_e -> refit with e = 0, omega = 90 fixed, `circular` flag,
+said on the Velocity tab and in the export caption); a sin i at the best fit. All 22 epochs: K1 39.01 +- 0.87, K2 39.3
+(pulled by the 2 blended epochs), a sin i 117.1 +- 1.8 R_sun; the 10 epochs > 60 km/s apart: K1 39.06, K2 41.52,
+gamma 18.6 (Gallenne 38.90 / 40.87 / 17.99–18.35). (4) **Disentangling** (orbit velocities, 3900–5600 A, 18 s): the
+components' narrow lines are right — CCF against PHOENIX picks 4900 K for the primary (literature 4930 K) and a hotter
+star for the secondary — but their MK types (F8 V, A3 Ia) are wrong because the separable width is 160 km/s = 2.5 A
+and the MK types rest on Balmer wings: the Velocity tab already says so after disentangling. Tests:
+`test_a_broad_star_on_the_shoulder_of_a_sharp_one`, `test_a_single_star_is_not_split_in_two` (test_bf.py),
+`test_a_circular_double_lined_orbit_is_fitted_circular`, `test_a_template_broadened_to_a_fast_rotator`
+(test_sb2.py). Timings: TODCOR 22 spectra 4500–6500 A 340–540 s (15–25 s each), BF 22 spectra 155 s. Not changed:
+PHOENIX cache files have no VACUUM keyword (they are not offered as templates; noted).
 
 
 **Owner's go of 2026-11-06 ~12:50 UTC: "start, do all of them in order, do not stop until done"; for missing
