@@ -8480,7 +8480,7 @@
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1713"/>
-        <location filename="../../ui/spectro_page.py" line="1769"/>
+        <location filename="../../ui/spectro_page.py" line="1793"/>
         <source>Instrument profile</source>
         <translation>Perfil del instrumento</translation>
     </message>
@@ -8510,7 +8510,17 @@
         <translation>Borra el perfil de instrumento elegido</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1769"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
+        <source>In what order? (click)</source>
+        <translation>¿En qué orden? (clic)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="1745"/>
+        <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) on the Calibrate page first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
+        <translation>1. Imágenes en bruto de su espectrógrafo: &lt;b&gt;Reducir&lt;/b&gt; (rendija larga: lámpara de arco → traza → extracción → longitudes de onda) o &lt;b&gt;Echelle&lt;/b&gt; (muchos órdenes). Calibre primero las imágenes (bias, dark, flat) en la página Calibrar.&lt;br&gt;2. Espectros que ya tienen longitudes de onda (un archivo, otra cadena de reducción): empiece en 3.&lt;br&gt;3. &lt;b&gt;Telúrica&lt;/b&gt; (opcional): divide la atmósfera terrestre (bandas de O₂, H₂O, sobre todo en el rojo) con una estrella caliente observada cerca del objetivo.&lt;br&gt;4. &lt;b&gt;Velocidad radial y órbita&lt;/b&gt;: la velocidad de la estrella en cada espectro frente a una plantilla, las dos estrellas de una binaria (TODCOR, función de ensanchamiento), la órbita, el tipo espectral (MK).&lt;br&gt;5. &lt;b&gt;Herramientas de espectro&lt;/b&gt;: normalizar, medir una línea (anchura equivalente, FWHM, V/R), suavizar, sumar o dividir espectros, parámetros atmosféricos (Teff, log g, [Fe/H]).&lt;br&gt;Los métodos y sus fórmulas: Guía, Espectroscopía y Matemáticas de los métodos.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_page.py" line="1793"/>
         <source>Name (e.g. telescope + spectrograph):</source>
         <translation>Nombre (p. ej. telescopio + espectrógrafo):</translation>
     </message>

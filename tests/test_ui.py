@@ -434,6 +434,12 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
 
 def test_spectroscopy_instrument_profiles(window):
     page = window.spectro_page
+    assert not page.steps.content.isVisibleTo(page)  # the order of work: one click away, not in the way
+    page.steps.set_expanded(True)
+    from PySide6.QtWidgets import QLabel
+
+    assert "Telluric" in page.steps.content.findChild(QLabel).text()
+    page.steps.set_expanded(False)
     page.echelle_tab.orientation.axis.setCurrentIndex(1)
     page.echelle_tab.orientation.reverse.setChecked(True)
     page.echelle_tab.fibre.setChecked(True)

@@ -1736,6 +1736,30 @@ class SpectroscopyPage(QWidget):
         bar.addStretch(1)
         lay = QVBoxLayout(self)
         lay.addLayout(bar)
+        from .workspaces import Collapsible
+
+        # the owner "did something but was not sure what": the order of the tabs' work, in one place
+        self.steps = Collapsible(self.tr("In what order? (click)"), self)
+        steps = QLabel(
+            self.tr(
+                "1. Raw frames from your spectrograph: <b>Reduce</b> (long slit: arc lamp → trace → extraction → "
+                "wavelengths) or <b>Echelle</b> (many orders). Calibrate the frames (bias, dark, flat) on the "
+                "Calibrate page first.<br>"
+                "2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.<br>"
+                "3. <b>Telluric</b> (optional): divides out the Earth's atmosphere (O₂, H₂O bands, mostly red) "
+                "with a hot star observed near your target.<br>"
+                "4. <b>Radial velocity &amp; orbit</b>: the star's velocity in every spectrum against a template, "
+                "two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).<br>"
+                "5. <b>Spectrum tools</b>: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or "
+                "divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).<br>"
+                "The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods."
+            ),
+            self,
+        )
+        steps.setWordWrap(True)
+        steps.setTextFormat(Qt.RichText)
+        self.steps.body.addWidget(steps)
+        lay.addWidget(self.steps)
         lay.addWidget(self.tabs, 1)
         self._fill_profiles()
 
