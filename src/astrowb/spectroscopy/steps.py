@@ -416,7 +416,7 @@ def rv_step(inputs, params, ctx):
         )
         if already:
             row |= {"v_corr": 0.0, "rv": r["rv"], "already_barycentric": True}
-            if r2:
+            if "rv2_obs" in r2:  # a second star (r2 alone may hold one star's v sin i)
                 row["rv2"] = r2["rv2_obs"]
         try:
             t = timing.mid_time(h)
@@ -434,7 +434,7 @@ def rv_step(inputs, params, ctx):
                         "from": "plan" if site is not None else "header",
                     }
                     row["rv"] = rv.to_barycentric(r["rv"], row["v_corr"])
-                    if r2:
+                    if "rv2_obs" in r2:
                         row["rv2"] = rv.to_barycentric(r2["rv2_obs"], row["v_corr"])
         except (timing.TimeError, ValueError):
             pass  # no usable time: the velocity is still reported, without correction
