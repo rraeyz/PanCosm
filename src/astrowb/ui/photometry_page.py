@@ -34,7 +34,7 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..settings import Settings
-from . import automatic
+from . import automatic, photometry_standard
 from .aavso_dialog import AavsoDialog, from_sequence
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
@@ -876,22 +876,7 @@ class PhotometryPage(Undoable, QWidget):
             self.tr("Time, flux, magnitude and error of every star as a table for a spreadsheet or another program")
         )
         ol.addWidget(self.export_button)
-        row = QHBoxLayout()
-        self.band = QComboBox(self)
-        self.band.addItems(("V", "B", "R", "I", "G", "SG", "SR", "SI", "CV"))
-        self.band.setToolTip(self.tr("Filter of the images (CV: unfiltered, reduced to V)"))
-        self.catalog_button = QPushButton(self.tr("Standard magnitudes (APASS / Gaia)"), self)
-        self.catalog_button.setToolTip(
-            self.tr(
-                "Looks up the comparison stars in APASS and Gaia (needs the internet and a plate-solved first "
-                "image) and turns the light curve into magnitudes in the standard system"
-            )
-        )
-        self.catalog_button.setEnabled(False)
-        self.catalog_button.clicked.connect(self._catalog)
-        row.addWidget(self.band)
-        row.addWidget(self.catalog_button, 1)
-        ol.addLayout(row)
+        photometry_standard.add_row(self, ol)
         self.catalog = None
         self.aavso_button = QPushButton(self.tr("Export AAVSO report…"), self)
         self.aavso_button.setEnabled(False)
@@ -1954,7 +1939,7 @@ class PhotometryPage(Undoable, QWidget):
     def _catalog(self):
         inputs = {"image": self._series()[0], "target_xy": list(self.target), "comps_xy": [list(c) for c in self.comps]}
         self.result.setText(self.tr("Looking up the comparison stars…"))
-        self.catalog_requested.emit(inputs, {"filter": self.band.currentText()})
+        self.catalog_requested.emit(inputs, photometry_standard.params(self))
 
     def show_catalog(self, cat):
         """Comparison magnitudes found: written into the star table's known-magnitude column, so the target's
@@ -3025,6 +3010,8 @@ class PhotometryPage(Undoable, QWidget):
         band = self.catalog["filter"] if self.catalog else dialog.band_of(getattr(self, "images", None))
         if band:
             dialog.filter.setCurrentText(band)
+        if (self.catalog or {}).get("chart"):  # the comparison magnitudes came from this AAVSO chart
+            dialog.chart.setText(self.catalog["chart"])
         checks = [x for x in self.light_curve.get("extra", []) if x["role"] == "check"]
         if checks:
             dialog.check.setText(checks[0]["name"])

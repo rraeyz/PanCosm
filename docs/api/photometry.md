@@ -26,7 +26,8 @@ parameters (default):
 ```text
 photometry.catalog  (Standard magnitudes from a catalogue)
 
-Catalogue magnitudes (APASS / Gaia) of the comparison stars and the target, found by the image's WCS.
+Catalogue magnitudes of the comparison stars and the target, found by the image's WCS: source "auto" (Gaia
+GSPC, APASS, the Gaia polynomials; catalog.star_magnitude) or "aavso" (the field's AAVSO sequence and chart).
 
 inputs:      image, comps_xy, target_xy
 outputs:     catalog
@@ -36,6 +37,7 @@ outputs:     catalog
   catalog  (object)  Catalogue magnitudes
 parameters (default):
   filter = "V"  (band)  Band: The band of the standard magnitudes
+  source = "auto"
 ```
 
 ## photometry.identify_field
