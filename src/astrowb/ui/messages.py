@@ -97,6 +97,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "apsidal motion needs at least 3 primary and 3 secondary minima"),
     # photometry/steps.py, io/tpf.py (minima of a long series, target pixel files)
     QT_TRANSLATE_NOOP(
+        "Messages", "no eclipse or transit stands out of the noise in this light curve: do the frames cover it?"
+    ),
+    QT_TRANSLATE_NOOP(
         "Messages",
         "the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one",
     ),

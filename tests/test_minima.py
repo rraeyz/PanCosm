@@ -93,3 +93,13 @@ def test_one_noisy_transit_is_one_dip_and_two_eclipses_are_two():
     t2 = np.linspace(0, 1, 600)
     y2 = 1 - 0.3 * ((np.abs(t2 - 0.25) < 0.04) | (np.abs(t2 - 0.75) < 0.04)) + rng.normal(0, 0.01, t2.size)
     assert dips(t2, y2) == 2
+
+
+def test_noise_alone_is_no_eclipse():
+    """The last 20 minutes of a real LCO night, after the transit (40 frames, 0.7 % scatter), were "3 eclipses"."""
+    from astrowb.timeseries.minima import dips
+
+    rng = np.random.default_rng(3)
+    t = np.linspace(0, 0.014, 40)
+    assert dips(t, 1 + rng.normal(0, 0.007, t.size)) == 0
+    assert dips(t, 1 - 0.03 * (np.abs(t - 0.007) < 0.003) + rng.normal(0, 0.007, t.size)) == 1

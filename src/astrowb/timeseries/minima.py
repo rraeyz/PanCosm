@@ -158,8 +158,11 @@ def dips(t, y):
     depth = np.median(ys[ys >= np.median(ys)]) - np.percentile(ys, 1)
     if depth <= 0:
         return 0
-    ys = _smooth(y, int(np.clip((10 * sigma / depth) ** 2, 5, len(y) // 5)))
+    width = int(np.clip((10 * sigma / depth) ** 2, 5, len(y) // 5))
+    ys = _smooth(y, width)
     base = np.median(ys[ys >= np.median(ys)])  # the median of all points lies inside a long transit
+    if base - np.percentile(ys, 1) < 5 * sigma / np.sqrt(max(width, 1)):  # the lowest points are only noise
+        return 0  # (the last 20 min of a real LCO night, after the transit, were "3 eclipses")
     low = ys < base - 0.5 * (base - np.percentile(ys, 1))
     edges = np.flatnonzero(np.diff(np.r_[0, low.astype(int), 0]))
     runs = [(t[a], t[b - 1]) for a, b in zip(edges[::2], edges[1::2], strict=True)]

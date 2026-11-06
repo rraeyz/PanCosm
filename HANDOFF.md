@@ -465,6 +465,20 @@ k-means 56 s (reading 10 s and writing the GeoTIFF 14 s of it). NDVI equals nump
 lon / lat agrees with pyproj. Open question (not changed): L2A since baseline 04.00 needs reflectance = DN/1e4 - 0.1;
 this scene's red band has DN < 1000 (p2 = 199), so whether the offset applies to these COGs is unclear - check before
 telling users to subtract it.
+**U6g frequencies (checked, nothing to fix).** FG Vir (delta Scuti), TESS sector 46 downloaded on the Light curves
+page (15 988 points, 7 s), Frequency analysis to 50 c/d: 8 frequencies with S/N >= 4 in 7.5 s: 12.7163, 24.2116,
+12.1539, 9.6561, 23.406, 19.8682, 9.1997, 21.0512 c/d - the known FG Vir modes (Breger et al. 2005: 12.716, 23.403,
+21.052, 19.868, 12.154, 9.656, 9.199; their 24.228 is 0.016 c/d away, inside one sector's resolution ~0.04 c/d).
+**U6k automation.** "Exoplanet transit" on the raw LCO folder + master-flat folder (inputs typed as a user):
+scan, calibrate, quality, suggested comparisons, light curve all ran (~100 s for 40 raw frames); the minimum step said
+"the light curve shows 3 eclipses" although those 40 frames (the night's last 20 min) hold no transit: `dips()` never
+asked whether the lowest points stand out of the noise. Fixed: a dip must be deeper than 5 sigma of the smoothed
+curve, and with none the step says "no eclipse or transit stands out of the noise… do the frames cover it?" instead
+of fitting noise. Checked on real data: the full night (265 frames) still 1 dip, the last 40 frames 0. Test
+`test_noise_alone_is_no_eclipse`. The same automation on the whole night (265 BANZAI frames, one click): 378 s,
+transit mid-time 2461347.61134 BJD_TDB against ExoClock's prediction 2461347.61115 (O−C +0.27 min), depth 2.24 %
+(literature 2.3–2.5 %), T14 1.57 h. Observe page: `tests/test_indi_simulators.py` passes against the real INDI
+simulators (`apt-get install indi-bin`): mount, CCD, filter wheel, focuser.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -499,6 +513,8 @@ Users are not affected (certifi has it).
 | Remote sensing: open 2 Sentinel-2 band files (2 x 120 Mpx) | S2B_36TVK_20250828 | 7–21 s | acceptable |
 | Remote sensing: NDVI (task, incl. writing and showing) | same | 33–40 s (band math itself 1.4 s, before 11.8 s and 5.3 GB) | acceptable |
 | Remote sensing: PCA / k-means (steps) | same | 44 s / 56 s (PCA before: out of memory) | acceptable; reading and GeoTIFF writing are half of it |
+| Automation "Exoplanet transit", one click | 40 raw LCO frames + flat / 265 BANZAI frames | 81 s / 378 s | fine |
+| Frequency analysis (TESS, 15 988 points, to 50 c/d) | FG Vir | 7.5 s | fine |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
 
