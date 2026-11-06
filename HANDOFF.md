@@ -370,8 +370,14 @@ the work to the next agent with this file. State at that moment:
      **Data caveat found:** the older ESO product ADP.2019-01-22T01:15:12.551 of the same star (HARPS DRS 3.8) has
      an uncorrected blaze ripple (±40 %, period ~33 A) — no line measurement is possible on it; the 2025 product
      of the same DRS version is clean (spread 0.89–1.11). Not handled in the code (a user would see it on the plot).
-   - Not started yet from this list: telluric correction on a real red spectrum, asteroid photometry, drizzle on
-     real dithered frames, offline plate solving.
+   - **Telluric correction on real FEROS spectra (done).** Same night as AI Phe: science tau Ceti
+     ADP.2016-09-27T11:56:49.579 (airmass 1.475), standard zeta Phe (B6 V) ADP.2016-09-27T11:56:49.619 (airmass 1.174,
+     one hour later). Telluric step 1.4 s: optical-depth scale 1.139, shift 15.1 km/s. O2 B band (6868–6884 A): median
+     depth 0.127 -> 0.052, scatter 0.234 -> 0.055; H2O 7180–7300 A: scatter 0.128 -> 0.068; O2 A band: the
+     saturated cores are left out (NaN) in the saved file, the rest within 0.66–1.2 of the continuum. Fixed on the
+     way: the Telluric tab plotted the division through those saturated cores (spikes to ±10) although the saved
+     file leaves them out; the step's `corrected` is now the saved spectrum (test in `test_telluric_step_and_tab`).
+   - Not started yet from this list: asteroid photometry, drizzle on real dithered frames, offline plate solving.
    Original text: **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
    disentangling (`spectroscopy.disentangle`) and SB2 / TODCOR on a real double-lined binary with published
    velocities (e.g. HARPS or FEROS ADP spectra of a known SB2 from the ESO archive, compare K1, K2 with the

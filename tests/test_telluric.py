@@ -78,6 +78,8 @@ def test_telluric_step_and_tab(tmp_path, qtbot):
     ok = np.isfinite(f)
     assert h["TELLPOW"] == pytest.approx(1.2, abs=0.03) and np.std((f / (1000 * star(w)))[ok]) < 0.005
     assert np.all(e[ok] >= 3.0)  # errors grow where light was absorbed
+    # the plotted spectrum is the saved one: saturated cores left out (they spiked to ±10 on a real FEROS tau Ceti)
+    assert np.array_equal(np.isnan(np.asarray(out["corrected"], float)), ~ok)
     tab = TelluricTab()
     qtbot.addWidget(tab)
     tab.show_result(out)
