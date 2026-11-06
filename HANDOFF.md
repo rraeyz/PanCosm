@@ -300,7 +300,20 @@ the work to the next agent with this file. State at that moment:
    `tests/test_echelle.py` (two new tests), `tests/test_spectroscopy.py::test_a_merged_echelle_spectrum_is_normalised_in_pieces`,
    `tests/test_ui.py::test_plan_page_resolve_and_plan` (uses a fixed UTC offset 3; Auto depends on the machine's
    time zone, the test only checks the range).
-2. **Check the side effects of `3748b5a`** that were reasoned about but not measured on real data again:
+2. **DONE (session 01RxUU, 2026-11-06)** — results: EFOSC2 raw night re-downloaded (ESO TAP `dbo.raw`,
+   `exp_start > '2018-12-31' AND exp_start < '2019-01-02'`; files biases 2018-12-31T19:21:38.992 … 19:23:41.429, arc
+   2019-01-01T08:35:33.795, LTT 3864 07:49:08.109, SN 2018kzr 04:06:59.255, PESSTO ADP.2021-03-23T16:54:29.889).
+   Frames now 1024 x 1024 after the prescan; the 16 arc peaks are at exactly the same pixels as before (the 6
+   prescan columns are on the spatial axis, EFOSC2 disperses along y), so the wavelengths are unchanged: LTT 3864
+   13 lines, rms 0.209 A, degree 4; SN 2018kzr 14 lines, rms 0.211 A, sky zero point -7.06 A (3 [O I] lines; was
+   -7.14). The spatial positions moved by 6 as expected: SN 2018kzr's trace centre is now row 541.7 (PESSTO's 449.4
+   + 99 - 6), not 548 (the step still finds it from 548). Against PESSTO's reduction: feature correlation 0.78 with a
+   simpler normalisation than the earlier 0.84 (81-pixel running median on a 2.5 A grid), best shift 1.4 A.
+   MEF headers: an LCO `.fits.fz` and an HST-like MEF read without duplicated keywords; **found and fixed:**
+   `io/fits.inherited` also copied CHECKSUM / DATASUM (from the primary, and kept the HDU's own), so every image
+   saved from a read header failed astropy's checksum verification; they are dropped now (test
+   `test_a_copied_header_drops_the_checksums`). Echelle: the real TOFES master flat still gives 46 of 46 orders.
+   Original task text: **Check the side effects of `3748b5a`** that were reasoned about but not measured on real data again:
    - ESO frames are now overscan/prescan-subtracted and trimmed from `ESO DET OUT1 PRSCX/OVSCX/PRSCY/OVSCY/NX/NY`
      when these add up to the frame (`calibration/masters.py _eso_sections`). EFOSC2 frames become 1024 x 1024
      (6 prescan columns removed): x pixel positions shift by 6 against before. Re-run the EFOSC2 long-slit reduction
