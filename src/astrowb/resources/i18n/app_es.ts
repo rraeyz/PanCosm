@@ -9361,177 +9361,182 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>Overlays</name>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="13"/>
+        <location filename="../../ui/overlay_actions.py" line="14"/>
         <source>&amp;Overlays</source>
         <translation>&amp;Superposiciones</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="14"/>
+        <location filename="../../ui/overlay_actions.py" line="15"/>
         <source>Contours…</source>
         <translation>Contornos…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="15"/>
+        <location filename="../../ui/overlay_actions.py" line="16"/>
         <source>Coordinate grid</source>
         <translation>Rejilla de coordenadas</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="17"/>
+        <location filename="../../ui/overlay_actions.py" line="18"/>
         <source>Catalogue stars (Gaia DR3)…</source>
         <translation>Estrellas de catálogo (Gaia DR3)…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="20"/>
+        <location filename="../../ui/overlay_actions.py" line="21"/>
         <source>Variable stars (VSX)</source>
         <translation>Estrellas variables (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="23"/>
+        <location filename="../../ui/overlay_actions.py" line="25"/>
+        <source>AAVSO comparison stars (VSP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="29"/>
         <source>Asteroids and comets (SkyBoT)</source>
         <translation>Asteroides y cometas (SkyBoT)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="25"/>
+        <location filename="../../ui/overlay_actions.py" line="31"/>
         <source>Finder chart…</source>
         <translation>Carta de localización…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="27"/>
+        <location filename="../../ui/overlay_actions.py" line="33"/>
         <source>Load DS9 regions…</source>
         <translation>Cargar regiones DS9…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="28"/>
+        <location filename="../../ui/overlay_actions.py" line="34"/>
         <source>Save markers as DS9 regions…</source>
         <translation>Guardar marcas como regiones DS9…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="31"/>
+        <location filename="../../ui/overlay_actions.py" line="37"/>
         <source>Clear overlays</source>
         <translation>Quitar superposiciones</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="35"/>
+        <location filename="../../ui/overlay_actions.py" line="41"/>
         <source>&amp;Magnifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="38"/>
+        <location filename="../../ui/overlay_actions.py" line="44"/>
         <source>&amp;Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="49"/>
+        <location filename="../../ui/overlay_actions.py" line="55"/>
         <source>No overlays on this image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <location filename="../../ui/overlay_actions.py" line="65"/>
         <source>Orien&amp;tation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="66"/>
+        <location filename="../../ui/overlay_actions.py" line="72"/>
         <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="75"/>
+        <location filename="../../ui/overlay_actions.py" line="81"/>
         <source>&amp;North up, East left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="76"/>
+        <location filename="../../ui/overlay_actions.py" line="82"/>
         <source>Turn 90° &amp;clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="77"/>
+        <location filename="../../ui/overlay_actions.py" line="83"/>
         <source>&amp;Mirror left–right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="78"/>
+        <location filename="../../ui/overlay_actions.py" line="84"/>
         <source>&amp;Original orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="81"/>
+        <location filename="../../ui/overlay_actions.py" line="87"/>
         <source>&amp;Compass and scale bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="108"/>
+        <location filename="../../ui/overlay_actions.py" line="114"/>
         <source>Contours</source>
         <translation>Contornos</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="109"/>
+        <location filename="../../ui/overlay_actions.py" line="115"/>
         <source>Number of levels:</source>
         <translation>Número de niveles:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="128"/>
-        <location filename="../../ui/overlay_actions.py" line="145"/>
-        <location filename="../../ui/overlay_actions.py" line="213"/>
+        <location filename="../../ui/overlay_actions.py" line="134"/>
+        <location filename="../../ui/overlay_actions.py" line="151"/>
+        <location filename="../../ui/overlay_actions.py" line="219"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>La imagen no tiene coordenadas celestes: resuélvala primero (menú Imagen).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="153"/>
+        <location filename="../../ui/overlay_actions.py" line="159"/>
         <source>Catalogue stars</source>
         <translation>Estrellas de catálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="154"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
         <source>Faintest magnitude:</source>
         <translation>Magnitud más débil:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="162"/>
-        <location filename="../../ui/overlay_actions.py" line="218"/>
+        <location filename="../../ui/overlay_actions.py" line="168"/>
+        <location filename="../../ui/overlay_actions.py" line="224"/>
         <source>Querying the catalogue…</source>
         <translation>Consultando el catálogo…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="183"/>
-        <location filename="../../ui/overlay_actions.py" line="197"/>
+        <location filename="../../ui/overlay_actions.py" line="189"/>
+        <location filename="../../ui/overlay_actions.py" line="203"/>
         <source>Finder chart</source>
         <translation>Carta de localización</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="184"/>
+        <location filename="../../ui/overlay_actions.py" line="190"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Coordenadas del objeto (AR Dec), p. ej. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="190"/>
+        <location filename="../../ui/overlay_actions.py" line="196"/>
         <source>Coordinates not understood.</source>
         <translation>No se entienden las coordenadas.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="202"/>
+        <location filename="../../ui/overlay_actions.py" line="208"/>
         <source>Making the finder chart…</source>
         <translation>Creando la carta de localización…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="237"/>
+        <location filename="../../ui/overlay_actions.py" line="244"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} estrellas del catálogo mostradas: apunte a un anillo para ver su etiqueta.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="242"/>
+        <location filename="../../ui/overlay_actions.py" line="249"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} estrellas de catálogo mostradas.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="251"/>
-        <location filename="../../ui/overlay_actions.py" line="285"/>
+        <location filename="../../ui/overlay_actions.py" line="258"/>
+        <location filename="../../ui/overlay_actions.py" line="292"/>
         <source>DS9 regions</source>
         <translation>Regiones DS9</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="277"/>
+        <location filename="../../ui/overlay_actions.py" line="284"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>No hay marcas en la imagen (las estrellas elegidas en la ventana Fotometría son marcas).</translation>
     </message>
@@ -16676,135 +16681,135 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="159"/>
-        <source>The stars shown over the image</source>
+        <source>The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="166"/>
-        <location filename="../../engine/step_params.py" line="210"/>
-        <location filename="../../engine/step_params.py" line="222"/>
+        <location filename="../../engine/step_params.py" line="168"/>
+        <location filename="../../engine/step_params.py" line="212"/>
+        <location filename="../../engine/step_params.py" line="224"/>
         <source>Faintest magnitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="167"/>
-        <location filename="../../engine/step_params.py" line="211"/>
+        <location filename="../../engine/step_params.py" line="169"/>
+        <location filename="../../engine/step_params.py" line="213"/>
         <source>Fainter stars are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="176"/>
+        <location filename="../../engine/step_params.py" line="178"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="177"/>
+        <location filename="../../engine/step_params.py" line="179"/>
         <source>png, jpg or tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="183"/>
+        <location filename="../../engine/step_params.py" line="185"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="184"/>
+        <location filename="../../engine/step_params.py" line="186"/>
         <source>How the black and white points are chosen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="190"/>
-        <location filename="../../engine/step_params.py" line="233"/>
+        <location filename="../../engine/step_params.py" line="192"/>
+        <location filename="../../engine/step_params.py" line="235"/>
         <source>Stretch</source>
         <translation>Estiramiento</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="191"/>
+        <location filename="../../engine/step_params.py" line="193"/>
         <source>linear, log, sqrt, asinh…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="202"/>
+        <location filename="../../engine/step_params.py" line="204"/>
         <source>Field of view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="203"/>
+        <location filename="../../engine/step_params.py" line="205"/>
         <source>Width of the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="217"/>
+        <location filename="../../engine/step_params.py" line="219"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="218"/>
+        <location filename="../../engine/step_params.py" line="220"/>
         <source>Above the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="223"/>
+        <location filename="../../engine/step_params.py" line="225"/>
         <source>Fainter bodies are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="224"/>
+        <location filename="../../engine/step_params.py" line="226"/>
         <source>Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="225"/>
+        <location filename="../../engine/step_params.py" line="227"/>
         <source>The operation&apos;s own settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="234"/>
+        <location filename="../../engine/step_params.py" line="236"/>
         <source>Lupton&apos;s stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="241"/>
+        <location filename="../../engine/step_params.py" line="243"/>
         <source>Softening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="242"/>
+        <location filename="../../engine/step_params.py" line="244"/>
         <source>Lupton&apos;s Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="249"/>
+        <location filename="../../engine/step_params.py" line="251"/>
         <source>The three images are aligned on their stars first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="258"/>
+        <location filename="../../engine/step_params.py" line="260"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="259"/>
+        <location filename="../../engine/step_params.py" line="261"/>
         <source>An existing file of that name is replaced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="265"/>
+        <location filename="../../engine/step_params.py" line="267"/>
         <source>Header cards to set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="266"/>
+        <location filename="../../engine/step_params.py" line="268"/>
         <source>Keyword: value pairs written into the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="272"/>
+        <location filename="../../engine/step_params.py" line="274"/>
         <source>Header cards to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="273"/>
+        <location filename="../../engine/step_params.py" line="275"/>
         <source>Keywords taken out of the header</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17033,7 +17038,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="167"/>
-        <location filename="../../engine/step_params.py" line="248"/>
+        <location filename="../../engine/step_params.py" line="250"/>
         <source>Align</source>
         <translation>Alinear</translation>
     </message>

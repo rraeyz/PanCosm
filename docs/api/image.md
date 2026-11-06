@@ -7,14 +7,15 @@ Python: `from astrowb import api; api.image.<step>(…)`; command line: `astrowb
 ```text
 image.catalogue  (Catalogue stars on the image)
 
-Catalogue stars (Gaia DR3 or VSX, from VizieR) inside a plate-solved image, with their pixel positions.
+Catalogue stars (Gaia DR3 or VSX from VizieR, or the AAVSO comparison sequence) inside a plate-solved image,
+with their pixel positions.
 
 inputs:      image
 outputs:     stars
   image  (file)  Image
   stars  (object)  Stars
 parameters (default):
-  catalogue = "gaia"  (text)  Catalogue: The stars shown over the image
+  catalogue = "gaia"  (text)  Catalogue: The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)
   mag_limit = 16.0  (float, mag)  Faintest magnitude: Fainter stars are left out
 ```
 
