@@ -2,7 +2,7 @@
 and the "Why these stars?" table — every catalogue star with the rule that left it out (photometry.comprules),
 sortable, a row's star shown on the image when chosen."""
 
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication, QObject, Signal
 from PySide6.QtWidgets import QPushButton
 
 from .kit.dialogs import Dialog
@@ -102,9 +102,72 @@ def add_star_buttons(page, layout):
         translate("PhotometryStars", "Plate solution of the first frame, its Gaia stars and the VSX variables in it")
     )
     page.identify_button.clicked.connect(lambda: identify_field(page))
-    layout.addWidget(page.suggest_button)
-    layout.addWidget(page.why_button)
-    layout.addWidget(page.identify_button)
+    page.sequence_button = QPushButton(translate("PhotometryStars", "Show the AAVSO sequence"), page)
+    page.sequence_button.setToolTip(
+        translate("PhotometryStars", "The AAVSO chart's comparison stars on the first frame, with their labels")
+    )
+    page.sequence_button.clicked.connect(lambda: show_sequence(page))
+    for w in (page.suggest_button, page.why_button, page.identify_button, page.sequence_button):
+        layout.addWidget(w)
+
+
+class _Relay(QObject):
+    done = Signal(object)
+
+
+def show_sequence(page):
+    """The field's AAVSO sequence (services.aavso_vsp) drawn on the first frame, looked up off the window's thread
+    (the first look-up goes to the internet; later ones come from the cache)."""
+    import threading
+
+    import numpy as np
+
+    from ..services import aavso_vsp
+
+    if not page.field or page.viewer.data is None:
+        page.field_label.setText(
+            translate("PhotometryStars", "Identify the field first: the sequence is placed by it.")
+        )
+        page.field_label.show()
+        return
+    if page.shown != 0:
+        page.show_frame(0)  # the solution belongs to the first frame
+    wcs, (ny, nx) = page._field_wcs(), page.viewer.data.shape
+    ra, dec = wcs.pixel_to_world_values(np.array([(nx - 1) / 2, 0.0]), np.array([(ny - 1) / 2, 0.0]))
+    fov = 2 * 60 * np.hypot((ra[1] - ra[0]) * np.cos(np.radians(dec[0])), dec[1] - dec[0]) * 1.05
+    page.field_label.setText(translate("PhotometryStars", "Looking up the AAVSO sequence…"))
+    page.sequence_relay = relay = _Relay(page)
+    relay.done.connect(lambda answer: _draw_sequence(page, wcs, answer))
+
+    def work():
+        try:
+            answer = aavso_vsp.sequence(float(ra[0]), float(dec[0]), fov=float(fov), maglimit=17.0)
+        except Exception as e:  # noqa: BLE001 - the network, the cache or VSP: said on the page
+            answer = e
+        try:
+            relay.done.emit(answer)
+        except RuntimeError:  # the page was closed meanwhile
+            pass
+
+    threading.Thread(target=work, daemon=True).start()
+
+
+def _draw_sequence(page, wcs, answer):
+    from .. import overlays
+    from .kit.tokens import DARK
+    from .messages import translate as message
+
+    if isinstance(answer, Exception):
+        page.field_label.setText(message(answer))
+        return
+    stars = [{"name": s["label"], "ra": s["ra"], "dec": s["dec"], "mag": None} for s in answer["stars"]]
+    inside = overlays.to_pixels(wcs, page.viewer.data.shape, stars)
+    page.viewer.set_overlay("aavso", DARK["ok"], circles=[(s["x"], s["y"], 9, s["name"]) for s in inside])
+    page.field_label.setText(
+        translate(
+            "PhotometryStars", "AAVSO chart {chart}: {n} sequence star(s) on the frame (green, labelled)."
+        ).format(chart=answer["chart"], n=len(inside))
+    )
 
 
 def identify_field(page, automatic=False):

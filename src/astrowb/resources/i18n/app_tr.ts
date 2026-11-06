@@ -11126,7 +11126,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="123"/>
+        <location filename="../../ui/photometry_stars.py" line="186"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Alan tanınıyor (Gaia, VSX)…</translation>
     </message>
@@ -12061,7 +12061,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_standard.py" line="15"/>
         <source>Filter of the images (CV: unfiltered, reduced to V)</source>
-        <translation>Görüntülerin filtresi (CV: filtresiz, V'ye indirgenmiş)</translation>
+        <translation>Görüntülerin filtresi (CV: filtresiz, V&apos;ye indirgenmiş)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_standard.py" line="17"/>
@@ -12076,7 +12076,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_standard.py" line="20"/>
         <source>Where the comparison magnitudes come from: the catalogues (Gaia&apos;s synthetic Johnson-Cousins photometry, else APASS, else Gaia&apos;s colours), or the field&apos;s AAVSO chart, as AAVSO reports ask</source>
-        <translation>Karşılaştırma kadirlerinin kaynağı: kataloglar (Gaia'nın sentetik Johnson-Cousins fotometrisi, yoksa APASS, yoksa Gaia renkleri) ya da AAVSO raporlarının istediği gibi alanın AAVSO haritası</translation>
+        <translation>Karşılaştırma kadirlerinin kaynağı: kataloglar (Gaia&apos;nın sentetik Johnson-Cousins fotometrisi, yoksa APASS, yoksa Gaia renkleri) ya da AAVSO raporlarının istediği gibi alanın AAVSO haritası</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_standard.py" line="26"/>
@@ -12253,7 +12253,32 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>İlk karenin plaka çözümü, Gaia yıldızları ve içindeki VSX değişenleri</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="119"/>
+        <location filename="../../ui/photometry_stars.py" line="105"/>
+        <source>Show the AAVSO sequence</source>
+        <translation>AAVSO dizisini göster</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="107"/>
+        <source>The AAVSO chart&apos;s comparison stars on the first frame, with their labels</source>
+        <translation>AAVSO haritasının karşılaştırma yıldızları ilk karede, etiketleriyle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="129"/>
+        <source>Identify the field first: the sequence is placed by it.</source>
+        <translation>Önce alanı tanımlayın: dizi onunla yerleştirilir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="138"/>
+        <source>Looking up the AAVSO sequence…</source>
+        <translation>AAVSO dizisine bakılıyor…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="167"/>
+        <source>AAVSO chart {chart}: {n} sequence star(s) on the frame (green, labelled).</source>
+        <translation>AAVSO haritası {chart}: karede {n} dizi yıldızı (yeşil, etiketli).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="182"/>
         <source>The field is identified when you press Identify the field.</source>
         <translation>Alan, Alanı tanı düğmesine bastığınızda tanınır.</translation>
     </message>
