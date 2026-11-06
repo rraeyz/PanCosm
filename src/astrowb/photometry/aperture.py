@@ -30,6 +30,13 @@ def bin_frame(a, binning):
     return sum(a[i::binning, j::binning] for i in range(binning) for j in range(binning)) / np.float32(binning**2)
 
 
+def sample(a, n=250_000):
+    """Every k-th pixel in both directions, about n of them: the sky level and noise of a frame from a quarter of a
+    million pixels are those of all of them (16 MP frames: 2.7 of 6.1 s of a light curve went to clipping 1 MP)."""
+    k = max(1, int(np.sqrt(a.size / n)))
+    return a[::k, ::k]
+
+
 def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[float, float]:
     """(dx, dy) to add to positions in ref to find them in img: FFT phase correlation, sub-pixel peak.
     binning > 1 correlates binned frames: binning^2 times less work, about a tenth of a binned pixel of accuracy -
@@ -44,7 +51,7 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
         if binning > 1:
             a = bin_frame(a, binning)
         a = despike(a)  # hot pixels are fixed on the chip and would pull the peak to zero shift
-        _, med, std = sigma_clipped_stats(a[::2, ::2])
+        _, med, std = sigma_clipped_stats(sample(a))
         stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
         return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
@@ -195,7 +202,10 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
     xy = np.asarray(xy, dtype=float)
     if method == "none":
         return (xy.copy(), np.isfinite(xy).all(axis=1)) if found else xy.copy()
-    clean = np.nan_to_num(np.asarray(data, dtype=np.float32))
+    clean = np.array(data, dtype=np.float32)  # a copy: hot pixels are taken out of it below
+    bad = ~np.isfinite(clean)
+    if bad.any():  # as nan_to_num, on the few bad pixels only (on the whole frame it took 0.1 s per 16 MP frame)
+        clean[bad] = np.nan_to_num(clean[bad])
     ny, nx = clean.shape
     h = box // 2 + 2
     for px, py in xy:  # only around the stars: a whole-frame filter per frame dominated light curves
@@ -219,7 +229,7 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
 
     def frame_sky():
         if not sky:
-            _, med, std = sigma_clipped_stats(clean[::4, ::4])
+            _, med, std = sigma_clipped_stats(sample(clean))
             sky.extend([float(med), float(std)])
         return sky
 
