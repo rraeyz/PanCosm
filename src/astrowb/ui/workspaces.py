@@ -844,7 +844,7 @@ def by_filter(paths):
 class CalibratePage(QWidget):
     """Raw folder -> frame list and plan -> masters + calibrated lights."""
 
-    scan_requested = Signal(str)  # folder
+    scan_requested = Signal(str, str)  # calibration (or mixed) folders, light folder
     run_requested = Signal(list, str, dict)  # frames, output folder, params
     stack_requested = Signal(list, str, dict)  # calibrated images, output file, params
     photometry_requested = Signal(list)  # calibrated lights to measure
@@ -855,12 +855,13 @@ class CalibratePage(QWidget):
         left, right = QWidget(self), QWidget(self)  # 1. the frames | 2.–4. what is done with them
         lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Calibrate"), self))
-        lay.addWidget(QLabel(self.tr("1. Choose the folder with your raw frames (lights, bias, darks, flats)."), self))
+        lay.addWidget(QLabel(self.tr("1. Choose your frames: the lights and the calibration frames (BDF)."), self))
         hint = QLabel(
             self.tr(
-                "Sub-folders are read too: if the lights and the calibration frames are in separate folders "
-                "(e.g. Light and BDF), choose the folder that holds both. Frames kept elsewhere (a calibration "
-                "library) are added with “Add folder…”."
+                "As they are usually kept: the lights (data) in one folder, bias / dark / flat in another. Every "
+                "frame in the light folder is a light, whatever its name (nsvs…fits); in the BDF folder each frame "
+                "is sorted into bias, dark or flat. Everything in one folder? Give it as the BDF folder only: the "
+                "frames are then sorted by header and name. Sub-folders are read too."
             ),
             self,
         )
@@ -868,9 +869,27 @@ class CalibratePage(QWidget):
         hint.setProperty("muted", True)
         lay.addWidget(hint)
         row = QHBoxLayout()
+        self.lights = QLineEdit(self)
+        self.lights.setPlaceholderText(self.tr("light frames (data) folder"))
+        self.lights.setToolTip(
+            self.tr("Every frame here is a light, unless its header says bias, dark or flat. Sub-folders are read too.")
+        )
+        browse_l = QPushButton(self.tr("Browse…"), self)
+        browse_l.clicked.connect(lambda: self._pick(self.lights))
+        browse_l.setToolTip(self.tr("Choose the folder in a dialog"))
+        row.addWidget(QLabel(self.tr("Lights"), self))
+        row.addWidget(self.lights, 1)
+        row.addWidget(browse_l)
+        lay.addLayout(row)
+        row = QHBoxLayout()
         self.folder = QLineEdit(self)
-        self.folder.setPlaceholderText(self.tr("folder; another folder; …"))
-        self.folder.setToolTip(self.tr("One or more folders, separated by ';'. Sub-folders are read too."))
+        self.folder.setPlaceholderText(self.tr("bias / dark / flat folder; another folder; …"))
+        self.folder.setToolTip(
+            self.tr(
+                "Calibration frames, sorted into bias, dark and flat. Several folders separated by ';' (e.g. a "
+                "calibration library). Everything in one folder: give it here only."
+            )
+        )
         browse = QPushButton(self.tr("Browse…"), self)
         browse.clicked.connect(lambda: self._pick(self.folder))
         browse.setToolTip(self.tr("Choose the folder in a dialog"))
@@ -879,8 +898,13 @@ class CalibratePage(QWidget):
             self.tr("Read frames from one more folder, e.g. master or calibration frames kept elsewhere")
         )
         add_folder.clicked.connect(self._add_folder)
+        row.addWidget(QLabel(self.tr("BDF"), self))
+        row.addWidget(self.folder, 1)
+        row.addWidget(browse)
+        row.addWidget(add_folder)
+        lay.addLayout(row)
         self.scan_button = QPushButton(self.tr("Scan"), self)
-        self.scan_button.clicked.connect(lambda: self.scan_requested.emit(self.folder.text()))
+        self.scan_button.clicked.connect(lambda: self.scan_requested.emit(self.folder.text(), self.lights.text()))
         self.scan_button.setToolTip(
             self.tr(
                 "Reads every frame and sorts it by its header into bias, dark, flat, arc and light; nothing"
@@ -899,9 +923,6 @@ class CalibratePage(QWidget):
                 "and check the clock against a time signal — timing errors go straight into minima and O−C."
             )
         )
-        for w in (self.folder, browse, add_folder):
-            row.addWidget(w)
-        lay.addLayout(row)
         row = QHBoxLayout()  # a second row: the first stays narrow enough for two columns on a small screen
         for w in (self.clock_offset, self.scan_button):
             row.addWidget(w)
@@ -1228,8 +1249,9 @@ class CalibratePage(QWidget):
     def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
         self.frames, self._problems, self._raw_converted = frames, problems, raw_converted
         self.table.clearContents()
-        if not self.output.text() and self.folder.text():
-            self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
+        base = self.lights.text().strip() or self._first(self.folder.text())
+        if not self.output.text() and base:
+            self.output.setText(str(Path(base) / "calibrated"))
         kinds = self._kind_names()
         self.table.setRowCount(len(frames))
         for r, f in enumerate(frames):

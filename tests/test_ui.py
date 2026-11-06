@@ -126,9 +126,19 @@ def test_calibrate_page_scan_and_run(window, qtbot, tmp_path):
         ).writeto(raw / f"l{i}.fits")
     window.open_project(tmp_path / "p.astroproj")
     page = window.calibrate_page
+    sent = []
+    page.scan_requested.connect(lambda folder, lights: sent.append((folder, lights)))
+    (tmp_path / "data").mkdir()  # an empty light folder: the lights are in the mixed folder this time
+    page.lights.setText(str(tmp_path / "data"))
     page.folder.setText(str(raw))
+    page.scan_button.click()
+    assert sent[-1] == (str(raw), str(tmp_path / "data"))  # the BDF folder and the light folder, each for its role
+    qtbot.waitUntil(lambda: page.table.rowCount() == 6, timeout=60000)
+    assert page.output.text() == str(tmp_path / "data" / "calibrated")  # the output goes beside the lights
+    page.lights.clear()
+    page.output.clear()
     window.scan_raw(str(raw)).result(60)
-    qtbot.waitUntil(lambda: page.table.rowCount() == 6, timeout=5000)
+    qtbot.waitUntil(lambda: page.table.rowCount() == 6 and bool(page.output.text()), timeout=5000)
     assert page.run_button.isEnabled() and "dark" in page.warnings.toPlainText()  # no darks/flats: reported
     assert page.output.text().endswith("calibrated")
     page.linearity.setText("0 one")

@@ -524,3 +524,40 @@ def test_a_copied_header_drops_the_checksums(tmp_path):
         warnings.simplefilter("error")
         with fits.open(tmp_path / "saved.fits", checksum=True) as hdul:
             hdul.verify("exception")
+
+
+def test_a_light_folder_and_a_bdf_folder(tmp_path):
+    """As observers keep a night (the owner): a data folder of lights named after the star and a BDF folder. In the
+    light folder the folder decides, whatever the name says; only a header stating a calibration type overrides."""
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    data, bdf = tmp_path / "data", tmp_path / "BDF"
+    data.mkdir()
+    bdf.mkdir()
+    img = np.full((20, 30), 1000, np.float32)
+    for name in ("nsvs01286630_001.fits", "nsvs01286630_002.fits", "flatfield_star_003.fits"):
+        fits.PrimaryHDU(img, fits.Header({"EXPTIME": 30.0})).writeto(data / name)
+    fits.PrimaryHDU(img, fits.Header({"EXPTIME": 30.0, "IMAGETYP": "Dark Frame"})).writeto(data / "nsvs_dark.fits")
+    fits.PrimaryHDU(img, fits.Header({"EXPTIME": 0.0})).writeto(bdf / "b1.fits")
+    fits.PrimaryHDU(img, fits.Header({"EXPTIME": 30.0})).writeto(bdf / "dark_30s.fits")
+    fits.PrimaryHDU(img, fits.Header({"EXPTIME": 2.0})).writeto(bdf / "flat_V_1.fits")
+    out = execute("calibration.scan", {"folder": str(bdf), "lights": str(data)}, {}, Ctx())
+    kinds = {Path(f["path"]).name: f["kind"] for f in out["frames"]}
+    assert kinds == {
+        "nsvs01286630_001.fits": "light",
+        "nsvs01286630_002.fits": "light",
+        "flatfield_star_003.fits": "light",  # "flat" in a light's name: the folder decides
+        "nsvs_dark.fits": "dark",  # the header says so
+        "b1.fits": "bias",
+        "dark_30s.fits": "dark",
+        "flat_V_1.fits": "flat",
+    }
+    only_lights = execute("calibration.scan", {"folder": "", "lights": str(data)}, {}, Ctx())["frames"]
+    assert len(only_lights) == 4

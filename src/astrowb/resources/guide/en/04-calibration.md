@@ -2,6 +2,8 @@
 The **Calibrate** page turns raw frames into calibrated images: it recognises bias, dark, flat and light frames, builds master frames, matches the right masters to every light frame and applies them. Optionally it aligns and stacks the result.
 
 ## 1. Scan the raw frames
+**Two folders, as a night is usually kept:** put the light frames (your data) in **Lights** and the bias, dark and flat frames in **BDF**. Every frame in the light folder is a light whatever its name — science frames are usually named after the star (`nsvs01286630_017.fits`); only a frame whose header states bias, dark or flat counts as that. The BDF folder is sorted into bias, dark and flat. Everything in one folder? Give it as **BDF** only and leave **Lights** empty: the frames are then sorted by header and name as below.
+
 Choose the folder with your raw frames (lights, bias, darks and flats may be mixed, sub-folders included) and press **Scan**. The table lists every file with its **type**, **exposure**, **filter**, **temperature** and **binning**.
 
 - The type comes from the `IMAGETYP` / `FRAME` header (Light Frame, Bias, Dark, Flat Field…) and, when it is missing, from the file name. Words in the name: bias / zero / offset, dark, flat / twilight, arc / lamp; a frame of 0 s is a bias. Every other frame is a **light** — science frames are usually named after the star (`nsvs01286630_017.fits`, `NY_Vir_R_003.fit`) and say nothing of a type; only a type the header states that the program does not know (FOCUS, TEST…) is **unknown** and left out (listed below the table). **Double-click a type** in the table to change it; the files are not changed.
