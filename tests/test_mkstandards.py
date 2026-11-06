@@ -183,3 +183,13 @@ def test_late_type_luminosity_and_bands_from_lines(qtbot):
          "luminosity_from_lines": True}  # fmt: skip
     tab.show_classes([], [{"type": "K0 III", "score": 0.03, "quality": "vgood"}], None, m)
     assert "gravity-sensitive lines" in tab.status.text() and "a CH star?" in tab.status.text()
+
+
+def test_the_rebinning_cut_at_the_ends_of_a_standard_is_left_out(tmp_path):
+    flux = np.ones(GRID.size)
+    flux[:3] = 0.0
+    flux[3], flux[-1] = 0.15, 0.08  # the cut pixels of a real library file (K0 V ends at 0.08)
+    np.savetxt(tmp_path / "t350l50p00.rbn", np.column_stack([GRID, flux]), fmt="%.6f")
+    _, lib = mkstandards.load(tmp_path)
+    s = lib[(35.0, 5.0)]
+    assert np.all(s[:5] == 0) and np.all(s[-2:] == 0) and np.all(s[5:-2] == 1)
