@@ -3438,6 +3438,7 @@ class PeriodPage(Undoable, QWidget):
         super().__init__(parent)
         self.init_undo()
         self.time, self.flux, self.best, self.periodogram = None, None, None, None
+        self.err = None  # the points' errors when the light curve has them (error bars, weights of the search)
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
@@ -3608,36 +3609,56 @@ class PeriodPage(Undoable, QWidget):
             self.archive_requested.emit(self.archive_target.text().strip(), self.mission.currentText())
 
     def undo_state(self):
-        return {"time": self.time, "flux": self.flux, "mag": self.magnitudes, "source": self.source.text()}
+        return {
+            "time": self.time,
+            "flux": self.flux,
+            "err": self.err,
+            "mag": self.magnitudes,
+            "source": self.source.text(),
+        }
 
     def set_undo_state(self, st):
         self.time, self.flux, self.magnitudes = st["time"], st["flux"], st["mag"]
+        self.err = st.get("err")
         self.source.setText(st["source"])
         self.search_button.setEnabled(bool(self.time) and len(self.time) > 10)
         self._plot_light_curve()
 
-    def set_light_curve(self, time, flux, label, keep_original=False):
+    def set_light_curve(self, time, flux, label, keep_original=False, err=None):
+        """err: the points' errors (same units as flux), drawn as error bars and used as weights by Lomb–Scargle and
+        BLS; None when the source has none."""
         self.time, self.flux = list(time), list(flux)
+        ok = err is not None and len(err) == len(self.time) and np.all(np.isfinite(np.asarray(err, float)))
+        self.err = [float(e) for e in err] if ok and np.all(np.asarray(err, float) > 0) else None
         if not keep_original:
             self.undo_stack.clear()  # another star: the edits of the last one do not apply
-            self.original, self.magnitudes, self.label = (self.time, self.flux), False, label
+            self.original, self.magnitudes, self.label = (self.time, self.flux, self.err), False, label
             self.best = None  # a new star: the old period does not apply
         self.source.setText(self.tr("{n} points from {source}").format(n=len(self.time), source=label))
         self.search_button.setEnabled(len(self.time) > 10)
         self._plot_light_curve()
 
-    def _edited(self, t, y, what):
-        self.set_light_curve(np.asarray(t).tolist(), np.asarray(y).tolist(), f"{self.label}, {what}", True)
+    def _edited(self, t, y, what, err=None):
+        e = None if err is None else np.asarray(err).tolist()
+        self.set_light_curve(np.asarray(t).tolist(), np.asarray(y).tolist(), f"{self.label}, {what}", True, e)
+
+    def _errs(self, idx=None):
+        """The errors (of the points idx), or None."""
+        if self.err is None:
+            return None
+        e = np.asarray(self.err, float)
+        return e if idx is None else e[idx]
 
     def _clip(self):
         if self.time:
             keep = fourier_edit().sigma_clip(self.flux, self.clip_sigma.value(), self.time, self.best)
-            self._edited(np.asarray(self.time)[keep], np.asarray(self.flux)[keep], self.tr("outliers removed"))
+            t, y = np.asarray(self.time)[keep], np.asarray(self.flux)[keep]
+            self._edited(t, y, self.tr("outliers removed"), self._errs(keep))
 
     def _bin(self):
         if self.time:
-            t, y = fourier_edit().bin_time(self.time, self.flux, self.bin_minutes.value() / 1440)
-            self._edited(t, y, self.tr("binned"))
+            binned = fourier_edit().bin_time(self.time, self.flux, self.bin_minutes.value() / 1440, self._errs())
+            self._edited(*binned[:2], self.tr("binned"), binned[2] if len(binned) > 2 else None)
 
     def _convert(self):
         if self.time:
@@ -3646,14 +3667,18 @@ class PeriodPage(Undoable, QWidget):
             if not self.magnitudes and np.any(y <= 0):
                 self.source.setText(self.tr("Fluxes must be positive to convert to magnitudes."))
                 return
+            e = self._errs()
             self.magnitudes = not self.magnitudes
+            if e is not None:  # σm = 1.0857 σF / F, and back
+                e = 2.5 / np.log(10) * e / y if self.magnitudes else e * f.mag_to_flux(y) * np.log(10) / 2.5
             y = f.flux_to_mag(y) if self.magnitudes else f.mag_to_flux(y)
-            self._edited(self.time, y, self.tr("magnitudes") if self.magnitudes else self.tr("flux"))
+            self._edited(self.time, y, self.tr("magnitudes") if self.magnitudes else self.tr("flux"), e)
 
     def _undo(self):
         if self.original:
             self.magnitudes = False
-            self.set_light_curve(*self.original, self.label, True)
+            t, y, e = self.original
+            self.set_light_curve(t, y, self.label, True, e)
 
     def _clicked(self, event):
         if not (self.delete_mode.isChecked() and self.time and event.inaxes is not None and event.xdata is not None):
@@ -3667,8 +3692,9 @@ class PeriodPage(Undoable, QWidget):
         d = np.hypot((x - event.xdata) / (x1 - x0), (y - event.ydata) / (y1 - y0))
         i = int(np.argmin(d))
         if d[i] < 0.02:
+            e = None if self.err is None else np.delete(np.asarray(self.err), i)
             self.edit(
-                self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted")
+                self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted"), e
             )
 
     def _t0(self):
@@ -3683,7 +3709,10 @@ class PeriodPage(Undoable, QWidget):
         ax._kind = "time"
         t = np.asarray(self.time)
         ax._t_ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
-        ax.plot(t - ax._t_ref, self.flux, ".", ms=2)
+        if self.err is not None:
+            ax.errorbar(t - ax._t_ref, self.flux, self.err, fmt=".", ms=2, lw=0.5, elinewidth=0.5, alpha=0.8)
+        else:
+            ax.plot(t - ax._t_ref, self.flux, ".", ms=2)
         ax.set_xlabel(self.tr("Time − {t:.0f} (d)").format(t=ax._t_ref) if ax._t_ref else self.tr("Time (d)"))
         ax.set_ylabel(self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"))
         if self.magnitudes:
@@ -3703,7 +3732,9 @@ class PeriodPage(Undoable, QWidget):
         if len(rows) >= 3:  # a survey or database export: one band, magnitudes as relative flux
             try:
                 lc = surveys.to_light_curve(rows)
-                return self.set_light_curve(lc["time"], lc["rel_flux"], f"{Path(path).name} ({lc['band']})")
+                return self.set_light_curve(
+                    lc["time"], lc["rel_flux"], f"{Path(path).name} ({lc['band']})", err=lc.get("rel_flux_err")
+                )
             except ValueError:
                 pass  # not enough points in one band: read it as a plain table
         try:
@@ -3713,13 +3744,18 @@ class PeriodPage(Undoable, QWidget):
                 names=None,
                 skip_header=1 if not Path(path).read_text().lstrip()[:1].isdigit() else 0,
             )
-            self.set_light_curve(data[:, 0], data[:, 1], Path(path).name)
+            err = data[:, 2] if data.ndim == 2 and data.shape[1] >= 3 else None  # a third column: the errors
+            self.set_light_curve(data[:, 0], data[:, 1], Path(path).name, err=err)
         except (ValueError, IndexError) as e:
             self.source.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
 
     def save_csv(self, path):
         """Time and flux (or magnitude) columns that the Orbits & models page reads back."""
         column = "mag" if self.magnitudes else "rel_flux"
+        if self.err is not None:
+            rows = "\n".join(f"{t:.7f},{y:.7g},{e:.3g}" for t, y, e in zip(self.time, self.flux, self.err, strict=True))
+            Path(path).write_text(f"time,{column},{column}_err\n{rows}\n", encoding="utf-8")
+            return
         rows = "\n".join(f"{t:.7f},{y:.7g}" for t, y in zip(self.time, self.flux, strict=True))
         Path(path).write_text(f"time,{column}\n{rows}\n", encoding="utf-8")
 
@@ -3736,6 +3772,8 @@ class PeriodPage(Undoable, QWidget):
     def _search(self):
         self.result.setText(self.tr("Searching…"))
         params = {"method": self.method.currentData(), "p_min": self.p_min.value(), "p_max": self.p_max.value()}
+        if self.err is not None:
+            params["err"] = self.err  # an input of the step (main window), not a parameter
         self.search_requested.emit(self.time, self.flux, params)
 
     def show_result(self, out):
@@ -3768,7 +3806,11 @@ class PeriodPage(Undoable, QWidget):
         t, f = np.asarray(self.time), np.asarray(self.flux)
         ph = fold_phase(t, self.best, self._t0())
         ax2._kind = "phase"
-        ax2.plot(ph, f, ".", ms=2, alpha=0.5 if self.phase_bins.value() else 1)
+        alpha = 0.5 if self.phase_bins.value() else 1
+        if self.err is not None:
+            ax2.errorbar(ph, f, self.err, fmt=".", ms=2, lw=0.5, elinewidth=0.5, alpha=alpha)
+        else:
+            ax2.plot(ph, f, ".", ms=2, alpha=alpha)
         if self.phase_bins.value():
             c, mean, err, _ = fourier_edit().bin_phase(ph, f, self.phase_bins.value())
             ax2.errorbar(c, mean, err, fmt="o", ms=3, color="C3", lw=0.8)

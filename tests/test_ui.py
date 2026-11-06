@@ -265,6 +265,25 @@ def test_period_search_tab(window, qtbot):
     page._clip()
     assert 1.3 not in page.flux and len(page.time) >= t.size - 10  # the eclipses stay
 
+    # errors travel with the points: error bars, every edit, and the weights of the search
+    e = np.full(t.size, 0.005)
+    page.set_light_curve(t, y, "binary with errors", err=e)
+    page.best = None
+    page._plot_light_curve()
+    assert len(page.plot.figure.axes[0].containers) == 1  # error bars drawn
+    page._clip()
+    assert len(page.err) == len(page.time)
+    flux_before, err_before = np.asarray(page.flux), np.asarray(page.err)
+    page._convert()  # to magnitudes: σm = 1.0857 σF / F
+    assert np.allclose(page.err, 2.5 / np.log(10) * err_before / flux_before)
+    page.bin_minutes.setValue(30)
+    page._bin()
+    assert page.err is not None and len(page.err) == len(page.time)
+    sent = []
+    page.search_requested.connect(lambda tt, ff, params: sent.append(params))
+    page._search()
+    assert len(sent[-1]["err"]) == len(page.time)
+
 
 def test_oc_asks_for_the_ephemeris(window):
     oc = window.oc_page

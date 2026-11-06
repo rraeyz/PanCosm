@@ -250,12 +250,19 @@ def _within(d, n_sigma):
     return np.abs(d) <= n_sigma * mad if mad > 0 else np.ones(d.size, bool)
 
 
-def bin_time(t, y, width):
-    """Means in consecutive time bins of the given width (empty bins left out)."""
+def bin_time(t, y, width, err=None):
+    """Means in consecutive time bins of the given width (empty bins left out). With err also returns the error of
+    each mean: sqrt(sum σ²) / n (the points' own errors), or the scatter in the bin / √n if that is larger."""
     t, y = np.asarray(t, float), np.asarray(y, float)
     k = np.floor((t - t.min()) / width).astype(int)
     _, idx, n = np.unique(k, return_inverse=True, return_counts=True)
-    return np.bincount(idx, t) / n, np.bincount(idx, y) / n
+    tb, yb = np.bincount(idx, t) / n, np.bincount(idx, y) / n
+    if err is None:
+        return tb, yb
+    e = np.asarray(err, float)
+    own = np.sqrt(np.bincount(idx, e**2)) / n
+    spread = np.sqrt(np.maximum(np.bincount(idx, y**2) / n - yb**2, 0) / np.maximum(n - 1, 1))
+    return tb, yb, np.where(n > 1, np.maximum(own, spread), own)
 
 
 def flux_to_mag(flux):
