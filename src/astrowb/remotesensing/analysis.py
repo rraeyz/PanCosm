@@ -127,27 +127,50 @@ def statistics(band, sample=4_000_000):
     }
 
 
-def _pixels(bands):
-    """(n_bands, n_valid) standardised pixel values - bands as contiguous rows, fast and one copy for a whole
-    scene (a pixels x bands view took 28 s on two Sentinel-2 bands) - and the validity mask."""
+def _standardised(bands):
+    """The bands as float32 (no copy when they are), where every band is finite, and each band's mean and standard
+    deviation over those pixels (float64 sums, block by block). The pixels are standardised block by block where they
+    are used: a copy of every valid pixel was another 1 GB on a Sentinel-2 tile."""
     cube = np.asarray(bands, np.float32)
     valid = np.all(np.isfinite(cube), axis=0)
-    x = cube[:, valid]
-    del cube
-    for row in x:  # in place
-        row -= np.float32(row.mean(dtype=np.float64))
-        sd = row.std(dtype=np.float64)
-        row /= np.float32(sd if sd > 0 else 1.0)
-    return x, valid
+    n = int(valid.sum())
+    if n == 0:
+        raise ValueError("no pixel has a value in every band")
+    mean, sd = [], []
+    for b in cube:
+        s1 = s2 = 0.0
+        for r0 in range(0, b.shape[0], 512):
+            v = b[r0 : r0 + 512][valid[r0 : r0 + 512]].astype(np.float64)
+            s1, s2 = s1 + v.sum(), s2 + (v * v).sum()
+        m = s1 / n
+        mean.append(np.float32(m))
+        sd.append(np.float32(np.sqrt(max(s2 / n - m * m, 0.0)) or 1.0))
+    return cube, valid, n, np.array(mean, np.float32)[:, None], np.array(sd, np.float32)[:, None]
 
 
-def _nearest(x, centres, cols=2_000_000):
-    """Index of the nearest centre (k, n_bands) for every column of x, in blocks."""
-    out = np.empty(x.shape[1], np.int64)
-    for i in range(0, x.shape[1], cols):
-        d = ((x[:, i : i + cols].T[:, None, :] - centres[None]) ** 2).sum(axis=2)
-        out[i : i + cols] = np.argmin(d, axis=1)
-    return out
+def _valid_pixels(cube, valid, index, mean, sd):
+    """Standardised values (n_bands, len(index)) of the index-th valid pixels (index sorted, counted in row order)."""
+    per_row = np.cumsum(valid.sum(axis=1))
+    rows = np.searchsorted(per_row, index, side="right")
+    out = np.empty((cube.shape[0], len(index)), np.float32)
+    bounds = np.searchsorted(rows, np.arange(cube.shape[1] + 1))  # index is sorted: each row's picks are one slice
+    for r in np.flatnonzero(np.diff(bounds)):
+        sel = slice(bounds[r], bounds[r + 1])
+        cols = np.flatnonzero(valid[r])[index[sel] - (per_row[r - 1] if r else 0)]
+        out[:, sel] = cube[:, r, cols]
+    return (out - mean) / sd
+
+
+def _blocks(cube, valid, mean, sd, rows=256):
+    """(row slice, standardised valid pixels (n_bands, m), the block's validity mask) block by block."""
+    for r0 in range(0, cube.shape[1], rows):
+        v = valid[r0 : r0 + rows]
+        yield slice(r0, r0 + rows), (cube[:, r0 : r0 + rows][:, v] - mean) / sd, v
+
+
+def _nearest(x, centres):
+    """Index of the nearest centre (k, n_bands) for every column of x."""
+    return np.argmin(((x.T[:, None, :] - centres[None]) ** 2).sum(axis=2), axis=1)
 
 
 def kmeans(bands, k=5, seed=0, sample=200_000):
@@ -155,14 +178,17 @@ def kmeans(bands, k=5, seed=0, sample=200_000):
     first band so the labels are stable from run to run."""
     from scipy.cluster.vq import kmeans2
 
-    x, valid = _pixels(bands)
-    n = x.shape[1]
+    cube, valid, n, mean, sd = _standardised(bands)
     rng = np.random.default_rng(seed)
-    train = (x[:, rng.choice(n, sample, replace=False)] if n > sample else x).T
-    centres, _ = kmeans2(np.asarray(train, np.float64), k, minit="++", seed=seed)
-    order = np.argsort(centres[:, 0])
+    pick = rng.choice(n, sample, replace=False) if n > sample else np.arange(n)
+    order_of_pick = np.argsort(pick)
+    train = np.empty((cube.shape[0], len(pick)), np.float32)
+    train[:, order_of_pick] = _valid_pixels(cube, valid, pick[order_of_pick], mean, sd)
+    centres, _ = kmeans2(np.asarray(train.T, np.float64), k, minit="++", seed=seed)
+    centres = centres[np.argsort(centres[:, 0])].astype(np.float32)
     out = np.full(valid.shape, np.nan, np.float32)
-    out[valid] = _nearest(x, centres[order].astype(np.float32))
+    for rows, x, v in _blocks(cube, valid, mean, sd):
+        out[rows][v] = _nearest(x, centres)
     return out
 
 
@@ -170,13 +196,17 @@ def pca(bands, n=3, sample=4_000_000):
     """Principal components (n, ny, nx) of the standardised bands and the explained variance fractions: the
     eigenvectors of the bands' covariance from an even sample of at most `sample` pixels (an SVD of every pixel
     needs a second pixels x bands matrix: a Sentinel-2 scene ran out of memory), every pixel projected on them."""
-    x, valid = _pixels(bands)
-    var, vec = np.linalg.eigh(np.atleast_2d(np.cov(x[:, :: max(1, x.shape[1] // sample)].astype(np.float64))))
+    cube, valid, count, mean, sd = _standardised(bands)
+    x = _valid_pixels(cube, valid, np.arange(0, count, max(1, count // sample)), mean, sd)
+    var, vec = np.linalg.eigh(np.atleast_2d(np.cov(x.astype(np.float64))))
     order = np.argsort(var)[::-1]
     var, vec = var[order], vec[:, order]
     out = np.full((n, *valid.shape), np.nan, np.float32)
-    for i in range(n):
-        out[i][valid] = vec[:, i].astype(np.float32) @ x
+    w = vec[:, :n].T.astype(np.float32)
+    for rows, xb, v in _blocks(cube, valid, mean, sd):
+        proj = w @ xb
+        for i in range(n):
+            out[i, rows][v] = proj[i]
     return out, (var[:n] / var.sum()).tolist()
 
 
