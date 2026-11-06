@@ -238,7 +238,7 @@ open items; (5) then another release.
 - (1) **DONE.** Version 0.2.0 (`e95a636`). Tag pushes from the agent container are cut off by its proxy, so the `ci`
   workflow got a `release` input (`9147928`): run `ci` by hand on `main` with release = true (GitHub MCP
   `actions_run_trigger`, method run_workflow, workflow_id ci.yml, ref main, inputs {"release": true}); the release
-  job creates tag v<version> at that commit and uploads the installers. Run 97 was started for v0.2.0. Do not push to
+  job creates tag v<version> at that commit and uploads the installers. Run 97 published v0.2.0 (the repository's Releases page, 07:47 UTC, all jobs green). Do not push to
   `main` while such a run is going: the push cancels it (same concurrency group).
 - (2) **DONE.** The guide had one line per method; now each says how it works (07-lightcurves, 4 languages) and each
   item of the method list has its own tooltip with the paper (Lomb 1976 / Scargle 1982, Kovács et al. 2002,
@@ -252,7 +252,7 @@ open items; (5) then another release.
   `oc_models` cited Irwin 1952 as AJ 57, 211 — it is ApJ 116, 211 (fixed). Result: every fit is a published model.
 - (4a) **DONE — disentangling on real data, with the cause found.** Synthetic AI Phe built from PHOENIX K (5000/4.5)
   and F (6000/4.0) spectra at R 48000, the real ESO epochs and Gallenne's orbit, light ratio 0.32, S/N 70, with and
-  without spikes and continuum waves (script `synth_dis.py`, text below). Findings: (i) even without noise the F
+  without spikes and continuum waves (the construction is all in this paragraph). Findings: (i) even without noise the F
   component is off by 0.04 rms, almost all of it in broad features (≥ 9 A): the velocity separation v1 − v2 changes
   by only 58 km/s across these spectra (≈ 1 A), so broader features (Balmer wings) are not set by the data. The true
   F spectrum is typed F9 III / G0 V by the MK standards, the disentangled one B1 Ia — exactly the real result. With
@@ -273,6 +273,17 @@ open items; (5) then another release.
   stars (template = HARPS tau Ceti for both; resolution or normalisation difference) — not investigated; a mixed
   series breaks the constant-light-ratio assumption of disentangling. Conclusion for the owner: the code is right,
   these archive data cannot give the components' types; a series over the whole orbit can.
+- (4b) **DONE — drizzle on real frames: two bugs found and fixed.** Data: the three LCO 0.4 m BANZAI frames of the
+  433 Eros field already used for astrometry (cpt0m439-sq39-20260808-0080/0081/0082-e91, archive-api.lco.global).
+  Their offsets are real non-integer shifts (5.48 / 1.62 and 9.47 / 2.66 px). The drizzled image's WCS agrees with
+  the stack's within 0.05 drizzled px (0.02 arcsec) over 40 stars. (i) **Flux:** aperture sums on the drizzled image
+  were 4.011 x the stack's — the output was surface brightness, without Fruchter & Hook's s^2 factor (eq. 3; also
+  drizzlepac), so photometry with the gain on a drizzled frame was wrong; now counts are kept: 1.0027 +- 0.006. The
+  guide already said "the flux is kept". The synthetic test had codified the old behaviour; changed. (ii) **SIP:**
+  `scaled_header` scaled CD / CRPIX but not the SIP distortion terms our plate solver writes; A_p_q, B_p_q, AP, BP now
+  scale as scale^(1-p-q) (test `test_scaled_header_keeps_the_distortion`, fails without). Not checked: frames with a
+  rotation between them (drizzle, like stacking, aligns by translation only — documented shortcut).
+- (4c) Offline plate solving on real frames: next.
 
 **Update by agent session 01RxUU (2026-11-06, after 019Lu3).** Continued "Still to do" below in order; each item
 there now says DONE / IN PROGRESS with its results. Commits: `e2a8d69` (brand check), `95714a4` (CHECKSUM fix,
