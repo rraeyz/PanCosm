@@ -278,7 +278,8 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
   own hint line), Start, Guide.
 - The full suite was NOT run after `3ca2ffc` / `40e80e0` (only the touched tests: test_echelle, test_spectroscopy,
   test_messages, test_ui -k "photometry or oc or models or spectro or reduce or folded_workflow" — all passed;
-  a wider run was still going when the quota ended). **First thing: `sh tools/precommit.sh` and CI.**
+  then test_ui + test_spectroscopy + test_echelle + test_messages + the period / frequency / varfind / plan /
+  remote-sensing / spectrum-tools tests on the final code: 150 passed). **First thing: `sh tools/precommit.sh` and CI.**
 
 **R4 (third full test round) — where it stopped.** Runner `real/T3_run.sh` in the agent's scratchpad (NOT in the
 repo; the scratchpad and the downloaded data are lost with the container — see "How to redo R4" below). Finished
