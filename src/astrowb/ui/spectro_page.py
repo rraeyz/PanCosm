@@ -1345,8 +1345,19 @@ class VelocityTab(QWidget):
             + f" ({lat:+.3f}°, {lon:+.3f}°)"
             for lat, lon, src in sorted(sites)
         ]
+        same = self.template.text() and self.template.text() == self.template2.text()
         self.status.setText(
             self.tr("{n} velocities.").format(n=len(rows))
+            + " "
+            + self.tr(
+                "They are relative to the template: for an observed star as template add its own velocity "
+                "(e.g. τ Ceti −16.6 km/s); a synthetic or laboratory template is at rest."
+            )
+            + (
+                " " + self.tr("One template for both stars: star 1 is the one that gives more light.")
+                if same and any(r.get("rv2") is not None for r in rows)
+                else ""
+            )
             + "".join(" " + w for w in widths)
             + (" " + self.tr("Barycentric correction for: {w}.").format(w="; ".join(where)) if where else "")
             + (

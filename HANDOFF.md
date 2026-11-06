@@ -331,7 +331,35 @@ the work to the next agent with this file. State at that moment:
    (s1d, Phase 3) and ADP.2014-09-24T09:42:58.973 (tar: e2ds_A/B, s1d_A/B, ccf_G2_A, bis). Our settings: orientation
    y, reverse on, sky off, first order 161, order step -1; 9 guesses (3 lines in orders 153, 138, 123) from the
    thar list. ESO's e2ds wavelengths: `HIERARCH ESO DRS CAL TH COEFF LL{4*o+i}` (degree 3, pixel 0-based).
-4. **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
+4. **IN PROGRESS (session 01RxUU, 2026-11-06).** Done so far:
+   - **SB2 / TODCOR on a real double-lined binary — found and fixed a real bug.** AI Phe (F7 V + K0 IV, P 24.59 d),
+     ESO archive Phase 3 spectra (TAP `ivoa.ObsCore`, `target_name IN ('AI Phe','AI-Phe')`): 7 FEROS
+     ADP.2016-09-27T11:56:48.124/.254/.546/.622, 11:56:49.113/.549/.655 (2014 Sep) + 3 HARPS ADP.2017-06-11T01:04:35.219,
+     2017-06-12T01:03:34.222, 2017-06-14T07:30:18.279; template the HARPS s1d of tau Ceti ADP.2014-09-24T09:43:29.897 for
+     both stars, 4500–6500 A. Literature: Gallenne et al. 2019 (arXiv 1910.03393, Table 2: P 24.59215, Tp 2453248.603,
+     e 0.1872, ω 110.36, K1 51.166, K2 49.118, γ −2.111 km/s), Maxted et al. 2020 (arXiv 2003.09295: K1 51.164, K2
+     49.106; star 1 = the F star, star 2 the more massive K star). Found: with one template for both stars the TODCOR
+     surface is symmetric — (v1, v2, α) and (v2, v1, 1/α) fit equally — and noise chose, so the two stars swapped in
+     3 of 10 spectra; the Wilson mass ratio came out 0.99 (neither 1.042 nor 0.960). Fixed in `sb2.todcor`: with
+     identical templates star 1 is the one that gives more light (α ≤ 1), constant along the orbit (test
+     `test_one_template_for_both_stars_keeps_the_brighter_as_component_one`, fails without the fix). Now: star 1 = the
+     brighter K star in all 10; Wilson diagram with one γ per epoch (the third body moves γ between 2014 and 2017):
+     K_K/K_F = 0.9625 ± 0.0049 against 49.118/51.166 = 0.9600; rms 0.107 km/s; the velocity separation v1 − v2
+     agrees with Gallenne's orbit within 0.02–0.3 km/s in every spectrum. γ came out +11.7/+12.6 km/s against −2.1:
+     the velocities are relative to the template (tau Ceti −16.6 km/s); the Velocity tab now says so (and that star
+     1 is the brighter one when one template is used), translated.
+   - **Disentangling on the same spectra: NOT good yet (open).** `spectroscopy.disentangle` with the TODCOR
+     velocities (rv_obs, rv2_obs) and the light ratio from TODCOR (0.32): 3–7 s, but the components carry broad
+     continuum waves (around H-alpha, tens of A) and FEROS's blue spikes (3890 A); the MK type of the components is
+     "poor" (F6–F8 III for the K star, O9 Ia nonsense for the F star). The fainter component does have the deep, broad
+     H-alpha (it is the F star, as expected). Cause: the low-frequency (continuum) part of disentangled spectra is not
+     constrained with this velocity coverage (a known property; FDBinary / Ilijić and Hadrava work in short windows
+     and renormalise each component) plus input normalisation differences. To do: disentangle in windows of a few
+     hundred A with a renormalisation of each component per window, clip spikes; then re-run this check (expect
+     F7 V and K0 IV from the MK standards; the plot script is in the notes below).
+   - Not started yet from this list: v sin i / broadening function on a fast rotator, telluric correction on a real
+     red spectrum, asteroid photometry, drizzle on real dithered frames, offline plate solving.
+   Original text: **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
    disentangling (`spectroscopy.disentangle`) and SB2 / TODCOR on a real double-lined binary with published
    velocities (e.g. HARPS or FEROS ADP spectra of a known SB2 from the ESO archive, compare K1, K2 with the
    literature); broadening function / v sin i on a real fast rotator (compare with a published v sin i); telluric
