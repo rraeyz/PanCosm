@@ -222,9 +222,11 @@ def airmass(t: Time, target: SkyCoord, where: EarthLocation) -> float:
     return float(target.transform_to(AltAz(obstime=t, location=where)).secz)
 
 
-def chronological(paths) -> list[str]:
+def chronological(paths, times=None) -> list[str]:
     """Paths sorted by mid-exposure time from their headers (file names are not always in time order:
-    frame-to-frame tracking depends on it). Files without a readable time follow, in name order."""
+    frame-to-frame tracking depends on it). Files without a readable time follow, in name order. times: a dict that
+    receives {path: mid-exposure UTC JD}, so a frame list need not open every file again (18 758 TESS cadences:
+    the Photometry page read every header twice, 98 s)."""
     from astropy.io import fits
 
     from .io.fits import find_image_hdu
@@ -236,4 +238,6 @@ def chronological(paths) -> list[str]:
                 timed.append((mid_time(hdul[find_image_hdu(hdul)].header).jd, p))
         except (TimeError, ValueError, OSError):
             untimed.append(p)
+    if times is not None:
+        times.update({p: jd for jd, p in timed})
     return [p for _, p in sorted(timed)] + untimed

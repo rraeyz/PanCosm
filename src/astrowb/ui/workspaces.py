@@ -2242,7 +2242,8 @@ class PhotometryPage(Undoable, QWidget):
         paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
 
         self.quality_button.setEnabled(True)
-        self.images = timing.chronological(paths)
+        self._frame_jd = {}  # mid-exposure UTC of every frame, read once here for the frame list
+        self.images = timing.chronological(paths, self._frame_jd)
         self.ref, self.shown, self.skipped = None, 0, set()
         data, header, _ = read_image(self.images[0])
         self.viewer.set_image(data)
@@ -2388,21 +2389,18 @@ class PhotometryPage(Undoable, QWidget):
 
     def _fill_frames(self):
         """The frame list: name, mid-exposure time, the quality numbers when measured, the use box."""
-        from astropy.io import fits
-
-        from .. import timing
-        from ..io.fits import find_image_hdu, inherited
+        from astropy.time import Time
 
         quality = {r["file"]: r for r in getattr(self, "quality", None) or []}
+        jds = getattr(self, "_frame_jd", {})
+        known = [p for p in self.images if p in jds]  # a file without a time: the name is enough
+        stamps = (
+            dict(zip(known, Time([jds[p] for p in known], format="jd", scale="utc").isot, strict=True)) if known else {}
+        )
         self.frame_table.blockSignals(True)
         self.frame_table.setRowCount(len(self.images))
         for i, path in enumerate(self.images):
-            when = ""
-            try:
-                with fits.open(path) as hdul:
-                    when = timing.mid_time(inherited(hdul, find_image_hdu(hdul))).utc.isot[11:19]
-            except Exception:  # no time in the file: the name is enough
-                pass
+            when = stamps.get(path, "")[11:19]
             q = quality.get(path, {})
             fwhm, sky = q.get("fwhm"), q.get("background")
             cells = (Path(path).name, when, "" if fwhm is None else f"{fwhm:.2f}", "" if sky is None else f"{sky:.0f}")
