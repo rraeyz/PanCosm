@@ -78,3 +78,30 @@ def test_indices_classes_and_pca(tmp_path):
     d, mask = analysis.change(ndvi, ndvi + np.where(veg, -0.5, 0.0).astype(np.float32), 0.2)
     assert mask[veg].all() and not mask[water].any()
     assert analysis.pixel_spectrum(r.bands, 70, 10) == pytest.approx([0.06, 0.09, 0.04, 0.45], abs=0.02)
+
+
+def test_band_files_of_one_scene_open_as_one_image(tmp_path, qtbot):
+    """Sentinel-2 comes as one file per band: B04 and B08 together give NDVI; roles without a band stay empty."""
+    import tifffile
+
+    from astrowb.remotesensing import analysis, raster
+    from astrowb.ui.rs_page import RemoteSensingPage
+
+    red, nir = np.full((40, 30), 1000, np.uint16), np.full((40, 30), 3000, np.uint16)
+    for name, data in (("B04", red), ("B08", nir)):
+        tifffile.imwrite(tmp_path / f"{name}.tif", data)
+    both = f"{tmp_path / 'B04.tif'};{tmp_path / 'B08.tif'}"
+    r = raster.read(both)
+    assert r.names == ["B04", "B08"] and r.bands.shape == (2, 40, 30) and r.source == both
+    page = RemoteSensingPage()
+    qtbot.addWidget(page)
+    page.open(both)
+    roles = {k: c.currentText() for k, c in page.roles.items()}
+    assert roles == {"BLUE": "", "GREEN": "", "RED": "B04", "NIR": "B08", "SWIR": ""}
+    page._preset(page.index.findText("NDVI"))
+    assert page.expression.text() == "(B08 - B04) / (B08 + B04)"
+    assert analysis.evaluate(page.expression.text(), {"B04": r.band(0), "B08": r.band(1)})[0, 0] == pytest.approx(0.5)
+    with pytest.raises(analysis.ExpressionError, match="unknown band GREEN"):  # NDWI needs a green band
+        analysis.evaluate(analysis.index_expression("NDWI", {"RED": "B04", "NIR": "B08"}), {"B04": red, "B08": nir})
+    big = analysis.evaluate("B08 / B04", {"B04": np.ones((3000, 4)), "B08": np.full((3000, 4), 2.0)}, rows=1000)
+    assert big.shape == (3000, 4) and np.all(big == 2.0)  # in blocks of rows

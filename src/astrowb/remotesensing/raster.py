@@ -129,6 +129,8 @@ def _read_hdf(path):
 
 
 def read(path) -> Raster:
+    if ";" in str(path):  # several files of one scene (Sentinel-2, Landsat: one band per file)
+        return read_bands(str(path).split(";"))
     path = Path(path)
     if path.suffix.lower() in HDF_SUFFIXES:
         return _read_hdf(path)
@@ -186,6 +188,19 @@ def read(path) -> Raster:
         except ValueError:
             nodata = None
     return Raster(bands, [f"B{i + 1}" for i in range(len(bands))], transform, epsg, nodata, tags, str(path))
+
+
+def read_bands(paths) -> Raster:
+    """Files of one scene on the same grid as one image: their bands in file order, named after the files (B04,
+    B08…; "name_B2" for a file with several bands), the map position of the first. The source is the paths joined
+    with ';', which read() takes back."""
+    rasters = [read(p) for p in paths]
+    first = rasters[0]
+    if any(r.shape != first.shape for r in rasters):
+        raise ValueError("the files are not the same size: open bands of one scene at the same resolution")
+    names = [Path(r.source).stem + ("" if len(r.names) == 1 else f"_{n}") for r in rasters for n in r.names]
+    bands = np.concatenate([r.bands for r in rasters])
+    return Raster(bands, names, first.transform, first.epsg, first.nodata, first.tags, ";".join(map(str, paths)))
 
 
 def write(path, like: Raster, data, nodata=None):

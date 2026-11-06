@@ -450,6 +450,21 @@ so the curved grism-11 dispersion ran 27 A off in the blue and five correct line
 lines now stay as given and the window grows in 5 % steps. Now every start (2 lines, 4 or 5 by hand in the middle,
 PESSTO's 9) gives 13 lines, degree 4, rms 0.21 A, as before with nine. Tests `tests/test_wavecal_real.py`,
 `test_task_error_drops_the_generic_value_error_name`. Times: scan 3 s, calibrate 3 s, extract 2 s, solve 1.3 s.
+**U6j (done): a real Sentinel-2 L2A scene on the Remote sensing page.** Data: Element84 Earth Search STAC
+(`https://earth-search.aws.element84.com/v1/search`, collection sentinel-2-l2a, point 32.85 E 39.93 N, cloud < 2 %):
+S2B_36TVK_20250828_0_L2A, B04 and B08 COGs (10980 x 10980 px, 232 MB each, from sentinel-cogs.s3.us-west-2). Found
+and fixed: (a) Sentinel-2 / Landsat give one file per band and the page opened one file only, so NDVI (red + NIR)
+was impossible: several files of one scene now open as one image (bands named B04, B08…, roles from Sentinel-2 band
+names; the source is the paths joined with ';', which the steps read back); (b) roles with no band showed the first
+band and an index (NDWI with no green band) would silently use the wrong one: they stay empty and the formula says
+"unknown band GREEN"; (c) **out of memory**: the page took 7 GB and the NDVI task 6.6 GB and the machine killed
+it; band math is now float32 in blocks of rows (NDVI 11.8 s -> 1.4 s, 5.3 GB -> 3 GB), statistics from a 4-M-pixel
+sample for mean / std / percentiles (11.4 s -> 0.43 s), PCA from the covariance of a sample instead of an SVD of
+every pixel and pixels kept as contiguous band rows (k-means labels in blocks): PCA ran out of memory, now 44 s;
+k-means 56 s (reading 10 s and writing the GeoTIFF 14 s of it). NDVI equals numpy's to 0; pixel read-out UTM 36N ->
+lon / lat agrees with pyproj. Open question (not changed): L2A since baseline 04.00 needs reflectance = DN/1e4 - 0.1;
+this scene's red band has DN < 1000 (p2 = 199), so whether the offset applies to these COGs is unclear - check before
+telling users to subtract it.
 **Environment note (agent container only):** the container's CA bundle lacks STScI's root (emSign); Python
 scripts here use `scratchpad/ca-all.pem` (container bundle + certifi) via `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE`.
 Users are not affected (certifi has it).
@@ -481,6 +496,9 @@ Users are not affected (certifi has it).
 | IRAF apphot.phot, 40 frames (positions given per frame) | same | 1.0 s (ours 8.9 s, which also tracks the field) | fine |
 | Photometry: open a TESS target pixel file (19 694 cadences) | W UMa s21 | 17 s | fine |
 | Photometry: measure 18 758 TESS cadences (13 x 11 px) | W UMa s21 | 235 s (12.5 ms each) | acceptable |
+| Remote sensing: open 2 Sentinel-2 band files (2 x 120 Mpx) | S2B_36TVK_20250828 | 7–21 s | acceptable |
+| Remote sensing: NDVI (task, incl. writing and showing) | same | 33–40 s (band math itself 1.4 s, before 11.8 s and 5.3 GB) | acceptable |
+| Remote sensing: PCA / k-means (steps) | same | 44 s / 56 s (PCA before: out of memory) | acceptable; reading and GeoTIFF writing are half of it |
 | Calibrate: scan 91 raw LCO frames | 30 bias, 20 darks, 40 lights, 1 master flat | 3.3 s | fine |
 | Calibrate: masters + 40 lights (2400 x 2400, compressed) | same | before 110 s, now 18.4 s (IRAF ccdred 11 s) | the full-chip masters no light needed are skipped |
 

@@ -7,7 +7,9 @@ from . import analysis, raster
 
 
 def _product(src, suffix, output):
-    return output or str(Path(src).with_name(Path(src).stem + f"_{suffix}.tif"))
+    first = Path(str(src).split(";")[0])
+    stem = first.parent.name if ";" in str(src) else first.stem  # bands in several files: the scene's folder
+    return output or str(first.with_name(stem + f"_{suffix}.tif"))
 
 
 @step("rs.expression", inputs=("raster", "expression"), outputs=("product",), optional=("output", "name"))
