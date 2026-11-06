@@ -4,7 +4,7 @@ Die Seite **Kalibrieren** macht aus Rohaufnahmen kalibrierte Bilder: Sie erkennt
 ## 1. Die Rohaufnahmen einlesen
 Wählen Sie den Ordner mit Ihren Rohaufnahmen (Lights, Bias, Darks und Flats dürfen gemischt sein, Unterordner eingeschlossen) und drücken Sie **Einlesen**. Die Tabelle listet jede Datei mit **Typ**, **Belichtung**, **Filter**, **Temperatur** und **Binning**.
 
-- Der Typ stammt aus dem Header `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) und, wenn er fehlt, aus dem Dateinamen.
+- Der Typ stammt aus dem Header `IMAGETYP` / `FRAME` (Light Frame, Bias, Dark, Flat Field…) und, wenn er fehlt, aus dem Dateinamen. Wörter im Namen: bias / zero / offset, dark, flat / twilight, light / object / science; ein Bild von 0 s ist ein Bias. Ein Bild, auf das nichts passt, ist **unbekannt** und bleibt außen vor (unter der Tabelle aufgeführt) — es wird *nicht* als Light genommen. **Doppelklick auf einen Typ** in der Tabelle ändert ihn; die Dateien bleiben unverändert.
 - Unlesbare Dateien und Dateien unbekannten Typs werden unter der Tabelle aufgeführt und ignoriert.
 - Dieselbe Liste nennt **fehlende** Kalibrieraufnahmen, zum Beispiel „no flat for filter 'R'“ — diese Lights werden trotzdem kalibriert, nur ohne diese Korrektur, und Sie erfahren es.
 
@@ -31,10 +31,10 @@ Wählen Sie, wohin Master und kalibrierte Bilder geschrieben werden. Rohdateien 
 - **Spektren: nicht durch das Flat teilen:** für Echelle- und Langspalt-Aufnahmen ankreuzen. Deren Flat ist zwischen den Ordnungen fast null; Teilen würde das Rauschen explodieren lassen (IRAF-Nutzer normieren ein solches Flat erst mit apflatten / apnormalize). Bias und Dark werden weiter abgezogen; das Master-Flat wird trotzdem erstellt — geben Sie es der Seite Spektroskopie, die darauf die Ordnungen verfolgt und durch ihren Blaze teilt. Die Defektkarte stammt dann nur aus dem Dark.
 
 ## 3. Kalibrieren
-Drücken Sie **Kalibrieren**. Die Aufgabe läuft im Hintergrund; am Ende sehen Sie, wie viele Bilder kalibriert und wie viele Master geschrieben wurden. Jedes kalibrierte Bild hält in seinem Header fest, welche Master benutzt wurden (`CALB`, `CALD`, `CALF`), sodass Sie es jederzeit prüfen können.
+Drücken Sie **Kalibrieren**. Die Aufgabe läuft im Hintergrund; am Ende sehen Sie, wie viele Bilder kalibriert und wie viele Master geschrieben wurden. Jedes kalibrierte Bild hält in seinem Header fest, welche Master benutzt wurden (`CALB`, `CALD`, `CALF`), sodass Sie es jederzeit prüfen können. **4. Auf der Seite Photometrie messen →** schickt danach die kalibrierten Lights dorthin und öffnet die Seite (bei mehreren Filtern wählen Sie einen: eine Lichtkurve wird in einem Filter gemessen). Das Kontextmenü der Seite Bilder hat dasselbe: **Die geöffneten Bilder an die Photometrie schicken**.
 
 ## 4. Ausrichten und stapeln
-**Ausrichten und stapeln…** richtet die kalibrierten Bilder an den Sternen aus (Verschiebung per Kreuzkorrelation) und kombiniert sie mit einem sigma-geclippten Mittelwert zu einem tiefen Bild. Eine Abdeckungskarte, als zweite Erweiterung der Datei gespeichert, zeigt, wie viele Aufnahmen zu jedem Pixel beigetragen haben. Stapeln Sie nur Aufnahmen desselben Filters.
+**Ausrichten und stapeln…** richtet die kalibrierten Bilder an den Sternen aus (Verschiebung per Kreuzkorrelation) und kombiniert sie mit einem sigma-geclippten Mittelwert zu einem tiefen Bild. Eine Abdeckungskarte, als zweite Erweiterung der Datei gespeichert, zeigt, wie viele Aufnahmen zu jedem Pixel beigetragen haben. Stapeln Sie nur Aufnahmen desselben Filters. Das Stapeln ist freiwillig und **nicht für eine Lichtkurve**: ein Stapel hat nur eine Zeit, die Photometrie misst jedes einzelne Bild. Stapeln Sie für ein tiefes Bild, Astrometrie schwacher Objekte oder ein Farbbild.
 
 ## Stapeloptionen
 Die Auswahl neben der Stapel-Schaltfläche funktioniert wie in Siril, PixInsight oder MaxIm DL:

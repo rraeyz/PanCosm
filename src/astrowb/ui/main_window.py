@@ -385,6 +385,12 @@ class MainWindow(QMainWindow):
 
         menu = QMenu(self)
         page = self.image_page
+        self._action(
+            menu,
+            self.tr("Send the open images to Photometry"),
+            lambda: self.send_to_photometry(page.open_paths() or [str(self.current_path)]),
+        )
+        menu.addSeparator()
         self._action(menu, self.tr("Measure this star"), lambda: page.measure_star(x, y))
         self._action(menu, self.tr("Photometry: this star as the target"), lambda: self.photometry_from_image(x, y))
         comp = self._action(
@@ -431,6 +437,31 @@ class MainWindow(QMainWindow):
         )
         QDesktopServices.openUrl(url)
         return url
+
+    def send_to_photometry(self, paths, ask=True):
+        """Images to the Photometry page, which is then shown. Several filters: one light curve per filter, so the
+        user picks the filter (the largest group first)."""
+        from PySide6.QtWidgets import QInputDialog
+
+        from .workspaces import by_filter
+
+        paths = [str(p) for p in paths if p]
+        if not paths:
+            return None
+        groups = by_filter(paths)
+        if len(groups) > 1 and ask:
+            names = sorted(groups, key=lambda k: -len(groups[k]))
+            labels = [self.tr("{f} ({n} images)").format(f=k or "—", n=len(groups[k])) for k in names]
+            question = self.tr("A light curve is measured in one filter. Which one?")
+            label, ok = QInputDialog.getItem(self, self.tr("Filter"), question, labels, 0, False)
+            if not ok:
+                return None
+            paths = groups[names[labels.index(label)]]
+        elif len(groups) > 1:
+            paths = max(groups.values(), key=len)
+        self.photometry_page.set_images(paths)
+        self.show_workspace("photometry")
+        return paths
 
     def photometry_from_image(self, x, y, comparison=False):
         """Start photometry from the Images page: the open images (or the shown one) go to the Photometry page with
@@ -762,6 +793,7 @@ class MainWindow(QMainWindow):
         page.scan_requested.connect(self.scan_raw)
         page.run_requested.connect(self.calibrate)
         page.stack_requested.connect(self.stack_images)
+        page.photometry_requested.connect(self.send_to_photometry)
         return page
 
     def _set_clock_offset(self, hours):

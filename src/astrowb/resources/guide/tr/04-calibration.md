@@ -4,7 +4,7 @@
 ## 1. Ham kareleri taramak
 Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık olabilir, alt klasörler dahil) ve **Tara**'ya basın. Tablo her dosyayı **türü**, **pozu**, **filtresi**, **sıcaklığı** ve **binning**'iyle listeler.
 
-- Tür `IMAGETYP` / `FRAME` başlığından (Light Frame, Bias, Dark, Flat Field…), yoksa dosya adından anlaşılır.
+- Tür `IMAGETYP` / `FRAME` başlığından (Light Frame, Bias, Dark, Flat Field…), yoksa dosya adından anlaşılır. Addaki sözcükler: bias / zero / offset, dark, flat / twilight, light / object / science; 0 s'lik bir kare bias'tır. Hiçbirine uymayan kare **bilinmiyor** olur ve dışarıda bırakılır (tablonun altında listelenir) — light *sayılmaz*. Tablodaki bir **türe çift tıklayarak** onu değiştirebilirsiniz; dosyalar değişmez.
 - Okunamayan ve türü bilinmeyen dosyalar tablonun altında listelenir ve atlanır.
 - Aynı liste hangi kalibrasyon karelerinin **eksik** olduğunu söyler, ör. "no flat for filter 'R'" — o light'lar yine kalibre edilir, yalnızca o düzeltme olmadan; bu size bildirilir.
 
@@ -31,10 +31,10 @@ Master karelerin ve kalibre görüntülerin yazılacağı yeri seçin. Ham dosya
 - **Tayf: flat'e bölme:** eşel ve uzun yarık kareleri için işaretleyin. Bunların flat'i order/mertebeler arasında sıfıra yakındır, ona bölmek gürültüyü patlatır (IRAF kullanıcıları böyle bir flat'i önce apflatten / apnormalize ile normalize eder). Bias ve dark yine çıkarılır; master flat yine yapılır — onu Tayf sayfasına verin; mertebeleri onun üzerinde izler ve blaze'ine böler. Kusur haritası o zaman yalnızca dark'tan çıkar.
 
 ## 3. Kalibre et
-**Kalibre et**'e basın. Görev arka planda çalışır; bitince kaç görüntünün kalibre edildiğini ve kaç master yazıldığını görürsünüz. Her kalibre görüntü hangi master'ların kullanıldığını başlığına yazar (`CALB`, `CALD`, `CALF`); her zaman kontrol edebilirsiniz.
+**Kalibre et**'e basın. Görev arka planda çalışır; bitince kaç görüntünün kalibre edildiğini ve kaç master yazıldığını görürsünüz. Her kalibre görüntü hangi master'ların kullanıldığını başlığına yazar (`CALB`, `CALD`, `CALF`); her zaman kontrol edebilirsiniz. Ardından **4. Fotometri sayfasında ölç →** kalibre edilmiş light'ları oraya gönderir ve sayfayı açar (birkaç filtre varsa birini seçersiniz: ışık eğrisi tek filtrede ölçülür). Görüntüler sayfasının sağ tık menüsünde de aynısı vardır: **Açık görüntüleri Fotometriye gönder**.
 
 ## 4. Hizala ve birleştir
-**Hizala ve birleştir…** kalibre görüntüleri yıldızlara göre hizalar (kayma çapraz korelasyonla bulunur) ve sigma kırpmalı ortalamayla tek derin görüntüde birleştirir. Dosyanın ikinci uzantısına kaydedilen kapsama haritası her piksele kaç karenin katkı verdiğini söyler. Yalnızca aynı filtredeki kareleri birleştirin.
+**Hizala ve birleştir…** kalibre görüntüleri yıldızlara göre hizalar (kayma çapraz korelasyonla bulunur) ve sigma kırpmalı ortalamayla tek derin görüntüde birleştirir. Dosyanın ikinci uzantısına kaydedilen kapsama haritası her piksele kaç karenin katkı verdiğini söyler. Yalnızca aynı filtredeki kareleri birleştirin. Yığma isteğe bağlıdır ve **ışık eğrisi için değildir**: yığının tek bir zamanı vardır, fotometri ise her görüntüyü ayrı ölçer. Derin bir görüntü, sönük cisimlerin astrometrisi ya da renkli görüntü için yığın.
 
 ## Birleştirme seçenekleri
 Birleştir düğmesinin yanındaki seçenekler Siril, PixInsight ya da MaxIm DL'deki gibi çalışır:

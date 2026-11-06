@@ -264,11 +264,15 @@ starting, mark DONE with results):**
   CSV where the user says, next to the frames by default, and opens it on Orbits & models; `next_requested`,
   `MainWindow._photometry_next`). PSF photometry already has a tooltip (crowded fields). Test
   `test_differential_view_first_and_the_way_on_to_the_fits`. Guide 06 (4 languages).
-- O7 Calibration page: say how frames are classified (header IMAGETYP / FRAME first, then words in the file name;
-  what becomes a light) and let the user change a frame's type; explain "optional stacking" (for a deep picture,
-  not for a light curve) — off by default for photometry.
-- O8 From calibration to photometry: the calibrated lights go to the Photometry page with one button (and appear
-  there); the image's right-click menu says "Send to photometry" plainly.
+- O7 **DONE** Calibrate page: a note under the table says how the type is found (header IMAGETYP / FRAME /
+  OBSTYPE…, then words in the file name, 0 s = bias; anything else "unknown" and left out — NOT taken as a light,
+  answering the owner's question); double-click a type to change it (a list; `CalibratePage._edit_kind`; the run
+  uses the page's frame list, the files are not changed). The stack button now reads "Or: stack them into one deep
+  picture (not for a light curve)" with a tooltip saying why (a stack has one time). Guide 04 (4 languages).
+- O8 **DONE** "4. Measure them on the Photometry page →" after calibration (`photometry_requested` →
+  `MainWindow.send_to_photometry`: several filters → the user picks one; the largest first). The Images page's
+  right-click menu starts with "Send the open images to Photometry" (no star to choose). Tests in
+  `test_calibrate_page_scan_and_run` and the image-menu test.
 - O9 Plan page: "Open in a new window" does nothing (bug); the altitude chart must show the whole curve (not cut at
   20°).
 - O10 "Check frame quality": say what it does on the button / tooltip.

@@ -4,7 +4,7 @@ The **Calibrate** page turns raw frames into calibrated images: it recognises bi
 ## 1. Scan the raw frames
 Choose the folder with your raw frames (lights, bias, darks and flats may be mixed, sub-folders included) and press **Scan**. The table lists every file with its **type**, **exposure**, **filter**, **temperature** and **binning**.
 
-- The type comes from the `IMAGETYP` / `FRAME` header (Light Frame, Bias, Dark, Flat Field…) and, when it is missing, from the file name.
+- The type comes from the `IMAGETYP` / `FRAME` header (Light Frame, Bias, Dark, Flat Field…) and, when it is missing, from the file name. Words in the name: bias / zero / offset, dark, flat / twilight, light / object / science; a frame of 0 s is a bias. A frame matched by none is **unknown** and left out (listed below the table) — it is *not* taken as a light. **Double-click a type** in the table to change it; the files are not changed.
 - Files that cannot be read and files of unknown type are listed under the table and ignored.
 - The same list says which calibration frames are **missing**, for example "no flat for filter 'R'" — those lights are still calibrated, without that correction, and you are told so.
 
@@ -31,10 +31,10 @@ Choose where master frames and calibrated images are written. Raw files are neve
 - **Spectra: do not divide by the flat:** tick it for echelle and long-slit frames. Their flat is near zero between the orders, so dividing by it would blow up the noise (IRAF users normalise such a flat first with apflatten / apnormalize). Bias and dark are still subtracted; the master flat is still made — give it to the Spectroscopy page, which traces the orders on it and divides by its blaze. The defect map then comes from the dark only.
 
 ## 3. Calibrate
-Press **Calibrate**. The task runs in the background; when it finishes you see how many images were calibrated and how many masters were written. Each calibrated image records in its header which masters were used (`CALB`, `CALD`, `CALF`), so you can always check.
+Press **Calibrate**. The task runs in the background; when it finishes you see how many images were calibrated and how many masters were written. Each calibrated image records in its header which masters were used (`CALB`, `CALD`, `CALF`), so you can always check. **4. Measure them on the Photometry page →** then sends the calibrated lights there and opens it (with several filters you choose one: a light curve is measured in one filter). The right-click menu of the Images page has the same: **Send the open images to Photometry**.
 
 ## 4. Align and stack
-**Stacking…** aligns the calibrated images on the stars (translation found by cross-correlation) and combines them with a sigma-clipped mean into one deep image. A coverage map, saved as a second extension of the file, tells how many frames contributed to each pixel. Stack only frames of the same filter.
+**Stacking…** aligns the calibrated images on the stars (translation found by cross-correlation) and combines them with a sigma-clipped mean into one deep image. A coverage map, saved as a second extension of the file, tells how many frames contributed to each pixel. Stack only frames of the same filter. Stacking is optional and **not for a light curve**: a stack has one time only, while photometry measures every single image. Stack for a deep picture, astrometry of faint objects or a colour image.
 
 ## Stacking options
 The choices next to the stack button work as in Siril, PixInsight or MaxIm DL:
