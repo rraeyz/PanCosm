@@ -377,7 +377,16 @@ the work to the next agent with this file. State at that moment:
      saturated cores are left out (NaN) in the saved file, the rest within 0.66–1.2 of the continuum. Fixed on the
      way: the Telluric tab plotted the division through those saturated cores (spikes to ±10) although the saved
      file leaves them out; the step's `corrected` is now the saved spectrum (test in `test_telluric_step_and_tab`).
-   - Not started yet from this list: asteroid photometry, drizzle on real dithered frames, offline plate solving.
+   - **Asteroid astrometry on real frames (checked, nothing to fix).** 433 Eros, LCO 0.4 m at SAAO (cpt0m439),
+     2026-08-08, three BANZAI e91 frames (`archive-api.lco.global/frames/?OBJECT=neo433eros&RLEVEL=91&public=true
+     &start=2026-08-08&end=2026-08-09`: cpt0m439-sq39-20260808-0080/0081/0082-e91, 120 s rp). `astrometry.moving` with
+     the object marked at the pixels JPL Horizons predicts (Horizons API, topocentric for the frames' LATITUDE /
+     LONGITUD / HEIGHT, QUANTITIES 1 = astrometric ICRF, mid-exposure UT): our positions minus Horizons RA +0.25 to
+     +0.30", Dec +0.21 to +0.25" in all three (a constant offset ~0.6 px, the size of BANZAI's WCS error), straight-
+     motion fit residuals 0.02–0.03". Times written at mid-exposure (DATE-OBS + EXPTIME / 2).
+   - Not started yet from this list: drizzle on real dithered frames, offline plate solving (ASTAP / astrometry.net
+     are not installed in the agent container; installing them was not tried).
+   **CI:** all test jobs green on Ubuntu, macOS and Windows at `70a42b0` (run 90).
    Original text: **U7 (more real data, partly done):** features not yet run on new real data from the internet: spectral
    disentangling (`spectroscopy.disentangle`) and SB2 / TODCOR on a real double-lined binary with published
    velocities (e.g. HARPS or FEROS ADP spectra of a known SB2 from the ESO archive, compare K1, K2 with the
