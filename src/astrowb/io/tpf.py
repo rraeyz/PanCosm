@@ -9,6 +9,7 @@ geocentre, and gets the archive's time back to well under a millisecond. Cadence
 archive; the frames hold electrons (times the exposure), so the photometry's noise is right with GAIN 1.
 """
 
+import re
 from pathlib import Path
 
 import numpy as np
@@ -73,10 +74,7 @@ def frames(path) -> list[str]:
     target = SkyCoord(prim["RA_OBJ"] * u.deg, prim["DEC_OBJ"] * u.deg)
     geocentre = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
     bjd = Time(t[good] + tab.get("BJDREFI", 0) + tab.get("BJDREFF", 0.0), format="jd", scale="tdb", location=geocentre)
-    utc = bjd
-    for _ in range(2):  # BJD = t + light travel time(t): two steps converge to nanoseconds
-        utc = bjd - utc.light_travel_time(target, kind="barycentric", ephemeris="builtin")
-    utc = utc.utc
+    utc = _utc(bjd, target)
     utc.precision = 6
     stamps = utc.isot
     folder.mkdir(parents=True, exist_ok=True)
@@ -100,3 +98,58 @@ def frames(path) -> list[str]:
         names.append(name)
     listing.write_text("\n".join(names))
     return [str(folder / n) for n in names]
+
+
+def _utc(bjd, target):
+    """The UTC at the geocentre whose barycentric time is bjd (BJD = t + light travel time(t): two steps converge to
+    nanoseconds)."""
+    utc = bjd
+    for _ in range(2):
+        utc = bjd - utc.light_travel_time(target, kind="barycentric", ephemeris="builtin")
+    return utc.utc
+
+
+_ROW = re.compile(r"_(\d{6})\.fits$")
+
+
+def source(paths):
+    """(pixel file, its rows) when every path is a frame frames() made from one target pixel file, else None: the
+    photometry then reads the cadences from the file at once instead of 18 758 frames one by one."""
+    paths = [Path(p) for p in paths]
+    if not paths or len({p.parent for p in paths}) != 1:
+        return None
+    folder = paths[0].parent
+    if folder.parent.name != "fits_from_raw":
+        return None
+    rows = []
+    for p in paths:
+        m = _ROW.search(p.name)
+        if not m or p.name[: m.start()] != folder.name:
+            return None
+        rows.append(int(m.group(1)))
+    for f in sorted(folder.parent.parent.glob(folder.name + ".fits*")):
+        if f.name.split(".fits")[0] == folder.name and is_tpf(f):
+            return f, rows
+    return None
+
+
+def cube(path, rows, pixels=True):
+    """The cadences of rows as the frames hold them: (electrons (n, ny, nx) float32, sky noise per pixel (n) or None,
+    BJD_TDB (n), UTC Time, exposure in s); pixels=False: the times only (no pixels read, None in their place)."""
+    import astropy.units as u
+    from astropy.coordinates import EarthLocation, SkyCoord
+    from astropy.time import Time
+
+    rows = np.asarray(rows, int)
+    with fits.open(path) as hdul:
+        prim, tab, data = hdul[0].header, hdul[1].header, hdul[1].data
+        exptime = float(tab.get("TIMEDEL", 0.0)) * 86400 * float(tab.get("DEADC", 1.0))
+        flux = noise = None
+        if pixels:
+            flux = np.nan_to_num(np.asarray(data["FLUX"][rows], np.float32) * np.float32(exptime), nan=0.0)
+        if pixels and "FLUX_ERR" in data.columns.names:
+            noise = np.nanmedian(np.asarray(data["FLUX_ERR"][rows], float).reshape(len(rows), -1), axis=1) * exptime
+        t = np.asarray(data["TIME"][rows], float) + tab.get("BJDREFI", 0) + tab.get("BJDREFF", 0.0)
+    target = SkyCoord(prim["RA_OBJ"] * u.deg, prim["DEC_OBJ"] * u.deg)
+    geocentre = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
+    return flux, noise, t, _utc(Time(t, format="jd", scale="tdb", location=geocentre), target), exptime

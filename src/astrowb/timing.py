@@ -229,8 +229,16 @@ def chronological(paths, times=None) -> list[str]:
     the Photometry page read every header twice, 98 s)."""
     from astropy.io import fits
 
+    from .io import tpf
     from .io.fits import find_image_hdu
 
+    src = tpf.source(paths)
+    if src is not None:  # the cadences of a target pixel file: the file's rows are in time order already
+        order = sorted(zip(src[1], (str(p) for p in paths), strict=True))
+        if times is not None:
+            utc = tpf.cube(src[0], [r for r, _ in order], pixels=False)[3]
+            times.update({p: float(jd) for (_, p), jd in zip(order, utc.jd, strict=True)})
+        return [p for _, p in order]
     timed, untimed = [], []
     for p in sorted(str(p) for p in paths):
         try:

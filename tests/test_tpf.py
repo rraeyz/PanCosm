@@ -124,3 +124,29 @@ def test_errors_of_a_small_stamp_come_from_the_archive_noise(tmp_path):
     lc = execute("photometry.light_curve", {"images": frames[:20], "target_xy": [5, 5], "comps_xy": []}, {}, Ctx())
     lc = lc["light_curve"]
     assert lc["apertures"]["replaced"] and np.all(np.isfinite(lc["rel_flux"])) and lc["apertures"]["r_out"] <= 7
+
+
+def test_the_cadences_of_a_pixel_file_are_measured_at_once_as_frame_by_frame(tmp_path):
+    """measure_cube on a cube = measure() on each frame (fluxes, errors, sky); a pixel file's frames take that path
+    (real TESS file: 224 s -> 8 s) and are ordered from the file's rows without opening every header."""
+    from astrowb import timing
+    from astrowb.photometry.aperture import measure, measure_cube
+
+    rng = np.random.default_rng(2)
+    yy, xx = np.mgrid[:13, :15]
+    star = 4000 * np.exp(-((xx - 7.3) ** 2 + (yy - 6.2) ** 2) / 2.2)
+    star += 300 * np.exp(-((xx - 12) ** 2 + (yy - 2) ** 2) / 2)
+    cube = (star[None] * rng.uniform(0.95, 1.05, (40, 1, 1)) + rng.normal(20, 5, (40, 13, 15))).astype(np.float32)
+    xy = np.array([[7.3, 6.2], [12.0, 2.0]])
+    noise = rng.uniform(4, 6, 40)
+    f, e, s, _ = measure_cube(cube, xy, 2.5, 4.0, 6.0, 1.0, noise)
+    for i in (0, 17, 39):
+        f1, e1, s1 = measure(cube[i], xy, 2.5, 4.0, 6.0, 1.0, noise[i])
+        assert np.allclose(f[i], f1, rtol=1e-9) and np.allclose(e[i], e1, rtol=1e-9) and np.allclose(s[i], s1)
+    path = tmp_path / "cut_tp.fits"
+    write_tpf(path)
+    frames = bayer.fits_paths([str(path)])
+    assert tpf.source(frames) is not None and tpf.source([str(path)]) is None
+    shuffled = frames[::-1]
+    times = {}
+    assert timing.chronological(shuffled, times) == frames and len(times) == len(frames)
