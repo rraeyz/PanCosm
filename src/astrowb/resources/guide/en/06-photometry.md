@@ -10,6 +10,8 @@ Good comparison stars have a similar colour and brightness to the target and are
 
 Over the image the pointer is a cross, and the aperture and sky-annulus rings that the next click will place follow it, in the colour of the star it will mark (green target, red comparison, orange check star). A click on a star that is already marked takes it off. Drag to move the image, wheel to zoom.
 
+**Every frame:** the arrows and the slider under the image count go through the frames in time order, with each frame's name and time. Mark the stars on whichever frame looks best: that frame holds the positions, and the measurement carries them to the others (the shift between frames is measured, every star re-centred). The marked stars are drawn on that frame only. Untick **Use this frame** to leave a frame out (clouds, a satellite trail, a bad focus).
+
 TESS and Kepler / K2 target pixel files, also TESScut cut-outs from MAST, can be chosen as they are: every cadence becomes a frame (cadences the mission flags as useless are left out) with the archive's BJD_TDB. With no atmosphere to divide out, the target can be measured **without comparison stars**: the relative flux is then the target's own flux over its median.
 
 ## Differential photometry: targets, comparison and check stars

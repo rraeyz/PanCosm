@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton,
     QRadioButton,
+    QSlider,
     QSpinBox,
     QSplitter,
     QTableWidget,
@@ -1346,6 +1347,7 @@ class PhotometryPage(Undoable, QWidget):
         super().__init__(parent)
         self.init_undo()
         self.images, self.target, self.comps, self.light_curve = [], None, [], None
+        self.ref, self.shown, self.skipped = None, 0, set()  # the frame the stars are marked on, the one shown, unused
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
         self.live, self.live_folder, self.live_seen, self._live_busy = None, None, set(), False
@@ -1374,12 +1376,38 @@ class PhotometryPage(Undoable, QWidget):
         self.images_label = QLabel(self.tr("No images"), self)
         self.images_label.setWordWrap(True)
         side.addWidget(self.images_label)
+        # every frame can be looked at, marked on, or left out (the owner: "I only see one picture")
+        browse = QHBoxLayout()
+        self.prev_frame, self.next_frame = QToolButton(self), QToolButton(self)
+        self.prev_frame.setArrowType(Qt.LeftArrow)
+        self.next_frame.setArrowType(Qt.RightArrow)
+        self.prev_frame.setToolTip(self.tr("Previous frame (in time)"))
+        self.next_frame.setToolTip(self.tr("Next frame (in time)"))
+        self.frame_slider = QSlider(Qt.Horizontal, self)
+        self.frame_slider.setToolTip(self.tr("Go through the frames of the series"))
+        self.prev_frame.clicked.connect(lambda: self.frame_slider.setValue(self.frame_slider.value() - 1))
+        self.next_frame.clicked.connect(lambda: self.frame_slider.setValue(self.frame_slider.value() + 1))
+        self.frame_slider.valueChanged.connect(self.show_frame)
+        for w in (self.prev_frame, self.frame_slider, self.next_frame):
+            browse.addWidget(w, 1 if w is self.frame_slider else 0)
+        side.addLayout(browse)
+        self.frame_label = QLabel(self)
+        self.frame_label.setWordWrap(True)
+        side.addWidget(self.frame_label)
+        self.use_frame = QCheckBox(self.tr("Use this frame"), self)
+        self.use_frame.setToolTip(
+            self.tr("Untick to leave this frame out of the light curve (clouds, a satellite trail, a bad focus)")
+        )
+        self.use_frame.toggled.connect(self._use_frame)
+        side.addWidget(self.use_frame)
+        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame):
+            w.setEnabled(False)
         self.quality_button = QPushButton(self.tr("Check frame quality"), self)
         self.quality_button.setToolTip(
             self.tr("Star size, sky brightness and number of stars in every frame; bad frames can be left out")
         )
         self.quality_button.setEnabled(False)
-        self.quality_button.clicked.connect(lambda: self.quality_requested.emit(self.images))
+        self.quality_button.clicked.connect(lambda: self.quality_requested.emit(self._series()))
         side.addWidget(self.quality_button)
         self.drop_bad = QPushButton(self.tr("Leave out the bad frames"), self)
         self.drop_bad.hide()
@@ -1416,7 +1444,7 @@ class PhotometryPage(Undoable, QWidget):
             self.tr("Similar brightness, not saturated, no bright neighbour, inside the frame in every image")
         )
         self.suggest_button.clicked.connect(
-            lambda: self.suggest_requested.emit(self.images, list(self.target), {"r_out": self.r_out.value()})
+            lambda: self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
         )
         side.addWidget(self.suggest_button)
         grid = QGridLayout()
@@ -1465,7 +1493,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.apertures_button.setEnabled(False)
         self.apertures_button.clicked.connect(
-            lambda: self.apertures_requested.emit(self.images, list(self.target), [list(c) for c in self.comps])
+            lambda: self.apertures_requested.emit(self._series(), list(self.target), [list(c) for c in self.comps])
         )
         side.addWidget(self.apertures_button)
         self.follow_seeing = QCheckBox(self.tr("Radii follow the seeing (scaled by each frame's FWHM)"), self)
@@ -1814,7 +1842,7 @@ class PhotometryPage(Undoable, QWidget):
             return
         params = {"r_ap": self.r_ap.value(), "r_in": self.r_in.value(), "r_out": self.r_out.value()}
         self.result.setText(self.tr("Measuring…"))
-        self.polarimetry_requested.emit(self.images, list(self.target), list(self.comps[0]), params)
+        self.polarimetry_requested.emit(self._series(), list(self.target), list(self.comps[0]), params)
 
     def show_polarimetry(self, r):
         self.result.setText(
@@ -1946,9 +1974,17 @@ class PhotometryPage(Undoable, QWidget):
         paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
 
         self.quality_button.setEnabled(True)
-        self.images = timing.chronological(paths)  # stars are clicked on the first frame in time
+        self.images = timing.chronological(paths)
+        self.ref, self.shown, self.skipped = None, 0, set()
         data, header, _ = read_image(self.images[0])
         self.viewer.set_image(data)
+        self.frame_slider.blockSignals(True)
+        self.frame_slider.setRange(0, len(self.images) - 1)
+        self.frame_slider.setValue(0)
+        self.frame_slider.blockSignals(False)
+        for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame):
+            w.setEnabled(True)
+        self._frame_text(header)
         sky = None
         try:
             from ..photometry.lightcurve import target_coord
@@ -1974,6 +2010,7 @@ class PhotometryPage(Undoable, QWidget):
     def undo_state(self):
         return {
             "target": self.target,
+            "ref": self.ref,
             "comps": list(self.comps),
             "extras": list(self.extras),
             "excluded": sorted(self.excluded),
@@ -1982,6 +2019,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def set_undo_state(self, st):
         self.target, self.comps, self.extras = st["target"], list(st["comps"]), list(st["extras"])
+        self.ref = st.get("ref")
         self._draw_markers()
         if (set(st["excluded"]), st["detrend"]) != (self.excluded, self.detrend_cfg):
             self.excluded, self.detrend_cfg = set(st["excluded"]), st["detrend"]
@@ -1992,6 +2030,16 @@ class PhotometryPage(Undoable, QWidget):
         self.edit(self.tr("mark or unmark a star"), self._mark, x, y)
 
     def _mark(self, x, y):
+        if self._star_names() and self.ref not in (None, self.shown):
+            self.result.setText(
+                self.tr(
+                    "The stars are marked on frame {k}: go back to it to change them, or Clear stars to mark them on "
+                    "this frame."
+                ).format(k=self.ref + 1)
+            )
+            return
+        if not self._star_names():
+            self.ref = self.shown  # positions are taken on this frame; the measurement carries them to the others
         near = [xy for _, _, xy in self._star_names() if (xy[0] - x) ** 2 + (xy[1] - y) ** 2 <= self.r_ap.value() ** 2]
         if near:  # a click on a marked star takes it off again, instead of marking it twice
             xy = near[0]
@@ -2013,7 +2061,59 @@ class PhotometryPage(Undoable, QWidget):
 
     def _clear(self):
         self.target, self.comps, self.extras = None, [], []
+        self.ref = None
         self._draw_markers()
+
+    def _frame_text(self, header=None):
+        from .. import timing
+
+        path = self.images[self.shown]
+        when = ""
+        try:
+            when = timing.mid_time(header).utc.isot[:19].replace("T", " ") + " UTC" if header is not None else ""
+        except Exception:  # no time in the file: the name says enough
+            pass
+        text = self.tr("Frame {k} of {n}: {name}").format(k=self.shown + 1, n=len(self.images), name=Path(path).name)
+        if when:
+            text += f", {when}"
+        if self.ref is not None:
+            text += "\n" + (
+                self.tr("The stars are marked on this frame.")
+                if self.ref == self.shown
+                else self.tr("The stars are marked on frame {k}.").format(k=self.ref + 1)
+            )
+        self.frame_label.setText(text)
+        self.use_frame.blockSignals(True)
+        self.use_frame.setChecked(path not in self.skipped)
+        self.use_frame.blockSignals(False)
+
+    def show_frame(self, i):
+        """Show frame i of the series; the marked stars are drawn on the frame they were marked on."""
+        from ..io.fits import read_image
+
+        if not self.images:
+            return
+        self.shown = max(0, min(int(i), len(self.images) - 1))
+        data, header, _ = read_image(self.images[self.shown])
+        self.viewer.set_image(data)
+        self._draw_markers()
+        self._frame_text(header)
+
+    def _use_frame(self, on):
+        path = self.images[self.shown]
+        if on:
+            self.skipped.discard(path)
+        elif len(self.skipped) + 1 < len(self.images):
+            self.skipped.add(path)
+        self._frame_text()
+        used = len(self.images) - len(self.skipped)
+        self.images_label.setText(self.tr("{n} images, {k} of them used").format(n=len(self.images), k=used))
+
+    def _series(self):
+        """The frames to measure, the frame with the marked stars first (where the positions belong)."""
+        used = [p for p in self.images if p not in self.skipped]
+        ref = self.images[self.ref or 0]
+        return [ref] + [p for p in used if p != ref] if ref in used else used
 
     def _star_names(self):
         """[(name, role, (x, y))]: T1 target, C1… comparison, T2… further targets, K1… check stars."""
@@ -2093,7 +2193,8 @@ class PhotometryPage(Undoable, QWidget):
         self._show_lower(bool(stars) or self.lc_raw is not None)
         self._fill_star_table()
         marks = []
-        for xy, colour, label in stars:
+        here = self.ref is None or self.ref == self.shown
+        for xy, colour, label in stars if here else ():
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
         self.viewer.set_markers(marks)
         role = self.click_role.currentData()
@@ -2130,8 +2231,10 @@ class PhotometryPage(Undoable, QWidget):
         if self.extras:
             params["extra_xy"] = [list(xy) for xy, _ in self.extras]
         self.result.setText(self.tr("Measuring…"))
+        series = self._series()
+        params["ref_image"] = series[0]  # the positions belong to this frame; the step carries them to the others
         self.measure_requested.emit(
-            self.images, list(self.target), [list(c) for c in self.comps], self.coord.text().strip(), params
+            series, list(self.target), [list(c) for c in self.comps], self.coord.text().strip(), params
         )
 
     def show_apertures(self, a):
@@ -2216,7 +2319,7 @@ class PhotometryPage(Undoable, QWidget):
         self.drop_bad.hide()
 
     def _catalog(self):
-        inputs = {"image": self.images[0], "target_xy": list(self.target), "comps_xy": [list(c) for c in self.comps]}
+        inputs = {"image": self._series()[0], "target_xy": list(self.target), "comps_xy": [list(c) for c in self.comps]}
         self.result.setText(self.tr("Looking up the comparison stars…"))
         self.catalog_requested.emit(inputs, {"filter": self.band.currentText()})
 

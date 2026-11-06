@@ -10,6 +10,8 @@ Las buenas estrellas de comparación tienen color y brillo parecidos a los del o
 
 Sobre la imagen el puntero es una cruz, y los anillos de apertura y de cielo que pondrá el siguiente clic lo siguen, en el color de la estrella que marcará (verde objetivo, rojo comparación, naranja de control). Un clic sobre una estrella ya marcada la quita. Arrastre para mover la imagen y use la rueda para el zoom.
 
+**Cada imagen:** las flechas y el deslizador bajo el número de imágenes recorren las imágenes en orden temporal, con el nombre y la hora de cada una. Marque las estrellas en la imagen que mejor se vea: esa imagen guarda las posiciones y la medida las lleva a las demás (se mide el desplazamiento entre imágenes y cada estrella se vuelve a centrar). Las estrellas marcadas solo se dibujan en esa imagen. Desmarque **Usar esta imagen** para dejar una imagen fuera (nubes, la traza de un satélite, mal foco).
+
 Los archivos de píxeles de TESS y Kepler / K2, también los recortes TESScut de MAST, se pueden elegir tal cual: cada cadencia se convierte en una toma (se omiten las cadencias que la misión marca como inútiles) con el BJD_TDB del archivo. Sin atmósfera que dividir, el objetivo se puede medir **sin estrellas de comparación**: el flujo relativo es entonces el flujo propio del objetivo dividido por su mediana.
 
 ## Fotometría diferencial: objetivos, estrellas de comparación y de control

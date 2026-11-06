@@ -265,3 +265,40 @@ def test_photometry_page_sends_the_telescope_aperture_and_reports_scintillation(
     assert "Scintillation 2.2–2.2 mmag" in page.result.text()
     page.show_light_curve(synthetic_lc() | {"scintillation": None, "aperture_m": None})
     assert "Scintillation is not in the errors" in page.result.text()
+
+
+def test_stars_marked_on_a_later_frame_are_carried_to_the_others(tmp_path, qtbot):
+    """The owner marks the stars on whichever frame looks best: the field drifts 7 px over the series; positions
+    marked on frame 3 give the same light curve as positions marked on frame 1, and the page shows every frame."""
+    from astrowb.ui.workspaces import PhotometryPage
+
+    paths, shift = [], [(0, 0), (2.5, 1.0), (5.0, 2.2), (7.1, 3.0)]
+    for i, (dx, dy) in enumerate(shift):
+        stars = [(x + dx, y + dy, f) for x, y, f in STARS]
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(field(4.0, stars=stars, seed=20 + i).astype(np.float32), h).writeto(tmp_path / f"f{i}.fits")
+        paths.append(str(tmp_path / f"f{i}.fits"))
+    xy0 = [s[:2] for s in STARS]
+    xy3 = [(x + 7.1, y + 3.0) for x, y in xy0]
+    a = light_curve(paths, xy0[0], xy0[1:3], 6, 15, 20)
+    b = light_curve(paths, xy3[0], xy3[1:3], 6, 15, 20, ref_path=paths[3])
+    assert np.allclose(a["target_flux"], b["target_flux"], rtol=1e-6)  # the same apertures on every frame
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.set_images(list(reversed(paths)))
+    assert page.frame_slider.maximum() == 3 and "1 of 4" in page.frame_label.text()
+    page.frame_slider.setValue(3)
+    page._clicked(*xy3[0])
+    page._clicked(*xy3[1])
+    assert page.ref == 3 and page._series()[0] == paths[3]
+    page.frame_slider.setValue(0)
+    assert page.viewer.marker_list == [] and "frame 4" in page.frame_label.text()  # drawn on their own frame only
+    page._clicked(*xy0[2])  # marking on another frame is refused, with the reason
+    assert len(page.comps) == 1 and "frame 4" in page.result.text()
+    page.use_frame.setChecked(False)  # frame 1 left out of the light curve
+    assert paths[0] not in page._series() and "3 of them used" in page.images_label.text()
+    sent = []
+    page.measure_requested.connect(lambda *a: sent.append(a))
+    page._measure()
+    assert sent[0][0][0] == paths[3] and sent[0][4]["ref_image"] == paths[3]

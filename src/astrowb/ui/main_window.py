@@ -1600,6 +1600,9 @@ class MainWindow(QMainWindow):
         if params.get("extra_xy"):  # check stars and further targets are inputs of the step
             inputs["extra_xy"] = params.pop("extra_xy")
         params.pop("extra_xy", None)
+        if params.get("ref_image"):  # the frame the stars were marked on
+            inputs["ref_image"] = params.pop("ref_image")
+        params.pop("ref_image", None)
 
         def done(out):
             lc = out["light_curve"]
