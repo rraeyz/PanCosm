@@ -28,7 +28,7 @@ Bir **ad** (SIMBAD'da aranır, ör. `HAT-P-32`, `V523 Cas`, `M 42`) ya da **koor
 Plan, gecenin her olayını UTC olarak başlangıç, orta ve bitiş zamanıyla, yükseklik sınırına ve karanlığa göre **gözlenebilir** olup olmadığıyla (*evet*, *kısmen* ya da hiç) listeler.
 
 ## Grafiği okumak
-**Geceyi planla** her hedefin yüksekliğini bütün gece boyunca UTC zamana karşı çizer:
+**Geceyi planla** her hedefin yüksekliğini bütün gece boyunca UTC zamana karşı çizer; üst eksende yerel saat vardır (**Yerel saat (UTC'den fark, saat)**: *Otomatik*, bu bilgisayarın o tarihteki saat dilimini yaz saatiyle birlikte alır; başka yerdeki bir gözlemevi için farkı yazın, örn. yazın La Palma için 1). Grafiğin yazıları, makaleye ya da rapora olduğu gibi girebilmesi için arayüz dili ne olursa olsun İngilizcedir:
 
 - mavi gölge gün batımından itibaren sivil (−6°), denizcilik (−12°) ve astronomik (−18°) alacakaranlıkla adım adım koyulaşır; en koyu kısım astronomik gecedir;
 - kesikli gri eğri **Ay**'dır, aydınlanma yüzdesi açıklamada yazar;
@@ -36,7 +36,7 @@ Plan, gecenin her olayını UTC olarak başlangıç, orta ve bitiş zamanıyla, 
 - sağ eksen **airmass/hava kütlesini** verir; fotometri için hava kütlesi 2'nin (yükseklik 30°'nin üstü) altı en iyisidir;
 - kırmızı üçgenler hedefin eğrisi üzerinde her örtmenin ya da geçişin ortasını gösterir.
 
-Grafiğin altındaki satır astronomik gecenin UTC başlangıç ve bitişini ve olay sayısını verir. Yazın kutuplara yakın yerlerde **astronomik gece olmayabilir**.
+Grafiğin altındaki satır astronomik gecenin başlangıç ve bitişini UTC ve yerel saat olarak ve olay sayısını verir; olay tablosu her olayın ortasını yerel saatle de verir. Yazın kutuplara yakın yerlerde **astronomik gece olmayabilir**.
 
 ## Plandan gözleme
 **Program yap** (*Geceyi planla*'dan sonra) geceyi birden çok hedef için bir programa çevirir: önce gözlenebilir her örtme ya da geçiş, öncesinde ve sonrasında 30 dakikalık taban çizgisiyle (ikisi çakışırsa listenizde üstte olan hedef kazanır); karanlık zamanın geri kalanı birer saatlik bloklarla, her blokta yükseklik sınırınızın en üstünde kalan hedefe. **Gözlem sayfasına gönder** her bloğu başlangıç ve bitişiyle sekansa verir; orada ayarladığınız poz satırları her hedef için kullanılır.

@@ -28,7 +28,7 @@ For eclipsing binaries and exoplanets fill in the columns of the target table:
 The plan then lists every event of the night with its start, middle and end in UTC and whether it is **observable** (*yes*, *partly* or not at all) given the altitude limit and darkness.
 
 ## Reading the plot
-**Plan the night** draws the altitude of each target against UTC time for the whole night:
+**Plan the night** draws the altitude of each target against UTC time for the whole night, with the local time on the top axis (**Local time (hours from UTC)**: *Auto* takes this computer's time zone on that date, summer time included; type the offset for an observatory elsewhere, e.g. 1 for La Palma in summer). The chart's texts are in English whatever the interface language, so it can go into a paper or report as it is:
 
 - the blue shading darkens step by step from sunset through civil (−6°), nautical (−12°) and astronomical (−18°) twilight; the darkest part is the astronomical night;
 - the dashed grey curve is the **Moon**, with its illuminated fraction in the legend;
@@ -36,7 +36,7 @@ The plan then lists every event of the night with its start, middle and end in U
 - the right axis gives the **airmass**; photometry is best below airmass 2 (altitude above 30°);
 - red triangles mark the middle of each eclipse or transit on the target's curve.
 
-The line under the plot gives the start and end of the astronomical night in UTC and the number of events. Near the poles in summer there may be **no astronomical night**.
+The line under the plot gives the start and end of the astronomical night in UTC and in local time, and the number of events; the events table also gives each middle in local time. Near the poles in summer there may be **no astronomical night**.
 
 ## From the plan to observing
 **Make a schedule** (after *Plan the night*) turns the night into a programme for several targets: every observable eclipse or transit first, with 30 minutes of baseline before and after (when two overlap, the target higher in your list wins); the rest of the dark time in one-hour blocks, each going to the target that stays highest above your altitude limit. **Send to the Observe page** gives every block to the sequence, with its start and end; the exposure rows you set there are used for every target.

@@ -322,10 +322,20 @@ def test_plan_page_resolve_and_plan(window, qtbot):
     page.table.item(0, 3).setText("2455867.402743")
     page.table.item(0, 4).setText("2.1500082")
     page.table.item(0, 5).setText("0.13")
+    page.utc_offset.setValue(3.0)  # Turkey; Auto takes this computer's time zone
     page.plan_button.click()
     qtbot.waitUntil(lambda: page.result is not None, timeout=120000)
     assert page.result["dusk"] and len(page.result["targets"][0]["alt"]) > 200
-    assert window.settings.get("site")["lat"] == 36.82
+    assert window.settings.get("site")["lat"] == 36.82 and window.settings.get("plan.utc_offset") == 3.0
+    # the chart is in English (for papers) with the local time above the UTC axis
+    ax = page.plot.figure.axes[0]
+    labels = [a.get_xlabel() for a in [ax, *ax.child_axes]] + [ax.get_ylabel()]
+    assert "UTC (hours)" in labels and "Local time (UTC+3, hours)" in labels and "Altitude (°)" in labels
+    if page.events.rowCount():
+        utc, local = page.events.item(0, 3).text()[11:16], page.events.item(0, 4).text()
+        assert (int(local[:2]) - int(utc[:2])) % 24 == 3 and local[3:] == utc[3:]
+    page.utc_offset.setValue(page.utc_offset.minimum())
+    assert page.utc_offset.text() == "Auto" and -12 <= page.local_offset(2461360.0) <= 14
     page.table.item(0, 4).setText("x")
     page._plan()
     assert page.status.text().startswith("Row 1")

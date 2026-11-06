@@ -28,9 +28,16 @@ def ln_from_v(v):
     return np.log1p(np.asarray(v, float) / C_KMS)
 
 
-def continuum_normalise(wave, flux, order=3, iterations=8, low=1.5, high=3.0):
-    """Divide by an upper-envelope polynomial fit (absorption lines clipped low, spikes high)."""
+def continuum_normalise(wave, flux, order=3, iterations=8, low=1.5, high=3.0, piece=8000):
+    """Divide by an upper-envelope polynomial fit (absorption lines clipped low, spikes high). A spectrum of more than
+    `piece` pixels (a merged echelle spectrum) is fitted in pieces of about that many: one cubic over 1500 A of a
+    real HARPS spectrum left the merged orders' continuum in and its velocity came out 5.6 km/s off."""
     wave, flux = np.asarray(wave, float), np.asarray(flux, float)
+    if len(wave) > piece:
+        out = np.empty(len(wave))
+        for idx in np.array_split(np.arange(len(wave)), int(np.ceil(len(wave) / piece))):
+            out[idx] = continuum_normalise(wave[idx], flux[idx], order, iterations, low, high, piece)
+        return out
     x = (wave - wave.mean()) / np.ptp(wave)
     keep = np.isfinite(flux)
     for _ in range(iterations):
