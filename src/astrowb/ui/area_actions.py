@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication
 
+from . import automatic
+
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
 
 
@@ -86,9 +88,8 @@ class AreaActions:
         def done(out):
             lc = out["light_curve"]
             self.photometry_page.show_light_curve(lc)
-            self.period_page.set_light_curve(
-                lc["time"], lc["rel_flux"], translate("MainWindow", "the Photometry window"), err=lc.get("rel_flux_err")
-            )
+            if automatic.on("timeseries.take_light_curve"):  # else it goes when Period search → is pressed
+                self._light_curve_to_period(lc)
 
         every = getattr(self.photometry_page, "all_filter_images", None)
         if every:  # item 11: every filter of the night, and the colour index
@@ -125,7 +126,7 @@ class AreaActions:
         def done(out):
             m = out["minimum"]
             page.show_minimum(m)
-            for x in m.get("minima", [m]):  # ready for the O-C diagram
+            for x in m.get("minima", [m]) if automatic.on("oc.take_minima") else ():  # ready for the O-C diagram
                 self.oc_page.add_minimum(x["time"], x["error"], "this work", x.get("kind", "I"))
             obj = (page.field or {}).get("object") or {}
             if obj.get("in_field") and not self.oc_page.star.text():  # the star the files name, for Look up
@@ -156,8 +157,20 @@ class AreaActions:
             on_fail=self.plan_page.status.setText,
         )
 
+    def _light_curve_to_period(self, lc):
+        self.period_page.set_light_curve(
+            lc["time"], lc["rel_flux"], translate("MainWindow", "the Photometry window"), err=lc.get("rel_flux_err")
+        )
+
     def _photometry_next(self, where, path):
-        """From a measured light curve to the page that fits it (the period page already has the curve)."""
+        """From a measured light curve to the page that fits it (the period page has the curve unless the user turned
+        that off in Settings → Automatic steps: then it goes now)."""
+        if (
+            where == "timeseries"
+            and self.photometry_page.light_curve
+            and not automatic.on("timeseries.take_light_curve")
+        ):
+            self._light_curve_to_period(self.photometry_page.light_curve)
         if where == "orbits" and path:
             self.models_page.file.edit.setText(path)
         self.show_workspace(where)
@@ -167,14 +180,16 @@ class AreaActions:
         if spectrum.get("path"):
             if self.engine.project:
                 self.engine.project.add_file(Path(spectrum["path"]), "spectrum")
-            self.spectro_page.velocity_tab.add_files([spectrum["path"]])  # ready for radial velocities
+            if automatic.on("spectroscopy.take_spectra"):
+                self.spectro_page.velocity_tab.add_files([spectrum["path"]])  # ready for radial velocities
 
     def _echelle_done(self, result):
         self.spectro_page.echelle_tab.show_result(result)
         if result.get("path"):
             if self.engine.project:
                 self.engine.project.add_file(Path(result["path"]), "spectrum")
-            self.spectro_page.velocity_tab.add_files([result["path"]])
+            if automatic.on("spectroscopy.take_spectra"):
+                self.spectro_page.velocity_tab.add_files([result["path"]])
 
     def _telluric_done(self, result):
         self.spectro_page.telluric_tab.show_result(result)

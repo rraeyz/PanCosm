@@ -236,9 +236,7 @@ def _app(argv) -> int:
     parser.add_argument("files", nargs="*", type=Path, help="FITS files or a project to open")
     parser.add_argument("--smoke-test", type=Path, metavar="DIR")
     parser.add_argument("--benchmark", action="store_true", help="time CPU vs GPU and exit")
-    parser.add_argument(
-        "--check-online", action="store_true", help="check the installation and every web service it uses, and exit"
-    )
+    parser.add_argument("--check-online", action="store_true", help="check the installation and its web services; exit")
     parser.add_argument("--observatory", type=Path, metavar="CONFIG", help="run the observatory process (no window)")
     args = parser.parse_args(argv)
 

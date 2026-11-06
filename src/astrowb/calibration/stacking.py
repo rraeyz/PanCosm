@@ -137,8 +137,15 @@ NORMALISATIONS = ("none", "additive", "multiplicative")
 WEIGHTINGS = ("none", "noise")
 
 
-def align_transforms(paths, method="translation", ctx=None):
-    """(M, t) of every frame: position in frame i = M @ position in frame 0 + t."""
+def align_transforms(paths, method="translation", ctx=None, stars=()):
+    """(M, t) of every frame: position in frame i = M @ position in frame 0 + t. method: "translation" (the whole
+    frame's shift), "stars" (star patterns: rotation and scale too), "none" (the frames are aligned already),
+    "picked" (the stars the user picked on the first frame, followed from frame to frame: for fields the automatic
+    ways cannot match, e.g. few stars or a bright nebula)."""
+    if method == "none":
+        return [(np.eye(2), np.zeros(2)) for _ in paths]
+    if method == "picked":
+        return [(np.eye(2), t) for t in picked_offsets(paths, stars, ctx)]
     if method == "translation":
         return [(np.eye(2), np.asarray(o, float)) for o in align_offsets(paths, ctx)]
     from . import starmatch
@@ -151,6 +158,29 @@ def align_transforms(paths, method="translation", ctx=None):
             ctx.progress(0.3 * i / len(paths), "aligning")
         m, t, _, _ = starmatch.match(ref, starmatch.stars(load(p)[0]))
         out.append((m, t))
+    return out
+
+
+def picked_offsets(paths, stars, ctx=None, search=25.0):
+    """The shift of every frame from the stars picked on the first one: each star is looked for within `search`
+    pixels of where the previous frame had it (the nearest star there, photometry.aperture.snap_to_star) and the
+    frame's shift is the median of the stars' shifts. shortcut: shift only; fit rotation from 2+ stars when a
+    rotating field needs it."""
+    from ..photometry.aperture import snap_to_star
+
+    stars = np.asarray(stars, float).reshape(-1, 2)
+    if not len(stars):
+        raise ValueError("pick at least one star on the first frame to align on")
+    ref = snap_to_star(load(paths[0])[0], stars, radius=5.0)
+    out, prev = [np.zeros(2)], np.zeros(2)
+    for i, p in enumerate(paths[1:], 1):
+        if ctx:
+            ctx.check()
+            ctx.progress(0.3 * i / len(paths), "aligning")
+        found = snap_to_star(load(p)[0], ref + prev, radius=search)
+        moved = found - ref
+        prev = np.median(moved, axis=0)
+        out.append(prev.copy())
     return out
 
 
@@ -374,6 +404,7 @@ def stack(
     align="translation",
     ctx=None,
     method="mean",
+    align_stars=(),
     rejection="sigma",
     low=1,
     high=1,
@@ -385,7 +416,7 @@ def stack(
     if offsets:
         transforms = [(np.eye(2), np.asarray(o, float)) for o in offsets]
     else:
-        transforms = align_transforms(paths, align, ctx)
+        transforms = align_transforms(paths, align, ctx, align_stars)
     # the masters' clipped mean (median / MAD, GPU-ready): the old default, now "mad"
     fast = (method, rejection, normalize, weighting) == ("mean", "mad", "none", "none")
     stats = frame_stats(paths) if normalize != "none" or weighting != "none" else None

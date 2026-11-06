@@ -1006,3 +1006,17 @@ Before 2026-11-09 (agent2; details and commits in `docs/history/interface-plan-2
 - I6a user walk of every window with findings I6b fixed; I6c icon toolbars (glyphs) and full menu bars for every
   window; I6d the owner's answers (side panels and sidebar removed, Turkish terms, O−C window).
 - I7 names, Basic / Expert reach, window screenshots in the guide, guide read against the windows.
+
+### UI-20. Automatic steps the user controls  (P1)
+**partial** — done (2026-11-13, the owner: "her şey otomatik olsun gibi bir niyetim yok"): `ui/automatic.py` lists
+the steps the program takes without a press; Settings → Automatic steps turns each off; every one keeps its button.
+Defaults are today's. The list: calibration — scan a folder as soon as it is chosen (button Scan); photometry —
+identify the field when frames are opened (button Identify the field, new), suggest comparison stars after the
+target (Suggest comparison stars), choose the radii after them (Choose the radii), open the next stage (click the
+stage); light curves — each measured curve sent there, replacing the open one (with it off, Period search → sends
+it); O−C — each time of minimum and transit mid-time added to the list; spectroscopy — each reduced spectrum added to
+Velocities (Add…). Stacking: alignment "none (the frames are aligned already)" and "on stars I pick" (a picker on
+the first frame; each click snaps onto its star; the stars followed frame to frame, shift only) beside shift and
+star patterns. Test: with every switch off nothing starts by itself and the buttons still work. Left: the same audit
+in Planning, Observing, Images, Astrometry, Models and Remote sensing as their windows are rebuilt; the Images
+window's Stack using these alignment choices; rotation from two or more picked stars.

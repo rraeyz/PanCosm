@@ -275,6 +275,7 @@ def drizzle_step(inputs, params, ctx):
     normalize="none",
     weighting="none",
     align="translation",
+    align_stars=(),
 )
 def stack_step(inputs, params, ctx):
     """Calibrated frames aligned and combined into one image (mean or median, with rejection); the coverage as a
@@ -282,7 +283,7 @@ def stack_step(inputs, params, ctx):
     from .. import timing
     from .stacking import save_stack, stack
 
-    keys = ("sigma", "method", "rejection", "low", "high", "normalize", "weighting", "align")
+    keys = ("sigma", "method", "rejection", "low", "high", "normalize", "weighting", "align", "align_stars")
     image, coverage, header = stack(timing.chronological(inputs["images"]), ctx=ctx, **{k: params[k] for k in keys})
     provenance.to_fits(header, provenance.record("stacking.stack", params, {"images": list(inputs["images"])}))
     return {"stack": save_stack(inputs["output"], image, coverage, header)}

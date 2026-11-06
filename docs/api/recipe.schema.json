@@ -2110,12 +2110,17 @@
            ]
           },
           "align": {
-           "description": "Align: Shift only, or star patterns (rotation and scale too)",
+           "description": "Align: Shift only, star patterns, none (aligned already) or on the stars picked",
            "enum": [
             "translation",
             "stars",
+            "none",
+            "picked",
             null
            ]
+          },
+          "align_stars": {
+           "description": "Stars to align on: Positions on the first frame (x y) for the picked alignment"
           }
          },
          "additionalProperties": false

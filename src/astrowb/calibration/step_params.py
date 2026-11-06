@@ -153,9 +153,16 @@ describe(
         "align",
         "choice",
         "translation",
-        choices=("translation", "stars"),
+        choices=("translation", "stars", "none", "picked"),
         label=QT_TRANSLATE_NOOP("Steps", "Align"),
-        help=QT_TRANSLATE_NOOP("Steps", "Shift only, or star patterns (rotation and scale too)"),
+        help=QT_TRANSLATE_NOOP("Steps", "Shift only, star patterns, none (aligned already) or on the stars picked"),
+    ),
+    P(
+        "align_stars",
+        "positions",
+        (),
+        label=QT_TRANSLATE_NOOP("Steps", "Stars to align on"),
+        help=QT_TRANSLATE_NOOP("Steps", "Positions on the first frame (x y) for the picked alignment"),
     ),
 )
 describe(

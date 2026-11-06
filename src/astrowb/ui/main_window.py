@@ -18,7 +18,7 @@ from ..brand import BRAND
 from ..engine.core import Engine
 from ..engine.project import EXTENSION
 from ..settings import Settings
-from . import area_menus, area_pages, area_windows, main_menus, tour
+from . import area_menus, area_pages, area_windows, automatic, main_menus, tour
 from .area_actions import AreaActions
 from .area_menus import _undo_source
 from .calibrate_page import CalibratePage
@@ -77,6 +77,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
     def __init__(self, settings: Settings | None = None):
         super().__init__()
         self.settings = settings or Settings()
+        automatic.use(self.settings)  # Settings → Automatic steps, read where each step would start
         from datetime import datetime
 
         from ..io import bayer

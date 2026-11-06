@@ -232,7 +232,8 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     page.set_images(paths)
     for sx, sy, _ in stars:
         page._clicked(sx, sy)
-    assert page.target == (30, 20) and len(page.comps) == 2 and page.measure_button.isEnabled()
+    # a click snaps onto its star's centre
+    assert np.allclose(page.target, (30, 20), atol=0.05) and len(page.comps) == 2 and page.measure_button.isEnabled()
     page.coord.setText("02:04:10 +46:41:16")
     page.measure_button.click()
     qtbot.waitUntil(lambda: page.light_curve is not None, timeout=60000)
@@ -1867,9 +1868,10 @@ def test_settings_in_one_window(window, qtbot):
     win = window.show_settings()
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
-    assert names == ["General", "Profiles", "Processing", "Time", "Online services", "Shortcuts", "Plugins", "Advanced"]
+    assert names == ["General", "Profiles", "Processing", "Automatic steps", "Time", "Online services", "Shortcuts",
+                     "Plugins", "Advanced"]  # fmt: skip
     assert win.filter("offline") == 1
-    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [4]
+    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [5]  # Online services, after Automatic steps
     win.filter("")
     toggle = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Work offline")
     toggle.setChecked(not window.offline_action.isChecked())
@@ -2256,3 +2258,38 @@ def test_the_checks_tab(window):
     assert flags["cloud"] == [10, 11, 12] and page.checks.table.table.rowCount() == 3
     assert "behind cloud" in page.checks.verdict.text()
     assert page.checks.table.table.item(0, 1).text() == "f10.fits"
+
+
+def test_automatic_steps_can_be_turned_off(window, qtbot, tmp_path):
+    """Settings → Automatic steps: with the switches off, opening frames and clicking the target start nothing by
+    themselves; the buttons still do it (the owner, 2026-11-13)."""
+    from astrowb.ui import automatic
+    from astrowb.ui.settings_window import SettingsWindow
+
+    dlg = SettingsWindow(window)
+    for key, *_ in automatic.STEPS:
+        from astrowb.ui.kit.fields import Toggle
+
+        box = dlg.findChild(Toggle, f"auto_{key}")
+        assert box is not None and box.isChecked()
+        box.setChecked(False)
+        assert not automatic.on(key, window.settings)
+    dlg.close()
+    rng = np.random.default_rng(5)
+    yy, xx = np.mgrid[:60, :80]
+    paths = []
+    for i in range(3):
+        img = rng.normal(100, 3, (60, 80)) + 2e4 / 14 * np.exp(-((xx - 30) ** 2 + (yy - 20) ** 2) / 4.5)
+        h = fits.Header({"DATE-OBS": f"2026-10-01T20:{i:02d}:00", "EXPTIME": 30.0, "RA": 30.0, "DEC": 40.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"a{i}.fits")
+        paths.append(tmp_path / f"a{i}.fits")
+    page = window.photometry_page
+    asked = []
+    page.field_requested.connect(lambda *a: asked.append("field"))
+    page.suggest_requested.connect(lambda *a: asked.append("suggest"))
+    page.set_images(paths)
+    page._clicked(30, 20)
+    assert asked == [] and "Identify the field" in page.field_label.text()
+    page.identify_button.click()
+    page.suggest_button.click()
+    assert asked == ["field", "suggest"]

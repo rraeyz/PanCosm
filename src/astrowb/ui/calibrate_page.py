@@ -26,9 +26,12 @@ from PySide6.QtWidgets import (
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
+from . import automatic
 from .kit.help import help_line
 from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
+from .star_picker import add_align_row
+from .star_picker import parse as parse_stars
 from .undo import Undoable
 
 
@@ -372,7 +375,7 @@ class CalibratePage(Undoable, QWidget):
         lh.addWidget(self.clip_high)
         opts.addLayout(lh, 2, 3)
         self.stack_options = Collapsible(self.tr("Stacking options"), self)
-        self.stack_options.body.addLayout(opts)
+        add_align_row(self, self.stack_options.body, opts)  # the options' grid, then the stars to align on
         self.drizzle = QCheckBox(self.tr("Drizzle onto a 2× finer grid (undersampled, dithered frames)"), self)
         self.drizzle.setToolTip(
             self.tr(
@@ -399,7 +402,13 @@ class CalibratePage(Undoable, QWidget):
             low, high = int(low), int(high)
         elif params["rejection"] == "percentile" and (low >= 1 or high >= 1):  # given in percent
             low, high = low / 100, high / 100
-        return params | {"low": low, "high": high}
+        params |= {"low": low, "high": high}
+        if params["align"] == "picked":  # unreadable text: no stars, and the step says to pick some
+            try:
+                params["align_stars"] = parse_stars(self.align_stars.text())
+            except ValueError:
+                params["align_stars"] = []
+        return params
 
     def _stack(self):
         """One stack per filter (a colour camera's R, G, B channels are filters TR, TG, TB): frames taken through
@@ -429,7 +438,7 @@ class CalibratePage(Undoable, QWidget):
             line_edit.setText(folder)
             if line_edit is self.folder and not self.output.text():
                 self.output.setText(str(Path(folder) / "calibrated"))
-            if line_edit is not self.output:  # a folder chosen is a folder to read: no Scan press needed
+            if line_edit is not self.output and automatic.on("calibration.scan_on_folder"):  # no Scan press needed
                 self.scan_button.click()
 
     @staticmethod
