@@ -10,7 +10,7 @@ from ..io import bayer
 from ..io.lzw import readable
 from . import masters
 from .frames import Frame, scan
-from .matching import best_bias, best_dark, group_key, make_plan
+from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
 
 
 @step(
@@ -107,12 +107,22 @@ def _unused_groups(plan, reps, temp_tol):
     divide_flat=True,
     split_colour=True,
     linearity=(),
+    use={},
 )
 def run_step(inputs, params, ctx):
     """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
     linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty."""
     with masters.linearity(params["linearity"]):
         return _run(inputs, params, ctx)
+
+
+def _chosen(plan, frames, use):
+    """The masters chosen by hand over the program's matches (matching.apply_choices); a name of no group refused."""
+    wrong = apply_choices(plan, frames, use)
+    if wrong:
+        kind, pick = wrong[0][1], Path(wrong[0][2]).name
+        raise ValueError(f"{pick} is not a {kind} frame of this night: choose another")
+    return plan
 
 
 def _record_masters(header, entry, built, flat_used, params):
@@ -128,7 +138,7 @@ def _run(inputs, params, ctx):
     from astropy.io import fits
 
     frames = _frames(inputs["frames"])
-    plan = make_plan(frames, params["temp_tol"])
+    plan = _chosen(make_plan(frames, params["temp_tol"]), frames, params.get("use") or {})
     out = Path(inputs["output_dir"])
     (out / "masters").mkdir(parents=True, exist_ok=True)
     built = {}  # group key -> (data, header, path)

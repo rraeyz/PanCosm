@@ -122,6 +122,25 @@ def attach(main, page):
     from .messages import translate as message
 
     page.transit_button.clicked.connect(run)
+    page.to_oc_button = QPushButton(translate("PhotometryTransit", "Add the times to the O−C list"), box)
+    page.to_oc_button.setToolTip(
+        translate("PhotometryTransit", "The times of minimum and the transit mid-time measured here, into O−C")
+    )
+
+    def to_oc():
+        oc = getattr(main, "oc_page", None)
+        rows = [(x["time"], x["error"], "this work", x.get("kind", "I")) for x in getattr(page, "last_minima", [])]
+        if getattr(page, "transit_fit", None):
+            fit = page.transit_fit[1]
+            rows.append((fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I"))
+        for row in rows if oc is not None else ():
+            oc.add_minimum(*row)
+        page.transit_result.setText(
+            translate("PhotometryTransit", "{n} times added to the O−C list.").format(n=len(rows))
+        )
+
+    page.to_oc_button.clicked.connect(to_oc)
+    lay.addWidget(page.to_oc_button)
     page.transit_details.clicked.connect(lambda: details_dialog(page, *page.transit_fit).exec())
     page.minimum_button.parentWidget().layout().insertWidget(
         page.minimum_button.parentWidget().layout().indexOf(page.minimum_button) + 1, box

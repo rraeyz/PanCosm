@@ -88,6 +88,16 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "Coefficients c0, c1, c2… of the camera's linearity curve; empty: none"),
         advanced=True,
     ),
+    P(
+        "use",
+        "object",
+        {},
+        label=QT_TRANSLATE_NOOP("Steps", "Masters chosen by hand"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "{filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched"
+        ),
+        advanced=True,
+    ),
 )
 describe(
     "stacking.stack",

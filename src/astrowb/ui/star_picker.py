@@ -80,6 +80,9 @@ def add_align_row(page, layout, grid):
         )
     )
     pick = page.pick_align_stars = QPushButton(translate("StarPicker", "Pick on the first frame…"), page)
+    pick.setToolTip(
+        translate("StarPicker", "The first calibrated frame opens: click one star and two or three around it")
+    )
 
     def open_picker():
         from ..timing import chronological

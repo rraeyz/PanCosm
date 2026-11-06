@@ -29,6 +29,7 @@ from ..photometry.multifilter import by_filter  # noqa: F401  (imported from her
 from . import automatic
 from .kit.help import help_line
 from .kit.widgets import Collapsible, StepGuide, _title
+from .master_choice import add_button as add_masters_button
 from .messages import translate
 from .star_picker import add_align_row
 from .star_picker import parse as parse_stars
@@ -264,7 +265,7 @@ class CalibratePage(Undoable, QWidget):
                 "flat into the output folder"
             )
         )
-        row.addWidget(self.run_button)
+        add_masters_button(self, row)  # "Choose the masters by hand…", then Calibrate
         lay.addLayout(row)
         lay.addWidget(self.cosmics)  # its own line: beside the button it kept the column wider than a small window
         self.linearity = QLineEdit(self)
@@ -586,6 +587,7 @@ class CalibratePage(Undoable, QWidget):
         params |= {"optimize_dark": self.optimize_dark.isChecked(), "fix_defects": self.fix_defects.isChecked()}
         params["divide_flat"] = not self.spectra.isChecked()
         params["split_colour"] = self.split_colour.isChecked()
+        params["use"] = self.master_choices  # the masters chosen by hand, over the program's matches
         try:
             params["linearity"] = [float(v) for v in self.linearity.text().replace(",", " ").split()]
         except ValueError:

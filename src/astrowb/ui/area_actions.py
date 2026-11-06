@@ -126,6 +126,7 @@ class AreaActions:
         def done(out):
             m = out["minimum"]
             page.show_minimum(m)
+            page.last_minima = m.get("minima", [m])  # for "Add to the O−C list" when that is not automatic
             for x in m.get("minima", [m]) if automatic.on("oc.take_minima") else ():  # ready for the O-C diagram
                 self.oc_page.add_minimum(x["time"], x["error"], "this work", x.get("kind", "I"))
             obj = (page.field or {}).get("object") or {}

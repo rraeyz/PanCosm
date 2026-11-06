@@ -213,6 +213,9 @@
           },
           "linearity": {
            "description": "Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none"
+          },
+          "use": {
+           "description": "Masters chosen by hand: {filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched"
           }
          },
          "additionalProperties": false

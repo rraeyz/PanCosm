@@ -160,7 +160,7 @@ def test_photometry_page_differential_workflow(qtbot, tmp_path):
     assert names == ["T1", "C1", "C2", "K1", "T2"]
     with qtbot.waitSignal(page.measure_requested) as sig:
         page._measure()
-    assert sig.args[4]["extra_xy"] == [[40.0, 160.0], [20.0, 20.0]]
+    assert np.allclose(sig.args[4]["extra_xy"], [[40.0, 160.0], [20.0, 20.0]], atol=0.05)  # clicks snap onto stars
     page.show_light_curve(synthetic_lc())
     keys = [page.show_what.itemData(i) for i in range(page.show_what.count())]
     assert {"rel", "dmag", "mag", "extra0", "extra1", "comps", "all", "trends"} <= set(keys)
