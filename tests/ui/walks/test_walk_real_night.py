@@ -206,3 +206,28 @@ def test_plate_solve_in_the_images_window(walk, tmp_path):
     ours, theirs = h.main.wcs.pixel_to_world(xs, ys), lco.pixel_to_world(xs, ys)
     assert np.max(ours.separation(theirs).arcsec) < 1.0
     h.check()
+
+
+def test_plan_the_qatar1_night_and_meet_the_measured_transit(walk):
+    """Plan, as a user: LCO's McDonald site, the night of 2026-11-02, Qatar-1 b with its ephemeris looked up in the
+    NASA Exoplanet Archive (skipped offline). The planned transit is the one measured on the LCO frames of that night
+    (Tc 2461347.6112 BJD_TDB, this program): within the ephemeris' drift and the UTC / BJD difference."""
+    from PySide6.QtCore import QDate
+
+    h = walk("en")
+    h.area("plan")
+    page = h.page
+    page.date.setDate(QDate(2026, 11, 2))
+    page.lat.setValue(30.6797)
+    page.lon.setValue(-104.0247)
+    page.height.setValue(2070)
+    h.type("target_input", "Qatar-1 b")
+    h.click("ephemeris_button", budget=60.0)
+    h.wait(lambda: page.table.rowCount() == 1 or "not" in page.status.text().lower(), timeout=90.0)
+    if page.table.rowCount() == 0:
+        pytest.skip("the NASA Exoplanet Archive could not be reached: " + page.status.text())
+    h.click("plan_button")
+    h.wait(lambda: getattr(page, "result", None) is not None)
+    mids = [e["mid"] for e in page.result["targets"][0]["events"]]
+    assert mids and min(abs(m - 2461347.61121) for m in mids) < 12 / 1440, mids
+    h.check()
