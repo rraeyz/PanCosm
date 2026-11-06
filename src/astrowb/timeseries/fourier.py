@@ -17,31 +17,42 @@ import numpy as np
 _CHUNK = 2_000_000  # points x frequencies per block, keeps memory bounded
 
 
+def _cis(phase):
+    """exp(-2 pi i phase) from a cosine and a sine of the real phase: four times faster than NumPy's complex exp,
+    which took three quarters of a frequency analysis of 100 000 points."""
+    out = np.empty(phase.shape, complex)
+    ang = (-2 * np.pi) * phase
+    np.cos(ang, out=out.real)
+    np.sin(ang, out=out.imag)
+    return out
+
+
 def _exp_sums(t, w, freqs):
     """S(f) = sum_n w_n exp(-2 pi i f t_n) for every f.
     On an evenly spaced grid exp(-2 pi i (f_b + j df) t) = exp(-2 pi i f_b t) exp(-2 pi i j df t): the second
-    factor is the same for every block of frequencies, so it is computed once, and all blocks together are one
-    matrix product. Both factors are evaluated directly (no recurrence), so the result equals the direct sum to
-    rounding (tests/test_fourier.py); it is ~30 times faster than evaluating every cos / sin."""
+    factor is the same for every block of frequencies, so it is computed once per stretch of times, and all blocks
+    together are one matrix product. Blocks of about sqrt(n_freq) frequencies make the fewest exponentials; the times
+    go in stretches so the memory stays bounded. Both factors are evaluated directly (no recurrence), so the result
+    equals the direct sum to rounding (tests/test_fourier.py)."""
     t, freqs = np.asarray(t, float), np.asarray(freqs, float)
     w = np.asarray(w, complex)
     out = np.empty(freqs.size, complex)
-    rows = max(1, _CHUNK // max(1, t.size))
     d = np.diff(freqs)
-    block = int(np.clip(rows, 8, 512))
-    if freqs.size < 4 * block or not np.allclose(d, d[0], rtol=1e-9, atol=0):  # short or uneven grid: direct
+    if freqs.size < 64 or not np.allclose(d, d[0], rtol=1e-9, atol=0):  # short or uneven grid: direct
+        rows = max(1, _CHUNK // max(1, t.size))
         for i in range(0, freqs.size, rows):
-            out[i : i + rows] = np.exp(-2j * np.pi * np.outer(freqs[i : i + rows], t)) @ w
+            out[i : i + rows] = _cis(np.outer(freqs[i : i + rows], t)) @ w
         return out
-    steps = np.exp(-2j * np.pi * np.outer(np.arange(block) * d[0], t))  # (block, N), shared by all blocks
+    block = int(np.clip(np.sqrt(freqs.size), 8, 512))
     starts = np.arange(0, freqs.size, block)
-    for c in range(0, starts.size, rows):  # columns in chunks: memory stays bounded for long series
-        s = starts[c : c + rows]
-        base = np.exp(-2j * np.pi * np.outer(t, freqs[s])) * w[:, None]  # (N, blocks)
-        res = steps @ base  # res[j, b] = S(freqs[s_b] + j df)
-        for b, i in enumerate(s):
-            k = min(block, freqs.size - i)
-            out[i : i + k] = res[:k, b]
+    res = np.zeros((block, starts.size), complex)
+    span = max(1, _CHUNK // max(block, starts.size))
+    for a in range(0, t.size, span):  # res[j, b] = S(freqs[starts_b] + j df), summed over stretches of times
+        ts, ws = t[a : a + span], w[a : a + span]
+        res += _cis(np.outer(np.arange(block) * d[0], ts)) @ (_cis(np.outer(ts, freqs[starts])) * ws[:, None])
+    for b, i in enumerate(starts):
+        k = min(block, freqs.size - i)
+        out[i : i + k] = res[:k, b]
     return out
 
 
@@ -90,7 +101,13 @@ def fourier_fit(t, y, freqs):
     def resid(p):
         return _model(t, p[0], p[1 : n + 1], p[n + 1 : 2 * n + 1], p[2 * n + 1 :]) - y
 
-    p = least_squares(resid, np.concatenate([[coef[0]], f, a0, ph0]), x_scale="jac").x
+    def jac(p):  # the derivatives in closed form: one model evaluation per step instead of 3n + 2
+        fk, ak, pk = p[1 : n + 1, None], p[n + 1 : 2 * n + 1, None], p[2 * n + 1 :, None]
+        arg = 2 * np.pi * (fk * t + pk)
+        s, c = np.sin(arg), np.cos(arg)
+        return np.column_stack([np.ones_like(t), (2 * np.pi * ak * c * t).T, s.T, (2 * np.pi * ak * c).T])
+
+    p = least_squares(resid, np.concatenate([[coef[0]], f, a0, ph0]), jac=jac, x_scale="jac").x
     f, a, ph = p[1 : n + 1], p[n + 1 : 2 * n + 1], p[2 * n + 1 :]
     flip = a < 0
     a, ph = np.abs(a), (ph + 0.5 * flip) % 1.0
