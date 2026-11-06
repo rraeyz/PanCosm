@@ -302,3 +302,27 @@ def test_stars_marked_on_a_later_frame_are_carried_to_the_others(tmp_path, qtbot
     page.measure_requested.connect(lambda *a: sent.append(a))
     page._measure()
     assert sent[0][0][0] == paths[3] and sent[0][4]["ref_image"] == paths[3]
+
+
+def test_differential_view_first_and_the_way_on_to_the_fits(qtbot, tmp_path):
+    """The default view is the classic differential plot (target below, comparison check above with its scatter);
+    after a measurement the page says where the fits are and goes there."""
+    from astrowb.settings import Settings
+    from astrowb.ui.main_window import MainWindow
+
+    win = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(win)
+    try:
+        page = win.photometry_page
+        page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+        page.show_light_curve(synthetic_lc())
+        assert page.show_what.currentData() == "diff" and page.next_box.isVisibleTo(page)
+        ax = page.plot.figure.axes[0]
+        labels = [t.get_text() for t in ax.get_legend().get_texts()]
+        assert "T1 − comparison" in labels and any(t.startswith("C1 − C2") and "mmag" in t for t in labels)
+        assert ax.yaxis_inverted()
+        page._to_models(str(tmp_path / "lc.csv"))
+        assert win.current_workspace() == "orbits" and win.models_page.file.text().endswith("lc.csv")
+        assert (tmp_path / "lc.csv").read_text().count("\n") > 50
+    finally:
+        win.engine.shutdown()

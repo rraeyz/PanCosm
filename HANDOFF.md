@@ -256,10 +256,14 @@ starting, mark DONE with results):**
   frame in time by `frame_shift`; apertures / suggestion / polarimetry steps take the first frame given (the
   reference) instead of re-sorting. Test `test_stars_marked_on_a_later_frame_are_carried_to_the_others` (frames
   drifting 7 px: marking on frame 4 gives the same fluxes as on frame 1 to 1e-6). Guide 06 (4 languages).
-- O5 Differential photometry plot as the owner knows it: target − comparison below, comparison − check above (a
-  flat line shows the comparisons are constant). Check what the Plot tab already offers; make it the default view.
-- O6 "Where is the fit?": photometry only measures; say on the page what comes next (period search, time of
-  minimum, models) with buttons that send the light curve there; explain PSF vs aperture photometry in one line.
+- O5 **DONE** The Plot tab had seven views but not the classic one. New first (default) view "Differential":
+  target − comparison (Δm) below, the check star − comparison above it (or C1 − C2 without a check star), with its
+  scatter in mmag in the legend, magnitude axis inverted (`PhotometryPage._plot_differential`).
+- O6 **DONE** Under the result: a note that photometry only measures and where the fits are, and two buttons:
+  "Period search and O−C →" (that page already gets the curve) and "Fit an eclipse or transit model →" (saves the
+  CSV where the user says, next to the frames by default, and opens it on Orbits & models; `next_requested`,
+  `MainWindow._photometry_next`). PSF photometry already has a tooltip (crowded fields). Test
+  `test_differential_view_first_and_the_way_on_to_the_fits`. Guide 06 (4 languages).
 - O7 Calibration page: say how frames are classified (header IMAGETYP / FRAME first, then words in the file name;
   what becomes a light) and let the user change a frame's type; explain "optional stacking" (for a deep picture,
   not for a light curve) — off by default for photometry.

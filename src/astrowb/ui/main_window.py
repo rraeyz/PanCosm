@@ -664,6 +664,7 @@ class MainWindow(QMainWindow):
             )
         )
         page.minimum_requested.connect(self.time_minimum)
+        page.next_requested.connect(self._photometry_next)
         page.apertures_requested.connect(
             lambda images, target, comps: self.run_step(
                 "photometry.apertures",
@@ -1592,6 +1593,12 @@ class MainWindow(QMainWindow):
         )
 
     # --- photometry ---------------------------------------------------------
+    def _photometry_next(self, where, path):
+        """From a measured light curve to the page that fits it (the period page already has the curve)."""
+        if where == "orbits" and path:
+            self.models_page.file.edit.setText(path)
+        self.show_workspace(where)
+
     def measure_light_curve(self, images, target, comps, coord, params):
         inputs = {"images": images, "target_xy": target, "comps_xy": comps}
         if coord:
