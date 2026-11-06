@@ -126,14 +126,22 @@ def catalogue_magnitudes(sky, bands, match_arcsec=2.0):
     out = {b: np.full(len(sky), np.nan) for b in bands}
     from ..mirrors import cds
 
+    error = None
     for cat in ("II/336/apass9", "I/355/gaiadr3"):
-        tables = cds(
-            "vizier",
-            lambda server, cat=cat: Vizier(
-                columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=-1, vizier_server=server
-            ).query_region(centre, radius=radius, catalog=cat),
-        )
-        if not len(tables):
+        try:
+            tables = cds(
+                "vizier",
+                lambda server, cat=cat: Vizier(
+                    columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=-1, vizier_server=server
+                ).query_region(centre, radius=radius, catalog=cat),
+            )
+        except Exception as e:  # noqa: BLE001 - no VizieR server answered: Gaia from the ESA archive below
+            tables, error = [], e
+        if not len(tables) and cat.startswith("I/355"):
+            from ..gaia import photometry
+
+            tables = [photometry(centre.ra.deg, centre.dec.deg, radius.to_value(u.deg))]
+        if not len(tables) or not len(tables[0]):
             continue
         t = tables[0]
         cc = SkyCoord(np.asarray(t["_RAJ2000"]) * u.deg, np.asarray(t["_DEJ2000"]) * u.deg)
@@ -149,4 +157,6 @@ def catalogue_magnitudes(sky, bands, match_arcsec=2.0):
                 continue
             fill = ok & np.isnan(out[band]) & np.isfinite(vals)
             out[band][fill] = vals[fill]
+    if error is not None and not any(np.isfinite(v).any() for v in out.values()):
+        raise error
     return {b: out[b].tolist() for b in bands}

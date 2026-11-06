@@ -159,6 +159,8 @@ def _layout(hdu):
     ny, nx = hdu.shape[-2:]
 
     def whole(sec):  # "the whole axis" made concrete: the code below reads .start and .stop
+        if sec and any(s.stop is not None and s.stop > n for s, n in zip(sec, (ny, nx), strict=True)):
+            return None  # outside the frame: the raw frame's section, left in the header of a trimmed one (LCO e91)
         return sec and (slice(*sec[0].indices(ny)[:2]), slice(*sec[1].indices(nx)[:2]))
 
     over = whole(section(h.get("BIASSEC", "")))

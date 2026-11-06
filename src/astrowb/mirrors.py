@@ -45,7 +45,7 @@ def cds(service, query, patience=15.0):
     first = _working.get(service, SERVERS[service][0])
     first = first if first in SERVERS[service] else SERVERS[service][0]
     servers = [first] + [s for s in SERVERS[service] if s != first]
-    error = None
+    error, empty = None, None
     for server in servers:
         try:
             out = _within(query, server, None if server == servers[-1] else patience)
@@ -58,9 +58,21 @@ def cds(service, query, patience=15.0):
         except Exception as e:  # noqa: BLE001 - network, TLS, HTTP 5xx, a TAP service that stopped: next server
             error = e
             continue
+        if service == "vizier" and _empty(out):  # Harvard's VizieR has no rows for Gaia and APASS: the next server
+            empty = out
+            continue
         _remember(service, server)
         return out
+    if empty is not None:  # every server that answered had nothing there
+        return empty
     raise error
+
+
+def _empty(out):
+    try:
+        return len(out) == 0
+    except TypeError:
+        return False
 
 
 def _within(query, server, seconds):

@@ -325,8 +325,35 @@ Plan (claim → done, in this order):
   a classifier); bet Vir F9V -> G0 V; iot Hor F8V -> F8 V; eta Boo G0IV -> F8 V; HD 20794 G6V -> G0 V; 61 Vir G6.5V
   -> G8 V; Achernar B6Vpe -> B2 V (Be star, fast rotator). Summary: median -0.5 subclass, rms 1.06, 78 % within one
   subclass, 91 % within two; luminosity exact 78 %, within one class 100 %. Guide 08 (4 languages) gives this.
-- P9 **CLAIMED (01RxUU)** standard magnitudes and AAVSO report on real data: Gaia from the ESA archive when VizieR
-  fails; transformation coefficients on a real LCO Landolt field (B, V); a real variable star in B and V.
+- P9 **DONE — five bugs, all from real data.** Data (LCO public archive, archive-api.lco.global, anonymous, limit
+  <= 100 per page): Landolt SA 98, elp 1 m fa16, 2024-12-12, request 3723427, B 0096 and V 0101 (1 s; note: request
+  3737867 is indexed as SA98 by the archive but its frames are NGC 2240); TV Boo (RRc, VSX V 10.57–11.23, P 0.3125615
+  d), 0.4 m kb27/kb81/kb82/kb88, 2020-06-21, 10 B + 10 V frames. Files in /tmp/claude-0/realdata/{landolt,tvboo};
+  scripts /tmp/claude-0/work/p9_sa98.py, p9_esa.py, p9_tvboo.py.
+  (1) `mirrors.cds`: Harvard's VizieR answers Gaia and APASS queries with **no rows**; once remembered (it answers
+  SIMBAD-era queries fast) every catalogue lookup came back empty ("0 stars with B and V"). An empty VizieR answer now
+  passes to the next server and is not remembered (an empty answer from all of them is returned as empty). Test
+  `test_a_vizier_mirror_with_no_rows_is_passed_over`.
+  (2) No VizieR at all: Gaia now comes from the ESA archive (`gaia.photometry`, VizieR's column names) in
+  `catalog.vizier_fetch` and `coefficients.catalogue_magnitudes`; APASS-less stars still get V, R, I. Real: 297 stars
+  of SA 98 in 3 s, V from Gaia vs APASS median 0.000, rms 0.075. Test `test_gaia_from_the_esa_archive_when_no_vizier_
+  server_answers`.
+  (3) `masters.load` crashed on LCO 0.4 m e91 frames: BANZAI trims them but leaves the raw frame's BIASSEC
+  [3100:3135] and TRIMSEC [18:3071] in the header, outside the 3054-pixel frame. A section reaching outside the frame
+  is now ignored (DATASEC is then used). Test in `test_section_overscan_and_trim`.
+  (4) `catalog.calibrate` fitted a colour term from any three comparison stars spread over > 0.2 in colour: on TV Boo
+  (V) four red comps (B−V 0.53–0.86) gave k = −0.40 from their catalogue scatter, and carried to the blue target
+  (0.12) it made V = 11.55, below the star's minimum; check star 0.33 off. The term is now used only when its slope is
+  more than 3 times its error. After: V 11.32 / 11.10 / 10.66, check star within 0.04–0.10 of APASS. Test
+  `test_no_colour_term_from_scatter_over_a_narrow_colour_range`.
+  (5) AAVSO report: MERR was the photon error only (0.003) while the comparison stars disagreed by 0.05; it now adds
+  the scatter of the comps' zero points in each frame (as the page's own error). The ensemble magnitude also honours
+  the page's ensemble weights (m_ens = −2.5 log Σ w 10^(−0.4 m)); before it assumed equal weights.
+  Results. SA 98 transformation from APASS (59 stars): Tbv 0.944 +- 0.019, Tv +0.005 +- 0.016, Tb −0.033 +- 0.019;
+  from Landolt (2009, J/AJ/137/4186, 31 stars): Tbv 0.969 +- 0.014, Tv −0.024 +- 0.012, Tb −0.037 +- 0.012. The APASS
+  transformation applied to the 31 Landolt stars: V median −0.008, rms 0.032; B−V median −0.003, rms 0.054 (1 s
+  exposures). TV Boo: page magnitudes and AAVSO report now agree within 0.02 (flux ensemble vs magnitude mean),
+  MERR 0.03–0.07; V 10.66–11.33 over the night, B−V 0.03–0.17 (an RRc of type A7–F2). Guide 06 (4 languages).
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).

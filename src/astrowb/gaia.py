@@ -112,6 +112,27 @@ def _run(query):
         return Gaia.launch_job_async(query).get_results()
 
 
+def photometry(ra, dec, radius_deg, row_limit=5000):
+    """Table of Gaia DR3 photometry in a cone from the ESA archive, with VizieR's column names (Gmag, e_Gmag, BPmag,
+    RPmag, _RAJ2000, _DEJ2000), for when no VizieR server answers. The positions are J2016.0: within 1" of J2000 for
+    all but the fastest stars, which a 2" match allows."""
+    t = _run(
+        f"SELECT TOP {int(row_limit)} ra, dec, phot_g_mean_mag, phot_g_mean_flux_over_error, phot_bp_mean_mag, "
+        "phot_rp_mean_mag FROM gaiadr3.gaia_source WHERE 1=CONTAINS(POINT('ICRS', ra, dec), "
+        f"CIRCLE('ICRS', {float(ra)}, {float(dec)}, {float(radius_deg)})) ORDER BY phot_g_mean_mag"
+    )
+    t["e_Gmag"] = 1.0857 / t["phot_g_mean_flux_over_error"]  # magnitude error from the flux S/N
+    for old, new in (
+        ("ra", "_RAJ2000"),
+        ("dec", "_DEJ2000"),
+        ("phot_g_mean_mag", "Gmag"),
+        ("phot_bp_mean_mag", "BPmag"),
+        ("phot_rp_mean_mag", "RPmag"),
+    ):
+        t.rename_column(old, new)
+    return t
+
+
 def at_epoch(cat, year):
     """(ra, dec) in degrees at the decimal year, from J2016.0 and the proper motions (linear; fine for decades)."""
     dt = float(year) - GAIA_EPOCH
