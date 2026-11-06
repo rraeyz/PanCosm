@@ -212,6 +212,7 @@ def solved_copy(src, radius_deg=30.0, refine_gaia=True):
     ra, dec = (None, None) if hint is None else (hint.ra.deg, hint.dec.deg)
     pixel_um, focal_mm = get(h, "XPIXSZ", "PIXSIZE1"), get(h, "FOCALLEN")
     scale = 206.265 * pixel_um / focal_mm if pixel_um and focal_mm else None  # arcsec per (binned) pixel
+    scale = scale or get(h, "PIXSCALE", "SECPIX", "SECPIX1", "SCALE")  # stated directly (LCO: blind it timed out)
     fov = scale * ny / 3600 if scale else 0.0
     wcs = astrometry.solve(src, None, ra, dec, radius_deg, fov_deg=fov, scale_arcsec=scale)
     out = src.with_name(re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", src.name, flags=re.I) + "_wcs.fits")
