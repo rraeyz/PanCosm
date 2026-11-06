@@ -257,6 +257,8 @@ def test_ai_dra_modelled_in_the_models_window(walk, tmp_path):
     h.cell("table", 0, 1, "1.19881")
     h.cell("table", 1, 1, f"{t[np.argmin(f)]:.5f}")
     h.cell("table", 4, 1, "84")
+    h.type("exposure", 1800.0)  # TESS sector 24 full frames: 30 min
+    assert page.exposure.value() == 1800
     h.click("fit_button", budget=60.0)
     h.wait(lambda: page.result is not None, 120.0)
     h.check()

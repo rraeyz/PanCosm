@@ -39,12 +39,24 @@ def _orbit(ecosw, esinw):
 
 
 def model(t, p, ld1=(0.0, 0.0), ld2=(0.0, 0.0)):
-    """Normalised model flux for a parameter dict with the NAMES keys."""
+    """Normalised model flux for a parameter dict with the NAMES keys; p["exposure"] (seconds, optional): the flux
+    averaged over each exposure, as a long cadence records it (TESS 30 min, Kepler 29.4 min; Kipping 2010)."""
     r1 = p["r_sum"] / (1 + p["k"])
     e, w = _orbit(p["ecosw"], p["esinw"])
-    return eb.light_curve(
-        t, p["period"], p["t0"], r1, p["k"] * r1, p["incl"], p["j"], e, w, tuple(ld1), tuple(ld2), p["l3"]
-    )
+
+    def flux(tt):
+        return eb.light_curve(
+            tt, p["period"], p["t0"], r1, p["k"] * r1, p["incl"], p["j"], e, w, tuple(ld1), tuple(ld2), p["l3"]
+        )
+
+    exposure = float(p.get("exposure") or 0.0)
+    if exposure <= 0:
+        return flux(t)
+    from .orbit_terms import integrate_exposure
+
+    # one sub-sample per 2 min, odd, 3 to 15: Kipping's rule of thumb keeps the smearing error far below TESS noise
+    n = min(15, max(3, int(np.ceil(exposure / 120)) | 1))
+    return integrate_exposure(flux, t, exposure / 86400.0, n=n)
 
 
 def fit_light_curve(t, flux, err=None, start=None, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0)):
