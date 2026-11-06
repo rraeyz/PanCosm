@@ -441,8 +441,18 @@ Plan (claim → done, in this order):
      MK type of each (should be G8 III and F7 III / F-type), `separable_width` (the separation changes by ~160 km/s
      over the orbit, so Balmer wings should be determined), cross-correlation of each component with a template.
   4. Then P13 (every other feature once more on fresh real data, full local test run, push, CI, release v0.2.3 by
-     hand: raise __version__, push, run ci.yml with release=true). Full suite last passed after P9 (658 passed);
-     P10/P11/P12 changes passed their targeted test sets only.
+     hand: raise __version__, push, run ci.yml with release=true).
+  **State at hand-over (session 01RxUU, 2026-11-06):** full local suite after P12's commit: 661 passed, 3 skipped,
+  0 failed (8 min). Main is clean, nothing uncommitted. CI not run for these last commits (no release made).
+  **For the next agent — start here:** read this P-list from P8 on (P8–P11 DONE with data, scripts and results;
+  P12 IN PROGRESS above). Real data and scripts live only in /tmp/claude-0 (realdata/, work/) of the old container:
+  in a new container they are gone — re-download with the recipes written in each P entry (ESO TAP + dataportal,
+  LCO archive-api (anonymous, limit <= 100 per page), MAST via astroquery Observations, ASPIRED-example git clone,
+  NIST ASD lines1.pl CSV, Gallenne 2016 = arXiv:1511.07971 PDF -> pdftotext). Rules unchanged: commits as İdris
+  Avlar (git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com"), no co-author trailers, push to main,
+  owner data and downloads never committed, every UI text in self.tr and translated tr/de/es (tools/i18n.py update,
+  tools/fill_translations.py, tools/i18n.py), guide in 4 languages with the same sections, tools/check_brand.py,
+  ruff check + format, `set -o pipefail` when piping pytest, report to the owner in Turkish.
 - P3 (detail) Plate solution refined against Gaia DR3 when online (TAN-SIP refit, ~0.1–0.2"); astCat then Gaia3. Gaia also
   straight from the ESA Gaia archive when VizieR does not answer.
 - P4 Period page: error bars (the measurement errors carried there).
