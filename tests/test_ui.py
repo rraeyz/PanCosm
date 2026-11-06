@@ -341,6 +341,11 @@ def test_plan_page_resolve_and_plan(window, qtbot):
     ax = page.plot.figure.axes[0]
     labels = [a.get_xlabel() for a in [ax, *ax.child_axes]] + [ax.get_ylabel()]
     assert "UTC (hours)" in labels and "Local time (UTC+3, hours)" in labels and "Altitude (°)" in labels
+    assert ax.get_ylim() == (0, 90)  # the whole sky above the horizon, not from the lowest altitude
+    dlg = page.plot.open_window()  # its axis formatters cannot be pickled: it opened nothing before
+    assert dlg is not None and dlg.isVisible()
+    dlg.close()
+    assert page.minimumSizeHint().height() < 300  # the fields scroll; the chart is never cut on a short window
     if page.events.rowCount():
         utc, local = page.events.item(0, 3).text()[11:16], page.events.item(0, 4).text()
         assert (int(local[:2]) - int(utc[:2])) % 24 == 3 and local[3:] == utc[3:]

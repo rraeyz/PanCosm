@@ -273,9 +273,16 @@ starting, mark DONE with results):**
   `MainWindow.send_to_photometry`: several filters → the user picks one; the largest first). The Images page's
   right-click menu starts with "Send the open images to Photometry" (no star to choose). Tests in
   `test_calibrate_page_scan_and_run` and the image-menu test.
-- O9 Plan page: "Open in a new window" does nothing (bug); the altitude chart must show the whole curve (not cut at
-  20°).
-- O10 "Check frame quality": say what it does on the button / tooltip.
+- O9 **DONE** Plan page. (a) "Open in a new window" did nothing: `PlotCanvas.open_window` copies the figure by
+  pickle, and the Plan chart's axis formatters / secondary axes are functions that cannot be pickled, so it
+  returned None silently. Now such a figure opens as a picture drawn at 3x resolution (zoomable with the toolbar)
+  — any page's chart. (b) "The chart starts at 20°": the axis was 0–90° already; on a short window (1100 x 600,
+  or a laptop with 125 % scaling) the whole page (min. height 522 px) scrolled and the chart's lower part was out of
+  sight. The fields now scroll on their own (page min. height 221 px), the chart keeps the window's height. Test in
+  `test_plan_page_resolve_and_plan`. Still taller than a 459 px page area (they scroll as a whole): Observe 610,
+  Calibrate 523, Light curves 486, Spectroscopy 683 — same treatment next if the owner meets it (O12).
+- O10 **DONE** "Check frame quality" is now "Find the bad frames (clouds, focus, trails)" with a tooltip saying it is
+  optional, what it measures and that nothing is removed by itself; guide 01 / 06 use the new name (4 languages).
 - O11 Spectroscopy: the owner is not sure what he did — a short guided order of steps on the page (later).
 - Then: full local check, push, CI green, release v0.2.1 (manual `release` run).
 
