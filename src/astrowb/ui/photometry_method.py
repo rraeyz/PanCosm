@@ -2,7 +2,7 @@
 after the neighbours are fitted and subtracted. Two check boxes that exclude each other."""
 
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QCheckBox, QComboBox, QHBoxLayout, QLabel
+from PySide6.QtWidgets import QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QPushButton
 
 translate = QCoreApplication.translate  # the strings keep the PhotometryPage context they had there
 
@@ -45,6 +45,36 @@ def add_method_boxes(page, body):
     )
     row.addWidget(page.centring, 1)
     body.addLayout(row)
+    track = QHBoxLayout()  # the owner: the frames placed on stars the user picks, when the automatic way cannot
+    track.addWidget(QLabel(translate("PhotometryPage", "Place the frames on"), page))
+    page.track_stars = QLineEdit(page)
+    page.track_stars.setPlaceholderText(translate("PhotometryPage", "automatic (the whole frame's shift)"))
+    page.track_stars.setToolTip(
+        translate(
+            "PhotometryPage",
+            "Stars picked on the first frame (x y; x y …) that every frame is placed on: one "
+            "gives the shift, two or more the rotation too. Empty: automatic",
+        )  # fmt: skip
+    )
+    pick = page.pick_track_stars = QPushButton(translate("PhotometryPage", "Pick stars…"), page)
+    pick.clicked.connect(lambda: _pick_track(page))
+    track.addWidget(page.track_stars, 1)
+    track.addWidget(pick)
+    body.addLayout(track)
+
+
+def _pick_track(page):
+    from .star_picker import StarPicker, as_text, parse
+
+    if not page.images:
+        return
+    try:
+        stars = parse(page.track_stars.text())
+    except ValueError:
+        stars = []
+    dlg = StarPicker(page.images[0], stars, page)
+    if dlg.exec():
+        page.track_stars.setText(as_text(dlg.stars))
 
 
 def method_params(page):
@@ -54,4 +84,14 @@ def method_params(page):
         "remove_neighbours": page.remove_neighbours.isChecked(),
         "sky_method": page.sky_method.currentData(),
         "centring": page.centring.currentData(),
+        "track_stars": _track(page),
     }
+
+
+def _track(page):
+    from .star_picker import parse
+
+    try:
+        return [list(s) for s in parse(page.track_stars.text())]
+    except ValueError:  # unreadable: placed automatically, as with the field empty
+        return []

@@ -849,8 +849,11 @@ scintillation; the gain from the header), with what lowers it; the ingress from 
 **Found by the real-night walk (2026-11-13, tests/ui/walks/test_walk_real_night.py):** HAT-P-32's frames shown at a
 quarter of their size put clicks up to 6 px off the stars; the one-pass centring kept a comparison 2 px off and 84
 of 142 frames were left out as "not aligned". Now `aperture.snap_to_star` (the nearest peak, hot pixels left out,
-within half the box in the measurement and within three screen pixels on the page, then 2-D Gaussians) puts every
-click on its star: all 142 frames, the transit on the ephemeris; a faint star beside a bright one stays the target.
+within three screen pixels, then 2-D Gaussians) puts every click on its star in the window, where the user sees the
+mark move: all 142 frames, the transit on the ephemeris. The measurement itself keeps its half-box centring: snapping
+there moved a faint target 6 px onto its bright neighbour. Also (the owner's request): `light_curve(track_stars=…)`
+places every frame on stars the user picked (one: the shift, two or more: rotation too), for frames the automatic
+shift cannot place; the Measure options' "Place the frames on" with Pick stars….
 **partial** — done (2026-11-13): `recenter(method=auto | moments | gauss | none)`; moments (pixels > 2σ above the
 box's median) and gauss iterate three times (IRAF's cmaxiter); the step's `centring`, the live path, and a Centring
 choice under the Measure options. Measured on 40 synthetic stars at S/N 50 (`tests/test_centring.py`): gauss bias

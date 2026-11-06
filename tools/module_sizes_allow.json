@@ -11,7 +11,7 @@
   "calibration/steps.py:_run": 105,
   "compute/bls.py:gpu_bls_power": 90,
   "devices/server.py:make_handler": 81,
-  "photometry/lightcurve.py:light_curve": 228,
+  "photometry/lightcurve.py:light_curve": 219,
   "photometry/measurements.py:measurements": 81,
   "spectroscopy/echelle.py:solve_2d": 82,
   "spectroscopy/sb2.py:todcor": 97,

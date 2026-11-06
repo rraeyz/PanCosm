@@ -57,3 +57,49 @@ def test_images_window_asks_how_to_align(tmp_path, qapp, monkeypatch):
     assert star_picker.choose_alignment(None, paths[0]) == {"align": "none"}
     monkeypatch.setattr(QInputDialog, "getItem", lambda *a, **k: (a[3][0], False))  # cancelled
     assert star_picker.choose_alignment(None, paths[0]) is None
+
+
+def test_picked_stars_follow_a_rotated_and_shifted_field(tmp_path):
+    """Three stars picked: a field turned by 3° and shifted 6 px between frames (a meridian flip's cousin, an alt-az
+    mount) is followed with its rotation."""
+    rng = np.random.default_rng(1)
+    yy, xx = np.mgrid[:160, :160]
+    stars = np.array([(50.3, 60.2), (110.1, 70.6), (80.0, 120.0), (40.0, 130.0)])
+    paths = []
+    for i, ang in enumerate((0.0, 1.5, 3.0)):
+        c, s = np.cos(np.radians(ang)), np.sin(np.radians(ang))
+        m = np.array([[c, -s], [s, c]])
+        t = np.array([2.0 * i, -1.0 * i])
+        img = rng.normal(100, 5, (160, 160))
+        for x, y in stars @ m.T + t:
+            img += 2e4 / (2 * np.pi * 4) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / 8.0)
+        fits.PrimaryHDU(img.astype(np.float32)).writeto(tmp_path / f"r{i}.fits")
+        paths.append(str(tmp_path / f"r{i}.fits"))
+    got = align_transforms(paths, "picked", stars=stars[:3] + 0.8)
+    m, t = got[2]
+    assert np.degrees(np.arctan2(m[1, 0], m[0, 0])) == pytest.approx(3.0, abs=0.05)
+    assert np.allclose(stars[3] @ m.T + t, stars[3] @ np.array([[np.cos(np.radians(3)), -np.sin(np.radians(3))],
+                       [np.sin(np.radians(3)), np.cos(np.radians(3))]]).T + [4.0, -2.0], atol=0.1)  # fmt: skip
+
+
+def test_photometry_follows_a_turning_field_on_picked_stars(tmp_path):
+    """Frames turned by 4° each (an alt-az mount): the automatic shift cannot place them; the light curve placed by
+    three picked stars measures every frame, and the target's flux stays where it is."""
+    from astrowb.photometry.lightcurve import light_curve
+
+    rng = np.random.default_rng(2)
+    yy, xx = np.mgrid[:200, :200]
+    stars = np.array([(100.3, 100.2), (60.1, 70.6), (140.0, 130.0), (70.0, 150.0), (150.0, 60.0)])
+    paths = []
+    for i in range(6):
+        a = np.radians(4.0 * i)
+        m = np.array([[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]])
+        img = rng.normal(100, 5, (200, 200))
+        for x, y in (stars - 100) @ m.T + 100 + [1.5 * i, 0.5 * i]:
+            img += 3e4 / (2 * np.pi * 4) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / 8.0)
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"t{i}.fits")
+        paths.append(str(tmp_path / f"t{i}.fits"))
+    lc = light_curve(paths, stars[0], stars[1:3], 5, 10, 14, track_stars=stars[2:5])
+    assert len(lc["time"]) == 6 and not lc["lost"]
+    assert np.allclose(lc["rel_flux"], 0.5, rtol=0.02)

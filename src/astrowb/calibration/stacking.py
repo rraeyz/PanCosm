@@ -145,7 +145,7 @@ def align_transforms(paths, method="translation", ctx=None, stars=()):
     if method == "none":
         return [(np.eye(2), np.zeros(2)) for _ in paths]
     if method == "picked":
-        return [(np.eye(2), t) for t in picked_offsets(paths, stars, ctx)]
+        return picked_transforms(paths, stars, ctx)
     if method == "translation":
         return [(np.eye(2), np.asarray(o, float)) for o in align_offsets(paths, ctx)]
     from . import starmatch
@@ -161,27 +161,36 @@ def align_transforms(paths, method="translation", ctx=None, stars=()):
     return out
 
 
-def picked_offsets(paths, stars, ctx=None, search=25.0):
-    """The shift of every frame from the stars picked on the first one: each star is looked for within `search`
-    pixels of where the previous frame had it (the nearest star there, photometry.aperture.snap_to_star) and the
-    frame's shift is the median of the stars' shifts. shortcut: shift only; fit rotation from 2+ stars when a
-    rotating field needs it."""
+def picked_transforms(paths, stars, ctx=None, search=25.0):
+    """(M, t) of every frame from the stars picked on the first one (the owner: "a star and two or three around it"),
+    for frames the automatic ways cannot match. Each star is looked for near where the previous frame's transform
+    puts it (the nearest star within `search` px, photometry.aperture.snap_to_star); one star gives the shift, two or
+    more the rotation and scale too (a least-squares similarity, starmatch.similarity)."""
     from ..photometry.aperture import snap_to_star
+    from .starmatch import as_matrix, similarity
 
     stars = np.asarray(stars, float).reshape(-1, 2)
     if not len(stars):
         raise ValueError("pick at least one star on the first frame to align on")
     ref = snap_to_star(load(paths[0])[0], stars, radius=5.0)
-    out, prev = [np.zeros(2)], np.zeros(2)
+    out = [(np.eye(2), np.zeros(2))]
+    m, t = np.eye(2), np.zeros(2)
     for i, p in enumerate(paths[1:], 1):
         if ctx:
             ctx.check()
             ctx.progress(0.3 * i / len(paths), "aligning")
-        found = snap_to_star(load(p)[0], ref + prev, radius=search)
-        moved = found - ref
-        prev = np.median(moved, axis=0)
-        out.append(prev.copy())
+        found = snap_to_star(load(p)[0], ref @ m.T + t, radius=search)
+        if len(ref) == 1:
+            m, t = np.eye(2), found[0] - ref[0]
+        else:
+            m, t = as_matrix(*similarity(ref, found))
+        out.append((m.copy(), t.copy()))
     return out
+
+
+def picked_offsets(paths, stars, ctx=None, search=25.0):
+    """The shifts alone (picked_transforms' t)."""
+    return [t for _, t in picked_transforms(paths, stars, ctx, search)]
 
 
 def frame_stats(paths):

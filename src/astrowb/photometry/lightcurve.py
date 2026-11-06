@@ -25,7 +25,6 @@ from .aperture import (
     recenter,
     scintillation,
     seeing_fwhm,
-    snap_to_star,
 )
 from .differential import ensemble
 from .psf import neighbours_setup
@@ -72,6 +71,7 @@ def light_curve(
     apertures=(),
     remove_neighbours=False,
     centring="auto",
+    track_stars=(),
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -88,7 +88,8 @@ def light_curve(
     camera: {"read_noise": e-, "dark": e- per pixel per second}: the sky noise of every pixel from the camera's numbers
     and the sky level, as AstroImageJ (Collins et al. 2017, appendix B), instead of the scatter measured in the sky
     ring (aperture.measure).
-    sky_method: the sky estimate (aperture.sky_estimate); centring: auto, moments, gauss or none (aperture.recenter).
+    sky_method: the sky estimate (aperture.sky_estimate); centring: auto, moments, gauss or none (aperture.recenter);
+    track_stars: stars picked on the first frame that place every frame (shift, rotation; stacking.picked_transforms).
     fixed: indices of stars (0 the target, then comparisons, then extra stars) that are not re-centred but follow the
     field: the median shift the centred stars took on that frame (AstroImageJ's per-aperture centroid off; a faint
     star beside a bright one is not pulled onto it).
@@ -98,14 +99,14 @@ def light_curve(
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
     ref, h0 = load(paths[0])
-    # clicks snap onto the brightest star within half the box (a click 2.7 px off Qatar-1 left the aperture off the
-    # star all night; one 6 px off on a frame shown at a quarter of its size lost 84 of 142 HAT-P-32 frames)
+    # given positions centred once within half the box (a click 2.7 px off Qatar-1 left the aperture off the star);
+    # clicks farther off are put on their star by the window (snap_click): a faint target beside a bright one stays
     if ref_path and str(ref_path) != paths[0]:
         marked = load(ref_path)[0]
-        stars0 = snap_to_star(marked, stars0, box / 2 + 1, box)
+        stars0 = recenter(marked, stars0, box, max_move=box / 2)
         stars0 = stars0 + frame_shift(marked, ref, 2 if ref.size > 4e6 else 1)
     clicked = stars0.copy()
-    stars0 = snap_to_star(ref, stars0, box / 2 + 1, box)
+    stars0 = recenter(ref, stars0, box, max_move=box / 2)
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
@@ -132,15 +133,14 @@ def light_curve(
     from ..engine.parallel import pmap, workers
 
     parallel = src is None and workers() > 1 and len(paths) >= 24
+    from ..calibration.stacking import align_offsets, picked_transforms
+
+    placed = [stars0 @ m.T + t for m, t in picked_transforms(paths, track_stars, ctx)] if len(track_stars) else None
     if parallel:  # every frame on its own core: the shifts first (between consecutive frames, also in parallel),
         # then each frame read, re-centred from the shifted positions and measured where it is read
-        from ..calibration.stacking import align_offsets
-
-        offsets = np.asarray(align_offsets(paths, ctx, binning))
-        jobs = [
-            (p, stars0 + off, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts)
-            for p, off in zip(paths, offsets, strict=True)
-        ]
+        placed = placed or [stars0 + off for off in np.asarray(align_offsets(paths, ctx, binning))]
+        jobs = [(p, pred, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts)
+                for p, pred in zip(paths, placed, strict=True)]  # fmt: skip
         for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
             rows.append(row)
             peaks.append(peak)
@@ -162,20 +162,10 @@ def light_curve(
         # every frame is placed against the first, never against the previous one: a frame tracked wrongly (a cloud,
         # a jolt) took every later frame with it, and the apertures measured empty sky without a word (owner's
         # NY Vir night); the stars found are then checked, and a star pattern match tried when they are not there
-        shift = np.zeros(2) if i == 0 else np.asarray(frame_shift(ref, data, binning))
+        shift = np.zeros(2) if i == 0 or placed else np.asarray(frame_shift(ref, data, binning))
+        pred = placed[i] if placed else stars0 + shift
         xy, flux, err, skylev, r, f, multi, lost = _measure_frame(
-            data,
-            h,
-            stars0 + shift,
-            stars0,
-            (r_ap, r_in, r_out),
-            g,
-            box,
-            fwhm0,
-            psf,
-            n_comp,
-            paths[0],
-            opts=opts,
+            data, h, pred, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts=opts
         )
         if fwhm0:
             fwhms.append(f)
@@ -185,7 +175,7 @@ def light_curve(
             t = timing.mid_time(h, *opts["time"])
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
-        moved = np.hypot(*(xy - stars0 - shift).T)  # how far centring moved each star from the frame's shift
+        moved = np.hypot(*(xy - pred).T)  # how far centring moved each star from where the frame's placing put it
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi))
     reader.shutdown(wait=False)
 
