@@ -1052,3 +1052,20 @@ def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbo
     page.show_result({"best": 0.3336, "periods": [], "power": []})
     text = page.result.text()  # one cycle more or less across the gap
     assert "700 d apart" in text and "0.333441 or 0.333759" in text
+
+
+def test_every_page_fits_a_short_window(window):
+    """A 1100 x 600 window (a laptop at 125 % scaling): no page is taller than its area, so no button or plot is below
+    the fold (the owner's Photometry and Plan pages were; Observe, Calibrate, Light curves, Spectroscopy too)."""
+    from PySide6.QtWidgets import QApplication
+
+    window.resize(1100, 600)
+    window.show()
+    too_tall = {}
+    for key, (_, page) in window.workspaces.items():
+        window.show_workspace(key)
+        QApplication.processEvents()
+        frame = window._frames.get(page)
+        if frame is not None and page.minimumSizeHint().height() > frame.viewport().height():
+            too_tall[key] = (page.minimumSizeHint().height(), frame.viewport().height())
+    assert not too_tall, too_tall

@@ -235,6 +235,7 @@ class MainWindow(QMainWindow):
             table.customContextMenuRequested.connect(lambda pos, t=table: self._table_menu(t, pos))
         from PySide6.QtWidgets import QFrame, QScrollArea
 
+        _fields_scroll(page)
         holder = self._placeholders.pop(attr)
         i = self.pages.indexOf(holder)
         current = self.pages.currentIndex() == i
@@ -1897,3 +1898,37 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
+
+
+def _fields_scroll(page, tall=200):
+    """In every splitter of a page, a block of fields taller than `tall` px scrolls on its own: on a short window the
+    whole page scrolled and the plots and buttons below went out of sight (the owner's Photometry and Plan pages).
+    Plots, images, tables and lists scroll or shrink by themselves and are left alone."""
+    from PySide6.QtWidgets import QAbstractScrollArea, QFrame, QScrollArea, QSplitter, QTabWidget
+
+    from .workspaces import PlotCanvas
+
+    targets = []
+    for split in page.findChildren(QSplitter):
+        for i in range(split.count()):
+            w = split.widget(i)
+            if isinstance(w, (QAbstractScrollArea, QSplitter, QTabWidget, PlotCanvas)):
+                continue
+            side = split.orientation() == Qt.Horizontal  # a side column: the other column stays in view anyway
+            if (side or w.findChild(PlotCanvas) is None) and w.minimumSizeHint().height() > tall:
+                targets.append((split, w))  # above a plot, a panel holding a plot keeps it; small blocks need nothing
+    for split, w in targets:
+        i = split.indexOf(w)
+        if i < 0:
+            continue
+        state = split.saveState()  # the page's own proportions (setSizes before it is shown)
+        area = QScrollArea()
+        area.setFrameShape(QFrame.NoFrame)
+        area.setWidgetResizable(True)
+        if split.orientation() == Qt.Horizontal:  # as narrow as its fields allow; never cut a field sideways
+            area.setMinimumWidth(min(w.minimumSizeHint().width(), 520) + 20)
+        else:
+            area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        split.insertWidget(i, area)
+        area.setWidget(w)
+        split.restoreState(state)
