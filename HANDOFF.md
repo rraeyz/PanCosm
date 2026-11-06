@@ -228,6 +228,14 @@ The lamp also shows Na D emission (x 1079.4 / 1149.3 in order 58).
 
 ## >>> WHERE THE LAST AGENT STOPPED (read this first) <<<
 
+**Update by agent session 01RxUU (2026-11-06, after 019Lu3).** Continued "Still to do" below in order; each item
+there now says DONE / IN PROGRESS with its results. Commits: `e2a8d69` (brand check), `95714a4` (CHECKSUM fix,
+side-effect checks), `c5985a4` (echelle 10x faster, .Z 5x), `70a42b0` (TODCOR star swap with one template),
+`e298843` (BF one-star crash), `6cf535a` (telluric plot), `1805e02`, `bd18410`, `0a1d9f6` (handoff). CI: all test jobs
+green at `70a42b0`; check the later runs. Open: disentangling on real data (item 4), drizzle and offline plate
+solving on real frames (item 4, not possible in the agent container), item 6 (the plain-Turkish explanation for the
+owner, in the chat), U11 and a release (ask the owner). Data used are listed under each item with their archive ids.
+
 Agent session 019Lu3 stopped on **2026-11-06 (~06:00 UTC)** because the owner's weekly quota ran out. The owner hands
 the work to the next agent with this file. State at that moment:
 
