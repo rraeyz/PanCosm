@@ -36,6 +36,7 @@ O-C (observed minus calculated) shows how the times of minimum depart from a con
 
 1. Type or paste the **minimum times**, one per line: `time [error] [I/II] [source]` — e.g. `2459876.43215 0.00021 I TESS`. Or **Load file…**. Times in BJD or HJD; do not mix them.
 2. Give a **Reference T0** and **Period (d)**: the epoch of every minimum is computed from them.
+   Or type the star's name in **Star** and press **Look up**: T0 and the period come from AAVSO VSX. An empty T0 is the first primary minimum.
 3. Choose **Linear ephemeris** or **Quadratic (period change)** and press **Fit and draw O-C**. **Export results (CSV / LaTeX)…** writes the fitted values with 1σ errors, rounded as in a paper, and a caption naming the model.
 
 The result gives the new T0 and P with errors; the quadratic fit also gives the rate of period change dP/dt in seconds per year, and the reduced χ². Primary minima are drawn as circles and secondary minima as squares; the lower plot shows the residuals.

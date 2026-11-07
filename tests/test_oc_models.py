@@ -133,3 +133,21 @@ def test_mcmc_runs_as_a_task_and_reports_progress(qtbot):
     assert fit.mcmc and "MCMC" in ctx.seen
     page.show_fit(fit, calls[0][5])  # the task's answer drawn on the page
     assert "MCMC" in page.result.text() and page.fit_result is fit
+
+
+def test_oc_page_needs_only_the_minima_and_the_star_name(qtbot):
+    """T0 empty: the first primary minimum (as its tooltip says); the period from VSX by the star's name."""
+    from astrowb.ui.workspaces import OCPage
+
+    page = OCPage()
+    qtbot.addWidget(page)
+    page.text.setPlainText("\n".join(f"{T0 + 2.5 * k + 1e-4 * k:.6f} 0.0002 I" for k in range(0, 400, 20)))
+    assert page.run_fit() is None and "Look up" in page.result.text()
+    page.star.setText("NY Vir")
+    with qtbot.waitSignal(page.ephemeris_requested) as asked:
+        page.look_up.click()
+    assert asked.args == ["NY Vir"]
+    page.set_ephemeris({"name": "NY Vir", "period": 2.5, "t0": None, "source": "VSX"})
+    assert page.period.text() == "2.5" and page.t0.text() == ""
+    f = page.run_fit()
+    assert f.period == pytest.approx(2.5001, abs=1e-6) and f.t0 == pytest.approx(T0, abs=1e-3)

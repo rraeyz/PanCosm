@@ -42,7 +42,8 @@ def test_page_says_why_calibrate_is_off_and_adds_folders(qtbot, tmp_path):
     page.show_frames(frames, [])
     assert not page.run_button.isEnabled() and "No light frames" in page.warnings.toPlainText()
     assert page.table.item(0, 4).text() == "-95.5"  # not -95.54999999999998
-    page._add_folder(str(tmp_path / "Light"))
+    with qtbot.waitSignal(page.scan_requested):  # a folder added is read at once, no Scan press
+        page._add_folder(str(tmp_path / "Light"))
     assert page.folder.text() == f"{tmp_path / 'BDF'}; {tmp_path / 'Light'}"
     assert page.output.text() == str(tmp_path / "BDF" / "calibrated")
 

@@ -6,6 +6,8 @@ The **Calibrate** page turns raw frames into calibrated images: it recognises bi
 
 Choose the folder with your raw frames (lights, bias, darks and flats may be mixed, sub-folders included) and press **Scan**. The table lists every file with its **type**, **exposure**, **filter**, **temperature** and **binning**.
 
+A folder chosen with **Browse…** or **Add folder…** is scanned at once; **Scan** reads a typed folder.
+
 - The type comes from the `IMAGETYP` / `FRAME` header (Light Frame, Bias, Dark, Flat Field…) and, when it is missing, from the file name. Words in the name: bias / zero / offset, dark, flat / twilight, arc / lamp; a frame of 0 s is a bias. Every other frame is a **light** — science frames are usually named after the star (`nsvs01286630_017.fits`, `NY_Vir_R_003.fit`) and say nothing of a type; only a type the header states that the program does not know (FOCUS, TEST…) is **unknown** and left out (listed below the table). **Double-click a type** in the table to change it; the files are not changed. A frame that does not belong (a master from an earlier run, a test frame) is taken out with **Remove from the list** or the Delete key; **Clear** empties the folders and the list to choose them again. Ctrl+Z brings either back.
 - Files that cannot be read and files of unknown type are listed under the table and ignored.
 - The same list says which calibration frames are **missing**, for example "no flat for filter 'R'" — those lights are still calibrated, without that correction, and you are told so.

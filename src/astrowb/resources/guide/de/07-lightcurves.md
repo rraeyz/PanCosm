@@ -36,6 +36,7 @@ O-C (beobachtet minus berechnet) zeigt, wie die Minimumszeiten von einer konstan
 
 1. Die **Minimumszeiten** eintippen oder einfügen, eine pro Zeile: `Zeit [Fehler] [I/II] [Quelle]` — z. B. `2459876.43215 0.00021 I TESS`. Oder **Datei laden…**. Zeiten in BJD oder HJD; nicht mischen.
 2. Ein **Referenz-T0** und die **Periode (d)** angeben: Daraus wird die Epoche jedes Minimums berechnet.
+   Oder den Namen des Sterns in **Stern** eingeben und **Nachschlagen** drücken: T0 und Periode kommen aus AAVSO VSX. Ein leeres T0 ist das erste Hauptminimum.
 3. **Lineare Ephemeride** oder **Quadratisch (Periodenänderung)** wählen und **Anpassen und O-C zeichnen** drücken. **Ergebnisse exportieren (CSV / LaTeX)…** schreibt die angepassten Werte mit 1σ-Fehlern, gerundet wie in einer Veröffentlichung, mit einer Tabellenunterschrift, die das Modell nennt.
 
 Das Ergebnis liefert neues T0 und P mit Fehlern; die quadratische Anpassung liefert zusätzlich die Periodenänderungsrate dP/dt in Sekunden pro Jahr und das reduzierte χ². Hauptminima werden als Kreise, Nebenminima als Quadrate gezeichnet; das untere Diagramm zeigt die Residuen.
