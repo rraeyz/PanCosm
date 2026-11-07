@@ -740,8 +740,8 @@ tab: `point_to_point_ratio` (differences of successive points, MAD: a transit ba
 measurement; above 1.2 "Scale the errors by f" keeps `error_scale` and `rel_flux_err_scaled` beside the formal
 errors (a second press undoes), and the AAVSO, ETD, ExoClock and Save-all outputs use them. Qatar-1 (LCO, 265
 frames): the ratio 1.62, and the transit fit's χ²_r 2.79 with the formal errors, 1.06 with the scaled ones (the
-accept); the ratio is the clipped standard deviation of the differences (the MAD gave 1.43 and χ²_r 1.36). Left:
-scintillation on every aperture radius, the Inspector's bar.
+accept); the ratio is the clipped standard deviation of the differences (the MAD gave 1.43 and χ²_r 1.36). The
+several radii's errors carry the scintillation too (`lightcurve._by_aperture`). Left: the Inspector's bar.
 - **Ours now:** `aperture.scintillation` (Young's formula, one radius only) and the camera noise model of done item 2; no observed-vs-predicted ratio, no β.
 - **Reference:** Pont, Zucker & Queloz 2006 (MNRAS 373, 231: red noise); Winn et al. 2008 (ApJ 683, 1076: the
   time-averaging β factor); Carter & Winn 2009 (wavelets); Young 1967 / Osborn et al. 2015 (MNRAS 452, 1707:
