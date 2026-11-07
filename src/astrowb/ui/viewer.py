@@ -96,6 +96,7 @@ class ImageViewer(QGraphicsView):
         self._fit_mode = False
         self.scale(factor, factor)
         self._update_reticles()
+        self._hover_at_cursor()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -228,6 +229,19 @@ class ImageViewer(QGraphicsView):
         self._pick, self._hover_rings, self._hover_colour = on, list(rings), colour
         self.viewport().setCursor(Qt.CrossCursor if on else Qt.OpenHandCursor)
         self._clear_hover()
+        self._hover_at_cursor()
+
+    def _hover_at_cursor(self):
+        """The rings drawn again under the mouse at once when their size or the zoom changes (Shift + wheel): they
+        were gone until the mouse moved, so the aperture could not be seen growing or shrinking."""
+        from PySide6.QtGui import QCursor
+
+        if not (self._pick and self._hover_rings) or self.data is None:
+            return
+        pos = self.viewport().mapFromGlobal(QCursor.pos())
+        if self.viewport().rect().contains(pos):
+            p = self.mapToScene(pos)
+            self._draw_hover(p.x(), p.y())
 
     def _clear_hover(self):
         for item in self._hover_items:

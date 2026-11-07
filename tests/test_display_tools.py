@@ -173,3 +173,37 @@ def test_thumbnail_of_a_gzipped_file_is_quick(tmp_path):
     small = thumbnail(tmp_path / "a.fits.gz")
     assert time.perf_counter() - t < 3  # row by row it took minutes
     assert np.array_equal(small, thumbnail(tmp_path / "a.fits"))
+
+
+def test_hover_rings_follow_size_and_zoom_without_moving_the_mouse(qtbot):
+    """The owner: after Shift + wheel (ring size) or a zoom the rings vanished until the mouse moved, so the aperture
+    could not be seen growing or shrinking. They are drawn again at once under the mouse."""
+    import numpy as np
+    from PySide6.QtCore import QPoint
+    from PySide6.QtGui import QCursor
+
+    from astrowb.ui.viewer import ImageViewer
+
+    viewer = ImageViewer()
+    qtbot.addWidget(viewer)
+    viewer.resize(400, 300)
+    viewer.show()
+    viewer.set_image(np.random.default_rng(0).normal(100, 5, (200, 300)).astype(np.float32))
+    spot = QPoint(150, 120)
+    QCursor.setPos(viewer.viewport().mapToGlobal(spot))
+    if viewer.viewport().mapFromGlobal(QCursor.pos()) != spot:
+        import pytest
+
+        pytest.skip("this platform does not move the mouse pointer")
+
+    def ring_radius():
+        rings = [i for i in viewer._hover_items if hasattr(i, "rect")]
+        return rings[0].rect().width() / 2 if rings else None
+
+    viewer.set_pick(True, [(5.0, False)])
+    assert ring_radius() == 5.0
+    viewer.set_pick(True, [(5.5, False)])  # Shift + wheel: one step larger
+    assert ring_radius() == 5.5
+    viewer.zoom(1.25)
+    under = viewer.mapToScene(spot)
+    assert abs(viewer._hover_items[0].pos().x() - under.x()) < 1e-6  # still centred under the mouse
