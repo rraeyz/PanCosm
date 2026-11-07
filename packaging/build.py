@@ -11,6 +11,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -107,7 +108,15 @@ def macos():
     run("cp", "-R", app, stage)  # cp -R keeps the bundle's symlinks
     (stage / "Applications").symlink_to("/Applications")
     target.unlink(missing_ok=True)
-    run("hdiutil", "create", "-volname", BRAND["display_name"], "-srcfolder", stage, "-ov", "-format", "UDZO", target)
+    for attempt in range(5):  # "Resource busy" on CI runners now and then (the image is still being scanned)
+        try:
+            run("hdiutil", "create", "-volname", BRAND["display_name"], "-srcfolder", stage, "-ov", "-format", "UDZO",
+                target)  # fmt: skip
+            break
+        except subprocess.CalledProcessError:
+            if attempt == 4:
+                raise
+            time.sleep(10 * (attempt + 1))
     return target
 
 
