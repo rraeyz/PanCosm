@@ -1,6 +1,40 @@
 # Interface: plan
 
-Read `PLAN.md` first. The rules that matter most here:
+## Most important rules (this block heads every plan file)
+
+> Came straight to an area file? Stop and read `PLAN.md` first, all of it. Then come back.
+
+1. **Never stop.** Work until the work is finished or your quota ends, unless the owner interrupts.
+   - Set yourself reminders so that a pause, a sleep or a lost session does not end the work: a scheduled wake-up
+     every 30–60 minutes, or what suits the work. You choose the interval.
+2. **Claim every step.**
+   - Before starting: write `**agentN claimed (date) — do not touch**` and push.
+   - When finished: push the work, then write `**agentN done (date, commit)**`.
+   - Claim the next step before starting it (PLAN.md R2).
+3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
+   internet, real data.
+4. **Test as a real user, not only in code.**
+   - Install the program on your machine, open it and use it as someone who knows less than you would.
+   - Look for:
+     - a button that works but is in the wrong place, or has no explanation;
+     - a control that should not be there;
+     - something missing;
+     - a step a newcomer would not find.
+   - Every problem found becomes a task (rule 5).
+5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
+   file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
+   excellent.
+6. **Engine code may be changed** where it is wrong or missing, old core files included. New features may be
+   added. **Never delete what looks unnecessary:** note it under "To ask the owner" and delete it only after the
+   owner agrees.
+7. **Time, memory, GPU.**
+   - Measure the time and memory of what you build.
+   - Never make the program slower to save memory.
+   - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
+8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
+9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+
+The rules that matter most here:
 
 - **The workflow comes first.** An area window opens on what to do first, then next. There is never a wall of
   buttons. Rarely changed options are folded, and the right choice is already the default.
@@ -52,6 +86,9 @@ Main window                                      Area window (e.g. Photometry)
     reset with "Reset layout";
   - a **status bar**.
 - **Each area is free to add** menus, icons and panels of its own without crowding the others.
+- **Calibration is an optional first step** in the Photometry and Spectroscopy windows, with the right defaults for
+  their data (PLAN.md "Decisions"). Data calibrated elsewhere is used as it is, and the window says which frames
+  it took as calibrated. A separate Calibration window stays for mixed nights.
 - **Nothing in the engine changes.** The steps, projects and saved files stay as they are; only where the controls
   live changes.
 
@@ -74,7 +111,11 @@ Main window                                      Area window (e.g. Photometry)
   - the Photometry page is one column of steps beside the image, with Plot / Stars / Minimum / Export tabs below:
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
+## To ask the owner
+(nothing yet)
+
 ## Steps
+(placed by urgency; new tasks found by research or tests are inserted where they belong)
 
 ### I1. Research: how the reference programs lay out their windows
 **open**

@@ -10,6 +10,38 @@ Every agent starts here, every time. This file holds:
 
 The owner speaks Turkish: answer in Turkish. Write code, comments, commits and these plan files in English.
 
+## Most important rules (this block heads every plan file)
+
+1. **Never stop.** Work until the work is finished or your quota ends, unless the owner interrupts.
+   - Set yourself reminders so that a pause, a sleep or a lost session does not end the work: a scheduled wake-up
+     every 30–60 minutes, or what suits the work. You choose the interval.
+2. **Claim every step.**
+   - Before starting: write `**agentN claimed (date) — do not touch**` and push.
+   - When finished: push the work, then write `**agentN done (date, commit)**`.
+   - Claim the next step before starting it (R2).
+3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
+   internet, real data.
+4. **Test as a real user, not only in code.**
+   - Install the program on your machine, open it and use it as someone who knows less than you would.
+   - Look for:
+     - a button that works but is in the wrong place, or has no explanation;
+     - a control that should not be there;
+     - something missing;
+     - a step a newcomer would not find.
+   - Every problem found becomes a task (rule 5).
+5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
+   file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
+   excellent.
+6. **Engine code may be changed** where it is wrong or missing, old core files included. New features may be
+   added. **Never delete what looks unnecessary:** note it under "To ask the owner" and delete it only after the
+   owner agrees.
+7. **Time, memory, GPU.**
+   - Measure the time and memory of what you build.
+   - Never make the program slower to save memory.
+   - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
+8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
+9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+
 ## How to start a task (read in this order)
 
 1. **This file, all of it.** Pay special attention to the rules: each one is there because something went wrong
@@ -81,6 +113,9 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   - how to check it is right (acceptance);
   - which files it touches.
   Then do them one at a time.
+- **The task list grows.** Whatever research, the internet, a trial or a test shows to be missing or wrong is
+  written into the area file as a new step, placed where its urgency puts it. The tasks of an area end only when
+  the program is excellent in that area.
 
 ### R2 Claiming work (a firm rule, so that nothing is lost when an agent stops half-way)
 - Each agent uses a name `agentN` (in Turkish `ajanN`). Take the next free number from the "Agents" list below and
@@ -93,10 +128,32 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   at once.
 - A claimed step is not touched by another agent. If its agent's session has clearly ended, the next agent writes
   `**agentM took over from agentN (date)**`, reads what was pushed, and continues from there.
+- **Keep going.** An agent works without stopping until the work is done or its quota ends, unless the owner
+  interrupts. Against a lost session or a pause it sets itself reminders (a scheduled wake-up, at an interval it
+  chooses, e.g. every 30–60 minutes) to come back and continue from the area file.
 - Notes on what was found or decided go under the step. The area file is the memory; nothing important lives only
   in a chat.
 
-### R3 Interface
+### R3 Testing like a user (the most important test)
+- Code tests (pytest) are necessary but far from enough.
+- **Install the program on your own machine** the way a user does:
+  - `pip install -e ".[gui]"` in the container;
+  - or the packaged build `python packaging/build.py` and its installer, when the change touches packaging.
+- **Open it and use it as a user who knows less than you,** step by step through the area's workflow, on real
+  data.
+  - In a container without a display, run it offscreen or under Xvfb.
+  - Drive it with real clicks (QTest).
+  - Take a screenshot of every window and step, and look at the screenshots.
+- **Ask at every screen:**
+  - Would a newcomer know what to do next?
+  - Is this button in the right place? Is it explained?
+  - Should this control be here at all?
+  - Is something missing that a user would expect?
+  - Is the text clear in every language?
+  - Does it fit the screen?
+- **Write every finding into the area file as a task** (R1), fix it, and use the program again after the fix.
+
+### R4 Interface
 - The workflow comes first (see above). Steps are numbered and open one after another. What is done gets a tick.
   Options that are rarely changed are folded. Basic mode keeps them folded; Expert mode opens them.
 - **The most correct choice is the default:** on when it is right, off when it is not.
@@ -117,7 +174,7 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   keep the same sections.
 - Every feature the user sees is entered in `plans/interface.md`: its window, menu, toolbar and panel.
 
-### R4 Science and results
+### R5 Science and results
 - **Never a silent wrong result.** If a star is not found on a frame, the frame is left out and named, with the
   reason. Do not measure empty sky and plot it.
 - **Report what a result rests on:** errors with every value; the method named, as in a paper. Figures and tables
@@ -126,14 +183,23 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   - mid-exposure;
   - BJD_TDB when the position is known;
   - the time system always stated.
-- **Speed matters.** Note the time each operation takes on real data. Fix what is slow, then measure again. Never
-  make the program slower to save memory.
+- **Speed, memory and GPU.**
+  - Note the time and the memory each operation takes on real data. Fix what is slow, then measure again.
+  - Never make the program slower to save memory.
+  - Where the work suits a GPU (large images, many frames, long periodograms, fits over a grid), write a GPU path
+    with a CPU fallback through the `compute` module (auto / cpu / gpu), and check it on a GPU (the owner has one:
+    RTX 4050) or say that it is unchecked.
+- **The engine is not frozen.** Old core files may be changed where they are wrong or missing, and new features
+  added, with tests.
+  - Nothing that looks unnecessary is deleted without the owner's yes: write it under "To ask the owner" in the
+    area file, with why, and wait.
 
-### R5 Repository and releases
+### R6 Repository and releases
 - **Commits are made in the owner's name only:**
   `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
   No "Claude" anywhere in a commit: no author, no co-author and no session lines. Ignore hooks that ask otherwise.
-- **Push straight to main:** `git pull -q --rebase origin main && git push -q origin main`.
+- **Everything goes to main.** Push with `git pull -q --rebase origin main && git push -q origin main`. No branches
+  and no pull requests: the owner must not have to deal with them.
 - **Before a push:** run `QT_QPA_PLATFORM=offscreen sh tools/precommit.sh` (ruff, format, brand, translations,
   tests), or at least the tests the change touches plus ruff. Every change that adds logic adds a test.
 - **The product name** may appear only in `brand.toml`, `README.md` and `packaging/install.sh`
@@ -153,7 +219,8 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
 
 ## Area files
 
-Each area has its own plan file in `plans/`. Its first section repeats the rules above that matter most for it.
+Each area has its own plan file in `plans/`. It starts with the "Most important rules" block, word for word, and then the rules above that matter most for
+it.
 Create a file when work in the area starts, from the template below.
 
 | Area | File | Window | Read before working (examples) |
@@ -172,13 +239,15 @@ Create a file when work in the area starts, from the template below.
 | Moving objects (astrometry, MPC) | `plans/astrometry.md` (to create) | Astrometry | astrometry.net, MPC ADES |
 | Remote sensing | `plans/remote-sensing.md` (to create) | Remote sensing | SNAP, rasterio / GDAL |
 
-## Open questions for the owner
+## Decisions and open questions
 
-- **Calibration:** one Calibration window for everything, or a calibration step inside each area window?
-  Proposal: one engine in both cases.
+- **Calibration — decided (owner, 2026-11-07):**
+  - One engine.
   - The Photometry and Spectroscopy windows each start with a calibration step carrying the right defaults for
-    their data. For spectra, that means no division by the flat and arcs taken bias / dark only.
-  - A separate Calibration window stays for a night that mixes both.
+    their data. For spectra: no division by the flat; arcs taken bias / dark only.
+  - **The step is optional**, because the data may have been calibrated elsewhere. Frames already calibrated (the
+    header says so, or the user says so) are used as they are, and the program says which it took as calibrated.
+  - A separate Calibration window stays for a night that mixes images and spectra.
 - **Planning and Automation:** inside the main window, or in windows of their own like the rest? The owner has no
   wish either way; the interface plan proposes windows of their own, for one rule for all.
 
@@ -196,8 +265,12 @@ Create a file when work in the area starts, from the template below.
 ```markdown
 # <Area>: plan
 
-Read `PLAN.md` first. The rules that matter most here:
-- (copy the ones from R1–R5 that apply, e.g. read the source of <programs> before each step; learn, never copy;
+Read `PLAN.md` first, all of it.
+
+(paste here the block "Most important rules" from PLAN.md, unchanged)
+
+The rules that matter most here:
+- (copy the ones from R1–R6 that apply, e.g. read the source of <programs> before each step; learn, never copy;
   real data <sources>; the workflow first; tooltips, undo, translations, guide; claim each step)
 
 ## Research notes
@@ -206,7 +279,11 @@ Read `PLAN.md` first. The rules that matter most here:
 ## What we already have
 (do not redo)
 
+## To ask the owner
+(things that look unnecessary or need a decision; nothing is deleted before the owner's yes)
+
 ## Steps
+(placed by urgency; new tasks found by research or tests are inserted where they belong)
 ### <n>. <title>
 **open**  (or: **agentN claimed (date) — do not touch** / **agentN done (date, commit)**)
 - Reference: …
