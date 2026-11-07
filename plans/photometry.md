@@ -506,7 +506,10 @@ with an airmass trend all four parameters within 2.5σ in ≥ 36; BIC keeps the 
 the curve has it; the result sentence with the mid-time, depth, durations, a/R★, b, i, ρ★, χ²ᵣ, RMS, β). Done
 (2026-11-13): "Parameters and plot…" — every fitted value with its error (or "fixed"), the derived quantities and the
 fit statistics in a table, the curve with the model and the O − C panel below. Left: the archive fill, limb darkening from tables,
-MCMC, the eclipse variant, the Qatar-1 checks. Done: the fitted mid-time goes to the O − C window's list, as the
+MCMC, the eclipse variant, the AstroImageJ comparison (needs the owner's table, PHO-41). Qatar-1 (LCO, 265 frames,
+2026-11-02, the scaled errors): Tc 2461347.61121 ± 41 s, O−C +73 s on the NASA Exoplanet Archive's ephemeris
+(epoch 3601, whose own error there is about 30 s), depth 21.9 ppt, Rp/R★ 0.148 ± 0.004, T14 1.64 h against the
+archive's 1.66 h. Done: the fitted mid-time goes to the O − C window's list, as the
 times of minimum do.
 - **Why:** AstroImageJ's most used feature after the light curve: fit the transit with detrending and priors and read
   depth, duration and mid-time at once. Ours fits a trapezoid; the exact model is one window away.
