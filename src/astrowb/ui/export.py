@@ -65,6 +65,16 @@ def table_rows(table):
     return header, rows
 
 
+def selected_text(table):
+    """The selected cells, a row per line and a tab between cells (as spreadsheets paste them)."""
+    cells = {(i.row(), i.column()) for i in table.selectedIndexes()}
+    _, rows = table_rows(table)
+    lines = []
+    for r in sorted({r for r, _ in cells}):
+        lines.append("\t".join(rows[r][c] for c in sorted(c for rr, c in cells if rr == r)))
+    return "\n".join(lines)
+
+
 def _latex_escape(text):
     for a, b in (("\\", r"\textbackslash{}"), ("&", r"\&"), ("%", r"\%"), ("$", r"\$"), ("#", r"\#"), ("_", r"\_")):
         text = text.replace(a, b)

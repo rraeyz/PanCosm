@@ -349,7 +349,6 @@ class ReduceTab(Undoable, QWidget):
         row.addWidget(clear)
         row.addWidget(self.solve_button)
         lay.addLayout(row)
-        row = QHBoxLayout()
         self.refit_button = QPushButton(self.tr("Refit without the left-out lines"), self)
         self.refit_button.setToolTip(
             self.tr("Click points in the residual plot (bottom) to leave those arc lines out, then refit")
@@ -358,9 +357,8 @@ class ReduceTab(Undoable, QWidget):
         forget = QPushButton(self.tr("Use all lines again"), self)
         forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.excluded_lines.clear))
         forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
-        row.addWidget(self.refit_button)
-        row.addWidget(forget)
-        lay.addLayout(row)
+        lay.addWidget(self.refit_button)  # one under the other: side by side too wide for a small window
+        lay.addWidget(forget)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
@@ -863,7 +861,6 @@ class EchelleTab(Undoable, QWidget):
         row.addWidget(clear)
         row.addWidget(self.solve_button)
         lay.addLayout(row)
-        row = QHBoxLayout()
         self.refit_button = QPushButton(self.tr("Refit without the left-out lines"), self)
         self.refit_button.setToolTip(
             self.tr("Click points in the residual plot (bottom) to leave those arc lines out, then refit")
@@ -872,9 +869,8 @@ class EchelleTab(Undoable, QWidget):
         forget = QPushButton(self.tr("Use all lines again"), self)
         forget.clicked.connect(lambda: self.edit(self.tr("use all lines again"), self.forget_excluded))
         forget.setToolTip(self.tr("Takes back every line left out in the residual plot"))
-        row.addWidget(self.refit_button)
-        row.addWidget(forget)
-        lay.addLayout(row)
+        lay.addWidget(self.refit_button)  # one under the other: side by side too wide for a small window
+        lay.addWidget(forget)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)

@@ -67,7 +67,7 @@ QTableWidget, QTableView, QListWidget, QTreeWidget {{
 }}
 QHeaderView::section {{
     background: {c["raised"]}; color: {c["muted"]}; border: none; border-bottom: 1px solid {c["border"]};
-    padding: 5px 8px;
+    border-right: 1px solid {c["border"]}; padding: 5px 8px;
 }}
 QMenuBar {{ background: {c["window"]}; }}
 QMenuBar::item:selected, QMenu::item:selected {{ background: {c["accent"]}; color: {c["accent_text"]}; }}

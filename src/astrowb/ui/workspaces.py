@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import QSize, Qt, QTimer, Signal
+from PySide6.QtCore import QEvent, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton,
     QRadioButton,
+    QSizePolicy,
     QSlider,
     QSpinBox,
     QSplitter,
@@ -55,6 +56,51 @@ def _title(text, parent):
     return label
 
 
+class _FoldButton(QToolButton):
+    """A section title that shortens itself with "…" when the column is narrow (the whole title in the tooltip): a
+    long one-line title ("Workflow — next: …") kept a page wider than the window (the owner's Calibrate page)."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._full = self._tip = ""
+        self.setSizePolicy(QSizePolicy.Preferred, self.sizePolicy().verticalPolicy())  # may be narrower than its text
+
+    def setToolTip(self, tip):
+        self._tip = tip
+        self._fit()
+
+    def text(self):
+        return self._full
+
+    def setText(self, text):
+        self._full = text
+        self._fit()
+        self.updateGeometry()
+
+    def _chrome(self):  # the arrow and padding beside the text
+        return super().sizeHint().width() - self.fontMetrics().horizontalAdvance(super().text())
+
+    def sizeHint(self):
+        size = super().sizeHint()
+        size.setWidth(self._chrome() + self.fontMetrics().horizontalAdvance(self._full))
+        return size
+
+    def minimumSizeHint(self):
+        size = super().minimumSizeHint()
+        size.setWidth(self._chrome() + self.fontMetrics().horizontalAdvance("…" + self._full[:12]))
+        return size
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._fit()
+
+    def _fit(self):
+        room = max(self.width() - self._chrome(), 1) if self.isVisible() else 10**6
+        shown = self.fontMetrics().elidedText(self._full, Qt.ElideRight, room)
+        QToolButton.setText(self, shown)
+        QToolButton.setToolTip(self, self._tip if shown == self._full else f"{self._full}\n\n{self._tip}".strip())
+
+
 class Collapsible(QWidget):
     """A titled section that opens and closes: options that are rarely changed stay out of the way, the main
     steps stay in sight. Add widgets to .body (a QVBoxLayout)."""
@@ -66,7 +112,7 @@ class Collapsible(QWidget):
         self.mode = mode
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
-        self.button = QToolButton(self)
+        self.button = _FoldButton(self)
         self.button.setText(title)
         self.button.setCheckable(True)
         self.button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
@@ -156,7 +202,8 @@ class StartPage(QWidget):
         lay = QVBoxLayout(self)
         lay.addWidget(_title(self.tr("Welcome to {app}").format(app=BRAND.display_name), self))
         row = QHBoxLayout()
-        row.addWidget(QLabel(self.tr("Interface:"), self))
+        row.addWidget(QLabel(self.tr("Interface:"), self), 0, Qt.AlignTop)
+        modes = QVBoxLayout()  # one under the other: side by side wider than a small window
         self.basic = QRadioButton(self.tr("Basic — the main steps; the rarely changed options folded"), self)
         self.expert = QRadioButton(self.tr("Expert — every option open"), self)
         tip = self.tr(
@@ -166,12 +213,14 @@ class StartPage(QWidget):
         for b, key in ((self.basic, "basic"), (self.expert, "expert")):
             b.setToolTip(tip)
             b.toggled.connect(lambda on, k=key: self.mode_chosen.emit(k) if on else None)
-            row.addWidget(b)
-        row.addStretch(1)
+            modes.addWidget(b)
         (self.expert if mode == "expert" else self.basic).setChecked(True)
+        row.addLayout(modes)
+        row.addStretch(1)
         lay.addLayout(row)
         lay.addWidget(QLabel(self.tr("Start from what you have:"), self))
-        grid = QGridLayout()
+        self.grid = grid = QGridLayout()
+        self.buttons, self.columns = [], 0
         entries = [
             (self.tr("New project"), self.tr("Keep frames, settings and results together"), "new_project"),
             (self.tr("Open project…"), self.tr("Continue earlier work"), "open_project"),
@@ -182,15 +231,30 @@ class StartPage(QWidget):
             (self.tr("I have minima or RV lists"), self.tr("O-C diagrams, orbits"), "timeseries"),
             (self.tr("I want to plan a night"), self.tr("Visibility, airmass, targets"), "plan"),
         ]
-        for i, (title, hint, key) in enumerate(entries):
+        for title, hint, key in entries:
             button = QPushButton(f"{title}\n{hint}", self)
             button.setMinimumHeight(56)
             button.setObjectName(f"start_{key}")
             button.setToolTip(hint)
             button.clicked.connect(lambda _=False, k=key: self.action.emit(k))
-            grid.addWidget(button, i // 2, i % 2)
+            self.buttons.append(button)
+        self._arrange(1)
         lay.addLayout(grid)
         lay.addStretch(1)
+
+    def _arrange(self, columns):
+        """Two columns of buttons where they fit, one on a narrow window."""
+        if columns != self.columns:
+            self.columns = columns
+            for i, button in enumerate(self.buttons):
+                self.grid.addWidget(button, i // columns, i % columns)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        widest = max(b.minimumSizeHint().width() for b in self.buttons)
+        margins = self.layout().contentsMargins()
+        room = event.size().width() - margins.left() - margins.right()
+        self._arrange(2 if room >= 2 * widest + self.grid.horizontalSpacing() else 1)
 
 
 class ImagePage(Undoable, QWidget):
@@ -279,6 +343,10 @@ class ImagePage(Undoable, QWidget):
         self.header_table.setHorizontalHeaderLabels([self.tr("Keyword"), self.tr("Value"), self.tr("Comment")])
         self.header_table.horizontalHeader().setStretchLastSection(True)
         self.header_table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.header_table.cellDoubleClicked.connect(lambda _row, _col: self.edit_keyword_dialog())
+        self.header_table.setToolTip(
+            self.tr("Double-click a keyword to change it; drag a column's edge to widen it; right-click to copy")
+        )
         self.info = QTableWidget(0, 2, self)
         self.info.setHorizontalHeaderLabels([self.tr("Quantity"), self.tr("Value")])
         self.info.horizontalHeader().setStretchLastSection(True)
@@ -920,7 +988,7 @@ def by_filter(paths):
     return groups
 
 
-class CalibratePage(QWidget):
+class CalibratePage(Undoable, QWidget):
     """Raw folder -> frame list and plan -> masters + calibrated lights."""
 
     scan_requested = Signal(str, str)  # calibration (or mixed) folders, light folder
@@ -930,6 +998,7 @@ class CalibratePage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.init_undo()
         self.frames, self._problems, self._raw_converted, self.calibrated = [], [], 0, []
         left, right = QWidget(self), QWidget(self)  # 1. the frames | 2.–4. what is done with them
         lay = QVBoxLayout(left)
@@ -1040,8 +1109,27 @@ class CalibratePage(QWidget):
         row.addStretch(1)
         lay.addLayout(row)
         self.summary = QLabel(self)
-        lay.addWidget(self.summary)
+        self.summary.setWordWrap(True)
+        remove = QPushButton(self.tr("Remove from the list"), self)
+        remove.setToolTip(
+            self.tr(
+                "Leaves the selected frames out of the calibration (Delete key; Ctrl+Z brings them back). "
+                "The files are not deleted."
+            )
+        )
+        remove.clicked.connect(self._remove_selected)
+        clear = QPushButton(self.tr("Clear"), self)
+        clear.setToolTip(self.tr("Empties the folders and the frame list, to choose the folders again (Ctrl+Z undoes)"))
+        clear.clicked.connect(self._clear)
+        row = QHBoxLayout()
+        row.addWidget(self.summary, 1)
+        row.addWidget(remove)
+        row.addWidget(clear)
+        lay.addLayout(row)
         self.table = QTableWidget(0, 6, self)
+        self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setSelectionMode(QTableWidget.ExtendedSelection)
+        self.table.installEventFilter(self)  # the Delete key removes the selected frames
         self.table.setHorizontalHeaderLabels(
             [
                 self.tr("File"),
@@ -1113,7 +1201,6 @@ class CalibratePage(QWidget):
                 "rejection it is not needed."
             )
         )
-        row.addWidget(self.cosmics)
         self.optimize_dark = QCheckBox(self.tr("Scale the dark to each light (dark optimisation)"), self)
         self.optimize_dark.setToolTip(
             self.tr("Finds the dark scale that leaves the least noise; useful when the camera temperature drifted")
@@ -1153,6 +1240,7 @@ class CalibratePage(QWidget):
         )
         row.addWidget(self.run_button)
         lay.addLayout(row)
+        lay.addWidget(self.cosmics)  # its own line: beside the button it kept the column wider than a small window
         self.linearity = QLineEdit(self)
         self.linearity.setPlaceholderText(self.tr("linearity correction c0 c1 c2 … (empty: none)"))
         self.linearity.setToolTip(
@@ -1344,8 +1432,9 @@ class CalibratePage(QWidget):
         box.setCurrentIndex(max(0, box.findData(self.frames[row]["kind"])))
 
         def chosen(i):
-            self.frames[row] = dict(self.frames[row]) | {"kind": box.itemData(i)}
-            self.show_frames(self.frames, self._problems, self._raw_converted)
+            frames = list(self.frames)
+            frames[row] = dict(frames[row]) | {"kind": box.itemData(i)}
+            self.edit(self.tr("change a frame's type"), self.show_frames, frames, self._problems, self._raw_converted)
 
         box.activated.connect(chosen)
         self.table.setCellWidget(row, 1, box)
@@ -1361,9 +1450,42 @@ class CalibratePage(QWidget):
             "unknown": self.tr("unknown"),
         }
 
+    def undo_state(self):
+        return ([dict(f) for f in self.frames], list(self._problems), self.lights.text(), self.folder.text())
+
+    def set_undo_state(self, state):
+        frames, problems, lights, folder = state
+        self.lights.setText(lights)
+        self.folder.setText(folder)
+        self.show_frames([dict(f) for f in frames], list(problems), self._raw_converted)
+
+    def eventFilter(self, obj, event):
+        if obj is self.table and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Delete:
+            self._remove_selected()
+            return True
+        return super().eventFilter(obj, event)
+
+    def _remove_selected(self):
+        rows = {i.row() for i in self.table.selectedIndexes()}
+        if rows:
+            frames = [f for r, f in enumerate(self.frames) if r not in rows]
+            self.edit(
+                self.tr("remove frames from the list"), self.show_frames, frames, self._problems, self._raw_converted
+            )
+
+    def _clear(self):
+        def clear():
+            self.lights.clear()
+            self.folder.clear()
+            self.show_frames([], [], 0)
+
+        self.edit(self.tr("clear the frame list"), clear)
+
     def show_frames(self, frames: list[dict], problems: list, raw_converted: int = 0):
+        if not (self._editing or self._restoring):  # a new scan: the edits of the old list are not undone into it
+            self.undo_stack.clear()
         self.frames, self._problems, self._raw_converted = frames, problems, raw_converted
-        self.guide.set_state(0, "done")
+        self.guide.set_state(0, "done" if frames else None)
         self.table.clearContents()
         base = self.lights.text().strip() or self._first(self.folder.text())
         if not self.output.text() and base:
@@ -1415,7 +1537,9 @@ class CalibratePage(QWidget):
             return self.tr(
                 "no dark for {t} s within {tol} °C of {temp} °C (darks of another exposure need bias "
                 "frames to be scaled); will be calibrated without dark"
-            ).format(t=w["exptime"], tol=w["temp_tol"], temp=w["temperature"])
+            ).format(
+                t=w["exptime"], tol=w["temp_tol"], temp="—" if w["temperature"] is None else f"{w['temperature']:.1f}"
+            )
         return self.tr("no bias ({size}); will be calibrated without bias").format(size=size)
 
     def _run(self):
@@ -1478,15 +1602,13 @@ class CalibratePage(QWidget):
             self.warnings.setPlainText("\n".join(lines + [self.warnings.toPlainText()]).strip())
 
 
-class PlotCanvas(QWidget):
-    """A matplotlib figure in the window (the same library makes the publication-quality exports)."""
+def _canvas_class():
+    """matplotlib's Qt canvas (imported on first use: it is slow to import) that never makes its figure 0 px."""
+    global _Canvas
+    if "_Canvas" not in globals():
+        from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
-    def __init__(self, parent=None, figure=None):
-        super().__init__(parent)
-        from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
-        from matplotlib.figure import Figure
-
-        class Canvas(FigureCanvasQTAgg):
+        class _Canvas(FigureCanvasQTAgg):
             def resizeEvent(self, event):
                 super().resizeEvent(event)
                 fig, least = self.figure, 1 / self.figure.dpi
@@ -1494,8 +1616,19 @@ class PlotCanvas(QWidget):
                 if w < least or h < least:  # folded to 0 px: a 0-px axis has no inverse transform, drawing raises
                     fig.set_size_inches(max(w, least), max(h, least), forward=False)
 
+    return _Canvas
+
+
+class PlotCanvas(QWidget):
+    """A matplotlib figure in the window (the same library makes the publication-quality exports)."""
+
+    def __init__(self, parent=None, figure=None):
+        super().__init__(parent)
+        from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
+        from matplotlib.figure import Figure
+
         self.figure = figure or Figure(figsize=(6, 3), layout="constrained")
-        self.canvas = Canvas(self.figure)
+        self.canvas = _canvas_class()(self.figure)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
@@ -3707,10 +3840,8 @@ class PeriodPage(Undoable, QWidget):
             )
         )
         save.clicked.connect(self._save)
-        row = QHBoxLayout()
-        row.addWidget(load, 1)
-        row.addWidget(save)
-        lay.addLayout(row)
+        lay.addWidget(load)  # one under the other: side by side they kept the column wider than a small window
+        lay.addWidget(save)
         row = QHBoxLayout()
         self.archive_target = QLineEdit(self)
         self.archive_target.setPlaceholderText(self.tr("star name, e.g. AI Dra or TIC 12345678"))
