@@ -208,7 +208,7 @@ def test_oc_page_fit_and_errors(window):
     assert f is not None and abs(f.period - p) < 3 * f.period_err
     assert "P = 2.150008" in page.result.text() and len(page.plot.figure.axes) == 2
     page.period.setText("abc")
-    assert page.run_fit() is None and page.result.text().startswith("Give the reference T0")
+    assert page.run_fit() is None and page.result.text().startswith("Give the period in days")
 
 
 def test_stack_from_calibrate_page(window, qtbot, tmp_path):
@@ -289,7 +289,7 @@ def test_oc_asks_for_the_ephemeris(window):
     oc = window.oc_page
     oc.text.setPlainText("2460500.31 0.001 I\n2460510.08 0.001 I\n2460520.66 0.001 I")
     oc.fit_button.click()
-    assert oc.result.text() == "Give the reference T0 and the period in days." and oc.fit_result is None
+    assert oc.result.text() == "Give the period in days, or the star's name and Look up." and oc.fit_result is None
     oc.t0.setText("2460500.31")
     oc.period.setText("0.8137")
     oc.fit_button.click()
