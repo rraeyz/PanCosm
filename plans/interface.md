@@ -173,7 +173,7 @@ drawing (very large images, thousands of plotted points) may move to OpenGL or n
 (PLAN.md rule 10).
 
 ### I0. Split the big interface file before the work starts
-**agent2 claimed (2026-11-07) — do not touch** — added 2026-11-07, so that several agents can work at once without overwriting one another.
+**agent2 done (2026-11-07, commit 4765322)** — added 2026-11-07, so that several agents can work at once without overwriting one another.
 - **Why:** Photometry, Calibrate, O−C, Period, Light curves, Project and Start all live in one file,
   `src/astrowb/ui/workspaces.py` (about 4 800 lines).
 - **Build:** move each page class into its own module (`ui/photometry_page.py`, `ui/calibrate_page.py`,
@@ -182,9 +182,15 @@ drawing (very large images, thousands of plotted points) may move to OpenGL or n
 - **Translations:** lupdate contexts are class names, so they survive the move; check that 0 strings became
   unfinished.
 - **Accept:** all tests pass unchanged; `tools/i18n.py update` reports no new or lost string.
+- **Result (agent2):** `widgets.py` (`_title`, `_FoldButton`, `Collapsible`, `StepGuide`, `_canvas_class`, `PlotCanvas`),
+  `start_page.py`, `image_page.py`, `project_page.py`, `calibrate_page.py` (with `by_filter`), `photometry_page.py`
+  (with `AavsoDialog`, `export_csv`, `_without_frames`), `oc_page.py` (with `_decimals`), `period_page.py` (with
+  `fold_phase`, `fourier_edit`), `lightcurve_page.py`. `workspaces.py` only re-exports them (and `QFileDialog`, which
+  `tests/test_surveys.py` patches through it). New code should import from the new modules. 2258 strings before and
+  after, 0 unfinished; 729 tests passed.
 
 ### I1. Research: how the reference programs lay out their windows
-**open** — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
+**agent2 claimed (2026-11-07) — do not touch** — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
 
 Found so far:
 - **AstroImageJ** (source `astroj/AstroStackWindow.java`, `Astronomy/MultiPlot_.java`):
