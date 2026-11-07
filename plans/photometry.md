@@ -380,8 +380,11 @@ recipe's; `api.photometry.light_curve` was already there (ARC-12). Left: star li
 **partial** — done (2026-11-12), the rules: `photometry/neb.py`: the required depth with the 0.5 mag buffer, the
 clipped RMS, the dispositions in AstroImageJ's order, the best of several apertures, candidate selection from
 catalogue Δmag and separation. Test: a quiet star 3 mag fainter cleared, an eclipsing one not, a very faint one
-"too faint", an empty aperture "flux too low". Left: measuring the candidates on every frame (PHO-18), the box fit
-at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
+"too faint", an empty aperture "flux too low". (2026-11-13) `neb.run` / step `photometry.neb_check`: the field's
+Gaia stars within the radius that could make the depth are measured on every frame against the same ensemble and
+judged (a synthetic night: the dimming neighbour not cleared, the quiet one cleared); the Photometry window's
+"Nearby-eclipsing-binary check…" (depth from the transit fit) shows the table, a row shows its star. Left: the box
+fit at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
 - **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in

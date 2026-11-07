@@ -10229,6 +10229,110 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>PhotometryNeb</name>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="15"/>
+        <source>Nearby-eclipsing-binary check…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="17"/>
+        <source>TFOP: every Gaia star within 2.5′ that could make the TESS depth, measured on every frame and cleared or not (needs the identified field)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="30"/>
+        <location filename="../../ui/photometry_neb.py" line="76"/>
+        <source>Nearby-eclipsing-binary check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="31"/>
+        <source>The depth TESS saw on the target (ppt):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="38"/>
+        <source>Mark the target and the comparison stars first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="42"/>
+        <source>Identify the field first, with the stars marked on the first frame.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="51"/>
+        <source>Measuring the neighbours on every frame…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="62"/>
+        <source>No star near enough and bright enough to make a {d:g} ppt dip.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="65"/>
+        <source>Cleared</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="66"/>
+        <source>Likely cleared</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="67"/>
+        <source>Cleared - too faint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="68"/>
+        <source>Not cleared</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="69"/>
+        <source>Not cleared - flux too low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="72"/>
+        <source>{c} of {n} neighbours cleared for a {d:g} ppt dip.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <source>Disposition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <source>Distance (″)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <source>Depth needed (ppt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <source>RMS (ppt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="80"/>
+        <source>Depth / RMS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="87"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotometryPage</name>
     <message>
         <location filename="../../ui/photometry_page.py" line="91"/>
@@ -12429,112 +12533,112 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>PhotometryTransit</name>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="28"/>
+        <location filename="../../ui/photometry_transit.py" line="30"/>
         <source>Mid-transit {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} h, T23 {t23:.2f} h; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <location filename="../../ui/photometry_transit.py" line="45"/>
         <source>Transit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="46"/>
+        <location filename="../../ui/photometry_transit.py" line="48"/>
         <source>fixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <location filename="../../ui/photometry_transit.py" line="51"/>
         <source>Parameter</source>
         <translation type="unfinished">Parámetro</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <location filename="../../ui/photometry_transit.py" line="51"/>
         <source>Value</source>
         <translation type="unfinished">Valor</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="50"/>
+        <location filename="../../ui/photometry_transit.py" line="52"/>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <location filename="../../ui/photometry_transit.py" line="58"/>
         <source>measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <location filename="../../ui/photometry_transit.py" line="59"/>
         <source>model</source>
         <translation type="unfinished">modelo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <location filename="../../ui/photometry_transit.py" line="60"/>
         <source>Relative flux</source>
         <translation type="unfinished">Flujo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <location filename="../../ui/photometry_transit.py" line="64"/>
         <source>O − C (ppt)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="63"/>
+        <location filename="../../ui/photometry_transit.py" line="65"/>
         <source>Days from {t0:.5f}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <location filename="../../ui/photometry_transit.py" line="69"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="74"/>
+        <location filename="../../ui/photometry_transit.py" line="76"/>
         <source>Exact transit model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="76"/>
+        <location filename="../../ui/photometry_transit.py" line="78"/>
         <source>Fit the transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="78"/>
+        <location filename="../../ui/photometry_transit.py" line="80"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="86"/>
+        <location filename="../../ui/photometry_transit.py" line="88"/>
         <source>Parameters and plot…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="108"/>
+        <location filename="../../ui/photometry_transit.py" line="110"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="113"/>
+        <location filename="../../ui/photometry_transit.py" line="115"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="117"/>
+        <location filename="../../ui/photometry_transit.py" line="119"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="125"/>
+        <location filename="../../ui/photometry_transit.py" line="127"/>
         <source>Add the times to the O−C list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="127"/>
+        <location filename="../../ui/photometry_transit.py" line="129"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
+        <location filename="../../ui/photometry_transit.py" line="141"/>
         <source>{n} times added to the O−C list.</source>
         <translation type="unfinished"></translation>
     </message>

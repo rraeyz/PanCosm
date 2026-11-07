@@ -2369,3 +2369,27 @@ def test_comparison_rules_set_by_the_user(window, qtbot):
     next(b for b in d.findChildren(type(page.rules_button)) if "defaults" in b.text()).click()
     d.accept()
     assert comparison_rules.rules()["count"] == 8 and comparison_rules.rules()["max_distance_arcmin"] is None
+
+
+def test_nearby_eclipsing_binary_check_in_the_window(window, monkeypatch):
+    """PHO-23: the button asks for the field first; with it, the step's rows come back as a table, a summary line."""
+    from astrowb.ui import photometry_neb
+
+    window.show_workspace("photometry")
+    page = window.photometry_page
+    page.neb_button.click()
+    assert "Mark the target" in page.transit_result.text()
+    page.images, page.target, page.comps, page.field, page.ref = ["a.fits"], (40.0, 60.0), [(100.0, 60.0)], None, 0
+    page.neb_button.click()
+    assert "Identify the field" in page.transit_result.text()
+    page.field, asked = {"stars": {}, "scale": 1.0}, []
+    page._series = lambda: ["a.fits"]
+    monkeypatch.setattr(window, "run_step_for", lambda *a, **k: asked.append((a, k)))
+    photometry_neb.run(window, page, depth=4.0)
+    (area, step, inputs, params), kw = asked[0]
+    assert step == "photometry.neb_check" and params["depth_ppt"] == 4.0 and inputs["comps_xy"] == [[100.0, 60.0]]
+    row = {"disposition": "Not cleared", "gmag": 12.8, "separation": 40.0, "dmag": 2.8, "required_ppt": 50.0,
+           "rms_ppt": 20.0, "ratio": 2.5, "x": 60.0, "y": 30.0}  # fmt: skip
+    kw["on_done"]({"neb": [row, row | {"disposition": "Cleared", "x": 60.0, "y": 90.0}]})
+    assert "1 of 2 neighbours cleared" in page.transit_result.text()
+    assert page.neb_dialog.findChild(photometry_neb.DataTable).table.rowCount() == 2

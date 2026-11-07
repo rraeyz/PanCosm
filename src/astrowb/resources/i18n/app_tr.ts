@@ -10231,6 +10231,110 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>PhotometryNeb</name>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="15"/>
+        <source>Nearby-eclipsing-binary check…</source>
+        <translation>Yakın örten çift denetimi…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="17"/>
+        <source>TFOP: every Gaia star within 2.5′ that could make the TESS depth, measured on every frame and cleared or not (needs the identified field)</source>
+        <translation>TFOP: 2,5′ içinde TESS derinliğini yapabilecek her Gaia yıldızı her karede ölçülür ve aklanır ya da aklanmaz (tanımlanmış alan gerekir)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="30"/>
+        <location filename="../../ui/photometry_neb.py" line="76"/>
+        <source>Nearby-eclipsing-binary check</source>
+        <translation>Yakın örten çift denetimi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="31"/>
+        <source>The depth TESS saw on the target (ppt):</source>
+        <translation>TESS'in hedefte gördüğü derinlik (ppt):</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="38"/>
+        <source>Mark the target and the comparison stars first.</source>
+        <translation>Önce hedefi ve karşılaştırma yıldızlarını işaretleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="42"/>
+        <source>Identify the field first, with the stars marked on the first frame.</source>
+        <translation>Önce alanı tanımlayın; yıldızlar ilk karede işaretli olmalı.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="51"/>
+        <source>Measuring the neighbours on every frame…</source>
+        <translation>Komşular her karede ölçülüyor…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="62"/>
+        <source>No star near enough and bright enough to make a {d:g} ppt dip.</source>
+        <translation>{d:g} ppt'lik bir düşüş yapabilecek kadar yakın ve parlak yıldız yok.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="65"/>
+        <source>Cleared</source>
+        <translation>Aklandı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="66"/>
+        <source>Likely cleared</source>
+        <translation>Büyük olasılıkla aklandı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="67"/>
+        <source>Cleared - too faint</source>
+        <translation>Aklandı - çok sönük</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="68"/>
+        <source>Not cleared</source>
+        <translation>Aklanmadı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="69"/>
+        <source>Not cleared - flux too low</source>
+        <translation>Aklanmadı - akı çok düşük</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="72"/>
+        <source>{c} of {n} neighbours cleared for a {d:g} ppt dip.</source>
+        <translation>{d:g} ppt'lik düşüş için {n} komşudan {c} tanesi aklandı.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <source>Disposition</source>
+        <translation>Karar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <source>Distance (″)</source>
+        <translation>Uzaklık (″)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <source>Depth needed (ppt)</source>
+        <translation>Gereken derinlik (ppt)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <source>RMS (ppt)</source>
+        <translation>RMS (ppt)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="80"/>
+        <source>Depth / RMS</source>
+        <translation>Derinlik / RMS</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="87"/>
+        <source>Close</source>
+        <translation>Kapat</translation>
+    </message>
+</context>
+<context>
     <name>PhotometryPage</name>
     <message>
         <location filename="../../ui/photometry_page.py" line="91"/>
@@ -12431,112 +12535,112 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PhotometryTransit</name>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="28"/>
+        <location filename="../../ui/photometry_transit.py" line="30"/>
         <source>Mid-transit {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} h, T23 {t23:.2f} h; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</source>
         <translation>Geçiş ortası {tc} BJD; derinlik {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} sa, T23 {t23:.2f} sa; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. İndirgenmiş χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <location filename="../../ui/photometry_transit.py" line="45"/>
         <source>Transit fit</source>
         <translation>Geçiş uydurması</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="46"/>
+        <location filename="../../ui/photometry_transit.py" line="48"/>
         <source>fixed</source>
         <translation>sabit</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <location filename="../../ui/photometry_transit.py" line="51"/>
         <source>Parameter</source>
         <translation>Parametre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <location filename="../../ui/photometry_transit.py" line="51"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="50"/>
+        <location filename="../../ui/photometry_transit.py" line="52"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <location filename="../../ui/photometry_transit.py" line="58"/>
         <source>measured</source>
         <translation>ölçülen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <location filename="../../ui/photometry_transit.py" line="59"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <location filename="../../ui/photometry_transit.py" line="60"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <location filename="../../ui/photometry_transit.py" line="64"/>
         <source>O − C (ppt)</source>
         <translation>O − C (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="63"/>
+        <location filename="../../ui/photometry_transit.py" line="65"/>
         <source>Days from {t0:.5f}</source>
         <translation>{t0:.5f} tarihinden gün</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <location filename="../../ui/photometry_transit.py" line="69"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="74"/>
+        <location filename="../../ui/photometry_transit.py" line="76"/>
         <source>Exact transit model</source>
         <translation>Kesin geçiş modeli</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="76"/>
+        <location filename="../../ui/photometry_transit.py" line="78"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="78"/>
+        <location filename="../../ui/photometry_transit.py" line="80"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation>Hava kütlesinde eğilimli, kenar kararmalı geçiş ölçülen eğriye uydurulur; periyodu ister</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="86"/>
+        <location filename="../../ui/photometry_transit.py" line="88"/>
         <source>Parameters and plot…</source>
         <translation>Parametreler ve grafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="108"/>
+        <location filename="../../ui/photometry_transit.py" line="110"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="113"/>
+        <location filename="../../ui/photometry_transit.py" line="115"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="117"/>
+        <location filename="../../ui/photometry_transit.py" line="119"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="125"/>
+        <location filename="../../ui/photometry_transit.py" line="127"/>
         <source>Add the times to the O−C list</source>
         <translation>Zamanları O−C listesine ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="127"/>
+        <location filename="../../ui/photometry_transit.py" line="129"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation>Burada ölçülen minimum zamanları ve geçiş ortası, O−C&apos;ye</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
+        <location filename="../../ui/photometry_transit.py" line="141"/>
         <source>{n} times added to the O−C list.</source>
         <translation>O−C listesine {n} zaman eklendi.</translation>
     </message>
