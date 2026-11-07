@@ -66,3 +66,29 @@ def candidates(dmag_tess, target_depth_ppt, radius_arcsec, separations_arcsec):
     dm, sep = np.asarray(dmag_tess, float), np.asarray(separations_arcsec, float)
     need = target_depth_ppt / 10 ** (-dm / 2.5)
     return np.flatnonzero((sep <= radius_arcsec) & (need < 1000))
+
+
+def run(images, target_xy, comps_xy, field, depth_ppt, r_ap, r_in, r_out, radius_arcsec=150.0, ctx=None):
+    """The check on a night (PHO-23): the field's Gaia stars within radius_arcsec of the target that could make the
+    depth (Δmag from Gaia G) are measured on every frame against the same comparison ensemble, and each gets its
+    disposition. Returns rows with x, y, G, separation (″) and the check's columns, nearest first."""
+    from .lightcurve import light_curve
+
+    st = field["stars"]
+    x, y, g = (np.asarray(st[k], float) for k in ("x", "y", "gmag"))
+    d_px = np.hypot(x - target_xy[0], y - target_xy[1])
+    i_t = int(np.argmin(d_px))
+    sep = d_px * float(field["scale"])
+    near = [i for i in candidates(g - g[i_t], depth_ppt, radius_arcsec, sep) if i != i_t and d_px[i] > r_ap]
+    if not near:
+        return []
+    near.sort(key=lambda i: sep[i])
+    xy = [(float(x[i]), float(y[i])) for i in near]
+    lc = light_curve(images, target_xy, comps_xy, r_ap, r_in, r_out, ctx=ctx, extra_xy=xy)
+    fluxes = np.asarray(lc["extra_flux"], float)
+    ok = np.isfinite(fluxes).all(axis=1) & np.isfinite(np.asarray(lc["target_flux"], float))
+    names = [f"{k + 1}: G{g[i]:.1f} @ {sep[i]:.0f}″" for k, i in enumerate(near)]  # unique: twins share G and distance
+    rows = check(np.asarray(lc["target_flux"], float)[ok], dict(zip(names, fluxes[ok].T, strict=True)), depth_ppt,
+                 np.pi * r_ap**2)  # fmt: skip
+    return [r | {"x": xy[k][0], "y": xy[k][1], "gmag": float(g[i]), "separation": float(sep[i])}
+            for k, (r, i) in enumerate(zip(rows, near, strict=True))]  # fmt: skip

@@ -957,6 +957,65 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.neb_check"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "depth_ppt": {
+           "description": "Transit depth (ppt): The depth TESS saw on the target",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "radius_arcsec": {
+           "description": "Search radius (″): Stars this near the target are checked (TFOP: 2.5′)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_ap": {
+           "description": "Aperture radius (px): As the light curve's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.5
+          },
+          "r_in": {
+           "description": "Sky ring, inner radius (px): As the light curve's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.5
+          },
+          "r_out": {
+           "description": "Sky ring, outer radius (px): As the light curve's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.5
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.polarimetry"
         }
        }
@@ -2457,6 +2516,7 @@
        "photometry.identify_field",
        "photometry.light_curve",
        "photometry.multifilter",
+       "photometry.neb_check",
        "photometry.polarimetry",
        "photometry.quality",
        "photometry.suggest_comparisons",

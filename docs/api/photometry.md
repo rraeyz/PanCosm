@@ -133,6 +133,29 @@ parameters (default):
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```
 
+## photometry.neb_check
+
+```text
+photometry.neb_check
+
+Nearby-eclipsing-binary check (TFOP): every Gaia star near the target that could make the depth, measured on
+every frame, with its disposition (photometry.neb).
+
+inputs:      images, target_xy, comps_xy, field
+outputs:     neb
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  comps_xy  (positions)  Comparison stars (x y)
+  field  (object)  Identified field
+  neb  (object)  Nearby-eclipsing-binary check
+parameters (default):
+  depth_ppt = 5.0  (float, ppt, >= 0.0)  Transit depth: The depth TESS saw on the target
+  radius_arcsec = 150.0  (float, ″, >= 0.0)  Search radius: Stars this near the target are checked (TFOP: 2.5′)
+  r_ap = 6.0  (float, px, >= 0.5)  Aperture radius: As the light curve's
+  r_in = 10.0  (float, px, >= 0.5)  Sky ring, inner radius: As the light curve's
+  r_out = 16.0  (float, px, >= 0.5)  Sky ring, outer radius: As the light curve's
+```
+
 ## photometry.polarimetry
 
 ```text

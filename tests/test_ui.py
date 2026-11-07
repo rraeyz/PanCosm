@@ -2283,6 +2283,9 @@ def test_the_checks_tab(window):
     assert flags["cloud"] == [10, 11, 12] and page.checks.table.table.rowCount() == 3
     assert "behind cloud" in page.checks.verdict.text()
     assert page.checks.table.table.item(0, 1).text() == "f10.fits"
+    axes = page.checks.panels.figure.axes  # counts, FWHM, x, y: the series this curve has
+    assert [a.get_ylabel() for a in axes] == ["Comparison counts", "FWHM", "x", "y"]
+    assert len(axes[0].lines) == 2 and list(axes[0].lines[1].get_xdata()) == [10, 11, 12]  # the cloud marked
 
 
 def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):

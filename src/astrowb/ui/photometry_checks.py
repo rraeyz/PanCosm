@@ -7,6 +7,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
 
 from .kit.table_view import DataTable
+from .kit.widgets import PlotCanvas
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("PhotometryChecks", "…") calls
 
@@ -98,6 +99,10 @@ class ChecksTab(QWidget):
         lay.addWidget(self.scale_button)
         lay.addWidget(self.advice)
         lay.addWidget(self.leave_out)
+        self.panels = PlotCanvas(self)
+        self.panels.setMinimumHeight(260)
+        self.panels.hide()
+        lay.addWidget(self.panels, 2)
         lay.addWidget(self.table, 1)
 
     def _show(self, i):
@@ -166,6 +171,39 @@ class ChecksTab(QWidget):
             lc["rel_flux_err_scaled"] = (np.asarray(lc["rel_flux_err"], float) * self.factor).tolist()
         self._label_scale(lc)
 
+    def _draw_panels(self, lc, flags):
+        """The night at a glance (PHO-33): comparison counts, sky, FWHM, the field's x and y, airmass on the light
+        curve's points, the flagged frames marked on every panel."""
+        import numpy as np
+
+        from ..photometry.fit_steps import _series
+        from .kit.tokens import role
+
+        n = len(lc.get("rel_flux") or [])
+        comp = np.asarray(lc.get("comp_flux") or [], float)
+        series = {translate("PhotometryChecks", "Comparison counts"): comp.reshape(n, -1).sum(1) if comp.size else None}
+        names = {"sky": translate("PhotometryChecks", "Sky"), "fwhm": "FWHM", "x": "x", "y": "y",
+                 "airmass": translate("PhotometryChecks", "Airmass")}  # fmt: skip
+        for key, label in names.items():
+            values = _series(lc, key)
+            series[label] = np.asarray([np.nan if v is None else v for v in values], float) if values else None
+        shown = {k: v for k, v in series.items() if v is not None and len(v) == n and np.isfinite(v).any()}
+        self.panels.setVisible(bool(shown))
+        fig = self.panels.figure
+        fig.clear()
+        if not shown:
+            return
+        flagged = sorted({i for v in flags.values() for i in v if i < n})
+        axes = fig.subplots(len(shown), 1, sharex=True)
+        for ax, (label, y) in zip(np.atleast_1d(axes), shown.items(), strict=True):
+            ax.plot(np.arange(n), y, ".", ms=2)
+            if flagged:
+                ax.plot(flagged, y[flagged], "o", ms=4, color=role("saturated"))  # the warning colour
+            ax.set_ylabel(label, fontsize=7)
+            ax.tick_params(labelsize=7)
+        np.atleast_1d(axes)[-1].set_xlabel(translate("PhotometryChecks", "Frame"), fontsize=7)
+        self.panels.draw()
+
     def leave_out_flagged(self):
         """Through the page's undoable exclusion, as its saturated-points command."""
         page = self.page
@@ -189,6 +227,7 @@ class ChecksTab(QWidget):
         )
         self.advice.setText(self._advice(lc))
         self._show_noise(lc)
+        self._draw_panels(lc, flags)
         files = self.files = list(lc.get("file") or [""] * len(lc.get("rel_flux", [])))
         rows = sorted({i for v in flags.values() for i in v})
         self.table.set_data(

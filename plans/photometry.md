@@ -710,7 +710,9 @@ comparison counts, bad seeing, a jump of the field, near saturation; frame indic
 verdict): a 6-frame cloud, a focus drift and a flip each flagged on their frames, a quiet night unflagged;
 `lc_checks` takes them from a measured light curve; the Photometry window's **Checks** results tab
 (`ui/photometry_checks.py`) shows the verdict and the flagged frames after every measurement, a row shows its frame,
-"Leave out the flagged points" goes through the undoable exclusion. Left: the stacked plots, the Qatar-1 check.
+"Leave out the flagged points" goes through the undoable exclusion. (2026-11-13) The stacked panels: comparison
+counts, sky, FWHM, x, y, airmass on the frame axis (the series the curve has), the flagged frames marked on each.
+Left: the Qatar-1 check.
 - **Ours now:** `photometry/quality.py` (`measure_run`, `measure`, `judge`: FWHM, star count, sky per frame; bad frames marked with reasons) and the Frames table — extend these, do not write a second quality module.
 - **Why:** users must see at a glance whether a dip is real or a cloud; AstroImageJ users plot airmass, sky, FWHM,
   X / Y by hand.
