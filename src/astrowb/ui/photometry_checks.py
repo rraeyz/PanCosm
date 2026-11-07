@@ -51,6 +51,11 @@ def advice_lines(items):
         "Point {dx:+d} px in x and {dy:+d} px in y on the frame: every star's path over the night then stays inside "
         "it with its sky ring.",
     )
+    words["drift"] = translate(
+        "PhotometryChecks",
+        "The target moved about {px:.0f} px over the night: flat-field errors then enter the light curve; guide "
+        "better, or take flats the same night.",
+    )
     words["pointing_wide"] = translate(
         "PhotometryChecks",
         "The stars spread wider than the frame over the night: choose comparison stars nearer the target.",

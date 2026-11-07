@@ -9,6 +9,8 @@ Each item is a dict with a "kind" and the numbers behind it; the window words it
 - "cadence": fewer than 10 points over the event's ingress at the night's cadence;
 - "noise": the largest term of the target's noise budget (photon, sky, scintillation; errors.budget) when it is not
   the photon noise, with its share of the variance;
+- "drift": the target moved more than DRIFT_PX over the night: the flat field's pixel-to-pixel and large-scale
+  errors then enter the light curve (better guiding, or flats of the same night);
 - "pointing": stars lost or within the sky ring of the edge: the shift of the pointing (dx, dy in pixels, + to the
   right and up on the frame) that centres every star's path over the night, when the field fits.
 """
@@ -17,10 +19,11 @@ import numpy as np
 
 PEAK_TARGET = 0.6
 PEAK_FRACTION = 0.15
+DRIFT_PX = 5.0
 
 
 def next_night(lc, exptime=None, linearity=None, ingress_days=None, gain=1.0, shape=None):
-    out = _noise(lc, gain) + _pointing(lc, shape)
+    out = _noise(lc, gain) + _pointing(lc, shape) + _drift(lc)
     peak = np.asarray(lc.get("peak") or [], float)
     sky = np.asarray(lc.get("sky") or [], float)
     limit = linearity or lc.get("saturation")
@@ -90,3 +93,12 @@ def _pointing(lc, shape):
     if max(abs(dx), abs(dy)) < 0.05 * min(nx, ny):
         return []
     return [{"kind": "pointing", "fits": True, "dx": round(float(dx)), "dy": round(float(dy))}]
+
+
+def _drift(lc):
+    xy = np.asarray(lc.get("xy") or [], float)
+    if xy.ndim != 3 or not xy.size:
+        return []
+    path = xy[:, 0, :]
+    moved = float(np.nanmax(np.hypot(*(path - np.nanmedian(path, axis=0)).T)) * 2)
+    return [{"kind": "drift", "px": round(moved, 1)}] if moved > DRIFT_PX else []
