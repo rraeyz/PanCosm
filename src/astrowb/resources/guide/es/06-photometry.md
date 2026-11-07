@@ -4,7 +4,11 @@ La página **Fotometría** mide el brillo de una estrella objetivo respecto a es
 ## Elegir imágenes y estrellas
 1. **Elegir imágenes…** — tomas calibradas de un campo y un filtro. Se ordenan por tiempo.
 2. En la primera imagen, **haga clic en la estrella objetivo** y luego en **una o varias estrellas de comparación**. Los clics se ajustan al centro de la estrella. **Borrar estrellas** empieza de nuevo.
-3. O pulse **Sugerir estrellas de comparación**: elige estrellas de brillo parecido, no saturadas, sin vecinas brillantes y dentro del campo en todas las imágenes. Revíselas antes de medir.
+3. O pulse **Sugerir estrellas de comparación**: elige estrellas de brillo parecido, no saturadas, sin vecinas brillantes y dentro del campo en todas las imágenes. Revíselas antes de medir. Cuando el campo se ha identificado (abajo), vienen de Gaia: de brillo parecido al objetivo, de color parecido donde el campo lo tiene, no variables (Gaia, VSX), aisladas y no saturadas, como las elige Siril del catálogo.
+
+**Qué hay en el campo.** Al elegir las imágenes, la primera se resuelve contra el catálogo Gaia — sin instalar un resolvedor; necesita el apuntado y la escala de píxel (FOCALLEN, XPIXSZ) en la cabecera y conexión a internet. Las estrellas variables conocidas en ella (AAVSO VSX) se marcan en cian y se listan; **Hacerla el objetivo** convierte una en T1 y toma su posición de catálogo para el BJD. Si el OBJECT de los archivos no está en el campo, un aviso lo dice (archivos con el nombre de la estrella equivocada). Un objetivo marcado a mano en la primera imagen también toma su posición en el cielo de la solución.
+
+**Imágenes que no se pueden medir.** Cada imagen se sitúa respecto a la primera por su desplazamiento y, si las estrellas no se encuentran allí, por su patrón de estrellas (un giro de meridiano, una sacudida). Una imagen en la que el objetivo o una estrella de comparación sigue sin encontrarse (nubes, fuera de la imagen) se deja fuera de la curva de luz, aparece en rojo en la lista de imágenes y se nombra con el motivo bajo el gráfico — nunca se mide sobre cielo vacío.
 
 Las buenas estrellas de comparación tienen color y brillo parecidos a los del objetivo y no son variables. Use varias: su suma (un conjunto) tiene menos ruido que una sola estrella.
 

@@ -235,3 +235,81 @@ def test_apertures_fit_a_small_tess_stamp():
     stamp = 2e5 * np.exp(-((xx - 5.8) ** 2 + (yy - 6.1) ** 2) / (2 * (1.6 / 2.355) ** 2)) + rng.normal(0, 30, (13, 11))
     c = choose_apertures(stamp, [(5.8, 6.1)], 1.0)
     assert 1.0 < c["fwhm"] < 2.5 and 1.5 <= c["r_ap"] <= 4.5 and c["r_ap"] < c["r_in"] < c["r_out"] <= 8.5
+
+
+def test_light_curve_places_every_frame_against_the_first_and_leaves_out_lost_frames(tmp_path):
+    """The owner's NY Vir night: frames were tracked one from the previous, so one wrong shift sent the apertures
+    onto empty sky for the rest of the night, silently (negative fluxes, a plot that failed). Now every frame is
+    placed against the first, the stars are checked on every frame, a rotated frame (meridian flip) is matched by
+    its star pattern, and a frame without the stars (a cloud) is left out and named, with why."""
+    many = [(60.3, 70.6, 2e5), (140.2, 60.1, 1e5), (100.7, 150.4, 3e5), (40.0, 160.0, 5e4)]
+    many += [(25.0, 30.0, 8e4), (170.0, 120.0, 1.2e5), (90.0, 110.0, 6e4), (150.0, 175.0, 9e4), (120.0, 25.0, 7e4)]
+    shifted = [(x + 12.0, y - 7.0, f) for x, y, f in many]
+    frames = {
+        "f0": field(4.0, many, seed=0),
+        "f1": field(4.0, shifted, seed=1),
+        "f2": field(4.0, many, seed=2)[::-1, ::-1],  # turned half round
+        "f3": np.random.default_rng(3).normal(300.0, 17.0, (200, 200)),  # a cloud: no star at all
+        "f4": field(4.0, [(x, y, f) for x, y, f in many if (x, y) != (60.3, 70.6)], seed=4),  # the target is gone
+    }
+    paths = []
+    for i, (name, img) in enumerate(frames.items()):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"{name}.fits")
+        paths.append(tmp_path / f"{name}.fits")
+    stars = [s[:2] for s in many[:4]]
+    lc = light_curve(paths, stars[0], stars[1:], 6, 18, 24)
+    assert lc["file"] == ["f0.fits", "f1.fits", "f2.fits"]
+    assert lc["lost"] == {"f3.fits": ["aligned"], "f4.fits": ["target"]}
+    rel = np.asarray(lc["rel_flux"])
+    assert np.allclose(rel, rel[0], rtol=0.02)  # the shifted and the turned frame measured on the stars
+    assert np.allclose(lc["xy"][1][0], (60.3 + 12.0, 70.6 - 7.0), atol=0.3)
+    assert np.allclose(lc["xy"][2][0], (199 - 60.3, 199 - 70.6), atol=0.3)
+
+
+def test_light_curve_checks_frames_on_every_core_too(tmp_path, monkeypatch):
+    """The same checks on the parallel path (24 frames or more): frames read in part around the stars are read
+    whole and matched by their star pattern when the stars are not where the shifts put them."""
+    import astrowb.engine.parallel as par
+
+    monkeypatch.setattr(par, "workers", lambda: 2)
+    many = [(60.3, 70.6, 2e5), (140.2, 60.1, 1e5), (100.7, 150.4, 3e5), (40.0, 160.0, 5e4)]
+    many += [(25.0, 30.0, 8e4), (170.0, 120.0, 1.2e5), (90.0, 110.0, 6e4), (150.0, 175.0, 9e4), (120.0, 25.0, 7e4)]
+    paths = []
+    for i in range(26):
+        if i == 10:
+            img = np.random.default_rng(i).normal(300.0, 17.0, (200, 200))  # a cloud
+        elif i == 20:
+            img = field(4.0, many, seed=i)[::-1, ::-1]  # turned half round
+        else:
+            img = field(4.0, [(x + 0.3 * i, y - 0.2 * i, f) for x, y, f in many], seed=i)  # a slow drift
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"f{i:02d}.fits")
+        paths.append(tmp_path / f"f{i:02d}.fits")
+    stars = [s[:2] for s in many[:4]]
+    lc = light_curve(paths, stars[0], stars[1:], 6, 18, 24)
+    assert lc["lost"] == {"f10.fits": ["aligned"]} and len(lc["file"]) == 25
+    rel = np.asarray(lc["rel_flux"])
+    assert np.allclose(rel, np.median(rel), rtol=0.02)
+
+
+def test_the_aperture_is_chosen_by_the_steadiest_light_curve(tmp_path):
+    """The owner's NY Vir frames: 1.3 FWHM (best for one star's noise) kept 68-80 % of the light, a share that
+    differed from star to star and moved with the seeing. With the seeing changing from frame to frame and the target's
+    profile a little different from the comparison stars' (focus across the field, colour), a small aperture makes
+    the ratio follow the seeing; the scan of radii on pairs of frames picks a large one."""
+    from astrowb.photometry.lightcurve import aperture_scan
+
+    target, comps = [(100.0, 100.0, 3e5)], [(60.0, 150.0, 4e5), (150.0, 60.0, 3e5), (45.0, 45.0, 2e5)]
+    paths = []
+    for i in range(12):
+        fwhm = 2.6 if i % 2 else 4.4  # the seeing jumps between frames
+        img = field(fwhm, target, seed=i) + field(fwhm, comps, beta=2.5, seed=100 + i) - 300.0
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"f{i:02d}.fits")
+        paths.append(tmp_path / f"f{i:02d}.fits")
+    stars = [s[:2] for s in target + comps]
+    scan = aperture_scan(paths, stars, 3.5, gain=1.0)
+    scatter = dict(zip(scan["radii"], scan["scatter"], strict=True))
+    assert scatter[3.5] > 3 * scatter[3.5 * 3.0]  # 1 FWHM follows the seeing, 3 FWHM does not
+    assert scan["best"] >= 2.0 * 3.5 and scan["r_in"] >= scan["radii"][-1] + 2.0

@@ -743,9 +743,19 @@ class MainWindow(QMainWindow):
         page.suggest_requested.connect(
             lambda images, target, params: self.run_step(
                 "photometry.suggest_comparisons",
-                {"images": images, "target_xy": target},
+                # the Gaia stars of the field when it was solved on the frame the stars are marked on
+                {"images": images, "target_xy": target}
+                | ({"field": page.field} if page.field and page.ref == 0 else {}),
                 params,
-                on_done=lambda out: page.set_comparisons(out["comps_xy"]),
+                on_done=lambda out: page.set_comparisons(out["comps_xy"], out.get("catalogue")),
+            )
+        )
+        page.field_requested.connect(
+            lambda image: self.run_step(
+                "photometry.identify_field",
+                {"image": image},
+                on_done=lambda out: page.show_field(out["field"]),
+                on_fail=page.field_failed,
             )
         )
         return page

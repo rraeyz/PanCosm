@@ -64,6 +64,22 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "stars blurred"),
     QT_TRANSLATE_NOOP("Messages", "few stars (clouds?)"),
     QT_TRANSLATE_NOOP("Messages", "bright sky"),
+    # photometry/field.py
+    QT_TRANSLATE_NOOP(
+        "Messages", "the frame has no pointing (OBJCTRA / OBJCTDEC or RA / DEC) in its header to solve it from"
+    ),
+    QT_TRANSLATE_NOOP(
+        "Messages", "the pixel scale is unknown (no FOCALLEN and XPIXSZ in the header) to solve the frame"
+    ),
+    QT_TRANSLATE_NOOP("Messages", "too few stars to solve the frame (clouds, or too short an exposure?)"),
+    QT_TRANSLATE_NOOP("Messages", "the stars of the frame do not match the Gaia stars around its pointing"),
+    QT_TRANSLATE_NOOP("Messages", "the target is not a Gaia star of the field: mark it on the star"),
+    # photometry/lightcurve.py
+    QT_TRANSLATE_NOOP("Messages", "too few frames with every star found to compare apertures"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the target or a comparison star was not found on any frame: check the stars marked on the first frame",
+    ),
     # photometry/steps.py
     QT_TRANSLATE_NOOP("Messages", "the target position {x}, {y} is outside the image ({nx} × {ny} px)"),
     QT_TRANSLATE_NOOP("Messages", "comparison star {n} at {x}, {y} is outside the image ({nx} × {ny} px)"),
@@ -326,6 +342,8 @@ TEMPLATES = (
     # updates.py
     QT_TRANSLATE_NOOP("Messages", "no GitHub repository configured for update checks"),
     # progress shown in the task list (ctx.progress in the steps)
+    QT_TRANSLATE_NOOP("Messages", "solving"),
+    QT_TRANSLATE_NOOP("Messages", "catalogues"),
     QT_TRANSLATE_NOOP("Messages", "reading headers"),
     QT_TRANSLATE_NOOP("Messages", "master bias"),
     QT_TRANSLATE_NOOP("Messages", "master dark"),

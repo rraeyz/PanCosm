@@ -84,15 +84,16 @@ class LiveLightCurve:
                 self.gain = float(g)
                 shift = (0.0, 0.0)
                 self.xy = recenter(data, self.xy, self.box, max_move=self.box / 2)  # snap the clicks onto the stars
-            else:
-                shift = frame_shift(self.prev, data)
+                self.ref = data
+            else:  # against the first frame, as light_curve does: one bad frame does not carry on to the rest
+                shift = frame_shift(self.ref, data)
             xy = recenter(data, self.xy + shift, self.box)
             flux, err, _ = measure(data, xy, *self.r, self.gain)
             t = timing.mid_time(h)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"
             return None
-        self.prev, self.xy = data, xy
+        self.prev = data
         comp = flux[1:].sum()
         rel = flux[0] / comp
         rel_err = abs(rel) * np.sqrt((err[0] / flux[0]) ** 2 + (err[1:] ** 2).sum() / comp**2)

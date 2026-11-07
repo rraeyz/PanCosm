@@ -4,7 +4,11 @@ The **Photometry** page measures the brightness of a target star relative to com
 ## Choosing images and stars
 1. **Choose images…** — calibrated frames of one field and one filter. They are sorted by time.
 2. On the first image, **click the target star**, then **one or more comparison stars**. Clicks snap to the star's centre. **Clear stars** starts again.
-3. Or press **Suggest comparison stars**: it picks stars of similar brightness, not saturated, without bright neighbours and inside the frame in every image. Check them before measuring.
+3. Or press **Suggest comparison stars**: it picks stars of similar brightness, not saturated, without bright neighbours and inside the frame in every image. Check them before measuring. When the field was identified (below), they come from Gaia instead: about as bright as the target, of a similar colour where the field has one, not variable (Gaia, VSX), alone and unsaturated, as Siril's catalogue choice does.
+
+**What is in the field.** When the images are chosen, the first one is solved against the Gaia catalogue — no plate solver to install; it needs the pointing and the pixel scale (FOCALLEN, XPIXSZ) in the header and an internet connection. The known variable stars in it (AAVSO VSX) are marked in cyan and listed; **Make it the target** marks one as T1 and takes its catalogue position for BJD. If the OBJECT of the files is not in the field, a warning says so (a file named after the wrong star). A target marked by hand on the first frame also gets its sky position from the solution.
+
+**Frames that cannot be measured.** Every frame is placed against the first by its shift, and if the stars are not found there, by its star pattern (a meridian flip, a jolt). A frame where the target or a comparison star is still not found (clouds, off the frame) is left out of the light curve, shown in red in the frame list and named with the reason under the plot — it is never measured on empty sky.
 
 Good comparison stars have a similar colour and brightness to the target and are not variable. Use several: their sum (an ensemble) is less noisy than one star.
 
