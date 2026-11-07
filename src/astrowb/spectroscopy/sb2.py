@@ -15,7 +15,7 @@ independent pixels (tests/test_sb2.py: the errors match the scatter of repeated 
 
 import numpy as np
 
-from .rv import C_KMS, v_from_ln
+from .rv import C_KMS, lag_dot, shifted, v_from_ln
 
 
 def _resample(grid, wave, flux):
@@ -31,12 +31,11 @@ def _unit(grid, dln, k, ln_t, t):
 
 
 def _ccf(f, grid, dln, lags, t_wave, t_flux):
+    """f against the unit-normalised template at every lag, and the median norm (the template interpolated once,
+    each lag a slice of it: rv.shifted)."""
     ln_t, t = np.log(np.asarray(t_wave, float)), np.asarray(t_flux, float) - 1.0
-    c, norms = np.empty(len(lags)), np.empty(len(lags))
-    for i, k in enumerate(lags):
-        g, norms[i] = _unit(grid, dln, k, ln_t, t)
-        c[i] = f @ g
-    return c, float(np.median(norms))
+    dot, norms = lag_dot(f, *shifted(grid[0], dln, len(grid), lags, ln_t, t))
+    return dot / np.maximum(norms, 1e-30), float(np.median(norms))
 
 
 def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=300.0, v_step=None, alpha=None):
@@ -63,7 +62,8 @@ def todcor(wave, flux, t1_wave, t1_flux, t2_wave, t2_flux, v_min=-300.0, v_max=3
     g1, _ = _unit(grid, dln, 0, np.log(np.asarray(t1_wave, float)), np.asarray(t1_flux, float) - 1.0)
     ln2, t2 = np.log(np.asarray(t2_wave, float)), np.asarray(t2_flux, float) - 1.0
     diffs = np.arange(lags[0] - lags[-1], lags[-1] - lags[0] + 1)
-    c12_d = np.array([g1 @ _unit(grid, dln, d, ln2, t2)[0] for d in diffs])
+    dot, norms = lag_dot(g1, *shifted(grid[0], dln, len(grid), diffs, ln2, t2))
+    c12_d = dot / np.maximum(norms, 1e-30)
     c12 = c12_d[(lags[None, :] - lags[:, None]) - diffs[0]]
     # two stars closer than the templates' own width cannot be split: there C12 -> 1 and 1 - C12^2 -> 0 turns
     # rounding into a false peak beside the diagonal (AI Phe, one template for both, once HARPS's zero-filled gap was
