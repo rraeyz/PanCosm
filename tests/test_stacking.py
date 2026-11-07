@@ -45,7 +45,7 @@ def test_offsets_of_the_same_frames_are_kept(frames, monkeypatch):
     real = stacking._run_shifts
     monkeypatch.setattr(stacking, "_run_shifts", lambda run: pytest.fail("frames read again"))
     assert stacking.align_offsets(paths) == first
-    data = fits.getdata(paths[2])
+    data = fits.getdata(paths[2], memmap=False)  # Windows cannot overwrite a mapped file
     fits.PrimaryHDU(np.roll(data, 3, axis=1), fits.Header({"EXPTIME": 30.0})).writeto(paths[2], overwrite=True)
     monkeypatch.setattr(stacking, "_run_shifts", real)
     again = stacking.align_offsets(paths)
