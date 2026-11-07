@@ -29,6 +29,7 @@ from astropy.io import fits
 from scipy.ndimage import map_coordinates
 
 from ..compute.combine import clipped_mean
+from ..compute.stack import gpu_combine
 from ..io.fits import find_image_hdu
 from ..photometry.aperture import frame_shift
 from .masters import load
@@ -201,12 +202,12 @@ def combine(block, method="mean", rejection="sigma", sigma=3.0, low=1, high=1, w
 
 def _stack_band(job):
     """Rows r0..r1 of a stack: (image, coverage) of that band, block by block within its memory budget."""
-    paths, transforms, (fast, method, rejection, sigma, low, high, scale, shift, weights, budget), r0, r1 = job
+    paths, transforms, (fast, method, rejection, sigma, low, high, scale, shift, weights, budget, on_gpu), r0, r1 = job
     hduls = [fits.open(p) for p in paths]
     try:
         hdus = [h[find_image_hdu(h)] for h in hduls]
         ny, nx = hdus[0].shape[-2:]
-        rows = max(1, budget // (len(paths) * nx * 4 * (1 if fast else 4)))  # masks and sorts need more
+        rows = max(1, budget // (len(paths) * nx * 4 * (1 if fast or on_gpu else 4)))  # masks and sorts need more
         out, cnt = np.empty((r1 - r0, nx), np.float32), np.empty((r1 - r0, nx), np.int32)
         xs = np.arange(nx, dtype=np.float64)
         for b0 in range(r0, r1, rows):
@@ -225,15 +226,32 @@ def _stack_band(job):
                 block.append(map_coordinates(sub, [ysrc - lo_c, xsrc], order=1, cval=np.nan, prefilter=False))
             block = np.stack(block)
             if fast:
-                out[b0 - r0 : b1 - r0] = clipped_mean(block, sigma)[0]
+                out[b0 - r0 : b1 - r0] = clipped_mean(block, sigma, use_gpu=on_gpu)[0]
             else:
                 block = block * scale[:, None, None].astype(np.float32) + shift[:, None, None].astype(np.float32)
-                out[b0 - r0 : b1 - r0] = combine(block, method, rejection, sigma, low, high, weights)
+                args = (method, rejection, sigma, low, high, weights)
+                done = gpu_combine(block, *args, force=True) if on_gpu else None
+                if done is None and not on_gpu:
+                    done = combine(block, *args)
+                elif done is None:  # a GPU failure: the CPU in quarters of rows, within the memory budget
+                    cuts = np.linspace(0, b1 - b0, 5).astype(int)
+                    done = np.concatenate(
+                        [combine(block[:, a:b], *args) for a, b in zip(cuts[:-1], cuts[1:], strict=True) if b > a]
+                    )
+                out[b0 - r0 : b1 - r0] = done
             cnt[b0 - r0 : b1 - r0] = np.isfinite(block).sum(axis=0)  # coverage: frames that cover the pixel
     finally:
         for h in hduls:
             h.close()
     return out, cnt
+
+
+def _gpu_combine_wanted(n_frames, pixels):
+    """Whether a band of the stack goes to the GPU: compute mode and device, at most 128 frames, enough work."""
+    from ..compute import device
+    from ..compute.stack import GPU_MIN_VALUES, MAX_FRAMES
+
+    return n_frames <= MAX_FRAMES and n_frames * pixels >= GPU_MIN_VALUES and device() is not None
 
 
 def stack(
@@ -278,7 +296,9 @@ def stack(
     # LCO stack took 59 s on one core
     n = min(workers(), max(1, ny // 64)) if len(paths) * ny * nx > 50_000_000 else 1
     edges = np.linspace(0, ny, 2 * n + 1).round().astype(int)
-    how = (fast, method, rejection, sigma, low, high, scale, shift, weights, STACK_BUDGET // n)
+    # decided here once: the bands do not each look for a GPU (0.4 s per process without one)
+    on_gpu = _gpu_combine_wanted(len(paths), (edges[1] - edges[0]) * nx)
+    how = (fast, method, rejection, sigma, low, high, scale, shift, weights, STACK_BUDGET // n, on_gpu)
     jobs = [(paths, transforms, how, a, b) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
     parts = pmap(_stack_band, jobs, ctx, "stacking", min_items=2)
     out = np.concatenate([o for o, _ in parts])
