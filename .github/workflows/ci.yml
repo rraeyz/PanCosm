@@ -27,6 +27,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -54,6 +60,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -101,6 +113,12 @@ jobs:
             pacman -Syu --noconfirm python mesa libglvnd libxkbcommon fontconfig dbus glib2 vulkan-swrast
           fi
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/download-artifact@v4
         with:
           name: installer-Linux-X64
@@ -114,6 +132,12 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -128,6 +152,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -145,6 +175,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -162,6 +198,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v5
+        with:  # the data/ folder (real observations, ~1 GB) is not needed by these jobs
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
       - name: The tag matches the version in the code
         run: |
           TAG="v$(sed -n 's/^__version__ = "\(.*\)"/\1/p' src/astrowb/__init__.py)"

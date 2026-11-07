@@ -62,6 +62,21 @@
 14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
     plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
     one of its errors shows a raw technical message.
+15. **Releases.** You may release a new version without asking, when a meaningful piece is ready for the owner to
+    try. Never release for every small change.
+    - CI must be green on every system first.
+    - Never push while a release run is going.
+    - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
+16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
+    must do or try. Never call something working that was not tried.
+17. **Data lives in `data/`.** Use what is there before downloading. Add what you download, within the rules of
+    `data/README.md`, so the next agent need not download it again.
+18. **Keep working with others safe.**
+    - Pull the newest `main` before claiming a step.
+    - Commit small and often.
+    - Old projects, sessions and settings must still open after a change (a test checks it).
+    - A check against a reference program becomes a test (reduced reference values from public data), so that a
+      later change cannot quietly make results worse.
 
 The rules that matter most here:
 
@@ -143,12 +158,27 @@ Main window                                      Area window (e.g. Photometry)
 ## To ask the owner
 (nothing yet)
 
+## For the owner to try
+- After I4: open every area from the main window on Windows and on CachyOS, and send a screenshot of any window that
+  does not fit or looks wrong.
+
 ## Steps
 (placed by urgency; new tasks found by research or tests are inserted where they belong)
 
 Language: the interface stays Qt through PySide6 (Python), which runs the same on every system we ship; heavy
 drawing (very large images, thousands of plotted points) may move to OpenGL or native code if measured too slow
 (PLAN.md rule 10).
+
+### I0. Split the big interface file before the work starts
+**open** — added 2026-11-07, so that several agents can work at once without overwriting one another.
+- **Why:** Photometry, Calibrate, O−C, Period, Light curves, Project and Start all live in one file,
+  `src/astrowb/ui/workspaces.py` (about 4 800 lines).
+- **Build:** move each page class into its own module (`ui/photometry_page.py`, `ui/calibrate_page.py`,
+  `ui/oc_page.py`, …), with the shared widgets (`Collapsible`, `StepGuide`, `_FoldButton`, `_Columns`, `_title`)
+  in `ui/widgets.py`. Keep `from .workspaces import X` working for a while (re-exports).
+- **Translations:** lupdate contexts are class names, so they survive the move; check that 0 strings became
+  unfinished.
+- **Accept:** all tests pass unchanged; `tools/i18n.py update` reports no new or lost string.
 
 ### I1. Research: how the reference programs lay out their windows
 **open** — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
@@ -221,6 +251,9 @@ Found so far:
     high-DPI and second monitors; the font size can be changed.
   - **Long work:** progress and cancel in the status bar; a notice when a long task ends while the window is in the
     background.
+  - **Report a problem (Help menu of every window):** one file with `error.log`, the version, the system, the
+    settings and the last steps run, ready for the owner to send; nothing personal, the owner's data files not
+    included.
 - **Build** one class (`ui/area_window.py`): a top-level window with:
   - a menu bar built from what the area declares, plus the common File / Edit / Window / Help;
   - a toolbar;
@@ -273,7 +306,8 @@ Found so far:
 - **Accept:**
   - every existing test passes, adjusted only where a test reaches a page through the main window;
   - every cross-area link still works (minimum → O−C, light curve → Period and Models, calibrated frames →
-    Photometry / Spectroscopy, Plan → Observe sequence).
+    Photometry / Spectroscopy, Plan → Observe sequence);
+  - projects, settings and sessions saved by the previous version open (a test with files saved by v0.2.7).
 
 ### I5. Photometry gets its full window
 **open** — the first area to use the frame fully; details in `plans/photometry.md` item 0.

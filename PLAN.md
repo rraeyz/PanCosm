@@ -70,6 +70,21 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
 14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
     plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
     one of its errors shows a raw technical message.
+15. **Releases.** You may release a new version without asking, when a meaningful piece is ready for the owner to
+    try. Never release for every small change.
+    - CI must be green on every system first.
+    - Never push while a release run is going.
+    - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
+16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
+    must do or try. Never call something working that was not tried.
+17. **Data lives in `data/`.** Use what is there before downloading. Add what you download, within the rules of
+    `data/README.md`, so the next agent need not download it again.
+18. **Keep working with others safe.**
+    - Pull the newest `main` before claiming a step.
+    - Commit small and often.
+    - Old projects, sessions and settings must still open after a change (a test checks it).
+    - A check against a reference program becomes a test (reduced reference values from public data), so that a
+      later change cannot quietly make results worse.
 
 ## How to start a task (read in this order)
 
@@ -237,6 +252,9 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
     area file, with why, and wait.
 
 ### R6 Repository and releases
+- **Problems the owner meets reach the agent easily.** The program has a "Report a problem" action
+  (`plans/interface.md` I2) that gathers `error.log`, the version, the system and the last steps into one file for
+  the owner to send. An agent receiving one reproduces the problem with the data in `data/` before fixing it.
 - **Commits are made in the owner's name only:**
   `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`
   (name İdris Avlar, e-mail rraeyz@hotmail.com, GitHub user rraeyz).
@@ -247,14 +265,20 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   tests), or at least the tests the change touches plus ruff. Every change that adds logic adds a test.
 - **The product name** may appear only in `brand.toml`, `README.md` and `packaging/install.sh`
   (`python tools/check_brand.py`). Everywhere else, write "the application".
-- **Never commit the owner's data or downloaded data.** The owner's frames stay in the scratchpad only.
+- **Data goes in `data/`, by its rules** (`data/README.md`):
+  - public data that may be shared, files under 50 MB, a `SOURCE.md` per set;
+  - never papers, never other programs' code, never derived output.
+  The owner adds their own nights to `data/owner/`; agents read them but never change, move or delete them. Files
+  the owner sends in a chat stay in the scratchpad unless the owner asks for them to be added.
 - **Never touch the owner's GitHub token.** Do not try to get around bot checks or blocked sites. Use the mirrors
   that work (see HANDOFF "Network" notes) or say what is blocked.
-- **Releases only when the owner says so:**
-  1. raise `__version__` in `src/astrowb/__init__.py`;
-  2. push, and wait for CI to be green on all systems;
-  3. run the `ci` workflow on main with `release` = true (GitHub `actions_run_trigger`). The tag is made by the
+- **Releases** (the owner allows them without asking, 2026-11-07), when a meaningful piece is ready to be tried.
+  Never for every small change.
+  1. Raise `__version__` in `src/astrowb/__init__.py`.
+  2. Push, and wait for CI to be green on all systems.
+  3. Run the `ci` workflow on main with `release` = true (GitHub `actions_run_trigger`). The tag is made by the
      workflow.
+  4. Tell the owner, in Turkish, what changed and what to try.
   Never push while a release run is going.
 - **Do not delete old branches.**
 - **Scripts that drive the program** need an `if __name__ == "__main__":` guard: engine steps run in spawned worker
@@ -324,6 +348,13 @@ The rules that matter most here:
 
 ## To ask the owner
 (things that look unnecessary or need a decision; nothing is deleted before the owner's yes)
+
+## For the owner to try
+(what only the owner can check: their own nights, a real screen on Windows, the GPU, the telescope; for each, what
+to do, with which data, and what to send back)
+
+## Data used
+(each data set in `data/` used here, and what it showed)
 
 ## Steps
 (placed by urgency; new tasks found by research or tests are inserted where they belong)

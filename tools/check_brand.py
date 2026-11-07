@@ -44,6 +44,8 @@ def find_violations() -> list[str]:
         path = ROOT / rel
         if not path.is_file():
             continue
+        if rel.startswith("data/") and path.suffix.lower() not in (".md", ".txt", ".csv", ".json"):
+            continue  # observations: binary files, and nothing the program shows
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
