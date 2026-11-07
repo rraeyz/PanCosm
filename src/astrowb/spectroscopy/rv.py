@@ -31,25 +31,42 @@ def ln_from_v(v):
 def continuum_normalise(wave, flux, order=3, iterations=8, low=1.5, high=3.0, piece=8000):
     """Divide by an upper-envelope polynomial fit (absorption lines clipped low, spikes high). A spectrum of more than
     `piece` pixels (a merged echelle spectrum) is fitted in pieces of about that many: one cubic over 1500 A of a
-    real HARPS spectrum left the merged orders' continuum in and its velocity came out 5.6 km/s off."""
+    real HARPS spectrum left the merged orders' continuum in and its velocity came out 5.6 km/s off. The pieces
+    overlap by half and are blended (fitted one after the other they jumped by up to 0.45 where they met, on 3 of 7
+    HARPS spectra against IRAF continuum's spline). Exact zeros are no data (the HARPS CCD gap at 5300 A)."""
     wave, flux = np.asarray(wave, float), np.asarray(flux, float)
-    if len(wave) > piece:
-        out = np.empty(len(wave))
-        for idx in np.array_split(np.arange(len(wave)), int(np.ceil(len(wave) / piece))):
-            out[idx] = continuum_normalise(wave[idx], flux[idx], order, iterations, low, high, piece)
-        return out
+    if len(wave) <= piece:
+        return flux / _continuum(wave, flux, order, iterations, low, high)
+    starts = np.unique(np.r_[np.arange(0, len(wave) - piece, piece // 2), len(wave) - piece])
+    total, weight = np.zeros(len(wave)), np.zeros(len(wave))
+    ramp = 1e-3 + 1 - np.abs(np.linspace(-1, 1, piece))  # most weight in the middle of each piece
+    for a in starts:
+        cont = _continuum(wave[a : a + piece], flux[a : a + piece], order, iterations, low, high)
+        ok = np.isfinite(cont)
+        total[a : a + piece][ok] += ramp[ok] * cont[ok]
+        weight[a : a + piece][ok] += ramp[ok]
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return flux / (total / weight)
+
+
+def _continuum(wave, flux, order, iterations, low, high):
+    """The upper-envelope polynomial of continuum_normalise (NaN where it has too few points to fit)."""
     x = (wave - wave.mean()) / np.ptp(wave)
-    keep = np.isfinite(flux)
+    keep = np.isfinite(flux) & (flux != 0)
+    if keep.sum() <= order + 1:
+        return np.full(len(wave), np.nan)
+    v = np.vander(x, order + 1)  # x within +-0.5: normal equations well conditioned (polyfit took 3/4 of the time)
+    f0 = np.where(keep, flux, 0.0)
     for _ in range(iterations):
-        coef = np.polyfit(x[keep], flux[keep], order)
-        cont = np.polyval(coef, x)
+        vk = v * keep[:, None]
+        cont = v @ np.linalg.solve(vk.T @ v, vk.T @ f0)
         resid = flux - cont
         sd = np.std(resid[keep])
         new = keep & (resid >= -low * sd) & (resid <= high * sd)
         if np.array_equal(new, keep) or new.sum() <= order + 1:
             break
         keep = new
-    return flux / cont
+    return cont
 
 
 def rotate(wave, flux, vsini):
