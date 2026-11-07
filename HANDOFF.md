@@ -534,6 +534,23 @@ script that says GPU found / works / how long"):**
   helper is gone, removed on purpose in U6). Deleting it was refused by the session's safety rule for destructive
   git operations: the owner deletes it on GitHub (Branches page).
 - **Owner's how-to (IRAF task -> page / button for spectra, RV, O−C)**: given in the chat (the HANDOFF's R5 item 4).
+- **R4 test round re-run (`test-scripts` drivers, alone on the machine, code at `920b3a2`)**: 23 of the 35 runs; the
+  other 12 need data that are not in this container any more (the raw LCO night incl. full-chip bias / darks, several
+  GB > the 5.2 GB free disk: u8a, u8d x2, u6e, u6k; the ESO / ARAS / LAMOST lists of T10; round 2's EFOSC outputs:
+  pessto_bench2, r2_longslit_atlas; the LCO bias set of gpu_path — the GPU check covers it). First failures were all
+  the re-built folder (missing work/t9, STScI certificate: the container's CA bundle + certifi as
+  REQUESTS_CA_BUNDLE, `:` vs `_` in ESO file names, the TZ For list's column name, one MAST connection reset) — not
+  the program. Results = round 3: Qatar-1 fixed 10 px scatter 0.0050, O−C +0.1 min, depth 0.0224, KvW −0.5 min;
+  photutils centres 0.011–0.045 px; standard V 12.72; W UMa TPF vs SPOC SAP correlation 1.00000, 0.033 % rms (was
+  0.020 %: the fixed-aperture fast path), amplitude 0.5403 / 0.5403; W UMa Roche 120 %; FG Vir 8 frequencies;
+  EFOSC2 13 lines 0.207 A; raw HARPS 22.2 m/s vs ESO, RV −0.9 / −9.2 m/s; eta CrB fit; Sentinel-2 PCA 89.0 / 11.0 %;
+  Plan vs Horizons Moon 0.080 deg max; echelle atlas 45/41/10 labels, 0 wrong; KIC 6525196 P3 1.15 yr, A 4.26 min,
+  e 0.35 (MCMC 0.339), MCMC task 23 s, page pause 0.08 s max; TZ For TODCOR primary +0.28 rms 0.31 km/s, BF +0.30,
+  K1 39.005; Turkish sweep 282 clicks, 0 exceptions / untranslated / cut texts. Times (round 3 -> now): Photometry page
+  265 frames 221.5 -> 149.5 s; standard magnitudes 224.5 -> 113.1 s; TESS TPF 268.6 -> 13.0 s; Sentinel-2 155.5 ->
+  93.3 s; echelle atlas 609 -> 13.4 s; Kepler LTTE 293.7 -> 189.7 s (MAST download most of it); TZ For TODCOR + BF
+  491 -> 162 s; phot steps quality / suggest / apertures / light curve 32.1 / 3.2 / 0.3 / 11.4 s; TPF open 4.2 s
+  (was 44 s); startup 0.50 s, 127 MB. Folder: scratchpad `r4/` (`real/T4_run.sh`, `T4b`, `T4c`; logs in work/T4).
 
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
