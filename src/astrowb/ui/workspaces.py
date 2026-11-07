@@ -1486,8 +1486,16 @@ class PlotCanvas(QWidget):
         from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
         from matplotlib.figure import Figure
 
+        class Canvas(FigureCanvasQTAgg):
+            def resizeEvent(self, event):
+                super().resizeEvent(event)
+                fig, least = self.figure, 1 / self.figure.dpi
+                w, h = fig.get_size_inches()
+                if w < least or h < least:  # folded to 0 px: a 0-px axis has no inverse transform, drawing raises
+                    fig.set_size_inches(max(w, least), max(h, least), forward=False)
+
         self.figure = figure or Figure(figsize=(6, 3), layout="constrained")
-        self.canvas = FigureCanvasQTAgg(self.figure)
+        self.canvas = Canvas(self.figure)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
