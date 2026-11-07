@@ -10,6 +10,7 @@ archive; the frames hold electrons (times the exposure), so the photometry's noi
 """
 
 import re
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -92,17 +93,22 @@ def frames(path) -> list[str]:
     h["TPFSKIP"] = (int(len(t) - len(rows)), "cadences left out (no time or quality flags)")
     h["BJD_TDB"] = (0.0, "mid-exposure time from the archive")
     writer = _FrameWriter(fits.PrimaryHDU(flux[0], h).header)
-    names = []
-    for i in range(len(flux)):
-        cards = {"DATE-AVG": (stamps[i], "UTC at the geocentre for BJD_TDB"),
-                 "TPFROW": (int(rows[i]), "row of the target pixel file"),
-                 "BJD_TDB": (float(bjd[i].jd), "mid-exposure time from the archive")}  # fmt: skip
-        if noise is not None:
-            cards["PIXNOISE"] = (float(noise[i] * exptime), NOISE_COMMENT) if np.isfinite(noise[i]) else None
-        name = f"{path.name.split('.fits')[0]}_{int(rows[i]):06d}.fits"
-        writer.write(folder / name, np.nan_to_num(flux[i] * np.float32(exptime), nan=0.0), cards)
-        names.append(name)
-    listing.write_text("\n".join(names))
+    names, bjd_jd = [], bjd.jd
+    pixels = np.nan_to_num(flux * np.float32(exptime), nan=0.0)
+    # creating 17 000 small files is most of the time left (the file system, not Python): a few at once
+    with ThreadPoolExecutor(8) as pool:
+        for start in range(0, len(flux), 1000):  # in blocks, so the bytes waiting to be written stay small
+            files = []
+            for i in range(start, min(start + 1000, len(flux))):
+                cards = {"DATE-AVG": (stamps[i], "UTC at the geocentre for BJD_TDB"),
+                         "TPFROW": (int(rows[i]), "row of the target pixel file"),
+                         "BJD_TDB": (float(bjd_jd[i]), "mid-exposure time from the archive")}  # fmt: skip
+                if noise is not None:
+                    cards["PIXNOISE"] = (float(noise[i] * exptime), NOISE_COMMENT) if np.isfinite(noise[i]) else None
+                names.append(f"{path.name.split('.fits')[0]}_{int(rows[i]):06d}.fits")
+                files.append((folder / names[-1], writer.encode(pixels[i], cards)))
+            list(pool.map(lambda f: f[0].write_bytes(f[1]), files))
+    listing.write_text("\n".join(names))  # last: an interrupted conversion has no listing and is made again
     return [str(folder / n) for n in names]
 
 
@@ -118,26 +124,77 @@ class _FrameWriter:
         self.cards = [c.image for c in header.cards]
         self.index = {k: i for i, k in enumerate(header.keys())}
         self.dtype = np.dtype(">f4")
+        self.templates = {}  # (key, comment) -> astropy's card for the first value, "" if ours differed from it
 
-    def write(self, path, image, cards):
+    def card(self, key, value, comment):
+        """fits.Card(key, value, comment).image with only its value field (from column 11) formatted per frame
+        (astropy's Card took 6 of the 11 s of writing 16 942 TESS frames). The first value of each card is checked
+        against astropy's card; a card that differed, or a value of another width, is left to astropy."""
+        field = _field(value)
+        template = self.templates.get((key, comment))
+        if template is None:
+            image = fits.Card(key, value, comment).image
+            ok = field is not None and image[:10] + field + image[10 + len(field) :] == image
+            self.templates[(key, comment)] = (image, len(field)) if ok else ("", -1)
+            return image
+        image, width = template
+        if field is not None and len(field) == width:
+            return image[:10] + field + image[10 + width :]
+        return fits.Card(key, value, comment).image
+
+    def encode(self, image, cards):
+        """The bytes of one FITS file: the header with these cards replaced, then the pixels."""
         lines = list(self.cards)
         for key, value in cards.items():
-            lines[self.index[key]] = " " * 80 if value is None else fits.Card(key, *value).image
+            lines[self.index[key]] = " " * 80 if value is None else self.card(key, *value)
         text = "".join(lines) + "END".ljust(80)
         head = text.encode("ascii").ljust(-(-len(text) // 2880) * 2880, b" ")
         data = np.ascontiguousarray(image, self.dtype).tobytes()
-        tmp = Path(str(path) + ".part")
-        tmp.write_bytes(head + data + b"\0" * (-len(data) % 2880))
-        tmp.replace(path)
+        return head + data + b"\0" * (-len(data) % 2880)
 
 
-def _utc(bjd, target):
+def _field(value):
+    """The fixed-format FITS value field (from column 11) of a string, integer or float; None for other values."""
+    if isinstance(value, str):
+        return ("'" + f"{value.replace(chr(39), chr(39) * 2):8}" + "'").ljust(20)
+    if isinstance(value, (bool, np.bool_)) or not np.isfinite(value):
+        return None
+    field = str(int(value)) if isinstance(value, (int, np.integer)) else repr(float(value)).upper()
+    return field.rjust(20) if len(field) <= 20 else None
+
+
+def _utc(bjd, target, nodes=1000):
     """The UTC at the geocentre whose barycentric time is bjd (BJD = t + light travel time(t): two steps converge to
-    nanoseconds)."""
+    nanoseconds). For many times the light travel time is computed exactly at `nodes` of them and interpolated
+    between (it changes by at most ~0.01 s per day: under 1e-5 s off over a TESS sector; astropy's transformation for
+    each of 16 942 cadences took 6.5 s, twice per pixel file)."""
+    from astropy.time import TimeDelta
+
+    jd = bjd.jd
+    if len(jd) > 2 * nodes:
+        gap = np.flatnonzero(np.diff(jd) > 10 * np.median(np.diff(jd)))  # both sides of a data gap are nodes too:
+        # a straight line over the 1.5-day mid-sector gap was 2.7 ms off
+        at = np.unique(np.r_[np.linspace(0, len(jd) - 1, nodes).round().astype(int), gap, gap + 1])
+        exact = _utc(bjd[at], target, nodes)
+        corr = np.interp(jd, jd[at], (bjd[at] - exact.tdb).jd)  # days, BJD - geocentric TDB
+        return (bjd - TimeDelta(corr, format="jd")).utc
     utc = bjd
     for _ in range(2):
-        utc = bjd - utc.light_travel_time(target, kind="barycentric", ephemeris="builtin")
+        utc = bjd - _light_travel_time(utc, target)
     return utc.utc
+
+
+def _light_travel_time(t, target):
+    """Time.light_travel_time(target, "barycentric", "builtin") for an observer at the geocentre: the Earth's
+    barycentric position along the direction of the target, over c. Astropy also places the observer, which read
+    the IERS polar-motion table (1.3 s) to rotate a zero vector."""
+    import astropy.constants as const
+    from astropy.coordinates import UnitSphericalRepresentation, get_body_barycentric
+    from astropy.time import TimeDelta
+
+    earth = get_body_barycentric("earth", t.tdb, ephemeris="builtin")
+    sky = target.icrs.represent_as(UnitSphericalRepresentation).to_cartesian()
+    return TimeDelta(earth.dot(sky) / const.c, scale="tdb")
 
 
 _ROW = re.compile(r"_(\d{6})\.fits$")
