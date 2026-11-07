@@ -33,6 +33,13 @@
    - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
 8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
 9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+10. **Use the right language for each part.** Python is not compulsory.
+    - Python and Qt (PySide6) stay the base: the science libraries and the interface.
+    - Where speed matters and Python is too slow, write that part in what does it best: numba, Cython or C/C++
+      (pybind11), Rust (PyO3), or GPU kernels (CUDA / OpenCL). Measure before and after.
+    - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
+      packaged program.
+    - Its licence must be permissive (PLAN.md R1).
 
 Written 2026-11-07 at the owner's request: scan AstroImageJ, Siril, MaxIm DL, IRAF and the
 others, and write down everything that has to be done. **Nothing here is started without the owner's word.**
@@ -91,14 +98,19 @@ C-Munipack: only its manual (the code is on SourceForge SVN, not read).
 | Step | AstroImageJ | Siril | IRAF apphot | Ours now |
 | --- | --- | --- | --- | --- |
 | Pixels in the aperture | exact area of each pixel inside the circle (polygon intersection) | weight r_ap − r + 0.5, cut to 0–1 (a linear edge) | weight r_ap − r, cut to 0–1; several apertures in one pass | exact area (photutils) |
-| Sky value | mean of the annulus; "remove stars": iterate up to 100 times, keep pixels within mean ± 2σ, stop when the mean changes < 1e-4; optional plane fitted to the kept pixels; the rejected-pixel mask is kept for the next frame | Hampel M-estimator robust mean (Newton iterations from median and MAD/0.6745), pixels outside [minval, maxval] dropped | `salgorithm`: mode = 3 median − 2 mean with iterative low / high sigma clipping (also median, centroid of the histogram, …) | sigma-clipped (3σ, 10 iterations) median |
+| Sky value | mean of the annulus; "remove stars": iterate up to 100 times, keep pixels within mean ± 2σ, stop when the mean changes < 1e-4; optional plane fitted to the kept pixels; the rejected-pixel mask is kept for the next frame | Hampel M-estimator robust mean (Newton iterations from median and MAD/0.6745), pixels outside [minval, maxval] dropped | `fitskypars.salgorithm`, default **centroid of the sky histogram** (khist ±3σ, bins of 0.1σ), with iterative rejection (sloreject / shireject 3σ, up to 10 times) and `rgrow` (pixels around a rejected one go too); mode (3 median − 2 mean), median, mean, gauss… on request | sigma-clipped (3σ, 10 iterations) median |
 | Error of the flux | √(F·g + N_ap(1 + N_ap/N_sky)(sky·g + dark + RON² + 0.289²·g²)) / g — the sky noise is modelled from the sky level, read noise and dark current (Merline & Howell 1995) | area_sq·σ²_sky + F/gain + area²·σ²_sky/N_sky (σ_sky measured) | area·σ² + F/epadu + area²·σ²/N_sky (σ measured) — the same as Siril | F/gain + N_ap(1 + N_ap/N_sky)·σ² (σ measured) — the same as IRAF |
-| Centre | iterative moments in a circle (Howell's marginal-sum method by default; up to 100 iterations, stop when the move < 0.01 px), the sky taken off first (or a plane); can be turned off per aperture | PSF fit of each star on each frame (Gaussian or Moffat) | `calgorithm`: centroid / gauss / ofilter / none | 1-D Gaussians on the marginal sums |
+| Centre | iterative moments in a circle (Howell's marginal-sum method by default; up to 100 iterations, stop when the move < 0.01 px), the sky taken off first (or a plane); can be turned off per aperture | PSF fit of each star on each frame (Gaussian or Moffat) | `centerpars`: calgorithm centroid (default) / gauss / ofilter / none, in a box of `cbox` 5 px, at most `cmaxiter` 10 times, refused if it moves more than `maxshift` or the S/N is below `minsnratio`; optional cleaning of bad pixels | 1-D Gaussians on the marginal sums |
 | Radii from the star | radial profile in 1-px bins, normalised by the peak; FWHM where it crosses 0.5; r_ap where it falls below 1 % (`autoModeFluxCutOff` 0.010), r_in = 2 r_ap, r_out = 4 r_ap; fallback 1.7 / 3.4 / 6.8 FWHM | r_ap = factor × FWHM / 2; r_in, r_out = 4.2 and 6.3 FWHM ("autoring") | fixed values typed in (the curve of growth is a separate task) | profile, then a scan of 1–3 FWHM for the steadiest curve; r_in ≥ 4.5 FWHM |
 | Ensemble | T: F_T / Σ comps; each C_k: F_C / Σ the other comps; errors added in quadrature | target − (−2.5 log Σ flux / n); a frame is dropped unless every reference is valid | not part of phot (done afterwards) | the same as AstroImageJ; a frame is dropped when a comparison star is lost (as Siril) |
 | Saturation | peak per aperture compared with a saturation and a linearity level; the cell is coloured in the measurements table | any aperture pixel outside [minval, maxval] makes the star invalid on that frame | `datamax`: the measurement is flagged | peak measured, a level read from the header; not shown per point |
-| Choosing comparison stars | "Optimise": exhaustive search, or toggle one star at a time, for the lowest RMS of the fit | from a catalogue by ΔV, Δ(B−V), catalogue error, not variable | — | from Gaia by rules; scatter of each against the others |
-| Detrending | linear terms in the χ² of the fit; BIC = χ² + k ln n; exhaustive search of covariate sets for the lowest BIC (threshold ΔBIC); meridian flip as a step from a time or a column | — | — | linear least squares in chosen covariates, no BIC |
+| Suggesting comparison stars | "Auto comparison stars" without a catalogue: local maxima with peak between mean + 1σ of the image and 0.9 × its maximum, brightness 50–150 % of T1, no neighbour within 2 r_ap, ranked by 0.5 × brightness closeness + 0.5 × nearness to T1, at most 12, only inside the region common to all frames (WCS) | from a catalogue by ΔV, Δ(B−V), catalogue error, not variable | — | from Gaia by rules (pixel rules without a solution) |
+| Optimising the ensemble | "Optimise": exhaustive search of comparison-star sets, or toggling one star at a time, for the lowest RMS of the fit | — | — | scatter of each star against the others; scatter weights; no search |
+| Detrending | linear terms in the χ² of the fit; BIC = χ² + k ln n; exhaustive search of covariate sets for the lowest BIC (threshold ΔBIC); meridian flip as a step from a time or a column; Kepler spline (fixed or automatic knot spacing); outlier removal | — | — | linear least squares in chosen covariates, no BIC |
+| Star lists | apertures saved and opened (`.apertures`), exported / imported as an RA/Dec list | comparison-star CSV | coordinate files (`coords`) | none |
+| Periodogram on the light curve | BLS and TLS, on the GPU through OpenCL (JOCL), several planets in turn | — | — | BLS / PDM / LS on the Period page (GPU paths exist) |
+| Reports | AAVSO variable-star report; NEB (nearby eclipsing binary) check reports and plots for TESS follow-up; plot configuration saved as files and templates; plots to PNG / JPG / vector PDF | ETD, AAVSO | text tables (`txdump`) | CSV, AAVSO extended |
+| Image window | menus File, Preferences, Scale, View, Annotate, Measure, Edit, Process, Color, Analyze, WCS; a toolbar of toggles (negative, region exclusion, bad-pixel map, annotations, sky rings, star names, counts on the image, centroid on / off, aperture settings, draw / clear apertures, clear table, run multi-aperture, align, plate solve, header, zoom ×4, auto contrast); RA / Dec at the cursor; a frame slider; a measure tool (separation, position angle, Δmag and flux ratio between two stars) | — | — | ImageViewer with pixel / profile / histogram / radial / surface / ruler tools |
 
 Three things this changes in the list below:
 - Our error formula is IRAF's and Siril's; AstroImageJ differs because it models the sky noise from the camera
@@ -107,6 +119,13 @@ Three things this changes in the list below:
   picks by scatter; the validation (item 1) must use the same radii in both programs, or the comparison means nothing.
 - AstroImageJ keeps the background-star mask from one frame to the next; this is cheap and worth copying as an idea
   in item 3.
+- IRAF's default sky is the centroid of the sky histogram, not the mode (corrected 2026-11-07, read in
+  `fitskypars.par`); IRAF also refuses a centre that moves too far or has too low an S/N, which matches our per-frame
+  check.
+- MaxIm DL (manual only): the Photometry window has tabs Select (files grouped by OBJECT and FILTER, optional
+  automatic calibration), Quality (frames rejected by FWHM, roundness, background), Match (star matching or
+  astrometric), Identify (tag the variable, reference stars with their magnitudes, check stars), Graph (plot, remove
+  bad frames, export, print). Its errors come from the scatter of the reference stars when there are 3 or more.
 
 ## What we already have (do not redo)
 
@@ -182,7 +201,9 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
 - **Ours:** sigma-clipped median only; no plane fit; a bright star in the annulus is clipped but not masked.
 - **Build:** a choice of median (now) / mode (3 median − 2 mean with iterative clipping, IRAF) / clipped mean with
   ±2σ iterations (AstroImageJ) / plane fit (gradients from the Moon or twilight). The rejected pixels of the first
-  frame kept as a mask for the next frames (AstroImageJ's idea), so a star in the ring is masked even when faint.
+  frame kept as a mask for the next frames (AstroImageJ's idea), so a star in the ring is masked even when faint; and
+  IRAF's histogram centroid with `rgrow` (the pixels around a rejected one rejected too), so a star's faint wings in
+  the ring are taken out with its core.
 - **Accept:** on a synthetic frame with a sky gradient and a star in the annulus, the plane fit gives the true sky
   within 0.1 σ, and the median is biased as expected.
 
@@ -203,15 +224,20 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
   pulled to the bright star.
 - **Build:** per star, "do not centre: follow the field" (the shift from the other stars), and a choice of centroid /
   Gaussian. The table shows how far each star was moved on each frame.
-- **Accept:** a faint star 6 px from a bright one stays on the faint star when centring is off.
+- **Also:** a moments centroid in a circle (AstroImageJ's default, after Howell) for defocused "donut" stars, where a
+  Gaussian fit fails; a limit on how far a centre may move and a minimum S/N, as IRAF's `maxshift` / `minsnratio`.
+- **Accept:** a faint star 6 px from a bright one stays on the faint star when centring is off; a defocused star
+  (donut, 30 px) is centred within 0.2 px.
 
 ### 6. Measurements table (one row per frame, every number)
 **open**
 - **Reference:** the AIJ Measurements table: JD, BJD, airmass, and for every star x, y, source counts, sky per pixel,
   peak, FWHM, S/N, rel_flux and its error.
 - **Ours:** the frame list and a CSV with time, rel_flux, comparison fluxes, airmass, FWHM, Δm.
-- **Build:** a full table on the page (sortable, copyable) and the same columns in the CSV; columns named as AIJ
-  names them where they mean the same, so that tables can be compared side by side.
+- **Build:** a full table in its own panel (sortable, copyable, a column chooser, a filter such as
+  `rel_flux_err_T1 > 0.0006` as AstroImageJ's table filter, saturated and non-linear cells coloured with the reason
+  in the tooltip) and the same columns in the CSV; columns named as AIJ names them where they mean the same, so
+  that tables can be compared side by side; a click on a row shows that frame with its apertures.
 - **Accept:** every column AIJ writes for one star has a column here or a stated reason why not.
 
 ### 7. Star list saved and used again on another night
@@ -229,9 +255,11 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
   sky, FWHM, x / y), normalisation region, binning, residuals, shift-click to drop or restore a point, "cycle the
   comparison stars less one".
 - **Ours:** the light curve, per-star plots, a hand-made frame exclusion list, and each comparison star's scatter.
-- **Build:** one plot with selectable series stacked with offsets; binning by N points or by minutes; a normalisation
-  range; click a point to drop it or bring it back (undoable); "leave each comparison star out in turn" with the
-  scatter of every variant.
+- **Build:** one plot with selectable series stacked with offsets, each series with its own normalisation, detrend and
+  colour (AstroImageJ's Y-data rows); binning by N points or by minutes; a normalisation range; residuals under a
+  fit; click a point to drop it or bring it back (undoable); "leave each comparison star out in turn" with the
+  scatter of every variant; the plot set-up saved as a template and opened on another night; export to PNG, SVG and
+  vector PDF, and the plotted numbers to CSV.
 - **Accept:** each AIJ plot used in the owner's NY Vir check can be made here.
 
 ### 9. Choosing the detrending with numbers
@@ -239,9 +267,38 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
 - **Reference:** AIJ shows χ², reduced χ² and BIC; a parameter is kept when BIC drops by more than 2; a meridian-flip
   term removes the jump at the flip.
 - **Ours:** detrending against chosen covariates, with no BIC and no meridian-flip term.
-- **Build:** BIC and ΔBIC for each covariate set (also out-of-eclipse only); a step term at the meridian flip (time
-  from the header pier side or typed in).
+- **Build:** BIC and ΔBIC for each covariate set (also out-of-eclipse only), with an exhaustive search over the sets
+  as AstroImageJ does; a step term at the meridian flip (time from the header pier side or typed in); a smooth
+  detrend (spline with knot spacing chosen automatically, as AstroImageJ's Kepler spline) for long trends; outlier
+  removal against neighbours in time (the light-curve page already does this; reuse it).
 - **Accept:** on a synthetic curve with an airmass trend and a flip jump, the true model has the lowest BIC.
+
+### 9a. Optimising the ensemble
+**open** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
+- **Reference:** AstroImageJ searches comparison-star sets for the lowest RMS: exhaustively, or by toggling one star
+  at a time until the RMS stops improving.
+- **Ours now:** each star's scatter against the others and optional scatter weights; the user unticks stars by hand.
+- **Build:** "Find the best set": both searches on the out-of-eclipse part (or the whole night for a constant
+  star), a table of the best sets with their RMS, and one click to use a set (undoable). The search must not choose
+  a set that hides the variation of the target: it compares only the comparison stars with one another and with the
+  check star.
+- **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
+
+### 9b. Speed of a night (time, memory, GPU, native code)
+**open** — added 2026-11-07.
+- **Reference:** AstroImageJ measures in parallel threads and runs BLS / TLS on the GPU (OpenCL).
+- **Ours now:**
+  - frames are measured in worker processes;
+  - Qatar-1, 265 frames of 2400 × 2400: 11–17 s on 4 cores once the files are in memory (53–135 s when read from
+    disk the first time).
+- **Build:**
+  - profile a night of 1000 frames of 4k × 4k;
+  - move the inner loops (aperture sums, sky clipping, centring) to numba or C if they dominate;
+  - read the next frames while measuring the current ones;
+  - GPU for the sky statistics of many stars at once, only if it pays (measure);
+  - memory bounded by the machine (frames streamed, never all in memory).
+- **Accept:** 1000 × 4k² frames in under 5 minutes on a 4-core laptop, with memory under 2 GB; the numbers written
+  here before and after.
 
 ## P2 — complete for eclipsing binaries and variable stars
 
@@ -345,13 +402,35 @@ The page is one column of four folding steps beside the image. Items 6 (measurem
 - **Build:** a light curve of a moving object (aperture follows the track, comparison stars fixed).
 - **Accept:** a synthetic moving star of constant brightness gives a flat curve.
 
+### 22. Aperture shapes
+**open** — added 2026-11-07 (AstroImageJ `ShapedApertureRoi`, `FreeformPixelApertureRoi`).
+- **Reference:** AstroImageJ offers circular, elliptical and free-form (painted pixel) apertures, for trailed or
+  elongated stars and for blends.
+- **Build:** elliptical apertures (axis ratio and angle from the star's moments) and a painted aperture, measured
+  with exact pixel areas like the circles.
+- **Accept:** a trailed star (3:1) gives the same flux as its untrailed copy within 1 %.
+
+### 23. Nearby eclipsing binary check
+**open** — added 2026-11-07 (AstroImageJ NEB reports).
+- **Reference:** for a target whose eclipse was found in survey data (TESS pixels are 21″), AstroImageJ measures
+  every Gaia star nearby and reports whether one of them could make the dip.
+- **Build:** the Gaia stars within a radius measured on every frame; for each, the depth it would need to cause the
+  target's dip; those that show it, or could, listed and plotted.
+- **Accept:** on a synthetic field where a neighbour carries the eclipse, the neighbour is named.
+
+### 24. Measuring between two stars on the image
+**open** — added 2026-11-07 (AstroImageJ Measure menu).
+- **Reference:** separation, position angle, Δmag and flux ratio between two clicked stars, written to a table.
+- **Build:** the ruler tool also gives Δmag and flux ratio (apertures at both ends), on any frame.
+- **Accept:** two synthetic stars of known flux ratio give it within 0.5 %.
+
 ## Order proposed
 
 New items found by research, trials or tests are inserted where their urgency puts them (numbers may then be
 given letters, e.g. 3a); this order is updated with them.
 
 
-0 (after interface I2) → 1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
+0 (after interface I2) → 1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9 → 9a → 9b, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
 binaries). Item 1 comes first: every later change is then checked against AstroImageJ automatically.
 
 ## Done

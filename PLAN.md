@@ -41,6 +41,13 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
    - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
 8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
 9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+10. **Use the right language for each part.** Python is not compulsory.
+    - Python and Qt (PySide6) stay the base: the science libraries and the interface.
+    - Where speed matters and Python is too slow, write that part in what does it best: numba, Cython or C/C++
+      (pybind11), Rust (PyO3), or GPU kernels (CUDA / OpenCL). Measure before and after.
+    - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
+      packaged program.
+    - Its licence must be permissive (PLAN.md R1).
 
 ## How to start a task (read in this order)
 
@@ -189,6 +196,17 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
   - Where the work suits a GPU (large images, many frames, long periodograms, fits over a grid), write a GPU path
     with a CPU fallback through the `compute` module (auto / cpu / gpu), and check it on a GPU (the owner has one:
     RTX 4050) or say that it is unchecked.
+- **The right language for each part.**
+  - Python stays the base: numpy / scipy / astropy / photutils and the Qt interface through PySide6.
+  - A part whose speed matters and which Python cannot make fast enough is written in the language that suits it:
+    - numba or Cython for numeric loops;
+    - C / C++ through pybind11, or Rust through PyO3, for larger native parts;
+    - CUDA / OpenCL kernels (CuPy, pyopencl) for the GPU.
+  - Conditions:
+    - it builds on every platform of CI and inside the PyInstaller bundle;
+    - its licence is permissive;
+    - the speed-up is measured;
+    - a pure-Python fallback is kept when the native part may be missing on a machine.
 - **The engine is not frozen.** Old core files may be changed where they are wrong or missing, and new features
   added, with tests.
   - Nothing that looks unnecessary is deleted without the owner's yes: write it under "To ask the owner" in the

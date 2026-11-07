@@ -33,6 +33,13 @@
    - Where the work suits a GPU, write a GPU path with a CPU fallback (the `compute` module: auto / cpu / gpu).
 8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
 9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
+10. **Use the right language for each part.** Python is not compulsory.
+    - Python and Qt (PySide6) stay the base: the science libraries and the interface.
+    - Where speed matters and Python is too slow, write that part in what does it best: numba, Cython or C/C++
+      (pybind11), Rust (PyO3), or GPU kernels (CUDA / OpenCL). Measure before and after.
+    - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
+      packaged program.
+    - Its licence must be permissive (PLAN.md R1).
 
 The rules that matter most here:
 
@@ -117,8 +124,35 @@ Main window                                      Area window (e.g. Photometry)
 ## Steps
 (placed by urgency; new tasks found by research or tests are inserted where they belong)
 
+Language: the interface stays Qt through PySide6 (Python), which runs the same on every system we ship; heavy
+drawing (very large images, thousands of plotted points) may move to OpenGL or native code if measured too slow
+(PLAN.md rule 10).
+
 ### I1. Research: how the reference programs lay out their windows
-**open**
+**open** — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
+
+Found so far:
+- **AstroImageJ** (source `astroj/AstroStackWindow.java`, `Astronomy/MultiPlot_.java`):
+  - The image window has its own menu bar: File, Preferences, Scale, View, Annotate, Measure, Edit, Process,
+    Color, Analyze, WCS.
+  - Under the menu bar is a toolbar of toggles and actions: negative; region exclusion; bad-pixel map;
+    annotations; sky rings; star names; counts on the image; centroid on / off; aperture settings; draw and clear
+    apertures; clear table; run multi-aperture; align; plate solve; header; zoom in fast / in / out / fit; auto
+    contrast.
+  - RA and Dec of the cursor are shown beside the image; a slider walks the frames.
+  - Multi-Plot is a window of its own with menus File, Preferences, Table, X-axis, Y-axis, Style, Auto Priors. It
+    has Y-data rows (one row per plotted series, each with its own settings), a reference-star panel of checkboxes
+    and a fit panel.
+  - The measurements table is a window of its own, with a filter and coloured cells.
+  - Every window remembers its place.
+  - Users' usual complaint: too many windows and dialogs, settings scattered among them.
+  - What to take: the per-window menus, the toolbar of toggles, the cursor read-out. What to avoid: a dozen
+    floating windows; ours dock into one area window and can be pulled out only when wanted.
+- **MaxIm DL** (manual):
+  - Menu bar: File, Edit, View, Analyze, Process, Filter, Color, Plug-In, Window, Help.
+  - Tool windows can be docked or floated: Information, Photometry, Observatory, Screen Stretch.
+  - The Photometry tool is one window with tabs Select, Quality, Match, Identify, Graph: it follows the workflow
+    left to right, which is the model for our steps panel.
 - **Read:**
   - AstroImageJ: the main toolbar window, the image window with its toolbar, the Multi-Aperture and Multi-Plot
     windows, and the measurements table. Use screenshots, the user guide and the source.
@@ -136,6 +170,35 @@ Main window                                      Area window (e.g. Photometry)
 
 ### I2. The area window frame (shared by every area)
 **open**
+- **Shared parts every area window gets from the frame** (built once, not per area):
+  - **Image view:** the existing `ImageViewer`, extended with:
+    - zoom, pan and levels;
+    - a cursor read-out (x, y, value, RA / Dec when solved);
+    - a frame slider and blink;
+    - overlay toggles on the toolbar (apertures, sky rings, names, counts, catalogue stars, VSX);
+    - the measure tool.
+  - **Plot view:** one plot component with:
+    - zoom and pan;
+    - several series with offsets, binning and residuals;
+    - a click to drop or restore a point;
+    - export to PNG / SVG / vector PDF and the numbers to CSV.
+  - **Table view:** one table component with:
+    - sorting, a column chooser and a filter;
+    - coloured cells with the reason in the tooltip;
+    - copy and CSV export;
+    - a click on a row that tells the window to show that frame.
+  - **Keyboard:** the same keys in every window (Ctrl+Z / Ctrl+Y, Ctrl+O, Ctrl+S, F1 for help on the current
+    window, arrows for frames). Plus **a command search (Ctrl+K):** type a few letters to find any action of the
+    window. This keeps the toolbar short without hiding anything.
+  - **Files:**
+    - recent files per area;
+    - drag and drop onto any window;
+    - **save and open a whole session of the area** (data chosen, stars, settings, plots), as AstroImageJ's
+      "Save all".
+  - **Night work:** a red night theme beside light and dark (it keeps the eyes dark-adapted at the telescope);
+    high-DPI and second monitors; the font size can be changed.
+  - **Long work:** progress and cancel in the status bar; a notice when a long task ends while the window is in the
+    background.
 - **Build** one class (`ui/area_window.py`): a top-level window with:
   - a menu bar built from what the area declares, plus the common File / Edit / Window / Help;
   - a toolbar;
@@ -149,11 +212,15 @@ Main window                                      Area window (e.g. Photometry)
 - **Accept:**
   - an empty test area opens, a panel is pulled out, the window is closed and opened again, and the panel is back
     where it was;
+  - Ctrl+K finds every action of the test window by name, in every interface language;
+  - a saved session opens again with the same data, stars and plots;
   - the window fits 1366 × 768;
   - tests offscreen.
 
 ### I3. The main window as a menu of blocks
 **open**
+- **Also:** a "Continue where you left off" list (the last sessions of each area) at the top; the first-night
+  tutorial reachable from here.
 - **Build:**
   - the start page becomes the main window's content: one block per area, each with an icon, a name and one line
     of what it does;
@@ -203,6 +270,13 @@ Main window                                      Area window (e.g. Photometry)
 ### I6. The other areas get their full windows
 **open** — one at a time, each planned in its own area file first (for example Spectroscopy: orders and spectrum in
 the middle, lines and fit in panels).
+
+### I6a. Test every window as a user (PLAN.md R3)
+**open** — after I4 and again after each I5 / I6 window.
+- **Build:** a driving script per window (QTest clicks, offscreen or Xvfb) that walks its workflow on real data
+  and saves a screenshot of each step at 1366 × 768 and 1920 × 1080, in the four languages. A reviewer (the agent)
+  looks at every screenshot as a newcomer would and writes each finding here as a task.
+- **Accept:** the screenshots are attached to the step's notes (scratchpad paths); no finding left without a task.
 
 ### I7. Basic / Expert, guide, screenshots
 **open**
