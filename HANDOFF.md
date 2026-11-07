@@ -595,6 +595,22 @@ script that says GPU found / works / how long"):**
   only the finder chart's DSS image (CDS hips2fits) has no second source — a STScI DSS fallback was offered, not
   built.
 
+- **v0.2.5 released** (owner: "release a new version when the work is done") from `d03c007` (ci.yml release=true,
+  run 187 green; CI 184 at `b213d0c` green incl. packages). Assets as v0.2.4 (5 installers). Since v0.2.4: plots
+  never 0 px, pages fit 960 px, Calibrate remove / clear / undo, header table copy / widen / double-click,
+  hover rings follow Shift + wheel and zoom, light curves with non-positive flux ratios drawn (NaN, frames named on
+  the plot), Linux installer skips an unchanged version.
+- **Owner's own night (TUBITAK T100, 2018-07-10, files NSVS07826147_*_Empty.fits, 2x2 binned, 0.615"/px, image
+  rotated ~180 deg):** the OBJECT header is wrong — NSVS 07826147 is at 15:33:49 +37:59; the field (OBJCTRA/DEC
+  13:39:01 -02:06, right) holds **NY Vir** (sdB+dM HW Vir, 13 38 48.15 -02 01 49.2, G 13.37) at x 646, y 1383
+  (0-based, as the program shows). Solved by matching 22 detected stars to Gaia DR3 (VizieR IDIA mirror; CDS did not
+  answer), rms 0.49 px. Comparison stars given to the owner: (1204, 868) G 13.06, (1205, 1621) G 12.17 =
+  TYC 4966-559-1, (485, 899) G 14.45, (196, 1333) G 14.63; check (1613, 1299) G 14.13. The owner had first marked
+  (1204, 868) as T1 and kept the header coordinates in the BJD field. Frames 0001 (5 s), 0007, 0115 (10 s) measured
+  through the light-curve step: shifts (4, -92) and (160, -140) px followed, NY Vir / ensemble 0.192 / 0.194 / 0.187
+  — the frames that gave negative ratios ('yerr' crash) are among the other 17, not seen; v0.2.5 names them.
+  Owner's frames are only in the scratchpad, never committed.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
