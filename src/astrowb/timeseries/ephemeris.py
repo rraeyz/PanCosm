@@ -52,6 +52,21 @@ def parse_minima(text: str) -> list[Minimum]:
     return out
 
 
+def hjd_scale_unknown(text, times):
+    """ARC-15 item 4: older minima lists say "HJD" without saying UTC or TT. Returns the largest TT − UTC (s) over the
+    times — what the O−C would move if they were TT while taken as UTC — or None when the text names a scale or no
+    HJD. TT − UTC is 32.184 s plus the leap seconds of the date (69.184 s since 2017)."""
+    import re
+
+    from astropy.time import Time
+
+    words = text.upper()
+    if "HJD" not in words or re.search(r"\b(UTC|UT|TT|TDB|TDT|ET)\b|HJD_(UTC|TT|TDB)", words) or not len(times):
+        return None
+    t = Time(np.asarray(times, float), format="jd", scale="utc")
+    return float(np.max((t.tt.jd - t.utc.jd) * 86400.0))
+
+
 def epochs(minima, t0, period):
     """Cycle numbers (half-integers for secondaries) relative to t0."""
     e = []

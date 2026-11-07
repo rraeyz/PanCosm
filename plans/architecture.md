@@ -850,7 +850,9 @@ the suite is green after each.
 - **Files:** `services/*`, the callers listed above (moved, their public functions kept), tests.
 
 ### ARC-15. Time, coordinates and units: one policy, one converter tool  (P1)
-**open** — items 3, 5 (a), (b), (c) and 6 done by agent3 (2026-11-10 / 11)
+**open** — items 3, 5 (a), (b), (c) and 6 done by agent3 (2026-11-10 / 11); item 4 in O−C (2026-11-13: a minima
+file saying HJD with no scale is taken as UTC and the window says by how much every O−C moves if it was TT —
+`timeseries.ephemeris.hjd_scale_unknown`, TT − UTC of the latest time)
 - **Progress (agent3):** `timing.start_time` / `mid_time` honour `TIMESYS` (UTC, UT, TT / TDT / ET, TAI / IAT,
   TDB, GPS = TAI − 19 s; an unknown value is its own translated error); mid-exposure order: `DATE-AVG`, `MJD-AVG`,
   `JD-MID`, a "median / mid" `DATE-OBS` comment, the midpoint of `DATE-OBS` and `DATE-END` when their span is

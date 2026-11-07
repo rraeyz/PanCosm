@@ -201,6 +201,23 @@ class OCPage(QWidget):
             )
         if path:
             self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
+            self._say_hjd_scale(self.text.toPlainText())
+
+    def _say_hjd_scale(self, text):
+        """ARC-15 item 4: HJD with no time scale is taken as UTC, and the possible error is said."""
+        from ..timeseries.ephemeris import hjd_scale_unknown, parse_minima
+
+        try:
+            seconds = hjd_scale_unknown(text, [m.time for m in parse_minima(text)])
+        except ValueError:
+            return
+        if seconds:
+            self.result.setText(
+                self.tr(
+                    "The times are HJD without a time scale: taken as UTC. If they are TT, every O−C here is "
+                    "{s:.0f} s too late; write UTC or TT in the file when you know it."
+                ).format(s=seconds)
+            )
 
     def _look_up(self):
         if self.star.text().strip():
