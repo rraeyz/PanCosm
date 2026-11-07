@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QListWidget,
     QPushButton,
+    QScrollArea,
     QStackedWidget,
     QVBoxLayout,
     QWidget,
@@ -171,13 +172,17 @@ class SettingsWindow(Dialog):
         page = QWidget(self)
         lay = QVBoxLayout(page)
         lay.addStretch(1)
-        self.pages.addWidget(page)
+        scroll = QScrollArea(self)  # a long page scrolls: the window could not be made shorter than Profiles
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QScrollArea.NoFrame)
+        scroll.setWidget(page)
+        self.pages.addWidget(scroll)
         self.categories.addItem(title)
         return self.pages.count() - 1
 
     def _row(self, category, label, control, description, unit=None, default=None):
         """default: the program's own value; the row then shows a dot while the setting differs, a click resets."""
-        page = self.pages.widget(category)
+        page = self.pages.widget(category).widget()
         row = FormRow(label, control, unit=unit, help=description, reset=default is not None, default=default)
         note = QLabel(description, page)
         note.setProperty("muted", True)

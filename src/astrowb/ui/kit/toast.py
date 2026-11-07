@@ -28,7 +28,10 @@ class Toast(QFrame):
             self.button.clicked.connect(slot)
             self.button.clicked.connect(self.close)
             lay.addWidget(self.button)
-        self.timer = QTimer(self, singleShot=True, interval=SECONDS * 1000, timeout=self.close)
+        self.timer = QTimer(self)  # no property keywords: the packaged PySide6 refused them (0.3.11)
+        self.timer.setSingleShot(True)
+        self.timer.setInterval(SECONDS * 1000)
+        self.timer.timeout.connect(self.close)
         self.setAttribute(Qt.WA_DeleteOnClose)
         parent.installEventFilter(self)  # follow the window's corner when it is resized
 
