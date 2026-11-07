@@ -143,3 +143,40 @@ def test_block_wise_pca_and_kmeans_give_what_a_copy_of_every_pixel_gave():
         expect = v @ x
         sign = np.sign(np.dot(comps[i][valid][:100], expect[:100]))  # an eigenvector's sign is arbitrary
         assert np.allclose(sign * comps[i][valid], expect, atol=1e-5) and np.isnan(comps[i][~valid]).all()
+
+
+def test_esa_sentinel2_bands_become_reflectance_with_the_baseline_offset(tmp_path):
+    """Band files of an ESA SAFE product carry +1000 since processing baseline 04.00: they are read as
+    (number + BOA_ADD_OFFSET) / BOA_QUANTIFICATION_VALUE from the product's MTD_MSIL2A.xml, so NDVI is right
+    (on the raw numbers red 0.05 / NIR 0.30 gave 0.455 instead of 0.714); 0 is no data; a class map (SCL) and files
+    outside a SAFE product are left as they are."""
+    import imagecodecs
+
+    from astrowb.remotesensing import raster
+
+    safe = tmp_path / "S2B_MSIL2A_20250828T083559_N0511_R064_T36TVK_20250828T110000.SAFE"
+    img = safe / "GRANULE" / "L2A_T36TVK" / "IMG_DATA" / "R10m"
+    img.mkdir(parents=True)
+    offsets = "".join(f'<BOA_ADD_OFFSET band_id="{i}">-1000</BOA_ADD_OFFSET>' for i in range(13))
+    (safe / "MTD_MSIL2A.xml").write_text(
+        '<?xml version="1.0"?><n1:Level-2A_User_Product xmlns:n1="https://psd-14.sentinel2.eo.esa.int/PSD/'
+        'User_Product_Level-2A.xsd"><General_Info><Product_Image_Characteristics><QUANTIFICATION_VALUES_LIST>'
+        '<BOA_QUANTIFICATION_VALUE unit="none">10000</BOA_QUANTIFICATION_VALUE></QUANTIFICATION_VALUES_LIST>'
+        f"<BOA_ADD_OFFSET_VALUES_LIST>{offsets}</BOA_ADD_OFFSET_VALUES_LIST></Product_Image_Characteristics>"
+        "</General_Info></n1:Level-2A_User_Product>"
+    )
+    red = np.full((20, 30), 1500, np.uint16)
+    nir = np.full((20, 30), 4000, np.uint16)
+    red[0, 0] = nir[0, 0] = 0
+    paths = []
+    for band, a in (("B04", red), ("B08", nir), ("SCL", red)):
+        p = img / f"T36TVK_20250828T083559_{band}_10m.jp2"
+        p.write_bytes(imagecodecs.jpeg2k_encode(a, level=0))
+        paths.append(p)
+    r, n = raster.read(paths[0]).bands[0], raster.read(paths[1]).bands[0]
+    assert r[5, 5] == pytest.approx(0.05) and n[5, 5] == pytest.approx(0.30) and np.isnan(r[0, 0])
+    assert ((n - r) / (n + r))[5, 5] == pytest.approx(0.25 / 0.35)
+    assert raster.read(paths[2]).bands[0][5, 5] == 1500  # a class map keeps its classes
+    outside = tmp_path / "T36TVK_20250828T083559_B04_10m.jp2"
+    outside.write_bytes(paths[0].read_bytes())
+    assert raster.read(outside).bands[0][5, 5] == 1500
