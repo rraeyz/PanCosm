@@ -148,7 +148,7 @@ def smoke_test(workdir: Path) -> None:
     server = serve(Controller(obs), "smoke", port=0)
     assert Client(f"http://127.0.0.1:{server.server_address[1]}", "smoke").status()["safe"]
     server.shutdown()
-    win.close()
+    _smoke_interface(win)  # closes the window
 
     # GPU path (or its CPU fallback) must load and agree with the CPU in the installed build
     from . import compute
@@ -162,6 +162,32 @@ def smoke_test(workdir: Path) -> None:
     compute.set_mode(previous)
     ref, _, _ = clipped_mean(stack, use_gpu=False)
     assert np.allclose(img, ref, rtol=1e-4), "GPU and CPU disagree"
+
+
+def _smoke_interface(win):
+    """Every area window opened, a task's "finished" toast and the Settings window shown, in the installed build:
+    0.3.11's packaged PySide refused QTimer property keywords and every finished task raised, which no source run
+    showed. An error reaching sys.excepthook (a slot's) fails the test."""
+    import sys
+
+    from PySide6.QtWidgets import QApplication
+
+    from .ui.kit.toast import Toast
+    from .ui.settings_window import SettingsWindow
+
+    errors, hook = [], sys.excepthook
+    sys.excepthook = lambda *exc: errors.append(exc[1])
+    try:
+        for key in win.WINDOWED:
+            area = win.open_area(key)
+            Toast.show_in(area or win, "smoke: finished")
+            QApplication.processEvents()
+        SettingsWindow(win).show()
+        QApplication.processEvents()
+    finally:
+        sys.excepthook = hook
+    win.close()
+    assert not errors, errors
 
 
 def _show_unexpected_errors(settings):
