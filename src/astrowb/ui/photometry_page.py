@@ -34,7 +34,7 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..settings import Settings
-from . import automatic, photometry_standard
+from . import automatic, comparison_rules, photometry_standard
 from .aavso_dialog import AavsoDialog, from_sequence
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
@@ -1764,7 +1764,8 @@ class PhotometryPage(Undoable, QWidget):
         self._auto_for = self.target if auto else None
         if auto:
             self.result.setText(self.tr("Choosing the comparison stars…"))
-        self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value(), "rules": {}})
+        rules = comparison_rules.rules()
+        self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value(), "rules": rules})
 
     def _choose_radii(self):
         self.apertures_requested.emit(

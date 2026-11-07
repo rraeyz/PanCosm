@@ -126,8 +126,22 @@ def add_star_buttons(page, layout):
         translate("PhotometryStars", "The AAVSO chart's comparison stars on the first frame, with their labels")
     )
     page.sequence_button.clicked.connect(lambda: show_sequence(page))
-    for w in (page.suggest_button, page.why_button, page.identify_button, page.sequence_button):
+    page.rules_button = QPushButton(translate("PhotometryStars", "Rules for comparison stars…"), page)
+    page.rules_button.setToolTip(
+        translate(
+            "PhotometryStars", "Brightness and colour window, distance, variables, S/N, how many: Suggest uses them"
+        )
+    )
+    page.rules_button.clicked.connect(lambda: _edit_rules(page))
+    for w in (page.suggest_button, page.rules_button, page.why_button, page.identify_button, page.sequence_button):
         layout.addWidget(w)
+
+
+def _edit_rules(page):
+    from .comparison_rules import RulesDialog
+
+    page.rules_dialog = RulesDialog(None, page)
+    page.rules_dialog.open()
 
 
 class _Relay(QObject):
