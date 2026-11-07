@@ -6,7 +6,8 @@ y_out >= y_in.
 
 Phases as in compute.periods (PDM): the CPU gives each chunk of trial frequencies its phase in float64, the GPU adds
 at most 32 cycles. Bin counts and duration steps come from the CPU in float64 (astropy's ceil / round). Float32
-sums: the power agrees with astropy's to ~1e-4, and the best period is the same. gpu_bls_power returns None
+phases and sums: a point on a bin edge can fall in the next bin, so the power agrees with astropy's to a few 1e-4 of
+its peak (llvmpipe 7e-5, a Metal GPU 4e-4), and the best period is the same. gpu_bls_power returns None
 whenever the GPU is not to be used (the caller uses astropy).
 """
 

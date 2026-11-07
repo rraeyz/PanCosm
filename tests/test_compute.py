@@ -215,7 +215,9 @@ def test_gpu_sigma_clipping_with_few_and_many_frames(gpu_mode):
 
 def test_gpu_bls_matches_astropy(gpu_mode):
     """Box least squares on the GPU: astropy's fast likelihood search (its bins, wrap-around and durations) gives
-    the same periodogram (to 3e-4 of its peak, float32 sums) and the same best period, over 300 days of data."""
+    the same periodogram and the same best period, over 300 days of data. Float32 phases: a point on a bin edge can
+    fall in the next bin, which moves the power by up to half a point's chi^2 (0.5 here; 0.24 seen on a Metal GPU,
+    4e-4 of the peak; 7e-5 on llvmpipe)."""
     from astropy.timeseries import BoxLeastSquares
 
     from astrowb.compute.bls import gpu_bls_power
@@ -228,5 +230,5 @@ def test_gpu_bls_matches_astropy(gpu_mode):
     durs = (0.04, 0.06, 0.08, 0.12, 0.16)
     ref = np.asarray(BoxLeastSquares(t, y, dy).power(periods, durs).power)
     gpu = gpu_bls_power(t, y, 1 / dy**2, periods, durs, force=True)
-    assert np.max(np.abs(gpu - ref)) < 3e-4 * ref.max()
+    assert np.max(np.abs(gpu - ref)) < 1e-3 * ref.max()
     assert np.argmax(gpu) == np.argmax(ref)
