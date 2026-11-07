@@ -1974,6 +1974,9 @@ def test_photometry_inspector_shows_the_clicked_star(window):
     assert win.docks["inspector"].isVisible() and rows["Role"].startswith("T1")
     assert rows["x, y (FITS pixels)"].startswith("51.3") and 3.5 < rows["FWHM"] < 4.5
     assert 4500 < int(rows["Peak"]) < 5100  # the brightest pixel (the centre falls between pixels)
+    # PHO-34: where the noise comes from; gain 1, no read noise: star and sky only, the error near 1 / S/N
+    assert rows["Noise from"].startswith("star ") and "sky" in rows["Noise from"] and "read" not in rows["Noise from"]
+    assert rows["Predicted error"] > 0
 
 
 def test_settings_profile_filled_from_a_header(window, tmp_path):
