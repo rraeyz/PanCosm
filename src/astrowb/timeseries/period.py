@@ -83,6 +83,12 @@ def bls(t, y, err=None, p_min=0.2, p_max=None, durations=(0.04, 0.06, 0.08, 0.12
     p_min = max(p_min, 2 * max(durations))
 
     def power(idx, f):
+        from ..compute.bls import gpu_bls_power
+
+        ivar = np.ones(len(idx)) if e is None else 1 / e[idx] ** 2
+        gpu = gpu_bls_power(t[idx], y[idx], ivar, 1 / f, durations)  # when the compute mode allows it
+        if gpu is not None:
+            return gpu
         model = BoxLeastSquares(t[idx], y[idx], None if e is None else e[idx])
         return np.asarray(model.power(1 / f, durations).power)
 
