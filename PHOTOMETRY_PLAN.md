@@ -27,6 +27,36 @@ binary and variable-star work; P3 is workflow comfort.
 - Licences: only ideas and published methods are taken. No code is copied from GPL programs (AstroImageJ, Siril,
   C-Munipack), and nothing from MKCLASS.
 
+## How they do it in their code (read 2026-11-07)
+
+Sources read, not copied (AstroImageJ and Siril are GPL; their code must not be pasted into ours): AstroImageJ
+`astroj/Photometer.java`, `astroj/Centroid.java`, `Astronomy/MultiAperture_.java`, `Astronomy/Seeing_Profile.java`,
+`Astronomy/FitOptimization.java`, `Astronomy/MultiPlot_.java`, `multiplot/MeridianFlip.java`
+(github.com/AstroImageJ/astroimagej); Siril `src/algos/photometry.c`, `robustmean` in
+`src/algos/statistics_float.c` (gitlab.com/free-astro/siril); IRAF `noao/digiphot/apphot/phot/apmeasure.x`,
+`apcomags.x`, `fitsky/apmode.x` (github.com/iraf-community/iraf). MaxIm DL is closed source: only its manual.
+C-Munipack: only its manual (the code is on SourceForge SVN, not read).
+
+| Step | AstroImageJ | Siril | IRAF apphot | Ours now |
+| --- | --- | --- | --- | --- |
+| Pixels in the aperture | exact area of each pixel inside the circle (polygon intersection) | weight r_ap − r + 0.5, cut to 0–1 (a linear edge) | weight r_ap − r, cut to 0–1; several apertures in one pass | exact area (photutils) |
+| Sky value | mean of the annulus; "remove stars": iterate up to 100 times, keep pixels within mean ± 2σ, stop when the mean changes < 1e-4; optional plane fitted to the kept pixels; the rejected-pixel mask is kept for the next frame | Hampel M-estimator robust mean (Newton iterations from median and MAD/0.6745), pixels outside [minval, maxval] dropped | `salgorithm`: mode = 3 median − 2 mean with iterative low / high sigma clipping (also median, centroid of the histogram, …) | sigma-clipped (3σ, 10 iterations) median |
+| Error of the flux | √(F·g + N_ap(1 + N_ap/N_sky)(sky·g + dark + RON² + 0.289²·g²)) / g — the sky noise is modelled from the sky level, read noise and dark current (Merline & Howell 1995) | area_sq·σ²_sky + F/gain + area²·σ²_sky/N_sky (σ_sky measured) | area·σ² + F/epadu + area²·σ²/N_sky (σ measured) — the same as Siril | F/gain + N_ap(1 + N_ap/N_sky)·σ² (σ measured) — the same as IRAF |
+| Centre | iterative moments in a circle (Howell's marginal-sum method by default; up to 100 iterations, stop when the move < 0.01 px), the sky taken off first (or a plane); can be turned off per aperture | PSF fit of each star on each frame (Gaussian or Moffat) | `calgorithm`: centroid / gauss / ofilter / none | 1-D Gaussians on the marginal sums |
+| Radii from the star | radial profile in 1-px bins, normalised by the peak; FWHM where it crosses 0.5; r_ap where it falls below 1 % (`autoModeFluxCutOff` 0.010), r_in = 2 r_ap, r_out = 4 r_ap; fallback 1.7 / 3.4 / 6.8 FWHM | r_ap = factor × FWHM / 2; r_in, r_out = 4.2 and 6.3 FWHM ("autoring") | fixed values typed in (the curve of growth is a separate task) | profile, then a scan of 1–3 FWHM for the steadiest curve; r_in ≥ 4.5 FWHM |
+| Ensemble | T: F_T / Σ comps; each C_k: F_C / Σ the other comps; errors added in quadrature | target − (−2.5 log Σ flux / n); a frame is dropped unless every reference is valid | not part of phot (done afterwards) | the same as AstroImageJ; a frame is dropped when a comparison star is lost (as Siril) |
+| Saturation | peak per aperture compared with a saturation and a linearity level; the cell is coloured in the measurements table | any aperture pixel outside [minval, maxval] makes the star invalid on that frame | `datamax`: the measurement is flagged | peak measured, a level read from the header; not shown per point |
+| Choosing comparison stars | "Optimise": exhaustive search, or toggle one star at a time, for the lowest RMS of the fit | from a catalogue by ΔV, Δ(B−V), catalogue error, not variable | — | from Gaia by rules; scatter of each against the others |
+| Detrending | linear terms in the χ² of the fit; BIC = χ² + k ln n; exhaustive search of covariate sets for the lowest BIC (threshold ΔBIC); meridian flip as a step from a time or a column | — | — | linear least squares in chosen covariates, no BIC |
+
+Three things this changes in the list below:
+- Our error formula is IRAF's and Siril's; AstroImageJ differs because it models the sky noise from the camera
+  numbers. Item 2 is therefore "add the camera model as an option", not "fix a wrong formula".
+- AstroImageJ's automatic radii are much larger than ours (to 1 % of the peak, sky from 2× to 4× that). Our scan
+  picks by scatter; the validation (item 1) must use the same radii in both programs, or the comparison means nothing.
+- AstroImageJ keeps the background-star mask from one frame to the next; this is cheap and worth copying as an idea
+  in item 3.
+
 ## What we already have (do not redo)
 
 | Area | Ours now | Like |
@@ -45,6 +75,22 @@ binary and variable-star work; P3 is workflow comfort.
 | Outputs | CSV light curve, AAVSO extended format, minimum times (KvW) to O−C | Siril, Muniwin, AIJ |
 | Other | PSF photometry (Gaussian, grouped), live photometry during the night, frame quality, variable-star search, polarimetry | daophot, AIJ real-time |
 
+## P0 — the photometry window
+
+The page is one column of four folding steps beside the image. Items 6 (measurements table), 7 (star lists), 8
+(multi-plot) and 9 (detrending with BIC) will not fit in that column: AstroImageJ uses separate windows for them
+(image with apertures, Multi-Aperture settings, Measurements table, Multi-Plot main, Multi-Plot Y-data, fit panel).
+
+### 0. Photometry in a window of its own
+- **Build:** "Photometry" opens its own main window (it can also stay a page). Inside: the image in the middle; the
+  steps on the left; at the bottom or right, tabs that can be pulled out as windows of their own — Measurements
+  table, Plot (multi-plot), Stars (target, comparison, check, with their scatter), Detrend and fit. The program
+  already has dockable panels (`MainWindow.dock_page`), so this reuses them; window layout is remembered.
+- **Accept:** on a 1366 × 768 screen the image, the plot and the table are visible at once; every panel can be
+  pulled out to a second monitor and comes back where it was next time.
+- **Why first:** items 6–9 each need room; built into the present column they would make it longer and harder,
+  which is the complaint.
+
 ## P1 — trust in the light curve
 
 ### 1. Same frames, same answer as AstroImageJ (validation)
@@ -60,8 +106,8 @@ binary and variable-star work; P3 is workflow comfort.
 ### 2. Noise model with the camera's numbers
 - **Reference:** AIJ appendix B (source and sky Poisson noise, dark current, read noise, quantisation); IRAF
   `datapars` (epadu, readnoise).
-- **Ours:** F/gain plus the scatter of the sky ring; read noise and dark current enter only through that scatter, and
-  S/N per star is not shown.
+- **Ours:** F/gain plus the scatter of the sky ring — the same formula as IRAF and Siril (see the code table); read
+  noise and dark current enter only through that measured scatter, and S/N per star is not shown.
 - **Build:** GAIN, RDNOISE / READNOIS, DARKCUR (or values typed once per camera) in the error; S/N of every star on
   every frame in the table.
 - **Accept:** on simulated frames with known gain, read noise and dark current, the predicted error matches the
@@ -71,8 +117,9 @@ binary and variable-star work; P3 is workflow comfort.
 - **Reference:** IRAF `fitskypars.salgorithm` (mode, median, centroid…); MaxIm median-mean; AIJ iterative 2σ
   rejection of stars in the annulus and an optional plane fit; Siril rejects deviant pixels.
 - **Ours:** sigma-clipped median only; no plane fit; a bright star in the annulus is clipped but not masked.
-- **Build:** a choice of median / mode (3 median − 2 mean, DAOPHOT) / plane fit (for gradients from the Moon or
-  twilight). Pixels of other stars found in the annulus are masked before the estimate.
+- **Build:** a choice of median (now) / mode (3 median − 2 mean with iterative clipping, IRAF) / clipped mean with
+  ±2σ iterations (AstroImageJ) / plane fit (gradients from the Moon or twilight). The rejected pixels of the first
+  frame kept as a mask for the next frames (AstroImageJ's idea), so a star in the ring is masked even when faint.
 - **Accept:** on a synthetic frame with a sky gradient and a star in the annulus, the plane fit gives the true sky
   within 0.1 σ, and the median is biased as expected.
 
@@ -219,7 +266,7 @@ binary and variable-star work; P3 is workflow comfort.
 
 ## Order proposed
 
-1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
+0 → 1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
 binaries). Item 1 comes first: every later change is then checked against AstroImageJ automatically.
 
 ## Done
