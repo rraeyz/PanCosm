@@ -101,12 +101,13 @@ def vsx(name, fetch=_get):
 
 
 def exoplanet(name, fetch=_get):
-    """{name, ra, dec, t0 (BJD_TDB), period, duration (d), vmag, source} from the NASA Exoplanet Archive."""
+    """{name, ra, dec, t0 (BJD_TDB), period, duration (d), vmag, source, and when known k (Rp/R★), a_rs, b} from
+    the NASA Exoplanet Archive."""
     planet = name.strip().replace("'", "")
     if planet[-1:].isdigit():  # "HAT-P-32" -> "HAT-P-32 b"
         planet += " b"
     query = (
-        "select pl_name,ra,dec,pl_orbper,pl_tranmid,pl_trandur,sy_vmag from pscomppars "
+        "select pl_name,ra,dec,pl_orbper,pl_tranmid,pl_trandur,sy_vmag,pl_ratror,pl_ratdor,pl_imppar from pscomppars "
         f"where lower(pl_name)=lower('{planet}')"
     )
     rows = fetch(EXO_URL, {"query": query, "format": "json"})
@@ -126,6 +127,9 @@ def exoplanet(name, fetch=_get):
     }
     if r.get("pl_trandur"):
         out["duration"] = float(r["pl_trandur"]) / 24
+    for key, col in (("k", "pl_ratror"), ("a_rs", "pl_ratdor"), ("b", "pl_imppar")):  # the transit fit's start
+        if r.get(col) is not None:
+            out[key] = float(r[col])
     return out
 
 

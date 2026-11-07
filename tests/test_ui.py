@@ -2419,3 +2419,21 @@ def test_transit_mcmc_choice_and_its_text(window):
     text = result_text(out)
     assert "MCMC: tc 2461347.611210 −0.000480 +0.000510; b 0.6100 −0.1200 +0.0700." in text
     assert "not converged" in text
+
+
+def test_transit_fit_filled_from_the_archive(window, monkeypatch):
+    """PHO-26 archive fill: period and T0 into the fields; the fit starts from the archive's k, a/R★, b."""
+    from astrowb.ui import photometry_transit
+
+    page = window.photometry_page
+    target = {"name": "Qatar-1 b", "period": 1.4200242, "t0": 2456234.103218, "k": 0.14629, "a_rs": 6.247, "b": 0.645}
+    photometry_transit.fill(page, target)
+    assert page.period.text() == "1.4200242" and page.t0.text() == "2456234.103218"
+    assert "Rp/R★ 0.14629" in page.transit_result.text()
+    n = 50
+    page.light_curve = {"time": list(np.linspace(0, 0.2, n)), "rel_flux": [1.0] * n, "rel_flux_err": [0.002] * n}
+    asked = []
+    monkeypatch.setattr(window, "run_step_for", lambda *a, **k: asked.append(a))
+    page.transit_button.click()
+    params = asked[-1][3]
+    assert (params["k"], params["a_rs"], params["b"]) == (0.14629, 6.247, 0.645) and params["mcmc_steps"] == 0
