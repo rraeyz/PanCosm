@@ -92,6 +92,11 @@ def bls(t, y, err=None, p_min=0.2, p_max=None, durations=(0.04, 0.06, 0.08, 0.12
 
 
 def _pdm_power(t, y, periods, n_bins):
+    from ..compute.periods import gpu_pdm_power
+
+    gpu = gpu_pdm_power(t, y, 1 / np.asarray(periods, float), n_bins)  # when the compute mode allows it
+    if gpu is not None:
+        return gpu
     total = np.var(y, ddof=1)
     out = np.empty(len(periods))
     for i, p in enumerate(periods):
