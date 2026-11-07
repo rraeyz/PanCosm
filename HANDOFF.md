@@ -582,6 +582,19 @@ script that says GPU found / works / how long"):**
   release=true, run 177, all green; CI 175 at `589ab9d` green incl. the five package jobs). Assets: Windows x64 setup,
   macOS arm64 + x86_64 dmg, Linux x86_64 + aarch64 AppImage. Next release only after asking the owner.
 
+- **Owner's reports after v0.2.4 (GPU check on the owner's RTX 4050 laptop, Vulkan: 6 of 6 jobs work, same results;
+  median + winsorized stack 47x, deconvolution 46x, PDM 15x, sigma-clipped mean 3.5x, BLS 2.5x, k-means 1.7x).**
+  Fixed: a plot folded to 0 px high raised "Singular matrix" (owner's error log, aperture profile; `_canvas_class`
+  keeps the figure >= 1 px); pages wider than a half-screen window (`_FoldButton` elides section titles, long labels
+  wrap in `MainWindow._place`, `_Columns` stacks a page's columns when narrow, Start page one column; the layout test
+  is now 960 px / 10 pt / no column scrolling sideways — 800 px still overflows by 20–80 px on four pages); Calibrate
+  list: Remove from the list / Delete, Clear, undo (CalibratePage is Undoable); the generic table menu has Copy
+  (selection); theme column-title edges visible; FITS header value column fitted, tooltips, double-click edits.
+  Linux installer skips the download when `.version` matches the newest release (`--force` reinstalls). Owner
+  noted SIMBAD / CDS servers were down on 2026-11-06: SIMBAD / VizieR fall back to Harvard / IDIA (`mirrors.py`);
+  only the finder chart's DSS image (CDS hips2fits) has no second source — a STScI DSS fallback was offered, not
+  built.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
