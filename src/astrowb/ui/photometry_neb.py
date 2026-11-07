@@ -57,6 +57,7 @@ def run(main, page, depth=None):
 
 
 def show(page, rows, depth):
+    page.neb_rows = rows  # Save all writes them (NEB_check.csv)
     if not rows:
         page.transit_result.setText(
             translate("PhotometryNeb", "No star near enough and bright enough to make a {d:g} ppt dip.").format(d=depth)

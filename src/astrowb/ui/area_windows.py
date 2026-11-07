@@ -149,7 +149,8 @@ def _save_all(win, page, folder=None):
                  "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
     fit = (getattr(page, "transit_fit", None) or (None, None))[1]
     aavso = _aavso_header(win, page)
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso)
+    neb = getattr(page, "neb_rows", None)
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso, neb)
     text = translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder)
     names = {"OBSCODE": translate("MainWindow", "your AAVSO observer code (Settings → Profiles → Observer)"),
              "STAR_NAME": translate("MainWindow", "the star's name (the files' OBJECT, or Look up in the Field)"),

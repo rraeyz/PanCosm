@@ -13,9 +13,10 @@ from ..measurements import measurements
 from ..starlist import save_star_list
 
 
-def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aavso=None):
+def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aavso=None, neb=None):
     """stars: {"target", "comps", "extras", "radii", "wcs"} (starlist.save_star_list); fit: the transit fit's dict;
-    aavso: the AAVSO exoplanet header values (OBSCODE, STAR_NAME, FILTER, …): the file is written when they suffice."""
+    aavso: the AAVSO exoplanet header values (OBSCODE, STAR_NAME, FILTER, …): the file is written when they suffice;
+    neb: the nearby-eclipsing-binary check's rows (neb.run), written as NEB_check.csv for the TFOP report."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     out = [lcfile.write(lc, folder / "light_curve.lc.ecsv", provenance)]
@@ -55,6 +56,14 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aav
             out.append(aavso_exoplanet.write(folder / "AAVSO_exoplanet.txt", lc["time"], f / m, e / m, header))
         except ValueError:  # a required value is missing (observer code, star, filter): the other files still go
             pass
+    if neb:
+        path = folder / "NEB_check.csv"
+        cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(cols)
+            w.writerows([r[c] for c in cols] for r in neb)
+        out.append(path)
     from .methods import methods
     from .summary import summary_page
 
