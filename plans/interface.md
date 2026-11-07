@@ -159,7 +159,9 @@ Main window                                      Area window (e.g. Photometry)
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
 ## To ask the owner
-(nothing yet)
+- **I1 proposal (2026-11-07, agent2):** the menus and toolbar of each area window in the table under I1. Asked in
+  the chat; until the owner answers, I2 builds the shared frame (which does not depend on it) and I3 / I4 follow the
+  proposal, changing it when the owner says.
 
 ## For the owner to try
 - After I4: open every area from the main window on Windows and on CachyOS, and send a screenshot of any window that
@@ -190,7 +192,7 @@ drawing (very large images, thousands of plotted points) may move to OpenGL or n
   after, 0 unfinished; 729 tests passed.
 
 ### I1. Research: how the reference programs lay out their windows
-**agent2 claimed (2026-11-07) — do not touch** — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
+**agent2 done (2026-11-07, this commit)** — the proposal below waits for the owner's yes (asked 2026-11-07; see "To ask the owner"); I2 does not depend on it. — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
 
 Found so far:
 - **AstroImageJ** (source `astroj/AstroStackWindow.java`, `Astronomy/MultiPlot_.java`):
@@ -214,6 +216,62 @@ Found so far:
   - Tool windows can be docked or floated: Information, Photometry, Observatory, Screen Stretch.
   - The Photometry tool is one window with tabs Select, Quality, Match, Identify, Graph: it follows the workflow
     left to right, which is the model for our steps panel.
+- **Siril** (source read 2026-11-07, agent2: `src/gui-gtk4/uifiles/siril.ui`, `src/core/siril.h` enum `main_tabs`):
+  - One window. A GTK header bar instead of a menu bar: Open, Recent, Save, and menu buttons Image processing,
+    Tools, Scripts, a "hamburger" menu (preferences, help), the precision and snapshot buttons.
+  - The image in the middle with Red / Green / Blue / RGB / mask tabs; a toolbar under the image (stretch mode
+    Linear / Logarithm / Squared / Asinh, auto-stretch, histogram, undo / redo, selection, crop, mask); zoom, FWHM
+    and the cursor read-out in the image's status line.
+  - **The right panel is a notebook whose tabs follow the workflow, left to right:** Conversion, Sequence,
+    Calibration, Registration, Plot, Stacking, Console (`main_tabs` FILE_CONVERSION … OUTPUT_LOGS). The panel can be
+    hidden with a button (`button_paned`). Image-processing dialogs (curves, wavelets, background extraction…) are
+    separate small windows opened from the header-bar menus.
+  - What to take: the **workflow as tabs in order** (our steps panel), the toolbar of display actions under the
+    image, undo / redo in the toolbar, a panel that hides with one click. What to avoid: menus hidden in a header
+    bar (a newcomer does not find them; MaxIm DL's plain menu bar is clearer), and dozens of separate dialogs.
+- **NINA** (source read: `NINA/MainWindow.xaml`, `NINA/View/*`, ARCHITECTURE.md):
+  - One window. **A vertical tab strip on the left, one tab per area with a large icon and a short name:**
+    Equipment, Sky Atlas, Framing, Flat Wizard, Sequencer, Imaging, Options; the strip collapses to icons only.
+  - The Imaging tab is a **docking area** (AvalonDock, `DockManagerVM`): Camera, Telescope, Image, Histogram,
+    Statistics, Autofocus chart, Plate solve, Sequence… are panels that the user drags, tabs, floats onto another
+    monitor; the layout is saved and can be reset.
+  - The sequencer is a tree of instructions dragged from a list (an "advanced sequencer"), with a simple
+    target-list mode for newcomers.
+  - What to take: the **area blocks with an icon and a name** (our main window), **dockable panels with a saved
+    layout and a reset**, a simple mode beside the advanced one. What to avoid: everything in one window (the owner
+    wants one window per area), and the long settings tree.
+- **Users' complaints (searched 2026-11-07; little direct evidence was found, so weigh these lightly):**
+  - Siril: a forum post says many found its GUI hard to approach and missed a tutorial
+    (discuss.pixls.us/t/graphic-user-interface-ideas/23494); on a 4K laptop the header-bar menus came apart from the
+    window (discuss.pixls.us/t/application-display-issue/30936). Lesson: plain menus that stay attached, high-DPI tested,
+    a first-run tutorial.
+  - NINA (bitbucket.org/Isbeorn/nina issues 833, 935, 1048, PR 187): users break their docked imaging layout and need
+    "Reset layout"; they want the layout kept per profile and exported; auto-hidden panels were replaced by a side
+    toolbar listing every panel to show / hide. Lesson: save the layout per area, always offer Reset layout, list all
+    panels in View.
+  - AstroImageJ: no forum thread on "too many windows" was found; an AAVSO post only says that measuring opens "a
+    series of windows" (aavso.org/node/89786). The worry stays a design judgement, not a measured complaint.
+  - MaxIm DL: not searched.
+
+**Proposal for our area windows (for the owner, before I3):**
+
+| Window | Menus (besides File, Edit, View, Window, Help) | Toolbar |
+| --- | --- | --- |
+| Photometry | Measure, Analyse | open images, blink, previous / next frame, bad frames, suggest comparisons, radii, measure, apertures on/off, zoom fit |
+| Calibration | Frames, Masters | add folder, scan, calibrate, stack, show master |
+| Spectroscopy | Reduce, Lines, Velocity | open, extract, identify lines, fit wavelengths, normalise, measure velocity |
+| O−C | Ephemeris, Models | add minima, fit ephemeris, LTTE / apsidal fit, MCMC, export |
+| Period / frequency | Search, Fold | open light curve, download, clean, search, prewhiten |
+| Models | Fit | open light curve, starting values, fit, errors (MCMC), export |
+| Images | Process, Analyse | open, levels, zoom, header, stack, blink |
+| Planning | Targets, Night | add target, plan night, schedule, send to Observing |
+| Observing | Devices, Sequence | connect, expose, focus, guide, run sequence |
+| Automation | Pipeline | new, run, stop |
+| Remote sensing | Bands, Analyse | open, index, classify, PCA |
+
+Common to all: File (open, recent, save / open session, export, close window), Edit (undo / redo, preferences of the
+area), View (panels on / off, reset layout, zoom, theme), Window (the open area windows, the main window), Help
+(guide page of this window — F1, report a problem, about).
 - **Read:**
   - AstroImageJ: the main toolbar window, the image window with its toolbar, the Multi-Aperture and Multi-Plot
     windows, and the measurements table. Use screenshots, the user guide and the source.
@@ -230,7 +288,7 @@ Found so far:
   shown to the owner before I3.
 
 ### I2. The area window frame (shared by every area)
-**open**
+**agent2 claimed (2026-11-07) — do not touch**
 - **Shared parts every area window gets from the frame** (built once, not per area):
   - **Image view:** the existing `ImageViewer`, extended with:
     - zoom, pan and levels;
