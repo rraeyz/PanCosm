@@ -169,8 +169,16 @@ def _blocks(cube, valid, mean, sd, rows=256):
 
 
 def _nearest(x, centres):
-    """Index of the nearest centre (k, n_bands) for every column of x."""
-    return np.argmin(((x.T[:, None, :] - centres[None]) ** 2).sum(axis=2), axis=1)
+    """Index of the nearest centre (k, n_bands) for every column of x: |c|^2 - 2 c.x is the squared distance less
+    |x|^2, the same for every centre, so one matrix product (the pixels x centres x bands difference took 60 % of
+    k-means). On the GPU when the compute mode allows it."""
+    from ..compute.classify import gpu_nearest
+
+    labels = gpu_nearest(x, centres)
+    if labels is not None:
+        return labels
+    c = np.asarray(centres, np.float64)
+    return np.argmin((c * c).sum(axis=1)[:, None] - 2 * (c @ x), axis=0)
 
 
 def kmeans(bands, k=5, seed=0, sample=200_000):
