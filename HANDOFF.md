@@ -3,7 +3,7 @@
 Notes for whoever continues the work. The owner speaks Turkish: answer in Turkish; code, comments
 and commits in English. Delete this file once the work is finished.
 
-**This file is closed (owner, 2026-11-07): the work and its rules are now in `PHOTOMETRY_PLAN.md`; add nothing here.**
+**This file is closed (owner, 2026-11-07): start from `PLAN.md` (aims, rules, and the plan file of every area in `plans/`); add nothing here.**
 
 ## The owner's request
 
