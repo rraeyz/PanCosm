@@ -24,7 +24,7 @@ def ensemble_magnitudes(lc, comp_mags):
     w = np.ones(len(comp_mags)) if lc.get("weights") is None else np.asarray(lc["weights"], float)
     m_ens = -2.5 * np.log10(np.sum(w * 10 ** (-0.4 * comp_mags)))
     mag = -2.5 * np.log10(rel) + m_ens
-    merr = 2.5 / np.log(10) * np.asarray(lc["rel_flux_err"], float) / rel
+    merr = 2.5 / np.log(10) * np.asarray(lc.get("rel_flux_err_scaled") or lc["rel_flux_err"], float) / rel
     if len(comp_mags) >= 2:
         with np.errstate(divide="ignore", invalid="ignore"):
             zp = comp_mags[None, :] + 2.5 * np.log10(np.asarray(lc["comp_flux"], float))
@@ -72,7 +72,7 @@ def etd_text(lc):
     if "mag" in lc:
         m, e, unit = np.asarray(lc["mag"], float), np.asarray(lc["mag_err"], float), f"{lc.get('mag_band', '')} mag"
     else:
-        m, e = delta_mag(lc["rel_flux"], lc["rel_flux_err"])
+        m, e = delta_mag(lc["rel_flux"], lc.get("rel_flux_err_scaled") or lc["rel_flux_err"])
         unit = "delta mag"
     t = np.asarray(lc["time"], float)
     ok = np.isfinite(t) & np.isfinite(m) & np.isfinite(e)

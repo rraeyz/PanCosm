@@ -68,7 +68,7 @@ def advice_lines(items):
 class ChecksTab(QWidget):
     def __init__(self, page):
         super().__init__(page)
-        self.page, self.flags, self.files = page, {}, []
+        self.page, self.flags, self.files, self.factor = page, {}, [], None
         lay = QVBoxLayout(self)
         self.verdict = QLabel(translate("PhotometryChecks", "Measure the light curve to check the night."), self)
         self.verdict.setWordWrap(True)
@@ -82,7 +82,20 @@ class ChecksTab(QWidget):
         self.table.row_chosen.connect(self._show)
         self.advice = QLabel(self)
         self.advice.setWordWrap(True)
+        self.noise = QLabel(self)
+        self.noise.setWordWrap(True)
+        self.scale_button = QPushButton(self)
+        self.scale_button.setToolTip(
+            translate(
+                "PhotometryChecks",
+                "Reports and files then carry the scaled errors too (rel_flux_err_scaled); the formal ones stay",
+            )
+        )
+        self.scale_button.hide()
+        self.scale_button.clicked.connect(self._toggle_scale)
         lay.addWidget(self.verdict)
+        lay.addWidget(self.noise)
+        lay.addWidget(self.scale_button)
         lay.addWidget(self.advice)
         lay.addWidget(self.leave_out)
         lay.addWidget(self.table, 1)
@@ -113,6 +126,46 @@ class ChecksTab(QWidget):
         title = translate("PhotometryChecks", "For next time:")
         return "\n".join([title, *("• " + x for x in lines)]) if lines else ""
 
+    def _show_noise(self, lc):
+        """PHO-34: the observed scatter against the predicted errors, and the offer to scale them above 1.2."""
+        from ..photometry.errors import point_to_point_ratio
+
+        ratio, factor = point_to_point_ratio(lc.get("rel_flux", []), lc.get("rel_flux_err", []))
+        self.factor = factor
+        self.noise.setText(
+            ""
+            if ratio is None
+            else translate("PhotometryChecks", "Scatter from point to point: {r:.2f} × the predicted errors.").format(
+                r=ratio
+            )
+            + (translate("PhotometryChecks", " The errors are too small: scale them.") if factor else "")
+        )
+        self._label_scale(lc)
+
+    def _label_scale(self, lc):
+        scaled = "error_scale" in lc
+        self.scale_button.setVisible(bool(self.factor) or scaled)
+        self.scale_button.setText(
+            translate("PhotometryChecks", "Use the formal errors")
+            if scaled
+            else translate("PhotometryChecks", "Scale the errors by {f:.2f}").format(f=self.factor or 1.0)
+        )
+
+    def _toggle_scale(self):
+        """The factor and the scaled errors kept beside the formal ones (never overwriting them)."""
+        import numpy as np
+
+        lc = self.page.light_curve
+        if lc is None:
+            return
+        if "error_scale" in lc:
+            lc.pop("error_scale")
+            lc.pop("rel_flux_err_scaled", None)
+        elif self.factor:
+            lc["error_scale"] = self.factor
+            lc["rel_flux_err_scaled"] = (np.asarray(lc["rel_flux_err"], float) * self.factor).tolist()
+        self._label_scale(lc)
+
     def leave_out_flagged(self):
         """Through the page's undoable exclusion, as its saturated-points command."""
         page = self.page
@@ -135,6 +188,7 @@ class ChecksTab(QWidget):
             else translate("PhotometryChecks", "No frame flagged: no cloud, seeing jump, field jump or saturation.")
         )
         self.advice.setText(self._advice(lc))
+        self._show_noise(lc)
         files = self.files = list(lc.get("file") or [""] * len(lc.get("rel_flux", [])))
         rows = sorted({i for v in flags.values() for i in v})
         self.table.set_data(
