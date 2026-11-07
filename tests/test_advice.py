@@ -60,3 +60,22 @@ def test_noise_advice_in_words():
     assert advice_lines([{"kind": "noise", "term": "sky", "share": 0.91}]) == [
         "The sky is 91 % of the target's noise: a smaller aperture, a narrower filter or a darker sky lowers it."
     ]
+
+
+def test_pointing_that_keeps_every_star_in():
+    """PHO-43: a comparison star drifting to the right edge (lost on some frames): point left by the amount that
+    centres every star's path; a field wider than the frame says to choose nearer stars."""
+    from astrowb.photometry.advice import next_night
+    from astrowb.ui.photometry_checks import advice_lines
+
+    n = 20
+    drift = np.linspace(0, 40, n)
+    xy = [[[100 + d, 100.0], [180 + d, 120.0], [270 + d, 90.0]] for d in drift]  # the last one ends at x 310
+    lc = {"xy": xy, "radii": [[4, 10, 15]] * n, "partial": {"f19.fits": [1]}}
+    got = [a for a in next_night(lc, shape=(200, 300)) if a["kind"] == "pointing"][0]
+    assert got["fits"] and got["dx"] == round(299 / 2 - (100 + 310) / 2) and got["dy"] == round(199 / 2 - 105)
+    assert "Point -56 px in x" in advice_lines([got])[0]
+    wide = [a for a in next_night(lc, shape=(200, 180)) if a["kind"] == "pointing"][0]
+    assert not wide["fits"] and "nearer the target" in advice_lines([wide])[0]
+    quiet = {"xy": [[[150.0, 100.0]]] * n, "radii": [[4, 10, 15]] * n}
+    assert not [a for a in next_night(quiet, shape=(200, 300)) if a["kind"] == "pointing"]
