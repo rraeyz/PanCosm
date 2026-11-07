@@ -57,26 +57,9 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aav
             out.append(aavso_exoplanet.write(folder / "AAVSO_exoplanet.txt", lc["time"], f / m, e / m, header))
         except ValueError:  # a required value is missing (observer code, star, filter): the other files still go
             pass
-    if image is not None and stars and stars.get("target") is not None:
-        from .field_image import write as field_png
+    from .tfop import tfop_files
 
-        r_ap = (stars.get("radii") or (5,))[0]
-        path = field_png(folder / "field.png", image, stars["target"], stars.get("comps", ()), r_ap,
-                         stars.get("scale"), stars.get("extras", ()))  # fmt: skip
-        out.append(Path(path))
-    from .tfop import notes
-
-    st = stars or {}
-    (folder / "notes.txt").write_text(notes(lc, fit, st.get("scale"), st.get("predicted_tc"), neb), encoding="utf-8")
-    out.append(folder / "notes.txt")
-    if neb:
-        path = folder / "NEB_check.csv"
-        cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            w.writerow(cols)
-            w.writerows([r[c] for c in cols] for r in neb)
-        out.append(path)
+    out += tfop_files(folder, lc, fit, stars, neb, image)  # field, seeing profile, notes, NEB table
     from .methods import methods
     from .summary import summary_page
 

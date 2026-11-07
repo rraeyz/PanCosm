@@ -33,3 +33,34 @@ def notes(lc, fit=None, scale=None, predicted_tc=None, neb=None):
         cleared = sum(r["disposition"] in ("Cleared", "Likely cleared", "Cleared - too faint") for r in neb)
         lines.append(f"NEB check: {cleared} of {len(neb)} neighbours within 2.5′ cleared.")
     return "\n".join(lines) + "\n"
+
+
+def tfop_files(folder, lc, fit, stars, neb, image):
+    """Save all's TFOP pieces (PHO-27 item 3): field.png and seeing_profile.png from the marked frame, notes.txt,
+    NEB_check.csv after the nearby-eclipsing-binary check."""
+    import csv
+    from pathlib import Path
+
+    out = []
+    if image is not None and stars and stars.get("target") is not None:
+        from .field_image import seeing_profile
+        from .field_image import write as field_png
+
+        r_ap = (stars.get("radii") or (5,))[0]
+        path = field_png(folder / "field.png", image, stars["target"], stars.get("comps", ()), r_ap,
+                         stars.get("scale"), stars.get("extras", ()))  # fmt: skip
+        out.append(Path(path))
+        if stars.get("radii"):
+            out.append(Path(seeing_profile(folder / "seeing_profile.png", image, stars["target"], stars["radii"])))
+    st = stars or {}
+    (folder / "notes.txt").write_text(notes(lc, fit, st.get("scale"), st.get("predicted_tc"), neb), encoding="utf-8")
+    out.append(folder / "notes.txt")
+    if neb:
+        path = folder / "NEB_check.csv"
+        cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(cols)
+            w.writerows([r[c] for c in cols] for r in neb)
+        out.append(path)
+    return [Path(p) for p in out]
