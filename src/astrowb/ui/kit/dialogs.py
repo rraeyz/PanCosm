@@ -23,6 +23,10 @@ class Dialog(QDialog):
         lay.addLayout(self.button_row)
         size = settings.get(f"dialog.{key}.size") if settings is not None and key else None
         if isinstance(size, list) and len(size) == 2:
+            screen = (parent.screen() if parent is not None else None) or self.screen()
+            room = screen.availableGeometry() if screen is not None else None
+            if room is not None:  # a size saved when the window could not shrink (Settings before 0.3.12) is capped
+                size = [min(size[0], int(room.width() * 0.9)), min(size[1], int(room.height() * 0.85))]
             self.resize(*size)
 
     def add_buttons(self, primary, cancel=None):
