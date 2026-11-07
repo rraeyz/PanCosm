@@ -77,3 +77,31 @@ def test_a_cone_inside_one_fetched_is_not_fetched_again(monkeypatch):
     assert len(calls) == 1 and len(b["ra"]) <= len(a["ra"]) and (b["gmag"] < 15).all()
     gaia.stars(201.5, -18.65, 0.30, 17)  # another field
     assert len(calls) == 2
+
+
+def test_a_cone_cut_at_the_row_limit_keeps_the_brightest_stars(monkeypatch):
+    """Qatar-1 (LCO, 30'): 4000 rows came back in declination order, the north of the field had no stars and the
+    plate solution failed. Both servers are asked for the brightest first."""
+    import astroquery.vizier
+
+    from astrowb import mirrors
+
+    asked = {}
+
+    class Vizier:
+        def __init__(self, columns, row_limit, vizier_server):
+            asked["columns"] = columns
+
+        def query_region(self, *a, **k):
+            return []
+
+    monkeypatch.setattr(astroquery.vizier, "Vizier", Vizier)
+    monkeypatch.setattr(mirrors, "cds", lambda kind, ask: ask("vizier.cds.unistra.fr"))
+    assert gaia._vizier(303.4, 65.2, 0.7, 18, 4000) is None
+    assert "+Gmag" in asked["columns"]
+    monkeypatch.setattr(gaia, "_run", lambda q: asked.setdefault("query", q) and 1 / 0)
+    try:
+        gaia._esa(303.4, 65.2, 0.7, 18, 4000)
+    except ZeroDivisionError:
+        pass
+    assert asked["query"].endswith("ORDER BY phot_g_mean_mag")

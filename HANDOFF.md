@@ -636,6 +636,16 @@ script that says GPU found / works / how long"):**
   (mmag, largest in red); the side column is four numbered `Collapsible` steps (`sections`, `_advance`, `_step_titles`;
   images step stays open). Released as v0.2.6. Still open: AIJ table comparison on the owner's night.
 
+- **Photometry checked on public data after v0.2.6 (Qatar-1, LCO 0.4 m, 265 frames, 2400 px, 0.74"/px).** Light
+  curve: 0 frames lost, p2p 0.445 % at r 9 px; the aperture scan chose r 9.56 px (2 FWHM; p2p 0.786 % at 1 FWHM,
+  0.230 % at 2) and the light curve gave 0.440 %. Times with warm files: light curve 10.6-17 s (R4: 11.4 s),
+  apertures 13.5 s, field 11.2 s; a first run on files not yet read from disk took 53-135 s (fpack read, not the
+  program). **Bug fixed:** `identify_field` failed ("do not match the Gaia stars"): the 0.72 deg cone held more than
+  4000 stars to G 18 and VizieR cut it in declination order, so the north of the frame had no catalogue stars.
+  `gaia._vizier` now asks for `+Gmag` and `gaia._esa` for `ORDER BY phot_g_mean_mag` (bright first; same in
+  `overlays.query_catalogue` for Gaia): 196 stars matched, 0.15 px, OBJECT Qatar-1 found at (1337.9, 1198.1), 0.03
+  deg from the pointing, VSX variables listed. Test: test_gaia_refine (row-limit order).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,

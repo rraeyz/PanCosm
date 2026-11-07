@@ -66,7 +66,8 @@ def _vizier(ra, dec, radius_deg, mag_limit, row_limit):
     from .mirrors import cds
 
     def ask(server):
-        cols = ["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "Gmag", "BP-RP", "VarFlag"]
+        cols = ["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "+Gmag", "BP-RP", "VarFlag"]  # bright first: a cone cut at
+        # row_limit keeps the brightest stars of the whole cone, not a strip of it in declination (Qatar-1, 2026-11-07)
         v = Vizier(columns=cols, row_limit=row_limit, vizier_server=server)
         v.column_filters = {"Gmag": f"<{mag_limit}"}
         t = v.query_region(SkyCoord(ra * u.deg, dec * u.deg), radius=radius_deg * u.deg, catalog="I/355/gaiadr3")
@@ -92,7 +93,7 @@ def _esa(ra, dec, radius_deg, mag_limit, row_limit):
         f"SELECT TOP {int(row_limit)} ra, dec, pmra, pmdec, phot_g_mean_mag, bp_rp, phot_variable_flag "
         "FROM gaiadr3.gaia_source "
         f"WHERE 1=CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', {float(ra)}, {float(dec)}, {float(radius_deg)})) "
-        f"AND phot_g_mean_mag < {float(mag_limit)}"
+        f"AND phot_g_mean_mag < {float(mag_limit)} ORDER BY phot_g_mean_mag"
     )
     t = _run(query)
     return {
