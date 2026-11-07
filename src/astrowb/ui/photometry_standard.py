@@ -15,6 +15,7 @@ def add_row(page, layout):
     page.band.setToolTip(translate("PhotometryStandard", "Filter of the images (CV: unfiltered, reduced to V)"))
     page.mag_source = QComboBox(page)
     page.mag_source.addItem(translate("PhotometryStandard", "Gaia GSPC / APASS / Gaia"), "auto")
+    page.mag_source.addItem(translate("PhotometryStandard", "APASS / Gaia GSPC / Gaia"), "apass")
     page.mag_source.addItem(translate("PhotometryStandard", "AAVSO sequence"), "aavso")
     page.mag_source.setToolTip(
         translate(

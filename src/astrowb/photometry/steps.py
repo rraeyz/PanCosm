@@ -414,7 +414,7 @@ def catalog_step(inputs, params, ctx):
         ctx.check()
         ctx.progress(i / len(stars), "catalogue")
         entry = catalog.vizier_fetch(wcs.pixel_to_world(x, y))
-        found.append(catalog.star_magnitude(entry, params["filter"]))
+        found.append(catalog.star_magnitude(entry, params["filter"], apass_first=params["source"] == "apass"))
     return {"catalog": {"target": found[0], "comps": found[1:], "filter": params["filter"]}}
 
 
@@ -699,9 +699,11 @@ describe(
         "source",
         "choice",
         "auto",
-        choices=("auto", "aavso"),
+        choices=("auto", "apass", "aavso"),
         label=QT_TRANSLATE_NOOP("Steps", "Magnitudes from"),
-        help=QT_TRANSLATE_NOOP("Steps", "auto: Gaia GSPC, APASS, Gaia colours; aavso: the field's AAVSO sequence"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field's AAVSO sequence"
+        ),
     ),
 )
 describe(
