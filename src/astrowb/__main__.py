@@ -232,9 +232,25 @@ def main(argv=None) -> int:
             box.exec()
         return 0 if all(ok for _, ok, _ in results) else 1
     if args.benchmark:
-        from .compute.combine import benchmark
+        from .compute.check import benchmark
 
-        print("\n".join(benchmark()))
+        text = "\n".join(benchmark())
+        out = settings.path.parent / "gpu-check.txt"
+        try:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(text + "\n", encoding="utf-8")
+        except OSError:  # a read-only settings folder: the report is still shown
+            pass
+        if sys.stdout is not None:
+            print(text)
+            print(f"(saved in {out})")
+        else:  # the Windows and macOS applications have no console: show the report in a window
+            from PySide6.QtWidgets import QApplication, QMessageBox
+
+            app = QApplication.instance() or QApplication(sys.argv[:1])
+            box = QMessageBox(QMessageBox.Information, "--benchmark", f"{text}\n\n{out}")
+            box.setStyleSheet("QLabel { font-family: monospace; }")
+            box.exec()
         return 0
 
     from PySide6.QtWidgets import QApplication

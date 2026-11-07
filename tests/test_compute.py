@@ -147,3 +147,51 @@ def test_gpu_nearest_centre_matches_numpy(gpu_mode):
     gpu = gpu_nearest(x, centres, force=True)
     compute.set_mode("cpu")
     np.testing.assert_array_equal(gpu, _nearest(x, centres))
+
+
+def test_gpu_deconvolution_matches_numpy(gpu_mode):
+    """Richardson-Lucy on the GPU (20 iterations in one submission) gives the NumPy result, edges included."""
+    from scipy.ndimage import gaussian_filter
+
+    from astrowb.compute.deconvolve import gpu_richardson_lucy
+
+    rng = np.random.default_rng(6)
+    yy, xx = np.mgrid[:90, :120]
+    img = 50 + sum(800 * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / 8) for x, y in rng.uniform(0, 120, (30, 2)))
+    img = rng.poisson(img).astype(float)
+    gpu = gpu_richardson_lucy(img, 1.7, 20, force=True)
+    u = np.full_like(img, img.mean())
+    for _ in range(20):
+        blur = gaussian_filter(u, 1.7, mode="constant", truncate=4.0)
+        u *= gaussian_filter(img / np.maximum(blur, 1e-12), 1.7, mode="constant", truncate=4.0)
+    np.testing.assert_allclose(gpu, u, rtol=2e-4)
+
+
+def test_gpu_pdm_matches_numpy_over_years_of_data(gpu_mode):
+    """PDM on the GPU: the phases of four years of data at 2 cycles/day (3000 cycles, beyond float32) still bin as in
+    float64: the same power and the same best period."""
+    from astrowb.compute.periods import gpu_pdm_power
+    from astrowb.timeseries.period import _pdm_power
+
+    rng = np.random.default_rng(7)
+    t = np.sort(rng.uniform(0, 1460, 3000))
+    y = 1 - 0.3 * (np.abs((t / 1.7102 + 0.25) % 1 - 0.25) < 0.02) + rng.normal(0, 3e-3, len(t))
+    freqs = np.r_[np.linspace(0.05, 2.0, 700), np.linspace(1 / 1.7102 - 1e-4, 1 / 1.7102 + 1e-4, 301)]
+    gpu = gpu_pdm_power(t, y, freqs, 20, force=True)
+    compute.set_mode("cpu")
+    cpu = _pdm_power(t, y, 1 / freqs, 20)
+    np.testing.assert_allclose(gpu, cpu, atol=1e-4)
+    assert np.argmax(gpu) == np.argmax(cpu)
+
+
+def test_gpu_check_without_a_gpu(monkeypatch):
+    """--benchmark / tools/gpu_check.py on a machine without a GPU says so and stops."""
+    from astrowb.compute import check
+
+    def none():
+        raise RuntimeError("no GPU adapter")
+
+    monkeypatch.setattr(check, "_adapter", none)
+    lines = check.benchmark()
+    assert lines[0].startswith("GPU not found (RuntimeError: no GPU adapter)") and len(lines) == 2
+    assert compute.mode() == "auto"
