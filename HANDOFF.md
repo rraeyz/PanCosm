@@ -462,6 +462,16 @@ and the 801 Kepler minima; write GPU code with the CPU as fallback, it serves th
     itself is not measured** (llvmpipe is the CPU): to be timed on a machine with a graphics card (`python -m astrowb
     --benchmark` covers the clipped mean; time a median / winsorized stack and k-means there with Settings -> GPU).
 
+- **Field photometry** (variable-star search, `fieldstars.field_photometry`) on every core like the light curve
+  (`_field_frame`): 40 Qatar-1 frames x 300 stars 59.7 -> 27.0 s, magnitudes the same (median difference 0, 99 %
+  within 0.004 mag; no star's scatter changed by 0.005 mag). `5775ecb`.
+- **Memory floor against IRAF** (owner: "why not IRAF's level?"): a Python process holding numpy 28 MB, + astropy.io.fits
+  51 MB, + scipy.ndimage and photutils.aperture 104 MB, + photutils.psf, astropy.coordinates / time 125 MB, before any
+  data; IRAF's tasks are small C/SPP programs (17-86 MB in the runs above) that read images line by line. A 2400 x
+  2400 frame is 23 MB as float32, 46 MB as float64 (photutils works in float64). The rest of the gap is whole frames
+  in memory where IRAF streams lines; streaming them would cost time (decompression per row band, Python per row),
+  so it was not done.
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
