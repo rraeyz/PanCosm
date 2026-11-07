@@ -45,6 +45,7 @@ from astropy.io import fits
 from ..compute.combine import clipped_mean
 from ..hdr import get, number
 from ..io.fits import find_image_hdu, inherited
+from ..io.lzw import readable
 
 MEMORY_BUDGET = 512 * 2**20  # bytes of float32 stack per block
 EXPTIME_RTOL = 0.01  # exposure times within 1 % count as equal
@@ -208,7 +209,7 @@ def _corrected_header(header, layout):
 
 
 def _open(paths):
-    hduls = [fits.open(p) for p in paths]  # lazy; memmap=True would refuse BZERO-scaled data
+    hduls = [fits.open(readable(p)) for p in paths]  # lazy; memmap=True would refuse BZERO-scaled data
     hdus = [h[find_image_hdu(h)] for h in hduls]
     for h in hdus:
         h.layout = _layout(h)
@@ -257,7 +258,7 @@ def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None):
 
 
 def _header(paths, kind, extra):
-    with fits.open(paths[0]) as hdul:
+    with fits.open(readable(paths[0])) as hdul:
         src = inherited(hdul, find_image_hdu(hdul))
     h = fits.Header()
     for k in _COPY_KEYS:
@@ -274,7 +275,7 @@ def _header(paths, kind, extra):
 
 
 def _exptime(path):
-    with fits.open(path) as hdul:
+    with fits.open(readable(path)) as hdul:
         h = inherited(hdul, find_image_hdu(hdul))
         t = get(h, "EXPTIME", "EXPOSURE")
     if t is None:

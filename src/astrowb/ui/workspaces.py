@@ -43,6 +43,7 @@ from PySide6.QtWidgets import (
 from ..brand import BRAND
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
+from ..io.lzw import readable
 from .messages import translate
 from .undo import Undoable
 from .viewer import ImageViewer
@@ -915,7 +916,7 @@ def by_filter(paths):
 
     groups = {}
     for p in paths:
-        groups.setdefault(str(fits.getheader(p).get("FILTER", "") or "").strip(), []).append(p)
+        groups.setdefault(str(fits.getheader(readable(p)).get("FILTER", "") or "").strip(), []).append(p)
     return groups
 
 

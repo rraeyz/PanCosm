@@ -13,6 +13,7 @@ from astropy.io import fits
 
 from ..hdr import number
 from ..io.fits import find_image_hdu, inherited
+from ..io.lzw import readable
 
 KINDS = ("bias", "dark", "flat", "light")
 FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fits.gz", ".fit.gz", ".fts.gz", ".fits.fz")
@@ -89,7 +90,7 @@ def classify(header, filename: str = "") -> str:
 
 
 def read_frame(path: Path) -> Frame:
-    with fits.open(path, memmap=True) as hdul:
+    with fits.open(readable(path), memmap=True) as hdul:
         i = find_image_hdu(hdul)
         hdu = hdul[i]
         h = inherited(hdul, i)  # the frame type of a multi-extension raw frame (HARPS) is in the primary header

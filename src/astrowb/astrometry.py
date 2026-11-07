@@ -19,6 +19,8 @@ from pathlib import Path
 from astropy.io import fits
 from astropy.wcs import WCS
 
+from .io.lzw import readable
+
 ASTAP_ERRORS = {
     1: "no solution found",
     2: "not enough stars detected",
@@ -185,7 +187,7 @@ def apply_solution_header(h, wcs_header) -> None:
 
 def apply_solution(path, wcs_header, solver_name="") -> None:
     """Write the WCS into the image's header (for calibrated products, not raw frames)."""
-    with fits.open(path, mode="update") as hdul:
+    with fits.open(readable(path), mode="update") as hdul:
         from .io.fits import find_image_hdu
 
         h = hdul[find_image_hdu(hdul)].header

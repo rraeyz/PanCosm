@@ -5,6 +5,8 @@ from pathlib import Path
 import numpy as np
 from astropy.io import fits
 
+from .lzw import readable
+
 
 def find_image_hdu(hdul) -> int:
     """Index of the first HDU holding an image of at least 2 dimensions."""
@@ -58,7 +60,7 @@ def thumbnail(path, size=64):
     16-bit camera files with BZERO, which cannot be memory-mapped."""
     from ..display import to_display
 
-    with fits.open(path, memmap=False, lazy_load_hdus=True) as hdul:
+    with fits.open(readable(path), memmap=False, lazy_load_hdus=True) as hdul:
         hdu = hdul[find_image_hdu(hdul)]
         h = hdu.header
         step = max(1, -(-max(h["NAXIS1"], h["NAXIS2"]) // size))  # at most `size` pixels across

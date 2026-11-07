@@ -31,6 +31,7 @@ from scipy.ndimage import map_coordinates
 from ..compute.combine import clipped_mean
 from ..compute.stack import gpu_combine
 from ..io.fits import find_image_hdu
+from ..io.lzw import readable
 from ..photometry.aperture import frame_shift
 from .masters import load
 
@@ -271,7 +272,7 @@ def combine(block, method="mean", rejection="sigma", sigma=3.0, low=1, high=1, w
 def _stack_band(job):
     """Rows r0..r1 of a stack: (image, coverage) of that band, block by block within its memory budget."""
     paths, transforms, (fast, method, rejection, sigma, low, high, scale, shift, weights, budget, on_gpu), r0, r1 = job
-    hduls = [fits.open(p) for p in paths]
+    hduls = [fits.open(readable(p)) for p in paths]
     try:
         hdus = [h[find_image_hdu(h)] for h in hduls]
         ny, nx = hdus[0].shape[-2:]
@@ -393,7 +394,7 @@ def stack(
             weights = weights / weights.mean()
     from ..engine.parallel import pmap, workers
 
-    with fits.open(paths[0]) as h0:
+    with fits.open(readable(paths[0])) as h0:
         hdu0 = h0[find_image_hdu(h0)]
         ny, nx = hdu0.shape[-2:]
         header = hdu0.header.copy()
