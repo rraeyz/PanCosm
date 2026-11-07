@@ -9,11 +9,29 @@ median (twilight, Moon, clouds lit from below)."""
 import numpy as np
 
 
-def measure(path):
+def measure_run(paths):
+    """measure() of consecutive frames, and the shift between each pair while the frame is open (fpack
+    decompression is half a frame's time; the comparison suggestion and the light curve then find the shifts kept
+    instead of opening every frame again). Returns (rows, binning, shifts)."""
+    from ..calibration.masters import load
+    from .aperture import frame_shift
+
+    rows, shifts, prev, binning = [], [], None, 1
+    for p in paths:
+        data, header = load(p)
+        binning = 2 if data.size > 4e6 else 1  # as the light curve and the suggestion take them
+        if prev is not None:
+            shifts.append(frame_shift(prev, data, binning))
+        rows.append(measure(p, (data, header)))
+        prev = data
+    return rows, binning, shifts
+
+
+def measure(path, loaded=None):
     from ..calibration.masters import load
     from ..devices.focus import hfr
 
-    data, header = load(path)
+    data, header = loaded if loaded is not None else load(path)
     info = {}
     h, used = hfr(np.asarray(data, np.float32), info=info)
     return {

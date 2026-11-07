@@ -50,14 +50,26 @@ def align_offsets(paths, ctx=None, binning=1):
     if len(paths) < 2:
         return [(0.0, 0.0)]
     known, keys = _shift_cache(), _pair_keys(paths, binning)
-    if all(k in known for k in keys):  # the same frames again (comparisons, then the light curve, other radii)
-        steps = [known[k] for k in keys]
-    else:
-        n = max(1, min(4 * workers(), len(paths) // 8))  # runs of at least 8 frames: each run reads one frame twice
-        edges = np.linspace(0, len(paths) - 1, n + 1).round().astype(int)
-        runs = [(paths[a : b + 1], binning) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
-        steps = [s for run in pmap(_run_shifts, runs, ctx, "aligning", min_items=2) for s in run]
-        _save_shifts(known, dict(zip(keys, ([float(a), float(b)] for a, b in steps), strict=True)))
+    # the same frames again (comparisons, then the light curve, other radii; the quality check writes them too):
+    # only pairs not known yet are measured, e.g. around frames left out after the quality check
+    missing = [i for i, k in enumerate(keys) if k not in known]
+    if missing:
+        stretches, start = [], missing[0]  # consecutive missing pairs i..j need frames i..j + 1
+        for a, b in zip(missing, [*missing[1:], None], strict=True):
+            if b != a + 1:
+                stretches.append((start, a))
+                start = b
+        n = max(1, min(4 * workers(), len(missing) // 8))  # runs of at least 8 frames: each reads one frame twice
+        runs = []
+        for i, j in stretches:
+            pieces = max(1, round(n * (j - i + 1) / len(missing)))
+            edges = np.linspace(i, j + 1, pieces + 1).round().astype(int)
+            runs += [(a, b) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
+        found = pmap(_run_shifts, [(paths[a : b + 1], binning) for a, b in runs], ctx, "aligning", min_items=2)
+        new = {keys[a + k]: [float(x), float(y)] for (a, _), shifts in zip(runs, found, strict=True)
+               for k, (x, y) in enumerate(shifts)}  # fmt: skip
+        known = _save_shifts(known, new)
+    steps = [known[k] for k in keys]
     return [(0.0, 0.0), *(tuple(x) for x in np.cumsum(steps, axis=0).tolist())]
 
 
@@ -85,16 +97,17 @@ def _shift_cache():
 def _save_shifts(known, new):
     from ..settings import config_dir
 
-    known = {k: v for k, v in known.items() if k not in new} | new
-    known = dict(list(known.items())[-SHIFT_CACHE_PAIRS:])
+    merged = {k: v for k, v in known.items() if k not in new} | new
+    kept = dict(list(merged.items())[-SHIFT_CACHE_PAIRS:])
     path = config_dir() / "shifts.json"
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_suffix(".part")
-        tmp.write_text(json.dumps(known), encoding="utf-8")
+        tmp.write_text(json.dumps(kept), encoding="utf-8")
         tmp.replace(path)
     except OSError:  # a read-only settings folder: the shifts are only not kept
         pass
+    return merged  # everything known now, the new pairs included even beyond the cap
 
 
 def _run_shifts(run):
@@ -396,7 +409,8 @@ def stack(
     out = np.concatenate([o for o, _ in parts])
     cnt = np.concatenate([c for _, c in parts])
     header["NCOMBINE"] = (len(paths), "frames stacked")
-    header["STACKMTH"] = (f"{method}, {rejection} rejection", "stack method")
+    how = {"sigma": "IRAF sigclip, MAD below 10 frames", "mad": "median / MAD"}.get(rejection, rejection)
+    header["STACKMTH"] = (f"{method}, {how} rejection", "stack method")
     header["STACKNRM"] = (normalize, "normalisation before stacking")
     header["STACKWGT"] = (weighting, "frame weights")
     from .starmatch import describe

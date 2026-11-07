@@ -252,11 +252,27 @@ def polarimetry_step(inputs, params, ctx):
 )
 def quality_step(inputs, params, ctx):
     """FWHM, background, star count of every frame; "good" lists the frames that pass (for photometry/stacks)."""
-    from ..engine.parallel import pmap
-    from .quality import judge, measure
+    import numpy as np
+
+    from ..calibration import stacking
+    from ..engine.parallel import pmap, workers
+    from .quality import judge, measure_run
 
     paths = timing.chronological(inputs["images"])
-    rows = pmap(measure, paths, ctx, "quality")  # frames on every core (threads gave 1.7x: decompression holds the GIL)
+    # runs of consecutive frames on every core (threads gave 1.7x: decompression holds the GIL); each run also
+    # measures the shifts between its frames, kept for the comparison suggestion and the light curve
+    n = max(1, min(4 * workers(), len(paths) // 8))
+    edges = np.linspace(0, len(paths), n + 1).round().astype(int)
+    runs = [paths[max(a - 1, 0) : b] for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
+    rows, shifts, binning = [], [], 1
+    for k, (r, run_binning, s) in enumerate(pmap(measure_run, runs, ctx, "quality", min_items=2)):
+        rows += r[1:] if k else r  # a run's first frame is the last one of the run before
+        shifts += s
+        binning = run_binning
+    if len(paths) > 1:
+        keys = stacking._pair_keys(paths, binning)
+        found = {k: [float(x), float(y)] for k, (x, y) in zip(keys, shifts, strict=True)}
+        stacking._save_shifts(stacking._shift_cache(), found)
     judge(rows, params["fwhm_factor"], params["star_fraction"], params["background_factor"])
     return {"quality": rows, "good": [r["file"] for r in rows if r["good"]]}
 
