@@ -59,3 +59,15 @@ def test_clipped_mean_equals_its_numpy_twin_to_the_bit():
     got_mean, got_cnt = native._native.clipped_mean(np.ascontiguousarray(x), np.float32(3.0), 5)
     assert np.array_equal(got_cnt, want_cnt)
     assert np.array_equal(got_mean, want_mean, equal_nan=True)
+
+
+@pytest.mark.parametrize("k", [0.001, 0.1, 0.5, 1.2])
+def test_occulted_fraction_matches_its_twin(k, monkeypatch):
+    """The transit model's inner integral (occult.flux, the transit MCMC's loop) compiled: the same quadrature."""
+    from astrowb.occult import flux
+
+    z = np.linspace(0, 1.3, 777)
+    fast = flux.occulted_fraction(z, k, "quadratic", (0.45, 0.2))
+    monkeypatch.setenv("ASTROWB_NATIVE", "off")
+    slow = flux.occulted_fraction(z, k, "quadratic", (0.45, 0.2))
+    assert np.max(np.abs(fast - slow)) < 1e-14

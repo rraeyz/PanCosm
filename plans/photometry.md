@@ -513,8 +513,10 @@ fit statistics in a table, the curve with the model and the O − C panel below.
 mcmc_steps)` samples around the least-squares answer with core.inference (step parameter `mcmc_steps`, the Fit
 the transit group's "MCMC uncertainties" box, the intervals in the result; test: Tc's posterior width within 0.6–1.6
 × its formal error); a transit evaluation no longer computes the planet's occultation when it is not asked for
-(14 → 9 s for 600 generations). Left: the archive fill, limb darkening from tables (VizieR), a native quadratic
-kernel for the 20 000-step accept (now about 3000 steps in 35 s), the eclipse variant, the AstroImageJ comparison (needs the owner's table, PHO-41). Qatar-1 (LCO, 265 frames,
+(14 → 9 s for 600 generations), and the quadratic law's occulted fraction is compiled (native `occulted_quadratic`,
+the same quadrature, within 1e-15 of its NumPy twin, 8.5× faster): 600 generations 4.5 s. Left: the archive fill,
+limb darkening from tables (VizieR), the rest of the 20 000-step accept (the Python around the model now), the
+eclipse variant, the AstroImageJ comparison (needs the owner's table, PHO-41). Qatar-1 (LCO, 265 frames,
 2026-11-02, the scaled errors): Tc 2461347.61121 ± 41 s, O−C +73 s on the NASA Exoplanet Archive's ephemeris
 (epoch 3601, whose own error there is about 30 s), depth 21.9 ppt, Rp/R★ 0.148 ± 0.004, T14 1.64 h against the
 archive's 1.66 h. Done: the fitted mid-time goes to the O − C window's list, as the
