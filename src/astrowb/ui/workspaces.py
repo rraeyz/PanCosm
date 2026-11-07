@@ -3148,9 +3148,17 @@ class PhotometryPage(Undoable, QWidget):
         says the comparison is constant; its scatter (mmag) is the precision the target can be trusted to."""
         from ..photometry import differential as d
 
-        y, ye = d.delta_mag(np.asarray(lc["rel_flux"], float), np.asarray(lc["rel_flux_err"], float))
+        rel = np.asarray(lc["rel_flux"], float)
+        y, ye = d.delta_mag(rel, np.asarray(lc["rel_flux_err"], float))
         y = y - np.nanmedian(y)
         ax.errorbar(x, y, ye, fmt=".", ms=3, lw=0.5, alpha=0.8, label=self.tr("T1 − comparison"))
+        lost = int(np.sum(np.isfinite(rel) & (rel <= 0)))
+        if lost:
+            note = self.tr(
+                "{n} frame(s) without a positive flux for T1, no magnitude: is the star on those frames, or a "
+                "brighter star in its sky ring?"
+            ).format(n=lost)
+            ax.text(0.01, 0.01, note, transform=ax.transAxes, fontsize=7, color="#e5484d", va="bottom")
         self._plotted = (ax, x, y)
         if sat.any():
             ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
