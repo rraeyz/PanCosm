@@ -146,11 +146,13 @@ def _save_all(win, page, folder=None):
     if page.target is not None:
         wcs = page._field_wcs() if page.ref in (None, 0) else None
         stars = {"target": page.target, "comps": page.comps, "extras": page.extras, "wcs": wcs,
-                 "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
+                 "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value()),
+                 "scale": (page.field or {}).get("scale")}  # fmt: skip
     fit = (getattr(page, "transit_fit", None) or (None, None))[1]
     aavso = _aavso_header(win, page)
     neb = getattr(page, "neb_rows", None)
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso, neb)
+    image = page.viewer.data if page.shown == (page.ref or 0) else None  # the frame the stars are marked on
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso, neb, image)
     text = translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder)
     names = {"OBSCODE": translate("MainWindow", "your AAVSO observer code (Settings → Profiles → Observer)"),
              "STAR_NAME": translate("MainWindow", "the star's name (the files' OBJECT, or Look up in the Field)"),

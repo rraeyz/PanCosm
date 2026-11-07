@@ -43,7 +43,14 @@ def test_hatp32_night_as_a_user(walk, tmp_path):
     from astrowb.ui.area_windows import _save_all
 
     saved = {p.name for p in _save_all(h.window, phot, str(tmp_path / "all"))}
-    assert {"light_curve.lc.ecsv", "measurements.csv", "summary.pdf", "ExoClock.txt", "methods.txt"} <= saved
+    assert {
+        "light_curve.lc.ecsv",
+        "measurements.csv",
+        "summary.pdf",
+        "ExoClock.txt",
+        "methods.txt",
+        "field.png",
+    } <= saved
     from astropy.table import Table
 
     made = Table.read(tmp_path / "all" / "light_curve.lc.ecsv").meta["provenance"]  # how it was measured (ARC-11)

@@ -567,7 +567,8 @@ PDF; the AAVSO exoplanet file when the observer code, the star and the band are 
 comparison stars' counts and scatter — PHO-27 item 4). Done: ExoClock (`reports/exoclock.py`: BJD_TDB, flux divided by the fit's baseline × trend, error; `validate`;
 `form` with the values to paste; written by Save all when the times are BJD_TDB; test: out of transit flat at 1
 within 5e-4 after the airmass trend). Save all also writes NEB_check.csv after the nearby-eclipsing-binary check
-(2026-11-13). Left: TFOP package (naming, field image with apertures), the observation summary, the session in Save all, the Report stage's cards, moving the existing ETD / AAVSO Extended writers in.
+and field.png (the marked frame, zscale, the labelled apertures and the 2.5′ circle; `reports/field_image.py`;
+2026-11-13). Left: TFOP package (naming, notes text), the observation summary, the session in Save all, the Report stage's cards, moving the existing ETD / AAVSO Extended writers in.
 - **Reference:** AAVSO Extended File Format (exists); AAVSO Exoplanet Database (WebObs users guide,
   app.aavso.org/exosite/doc: header `#TYPE=EXOPLANET`, `#OBSCODE`, `#SOFTWARE`, `#DELIM`, `#DATE_TYPE=BJD_TDB`,
   `#OBSTYPE`, `#STAR_NAME`, `#EXOPLANET_NAME`, `#BINNING`, `#EXPOSURE_TIME`, `#FILTER`, `#DETREND_PARAMETERS`,
