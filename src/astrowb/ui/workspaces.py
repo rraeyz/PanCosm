@@ -3152,12 +3152,14 @@ class PhotometryPage(Undoable, QWidget):
         y, ye = d.delta_mag(rel, np.asarray(lc["rel_flux_err"], float))
         y = y - np.nanmedian(y)
         ax.errorbar(x, y, ye, fmt=".", ms=3, lw=0.5, alpha=0.8, label=self.tr("T1 − comparison"))
-        lost = int(np.sum(np.isfinite(rel) & (rel <= 0)))
-        if lost:
+        bad = np.flatnonzero(np.isfinite(rel) & (rel <= 0))
+        if len(bad):
+            files = [Path(f).name for f in lc.get("file") or []]
+            names = ", ".join(files[i] for i in bad[:4] if i < len(files)) + (", …" if len(bad) > 4 else "")
             note = self.tr(
-                "{n} frame(s) without a positive flux for T1, no magnitude: is the star on those frames, or a "
-                "brighter star in its sky ring?"
-            ).format(n=lost)
+                "{n} frame(s) without a positive flux for T1 ({frames}), no magnitude: is the star on those "
+                "frames, or a brighter star in its sky ring? Leave them out with “Use this frame”."
+            ).format(n=len(bad), frames=names)
             ax.text(0.01, 0.01, note, transform=ax.transAxes, fontsize=7, color="#e5484d", va="bottom")
         self._plotted = (ax, x, y)
         if sat.any():
