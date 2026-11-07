@@ -926,8 +926,9 @@ frame as multidimensional columns, everything else in the header with a version;
 flux / flux_err aliases; `read` gives back the same dict — every key compared in the test) and File → Export →
 "Light-curve file, nothing left out (.lc.ecsv)…" in the Photometry window. (2026-11-13) Read back by Add other
 nights (every star's own errors: the join from files equals the in-memory join exactly), Light curves (Load) and
-Models (`data.read_light_curve`); tests in test_lcfile. Left: Exoplanets, O−C and recipes; the provenance record
-filled.
+Models (`data.read_light_curve`); tests in test_lcfile. The provenance record (ARC-11: step, settings, the frames
+with sizes and checksums, versions) is filled from the window's last measurement in File → Export and Save all
+(checked in the HAT-P-32 walk). Left: O−C and recipes reading it.
 - **Ours now:** the CSV export of the Photometry page and `photometry/nights.read_export` (reads it back, relative errors only).
 - **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
   comparison stars (item 12); other windows and other programs need the full table with units and provenance.

@@ -149,7 +149,7 @@ def _save_all(win, page, folder=None):
                  "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
     fit = (getattr(page, "transit_fit", None) or (None, None))[1]
     aavso = _aavso_header(win, page)
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, aavso=aavso)
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso)
     text = translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder)
     names = {"OBSCODE": translate("MainWindow", "your AAVSO observer code (Settings → Profiles → Observer)"),
              "STAR_NAME": translate("MainWindow", "the star's name (the files' OBJECT, or Look up in the Field)"),
@@ -197,8 +197,21 @@ def _save_lc_file(win, page):
     path, _ = QFileDialog.getSaveFileName(win, translate("MainWindow", "Light-curve file"), "light_curve.lc.ecsv",
                                           "ECSV (*.ecsv)")  # fmt: skip
     if path:
-        lcfile.write(page.light_curve, path)
+        lcfile.write(page.light_curve, path, _provenance(page))
         page.result.setText(translate("MainWindow", "Saved {name}").format(name=path))
+
+
+def _provenance(page):
+    """ARC-11: how the light curve was measured (step, settings, the frames with their sizes and checksums, the
+    versions), from the window's last measurement; None before one."""
+    from ..core import provenance
+
+    run = getattr(page, "last_measure", None)
+    if run is None:
+        return None
+    images, target, comps, coord, params = run
+    settings = dict(params) | {"target_xy": list(target), "comps_xy": [list(c) for c in comps], "coord": coord}
+    return provenance.record("photometry.light_curve", settings, {"images": list(images)})
 
 
 def _stage_parts(page):
