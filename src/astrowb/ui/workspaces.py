@@ -1713,6 +1713,11 @@ class PhotometryPage(Undoable, QWidget):
         self.ref, self.shown, self.skipped = None, 0, set()  # the frame the stars are marked on, the one shown, unused
         self.extras, self.lc_raw, self.detrend_cfg = [], None, None  # extras: [((x, y), "target" | "check")]
         self.excluded, self._frame_ids, self._plotted = set(), [], None  # frames deleted by hand
+        self.comp_off, self._comp_scatter = (
+            set(),
+            {},
+        )  # comparison stars left out of the ensemble (0-based), C_k scatter
+        self._radii_set = False  # the radii chosen from the profiles (or by hand) for the step titles
         self.field = None  # what is in the first frame (photometry.identify_field): solution, VSX variables, OBJECT
         self.live, self.live_folder, self.live_seen, self._live_busy = None, None, set(), False
         # the image above the light curve on the left, the controls the whole height on the right: a light-curve
@@ -1765,6 +1770,11 @@ class PhotometryPage(Undoable, QWidget):
             self,
         )
         side.addWidget(self.guide)
+        # the controls in four numbered steps: the step being worked on is open, the ones done fold with a tick;
+        # every one opens with a click (a guide, never a lock); the owner found one long column of 19 buttons
+        # "amateurish"
+        self.sections = [Collapsible("", self, expanded=k == 0, mode=None) for k in range(4)]
+        self._step_now = 0
         self.load_button = QPushButton(self.tr("Choose images…"), self)
         self.load_button.clicked.connect(self._choose_images)
         self.load_button.setToolTip(
@@ -1773,10 +1783,10 @@ class PhotometryPage(Undoable, QWidget):
                 " sorted by time"
             )
         )
-        side.addWidget(self.load_button)
+        self.sections[0].body.addWidget(self.load_button)
         self.images_label = QLabel(self.tr("No images"), self)
         self.images_label.setWordWrap(True)
-        side.addWidget(self.images_label)
+        self.sections[0].body.addWidget(self.images_label)
         # what is in the field: the owner's files named a star 48 deg away, and nothing said so
         self.field_label = QLabel(self)
         self.field_label.setWordWrap(True)
@@ -1787,7 +1797,7 @@ class PhotometryPage(Undoable, QWidget):
                 "stars in it are named (AAVSO VSX)"
             )
         )
-        side.addWidget(self.field_label)
+        self.sections[0].body.addWidget(self.field_label)
         row = QHBoxLayout()
         self.variables = QComboBox(self)
         self.variables.setToolTip(self.tr("Known variable stars in this field (AAVSO VSX), brightest first"))
@@ -1801,7 +1811,7 @@ class PhotometryPage(Undoable, QWidget):
         self.make_target.clicked.connect(self._variable_as_target)
         row.addWidget(self.variables, 1)
         row.addWidget(self.make_target)
-        side.addLayout(row)
+        self.sections[0].body.addLayout(row)
         for w in (self.field_label, self.variables, self.make_target):
             w.hide()
         # every frame can be looked at, marked on, or left out (the owner: "I only see one picture")
@@ -1818,16 +1828,16 @@ class PhotometryPage(Undoable, QWidget):
         self.frame_slider.valueChanged.connect(self.show_frame)
         for w in (self.prev_frame, self.frame_slider, self.next_frame):
             browse.addWidget(w, 1 if w is self.frame_slider else 0)
-        side.addLayout(browse)
+        self.sections[0].body.addLayout(browse)
         self.frame_label = QLabel(self)
         self.frame_label.setWordWrap(True)
-        side.addWidget(self.frame_label)
+        self.sections[0].body.addWidget(self.frame_label)
         self.use_frame = QCheckBox(self.tr("Use this frame"), self)
         self.use_frame.setToolTip(
             self.tr("Untick to leave this frame out of the light curve (clouds, a satellite trail, a bad focus)")
         )
         self.use_frame.toggled.connect(self._use_frame)
-        side.addWidget(self.use_frame)
+        self.sections[0].body.addWidget(self.use_frame)
         # every frame in a list, as MaxIm DL shows them: click one to see it, untick to leave it out
         self.frame_table = QTableWidget(0, 4, self)
         self.frame_table.setHorizontalHeaderLabels([self.tr("Frame"), self.tr("Time (UTC)"), "FWHM", self.tr("Sky")])
@@ -1849,7 +1859,7 @@ class PhotometryPage(Undoable, QWidget):
             lambda row, *_: self.frame_slider.setValue(row) if row >= 0 else None
         )
         self.frame_table.itemChanged.connect(self._frame_checked)
-        side.addWidget(self.frame_table)
+        self.sections[0].body.addWidget(self.frame_table)
         self.blink = QPushButton(self.tr("Blink"), self)
         self.blink.setCheckable(True)
         self.blink.setToolTip(
@@ -1862,7 +1872,7 @@ class PhotometryPage(Undoable, QWidget):
         self._blink_timer.setInterval(450)
         self._blink_timer.timeout.connect(self._blink_step)
         self.blink.toggled.connect(lambda on: self._blink_timer.start() if on else self._blink_timer.stop())
-        side.addWidget(self.blink)
+        self.sections[0].body.addWidget(self.blink)
         for w in (self.prev_frame, self.frame_slider, self.next_frame, self.use_frame, self.blink):
             w.setEnabled(False)
         self.quality_button = QPushButton(self.tr("Find the bad frames (clouds, focus, trails)"), self)
@@ -1875,20 +1885,21 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.quality_button.setEnabled(False)
         self.quality_button.clicked.connect(lambda: self.quality_requested.emit(self._series()))
-        side.addWidget(self.quality_button)
+        self.sections[0].body.addWidget(self.quality_button)
         self.drop_bad = QPushButton(self.tr("Leave out the bad frames"), self)
         self.drop_bad.hide()
         self.drop_bad.clicked.connect(self._drop_bad)
         self.drop_bad.setToolTip(
             self.tr("Takes the frames the quality check marked as bad out of the list; the files stay on disk")
         )
-        side.addWidget(self.drop_bad)
+        self.sections[0].body.addWidget(self.drop_bad)
+        side.addWidget(self.sections[0])
         hint = QLabel(
             self.tr("Click the target star, then one or more comparison stars. A click on a marked star takes it off."),
             self,
         )
         hint.setWordWrap(True)
-        side.addWidget(hint)
+        self.sections[1].body.addWidget(hint)
         role_row = QHBoxLayout()
         role_row.addWidget(QLabel(self.tr("Clicks add:"), self))
         self.click_role = QComboBox(self)
@@ -1900,11 +1911,11 @@ class PhotometryPage(Undoable, QWidget):
             self.tr("Check stars and further targets are measured against the same comparison stars, not used in them")
         )
         role_row.addWidget(self.click_role, 1)
-        side.addLayout(role_row)
+        self.sections[1].body.addLayout(role_row)
         clear = QPushButton(self.tr("Clear stars"), self)
         clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
         clear.setToolTip(self.tr("Takes off every marked star (Ctrl+Z brings them back)"))
-        side.addWidget(clear)
+        self.sections[1].body.addWidget(clear)
         self.suggest_button = QPushButton(self.tr("Suggest comparison stars"), self)
         self.suggest_button.setEnabled(False)
         self.suggest_button.setToolTip(
@@ -1913,7 +1924,8 @@ class PhotometryPage(Undoable, QWidget):
         self.suggest_button.clicked.connect(
             lambda: self.suggest_requested.emit(self._series(), list(self.target), {"r_out": self.r_out.value()})
         )
-        side.addWidget(self.suggest_button)
+        self.sections[1].body.addWidget(self.suggest_button)
+        side.addWidget(self.sections[1])
         grid = QGridLayout()
         self.r_ap, self.r_in, self.r_out = (self._spin(v) for v in (4.0, 10.0, 16.0))
         self.r_out.setToolTip(
@@ -1940,7 +1952,7 @@ class PhotometryPage(Undoable, QWidget):
         ):
             grid.addWidget(QLabel(label, self), row, 0)
             grid.addWidget(w, row, 1)
-        side.addLayout(grid)
+        self.sections[2].body.addLayout(grid)
         rings_note = QLabel(
             self.tr(
                 "Radii in image pixels: the rings grow with the zoom. Between rings 1 and 2 nothing is measured "
@@ -1950,7 +1962,7 @@ class PhotometryPage(Undoable, QWidget):
             self,
         )
         rings_note.setWordWrap(True)
-        side.addWidget(rings_note)
+        self.sections[2].body.addWidget(rings_note)
         self.apertures_button = QPushButton(self.tr("Choose the radii from the star profiles"), self)
         self.apertures_button.setToolTip(
             self.tr(
@@ -1962,7 +1974,8 @@ class PhotometryPage(Undoable, QWidget):
         self.apertures_button.clicked.connect(
             lambda: self.apertures_requested.emit(self._series(), list(self.target), [list(c) for c in self.comps])
         )
-        side.addWidget(self.apertures_button)
+        self.sections[2].body.addWidget(self.apertures_button)
+        side.addWidget(self.sections[2])
         self.follow_seeing = QCheckBox(self.tr("Radii follow the seeing (scaled by each frame's FWHM)"), self)
         self.follow_seeing.setToolTip(
             self.tr(
@@ -1981,7 +1994,7 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         self.measure_options.body.addWidget(self.psf)
-        side.addWidget(QLabel(self.tr("Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16"), self))
+        self.sections[3].body.addWidget(QLabel(self.tr("Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16"), self))
         self.coord = QLineEdit(self)
         self.coord.setToolTip(
             self.tr(
@@ -1989,7 +2002,7 @@ class PhotometryPage(Undoable, QWidget):
                 "OBJCTDEC or RA / DEC)."
             )
         )
-        side.addWidget(self.coord)
+        self.sections[3].body.addWidget(self.coord)
         tel = QHBoxLayout()
         tel.addWidget(QLabel(self.tr("Telescope aperture (m)"), self))
         self.telescope_d = QDoubleSpinBox(self)
@@ -2005,7 +2018,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         tel.addWidget(self.telescope_d)
         self.measure_options.body.addLayout(tel)
-        side.addWidget(self.measure_options)
+        self.sections[3].body.addWidget(self.measure_options)
         self.measure_button = QPushButton(self.tr("Measure light curve"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(self._measure)
@@ -2015,7 +2028,8 @@ class PhotometryPage(Undoable, QWidget):
                 "against the comparison stars)"
             )
         )
-        side.addWidget(self.measure_button)
+        self.sections[3].body.addWidget(self.measure_button)
+        side.addWidget(self.sections[3])
         self.live_button = QPushButton(self.tr("Live: follow a folder during the night…"), self)
         self.live_button.setCheckable(True)
         self.live_button.setToolTip(
@@ -2038,6 +2052,7 @@ class PhotometryPage(Undoable, QWidget):
         self.pol_button.clicked.connect(self._polarimetry)
         self.other_tools.body.addWidget(self.pol_button)
         side.addWidget(self.other_tools)
+        self._step_titles()
         side.addStretch(1)
         scroll = QScrollArea(self)  # small screens: the panel scrolls instead of pushing the window taller
         scroll.setWidget(side_box)
@@ -2055,18 +2070,23 @@ class PhotometryPage(Undoable, QWidget):
         # stars: roles, typed-in comparison magnitudes, weights
         stars_tab = QWidget(self)
         sl = QVBoxLayout(stars_tab)
-        self.star_table = QTableWidget(0, 5, self)
+        self.star_table = QTableWidget(0, 6, self)
         self.star_table.setHorizontalHeaderLabels(
-            [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude")]
+            [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude"), self.tr("Scatter (mmag)")]
         )
         self.star_table.horizontalHeader().setStretchLastSection(True)
-        for col in range(4):
+        for col in (0, 1, 2, 3, 5):
             self.star_table.horizontalHeader().setSectionResizeMode(col, QHeaderView.ResizeToContents)
         self.star_table.verticalHeader().hide()
         self.star_table.setToolTip(
-            self.tr("Type the comparison stars' magnitudes (from a chart or catalogue) to get the target's magnitude")
+            self.tr(
+                "Untick a comparison star to leave it out of the ensemble: the light curve and the scatters change at "
+                "once (Ctrl+Z brings it back). Scatter: each comparison star against the others, in mmag; the "
+                "largest is the one to look at. Type the comparison stars' magnitudes (from a chart or catalogue) to "
+                "get the target's magnitude."
+            )
         )
-        self.star_table.itemChanged.connect(lambda *_: self._recompute())
+        self.star_table.itemChanged.connect(self._star_item_changed)
         sl.addWidget(self.star_table, 1)
         self.weighted = QCheckBox(self.tr("Weight comparison stars by their scatter"), self)
         self.weighted.setToolTip(
@@ -2500,6 +2520,8 @@ class PhotometryPage(Undoable, QWidget):
             self.field_label.setText(self.tr("Identifying the field (Gaia, VSX)…"))
             self.field_label.show()
             self.field_requested.emit(self.images[0])
+        self._step_now = 0
+        self._advance(1)
         text = self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
         if "TPFSKIP" in header:  # a TESS / Kepler file: say what was left out, the user may want them back
             text += "\n" + self.tr(
@@ -2521,14 +2543,17 @@ class PhotometryPage(Undoable, QWidget):
             "extras": list(self.extras),
             "excluded": sorted(self.excluded),
             "detrend": self.detrend_cfg,
+            "comp_off": sorted(self.comp_off),
         }
 
     def set_undo_state(self, st):
         self.target, self.comps, self.extras = st["target"], list(st["comps"]), list(st["extras"])
         self.ref = st.get("ref")
         self._draw_markers()
-        if (set(st["excluded"]), st["detrend"]) != (self.excluded, self.detrend_cfg):
-            self.excluded, self.detrend_cfg = set(st["excluded"]), st["detrend"]
+        off = set(st.get("comp_off", ()))
+        if (set(st["excluded"]), st["detrend"], off) != (self.excluded, self.detrend_cfg, self.comp_off):
+            self.excluded, self.detrend_cfg, self.comp_off = set(st["excluded"]), st["detrend"], off
+            self._fill_star_table()
             if self.lc_raw is not None:
                 self._recompute()
 
@@ -2713,15 +2738,52 @@ class PhotometryPage(Undoable, QWidget):
         known = self._known_mags_by_name()
         roles = {"target": self.tr("target"), "comparison": self.tr("comparison"), "check": self.tr("check")}
         stars = self._star_names()
+        worst = max(self._comp_scatter, key=self._comp_scatter.get) if len(self._comp_scatter) > 1 else None
         self.star_table.blockSignals(True)
         self.star_table.setRowCount(len(stars))
         for i, (name, role, (x, y)) in enumerate(stars):
-            for col, text in enumerate((name, roles[role], f"{x + 1:.1f}", f"{y + 1:.1f}", known.get(name, ""))):
+            k = int(name[1:]) - 1 if role == "comparison" else None
+            sc = self._comp_scatter.get(k) if k is not None else None
+            cells = (
+                name,
+                roles[role],
+                f"{x + 1:.1f}",
+                f"{y + 1:.1f}",
+                known.get(name, ""),
+                "" if sc is None else f"{sc:.1f}",
+            )
+            for col, text in enumerate(cells):
                 item = QTableWidgetItem(text)
-                if col < 4:
+                if col != 4:
                     item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+                if col == 0 and k is not None:  # a comparison star: in the ensemble or left out
+                    item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                    item.setCheckState(Qt.Unchecked if k in self.comp_off else Qt.Checked)
+                if col == 5 and k is not None and k == worst:
+                    from PySide6.QtGui import QColor
+
+                    item.setForeground(QColor("#e5484d"))
                 self.star_table.setItem(i, col, item)
         self.star_table.blockSignals(False)
+
+    def _star_item_changed(self, item):
+        """A comparison star ticked or unticked: the ensemble changes (undoable); a typed magnitude: recomputed."""
+        name = self.star_table.item(item.row(), 0)
+        if item.column() == 0 and name and name.text().startswith("C") and name.flags() & Qt.ItemIsUserCheckable:
+            k = int(name.text()[1:]) - 1
+            off = (self.comp_off - {k}) if item.checkState() == Qt.Checked else (self.comp_off | {k})
+            if len(off) >= len(self.comps):  # one comparison star at least stays in
+                self._fill_star_table()
+                return
+            self.edit(self.tr("use or leave out a comparison star"), self._set_comp_off, off)
+        else:
+            self._recompute()
+
+    def _set_comp_off(self, off):
+        self.comp_off = set(off)
+        self._fill_star_table()
+        if self.lc_raw is not None:
+            self._recompute()
 
     def _known_mags_by_name(self):
         out = {}
@@ -2787,9 +2849,40 @@ class PhotometryPage(Undoable, QWidget):
         # the rings of the next click follow the mouse, in the colour of the star it will mark
         self.viewer.set_pick(True, [(r, False), (r_in, True), (r_out, True)], colours[nxt])
         self.apertures_button.setEnabled(bool(self.images and self.target))
+        if hasattr(self, "sections"):
+            if self.target is not None and self.comps:
+                self._advance(2)
+            else:
+                self._step_titles()
         self.measure_button.setEnabled(bool(self.images and self.target))  # no comparison: the target's own flux
         self.catalog_button.setEnabled(bool(self.images and self.target and self.comps))
         self.suggest_button.setEnabled(bool(self.images and self.target))
+
+    def _step_titles(self):
+        """Numbered step titles; a step that is done gets a tick."""
+        names = (self.tr("1. Images"), self.tr("2. Target and comparison stars"), self.tr("3. Aperture and sky ring"),
+                 self.tr("4. Measure"))  # fmt: skip
+        done = (
+            bool(self.images),
+            self.target is not None and bool(self.comps),
+            self._radii_set,
+            self.lc_raw is not None,
+        )
+        for sec, name, ok in zip(self.sections, names, done, strict=True):
+            sec.button.setText(("✓ " if ok else "") + name)
+
+    def _advance(self, k):
+        """Open step k and fold steps 2 and 3 before it (they reopen with a click); the images step stays as it is:
+        its frame list shows the frames left out in red."""
+        if k <= self._step_now:
+            self._step_titles()
+            return
+        self._step_now = k
+        for i, sec in enumerate(self.sections):
+            if 0 < i < k:
+                sec.set_expanded(False)
+        self.sections[k].set_expanded(True)
+        self._step_titles()
 
     def show_field(self, field):
         """What is in the first frame (photometry.identify_field): solution, OBJECT check, variable stars."""
@@ -2910,6 +3003,8 @@ class PhotometryPage(Undoable, QWidget):
         self.guide.set_state(3, "done")
         for w, key in ((self.r_ap, "r_ap"), (self.r_in, "r_in"), (self.r_out, "r_out")):
             w.setValue(a[key])
+        self._radii_set = True
+        self._advance(3)
         self.plot.figure.clear()
         ax = self.plot.figure.subplots()
         ax.axvspan(0, a["r_ap"], color="#46a758", alpha=0.18, lw=0, label=self.tr("aperture"))
@@ -3055,7 +3150,8 @@ class PhotometryPage(Undoable, QWidget):
     def show_light_curve(self, lc):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.guide.set_state(4, "done")
-        self.lc_raw, self.detrend_cfg, self.excluded = lc, None, set()
+        self.lc_raw, self.detrend_cfg, self.excluded, self.comp_off = lc, None, set(), set()
+        self._step_titles()
         self._fill_frames()  # frames left out by the measurement in red, with why
         self._show_lower(True)
         self.next_box.setVisible(True)
@@ -3092,6 +3188,19 @@ class PhotometryPage(Undoable, QWidget):
         if raw is None:
             return
         raw, self._frame_ids = _without_frames(raw, self.excluded)
+        n_comp = len(raw["comp_flux"][0]) if raw.get("comp_flux") and len(raw["comp_flux"][0]) else 0
+        self._comp_scatter = {}
+        if n_comp > 1:  # each comparison star against the others (all of them), in mmag, for the star table
+            _, sc = d.comps_against_others(raw["comp_flux"])
+            self._comp_scatter = {k: 1085.7 * float(v) for k, v in enumerate(sc)}
+        keep = [k for k in range(n_comp) if k not in self.comp_off] or list(range(n_comp))
+        if len(keep) < n_comp:  # comparison stars left out by the user: the ensemble without them
+            cut = {
+                key: [[row[k] for k in keep] for row in raw[key]]
+                for key in ("comp_flux", "comp_flux_err")
+                if key in raw
+            }
+            raw = dict(raw) | cut
         lc = dict(raw)
         w = None
         if "comp_flux_err" in raw:  # light curves of older projects and the live one keep their own ensemble
@@ -3115,9 +3224,11 @@ class PhotometryPage(Undoable, QWidget):
             fe = [row[i] for row in raw["extra_flux_err"]]
             r, re_ = d.ensemble(f, fe, raw["comp_flux"], raw["comp_flux_err"], w)
             lc["extra"].append({"name": name, "role": role, "rel_flux": r.tolist(), "rel_flux_err": re_.tolist()})
-        mags = self.known_comp_mags()
+        all_mags = self.known_comp_mags()
+        mags = [all_mags[k] for k in keep if k < len(all_mags)] if n_comp else all_mags
         if any(m is not None for m in mags):
-            cat = (self.catalog or {}).get("comps") or []
+            cat_all = (self.catalog or {}).get("comps") or []
+            cat = [cat_all[k] if k < len(cat_all) else None for k in keep] if n_comp else cat_all
             comps = []
             for i, m in enumerate(mags):  # catalogue colours are kept when the magnitude is the catalogue's
                 c = cat[i] if i < len(cat) and cat[i] and m is not None and abs(cat[i]["mag"] - m) < 1e-6 else None
@@ -3141,7 +3252,9 @@ class PhotometryPage(Undoable, QWidget):
                     }
                     xo = calibrate(xs, comps, None)
                     x |= {"mag": xo["mag"], "mag_err": xo["mag_err"]}
+        lc["comps_used"] = [k + 1 for k in keep]
         self.light_curve = lc
+        self._fill_star_table()
         self._plot_current()
         self._summarise()
 
@@ -3172,6 +3285,15 @@ class PhotometryPage(Undoable, QWidget):
                     "The rings do not fit these small frames: aperture {r:.1f} px, sky {a:.1f}–{b:.1f} px, chosen "
                     "from the stars."
                 ).format(r=a["r_ap"], a=a["r_in"], b=a["r_out"])
+            )
+        used = lc.get("comps_used") or []
+        n_all = len((self.lc_raw or {}).get("comp_flux", [[]])[0]) if self.lc_raw else 0
+        if used and len(used) < n_all:
+            out = [f"C{k}" for k in range(1, n_all + 1) if k not in used]
+            lines.append(
+                self.tr("Comparison stars in use: {used} (left out: {out}).").format(
+                    used=", ".join(f"C{k}" for k in used), out=", ".join(out)
+                )
             )
         lost = (self.lc_raw or {}).get("lost") or {}
         if lost:
