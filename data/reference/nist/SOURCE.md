@@ -4,4 +4,10 @@
 - **Source and licence:** NIST ASD (US government work, public); cite Kramida et al., NIST ASD.
 - **Get the whole set:** `https://physics.nist.gov/PhysRefData/ASD/lines_form.html` (Xe I, CSV).
 - **Used for:** Arc line lists.
-- **Size here:** 0 MB, 1 entries.
+- **Size of the files used:** 0 MB, 1 files.
+
+## Files used in the checks
+
+Download these into this folder (git ignores the data files here; only notes and small text files are kept).
+
+- `xe.csv`

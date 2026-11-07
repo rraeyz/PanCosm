@@ -13,3 +13,13 @@ packaging/out/
 /raw/
 /truth.json
 /*.fits
+
+# data/: only notes and small text files are kept in git (data/README.md); observations are downloaded there
+/data/**
+!/data/**/
+!/data/**/*.md
+!/data/**/*.csv
+!/data/**/*.txt
+!/data/**/*.json
+!/data/**/*.srl
+!/data/owner/**

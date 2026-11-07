@@ -4,4 +4,22 @@
 - **Source and licence:** Zenodo record 3254683 (`example-cryo-LFC.tar.bz2`), shared for the astropy CCD Data Reduction Guide; licence as stated on the record.
 - **Get the whole set:** Whole set (162 MB compressed): `https://zenodo.org/records/3254683`.
 - **Used for:** Calibration: overscan, dead flat pixels, bias / dark / flat matching.
-- **Size here:** 206 MB, 11 entries.
+- **Size of the files used:** 206 MB, 11 files.
+
+## Files used in the checks
+
+Download these into this folder (git ignores the data files here; only notes and small text files are kept).
+
+- `ccd.001.0.fits` (17.2 MB)
+- `ccd.002.0.fits` (17.2 MB)
+- `ccd.003.0.fits` (17.2 MB)
+- `ccd.014.0.fits` (17.2 MB)
+- `ccd.015.0.fits` (17.2 MB)
+- `ccd.017.0.fits` (17.2 MB)
+- `ccd.018.0.fits` (17.2 MB)
+- `ccd.037.0.fits` (17.2 MB)
+- `ccd.043.0.fits` (17.2 MB)
+- `darks/ccd.013.0.fits` (17.2 MB)
+- `darks/ccd.014.0.fits` (17.2 MB)
+- `darks/ccd.015.0.fits` (17.2 MB)
+- `observing_log.csv`
