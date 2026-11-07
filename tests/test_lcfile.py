@@ -71,3 +71,42 @@ def test_save_all_writes_the_whole_night(tmp_path):
     assert len(rows) == 13 and "rel_flux_T1" in rows[0]
     back = json.loads((tmp_path / "night" / "transit_fit.json").read_text(encoding="utf-8"))
     assert back["errors"]["tc"] == 3e-4 and "model" not in back
+
+
+def _night(t0, seed):
+    rng = np.random.default_rng(seed)
+    n = 30
+    comp = rng.normal([2e5, 1.5e5, 1e5], 300, (n, 3))
+    target = rng.normal(8e4, 250, n)
+    return {"time": (t0 + np.arange(n) / 720).tolist(), "time_scale": "BJD_TDB", "target_flux": target.tolist(),
+            "target_flux_err": rng.uniform(200, 300, n).tolist(), "comp_flux": comp.tolist(),
+            "comp_flux_err": rng.uniform(300, 600, (n, 3)).tolist(), "rel_flux": (target / comp.sum(1)).tolist(),
+            "rel_flux_err": [0.003] * n, "file": [f"n{seed}_{i}.fits" for i in range(n)]}  # fmt: skip
+
+
+def test_files_read_back_everywhere(tmp_path):
+    """PHO-48's acceptance: measure → save → read → join nights is the in-memory join, every star's own errors kept
+    (the CSV shared them); Light curves and Models read the file too."""
+    from astrowb.models.data import read_light_curve
+    from astrowb.photometry.nights import join_nights, read_export
+
+    a, b = _night(2459800.6, 1), _night(2459801.6, 2)
+    paths = [lcfile.write(lc, tmp_path / f"{k}.lc.ecsv") for k, lc in enumerate((a, b))]
+    joined, again = join_nights([a, b]), join_nights([read_export(p) for p in paths])
+    for k in ("time", "rel_flux", "rel_flux_err", "night_offsets", "comp_flux_err"):
+        assert np.allclose(np.asarray(again[k], float), np.asarray(joined[k], float), rtol=0, atol=0), k
+    t, f, e, info = read_light_curve(paths[0])
+    med = np.median(a["rel_flux"])
+    assert np.allclose(t, a["time"]) and np.allclose(f, np.asarray(a["rel_flux"]) / med)
+    assert np.allclose(e, 0.003 / med) and info["value_column"] == "rel_flux"
+
+
+def test_light_curves_window_opens_the_file(qtbot, tmp_path):
+    from astrowb.ui.period_page import PeriodPage
+
+    a = _night(2459800.6, 1)
+    path = lcfile.write(a, tmp_path / "a.lc.ecsv")
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    page._load(str(path))
+    assert np.allclose(page.time, a["time"]) and np.allclose(page.err, 0.003)

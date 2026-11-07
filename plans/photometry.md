@@ -924,8 +924,10 @@ field), radius scaled with brightness, the rejected-pixel counts in the table, t
 **partial** — done (2026-11-13): `photometry/lcfile.py` (ECSV: per-frame series as columns, several values per
 frame as multidimensional columns, everything else in the header with a version; time with its unit and scale;
 flux / flux_err aliases; `read` gives back the same dict — every key compared in the test) and File → Export →
-"Light-curve file, nothing left out (.lc.ecsv)…" in the Photometry window. Left: the readers in join nights, Light
-curves, Models, Exoplanets, O−C and recipes; the migration reader for the old CSV; the provenance record filled.
+"Light-curve file, nothing left out (.lc.ecsv)…" in the Photometry window. (2026-11-13) Read back by Add other
+nights (every star's own errors: the join from files equals the in-memory join exactly), Light curves (Load) and
+Models (`data.read_light_curve`); tests in test_lcfile. Left: Exoplanets, O−C and recipes; the provenance record
+filled.
 - **Ours now:** the CSV export of the Photometry page and `photometry/nights.read_export` (reads it back, relative errors only).
 - **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
   comparison stars (item 12); other windows and other programs need the full table with units and provenance.
