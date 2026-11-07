@@ -9,6 +9,7 @@ from ..hdr import get
 from ..io.lzw import readable
 from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
 from .lightcurve import light_curve
+from .recipe import placed_by_sky
 
 
 def _check_positions(image, target, comps=()):
@@ -28,7 +29,7 @@ def _check_positions(image, target, comps=()):
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),
     outputs=("light_curve",),
-    optional=("coord", "extra_xy", "ref_image"),
+    optional=("coord", "extra_xy", "ref_image", "stars_sky"),
     r_ap=4.0,
     r_in=10.0,
     r_out=16.0,
@@ -52,6 +53,8 @@ def light_curve_step(inputs, params, ctx):
     and its table."""
     images = timing.chronological(inputs["images"])
     ref = inputs.get("ref_image") or images[0]  # the positions belong to the frame they were marked on
+    inputs = placed_by_sky(inputs, images, ref)  # a recipe on another night: by the sky (PHO-20)
+    ref = inputs.get("ref_image") or images[0]
     _check_positions(ref, inputs["target_xy"], inputs["comps_xy"])
     lc = light_curve(
         images,
