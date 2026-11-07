@@ -2,8 +2,26 @@
 
 Written 2026-11-07 at the owner's request: "scan AstroImageJ, Siril, MaxIm DL, IRAF and the others, and write down
 everything that has to be done; do not do it yet". **Nothing here is started without the owner's word.** Work one
-item at a time, in order; when an item is done, tick it and add the commit hash. HANDOFF.md keeps the history; this
-file keeps only the photometry to-do list.
+item at a time, in order; when an item is done, tick it and add the commit hash. **This file is where the work is
+written down now; HANDOFF.md is no longer added to** (owner, 2026-11-07). Notes on each item go under its heading or
+under "Done".
+
+## Rule for every item: learn from the established programs' code, never copy it (owner, 2026-11-07)
+
+- Before building or changing a method, **read how the established programs do it in their source code** and take
+  ideas from them: AstroImageJ (github.com/AstroImageJ/astroimagej), Siril (gitlab.com/free-astro/siril), IRAF
+  (github.com/iraf-community/iraf), C-Munipack, DAOPHOT, ccdproc / astropy / photutils, lightkurve, specreduce,
+  PypeIt, iSpec, PHOEBE, and others for the topic. Clone them into the scratchpad (outside the repository), read only,
+  never run them. Write down what was learned (formula, thresholds, order of steps, file and function read) in this file
+  (the code table below).
+- **Do not copy their code**, not even translated line by line into Python: AstroImageJ, Siril and C-Munipack are
+  GPL, and the owner wants to stay free to relicense this program. Ideas, formulas, algorithms, constants and
+  published methods are free to use; the text of someone else's code is not.
+- How: read and understand, write the method in your own words, close their file, then write our code from those
+  notes in our structure (our steps, our checks, our names). Code that ends up similar because the mathematics
+  leaves one way to write it (a formula, a loop over pixels) is fine; keeping their structure, names, comments or
+  sequence of statements is not.
+- MKCLASS stays as before: never copy, bundle or run its code.
 
 ## How to read an item
 
