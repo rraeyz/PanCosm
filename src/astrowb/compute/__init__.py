@@ -43,13 +43,7 @@ def device():
     if not _state["tried"]:
         _state["tried"] = True
         try:
-            import wgpu
-
-            adapter = wgpu.gpu.request_adapter_sync(power_preference="high-performance")
-            if adapter is None:
-                raise RuntimeError("no GPU adapter")
-            if adapter.info["adapter_type"] == "CPU" and mode() != "gpu":
-                raise RuntimeError(f"only a software adapter: {adapter.info['device']}")
+            adapter = _state["adapter"] or _adapter()
             limits = adapter.limits
             _state["device"] = adapter.request_device_sync(
                 required_limits={
@@ -62,6 +56,28 @@ def device():
             _state["error"] = f"{type(e).__name__}: {e}"
             log.info("GPU not used: %s", _state["error"])
     return _state["device"]
+
+
+def _adapter():
+    import wgpu
+
+    adapter = wgpu.gpu.request_adapter_sync(power_preference="high-performance")
+    if adapter is None:
+        raise RuntimeError("no GPU adapter")
+    if adapter.info["adapter_type"] == "CPU" and mode() != "gpu":
+        raise RuntimeError(f"only a software adapter: {adapter.info['device']}")
+    return adapter
+
+
+def probe():
+    """Look for a usable adapter ahead of time, without making a device (which holds driver memory): an idle worker
+    does it before its task arrives, so a task does not wait the 0.4 s it takes."""
+    if mode() == "cpu" or _state["tried"] or _state["adapter"] is not None:
+        return
+    try:
+        _state["adapter"] = _adapter()
+    except Exception as e:  # no GPU: decided now, device() returns None at once
+        _state.update(tried=True, error=f"{type(e).__name__}: {e}")
 
 
 def describe() -> str:
