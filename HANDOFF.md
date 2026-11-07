@@ -472,6 +472,34 @@ and the 801 Kepler minima; write GPU code with the CPU as fallback, it serves th
   in memory where IRAF streams lines; streaming them would cost time (decompression per row band, Python per row),
   so it was not done.
 
+**Session 01RxUU, GPU round 2 (owner, 2026-11-07: "can wgpu do 64 bit? do the other GPU things; send me a test
+script that says GPU found / works / how long"):**
+- **v0.2.3 released** from `bb031b6` (ci.yml, release=true, run 165).
+- `compute/deconvolve.py` `gpu_richardson_lucy`: every iteration on the GPU in one submission (blur x, blur y, ratio,
+  blur, blur, product; scipy's Gaussian kernel: radius int(4 sigma + 0.5), zero outside). Used by
+  `io.process.deconvolve` from 1 MP up; 2400 x 2400 x 20 iterations against NumPy: median relative difference 6e-7,
+  largest 1.5e-4 (float32 over 20 iterations); CPU 5.9 s.
+- `compute/periods.py` `gpu_pdm_power`: one trial frequency per thread. Phases: the CPU gives each chunk of 256
+  frequencies frac(t f0) in float64, the GPU adds t (f - f0), at most 32 cycles: ~1e-6 cycles (plain float32 t f over
+  four years at 2 c/d is 3000 cycles, 2e-4 off). Bins with Welford's running variance (float32 sums of y^2 lose the
+  in-bin scatter). Used by `period._pdm_power` from 4 M points x frequencies; Kepler-size curve: same best period,
+  power within 5.7e-5 (median 1.5e-7); CPU 4.1 s.
+- Not on the GPU, and why: Lomb-Scargle (astropy's fast method, 0.9 s for 65 000 points), BLS (astropy's C code, 6.3
+  s; a GPU twin would need per-thread bin arrays of period / (duration / 10) = up to 5000 bins), fpack decompression
+  (serial bit decoding), aperture photometry of a few stars per frame (the transfer costs more).
+- **64 bit:** WGSL has no f64 in its core. wgpu-native has the native feature `shader-f64` (Vulkan / DX12 on desktop
+  cards; not Metal (Apple), not llvmpipe here, not many integrated GPUs), and consumer cards run f64 at 1/32-1/64 of
+  their f32 speed, so an f64 kernel is often slower than the CPU. Not used: pixels are integers below 2^24 (exact in
+  float32), and where precision matters (PDM phases) the float64 part is split off on the CPU as above. Times and
+  coordinates stay on the CPU (rule of `compute/__init__.py`).
+- **GPU check** `compute/check.py` (`python -m astrowb --benchmark`, also in the installed application: a window
+  when there is no console; `tools/gpu_check.py` from the source folder, exit code 0 when every job works): finds the
+  adapter (software adapters are named as such), runs the 5 GPU jobs (clipped-mean stack, median + winsorized stack,
+  k-means classes, deconvolution, PDM) on CPU and GPU with the same synthetic data, prints the times, the ratio and
+  whether the results agree (classes: at most 1e-5 of the pixels may differ; values: 1e-3 relative). Here (llvmpipe):
+  5 of 5 work; times mean nothing on a software adapter (median stack 18.2 vs 4.1 s: llvmpipe uses every core, the
+  NumPy reference one). The old `compute.combine.benchmark` is gone (the check replaces it).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
