@@ -184,9 +184,13 @@ def deconvolve(data, header, fwhm=3.0, iterations=20):
     def blur(a):  # the Gaussian PSF (symmetric: it is its own mirror), separable: 2400 x 2400 x 20 iterations
         return gaussian_filter(a, sigma, mode="constant", truncate=4.0)  # took 80 s as two FFTs per iteration
 
-    u = np.full_like(d, d.mean())
-    for _ in range(int(iterations)):
-        u *= blur(d / np.maximum(blur(u), 1e-12))
+    from ..compute.deconvolve import gpu_richardson_lucy
+
+    u = gpu_richardson_lucy(d, sigma, iterations)  # on the GPU when the compute mode allows it
+    if u is None:
+        u = np.full_like(d, d.mean())
+        for _ in range(int(iterations)):
+            u *= blur(d / np.maximum(blur(u), 1e-12))
     return (u + floor).astype(np.float32), header.copy()
 
 
