@@ -136,6 +136,22 @@ def test_centroids_of_defocused_stars(kind):
     assert np.hypot(got[0] - x0, got[1] - y0) < 0.2, got
 
 
+@pytest.mark.parametrize("x0", [50.0, 50.3, 50.5, 50.8])
+def test_centroid_of_an_undersampled_star_next_to_a_hot_pixel(x0):
+    """A star of FWHM 1.5 px (MicroObservatory, HAT-P-32: the 3x3 median filter halved its core and the centroid
+    went 2 px off, the transit scatter rose from 0.012 to 0.017) is found, and a hot pixel beside it is ignored."""
+    from astrowb.photometry.aperture import recenter
+
+    rng = np.random.default_rng(5)
+    yy, xx = np.mgrid[:100, :100]
+    s = 1.5 / 2.3548
+    model = 2e4 / (2 * np.pi * s * s) * np.exp(-((xx - x0) ** 2 + (yy - 49.6) ** 2) / (2 * s * s))
+    img = rng.poisson(model + 360).astype(float)
+    img[52, 53] = 6000.0
+    got = recenter(img, [[x0 + 0.4, 49.6 - 0.3]])[0]
+    assert np.hypot(got[0] - x0, got[1] - 49.6) < 0.2, got
+
+
 def test_suggested_comparisons_near_the_target_first():
     from astrowb.photometry.aperture import suggest_comparisons
 
