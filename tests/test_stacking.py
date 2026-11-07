@@ -73,3 +73,58 @@ def test_saved_stack_has_coverage(frames, tmp_path):
     with fits.open(out) as h:
         assert h["COVERAGE"].data.max() == 7 and h[0].header["NCOMBINE"] == 7
     assert masters.load(out)[0].shape == (NY, NX)
+
+
+def _iraf_msigclip(values, lsigma=3.0, hsigma=3.0):
+    """IRAF imcombine ic_msigclip (icsclip.gx) for one pixel, line by line: what is kept."""
+    d = np.sort(values[np.isfinite(values)])
+    n1, nl, nh = len(d), 0, len(d) - 1
+    while True:
+        n2, n3 = n1, nl + n1 // 2
+        med = (d[n3 - 1] + d[n3]) / 2 if n1 % 2 == 0 else d[n3]
+        if n1 >= 3:
+            s = np.sqrt(np.sum((d[nl : nh + 1] - med) ** 2) / (n1 - 1))
+            if s > 0:
+                while nl <= nh and (med - d[nl]) / s > lsigma:
+                    nl, n1 = nl + 1, n1 - 1
+                while nh >= nl and (d[nh] - med) / s > hsigma:
+                    nh, n1 = nh - 1, n1 - 1
+        if n1 == n2 or n1 < 3:
+            return d[nl : nh + 1]
+
+
+def test_sigma_clipping_is_iraf_imcombines_where_ten_frames_cover_the_pixel():
+    """rejection="sigma" keeps, pixel by pixel, what IRAF's sigclip keeps (40 LCO frames with a satellite trail and
+    cosmic rays: the same sky noise as IRAF, 2.022 / 2.023 ADU; the median / MAD clipping 2.055); where fewer than
+    ten frames cover a pixel it falls back to the median / MAD spread, which still rejects a single cosmic ray."""
+    rng = np.random.default_rng(0)
+    b = rng.normal(1000, 10, (25, 30, 40)).astype(np.float32)
+    b[rng.integers(0, 25, 300), rng.integers(0, 30, 300), rng.integers(0, 40, 300)] += rng.uniform(50, 5000, 300)
+    b[3:6, 2, 2] = np.nan
+    b[:, 4, 4] = 7.0  # equal values
+    keep = stacking.reject(b, "sigma", 3.0)
+    for y in range(30):
+        for x in range(40):
+            if np.isfinite(b[:, y, x]).sum() >= stacking.IRAF_MIN_FRAMES:
+                np.testing.assert_array_equal(np.sort(b[:, y, x][keep[:, y, x]]), _iraf_msigclip(b[:, y, x]))
+    few = rng.normal(1000, 10, (7, 5, 5)).astype(np.float32)
+    few[3, 2, 2] = 6000.0  # IRAF's rms about the median puts it only 2.45 sigma off
+    assert _iraf_msigclip(few[:, 2, 2]).max() == 6000.0
+    assert not stacking.reject(few, "sigma", 3.0)[3, 2, 2]
+    np.testing.assert_array_equal(stacking.reject(few, "sigma", 3.0), stacking.reject(few, "mad", 3.0))
+
+
+def test_a_shift_is_resampled_as_map_coordinates_does(tmp_path):
+    """Pure shifts are resampled from four slices with the same two weights for every pixel; the result is
+    map_coordinates(order=1, cval=NaN), edges and the last row / column included."""
+    from scipy.ndimage import map_coordinates
+
+    img = np.random.default_rng(1).normal(1000, 10, (50, 60)).astype(np.float32)
+    fits.PrimaryHDU(img).writeto(tmp_path / "a.fits")
+    with fits.open(tmp_path / "a.fits") as h:
+        for t in [(0, 0), (1.5, -2.25), (-3.7, 4.1), (0.0, 0.5), (-0.3, -0.8), (59.5, 0), (0, -49.9), (100, 3)]:
+            for b0, b1 in [(0, 50), (10, 20), (45, 50)]:
+                yy, xx = np.meshgrid(np.arange(b0, b1, dtype=float), np.arange(60, dtype=float), indexing="ij")
+                ref = map_coordinates(img, [yy + t[1], xx + t[0]], order=1, cval=np.nan, prefilter=False)
+                got = stacking._shifted_rows(h[0], b0, b1, t, 50, 60)
+                np.testing.assert_allclose(got, ref, rtol=1e-6, equal_nan=True)

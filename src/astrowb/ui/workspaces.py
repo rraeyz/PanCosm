@@ -1197,6 +1197,7 @@ class CalibratePage(QWidget):
                 self.tr("Reject"),
                 {
                     "sigma": self.tr("sigma clipping"),
+                    "mad": self.tr("sigma clipping, median / MAD spread"),
                     "winsorized": self.tr("winsorized sigma clipping"),
                     "minmax": self.tr("min / max (drop lowest and highest)"),
                     "percentile": self.tr("percentile clipping"),
@@ -1224,7 +1225,8 @@ class CalibratePage(QWidget):
             "method": self.tr("mean: the least noise; median: robust without rejection; sum: keeps the counts"),
             "rejection": self.tr(
                 "Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; "
-                "sigma clipping needs about ten frames or more, min / max works with fewer"
+                "sigma clipping is IRAF imcombine's (median ± σ × rms) where ten or more frames cover a pixel and "
+                "the median / MAD spread where fewer do; min / max and percentile also work with few frames"
             ),
             "normalize": self.tr(
                 "Brings the frames to the same level before rejection: multiplicative when the transparency "

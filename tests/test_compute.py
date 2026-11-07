@@ -82,7 +82,7 @@ def test_cpu_mode_never_touches_gpu(cpu_mode):
 
 
 @pytest.mark.parametrize("method", ["mean", "median", "sum"])
-@pytest.mark.parametrize("rejection", ["none", "sigma", "winsorized", "minmax", "percentile"])
+@pytest.mark.parametrize("rejection", ["none", "sigma", "mad", "winsorized", "minmax", "percentile"])
 def test_gpu_stack_combine_matches_numpy(stack, gpu_mode, method, rejection):
     """Every method and rejection of the stacking page on the GPU gives the NumPy result (calibration.stacking.combine,
     the reference and the fallback), weights included."""
@@ -195,3 +195,19 @@ def test_gpu_check_without_a_gpu(monkeypatch):
     lines = check.benchmark()
     assert lines[0].startswith("GPU not found (RuntimeError: no GPU adapter)") and len(lines) == 2
     assert compute.mode() == "auto"
+
+
+def test_gpu_sigma_clipping_with_few_and_many_frames(gpu_mode):
+    """The GPU's sigma clipping follows the CPU's rule: IRAF's sigclip where 10+ frames cover a pixel, the median /
+    MAD spread where fewer do (a single cosmic ray among 7 frames is rejected either way)."""
+    from astrowb.calibration.stacking import combine
+    from astrowb.compute.stack import gpu_combine
+
+    rng = np.random.default_rng(8)
+    for n in (7, 12):
+        s = rng.normal(500, 8, (n, 30, 20)).astype(np.float32)
+        s[2, 5, 5] = 9000.0
+        s[: n - 8, 10, :] = np.nan  # some pixels covered by 8 frames only
+        gpu = gpu_combine(s, "mean", "sigma", 3.0, force=True)
+        np.testing.assert_allclose(gpu, combine(s, "mean", "sigma", 3.0), rtol=1e-6, equal_nan=True)
+        assert abs(gpu[5, 5] - 500) < 15

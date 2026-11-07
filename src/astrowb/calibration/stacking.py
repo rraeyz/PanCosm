@@ -110,7 +110,7 @@ def _run_shifts(run):
 
 
 METHODS = ("mean", "median", "sum")
-REJECTIONS = ("none", "sigma", "winsorized", "minmax", "percentile")
+REJECTIONS = ("none", "sigma", "mad", "winsorized", "minmax", "percentile")
 NORMALISATIONS = ("none", "additive", "multiplicative")
 WEIGHTINGS = ("none", "noise")
 
@@ -166,6 +166,13 @@ def reject(block, rejection="sigma", sigma=3.0, low=1, high=1, iterations=5):
         n = keep.sum(axis=0)
         rank = np.argsort(np.argsort(np.where(keep, block, np.inf), axis=0), axis=0)
         return keep & (rank >= low) & (rank < n - high)
+    if rejection == "sigma":  # IRAF's sigclip where 10+ frames cover the pixel; median / MAD where fewer do
+        n = keep.sum(axis=0)
+        out = _iraf_sigclip(block, keep, sigma, sigma)
+        few = (n > 0) & (n < IRAF_MIN_FRAMES)
+        if few.any():
+            out[:, few] = reject(block[:, few], "mad", sigma, low, high, iterations)
+        return out
     with np.errstate(invalid="ignore"), warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)
         if rejection == "percentile":
@@ -184,6 +191,54 @@ def reject(block, rejection="sigma", sigma=3.0, low=1, high=1, iterations=5):
                 break
             keep = new
     return keep
+
+
+# With n values the rms about their median can never put one outlier more than sqrt(n - 1) sigma away: below 10
+# frames a cosmic ray in one frame is never 3 sigma off (7 frames: 2.45), so IRAF's help sends few images to other
+# algorithms; there the median / MAD clipping, which rejects it.
+IRAF_MIN_FRAMES = 10
+
+
+def _iraf_sigclip(block, keep, lsigma, hsigma, min_clip=3):
+    """IRAF imcombine's sigma clipping about the median (reject=sigclip, mclip=yes: ic_msigclip in
+    images/immatch/src/imcombine/src/icsclip.gx). Each pixel's values are sorted once; the centre is the median of
+    the values still kept and sigma their rms about it (n - 1); values more than lsigma below or hsigma above go,
+    from the ends of the sorted run, until nothing changes or fewer than three are left. On sorted values every
+    rejection narrows a window, so one sort serves every iteration (median / MAD clipping sorted ten times, and
+    its spread from 40 values rejected good ones: the stack's noise came out 1.6 % above IRAF's)."""
+    s = np.sort(block, axis=0)  # NaN last
+    n = keep.sum(axis=0)
+    zero = np.zeros((1, *block.shape[1:]))
+    finite = np.nan_to_num(s.astype(np.float64))
+    c1 = np.concatenate([zero, np.cumsum(finite, axis=0)])  # window sums from cumulative sums
+    c2 = np.concatenate([zero, np.cumsum(finite * finite, axis=0)])
+    del finite
+    lo, hi = np.zeros(n.shape, np.intp), n.astype(np.intp)
+
+    def at(a, i):
+        return np.take_along_axis(a, i[None], 0)[0]
+
+    with np.errstate(invalid="ignore", divide="ignore"):
+        while True:
+            m = hi - lo
+            active = m >= min_clip
+            if not active.any():
+                break
+            i1, i2 = lo + np.maximum(m - 1, 0) // 2, lo + m // 2
+            med = (at(s, np.minimum(i1, len(s) - 1)).astype(np.float64) + at(s, np.minimum(i2, len(s) - 1))) / 2
+            s1, s2 = at(c1, hi) - at(c1, lo), at(c2, hi) - at(c2, lo)
+            sd = np.sqrt(np.maximum(s2 - 2 * med * s1 + m * med * med, 0) / np.maximum(m - 1, 1))
+            go = active & (sd > 0)
+            below = np.count_nonzero(s < (med - lsigma * sd), axis=0)  # the sorted run's first values
+            above = np.count_nonzero(s > (med + hsigma * sd), axis=0)  # its last finite values (NaN compare false)
+            new_lo = np.where(go, np.maximum(lo, below), lo)
+            new_hi = np.where(go, np.maximum(np.minimum(hi, n - above), new_lo), hi)
+            if np.array_equal(new_lo, lo) and np.array_equal(new_hi, hi):
+                break
+            lo, hi = new_lo, new_hi
+        first = at(s, np.minimum(lo, len(s) - 1))
+        last = at(s, np.maximum(hi - 1, 0))
+        return keep & (hi > lo) & (block >= first) & (block <= last)
 
 
 def combine(block, method="mean", rejection="sigma", sigma=3.0, low=1, high=1, weights=None):
@@ -207,7 +262,9 @@ def _stack_band(job):
     try:
         hdus = [h[find_image_hdu(h)] for h in hduls]
         ny, nx = hdus[0].shape[-2:]
-        rows = max(1, budget // (len(paths) * nx * 4 * (1 if fast or on_gpu else 4)))  # masks and sorts need more
+        # masks and sorts need more; IRAF's clipping also a sorted copy and two float64 running sums
+        factor = 1 if fast or on_gpu else 8 if rejection == "sigma" else 4
+        rows = max(1, budget // (len(paths) * nx * 4 * factor))
         out, cnt = np.empty((r1 - r0, nx), np.float32), np.empty((r1 - r0, nx), np.int32)
         xs = np.arange(nx, dtype=np.float64)
         for b0 in range(r0, r1, rows):
@@ -215,6 +272,9 @@ def _stack_band(job):
             yy0, xx0 = np.meshgrid(np.arange(b0, b1, dtype=np.float64), xs, indexing="ij")
             block = []
             for hdu, (m, t) in zip(hdus, transforms, strict=True):
+                if np.array_equal(m, np.eye(2)):  # a shift: the same two weights for every pixel
+                    block.append(_shifted_rows(hdu, b0, b1, t, ny, nx))
+                    continue
                 xsrc = m[0, 0] * xx0 + m[0, 1] * yy0 + t[0]
                 ysrc = m[1, 0] * xx0 + m[1, 1] * yy0 + t[1]
                 lo, hi = int(np.floor(ysrc.min())) - 1, int(np.ceil(ysrc.max())) + 2
@@ -246,6 +306,37 @@ def _stack_band(job):
     return out, cnt
 
 
+def _shifted_rows(hdu, b0, b1, t, ny, nx):
+    """Rows b0..b1 of the frame shifted by t = (dx, dy): value at (x + dx, y + dy), bilinear, NaN outside the frame -
+    map_coordinates(order=1, cval=nan) for a translation, from four shifted slices (it took a third of a stack's
+    time computing the same weights for every pixel)."""
+    dx, dy = float(t[0]), float(t[1])
+    ix, iy = int(np.floor(dx)), int(np.floor(dy))
+    fx, fy = dx - ix, dy - iy
+    out = np.full((b1 - b0, nx), np.nan)
+    ys = np.arange(b0, b1) + iy  # source rows (and the next one)
+    xs = np.arange(nx) + ix
+    lo, hi = max(ys[0], 0), min(ys[-1] + 2, ny)
+    if hi <= lo:
+        return out.astype(np.float32)
+    sub = np.asarray(hdu.section[lo:hi, :], dtype=np.float64)
+
+    def take(yv, xv):  # sub at (row yv, column xv), NaN outside
+        ok = ((yv >= 0) & (yv < ny))[:, None] & ((xv >= 0) & (xv < nx))[None, :]
+        v = sub[np.clip(yv - lo, 0, len(sub) - 1)][:, np.clip(xv, 0, nx - 1)]
+        return np.where(ok, v, np.nan)
+
+    # a point exactly on the last row / column takes no weight from beyond it (map_coordinates' rule)
+    out = take(ys, xs) * ((1 - fy) * (1 - fx))
+    if fx:
+        out += take(ys, xs + 1) * ((1 - fy) * fx)
+    if fy:
+        out += take(ys + 1, xs) * (fy * (1 - fx))
+    if fx and fy:
+        out += take(ys + 1, xs + 1) * (fy * fx)
+    return out.astype(np.float32)
+
+
 def _gpu_combine_wanted(n_frames, pixels):
     """Whether a band of the stack goes to the GPU: compute mode and device, at most 128 frames, enough work."""
     from ..compute import device
@@ -273,8 +364,9 @@ def stack(
         transforms = [(np.eye(2), np.asarray(o, float)) for o in offsets]
     else:
         transforms = align_transforms(paths, align, ctx)
-    fast = (method, rejection, normalize, weighting) == ("mean", "sigma", "none", "none")  # GPU-ready default
-    stats = None if fast else frame_stats(paths)
+    # the masters' clipped mean (median / MAD, GPU-ready): the old default, now "mad"
+    fast = (method, rejection, normalize, weighting) == ("mean", "mad", "none", "none")
+    stats = frame_stats(paths) if normalize != "none" or weighting != "none" else None
     scale, shift, weights = np.ones(len(paths)), np.zeros(len(paths)), None
     if stats:
         med = np.array([m for m, _ in stats])
