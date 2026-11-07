@@ -20,6 +20,7 @@ Combining (as Siril / PixInsight / MaxIm DL offer it), per pixel over the frames
   median, or sum (the mean times the number of frames, so partly covered pixels keep the right level).
 """
 
+import json
 import warnings
 from pathlib import Path
 
@@ -47,11 +48,52 @@ def align_offsets(paths, ctx=None, binning=1):
     paths = [str(p) for p in paths]
     if len(paths) < 2:
         return [(0.0, 0.0)]
-    n = max(1, min(4 * workers(), len(paths) // 8))  # runs of at least 8 frames: each run reads one frame twice
-    edges = np.linspace(0, len(paths) - 1, n + 1).round().astype(int)
-    runs = [(paths[a : b + 1], binning) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
-    steps = [s for run in pmap(_run_shifts, runs, ctx, "aligning", min_items=2) for s in run]
+    known, keys = _shift_cache(), _pair_keys(paths, binning)
+    if all(k in known for k in keys):  # the same frames again (comparisons, then the light curve, other radii)
+        steps = [known[k] for k in keys]
+    else:
+        n = max(1, min(4 * workers(), len(paths) // 8))  # runs of at least 8 frames: each run reads one frame twice
+        edges = np.linspace(0, len(paths) - 1, n + 1).round().astype(int)
+        runs = [(paths[a : b + 1], binning) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
+        steps = [s for run in pmap(_run_shifts, runs, ctx, "aligning", min_items=2) for s in run]
+        _save_shifts(known, dict(zip(keys, ([float(a), float(b)] for a, b in steps), strict=True)))
     return [(0.0, 0.0), *(tuple(x) for x in np.cumsum(steps, axis=0).tolist())]
+
+
+SHIFT_CACHE_PAIRS = 20_000  # ~4 MB of JSON; the oldest pairs go first
+
+
+def _pair_keys(paths, binning):
+    """One key per consecutive pair: both files as they are now (path, size, modification time) and the binning."""
+    stamps = []
+    for p in paths:
+        st = Path(p).stat()
+        stamps.append(f"{Path(p).resolve()}|{st.st_size}|{st.st_mtime_ns}")
+    return [f"{binning}|{a}|{b}" for a, b in zip(stamps, stamps[1:], strict=False)]
+
+
+def _shift_cache():
+    from ..settings import config_dir
+
+    try:
+        return json.loads((config_dir() / "shifts.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _save_shifts(known, new):
+    from ..settings import config_dir
+
+    known = {k: v for k, v in known.items() if k not in new} | new
+    known = dict(list(known.items())[-SHIFT_CACHE_PAIRS:])
+    path = config_dir() / "shifts.json"
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(".part")
+        tmp.write_text(json.dumps(known), encoding="utf-8")
+        tmp.replace(path)
+    except OSError:  # a read-only settings folder: the shifts are only not kept
+        pass
 
 
 def _run_shifts(run):
