@@ -41,6 +41,9 @@ def _series(lc, name):
           help=QT_TRANSLATE_NOOP("Steps", "Comma-separated: airmass, fwhm, sky, x, y (empty: none)")),
         P("fit_ld", "bool", False, label=QT_TRANSLATE_NOOP("Steps", "Fit the limb darkening"),
           help=QT_TRANSLATE_NOOP("Steps", "A single night rarely decides it: leave it fixed")),
+        P("mcmc_steps", "int", 0, min=0, max=100000, label=QT_TRANSLATE_NOOP("Steps", "MCMC steps"), advanced=True,
+          help=QT_TRANSLATE_NOOP("Steps", "Posterior errors after the fit (the chains stop earlier once converged); "
+                                 "0: none")),
     ],
 )  # fmt: skip
 def transit_fit_step(inputs, params, ctx):
@@ -61,7 +64,7 @@ def transit_fit_step(inputs, params, ctx):
     start = {"tc": tc, "k": params["k"], "a_rs": params["a_rs"], "b": params["b"], "u1": params["u1"],
              "u2": params["u2"]}  # fmt: skip
     free = ("tc", "k", "a_rs", "b", "baseline") + (("u1", "u2") if params["fit_ld"] else ())
-    out = fit(t, f, e, params["period"], start, free, detrend=detrend)
+    out = fit(t, f, e, params["period"], start, free, detrend=detrend, mcmc_steps=params.get("mcmc_steps", 0), ctx=ctx)
     out["model"], out["residuals"], out["trend"] = (out[k].tolist() for k in ("model", "residuals", "trend"))
     return {"transit": out}
 

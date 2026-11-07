@@ -33,7 +33,30 @@ def result_text(out):
         "a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.",
     ).format(tc=paren(v["tc"], e.get("tc", 0)), depth=d["depth_ppt"], mmag=d["depth_mmag"], t14=d["t14_h"],
              t23=d["t23_h"], a=paren(v["a_rs"], e.get("a_rs", 0)), b=paren(v["b"], e.get("b", 0)), inc=d["inc"],
-             rho=d["rho_star"], chi2r=out["chi2r"], rms=out["rms_ppt"], beta=out["beta"])  # fmt: skip
+             rho=d["rho_star"], chi2r=out["chi2r"], rms=out["rms_ppt"], beta=out["beta"]) + _mcmc_text(out)  # fmt: skip
+
+
+def _mcmc_text(out):
+    m = out.get("mcmc")
+    if not m:
+        return ""
+    p = m["params"]
+    digits = {"tc": 6}
+    parts = [f"{n} {p[n][0]:.{digits.get(n, 4)}f} −{p[n][1]:.{digits.get(n, 4)}f} +{p[n][2]:.{digits.get(n, 4)}f}"
+             for n in ("tc", "k", "a_rs", "b") if n in p]  # fmt: skip
+    note = "" if m["converged"] else " " + translate("PhotometryTransit", "(not converged: more steps)")
+    return "\n" + translate("PhotometryTransit", "MCMC: {values}.").format(values="; ".join(parts)) + note
+
+
+def add_mcmc_box(page, layout):
+    from PySide6.QtWidgets import QCheckBox
+
+    page.transit_mcmc = QCheckBox(translate("PhotometryTransit", "MCMC uncertainties (slower)"), page)
+    page.transit_mcmc.setToolTip(
+        translate("PhotometryTransit", "After the fit, Markov chains give each parameter's 68 % interval; correlated "
+                  "parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.")
+    )  # fmt: skip
+    layout.addWidget(page.transit_mcmc)
 
 
 def details_dialog(page, lc, out):
@@ -88,6 +111,7 @@ def attach(main, page):
     page.transit_details = QPushButton(translate("PhotometryTransit", "Parameters and plot…"), box)
     page.transit_details.setEnabled(False)
     lay.addWidget(page.transit_button)
+    add_mcmc_box(page, lay)
     lay.addWidget(page.transit_result)
     lay.addWidget(page.transit_details)
 
@@ -115,7 +139,8 @@ def attach(main, page):
             page.transit_result.setText(translate("PhotometryTransit", "Type the period (d) above first."))
             return
         tc, k = starts(lc)
-        params = {"period": period, "tc": tc, "k": k, "detrend": "airmass" if lc.get("airmass") else ""}
+        params = {"period": period, "tc": tc, "k": k, "detrend": "airmass" if lc.get("airmass") else "",
+                  "mcmc_steps": 5000 if page.transit_mcmc.isChecked() else 0}  # fmt: skip
         page.transit_result.setText(translate("PhotometryTransit", "Fitting the transit…"))
         main.run_step_for("photometry", "photometry.transit_fit", {"light_curve": lc}, params,
                           on_done=done,

@@ -1266,6 +1266,15 @@
             "boolean",
             "null"
            ]
+          },
+          "mcmc_steps": {
+           "description": "MCMC steps: Posterior errors after the fit (the chains stop earlier once converged); 0: none",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 0,
+           "maximum": 100000
           }
          },
          "additionalProperties": false
