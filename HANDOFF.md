@@ -383,6 +383,41 @@ programs do; RAM must really be optimised, but never at the cost of time — mea
 - Not done yet / next: IRAF daophot (PSF), continuum, ecidentify (echelle) comparisons; period analysis vs astropy;
   KvW timing of 801 Kepler minima (125 s, bootstrap); GPU paths beyond stacking (no GPU here to measure).
 
+**Session 01RxUU, third speed round (owner, 2026-11-07: "lightkurve takes seconds, why are we 21 s? bring Qatar-1
+down too; could other things run on the GPU?"). Machine: this container after a restart (4 cores; the same Qatar-1
+runs were ~15 % slower here than before the restart: quality 44.4 s instead of 37.9 s at the start of this round):**
+- **CI was red** since `c942654` (validation HAT-P-32 b: out-of-transit scatter 0.0167 > 0.012). Cause, not the
+  parallel path: `recenter` median-filtered the whole stamp (`despike`) before the Gaussian centroid; on the
+  undersampled MicroObservatory stars (FWHM ~1.5 px) the 3x3 median halved the core (1770 -> 843 ADU) and the centroid
+  went ~2 px off (frames 21, 58, 138; the serial path was hit on other frames: 0.0124). Now `aperture._unspike` replaces
+  only single hot / cold pixels (a pixel above its brightest neighbour by more than twice that neighbour's height over
+  the median, or below all neighbours): HAT-P-32 0.0120 parallel / 0.0119 serial; Qatar-1 unchanged (scatter 0.00503
+  vs 0.00502, centroids within 0.12 px). Test `test_centroid_of_an_undersampled_star_next_to_a_hot_pixel` (fails on
+  the old code at all 4 sub-pixel positions). `c33e3d6`.
+- **TESS pixel file** (WASP-12 s20, 16 942 cadences; lightkurve 4.1 s, which writes no frames): 21 s -> 7.3 s the
+  first time, 2.0 s when the frames are kept (0.34 s to open them again). What went: per-cadence UTC conversion
+  (now `tpf._utc` at 1000 nodes + both sides of every data gap, interpolated: 12 us off; a straight line over the
+  mid-sector gap was 2.7 ms off), astropy reading the IERS polar-motion table to place an observer at the geocentre
+  (`tpf._light_travel_time`, identical to 2e-13 s), the archive BJD used as it is in the light curve, header cards
+  (`_FrameWriter.card`: the value field only, each card checked against astropy's on its first value), `.part` +
+  rename per frame (the listing is written last anyway), writing from 8 threads. What is left: the file system
+  creating 16 942 files (~3 s here). `a365dea`.
+- **Qatar-1, 265 LCO fpack frames, in task workers** (this container): quality 44.4 -> 32.7 s (`focus.hfr`: sky
+  statistics from every 4th pixel each way on frames over 4 MP; FWHM / background / noise within 0.3 %, star counts
+  within 0.6 %, the same frames good); light curve 41.4 -> 32.0 s alone (`masters.load(path, crop)`: the measurement
+  pass reads only the part of each frame around the stars, margin 155 px + box (the widest centroid box), 5 x r_out
+  with radii following the seeing; a tile-compressed frame decompresses only the rows it touches; identical light
+  curve, 5e-16); shifts between consecutive frames kept in `<config>/shifts.json` (key: both files' resolved path,
+  size, mtime_ns and the binning; 20 000 pairs at most), so comparison suggestion then light curve: 26.5 + 11.1 s
+  (was 28.2 + 32.0), again with other radii: 6.1 + 10.9 s. Whole chain 161 s (start of R4) -> 115 s (start of this
+  round) -> 70 s. Per frame now: decompression 0.18 s of the 0.5 s quality work; the shift pass 0.33 s (half of it
+  decompression) — both already ~3.8x on 4 cores.
+- **GPU** (owner asked why only stacking): see the answer in the session log; nothing new on the GPU in this round
+  (no GPU in the container or on CI to measure a gain; llvmpipe only proves correctness). Candidates by expected gain:
+  median / winsorized stacking (sort per pixel), k-means / PCA of remote-sensing scenes, BLS / Lomb-Scargle on long
+  series, Richardson-Lucy deconvolution. Not candidates: fpack decompression (serial bit decoding), file I/O,
+  anything with times (float64; wgpu is float32), photometry of a few stars per frame (transfer costs more).
+
 **R4 (third full test round) — where it stopped.** The round was run by `real/T3_run.sh` (35 runs in a row, each with
 its wall time; a /proc sampler for CPU / RAM ran beside it). **The scripts, the logs and the translation helpers are
 saved on the branch `test-scripts`** (not main; see its README: set `SCRATCH` to a folder with `data/` and `env.sh`,
