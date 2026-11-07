@@ -288,7 +288,7 @@ area), View (panels on / off, reset layout, zoom, theme), Window (the open area 
   shown to the owner before I3.
 
 ### I2. The area window frame (shared by every area)
-**agent2 claimed (2026-11-07) — do not touch**
+**split into I2.1–I2.7 below (agent2, 2026-11-07)**
 - **Shared parts every area window gets from the frame** (built once, not per area):
   - **Image view:** the existing `ImageViewer`, extended with:
     - zoom, pan and levels;
@@ -338,6 +338,51 @@ area), View (panels on / off, reset layout, zoom, theme), Window (the open area 
   - a saved session opens again with the same data, stars and plots;
   - the window fits 1366 × 768;
   - tests offscreen.
+
+**Sub-steps (agent2, 2026-11-07)** — I2 is too large for one commit; each part below is claimed and done on its own:
+
+#### I2.1 The window itself
+**agent2 claimed (2026-11-07) — do not touch**
+- `ui/area_window.py`, class `AreaWindow(QMainWindow)`: built from what the area declares — a stable key, a title, the
+  central widget, an optional steps widget (left dock), panels (docks, each with a stable object name), the area's
+  own menus and toolbar actions, and its undo stack.
+- Common menus: File (Close window, Ctrl+W), Edit (Undo / Redo of the area's stack), View (every panel and the
+  toolbar on / off, Reset layout), Window (the main window and every open area window), Help (this window's guide
+  page, F1). The area's menus sit between View and Window.
+- Status bar. The layout (`saveState`) and geometry are saved per area in the settings when the window closes and
+  restored when it opens; Reset layout goes back to the layout the window was built with. The first size fits the
+  screen (at most 1366 × 768 when the screen is that small).
+- Accept: `tests/test_area_window.py` — a test area with two panels; a panel moved and the window closed and built
+  again comes back where it was; Reset layout puts it back; Undo / Redo act on the stack; every panel is in View;
+  fits 1366 × 768; every text translated.
+
+#### I2.2 Command search (Ctrl+K)
+**open** — a small popup with a filter box listing every action of the window (menus and toolbar) by its
+translated text; Enter runs it. Accept: finds every action by a part of its name in each language.
+
+#### I2.3 Recent files, drag and drop, area sessions
+**open** — File → Open recent (per area), files dropped on the window go to the area, Save / Open session of the
+area (`.astrosession` JSON of what the area declares: data chosen, stars, settings, plots). Accept: a saved session
+opens again the same; old projects still open.
+
+#### I2.4 Report a problem
+**open** — Help → Report a problem: one zip with `error.log`, version, system, settings (no paths of the owner's
+data files), the last steps run; a dialog says where it is and what to send. Accept: test that the zip has these
+files and no data file.
+
+#### I2.5 Night theme and font size
+**open** — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
+settings; high-DPI checked. Accept: every window follows the theme; text grows without overflow at 1366 × 768.
+
+#### I2.6 Shared plot and table views
+**open** — one plot component (zoom, pan, series with offsets and binning, residuals, click to drop / restore a
+point, export PNG / SVG / PDF and CSV) and one table component (sort, column chooser, filter, coloured cells with
+the reason in the tooltip, copy, CSV, a row click tells the window which frame to show), reusing `PlotCanvas` and
+the existing table menu. Accept: tests for export and the row signal.
+
+#### I2.7 Long work in the status bar
+**open** — the area's running tasks with progress and Cancel in its status bar; a notice when a task ends while the
+window is in the background. Accept: test with a fake task.
 
 ### I3. The main window as a menu of blocks
 **open**
