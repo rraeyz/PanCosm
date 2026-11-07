@@ -3,6 +3,7 @@
 # ~/.local/bin and an entry in the application menu. No root, no FUSE needed.
 #
 #   install / update:  curl -fsSL https://raw.githubusercontent.com/rraeyz/PanCosm/main/packaging/install.sh | sh
+#   reinstall:         curl -fsSL https://raw.githubusercontent.com/rraeyz/PanCosm/main/packaging/install.sh | sh -s -- --force
 #   remove:            curl -fsSL https://raw.githubusercontent.com/rraeyz/PanCosm/main/packaging/install.sh | sh -s -- --uninstall
 set -eu
 
@@ -38,6 +39,10 @@ URL=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" \
     | grep -o "https://[^\"]*-linux-$ARCH\.AppImage" | head -n 1)
 [ -n "$URL" ] || { echo "No Linux $ARCH download found on the Releases page." >&2; exit 1; }
 VERSION=$(echo "$URL" | sed -n "s/.*$NAME-\(.*\)-linux-$ARCH\.AppImage/\1/p")
+if [ "$(cat "$HOME_DIR/.version" 2>/dev/null)" = "$VERSION" ] && [ "${1:-}" != "--force" ]; then
+    echo "$NAME $VERSION is already installed (the newest). To install it again, add: sh -s -- --force"
+    exit 0
+fi
 
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
@@ -51,6 +56,7 @@ echo "Installing..."
 rm -rf "$HOME_DIR"
 mkdir -p "$DATA" "$BIN" "$(dirname "$MENU")" "$(dirname "$ICON")"
 mv "$TMP/squashfs-root" "$HOME_DIR"
+echo "$VERSION" > "$HOME_DIR/.version"
 cp "$HOME_DIR/$ID.png" "$ICON"
 ln -sf "$HOME_DIR/AppRun" "$BIN/$ID"
 
