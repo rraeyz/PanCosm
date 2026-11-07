@@ -147,8 +147,9 @@ brightness closeness scaled by their tolerances, then nearness), `most_common_re
 none passing raises the message naming the three rules that removed most stars. Tests: a synthetic field with one
 star per reason gets each reason; a star saturating only late is caught where the first frame alone misses it; the
 step on a solved frame. The window: "Why these stars?" under the Suggest button opens the table with the verdicts in words, a
-row centres its star (`ui/photometry_stars.py`; the page asks with the default rules). Left: GCVS, suggested
-rings, the rules section, "Use anyway", the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
+row centres its star (`ui/photometry_stars.py`; the page asks with the default rules). "Use this star anyway" in
+that table adds the chosen star as a comparison star (undoable; 2026-11-13). Left: GCVS, suggested rings, the rules
+section, the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
 - **Why:** the choice of comparison stars decides the light curve; today the rules are fixed in code and a star left
   out is left out silently.
 - **Reference:** Siril `findcompstars` (`src/algos/comparison_stars.c`): ΔV ≤ 3 mag, Δ(B−V) ≤ 0.5, catalogue error ≤
