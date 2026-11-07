@@ -64,6 +64,11 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aav
         path = field_png(folder / "field.png", image, stars["target"], stars.get("comps", ()), r_ap,
                          stars.get("scale"), stars.get("extras", ()))  # fmt: skip
         out.append(Path(path))
+    from .tfop import notes
+
+    st = stars or {}
+    (folder / "notes.txt").write_text(notes(lc, fit, st.get("scale"), st.get("predicted_tc"), neb), encoding="utf-8")
+    out.append(folder / "notes.txt")
     if neb:
         path = folder / "NEB_check.csv"
         cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")

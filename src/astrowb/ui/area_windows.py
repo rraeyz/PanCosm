@@ -143,12 +143,12 @@ def _save_all(win, page, folder=None):
     if not folder:
         return None
     stars = None
+    fit = (getattr(page, "transit_fit", None) or (None, None))[1]
     if page.target is not None:
         wcs = page._field_wcs() if page.ref in (None, 0) else None
         stars = {"target": page.target, "comps": page.comps, "extras": page.extras, "wcs": wcs,
                  "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value()),
-                 "scale": (page.field or {}).get("scale")}  # fmt: skip
-    fit = (getattr(page, "transit_fit", None) or (None, None))[1]
+                 "scale": (page.field or {}).get("scale"), "predicted_tc": _predicted_tc(page, fit)}  # fmt: skip
     aavso = _aavso_header(win, page)
     neb = getattr(page, "neb_rows", None)
     image = page.viewer.data if page.shown == (page.ref or 0) else None  # the frame the stars are marked on
@@ -187,6 +187,17 @@ def _save_recipe(win, page, path=None):
     save(light_curve_recipe(images, target, comps, params, coord, extra, ref, stars_sky=sky), path)
     page.result.setText(translate("MainWindow", "Saved {name}").format(name=path))
     return path
+
+
+def _predicted_tc(page, fit):
+    """The ephemeris' Tc nearest the fitted one (the T0 and period typed in the Timing stage), or None."""
+    try:
+        t0, period = float(page.t0.text().replace(",", ".")), float(page.period.text().replace(",", "."))
+    except (ValueError, AttributeError):
+        return None
+    if not fit or period <= 0:
+        return None
+    return t0 + round((fit["values"]["tc"] - t0) / period) * period
 
 
 def _stars_sky(page, ref, target, comps, extra):

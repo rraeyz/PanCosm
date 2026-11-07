@@ -68,7 +68,7 @@ def test_save_all_writes_the_whole_night(tmp_path):
     assert lines[0].startswith("disposition,gmag") and lines[1].startswith("Cleared,13.1,41.0")
     names = sorted(p.name for p in files)
     assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",
-                     "measurements.csv", "methods.txt", "references.bib", "stars.json", "summary.pdf",
+                     "measurements.csv", "methods.txt", "notes.txt", "references.bib", "stars.json", "summary.pdf",
                      "transit_fit.json"]  # fmt: skip
     assert (tmp_path / "night" / "summary.pdf").read_bytes().startswith(b"%PDF")
     text = (tmp_path / "night" / "methods.txt").read_text(encoding="utf-8")
@@ -119,3 +119,16 @@ def test_light_curves_window_opens_the_file(qtbot, tmp_path):
     qtbot.addWidget(page)
     page._load(str(path))
     assert np.allclose(page.time, a["time"]) and np.allclose(page.err, 0.003)
+
+
+def test_tfop_notes_say_the_night():
+    from astrowb.photometry.reports.tfop import notes
+
+    lc = measured()
+    fit = {"values": {"tc": 2459800.51, "k": 0.15, "airmass": 0.01}, "errors": {"tc": 3e-4},
+           "derived": {"depth_ppt": 21.9, "t14_h": 1.64}}  # fmt: skip
+    neb = [{"disposition": "Cleared"}, {"disposition": "Not cleared"}]
+    text = notes(lc | {"radii": [[4.0, 10.0, 16.0]] * 12}, fit, scale=0.57, predicted_tc=2459800.51 - 2 / 1440, neb=neb)
+    assert "Aperture radius 4.0 px (2.3″)" in text and "Pixel scale 0.570″/px" in text
+    assert "Detrending: airmass" in text and "Depth 21.90 ppt" in text and "T14 1.64 h" in text
+    assert "+2.0 ± 0.4 min (on time)" in text and "1 of 2 neighbours" in text
