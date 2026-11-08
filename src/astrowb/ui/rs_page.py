@@ -129,12 +129,12 @@ class RemoteSensingPage(QWidget):
         self.k.setRange(2, 30)
         self.k.setValue(5)
         self.k.setToolTip(self.tr("How many classes k-means divides the pixels into"))
-        classify = QPushButton(self.tr("Classify (k-means)"), self)
+        self.classify_button = classify = QPushButton(self.tr("Classify (k-means)"), self)
         classify.clicked.connect(lambda: self._run("rs.classify", {}, {"k": self.k.value()}))
         classify.setToolTip(
             self.tr("Groups the pixels by their values in all bands into this many classes, without training data")
         )
-        pca = QPushButton(self.tr("Principal components"), self)
+        self.pca_button = pca = QPushButton(self.tr("Principal components"), self)
         pca.clicked.connect(lambda: self._run("rs.pca", {}, {}))
         pca.setToolTip(
             self.tr(

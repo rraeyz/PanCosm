@@ -615,6 +615,52 @@ class MainWindow(QMainWindow):
                        a["preview"]: "preview", a["autofocus"]: "autofocus", a["start"]: "start",
                        a["abort"]: "abort"})  # fmt: skip
 
+    def _automation_menus(self, page, win):
+        """Automation: File → New / Save as, Steps, Run (interface I6c.10)."""
+
+        def named(widget, text=None, short=None):
+            act = _mirror(widget, page, short)
+            if text:
+                act.setText(text)
+            return act
+
+        new = named(page.new_button, self.tr("New automation"), self.tr("New"))
+        save = named(page.save_button, self.tr("Save the automation as…"), self.tr("Save as"))
+        add = named(page.add_button)
+        remove, up, down = (
+            named(b, t)
+            for b, t in zip(
+                page.step_buttons,
+                (self.tr("Remove the step"), self.tr("Move the step up"), self.tr("Move the step down")),
+                strict=True,
+            )
+        )
+        run = named(page.run_button, self.tr("Run the automation"), self.tr("Run"))
+        send = named(page.sequence_button, page.sequence_button.toolTip(), self.tr("To Observing"))
+        win.add_menus(
+            [
+                (self.tr("&Steps"), [add, remove, None, up, down]),
+                (self.tr("&Run"), [run, None, send, named(page.after_night)]),
+            ],
+            toolbar=[new, save, None, add, None, run, send],
+        )
+        win.file_menu.insertActions(win.file_menu.actions()[-1], [new, save])
+        win.file_menu.insertSeparator(win.file_menu.actions()[-1])
+        win.set_icons({new: "new", save: "save", add: "add_step", run: "start", send: "send"})
+
+    def _remotesensing_menus(self, page, win):
+        """Remote sensing: Analyse (band formula, classification, principal components) (interface I6c.10);
+        opening is File → Open… (Ctrl+O, or a drop)."""
+        compute = _mirror(page.compute_button, page, self.tr("Compute"))
+        compute.setText(self.tr("Compute the band formula"))
+        classify = _mirror(page.classify_button, page, self.tr("Classify"))
+        pca = _mirror(page.pca_button, page, self.tr("Components"))
+        win.add_menus(
+            [(self.tr("&Analyse"), [compute, None, classify, pca])],
+            toolbar=[win.file_menu.actions()[0], None, compute, classify, pca],
+        )
+        win.set_icons({win.file_menu.actions()[0]: "open", compute: "compute", classify: "classify", pca: "pca"})
+
     def _orbits_menus(self, page, win):
         """Models: Fit, Visual orbit, File → Compare / Export (interface I6c.7); each item shows its tab first."""
         from PySide6.QtWidgets import QMenu

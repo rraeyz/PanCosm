@@ -1,5 +1,5 @@
 # Otomasyon ve eklentiler
-**Otomasyon** adımları kendi iş akışınızda zincirler — "klasördeki kareleri kalibre et → ışık eğrisini ölç → minimum zamanını bul → O-C" — ve tek seferde çalıştırır. **Eklentiler** kendi adımlarınızı ekler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır.
+**Otomasyon** adımları kendi iş akışınızda zincirler — "klasördeki kareleri kalibre et → ışık eğrisini ölç → minimum zamanını bul → O-C" — ve tek seferde çalıştırır. **Eklentiler** kendi adımlarınızı ekler. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır: **Dosya → Yeni otomasyon** ve **Otomasyonu farklı kaydet…**, **Adımlar** (ekle, kaldır, yukarı ya da aşağı taşı) ve **Çalıştır** (otomasyonu çalıştır, çekim sırasını Gözlem penceresine gönder, sekanstan sonra işle).
 
 ## Hazır şablonlar
 **Otomasyon** sayfası hazır şablonları ("şablon" diye işaretli) ve kendi otomasyonlarınızı listeler:
