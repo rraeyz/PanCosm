@@ -1691,3 +1691,25 @@ def test_star_list_saved_and_opened_on_another_night(window, tmp_path):
     bad = tmp_path / "bad.json"
     bad.write_text("[]")
     assert page.load_star_list(bad) is None and page.result.text().startswith("not a star list")
+
+
+def test_camera_noise_option_reads_the_header_and_goes_with_the_measurement(window, tmp_path):
+    """plans/photometry.md item 2: read noise and dark current from the header; ticked, they go with the request."""
+    paths = []
+    for i in range(2):
+        p = tmp_path / f"c{i}.fits"
+        h = fits.Header({"RDNOISE": 7.5, "DARKCUR": 0.02, "EXPTIME": 30.0, "GAIN": 1.5})
+        fits.PrimaryHDU(np.random.default_rng(i).normal(100, 3, (60, 80)).astype(np.float32), h).writeto(p)
+        paths.append(p)
+    page = window.photometry_page
+    page.set_images(paths)
+    assert page.read_noise.value() == 7.5 and page.dark_current.value() == 0.02
+    assert not page.read_noise.isEnabled()
+    page.camera_noise.setChecked(True)
+    assert page.read_noise.isEnabled()
+    page.target, page.comps, page.ref = (30.0, 20.0), [(50.0, 40.0)], 0
+    page.measure_requested.disconnect()
+    sent = []
+    page.measure_requested.connect(lambda *a: sent.append(a))
+    page._measure()
+    assert sent[0][4]["camera"] == {"read_noise": 7.5, "dark": 0.02}

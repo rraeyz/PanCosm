@@ -34,6 +34,8 @@ NAMES = {
     "time": QT_TRANSLATE_NOOP("Settings", "Times"),
     "align": QT_TRANSLATE_NOOP("Settings", "Alignment"),
     "aperture_m": QT_TRANSLATE_NOOP("Settings", "Telescope aperture (m)"),
+    "camera": QT_TRANSLATE_NOOP("Settings", "Camera noise (read noise e⁻, dark e⁻/s)"),
+    "photometry.apertures.rule": QT_TRANSLATE_NOOP("Settings", "Radii rule (snr or aij)"),
     "auto_apertures": QT_TRANSLATE_NOOP("Settings", "Choose the radii from the stars"),
     "background_factor": QT_TRANSLATE_NOOP("Settings", "Sky brighter than (× median)"),
     "clock_utc_offset": QT_TRANSLATE_NOOP("Settings", "Camera clock − UTC (h)"),

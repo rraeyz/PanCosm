@@ -399,6 +399,37 @@ class PhotometryPage(Undoable, QWidget):
         )
         tel.addWidget(self.telescope_d)
         self.measure_options.body.addLayout(tel)
+        # plans/photometry.md item 2: the sky noise from the camera's numbers, as AstroImageJ, beside the measured one
+        self.camera_noise = QCheckBox(self.tr("Sky noise from the camera (read noise, dark current)"), self)
+        self.camera_noise.setToolTip(
+            self.tr(
+                "The error of every star from the gain, the read noise, the dark current and the sky level, as "
+                "AstroImageJ does; off: from the scatter measured in the sky ring (as IRAF and Siril). The values are "
+                "read from the header (RDNOISE / READNOIS, DARKCUR) when it has them"
+            )
+        )
+        cam = QHBoxLayout()
+        self.read_noise = QDoubleSpinBox(self)
+        self.read_noise.setRange(0.0, 200.0)
+        self.read_noise.setDecimals(2)
+        self.read_noise.setSuffix(" e⁻")
+        self.read_noise.setToolTip(self.tr("Read noise of the camera in electrons (header RDNOISE or READNOIS)"))
+        self.dark_current = QDoubleSpinBox(self)
+        self.dark_current.setRange(0.0, 100.0)
+        self.dark_current.setDecimals(4)
+        self.dark_current.setSuffix(" e⁻/s")
+        self.dark_current.setToolTip(
+            self.tr("Dark current per pixel in electrons per second at the sensor's temperature (header DARKCUR)")
+        )
+        cam.addWidget(QLabel(self.tr("Read noise"), self))
+        cam.addWidget(self.read_noise)
+        cam.addWidget(QLabel(self.tr("Dark"), self))
+        cam.addWidget(self.dark_current)
+        for w in (self.read_noise, self.dark_current):
+            w.setEnabled(False)
+            self.camera_noise.toggled.connect(w.setEnabled)
+        self.measure_options.body.addWidget(self.camera_noise)
+        self.measure_options.body.addLayout(cam)
         self.sections[3].body.addWidget(self.measure_options)
         self.measure_button = QPushButton(self.tr("Measure light curve"), self)
         self.measure_button.setEnabled(False)
@@ -887,6 +918,12 @@ class PhotometryPage(Undoable, QWidget):
         self.images = timing.chronological(paths, self._frame_jd)
         self.ref, self.shown, self.skipped = None, 0, set()
         data, header, _ = read_image(self.images[0])
+        from ..hdr import get as header_value
+
+        for w, keys in ((self.read_noise, ("RDNOISE", "READNOIS", "RDNOIS")), (self.dark_current, ("DARKCUR",))):
+            v = header_value(header, *keys)
+            if v is not None:
+                w.setValue(float(v))  # the camera's numbers as the file states them (item 2)
         self.viewer.set_image(data)
         self.frame_slider.blockSignals(True)
         self.frame_slider.setRange(0, len(self.images) - 1)
@@ -1504,6 +1541,8 @@ class PhotometryPage(Undoable, QWidget):
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
         params["psf"] = self.psf.isChecked()
+        if self.camera_noise.isChecked():
+            params["camera"] = {"read_noise": self.read_noise.value(), "dark": self.dark_current.value()}
         if self.extras:
             params["extra_xy"] = [list(xy) for xy, _ in self.extras]
         self.result.setText(self.tr("Measuring…"))

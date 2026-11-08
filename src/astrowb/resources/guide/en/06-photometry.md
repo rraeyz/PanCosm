@@ -61,6 +61,8 @@ The plot shows the star's profile with the aperture (green), the left-out gap an
 - Stars are re-centred on every frame, and the field's drift during the night is followed frame to frame.
 - The automation templates choose the radii this way by themselves.
 
+**Sky noise from the camera** (More measuring options): the error of every star is then computed from the gain, the read noise and the dark current (read from RDNOISE / READNOIS and DARKCUR when the header has them, or typed in) and each star's sky level — √(S g + D + R² + 0.289² g²) / g per sky pixel, as AstroImageJ does (Collins et al. 2017, appendix B) — instead of the scatter measured in the sky ring (IRAF's and Siril's way). On simulated frames the predicted error matches the scatter of 1000 noise realisations within 5 %. The measurements table shows every star's signal-to-noise (Source_SNR) on every frame.
+
 ## Time and BJD
 Times are taken from `DATE-OBS` and `EXPTIME` (the middle of the exposure). With the **Target RA Dec** (or `OBJCTRA`/`OBJCTDEC` in the header) and the site in the header, times are converted to **BJD_TDB**, the standard for timing eclipses and transits.
 
