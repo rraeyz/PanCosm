@@ -1,24 +1,35 @@
-"""View → Overlays: contours, coordinate grid, catalogue stars and DS9 regions on the current image."""
+"""The Images window's Overlays menu: contours, coordinate grid, catalogue stars and DS9 regions on the image."""
 
 from pathlib import Path
 
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QInputDialog
 
 from .. import overlays
 
 
 def add_menu(win, menu):
-    sub = menu.addMenu(win.tr("&Overlays"))
-    win._action(sub, win.tr("Contours…"), lambda: contours(win))
-    win._action(sub, win.tr("Coordinate grid"), lambda: grid(win))
-    win._action(sub, win.tr("Catalogue stars (Gaia DR3)…"), lambda: catalogue(win, "gaia"))
-    win._action(sub, win.tr("Variable stars (VSX)"), lambda: catalogue(win, "vsx", 30.0))
-    win._action(sub, win.tr("Asteroids and comets (SkyBoT)"), lambda: minor_planets(win))
-    win._action(sub, win.tr("Finder chart…"), lambda: finder_chart(win))
+    sub = menu.addMenu(QCoreApplication.translate("Overlays", "&Overlays"))
+    win._action(sub, QCoreApplication.translate("Overlays", "Contours…"), lambda: contours(win))
+    win._action(sub, QCoreApplication.translate("Overlays", "Coordinate grid"), lambda: grid(win))
+    win._action(
+        sub, QCoreApplication.translate("Overlays", "Catalogue stars (Gaia DR3)…"), lambda: catalogue(win, "gaia")
+    )
+    win._action(
+        sub, QCoreApplication.translate("Overlays", "Variable stars (VSX)"), lambda: catalogue(win, "vsx", 30.0)
+    )
+    win._action(
+        sub, QCoreApplication.translate("Overlays", "Asteroids and comets (SkyBoT)"), lambda: minor_planets(win)
+    )
+    win._action(sub, QCoreApplication.translate("Overlays", "Finder chart…"), lambda: finder_chart(win))
     sub.addSeparator()
-    win._action(sub, win.tr("Load DS9 regions…"), lambda: load_regions(win))
-    win._action(sub, win.tr("Save markers as DS9 regions…"), lambda: save_regions(win))
-    win._action(sub, win.tr("Clear overlays"), lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()])
+    win._action(sub, QCoreApplication.translate("Overlays", "Load DS9 regions…"), lambda: load_regions(win))
+    win._action(sub, QCoreApplication.translate("Overlays", "Save markers as DS9 regions…"), lambda: save_regions(win))
+    win._action(
+        sub,
+        QCoreApplication.translate("Overlays", "Clear overlays"),
+        lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()],
+    )
     return sub
 
 
@@ -30,7 +41,14 @@ def contours(win, n=None):
     if win.viewer.data is None:
         return None
     if n is None:
-        n, ok = QInputDialog.getInt(win, win.tr("Contours"), win.tr("Number of levels:"), 6, 1, 30)
+        n, ok = QInputDialog.getInt(
+            win,
+            QCoreApplication.translate("Overlays", "Contours"),
+            QCoreApplication.translate("Overlays", "Number of levels:"),
+            6,
+            1,
+            30,
+        )
         if not ok:
             return None
     levels = overlays.contour_levels(win.viewer.data, n)
@@ -43,7 +61,12 @@ def grid(win):
     if win.viewer.data is None:
         return None
     if win.wcs is None:
-        _status(win, win.tr("The image has no sky coordinates: plate-solve it first (Image menu)."))
+        _status(
+            win,
+            QCoreApplication.translate(
+                "Overlays", "The image has no sky coordinates: plate-solve it first (Image menu)."
+            ),
+        )
         return None
     g = overlays.wcs_grid(win.wcs, win.viewer.data.shape)
     texts = [(*line[len(line) // 2], label) for _, _, line, label in g]
@@ -55,15 +78,26 @@ def catalogue(win, which, mag_limit=None):
     if getattr(win, "current_path", None) is None:
         return None
     if win.wcs is None:
-        _status(win, win.tr("The image has no sky coordinates: plate-solve it first (Image menu)."))
+        _status(
+            win,
+            QCoreApplication.translate(
+                "Overlays", "The image has no sky coordinates: plate-solve it first (Image menu)."
+            ),
+        )
         return None
     if mag_limit is None:
         mag_limit, ok = QInputDialog.getDouble(
-            win, win.tr("Catalogue stars"), win.tr("Faintest magnitude:"), 16, 5, 21, 1
+            win,
+            QCoreApplication.translate("Overlays", "Catalogue stars"),
+            QCoreApplication.translate("Overlays", "Faintest magnitude:"),
+            16,
+            5,
+            21,
+            1,
         )
         if not ok:
             return None
-    _status(win, win.tr("Querying the catalogue…"))
+    _status(win, QCoreApplication.translate("Overlays", "Querying the catalogue…"))
     return win.run_step(
         "image.catalogue",
         {"image": str(win.current_path)},
@@ -83,23 +117,27 @@ def finder_chart(win, target=None, output=None, use_dss=None):
     if use_dss:
         if target is None:
             text, ok = QInputDialog.getText(
-                win, win.tr("Finder chart"), win.tr("Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:")
+                win,
+                QCoreApplication.translate("Overlays", "Finder chart"),
+                QCoreApplication.translate("Overlays", "Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:"),
             )
             if not ok:
                 return None
             target = parse_coordinates(text)
             if target is None:
-                _status(win, win.tr("Coordinates not understood."))
+                _status(win, QCoreApplication.translate("Overlays", "Coordinates not understood."))
                 return None
         inputs |= {"ra": float(target.ra.deg), "dec": float(target.dec.deg)}
     else:
         inputs["image"] = image
     if output is None:
-        output = QFileDialog.getSaveFileName(win, win.tr("Finder chart"), "chart.png", "PNG (*.png);;PDF (*.pdf)")[0]
+        output = QFileDialog.getSaveFileName(
+            win, QCoreApplication.translate("Overlays", "Finder chart"), "chart.png", "PNG (*.png);;PDF (*.pdf)"
+        )[0]
         if not output:
             return None
     inputs["output"] = output
-    _status(win, win.tr("Making the finder chart…"))
+    _status(win, QCoreApplication.translate("Overlays", "Making the finder chart…"))
     return win.run_step("image.finder_chart", inputs, {}, on_done=lambda out: win.show_picture(out["chart"]))
 
 
@@ -108,9 +146,14 @@ def minor_planets(win):
     if getattr(win, "current_path", None) is None:
         return None
     if win.wcs is None:
-        _status(win, win.tr("The image has no sky coordinates: plate-solve it first (Image menu)."))
+        _status(
+            win,
+            QCoreApplication.translate(
+                "Overlays", "The image has no sky coordinates: plate-solve it first (Image menu)."
+            ),
+        )
         return None
-    _status(win, win.tr("Querying the catalogue…"))
+    _status(win, QCoreApplication.translate("Overlays", "Querying the catalogue…"))
     return win.run_step(
         "image.minor_planets",
         {"image": str(win.current_path)},
@@ -127,15 +170,25 @@ def show_catalogue(win, which, stars):
         label = lambda s: f"{s['mag']:.1f}" if s["mag"] is not None else ""  # noqa: E731
     win.viewer.set_overlay(which, colour, circles=[(s["x"], s["y"], 6, label(s)) for s in stars])
     if len(stars) > win.viewer.MAX_LABELS:
-        _status(win, win.tr("{n} catalogue stars shown: point at a ring for its label.").format(n=len(stars)))
+        _status(
+            win,
+            QCoreApplication.translate("Overlays", "{n} catalogue stars shown: point at a ring for its label.").format(
+                n=len(stars)
+            ),
+        )
     else:
-        _status(win, win.tr("{n} catalogue stars shown.").format(n=len(stars)))
+        _status(win, QCoreApplication.translate("Overlays", "{n} catalogue stars shown.").format(n=len(stars)))
 
 
 def load_regions(win, path=None):
     if win.viewer.data is None:
         return None
-    path = path or QFileDialog.getOpenFileName(win, win.tr("DS9 regions"), "", "DS9 (*.reg);;*")[0]
+    path = (
+        path
+        or QFileDialog.getOpenFileName(
+            win, QCoreApplication.translate("Overlays", "DS9 regions"), "", "DS9 (*.reg);;*"
+        )[0]
+    )
     if not path:
         return None
     regs = overlays.read_regions(Path(path).read_text(encoding="utf-8", errors="replace"), win.wcs)
@@ -157,9 +210,19 @@ def load_regions(win, path=None):
 def save_regions(win, path=None):
     markers = getattr(win.viewer, "marker_list", [])
     if not markers:
-        _status(win, win.tr("No markers on the image (stars picked in the Photometry window are markers)."))
+        _status(
+            win,
+            QCoreApplication.translate(
+                "Overlays", "No markers on the image (stars picked in the Photometry window are markers)."
+            ),
+        )
         return None
-    path = path or QFileDialog.getSaveFileName(win, win.tr("DS9 regions"), "markers.reg", "DS9 (*.reg)")[0]
+    path = (
+        path
+        or QFileDialog.getSaveFileName(
+            win, QCoreApplication.translate("Overlays", "DS9 regions"), "markers.reg", "DS9 (*.reg)"
+        )[0]
+    )
     if not path:
         return None
     regs = [{"shape": "circle", "x": m[0], "y": m[1], "r": m[2], "text": m[4]} for m in markers]
