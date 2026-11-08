@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
     }
 
     # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
-    WINDOWED = ("photometry", "calibrate")
+    WINDOWED = ("photometry", "calibrate", "timeseries")
 
     def _area_key(self, attr):
         return next((k for k, a in self.PAGES.items() if a == attr), None)
@@ -270,7 +270,7 @@ class MainWindow(QMainWindow):
         self._frames[page] = frame
         _Columns(frame, page)
         title = next(name for k, _, name, _ in areas() if k == key)
-        win = AreaWindow(key, title, self.settings, frame, undo_stack=getattr(page, "undo_stack", None), parent=self)
+        win = AreaWindow(key, title, self.settings, frame, undo_stack=_undo_source(page), parent=self)
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows[key] = win
@@ -842,8 +842,8 @@ class MainWindow(QMainWindow):
         page.period_page.search_requested.connect(self.search_period)
         vf = page.varfind_page
         vf.search_requested.connect(
-            lambda images, params: self.run_step(
-                "photometry.varfind", {"images": images}, params, on_done=vf.show_result
+            lambda images, params: self.run_step_for(
+                "timeseries", "photometry.varfind", {"images": images}, params, on_done=vf.show_result
             )
         )
         vf.light_curve_chosen.connect(
@@ -854,8 +854,8 @@ class MainWindow(QMainWindow):
         )
         fp = page.frequency_page
         fp.analyse_requested.connect(
-            lambda t, y, params: self.run_step(
-                "timeseries.frequencies", {"time": t, "flux": y}, params, on_done=fp.show_result
+            lambda t, y, params: self.run_step_for(
+                "timeseries", "timeseries.frequencies", {"time": t, "flux": y}, params, on_done=fp.show_result
             )
         )
         fp.to_oc.clicked.connect(
@@ -863,7 +863,8 @@ class MainWindow(QMainWindow):
         )
         oc = page.oc_page
         oc.ephemeris_requested.connect(
-            lambda name: self.run_step(
+            lambda name: self.run_step_for(
+                "timeseries",
                 "planning.ephemeris",
                 {"name": name},
                 {"catalogue": "vsx"},
@@ -877,7 +878,8 @@ class MainWindow(QMainWindow):
 
             params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
             fail = oc.tr("Cannot fit: {error}")
-            self.run_step(
+            self.run_step_for(
+                "timeseries",
                 "timeseries.oc_fit",
                 {"minima": text},
                 params,
@@ -897,12 +899,22 @@ class MainWindow(QMainWindow):
 
             if mission in ("ZTF", "AAVSO"):
                 inputs = {"target": target, "cache_file": str(config_dir() / "targets.json")}
-                return self.run_step(
-                    "timeseries.survey_lc", inputs, {"source": mission}, on_done=done, on_fail=pp.source.setText
+                return self.run_step_for(
+                    "timeseries",
+                    "timeseries.survey_lc",
+                    inputs,
+                    {"source": mission},
+                    on_done=done,
+                    on_fail=pp.source.setText,
                 )
             inputs = {"target": target, "folder": str(self.settings.path.parent / "archive")}
-            return self.run_step(
-                "timeseries.mission_lc", inputs, {"mission": mission}, on_done=done, on_fail=pp.source.setText
+            return self.run_step_for(
+                "timeseries",
+                "timeseries.mission_lc",
+                inputs,
+                {"mission": mission},
+                on_done=done,
+                on_fail=pp.source.setText,
             )
 
         pp.archive_requested.connect(fetch)
@@ -1654,6 +1666,10 @@ class MainWindow(QMainWindow):
         self.taskUpdated.emit(task)
         return task
 
+    def run_step_for(self, area, step_id, inputs, params=None, on_done=None, on_fail=None):
+        """run_step for an area: its window shows the progress."""
+        return self.run_step(step_id, inputs, params, on_done=on_done, on_fail=on_fail, area=area)
+
     def run_automation(self, auto, inputs):
         """Run an automation task by task: each step starts when the previous one has finished."""
         from ..engine import automation
@@ -1847,7 +1863,9 @@ class MainWindow(QMainWindow):
         if params.get("err") is not None:
             inputs["err"] = params.pop("err")
         params.pop("err", None)
-        return self.run_step("timeseries.period", inputs, params, on_done=self.period_page.show_result)
+        return self.run_step(
+            "timeseries.period", inputs, params, on_done=self.period_page.show_result, area="timeseries"
+        )
 
     def time_minimum(self, light_curve, params):
         pp, page = self.period_page, self.photometry_page
@@ -2108,6 +2126,28 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
+
+
+def _undo_source(page):
+    """What an area window's Undo / Redo act on: the page's undo stack, or for a page of tabs (Light curves: period,
+    frequency, variables, O−C) a group that follows the tab shown."""
+    tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
+    if tabs is None:
+        return getattr(page, "undo_stack", None)
+    group = QUndoGroup(page)
+    stacks = {}
+    for i in range(tabs.count()):
+        stack = getattr(tabs.widget(i), "undo_stack", None)
+        if stack is not None:
+            group.addStack(stack)
+            stacks[i] = stack
+
+    def follow(i):
+        group.setActiveStack(stacks.get(i))
+
+    tabs.currentChanged.connect(follow)
+    follow(tabs.currentIndex())
+    return group
 
 
 class _Columns(QObject):

@@ -1,5 +1,5 @@
 # Işık eğrileri ve O-C
-**Işık eğrisi ve O-C** sayfasının üç sekmesi vardır: **Periyot arama**, **Frekans analizi** ve **O-C diyagramı**.
+**Işık eğrisi ve O-C** sayfasının üç sekmesi vardır: **Periyot arama**, **Frekans analizi** ve **O-C diyagramı**. Bu sekmeler birlikte kendi penceresinde açılır (Başlangıç sayfasındaki Işık eğrileri bloğu ya da kenar çubuğu); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır.
 
 ## Periyot arama
 Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
