@@ -69,6 +69,7 @@ class PhotometryPage(Undoable, QWidget):
         split = QSplitter(Qt.Vertical, self)
         self._split = split
         self.viewer = ImageViewer(self)
+        self.viewer.empty_hint = self.tr("No images yet: press Choose images… in step 1")
         self.viewer.clicked.connect(self._clicked)
         self.viewer.rings_wheel.connect(self._rings_wheel)
         split.addWidget(self.viewer)
