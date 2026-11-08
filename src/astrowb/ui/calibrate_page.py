@@ -360,6 +360,10 @@ class CalibratePage(Undoable, QWidget):
             box = QComboBox(self)
             for value, text in items.items():
                 box.addItem(text, value)
+            # its width from 10 characters, not the longest choice: opened, the options pushed the right column
+            # past a window's edge (user-feedback UF-9); the list still shows each choice whole
+            box.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+            box.setMinimumContentsLength(10)
             self.stack_opts[key] = box
             box.setToolTip(tips[key])
             opts.addWidget(QLabel(label, self), i // 2, 2 * (i % 2))

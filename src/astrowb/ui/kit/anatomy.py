@@ -15,6 +15,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QHBoxLayout, QScrollArea, QStackedWidget, QWidget
 
+from .fit import fit_width
 from .rail import StagePanel, StageRail
 
 
@@ -41,6 +42,7 @@ class Anatomy:
                 panel.add(s.panel)
             if s.help:
                 panel.help_requested.connect(self.help_requested.emit)  # the stage's guide anchor
+            fit_width(panel, 420)  # a stage never pushes past its dock (user-feedback UF-9, UF-10)
             self.stage_panels[s.key] = panel
             self.stage_stack.addWidget(panel)
         holder = QWidget(self)
