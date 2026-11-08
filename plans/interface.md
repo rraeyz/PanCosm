@@ -613,7 +613,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   appears in the O−C window; the guide (07) splits into its two windows in four languages.
 
 ### I6c. Icon toolbars and the full menu bars, as the owner asked
-**agent2 claimed (2026-11-08) — do not touch** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
+**split into I6c.1–I6c.11 below (agent2, 2026-11-08)** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
 "Order of work" 1), before photometry.
 - **The owner's wish:**
   - every area window as AstroImageJ: a row of **small icons** for the frequent actions under the menu bar;
@@ -674,6 +674,24 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   - Ctrl+K finds every menu action;
   - the I6a walk (four languages, 1366 × 768) shows no cut toolbar;
   - the same icon is never used for two different actions.
+
+**Sub-steps (agent2, 2026-11-08)** — too large for one commit (rule 13); each claimed and done on its own:
+- **I6c.1 One icon set, icon toolbars.** **agent2 claimed (2026-11-08) — do not touch** — `ui/icons.py`: one table
+  kind → icon (Qt standard icons for open / save, font symbols drawn in the theme's text colour otherwise, as
+  Images does today), the same kind always the same icon and no icon for two kinds (a test). `AreaWindow` shows its
+  toolbar as icons with tooltips, View → "Toolbar text" adds the labels (kept in the settings), icons follow a
+  theme change. Photometry, Spectroscopy and Images use the table.
+- **I6c.2 The common menus complete in every area window:** Edit → Copy, Settings…; Help → Tour, Check for updates,
+  About.
+- **I6c.3 Photometry:** Frames, Stars, Measure, Analyse, File → Export, as in the table; toolbar.
+- **I6c.4 Calibration:** Frames, Masters, Process, Send; toolbar.
+- **I6c.5 Spectroscopy:** Reduce, Lines, Spectrum, Measure, Velocity, File → Export; toolbar per job.
+- **I6c.6 Light curves and O−C:** their menus and toolbars.
+- **I6c.7 Models.**
+- **I6c.8 Images:** today's menus arranged as the table (Analyse, Catalogues, Astrometry, Colour, Stack).
+- **I6c.9 Planning and Observing.**
+- **I6c.10 Automation and Remote sensing.**
+- **I6c.11 The user walk (I6a) in four languages:** no cut toolbar, Ctrl+K finds every menu action, names checked.
 
 ### I7. Basic / Expert, guide, screenshots
 **open**
