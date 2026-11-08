@@ -513,7 +513,7 @@ a Measurements table, multi-plot and detrend & fit as their own panels (photomet
 ### I6. The other areas get their full windows
 **open** — one at a time, each planned in its own area file first (for example Spectroscopy: orders and spectrum in
 the middle, lines and fit in panels).
-- Spectroscopy: planned in `plans/spectroscopy.md` step 0 (2026-11-08, agent2: iSpec, PypeIt and IRAF read for the
+- Spectroscopy: planned in `plans/spectroscopy.md` step 1 (2026-11-08, agent2: iSpec, PypeIt and IRAF read for the
   layout). It also closes I4c.
 
 ### I6a. Test every window as a user (PLAN.md R3)
