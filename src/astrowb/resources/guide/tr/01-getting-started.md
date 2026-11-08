@@ -25,7 +25,7 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 
 ![Işık eğrisi ve minimum zamanıyla Fotometri sayfası](images/tr/first-night-photometry.png)
 
-5. **Aynısı tek seferde:** **Otomasyon** sayfasında *Örten çift gecesi*'ni seçin; `raw` klasörünü, yeni bir çıktı klasörünü ve hedef konumu `100 80` olarak verip **Çalıştır**'a basın. Kalibrasyon, kare kalitesi, mukayese yıldızları, ışık eğrisi ve minimum art arda çalışır; sonuç altta görünür.
+5. **Aynısı tek seferde:** **Otomasyon** sayfasında *Örten çift gecesi*'ni seçin; `raw` klasörünü, yeni bir çıktı klasörünü ve hedef konumu `100 80` olarak verip **Çalıştır**'a basın. Kalibrasyon, kare kalitesi, karşılaştırma yıldızları, ışık eğrisi ve minimum art arda çalışır; sonuç altta görünür.
 
 ![Çalışmaya hazır Örten çift gecesi otomasyonu](images/tr/first-night-automation.png)
 
