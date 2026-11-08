@@ -356,13 +356,25 @@ def suggest_step(inputs, params, ctx):
     return {"comps_xy": [list(p) for p in picks], "catalogue": None}
 
 
-@step("photometry.identify_field", inputs=("image",), outputs=("field",))
+@step(
+    "photometry.identify_field",
+    inputs=("image",),
+    outputs=("field",),
+    params=[
+        P("fresh", "bool", False, label=QT_TRANSLATE_NOOP("Steps", "Ask the catalogues again"),
+          help=QT_TRANSLATE_NOOP("Steps", "Not the answers saved from an earlier look-up")),
+    ],
+)  # fmt: skip
 def identify_field_step(inputs, params, ctx):
     """The frame solved against Gaia (no solver to install), the VSX variable stars in it, and whether the OBJECT of
-    its header is in it (field.identify)."""
+    its header is in it (field.identify). fresh: the catalogues asked again, not read from the saved answers."""
+    from contextlib import nullcontext
+
+    from ..services.cache import fresh
     from .field import identify
 
-    return {"field": identify(readable(inputs["image"]), ctx)}
+    with fresh() if params.get("fresh") else nullcontext():
+        return {"field": identify(readable(inputs["image"]), ctx)}
 
 
 @step(

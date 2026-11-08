@@ -46,12 +46,14 @@ parameters (default):
 photometry.identify_field  (Identify the field)
 
 The frame solved against Gaia (no solver to install), the VSX variable stars in it, and whether the OBJECT of
-its header is in it (field.identify).
+its header is in it (field.identify). fresh: the catalogues asked again, not read from the saved answers.
 
 inputs:      image
 outputs:     field
   image  (file)  Image
   field  (object)  Identified field
+parameters (default):
+  fresh = false  (bool)  Ask the catalogues again: Not the answers saved from an earlier look-up
 ```
 
 ## photometry.light_curve

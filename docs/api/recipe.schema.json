@@ -659,8 +659,16 @@
        "properties": {
         "params": {
          "type": "object",
-         "properties": {},
-         "additionalProperties": true
+         "properties": {
+          "fresh": {
+           "description": "Ask the catalogues again: Not the answers saved from an earlier look-up",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
         }
        }
       }
