@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
     }
 
     # areas already moved into windows of their own (plans/interface.md I4); the others are still pages here
-    WINDOWED = ("photometry",)
+    WINDOWED = ("photometry", "calibrate")
 
     def _area_key(self, attr):
         return next((k for k, a in self.PAGES.items() if a == attr), None)
@@ -1744,6 +1744,7 @@ class MainWindow(QMainWindow):
                 on_done=lambda out: self.calibrate_page.show_frames(
                     out["frames"], out["problems"], out.get("raw_converted", 0)
                 ),
+                area="calibrate",
             )
 
     def calibrate(self, frames, output_dir, params):
@@ -1760,7 +1761,9 @@ class MainWindow(QMainWindow):
                 groups = by_filter(out["calibrated"])  # one filter only; a colour camera's green (TG) first
                 self.photometry_page.set_images(groups.get("TG") or max(groups.values(), key=len))
 
-        return self.run_step("calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done)
+        return self.run_step(
+            "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
+        )
 
     def stack_images(self, images, output, params):
         def done(out):
@@ -1770,7 +1773,7 @@ class MainWindow(QMainWindow):
             self.open_fits(Path(out["stack"]))
 
         step_id = "stacking.drizzle" if params.pop("drizzle", False) else "stacking.stack"
-        return self.run_step(step_id, {"images": images, "output": output}, params, on_done=done)
+        return self.run_step(step_id, {"images": images, "output": output}, params, on_done=done, area="calibrate")
 
     def _spectrum_done(self, spectrum):
         self.spectro_page.reduce_tab.show_spectrum(spectrum)

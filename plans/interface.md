@@ -453,6 +453,14 @@ I4 has moved every page (see "To ask the owner").
   layout (frames as a bottom tab); until then the table scrolls sideways.
 - Accept: (1) a test that a photometry step started from the window shows its progress there; (2) in I5.
 
+### I4b. "page" → "window" in every text, once all areas are in windows
+**open** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
+the Photometry page →", and 25 interface strings (plus the guide in four languages) call the moved areas
+"pages" ("the Calibrate page", "the Photometry page"…). After I4 has moved every area, change them all at once to
+"window" (en, tr, de, es; guide sections; the hints of the Workflow lines), keeping each button's name in the hints
+identical to the button. Accept: `grep "Photometry page\|Calibrate page"` finds nothing user-visible; 0
+unfinished translations.
+
 ### I5. Photometry gets its full window
 **open** — the first area to use the frame fully; details in `plans/photometry.md` item 0.
 - **Build:**

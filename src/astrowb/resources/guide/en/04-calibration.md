@@ -1,5 +1,5 @@
 # Calibration
-The **Calibrate** page turns raw frames into calibrated images: it recognises bias, dark, flat and light frames, builds master frames, matches the right masters to every light frame and applies them. Optionally it aligns and stacks the result.
+The **Calibrate** page turns raw frames into calibrated images: it recognises bias, dark, flat and light frames, builds master frames, matches the right masters to every light frame and applies them. Optionally it aligns and stacks the result. Calibration opens in a window of its own (its block on the Start page or the sidebar), with its own menus; the progress of a scan, a calibration or a stack shows in its status bar, with Cancel.
 
 ## 1. Scan the raw frames
 **Two folders, as a night is usually kept:** put the light frames (your data) in **Lights** and the bias, dark and flat frames in **BDF**. Every frame in the light folder is a light whatever its name — science frames are usually named after the star (`nsvs01286630_017.fits`); only a frame whose header states bias, dark or flat counts as that. The BDF folder is sorted into bias, dark and flat. Everything in one folder? Give it as **BDF** only and leave **Lights** empty: the frames are then sorted by header and name as below.
