@@ -2497,3 +2497,21 @@ def test_the_fresh_identification_bypasses_the_cache(monkeypatch, tmp_path):
     execute("photometry.identify_field", {"image": str(tmp_path / "a.fits")}, {"fresh": True}, Ctx())
     execute("photometry.identify_field", {"image": str(tmp_path / "a.fits")}, {}, Ctx())
     assert seen == [True, False]
+
+
+def test_faint_variable_stars_are_listed_not_ringed(window):
+    """User feedback UF-13: rings on blank sky were VSX stars too faint to see; only visible ones are ringed (and
+    named with their magnitude), the faint ones stay in the list, and ring when chosen."""
+    page = window.photometry_page
+    page.viewer.set_image(np.zeros((100, 120), np.float32))
+    page.images = ["x.fits"]
+    field = {"header": "", "matched": 50, "scale": 0.6, "stars": {}, "object": None,
+             "variables": [{"name": "NY Vir", "mag": 13.3, "x": 30.0, "y": 40.0},
+                           {"name": "Faint 1", "mag": 19.2, "x": 60.0, "y": 40.0},
+                           {"name": "No mag", "mag": None, "x": 90.0, "y": 40.0}]}  # fmt: skip
+    page.show_field(field)
+    names = [m[4] for m in page.viewer.marker_list]
+    assert names == ["NY Vir (13.3 mag)"]
+    assert "too faint to see" in page.variables.itemText(1) and "too faint" not in page.variables.itemText(0)
+    page.variables.setCurrentIndex(1)
+    assert [m[4] for m in page.viewer.marker_list][-1].startswith("Faint 1")

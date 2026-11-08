@@ -48,11 +48,11 @@ def clock(h):
     return f"{int(h) + m // 60:02d}:{m % 60:02d}" if int(h) + m // 60 < 24 else "00:00"
 
 
-def _hour_labels(axis, step):
+def _hour_labels(axis, step, size):
     axis.set_major_locator(MultipleLocator(step))
     axis.set_minor_locator(MultipleLocator(1 / 6))
     axis.set_major_formatter(lambda h, _p: f"{int(round(h)) % 24:02d}")
-    axis.set_tick_params(which="major", length=6, labelsize=8)
+    axis.set_tick_params(which="major", length=6, labelsize=size)
     axis.set_tick_params(which="minor", length=3)
 
 
@@ -118,18 +118,18 @@ def _axes(ax, n, hours, offset, min_alt, step, fig_px):
     """Hourly major, ten-minute minor ticks, a grid on both; the local time, the sidereal time, the airmass."""
     ax.set_xlim(hours[0], hours[-1])
     ax.set_ylim(0, 90)
-    _hour_labels(ax.xaxis, step)
+    _hour_labels(ax.xaxis, step, 6.5)  # UTC small, the local time larger: the way staralt draws them
     ax.yaxis.set_major_locator(MultipleLocator(10))
     ax.yaxis.set_minor_locator(MultipleLocator(5))
     ax.tick_params(axis="y", which="major", labelsize=8)
     ax.grid(which="major", color=role("rejected"), alpha=0.35, lw=0.6)
     ax.grid(which="minor", color=role("rejected"), alpha=0.15, lw=0.4)
-    ax.set_xlabel("UTC (hours)", fontsize=8)
+    ax.set_xlabel("UTC (hours)", fontsize=7)
     ax.set_ylabel("Altitude (°)", fontsize=8)
 
-    height_px = max(200.0, fig_px * 0.55)  # the plot's share of the figure: the local row sits ~42 px below it
-    local = ax.secondary_xaxis(-42.0 / height_px, functions=(lambda h: h + offset, lambda h: h - offset))
-    _hour_labels(local.xaxis, step)
+    height_px = max(200.0, fig_px * 0.55)  # the plot's share of the figure: the local row sits ~34 px below it
+    local = ax.secondary_xaxis(-34.0 / height_px, functions=(lambda h: h + offset, lambda h: h - offset))
+    _hour_labels(local.xaxis, step, 9)
     local.set_xlabel(f"Local time (UTC{offset:+g})", fontsize=8)
 
     site = n.get("site") or {}

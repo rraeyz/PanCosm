@@ -50,7 +50,10 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-10 — Photometry, Measure stage: "Other measurement options" overflows to the right, even full screen** —
   **done** (2026-11-13: `ui/kit/fit.py` on every stage panel — narrow choices, long check-box texts wrapping
   beside their box, too-wide rows flowing onto the next line; the Measure stage needed 586–698 px in 474)
-- **UF-11 — Photometry, stage 5: squeezed with a scroll bar while there is free space below** — **open**
+- **UF-11 — Photometry, stage 5: squeezed with a scroll bar while there is free space below** — **partial**
+  (2026-11-14: the left dock now takes the window's bottom-left corner, so the stage panels run down beside the
+  results instead of ending at the results' top; check the owner's screen. The Plan chart's UTC labels are small
+  and the local ones larger, as staralt draws them)
   Stage panels take the height the dock offers; no fixed heights.
 
 ### Calibration (UF-12)
@@ -65,7 +68,10 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Photometry (UF-13 … UF-19)
 
-- **UF-13 — variable stars drawn on empty sky** — **open, urgent**
+- **UF-13 — variable stars drawn on empty sky** — **partial** (2026-11-14: the likely cause — VSX lists variables
+  down to magnitude 20 and every one was ringed; now only those brighter than 16.5 are ringed, with their
+  magnitude, the faint ones are in the list ("too faint to see") and ring when chosen; test. Left: the owner's NY
+  Vir frames, to see whether the solution is also off away from the centre)
   After Identify the field, NY Vir was right but other VSX circles sat on blank sky. Either the solution is off
   away from the centre (distortion, wrong scale on a 2×2 frame) or VSX positions are not moved to the epoch. Check
   on the owner's frames: residuals of the solution across the frame, and the VSX stars' pixel positions.
