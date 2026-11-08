@@ -100,103 +100,190 @@
 <context>
     <name>AreaWindow</name>
     <message>
-        <location filename="../../ui/area_window.py" line="40"/>
+        <location filename="../../ui/area_window.py" line="53"/>
         <source>Steps</source>
         <translation>Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="43"/>
-        <location filename="../../ui/area_window.py" line="110"/>
+        <location filename="../../ui/area_window.py" line="56"/>
+        <location filename="../../ui/area_window.py" line="141"/>
         <source>Toolbar</source>
         <translation>Werkzeugleiste</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="45"/>
+        <location filename="../../ui/area_window.py" line="58"/>
         <source>The frequent actions of this window</source>
         <translation>Die häufigen Aktionen dieses Fensters</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="51"/>
+        <location filename="../../ui/area_window.py" line="64"/>
         <source>Ready</source>
         <translation>Bereit</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="86"/>
+        <location filename="../../ui/area_window.py" line="99"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="88"/>
+        <location filename="../../ui/area_window.py" line="103"/>
+        <source>&amp;Open…</source>
+        <translation>Ö&amp;ffnen…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="104"/>
+        <source>Choose files for this window (you can also drop them on it)</source>
+        <translation>Dateien für dieses Fenster wählen (Sie können sie auch auf das Fenster ziehen)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="106"/>
+        <source>Open &amp;recent</source>
+        <translation>&amp;Zuletzt geöffnet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="111"/>
+        <source>&amp;Save session…</source>
+        <translation>Sitzung &amp;speichern…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="112"/>
+        <source>Keep everything chosen in this window (data, stars, settings) in one file to go on later</source>
+        <translation>Bewahrt alles in diesem Fenster Gewählte (Daten, Sterne, Einstellungen) in einer Datei auf, um später weiterzumachen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="115"/>
+        <source>Open s&amp;ession…</source>
+        <translation>Sitzung ö&amp;ffnen…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="116"/>
+        <source>Go on with work saved earlier with Save session</source>
+        <translation>Mit einer früher mit Sitzung speichern gesicherten Arbeit weitermachen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="119"/>
         <source>&amp;Close window</source>
         <translation>Fenster &amp;schließen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="89"/>
+        <location filename="../../ui/area_window.py" line="120"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="92"/>
+        <location filename="../../ui/area_window.py" line="123"/>
         <source>&amp;Undo</source>
         <translation>&amp;Rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="94"/>
+        <location filename="../../ui/area_window.py" line="125"/>
         <source>&amp;Redo</source>
         <translation>&amp;Wiederholen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="100"/>
+        <location filename="../../ui/area_window.py" line="131"/>
         <source>Find an action…</source>
         <translation>Aktion suchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="101"/>
+        <location filename="../../ui/area_window.py" line="132"/>
         <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
         <translation>Tippen Sie ein paar Buchstaben dessen, was Sie tun möchten: jede Menü- und Werkzeugleisten-Aktion dieses Fensters wird gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="103"/>
+        <location filename="../../ui/area_window.py" line="134"/>
         <source>&amp;View</source>
         <translation>&amp;Ansicht</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="107"/>
+        <location filename="../../ui/area_window.py" line="138"/>
         <source>Show or hide this panel</source>
         <translation>Dieses Feld zeigen oder verbergen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="114"/>
+        <location filename="../../ui/area_window.py" line="145"/>
         <source>&amp;Reset layout</source>
         <translation>Anordnung &amp;zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="115"/>
+        <location filename="../../ui/area_window.py" line="146"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Setzt jedes Feld dorthin zurück, wo es beim ersten Öffnen des Fensters war</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="121"/>
+        <location filename="../../ui/area_window.py" line="152"/>
         <source>&amp;Window</source>
         <translation>&amp;Fenster</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="123"/>
+        <location filename="../../ui/area_window.py" line="154"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="126"/>
+        <location filename="../../ui/area_window.py" line="157"/>
         <source>Guide for this window</source>
         <translation>Anleitung zu diesem Fenster</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="127"/>
+        <location filename="../../ui/area_window.py" line="158"/>
         <source>Opens the page of the guide that explains this window</source>
         <translation>Öffnet die Seite der Anleitung, die dieses Fenster erklärt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="163"/>
+        <location filename="../../ui/area_window.py" line="176"/>
+        <source>(none yet)</source>
+        <translation>(noch keine)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="179"/>
+        <source>Open</source>
+        <translation>Öffnen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="210"/>
+        <source>Session saved: {path}</source>
+        <translation>Sitzung gespeichert: {path}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="219"/>
+        <source>{file} is not a session file, or it is damaged.</source>
+        <translation>{file} ist keine Sitzungsdatei oder beschädigt.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="222"/>
+        <source>{file} is a session of another window ({area}): open it there.</source>
+        <translation>{file} ist eine Sitzung eines anderen Fensters ({area}): öffnen Sie sie dort.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="227"/>
+        <source>{file} was saved by a newer version of the application: update it to open this session.</source>
+        <translation>{file} wurde mit einer neueren Version der Anwendung gespeichert: aktualisieren Sie sie, um diese Sitzung zu öffnen.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="231"/>
+        <source>Session opened: {path}</source>
+        <translation>Sitzung geöffnet: {path}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="233"/>
+        <location filename="../../ui/area_window.py" line="244"/>
+        <source>Open session</source>
+        <translation>Sitzung öffnen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <source>Save session</source>
+        <translation>Sitzung speichern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="244"/>
+        <source>Session (*.session.json)</source>
+        <translation>Sitzung (*.session.json)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="281"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
@@ -1276,12 +1363,12 @@
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/area_window.py" line="236"/>
+        <location filename="../../ui/area_window.py" line="354"/>
         <source>Type what you want to do…</source>
         <translation>Tippen Sie, was Sie tun möchten…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="237"/>
+        <location filename="../../ui/area_window.py" line="355"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Wörter in beliebiger Reihenfolge; ↑ ↓ wählen, Enter führt aus, Esc schließt</translation>
     </message>
