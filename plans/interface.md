@@ -478,7 +478,8 @@ its text into the window's Help / the steps panel. Nothing is removed before tha
 - Accept: screenshots in four languages show no English text in Automation and no cut column header in Observing.
 
 ### I4b. "page" → "window" in every text, once all areas are in windows
-**agent2 claimed (2026-11-08) — do not touch** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
+**agent2 done (2026-11-08, commit cc0a34c)** for the interface strings (35, four languages). The guide's ~45 "page"
+wordings per language move to I7, which rewrites the guide around the windows anyway (rule 12: not twice). — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
 the Photometry page →", and 25 interface strings (plus the guide in four languages) call the moved areas
 "pages" ("the Calibrate page", "the Photometry page"…). After I4 has moved every area, change them all at once to
 "window" (en, tr, de, es; guide sections; the hints of the Workflow lines), keeping each button's name in the hints
