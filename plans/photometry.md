@@ -308,7 +308,7 @@ waits for the owner, see "For the owner to try"):
   (donut, 30 px) is centred within 0.2 px.
 
 ### 6. Measurements table (one row per frame, every number)
-**agent2 done (2026-11-08, this commit)** — `photometry/measurements.py` (`measurements`, `filter_rows`, `star_names`)
+**agent2 done (2026-11-08, commit 9af253c)** — `photometry/measurements.py` (`measurements`, `filter_rows`, `star_names`)
 and a **Measurements** tab in the Photometry window's Results panel: one row per frame, AstroImageJ's column names and
 star numbering (T1, C2 …, further targets T after them), numbers sorted by value with the digits they need (times to
 1e-6 day), a saturated peak coloured with the level in its tooltip, **Columns** (choose what is shown), a filter in
@@ -335,7 +335,7 @@ star; the frame's FWHM is FWHM_Mean), N_Sky_Pixels is the ring's area before rej
 - **Accept:** every column AIJ writes for one star has a column here or a stated reason why not.
 
 ### 7. Star list saved and used again on another night
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Reference:** AIJ saves apertures (in RA/Dec when the frame has WCS); Siril saves a comparison-star CSV; MaxIm
   labels reference stars so a run can be repeated.
 - **Ours:** the stars are marked again on every night.
