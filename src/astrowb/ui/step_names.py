@@ -1,0 +1,62 @@
+"""The name a user reads for each engine step (the task list, the status bars, the Automation window), instead of
+its technical id ("photometry.suggest_comparisons"); the id stays in tooltips and in saved files."""
+
+from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
+
+NAMES = {
+    "app.check": QT_TRANSLATE_NOOP("Steps", "Check the installation"),
+    "astrometry.moving": QT_TRANSLATE_NOOP("Steps", "Positions of a moving object"),
+    "astrometry.solve": QT_TRANSLATE_NOOP("Steps", "Plate solve"),
+    "calibration.run": QT_TRANSLATE_NOOP("Steps", "Calibrate the frames"),
+    "calibration.scan": QT_TRANSLATE_NOOP("Steps", "Scan the frames"),
+    "fits.save_as": QT_TRANSLATE_NOOP("Steps", "Save the image"),
+    "image.catalogue": QT_TRANSLATE_NOOP("Steps", "Catalogue stars on the image"),
+    "image.convert": QT_TRANSLATE_NOOP("Steps", "Convert images"),
+    "image.finder_chart": QT_TRANSLATE_NOOP("Steps", "Finder chart"),
+    "image.minor_planets": QT_TRANSLATE_NOOP("Steps", "Minor planets in the field"),
+    "image.process": QT_TRANSLATE_NOOP("Steps", "Process the image"),
+    "image.rgb": QT_TRANSLATE_NOOP("Steps", "Colour image from three filters"),
+    "models.eb_fit": QT_TRANSLATE_NOOP("Steps", "Fit the light-curve model"),
+    "models.visual_orbit": QT_TRANSLATE_NOOP("Steps", "Fit the visual orbit"),
+    "photometry.apertures": QT_TRANSLATE_NOOP("Steps", "Choose the aperture radii"),
+    "photometry.catalog": QT_TRANSLATE_NOOP("Steps", "Standard magnitudes from a catalogue"),
+    "photometry.identify_field": QT_TRANSLATE_NOOP("Steps", "Identify the field"),
+    "photometry.light_curve": QT_TRANSLATE_NOOP("Steps", "Measure the light curve"),
+    "photometry.polarimetry": QT_TRANSLATE_NOOP("Steps", "Polarimetry"),
+    "photometry.quality": QT_TRANSLATE_NOOP("Steps", "Find the bad frames"),
+    "photometry.suggest_comparisons": QT_TRANSLATE_NOOP("Steps", "Suggest comparison stars"),
+    "photometry.transformation": QT_TRANSLATE_NOOP("Steps", "Transformation coefficients"),
+    "photometry.varfind": QT_TRANSLATE_NOOP("Steps", "Search for variable stars"),
+    "planning.ephemeris": QT_TRANSLATE_NOOP("Steps", "Look up the ephemeris"),
+    "planning.night": QT_TRANSLATE_NOOP("Steps", "Plan the night"),
+    "planning.resolve": QT_TRANSLATE_NOOP("Steps", "Find the target"),
+    "rs.classify": QT_TRANSLATE_NOOP("Steps", "Classify (k-means)"),
+    "rs.expression": QT_TRANSLATE_NOOP("Steps", "Compute a band formula"),
+    "rs.pca": QT_TRANSLATE_NOOP("Steps", "Principal components"),
+    "sample.night": QT_TRANSLATE_NOOP("Steps", "Make practice data"),
+    "spectroscopy.atmosphere": QT_TRANSLATE_NOOP("Steps", "Stellar parameters (Teff, log g, [Fe/H])"),
+    "spectroscopy.classify": QT_TRANSLATE_NOOP("Steps", "Spectral type"),
+    "spectroscopy.disentangle": QT_TRANSLATE_NOOP("Steps", "Disentangle the spectra"),
+    "spectroscopy.echelle": QT_TRANSLATE_NOOP("Steps", "Reduce the echelle spectrum"),
+    "spectroscopy.orbit": QT_TRANSLATE_NOOP("Steps", "Fit the spectroscopic orbit"),
+    "spectroscopy.orders": QT_TRANSLATE_NOOP("Steps", "Find the echelle orders"),
+    "spectroscopy.reduce": QT_TRANSLATE_NOOP("Steps", "Reduce the long-slit spectrum"),
+    "spectroscopy.rv": QT_TRANSLATE_NOOP("Steps", "Measure radial velocities"),
+    "spectroscopy.telluric": QT_TRANSLATE_NOOP("Steps", "Telluric correction"),
+    "stacking.drizzle": QT_TRANSLATE_NOOP("Steps", "Drizzle the frames"),
+    "stacking.stack": QT_TRANSLATE_NOOP("Steps", "Stack the frames"),
+    "timeseries.frequencies": QT_TRANSLATE_NOOP("Steps", "Frequency analysis"),
+    "timeseries.minimum": QT_TRANSLATE_NOOP("Steps", "Time of minimum"),
+    "timeseries.mission_lc": QT_TRANSLATE_NOOP("Steps", "Download a mission light curve"),
+    "timeseries.oc_fit": QT_TRANSLATE_NOOP("Steps", "Fit the O−C diagram"),
+    "timeseries.period": QT_TRANSLATE_NOOP("Steps", "Period search"),
+    "timeseries.survey_lc": QT_TRANSLATE_NOOP("Steps", "Download a survey light curve"),
+}
+
+
+def step_name(step_id):
+    """The step's name in the interface language; a step without one (a plugin's) keeps its id."""
+    base = str(step_id).split(" ")[0]  # a task name may carry more after the id
+    if base not in NAMES:
+        return str(step_id)
+    return QCoreApplication.translate("Steps", NAMES[base]) + str(step_id)[len(base) :]

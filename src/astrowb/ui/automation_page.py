@@ -47,7 +47,10 @@ class AutomationPage(QWidget):
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
-        self.lang = settings.get("ui.language", "en")
+        from .i18n import system_language
+
+        # the interface's language: the one chosen, else the system's (as the interface itself does)
+        self.lang = settings.get("ui.language") or system_language()
         self.auto = None
         self.values = {}  # input texts survive editing the steps
         split = QSplitter(Qt.Horizontal, self)
@@ -82,14 +85,18 @@ class AutomationPage(QWidget):
         ml.addWidget(self.steps, 1)
         self.step_choice = QComboBox(self)
         steps.get("fits.save_as")  # loads the built-in steps and plugins
-        self.step_choice.addItems(sorted(steps.REGISTRY))
+        from .step_names import step_name
+
+        for sid in sorted(steps.REGISTRY, key=step_name):  # the user reads names; the id is kept as the item's data
+            self.step_choice.addItem(step_name(sid), sid)
+            self.step_choice.setItemData(self.step_choice.count() - 1, sid, Qt.ToolTipRole)
         self.step_choice.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.step_choice.setMinimumContentsLength(14)  # long step ids do not widen the page; the list shows them whole
         self.step_choice.setToolTip(
             self.tr("Every task of the application as a step (calibrate, stack, photometry, period search…)")
         )
         add = QPushButton(self.tr("Add step"), self)
-        add.clicked.connect(lambda: self.add_step(self.step_choice.currentText()))
+        add.clicked.connect(lambda: self.add_step(self.step_choice.currentData()))
         add.setToolTip(self.tr("Adds the chosen step at the end; its settings appear below"))
         ml.addWidget(self.step_choice)  # one above the other: the page fits narrow windows in every language
         ml.addWidget(add)
@@ -207,11 +214,14 @@ class AutomationPage(QWidget):
 
     # --- steps ----------------------------------------------------------------
     def _fill_steps(self, row=0):
+        from .step_names import step_name
+
         self.steps.blockSignals(True)
         self.steps.clear()
         for i, entry in enumerate(self.auto["steps"]):
             each = self.tr(" — for each {name}").format(name=entry["each"]) if entry.get("each") else ""
-            self.steps.addItem(f"{i + 1}. {entry['step']}{each}")
+            self.steps.addItem(f"{i + 1}. {step_name(entry['step'])}{each}")
+            self.steps.item(i).setToolTip(entry["step"])
         self.steps.blockSignals(False)
         self.steps.setCurrentRow(min(row, self.steps.count() - 1))
         self._show_step(self.steps.currentRow())
@@ -318,7 +328,9 @@ class AutomationPage(QWidget):
         self.run_requested.emit(self.auto, inputs)
 
     def step_started(self, n, step_id):
-        self.status.setText(self.tr("Running step {n}: {step}").format(n=n, step=step_id))
+        from .step_names import step_name
+
+        self.status.setText(self.tr("Running step {n}: {step}").format(n=n, step=step_name(step_id)))
 
     def finished(self, data, last_outputs):
         self.status.setText(self.tr("Finished."))

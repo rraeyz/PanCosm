@@ -217,3 +217,16 @@ def test_long_work_shows_progress_and_cancel_in_the_status_bar(qtbot, tmp_path):
     assert not win.task_progress.isVisible() and "cancelled" in win.statusBar().currentMessage()
     win.task_update(FakeTask(9))  # a task of another window: ignored
     assert not win.task_progress.isVisible()
+
+
+def test_steps_are_shown_by_name_not_by_id():
+    """The user reads 'Suggest comparison stars', not 'photometry.suggest_comparisons' (interface I4d); every
+    built-in step has a name, a plugin's step keeps its id."""
+    from astrowb.engine import steps
+    from astrowb.ui.step_names import NAMES, step_name
+
+    steps.get("fits.save_as")  # loads the built-in steps
+    builtin = {s for s in steps.REGISTRY if not s.startswith("plugin")}
+    assert builtin <= set(NAMES), builtin - set(NAMES)
+    assert step_name("photometry.suggest_comparisons") == "Suggest comparison stars"
+    assert step_name("myplugin.thing") == "myplugin.thing"

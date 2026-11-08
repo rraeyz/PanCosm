@@ -212,7 +212,9 @@ class AreaWindow(QMainWindow):
         if task.id not in self._tasks:
             return
         from .messages import translate
+        from .step_names import step_name
 
+        name = step_name(task.name)
         running = [t for t in self._tasks.values() if not t.finished]
         if task.finished:
             self._tasks.pop(task.id, None)
@@ -221,14 +223,14 @@ class AreaWindow(QMainWindow):
                 "failed": self.tr("{name}: failed (see the message)"),
                 "cancelled": self.tr("{name}: cancelled"),
             }
-            self.statusBar().showMessage(ends.get(task.state, "{name}").format(name=task.name))
+            self.statusBar().showMessage(ends.get(task.state, "{name}").format(name=name))
             if not self.isActiveWindow():  # long work ended while the user was in another window
                 from PySide6.QtWidgets import QApplication
 
                 QApplication.alert(self)
             running = [t for t in self._tasks.values() if not t.finished]
         else:
-            self.statusBar().showMessage(f"{task.name} — {translate(task.message)}".rstrip(" —"))
+            self.statusBar().showMessage(f"{name} — {translate(task.message)}".rstrip(" —"))
         shown = running[-1] if running else None
         for w in (self.task_progress, self.task_cancel):
             w.setVisible(shown is not None)

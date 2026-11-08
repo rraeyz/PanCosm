@@ -1753,7 +1753,9 @@ class MainWindow(QMainWindow):
             "failed": self.tr("failed"),
             "cancelled": self.tr("cancelled"),
         }
-        text = f"{task.name} — {states[task.state]} {int(task.progress * 100)}% {translate(task.message)}"
+        from .step_names import step_name
+
+        text = f"{step_name(task.name)} — {states[task.state]} {int(task.progress * 100)}% {translate(task.message)}"
         if task.id not in self._task_items:
             self.tasks_list.addItem(text)
             self._task_items[task.id] = (task, self.tasks_list.count() - 1)
@@ -1775,7 +1777,10 @@ class MainWindow(QMainWindow):
                 return
         if task.state == "failed":
             box = QMessageBox(
-                QMessageBox.Warning, self.tr("Task failed"), f"{task.name}\n\n{task_error(task.error)}", parent=self
+                QMessageBox.Warning,
+                self.tr("Task failed"),
+                f"{step_name(task.name)}\n\n{task_error(task.error)}",
+                parent=self,
             )
             box.setDetailedText(str(task.error))  # the full traceback, for reports
             box.open()
