@@ -268,6 +268,26 @@ class PhotometryPage(Undoable, QWidget):
         clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
         clear.setToolTip(self.tr("Takes off every marked star (Ctrl+Z brings them back)"))
         self.sections[1].body.addWidget(clear)
+        lists = QHBoxLayout()  # plans/photometry.md item 7: the same stars on another night
+        self.save_stars_button = QPushButton(self.tr("Save the star list…"), self)
+        self.save_stars_button.setToolTip(
+            self.tr(
+                "Writes the marked stars and the radii to a file, in RA / Dec when the first frame is plate-solved, "
+                "to put them back on another night"
+            )
+        )
+        self.save_stars_button.clicked.connect(lambda: self.save_star_list())
+        self.load_stars_button = QPushButton(self.tr("Open a star list…"), self)
+        self.load_stars_button.setToolTip(
+            self.tr(
+                "Puts a saved star list on these images: through this night's plate solution, so the pointing and "
+                "the camera may differ; without a solution at the saved pixels"
+            )
+        )
+        self.load_stars_button.clicked.connect(lambda: self.load_star_list())
+        lists.addWidget(self.save_stars_button)
+        lists.addWidget(self.load_stars_button)
+        self.sections[1].body.addLayout(lists)
         self.suggest_button = QPushButton(self.tr("Suggest comparison stars"), self)
         self.suggest_button.setEnabled(False)
         self.suggest_button.setToolTip(
@@ -973,6 +993,69 @@ class PhotometryPage(Undoable, QWidget):
             return
         else:
             self.comps.append((x, y))
+        self._draw_markers()
+
+    def save_star_list(self, path=None):
+        """The marked stars and the radii to a .stars.json file (photometry/starlist.py)."""
+        from ..photometry.starlist import save_star_list
+
+        if self.target is None:
+            self.result.setText(self.tr("Mark the target (and the comparison stars) first, then save the list."))
+            return None
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(
+                self, self.tr("Save the star list"), "stars.stars.json", self.tr("Star lists (*.stars.json *.json)")
+            )
+        if not path:
+            return None
+        wcs = self._field_wcs() if self.ref in (None, 0) else None  # the solution belongs to the first frame
+        radii = (self.r_ap.value(), self.r_in.value(), self.r_out.value())
+        save_star_list(path, self.target, self.comps, self.extras, radii, wcs, self.coord.text().strip())
+        if wcs is not None:
+            text = self.tr("Star list saved in RA / Dec: {path}")
+        else:
+            text = self.tr("Star list saved (pixels only: the first frame is not plate-solved): {path}")
+        self.result.setText(text.format(path=path))
+        return path
+
+    def load_star_list(self, path=None):
+        """A saved star list put on these images (photometry/starlist.py); undoable."""
+        from ..io.fits import read_image
+        from ..photometry.starlist import load_star_list
+        from .messages import translate
+
+        if not self.images:
+            self.result.setText(self.tr("Choose the images first, then open the star list."))
+            return None
+        if path is None:
+            path, _ = QFileDialog.getOpenFileName(
+                self, self.tr("Open a star list"), "", self.tr("Star lists (*.stars.json *.json)")
+            )
+        if not path:
+            return None
+        shape = read_image(self.images[0])[0].shape
+        try:
+            got = load_star_list(path, self._field_wcs(), shape)
+        except (ValueError, OSError, KeyError) as e:
+            self.result.setText(translate(str(e)))
+            return None
+        if self.shown != 0:
+            self.show_frame(0)  # the positions belong to the first frame
+        self.edit(self.tr("open a star list"), self._apply_star_list, got)
+        how = (self.tr("through this night's plate solution") if got["by"] == "sky"
+               else self.tr("at the saved pixels (no plate solution on both nights)"))  # fmt: skip
+        text = self.tr("{n} stars put back {how}.").format(n=1 + len(got["comps"]) + len(got["extras"]), how=how)
+        if got["outside"]:
+            text += " " + self.tr("Outside this frame: {names}.").format(names=", ".join(got["outside"]))
+        self.result.setText(text)
+        return got
+
+    def _apply_star_list(self, got):
+        self.ref, self.target = 0, got["target"]
+        self.comps, self.extras = list(got["comps"]), list(got["extras"])
+        if got.get("radii"):
+            for w, v in zip((self.r_ap, self.r_in, self.r_out), got["radii"], strict=False):
+                w.setValue(v)
         self._draw_markers()
 
     def _clear(self):

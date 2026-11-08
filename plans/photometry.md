@@ -335,7 +335,14 @@ star; the frame's FWHM is FWHM_Mean), N_Sky_Pixels is the ring's area before rej
 - **Accept:** every column AIJ writes for one star has a column here or a stated reason why not.
 
 ### 7. Star list saved and used again on another night
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — `photometry/starlist.py` (`save_star_list`, `load_star_list`): target,
+comparison, check stars and further targets and the three radii in a small `.stars.json`, in RA / Dec through the
+first frame's plate solution (and the pixels, for frames without one); opened on another night through that night's
+solution — pointing, rotation, a mirrored camera all fine (test: 47° rotation and a flip, positions to 1e-6 px; the
+plan's limit 1 px); stars off the frame named, a non-list file said in plain words. Photometry window: **Save the star
+list…** / **Open a star list…** in the Stars step and the Stars menu; the load is undoable. Not done: keeping the list
+inside the project (a project keeps files, the list is a file the user saves where they like). Guide 06 in four
+languages; `tests/test_starlist.py`, `test_star_list_saved_and_opened_on_another_night`.
 - **Reference:** AIJ saves apertures (in RA/Dec when the frame has WCS); Siril saves a comparison-star CSV; MaxIm
   labels reference stars so a run can be repeated.
 - **Ours:** the stars are marked again on every night.
