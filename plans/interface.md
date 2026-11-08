@@ -531,7 +531,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6b. Findings of the I6a run (2026-11-08, agent2)
 **open** — each sub-item is claimed on its own.
-- **(1) Photometry / Images: catalogue labels hide the image.** After the field identification every Gaia / VSX star
+- **(1) Photometry / Images: catalogue labels hide the image.** **agent2 claimed (2026-11-08) — do not touch** After the field identification every Gaia / VSX star
   gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
   target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
   a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
