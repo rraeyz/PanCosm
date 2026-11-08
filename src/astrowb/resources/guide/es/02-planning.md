@@ -1,5 +1,7 @@
 # Planificación
-La página **Planificar** indica cuándo pueden observarse sus objetivos esta noche y qué eclipses o tránsitos ocurren durante la noche. Se abre en una ventana propia (su bloque en la página de inicio o el menú Ventana), con sus propios menús: **Objetos** (añadir un objeto, añadirlo con sus efemérides, quitar el seleccionado) y **Noche** (planificar la noche, tiempo de exposición, crear un programa, enviarlo a la ventana Observación). Los iconos bajo los menús hacen lo mismo; **Ver → Texto de la barra** muestra sus nombres.
+La ventana **Planificación** indica cuándo pueden observarse sus objetivos esta noche y qué eclipses o tránsitos ocurren durante la noche. Se abre desde su bloque en la página de inicio o el menú Ventana, con sus propios menús: **Objetos** (añadir un objeto, añadirlo con sus efemérides, quitar el seleccionado) y **Noche** (planificar la noche, tiempo de exposición, crear un programa, enviarlo a la ventana Observación). Los iconos bajo los menús hacen lo mismo; **Ver → Texto de la barra** muestra sus nombres.
+
+![La ventana Planificación](images/es/window-plan.jpg)
 
 ## Su lugar
 Introduzca la **latitud** (grados, norte positivo), la **longitud** (grados, este positivo) y la **altura** (metros) del observatorio. Se recuerdan. También se usan para la corrección baricéntrica de las velocidades radiales y para los crepúsculos.
@@ -39,8 +41,8 @@ El plan lista entonces cada evento de la noche con su inicio, centro y final en 
 La línea bajo el gráfico da el inicio y el final de la noche astronómica en UTC y en hora local, y el número de eventos; la tabla de eventos da también el centro de cada evento en hora local. Cerca de los polos en verano puede no haber noche astronómica; entonces la línea dice **sin noche astronómica**.
 
 ## Del plan a la observación
-**Crear un programa** (después de *Planificar la noche*) convierte la noche en un programa para varios objetivos: primero cada eclipse o tránsito observable, con 30 minutos de línea base antes y después (si dos se solapan, gana el objetivo que esté más arriba en su lista); el resto del tiempo oscuro en bloques de una hora, cada uno para el objetivo que se mantenga más alto sobre su límite de altura. **Enviar a la página Observar** pasa cada bloque a la secuencia, con su inicio y su final; las filas de exposición que ajuste allí se usan para todos los objetivos.
+**Crear un programa** (después de *Planificar la noche*) convierte la noche en un programa para varios objetivos: primero cada eclipse o tránsito observable, con 30 minutos de línea base antes y después (si dos se solapan, gana el objetivo que esté más arriba en su lista); el resto del tiempo oscuro en bloques de una hora, cada uno para el objetivo que se mantenga más alto sobre su límite de altura. **Enviar a la ventana Observación** pasa cada bloque a la secuencia, con su inicio y su final; las filas de exposición que ajuste allí se usan para todos los objetivos.
 
-Use los tiempos del plan como **Inicio** y **Fin** de una secuencia en la página Observar (o escriba `dusk` y `dawn`), o parta de una plantilla de automatización como *Noche de una binaria eclipsante* o *Tránsito de exoplaneta*.
+Use los tiempos del plan como **Inicio** y **Fin** de una secuencia en la ventana Observación (o escriba `dusk` y `dawn`), o parta de una plantilla de automatización como *Noche de una binaria eclipsante* o *Tránsito de exoplaneta*.
 
 **Tiempo de exposición…** calcula con la ecuación del CCD cuánto exponer para una señal/ruido deseada: indique la magnitud de la estrella, el punto cero de su sistema (la magnitud que da un electrón por segundo; mídala una vez en una estrella de magnitud conocida), el cielo, el ruido de lectura, la corriente oscura y la apertura. También dice tras cuántos segundos se satura el píxel más brillante de la estrella y propone varias tomas más cortas si la exposición fuera demasiado larga. Los valores se recuerdan.

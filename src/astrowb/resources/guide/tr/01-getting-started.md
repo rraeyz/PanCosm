@@ -1,7 +1,7 @@
 # Başlarken
 Uygulama gözlem işinin tamamını tek pencerede toplar: hedef seç, geceyi planla, gözle, kalibre et, ölç, modelle ve raporla. Elinizdeki veriyle istediğiniz adımdan başlayabilirsiniz.
 
-Her çalışma sayfasının ve sekmesinin en üstünde, sıradaki adımı söyleyen katlanmış bir **İş akışı** satırı vardır. Üzerine tıklayınca olağan iş sırası açılır (varsa IRAF görevi parantez içinde): her adım bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sıradaki adım için ne yapılacağı. Bu bir rehberdir, asla kilit değildir: verinizin bulunduğu adımdan başlayın — zaten çıkarılmış bir tayfa yalnızca dalga boyları gerekir, arşivden gelen bir ışık eğrisine fotometri gerekmez — ve verinizin gerektirmediği adımları atlayın.
+Her çalışma penceresinin ve sekmesinin en üstünde, sıradaki adımı söyleyen katlanmış bir **İş akışı** satırı vardır. Üzerine tıklayınca olağan iş sırası açılır (varsa IRAF görevi parantez içinde): her adım bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sıradaki adım için ne yapılacağı. Bu bir rehberdir, asla kilit değildir: verinizin bulunduğu adımdan başlayın — zaten çıkarılmış bir tayfa yalnızca dalga boyları gerekir, arşivden gelen bir ışık eğrisine fotometri gerekmez — ve verinizin gerektirmediği adımları atlayın.
 
 ## İlk açılış
 Uygulama ilk kez açıldığında İngilizce kısa bir karşılama penceresi üç seçim sorar:
@@ -18,25 +18,25 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 1. **Yardım → İlk gece için alıştırma verisi…** ve boş bir klasör seçin. Bir `raw` klasörü oluşur: birincil örtmeden geçen bir çiftin 7 bias, 7 dark (60 sn), 7 V flat ve 48 V ışık karesi; doğru cevaplar da `truth.json` dosyasında.
 2. **Kalibrasyon:** `raw` klasörünü seçip **Tara**'ya basın: tablo 7 bias, 7 dark, 7 flat ve 48 ışık karesi gösterir, eksik yok. Bir çıktı klasörü seçin (ör. `cal`) ve **Kalibre et**'e basın.
 
-![Taramadan sonra Kalibrasyon sayfası](images/tr/first-night-calibrate.png)
+![Taramadan sonra Kalibrasyon penceresi](images/tr/first-night-calibrate.png)
 
 3. **Fotometri:** **Görüntüleri seç…** ile kalibre edilmiş `light_V_*.fits` dosyalarını seçin. **Kötü kareleri bul (bulut, odak, iz)**'ye basın: bütün kareler iyi. Görüntünün ortasındaki yıldıza (çift, x = 100, y = 80) tıklayın, sonra **Karşılaştırma yıldızı öner** (ya da diğer üç yıldıza tıklayın). Zamanlar BJD_TDB olsun diye *Hedef RA Dec* alanına `02:04:10.3 +46:41:16` yazın ve **Işık eğrisini ölç**'e basın: yaklaşık %45 derinliğinde bir örtme görünür.
 4. **Örten çift yıldız: Kwee–van Woerden yöntemi** seçili kalsın (varsayılan) ve **Minimum zamanı**'na basın. Sonucu `truth.json` içindeki `t_min_bjd_tdb` ile karşılaştırın: ikisi bir iki dakika içinde uyuşur.
 
-![Işık eğrisi ve minimum zamanıyla Fotometri sayfası](images/tr/first-night-photometry.png)
+![Işık eğrisi ve minimum zamanıyla Fotometri penceresi](images/tr/first-night-photometry.png)
 
-5. **Aynısı tek seferde:** **Otomasyon** sayfasında *Örten çift gecesi*'ni seçin; `raw` klasörünü, yeni bir çıktı klasörünü ve hedef konumu `100 80` olarak verip **Çalıştır**'a basın. Kalibrasyon, kare kalitesi, karşılaştırma yıldızları, ışık eğrisi ve minimum art arda çalışır; sonuç altta görünür.
+5. **Aynısı tek seferde:** **Otomasyon** penceresinde *Örten çift gecesi*'ni seçin; `raw` klasörünü, yeni bir çıktı klasörünü ve hedef konumu `100 80` olarak verip **Çalıştır**'a basın. Kalibrasyon, kare kalitesi, karşılaştırma yıldızları, ışık eğrisi ve minimum art arda çalışır; sonuç altta görünür.
 
 ![Çalışmaya hazır Örten çift gecesi otomasyonu](images/tr/first-night-automation.png)
 
-6. Daha ileri gitmek için: minimumu kendi referans T0 ve periyodunuzla **O-C** sekmesine yapıştırın, ışık eğrisini dışa aktarın (**CSV olarak dışa aktar…**) ya da **Yörünge ve modeller** sayfasında fit edin.
+6. Daha ileri gitmek için: minimumu kendi referans T0 ve periyodunuzla **O-C** sekmesine yapıştırın, ışık eğrisini dışa aktarın (**CSV olarak dışa aktar…**) ya da **Modeller** penceresinde fit edin.
 
 ## Pencere
 - **Alan blokları:** her alan, bir gözlem gecesinin sırasıyla, kendi penceresinde açılır; her pencerenin **Pencere** menüsü de onları Başlangıç, Proje ve bu Kılavuz ile birlikte listeler.
 - **Görevler paneli (alt):** her uzun iş (kalibrasyon, fotometri, fit, tayf…) arka planda kendi sürecinde çalışır. Panel ilerlemesini ve durumunu gösterir (sırada, çalışıyor, bitti, başarısız, iptal). Görevler çalışırken çalışmaya devam edebilirsiniz; çöken bir görev pencereyi düşürmez.
 - **Durum çubuğu:** görüntü açıkken farenin altındaki pikselin değeri ve gök koordinatları; görevler çalışırken ilerleme çubuğu.
 - **Menüler:** Dosya (projeler, FITS), Görünüm (yakınlaştırma ve görüntü germe), Görüntü (plaka çözümü, işlemler), Eklentiler, Ayarlar ve Yardım.
-- **Geri al ve ileri al:** Düzen → Geri al (Ctrl+Z) gösterilen sayfadaki son değişikliği geri alır — işaretlenen ya da kaldırılan bir yıldız, silinen noktalar, bir detrend, atılan aykırı noktalar, bir görüntü işlemi, bir başlık değişikliği, tanımlanan ya da dışlanan bir ark çizgisi — Düzen → İleri al (Ctrl+Y ya da Ctrl+Shift+Z) adım adım yeniden yapar. Menü, adımın adını gösterir. Bir metin alanında Ctrl+Z o alandaki yazmayı geri alır.
+- **Geri al ve ileri al:** Düzen → Geri al (Ctrl+Z) penceredeki son değişikliği geri alır — işaretlenen ya da kaldırılan bir yıldız, silinen noktalar, bir detrend, atılan aykırı noktalar, bir görüntü işlemi, bir başlık değişikliği, tanımlanan ya da dışlanan bir ark çizgisi — Düzen → İleri al (Ctrl+Y ya da Ctrl+Shift+Z) adım adım yeniden yapar. Menü, adımın adını gösterir. Bir metin alanında Ctrl+Z o alandaki yazmayı geri alır.
 
 ## Başlangıç sayfası
 Başlangıç sayfası işin alanlarından oluşan bir menüdür:
@@ -56,7 +56,7 @@ Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı
 - Proje açmadan da çalışabilirsiniz; o zaman hiçbir şey kaydedilmez.
 
 ## Ayarlar
-- **Temel ya da Uzman** (Başlangıç sayfasında ya da **Ayarlar → Uzman modu**): Temel modda az değiştirilen seçenekler (diğer kalibrasyon ve yığma seçenekleri, fotometrinin seeing / PSF / sintilasyon seçenekleri, diğer araçlar) katlıdır — tek tıkla açılır, hiçbir şey kaldırılmaz — ve Tayf sayfası sekmelerinin sırasını gösterir; Uzman modda her bölüm açıktır.
+- **Temel ya da Uzman** (Başlangıç sayfasında ya da **Ayarlar → Uzman modu**): Temel modda az değiştirilen seçenekler (diğer kalibrasyon ve yığma seçenekleri, fotometrinin seeing / PSF / sintilasyon seçenekleri, diğer araçlar) katlıdır — tek tıkla açılır, hiçbir şey kaldırılmaz — ve Tayf penceresi sekmelerinin sırasını gösterir; Uzman modda her bölüm açıktır.
 - **Ayarlar → Dil:** İngilizce, Türkçe, Almanca ya da İspanyolca. Bütün metinlerin değişmesi için yeniden başlatmak gerekebilir.
 - **Ayarlar → Görünüm:** Karanlık (gece) ya da Aydınlık. Ekrandaki grafikler yeni renklere geçer. Her grafiğin araç çubuğundaki **Yayın şekli…** görünüm ne olursa olsun onu beyaz zemine siyah olarak kaydeder (PDF, SVG, EPS ya da 300 dpi PNG); her tabloya sağ tıklayıp CSV ya da LaTeX olarak dışa aktarabilirsiniz.
 - **Ayarlar → İşlem birimi:** Otomatik, Yalnız işlemci ya da GPU. Durum çubuğu hangi birimin kullanıldığını gösterir. GPU'yu denetlemek için uygulamayı `--benchmark` ile çalıştırın: bir GPU bulunup bulunmadığını söyler, her GPU işini (yığınlama, k-means sınıfları, ters evrişim, BLS ve PDM dönem aramaları) iki birimde de çalıştırır, sonuçların aynı olup olmadığını ve her birinin ne kadar sürdüğünü yazar (ayarlar klasörüne `gpu-check.txt` olarak da kaydedilir).

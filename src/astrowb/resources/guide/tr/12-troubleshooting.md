@@ -16,7 +16,7 @@ Hata penceresi hatanın kendisini gösterir; **Ayrıntıları Göster…** tam r
 - Başka karşılaştırma yıldızları seçin: biri değişken ya da doymuş olabilir.
 
 ## Zamanlar yanlış görünüyor
-Başlıktaki `DATE-OBS`'u (pozun UTC başlangıcı olmalı) ve `EXPTIME`'ı kontrol edin. BJD için hedefin koordinatları ve gözlem yeri bilinmelidir (başlıkta ya da sayfadaki alanlarda).
+Başlıktaki `DATE-OBS`'u (pozun UTC başlangıcı olmalı) ve `EXPTIME`'ı kontrol edin. BJD için hedefin koordinatları ve gözlem yeri bilinmelidir (başlıkta ya da penceredeki alanlarda).
 
 ## Plaka çözümü bir şey yapmıyor
 ASTAP'ı bir yıldız veritabanıyla (ya da astrometry.net'i indeks dosyalarıyla) kurun ve yeniden deneyin. Başlıktaki yaklaşık koordinatlar işi çok hızlandırır. Çok küçük alanlar daha derin bir veritabanı ister.

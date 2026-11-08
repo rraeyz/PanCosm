@@ -1,7 +1,7 @@
 # Primeros pasos
 La aplicación cubre todo el trabajo de observación en una sola ventana: elegir objetivos, planificar la noche, observar, calibrar, medir, modelar e informar. Puede empezar en cualquier paso con los datos que ya tenga.
 
-Cada página y pestaña de trabajo tiene arriba una línea plegada **Flujo de trabajo** que nombra el paso siguiente. Al pulsarla se ve el orden de trabajo habitual (la tarea de IRAF entre paréntesis cuando la hay), cada paso marcado como hecho (✓), omitido (–) o siguiente (▶), y qué hacer en el paso siguiente. Es una guía, nunca un bloqueo: empiece en el paso donde estén sus datos —un espectro ya extraído solo necesita sus longitudes de onda, una curva de luz de un archivo no necesita fotometría— y omita lo que sus datos no necesiten.
+Cada ventana y pestaña de trabajo tiene arriba una línea plegada **Flujo de trabajo** que nombra el paso siguiente. Al pulsarla se ve el orden de trabajo habitual (la tarea de IRAF entre paréntesis cuando la hay), cada paso marcado como hecho (✓), omitido (–) o siguiente (▶), y qué hacer en el paso siguiente. Es una guía, nunca un bloqueo: empiece en el paso donde estén sus datos —un espectro ya extraído solo necesita sus longitudes de onda, una curva de luz de un archivo no necesita fotometría— y omita lo que sus datos no necesiten.
 
 ## El primer inicio
 La primera vez que se abre, la aplicación muestra una breve ventana de bienvenida en inglés con tres opciones:
@@ -25,18 +25,18 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 
 ![Página Fotometría con la curva de luz y el instante del mínimo](images/es/first-night-photometry.png)
 
-5. **Todo de una vez:** en la página **Automatización** elija *Noche de una binaria eclipsante*, indique la carpeta `raw`, una carpeta de salida nueva y la posición del objetivo `100 80`, y pulse **Ejecutar**. Calibración, calidad de las imágenes, estrellas de comparación, curva de luz y mínimo se ejecutan uno tras otro; el resultado aparece abajo.
+5. **Todo de una vez:** en la ventana **Automatización** elija *Noche de una binaria eclipsante*, indique la carpeta `raw`, una carpeta de salida nueva y la posición del objetivo `100 80`, y pulse **Ejecutar**. Calibración, calidad de las imágenes, estrellas de comparación, curva de luz y mínimo se ejecutan uno tras otro; el resultado aparece abajo.
 
 ![La automatización «Noche de una binaria eclipsante» lista para ejecutarse](images/es/first-night-automation.png)
 
-6. Para ir más allá: pegue el mínimo en la pestaña **O-C** con su propio T0 de referencia y su periodo, exporte la curva de luz (**Exportar CSV…**) o ajústela en la página **Órbitas y modelos**.
+6. Para ir más allá: pegue el mínimo en la pestaña **O-C** con su propio T0 de referencia y su periodo, exporte la curva de luz (**Exportar CSV…**) o ajústela en la ventana **Modelos**.
 
 ## La ventana
 - **Bloques de áreas:** cada área, en el orden de una noche de observación, se abre en una ventana propia; el menú **Ventana** de cada ventana también las enumera, junto con Inicio, Proyecto y esta Guía.
 - **Panel de tareas (abajo):** cada trabajo largo (calibración, fotometría, ajustes, espectros…) se ejecuta en segundo plano en su propio proceso. El panel muestra su progreso y estado (en cola, en curso, hecha, fallida, cancelada). Puede seguir trabajando mientras se ejecutan las tareas, y una tarea que falla nunca cierra la ventana.
 - **Barra de estado:** el valor del píxel y las coordenadas celestes bajo el ratón cuando hay una imagen abierta, y una barra de progreso mientras se ejecutan tareas.
 - **Menús:** Archivo (proyectos, FITS), Ver (zoom y estiramiento de la visualización), Imagen (reducción astrométrica, procesado), Complementos, Configuración y Ayuda.
-- **Deshacer y rehacer:** Editar → Deshacer (Ctrl+Z) revierte el último cambio en la página mostrada — una estrella marcada o quitada, puntos borrados, una eliminación de tendencia, valores atípicos quitados, una operación de imagen, un cambio en la cabecera, una línea del arco identificada u omitida — y Editar → Rehacer (Ctrl+Y o Ctrl+Mayús+Z) lo vuelve a hacer paso a paso. El menú nombra el paso. En un campo de texto Ctrl+Z deshace lo escrito en ese campo.
+- **Deshacer y rehacer:** Editar → Deshacer (Ctrl+Z) revierte el último cambio en la ventana — una estrella marcada o quitada, puntos borrados, una eliminación de tendencia, valores atípicos quitados, una operación de imagen, un cambio en la cabecera, una línea del arco identificada u omitida — y Editar → Rehacer (Ctrl+Y o Ctrl+Mayús+Z) lo vuelve a hacer paso a paso. El menú nombra el paso. En un campo de texto Ctrl+Z deshace lo escrito en ese campo.
 
 ## La página de inicio
 La página de inicio es un menú de las áreas del trabajo:
@@ -56,7 +56,7 @@ Un proyecto es un único archivo con la extensión `.astroproj`. Registra cada a
 - Sin proyecto también puede trabajar; entonces no se registra nada.
 
 ## Configuración
-- **Básico o Experto** (en la página de Inicio o **Ajustes → Modo experto**): en el modo básico las opciones poco usadas (más opciones de calibración y de apilado, las opciones de seeing / PSF / centelleo de la fotometría, otras herramientas) están plegadas —un clic las abre, no se quita nada— y la página Espectroscopia muestra el orden de sus pestañas; en el modo experto todas las secciones están abiertas.
+- **Básico o Experto** (en la página de Inicio o **Configuración → Modo experto**): en el modo básico las opciones poco usadas (más opciones de calibración y de apilado, las opciones de seeing / PSF / centelleo de la fotometría, otras herramientas) están plegadas —un clic las abre, no se quita nada— y la ventana Espectroscopía muestra el orden de sus pestañas; en el modo experto todas las secciones están abiertas.
 - **Configuración → Idioma:** inglés, turco, alemán o español. Puede hacer falta reiniciar para que cambien todos los textos.
 - **Configuración → Aspecto:** Oscuro o Claro. Los gráficos ya mostrados adoptan los colores nuevos. **Figura para publicación…** en la barra de herramientas de cada gráfico lo guarda en negro sobre blanco (PDF, SVG, EPS o PNG a 300 ppp) sea cual sea el aspecto; con un clic derecho sobre cualquier tabla se exporta como CSV o LaTeX.
 - **Configuración → Unidad de cálculo:** Automático, solo CPU o GPU. La barra de estado muestra qué unidad está en uso. Ejecute la aplicación con `--benchmark` para comprobar la GPU: indica si se encontró una, ejecuta cada tarea de GPU (apilado, clases k-means, deconvolución, búsquedas de periodos BLS y PDM) en ambas unidades e informa si los resultados coinciden y cuánto tardó cada una (también se guarda como `gpu-check.txt` en la carpeta de configuración).

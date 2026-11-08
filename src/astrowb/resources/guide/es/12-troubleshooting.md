@@ -16,7 +16,7 @@ La ventana de error muestra el error en sí; **Mostrar detalles…** contiene el
 - Elija otras estrellas de comparación: una de ellas puede ser variable o estar saturada.
 
 ## Los tiempos parecen incorrectos
-Compruebe `DATE-OBS` (debe ser el inicio de la exposición en UTC) y `EXPTIME` en la cabecera. Para BJD hay que conocer las coordenadas del objetivo y el lugar (en la cabecera o en los campos de la página).
+Compruebe `DATE-OBS` (debe ser el inicio de la exposición en UTC) y `EXPTIME` en la cabecera. Para BJD hay que conocer las coordenadas del objetivo y el lugar (en la cabecera o en los campos de la ventana).
 
 ## La reducción astrométrica no hace nada
 Instale ASTAP con una base de datos de estrellas (o astrometry.net con archivos de índice) e inténtelo de nuevo. Unas coordenadas aproximadas en la cabecera lo aceleran mucho. Los campos muy pequeños necesitan una base de datos más profunda.

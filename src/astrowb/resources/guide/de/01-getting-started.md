@@ -18,25 +18,25 @@ Eine vollständige Übung mit simulierten Daten, deren Lösung bekannt ist: von 
 1. **Hilfe → Übungsdaten für eine erste Nacht…** und einen leeren Ordner wählen. Es entsteht ein Ordner `raw` mit 7 Bias-, 7 Dark- (60 s), 7 V-Flat- und 48 V-Light-Aufnahmen eines Doppelsterns während eines Hauptminimums sowie `truth.json` mit den richtigen Antworten.
 2. **Kalibrieren:** den Ordner `raw` wählen und **Einlesen** drücken: Die Tabelle zeigt 7 Bias, 7 Dark, 7 Flat und 48 Lights, nichts fehlt. Einen Ausgabeordner wählen (z. B. `cal`) und **Kalibrieren** drücken.
 
-![Seite Kalibrieren nach dem Einlesen](images/de/first-night-calibrate.png)
+![Das Fenster Kalibrierung nach dem Einlesen](images/de/first-night-calibrate.png)
 
 3. **Photometrie:** **Bilder wählen…** und die kalibrierten `light_V_*.fits` auswählen. **Schlechte Bilder finden (Wolken, Fokus, Spuren)** drücken: Alle Aufnahmen sind gut. Den Stern in der Bildmitte anklicken (den Doppelstern bei x = 100, y = 80), dann **Vergleichssterne vorschlagen** (oder die drei anderen Sterne anklicken). Die Position `02:04:10.3 +46:41:16` in *Ziel RA Dek* eintragen, damit die Zeiten in BJD_TDB sind, und **Lichtkurve messen** drücken: Eine etwa 45 % tiefe Bedeckung erscheint.
 4. **Bedeckungsveränderlicher: Methode von Kwee–van Woerden** (die Voreinstellung) lassen und **Minimumszeit** drücken. Mit `t_min_bjd_tdb` in `truth.json` vergleichen: Beide stimmen auf ein bis zwei Minuten überein.
 
-![Seite Photometrie mit Lichtkurve und Minimumszeit](images/de/first-night-photometry.png)
+![Das Fenster Photometrie mit Lichtkurve und Minimumszeit](images/de/first-night-photometry.png)
 
-5. **Alles in einem Durchgang:** Auf der Seite **Automatisierung** *Nacht eines Bedeckungsveränderlichen* wählen, den Ordner `raw`, einen neuen Ausgabeordner und die Zielposition `100 80` angeben und **Ausführen** drücken. Kalibrierung, Bildqualität, Vergleichssterne, Lichtkurve und Minimum laufen nacheinander; das Ergebnis erscheint unten.
+5. **Alles in einem Durchgang:** Im Fenster **Automatisierung** *Nacht eines Bedeckungsveränderlichen* wählen, den Ordner `raw`, einen neuen Ausgabeordner und die Zielposition `100 80` angeben und **Ausführen** drücken. Kalibrierung, Bildqualität, Vergleichssterne, Lichtkurve und Minimum laufen nacheinander; das Ergebnis erscheint unten.
 
 ![Die Automatisierung „Nacht eines Bedeckungsveränderlichen“, bereit zum Start](images/de/first-night-automation.png)
 
-6. Weiter geht es so: das Minimum mit Ihrem eigenen Referenz-T0 und Ihrer Periode in den Reiter **O-C** einfügen, die Lichtkurve exportieren (**CSV exportieren…**) oder sie auf der Seite **Bahnen & Modelle** anpassen.
+6. Weiter geht es so: das Minimum mit Ihrem eigenen Referenz-T0 und Ihrer Periode in den Reiter **O-C** einfügen, die Lichtkurve exportieren (**CSV exportieren…**) oder sie im Fenster **Modelle** anpassen.
 
 ## Das Fenster
 - **Bereichsblöcke:** jeder Bereich, in der Reihenfolge einer Beobachtungsnacht, öffnet sich in einem eigenen Fenster; das Menü **Fenster** jedes Fensters listet sie ebenfalls auf, mit Start, Projekt und dieser Anleitung.
 - **Aufgabenbereich (unten):** Jede lange Arbeit (Kalibrierung, Photometrie, Anpassungen, Spektren…) läuft im Hintergrund in einem eigenen Prozess. Der Bereich zeigt Fortschritt und Zustand (wartend, läuft, fertig, fehlgeschlagen, abgebrochen). Sie können weiterarbeiten, während Aufgaben laufen, und eine abstürzende Aufgabe reißt nie das Fenster mit.
 - **Statusleiste:** Pixelwert und Himmelskoordinaten unter der Maus, wenn ein Bild offen ist, und ein Fortschrittsbalken, während Aufgaben laufen.
 - **Menüs:** Datei (Projekte, FITS), Ansicht (Zoom und Darstellungsstreckung), Bild (astrometrische Lösung, Bearbeitung), Plugins, Einstellungen und Hilfe.
-- **Rückgängig und Wiederholen:** Bearbeiten → Rückgängig (Strg+Z) nimmt die letzte Änderung auf der gezeigten Seite zurück — ein markierter oder entfernter Stern, gelöschte Punkte, eine Trendbereinigung, entfernte Ausreißer, eine Bildoperation, eine Header-Änderung, eine identifizierte oder ausgelassene Bogenlinie — und Bearbeiten → Wiederholen (Strg+Y oder Strg+Umschalt+Z) stellt sie Schritt für Schritt wieder her. Das Menü nennt den Schritt. In einem Textfeld macht Strg+Z die Eingabe in diesem Feld rückgängig.
+- **Rückgängig und Wiederholen:** Bearbeiten → Rückgängig (Strg+Z) nimmt die letzte Änderung im Fenster zurück — ein markierter oder entfernter Stern, gelöschte Punkte, eine Trendbereinigung, entfernte Ausreißer, eine Bildoperation, eine Header-Änderung, eine identifizierte oder ausgelassene Bogenlinie — und Bearbeiten → Wiederholen (Strg+Y oder Strg+Umschalt+Z) stellt sie Schritt für Schritt wieder her. Das Menü nennt den Schritt. In einem Textfeld macht Strg+Z die Eingabe in diesem Feld rückgängig.
 
 ## Die Startseite
 Die Startseite ist ein Menü der Arbeitsbereiche:
@@ -56,7 +56,7 @@ Ein Projekt ist eine einzige Datei mit der Endung `.astroproj`. Sie hält jede h
 - Ohne Projekt können Sie ebenfalls arbeiten; dann wird nichts festgehalten.
 
 ## Einstellungen
-- **Einfach oder Experte** (auf der Startseite oder **Einstellungen → Expertenmodus**): Im einfachen Modus sind selten geänderte Optionen (weitere Kalibrier- und Stapeloptionen, die Seeing- / PSF- / Szintillationsoptionen der Photometrie, weitere Werkzeuge) eingeklappt — ein Klick öffnet sie, nichts wird entfernt — und die Seite Spektroskopie zeigt die Reihenfolge ihrer Reiter; im Expertenmodus ist jeder Abschnitt offen.
+- **Einfach oder Experte** (auf der Startseite oder **Einstellungen → Expertenmodus**): Im einfachen Modus sind selten geänderte Optionen (weitere Kalibrier- und Stapeloptionen, die Seeing- / PSF- / Szintillationsoptionen der Photometrie, weitere Werkzeuge) eingeklappt — ein Klick öffnet sie, nichts wird entfernt — und das Fenster Spektroskopie zeigt die Reihenfolge ihrer Reiter; im Expertenmodus ist jeder Abschnitt offen.
 - **Einstellungen → Sprache:** Englisch, Türkisch, Deutsch oder Spanisch. Damit sich jeder Text ändert, kann ein Neustart nötig sein.
 - **Einstellungen → Aussehen:** Dunkel oder Hell. Bereits angezeigte Diagramme übernehmen die neuen Farben. **Publikationsgrafik…** in der Werkzeugleiste jedes Diagramms speichert es schwarz auf weiß (PDF, SVG, EPS oder PNG mit 300 dpi), unabhängig vom Aussehen; mit einem Rechtsklick auf eine Tabelle exportieren Sie sie als CSV oder LaTeX.
 - **Einstellungen → Recheneinheit:** Automatisch, nur CPU oder GPU. Die Statusleiste zeigt, welche Einheit benutzt wird. Starten Sie die Anwendung mit `--benchmark`, um die GPU zu prüfen: Sie meldet, ob eine gefunden wurde, führt jede GPU-Aufgabe (Stapeln, k-means-Klassen, Entfaltung, BLS- und PDM-Periodensuche) auf beiden Einheiten aus und zeigt, ob die Ergebnisse übereinstimmen und wie lange jede dauerte (auch als `gpu-check.txt` im Einstellungsordner gespeichert).

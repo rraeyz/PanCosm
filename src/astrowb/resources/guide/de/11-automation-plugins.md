@@ -1,8 +1,10 @@
 # Automatisierung und Plugins
-Eine **Automatisierung** verkettet Schritte zu Ihrer eigenen Pipeline — „die Aufnahmen eines Ordners kalibrieren → die Lichtkurve messen → das Minimum bestimmen → O-C“ — und führt sie in einem Durchgang aus. **Plugins** fügen eigene Schritte hinzu. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder das Menü Fenster) mit eigenen Menüs: **Datei → Neue Automatisierung** und **Automatisierung speichern unter…**, **Schritte** (hinzufügen, entfernen, nach oben oder unten) und **Ausführen** (die Automatisierung ausführen, ihre Sequenz an das Fenster Beobachten senden, nach der Sequenz auswerten).
+Eine **Automatisierung** verkettet Schritte zu Ihrer eigenen Pipeline — „die Aufnahmen eines Ordners kalibrieren → die Lichtkurve messen → das Minimum bestimmen → O-C“ — und führt sie in einem Durchgang aus. **Plugins** fügen eigene Schritte hinzu. Das Fenster Automatisierung öffnet sich über seinen Block auf der Startseite oder das Menü Fenster und hat eigene Menüs: **Datei → Neue Automatisierung** und **Automatisierung speichern unter…**, **Schritte** (hinzufügen, entfernen, nach oben oder unten) und **Ausführen** (die Automatisierung ausführen, ihre Sequenz an das Fenster Beobachten senden, nach der Sequenz auswerten).
+
+![Das Fenster Automatisierung](images/de/window-automation.jpg)
 
 ## Fertige Vorlagen
-Die Seite **Automatisierung** listet fertige Vorlagen (markiert mit „Vorlage“) und Ihre eigenen Automatisierungen:
+Das Fenster **Automatisierung** listet fertige Vorlagen (markiert mit „Vorlage“) und Ihre eigenen Automatisierungen:
 
 - **Nacht eines Bedeckungsveränderlichen** — eine Sequenz von der Abend- bis zur Morgendämmerung, dann Kalibrierung, Vergleichssterne, Lichtkurve, Minimumszeit (Kwee–van Woerden) und O-C.
 - **Exoplaneten-Transit** — dasselbe mit der Trapez-Anpassung für die Transitmitte.
@@ -18,7 +20,7 @@ Wählen Sie eine aus, um ihre Beschreibung und ihre Schritte zu sehen.
 3. Am Ende werden darunter die Ergebnisse des letzten Schritts gezeigt (z. B. Minimumszeit und O-C). Schlägt ein Schritt fehl, hält die Automatisierung dort an und zeigt den Fehler.
 
 ## Der Beobachtungsteil
-Vorlagen mit einer Beobachtungssequenz haben **Zur Seite Beobachten**: Das trägt Ziel, Start und Ende (z. B. dusk und dawn) und die Belichtungszeilen ein. Ergänzen Sie die Koordinaten, prüfen Sie die Belichtungszeiten und starten Sie dort. Kreuzen Sie vor dem Senden **Nach der Sequenz auswerten** an: Endet die Sequenz (auch wenn das Wetter sie vorzeitig beendet, sofern Aufnahmen entstanden sind), läuft die Automatisierung von selbst auf dem Ordner der Sequenz. Bei einem entfernten Observatorium werden die Aufnahmen zuerst auf diesen Rechner kopiert und dann ausgewertet.
+Vorlagen mit einer Beobachtungssequenz haben **Zum Fenster Beobachten**: Das trägt Ziel, Start und Ende (z. B. dusk und dawn) und die Belichtungszeilen ein. Ergänzen Sie die Koordinaten, prüfen Sie die Belichtungszeiten und starten Sie dort. Kreuzen Sie vor dem Senden **Nach der Sequenz auswerten** an: Endet die Sequenz (auch wenn das Wetter sie vorzeitig beendet, sofern Aufnahmen entstanden sind), läuft die Automatisierung von selbst auf dem Ordner der Sequenz. Bei einem entfernten Observatorium werden die Aufnahmen zuerst auf diesen Rechner kopiert und dann ausgewertet.
 
 ## Eigene Automatisierungen bauen
 1. **Neu** beginnt eine leere Automatisierung (oder beginnen Sie mit einer Vorlage und ändern Sie sie).

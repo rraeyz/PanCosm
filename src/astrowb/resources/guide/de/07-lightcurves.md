@@ -1,8 +1,12 @@
-# Lichtkurven und O-C
+# Lichtkurven und O−C
 Zwei Fenster. **Lichtkurven und Periode** hat die Reiter **Periodensuche**, **Frequenzanalyse** und **Suche nach Veränderlichen** (sein Block auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter. **O−C** ist ein eigenes Fenster (sein Block oder das Menü Fenster): in der Photometrie bestimmte Minimumszeiten und die Maxima der Frequenzanalyse kommen von selbst dorthin. Lichtkurven hat die Menüs **Daten** (Punkte löschen, Ausreißer, Mitteln, Fluss ↔ Magnitude, rückgängig), **Suche** (Periode, Frequenzen, Veränderliche) und **Senden** sowie **Datei → Lichtkurve** (herunterladen, speichern); O−C hat **Ephemeride** (nachschlagen, linear, quadratisch, anpassen) und **Modelle** (dritter Körper, Apsidendrehung, MCMC).
 
+![Das Fenster Lichtkurven und Periode](images/de/window-timeseries.jpg)
+
+![Das Fenster O−C](images/de/window-oc.jpg)
+
 ## Periodensuche
-Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
+Die im Fenster Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
 
 - **Lomb–Scargle** — passt bei jeder Testperiode eine Sinuswelle an und wählt die, die den größten Teil der Änderung erklärt. Für sinusförmige Änderungen: pulsierende Sterne, Rotation und Flecken.
 - **BLS** (Box Least Squares) — passt bei jeder Testperiode einen kurzen, kastenförmigen Einbruch an. Für Planetentransits und Bedeckungen vom Algol-Typ.
@@ -17,7 +21,7 @@ Wie jede Methode arbeitet, mit Formeln und Quellen: **Mathematik der Methoden** 
 
 Stellen Sie **Kürzeste Periode** und **Längste Periode** ein (die längste ist voreingestellt auf die halbe Zeitspanne) und drücken Sie **Suchen**. Das Periodogramm und die mit der besten Periode gefaltete Lichtkurve werden gezeigt. Prüfen Sie die gefaltete Kurve: die halbe oder doppelte Periode ist ein häufiger Alias, besonders bei Bedeckungsveränderlichen mit gleich tiefen Minima. Eine ⚠-Zeile unter dem Ergebnis sagt, wann ihm nicht zu trauen ist: die Lichtkurve ist kürzer als zwei Zyklen der gesuchten Perioden (länger beobachten), die beste Periode ist länger als die halbe Zeitspanne, oder das Periodogramm ist am Rand des Bereichs am höchsten (den Bereich erweitern).
 
-**Phasenintervalle** zeichnet die mittlere Kurve über die gefalteten Punkte. **Lichtkurve bearbeiten:** *Ausreißer entfernen (σ)*, *Zeitlich mitteln (min)*, *Punkte per Klick löschen* (dann einen Punkt in der Grafik anklicken), *Fluss ↔ Magnitude* und *Bearbeitungen rückgängig*. Periodensuche und Frequenzanalyse verwenden die bearbeitete Kurve. *Ausreißer entfernen* vergleicht jeden Punkt mit seinen zeitlichen Nachbarn (und, sobald eine Periode gefunden ist, mit seinen Nachbarn in der gefalteten Kurve); Bedeckungen und Pulsationen bleiben erhalten. **Fehler:** hat die Lichtkurve welche (von der Seite Photometrie, aus TESS- / Kepler- / ZTF- / AAVSO-Downloads oder einer dritten Spalte der CSV-Datei), werden sie als Fehlerbalken gezeichnet, folgen jeder Bearbeitung (Ausreißer, Binning — der Fehler jedes Mittels —, gelöschte Punkte, Fluss ↔ Helligkeit) und gewichten die Lomb–Scargle- und BLS-Suche mit 1/σ²; **Speichern** schreibt sie als dritte Spalte.
+**Phasenintervalle** zeichnet die mittlere Kurve über die gefalteten Punkte. **Lichtkurve bearbeiten:** *Ausreißer entfernen (σ)*, *Zeitlich mitteln (min)*, *Punkte per Klick löschen* (dann einen Punkt in der Grafik anklicken), *Fluss ↔ Magnitude* und *Bearbeitungen rückgängig*. Periodensuche und Frequenzanalyse verwenden die bearbeitete Kurve. *Ausreißer entfernen* vergleicht jeden Punkt mit seinen zeitlichen Nachbarn (und, sobald eine Periode gefunden ist, mit seinen Nachbarn in der gefalteten Kurve); Bedeckungen und Pulsationen bleiben erhalten. **Fehler:** hat die Lichtkurve welche (aus dem Fenster Photometrie, aus TESS- / Kepler- / ZTF- / AAVSO-Downloads oder einer dritten Spalte der CSV-Datei), werden sie als Fehlerbalken gezeichnet, folgen jeder Bearbeitung (Ausreißer, Binning — der Fehler jedes Mittels —, gelöschte Punkte, Fluss ↔ Helligkeit) und gewichten die Lomb–Scargle- und BLS-Suche mit 1/σ²; **Speichern** schreibt sie als dritte Spalte.
 
 ## Frequenzanalyse
 Für pulsierende Sterne mit mehreren Moden (δ Scuti, γ Dor, β Cep), wie Period04. Geben Sie die **höchste Frequenz** (Zyklen pro Tag) ein und drücken Sie **Frequenzen analysieren**:

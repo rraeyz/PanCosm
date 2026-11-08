@@ -1,8 +1,12 @@
-# Işık eğrileri ve O-C
+# Işık eğrileri ve O−C
 İki pencere. **Işık eğrileri ve periyot** penceresinde **Periyot arama**, **Frekans analizi** ve **Değişen yıldız arama** sekmeleri vardır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır. **O−C** kendi penceresidir (bloğu ya da Pencere menüsü): Fotometride bulunan minimum zamanları ve frekans analizinin maksimumları oraya kendiliğinden gelir. Işık eğrilerinde **Veri** (nokta silme, aykırı noktalar, gruplama, akı ↔ kadir, geri al), **Arama** (periyot, frekanslar, değişen yıldızlar) ve **Gönder** menüleri ile **Dosya → Işık eğrisi** (indir, kaydet) vardır; O−C'de **Efemeris** (bul, doğrusal, ikinci derece, fit) ve **Modeller** (üçüncü cisim, apsidal hareket, MCMC) vardır.
 
+![Işık eğrileri ve periyot penceresi](images/tr/window-timeseries.jpg)
+
+![O−C penceresi](images/tr/window-oc.jpg)
+
 ## Periyot arama
-Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
+Fotometri penceresinde ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
 
 - **Lomb–Scargle** — her deneme periyodunda bir sinüs dalgası uydurur ve değişimin en büyük kısmını açıklayanı seçer. Sinüs biçimli değişimler için: zonklayan yıldızlar, dönme ve lekeler.
 - **BLS** (kutu en küçük kareler) — her deneme periyodunda kısa, kutu biçimli bir düşüş uydurur. Gezegen geçişleri ve Algol türü örtmeler için.
@@ -17,7 +21,7 @@ Her yöntemin nasıl çalıştığı, formülleri ve kaynakları: **Yöntemlerin
 
 **En kısa** ve **en uzun periyodu** ayarlayın (en uzun, varsayılan olarak zaman aralığının yarısıdır) ve **Ara**'ya basın. Periyodogram ve en iyi periyoda göre katlanmış ışık eğrisi gösterilir. Katlanmış eğriyi kontrol edin: periyodun yarısı ya da iki katı sık görülen bir yanılsamadır, özellikle minimumları eşit örten çiftlerde. Sonucun altındaki ⚠ satırı ona ne zaman güvenilemeyeceğini söyler: ışık eğrisi aranan periyotların iki çevriminden kısadır (daha uzun gözleyin), en iyi periyot zaman aralığının yarısından uzundur ya da periyodogram aralığın kenarında en yüksektir (aralığı genişletin).
 
-**Evre aralıkları** katlanmış noktaların üstüne ortalama eğriyi çizer. **Işık eğrisini düzenleme:** *Aykırı noktaları at (σ)*, *Zamanda grupla (dk)*, *Tıklayarak nokta sil* (sonra grafikte bir noktaya tıklayın), *Akı ↔ kadir* ve *Düzenlemeleri geri al*. Periyot arama ve frekans analizi düzenlenmiş eğriyi kullanır. *Aykırı noktaları at* her noktayı zamandaki komşularıyla (periyot bulunduktan sonra katlanmış eğrideki komşularıyla da) karşılaştırır; tutulmalar ve zonklamalar silinmez. **Hatalar:** ışık eğrisinde varsa (Fotometri sayfasından, TESS / Kepler / ZTF / AAVSO indirmelerinden ya da CSV dosyasının üçüncü sütunundan), hata çubukları olarak çizilir, her düzenlemeyi izler (aykırı noktalar, gruplama — her ortalamanın hatası —, silinen noktalar, akı ↔ kadir) ve Lomb–Scargle ile BLS aramalarını 1/σ² ile ağırlıklandırır; **Kaydet** onları üçüncü sütun olarak yazar.
+**Evre aralıkları** katlanmış noktaların üstüne ortalama eğriyi çizer. **Işık eğrisini düzenleme:** *Aykırı noktaları at (σ)*, *Zamanda grupla (dk)*, *Tıklayarak nokta sil* (sonra grafikte bir noktaya tıklayın), *Akı ↔ kadir* ve *Düzenlemeleri geri al*. Periyot arama ve frekans analizi düzenlenmiş eğriyi kullanır. *Aykırı noktaları at* her noktayı zamandaki komşularıyla (periyot bulunduktan sonra katlanmış eğrideki komşularıyla da) karşılaştırır; tutulmalar ve zonklamalar silinmez. **Hatalar:** ışık eğrisinde varsa (Fotometri penceresinden, TESS / Kepler / ZTF / AAVSO indirmelerinden ya da CSV dosyasının üçüncü sütunundan), hata çubukları olarak çizilir, her düzenlemeyi izler (aykırı noktalar, gruplama — her ortalamanın hatası —, silinen noktalar, akı ↔ kadir) ve Lomb–Scargle ile BLS aramalarını 1/σ² ile ağırlıklandırır; **Kaydet** onları üçüncü sütun olarak yazar.
 
 ## Frekans analizi
 Birden çok modlu zonklayan yıldızlar için (δ Scuti, γ Dor, β Cep), Period04 gibi. **En yüksek frekansı** (gün başına çevrim) girin ve **Frekansları analiz et**'e basın:
