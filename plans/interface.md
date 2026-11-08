@@ -388,11 +388,11 @@ the reason in the tooltip, copy, CSV, a row click tells the window which frame t
 the existing table menu. Accept: tests for export and the row signal.
 
 #### I2.7 Long work in the status bar
-**agent2 claimed (2026-11-08) — do not touch** — the area's running tasks with progress and Cancel in its status bar; a notice when a task ends while the
+**agent2 done (2026-11-08, commit 7f6729f)** — `AreaWindow.track(task)` / `task_update`; `MainWindow._on_task` routes updates. — the area's running tasks with progress and Cancel in its status bar; a notice when a task ends while the
 window is in the background. Accept: test with a fake task.
 
 ### I3. The main window as a menu of blocks
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Also:** a "Continue where you left off" list (the last sessions of each area) at the top; the first-night
   tutorial reachable from here.
 - **Build:**
