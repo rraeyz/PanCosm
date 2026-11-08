@@ -568,7 +568,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 - **(5) Automation: template names cut** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
   scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
   leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
-- **(6) Remote sensing: empty view gives no hint.** The window opens on a large black view with no text; show
+- **(6) Remote sensing: empty view gives no hint.** **agent2 claimed (2026-11-08) — do not touch** The window opens on a large black view with no text; show
   "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
   the middle of the steps column with empty space below.
 - (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
