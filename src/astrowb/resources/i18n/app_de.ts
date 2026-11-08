@@ -231,59 +231,86 @@
         <translation>Öffnet die Seite der Anleitung, die dieses Fenster erklärt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="176"/>
+        <location filename="../../ui/area_window.py" line="161"/>
+        <source>Report a problem…</source>
+        <translation>Problem melden…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="162"/>
+        <source>Makes one file with the error log, the version, the system and the last steps, to send to the developer. Your data files are not in it.</source>
+        <translation>Erstellt eine Datei mit Fehlerprotokoll, Version, System und den letzten Schritten, um sie an den Entwickler zu senden. Ihre Datendateien sind nicht darin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="181"/>
         <source>(none yet)</source>
         <translation>(noch keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="179"/>
+        <location filename="../../ui/area_window.py" line="184"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="210"/>
+        <location filename="../../ui/area_window.py" line="215"/>
         <source>Session saved: {path}</source>
         <translation>Sitzung gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="219"/>
+        <location filename="../../ui/area_window.py" line="224"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} ist keine Sitzungsdatei oder beschädigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="222"/>
+        <location filename="../../ui/area_window.py" line="227"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} ist eine Sitzung eines anderen Fensters ({area}): öffnen Sie sie dort.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="227"/>
+        <location filename="../../ui/area_window.py" line="232"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} wurde mit einer neueren Version der Anwendung gespeichert: aktualisieren Sie sie, um diese Sitzung zu öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="231"/>
+        <location filename="../../ui/area_window.py" line="236"/>
         <source>Session opened: {path}</source>
         <translation>Sitzung geöffnet: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="233"/>
-        <location filename="../../ui/area_window.py" line="244"/>
+        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="249"/>
         <source>Open session</source>
         <translation>Sitzung öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="238"/>
+        <location filename="../../ui/area_window.py" line="243"/>
         <source>Save session</source>
         <translation>Sitzung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="238"/>
-        <location filename="../../ui/area_window.py" line="244"/>
+        <location filename="../../ui/area_window.py" line="243"/>
+        <location filename="../../ui/area_window.py" line="249"/>
         <source>Session (*.session.json)</source>
         <translation>Sitzung (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="281"/>
+        <location filename="../../ui/area_window.py" line="261"/>
+        <location filename="../../ui/area_window.py" line="272"/>
+        <source>Report a problem</source>
+        <translation>Problem melden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="273"/>
+        <source>The report is saved:
+{path}
+
+Send this file with a few words on what you did and what went wrong. It holds no data files and no folder names.</source>
+        <translation>Der Bericht ist gespeichert:
+{path}
+
+Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was schiefging. Sie enthält keine Datendateien und keine Ordnernamen.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="311"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
@@ -1363,12 +1390,12 @@
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/area_window.py" line="354"/>
+        <location filename="../../ui/area_window.py" line="384"/>
         <source>Type what you want to do…</source>
         <translation>Tippen Sie, was Sie tun möchten…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_window.py" line="355"/>
+        <location filename="../../ui/area_window.py" line="385"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Wörter in beliebiger Reihenfolge; ↑ ↓ wählen, Enter führt aus, Esc schließt</translation>
     </message>

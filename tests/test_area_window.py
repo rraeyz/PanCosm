@@ -135,3 +135,36 @@ def test_recent_files_drop_and_sessions(qtbot, tmp_path, monkeypatch):
     (tmp_path / "bad.session.json").write_text("{not json")
     assert "damaged" in win.open_session(tmp_path / "bad.session.json")
     assert not other.acceptDrops() and win.acceptDrops()
+
+
+def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_path, monkeypatch):
+    import json
+    import zipfile
+    from pathlib import Path
+
+    from astrowb.ui.report import make_report
+
+    settings = Settings(tmp_path / "cfg")
+    home = str(Path.home())
+    settings.set("photometry.last_folder", f"{home}/nights/2026-11-02")
+    settings.set("ui.theme", "dark")
+    (tmp_path / "cfg" / "error.log").write_text(f'Traceback\n  File "{home}/secret/run.py", line 3\nValueError: x\n')
+    error = f"cannot read {home}/nights/a.fits"
+    params = {"radius": 5.0, "dark": "/data/owner/dark.fits"}
+    runs = [{"step": "photometry.measure", "params": params, "status": "failed", "error": error,
+             "inputs": {"images": ["/x/y.fits"]}}]  # fmt: skip
+    out = make_report(settings, tmp_path / "report.zip", runs)
+    with zipfile.ZipFile(out) as z:
+        names = set(z.namelist())
+        assert {"error.log", "system.txt", "settings.json", "last_steps.json"} <= names
+        assert not [n for n in names if n.endswith((".fits", ".fz", ".png"))]
+        text = "".join(z.read(n).decode() for n in names)
+        steps = json.loads(z.read("last_steps.json"))
+        assert "ValueError: x" in z.read("error.log").decode() and "application " in z.read("system.txt").decode()
+    assert home not in text and "/data/owner" not in text and "/x/y.fits" not in text
+    assert steps[0]["params"] == {"radius": 5.0, "dark": "dark.fits"} and "inputs" not in steps[0]
+    assert json.loads(zipfile.ZipFile(out).read("settings.json"))["photometry.last_folder"] == "2026-11-02"
+    win = _area(qtbot, settings)
+    monkeypatch.setattr("astrowb.ui.area_window.QMessageBox.information", lambda *a: None)
+    assert win.report_problem(tmp_path / "r2.zip") and (tmp_path / "r2.zip").exists()
+    assert "Report a problem…" in [a.text() for a in win.help_menu.actions()]
