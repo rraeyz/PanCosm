@@ -232,3 +232,15 @@ def test_gpu_bls_matches_astropy(gpu_mode):
     gpu = gpu_bls_power(t, y, 1 / dy**2, periods, durs, force=True)
     assert np.max(np.abs(gpu - ref)) < 1e-3 * ref.max()
     assert np.argmax(gpu) == np.argmax(ref)
+
+
+def test_automatic_keeps_the_clipped_mean_on_the_compiled_cpu_routine(monkeypatch):
+    """User feedback UF-22: on the owner's RTX 4050 the GPU's clipped mean took 0.26 s, the compiled CPU one 0.13 s."""
+    from astrowb import native
+    from astrowb.compute import combine
+
+    monkeypatch.setattr(combine, "device", lambda: object())
+    monkeypatch.setattr(combine, "_gpu", lambda *a: (_ for _ in ()).throw(AssertionError("the GPU was used")))
+    big = np.zeros((3, 1200, 1200), np.float32)
+    if native.use("clipped_mean") is not None:
+        assert combine.clipped_mean(big)[2] == "cpu"
