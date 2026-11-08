@@ -978,27 +978,27 @@ def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
 
     window.show()
     window.show_workspace("image")
-    dock = window.dock_page("remotesensing")
-    assert dock.isVisible() and dock.widget() is window._frames[window.rs_page]
+    dock = window.dock_page("project")
+    assert dock.isVisible() and dock.widget() is window._frames[window.project_page]
     assert window.pages.indexOf(dock.widget()) == -1 and window.current_workspace() == "image"
-    window.show_workspace("remotesensing")  # the sidebar raises the panel, the image stays
+    window.show_workspace("project")  # the sidebar raises the panel, the image stays
     assert window.current_workspace() == "image" and window.pages.currentWidget() is window._frames[window.image_page]
     window._fill_panels_menu()
     acts = {a.text(): a for a in window.panels_menu.actions()}
-    assert acts[window._nav_items()["remotesensing"].text()].isChecked()
+    assert acts[window._nav_items()["project"].text()].isChecked()
     assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
-    acts[window._nav_items()["automation"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"remotesensing", "automation"}
-    assert window.settings.get("ui.panels") == ["remotesensing", "automation"]
-    window.settings.set("ui.panels", ["remotesensing", "automation", "photometry"])  # saved by an older version
+    acts[window._nav_items()["guide"].text()].trigger()  # a second panel, tabbed with the first
+    assert set(window._panels) == {"project", "guide"}
+    assert window.settings.get("ui.panels") == ["project", "guide"]
+    window.settings.set("ui.panels", ["project", "guide", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"remotesensing", "automation"}
+    assert set(again._panels) == {"project", "guide"}
     again.engine.shutdown()
     dock.close()
-    assert "remotesensing" not in window._panels and window.pages.indexOf(window._frames[window.rs_page]) >= 0
-    window.show_workspace("remotesensing")
-    assert window.current_workspace() == "remotesensing"
+    assert "project" not in window._panels and window.pages.indexOf(window._frames[window.project_page]) >= 0
+    window.show_workspace("project")
+    assert window.current_workspace() == "project"
     assert window.dock_page("image") is None and "image" not in window._panels
     assert window.dock_page("photometry") is None
 

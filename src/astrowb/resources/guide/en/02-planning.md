@@ -1,5 +1,5 @@
 # Planning
-The **Plan** page tells you when your targets can be observed tonight and which eclipses or transits happen during the night.
+The **Plan** page tells you when your targets can be observed tonight and which eclipses or transits happen during the night. It opens in a window of its own (its block on the Start page or the sidebar), with its own menus.
 
 ## Your site
 Enter the **latitude** (degrees, north positive), **longitude** (degrees, east positive) and **height** (metres) of the observatory. These are remembered. They are also used for the barycentric correction of radial velocities and for twilight times.

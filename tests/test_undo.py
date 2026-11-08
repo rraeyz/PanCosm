@@ -143,18 +143,19 @@ def test_plan_targets(window):
     page.add_target({"name": "V505 Per", "ra": 32.4, "dec": 54.5, "source": "test", "t0": 2450000.0, "period": 4.2})
     page.table.item(0, 4).setText("1.1988")  # typed by the user
     page.table.cellWidget(1, 6).setChecked(True)
-    keys(window, UNDO)
+    area = area_in_front(window, "plan")  # in its own window (interface I4)
+    keys(area, UNDO)
     assert not page.table.cellWidget(1, 6).isChecked()
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.table.item(0, 4).text() == ""
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.table.rowCount() == 1
-    keys(window, REDO, REDO, REDO)
+    keys(area, REDO, REDO, REDO)
     assert page.table.rowCount() == 2 and page.table.cellWidget(1, 6).isChecked()
     page.table.setCurrentCell(0, 0)
     page.edit("remove a target", page.table.removeRow, 0)
     assert page.targets()[0]["name"] == "V505 Per"
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.targets()[0]["name"] == "AI Dra" and page.table.item(0, 4).text() == "1.1988"
 
 
@@ -165,13 +166,14 @@ def test_observe_exposure_rows(window):
     page.edit("add an exposure row", page.add_exposure_row)
     page.exposures.cellWidget(1, 2).setValue(120)
     page.exposures.item(1, 1).setText("V")
-    keys(window, UNDO)
+    area = area_in_front(window, "observe")  # in its own window (interface I4)
+    keys(area, UNDO)
     assert page.exposures.item(1, 1).text() == ""
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.exposures.cellWidget(1, 2).value() == 60
-    keys(window, UNDO)
+    keys(area, UNDO)
     assert page.exposures.rowCount() == 1
-    keys(window, REDO, REDO, REDO)
+    keys(area, REDO, REDO, REDO)
     spec = page.sequence_spec()["targets"][0]["exposures"]
     assert len(spec) == 2 and spec[1]["exptime"] == 120 and spec[1]["filter"] == "V"
 

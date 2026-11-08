@@ -1,5 +1,5 @@
 # Beobachten und Sicherheit
-Die Seite **Beobachten** steuert Teleskop, Kamera, Fokussierer, Filterrad, Kuppel und Nachführung. Die Geräte gehören einem eigenen **Observatoriumsprozess** mit einer Sicherheitsüberwachung, sodass das Teleskop geschützt bleibt, auch wenn das Fenster geschlossen wird oder abstürzt.
+Die Seite **Beobachten** steuert Teleskop, Kamera, Fokussierer, Filterrad, Kuppel und Nachführung. Die Geräte gehören einem eigenen **Observatoriumsprozess** mit einer Sicherheitsüberwachung, sodass das Teleskop geschützt bleibt, auch wenn das Fenster geschlossen wird oder abstürzt. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder die Seitenleiste) mit eigenen Menüs.
 
 ## Das Observatorium einrichten
 **Observatorium einrichten…** öffnet einen Dialog für alles Folgende: den Standort, die Geräte (**Alpaca-Geräte im Netzwerk suchen** listet jedes antwortende ASCOM-Alpaca-Gerät; INDI-Geräte werden von Hand mit Serveradresse und INDI-Gerätenamen eingetragen), die Sicherheitsgrenzen, PHD2 und ob andere Rechner sich verbinden dürfen. Er warnt vor riskanten Entscheidungen, zum Beispiel einer Montierung ohne Wettersensor. **Speichern und starten** schreibt die Datei und startet das Observatorium auf diesem Computer; **Öffnen…** bearbeitet eine vorhandene Datei.
