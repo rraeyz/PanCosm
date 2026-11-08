@@ -184,10 +184,29 @@ def _smoke_interface(win):
             QApplication.processEvents()
         SettingsWindow(win).show()
         QApplication.processEvents()
+        _smoke_figures()
     finally:
         sys.excepthook = hook
     win.close()
     assert not errors, errors
+
+
+def _smoke_figures():
+    """The publication figure in every format the window offers: 0.3.12's installer lacked matplotlib's PDF, SVG and
+    EPS writers (found by the owner, user-feedback UF-7)."""
+    import tempfile
+    from pathlib import Path
+
+    from matplotlib.figure import Figure
+
+    from .ui.plot.export import save_publication
+
+    folder = Path(tempfile.mkdtemp(prefix="smoke_figures_"))
+    fig = Figure()
+    fig.add_subplot().plot([0, 1], [1, 0])
+    for ext in ("png", "pdf", "svg", "eps"):
+        save_publication(fig, folder / f"figure.{ext}")
+        assert (folder / f"figure.{ext}").stat().st_size > 0, ext
 
 
 def _show_unexpected_errors(settings):

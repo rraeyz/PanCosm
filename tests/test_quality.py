@@ -95,3 +95,25 @@ def test_checks_from_a_light_curve():
           "peak": [[20000.0, 1.0]] * n, "saturation": 60000.0}  # fmt: skip
     flags, verdict = lc_checks(lc)
     assert flags["cloud"] == list(range(20, 25)) and not flags["jump"] and not flags["near_saturation"]
+
+
+def test_an_eclipse_and_a_steady_drift_are_not_bad_frames():
+    """User feedback UF-17 (the owner's NY Vir night): the target's eclipse and its wandering faint centroid are no
+    cloud and no jump; a frame of half the exposure is no cloud; a steady drift of 6 px a frame is no jump."""
+    from astrowb.photometry.quality import lc_checks
+
+    n = 40
+    t = np.arange(n)
+    target = 1e4 * (1 - 0.6 * np.exp(-(((t - 20) / 4.0) ** 2)))  # a deep eclipse
+    exptime = np.full(n, 5.0)
+    exptime[0] = 2.5
+    comps = np.column_stack([np.full(n, 2e5), np.full(n, 1.5e5)]) * (exptime / 5.0)[:, None]
+    drift = 6.0 * t
+    xy = [[[100 + d + (3.0 if 17 < i < 23 else 0.0), 100.0], [300 + d, 120.0], [500 + d, 140.0]] for i, d in
+          enumerate(drift)]  # fmt: skip
+    lc = {"target_flux": target.tolist(), "comp_flux": comps.tolist(), "xy": xy, "exptime": exptime.tolist(),
+          "rel_flux": (target / comps.sum(1)).tolist()}  # fmt: skip
+    flags, verdict = lc_checks(lc)
+    assert not flags.get("cloud") and not flags.get("jump"), (flags, verdict)
+    lc["xy"][30] = [[p[0] + 40, p[1]] for p in lc["xy"][30]]  # a real jump of the field (a flip)
+    assert lc_checks(lc)[0]["jump"] == [30, 31]

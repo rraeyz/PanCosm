@@ -88,7 +88,9 @@ def night_flags(ensemble=None, fwhm=None, x=None, y=None, peak=None, linearity=N
         flags["seeing"] = np.flatnonzero(f > seeing_factor * np.nanmedian(f)).tolist()
     if x is not None and y is not None:
         step = np.hypot(np.diff(np.asarray(x, float)), np.diff(np.asarray(y, float)))
-        flags["jump"] = (np.flatnonzero(step > jump_px) + 1).tolist()
+        # a jump stands out from the night's own steady drift (a field drifting 6 px a frame is not a flip)
+        usual = float(np.nanmedian(step)) if step.size else 0.0
+        flags["jump"] = (np.flatnonzero(step > max(jump_px, 5 * usual)) + 1).tolist()
     if peak is not None and linearity:
         flags["near_saturation"] = np.flatnonzero(np.asarray(peak, float) > near_saturation * linearity).tolist()
     words = {"cloud": "behind cloud", "seeing": "with bad seeing", "jump": "after a jump of the field",
@@ -99,15 +101,26 @@ def night_flags(ensemble=None, fwhm=None, x=None, y=None, peak=None, linearity=N
 
 def lc_checks(lc):
     """night_flags from a measured light curve (photometry.lightcurve's dict): the comparison stars' summed counts,
-    the FWHM, the target's position and its peak against the saturation level."""
+    the FWHM, the field's position (the comparison stars' median: a faint target's centroid in its eclipse is no
+    jump of the field, user-feedback UF-17) and the target's peak against the saturation level."""
     comp = np.asarray(lc.get("comp_flux", []), float)
     ensemble = np.nansum(comp.reshape(len(comp), -1), axis=1) if comp.size else None
-    xy = lc.get("xy") or []
-    x = [r[0][0] for r in xy] if xy else None
-    y = [r[0][1] for r in xy] if xy else None
+    exptime = np.asarray(lc.get("exptime") or [], float)
+    if ensemble is not None and exptime.size == len(ensemble) and (exptime > 0).all():
+        ensemble = ensemble / exptime  # frames of other exposures are no cloud
+    xy = np.asarray(lc.get("xy") or [], float)
+    n_comp = comp.reshape(len(comp), -1).shape[1] if comp.size else 0
+    stars = (
+        xy[:, 1 : 1 + n_comp]
+        if xy.ndim == 3 and n_comp and xy.shape[1] > n_comp
+        else xy[:, :1]
+        if xy.ndim == 3
+        else None
+    )
+    x = np.nanmedian(stars[:, :, 0], axis=1) if stars is not None else None
+    y = np.nanmedian(stars[:, :, 1], axis=1) if stars is not None else None
     peak = [p[0] for p in lc["peak"]] if lc.get("peak") else None
     flags, verdict = night_flags(ensemble, lc.get("fwhm"), x, y, peak, lc.get("saturation"))
-    n_comp = comp.reshape(len(comp), -1).shape[1] if comp.size else 0
     spoiled = [i for i, r in enumerate(lc.get("flags") or []) if "C" in "".join(r[: 1 + n_comp])]  # PHO-36
     if spoiled:  # a cosmic ray or hot pixel in the target's or a comparison star's aperture
         flags["spike"] = spoiled
