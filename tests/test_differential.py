@@ -316,7 +316,7 @@ def test_differential_view_first_and_the_way_on_to_the_fits(qtbot, tmp_path):
         page = win.photometry_page
         page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
         page.show_light_curve(synthetic_lc())
-        assert page.show_what.currentData() == "diff" and page.next_box.isVisibleTo(page)
+        assert page.show_what.currentData() == "diff" and not page.next_box.isHidden()
         ax = page.plot.figure.axes[0]
         labels = [t.get_text() for t in ax.get_legend().get_texts()]
         assert "T1 − comparison" in labels and any(t.startswith("C1 − C2") and "mmag" in t for t in labels)

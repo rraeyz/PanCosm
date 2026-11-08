@@ -401,6 +401,7 @@ class PhotometryPage(Undoable, QWidget):
         scroll.setFrameShape(QScrollArea.NoFrame)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setMinimumWidth(side_box.sizeHint().width() + 20)
+        self._steps_scroll = scroll
 
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
@@ -1151,9 +1152,26 @@ class PhotometryPage(Undoable, QWidget):
                 out.append(cat[i]["mag"] if i < len(cat) and cat[i] else None)
         return out
 
+    def window_parts(self):
+        """The image, the steps and the results (light curve, stars, minimum, export) as separate widgets for the
+        Photometry window (plans/interface.md I5): the image in the middle, the steps and the results in panels
+        that can be pulled out. The page keeps its state and logic; only where the widgets live changes."""
+        parts = {"view": self.viewer, "steps": self._steps_scroll, "results": self._lower}
+        for w in parts.values():
+            w.setParent(None)
+        self._lower.setVisible(True)  # its panel is shown and hidden instead (results_dock)
+        return parts
+
     def _show_lower(self, on):
         """The lower panel (light curve, star table) only when there is something in it: until then the image has
         the whole height (the owner found the empty band in the way)."""
+        dock = getattr(self, "results_dock", None)
+        if dock is not None:  # in the Photometry window: the results panel appears with something in it
+            if on and dock.isHidden():
+                dock.show()
+            elif not on:
+                dock.hide()
+            return
         if on and self._lower.isHidden():
             self._lower.setVisible(True)
             total = max(sum(self._split.sizes()), 500)
