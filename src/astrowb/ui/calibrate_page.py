@@ -82,7 +82,7 @@ class CalibratePage(Undoable, QWidget):
                 ),
                 (
                     self.tr("Measure them, or stack them (phot, imcombine)"),
-                    self.tr("Press 4. Measure them on the Photometry page →, or stack them into one deep picture."),
+                    self.tr("Press 4. Measure them in the Photometry window →, or stack them into one deep picture."),
                 ),
             ],
             self,
@@ -269,7 +269,7 @@ class CalibratePage(Undoable, QWidget):
         self.spectra.setToolTip(
             self.tr(
                 "For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it "
-                "would blow up the noise. The master flat is still made; give it to the Spectroscopy page."
+                "would blow up the noise. The master flat is still made; give it to the Spectroscopy window."
             )
         )
         self.split_colour = QCheckBox(self.tr("Colour camera: each colour as its own image"), self)
@@ -309,10 +309,12 @@ class CalibratePage(Undoable, QWidget):
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         lay.addWidget(self.result)
-        self.photometry_button = QPushButton(self.tr("4. Measure them on the Photometry page →"), self)
+        self.photometry_button = QPushButton(self.tr("4. Measure them in the Photometry window →"), self)
         self.photometry_button.setEnabled(False)
         self.photometry_button.setToolTip(
-            self.tr("Sends the calibrated lights to the Photometry page and opens it (a light curve, a variable star)")
+            self.tr(
+                "Sends the calibrated lights to the Photometry window and opens it (a light curve, a variable star)"
+            )
         )
         self.photometry_button.clicked.connect(lambda: self.photometry_requested.emit(list(self.calibrated)))
         self.photometry_button.clicked.connect(lambda: self.guide.set_state(3, "done"))

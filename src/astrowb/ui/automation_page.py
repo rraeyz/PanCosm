@@ -1,7 +1,7 @@
 """Automation: pick a ready template or build a chain of steps, fill in its inputs and run it.
 
 Each step runs as a normal task (Tasks panel, recorded in the project). An automation may also carry an
-observing sequence, which is sent to the Observe page.
+observing sequence, which is sent to the Observing window.
 """
 
 import copy
@@ -127,8 +127,8 @@ class AutomationPage(QWidget):
         self.run_button.setToolTip(
             self.tr("Runs the steps one after the other with these inputs; each step's result is kept in the project")
         )
-        self.sequence_button = QPushButton(self.tr("To the Observe page"), self)
-        self.sequence_button.setToolTip(self.tr("Send sequence to the Observe page"))
+        self.sequence_button = QPushButton(self.tr("To the Observing window"), self)
+        self.sequence_button.setToolTip(self.tr("Send sequence to the Observing window"))
         self.sequence_button.clicked.connect(self._send_sequence)
         rl.addWidget(self.run_button)  # one per line: the page fits narrow windows in every language
         rl.addWidget(self.sequence_button)

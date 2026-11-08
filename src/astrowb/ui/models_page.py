@@ -60,7 +60,7 @@ class ModelsPage(Undoable, QWidget):
                 (
                     self.tr("A light curve: measured here (Photometry) or downloaded (Light curves)"),
                     self.tr(
-                        "Choose the light curve (CSV from the Photometry or Light curves page: Export CSV / Save "
+                        "Choose the light curve (CSV from the Photometry or Light curves window: Export CSV / Save "
                         "light curve)."
                     ),
                 ),
@@ -141,7 +141,7 @@ class ModelsPage(Undoable, QWidget):
         self.use_orbit.setToolTip(
             self.tr(
                 "With the velocities' K1, K2 and the light curve's radii and inclination: masses and radii "
-                "of both stars in solar units (needs a double-lined orbit fitted on the Spectroscopy page)"
+                "of both stars in solar units (needs a double-lined orbit fitted in the Spectroscopy window)"
             )
         )
         lay.addWidget(self.use_orbit)
@@ -232,7 +232,7 @@ class ModelsPage(Undoable, QWidget):
         QVBoxLayout(self).addWidget(self.tabs)
 
     def set_orbit(self, orbit):
-        """The latest orbit fitted on the Spectroscopy page; only double-lined orbits give dimensions."""
+        """The latest orbit fitted in the Spectroscopy window; only double-lined orbits give dimensions."""
         self.orbit = orbit if orbit and "k2" in orbit else None
         self.use_orbit.setEnabled(self.orbit is not None)
         self.use_orbit.setChecked(self.orbit is not None)
@@ -258,7 +258,7 @@ class ModelsPage(Undoable, QWidget):
             self.status.setText(translate(e))
             return
         if start["period"] <= 0:
-            self.status.setText(self.tr("Give the period and the time of primary minimum (O-C page)."))
+            self.status.setText(self.tr("Give the period and the time of primary minimum (O-C tab)."))
             return
         inputs = {"light_curve": self.file.text(), "start": start}
         if self.use_orbit.isChecked() and self.orbit:

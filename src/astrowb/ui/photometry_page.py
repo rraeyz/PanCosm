@@ -80,7 +80,7 @@ class PhotometryPage(Undoable, QWidget):
         self.guide = StepGuide(
             [
                 (
-                    self.tr("Choose the calibrated images (Calibrate page)"),
+                    self.tr("Choose the calibrated images (Calibration window)"),
                     self.tr("Choose images… — the calibrated frames of the night (bias, dark and flat taken off)."),
                 ),
                 (
@@ -870,7 +870,7 @@ class PhotometryPage(Undoable, QWidget):
             ).format(n=header["TPFSKIP"])
         if "DATE-CAM" in header:  # a phone or camera picture: its time is the camera clock, often local time
             text += "\n" + self.tr(
-                "Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC on the Calibrate page."
+                "Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC in the Calibration window."
             ).format(h=f"{header.get('CLKOFFS', 0):g}")
         self.images_label.setText(text)
         self._clear()
@@ -1931,7 +1931,7 @@ class PhotometryPage(Undoable, QWidget):
                 text += "\n" + self.tr("{n} predicted minima left out: not covered on both sides, or no dip.").format(
                     n=m["skipped"]
                 )
-            self.result.setText(text + "\n" + self.tr("All of them are on the O-C page."))
+            self.result.setText(text + "\n" + self.tr("All of them are in the O-C tab."))
             if not self.plot.figure.axes or not self.light_curve:  # the plot was cleared meanwhile: nothing to mark
                 return
             ax = self.plot.figure.axes[0]

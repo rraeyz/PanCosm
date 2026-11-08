@@ -24,7 +24,7 @@ from .widgets import PlotCanvas, StepGuide
 
 
 class PeriodPage(Undoable, QWidget):
-    """Period search on a light curve (from the Photometry page or a CSV file) and phase folding."""
+    """Period search on a light curve (from the Photometry window or a CSV file) and phase folding."""
 
     search_requested = Signal(list, list, dict)  # time, flux, params
     archive_requested = Signal(str, str)  # target, mission
@@ -40,10 +40,10 @@ class PeriodPage(Undoable, QWidget):
         self.guide = StepGuide(
             [
                 (
-                    self.tr("Get a light curve: from the Photometry page, a CSV file or an archive"),
+                    self.tr("Get a light curve: from the Photometry window, a CSV file or an archive"),
                     self.tr(
                         "Load a CSV file, or type the star's name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) "
-                        "and press Download. A light curve measured on the Photometry page arrives here by itself."
+                        "and press Download. A light curve measured in the Photometry window arrives here by itself."
                     ),
                 ),
                 (
@@ -73,7 +73,7 @@ class PeriodPage(Undoable, QWidget):
         )
         lay.addWidget(self.guide)
         self.source = QLabel(
-            self.tr("No light curve yet: measure one on the Photometry page or load a CSV file."), self
+            self.tr("No light curve yet: measure one in the Photometry window or load a CSV file."), self
         )
         self.source.setWordWrap(True)
         lay.addWidget(self.source)
@@ -88,7 +88,7 @@ class PeriodPage(Undoable, QWidget):
         save = QPushButton(self.tr("Save light curve (CSV)…"), self)
         save.setToolTip(
             self.tr(
-                "The light curve as shown (downloaded, edited) in a CSV file: open it on the Orbits & models page "
+                "The light curve as shown (downloaded, edited) in a CSV file: open it in the Models window "
                 "or in another program"
             )
         )

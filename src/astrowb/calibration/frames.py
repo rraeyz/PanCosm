@@ -85,7 +85,7 @@ def classify(header, filename: str = "") -> str:
         return "bias"
     # observers name the science frames after the star (nsvs01286630_001.fits, NY_Vir_V_012.fit): a frame that says
     # nothing of a type is a light; only a type the header states and we do not know (FOCUS, TEST, ACQUIRE) is left
-    # out — the user can change any type on the Calibrate page
+    # out — the user can change any type in the Calibration window
     return "unknown" if any(stated) else "light"
 
 

@@ -152,7 +152,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "frames have different sizes: {shapes}"),
     QT_TRANSLATE_NOOP(
         "Messages",
-        "no frames to combine: check the folder and the frame types listed on the Calibrate page",
+        "no frames to combine: check the folder and the frame types listed in the Calibration window",
     ),
     QT_TRANSLATE_NOOP("Messages", "{name}: no EXPTIME"),
     QT_TRANSLATE_NOOP("Messages", "darks with different exposure times cannot be combined: {times}"),
@@ -336,7 +336,7 @@ TEMPLATES = (
     # timing.py
     QT_TRANSLATE_NOOP(
         "Messages",
-        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS on the Images page's Header tab",
+        "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window's Header tab",
     ),
     QT_TRANSLATE_NOOP("Messages", "not an angle: {value}"),
     # updates.py
