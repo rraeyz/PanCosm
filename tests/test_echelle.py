@@ -354,7 +354,6 @@ def test_echelle_tab_leaves_out_clicked_lines(qtbot, tmp_path):
 def test_orders_checked_by_hand(frames, tmp_path, qtbot):
     """PLAN 4.8 item 13: the orders are shown on the flat; a missed order is added by clicking anywhere on it,
     a wrong one is removed by clicking its trace, and the reduction uses the checked list."""
-    from types import SimpleNamespace
 
     from astropy.io import fits
 
@@ -389,14 +388,11 @@ def test_orders_checked_by_hand(frames, tmp_path, qtbot):
     tab.flat.edit.setText(str(flat))
     tab.science.edit.setText(str(flat))
     tab.show_orders(auto)
-    tab.plot.canvas.draw()
-    ax = tab._flat_ax
-    tab._plot_clicked(SimpleNamespace(inaxes=ax, xdata=700.0, ydata=float(order_y(700.0, ORDERS[3]))))
+    assert tab.frame_view.data is not None and "orders" in tab.frame_view.overlay_names()  # on the flat itself
+    tab.frame_view.clicked.emit(700.0, float(order_y(700.0, ORDERS[3])))  # a click on a trace removes it
     assert len(tab.order_rows) == len(ORDERS) - 1 and "15 orders" in tab.status.text()
     with qtbot.waitSignal(tab.orders_requested) as sig:
-        tab._plot_clicked(
-            SimpleNamespace(inaxes=tab._flat_ax, xdata=700.0, ydata=float(order_y(700.0, ORDERS[3]) + 0.5))
-        )
+        tab.frame_view.clicked.emit(700.0, float(order_y(700.0, ORDERS[3]) + 0.5))
     assert len(sig.args[1]["rows"]) == len(ORDERS)  # traced again with the order put back
     tab.show_orders(execute("spectroscopy.orders", sig.args[0], sig.args[1], Ctx())["orders"])
     with qtbot.waitSignal(tab.reduce_requested) as sig:

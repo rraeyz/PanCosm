@@ -684,3 +684,23 @@ def test_reduce_tab_says_which_frames_it_takes_as_calibrated(qtbot, tmp_path):
     text = tab.status.text()
     assert "Taken as calibrated" in text and "sci_c.fits" in text
     assert "Not calibrated (raw): arc_raw.fits" in text
+
+
+def test_reduce_shows_the_trace_aperture_and_sky_on_the_frame(qtbot, tmp_path):
+    """The trace was a small imshow subplot under the spectrum; now the frame is a view of its own with the trace,
+    the aperture and the sky bands drawn on it, as PypeIt and IRAF apall show them (plans/spectroscopy.md 1.2)."""
+    from astropy.io import fits
+
+    from astrowb.ui.spectro_page import ReduceTab
+
+    fits.PrimaryHDU(np.random.default_rng(2).normal(100, 3, (80, 300)).astype(np.float32)).writeto(tmp_path / "s.fits")
+    tab = ReduceTab()
+    qtbot.addWidget(tab)
+    assert tab.frame_view.data is None and tab.frame_view.empty_hint
+    tab.science.edit.setText(str(tmp_path / "s.fits"))
+    assert tab.frame_view.data.shape == (80, 300)  # shown as soon as it is chosen
+    n = 300
+    tab.show_spectrum({"trace": [0.0, 40.0], "flux": [1.0] * n, "wave": None, "pixel": list(range(n)), "arc": None,
+                       "arc_peaks": [], "solution": None})  # fmt: skip
+    assert {"aperture", "sky"} <= set(tab.frame_view.overlay_names())
+    assert len(tab.plot.figure.axes) == 1  # the spectrum only: the frame is no longer a subplot

@@ -238,7 +238,14 @@ raw (Echelle did only the latter). What the real data showed:
     buttons (Long slit, Echelle, Telluric, Velocities & orbit, IFU cube, Spectrum tools) and View → Job; the chosen
     job's steps column is the left panel "Steps"; the instrument-profile row moves to the top of that panel (it
     belongs to the reduction jobs only).
-  - **1.2 The view in the middle.** **agent2 claimed (2026-11-08) — do not touch** Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
+  - **1.2 The view in the middle.** **agent2 done (2026-11-08, this commit)** — Reduce and Echelle each have the
+    frame in an `ImageViewer` above their plots (`_frame_and_plot`). Reduce shows the science frame as soon as it is
+    chosen, as the extraction sees it (dispersion along x), and draws the trace and the aperture (green) and the sky
+    bands (blue) after extracting; the plots below no longer carry an `imshow` subplot. Echelle draws the traced
+    orders (green) and the untraced rows (red ×) on the flat, and a click on the frame removes or adds an order as
+    before. Checked on the real EFOSC2 night (LTT 3864; dispersion along the columns, which the program asks for):
+    scratchpad `s12/tr.png`. Echelle checked on the synthetic flat of `test_echelle.py` only, not on a real échelle
+    night in the window. Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
     and the sky bands drawn on it (PypeIt object_find, IRAF apall) instead of an `imshow` subplot; the other jobs:
     their spectrum / velocity plot.
   - **1.3 Panels.** "Spectrum" (bottom): the extracted spectrum, and for the arc the arc spectrum with its marks;
