@@ -8,22 +8,25 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Planning plot (UF-1 … UF-6)
 
-- **UF-1 — the axes of a scientist, not a poster** — **open**
+- **UF-1 — the axes of a scientist, not a poster** — **done** (2026-11-14: `ui/plan_chart.py`, tests/test_plan_chart.py)
   Major tick every hour on the time axis, minor ticks between (every 10 min, unlabelled), altitude labelled every
   10° with 5° minor ticks, a grid on the major ticks (faint) and on the minor ones (fainter). Text not oversized.
   Check: a test reads the axis locators (60 min / 10 min, 10° / 5°) and that the grid is on.
-- **UF-2 — local time under UTC, not on top** — **open**
+- **UF-2 — local time under UTC, not on top** — **done** (2026-11-14: `ui/plan_chart.py`, tests/test_plan_chart.py)
   The local-time labels as a second row under the UTC labels (or a second axis under it), the top free.
-- **UF-3 — twilight visible** — **open**
+- **UF-3 — twilight visible** — **done** (2026-11-14: `ui/plan_chart.py`, tests/test_plan_chart.py)
   Civil, nautical and astronomical twilight as distinct shades (keep the blue gradient the owner liked), each edge
   a dashed line with its time written; sunset and sunrise marked with their times.
-- **UF-4 — taller plot** — **open**
+- **UF-4 — taller plot** — **done** (2026-11-14: `ui/plan_chart.py`, tests/test_plan_chart.py)
   The plot's height grows with the window; the width was right, the height was squeezed.
-- **UF-5 — at least what the ING "staralt" chart gives** (the owner's screenshot) — **open**
+- **UF-5 — at least what the ING "staralt" chart gives** (the owner's screenshot) — **done** (2026-11-14: LST
+  along the top, the Moon's distance every hour along each curve, airmass on the right, rise and set through the
+  altitude limit in the legend, Moon illumination, the site and date in the title, the twilights' times; the
+  owner's wish: a blend of staralt, airmass.org and our own — anything he misses is a new step)
   LST along the top, the Moon's distance from each target written along its curve every hour, airmass scale on the
   right, each target's rise / set (above the altitude limit) times in the legend, Moon illumination and its own
   curve, the site and date in the title. Better than staralt: our colours, the blue twilight, interactive.
-- **UF-6 — CSV export** — **open (check only)**
+- **UF-6 — CSV export** — **done** (2026-11-14: checked — plain UTF-8 CSV with a `.csv` name and a header row; Krita opening it is the desktop's file association, nothing to change)
   Krita opened the saved CSV (the desktop's file association), LibreOffice read it fine. Check the file is plain
   CSV with a `.csv` name and the text/csv type; nothing to change if so.
 
