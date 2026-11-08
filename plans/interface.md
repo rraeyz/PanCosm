@@ -596,11 +596,11 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6d. The owner's answers of 2026-11-08, as steps (PLAN.md "Order of work" 1, first)
 Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
-- **(1) Remove "Panels beside the image".** **agent2 done (2026-11-08, this commit)** — removed `_Panel`, `dock_page`, `_fill_panels_menu`, the sidebar's right-click "Show beside the image" (it served only this), View → "Panels beside the image" and the "ui.panels" reading; guide 05 line gone in four languages; `test_settings_naming_old_side_panels_still_open`. Original: `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
+- **(1) Remove "Panels beside the image".** **agent2 done (2026-11-08, commit 2790dde)** — removed `_Panel`, `dock_page`, `_fill_panels_menu`, the sidebar's right-click "Show beside the image" (it served only this), View → "Panels beside the image" and the "ui.panels" reading; guide 05 line gone in four languages; `test_settings_naming_old_side_panels_still_open`. Original: `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
   the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
   (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
   test).
-- **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **open** — every "mukayese" in `app_tr.ts` (27
+- **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **agent2 claimed (2026-11-08) — do not touch** — every "mukayese" in `app_tr.ts` (27
   lines) and in the Turkish guide (01, 05, 06, 13) becomes "karşılaştırma"; check star "kontrol yıldızı". Accept:
   `grep -i mukayese` finds nothing in the Turkish texts; 0 unfinished.
 - **(3) Remove the main window's sidebar.** **open** — `MainWindow.nav` and what only it uses (the old page stack
