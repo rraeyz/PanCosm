@@ -41,6 +41,7 @@ from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .photometry_method import add_method_boxes, method_params
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
+from .photometry_summary import frames_lines
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -1836,6 +1837,7 @@ class PhotometryPage(Undoable, QWidget):
             params["extra_xy"] = [list(xy) for xy, _ in self.extras]
         self.result.setText(self.tr("Measuring…"))
         series = self._series()
+        self._measured_frames = len(series)
         params["ref_image"] = series[0]  # the positions belong to this frame; the step carries them to the others
         self.measure_requested.emit(
             series, list(self.target), [list(c) for c in self.comps], self.coord.text().strip(), params
@@ -2417,13 +2419,7 @@ class PhotometryPage(Undoable, QWidget):
             lines += [f"  {name}: {self._lost_text(why)}" for name, why in list(lost.items())[:6]]
             if len(lost) > 6:
                 lines.append("  …")
-        partial = (self.lc_raw or {}).get("partial") or {}
-        if partial:
-            lines.append(
-                self.tr(
-                    "{n} frame(s) without some comparison stars, kept against the others (orange in the frame list)."
-                ).format(n=len(partial))
-            )
+        lines += frames_lines(self, len(f))
         if self.excluded:
             lines.append(
                 self.tr("{n} points deleted by hand (Restore deleted points brings them back).").format(

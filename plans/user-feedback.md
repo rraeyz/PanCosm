@@ -91,7 +91,7 @@ Newest report first. Read this file before choosing the next work: these come be
   "Behind cloud" with no cloud; "field jumped" where the target is in its eclipse minimum. The cloud test must use
   the comparison stars only (never the target), and the jump test the stars' positions, not their fluxes. Test on
   a synthetic eclipse plus the owner's NY Vir night: no flag.
-- **UF-18 — 40 frames, the plot shows about 20 points** — **open**
+- **UF-18 — 40 frames, the plot shows about 20 points** — **partial** (2026-11-14: the summary says "N of the M frames in the list became points; the others are named below"; the cause on the owner's night is still unknown)
   The text says 39 points. Find where the others went (frames left out? two filters in the folder? raw and
   calibrated frames mixed?) on the owner's data; the owner asks whether uncalibrated frames were included. The
   program must say which frames it used and why any was left out.
