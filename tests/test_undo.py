@@ -87,9 +87,10 @@ def test_header_change_on_the_images_page(window, tmp_path):
     page = window.image_page
     page.edit("change a keyword", page.set_keyword, "OBJECT", "M 33", "")
     assert page.header_set == {"OBJECT": ["M 33", ""]}
-    keys(window, UNDO)
+    area = area_in_front(window, "image")  # Images has its own window (interface I4.6)
+    keys(area, UNDO)
     assert page.header_set == {} and not page.header_save.isEnabled()
-    keys(window, REDO)
+    keys(area, REDO)
     assert page.header_set["OBJECT"][0] == "M 33"
 
 

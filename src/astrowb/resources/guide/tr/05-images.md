@@ -1,5 +1,5 @@
 # Görüntüler
-**Görüntüler** sayfası bir FITS görüntüsünü, başlığını ve koordinatlarını gösterir ve görüntü işlemlerini çalıştırır.
+**Görüntüler** sayfası bir FITS görüntüsünü, başlığını ve koordinatlarını gösterir ve görüntü işlemlerini çalıştırır. Görüntüler kendi penceresinde açılır (Başlangıç sayfasındaki bloğu, kenar çubuğu ya da açılan herhangi bir görüntü); Görünüm (yakınlaştırma, düzeyler, germe, katmanlar) ve Görüntü (konum çözme, işleme) menüleri oradadır, imleç okuması (x, y, değer, RA / Dec) durum çubuğundadır.
 
 ## Açmak ve bakmak
 - **Dosya → FITS aç…** (ya da Başlangıç sayfası) `.fits`, `.fit`, `.fts` ve bunların `.gz` hallerini açar. Birden çok görüntü içeren bir dosya (çok uzantılı FITS: mozaik kameralar, HST/JWST ürünleri) hangisinin gösterileceğini sorar; o görüntü orijinalin yanına ayrı bir dosya olarak kaydedilir (`<ad>_<EXTNAME>_<n>.fits`, birincil başlığın anahtarları korunur) ve açılır; böylece her araç — başlık düzenleme, işleme, plaka çözme, fotometri — onun üzerinde çalışır. Orijinal dosya değişmez.
