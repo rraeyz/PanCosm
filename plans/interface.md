@@ -600,10 +600,10 @@ Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is
   the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
   (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
   test).
-- **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **agent2 done (2026-11-08, this commit)** — 28 interface strings and 14 guide lines (01, 05, 06, 13), suffixes in vowel harmony (karşılaştırmanın, -ya, -lar); "Denetim yıldızları" → "Kontrol yıldızları"; no "mukayese" left. Original: — every "mukayese" in `app_tr.ts` (27
+- **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **agent2 done (2026-11-08, commit aa965bf)** — 28 interface strings and 14 guide lines (01, 05, 06, 13), suffixes in vowel harmony (karşılaştırmanın, -ya, -lar); "Denetim yıldızları" → "Kontrol yıldızları"; no "mukayese" left. Original: — every "mukayese" in `app_tr.ts` (27
   lines) and in the Turkish guide (01, 05, 06, 13) becomes "karşılaştırma"; check star "kontrol yıldızı". Accept:
   `grep -i mukayese` finds nothing in the Turkish texts; 0 unfinished.
-- **(3) Remove the main window's sidebar.** **open** — `MainWindow.nav` and what only it uses (the old page stack
+- **(3) Remove the main window's sidebar.** **agent2 claimed (2026-11-08) — do not touch** — `MainWindow.nav` and what only it uses (the old page stack
   for areas that all live in windows now); the area blocks and every window's Window menu stay the ways in. Accept:
   every area opens from its block and from Window; the main window at 1366 × 768 and 800 px shows the blocks
   without a sidebar; old settings still open.
