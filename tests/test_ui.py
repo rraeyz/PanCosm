@@ -242,6 +242,24 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
 
     export_csv(page.light_curve, out)
     assert out.read_text().splitlines()[0].startswith("BJD_TDB,rel_flux")
+    # the measurements table (plans/photometry.md item 6): every frame, AstroImageJ's names, filter, export, click
+    t = page.meas_table
+    heads = [t.horizontalHeaderItem(j).text() for j in range(t.columnCount())]
+    assert t.rowCount() == 30 and {"Label", "BJD_TDB", "Source-Sky_T1", "Sky/Pixel_C2", "rel_flux_T1"} <= set(heads)
+    page.meas_filter.setText("slice <= 5")
+    page._fill_measurements()
+    assert t.rowCount() == 5
+    page.meas_filter.setText("bogus > 1")
+    page._fill_measurements()
+    assert page.meas_note.text().startswith("no column bogus")
+    page.meas_filter.setText("")
+    page._fill_measurements()
+    page._toggle_measurement_column("JD_UTC", False)
+    qtbot.waitUntil(lambda: "JD_UTC" not in page._meas_shown)
+    table = page.export_measurements(tmp_path / "m.csv")
+    assert open(table).readline().startswith("Label,slice,J.D.-2400000,BJD_TDB")
+    page._measurement_row(7, 0)
+    assert page.shown == 7
 
 
 def test_oc_page_fit_and_errors(window):

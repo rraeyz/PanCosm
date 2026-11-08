@@ -720,6 +720,7 @@ whenever any area gains a feature.
 | Radii from the star profiles and the aperture scan | Photometry | Measure | yes | Steps 3 |
 | Radii rule: best S/N or as AstroImageJ (1 % of the peak, sky 2–4×) | Photometry | — | — | Steps 3 (Rule) |
 | Measure the light curve, lost frames shown | Photometry | Measure | yes | Steps 4, Light curve |
+| Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
 | O−C diagram, ephemeris look-up (VSX), third body, apsidal motion | O−C (its own window) | File → Open… (minima) | — | — |
