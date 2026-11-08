@@ -1,5 +1,5 @@
 # Tayf
-**Tayf** sayfası tayfları indirger ve dikine hızları ölçer. Sekmeleri işin sırasını izler: **İndirgeme** (uzun yarık ve yarıksız), **Eşel**, **Tellürik**, **Radyal hız ve yörünge** ve **IFU küpü**.
+**Tayf** sayfası tayfları indirger ve dikine hızları ölçer. Sekmeleri işin sırasını izler: **İndirgeme** (uzun yarık ve yarıksız), **Eşel**, **Tellürik**, **Radyal hız ve yörünge** ve **IFU küpü**. Tayf kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da kenar çubuğu); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır, uzun işler (çıkarma, dalga boyu uydurma, hızlar) ilerlemelerini durum çubuğunda gösterir.
 
 ## IRAF biliyorsanız
 Her sekmenin en üstünde **İş akışı** satırı vardır (açmak için tıklayın): IRAF'tan bildiğiniz sırayla adımlar, her biri bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sırada ne yapılacağı. Hiçbir şey kilitli değildir: verinizin bulunduğu yerden başlayın. IRAF görevlerinin buradaki karşılıkları:
