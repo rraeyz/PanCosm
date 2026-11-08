@@ -463,7 +463,7 @@ I4 has moved every page (see "To ask the owner").
 - Accept: (1) a test that a photometry step started from the window shows its progress there; (2) in I5.
 
 ### I4c. Spectroscopy window: the "In what order?" box (found 2026-11-08, agent2)
-**open** — on the Spectroscopy window at 960 × 700 (es) the "In what order? (click)" box above the tabs is open in
+**agent2 done (2026-11-08, commit f4191c1)** — folded in every mode in the Spectroscopy window; its text is in the job buttons' tooltips (`plans/spectroscopy.md` 1.1 / 1.4); whether it goes is for the owner. Finding: on the Spectroscopy window at 960 × 700 (es) the "In what order? (click)" box above the tabs is open in
 Basic mode and takes a quarter of the height, while each tab already has its own Workflow line saying the same.
 Decide when the Spectroscopy window gets its full layout (I6, `plans/spectroscopy.md`): fold it by default, or move
 its text into the window's Help / the steps panel. Nothing is removed before that decision.
@@ -628,6 +628,7 @@ whenever any area gains a feature.
 | Save / Open session | (frame ready, no area wired yet) | File | — | — |
 | Report a problem (zip for the developer) | main window, every area window | Help | — | — |
 | Combine several exposures of one star (scombine) | Spectroscopy | — | — | Spectrum tools tab |
+| Spectroscopy jobs (long slit, échelle, telluric, velocities, IFU, tools) | Spectroscopy | Job | yes | Steps |
 | Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
 | Panels on / off, Reset layout | every area window | View | — | panels |
 | Open an area, list of open windows | main window, every area window | Window | — | Start page blocks |
