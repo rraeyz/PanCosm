@@ -29,6 +29,7 @@ from .area_window import _raise as _raise_window
 from .files import images_filter
 from .i18n import LANGUAGES
 from .messages import task_error, translate
+from .widgets import bar_menu
 from .workspaces import (
     CalibratePage,
     ImagePage,
@@ -293,18 +294,14 @@ class MainWindow(QMainWindow):
             bar.insertMenu(empty, menu)
             bar.removeAction(empty)
         view.removeAction(self.blink_action)
-        # the Edit menu as the menu bar holds it now: the stored wrapper was found deleted in the ARM Linux build
-        # (smoke test, 2026-11-08), which a fresh look-up avoids; a missing menu must not stop the program
-        edit = next((a.menu() for a in win.menuBar().actions() if a.menu() and win.find_action in a.menu().actions()),
-                    None)  # fmt: skip
+        edit = win.edit_menu
         copy_header = QAction(self.tr("Copy the header"), win)
         copy_header.triggered.connect(
             lambda _=False: QApplication.clipboard().setText(page.header.tostring(sep="\n") if page.header else "")
         )
-        if edit is not None:
-            for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
-                edit.insertAction(win.find_action, act)
-            edit.insertSeparator(win.find_action)
+        for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
+            edit.insertAction(win.find_action, act)
+        edit.insertSeparator(win.find_action)
         file_menu = win.file_menu
         acts = file_menu.actions()
         after_save, close = acts[acts.index(self.save_action) + 1], acts[-1]
@@ -1557,7 +1554,7 @@ class MainWindow(QMainWindow):
             act.setIcon(icon(kind, self))
 
     def _build_menus(self):
-        m = self.menuBar().addMenu(self.tr("&File"))
+        m = bar_menu(self.menuBar(), self.tr("&File"))
         self._action(m, self.tr("&New project…"), self.new_project_dialog, QKeySequence.New)
         self._action(m, self.tr("Open &project…"), self.open_project_dialog)
         m.addSeparator()
@@ -1573,7 +1570,7 @@ class MainWindow(QMainWindow):
         m.addSeparator()
         self._action(m, self.tr("&Quit"), self.close, QKeySequence.Quit)
 
-        e = self.menuBar().addMenu(self.tr("&Edit"))
+        e = bar_menu(self.menuBar(), self.tr("&Edit"))
         self.undo_group = QUndoGroup(self)
         self.undo_action = self.undo_group.createUndoAction(self, self.tr("&Undo"))
         self.undo_action.setShortcuts([QKeySequence(QKeySequence.Undo)])
@@ -1588,7 +1585,7 @@ class MainWindow(QMainWindow):
             act.setToolTip(tip)
             e.addAction(act)
 
-        v = self.view_menu = self.menuBar().addMenu(self.tr("&View"))
+        v = self.view_menu = bar_menu(self.menuBar(), self.tr("&View"))
         self.fit_action = self._action(v, self.tr("Zoom to &fit"), self.viewer.fit, "F")
         self.zoom_in_action = self._action(v, self.tr("Zoom &in"), lambda: self.viewer.zoom(1.25), QKeySequence.ZoomIn)
         zoom_out = QKeySequence.ZoomOut
@@ -1625,7 +1622,7 @@ class MainWindow(QMainWindow):
                 act.setChecked(key == getattr(self.viewer, kw))
                 group.addAction(act)
 
-        im = self.image_bar_menu = self.menuBar().addMenu(self.tr("&Image"))
+        im = self.image_bar_menu = bar_menu(self.menuBar(), self.tr("&Image"))
         self.solve_action = self._action(im, self.tr("&Plate solve (ASTAP / astrometry.net)"), self.plate_solve)
         self.solve_action.setEnabled(False)
         self.colour_action = self._action(im, self.tr("&Colour image from three filters…"), self.colour_dialog)
@@ -1663,10 +1660,10 @@ class MainWindow(QMainWindow):
         for text, op in ops:
             self._action(self.process_menu, text, lambda _=False, o=op: self.process_dialog(o))
 
-        self.plugins_menu = self.menuBar().addMenu(self.tr("&Plugins"))
+        self.plugins_menu = bar_menu(self.menuBar(), self.tr("&Plugins"))
         self.plugins_menu.aboutToShow.connect(self._fill_plugins_menu)
 
-        s = self.settings_menu = self.menuBar().addMenu(self.tr("&Settings"))
+        s = self.settings_menu = bar_menu(self.menuBar(), self.tr("&Settings"))
         self.expert_action = QAction(self.tr("&Expert mode (every option open)"), self)
         self.expert_action.setCheckable(True)
         self.expert_action.setChecked(self.ui_mode() == "expert")
@@ -1705,9 +1702,9 @@ class MainWindow(QMainWindow):
         )
         for text, step, key in sizes:
             self._action(text_menu, text, lambda s=step: self._change_font(s), key)
-        self.window_menu = self.menuBar().addMenu(self.tr("&Window"))
+        self.window_menu = bar_menu(self.menuBar(), self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
-        h = self.menuBar().addMenu(self.tr("&Help"))
+        h = bar_menu(self.menuBar(), self.tr("&Help"))
         self._action(h, self.tr("Report a problem…"), self.report_problem)
         self._action(h, self.tr("Training &guide"), lambda: self.show_workspace("guide"), QKeySequence.HelpContents)
         self.tour_action = self._action(h, self.tr("Quick &tour"), self.start_tour)

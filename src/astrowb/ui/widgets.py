@@ -19,6 +19,18 @@ def _title(text, parent):
     return label
 
 
+def bar_menu(bar, title):
+    """bar.addMenu(title) with the menu made here, parented to the bar: with PySide6 6.8 (the newest that installs on
+    the ARM Linux build machine, glibc 2.35) a menu bar's menu made from a title was deleted once QAction.menu() had
+    been called on its action and Python collected garbage — the Images window then stopped at start-up ("QMenu
+    already deleted"). Submenus (QMenu.addMenu) are not affected."""
+    from PySide6.QtWidgets import QMenu
+
+    menu = QMenu(title, bar)
+    bar.addMenu(menu)
+    return menu
+
+
 def glyph(text, color, size=40):
     """A toolbar icon drawn from a symbol of the user interface font, in the text colour of the theme."""
     from PySide6.QtGui import QPainter, QPixmap
