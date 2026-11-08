@@ -577,7 +577,13 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
   the middle of the steps column with empty space below.
 - (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
-- **(8) Dropping files on a window does nothing** **agent2 claimed (2026-11-08) — do not touch** (found 2026-11-08 by agent2 during (6)). I2.3 built open / recent
+- **(8) Dropping files on a window does nothing** **agent2 done (2026-11-08, this commit)** — `MainWindow._opener`
+  gives Images (`open_many`), Calibration (the lights folder), Light curves (`PeriodPage._load(path)`),
+  Spectroscopy (the science frame) and Remote sensing their handler, Photometry `set_images`; so each has File →
+  Open… (Ctrl+O), Open recent and drop. The Images window no longer also gets the main window's Open FITS…: one
+  Ctrl+O. The empty-view hints say "or drop … here"; guide 05 in four languages. Test
+  `test_files_dropped_on_an_area_window_open_there`. Planning, Observing, Models, Automation open no file yet;
+  sessions (Save / Open session) are still wired to no area. (found 2026-11-08 by agent2 during (6)). I2.3 built open / recent
   / drop / sessions into `AreaWindow`, but `MainWindow` gives no window an `open_files` handler, so drops are
   refused and the File menu has no Open… or Open recent (only the test uses them). Wire each area: Images →
   `open_many` (its File menu already has Open FITS… on Ctrl+O from the main window: one Open, not two), Photometry
@@ -610,7 +616,8 @@ whenever any area gains a feature.
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
 | O−C diagram, ephemeris look-up (VSX) | O−C | — | — | — |
 | Command search (find any action of the window) | every area window | Edit → Find an action… (Ctrl+K) | — | — |
-| Open, recent files, drop files, Save / Open session | every area window | File | — | — |
+| Open, recent files, drop files | Images, Photometry, Calibration, Light curves, Spectroscopy, Remote sensing | File | — | — |
+| Save / Open session | (frame ready, no area wired yet) | File | — | — |
 | Report a problem (zip for the developer) | main window, every area window | Help | — | — |
 | Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
 | Panels on / off, Reset layout | every area window | View | — | panels |

@@ -1290,3 +1290,44 @@ def test_settings_saved_by_0_2_7_still_open(qtbot, tmp_path):
     assert not win._panels and win.current_workspace() == "start" and win.ui_mode() == "expert"
     assert theme.colors(settings.get("ui.theme")) == theme.colors("dark")  # a theme that is gone falls back
     win.engine.shutdown()
+
+
+def test_files_dropped_on_an_area_window_open_there(window, tmp_path):
+    """interface I6b (8): each window that works on files takes them from File → Open…, Open recent and a drop;
+    one Ctrl+O per window (the Images window had the main window's Open FITS… too)."""
+    import numpy as np
+    from astropy.io import fits
+    from PySide6.QtCore import QMimeData, QPoint, QUrl
+    from PySide6.QtGui import QDropEvent, QKeySequence
+
+    frames = tmp_path / "night"
+    frames.mkdir()
+    images = []
+    for i in range(3):
+        images.append(frames / f"f{i}.fits")
+        fits.PrimaryHDU(np.random.default_rng(i).normal(100, 5, (40, 50)).astype(np.float32)).writeto(images[-1])
+    csv = tmp_path / "lc.csv"
+    csv.write_text("".join(f"{2460000 + 0.01 * i},{1 + 0.01 * np.sin(i)}\n" for i in range(50)))
+
+    def drop(key, paths):
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        assert win.acceptDrops(), key
+        opens = [a for a in win.file_menu.actions() if a.shortcut() == QKeySequence(QKeySequence.Open)]
+        assert len(opens) == 1, key
+        data = QMimeData()
+        data.setUrls([QUrl.fromLocalFile(str(p)) for p in paths])
+        win.dropEvent(QDropEvent(QPoint(5, 5), Qt.CopyAction, data, Qt.LeftButton, Qt.NoModifier))
+        return win
+
+    drop("image", images[:1])
+    assert window.current_path == images[0] and window.viewer.data is not None
+    drop("photometry", images)
+    assert len(window.photometry_page.images) == 3
+    drop("calibrate", images[:1])
+    assert window.calibrate_page.lights.text() == str(frames)
+    drop("timeseries", [csv])
+    assert len(window.period_page.time) == 50
+    drop("spectroscopy", images[:1])
+    assert window.spectro_page.reduce_tab.science.edit.text() == str(images[0])
+    assert drop("remotesensing", images[:1]).recent()[0] == str(images[0])

@@ -282,9 +282,10 @@ class MainWindow(QMainWindow):
         self.view_menu.addSeparator()
         for act in win.view_menu.actions():
             self.view_menu.addAction(act)
-        first = win.file_menu.actions()[0]
-        win.file_menu.insertActions(first, [self.open_action, self.save_action])
-        win.file_menu.insertSeparator(first)
+        # the window's own Open… (Ctrl+O, also on drop) opens images: the main window's Open FITS… is not added twice
+        acts = win.file_menu.actions()
+        after_recent = acts[acts.index(win.recent_menu.menuAction()) + 1]
+        win.file_menu.insertAction(after_recent, self.save_action)
         self.panels_menu.menuAction().setVisible(False)  # every area has its own window now: no panels beside it
         from PySide6.QtWidgets import QLabel
 
@@ -309,10 +310,41 @@ class MainWindow(QMainWindow):
         self._frames[page] = frame
         _Columns(frame, page)
         title = next(name for k, _, name, _ in areas() if k == key)
-        win = AreaWindow(key, title, self.settings, frame, undo_stack=_undo_source(page), parent=self)
+        handler, file_filter = self._opener(key, page)
+        win = AreaWindow(
+            key, title, self.settings, frame, undo_stack=_undo_source(page), open_files=handler,
+            file_filter=file_filter, parent=self,
+        )  # fmt: skip
         win.setWindowIcon(self.windowIcon())
         win.help_requested.connect(self._help_for)
         self.area_windows[key] = win
+
+    def _opener(self, key, page):
+        """What a window does with files opened from its File menu or dropped on it (interface I6b (8)):
+        (handler([paths]), file filter), or (None, "") for an area that opens no file."""
+
+        def folder(paths):
+            first = Path(paths[0])
+            return str(first if first.is_dir() else first.parent)
+
+        def calibrate(paths):
+            page.lights.setText(folder(paths))  # the night's frames: their folder is what Calibration reads
+
+        def light_curve(paths):
+            page.setCurrentWidget(page.period_page)
+            page.period_page._load(paths[0])
+
+        def spectrum(paths):
+            page.tabs.setCurrentWidget(page.reduce_tab)
+            page.reduce_tab.science.edit.setText(paths[0])
+
+        return {
+            "image": (self.open_many, images_filter()),
+            "calibrate": (calibrate, images_filter()),
+            "timeseries": (light_curve, "CSV (*.csv *.txt *.dat);;*"),
+            "spectroscopy": (spectrum, images_filter()),
+            "remotesensing": (lambda paths: page.open(";".join(paths)), ""),
+        }.get(key, (None, ""))
 
     def _photometry_window(self, page):
         """Photometry in its full window (plans/interface.md I5): the image in the middle, the numbered steps in a
@@ -357,7 +389,7 @@ class MainWindow(QMainWindow):
             panels=[("results", self.tr("Results: light curve, stars, minimum, export"), parts["results"],
                      Qt.BottomDockWidgetArea)],
             menus=[(self.tr("&Measure"), measure)], toolbar=actions,
-            undo_stack=_undo_source(page), parent=self,
+            undo_stack=_undo_source(page), open_files=page.set_images, file_filter=images_filter(), parent=self,
         )  # fmt: skip
         win.toolbar.setToolButtonStyle(Qt.ToolButtonTextOnly)
         page.setParent(win)  # the page keeps the state and the logic, unseen

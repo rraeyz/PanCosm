@@ -50,7 +50,7 @@ class ImagePage(Undoable, QWidget):
         self.header, self.wcs, self.graph, self._graph_data, self._area = None, None, None, None, None
         self.header_set, self.header_delete = {}, []
         self.viewer = ImageViewer(self)
-        self.viewer.empty_hint = self.tr("No image yet: File → Open FITS…")
+        self.viewer.empty_hint = self.tr("No image yet: File → Open…, or drop image files here")
         left = QWidget(self)
         ll = QVBoxLayout(left)
         ll.setContentsMargins(0, 0, 0, 0)
