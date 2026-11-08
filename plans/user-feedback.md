@@ -50,10 +50,11 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-10 — Photometry, Measure stage: "Other measurement options" overflows to the right, even full screen** —
   **done** (2026-11-13: `ui/kit/fit.py` on every stage panel — narrow choices, long check-box texts wrapping
   beside their box, too-wide rows flowing onto the next line; the Measure stage needed 586–698 px in 474)
-- **UF-11 — Photometry, stage 5: squeezed with a scroll bar while there is free space below** — **partial**
-  (2026-11-14: the left dock now takes the window's bottom-left corner, so the stage panels run down beside the
-  results instead of ending at the results' top; check the owner's screen. The Plan chart's UTC labels are small
-  and the local ones larger, as staralt draws them)
+- **UF-11 — Photometry, stage 5: squeezed with a scroll bar while there is free space below** — **done**
+  (2026-11-14: reproduced at 1366 × 768 — the stage's page scrolls itself and sat above the panel's stretch with
+  its hint's height (384 of 582 px); `StagePanel.add` gives such a page the whole height; test_kit fails before the
+  fix and passes after; the Light curve stage now shows every row without a scroll bar. Earlier: the left dock takes
+  the window's bottom-left corner)
   Stage panels take the height the dock offers; no fixed heights.
 
 ### Calibration (UF-12)

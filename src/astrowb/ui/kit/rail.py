@@ -131,8 +131,12 @@ class StagePanel(QWidget):
         self.primary = None
 
     def add(self, widget):
-        """Add a widget to the scrolling content (above the stretch)."""
-        self.body.insertWidget(self.body.count() - 1, widget)
+        """Add a widget to the scrolling content (above the stretch). A page that scrolls itself takes the whole
+        height: above the stretch it kept its hint's height and scrolled with free room below (user-feedback UF-11)."""
+        grows = isinstance(widget, QScrollArea)
+        self.body.insertWidget(self.body.count() - 1, widget, 1 if grows else 0)
+        if grows:
+            self.body.setStretch(self.body.count() - 1, 0)
 
     def set_title(self, title):
         self.title.setText(f"<b>{title}</b>")
