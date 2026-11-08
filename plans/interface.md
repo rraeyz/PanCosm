@@ -159,6 +159,10 @@ Main window                                      Area window (e.g. Photometry)
     too narrow for a measurements table, a multi-plot and the detrending (`plans/photometry.md` items 6–9).
 
 ## To ask the owner
+- **"Panels beside the image" (2026-11-08, agent2):** before the area windows, any page could be shown as a panel
+  beside the image in the main window. Now every area, Images included, is its own window, so the feature has
+  nothing left to show: it is switched off and its menu hidden, but the code (`MainWindow.dock_page`, `_Panel`) is
+  still there. Remove it?
 - **Turkish term for comparison star (2026-11-08, agent2):** the interface and the guide use both "mukayese yıldızı"
   (17 strings) and "karşılaştırma yıldızı" (18 strings), sometimes on the same screen (Photometry step 2). Which
   one? Then every string and the guide are made the same.
@@ -420,7 +424,7 @@ I4 has moved every page (see "To ask the owner").
   - the main window fits 800 px.
 
 ### I4. Move each page into its area window, unchanged
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, commits 8ce39a3 … 0ae8ae0)**
 - **Build:** one area at a time, in this order; each is its own commit:
   1. Photometry — **agent2 done (2026-11-08, commit 8ce39a3)**: `MainWindow.WINDOWED`, `_place_in_window`, `_help_for`;
      tests `test_photometry_lives_in_a_window_of_its_own`, `test_undo` adjusted to the area window;
@@ -431,13 +435,14 @@ I4 has moved every page (see "To ask the owner").
   5. Models — **agent2 done (2026-11-08, commit bf0546b)**;
   6. Images — **moved to the end (agent2, 2026-11-08, rule 12):** the main window's View (zoom, levels,
      stretch), Image / Process and overlay menus, the header table and "Panels beside the image" all work on the
-     Images page's viewer; moving it means moving those menus into its window too. Done after 7–10;
+     Images page's viewer; moving it means moving those menus into its window too. Done after 7–10 — **agent2 done (2026-11-08, commit 0ae8ae0)**;
   7. Planning;
   8. Observing;
   9. Automation;
   10. Remote sensing — 7–10 **agent2 done (2026-11-08, this commit)**, one commit for the four (each only adds its
       key to `MainWindow.WINDOWED` and its steps' area);
-  11. Project / Guide (these may stay in the main window).
+  11. Project / Guide (these may stay in the main window) — **kept in the main window** (agent2, 2026-11-08): they
+      are the main window's own pages (the project and the guide serve every area).
 - Each page goes into its window as it is now. Its menus are moved from the main menu bar into the area's own
   menus: Image / Process goes to the Images window; the overlays go to the windows that show images.
 - **Accept:**
@@ -473,7 +478,7 @@ its text into the window's Help / the steps panel. Nothing is removed before tha
 - Accept: screenshots in four languages show no English text in Automation and no cut column header in Observing.
 
 ### I4b. "page" → "window" in every text, once all areas are in windows
-**open** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
+**agent2 claimed (2026-11-08) — do not touch** — found 2026-11-08 (agent2) on the Calibration window screenshot: its button still says "4. Measure them on
 the Photometry page →", and 25 interface strings (plus the guide in four languages) call the moved areas
 "pages" ("the Calibrate page", "the Photometry page"…). After I4 has moved every area, change them all at once to
 "window" (en, tr, de, es; guide sections; the hints of the Workflow lines), keeping each button's name in the hints
