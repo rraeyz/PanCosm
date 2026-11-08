@@ -3468,11 +3468,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Claro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1061"/>
-        <source>Night (red, for the telescope)</source>
-        <translation>Noche (rojo, para el telescopio)</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="1068"/>
         <source>&amp;Processing device</source>
         <translation>&amp;Unidad de cálculo</translation>

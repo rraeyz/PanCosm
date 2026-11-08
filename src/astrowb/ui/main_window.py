@@ -1058,7 +1058,7 @@ class MainWindow(QMainWindow):
             group.addAction(act)
 
         theme_menu, group = s.addMenu(self.tr("&Look")), QActionGroup(self)
-        looks = {"dark": self.tr("Dark"), "light": self.tr("Light"), "night": self.tr("Night (red, for the telescope)")}
+        looks = {"dark": self.tr("Dark"), "light": self.tr("Light")}
         for code, label in looks.items():
             act = self._action(theme_menu, label, lambda _=False, c=code: self.set_theme(c))
             act.setCheckable(True)

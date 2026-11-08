@@ -3468,11 +3468,6 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Hell</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="1061"/>
-        <source>Night (red, for the telescope)</source>
-        <translation>Nacht (rot, für das Teleskop)</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="1068"/>
         <source>&amp;Processing device</source>
         <translation>&amp;Recheneinheit</translation>
