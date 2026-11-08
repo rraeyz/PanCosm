@@ -443,7 +443,8 @@ I4 has moved every page (see "To ask the owner").
   - projects, settings and sessions saved by the previous version open (a test with files saved by v0.2.7).
 
 ### I4a. Findings of the first Photometry window screenshot (2026-11-08, agent2)
-**agent2 claimed (2026-11-08) — do not touch** (done between I4.1 and I4.2)
+**agent2 done (2026-11-08, commit 16cf333)** for (1): `run_step(area=…)`; each later area passes its own key when it moves
+(I4.2 …). (2) stays for I5.
 - (1) The tasks a page starts (field identification, quality, measuring) are not shown in its area window's status
   bar: the window says "Ready" while "Identifying the field (Gaia, VSX)…" runs. Route them: the main window's
   methods that run a step for an area (`measure_light_curve`, the photometry quality / suggest / field steps, …)
