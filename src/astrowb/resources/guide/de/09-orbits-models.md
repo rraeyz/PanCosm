@@ -1,5 +1,5 @@
 # Bahnen und Modelle
-Die Seite **Bahnen & Modelle** passt ein physikalisches Modell an die Lichtkurve eines getrennten Bedeckungsveränderlichen oder eines Transitplaneten an und kombiniert es mit einer spektroskopischen Bahn zu absoluten Dimensionen.
+Die Seite **Bahnen & Modelle** passt ein physikalisches Modell an die Lichtkurve eines getrennten Bedeckungsveränderlichen oder eines Transitplaneten an und kombiniert es mit einer spektroskopischen Bahn zu absoluten Dimensionen. Modelle öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder die Seitenleiste) mit eigenem Bearbeiten → Rückgängig / Wiederholen für Parameter und Anpassungen.
 
 ## Das Modell
 Zwei randverdunkelte Kugeln auf einer Keplerbahn. Es eignet sich für getrennte Doppelsterne und Transits. Enge, verformte oder Kontaktsysteme brauchen ein Roche-Modell: Exportieren Sie dann nach PHOEBE oder WD.

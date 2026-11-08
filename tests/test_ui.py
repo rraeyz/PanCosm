@@ -987,13 +987,13 @@ def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
     acts = {a.text(): a for a in window.panels_menu.actions()}
     assert acts[window._nav_items()["remotesensing"].text()].isChecked()
     assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
-    acts[window._nav_items()["orbits"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"remotesensing", "orbits"}
-    assert window.settings.get("ui.panels") == ["remotesensing", "orbits"]
-    window.settings.set("ui.panels", ["remotesensing", "orbits", "photometry"])  # saved by an older version
+    acts[window._nav_items()["automation"].text()].trigger()  # a second panel, tabbed with the first
+    assert set(window._panels) == {"remotesensing", "automation"}
+    assert window.settings.get("ui.panels") == ["remotesensing", "automation"]
+    window.settings.set("ui.panels", ["remotesensing", "automation", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"remotesensing", "orbits"}
+    assert set(again._panels) == {"remotesensing", "automation"}
     again.engine.shutdown()
     dock.close()
     assert "remotesensing" not in window._panels and window.pages.indexOf(window._frames[window.rs_page]) >= 0
