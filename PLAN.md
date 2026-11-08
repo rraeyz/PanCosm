@@ -100,6 +100,24 @@ The owner speaks Turkish: answer in Turkish. Write code, comments, commits and t
 4. If the area has no plan file yet, create one from the template at the end of this file before writing any code,
    and add it to the table.
 
+## Order of work (owner, 2026-11-08)
+
+Work in this order, one area after another. Never move to the next area while the current one has open steps,
+unless the owner says so.
+1. **Interface**, `plans/interface.md`:
+   - the owner's answers (side panels and sidebar removed, Turkish terms, O−C in its own window);
+   - I7 (guide and screenshots).
+   - The I6 windows of the other areas are **not** part of this: each is done as the first step of its area, below.
+2. **Photometry**, `plans/photometry.md`, every item from 1 on in its order.
+3. **Then the other areas one by one**, in the order the owner names. Until then: Calibration, O−C, Period,
+   Spectroscopy, Models, then the rest. Each area starts with:
+   - a full research pass on its science and the reference programs' source (as was done for photometry), written
+     into its plan file as steps;
+   - its window (interface I6 for that area).
+- **Note (2026-11-08):** agent2 went from the interface to spectroscopy, because `plans/interface.md` I6 named
+  spectroscopy as its example and no order was written here. That was the plan's fault, not the agent's. agent2
+  finishes the sub-step it has claimed (spectroscopy 1.2), marks it done, and then continues with 1 above.
+
 ## What the program is meant to become
 
 - **One program for an observer's whole road:** plan the night, observe, calibrate, measure, analyse, publish. That
