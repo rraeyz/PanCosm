@@ -313,3 +313,32 @@ def test_the_aperture_is_chosen_by_the_steadiest_light_curve(tmp_path):
     scatter = dict(zip(scan["radii"], scan["scatter"], strict=True))
     assert scatter[3.5] > 3 * scatter[3.5 * 3.0]  # 1 FWHM follows the seeing, 3 FWHM does not
     assert scan["best"] >= 2.0 * 3.5 and scan["r_in"] >= scan["radii"][-1] + 2.0
+
+
+def test_grouped_median_of_integer_data():
+    """plans/photometry.md item 1: integer ADU (raw 8-16 bit frames) gave a sky median rounded to a whole number;
+    the median is now taken inside its unit bin, as for grouped data, and float data keep the plain median."""
+    from astrowb.photometry.aperture import _grouped_median
+
+    rng = np.random.default_rng(3)
+    true = 354.3
+    vals = np.round(rng.normal(true, 10, 200_000))
+    assert abs(np.median(vals) - true) > 0.25  # the plain median is a whole number
+    assert abs(_grouped_median(vals) - true) < 0.05
+    floats = rng.normal(true, 10, 1001)
+    assert _grouped_median(floats) == np.median(floats)
+
+
+def test_astroimagej_radii():
+    """plans/photometry.md item 1: AstroImageJ's rule, so a night can be measured with the same apertures in both
+    programs: the aperture to 1 % of the peak (a Gaussian: 3.03 sigma = 1.29 FWHM, rounded up to a whole pixel), the
+    sky ring from 2 to 4 times it; 1.7 / 3.4 / 6.8 FWHM when the profile never gets that low."""
+    from astrowb.photometry.aperture import aij_radii
+
+    fwhm = 4.0
+    a = choose_apertures(field(fwhm, stars=[(100.0, 100.0, 1e6)]), [(100.0, 100.0)], rule="aij")
+    assert a["r_ap"] == np.ceil(1.29 * fwhm) or a["r_ap"] == np.ceil(1.29 * fwhm) + 1  # 0.5 px profile bins
+    assert (a["r_in"], a["r_out"]) == (2 * a["r_ap"], 4 * a["r_ap"])
+    centres = np.arange(0.25, 20, 0.5)
+    flat = np.exp(-centres / 30.0)  # never falls to 1 % inside the profile
+    assert aij_radii(centres, flat, 5.0) == (8.0, 17.0, 34.0)

@@ -52,6 +52,8 @@ Jeder Stern bekommt drei Ringe, die auf dem Bild gezeichnet werden: die **Blende
 
 Das Diagramm zeigt das Sternprofil mit Blende (grün), ausgelassener Lücke und Himmelsring (blau); die Zeile darunter nennt die Zahlen. Sie können die Radien weiterhin von Hand ändern.
 
+**Regel: wie AstroImageJ** wählt die Radien wie AstroImageJs Seeing-Profil: die Blende endet, wo das Profil auf 1 % seines Maximums fällt (auf ganze Pixel aufgerundet), der Himmelsring reicht vom Doppelten bis zum Vierfachen davon, oder 1,7, 3,4 und 6,8 FWHM, wenn das Profil nie so tief fällt. Diese Blenden sind viel größer als die mit dem besten Signal-Rausch-Verhältnis; mit dieser Regel lässt sich eine Nacht in beiden Programmen mit denselben Radien messen und vergleichen. Mit denselben Zentren, Radien und demselben Himmel wie IRAFs `phot` gemessen, stimmen die Flüsse im Median auf 0,02 % überein (zwei öffentliche Nächte; `tests/validation`).
+
 - **Radien folgen dem Seeing:** Auf jedem Bild werden alle drei Radien mit der FWHM dieses Bildes geteilt durch die des ersten Bildes skaliert (eine „variable Blende“ in AstroImageJ). Die Blende enthält dann immer denselben Teil des Lichts, was in Nächten mit stark wechselndem Seeing oder driftendem Fokus hilft.
 - Bei defokussierten Sternen (Ringe oder flache Scheiben) das Profil prüfen: Die FWHM misst dann die Scheibe, und die Radien folgen ihr.
 - Die Sterne werden auf jeder Aufnahme neu zentriert, und die Drift des Feldes während der Nacht wird von Aufnahme zu Aufnahme verfolgt.

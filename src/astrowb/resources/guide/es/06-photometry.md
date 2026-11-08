@@ -52,6 +52,8 @@ Cada estrella recibe tres anillos dibujados sobre la imagen: la **apertura** (l�
 
 El gráfico muestra el perfil de la estrella con la apertura (verde), el hueco que se deja fuera y el anillo de cielo (azul); la línea de debajo da los números. Puede seguir cambiando los radios a mano.
 
+**Regla: como AstroImageJ** elige los radios como lo hace el perfil de seeing de AstroImageJ: la apertura termina donde el perfil cae al 1 % de su pico (redondeado hacia arriba a un píxel entero) y el anillo de cielo va del doble al cuádruple de eso, o 1,7, 3,4 y 6,8 FWHM cuando el perfil nunca baja tanto. Estas aperturas son mucho mayores que las de mejor señal-ruido; use la regla para medir una noche con los mismos radios en ambos programas y compararlos. Medidos con los mismos centros, radios y cielo que `phot` de IRAF, los flujos coinciden en la mediana dentro del 0,02 % (dos noches públicas; `tests/validation`).
+
 - **Los radios siguen al seeing:** en cada toma los tres radios se escalan con la FWHM de esa toma dividida por la de la primera (una «apertura variable» en AstroImageJ). Así la apertura contiene siempre la misma parte de la luz, lo que ayuda en noches en que el seeing cambia mucho o el enfoque deriva.
 - Con estrellas desenfocadas (anillos o discos planos) revise el perfil: la FWHM mide entonces el disco y los radios lo siguen.
 - Las estrellas se recentran en cada toma, y la deriva del campo durante la noche se sigue de toma en toma.

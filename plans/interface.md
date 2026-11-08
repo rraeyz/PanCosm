@@ -718,6 +718,7 @@ whenever any area gains a feature.
 | Choose images, frame list, bad frames | Photometry | File | yes | Steps 1, Frames tab |
 | Mark target / comparison / check stars, suggestions from Gaia | Photometry | Measure | yes | Steps 2, Stars |
 | Radii from the star profiles and the aperture scan | Photometry | Measure | yes | Steps 3 |
+| Radii rule: best S/N or as AstroImageJ (1 % of the peak, sky 2–4×) | Photometry | — | — | Steps 3 (Rule) |
 | Measure the light curve, lost frames shown | Photometry | Measure | yes | Steps 4, Light curve |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

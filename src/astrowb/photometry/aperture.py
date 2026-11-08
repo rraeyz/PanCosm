@@ -244,6 +244,32 @@ def _wide_centroid(img, x, y, box, frame_sky, max_box=301):
     return x, y
 
 
+def _grouped_median(values):
+    """Median of integer-valued samples (raw ADU of 8 to 16-bit cameras) without the rounding to a whole number: the
+    median taken inside its unit bin as for grouped data (median = L + (n/2 - below) / in_bin). The plain median of
+    integers is off by up to 0.5 ADU, which over a 50-pixel aperture moved faint stars by up to 1 % against IRAF
+    phot (HAT-P-32 sample night, plans/photometry.md item 1). Non-integer data keep the plain median."""
+    v = np.asarray(values, float)
+    v = v[np.isfinite(v)]
+    if v.size == 0:
+        return np.nan
+    med = float(np.median(v))
+    if med != round(med) or not np.all(v == np.round(v)):
+        return med
+    below, inside = np.count_nonzero(v < med - 0.5), np.count_nonzero(v == med)
+    return med - 0.5 + (v.size / 2 - below) / inside
+
+
+def _sky_medians(data, an, sky):
+    """sky.median, corrected for integer-valued data (_grouped_median) on the same clipped ring pixels."""
+    med = np.atleast_1d(np.asarray(sky.median, float)).copy()
+    for i, mask in enumerate(an.to_mask(method="center") if np.ndim(an.positions) > 1 else [an.to_mask("center")]):
+        vals = mask.get_values(data)
+        if vals.size and np.all(vals == np.round(vals)):
+            med[i] = _grouped_median(_CLIP(vals, masked=True).compressed())
+    return med if np.ndim(sky.median) else med[0]
+
+
 def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
     sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus."""
@@ -254,10 +280,11 @@ def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
     raw = aperture_photometry(data, ap)
     n_ap = ap.area_overlap(data)
     n_sky = np.asarray(sky.sum_aper_area.value)
-    flux = np.asarray(raw["aperture_sum"]) - n_ap * np.asarray(sky.median)
+    median = _sky_medians(data, an, sky)
+    flux = np.asarray(raw["aperture_sum"]) - n_ap * median
     noise = np.asarray(sky.std) if pixel_noise is None else float(pixel_noise)
     var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2
-    return flux, np.sqrt(var), np.asarray(sky.median)
+    return flux, np.sqrt(var), median
 
 
 def measure_cube(cube, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None):
@@ -402,9 +429,11 @@ def seeing_fwhm(data, xy, r_max=25.0):
     return float(np.median([star_profile(data, x, y, r_max)["fwhm"] for x, y in xy]))
 
 
-def choose_apertures(data, stars_xy, gain=1.0):
+def choose_apertures(data, stars_xy, gain=1.0, rule="snr"):
     """The three radii for the stars at stars_xy (target first, then the comparison stars), with the
-    measurements behind them: FWHM, the S/N curve, the encircled energy and the profile to plot."""
+    measurements behind them: FWHM, the S/N curve, the encircled energy and the profile to plot.
+    rule "aij": AstroImageJ's automatic radii instead (aij_radii), so that both programs can measure a night with the
+    same apertures (plans/photometry.md item 1)."""
     data = np.asarray(data, float)
     xy = recenter(data, stars_xy, max_move=5.5)  # clicked positions: snapped onto the stars within half the box
     # a small stamp (a TESS / Kepler pixel file, 13 x 11 px) has no pixels 25 px away: profiles end in its corners
@@ -445,6 +474,8 @@ def choose_apertures(data, stars_xy, gain=1.0):
         r_in = max(min(r_in, 2.0 * fwhm, r_max - 1.0), r_ap + 0.5)
         r_out = max(min(r_max, r_in + 2.0), r_in + 1.0)
     centres, binned = profiles[b]["bins"]
+    if rule == "aij":
+        r_ap, r_in, r_out = aij_radii(*profiles[0]["bins"], fwhm)
     # a target whose light grows faster outside the aperture than the comparisons' has something next to it (a faint
     # neighbour in its wings): radii that follow the seeing then take a varying share of it (tested on a synthetic
     # blend; on stars without one the value stays within +-0.4 %)
@@ -467,6 +498,27 @@ def choose_apertures(data, stars_xy, gain=1.0):
         "snr": snr.tolist(),
         "encircled": ee.tolist(),
     }
+
+
+AIJ_CUTOFF = 0.010  # AstroImageJ's autoModeFluxCutOff: the aperture ends where the profile falls to 1 % of its peak
+
+
+def aij_radii(centres, binned, fwhm, cutoff=AIJ_CUTOFF):
+    """AstroImageJ's automatic radii (its Seeing_Profile, read 2026-11-08; the rule, not the code): the aperture ends
+    at the first radius beyond the half maximum where the star's mean profile falls below 1 % of its peak, the sky
+    ring runs from twice to four times that, each rounded up to a whole pixel; when the profile never falls that low
+    (a wide or noisy star), 1.7, 3.4 and 6.8 FWHM cut to whole pixels."""
+    centres, binned = np.asarray(centres, float), np.asarray(binned, float)
+    norm = binned / np.nanmax(binned[:4])
+    past_half = np.nonzero(norm <= 0.5)[0]
+    if len(past_half):
+        low = np.nonzero(
+            (norm < cutoff) & (np.arange(norm.size) > past_half[0]) & (np.arange(norm.size) < norm.size - 5)
+        )[0]
+        if len(low):
+            r1 = float(np.ceil(centres[low[0]]))
+            return r1, 2 * r1, 4 * r1
+    return float(int(1.7 * fwhm)), float(int(3.4 * fwhm)), float(int(6.8 * fwhm))
 
 
 # Scintillation: the twinkling of a star in the atmosphere adds a relative noise that photon statistics miss

@@ -1620,3 +1620,16 @@ def test_basic_expert_reaches_the_windows_with_panels(window):
     assert options.button.isChecked() and not steps.button.isChecked()
     window.set_ui_mode("basic")
     assert not options.button.isChecked() and not steps.button.isChecked()
+
+
+def test_radii_rule_reaches_the_step(window, qtbot):
+    """plans/photometry.md item 1: the radii rule chosen beside "Choose the radii" goes with the request."""
+    page = window.photometry_page
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0)]
+    page.radii_rule.setCurrentIndex(page.radii_rule.findData("aij"))
+    page._series = lambda: ["a.fits"]
+    page.apertures_requested.disconnect()  # only the request is checked, not the step
+    sent = []
+    page.apertures_requested.connect(lambda *args: sent.append(args))
+    page._choose_radii()
+    assert sent and sent[0][3] == "aij"
