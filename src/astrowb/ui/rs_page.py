@@ -158,7 +158,7 @@ class RemoteSensingPage(QWidget):
         self.plot = PlotCanvas(self)
         lay.addWidget(self.plot, 1)
         split.addWidget(side)
-        split.setSizes([800, 420])
+        split.setSizes([720, 560])  # the side panel holds the plot and its toolbar: narrower cut it (macOS)
         QVBoxLayout(self).addWidget(split)
 
     # --- data ---------------------------------------------------------------

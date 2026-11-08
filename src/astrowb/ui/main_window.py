@@ -293,14 +293,18 @@ class MainWindow(QMainWindow):
             bar.insertMenu(empty, menu)
             bar.removeAction(empty)
         view.removeAction(self.blink_action)
-        edit = win.edit_menu
+        # the Edit menu as the menu bar holds it now: the stored wrapper was found deleted in the ARM Linux build
+        # (smoke test, 2026-11-08), which a fresh look-up avoids; a missing menu must not stop the program
+        edit = next((a.menu() for a in win.menuBar().actions() if a.menu() and win.find_action in a.menu().actions()),
+                    None)  # fmt: skip
         copy_header = QAction(self.tr("Copy the header"), win)
         copy_header.triggered.connect(
             lambda _=False: QApplication.clipboard().setText(page.header.tostring(sep="\n") if page.header else "")
         )
-        for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
-            edit.insertAction(win.find_action, act)
-        edit.insertSeparator(win.find_action)
+        if edit is not None:
+            for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
+                edit.insertAction(win.find_action, act)
+            edit.insertSeparator(win.find_action)
         file_menu = win.file_menu
         acts = file_menu.actions()
         after_save, close = acts[acts.index(self.save_action) + 1], acts[-1]
