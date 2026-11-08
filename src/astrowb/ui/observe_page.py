@@ -88,7 +88,7 @@ class ObservePage(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        lay.addWidget(_title(self.tr("Observe"), self))
+        lay.addWidget(_title(self.tr("Observing"), self))
         conn = self.settings.get("observatory", {"url": "http://127.0.0.1:11112", "token": ""})
         grid = QGridLayout()
         self.url, self.token = QLineEdit(conn["url"], self), QLineEdit(conn["token"], self)
