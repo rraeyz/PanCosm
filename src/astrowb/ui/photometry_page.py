@@ -664,11 +664,11 @@ class PhotometryPage(Undoable, QWidget):
         nb = QVBoxLayout(self.next_box)
         nb.setContentsMargins(0, 0, 0, 0)
         # what comes next is in the buttons' tooltips: a paragraph here left the star table one row (I6b (2))
-        go_period = QPushButton(self.tr("Period search and O−C →"), self)
+        go_period = QPushButton(self.tr("Period search →"), self)
         go_period.setToolTip(
             self.tr(
-                "Opens Light curves, period and O−C, which already has this light curve: the period and the times "
-                "of minimum (O−C) are found there; Photometry only measures"
+                "Opens Light curves and period, which already has this light curve; times of minimum timed here go "
+                "to the O−C window by themselves. Photometry only measures"
             )
         )
         go_period.clicked.connect(lambda: self.next_requested.emit("timeseries", ""))

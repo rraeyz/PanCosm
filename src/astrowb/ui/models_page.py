@@ -67,8 +67,7 @@ class ModelsPage(Undoable, QWidget):
                 (
                     self.tr("Starting values: period and time of minimum (the ephemeris)"),
                     self.tr(
-                        "Type the period and the time of a primary minimum (from Light curves, period and O−C or the "
-                        "literature)."
+                        "Type the period and the time of a primary minimum (from the O−C window or the literature)."
                     ),
                 ),
                 (

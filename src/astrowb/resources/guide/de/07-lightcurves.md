@@ -1,5 +1,5 @@
 # Lichtkurven und O-C
-Die Seite **Lichtkurven & O-C** hat drei Reiter: **Periodensuche**, **Frequenzanalyse** und **O-C-Diagramm**. Diese Reiter öffnen sich gemeinsam in einem eigenen Fenster (der Block Lichtkurven auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter.
+Zwei Fenster. **Lichtkurven und Periode** hat die Reiter **Periodensuche**, **Frequenzanalyse** und **Suche nach Veränderlichen** (sein Block auf der Startseite oder das Menü Fenster); Bearbeiten → Rückgängig / Wiederholen wirkt dort auf den gezeigten Reiter. **O−C** ist ein eigenes Fenster (sein Block oder das Menü Fenster): in der Photometrie bestimmte Minimumszeiten und die Maxima der Frequenzanalyse kommen von selbst dorthin.
 
 ## Periodensuche
 Die auf der Seite Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
@@ -31,7 +31,7 @@ Die Tabelle nennt Frequenz, Periode, Amplitude und Phase mit Fehlern (Montgomery
 
 **Maximumszeiten** werden für jeden abgedeckten Zyklus gemessen (Parabel um jedes Maximum der angepassten Kurve); kreuzen Sie *Werte sind Magnituden* an, wenn die Lichtkurve in Magnituden ist. **Maxima an das O-C-Diagramm senden** fügt sie der O-C-Liste hinzu.
 
-## O-C-Diagramm
+## O-C-Diagramm (das Fenster O−C)
 O-C (beobachtet minus berechnet) zeigt, wie die Minimumszeiten von einer konstanten Periode abweichen.
 
 1. Die **Minimumszeiten** eintippen oder einfügen, eine pro Zeile: `Zeit [Fehler] [I/II] [Quelle]` — z. B. `2459876.43215 0.00021 I TESS`. Oder **Datei laden…**. Zeiten in BJD oder HJD; nicht mischen.

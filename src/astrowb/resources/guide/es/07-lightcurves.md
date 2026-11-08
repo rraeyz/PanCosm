@@ -1,5 +1,5 @@
 # Curvas de luz y O-C
-La página **Curvas de luz y O-C** tiene tres pestañas: **Búsqueda de períodos**, **Análisis de frecuencias** y **Diagrama O-C**. Estas pestañas se abren juntas en una ventana propia (el bloque Curvas de luz de la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada.
+Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de períodos**, **Análisis de frecuencias** y **Búsqueda de variables** (su bloque en la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada. **O−C** es una ventana propia (su bloque o el menú Ventana): los tiempos de mínimo medidos en Fotometría y los máximos del análisis de frecuencias llegan allí solos.
 
 ## Búsqueda de períodos
 La curva de luz medida en la página Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
@@ -31,7 +31,7 @@ La tabla da cada frecuencia, periodo, amplitud y fase con sus errores (Montgomer
 
 Los **tiempos de máximo** se miden en cada ciclo cubierto (parábola alrededor de cada máximo de la curva ajustada); marque *Los valores son magnitudes* si la curva está en magnitudes. **Enviar los máximos al diagrama O-C** los añade a la lista O-C.
 
-## Diagrama O-C
+## Diagrama O-C (la ventana O−C)
 El O-C (observado menos calculado) muestra cómo se apartan los instantes de mínimo de un período constante.
 
 1. Escriba o pegue los **instantes de mínimo**, uno por línea: `tiempo [error] [I/II] [fuente]` — p. ej. `2459876.43215 0.00021 I TESS`. O **Cargar archivo…**. Tiempos en BJD o HJD; no los mezcle.

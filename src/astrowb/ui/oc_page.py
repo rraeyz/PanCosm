@@ -39,7 +39,7 @@ class OCPage(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        lay.addWidget(_title(self.tr("Light curves & O-C"), self))
+        lay.addWidget(_title(self.tr("O−C diagram"), self))
         self.guide = StepGuide(
             [
                 (
@@ -192,10 +192,12 @@ class OCPage(QWidget):
         split.setSizes([380, 800])
         QVBoxLayout(self).addWidget(split)
 
-    def _load(self):
-        path, _ = QFileDialog.getOpenFileName(
-            self, self.tr("Load minimum times"), "", self.tr("Text (*.txt *.csv *.dat);;All (*)")
-        )
+    def _load(self, path=None):
+        """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
+        if not isinstance(path, str):
+            path, _ = QFileDialog.getOpenFileName(
+                self, self.tr("Load minimum times"), "", self.tr("Text (*.txt *.csv *.dat);;All (*)")
+            )
         if path:
             self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
 
