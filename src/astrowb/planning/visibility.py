@@ -144,3 +144,20 @@ def tonight(site: Site, now=None):
             break
     middle = dusk + (dawn - dusk) / 2 if dusk is not None and dawn is not None else now
     return {"dusk": dusk, "dawn": dawn, "moon": float(moon(middle, site)["illumination"])}
+
+
+def year_nights(site: Site, date: str, every_days=7, step_min=10.0):
+    """The Sun's altitude on the nights of the year around `date` (local noon to noon, as night_grid): the dates
+    (ISO strings), the hours since local noon (UTC clock hours of the first grid point are noon − longitude/15) and
+    the altitudes, one row per date."""
+    start = Time(f"{date}T12:00:00") - site.lon / 360 * u.day
+    days = np.arange(0, 365, every_days)
+    minutes = np.arange(0, 24 * 60 + step_min, step_min)
+    times = start + days[:, None] * u.day + minutes[None, :] * u.min
+    alt = (
+        get_body("sun", times.ravel(), site.location)
+        .transform_to(AltAz(obstime=times.ravel(), location=site.location))
+        .alt.deg.reshape(times.shape)
+    )
+    dates = [(start + d * u.day).iso[:10] for d in days]
+    return dates, minutes / 60.0, alt

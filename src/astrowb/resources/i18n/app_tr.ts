@@ -8047,24 +8047,29 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>MoreCharts</name>
     <message>
-        <location filename="../../ui/plan_more.py" line="76"/>
+        <location filename="../../ui/plan_more.py" line="97"/>
         <source>More charts of the night</source>
         <translation>Gecenin diğer grafikleri</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="81"/>
+        <location filename="../../ui/plan_more.py" line="102"/>
         <source>Moon distance</source>
         <translation>Ay uzaklığı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="94"/>
+        <location filename="../../ui/plan_more.py" line="115"/>
         <source>Hour</source>
         <translation>Saat</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="98"/>
+        <location filename="../../ui/plan_more.py" line="119"/>
         <source>Sky at an hour</source>
         <translation>Bir saatteki gökyüzü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="121"/>
+        <source>Through the year</source>
+        <translation>Yıl boyunca</translation>
     </message>
 </context>
 <context>
