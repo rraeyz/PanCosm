@@ -970,20 +970,20 @@ def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
     assert clicked > 150  # pytest-qt fails the test on any exception raised in a slot
 
 
-def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
-    """Pages used to be shown as panels beside the image (as MaxIm DL's tool windows). Now that every area, Images
-    included, has a window of its own (plans/interface.md I4) there is nothing to put beside the image: no page
-    becomes a panel, the menu is hidden, and settings saved by an older version that name panels still open."""
+def test_settings_naming_old_side_panels_still_open(window, qtbot):
+    """Pages used to be shown as panels beside the image; the owner had that removed once every area got a window of
+    its own (interface I6d (1)). Settings saved by an older version that name such panels still open."""
+    from PySide6.QtWidgets import QDockWidget
+
     from astrowb.ui.main_window import MainWindow
 
-    window.show()
-    for key in ("project", "guide", "photometry", "image", "start"):
-        assert window.dock_page(key) is None
-    assert not window._panels and not window.panels_menu.menuAction().isVisible()
     window.settings.set("ui.panels", ["spectroscopy", "timeseries", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert not again._panels
+    again.show()
+    docks = [d.objectName() for d in again.findChildren(QDockWidget)]  # the background-tasks dock stays
+    assert not hasattr(again, "dock_page") and not [n for n in docks if n.startswith("panel_")]
+    assert "Panels beside the image" not in [a.text() for a in again.view_menu.actions()]
     again.engine.shutdown()
 
 
@@ -1296,7 +1296,7 @@ def test_settings_saved_by_0_2_7_still_open(qtbot, tmp_path):
     win = MainWindow(settings)
     qtbot.addWidget(win)
     win.show()
-    assert not win._panels and win.current_workspace() == "start" and win.ui_mode() == "expert"
+    assert win.current_workspace() == "start" and win.ui_mode() == "expert"
     assert theme.colors(settings.get("ui.theme")) == theme.colors("dark")  # a theme that is gone falls back
     win.engine.shutdown()
 

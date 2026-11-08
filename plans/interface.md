@@ -144,10 +144,9 @@ Main window                                      Area window (e.g. Photometry)
 - **One main window:** a sidebar of 13 pages (`MainWindow.PAGES`): start, plan, observe, calibrate, image,
   photometry, timeseries (light curve, period, O−C, frequency tabs), spectroscopy, orbits (models), remotesensing,
   automation, project, guide.
-- **Menu bar:** File, Edit, View (overlays, "Panels beside the image"), Image (Process), Plugins, Settings
+- **Menu bar:** File, Edit, View (overlays), Image (Process), Plugins, Settings
   (language, look, processing device), Help.
-- **Pages beside the image:** `MainWindow.dock_page` can already show a page as a panel beside the image, and that
-  panel can be dragged out as a window. This is the base to reuse for area windows.
+- **Pages beside the image:** removed at the owner's word (I6d (1)); every area has a window of its own.
 - **Already built:**
   - Basic / Expert mode (folded sections);
   - collapsible numbered steps on the Photometry page (`Collapsible`, `_advance`);
@@ -597,7 +596,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6d. The owner's answers of 2026-11-08, as steps (PLAN.md "Order of work" 1, first)
 Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
-- **(1) Remove "Panels beside the image".** **agent2 claimed (2026-11-08) — do not touch** — `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
+- **(1) Remove "Panels beside the image".** **agent2 done (2026-11-08, this commit)** — removed `_Panel`, `dock_page`, `_fill_panels_menu`, the sidebar's right-click "Show beside the image" (it served only this), View → "Panels beside the image" and the "ui.panels" reading; guide 05 line gone in four languages; `test_settings_naming_old_side_panels_still_open`. Original: `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
   the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
   (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
   test).
