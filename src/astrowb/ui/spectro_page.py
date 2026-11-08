@@ -131,6 +131,32 @@ def calibrated(path):
     return bool(keys & {"CALB", "CALD", "ZEROCOR", "DARKCOR", "CCDPROC"})
 
 
+def _say_calibration(tab, chosen, cal):
+    """Which frames are taken as calibrated (their header says so) and which are raw (PLAN.md decision: the program
+    says which it took as calibrated)."""
+    from PySide6.QtCore import QCoreApplication
+
+    done = [Path(p).name for p, c in zip(chosen, cal, strict=True) if c]
+    raw = [Path(p).name for p, c in zip(chosen, cal, strict=True) if c is False]
+    lines = []
+    if done:
+        lines.append(
+            QCoreApplication.translate(
+                "Spectroscopy", "Taken as calibrated (the header says bias and dark were taken off): {files}."
+            ).format(files=", ".join(done))
+        )
+    if raw:
+        lines.append(
+            QCoreApplication.translate(
+                "Spectroscopy",
+                "Not calibrated (raw): {files}. Bias and dark are best taken off in the Calibration window first; the "
+                "overscan is taken off here where the header gives it.",
+            ).format(files=", ".join(raw))
+        )
+    if lines:
+        tab.status.setText("\n".join(lines))
+
+
 def extracted(path):
     """True when the file is already extracted (a 1-D spectrum, IRAF apall output, a pipeline's e2ds): only the
     wavelength calibration is left to do."""
@@ -507,6 +533,7 @@ class ReduceTab(Undoable, QWidget):
         self.guide.set_state(2, "done" if self.result else None)
         cal = [calibrated(p) for p in chosen]
         self.guide.set_state(0, "done" if chosen and all(cal) else ("skipped" if len(chosen) == 2 else None))
+        _say_calibration(self, chosen, cal)
 
     def _lines_changed(self):
         if self.result and self._arc_ax is not None:
@@ -958,14 +985,7 @@ class EchelleTab(Undoable, QWidget):
             self.guide.set_state(0, "done")
         elif chosen:
             self.guide.set_state(0, "skipped" if len(chosen) == 3 else None)
-            raw = [Path(p).name for p, c in zip(chosen, cal, strict=True) if c is False]
-            if raw:
-                self.status.setText(
-                    self.tr(
-                        "Not calibrated (raw): {files}. Bias and dark are best taken off in the Calibration window "
-                        "first; the overscan is taken off here where the header gives it."
-                    ).format(files=", ".join(raw))
-                )
+        _say_calibration(self, chosen, cal)
 
     def _lines_changed(self):
         g = self._guesses()

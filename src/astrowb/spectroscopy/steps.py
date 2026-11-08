@@ -464,6 +464,44 @@ def telluric_step(inputs, params, ctx):
 
 
 @step(
+    "spectroscopy.combine",
+    inputs=("spectra",),
+    outputs=("combined",),
+    optional=("output",),
+    method="mean",
+    rejection="sigma",
+    sigma=3.0,
+    scale="median",
+    weight="none",
+)
+def combine_step(inputs, params, ctx):
+    """Several exposures of one star in a night combined into one spectrum (IRAF scombine), see combine.py."""
+    from . import combine
+
+    spectra, header, mjd = [], None, []
+    for path in inputs["spectra"]:
+        w, f, e, h = spectrum_io.read(path)
+        spectra.append((w, f, e))
+        header = header if header is not None else h
+        if number(h.get("MJD-OBS")) is not None:
+            mjd.append(number(h.get("MJD-OBS")))
+    r = combine.combine(spectra, params["method"], params["rejection"], params["sigma"], params["scale"],
+                        params["weight"])  # fmt: skip
+    out = {k: np.asarray(v).tolist() for k, v in r.items() if k in ("wave", "flux", "error", "n", "scales")}
+    out |= {"rejected": r["rejected"], "count": len(spectra), "warnings": []}
+    if len(mjd) > 1 and max(mjd) - min(mjd) > 0.5:  # archive file names are processing dates, not nights
+        out["warnings"].append(
+            f"the exposures span {max(mjd) - min(mjd):.1f} days: the star's velocity changes between nights; "
+            "combine one night at a time, or shift the spectra to one velocity first"
+        )
+    if inputs.get("output"):
+        header["NCOMBINE"] = (len(spectra), "exposures combined")
+        header["COMBMETH"] = (f"{params['method']}/{params['rejection']}", "combine / rejection")
+        out["path"] = spectrum_io.write(inputs["output"], r["wave"], r["flux"], r["error"], header)
+    return {"combined": out}
+
+
+@step(
     "spectroscopy.rv",
     inputs=("spectra", "template"),
     outputs=("rvs", "skipped"),

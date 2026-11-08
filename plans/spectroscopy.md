@@ -157,7 +157,25 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 ## Steps
 
 ### 0. Several exposures of one star combined; the master bias for spectra (PLAN.md "Decisions", first item)
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, commit see Done)** — `spectroscopy/combine.py` + step `spectroscopy.combine`;
+Spectrum tools → *Combine exposures…*; the Reduce tab now says which frames it takes as calibrated and which are
+raw (Echelle did only the latter). What the real data showed:
+  - TZ For, HARPS ADP: the archive file names are **processing** dates; three "same night" files were MJD 55431,
+    55479, 55536. Combined, the binary's moving lines were rejected on 7 % of the pixels → the step now warns when
+    the exposures span more than half a day (and says to combine one night at a time).
+  - HARPS s1d is oversampled (0.01 Å): the point-to-point noise underestimates the real noise, so σ-clipping on
+    it rejected two thirds of the pixels. The threshold now comes from each exposure's scatter about the median
+    in blocks (when larger than its errors); noise without errors is estimated in blocks along the spectrum (the
+    S/N changes ×2 from blue to red). The error column of these files is all NaN: handled.
+  - The continuum shapes of two exposures differ by 7 % from blue to red (fibre losses): scale "shape" (a smooth
+    ratio, the lines cancel) besides "median".
+  - The one real one-night pair (TZ For, MJD 56213, 2 × 150 s): no pixel rejected; S/N in a 2.5 Å window 130 and
+    137 → 157 (the window's weak lines cap the measure; the synthetic test checks √N exactly). 313 000 pixels × 3:
+    0.6 s, 75 MB.
+  - Barycentric correction left out on purpose: within a night it changes by tens of m/s; across nights the
+    warning applies (rule 12: written here instead of the plan's "applied first").
+  - Master bias: `test_arc_lamps_are_calibrated_without_flat_and_kept_apart` now checks the science frame too
+    (bias off, flat divided), the arc (bias only), and that Spectroscopy's `calibrated()` takes both.
 - Reference: IRAF `scombine` (combine = average | median | sum, reject = none | minmax | avsigclip | ccdclip …,
   scale / weight by exposure time or signal, on a common wavelength grid: `dispcor` first); `zerocombine` +
   `ccdproc zerocor` for the master bias ("Zero"), used the same way for spectra as for images.
@@ -219,3 +237,5 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 - Accept: two FEROS spectra of AI Phe at different phases drawn together; normalising acts on the active one only.
 
 ## Done
+
+- Step 0 (2026-11-08, agent2): combine exposures, calibrated-frame note.
