@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QListWidget,
     QListWidgetItem,
     QMainWindow,
+    QMenu,
     QMessageBox,
     QProgressBar,
     QToolBar,
@@ -423,6 +424,19 @@ class AreaWindow(QMainWindow):
     def save_layout(self):
         self.settings.set(f"area.{self.key}.geometry", bytes(self.saveGeometry().toBase64()).decode())
         self.settings.set(f"area.{self.key}.state", bytes(self.saveState().toBase64()).decode())
+
+    def add_menus(self, menus, toolbar=()):
+        """The area's own menus [(title, [QAction or None])], placed before Window, and toolbar actions, for windows
+        whose actions are known only after the window is built."""
+        for title, actions in menus:
+            menu = QMenu(title, self)
+            for act in actions:
+                menu.addSeparator() if act is None else menu.addAction(act)
+            self.menuBar().insertMenu(self.window_menu.menuAction(), menu)
+        for act in toolbar:
+            self.toolbar.addSeparator() if act is None else self.toolbar.addAction(act)
+        if toolbar:
+            self.toolbar.setVisible(True)
 
     def set_icons(self, kinds):
         """{action: icon kind}: the actions get the icons of ui/icons.py, the same in every window."""

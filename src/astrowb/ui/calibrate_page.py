@@ -107,7 +107,7 @@ class CalibratePage(Undoable, QWidget):
         self.lights.setToolTip(
             self.tr("Every frame here is a light, unless its header says bias, dark or flat. Sub-folders are read too.")
         )
-        browse_l = QPushButton(self.tr("Browse…"), self)
+        browse_l = self.lights_browse = QPushButton(self.tr("Browse…"), self)
         browse_l.clicked.connect(lambda: self._pick(self.lights))
         browse_l.setToolTip(self.tr("Choose the folder in a dialog"))
         row.addWidget(QLabel(self.tr("Lights"), self))
@@ -123,10 +123,10 @@ class CalibratePage(Undoable, QWidget):
                 "calibration library). Everything in one folder: give it here only."
             )
         )
-        browse = QPushButton(self.tr("Browse…"), self)
+        browse = self.frames_browse = QPushButton(self.tr("Browse…"), self)
         browse.clicked.connect(lambda: self._pick(self.folder))
         browse.setToolTip(self.tr("Choose the folder in a dialog"))
-        add_folder = QPushButton(self.tr("Add folder…"), self)
+        add_folder = self.add_folder_button = QPushButton(self.tr("Add folder…"), self)
         add_folder.setToolTip(
             self.tr("Read frames from one more folder, e.g. master or calibration frames kept elsewhere")
         )
@@ -163,7 +163,7 @@ class CalibratePage(Undoable, QWidget):
         lay.addLayout(row)
         self.summary = QLabel(self)
         self.summary.setWordWrap(True)
-        remove = QPushButton(self.tr("Remove from the list"), self)
+        remove = self.remove_button = QPushButton(self.tr("Remove from the list"), self)
         remove.setToolTip(
             self.tr(
                 "Leaves the selected frames out of the calibration (Delete key; Ctrl+Z brings them back). "
@@ -171,7 +171,7 @@ class CalibratePage(Undoable, QWidget):
             )
         )
         remove.clicked.connect(self._remove_selected)
-        clear = QPushButton(self.tr("Clear"), self)
+        clear = self.clear_button = QPushButton(self.tr("Clear"), self)
         clear.setToolTip(self.tr("Empties the folders and the frame list, to choose the folders again (Ctrl+Z undoes)"))
         clear.clicked.connect(self._clear)
         row = QHBoxLayout()

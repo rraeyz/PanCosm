@@ -1399,3 +1399,20 @@ def test_photometry_window_menus_mirror_its_buttons(window):
     page.psf.setChecked(not page.psf.isChecked())
     assert psf.isChecked() == page.psf.isChecked()
     assert any("Polarimetry" in text for text, _ in win.commands())
+
+
+def test_calibration_window_menus_and_toolbar(window):
+    """interface I6c.4: Frames, Masters, Process and Send hold the Calibration page's actions; the toolbar has an
+    icon for each of its actions; a menu item runs what its button runs."""
+    window.show_workspace("calibrate")
+    win, page = window.area_windows["calibrate"], window.calibrate_page
+    menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
+    assert {"F&rames", "&Masters", "&Process", "Se&nd"} <= set(menus)
+    masters = [a for a in menus["&Masters"].actions() if not a.isSeparator()]
+    assert all(a.isCheckable() for a in masters) and page.cosmics.text() in [a.text() for a in masters]
+    tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+    assert len(tools) == 5 and all(not a.icon().isNull() and a.toolTip() for a in tools)
+    seen = []
+    page.scan_requested.connect(lambda *a: seen.append(a))
+    next(a for a in menus["F&rames"].actions() if a.text() == page.scan_button.text()).trigger()
+    assert seen  # the menu item did what the Scan button does

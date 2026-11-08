@@ -29,6 +29,11 @@ ICONS = {
     "radii": "◎",
     "measure": "✦",
     "minimum": "⋎",
+    # calibration
+    "scan": "⌕",
+    "calibrate": "◑",
+    "stack": "⧈",
+    "send": "➜",
     # spectroscopy jobs
     "long_slit": "▭",
     "echelle": "≣",
