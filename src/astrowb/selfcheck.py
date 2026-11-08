@@ -68,6 +68,19 @@ LIBRARIES = (
 )
 
 
+def _why(e):
+    """A failure in words: a service that refused or is down says so (user-feedback UF-21), not only its code."""
+    import urllib.error
+
+    code = getattr(e, "code", None)
+    if isinstance(e, urllib.error.HTTPError) and code is not None:
+        if code >= 500 or code == 404:
+            return f"the service is down or moved now (HTTP {code}); try again later"
+        if code in (401, 403, 429):
+            return f"the service refused the program (HTTP {code}: blocked, or too many requests)"
+    return f"{type(e).__name__}: {e}"
+
+
 def _run(checks):
     """[(name, ok, detail)] for {name: function}; a check passes when it returns without an exception."""
     out = []
@@ -76,7 +89,7 @@ def _run(checks):
             detail = fn()
             out.append((name, True, "" if detail is None else str(detail)))
         except Exception as e:  # report every failure, keep checking the rest
-            out.append((name, False, f"{type(e).__name__}: {e}"[:300] or traceback.format_exc(limit=1)))
+            out.append((name, False, _why(e)[:300] or traceback.format_exc(limit=1)))
     return out
 
 

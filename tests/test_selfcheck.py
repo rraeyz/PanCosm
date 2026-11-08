@@ -99,3 +99,19 @@ def test_offline_checks_pass_in_a_fresh_process():
     env = {**__import__("os").environ, "QT_QPA_PLATFORM": "offscreen"}
     out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env, timeout=300)
     assert out.stdout.strip().endswith("[]"), out.stdout[-2000:] + out.stderr[-2000:]
+
+
+def test_a_refusing_or_dead_service_is_said_in_words():
+    """User feedback UF-21: "HTTPError: HTTP Error 404" told the owner nothing; CDS was down that night."""
+    import urllib.error
+
+    from astrowb import selfcheck
+
+    def down():
+        raise urllib.error.HTTPError("https://x", 404, "Not Found", {}, None)
+
+    def refused():
+        raise urllib.error.HTTPError("https://x", 403, "Forbidden", {}, None)
+
+    got = dict((n, d) for n, _ok, d in selfcheck._run({"cds": down, "aavso": refused}))
+    assert "down or moved" in got["cds"] and "refused" in got["aavso"]
