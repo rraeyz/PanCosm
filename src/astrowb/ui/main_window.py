@@ -413,6 +413,68 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         win.set_icons({lights: "open_folder", scan: "scan", run: "calibrate", stack: "stack", send: "send"})
 
+    def _spectroscopy_menus(self, page, win):
+        """Reduce, Lines, Spectrum, Measure, Velocity and File → Export (interface I6c.5, the table agreed from
+        IRAF's tasks and iSpec's Operations / Parameters menus): every item does what its job's button does, and
+        shows that job first."""
+        from PySide6.QtWidgets import QMenu
+
+        red, ech, tel, vel, cube, tools = (page.reduce_tab, page.echelle_tab, page.telluric_tab, page.velocity_tab,
+                                            page.cube_tab, page.tools_tab)  # fmt: skip
+
+        def job(tab, widget, text=None):
+            act = _mirror(widget, page)
+            if text:
+                act.setText(text)
+            act.triggered.connect(lambda _=False: page.tabs.setCurrentWidget(tab))
+            return act
+
+        def either(text, which):
+            """One item for the long-slit and the échelle job: the one shown, else long slit."""
+            act = QAction(text, page)
+
+            def run():
+                tab = ech if page.tabs.currentWidget() is ech else red
+                page.tabs.setCurrentWidget(tab)
+                getattr(tab, which).click()
+
+            act.triggered.connect(run)
+            act.setToolTip(getattr(red, which).toolTip())
+            return act
+
+        menus = [
+            (self.tr("&Reduce"), [
+                job(red, red.extract_button, self.tr("Extract the long-slit spectrum")), None,
+                job(ech, ech.find_button, self.tr("Find the échelle orders on the flat")),
+                job(ech, ech.extract_button, self.tr("Extract the échelle orders")), None,
+                job(cube, cube.load_button), job(cube, cube.show_button),
+                job(cube, cube.save_button, self.tr("Save the cube region's spectrum…"))]),
+            (self.tr("&Lines"), [
+                job(red, red.reference_button), job(ech, ech.database_button), None,
+                job(red, red.solve_button, self.tr("Fit the wavelengths (long slit)")),
+                job(ech, ech.solve_button, self.tr("Fit the wavelengths, merge the orders (échelle)")), None,
+                either(red.refit_button.text(), "refit_button"), either(red.forget_button.text(), "forget_button")]),
+            (self.tr("S&pectrum"), [
+                job(tools, tools.open_button), None, job(tools, tools.normalise_button), job(tools, tools.pick),
+                job(tools, tools.through_button), job(tools, tools.smooth_button),
+                job(tools, tools.resample_button), None, job(tools, tools.combine_button),
+                job(tools, tools.response_button), job(tools, tools.apply_resp), None,
+                job(tel, tel.button, self.tr("Telluric correction")),
+                job(tools, tools.open_b_button),
+                job(tools, tools.arith_button, self.tr("Arithmetic with spectrum B"))]),
+            (self.tr("Mea&sure"), [
+                job(tools, tools.measure_button, self.tr("Measure a line")), job(tools, tools.vr_button),
+                job(tools, tools.series_button), None, job(tools, tools.atm_button),
+                job(vel, vel.type_button)]),
+            (self.tr("&Velocity"), [
+                job(vel, vel.rv_button), job(vel, vel.separate_button), job(vel, vel.orbit_button)]),
+        ]  # fmt: skip
+        win.add_menus(menus)
+        exports = QMenu(self.tr("&Export"), win)  # File → Export, just before Close window
+        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
+        exports.addActions([job(tools, tools.save_button, self.tr("Save the spectrum as…")),
+                            job(tools, tools.bess_button)])  # fmt: skip
+
     def _spectroscopy_window(self, page):
         """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
         Job menu), its view in the middle, its steps in the left panel."""
@@ -443,6 +505,7 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
         win.set_icons(dict(zip(actions, jobs, strict=True)))
+        self._spectroscopy_menus(page, win)
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()
         self._frames[page] = parts["steps"]
