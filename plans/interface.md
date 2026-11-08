@@ -531,7 +531,13 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6b. Findings of the I6a run (2026-11-08, agent2)
 **open** — each sub-item is claimed on its own.
-- **(1) Photometry / Images: catalogue labels hide the image.** **agent2 claimed (2026-11-08) — do not touch** After the field identification every Gaia / VSX star
+- **(1) Photometry / Images: catalogue labels hide the image.** **agent2 done (2026-11-08, this commit)** — the labels were the 40
+  VSX variables (VSX lists Gaia DR3 variables by their Gaia names). Photometry names only the one chosen in the
+  variables list; the other cyan rings give their name on hover (`viewer.set_markers` style "quiet"). Images: an
+  overlay of more than 25 rings (`ImageViewer.MAX_LABELS`) shows each label on hover, and the status line says so.
+  No View toggle: not needed once the image is readable. Also from this screenshot: the radii text under the plot
+  now scrolls past four lines (it had squeezed the plot after (2)). Screenshots: scratchpad
+  `i6b1/<lang>/22_phot_target_and_comparisons.png`. Original finding: After the field identification every Gaia / VSX star
   gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
   target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
   a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
