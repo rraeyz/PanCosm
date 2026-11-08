@@ -184,6 +184,8 @@ class PlotCanvas(QWidget):
         lay.setContentsMargins(0, 0, 0, 0)
         toolbar = NavigationToolbar2QT(self.canvas, self)
         toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
+        data = toolbar.addAction(self.tr("Export data (CSV)…"), self.export_data)
+        data.setToolTip(self.tr("The numbers of every plotted series (axis, series, x, y) in a CSV file"))
         toolbar.addAction(self.tr("Open in a new window"), self.open_window)
         lay.addWidget(toolbar)
         lay.addWidget(self.canvas)
@@ -228,6 +230,35 @@ class PlotCanvas(QWidget):
         ax.imshow(img)
         ax.set_axis_off()
         return fig
+
+    def data_rows(self):
+        """[(axis, series, x, y)] of every line and point series drawn (scatter points included); the series is its
+        legend label, or line / points with a number when it has none."""
+        import numpy as np
+
+        rows = []
+        for a, ax in enumerate(self.figure.axes, 1):
+            name = ax.get_ylabel() or f"axis {a}"
+            series = [(ln.get_label(), ln.get_xydata()) for ln in ax.get_lines()]
+            series += [(col.get_label(), col.get_offsets()) for col in ax.collections if len(col.get_offsets())]
+            for k, (label, xy) in enumerate(series, 1):
+                label = label if label and not label.startswith("_") else f"series {k}"
+                for x, y in np.asarray(xy, float).reshape(-1, 2):
+                    rows.append((name, label, float(x), float(y)))
+        return rows
+
+    def export_data(self, path=None):
+        import csv
+
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(self, self.tr("Export data"), "plot.csv", "CSV (*.csv)")
+            if not path:
+                return None
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["axis", "series", "x", "y"])
+            w.writerows(self.data_rows())
+        return path
 
     def export_publication(self, path=None):
         """Black on white whatever the screen theme: PDF / SVG / EPS, or PNG at 300 dpi."""

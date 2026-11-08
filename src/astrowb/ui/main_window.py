@@ -230,7 +230,11 @@ class MainWindow(QMainWindow):
         """Put a freshly built page where its placeholder was in the stack; its tables get an export menu."""
         from PySide6.QtWidgets import QTableWidget
 
+        from .table_view import DataTable
+
         for table in page.findChildren(QTableWidget):
+            if isinstance(table.parent(), DataTable):  # it has its own menu (copy, export, columns)
+                continue
             table.setContextMenuPolicy(Qt.CustomContextMenu)
             table.customContextMenuRequested.connect(lambda pos, t=table: self._table_menu(t, pos))
         from PySide6.QtWidgets import QFrame, QLabel, QScrollArea
