@@ -74,6 +74,7 @@ def test_translation_complete_and_loads(qapp, lang, file_menu):
 
     ts = (i18n.I18N_DIR / f"app_{lang}.ts").read_text(encoding="utf-8")
     assert 'type="unfinished"' not in ts
+    assert "<translation></translation>" not in ts  # an empty translation shows nothing at all
     # a context named after a variable (win.tr(...) in a function) is never looked up: Qt uses the object's class
     import re
 
@@ -1429,11 +1430,11 @@ def test_spectroscopy_window_menus(window):
     window.show_workspace("spectroscopy")
     win, page = window.area_windows["spectroscopy"], window.spectro_page
     menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
-    assert {"&Reduce", "&Lines", "S&pectrum", "Mea&sure", "&Velocity"} <= set(menus)
+    assert {"&Reduce", "&Lines", "S&pectrum", "Mea&sure", "Velo&city"} <= set(menus)
     seen = []
     page.velocity_tab.rv_button.clicked.connect(lambda: seen.append("rv"))
     page.tabs.setCurrentWidget(page.reduce_tab)
-    act = next(a for a in menus["&Velocity"].actions() if a.text() == page.velocity_tab.rv_button.text())
+    act = next(a for a in menus["Velo&city"].actions() if a.text() == page.velocity_tab.rv_button.text())
     page.velocity_tab.rv_button.setEnabled(True)
     act.trigger()
     assert seen == ["rv"] and page.tabs.currentWidget() is page.velocity_tab
@@ -1451,7 +1452,7 @@ def test_light_curves_and_oc_window_menus(window):
     window.show_workspace("oc")
     oc, page = window.area_windows["oc"], window.oc_page
     menus = {a.text(): a.menu() for a in oc.menuBar().actions() if a.menu()}
-    models = [a for name in ("&Ephemeris", "&Models") for a in menus[name].actions() if a.actionGroup()]
+    models = [a for name in ("E&phemeris", "&Models") for a in menus[name].actions() if a.actionGroup()]
     assert len(models) == 4
     models[2].trigger()  # third body
     assert page.ltte.isChecked() and not page.linear.isChecked() and not models[0].isChecked()
@@ -1466,7 +1467,7 @@ def test_models_window_menus(window, tmp_path):
     window.show_workspace("orbits")
     win, page = window.area_windows["orbits"], window.models_page
     menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
-    assert {"F&it", "&Visual orbit"} <= set(menus)
+    assert {"F&it", "Visual &orbit"} <= set(menus)
     path = tmp_path / "lc.csv"
     path.write_text("0,1\n")
     win.open_files([path])
@@ -1478,7 +1479,7 @@ def test_models_window_menus(window, tmp_path):
     seen = []
     page.visual_tab.load_button.clicked.disconnect()
     page.visual_tab.load_button.clicked.connect(lambda: seen.append(1))
-    next(a for a in menus["&Visual orbit"].actions() if a.text() == page.visual_tab.load_button.text()).trigger()
+    next(a for a in menus["Visual &orbit"].actions() if a.text() == page.visual_tab.load_button.text()).trigger()
     assert seen and page.tabs.currentWidget() is page.visual_tab
 
 
@@ -1569,3 +1570,38 @@ def test_automation_and_remote_sensing_window_menus(window):
     steps = next(a.menu() for a in win.menuBar().actions() if a.text() == "&Steps")
     next(a for a in steps.actions() if a.text() == "Add step").trigger()
     assert page.steps.count() == before + 1
+
+
+def test_every_window_menu_bar_fits_and_has_distinct_keys(window, qtbot):
+    """interface I6c.11: in every area window (and the main window) each menu of the menu bar has its own Alt key,
+    the menu bar and the toolbars fit at 1366 px, and Ctrl+K finds every menu action. The same is checked in the
+    four languages by the user walk (scratchpad i6c11/walk.py)."""
+    import re
+
+    from PySide6.QtWidgets import QToolBar, QToolButton
+
+    def keys(bar):
+        found = [
+            m.group(1).lower() for a in bar.actions() if a.isVisible() for m in [re.search(r"&(\w)", a.text())] if m
+        ]
+        return found
+
+    assert len(set(keys(window.menuBar()))) == len(keys(window.menuBar()))
+    for key in window.WINDOWED:
+        window.show_workspace(key)
+        win = window.area_windows[key]
+        win.resize(1366, 768)
+        win.show()
+        qtbot.waitExposed(win)
+        found = keys(win.menuBar())
+        assert len(set(found)) == len(found), (key, found)
+        last = [a for a in win.menuBar().actions() if a.isVisible()][-1]
+        assert win.menuBar().actionGeometry(last).right() <= win.menuBar().width(), key
+        for tb in win.findChildren(QToolBar):
+            ext = tb.findChild(QToolButton, "qt_toolbar_ext_button")
+            assert not (tb.isVisible() and ext is not None and ext.isVisible()), (key, tb)
+        found = {id(a) for _, a in win.commands()} | {id(win.find_action)}
+        for top in win.menuBar().actions():
+            for act in top.menu().actions() if top.menu() else []:
+                assert act.isSeparator() or act.menu() or not act.text() or id(act) in found, (key, act.text())
+        win.hide()

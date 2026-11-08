@@ -243,7 +243,7 @@
     <message>
         <location filename="../../ui/area_window.py" line="186"/>
         <source>&amp;Window</source>
-        <translation>&amp;Ventana</translation>
+        <translation>Ven&amp;tana</translation>
     </message>
     <message>
         <location filename="../../ui/area_window.py" line="188"/>
@@ -3561,7 +3561,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <location filename="../../ui/main_window.py" line="429"/>
         <location filename="../../ui/main_window.py" line="478"/>
         <source>F&amp;rames</source>
-        <translation>&amp;Tomas</translation>
+        <translation>T&amp;omas</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="431"/>
@@ -3742,11 +3742,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Ajustar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="546"/>
-        <source>&amp;Ephemeris</source>
-        <translation>&amp;Efemérides</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="547"/>
         <source>&amp;Models</source>
         <translation>&amp;Modelos</translation>
@@ -3809,7 +3804,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/main_window.py" line="604"/>
         <source>&amp;Telescope</source>
-        <translation>&amp;Telescopio</translation>
+        <translation>Telesc&amp;opio</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="605"/>
@@ -3932,11 +3927,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>A&amp;justar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="684"/>
-        <source>&amp;Visual orbit</source>
-        <translation>Ó&amp;rbita visual</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="726"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reducir</translation>
@@ -4002,11 +3992,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Medir una línea</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="749"/>
-        <source>&amp;Velocity</source>
-        <translation>Velocida&amp;d</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="755"/>
         <source>Save the spectrum as…</source>
         <translation>Guardar el espectro como…</translation>
@@ -4014,7 +3999,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/main_window.py" line="783"/>
         <source>&amp;Job</source>
-        <translation>&amp;Trabajo</translation>
+        <translation>Tra&amp;bajo</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="815"/>
@@ -4174,7 +4159,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/main_window.py" line="1674"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Configuración</translation>
+        <translation>Co&amp;nfiguración</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1675"/>
@@ -4224,7 +4209,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/main_window.py" line="1713"/>
         <source>&amp;Window</source>
-        <translation>&amp;Ventana</translation>
+        <translation>Ven&amp;tana</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1715"/>
@@ -4474,6 +4459,21 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <location filename="../../ui/main_window.py" line="2344"/>
         <source>Save FITS as</source>
         <translation>Guardar FITS como</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="546"/>
+        <source>E&amp;phemeris</source>
+        <translation>E&amp;femérides</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="684"/>
+        <source>Visual &amp;orbit</source>
+        <translation>Ó&amp;rbita visual</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="749"/>
+        <source>Velo&amp;city</source>
+        <translation>Velocida&amp;d</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1821"/>
@@ -9910,17 +9910,17 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Abrir en una ventana nueva</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="223"/>
+        <location filename="../../ui/widgets.py" line="231"/>
         <source>Plot</source>
         <translation>Gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="271"/>
+        <location filename="../../ui/widgets.py" line="279"/>
         <source>Export data</source>
         <translation>Exportar datos</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="287"/>
+        <location filename="../../ui/widgets.py" line="295"/>
         <source>Publication figure</source>
         <translation>Figura para publicación</translation>
     </message>

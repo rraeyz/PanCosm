@@ -168,7 +168,7 @@
     <message>
         <location filename="../../ui/area_window.py" line="136"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Düzen</translation>
+        <translation>Dü&amp;zen</translation>
     </message>
     <message>
         <location filename="../../ui/area_window.py" line="139"/>
@@ -3356,7 +3356,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/main_window.py" line="1581"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Düzen</translation>
+        <translation>Dü&amp;zen</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1583"/>
@@ -3566,7 +3566,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/main_window.py" line="431"/>
         <source>&amp;Stars</source>
-        <translation>Yıldı&amp;zlar</translation>
+        <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="294"/>
@@ -3740,11 +3740,6 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/main_window.py" line="677"/>
         <source>Fit</source>
         <translation>Fit et</translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_window.py" line="546"/>
-        <source>&amp;Ephemeris</source>
-        <translation>&amp;Efemeris</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="547"/>
@@ -3932,11 +3927,6 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Fit</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="684"/>
-        <source>&amp;Visual orbit</source>
-        <translation>Görsel yö&amp;rünge</translation>
-    </message>
-    <message>
         <location filename="../../ui/main_window.py" line="726"/>
         <source>&amp;Reduce</source>
         <translation>İndirge&amp;me</translation>
@@ -4000,11 +3990,6 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/main_window.py" line="746"/>
         <source>Measure a line</source>
         <translation>Bir çizgiyi ölç</translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_window.py" line="749"/>
-        <source>&amp;Velocity</source>
-        <translation>&amp;Hız</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="755"/>
@@ -4474,6 +4459,21 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/main_window.py" line="2344"/>
         <source>Save FITS as</source>
         <translation>FITS&apos;i farklı kaydet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="546"/>
+        <source>E&amp;phemeris</source>
+        <translation>&amp;Efemeris</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="684"/>
+        <source>Visual &amp;orbit</source>
+        <translation>Görsel yö&amp;rünge</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window.py" line="749"/>
+        <source>Velo&amp;city</source>
+        <translation>&amp;Hız</translation>
     </message>
     <message>
         <location filename="../../ui/main_window.py" line="1821"/>
@@ -9910,17 +9910,17 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Ayrı pencerede aç</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="223"/>
+        <location filename="../../ui/widgets.py" line="231"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="271"/>
+        <location filename="../../ui/widgets.py" line="279"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/widgets.py" line="287"/>
+        <location filename="../../ui/widgets.py" line="295"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
     </message>

@@ -543,7 +543,7 @@ class MainWindow(QMainWindow):
             group.addAction(act)
         win.add_menus(
             [
-                (self.tr("&Ephemeris"), [look, None, models[0], models[1], None, fit]),
+                (self.tr("E&phemeris"), [look, None, models[0], models[1], None, fit]),
                 (self.tr("&Models"), [models[2], models[3], None, named(page.use_mcmc)]),
             ],
             toolbar=[load, look, fit, export],
@@ -681,7 +681,7 @@ class MainWindow(QMainWindow):
         win.add_menus(
             [
                 (self.tr("F&it"), [fit, posterior, None, tab(page.use_mcmc, binary), tab(page.use_orbit, binary)]),
-                (self.tr("&Visual orbit"), [tab(visual.load_button, visual), orbit]),
+                (self.tr("Visual &orbit"), [tab(visual.load_button, visual), orbit]),
             ],
             toolbar=[win.file_menu.actions()[0], fit, posterior, orbit, None, export],
         )
@@ -746,7 +746,7 @@ class MainWindow(QMainWindow):
                 job(tools, tools.measure_button, self.tr("Measure a line")), job(tools, tools.vr_button),
                 job(tools, tools.series_button), None, job(tools, tools.atm_button),
                 job(vel, vel.type_button)]),
-            (self.tr("&Velocity"), [
+            (self.tr("Velo&city"), [
                 job(vel, vel.rv_button), job(vel, vel.separate_button), job(vel, vel.orbit_button)]),
         ]  # fmt: skip
         win.add_menus(menus)
