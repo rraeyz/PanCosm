@@ -216,7 +216,7 @@ class _FileRow(QWidget):
         self.edit = QLineEdit(self)
         lay.addWidget(self.edit, 1)
         self.edit.setToolTip(self.tr("Path of the file: type it or choose it with Browse…"))
-        b = QPushButton(self.tr("Browse…"), self)
+        b = self.browse_button = QPushButton(self.tr("Browse…"), self)
         b.clicked.connect(lambda: self._pick(pattern))
         b.setToolTip(self.tr("Choose the file in a dialog"))
         lay.addWidget(b)

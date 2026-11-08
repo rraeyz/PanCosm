@@ -173,22 +173,22 @@ class ModelsPage(Undoable, QWidget):
                 "curve; the ticked parameters are free, the others fixed at their values"
             )
         )
-        export = QPushButton(self.tr("Fit and export for PHOEBE…"), self)
+        export = self.phoebe_button = QPushButton(self.tr("Fit and export for PHOEBE…"), self)
         export.clicked.connect(self._export)
         export.setToolTip(
             self.tr(
                 "Fits, then writes the light curve and the fitted values as starting values for a full model in PHOEBE"
             )
         )
-        wd = QPushButton(self.tr("Fit and export for WD…"), self)
+        wd = self.wd_button = QPushButton(self.tr("Fit and export for WD…"), self)
         wd.setToolTip(self.tr("Observations in WD's columns and the starting values under WD's names"))
         wd.clicked.connect(lambda: self._export("wd"))
-        transit = QPushButton(self.tr("Fit and export for ExoClock / ETD…"), self)
+        transit = self.transit_button = QPushButton(self.tr("Fit and export for ExoClock / ETD…"), self)
         transit.setToolTip(
             self.tr("Upload files for the ExoClock and Exoplanet Transit Database projects, and the transit's mid-time")
         )
         transit.clicked.connect(lambda: self._export("transit"))
-        overlay = QPushButton(self.tr("Compare with a model curve…"), self)
+        overlay = self.overlay_button = QPushButton(self.tr("Compare with a model curve…"), self)
         overlay.setToolTip(self.tr("Two columns: phase (or time) and flux, e.g. computed in PHOEBE"))
         overlay.clicked.connect(self._load_overlay)
         self.posterior_button = QPushButton(self.tr("Posterior…"), self)
@@ -202,7 +202,7 @@ class ModelsPage(Undoable, QWidget):
         self.posterior_button.hide()
         from .export import results_button
 
-        results = results_button(self, self.fit_table)
+        results = self.results_button = results_button(self, self.fit_table)
         buttons = QGridLayout()  # two per row: the page fits narrow windows in every language
         for i, b in enumerate((self.fit_button, export, wd, transit, overlay, results, self.posterior_button)):
             buttons.addWidget(b, i // 2, i % 2)
@@ -458,7 +458,10 @@ class ModelsPage(Undoable, QWidget):
         """Corner plot of the MCMC samples: histograms on the diagonal, pairs below."""
         from PySide6.QtWidgets import QDialog, QVBoxLayout
 
-        m = self.result["mcmc"]
+        m = (self.result or {}).get("mcmc")
+        if not m:  # reachable from the menu as well: say what to do instead of failing
+            self.status.setText(self.tr("No posterior yet: tick MCMC uncertainties and press Fit."))
+            return
         s = np.asarray(m["samples"])
         n = s.shape[1]
         dlg = QDialog(self)

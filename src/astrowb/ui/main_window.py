@@ -313,6 +313,7 @@ class MainWindow(QMainWindow):
             "calibrate": (calibrate, images_filter()),
             "timeseries": (light_curve, "CSV (*.csv *.txt *.dat);;*"),
             "oc": (lambda paths: page._load(paths[0]), "Text (*.txt *.csv *.dat);;*"),
+            "orbits": (lambda paths: page.file.edit.setText(paths[0]), "Tables (*.csv *.txt *.dat);;*"),
             "spectroscopy": (spectrum, images_filter()),
             "remotesensing": (lambda paths: page.open(";".join(paths)), ""),
         }.get(key, (None, ""))
@@ -479,6 +480,38 @@ class MainWindow(QMainWindow):
         win.file_menu.insertMenu(win.file_menu.actions()[-1], files)  # loading minima is File → Open… (Ctrl+O)
         files.addAction(export)
         win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
+
+    def _orbits_menus(self, page, win):
+        """Models: Fit, Visual orbit, File → Compare / Export (interface I6c.7); each item shows its tab first."""
+        from PySide6.QtWidgets import QMenu
+
+        binary, visual = page.tabs.widget(0), page.visual_tab
+
+        def tab(widget, owner, text=None, short=None):
+            act = _mirror(widget, page, short)
+            if text:
+                act.setText(text)
+            act.triggered.connect(lambda _=False: page.tabs.setCurrentWidget(owner))
+            return act
+
+        fit = tab(page.fit_button, binary, self.tr("Fit the eclipse or transit model"), self.tr("Fit"))
+        posterior = tab(page.posterior_button, binary, short=self.tr("Posterior"))
+        orbit = tab(visual.fit_button, visual, short=self.tr("Visual orbit"))
+        export = tab(page.results_button, binary, short=self.tr("Export"))
+        win.add_menus(
+            [
+                (self.tr("F&it"), [fit, posterior, None, tab(page.use_mcmc, binary), tab(page.use_orbit, binary)]),
+                (self.tr("&Visual orbit"), [tab(visual.load_button, visual), orbit]),
+            ],
+            toolbar=[win.file_menu.actions()[0], fit, posterior, orbit, None, export],
+        )
+        win.file_menu.insertAction(win.file_menu.actions()[-1], tab(page.overlay_button, binary))
+        exports = QMenu(self.tr("&Export"), win)
+        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
+        exports.addActions([export, tab(page.phoebe_button, binary), tab(page.wd_button, binary),
+                            tab(page.transit_button, binary)])  # fmt: skip
+        win.set_icons({win.file_menu.actions()[0]: "open", fit: "fit_model", posterior: "posterior",
+                       orbit: "visual_orbit", export: "export"})  # fmt: skip
 
     def _spectroscopy_menus(self, page, win):
         """Reduce, Lines, Spectrum, Measure, Velocity and File → Export (interface I6c.5, the table agreed from
@@ -2448,19 +2481,23 @@ def _mirror(widget, parent=None, short=None):
 
 
 def _follow_enabled(button, action):
-    """A toolbar action that is enabled exactly when the page's button is (the button stays the one place where
-    the page decides)."""
+    """A toolbar or menu action that is enabled exactly when the page's button is, and not while the page has hidden
+    the button (Posterior… before an MCMC run); the button stays the one place where the page decides. A button in
+    a tab that is not shown is not hidden: its action stays usable."""
     from PySide6.QtCore import QEvent
+
+    def follow():
+        action.setEnabled(button.isEnabled() and not button.isHidden())
 
     class _Watch(QObject):
         def eventFilter(self, obj, event):
-            if event.type() == QEvent.EnabledChange:
-                action.setEnabled(obj.isEnabled())
+            if event.type() in (QEvent.EnabledChange, QEvent.ShowToParent, QEvent.HideToParent):
+                follow()
             return False
 
     watch = _Watch(button)
     button.installEventFilter(watch)
-    action.setEnabled(button.isEnabled())
+    follow()
     action._watch = watch
 
 

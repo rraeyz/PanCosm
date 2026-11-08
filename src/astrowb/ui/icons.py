@@ -41,6 +41,9 @@ ICONS = {
     "variable_search": "✧",
     "lookup": "ℹ",
     "fit_model": "⟋",
+    # models
+    "posterior": "∑",
+    "visual_orbit": "⊚",
     # spectroscopy jobs
     "long_slit": "▭",
     "echelle": "≣",
