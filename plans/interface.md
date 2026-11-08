@@ -676,12 +676,12 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   - the same icon is never used for two different actions.
 
 **Sub-steps (agent2, 2026-11-08)** — too large for one commit (rule 13); each claimed and done on its own:
-- **I6c.1 One icon set, icon toolbars.** **agent2 done (2026-11-08, this commit)** — `ui/icons.py` (`ICONS`, `icon`), `AreaWindow.set_icons` (icons painted again on a palette change), View → Toolbar text (`ui.toolbar_text`); Photometry (its ◀ ▶ actions now named Previous / Next frame), Spectroscopy (one icon per job) and Images use the table. A symbol that the font drew as a coloured emoji (♒) was replaced. Guide 01 in four languages (also the Light curves / O−C block names left from I6d (4)). Screenshot scratchpad `i6c1/all.png`; `test_one_icon_set_and_icon_toolbars`. Original: `ui/icons.py`: one table
+- **I6c.1 One icon set, icon toolbars.** **agent2 done (2026-11-08, commit 283bc69)** — `ui/icons.py` (`ICONS`, `icon`), `AreaWindow.set_icons` (icons painted again on a palette change), View → Toolbar text (`ui.toolbar_text`); Photometry (its ◀ ▶ actions now named Previous / Next frame), Spectroscopy (one icon per job) and Images use the table. A symbol that the font drew as a coloured emoji (♒) was replaced. Guide 01 in four languages (also the Light curves / O−C block names left from I6d (4)). Screenshot scratchpad `i6c1/all.png`; `test_one_icon_set_and_icon_toolbars`. Original: `ui/icons.py`: one table
   kind → icon (Qt standard icons for open / save, font symbols drawn in the theme's text colour otherwise, as
   Images does today), the same kind always the same icon and no icon for two kinds (a test). `AreaWindow` shows its
   toolbar as icons with tooltips, View → "Toolbar text" adds the labels (kept in the settings), icons follow a
   theme change. Photometry, Spectroscopy and Images use the table.
-- **I6c.2 The common menus complete in every area window:** Edit → Copy, Settings…; Help → Tour, Check for updates,
+- **I6c.2 The common menus complete in every area window:** **agent2 claimed (2026-11-08) — do not touch** Edit → Copy, Settings…; Help → Tour, Check for updates,
   About.
 - **I6c.3 Photometry:** Frames, Stars, Measure, Analyse, File → Export, as in the table; toolbar.
 - **I6c.4 Calibration:** Frames, Masters, Process, Send; toolbar.
