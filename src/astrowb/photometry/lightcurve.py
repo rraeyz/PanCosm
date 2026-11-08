@@ -390,13 +390,15 @@ def _off_the_field(xy, pred, found):
     move = xy - pred
     ok = np.flatnonzero(found)
     if len(ok) < 3:
-        return xy
+        return xy, found
     field = np.median(move[ok], axis=0)
     off = np.hypot(*(move - field).T) > JUMP_PX
-    if off.any() and (~off[ok]).sum() >= 2:
-        xy = xy.copy()
+    agree = int((~off[ok]).sum())
+    if off.any() and agree >= max(2, 0.6 * len(ok)):  # most stars took one move: a frame that is lost is left alone
+        xy, found = xy.copy(), found.copy()
         xy[off] = pred[off] + field
-    return xy
+        found[off] = False  # placed by the field, not found: a frame of noise is still "not placed"
+    return xy, found
 
 
 def _rank(lost):
@@ -411,7 +413,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
     xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"))
-    xy = _off_the_field(xy, pred, found)
+    xy, found = _off_the_field(xy, pred, found)
     fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
     if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars
         free = [k for k in range(len(xy)) if k not in fixed and found[k]]
