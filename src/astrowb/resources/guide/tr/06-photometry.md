@@ -1,5 +1,5 @@
 # Fotometri
-**Fotometri** sayfası bir dizi kalibre görüntüde hedef yıldızın parlaklığını karşılaştırma yıldızlarına göre ölçer; ışık eğrisi, minimum zamanları ve raporlar verir. En üstteki **İş akışı** satırı (açmak için tıklayın) IRAF phot ya da AstroImageJ'deki adımları listeler; her biri bitti ya da sıradaki olarak işaretlidir, altında sırada ne yapılacağı yazar.
+**Fotometri** sayfası bir dizi kalibre görüntüde hedef yıldızın parlaklığını karşılaştırma yıldızlarına göre ölçer; ışık eğrisi, minimum zamanları ve raporlar verir. En üstteki **İş akışı** satırı (açmak için tıklayın) IRAF phot ya da AstroImageJ'deki adımları listeler; her biri bitti ya da sıradaki olarak işaretlidir, altında sırada ne yapılacağı yazar. Fotometri kendi penceresinde açılır (Başlangıç sayfasındaki bloğundan ya da kenar çubuğundan); kendi Dosya, Düzen (Geri al / İleri al), Görünüm, Pencere ve Yardım menüleri vardır; ana pencere olduğu gibi kalır ve Fotometri penceresi ikinci bir ekrana taşınabilir. Boyutu ve yeri hatırlanır.
 
 ## Görüntüleri ve yıldızları seçmek
 1. **Görüntüleri seç…** — tek alanın ve tek filtrenin kalibre kareleri. Zamana göre sıralanırlar.

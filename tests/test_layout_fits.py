@@ -40,7 +40,12 @@ def test_every_page_fits_a_small_window(qapp, qtbot, tmp_path, lang, look):
         for attr in list(win._placeholders):
             page = getattr(win, attr)
             frame = win._frames[page]
-            win.pages.setCurrentWidget(frame)
+            area = win.area_windows.get(win._area_key(attr))
+            if area is not None:  # an area in a window of its own (interface I4): that window at the same size
+                area.resize(960, 700)
+                area.show()
+            else:
+                win.pages.setCurrentWidget(frame)
             qapp.processEvents()
             qapp.processEvents()  # columns stacked on a narrow window lay out again
             need, have = page.minimumSizeHint().width(), frame.viewport().width()

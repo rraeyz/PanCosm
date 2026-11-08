@@ -61,6 +61,7 @@ LIBRARIES = (
     "scipy.sparse",
     "scipy.spatial",
     "scipy.special",
+    "shiboken6",
     "tifffile",
     "wgpu",
 )

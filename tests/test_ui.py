@@ -128,8 +128,12 @@ def test_main_window_is_a_menu_of_area_blocks(window, qtbot, tmp_path, monkeypat
     assert window.report_problem(tmp_path / "r.zip") and (tmp_path / "r.zip").exists()
     area.close()
     window.show_workspace("start")
+    window.show()
     window.resize(800, 600)
-    assert page.minimumSizeHint().width() <= 800 - window.nav.minimumWidth()
+    from PySide6.QtWidgets import QApplication
+
+    QApplication.processEvents()
+    assert page.minimumSizeHint().width() <= window._frames[page].viewport().width()
 
 
 def test_opening_fits_switches_to_images_and_project_history(window, fits_file, tmp_path):
@@ -968,31 +972,35 @@ def test_every_button_and_menu_survives_empty_input(window, qtbot, monkeypatch):
 
 def test_pages_as_panels_beside_the_image(window, qtbot, tmp_path):
     """A page shown beside the image (as MaxIm DL's tool windows): the image stays, the sidebar brings the panel
-    forward, closing the panel puts the page back; remembered for the next start."""
+    forward, closing the panel puts the page back; remembered for the next start. Areas moved into windows of
+    their own (Photometry, plans/interface.md I4) are not panels, even when old settings name them."""
     from astrowb.ui.main_window import MainWindow
 
     window.show()
     window.show_workspace("image")
-    dock = window.dock_page("photometry")
-    assert dock.isVisible() and dock.widget() is window._frames[window.photometry_page]
+    dock = window.dock_page("spectroscopy")
+    assert dock.isVisible() and dock.widget() is window._frames[window.spectro_page]
     assert window.pages.indexOf(dock.widget()) == -1 and window.current_workspace() == "image"
-    window.show_workspace("photometry")  # the sidebar raises the panel, the image stays
+    window.show_workspace("spectroscopy")  # the sidebar raises the panel, the image stays
     assert window.current_workspace() == "image" and window.pages.currentWidget() is window._frames[window.image_page]
     window._fill_panels_menu()
     acts = {a.text(): a for a in window.panels_menu.actions()}
-    assert acts[window._nav_items()["photometry"].text()].isChecked()
+    assert acts[window._nav_items()["spectroscopy"].text()].isChecked()
+    assert window._nav_items()["photometry"].text() not in acts  # in a window of its own
     acts[window._nav_items()["timeseries"].text()].trigger()  # a second panel, tabbed with the first
-    assert set(window._panels) == {"photometry", "timeseries"}
-    assert window.settings.get("ui.panels") == ["photometry", "timeseries"]
+    assert set(window._panels) == {"spectroscopy", "timeseries"}
+    assert window.settings.get("ui.panels") == ["spectroscopy", "timeseries"]
+    window.settings.set("ui.panels", ["spectroscopy", "timeseries", "photometry"])  # saved by an older version
     again = MainWindow(window.settings)
     qtbot.addWidget(again)
-    assert set(again._panels) == {"photometry", "timeseries"}
+    assert set(again._panels) == {"spectroscopy", "timeseries"}
     again.engine.shutdown()
     dock.close()
-    assert "photometry" not in window._panels and window.pages.indexOf(window._frames[window.photometry_page]) >= 0
-    window.show_workspace("photometry")
-    assert window.current_workspace() == "photometry"
+    assert "spectroscopy" not in window._panels and window.pages.indexOf(window._frames[window.spectro_page]) >= 0
+    window.show_workspace("spectroscopy")
+    assert window.current_workspace() == "spectroscopy"
     assert window.dock_page("image") is None and "image" not in window._panels
+    assert window.dock_page("photometry") is None
 
 
 def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file):
@@ -1223,3 +1231,29 @@ def test_header_table_copies_widens_and_edits(window, fits_file, monkeypatch):
     monkeypatch.setattr(window.image_page, "edit_keyword_dialog", lambda: opened.append(table.currentRow()))
     table.cellDoubleClicked.emit(rows["OBJECT"], 1)
     assert opened == [rows["OBJECT"]]
+
+
+def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
+    """plans/interface.md I4.1: the Photometry page, unchanged, in its own area window; the sidebar and the start
+    block raise it (never a second one); calibrated frames sent to Photometry arrive there; Undo of its edits in
+    its own Edit menu; its layout is remembered."""
+    from astrowb.ui.area_window import AreaWindow
+
+    window.show()
+    assert "photometry" not in window.area_windows  # built when first opened, like every page
+    window.show_workspace("photometry")
+    win = window.area_windows["photometry"]
+    assert isinstance(win, AreaWindow) and win.isVisible() and window.current_workspace() == "photometry"
+    assert win.centralWidget().widget() is window.photometry_page
+    assert window.pages.currentWidget() is not window._frames[window.photometry_page]  # not in the main window
+    window._show_key("photometry")  # the sidebar
+    window.open_area("photometry")  # a start block
+    assert [w for w in AreaWindow.shown() if w.key == "photometry"] == [win]
+    sent = window.send_to_photometry([str(fits_file)])
+    assert sent and window.photometry_page.images == [str(fits_file)] and win.isVisible()
+    assert win.undo_action.text().startswith("&Undo") or win.undo_stack is window.photometry_page.undo_stack
+    win.close()
+    assert not win.isVisible() and window.settings.get("area.photometry.state")
+    window.open_area("photometry")
+    assert win.isVisible() and win in AreaWindow.shown()
+    win.close()
