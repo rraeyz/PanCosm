@@ -34,6 +34,13 @@ ICONS = {
     "calibrate": "◑",
     "stack": "⧈",
     "send": "➜",
+    # light curves and O−C
+    "download": "⇓",
+    "period_search": "⟲",
+    "frequency": "ν",
+    "variable_search": "✧",
+    "lookup": "ℹ",
+    "fit_model": "⟋",
     # spectroscopy jobs
     "long_slit": "▭",
     "echelle": "≣",

@@ -68,7 +68,7 @@ class VarFindPage(QWidget):
         )
         info.setWordWrap(True)
         lay.addWidget(info)
-        choose = QPushButton(self.tr("Choose frames…"), self)
+        choose = self.choose_button = QPushButton(self.tr("Choose frames…"), self)
         choose.clicked.connect(
             lambda: self.set_images(QFileDialog.getOpenFileNames(self, self.tr("Frames"), "", images_filter())[0])
         )

@@ -91,7 +91,7 @@ class OCPage(QWidget):
         self.text.setPlaceholderText("2455867.40274 0.00005 I  literature\n2458107.71232 0.0033 I  this work")
         lay.addWidget(self.text, 1)
         row = QHBoxLayout()
-        load = QPushButton(self.tr("Load file…"), self)
+        load = self.load_button = QPushButton(self.tr("Load file…"), self)
         load.clicked.connect(self._load)
         row.addWidget(load)
         load.setToolTip(
@@ -181,7 +181,8 @@ class OCPage(QWidget):
 
         self.fit_result = None
         self.background = None  # set by the main window: runs the MCMC as a task
-        lay.addWidget(results_button(self, self.fit_table))
+        self.results_button = results_button(self, self.fit_table)
+        lay.addWidget(self.results_button)
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)

@@ -77,7 +77,7 @@ class PeriodPage(Undoable, QWidget):
         )
         self.source.setWordWrap(True)
         lay.addWidget(self.source)
-        load = QPushButton(self.tr("Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…"), self)
+        load = self.load_button = QPushButton(self.tr("Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…"), self)
         load.setToolTip(
             self.tr(
                 "Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and"
@@ -85,7 +85,7 @@ class PeriodPage(Undoable, QWidget):
             )
         )
         load.clicked.connect(self._load)
-        save = QPushButton(self.tr("Save light curve (CSV)…"), self)
+        save = self.save_button = QPushButton(self.tr("Save light curve (CSV)…"), self)
         save.setToolTip(
             self.tr(
                 "The light curve as shown (downloaded, edited) in a CSV file: open it in the Models window "
@@ -104,7 +104,7 @@ class PeriodPage(Undoable, QWidget):
         self.mission = QComboBox(self)
         self.mission.addItems(("TESS", "Kepler", "K2", "ZTF", "AAVSO"))
         self.mission.setToolTip(self.tr("The archive to download the light curve from"))
-        fetch = QPushButton(self.tr("Download"), self)
+        fetch = self.fetch_button = QPushButton(self.tr("Download"), self)
         fetch.setToolTip(
             self.tr("TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)")
         )
@@ -170,7 +170,7 @@ class PeriodPage(Undoable, QWidget):
         self.clip_sigma.setRange(1.0, 20.0)
         self.clip_sigma.setValue(4.0)
         self.clip_sigma.setToolTip(self.tr("Limit in standard deviations for Remove outliers"))
-        clip = QPushButton(self.tr("Remove outliers (σ)"), self)
+        clip = self.clip_button = QPushButton(self.tr("Remove outliers (σ)"), self)
         clip.clicked.connect(lambda: self.edit(self.tr("remove outliers"), self._clip))
         clip.setToolTip(
             self.tr(
@@ -182,7 +182,7 @@ class PeriodPage(Undoable, QWidget):
         self.bin_minutes.setRange(0.1, 10000)
         self.bin_minutes.setValue(5.0)
         self.bin_minutes.setToolTip(self.tr("Length of a time bin in minutes for Bin in time"))
-        binb = QPushButton(self.tr("Bin in time (min)"), self)
+        binb = self.bin_button = QPushButton(self.tr("Bin in time (min)"), self)
         binb.clicked.connect(lambda: self.edit(self.tr("bin in time"), self._bin))
         binb.setToolTip(
             self.tr(
@@ -193,10 +193,10 @@ class PeriodPage(Undoable, QWidget):
         self.delete_mode = QPushButton(self.tr("Delete points by clicking"), self)
         self.delete_mode.setCheckable(True)
         self.delete_mode.setToolTip(self.tr("Click a point on the light-curve plot to remove it"))
-        units = QPushButton(self.tr("Flux ↔ magnitude"), self)
+        units = self.units_button = QPushButton(self.tr("Flux ↔ magnitude"), self)
         units.clicked.connect(lambda: self.edit(self.tr("flux / magnitude"), self._convert))
         units.setToolTip(self.tr("Converts relative flux to magnitudes (−2.5 log) or back"))
-        undo = QPushButton(self.tr("Undo edits"), self)
+        undo = self.undo_button = QPushButton(self.tr("Undo edits"), self)
         undo.clicked.connect(lambda: self.edit(self.tr("undo edits"), self._undo))
         undo.setToolTip(self.tr("Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)"))
         edit.addWidget(clip, 0, 0)

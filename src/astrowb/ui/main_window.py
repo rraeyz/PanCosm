@@ -413,6 +413,73 @@ class MainWindow(QMainWindow):
         )  # fmt: skip
         win.set_icons({lights: "open_folder", scan: "scan", run: "calibrate", stack: "stack", send: "send"})
 
+    def _timeseries_menus(self, page, win):
+        """Light curves and period: Data, Search, Send and File → Load / Download / Save (interface I6c.6); each item
+        shows its tab first."""
+        from PySide6.QtWidgets import QMenu
+
+        pp, fp, vf = page.period_page, page.frequency_page, page.varfind_page
+
+        def tab(widget, owner, text=None, short=None):
+            act = _mirror(widget, page, short)
+            if text:
+                act.setText(text)
+            act.triggered.connect(lambda _=False: page.setCurrentWidget(owner))
+            return act
+
+        load = tab(pp.load_button, pp, short=self.tr("Load"))
+        fetch = tab(pp.fetch_button, pp, self.tr("Download a light curve (TESS, Kepler, ZTF, AAVSO)"),
+                    self.tr("Download"))  # fmt: skip
+        save = tab(pp.save_button, pp, short=self.tr("Save"))
+        search = tab(pp.search_button, pp, self.tr("Period search"))
+        freq = tab(fp.button, fp)
+        var = tab(vf.button, vf)
+        win.add_menus(
+            [
+                (self.tr("&Data"), [tab(pp.delete_mode, pp), tab(pp.clip_button, pp), tab(pp.bin_button, pp),
+                                    tab(pp.units_button, pp), None, tab(pp.undo_button, pp)]),
+                (self.tr("Se&arch"), [search, freq, None, tab(vf.choose_button, vf), var]),
+                (self.tr("Se&nd"), [tab(fp.to_oc, fp), tab(vf.send, vf)]),
+            ],
+            toolbar=[load, fetch, save, None, search, freq, var],
+        )  # fmt: skip
+        files = QMenu(self.tr("&Light curve"), win)  # File → Light curve, before Close window
+        win.file_menu.insertMenu(win.file_menu.actions()[-1], files)
+        files.addActions([fetch, save])  # loading is File → Open… (Ctrl+O, or drop a file)
+        win.set_icons({load: "open", fetch: "download", save: "save", search: "period_search", freq: "frequency",
+                       var: "variable_search"})  # fmt: skip
+
+    def _oc_menus(self, page, win):
+        """O−C: Ephemeris, Models, File → Load minima / Export (interface I6c.6)."""
+        from PySide6.QtGui import QActionGroup
+        from PySide6.QtWidgets import QMenu
+
+        def named(widget, text=None, short=None):
+            act = _mirror(widget, page, short)
+            if text:
+                act.setText(text)
+            return act
+
+        load = named(page.load_button, self.tr("Load minimum times…"), self.tr("Load"))
+        look = named(page.look_up, self.tr("Look up the ephemeris (VSX)"), self.tr("Look up"))
+        fit = named(page.fit_button, short=self.tr("Fit"))
+        export = named(page.results_button, short=self.tr("Export"))
+        models = [named(r) for r in (page.linear, page.quadratic, page.ltte, page.apsidal)]
+        group = QActionGroup(win)  # one model at a time, as the radio buttons
+        for act in models:
+            group.addAction(act)
+        win.add_menus(
+            [
+                (self.tr("&Ephemeris"), [look, None, models[0], models[1], None, fit]),
+                (self.tr("&Models"), [models[2], models[3], None, named(page.use_mcmc)]),
+            ],
+            toolbar=[load, look, fit, export],
+        )
+        files = QMenu(self.tr("&Export"), win)
+        win.file_menu.insertMenu(win.file_menu.actions()[-1], files)  # loading minima is File → Open… (Ctrl+O)
+        files.addAction(export)
+        win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
+
     def _spectroscopy_menus(self, page, win):
         """Reduce, Lines, Spectrum, Measure, Velocity and File → Export (interface I6c.5, the table agreed from
         IRAF's tasks and iSpec's Operations / Parameters menus): every item does what its job's button does, and

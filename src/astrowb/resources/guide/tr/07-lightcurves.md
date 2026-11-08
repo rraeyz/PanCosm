@@ -1,5 +1,5 @@
 # Işık eğrileri ve O-C
-İki pencere. **Işık eğrileri ve periyot** penceresinde **Periyot arama**, **Frekans analizi** ve **Değişen yıldız arama** sekmeleri vardır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır. **O−C** kendi penceresidir (bloğu ya da Pencere menüsü): Fotometride bulunan minimum zamanları ve frekans analizinin maksimumları oraya kendiliğinden gelir.
+İki pencere. **Işık eğrileri ve periyot** penceresinde **Periyot arama**, **Frekans analizi** ve **Değişen yıldız arama** sekmeleri vardır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); oradaki Düzen → Geri al / İleri al gösterilen sekmeye uygulanır. **O−C** kendi penceresidir (bloğu ya da Pencere menüsü): Fotometride bulunan minimum zamanları ve frekans analizinin maksimumları oraya kendiliğinden gelir. Işık eğrilerinde **Veri** (nokta silme, aykırı noktalar, gruplama, akı ↔ kadir, geri al), **Arama** (periyot, frekanslar, değişen yıldızlar) ve **Gönder** menüleri ile **Dosya → Işık eğrisi** (indir, kaydet) vardır; O−C'de **Efemeris** (bul, doğrusal, ikinci derece, fit) ve **Modeller** (üçüncü cisim, apsidal hareket, MCMC) vardır.
 
 ## Periyot arama
 Fotometri sayfasında ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
