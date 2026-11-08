@@ -515,11 +515,45 @@ a Measurements table, multi-plot and detrend & fit as their own panels (photomet
 the middle, lines and fit in panels).
 
 ### I6a. Test every window as a user (PLAN.md R3)
-**agent2 claimed (2026-11-08) — do not touch** — after I4 and again after each I5 / I6 window.
+**agent2 done (2026-11-08, this commit)** — first pass after I4 / I5; run it again after each I6 window. Script
+`i6a_drive.py <out> <lang> <W> <H>` (scratchpad): main → Calibration (LCO raw lights + darks + biases, sky flat; scan)
+→ Photometry (15 Qatar-1 frames: bad frames, target, radii, measure) → Light curves (period search, O−C) →
+Spectroscopy (EFOSC2 science + arc, velocity tab) → Models → Images → Planning → Observing → Automation → Remote
+sensing; tr / en / de / es at 1366 × 768 and 1920 × 1080 (scratchpad `i6a/<lang>_<W>/`, contact sheets
+`i6a/de_sheet0-4.png`). Its text check (`cut.txt`: size hint wider than the widget) found only the Workflow fold
+titles, which elide on purpose with the whole text in the tooltip; it does not look at table headers. The whole
+night worked in every language (15 points, scatter 0.44 %). German grammar fixed in this commit ("Im Fenster
+Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task in I6b.
 - **Build:** a driving script per window (QTest clicks, offscreen or Xvfb) that walks its workflow on real data
   and saves a screenshot of each step at 1366 × 768 and 1920 × 1080, in the four languages. A reviewer (the agent)
   looks at every screenshot as a newcomer would and writes each finding here as a task.
 - **Accept:** the screenshots are attached to the step's notes (scratchpad paths); no finding left without a task.
+
+### I6b. Findings of the I6a run (2026-11-08, agent2)
+**open** — each sub-item is claimed on its own.
+- **(1) Photometry / Images: catalogue labels hide the image.** After the field identification every Gaia / VSX star
+  gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
+  target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
+  a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
+- **(2) Photometry: the star table is squeezed in the results panel.** The long info text above it leaves the Stars
+  tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
+  table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
+- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** 15 points over
+  8 minutes gave "best period 0.013535 d" with a periodogram rising to the edge of the grid. Warn (PLAN.md R5) when
+  the time span is shorter than ~2 × the longest period searched, or when the peak is at the grid's edge, and say
+  what to do (more nights, a narrower range). Template in `ui/messages.py`. Accept: a test with a 8-minute curve
+  shows the warning; a 3-night curve does not.
+- **(4) Observing: sequence table headers cut** in German at 1366 × 768 ("elichtung (", "stärkung (G",
+  "uslesemod…"). Short header names with the full name in the header tooltip, or columns sized to their headers
+  with the table scrolling sideways. Folded into the Observing window's I6 layout. The I6a text check should look
+  at table headers too.
+- **(5) Automation: template names cut** in the template list ("…am Ende der Nacht (Vorlag") with a sideways
+  scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
+  leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
+- **(6) Remote sensing: empty view gives no hint.** The window opens on a large black view with no text; show
+  "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
+  the middle of the steps column with empty space below.
+- (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
 
 ### I7. Basic / Expert, guide, screenshots
 **open**
