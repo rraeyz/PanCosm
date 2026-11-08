@@ -238,7 +238,7 @@ raw (Echelle did only the latter). What the real data showed:
     buttons (Long slit, Echelle, Telluric, Velocities & orbit, IFU cube, Spectrum tools) and View → Job; the chosen
     job's steps column is the left panel "Steps"; the instrument-profile row moves to the top of that panel (it
     belongs to the reduction jobs only).
-  - **1.2 The view in the middle.** **agent2 done (2026-11-08, this commit)** — Reduce and Echelle each have the
+  - **1.2 The view in the middle.** **agent2 done (2026-11-08, commit 7a88dbb)** — Reduce and Echelle each have the
     frame in an `ImageViewer` above their plots (`_frame_and_plot`). Reduce shows the science frame as soon as it is
     chosen, as the extraction sees it (dispersion along x), and draws the trace and the aperture (green) and the sky
     bands (blue) after extracting; the plots below no longer carry an `imshow` subplot. Echelle draws the traced
