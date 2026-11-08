@@ -146,3 +146,29 @@ def test_binned_errors_and_a_weighted_period_search():
     f = 1 + 0.03 * np.sin(2 * np.pi * t / 1.37) + rng.normal(0, e)
     out = execute("timeseries.period", {"time": t, "flux": f, "err": e}, {"p_min": 0.3, "p_max": 5.0}, Ctx())
     assert abs(out["best"] - 1.37) < 0.005
+
+
+def test_period_search_warns_when_the_data_cannot_hold_the_period():
+    """15 points over 8 minutes gave a 'best period' with no word of doubt (interface I6b (3), PLAN.md R5)."""
+    from astrowb.engine.steps import execute
+    from astrowb.ui.messages import translate
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    rng = np.random.default_rng(5)
+    t = np.linspace(0, 8 / 1440, 15)
+    flat = {"time": t, "flux": rng.normal(1, 0.004, 15)}
+    out = execute("timeseries.period", flat, {"p_min": 0.05, "p_max": 10}, Ctx())
+    assert len(out["warnings"]) == 1 and "observe longer" in out["warnings"][0]
+    assert translate(out["warnings"][0]) == out["warnings"][0]  # matches its template (no translator here)
+    t = np.sort(rng.uniform(0, 3, 300))  # three nights
+    f = 1 + 0.03 * np.sin(2 * np.pi * t / 0.37) + rng.normal(0, 0.005, t.size)
+    out = execute("timeseries.period", {"time": t, "flux": f}, {"p_min": 0.1, "p_max": 1.4}, Ctx())
+    assert abs(out["best"] - 0.37) < 0.005 and out["warnings"] == []
+    from astrowb.photometry.steps import period_warnings
+
+    rising = np.linspace(0, 1, 50)  # the periodogram climbs to the last trial: the peak may lie beyond it
+    assert ["edge" in w for w in period_warnings(3.0, 0.1, 1.4, 1.39, rising)] == [True]
+    assert period_warnings(3.0, 0.1, 1.4, 0.37, np.sin(np.linspace(0, 3, 50))) == []

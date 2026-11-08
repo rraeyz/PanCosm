@@ -426,6 +426,9 @@ class PeriodPage(Undoable, QWidget):
                 "The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or "
                 "{p2:.6f} d) fits almost as well. Check with the times of minimum (O−C)."
             ).format(g=gap, p1=1 / (f + df), p2=1 / (f - df) if f > df else float("inf"))
+        for warning in out.get("warnings") or []:  # the data may not hold this period (R5)
+            warning = translate(warning)
+            text += "\n⚠ " + warning[:1].upper() + warning[1:]
         self.result.setText(text)
         self._plot_phase()
 

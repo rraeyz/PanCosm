@@ -166,7 +166,7 @@ def minimum_step(inputs, params, ctx):
 @step(
     "timeseries.period",
     inputs=("time", "flux"),
-    outputs=("periods", "power", "best"),
+    outputs=("periods", "power", "best", "warnings"),
     optional=("err",),
     method="lomb-scargle",
     p_min=0.05,
@@ -190,7 +190,30 @@ def period_step(inputs, params, ctx):
     ctx.progress(0.0, params["method"])
     weighted = {"err": e} if e is not None and params["method"] in ("lomb-scargle", "bls") else {}  # 1/σ² weights
     periods, power, best = func(t, y, p_min=params["p_min"], p_max=p_max, **weighted)
-    return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best}
+    return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best,
+            "warnings": period_warnings(np.ptp(t), params["p_min"], p_max, best, power)}  # fmt: skip
+
+
+def period_warnings(span, p_min, p_max, best, power=()):
+    """Why the best period may not be real (PLAN.md R5): the data are too short for it, or it sits at the edge of
+    the range searched, where the true peak may lie outside."""
+    if span < 2 * p_min:
+        return [
+            f"the light curve spans {24 * span:.3g} h, less than two cycles of the shortest period searched "
+            f"({p_min:g} d): no period in this range can be found; observe longer and search again"
+        ]
+    out = []
+    if best > span / 2:
+        out.append(
+            f"the best period ({best:.6g} d) is longer than half the time the light curve spans ({span:.3g} d): "
+            "fewer than two cycles were seen"
+        )
+    power = np.asarray(power, float)
+    # the highest point is the first or last trial: the peak may lie outside the range
+    edge = len(power) > 2 and np.isfinite(power).any() and np.nanargmax(power) in (0, len(power) - 1)
+    if edge or not p_min <= best <= p_max:
+        out.append(f"the best period is at the edge of the range searched ({p_min:g} to {p_max:g} d): widen the range")
+    return out
 
 
 @step(
