@@ -469,7 +469,7 @@ Decide when the Spectroscopy window gets its full layout (I6, `plans/spectroscop
 its text into the window's Help / the steps panel. Nothing is removed before that decision.
 
 ### I4d. Automation and Observing windows: findings of their first screenshots (2026-11-08, agent2)
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - Automation (tr): the templates' names and descriptions stay English ("Eclipsing binary night (şablon)",
   "Observe the binary from dusk to dawn…"), and the steps are listed by their technical ids ("1. calibration.scan",
   "photometry.suggest_comparisons") and setting keys ("← folder", "clock_utc_offset"). Show translated step names
