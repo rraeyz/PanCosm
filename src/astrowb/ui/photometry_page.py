@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtCore import QEvent, Qt, QTimer, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -406,7 +406,9 @@ class PhotometryPage(Undoable, QWidget):
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
         self.plot = PlotCanvas(bottom)
-        b_lay.addWidget(self.plot, 3)
+        left = QVBoxLayout()  # the plot and, under it, what was measured (scatter, warnings)
+        left.addWidget(self.plot, 1)
+        b_lay.addLayout(left, 1)
         res = QVBoxLayout()
         self.res_tabs = QTabWidget(self)
         # stars: roles, typed-in comparison magnitudes, weights
@@ -417,7 +419,7 @@ class PhotometryPage(Undoable, QWidget):
             [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude"), self.tr("Scatter (mmag)")]
         )
         self.star_table.horizontalHeader().setStretchLastSection(True)
-        for col in (0, 1, 2, 3, 5):
+        for col in (0, 1, 2, 3, 4, 5):  # every header readable; the table scrolls sideways if narrow
             self.star_table.horizontalHeader().setSectionResizeMode(col, QHeaderView.ResizeToContents)
         self.star_table.verticalHeader().hide()
         self.star_table.setToolTip(
@@ -642,26 +644,27 @@ class PhotometryPage(Undoable, QWidget):
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        res.addWidget(self.result)
-        # photometry only measures; the fits are on the next pages — say so where the result appears
+        left.addWidget(self.result)  # under the plot: the star table keeps the column's height (I6b (2))
+        # photometry only measures; the fits are in the next windows — say so where the result appears
         self.next_box = QWidget(self)
         nb = QVBoxLayout(self.next_box)
         nb.setContentsMargins(0, 0, 0, 0)
-        note = QLabel(
-            self.tr(
-                "Photometry measures the brightness; the fits come next: the period and the times of minimum "
-                "(O−C) on Light curves & O−C, a physical model of an eclipsing binary or a transit on Orbits & "
-                "models (formulas: Guide, Mathematics of the methods)."
-            ),
-            self,
-        )
-        note.setWordWrap(True)
-        nb.addWidget(note)
+        # what comes next is in the buttons' tooltips: a paragraph here left the star table one row (I6b (2))
         go_period = QPushButton(self.tr("Period search and O−C →"), self)
-        go_period.setToolTip(self.tr("Opens Light curves & O−C, which already has this light curve"))
+        go_period.setToolTip(
+            self.tr(
+                "Opens Light curves, period and O−C, which already has this light curve: the period and the times "
+                "of minimum (O−C) are found there; Photometry only measures"
+            )
+        )
         go_period.clicked.connect(lambda: self.next_requested.emit("timeseries", ""))
         go_model = QPushButton(self.tr("Fit an eclipse or transit model →"), self)
-        go_model.setToolTip(self.tr("Saves the light curve as a CSV file and opens it on Orbits & models"))
+        go_model.setToolTip(
+            self.tr(
+                "Saves the light curve as a CSV file and opens it in the Models window: a physical model of an "
+                "eclipsing binary or a transit (formulas: Guide, Mathematics of the methods)"
+            )
+        )
         go_model.clicked.connect(self._to_models)
         nb.addWidget(go_period)
         nb.addWidget(go_model)
@@ -669,6 +672,8 @@ class PhotometryPage(Undoable, QWidget):
         res.addWidget(self.next_box)
         widest = max(self.res_tabs.widget(i).minimumSizeHint().width() for i in range(self.res_tabs.count()))
         self.res_tabs.setMinimumWidth(widest + 30)  # scrolling only up and down: never cut a control's text
+        self._next_buttons = (go_period, go_model)
+        self.next_box.installEventFilter(self)  # side by side when they fit: a row more for the star table
         for i in range(self.res_tabs.count()):  # a tab's controls scroll rather than take the image's height
             text, inner = self.res_tabs.tabText(i), self.res_tabs.widget(i)
             box = QScrollArea(self)
@@ -1162,6 +1167,12 @@ class PhotometryPage(Undoable, QWidget):
         self._lower.setVisible(True)  # its panel is shown and hidden instead (results_dock)
         return parts
 
+    def eventFilter(self, obj, event):
+        if obj is getattr(self, "next_box", None) and event.type() == QEvent.Resize:
+            need = sum(b.sizeHint().width() for b in self._next_buttons) + obj.layout().spacing()
+            obj.layout().setDirection(QVBoxLayout.LeftToRight if obj.width() >= need else QVBoxLayout.TopToBottom)
+        return super().eventFilter(obj, event)
+
     def _show_lower(self, on):
         """The lower panel (light curve, star table) only when there is something in it: until then the image has
         the whole height (the owner found the empty band in the way)."""
@@ -1169,6 +1180,8 @@ class PhotometryPage(Undoable, QWidget):
         if dock is not None:  # in the Photometry window: the results panel appears with something in it
             if on and dock.isHidden():
                 dock.show()
+                win = dock.parentWidget()  # two fifths of the height, as the page's own split: room for 5 stars
+                win.resizeDocks([dock], [max(dock.height(), win.height() * 2 // 5)], Qt.Vertical)
             elif not on:
                 dock.hide()
             return
