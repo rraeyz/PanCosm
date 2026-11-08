@@ -422,7 +422,8 @@ I4 has moved every page (see "To ask the owner").
 ### I4. Move each page into its area window, unchanged
 **agent2 claimed (2026-11-08) — do not touch**
 - **Build:** one area at a time, in this order; each is its own commit:
-  1. Photometry;
+  1. Photometry — **agent2 done (2026-11-08, commit 8ce39a3)**: `MainWindow.WINDOWED`, `_place_in_window`, `_help_for`;
+     tests `test_photometry_lives_in_a_window_of_its_own`, `test_undo` adjusted to the area window;
   2. Calibration;
   3. Light curves / Period / O−C (split into O−C and Period / frequency windows, or kept together: ask the owner);
   4. Spectroscopy;
@@ -442,7 +443,7 @@ I4 has moved every page (see "To ask the owner").
   - projects, settings and sessions saved by the previous version open (a test with files saved by v0.2.7).
 
 ### I4a. Findings of the first Photometry window screenshot (2026-11-08, agent2)
-**open**
+**agent2 claimed (2026-11-08) — do not touch** (done between I4.1 and I4.2)
 - (1) The tasks a page starts (field identification, quality, measuring) are not shown in its area window's status
   bar: the window says "Ready" while "Identifying the field (Gaia, VSX)…" runs. Route them: the main window's
   methods that run a step for an area (`measure_light_curve`, the photometry quality / suggest / field steps, …)
