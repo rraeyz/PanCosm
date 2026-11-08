@@ -63,6 +63,8 @@ The plot shows the star's profile with the aperture (green), the left-out gap an
 
 **Sky noise from the camera** (More measuring options): the error of every star is then computed from the gain, the read noise and the dark current (read from RDNOISE / READNOIS and DARKCUR when the header has them, or typed in) and each star's sky level — √(S g + D + R² + 0.289² g²) / g per sky pixel, as AstroImageJ does (Collins et al. 2017, appendix B) — instead of the scatter measured in the sky ring (IRAF's and Siril's way). On simulated frames the predicted error matches the scatter of 1000 noise realisations within 5 %. The measurements table shows every star's signal-to-noise (Source_SNR) on every frame.
 
+**Sky from the ring** (More measuring options) chooses how the sky ring gives the sky under the star: the clipped **median** (the default; for integer data taken inside its unit bin), IRAF's **mode** (3 median − 2 mean after clipping), AstroImageJ's **mean within ±2σ**, or a **plane fit** — a tilted sky (the Moon, twilight, light pollution) fitted over the ring with the stars in it left out; its value at the star is the sky. On a simulated frame with a gradient and a bright star in the ring the plane gives the true sky within 0.1 σ while the others are pulled off.
+
 ## Time and BJD
 Times are taken from `DATE-OBS` and `EXPTIME` (the middle of the exposure). With the **Target RA Dec** (or `OBJCTRA`/`OBJCTDEC` in the header) and the site in the header, times are converted to **BJD_TDB**, the standard for timing eclipses and transits.
 

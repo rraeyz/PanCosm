@@ -362,3 +362,42 @@ def test_camera_noise_model_predicts_the_scatter():
         fluxes.append(f[0])
         errs.append(err[0])
     assert np.median(errs) == pytest.approx(np.std(fluxes), rel=0.05)
+
+
+def test_sky_estimates_with_a_gradient_and_a_star_in_the_ring():
+    """plans/photometry.md item 3: a sky gradient (moonlight) and a bright star in the sky ring: the plane fit gives
+    the true sky at the target within 0.1 sigma; the others are off (the gradient widens and skews what the clipping
+    keeps, and the star's wings stay in)."""
+    from astrowb.photometry.aperture import measure
+
+    rng = np.random.default_rng(11)
+    yy, xx = np.mgrid[:101, :101]
+    x0, y0, sigma = 50.3, 49.7, 5.0
+    sky = 500.0 + 0.8 * (xx - x0) - 0.5 * (yy - y0)  # true sky at the target: 500
+    img = sky + rng.normal(0, sigma, sky.shape)
+    img += 3e4 / (2 * np.pi * 2.0**2) * np.exp(-((xx - x0) ** 2 + (yy - y0) ** 2) / 8.0)
+    img += 2e5 / (2 * np.pi * 2.0**2) * np.exp(-((xx - x0 - 13) ** 2 + (yy - y0) ** 2) / 8.0)  # in the ring
+    got = {}
+    for method in ("median", "mode", "mean", "plane"):
+        _, err, s = measure(img, [(x0, y0)], 5.0, 10.0, 18.0, 1.0, sky_method=method)
+        got[method] = float(np.ravel(s)[0])
+        assert np.isfinite(np.ravel(err)[0])
+    assert abs(got["plane"] - 500.0) < 0.1 * sigma
+    for method in ("median", "mode", "mean"):
+        assert abs(got[method] - 500.0) > 2 * abs(got["plane"] - 500.0), got
+
+
+def test_light_curve_with_the_other_sky_estimates(tmp_path):
+    """plans/photometry.md items 2 and 3 through the whole light curve: every sky estimate and the camera noise model
+    give the same relative flux of a flat field within its errors."""
+    paths = []
+    for i in range(3):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 10.0})
+        fits.PrimaryHDU(field(4.0, seed=i).astype(np.float32), h).writeto(tmp_path / f"f{i}.fits")
+        paths.append(tmp_path / f"f{i}.fits")
+    stars = [s[:2] for s in STARS]
+    ref = light_curve(paths, stars[0], stars[1:], 6, 18, 24)
+    for method in ("mode", "mean", "plane"):
+        lc = light_curve(paths, stars[0], stars[1:], 6, 18, 24, sky_method=method, camera={"read_noise": 8.0})
+        d = np.asarray(lc["rel_flux"]) - np.asarray(ref["rel_flux"])
+        assert np.all(np.abs(d) < 3 * np.asarray(ref["rel_flux_err"])), method

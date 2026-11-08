@@ -428,6 +428,24 @@ class PhotometryPage(Undoable, QWidget):
         for w in (self.read_noise, self.dark_current):
             w.setEnabled(False)
             self.camera_noise.toggled.connect(w.setEnabled)
+        sky_row = QHBoxLayout()  # plans/photometry.md item 3
+        sky_row.addWidget(QLabel(self.tr("Sky from the ring"), self))
+        self.sky_method = QComboBox(self)
+        for key, text in (
+            ("median", self.tr("median (clipped)")),
+            ("mode", self.tr("mode, 3 median − 2 mean (IRAF)")),
+            ("mean", self.tr("mean within ±2σ (AstroImageJ)")),
+            ("plane", self.tr("plane fit (a gradient: Moon, twilight)")),
+        ):
+            self.sky_method.addItem(text, key)
+        self.sky_method.setToolTip(
+            self.tr(
+                "How the sky ring gives the sky under the star. The median suits most nights; a plane follows a sky "
+                "that brightens towards one side (the Moon, twilight, light pollution) and leaves out stars in the ring"
+            )
+        )
+        sky_row.addWidget(self.sky_method, 1)
+        self.measure_options.body.addLayout(sky_row)
         self.measure_options.body.addWidget(self.camera_noise)
         self.measure_options.body.addLayout(cam)
         self.sections[3].body.addWidget(self.measure_options)
@@ -1541,6 +1559,7 @@ class PhotometryPage(Undoable, QWidget):
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
         params["psf"] = self.psf.isChecked()
+        params["sky_method"] = self.sky_method.currentData()
         if self.camera_noise.isChecked():
             params["camera"] = {"read_noise": self.read_noise.value(), "dark": self.dark_current.value()}
         if self.extras:

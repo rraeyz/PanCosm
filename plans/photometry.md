@@ -282,7 +282,19 @@ Guide 06 in four languages.
   scatter of 1000 noise realisations within 5 %.
 
 ### 3. Sky estimate choices
-**agent2 claimed (2026-11-08) — do not touch**
+**agent2 done (2026-11-08, this commit)** — `aperture.sky_estimate` and `measure(..., sky_method=…)` through
+`light_curve` and the step: **median** (now; inside its bin for integer data, item 1), **mode** (IRAF: 3 median −
+2 mean after iterative 3σ clipping), **mean** (AstroImageJ: ±2σ iterations until the mean changes < 1e-4), **plane**
+(a + b dx + c dy over the ring with 3σ clipping of the residuals; its value at the centre is the sky, and over a full
+circle the tilt cancels). Photometry window, More measuring options: **Sky from the ring**. Accept met: a frame with a
+gradient (0.8 and −0.5 ADU/px) and a bright star in the ring — the plane gives the true sky within 0.1 σ, median, mode
+and mean are more than twice as far off (`test_sky_estimates_with_a_gradient_and_a_star_in_the_ring`; the whole light
+curve with each estimate and the camera noise: `test_light_curve_with_the_other_sky_estimates`). Guide 06 in four
+languages.
+- **Not built (rule 12, written why):** AstroImageJ's rejected-pixel mask carried from frame to frame, and IRAF's
+  histogram centroid with `rgrow`. The plane's residual clipping already leaves a star in the ring out on every frame,
+  and the measured gain from carrying a mask needs a crowded real night to show; they become item 3b when a night
+  shows the need (a faint star in the ring changing the curve).
 - **Reference:** IRAF `fitskypars.salgorithm` (mode, median, centroid…); MaxIm median-mean; AIJ iterative 2σ
   rejection of stars in the annulus and an optional plane fit; Siril rejects deviant pixels.
 - **Ours:** sigma-clipped median only; no plane fit; a bright star in the annulus is clipped but not masked.

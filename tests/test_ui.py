@@ -1712,4 +1712,7 @@ def test_camera_noise_option_reads_the_header_and_goes_with_the_measurement(wind
     sent = []
     page.measure_requested.connect(lambda *a: sent.append(a))
     page._measure()
-    assert sent[0][4]["camera"] == {"read_noise": 7.5, "dark": 0.02}
+    assert sent[0][4]["camera"] == {"read_noise": 7.5, "dark": 0.02} and sent[0][4]["sky_method"] == "median"
+    page.sky_method.setCurrentIndex(page.sky_method.findData("plane"))  # item 3
+    page._measure()
+    assert sent[1][4]["sky_method"] == "plane"
