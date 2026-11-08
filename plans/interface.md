@@ -538,7 +538,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 - **(2) Photometry: the star table is squeezed in the results panel.** The long info text above it leaves the Stars
   tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
   table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
-- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** 15 points over
+- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 claimed (2026-11-08) — do not touch** 15 points over
   8 minutes gave "best period 0.013535 d" with a periodogram rising to the edge of the grid. Warn (PLAN.md R5) when
   the time span is shorter than ~2 × the longest period searched, or when the peak is at the grid's edge, and say
   what to do (more nights, a narrower range). Template in `ui/messages.py`. Accept: a test with a 8-minute curve
