@@ -1584,6 +1584,10 @@ class MainWindow(QMainWindow):
         self.tasks_list.item(self._task_items[task.id][1]).setText(text)
         self.progress.setVisible(any(not t.finished for t, _ in self._task_items.values()))
         self.progress.setValue(int(task.progress * 100))
+        from .area_window import AreaWindow
+
+        for win in list(AreaWindow.open_windows):  # the area window that started it shows it in its status bar
+            win.task_update(task)
         if task.finished:
             done = self._on_done.pop(task.id, None)
             fail = self._on_fail.pop(task.id, None)

@@ -20,7 +20,9 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QMainWindow,
     QMessageBox,
+    QProgressBar,
     QToolBar,
+    QToolButton,
     QVBoxLayout,
 )
 
@@ -62,6 +64,7 @@ class AreaWindow(QMainWindow):
         self.toolbar.setVisible(bool(toolbar))
         self._build_menus(menus)
         self.statusBar().showMessage(self.tr("Ready"))
+        self._build_task_bar()
         self._fit_screen()
         self._first_sizes()
         self._first_state = self.saveState()  # what Reset layout goes back to
@@ -172,6 +175,60 @@ class AreaWindow(QMainWindow):
             self.tr("Makes one file with the error log, the version, the system and the last steps, to send to the "
                     "developer. Your data files are not in it."),
         )  # fmt: skip
+
+    # --- long work ------------------------------------------------------------
+    def _build_task_bar(self):
+        self._tasks = {}  # id -> task running for this window
+        self.task_progress = QProgressBar(self)
+        self.task_progress.setMaximumWidth(220)
+        self.task_progress.setRange(0, 100)
+        self.task_cancel = QToolButton(self)
+        self.task_cancel.setText(self.tr("Cancel"))
+        self.task_cancel.setToolTip(self.tr("Stop the work running for this window"))
+        self.task_cancel.clicked.connect(self.cancel_tasks)
+        for w in (self.task_progress, self.task_cancel):
+            self.statusBar().addPermanentWidget(w)
+            w.hide()
+
+    def track(self, task):
+        """Show a task started for this window (engine task: name, state, progress, message) in its status bar."""
+        self._tasks[task.id] = task
+        self.task_update(task)
+
+    def task_update(self, task):
+        """Called on the GUI thread on every update of a tracked task (the main window routes them)."""
+        if task.id not in self._tasks:
+            return
+        from .messages import translate
+
+        running = [t for t in self._tasks.values() if not t.finished]
+        if task.finished:
+            self._tasks.pop(task.id, None)
+            ends = {
+                "done": self.tr("{name}: finished"),
+                "failed": self.tr("{name}: failed (see the message)"),
+                "cancelled": self.tr("{name}: cancelled"),
+            }
+            self.statusBar().showMessage(ends.get(task.state, "{name}").format(name=task.name))
+            if not self.isActiveWindow():  # long work ended while the user was in another window
+                from PySide6.QtWidgets import QApplication
+
+                QApplication.alert(self)
+            running = [t for t in self._tasks.values() if not t.finished]
+        else:
+            self.statusBar().showMessage(f"{task.name} — {translate(task.message)}".rstrip(" —"))
+        shown = running[-1] if running else None
+        for w in (self.task_progress, self.task_cancel):
+            w.setVisible(shown is not None)
+        if shown is not None:
+            self.task_progress.setValue(int(shown.progress * 100))
+            extra = len(running) - 1
+            self.task_progress.setFormat("%p %" if not extra else self.tr("%p % (+{n} more)").format(n=extra))
+
+    def cancel_tasks(self):
+        for task in list(self._tasks.values()):
+            task.cancel()
+        self.statusBar().showMessage(self.tr("Stopping…"))
 
     # --- files ----------------------------------------------------------------
     def recent(self):

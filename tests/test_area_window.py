@@ -189,3 +189,31 @@ def test_text_size(qtbot, tmp_path):
         assert theme.font_size(settings) == theme.FONT_PT
     finally:
         theme.apply(app, "dark")
+
+
+def test_long_work_shows_progress_and_cancel_in_the_status_bar(qtbot, tmp_path):
+    class FakeTask:
+        def __init__(self, i):
+            self.id, self.name, self.state, self.progress, self.message = i, f"measure {i}", "running", 0.0, ""
+            self.finished = self.cancelled = False
+
+        def cancel(self):
+            self.cancelled = True
+
+    win = _area(qtbot, Settings(tmp_path))
+    a, b = FakeTask(1), FakeTask(2)
+    win.track(a)
+    assert win.task_progress.isVisible() and win.task_cancel.isVisible()
+    a.progress, a.message = 0.42, "frame 42 of 100"
+    win.task_update(a)
+    assert win.task_progress.value() == 42 and "frame 42 of 100" in win.statusBar().currentMessage()
+    win.track(b)
+    assert "+1" in win.task_progress.format()
+    win.task_cancel.click()
+    assert a.cancelled and b.cancelled
+    for t in (a, b):
+        t.finished, t.state = True, "cancelled"
+        win.task_update(t)
+    assert not win.task_progress.isVisible() and "cancelled" in win.statusBar().currentMessage()
+    win.task_update(FakeTask(9))  # a task of another window: ignored
+    assert not win.task_progress.isVisible()
