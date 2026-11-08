@@ -72,3 +72,31 @@ def test_menus_undo_view_window_and_screen(qtbot, tmp_path):
     assert sig.args == ["test"]
     assert win.width() <= 1366 and win.height() <= 768
     assert win.minimumSizeHint().width() <= 1366
+
+
+def test_command_search_finds_and_runs_any_action_in_every_language(qtbot, tmp_path):
+    win = _area(qtbot, Settings(tmp_path), QUndoStack())
+    shown = [text for text, _ in win.commands()]
+    assert "View › Reset layout" in shown and "Measure › Measure" in shown and "Help › Guide for this window" in shown
+    assert "Edit › Find an action…" not in shown  # not itself
+    dialog = win.find_command()
+    qtbot.keyClicks(dialog.search, "layout reset")  # words in any order
+    assert [dialog.list.item(i).text() for i in range(dialog.list.count())] == ["View › Reset layout"]
+    win.addDockWidget(Qt.LeftDockWidgetArea, win.docks["stars"])
+    qtbot.keyClick(dialog.search, Qt.Key_Return)
+    assert win.dockWidgetArea(win.docks["stars"]) == Qt.RightDockWidgetArea  # Reset layout ran
+    from pathlib import Path
+
+    from PySide6.QtCore import QCoreApplication, QTranslator
+
+    import astrowb
+
+    for lang, word in (("tr", "düzeni"), ("de", "anordnung"), ("es", "disposición")):
+        tr = QTranslator()
+        assert tr.load(str(Path(astrowb.__file__).parent / "resources" / "i18n" / f"app_{lang}.qm"))
+        QCoreApplication.installTranslator(tr)
+        try:
+            local = _area(qtbot, Settings(tmp_path / lang))
+            assert any(word in text.casefold() for text, _ in local.commands()), lang
+        finally:
+            QCoreApplication.removeTranslator(tr)
