@@ -157,7 +157,7 @@ Read 2026-11-08 (agent2) for the window layout (interface I6); read again for ea
 ## Steps
 
 ### 0. Several exposures of one star combined; the master bias for spectra (PLAN.md "Decisions", first item)
-**agent2 done (2026-11-08, commit see Done)** — `spectroscopy/combine.py` + step `spectroscopy.combine`;
+**agent2 done (2026-11-08, commit 1ad0072)** — `spectroscopy/combine.py` + step `spectroscopy.combine`;
 Spectrum tools → *Combine exposures…*; the Reduce tab now says which frames it takes as calibrated and which are
 raw (Echelle did only the latter). What the real data showed:
   - TZ For, HARPS ADP: the archive file names are **processing** dates; three "same night" files were MJD 55431,
@@ -223,7 +223,7 @@ raw (Echelle did only the latter). What the real data showed:
   tests in `tests/test_spectroscopy.py`, guide 08 in four languages.
 
 ### 2. Keys in the arc identification
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - Reference: PypeIt Identify keys (a, f, z, +/-, w, ?) and IRAF identify (m, f, d, q).
 - Build: in the arc plot: f fit, z / Delete remove the line under the mouse, +/- the fit order, w pixels ↔
   wavelength, ? lists the keys; each also a menu action (Measure menu) with its shortcut shown.
@@ -238,4 +238,4 @@ raw (Echelle did only the latter). What the real data showed:
 
 ## Done
 
-- Step 0 (2026-11-08, agent2): combine exposures, calibrated-frame note.
+- Step 0 (2026-11-08, agent2, commit 1ad0072): combine exposures, calibrated-frame note.
