@@ -779,12 +779,20 @@ class MainWindow(QMainWindow):
         page.measure_requested.connect(self.measure_light_curve)
         page.catalog_requested.connect(
             lambda inputs, params: self.run_step(
-                "photometry.catalog", inputs, params, on_done=lambda out: page.show_catalog(out["catalog"])
+                "photometry.catalog",
+                inputs,
+                params,
+                on_done=lambda out: page.show_catalog(out["catalog"]),
+                area="photometry",
             )
         )
         page.quality_requested.connect(
             lambda images: self.run_step(
-                "photometry.quality", {"images": images}, {}, on_done=lambda out: page.show_quality(out["quality"])
+                "photometry.quality",
+                {"images": images},
+                {},
+                on_done=lambda out: page.show_quality(out["quality"]),
+                area="photometry",
             )
         )
         page.minimum_requested.connect(self.time_minimum)
@@ -795,6 +803,7 @@ class MainWindow(QMainWindow):
                 {"images": images, "target_xy": target, "comps_xy": comps},
                 {},
                 on_done=lambda out: page.show_apertures(out["apertures"]),
+                area="photometry",
             )
         )
         page.polarimetry_requested.connect(
@@ -803,6 +812,7 @@ class MainWindow(QMainWindow):
                 {"images": images, "o_xy": o, "e_xy": e},
                 params,
                 on_done=lambda out: page.show_polarimetry(out["polarimetry"]),
+                area="photometry",
             )
         )
         page.suggest_requested.connect(
@@ -813,6 +823,7 @@ class MainWindow(QMainWindow):
                 | ({"field": page.field} if page.field and page.ref == 0 else {}),
                 params,
                 on_done=lambda out: page.set_comparisons(out["comps_xy"], out.get("catalogue")),
+                area="photometry",
             )
         )
         page.field_requested.connect(
@@ -821,6 +832,7 @@ class MainWindow(QMainWindow):
                 {"image": image},
                 on_done=lambda out: page.show_field(out["field"]),
                 on_fail=page.field_failed,
+                area="photometry",
             )
         )
         return page
@@ -1627,11 +1639,13 @@ class MainWindow(QMainWindow):
         )
 
     # --- tasks --------------------------------------------------------------
-    def run_step(self, step_id, inputs, params=None, on_done=None, on_fail=None):
+    def run_step(self, step_id, inputs, params=None, on_done=None, on_fail=None, area=None):
         """Run a step as a task; on_done(outputs) is called on the GUI thread when it succeeds, on_fail(message)
         (instead of the error box) when it fails. Never touch widgets from task.add_callback: that runs on a
-        background thread."""
+        background thread. area: the area that asked for it; its window (if it has one) shows the progress."""
         task = self.engine.run_step(step_id, inputs, params)
+        if area in self.area_windows:
+            self.area_windows[area].track(task)
         if on_done:
             self._on_done[task.id] = on_done
         if on_fail:
@@ -1822,7 +1836,7 @@ class MainWindow(QMainWindow):
                 lc["time"], lc["rel_flux"], self.tr("the Photometry page"), err=lc.get("rel_flux_err")
             )
 
-        return self.run_step("photometry.light_curve", inputs, params, on_done=done)
+        return self.run_step("photometry.light_curve", inputs, params, on_done=done, area="photometry")
 
     def search_period(self, time, flux, params):
         params = dict(params)
@@ -1851,7 +1865,9 @@ class MainWindow(QMainWindow):
                 self.oc_page.t0.setText(repr(params["t0"]))
                 self.oc_page.period.setText(repr(params["period"]))
 
-        return self.run_step("timeseries.minimum", {"light_curve": light_curve}, params, on_done=done)
+        return self.run_step(
+            "timeseries.minimum", {"light_curve": light_curve}, params, on_done=done, area="photometry"
+        )
 
     # --- misc ---------------------------------------------------------------
     def _show_pixel(self, x, y, value):
