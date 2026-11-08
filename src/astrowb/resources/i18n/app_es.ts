@@ -98,6 +98,100 @@
     </message>
 </context>
 <context>
+    <name>AreaWindow</name>
+    <message>
+        <location filename="../../ui/area_window.py" line="31"/>
+        <source>Steps</source>
+        <translation>Pasos</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="34"/>
+        <location filename="../../ui/area_window.py" line="96"/>
+        <source>Toolbar</source>
+        <translation>Barra de herramientas</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="36"/>
+        <source>The frequent actions of this window</source>
+        <translation>Las acciones frecuentes de esta ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="42"/>
+        <source>Ready</source>
+        <translation>Listo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="77"/>
+        <source>&amp;File</source>
+        <translation>&amp;Archivo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="79"/>
+        <source>&amp;Close window</source>
+        <translation>&amp;Cerrar ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="80"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Editar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="83"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Deshacer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="85"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;Rehacer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="89"/>
+        <source>&amp;View</source>
+        <translation>&amp;Ver</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="93"/>
+        <source>Show or hide this panel</source>
+        <translation>Mostrar u ocultar este panel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="100"/>
+        <source>&amp;Reset layout</source>
+        <translation>&amp;Restablecer disposición</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="101"/>
+        <source>Put every panel back where it was when the window first opened</source>
+        <translation>Devuelve cada panel a donde estaba cuando se abrió la ventana por primera vez</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="107"/>
+        <source>&amp;Window</source>
+        <translation>&amp;Ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="109"/>
+        <source>&amp;Help</source>
+        <translation>A&amp;yuda</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="112"/>
+        <source>Guide for this window</source>
+        <translation>Guía de esta ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="113"/>
+        <source>Opens the page of the guide that explains this window</source>
+        <translation>Abre la página de la guía que explica esta ventana</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_window.py" line="120"/>
+        <source>Main window</source>
+        <translation>Ventana principal</translation>
+    </message>
+</context>
+<context>
     <name>AutomationPage</name>
     <message>
         <location filename="../../ui/automation_page.py" line="57"/>
