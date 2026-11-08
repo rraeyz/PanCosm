@@ -324,42 +324,68 @@ class MainWindow(QMainWindow):
         from .start_page import areas
 
         parts = page.window_parts()
-        actions, kinds = [], {}
-        for entry in (  # short labels on the toolbar; the button's own text and tooltip are the action's tooltip
-            (page.load_button, self.tr("Images…"), "open"),
-            (page.blink, self.tr("Blink"), "blink"),
-            (page.prev_frame, self.tr("Previous frame"), "previous"),
-            (page.next_frame, self.tr("Next frame"), "next"),
-            None,
-            (page.quality_button, self.tr("Bad frames"), "bad_frames"),
-            (page.suggest_button, self.tr("Comparisons"), "comparisons"),
-            (page.apertures_button, self.tr("Radii"), "radii"),
-            (page.measure_button, self.tr("Measure"), "measure"),
-            None,
-            (page.minimum_button, self.tr("Minimum"), "minimum"),
-            (page.export_button, self.tr("Export"), "export"),
-        ):
-            if entry is None:
-                actions.append(None)
-                continue
-            button, label, kind = entry
-            act = QAction(label, page)
-            kinds[act] = kind
-            long = button.text() or button.toolTip()
-            act.setToolTip(long if not button.toolTip() or button.toolTip() == long else f"{long}: {button.toolTip()}")
+        kinds = {}
+
+        def mirror(widget, short=None, kind=None):
+            """A menu / toolbar action that does what the page's button or check box does: the button's text in the
+            menus, the short name on the toolbar (its icon text), enabled and checked as the widget is."""
+            act = QAction(widget.text() or short, page)
+            if short:
+                act.setIconText(short)
+            act.setToolTip(widget.toolTip() or widget.text())
             act.setStatusTip(act.toolTip())
-            act.triggered.connect(lambda _=False, b=button: b.click())
-            _follow_enabled(button, act)
-            actions.append(act)
+            if widget.isCheckable():
+                act.setCheckable(True)
+                act.setChecked(widget.isChecked())
+                act.toggled.connect(widget.setChecked)
+                widget.toggled.connect(act.setChecked)
+            else:
+                act.triggered.connect(lambda _=False, b=widget: b.click())
+            _follow_enabled(widget, act)
+            if kind:
+                kinds[act] = kind
+            return act
+
+        images = mirror(page.load_button, self.tr("Images…"), "open")
+        blink = mirror(page.blink, self.tr("Blink"), "blink")
+        prev, nxt = (mirror(page.prev_frame, self.tr("Previous frame"), "previous"),
+                     mirror(page.next_frame, self.tr("Next frame"), "next"))  # fmt: skip
+        for act, text in ((prev, self.tr("Previous frame")), (nxt, self.tr("Next frame"))):
+            act.setText(text)  # the tool buttons show only an arrow
+        bad = mirror(page.quality_button, self.tr("Bad frames"), "bad_frames")
+        comps = mirror(page.suggest_button, self.tr("Comparisons"), "comparisons")
+        radii = mirror(page.apertures_button, self.tr("Radii"), "radii")
+        measure = mirror(page.measure_button, self.tr("Measure"), "measure")
+        minimum = mirror(page.minimum_button, self.tr("Minimum"), "minimum")
+        export = mirror(page.export_button, self.tr("Export"), "export")
+        target = mirror(page.make_target)
+        target.setText(self.tr("Make the chosen variable star the target"))  # the button sits beside its list
+        check = QAction(self.tr("Mark check stars"), page)
+        check.setToolTip(self.tr("The next clicks on the image mark check stars (K1, K2…)"))
+        check.triggered.connect(lambda: page.click_role.setCurrentIndex(page.click_role.findData("check")))
+        menus = [  # the approved table (plans/interface.md I6c), in the order of the work
+            (self.tr("F&rames"), [images, mirror(page.live_button), blink, prev, nxt, None, bad,
+                                  mirror(page.drop_bad), mirror(page.restore_button)]),
+            (self.tr("&Stars"), [comps, target, check, None, mirror(page.clear_button)]),
+            (self.tr("&Measure"), [radii, mirror(page.follow_seeing), mirror(page.psf), None, measure,
+                                   mirror(page.catalog_button), mirror(page.pol_button)]),
+            (self.tr("&Analyse"), [mirror(page.detrend_button), mirror(page.undo_detrend), None, minimum, None,
+                                   mirror(page.go_model), mirror(page.go_period)]),
+        ]  # fmt: skip
+        actions = [images, blink, prev, nxt, None, bad, comps, radii, measure, None, minimum, export]
         name = next(n for k, _, n, _ in areas() if k == "photometry")
-        measure = [a for a in actions if a is not None]
         win = AreaWindow(
             "photometry", name, self.settings, parts["view"], steps=parts["steps"],
             panels=[("results", self.tr("Results: light curve, stars, minimum, export"), parts["results"],
                      Qt.BottomDockWidgetArea)],
-            menus=[(self.tr("&Measure"), measure)], toolbar=actions,
+            menus=menus, toolbar=actions,
             undo_stack=_undo_source(page), open_files=page.set_images, file_filter=images_filter(), parent=self,
         )  # fmt: skip
+        from PySide6.QtWidgets import QMenu
+
+        exports = QMenu(self.tr("&Export"), win)  # File → Export, just before Close window
+        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
+        exports.addActions([export, mirror(page.aavso_button)])
         win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
         page.setParent(win)  # the page keeps the state and the logic, unseen
         page.hide()
