@@ -26,8 +26,9 @@ def _sky(n=300, seed=4):
     return cat
 
 
-def _frame(cat, angle=30.0, flip=True, shape=(800, 900)):
-    """A frame of the catalogue: rotated by angle, mirrored when flip, Gaussian stars, sky and noise."""
+def _frame(cat, angle=30.0, flip=True, shape=(800, 900), barrel=0.0):
+    """A frame of the catalogue: rotated by angle, mirrored when flip, Gaussian stars, sky and noise; barrel: the
+    optics' radial distortion, pixels of shift at 600 px from the centre."""
     w = WCS(naxis=2)
     w.wcs.ctype = ["RA---TAN", "DEC--TAN"]
     w.wcs.crval = [RA0, DEC0]
@@ -36,6 +37,10 @@ def _frame(cat, angle=30.0, flip=True, shape=(800, 900)):
     k = SCALE / 3600
     w.wcs.cd = np.array([[-k * c, k * s], [k * s, k * c]]) @ np.diag([-1.0 if flip else 1.0, 1.0])
     x, y = w.all_world2pix(cat["ra"], cat["dec"], 0)
+    if barrel:
+        cx, cy = (shape[1] - 1) / 2, (shape[0] - 1) / 2
+        grow = 1 + barrel * np.hypot(x - cx, y - cy) ** 2 / 600.0**3
+        x, y = cx + (x - cx) * grow, cy + (y - cy) * grow
     yy, xx = np.mgrid[: shape[0], : shape[1]]
     img = np.full(shape, 500.0)
     for xi, yi, g in zip(x, y, cat["gmag"], strict=True):
@@ -69,6 +74,21 @@ def test_a_turned_mirrored_frame_is_solved_against_the_catalogue(tmp_path):
     px, py = sol["wcs"].world_to_pixel_values(cat["ra"], cat["dec"])
     inside = (x > 20) & (x < 880) & (y > 20) & (y < 780)
     assert np.allclose(px[inside], x[inside], atol=0.5) and np.allclose(py[inside], y[inside], atol=0.5)
+
+
+def test_the_optics_distortion_is_fitted_to_the_frame_corners():
+    """UF-13 / UF-15: a solution without distortion was right at the centre (the target) and pixels off towards the
+    corners, so the variables and the AAVSO sequence there sat on empty sky."""
+    cat = _sky(n=900, seed=7)
+    img, _, x, y = _frame(cat, shape=(1000, 1300), barrel=6.0)
+    sol = field.solve(img, _header(), cat)
+    px, py = sol["wcs"].world_to_pixel_values(cat["ra"], cat["dec"])
+    inside = (x > 15) & (x < 1285) & (y > 15) & (y < 985)
+    off = np.hypot(px - x, py - y)[inside]
+    assert inside.sum() > 100 and off.max() < 0.6, off.max()
+    again = WCS(fits.Header.fromstring(sol["wcs"].to_header(relax=True).tostring()))  # as the field keeps it
+    qx, qy = again.world_to_pixel_values(cat["ra"], cat["dec"])
+    assert np.allclose(qx, px, atol=1e-6) and np.allclose(qy, py, atol=1e-6)
 
 
 def test_the_field_names_its_variable_and_says_the_object_is_elsewhere(tmp_path):

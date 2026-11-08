@@ -73,15 +73,21 @@ Newest report first. Read this file before choosing the next work: these come be
 
 - **UF-13 — variable stars drawn on empty sky** — **partial** (2026-11-14: the likely cause — VSX lists variables
   down to magnitude 20 and every one was ringed; now only those brighter than 16.5 are ringed, with their
-  magnitude, the faint ones are in the list ("too faint to see") and ring when chosen; test. Left: the owner's NY
-  Vir frames, to see whether the solution is also off away from the centre)
+  magnitude, the faint ones are in the list ("too faint to see") and ring when chosen; test. 2026-11-14, the second
+  cause: the solution was a plain TAN fit from stars matched within 2.5 px of a first guess, i.e. near the centre;
+  with the optics' distortion it was right at the centre (NY Vir) and pixels off towards the corners — a synthetic
+  frame with 6 px of barrel distortion at the corners was 6.3 px off. Now every star of the frame is matched again
+  through the solution and a SIP polynomial (degree 2, 3 with 60 stars) is fitted when it fits better: 0.6 px at
+  the corners (test_field); on the Qatar-1 LCO frames 577 stars instead of 196, edge residual 0.16 → 0.13 px, no
+  slower. Left: the owner's NY Vir frames, to confirm)
   After Identify the field, NY Vir was right but other VSX circles sat on blank sky. Either the solution is off
   away from the centre (distortion, wrong scale on a 2×2 frame) or VSX positions are not moved to the epoch. Check
   on the owner's frames: residuals of the solution across the frame, and the VSX stars' pixel positions.
 - **UF-14 — "Identify the field" again only reads the cache** — **done** (2026-11-13: pressed on an identified
   field it asks the catalogues again — step parameter `fresh`; tests)
   A second press (or Shift-click / a menu item "Identify again, ignore the saved answer") must solve again.
-- **UF-15 — AAVSO sequence labels in the wrong places** — **open**
+- **UF-15 — AAVSO sequence labels in the wrong places** — **partial** (2026-11-14: same solution as UF-13 — the
+  labels are placed through the field's solution, which now carries the distortion; left: the owner's frames)
   Follows UF-13 (same solution); check the chart's stars land on stars.
 - **UF-16 — 2-D Gaussian centring crashes**: `ValueError: xpos, ypos values contain points outside the input
   data` (photutils centroid_sources) — **done** (2026-11-13: a fit that runs off the frame goes back to the

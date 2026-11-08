@@ -3,6 +3,7 @@ ticks, a grid, the twilights with their times, the local time under UTC and the 
 on the right, the Moon's distance along each curve, rise and set in the legend, the site and date in the title."""
 
 import numpy as np
+import pytest
 from matplotlib.figure import Figure
 
 from astrowb.engine.steps import execute
@@ -93,3 +94,18 @@ def test_year_chart(qapp):
     win._year()
     ax = win.year.figure.axes[0]
     assert "Night length" in ax.get_title() and ax.get_ylim()[1] >= 36
+
+
+def test_the_night_in_numbers():
+    from astrowb.ui.plan_tables import moon_rows, sun_rows, target_rows
+
+    n = night()
+    hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
+    sun = sun_rows(n, hours, 3.0)
+    assert [r[0] for r in sun][:2] == ["Sunset", "Civil dusk (−6°)"] and sun[-1][0] == "Sunrise"
+    assert sun[0][1] == "14:46" and sun[0][2] == "17:46"  # as the chart writes it (UTC) and in local time
+    assert {r[0] for r in moon_rows(n, hours, 3.0)} >= {"Moonrise", "Moonset", "Illuminated"}
+    saturn, hat = target_rows(n, hours, 3.0, 20.0)
+    assert saturn[0] == "Saturn" and saturn[1] == "17:41" and saturn[2] == "02:24"  # the legend's 14:41 / 23:24 UTC
+    assert float(saturn[5]) == pytest.approx(1 / np.sin(np.radians(float(saturn[4][:-1]))), abs=0.02)
+    assert hat[0] == "HAT-P-32 b" and hat[6].endswith("°")

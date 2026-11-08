@@ -439,7 +439,7 @@ class PlanPage(Undoable, QWidget):
 
         jd = np.asarray(self.result["jd"])
         hours = (jd - (np.floor(jd[0] + 0.5) - 0.5)) * 24
-        self.more = MoreCharts(self.result, hours, self.local_offset(jd[len(jd) // 2]), self)
+        self.more = MoreCharts(self.result, hours, self.local_offset(jd[len(jd) // 2]), self, self.min_alt.value())
         self.more.show()
 
     def local_offset(self, jd):
