@@ -327,29 +327,9 @@ class AreaWindow(QMainWindow):
         return size
 
     def report_problem(self, path=None):
-        from datetime import date
+        from .report import report_dialog
 
-        from .report import make_report
-
-        if path is None:
-            path, _ = QFileDialog.getSaveFileName(
-                self,
-                self.tr("Report a problem"),
-                str(Path.home() / f"problem-report-{date.today()}.zip"),
-                "Zip (*.zip)",
-            )
-            if not path:
-                return None
-        engine = getattr(self.parent(), "engine", None)
-        project = getattr(engine, "project", None)
-        runs = project.runs(full=False) if project is not None else []
-        make_report(self.settings, path, runs)
-        QMessageBox.information(
-            self, self.tr("Report a problem"),
-            self.tr("The report is saved:\n{path}\n\nSend this file with a few words on what you did and what "
-                    "went wrong. It holds no data files and no folder names.").format(path=path),
-        )  # fmt: skip
-        return path
+        return report_dialog(self, self.settings, getattr(self.parent(), "engine", None), path)
 
     def commands(self):
         """[(path shown, action)] of every action of the menus and the toolbar, e.g. "View › Reset layout"."""

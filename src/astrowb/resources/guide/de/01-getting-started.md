@@ -39,11 +39,12 @@ Eine vollständige Übung mit simulierten Daten, deren Lösung bekannt ist: von 
 - **Rückgängig und Wiederholen:** Bearbeiten → Rückgängig (Strg+Z) nimmt die letzte Änderung auf der gezeigten Seite zurück — ein markierter oder entfernter Stern, gelöschte Punkte, eine Trendbereinigung, entfernte Ausreißer, eine Bildoperation, eine Header-Änderung, eine identifizierte oder ausgelassene Bogenlinie — und Bearbeiten → Wiederholen (Strg+Y oder Strg+Umschalt+Z) stellt sie Schritt für Schritt wieder her. Das Menü nennt den Schritt. In einem Textfeld macht Strg+Z die Eingabe in diesem Feld rückgängig.
 
 ## Die Startseite
-Beginnen Sie mit dem, was Sie haben:
+Die Startseite ist ein Menü der Arbeitsbereiche:
 
-- **Neues Projekt… / Projekt öffnen…** halten Aufnahmen, Einstellungen und Ergebnisse zusammen.
-- **Ein FITS-Bild öffnen**, um ein Bild und seinen Header anzusehen.
-- **Ich habe Rohbilder** → Kalibrieren. **Ich habe kalibrierte Bilder** → Photometrie. **Ich habe Spektren** → Spektroskopie. **Ich habe Minima- oder RV-Listen** → Lichtkurven & O-C. **Ich möchte eine Nacht planen** → Planen.
+- **Dort weitermachen, wo Sie aufgehört haben** (wenn es etwas fortzusetzen gibt): die letzten Projekte und die letzten Dateien jedes Bereichs; ein Doppelklick öffnet sie wieder.
+- **Neues Projekt / Projekt öffnen…** halten Aufnahmen, Einstellungen und Ergebnisse zusammen. **Ein FITS-Bild öffnen**, um ein Bild und seinen Header anzusehen.
+- **Wählen Sie, was Sie tun möchten:** ein Block je Bereich — Planung, Beobachten, Kalibrierung, Bilder, Photometrie, Lichtkurven, Periode und O−C, Spektroskopie, Modelle, Fernerkundung, Automatisierung — jeder mit einer Zeile, was er tut. Ein Klick öffnet den Bereich. Die Bereiche ziehen in eigene Fenster mit eigenen Menüs, Werkzeugleiste und Feldern; ein Bereich, der schon in seinem Fenster ist, wird nach vorn geholt, nie zweimal geöffnet.
+- Menü **Fenster**: das Hauptfenster und jedes offene Bereichsfenster. **Hilfe → Problem melden…** erstellt eine Zip-Datei (Fehlerprotokoll, Version, System, Einstellungen, letzte Schritte; keine Datendateien und keine Ordnernamen) für den Entwickler. **Ansicht → Textgröße** macht den Text in jedem Fenster größer oder kleiner (Strg+Umschalt++ / − / 0).
 
 ## Projekte
 Ein Projekt ist eine einzige Datei mit der Endung `.astroproj`. Sie hält jede hinzugefügte Datei und jeden ausgeführten Schritt fest: welcher Schritt, seine Einstellungen, wann er begann, ob er gelang, und seine Ergebnisse, zusammen mit den Versionen der verwendeten Bibliotheken. So ist die Arbeit nachvollziehbar: Noch Monate später sehen Sie genau, wie eine Zahl entstanden ist.

@@ -39,11 +39,12 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 - **Deshacer y rehacer:** Editar → Deshacer (Ctrl+Z) revierte el último cambio en la página mostrada — una estrella marcada o quitada, puntos borrados, una eliminación de tendencia, valores atípicos quitados, una operación de imagen, un cambio en la cabecera, una línea del arco identificada u omitida — y Editar → Rehacer (Ctrl+Y o Ctrl+Mayús+Z) lo vuelve a hacer paso a paso. El menú nombra el paso. En un campo de texto Ctrl+Z deshace lo escrito en ese campo.
 
 ## La página de inicio
-Empiece por lo que tenga:
+La página de inicio es un menú de las áreas del trabajo:
 
-- **Nuevo proyecto… / Abrir proyecto…** mantienen juntas las tomas, los ajustes y los resultados.
-- **Abrir una imagen FITS** para ver una imagen y su cabecera.
-- **Tengo imágenes brutas** → Calibrar. **Tengo imágenes calibradas** → Fotometría. **Tengo espectros** → Espectroscopía. **Tengo listas de mínimos o de VR** → Curvas de luz y O-C. **Quiero planificar una noche** → Planificar.
+- **Seguir donde lo dejó** (cuando hay algo que continuar): los últimos proyectos y los últimos archivos de cada área; doble clic para volver a abrir uno.
+- **Nuevo proyecto / Abrir proyecto…** mantienen juntas las tomas, los ajustes y los resultados. **Abrir una imagen FITS** para ver una imagen y su cabecera.
+- **Elija lo que quiere hacer:** un bloque por área — Planificación, Observación, Calibración, Imágenes, Fotometría, Curvas de luz, período y O−C, Espectroscopía, Modelos, Teledetección, Automatización — cada uno con una línea de lo que hace. Un clic abre el área. Las áreas pasan a ventanas propias, cada una con sus menús, barra de herramientas y paneles; un área que ya está en su ventana se trae al frente, nunca se abre dos veces.
+- Menú **Ventana**: la ventana principal y cada ventana de área abierta. **Ayuda → Informar de un problema…** crea un zip (registro de errores, versión, sistema, ajustes, últimos pasos; sin archivos de datos ni nombres de carpetas) para enviar al desarrollador. **Ver → Tamaño del texto** agranda o reduce el texto en todas las ventanas (Ctrl+Mayús++ / − / 0).
 
 ## Proyectos
 Un proyecto es un único archivo con la extensión `.astroproj`. Registra cada archivo que añada y cada paso que ejecute: qué paso, sus ajustes, cuándo empezó, si tuvo éxito y sus resultados, junto con las versiones de las bibliotecas usadas. Así el trabajo es reproducible: meses después puede ver exactamente cómo se obtuvo un número.
