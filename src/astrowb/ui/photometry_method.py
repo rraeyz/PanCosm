@@ -61,6 +61,27 @@ def add_method_boxes(page, body):
     track.addWidget(page.track_stars, 1)
     track.addWidget(pick)
     body.addLayout(track)
+    _add_combine(page, body)
+
+
+def _add_combine(page, body):
+    """PHO-42: faint targets measured on running stacks of N frames (1: every frame on its own)."""
+    from PySide6.QtWidgets import QSpinBox
+
+    row = QHBoxLayout()
+    row.addWidget(QLabel(translate("PhotometryPage", "Combine frames"), page))
+    page.combine = QSpinBox(page)
+    page.combine.setRange(1, 100)
+    page.combine.setSpecialValueText(translate("PhotometryPage", "no (each frame)"))
+    page.combine.setToolTip(
+        translate(
+            "PhotometryPage",
+            "For a faint target: this many consecutive frames are aligned and added before measuring; the noise "
+            "falls as the square root, the time resolution with it. 1: each frame measured on its own.",
+        )
+    )
+    row.addWidget(page.combine, 1)
+    body.addLayout(row)
 
 
 def _pick_track(page):
@@ -85,6 +106,7 @@ def method_params(page):
         "sky_method": page.sky_method.currentData(),
         "centring": page.centring.currentData(),
         "track_stars": _track(page),
+        "combine": page.combine.value(),
     }
 
 

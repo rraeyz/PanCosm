@@ -731,6 +731,15 @@
             "null"
            ]
           },
+          "combine": {
+           "description": "Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 100
+          },
           "track_stars": {
            "description": "Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically"
           },
@@ -867,6 +876,15 @@
             "boolean",
             "null"
            ]
+          },
+          "combine": {
+           "description": "Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 100
           },
           "track_stars": {
            "description": "Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically"

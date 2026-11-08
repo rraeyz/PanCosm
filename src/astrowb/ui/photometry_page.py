@@ -1035,7 +1035,8 @@ class PhotometryPage(Undoable, QWidget):
             self.r_out.value(),
             self.coord.text().strip() or None,
             masters=live.load_masters(masters),
-            **method_params(self),
+            # shortcut: live frames are measured one by one (no running stacks); stack them live when asked for
+            **{k: v for k, v in method_params(self).items() if k != "combine"},
         )
         self.live_folder, self.live_seen = folder, set()
         self.live_updated.connect(self._live_show)

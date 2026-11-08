@@ -8,7 +8,7 @@ from ..engine.steps import describe, step
 from ..hdr import number
 from ..io.lzw import readable
 from .lightcurve import light_curve
-from .steps import _MEASURE
+from .measure_params import MEASURE as _MEASURE
 
 ANGLE_KEYS = ("HWPANGLE", "HWP-ANG", "HWP", "RETANG", "RETANGLE", "POLANGLE", "POL-ANG", "WPANGLE", "ANGLE")
 
