@@ -102,14 +102,10 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Models (UF-20)
 
-- **UF-20 — the eclipsing-binary fit is useless on a single night** — **partial** (2026-11-13: the period and T0
-  have no default any more; an empty one is taken from O−C, Light curves' period search or Photometry's Timing
-  fields, and with none known the fit is refused with what to do; test. Left: start values estimated from the light
-  curve, the plot centred on the data, a check on the owner's NY Vir night)
-  It started from period 1 d and T0 0 (the table's defaults), folded the night onto phase 0.3 and drew a model
-  far from the data. Needed: the period and T0 taken from Light curves / O−C / VSX (a button), the start values
-  estimated from the light curve (depth, width, T0 from the deepest point), a refusal with a clear message when
-  the period is unknown, and the plot centred on the data.
+- **UF-20 — the eclipsing-binary fit is useless on a single night** — **done** (2026-11-14: the period and T0
+  have no default and come from O−C, Light curves or Photometry, or the fit says what to do; r1 + r2 and J left
+  at the table's defaults start from the curve folded on the ephemeris — `estimate.start_from_curve`; tests.
+  A check on the owner's NY Vir night stays with UF-18's data)
 
 ### Services (UF-21, UF-22)
 
