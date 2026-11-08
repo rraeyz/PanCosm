@@ -282,7 +282,7 @@ Guide 06 in four languages.
   scatter of 1000 noise realisations within 5 %.
 
 ### 3. Sky estimate choices
-**agent2 done (2026-11-08, this commit)** — `aperture.sky_estimate` and `measure(..., sky_method=…)` through
+**agent2 done (2026-11-08, commit eb4d273)** — `aperture.sky_estimate` and `measure(..., sky_method=…)` through
 `light_curve` and the step: **median** (now; inside its bin for integer data, item 1), **mode** (IRAF: 3 median −
 2 mean after iterative 3σ clipping), **mean** (AstroImageJ: ±2σ iterations until the mean changes < 1e-4), **plane**
 (a + b dx + c dy over the ring with 3σ clipping of the residuals; its value at the centre is the sky, and over a full
@@ -307,7 +307,7 @@ languages.
   within 0.1 σ, and the median is biased as expected.
 
 ### 4. Saturation and non-linearity flagged per point
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
 - **Reference:** IRAF `datamax` flags each measurement; AIJ warns about saturated or non-linear stars.
 - **Ours:** the peak pixel is measured and a saturation level is read from the header; this is not shown per point,
   and there is no linearity limit.
