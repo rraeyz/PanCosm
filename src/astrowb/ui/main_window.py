@@ -553,6 +553,68 @@ class MainWindow(QMainWindow):
         files.addAction(export)
         win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
 
+    def _plan_menus(self, page, win):
+        """Planning: Targets and Night (interface I6c.9)."""
+
+        def named(widget, text=None, short=None):
+            act = _mirror(widget, page, short)
+            if text:
+                act.setText(text)
+            return act
+
+        add = named(page.add_button, self.tr("Add target"))
+        ephemeris = named(page.ephemeris_button, self.tr("Add target with ephemeris"), self.tr("With ephemeris"))
+        plan = named(page.plan_button)
+        schedule = named(page.schedule_button)
+        send = named(page.send_button, short=self.tr("Send"))
+        exposure = named(page.exposure_button)
+        win.add_menus(
+            [
+                (self.tr("&Targets"), [add, ephemeris, None, named(page.remove_button)]),
+                (self.tr("&Night"), [plan, exposure, None, schedule, send]),
+            ],
+            toolbar=[add, ephemeris, None, plan, exposure, None, schedule, send],
+        )
+        win.set_icons({add: "add_target", ephemeris: "ephemeris", plan: "plan_night", exposure: "exposure",
+                       schedule: "schedule", send: "send"})  # fmt: skip
+
+    def _observe_menus(self, page, win):
+        """Observing: Devices, Telescope, Camera, Focus, Flats, Sequence (interface I6c.9), as N.I.N.A. and
+        MaxIm DL group their observatory controls."""
+        b = page.buttons
+
+        def named(key, text=None):
+            act = _mirror(b[key], page)
+            if text:
+                act.setText(text)
+            return act
+
+        acts = {key: named(key) for key in b}
+        for key, text in (
+            ("cooler_off", self.tr("Cooler off")),
+            ("focuser", self.tr("Move the focuser")),
+            ("filter", self.tr("Change the filter")),
+            ("cool", self.tr("Cool the camera")),
+        ):
+            acts[key].setText(text)
+        a = acts
+        win.add_menus(
+            [
+                (self.tr("&Devices"), [a["set_up"], a["connect"], None, a["start_local"]]),
+                (self.tr("&Telescope"), [a["slew"], a["centre"], a["polar"], None, a["park"]]),
+                (self.tr("&Camera"), [a["preview"], None, a["cool"], a["cooler_off"], None, a["filter"]]),
+                (self.tr("F&ocus"), [a["autofocus"], a["focuser"]]),
+                (self.tr("F&lats"), [a["sky_flats"], a["panel_flats"]]),
+                (self.tr("&Sequence"), [a["add_row"], a["remove_row"], None, a["start"], a["abort"], a["resume"],
+                                        None, a["clear_plan"]]),
+            ],
+            toolbar=[a["connect"], None, a["slew"], a["centre"], a["park"], None, a["preview"], a["autofocus"], None,
+                     a["start"], a["abort"]],
+        )  # fmt: skip
+        win.set_icons({a["connect"]: "connect", a["slew"]: "slew", a["centre"]: "centre", a["park"]: "park",
+                       a["preview"]: "preview", a["autofocus"]: "autofocus", a["start"]: "start",
+                       a["abort"]: "abort"})  # fmt: skip
+
     def _orbits_menus(self, page, win):
         """Models: Fit, Visual orbit, File → Compare / Export (interface I6c.7); each item shows its tab first."""
         from PySide6.QtWidgets import QMenu
