@@ -595,7 +595,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   sensing → its open. Accept: a test per area drops a file and the area shows it; one Ctrl+O per window.
 
 ### I6d. The owner's answers of 2026-11-08, as steps (PLAN.md "Order of work" 1, first)
-Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
+**agent2 done (2026-11-08)** — all four (commits in each). Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is claimed on its own.
 - **(1) Remove "Panels beside the image".** **agent2 done (2026-11-08, commit 2790dde)** — removed `_Panel`, `dock_page`, `_fill_panels_menu`, the sidebar's right-click "Show beside the image" (it served only this), View → "Panels beside the image" and the "ui.panels" reading; guide 05 line gone in four languages; `test_settings_naming_old_side_panels_still_open`. Original: `MainWindow.dock_page`, `_Panel`, `_fill_panels_menu`,
   the hidden View → "Panels beside the image" menu and the menu items that call `dock_page`, with their tests
   (`tests/test_ui.py`). Accept: no `dock_page` / `_Panel` left; old settings that name docked panels still open (a
@@ -607,13 +607,13 @@ Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is
   for areas that all live in windows now); the area blocks and every window's Window menu stay the ways in. Accept:
   every area opens from its block and from Window; the main window at 1366 × 768 and 800 px shows the blocks
   without a sidebar; old settings still open.
-- **(4) O−C in its own window.** **agent2 done (2026-11-08, this commit)** — new area key `oc` (`MainWindow.oc_page`, `_make_oc_page`, its block "O−C" on the Start page, File → Open… loads a minima file); Light curves is now "Light curves and period" with Period search, Frequency analysis and Variable star search. Minima timed in Photometry still go to O−C by themselves (silently, as before); "Send maxima to the O−C diagram" also opens the O−C window. The Photometry button became "Period search →" (its tooltip says where minima go). Guide 06 and 07 updated in four languages (07 opens with the two windows; its O−C section names the window). Screenshot scratchpad `i6d4/both.png`. Original: the O−C tab of Light curves becomes the area window "O−C" (its own
+- **(4) O−C in its own window.** **agent2 done (2026-11-08, commit c132465)** — new area key `oc` (`MainWindow.oc_page`, `_make_oc_page`, its block "O−C" on the Start page, File → Open… loads a minima file); Light curves is now "Light curves and period" with Period search, Frequency analysis and Variable star search. Minima timed in Photometry still go to O−C by themselves (silently, as before); "Send maxima to the O−C diagram" also opens the O−C window. The Photometry button became "Period search →" (its tooltip says where minima go). Guide 06 and 07 updated in four languages (07 opens with the two windows; its O−C section names the window). Screenshot scratchpad `i6d4/both.png`. Original: the O−C tab of Light curves becomes the area window "O−C" (its own
   block on the main window); Light curves keeps Period, Frequency and Variable star search. Minima timed in
   Photometry go to the O−C window by themselves, as they went to the tab. Accept: a minimum timed in Photometry
   appears in the O−C window; the guide (07) splits into its two windows in four languages.
 
 ### I6c. Icon toolbars and the full menu bars, as the owner asked
-**open** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
+**agent2 claimed (2026-11-08) — do not touch** — added 2026-11-08 (agent1, from the owner's question). Part of the interface's remaining work (PLAN.md
 "Order of work" 1), before photometry.
 - **The owner's wish:**
   - every area window as AstroImageJ: a row of **small icons** for the frequent actions under the menu bar;
