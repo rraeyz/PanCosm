@@ -114,6 +114,14 @@ def _targets(ax, n, hours, sun, min_alt):
     ax.legend(fontsize=7, loc="center left", bbox_to_anchor=(1.075, 0.5), framealpha=0.9)  # beside the airmass scale
 
 
+def _row_tags(ax, offset, fig_px, height_px):
+    """Name each hour row at its right end with an arrow pointing at it (UTC small, local larger)."""
+    pt = 72.0 / ax.figure.dpi
+    for text, y, size in (("◄ UTC", -13.0, 6.5), (f"◄ Local (UTC{offset:+g})", -34.0 * pt - 13.0, 8)):
+        ax.annotate(text, (1.0, 0.0), xycoords="axes fraction", xytext=(8, y), textcoords="offset points",
+                    ha="left", va="center", fontsize=size, annotation_clip=False)  # fmt: skip
+
+
 def _axes(ax, n, hours, offset, min_alt, step, fig_px):
     """Hourly major, ten-minute minor ticks, a grid on both; the local time, the sidereal time, the airmass."""
     ax.set_xlim(hours[0], hours[-1])
@@ -124,13 +132,12 @@ def _axes(ax, n, hours, offset, min_alt, step, fig_px):
     ax.tick_params(axis="y", which="major", labelsize=8)
     ax.grid(which="major", color=role("rejected"), alpha=0.35, lw=0.6)
     ax.grid(which="minor", color=role("rejected"), alpha=0.15, lw=0.4)
-    ax.set_xlabel("UTC (hours)", fontsize=7)
     ax.set_ylabel("Altitude (°)", fontsize=8)
 
     height_px = max(200.0, fig_px * 0.55)  # the plot's share of the figure: the local row sits ~34 px below it
     local = ax.secondary_xaxis(-34.0 / height_px, functions=(lambda h: h + offset, lambda h: h - offset))
     _hour_labels(local.xaxis, step, 9)
-    local.set_xlabel(f"Local time (UTC{offset:+g})", fontsize=8)
+    _row_tags(ax, offset, fig_px, height_px)
 
     site = n.get("site") or {}
     lon = site.get("lon")
