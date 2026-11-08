@@ -676,7 +676,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   - the same icon is never used for two different actions.
 
 **Sub-steps (agent2, 2026-11-08)** — too large for one commit (rule 13); each claimed and done on its own:
-- **I6c.1 One icon set, icon toolbars.** **agent2 claimed (2026-11-08) — do not touch** — `ui/icons.py`: one table
+- **I6c.1 One icon set, icon toolbars.** **agent2 done (2026-11-08, this commit)** — `ui/icons.py` (`ICONS`, `icon`), `AreaWindow.set_icons` (icons painted again on a palette change), View → Toolbar text (`ui.toolbar_text`); Photometry (its ◀ ▶ actions now named Previous / Next frame), Spectroscopy (one icon per job) and Images use the table. A symbol that the font drew as a coloured emoji (♒) was replaced. Guide 01 in four languages (also the Light curves / O−C block names left from I6d (4)). Screenshot scratchpad `i6c1/all.png`; `test_one_icon_set_and_icon_toolbars`. Original: `ui/icons.py`: one table
   kind → icon (Qt standard icons for open / save, font symbols drawn in the theme's text colour otherwise, as
   Images does today), the same kind always the same icon and no icon for two kinds (a test). `AreaWindow` shows its
   toolbar as icons with tooltips, View → "Toolbar text" adds the labels (kept in the settings), icons follow a
@@ -725,6 +725,7 @@ whenever any area gains a feature.
 | Spectroscopy jobs (long slit, échelle, telluric, velocities, IFU, tools) | Spectroscopy | Job | yes | Steps |
 | Text size larger / smaller / normal | main window, every area window | View → Text size (Ctrl+Shift++ / − / 0) | — | — |
 | Panels on / off, Reset layout | every area window | View | — | panels |
+| Toolbar icons, Toolbar text (names beside the icons) | every area window | View → Toolbar text | yes | — |
 | Open an area, list of open windows | main window, every area window | Window | — | Start page blocks |
 | Photometry toolbar (Images…, Blink, ◀ ▶, Bad frames, Comparisons, Radii, Measure, Minimum, Export) | Photometry | Measure | yes | — |
 | Photometry results (light curve, stars, minimum, export) | Photometry | — | — | Results panel (bottom) |

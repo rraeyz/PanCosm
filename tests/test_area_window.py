@@ -253,3 +253,32 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
     assert setting_name("calibration.scan", "clock_utc_offset") == "Camera clock − UTC (h)"
     assert setting_name("stacking.stack", "method") == "Combine by"  # a name that depends on the step
     assert setting_name("myplugin.thing", "my_value") == "my value"
+
+
+def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
+    """interface I6c.1: one icon per kind of action, never one icon for two kinds; area toolbars show icons, View →
+    Toolbar text adds the names and is kept; the Photometry and Spectroscopy toolbars have an icon for every
+    action."""
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.icons import ICONS, icon
+    from astrowb.ui.main_window import MainWindow
+
+    assert len(set(ICONS.values())) == len(ICONS)  # no symbol or standard icon serves two kinds
+    settings = Settings(tmp_path)
+    win = _area(qtbot, settings)
+    assert all(not icon(kind, win).isNull() for kind in ICONS)
+    win.set_icons({win._keep: "measure"})
+    assert not win._keep.icon().isNull() and win.toolbar.toolButtonStyle() == Qt.ToolButtonIconOnly
+    win.toolbar_text_action.trigger()
+    assert win.toolbar.toolButtonStyle() == Qt.ToolButtonTextBesideIcon and settings.get("ui.toolbar_text")
+    assert _area(qtbot, settings).toolbar.toolButtonStyle() == Qt.ToolButtonTextBesideIcon  # kept
+    main = MainWindow(Settings(tmp_path / "main"))
+    qtbot.addWidget(main)
+    try:
+        for key in ("photometry", "spectroscopy"):
+            main.show_workspace(key)
+            acts = [a for a in main.area_windows[key].toolbar.actions() if not a.isSeparator()]
+            assert acts and all(not a.icon().isNull() and a.toolTip() for a in acts), key
+    finally:
+        main.engine.shutdown()
