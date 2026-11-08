@@ -139,7 +139,7 @@ def _at_epoch(cat, header):
     return dict(cat) | {"ra": np.asarray(ra), "dec": np.asarray(dec)}
 
 
-def identify(path, ctx=None, catalogue=None, variables=None, resolve=None):
+def identify(path, ctx=None, catalogue=None, variables=None, resolve=None, gcvs=None):
     """The field of a frame: its solution (a FITS header with the WCS), the VSX variable stars in it with their
     pixels, the Gaia stars in it (for comparison stars), and the OBJECT of the header: where it is and whether it is
     in the field. catalogue / variables / resolve: Gaia rows, [{name, ra, dec, mag}] and name -> (ra, dec), for tests.
@@ -167,12 +167,9 @@ def identify(path, ctx=None, catalogue=None, variables=None, resolve=None):
     on = (gx >= 0) & (gx <= nx - 1) & (gy >= 0) & (gy <= ny - 1)
     if variables is None:
         variables = _vsx(centre.ra.deg, centre.dec.deg, radius)
-    found = []
-    for v in variables:
-        vx, vy = wcs.world_to_pixel(SkyCoord(v["ra"], v["dec"], unit="deg"))
-        if 0 <= vx <= nx - 1 and 0 <= vy <= ny - 1:
-            found.append(dict(v) | {"x": float(vx), "y": float(vy)})
-    found.sort(key=lambda v: (v.get("mag") is None, v.get("mag") or 0))
+    if gcvs is None:
+        gcvs = _vsx(centre.ra.deg, centre.dec.deg, radius, "gcvs")
+    found, found_gcvs = (_in_frame(wcs, v, nx, ny) for v in (variables, gcvs))
     obj = _object(header, wcs, (nx, ny), resolve)
     return {
         "header": wcs.to_header().tostring(),
@@ -183,6 +180,7 @@ def identify(path, ctx=None, catalogue=None, variables=None, resolve=None):
         "flipped": sol["flipped"],
         "centre": [float(centre.ra.deg), float(centre.dec.deg)],
         "variables": found,
+        "gcvs": found_gcvs,
         "object": obj,
         "stars": {
             "x": gx[on].tolist(),
@@ -196,12 +194,24 @@ def identify(path, ctx=None, catalogue=None, variables=None, resolve=None):
     }
 
 
-def _vsx(ra, dec, radius):
-    """AAVSO VSX variable stars in the cone: [{name, ra, dec, mag}] (none when VizieR does not answer)."""
+def _in_frame(wcs, stars, nx, ny):
+    """The stars [{name, ra, dec, mag}] that fall on the frame, with their pixels, brightest first."""
+    from astropy.coordinates import SkyCoord
+
+    found = []
+    for v in stars:
+        vx, vy = wcs.world_to_pixel(SkyCoord(v["ra"], v["dec"], unit="deg"))
+        if 0 <= vx <= nx - 1 and 0 <= vy <= ny - 1:
+            found.append(dict(v) | {"x": float(vx), "y": float(vy)})
+    return sorted(found, key=lambda v: (v.get("mag") is None, v.get("mag") or 0))
+
+
+def _vsx(ra, dec, radius, catalogue="vsx"):
+    """AAVSO VSX (or GCVS) variable stars in the cone: [{name, ra, dec, mag}] (none when VizieR does not answer)."""
     from ..overlays import query_catalogue
 
     try:
-        return query_catalogue(ra, dec, radius, catalogue="vsx")
+        return query_catalogue(ra, dec, radius, catalogue=catalogue)
     except Exception:  # noqa: BLE001 - the catalogue is a help: a solution without it is still a solution
         return []
 

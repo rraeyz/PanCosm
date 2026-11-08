@@ -150,8 +150,9 @@ step on a solved frame. The window: "Why these stars?" under the Suggest button 
 row centres its star (`ui/photometry_stars.py`; the page asks with the default rules). "Use this star anyway" in
 that table adds the chosen star as a comparison star (undoable; 2026-11-13). The rules section: "Rules for
 comparison stars…" (`ui/comparison_rules.py`: brightness and colour window, distance, catalogue error, variables,
-noisy Gaia stars, S/N, count; kept in the settings, the defaults one press away) goes with every Suggest. Left:
-GCVS, suggested rings, the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
+noisy Gaia stars, S/N, count; kept in the settings, the defaults one press away) goes with every Suggest. GCVS (VizieR B/gcvs, beside VSX, in the field's
+"gcvs" list and the `variable_gcvs` verdict; 2026-11-14). Left:
+suggested rings, the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
 - **Why:** the choice of comparison stars decides the light curve; today the rules are fixed in code and a star left
   out is left out silently.
 - **Reference:** Siril `findcompstars` (`src/algos/comparison_stars.c`): ΔV ≤ 3 mag, Δ(B−V) ≤ 0.5, catalogue error ≤

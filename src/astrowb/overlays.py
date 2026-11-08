@@ -80,6 +80,7 @@ def _inside(x, y, nx, ny):
 CATALOGUES = {
     "gaia": ("I/355/gaiadr3", "Source", "Gmag"),
     "vsx": ("B/vsx/vsx", "Name", "max"),
+    "gcvs": ("B/gcvs/gcvs_cat", "VarName", "magMax"),  # the General Catalogue of Variable Stars (PHO-17 item 6)
 }
 
 
