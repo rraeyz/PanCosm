@@ -1484,7 +1484,9 @@ def test_photometry_window_menus_mirror_its_buttons(window):
         assert button.text() in texts, button.text()
     measure = next(a for a in menus["&Measure"].actions() if a.text() == page.measure_button.text())
     assert measure.isEnabled() == page.measure_button.isEnabled()
-    psf = next(a for a in menus["&Measure"].actions() if a.text() == page.psf.text())
+    psf = next(
+        a for a in menus["&Measure"].actions() if a.text() == (page.psf.property("full_text") or page.psf.text())
+    )
     psf.trigger()
     assert page.psf.isChecked() == psf.isChecked()
     page.psf.setChecked(not page.psf.isChecked())

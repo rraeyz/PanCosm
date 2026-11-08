@@ -9,10 +9,11 @@ def _mirror(widget, parent=None, short=None):
     """A menu / toolbar action that does what a page's button or check box does (interface I6c): the button's text
     in the menus, the short name on the toolbar (its icon text), enabled and checked as the widget is; the button
     stays the one place where the page decides."""
-    act = QAction(widget.text() or short, parent or widget)
+    text = widget.property("full_text") or widget.text()  # a wrapped check box keeps its words there (kit/fit.py)
+    act = QAction(text or short, parent or widget)
     if short:
         act.setIconText(short)
-    act.setToolTip(widget.toolTip() or widget.text())
+    act.setToolTip(widget.toolTip() or text)
     act.setStatusTip(act.toolTip())
     if widget.isCheckable():
         act.setCheckable(True)
