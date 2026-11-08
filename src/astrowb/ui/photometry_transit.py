@@ -53,7 +53,7 @@ def add_archive_button(main, page, layout):
     Archive (step planning.ephemeris); the name asked, the files' OBJECT offered."""
     from PySide6.QtWidgets import QInputDialog
 
-    page.archive_button = QPushButton(translate("PhotometryTransit", "Fill from the NASA Exoplanet Archive…"), page)
+    page.archive_button = QPushButton(translate("PhotometryTransit", "From the NASA archive…"), page)
     page.archive_button.setToolTip(
         translate("PhotometryTransit", "Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit's start")
     )

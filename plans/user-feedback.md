@@ -82,7 +82,9 @@ Newest report first. Read this file before choosing the next work: these come be
   The text says 39 points. Find where the others went (frames left out? two filters in the folder? raw and
   calibrated frames mixed?) on the owner's data; the owner asks whether uncalibrated frames were included. The
   program must say which frames it used and why any was left out.
-- **UF-19 — stage rail numbers look childish** — **open**
+- **UF-19 — stage rail numbers look childish** — **done** (2026-11-13: the rail shows the stages' names from the
+  start, no numbers, a quiet ✓ after a done stage and "!" after one needing attention; the dock keeps the rail and
+  the stage's width so the stage's rows still fit — test_overflow, test_kit)
   "1 ✓ 2 ✓ … 8 ○": use the stage names with small state marks (icons), as a professional tool.
 
 ### Models (UF-20)

@@ -3,13 +3,23 @@ Calibration options past the window's right edge, in every language and even ful
 makes a built panel narrow-friendly without touching how each page builds it:
 
 - a combo box takes the width of ten characters, not of its longest choice (the list still shows each whole);
-- a check box whose text is wider than the limit keeps its box, and its text becomes a label beside it that wraps
-  (a click on the label still toggles it; it greys out with the box);
+- a check box (or radio button) whose text is wider than the limit keeps its box, and its text becomes a label
+  beside it that wraps (a click on the label still toggles it; it greys out with the box);
 - a row of two or more widgets wider than the limit flows onto the next line instead.
 """
 
 from PySide6.QtCore import QEvent, QObject, QPoint, QRect, QSize, Qt
-from PySide6.QtWidgets import QBoxLayout, QCheckBox, QComboBox, QHBoxLayout, QLabel, QLayout, QSizePolicy, QWidget
+from PySide6.QtWidgets import (
+    QBoxLayout,
+    QCheckBox,
+    QComboBox,
+    QHBoxLayout,
+    QLabel,
+    QLayout,
+    QRadioButton,
+    QSizePolicy,
+    QWidget,
+)
 
 
 class FlowLayout(QLayout):
@@ -77,7 +87,7 @@ class _LabelToggles(QObject):
 
     def eventFilter(self, obj, event):  # noqa: N802
         if obj is self.label and event.type() == QEvent.MouseButtonRelease and self.box.isEnabled():
-            self.box.toggle()
+            self.box.setChecked(True) if isinstance(self.box, QRadioButton) else self.box.toggle()
             return True
         if obj is self.box and event.type() == QEvent.EnabledChange:
             self.label.setEnabled(self.box.isEnabled())
@@ -151,7 +161,7 @@ def fit_width(root, limit):
     for box in root.findChildren(QComboBox):
         box.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         box.setMinimumContentsLength(10)
-    for box in root.findChildren(QCheckBox):
+    for box in [*root.findChildren(QCheckBox), *root.findChildren(QRadioButton)]:
         if box.text() and box.sizeHint().width() > limit:
             _wrap_check(box)
     for row in root.findChildren(QHBoxLayout):

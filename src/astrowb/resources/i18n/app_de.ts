@@ -430,47 +430,47 @@
 <context>
     <name>Anatomy</name>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="62"/>
+        <location filename="../../ui/kit/anatomy.py" line="68"/>
         <source>Stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="63"/>
+        <location filename="../../ui/kit/anatomy.py" line="69"/>
         <source>Show or hide the stage panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="69"/>
+        <location filename="../../ui/kit/anatomy.py" line="75"/>
         <source>Run the stage&apos;s main action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="90"/>
+        <location filename="../../ui/kit/anatomy.py" line="96"/>
         <source>This stage has no main action to run now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="101"/>
+        <location filename="../../ui/kit/anatomy.py" line="107"/>
         <source>Inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="102"/>
+        <location filename="../../ui/kit/anatomy.py" line="108"/>
         <source>Show or hide the inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="111"/>
+        <location filename="../../ui/kit/anatomy.py" line="117"/>
         <source>Show or hide the results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="112"/>
+        <location filename="../../ui/kit/anatomy.py" line="118"/>
         <source>Next result tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="122"/>
+        <location filename="../../ui/kit/anatomy.py" line="128"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10905,11 +10905,6 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Jeder Vergleichsstern wird gegen die anderen gemessen; verrauschte oder veränderliche zählen weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="585"/>
-        <source>Measure a light curve to choose what to plot</source>
-        <translation>Messen Sie eine Lichtkurve, um zu wählen, was gezeichnet wird</translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_page.py" line="590"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
         <translation>Welche Kurve gezeichnet wird: das Ziel gegen die Vergleichssterne, die Prüfsterne, die Vergleichssterne untereinander, Himmel, FWHM, Luftmasse…</translation>
@@ -11073,6 +11068,11 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/photometry_page.py" line="575"/>
         <source>The best sets with the median scatter of their stars; choose one to use it</source>
         <translation>Die besten Sätze mit der mittleren Streuung (Median) ihrer Sterne; einen wählen, um ihn zu benutzen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_page.py" line="585"/>
+        <source>Measure first</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="596"/>
@@ -12633,11 +12633,6 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
-        <source>Fill from the NASA Exoplanet Archive…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_transit.py" line="58"/>
         <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
         <translation type="unfinished"></translation>
@@ -12765,6 +12760,11 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/photometry_transit.py" line="95"/>
         <source>Add the times to the O−C list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>From the NASA archive…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -15262,7 +15262,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StagePanel</name>
     <message>
-        <location filename="../../ui/kit/rail.py" line="109"/>
+        <location filename="../../ui/kit/rail.py" line="111"/>
         <source>Help on this stage</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15270,7 +15270,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StageRail</name>
     <message>
-        <location filename="../../ui/kit/rail.py" line="58"/>
+        <location filename="../../ui/kit/rail.py" line="60"/>
         <source>Keep the names shown</source>
         <translation type="unfinished"></translation>
     </message>
