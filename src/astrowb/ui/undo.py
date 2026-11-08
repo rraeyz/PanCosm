@@ -33,8 +33,14 @@ def track_typing(page, table, text):
         page.record(text, page._typed_from)
         page._typed_from = page.undo_state()
 
+    def moved(_i):
+        import shiboken6
+
+        if shiboken6.isValid(table):  # a closing window deletes its panels before the page's undo stack
+            page._typed_from = page.undo_state()
+
     table.itemChanged.connect(typed)
-    page.undo_stack.indexChanged.connect(lambda _i: setattr(page, "_typed_from", page.undo_state()))
+    page.undo_stack.indexChanged.connect(moved)
 
 
 class _Snapshot(QUndoCommand):

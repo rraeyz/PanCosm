@@ -506,10 +506,9 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
 
 def test_spectroscopy_instrument_profiles(window):
     page = window.spectro_page
-    window.set_ui_mode("expert")
-    assert not page.steps.content.isVisibleTo(page)  # the order of work: one click away for an expert
-    window.set_ui_mode("basic")
-    assert page.steps.content.isVisibleTo(page)  # open for a beginner
+    for mode in ("expert", "basic"):  # in the window the order of work is in the job buttons; the box stays folded
+        window.set_ui_mode(mode)  # (interface I4c, plans/spectroscopy.md step 1.4) until the owner decides on it
+        assert not page.steps.content.isVisibleTo(page) and page.steps.parent() is not None
     from PySide6.QtWidgets import QLabel
 
     assert "Telluric" in page.steps.content.findChild(QLabel).text()
@@ -1141,12 +1140,10 @@ def test_basic_and_expert_mode(window):
     window.set_ui_mode("basic")
     phot = window.photometry_page
     assert not phot.measure_options.content.isVisibleTo(phot.measure_options) and phot.psf.parent() is not None
-    assert window.spectro_page.steps.content.isVisibleTo(window.spectro_page)  # the order of work: open for beginners
     window.start_page.expert.setChecked(True)
     assert window.settings.get("ui.mode") == "expert" and window.expert_action.isChecked()
     assert phot.measure_options.content.isVisibleTo(phot.measure_options)  # inside the folded step 4
     assert window.calibrate_page.more_options.content.isVisibleTo(window.calibrate_page)
-    assert not window.spectro_page.steps.content.isVisibleTo(window.spectro_page)
     window.expert_action.setChecked(False)
     assert window.settings.get("ui.mode") == "basic" and window.start_page.basic.isChecked()
 
@@ -1168,6 +1165,10 @@ def test_every_working_page_has_a_folded_workflow(window):
     owners = {type(page_of(g)).__name__ for g in guides}
     if window.photometry_page.guide in guides:  # its steps live in a panel of the Photometry window (I5)
         owners.add("PhotometryPage")
+    sp = window.spectro_page  # the jobs' steps live in the Spectroscopy window's panel (plans/spectroscopy.md 1.1)
+    for tab in (sp.reduce_tab, sp.echelle_tab, sp.telluric_tab, sp.velocity_tab, sp.tools_tab):
+        if tab.guide in guides:
+            owners.add(type(tab).__name__)
     for page in ("CalibratePage", "PhotometryPage", "PeriodPage", "FrequencyPage", "VarFindPage", "OCPage",
                  "PlanPage", "RemoteSensingPage", "ReduceTab", "EchelleTab", "TelluricTab", "VelocityTab",
                  "SpectrumToolsTab", "ModelsPage"):  # fmt: skip
@@ -1263,6 +1264,12 @@ def test_every_moved_area_opens_in_its_own_window(window):
         window.show_workspace(key)
         win = window.area_windows[key]
         page = getattr(window, window.PAGES[key])
+        if key == "spectroscopy":  # the chosen job's view in the middle (plans/spectroscopy.md step 1.1)
+            views = win.centralWidget()
+            assert page.reduce_tab.plot in [views.widget(i) for i in range(views.count())] and page.isHidden()
+            assert isinstance(win, AreaWindow) and win.isVisible()
+            win.close()
+            continue
         shown = win.centralWidget() if key == "photometry" else win.centralWidget().widget()
         expected = page.viewer if key == "photometry" else page  # Photometry: the image in the middle (I5)
         assert isinstance(win, AreaWindow) and win.isVisible() and shown is expected
