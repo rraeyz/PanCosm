@@ -9,7 +9,7 @@ is adding a folder, like the .ts files for the interface; screenshots are in ima
 import re
 from pathlib import Path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
@@ -62,6 +62,8 @@ def _parse(lang):
 
 
 class GuidePage(QWidget):
+    home_requested = Signal()  # the start page (user-feedback UF-8: the guide had no way back)
+
     def __init__(self, settings, parent=None):
         super().__init__(parent)
         self.lang = settings.get("ui.language", "en")
@@ -69,6 +71,14 @@ class GuidePage(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         ll = QVBoxLayout(left)
+        from PySide6.QtGui import QKeySequence
+        from PySide6.QtWidgets import QPushButton
+
+        self.home_button = QPushButton("← " + self.tr("Start page"), self)
+        self.home_button.setToolTip(self.tr("Back to the start page (Alt+Home)"))
+        self.home_button.setShortcut(QKeySequence("Alt+Home"))
+        self.home_button.clicked.connect(self.home_requested)
+        ll.addWidget(self.home_button, 0, Qt.AlignLeft)
         ll.addWidget(_title(self.tr("Guide"), self))
         self.search = QLineEdit(self)
         self.search.setPlaceholderText(self.tr("Search the guide…"))

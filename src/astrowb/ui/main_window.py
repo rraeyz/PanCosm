@@ -414,7 +414,9 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
     def _make_guide_page(self):
         from .guide_page import GuidePage
 
-        return GuidePage(self.settings, self)
+        page = GuidePage(self.settings, self)
+        page.home_requested.connect(lambda: self.show_workspace("start"))
+        return page
 
     def _make_plan_page(self):
         from .plan_page import PlanPage  # imported with its page: start-up stays fast

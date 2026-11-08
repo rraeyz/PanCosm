@@ -2437,3 +2437,11 @@ def test_transit_fit_filled_from_the_archive(window, monkeypatch):
     page.transit_button.click()
     params = asked[-1][3]
     assert (params["k"], params["a_rs"], params["b"]) == (0.14629, 6.247, 0.645) and params["mcmc_steps"] == 0
+
+
+def test_the_guide_leads_back_to_the_start_page(window):
+    """User feedback UF-8: the guide had no way back to the start page."""
+    window.show_workspace("guide")
+    assert window.current_workspace() == "guide"
+    window.guide_page.home_button.click()
+    assert window.current_workspace() == "start"
