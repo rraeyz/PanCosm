@@ -22,7 +22,7 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-5 — at least what the ING "staralt" chart gives** (the owner's screenshot) — **done** (2026-11-14: LST
   along the top, the Moon's distance every hour along each curve, airmass on the right, rise and set through the
   altitude limit in the legend, Moon illumination, the site and date in the title, the twilights' times; the
-  owner's wish: a blend of staralt, airmass.org and our own — anything he misses is a new step)
+  owner's wish: a blend of staralt, airmass.org and our own — anything he misses is a new step; 2026-11-14: each hour row is named at its right end with an arrow, and "More charts…" opens the Moon's distance per hour and a polar sky view with an hour slider — `ui/plan_more.py`; still to come: the annual and night-length charts)
   LST along the top, the Moon's distance from each target written along its curve every hour, airmass scale on the
   right, each target's rise / set (above the altitude limit) times in the legend, Moon illumination and its own
   curve, the site and date in the title. Better than staralt: our colours, the blue twilight, interactive.

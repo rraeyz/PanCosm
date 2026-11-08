@@ -60,3 +60,15 @@ def test_crossings_and_twilight_bands():
     h = np.linspace(0, 10, 101)
     down, up = crossing_hours(h, np.cos(h * np.pi / 5), 0.0)
     assert np.allclose(down, [2.5], atol=0.01) and np.allclose(up, [7.5], atol=0.01)
+
+
+def test_more_charts(qapp):
+    from astrowb.ui.plan_more import MoreCharts
+
+    n = night()
+    hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
+    win = MoreCharts(n, hours, 3.0)
+    assert "Moon distance" in win.moon.figure.axes[0].get_title()
+    win.slider.setValue(10)
+    assert win.sky.figure.axes[0].get_title().startswith("Sky at")
+    assert len(win.sky.figure.axes[0].lines) >= len(n["targets"])

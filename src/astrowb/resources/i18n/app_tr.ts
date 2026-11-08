@@ -8045,6 +8045,29 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>MoreCharts</name>
+    <message>
+        <location filename="../../ui/plan_more.py" line="70"/>
+        <source>More charts of the night</source>
+        <translation>Gecenin diğer grafikleri</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="75"/>
+        <source>Moon distance</source>
+        <translation>Ay uzaklığı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="88"/>
+        <source>Hour</source>
+        <translation>Saat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="92"/>
+        <source>Sky at an hour</source>
+        <translation>Bir saatteki gökyüzü</translation>
+    </message>
+</context>
+<context>
     <name>MovingObjectDialog</name>
     <message>
         <location filename="../../ui/moving_dialog.py" line="31"/>
@@ -13038,6 +13061,16 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Gece boyunca her hedefin yüksekliği, alacakaranlık ve Ay ile birlikte, ve karanlık saatlere düşen minimumlar / geçişler</translation>
     </message>
     <message>
+        <location filename="../../ui/plan_page.py" line="430"/>
+        <source>More charts…</source>
+        <translation>Diğer grafikler…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="432"/>
+        <source>The Moon&apos;s distance from each target and the sky at any hour of the night</source>
+        <translation>Ay'ın her hedefe uzaklığı ve gecenin istenen saatindeki gökyüzü</translation>
+    </message>
+    <message>
         <location filename="../../ui/plan_page.py" line="213"/>
         <source>Make a schedule</source>
         <translation>Program yap</translation>
@@ -13142,12 +13175,12 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Karanlık saatlerde yeterince yüksek bir hedef yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="476"/>
+        <location filename="../../ui/plan_page.py" line="493"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Astronomik gece: {dusk} – {dawn} UTC ({ldusk} – {ldawn} yerel, UTC{off}); {n} olay.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum I / transit</source>
         <translation>minimum I / geçiş</translation>
     </message>
@@ -13167,22 +13200,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Program, Gözlem penceresinin gece planı olur; yine de orada kontrol edip siz başlatırsınız</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum II</source>
         <translation>minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>yes</source>
         <translation>evet</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>partly</source>
         <translation>kısmen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="474"/>
+        <location filename="../../ui/plan_page.py" line="491"/>
         <source>no astronomical night</source>
         <translation>astronomik gece yok</translation>
     </message>

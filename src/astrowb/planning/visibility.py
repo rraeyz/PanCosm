@@ -48,6 +48,11 @@ def altitudes(coord: SkyCoord, times: Time, site: Site):
     return coord.transform_to(frame).alt.deg
 
 
+def azimuths(coord: SkyCoord, times: Time, site: Site):
+    """Azimuth in degrees, from the north through the east."""
+    return coord.transform_to(AltAz(obstime=times, location=site.location)).az.deg
+
+
 def sun_altitude(times, site):
     return get_body("sun", times, site.location).transform_to(AltAz(obstime=times, location=site.location)).alt.deg
 
@@ -79,6 +84,7 @@ def moon(times, site, coord=None):
     phase = np.arctan2(s.distance * np.sin(elong), m.distance - s.distance * np.cos(elong))
     out = {
         "alt": m.transform_to(AltAz(obstime=times, location=loc)).alt.deg,
+        "az": m.transform_to(AltAz(obstime=times, location=loc)).az.deg,
         "illumination": np.asarray((1 + np.cos(phase)) / 2),
     }
     if coord is not None:
