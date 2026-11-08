@@ -204,7 +204,7 @@ drawing (very large images, thousands of plotted points) may move to OpenGL or n
   after, 0 unfinished; 729 tests passed.
 
 ### I1. Research: how the reference programs lay out their windows
-**agent2 done (2026-11-07, this commit)** — the proposal below waits for the owner's yes (asked 2026-11-07; see "To ask the owner"); I2 does not depend on it. — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
+**agent2 done (2026-11-07, commit 951150f)** — the proposal below waits for the owner's yes (asked 2026-11-07; see "To ask the owner"); I2 does not depend on it. — partly done 2026-11-07 (AstroImageJ and MaxIm DL below); Siril, NINA and users' complaints still to do.
 
 Found so far:
 - **AstroImageJ** (source `astroj/AstroStackWindow.java`, `Astronomy/MultiPlot_.java`):
@@ -439,7 +439,7 @@ I4 has moved every page (see "To ask the owner").
   7. Planning;
   8. Observing;
   9. Automation;
-  10. Remote sensing — 7–10 **agent2 done (2026-11-08, this commit)**, one commit for the four (each only adds its
+  10. Remote sensing — 7–10 **agent2 done (2026-11-08, commit 9717ca2)**, one commit for the four (each only adds its
       key to `MainWindow.WINDOWED` and its steps' area);
   11. Project / Guide (these may stay in the main window) — **kept in the main window** (agent2, 2026-11-08): they
       are the main window's own pages (the project and the guide serve every area).
@@ -491,7 +491,7 @@ identical to the button. Accept: `grep "Photometry page\|Calibrate page"` finds 
 unfinished translations.
 
 ### I5. Photometry gets its full window
-**agent2 done (2026-11-08, this commit)** — first layout: the image is the central view, the steps scroll is the left
+**agent2 done (2026-11-08, commit 790b52b)** — first layout: the image is the central view, the steps scroll is the left
 panel, the results (plot + Stars / Plot / Minimum / Export tabs) the bottom panel (shown once a star is marked),
 toolbar with short labels mirroring the page's buttons (enabled with them), menu Measure. `PhotometryPage.window_parts`,
 `MainWindow._photometry_window`, `_follow_enabled`. Screenshots tr / de 1366 × 768 with 15 Qatar-1 frames and two
@@ -513,16 +513,18 @@ a Measurements table, multi-plot and detrend & fit as their own panels (photomet
 ### I6. The other areas get their full windows
 **open** — one at a time, each planned in its own area file first (for example Spectroscopy: orders and spectrum in
 the middle, lines and fit in panels).
+- Spectroscopy: planned in `plans/spectroscopy.md` step 0 (2026-11-08, agent2: iSpec, PypeIt and IRAF read for the
+  layout). It also closes I4c.
 
 ### I6a. Test every window as a user (PLAN.md R3)
-**agent2 done (2026-11-08, this commit)** — first pass after I4 / I5; run it again after each I6 window. Script
+**agent2 done (2026-11-08, commit c046329)** — first pass after I4 / I5; run it again after each I6 window. Script
 `i6a_drive.py <out> <lang> <W> <H>` (scratchpad): main → Calibration (LCO raw lights + darks + biases, sky flat; scan)
 → Photometry (15 Qatar-1 frames: bad frames, target, radii, measure) → Light curves (period search, O−C) →
 Spectroscopy (EFOSC2 science + arc, velocity tab) → Models → Images → Planning → Observing → Automation → Remote
 sensing; tr / en / de / es at 1366 × 768 and 1920 × 1080 (scratchpad `i6a/<lang>_<W>/`, contact sheets
 `i6a/de_sheet0-4.png`). Its text check (`cut.txt`: size hint wider than the widget) found only the Workflow fold
 titles, which elide on purpose with the whole text in the tooltip; it does not look at table headers. The whole
-night worked in every language (15 points, scatter 0.44 %). German grammar fixed in this commit ("Im Fenster
+night worked in every language (15 points, scatter 0.44 %). German grammar fixed in commit c046329 ("Im Fenster
 Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task in I6b.
 - **Build:** a driving script per window (QTest clicks, offscreen or Xvfb) that walks its workflow on real data
   and saves a screenshot of each step at 1366 × 768 and 1920 × 1080, in the four languages. A reviewer (the agent)
@@ -531,7 +533,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
 
 ### I6b. Findings of the I6a run (2026-11-08, agent2)
 **agent2 done (2026-11-08)** — every sub-item done (commits in each); left open inside them: a significance test for the period search (3), naming the rarer steps' settings (5), sessions and drops for Planning, Observing, Models, Automation (8).
-- **(1) Photometry / Images: catalogue labels hide the image.** **agent2 done (2026-11-08, this commit)** — the labels were the 40
+- **(1) Photometry / Images: catalogue labels hide the image.** **agent2 done (2026-11-08, commit 96d65be)** — the labels were the 40
   VSX variables (VSX lists Gaia DR3 variables by their Gaia names). Photometry names only the one chosen in the
   variables list; the other cyan rings give their name on hover (`viewer.set_markers` style "quiet"). Images: an
   overlay of more than 25 rings (`ImageViewer.MAX_LABELS`) shows each label on hover, and the status line says so.
@@ -541,7 +543,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   gets a full label ("Gaia DR3 2244…"); on the Qatar-1 field they cover the stars and the target. Show only the
   target, comparisons, checks and VSX variables by name; other catalogue stars as small marks, their name on hover;
   a View toggle "Catalogue names". Accept: on the Qatar-1 screenshot (1366 × 768) every marked star is readable.
-- **(2) Photometry: the star table is squeezed in the results panel.** **agent2 done (2026-11-08, this commit)** — the paragraph under the table went into the
+- **(2) Photometry: the star table is squeezed in the results panel.** **agent2 done (2026-11-08, commit c35decb)** — the paragraph under the table went into the
   two buttons' tooltips (its old area names fixed: "Light curves & O−C", "Orbits & models"), the result text sits
   under the plot, the buttons share a row when it holds them, plot and tabs share the width, every header column
   fits, and the panel opens at two fifths of the height. At 1366 × 768 (tr / de / es) the table shows 4 stars at
@@ -551,7 +553,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   Original finding: The long info text above it leaves the Stars
   tab about one row at 1366 × 768. Put the text in a one-line label with the rest in its tooltip (or below the
   table), so target + comparisons + check (at least 5 rows) are visible. Accept: screenshot shows 5 rows.
-- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 done (2026-11-08, this commit)** — `photometry.steps.period_warnings`, shown as ⚠ lines under
+- **(3) Light curves: period search answers without a warning when the data cannot hold the period.** **agent2 done (2026-11-08, commit 23c0b7d)** — `photometry.steps.period_warnings`, shown as ⚠ lines under
   the result (templates in `ui/messages.py`, guide 07 in four languages); the Qatar-1 8-minute curve now says it
   cannot hold a period (scratchpad `i6b3/tr/31_lc_period_searched.png`). Left open: a significance test (false-alarm
   probability) for a peak that is only noise — a 9-day sine over 3 nights searched to 1.4 d gives a noise peak at
@@ -561,20 +563,20 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   the time span is shorter than ~2 × the longest period searched, or when the peak is at the grid's edge, and say
   what to do (more nights, a narrower range). Template in `ui/messages.py`. Accept: a test with a 8-minute curve
   shows the warning; a 3-night curve does not.
-- **(4) Observing: sequence table headers cut** **agent2 done (2026-11-08, this commit)** — columns sized to their
+- **(4) Observing: sequence table headers cut** **agent2 done (2026-11-08, commit 23b9182)** — columns sized to their
   contents and headers, the table scrolls sideways when narrow (`test_every_sequence_column_shows_its_whole_header`).
   The I6a script now checks table headers too: none cut in de / tr at 1366 × 768 (scratchpad `i6b4/`). Original: in German at 1366 × 768 ("elichtung (", "stärkung (G",
   "uslesemod…"). Short header names with the full name in the header tooltip, or columns sized to their headers
   with the table scrolling sideways. Folded into the Observing window's I6 layout. The I6a text check should look
   at table headers too.
-- **(5) Automation: template names cut** **agent2 done (2026-11-08, this commit)** — `ui/setting_names.py`:
+- **(5) Automation: template names cut** **agent2 done (2026-11-08, commit 3e82077)** — `ui/setting_names.py`:
   names for the 82 settings and inputs of the steps in the bundled templates (four languages; a few keyed by step,
   where one key means different things), the key in the tooltip; any other setting shows its key with spaces (the
   remaining ~95 keys of rarer steps can be named the same way when their windows get their I6 layout). The template
   list word-wraps. Screenshot scratchpad `i6b5/de.png`. I4d's open leftover is closed by this. in the template list ("…am Ende der Nacht (Vorlag") with a sideways
   scroll bar, and the settings table shows parameter keys ("← folder", "lights", "clock_utc_offset") — the I4d
   leftover. Labels for the parameters (key in the tooltip); the list word-wraps or gets the room.
-- **(6) Remote sensing: empty view gives no hint.** **agent2 done (2026-11-08, this commit)** — `ImageViewer.empty_hint`,
+- **(6) Remote sensing: empty view gives no hint.** **agent2 done (2026-11-08, commit a99e75a)** — `ImageViewer.empty_hint`,
   drawn in the middle of an empty view: Remote sensing, Images ("File → Open FITS…") and Photometry; screenshots
   scratchpad `i6b6/both.png`. Images did not have one either (the finding was wrong there). Found on the way, now
   (8) below: no window is given `open_files`, so dropping files on a window and its File → Open… / Open recent do
@@ -583,7 +585,7 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   "Open an image (File → Open, or drop it here)" until one is loaded, as Images does. The plot toolbar floats in
   the middle of the steps column with empty space below.
 - (7) Spectroscopy "In what order?" box: already I4c. Calibration, Models, Images, Planning: nothing new.
-- **(8) Dropping files on a window does nothing** **agent2 done (2026-11-08, this commit)** — `MainWindow._opener`
+- **(8) Dropping files on a window does nothing** **agent2 done (2026-11-08, commit cb7a002)** — `MainWindow._opener`
   gives Images (`open_many`), Calibration (the lights folder), Light curves (`PeriodPage._load(path)`),
   Spectroscopy (the science frame) and Remote sensing their handler, Photometry `set_images`; so each has File →
   Open… (Ctrl+O), Open recent and drop. The Images window no longer also gets the main window's Open FITS…: one
