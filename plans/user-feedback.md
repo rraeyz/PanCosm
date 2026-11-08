@@ -58,11 +58,13 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Calibration (UF-12)
 
-- **UF-12 — "Calibrating the frames" crawls (about 1 % per 2–3 s after a fast first half)** — **open**
-  (2026-11-13, measured: the second half is the lights, and nearly all of it is the cosmic-ray cleaning — 12
-  frames of 1536 × 1024: 8.5 s with it, 2.6 s without; astroscrappy already uses every core, so running frames in
-  parallel was slower (10.5 s) and was not kept. Left: a faster cleaner with the same result, or the cleaning only
-  where Photometry's spike flags need it; the window's tooltip now says the option is the slow part (2026-11-14))
+- **UF-12 — "Calibrating the frames" crawls (about 1 % per 2–3 s after a fast first half)** — **done**
+  (2026-11-14: measured — the second half is the lights, nearly all of it the cosmic-ray cleaning; astroscrappy
+  repeats its whole-frame search up to four times. `calibration/cosmics.py` runs its steps once over the frame and
+  the later passes only within 9 px of what the last cleaning changed: the same mask and cleaned frame bit for bit
+  (tests/test_cosmics.py, and real 4k frames with planted tracks), 2–2.5× faster (4k: 15.8 s → 6.4 s; 1536 × 1024:
+  1.1 s → 0.6 s). Running frames in parallel was slower (astroscrappy already uses every core). The option's tooltip
+  says it is the slow part)
   Profile the owner's night (40 lights, 2×2, cosmic-ray cleaning on): find the slow part (likely astroscrappy per
   frame on one core, or masters re-read per frame) and speed it up without changing the result.
 

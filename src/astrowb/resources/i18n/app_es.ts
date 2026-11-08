@@ -1598,6 +1598,11 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Quitar rayos cósmicos de los lights</translation>
     </message>
     <message>
+        <location filename="../../ui/calibrate_page.py" line="226"/>
+        <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights: switch it off for a quick pass.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/calibrate_page.py" line="231"/>
         <source>Scale the dark to each light (dark optimisation)</source>
         <translation>Escalar el dark a cada toma (optimización del dark)</translation>
@@ -1675,11 +1680,6 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/calibrate_page.py" line="187"/>
         <source>The type comes from the header, else from the file name; double-click a type to change it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/calibrate_page.py" line="226"/>
-        <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights (about 3× the rest): switch it off for a quick pass.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
