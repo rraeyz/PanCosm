@@ -362,12 +362,13 @@ their smallest and cut their titles; fixed with first sizes (steps 280 px, right
 translated text; Enter runs it. Accept: finds every action by a part of its name in each language.
 
 #### I2.3 Recent files, drag and drop, area sessions
-**agent2 claimed (2026-11-08) — do not touch** — File → Open recent (per area), files dropped on the window go to the area, Save / Open session of the
+**agent2 done (2026-11-08, commit 2637029)** — frame side only (`open_files`, `file_filter`, `session=(get, set)`);
+each area wires its own state when it moves into its window (I4). Projects are untouched by this step. — File → Open recent (per area), files dropped on the window go to the area, Save / Open session of the
 area (`.astrosession` JSON of what the area declares: data chosen, stars, settings, plots). Accept: a saved session
 opens again the same; old projects still open.
 
 #### I2.4 Report a problem
-**open** — Help → Report a problem: one zip with `error.log`, version, system, settings (no paths of the owner's
+**agent2 claimed (2026-11-08) — do not touch** — Help → Report a problem: one zip with `error.log`, version, system, settings (no paths of the owner's
 data files), the last steps run; a dialog says where it is and what to send. Accept: test that the zip has these
 files and no data file.
 
