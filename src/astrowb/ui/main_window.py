@@ -984,6 +984,14 @@ class MainWindow(QMainWindow):
         self.overlay_menu = add_overlay_menu(self, v)
         self.panels_menu = v.addMenu(self.tr("Panels beside the image"))
         self.panels_menu.aboutToShow.connect(self._fill_panels_menu)
+        text_menu = v.addMenu(self.tr("Text size"))
+        sizes = (
+            (self.tr("&Larger text"), 1, "Ctrl+Shift++"),
+            (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
+            (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
+        )
+        for text, step, key in sizes:
+            self._action(text_menu, text, lambda s=step: self._change_font(s), key)
         for title, keys, kw in (
             (self.tr("Interval"), INTERVALS, "interval"),
             (self.tr("Stretch"), STRETCHES, "stretch"),
@@ -1050,7 +1058,7 @@ class MainWindow(QMainWindow):
             group.addAction(act)
 
         theme_menu, group = s.addMenu(self.tr("&Look")), QActionGroup(self)
-        looks = {"dark": self.tr("Dark"), "light": self.tr("Light")}
+        looks = {"dark": self.tr("Dark"), "light": self.tr("Light"), "night": self.tr("Night (red, for the telescope)")}
         for code, label in looks.items():
             act = self._action(theme_menu, label, lambda _=False, c=code: self.set_theme(c))
             act.setCheckable(True)
@@ -1868,11 +1876,21 @@ class MainWindow(QMainWindow):
         from . import theme
 
         self.settings.set("ui.theme", code)
-        theme.apply(QApplication.instance(), code)
+        theme.apply(QApplication.instance(), code, theme.font_size(self.settings))
         self._paint_glyphs()  # the symbols take the text colour of the new theme
         for canvas in self.findChildren(PlotCanvas):  # plots already drawn pick up the new colours
             canvas.figure.set_facecolor(theme.colors(code)["window"])
             canvas.draw()
+
+    def _change_font(self, step):
+        from PySide6.QtWidgets import QApplication
+
+        from . import theme
+
+        size = theme.change_font(QApplication.instance(), self.settings, step)
+        self._paint_glyphs()
+        self.statusBar().showMessage(self.tr("Text size: {pt:g} pt").format(pt=size), 3000)
+        return size
 
     def set_compute(self, code):
         self.settings.set("compute.device", code)
