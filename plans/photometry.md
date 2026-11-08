@@ -308,7 +308,13 @@ waits for the owner, see "For the owner to try"):
   (donut, 30 px) is centred within 0.2 px.
 
 ### 6. Measurements table (one row per frame, every number)
-**open**
+**agent2 claimed (2026-11-08) — do not touch**
+- **AstroImageJ's column names** (read in its `Aperture_.java`, 2026-11-08): `Label`, `slice`, `J.D.-2400000`, `JD_UTC`,
+  `BJD_TDB`, `AIRMASS`; per star with the suffix `_T1`, `_C2`…: `X(IJ)`, `Y(IJ)`, `X(FITS)`, `Y(FITS)`, `RA`, `DEC`,
+  `Source-Sky`, `Source_Error`, `Source_SNR`, `Source_AMag`, `Source_AMag_Err`, `N_Src_Pixels`, `Sky/Pixel`,
+  `N_Sky_Pixels`, `Peak`, `Mean`, `FWHM`, `Width`, `X-Width`, `Y-Width`, `Roundness`, `Angle`, `Variance`,
+  `Source_Radius`, `Sky_Rad(min)`, `Sky_Rad(max)`, `Saturated`; then `rel_flux_T1`, `rel_flux_err_T1`,
+  `rel_flux_SNR_T1`, `tot_C_cnts`, `tot_C_err`.
 - **Reference:** the AIJ Measurements table: JD, BJD, airmass, and for every star x, y, source counts, sky per pixel,
   peak, FWHM, S/N, rel_flux and its error.
 - **Ours:** the frame list and a CSV with time, rel_flux, comparison fluxes, airmass, FWHM, Δm.
