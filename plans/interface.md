@@ -681,9 +681,9 @@ Photometrie messen", "An das Fenster Beobachten senden"). Findings, each a task 
   Images does today), the same kind always the same icon and no icon for two kinds (a test). `AreaWindow` shows its
   toolbar as icons with tooltips, View → "Toolbar text" adds the labels (kept in the settings), icons follow a
   theme change. Photometry, Spectroscopy and Images use the table.
-- **I6c.2 The common menus complete in every area window:** **agent2 done (2026-11-08, this commit)** — `MainWindow._complete_menus` adds to every area window Edit → Copy (a table's selected cells, or the text box's own copy) and the main window's Settings menu itself, and to Help the tour, Check for updates… and About (the main window's actions: they act the same everywhere). Windows built before the main window's menus are completed right after them. Guide 01 in four languages; `test_every_area_window_has_the_common_menus`. Original: Edit → Copy, Settings…; Help → Tour, Check for updates,
+- **I6c.2 The common menus complete in every area window:** **agent2 done (2026-11-08, commit 96a87c7)** — `MainWindow._complete_menus` adds to every area window Edit → Copy (a table's selected cells, or the text box's own copy) and the main window's Settings menu itself, and to Help the tour, Check for updates… and About (the main window's actions: they act the same everywhere). Windows built before the main window's menus are completed right after them. Guide 01 in four languages; `test_every_area_window_has_the_common_menus`. Original: Edit → Copy, Settings…; Help → Tour, Check for updates,
   About.
-- **I6c.3 Photometry:** Frames, Stars, Measure, Analyse, File → Export, as in the table; toolbar.
+- **I6c.3 Photometry:** **agent2 claimed (2026-11-08) — do not touch** Frames, Stars, Measure, Analyse, File → Export, as in the table; toolbar.
 - **I6c.4 Calibration:** Frames, Masters, Process, Send; toolbar.
 - **I6c.5 Spectroscopy:** Reduce, Lines, Spectrum, Measure, Velocity, File → Export; toolbar per job.
 - **I6c.6 Light curves and O−C:** their menus and toolbars.
