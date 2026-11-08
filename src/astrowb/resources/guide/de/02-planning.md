@@ -1,5 +1,5 @@
 # Planen
-Die Seite **Planen** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und welche Bedeckungen oder Transits in die Nacht fallen. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder die Seitenleiste) mit eigenen Menüs.
+Die Seite **Planen** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und welche Bedeckungen oder Transits in die Nacht fallen. Er öffnet sich in einem eigenen Fenster (über seinen Block auf der Startseite oder das Menü Fenster) mit eigenen Menüs.
 
 ## Ihr Standort
 Geben Sie **Breite** (Grad, Nord positiv), **Länge** (Grad, Ost positiv) und **Höhe** (Meter) der Sternwarte ein. Die Werte werden gespeichert. Sie dienen auch der baryzentrischen Korrektur von Radialgeschwindigkeiten und den Dämmerungszeiten.

@@ -1,5 +1,5 @@
 # Gözlem ve güvenlik
-**Gözlem** sayfası teleskobu, kamerayı, odaklayıcıyı, filtre tekerini, kubbeyi ve kılavuzlamayı denetler. Cihazlar güvenlik denetçisi olan ayrı bir **gözlemevi sürecine** aittir; pencere kapansa ya da çökse bile teleskop korunur. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da kenar çubuğu); kendi menüleri vardır.
+**Gözlem** sayfası teleskobu, kamerayı, odaklayıcıyı, filtre tekerini, kubbeyi ve kılavuzlamayı denetler. Cihazlar güvenlik denetçisi olan ayrı bir **gözlemevi sürecine** aittir; pencere kapansa ya da çökse bile teleskop korunur. Kendi penceresinde açılır (Başlangıç sayfasındaki bloğu ya da Pencere menüsü); kendi menüleri vardır.
 
 ## Gözlemevini yapılandırmak
 **Gözlemevini kur…** aşağıdakilerin hepsi için bir pencere açar: gözlem yeri, cihazlar (**Ağdaki Alpaca cihazlarını bul** yanıt veren her ASCOM Alpaca cihazını listeler; INDI cihazları sunucu adresi ve INDI cihaz adıyla elle eklenir), güvenlik sınırları, PHD2 ve başka bilgisayarların bağlanıp bağlanamayacağı. Riskli seçimlerde uyarır, ör. hava sensörü olmayan bir kundak. **Kaydet ve başlat** dosyayı yazar ve gözlemevini bu bilgisayarda başlatır; **Aç…** var olan bir dosyayı düzenler.

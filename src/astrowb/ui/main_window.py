@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QObject, QRect, QSize, Qt, Signal
+from PySide6.QtCore import QEvent, QObject, QSize, Qt, Signal
 from PySide6.QtGui import QAction, QActionGroup, QIcon, QKeySequence, QUndoGroup
 from PySide6.QtWidgets import (
     QDockWidget,
@@ -173,47 +173,20 @@ class MainWindow(QMainWindow):
             "project": self.tr("Project"),
             "guide": self.tr("Guide"),
         }
-        groups = {  # a heading before the first page of each group; the order of the work through a night
-            "plan": self.tr("Observation"),
-            "calibrate": self.tr("Reduction"),
-            "photometry": self.tr("Analysis"),
-            "automation": self.tr("Tools"),
-        }
-        self.nav = QListWidget(self)
-        self.nav.setObjectName("sidebar")
+        self._titles = titles  # the main window's own pages and the areas' old names (tests, tools)
         self.pages = QStackedWidget(self)
         self._placeholders = {}
-        for key, attr in self.PAGES.items():
-            if key in groups:  # a heading: not selectable, carries no page
-                self.nav.addItem(groups[key].upper())
-                heading = self.nav.item(self.nav.count() - 1)
-                heading.setFlags(Qt.NoItemFlags)
-                font = heading.font()
-                font.setPointSizeF(font.pointSizeF() * 0.8)
-                font.setBold(True)
-                heading.setFont(font)
-            self.nav.addItem(titles[key])
-            self.nav.item(self.nav.count() - 1).setData(Qt.UserRole, key)
+        for attr in self.PAGES.values():
             self._placeholders[attr] = QWidget(self.pages)
             self.pages.addWidget(self._placeholders[attr])
-        # at least as wide as the longest title in the chosen language; wider or folded away by dragging its edge
-        nav_width = self.nav.sizeHintForColumn(0) + 2 * self.nav.frameWidth() + 28
-        self.nav.setMinimumWidth(nav_width)
         for attr in ("start_page", "image_page", "project_page", "calibrate_page"):  # cheap and needed at once
             getattr(self, attr)
         self.viewer, self.header_table = self.image_page.viewer, self.image_page.header_table
         self.files_list = self.project_page.files_list
         self.viewer.hovered.connect(self._show_pixel)
         self.files_list.itemActivated.connect(lambda item: self.open_fits(Path(item.data(Qt.UserRole)), ask=True))
-        self.nav.currentItemChanged.connect(lambda item, _: item and self._show_key(item.data(Qt.UserRole)))
-        from PySide6.QtWidgets import QSplitter
-
-        self.central_split = central = QSplitter(Qt.Horizontal, self)  # every border can be dragged
-        central.addWidget(self.nav)
-        central.addWidget(self.pages)
-        central.setStretchFactor(1, 1)
-        central.setSizes([nav_width, 10000])
-        self.setCentralWidget(central)
+        # no sidebar (the owner, 2026-11-08): the area blocks and the Window menu are the ways in
+        self.setCentralWidget(self.pages)
         self.show_workspace("start")
 
     def _place(self, attr, page):
@@ -459,9 +432,6 @@ class MainWindow(QMainWindow):
     def _show_key(self, key):
         if key in self.WINDOWED:  # opens its window; the main window keeps showing what it showed
             self.open_area(key)
-            self.nav.blockSignals(True)
-            self.nav.setCurrentItem(self._nav_items()[self._key])
-            self.nav.blockSignals(False)
         elif key:
             page = getattr(self, self.PAGES[key])
             self.pages.setCurrentWidget(self._frames.get(page, page))
@@ -483,15 +453,10 @@ class MainWindow(QMainWindow):
             self.undo_group.addStack(stack)
         self.undo_group.setActiveStack(stack)
 
-    def _nav_items(self):
-        """key -> sidebar item (group headings excluded)."""
-        items = (self.nav.item(i) for i in range(self.nav.count()))
-        return {it.data(Qt.UserRole): it for it in items if it.data(Qt.UserRole)}
-
     @property
     def workspaces(self):
-        """key -> (sidebar title, page); building every page (tests and tools, not start-up)."""
-        return {key: (it.text(), getattr(self, self.PAGES[key])) for key, it in self._nav_items().items()}
+        """key -> (title, page); building every page (tests and tools, not start-up)."""
+        return {key: (self._titles[key], getattr(self, attr)) for key, attr in self.PAGES.items()}
 
     oc_page = property(lambda self: self.lightcurve_page.oc_page)
     period_page = property(lambda self: self.lightcurve_page.period_page)
@@ -1058,14 +1023,14 @@ class MainWindow(QMainWindow):
             self._last_area = key
             return
         self._last_area = None
-        self.nav.setCurrentItem(self._nav_items()[key])
+        self._show_key(key)
 
     def current_workspace(self) -> str:
         """The area the user was last sent to: an area window opened last, else the page shown here."""
         last = getattr(self, "_last_area", None)
         if last and self.area_windows.get(last) is not None and self.area_windows[last].isVisible():
             return last
-        return self.nav.currentItem().data(Qt.UserRole)
+        return self._key
 
     def _fill_window_menu(self):
         from .area_window import AreaWindow, _raise
@@ -1073,6 +1038,8 @@ class MainWindow(QMainWindow):
 
         self.window_menu.clear()
         self._action(self.window_menu, self.tr("Main window"), lambda: _raise(self))
+        for key in ("start", "project", "guide"):  # the main window's own pages (the sidebar is gone)
+            self._action(self.window_menu, self._titles[key], lambda k=key: (_raise(self), self.show_workspace(k)))
         self.window_menu.addSeparator()
         open_now = AreaWindow.shown()
         for win in open_now:
@@ -2035,26 +2002,23 @@ class MainWindow(QMainWindow):
 
     def start_tour(self):
         """Short guided tour of the pages and the main controls."""
+        from PySide6.QtWidgets import QToolButton
+
         from .tour import TourOverlay, rect_of
 
-        def item(key):
-            def rect():
-                it = self._nav_items().get(key)
-                if it is None:
-                    return None
-                r = self.nav.visualItemRect(it)
-                return QRect(self.nav.viewport().mapTo(self, r.topLeft()), r.size())
+        def item(key):  # the area's block on the start page
+            return lambda: rect_of(self.start_page.findChild(QToolButton, f"start_{key}"), self)
 
-            return rect
+        def blocks():
+            shown = [rect_of(b, self) for b in self.start_page.blocks]
+            shown = [r for r in shown if r is not None]
+            return shown[0].united(shown[-1]) if shown else None
 
         self.show_workspace("start")
         dock = self.findChild(QDockWidget, "tasks")
         steps = [
             (None, self.tr("Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.")),
-            (
-                lambda: rect_of(self.nav, self),
-                self.tr("The pages, in the order of an observing night. Click one to open it."),
-            ),
+            (blocks, self.tr("The areas, in the order of an observing night. Click one to open it in its window.")),
             (
                 lambda: rect_of(self.start_page, self),
                 self.tr(
@@ -2106,7 +2070,7 @@ class MainWindow(QMainWindow):
                 ),
             ),
             (
-                item("guide"),
+                lambda: rect_of(self.menuBar(), self),  # the guide has no block: Help → Training guide opens it
                 self.tr(
                     "Guide: every page explained step by step, by category, with search. Help → Training guide opens it too."  # noqa: E501
                 ),

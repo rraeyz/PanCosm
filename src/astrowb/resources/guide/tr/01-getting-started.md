@@ -32,7 +32,7 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 6. Daha ileri gitmek için: minimumu kendi referans T0 ve periyodunuzla **O-C** sekmesine yapıştırın, ışık eğrisini dışa aktarın (**CSV olarak dışa aktar…**) ya da **Yörünge ve modeller** sayfasında fit edin.
 
 ## Pencere
-- **Kenar çubuğu (sol):** sayfalar bir gözlem gecesinin sırasıyla dizilidir — Başlangıç, Plan, Gözlem, Kalibrasyon, Görüntüler, Fotometri, Işık eğrileri ve O-C, Tayf, Yörüngeler ve modeller, Uzaktan algılama, Otomasyon, Proje ve bu Kılavuz.
+- **Alan blokları:** her alan, bir gözlem gecesinin sırasıyla, kendi penceresinde açılır; her pencerenin **Pencere** menüsü de onları Başlangıç, Proje ve bu Kılavuz ile birlikte listeler.
 - **Görevler paneli (alt):** her uzun iş (kalibrasyon, fotometri, fit, tayf…) arka planda kendi sürecinde çalışır. Panel ilerlemesini ve durumunu gösterir (sırada, çalışıyor, bitti, başarısız, iptal). Görevler çalışırken çalışmaya devam edebilirsiniz; çöken bir görev pencereyi düşürmez.
 - **Durum çubuğu:** görüntü açıkken farenin altındaki pikselin değeri ve gök koordinatları; görevler çalışırken ilerleme çubuğu.
 - **Menüler:** Dosya (projeler, FITS), Görünüm (yakınlaştırma ve görüntü germe), Görüntü (plaka çözümü, işlemler), Eklentiler, Ayarlar ve Yardım.

@@ -603,7 +603,7 @@ Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is
 - **(2) "karşılaştırma yıldızı" and "kontrol yıldızı" in Turkish.** **agent2 done (2026-11-08, commit aa965bf)** — 28 interface strings and 14 guide lines (01, 05, 06, 13), suffixes in vowel harmony (karşılaştırmanın, -ya, -lar); "Denetim yıldızları" → "Kontrol yıldızları"; no "mukayese" left. Original: — every "mukayese" in `app_tr.ts` (27
   lines) and in the Turkish guide (01, 05, 06, 13) becomes "karşılaştırma"; check star "kontrol yıldızı". Accept:
   `grep -i mukayese` finds nothing in the Turkish texts; 0 unfinished.
-- **(3) Remove the main window's sidebar.** **agent2 claimed (2026-11-08) — do not touch** — `MainWindow.nav` and what only it uses (the old page stack
+- **(3) Remove the main window's sidebar.** **agent2 done (2026-11-08, this commit)** — `MainWindow.nav`, its group headings and the splitter are gone; the page stack is the central widget (Start, Project, Guide), and the main window's Window menu lists those three pages before the areas. The tour points at the area blocks (one sentence reworded; the rest is I7). Guide: every "or the sidebar" became the Window menu, and 01's sidebar bullet describes the blocks, in four languages. Screenshots scratchpad `i6d3/main_1366.png`, `main_800.png`. Original: `MainWindow.nav` and what only it uses (the old page stack
   for areas that all live in windows now); the area blocks and every window's Window menu stay the ways in. Accept:
   every area opens from its block and from Window; the main window at 1366 × 768 and 800 px shows the blocks
   without a sidebar; old settings still open.
@@ -682,8 +682,7 @@ Written 2026-11-08 (agent2) from "Answered by the owner" above; each sub-step is
   - the guide is rewritten around the area windows, in 4 languages, with new screenshots
     (`tools/guide_screenshots.py`);
   - the first-run tour in `main_window.py` too ("taken to the right page", "every page explained", "training
-    pages"), and the sidebar's old names ("Light curves & O-C", "Orbits & models") once the owner has answered on
-    the sidebar.
+    pages"); the old names "Light curves & O-C", "Orbits & models" left in the tour texts and `MainWindow._titles`.
 - **Accept:** the guide's sections match the windows, in all 4 languages.
 
 ## Where everything is (keep this up to date)

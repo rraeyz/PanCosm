@@ -818,11 +818,16 @@ def test_multi_extension_file_opens_the_chosen_image(window, tmp_path, monkeypat
     assert fits.getdata(path, 2).max() == 7.0  # the original is untouched
 
 
-def test_sidebar_groups_and_collapsible_options(window, qtbot):
-    from PySide6.QtCore import Qt
+def test_no_sidebar_and_collapsible_options(window, qtbot):
+    """The owner had the sidebar removed (interface I6d (3)): the area blocks and the Window menu are the ways in;
+    the main window's own pages (Start, Project, Guide) are in its Window menu."""
+    from PySide6.QtWidgets import QListWidget
 
-    headings = [window.nav.item(i) for i in range(window.nav.count()) if not window.nav.item(i).data(Qt.UserRole)]
-    assert len(headings) == 4 and all(h.flags() == Qt.NoItemFlags for h in headings)  # not selectable
+    assert not window.findChildren(QListWidget, "sidebar") and window.centralWidget() is window.pages
+    window._fill_window_menu()
+    pages = [a for a in window.window_menu.actions() if a.text() == window._titles["guide"]]
+    pages[0].trigger()
+    assert window.current_workspace() == "guide"
     window.show_workspace("photometry")
     assert window.current_workspace() == "photometry"
     page = window.calibrate_page
@@ -1013,9 +1018,6 @@ def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file)
     QTest.mouseRelease(handle, Qt.LeftButton, pos=QPoint(2 + page.width(), 10))
     qtbot.waitUntil(lambda: page.split.sizes()[1] == 0)  # the tabs folded away
     assert viewer.width() > before + 200 and fitted()  # more room, the image still fitted to it
-    nav = window.central_split
-    nav.setSizes([nav.sizes()[0] + 80, nav.sizes()[1] - 80])  # the sidebar's edge moves too
-    assert window.nav.width() == nav.sizes()[0]
     big = viewer.transform().m11()
     area.resize(900, 600)  # a smaller window: the image shrinks with it, still whole
     qtbot.waitUntil(lambda: viewer.transform().m11() < big)

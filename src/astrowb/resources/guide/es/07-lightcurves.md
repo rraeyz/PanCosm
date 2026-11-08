@@ -1,5 +1,5 @@
 # Curvas de luz y O-C
-La página **Curvas de luz y O-C** tiene tres pestañas: **Búsqueda de períodos**, **Análisis de frecuencias** y **Diagrama O-C**. Estas pestañas se abren juntas en una ventana propia (el bloque Curvas de luz de la página de inicio o la barra lateral); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada.
+La página **Curvas de luz y O-C** tiene tres pestañas: **Búsqueda de períodos**, **Análisis de frecuencias** y **Diagrama O-C**. Estas pestañas se abren juntas en una ventana propia (el bloque Curvas de luz de la página de inicio o el menú Ventana); allí Editar → Deshacer / Rehacer actúa sobre la pestaña mostrada.
 
 ## Búsqueda de períodos
 La curva de luz medida en la página Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.

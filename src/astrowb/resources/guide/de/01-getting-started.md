@@ -32,7 +32,7 @@ Eine vollständige Übung mit simulierten Daten, deren Lösung bekannt ist: von 
 6. Weiter geht es so: das Minimum mit Ihrem eigenen Referenz-T0 und Ihrer Periode in den Reiter **O-C** einfügen, die Lichtkurve exportieren (**CSV exportieren…**) oder sie auf der Seite **Bahnen & Modelle** anpassen.
 
 ## Das Fenster
-- **Seitenleiste (links):** die Seiten in der Reihenfolge einer Beobachtungsnacht — Start, Planen, Beobachten, Kalibrieren, Bilder, Photometrie, Lichtkurven & O-C, Spektroskopie, Bahnen & Modelle, Fernerkundung, Automatisierung, Projekt und diese Anleitung.
+- **Bereichsblöcke:** jeder Bereich, in der Reihenfolge einer Beobachtungsnacht, öffnet sich in einem eigenen Fenster; das Menü **Fenster** jedes Fensters listet sie ebenfalls auf, mit Start, Projekt und dieser Anleitung.
 - **Aufgabenbereich (unten):** Jede lange Arbeit (Kalibrierung, Photometrie, Anpassungen, Spektren…) läuft im Hintergrund in einem eigenen Prozess. Der Bereich zeigt Fortschritt und Zustand (wartend, läuft, fertig, fehlgeschlagen, abgebrochen). Sie können weiterarbeiten, während Aufgaben laufen, und eine abstürzende Aufgabe reißt nie das Fenster mit.
 - **Statusleiste:** Pixelwert und Himmelskoordinaten unter der Maus, wenn ein Bild offen ist, und ein Fortschrittsbalken, während Aufgaben laufen.
 - **Menüs:** Datei (Projekte, FITS), Ansicht (Zoom und Darstellungsstreckung), Bild (astrometrische Lösung, Bearbeitung), Plugins, Einstellungen und Hilfe.
