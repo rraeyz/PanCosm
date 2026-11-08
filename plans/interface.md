@@ -368,12 +368,13 @@ area (`.astrosession` JSON of what the area declares: data chosen, stars, settin
 opens again the same; old projects still open.
 
 #### I2.4 Report a problem
-**agent2 claimed (2026-11-08) — do not touch** — Help → Report a problem: one zip with `error.log`, version, system, settings (no paths of the owner's
+**agent2 done (2026-11-08, commit 0db6664)** — `ui/report.py` + Help → Report a problem… in `AreaWindow`; the
+main window gets the same action in I3. — Help → Report a problem: one zip with `error.log`, version, system, settings (no paths of the owner's
 data files), the last steps run; a dialog says where it is and what to send. Accept: test that the zip has these
 files and no data file.
 
 #### I2.5 Night theme and font size
-**open** — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
+**agent2 claimed (2026-11-08) — do not touch** — a red night theme beside light and dark; View → Font size (larger / smaller / reset), kept in the
 settings; high-DPI checked. Accept: every window follows the theme; text grows without overflow at 1366 × 768.
 
 #### I2.6 Shared plot and table views
