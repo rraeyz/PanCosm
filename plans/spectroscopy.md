@@ -213,7 +213,7 @@ raw (Echelle did only the latter). What the real data showed:
     buttons (Long slit, Echelle, Telluric, Velocities & orbit, IFU cube, Spectrum tools) and View → Job; the chosen
     job's steps column is the left panel "Steps"; the instrument-profile row moves to the top of that panel (it
     belongs to the reduction jobs only).
-  - **1.2 The view in the middle.** Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
+  - **1.2 The view in the middle.** **agent2 claimed (2026-11-08) — do not touch** Reduce and Echelle: the 2D frame (`ImageViewer`) with the trace, the aperture
     and the sky bands drawn on it (PypeIt object_find, IRAF apall) instead of an `imshow` subplot; the other jobs:
     their spectrum / velocity plot.
   - **1.3 Panels.** "Spectrum" (bottom): the extracted spectrum, and for the arc the arc spectrum with its marks;
