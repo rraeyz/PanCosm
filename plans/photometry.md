@@ -831,8 +831,9 @@ each comparison star moved off its colour term plus the target's, the coefficien
 `transformed_pair` (both filters of a night, the target's colour per frame from the other filter interpolated in
 time and iterated); `export.aavso_extended(transform=…)` writes TRANS=YES and the coefficient in NOTES. Test
 (tests/test_transform.py): B / V night with colour terms 0.05 and 0.10 — within 0.005 mag of the truth on every
-frame, untransformed 0.06 / 0.03 off. Left: the coefficients from the profile (dated, per filter set), the AAVSO
-dialog's "Transform" choice, the second-order extinction term.
+frame, untransformed 0.06 / 0.03 off. The AAVSO report dialog takes the colour term and the colours (the report
+then says TRANS=YES; test_profiles). Left: the coefficients from the profile (dated, per filter set), the colours
+from the AAVSO sequence's B and V, the second-order extinction term.
 - **Ours now:** `photometry/coefficients.py` (`transformation`, `extinction`), `photometry/catalog.calibrate` (zero point + colour term per frame), `ui/coefficients_dialog.py`; `multifilter.colour_curve` (done item 11).
 - **Reference:** AAVSO Guide to CCD Photometry (transformation); AAVSO Extended format `TRANS=YES`; VPhot; our
   `coefficients.transformation`.

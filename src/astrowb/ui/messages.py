@@ -84,6 +84,7 @@ TEMPLATES = (
     ),
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
+    QT_TRANSLATE_NOOP("Messages", "give one colour per comparison star and the variable's colour to transform"),
     QT_TRANSLATE_NOOP("Messages", "unknown airmass formula {formula}"),
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}; known: {known}"),
     QT_TRANSLATE_NOOP("Messages", "unknown velocity frame {frame}; known: {known}"),
