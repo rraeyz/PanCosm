@@ -139,7 +139,14 @@ window, the four-site comparison with JPL Horizons.
 - **Files:** `planning/targets.py`, `planning/target_lists.py`, `ui/planning/panels/targets.py`, `tests/test_target_lists.py`
 
 ### PLN-3. The night chart, the sky map, the year  (P1)
-**open**
+**partial** — done (2026-11-14, user feedback UF-1 … UF-5): `ui/plan_chart.py` (altitude and airmass, the twilight
+bands with their times, UTC and local rows named with arrows, LST on top, the Moon dashed with its illumination,
+the Moon's distance along each curve every hour, rise / set above the limit in the legend, events with ±1σ, the
+horizon profile as each curve's floor); `ui/plan_more.py` ("More charts…": the Moon's distance per hour, the sky
+map with an hour slider and the Moon's track, the year's night length), `ui/plan_tables.py` (Sun, Moon, and per
+target rise, set, highest point, airmass, closest Moon). Left: the meridian and mount limits, the "now" line, the
+hover read-out, event bars from ingress to egress with the baseline, the year tab per target (hours observable
+per night), the 150 ms redraw budget.
 - **Read first:** `staralt`'s plot conventions; astroplan's `plot_airmass` / `plot_sky`; N.I.N.A.'s altitude chart
   (the "risk" shading); colour-blind-safe choices (interface tokens).
 - **Ours now:** altitude / airmass curves of several targets with twilight bands and the Moon.
