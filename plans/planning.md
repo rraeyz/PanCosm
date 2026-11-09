@@ -348,7 +348,12 @@ with the footprints, guider footprint, bright-star warnings, guide stars, the pa
 - **Files:** `services/feeds_*.py`, `ui/planning/panels/news.py`, tests with recorded samples
 
 ### PLN-13. The observing log and the night report  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `planning/obslog.py` (`frames_from_headers`: target, mid-time,
+exposure, filter, airmass, and the night named by its evening at the site's longitude; `night_log`: spans per night
+and target, a pause over an hour starts a new one; `coverage`: whole / ingress / egress / middle; `statistics`;
+`to_csv`). Tests (tests/test_obslog.py): a night across midnight UTC stays one night, two spans after a pause,
+filters, exposure and airmass range, the CSV. Left: Observing's event log and the conditions (FWHM, sky), the
+calendar view, the night report (PDF / HTML), "last observed" in the target lists, the practice and public nights.
 - **Build:** from the project's frames (headers) and Observing's event log: per night and target the time spans
   observed, filters, exposure counts, airmass range, conditions (FWHM, sky, transparency from PHO-33 / IMG-4),
   events caught (whole / ingress only / egress only), problems; a calendar view; statistics (hours per month, per
