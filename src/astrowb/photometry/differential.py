@@ -59,17 +59,27 @@ def scatter_weights(comp_flux, iterations=10):
 
 
 def ensemble(flux_t, err_t, comp_flux, comp_err, weights=None):
-    """Relative flux of a star against the (weighted) sum of the comparison stars, with its error."""
+    """Relative flux of a star against the (weighted) sum of the comparison stars, with its error. A comparison
+    flux that is NaN (the star off the frame, behind a cloud) leaves the frame in: its ensemble is the sum of the stars
+    it has, divided by their usual share of the whole sum on the frames that have every star (Honeycutt 1992's
+    inhomogeneous ensemble), so the curve does not jump when a star leaves (plans/photometry.md item 13)."""
     f, s = np.asarray(flux_t, float), np.asarray(err_t, float)
     c, ce = np.asarray(comp_flux, float), np.asarray(comp_err, float)
     if c.ndim < 2 or c.shape[1] == 0:  # no comparison star (space photometry): the target's flux over its median
         norm = np.nanmedian(f)
         return f / norm, np.abs(s / norm)
     w = np.ones(c.shape[1]) if weights is None else np.asarray(weights, float)
-    e = (c * w).sum(axis=1)
+    have = np.isfinite(c)
+    cover = np.ones(len(c))
+    if not have.all() and have.all(axis=1).any():
+        full = c[have.all(axis=1)] * w
+        share = np.median(full / full.sum(axis=1, keepdims=True), axis=0)  # each star's part of the whole sum
+        cover = (have * share).sum(axis=1)
+        c, ce = np.where(have, c, 0.0), np.where(have, ce, 0.0)
     with np.errstate(divide="ignore", invalid="ignore"):
+        e = (c * w).sum(axis=1) / cover
         rel = f / e
-        err = np.abs(rel) * np.sqrt((s / f) ** 2 + ((w * ce) ** 2).sum(axis=1) / e**2)
+        err = np.abs(rel) * np.sqrt((s / f) ** 2 + ((w * ce) ** 2).sum(axis=1) / cover**2 / e**2)
     return rel, err
 
 

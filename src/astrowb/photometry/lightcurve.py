@@ -170,12 +170,21 @@ def light_curve(
         moved = np.hypot(*(xy - stars0 - shift).T)  # how far centring moved each star from the frame's shift
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved))
     reader.shutdown(wait=False)
-    gone = [(Path(r[0]).name, *r[7]) for r in rows if r[7]]
-    keep = [k for k, r in enumerate(rows) if not r[7]]
+
+    def comps_seen(r):  # which comparison stars the frame has (signal above SNR_FOUND)
+        f, e = np.asarray(r[2][1 : 1 + n_comp], float), np.asarray(r[3][1 : 1 + n_comp], float)
+        return np.divide(f, e, out=np.zeros_like(f), where=e > 0) >= SNR_FOUND
+
+    # a frame without some comparison stars is kept with the ones it has (item 13), when it still has one
+    partial = {k for k, r in enumerate(rows) if r[7] and r[7][0] == "comparison" and comps_seen(r).any()}
+    gone = [(Path(r[0]).name, *r[7]) for k, r in enumerate(rows) if r[7] and k not in partial]
+    keep = [k for k, r in enumerate(rows) if not r[7] or k in partial]
+    missing = {k: np.flatnonzero(~comps_seen(rows[k])) for k in partial}
     if not keep:
         raise ValueError(
             "the target or a comparison star was not found on any frame: check the stars marked on the first frame"
         )
+    missing = [missing.get(k, []) for k in keep]
     rows, peaks, radii = [rows[k] for k in keep], [peaks[k] for k in keep], [radii[k] for k in keep]
     fwhms = [fwhms[k] for k in keep] if fwhms else fwhms
     if src is not None:  # the archive's BJD_TDB as it is, and its UTC from the file (no conversion per cadence)
@@ -188,8 +197,10 @@ def light_curve(
             tvals, scale = timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
         else:
             tvals, scale = times.utc.jd, "JD_UTC"
-    flux = np.array([r[2] for r in rows])
-    err = np.array([r[3] for r in rows])
+    flux = np.array([r[2] for r in rows], float)
+    err = np.array([r[3] for r in rows], float)
+    for i, ks in enumerate(missing):  # not there: no flux, rather than the sky's noise
+        flux[i, 1 + np.asarray(ks, int)] = err[i, 1 + np.asarray(ks, int)] = np.nan
     known = times is not None and where is not None and sky is not None
     airmass = [timing.airmass(t, sky, where) for t in times] if known else None
     if aperture_m is None and get(h0, "APTDIA"):
@@ -226,6 +237,8 @@ def light_curve(
         # frames left out, with why: {file: ["target"] / ["comparison", k] / ["aligned"]} (a dict: never taken for
         # a per-frame list by code that filters the frames)
         "lost": {x[0]: list(x[1:]) for x in gone},
+        # frames measured against the comparison stars they have: {file: [1-based numbers of the missing stars]}
+        "partial": {Path(r[0]).name: [int(k) + 1 for k in ks] for r, ks in zip(rows, missing, strict=True) if len(ks)},
     }
     if chosen:
         out["apertures"] = chosen

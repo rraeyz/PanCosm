@@ -1317,6 +1317,7 @@ class PhotometryPage(Undoable, QWidget):
 
         quality = {r["file"]: r for r in getattr(self, "quality", None) or []}
         lost = (getattr(self, "lc_raw", None) or {}).get("lost") or {}  # frames the measurement left out, with why
+        partial = (getattr(self, "lc_raw", None) or {}).get("partial") or {}
         jds = getattr(self, "_frame_jd", {})
         known = [p for p in self.images if p in jds]  # a file without a time: the name is enough
         stamps = (
@@ -1342,6 +1343,11 @@ class PhotometryPage(Undoable, QWidget):
 
                     item.setForeground(QColor("#e5484d"))
                     item.setToolTip(", ".join(why))
+                elif Path(path).name in partial:  # kept, against the comparison stars it has (item 13)
+                    from PySide6.QtGui import QColor
+
+                    item.setForeground(QColor("#f76b15"))
+                    item.setToolTip(self._partial_text(partial[Path(path).name]))
                 self.frame_table.setItem(i, col, item)
         self.frame_table.selectRow(self.shown)
         self.frame_table.blockSignals(False)
@@ -2064,6 +2070,11 @@ class PhotometryPage(Undoable, QWidget):
         ids = {self._frame_ids[i] for i in np.nonzero(flagged)[0] if i < len(self._frame_ids)}
         self.edit(self.tr("leave out saturated and non-linear points"), self._exclude, self.excluded | ids)
 
+    def _partial_text(self, missing):
+        return self.tr("{stars} not on this frame: measured against the other comparison stars, scaled").format(
+            stars=", ".join(f"C{k}" for k in missing)
+        )
+
     def _lost_text(self, why):
         """Why the measurement left a frame out (lightcurve._measure_frame), in the interface language."""
         if why[0] == "target":
@@ -2231,6 +2242,13 @@ class PhotometryPage(Undoable, QWidget):
             lines += [f"  {name}: {self._lost_text(why)}" for name, why in list(lost.items())[:6]]
             if len(lost) > 6:
                 lines.append("  …")
+        partial = (self.lc_raw or {}).get("partial") or {}
+        if partial:
+            lines.append(
+                self.tr(
+                    "{n} frame(s) without some comparison stars, kept against the others (orange in the frame list)."
+                ).format(n=len(partial))
+            )
         if self.excluded:
             lines.append(
                 self.tr("{n} points deleted by hand (Restore deleted points brings them back).").format(

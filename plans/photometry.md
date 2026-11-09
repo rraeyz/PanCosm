@@ -524,7 +524,14 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** two nights of one star with a 0.05 mag offset injected are joined without the step.
 
 ### 13. Frames where a comparison star is missing
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `differential.ensemble` takes NaN comparison fluxes: a frame's ensemble
+is the sum of the stars it has divided by their median share of the whole sum on the frames with every star
+(Honeycutt 1992's zero point per frame, in flux), the error grown accordingly. `light_curve` keeps a frame whose only
+problem is missing comparison stars when at least one is left; their fluxes are NaN and `lc["partial"]` names them
+per file. The window shows such frames orange in the frame list (the missing stars in the tooltip) and counts them
+under the plot. Accept met: a synthetic night where C2 leaves the field half-way keeps all 10 frames with no jump
+(< 0.5 %; `test_light_curve_keeps_the_frames_a_comparison_star_left`; ensemble alone < 0.1 %). Guide 06 in four
+languages.
 - **Reference:** Honeycutt 1992 inhomogeneous ensemble photometry (each frame uses the stars it has); Muniwin's
   artificial comparison star.
 - **Ours:** a frame without one comparison star is left out of the light curve.
