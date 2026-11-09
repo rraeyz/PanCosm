@@ -422,7 +422,9 @@ class MainWindow(QMainWindow):
                                  mirror(page.load_stars_button), None, mirror(page.clear_button)]),
             (self.tr("&Measure"), [radii, mirror(page.follow_seeing), mirror(page.psf), None, measure,
                                    mirror(page.catalog_button), mirror(page.pol_button)]),
-            (self.tr("&Analyse"), [mirror(page.detrend_button), mirror(page.undo_detrend), None, minimum, None,
+            (self.tr("&Analyse"), [mirror(page.detrend_button), mirror(page.undo_detrend), None,
+                                   mirror(page.cycle_button), mirror(page.save_plot_button),
+                                   mirror(page.open_plot_button), None, minimum, None,
                                    mirror(page.go_model), mirror(page.go_period)]),
         ]  # fmt: skip
         actions = [images, blink, prev, nxt, None, bad, comps, radii, measure, None, minimum, export]

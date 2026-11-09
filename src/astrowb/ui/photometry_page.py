@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 from PySide6.QtCore import QEvent, Qt, QTimer, Signal
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -17,10 +18,13 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLabel,
     QLineEdit,
+    QListWidget,
+    QListWidgetItem,
     QMessageBox,
     QPushButton,
     QRadioButton,
     QSlider,
+    QSpinBox,
     QSplitter,
     QTableWidget,
     QTableWidgetItem,
@@ -268,10 +272,6 @@ class PhotometryPage(Undoable, QWidget):
         clear.clicked.connect(lambda: self.edit(self.tr("clear the stars"), self._clear))
         clear.setToolTip(self.tr("Takes off every marked star (Ctrl+Z brings them back)"))
         self.sections[1].body.addWidget(clear)
-        lists = QHBoxLayout()  # plans/photometry.md item 7: the same stars on another night
-        self.save_stars_button = QPushButton(self.tr("Save the star list…"), self)
-        self.save_stars_button.setToolTip(
-            self.tr(
         self.target_follows = QCheckBox(self.tr("The target follows the field (not centred)"), self)
         self.target_follows.setToolTip(
             self.tr(
@@ -280,6 +280,10 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         self.sections[1].body.addWidget(self.target_follows)
+        lists = QHBoxLayout()  # plans/photometry.md item 7: the same stars on another night
+        self.save_stars_button = QPushButton(self.tr("Save the star list…"), self)
+        self.save_stars_button.setToolTip(
+            self.tr(
                 "Writes the marked stars and the radii to a file, in RA / Dec when the first frame is plate-solved, "
                 "to put them back on another night"
             )
@@ -593,6 +597,58 @@ class PhotometryPage(Undoable, QWidget):
         self.spacing.valueChanged.connect(lambda *_: self._plot_current())
         space_row.addWidget(self.spacing)
         pl.addLayout(space_row)
+        self.multi_box = QWidget(self)  # plans/photometry.md item 8: AstroImageJ's Multi-Plot
+        ml = QGridLayout(self.multi_box)
+        ml.setContentsMargins(0, 0, 0, 0)
+        self.multi_series = QListWidget(self)
+        self.multi_series.setMaximumHeight(110)
+        self.multi_series.setToolTip(
+            self.tr("Tick the series to draw, one below the other; double-click one to choose its colour")
+        )
+        self.multi_series.itemChanged.connect(lambda *_: self._plot_current())
+        self.multi_series.itemDoubleClicked.connect(self._choose_series_colour)
+        ml.addWidget(self.multi_series, 0, 0, 1, 4)
+        ml.addWidget(QLabel(self.tr("Bin"), self), 1, 0)
+        self.bin_n = QSpinBox(self)
+        self.bin_n.setRange(0, 1000)
+        self.bin_n.setSpecialValueText(self.tr("no"))
+        self.bin_n.setSuffix(self.tr(" points"))
+        self.bin_minutes = QDoubleSpinBox(self)
+        self.bin_minutes.setRange(0, 600)
+        self.bin_minutes.setSpecialValueText(self.tr("or by minutes"))
+        self.bin_minutes.setSuffix(self.tr(" min"))
+        for w in (self.bin_n, self.bin_minutes):
+            w.setToolTip(self.tr("Mean of every N points, or of every few minutes, with its error"))
+            w.valueChanged.connect(lambda *_: self._plot_current())
+        ml.addWidget(self.bin_n, 1, 1)
+        ml.addWidget(self.bin_minutes, 1, 2)
+        ml.addWidget(QLabel(self.tr("Normalise over"), self), 2, 0)
+        self.norm_from, self.norm_to = QLineEdit(self), QLineEdit(self)
+        for w in (self.norm_from, self.norm_to):
+            w.setPlaceholderText(self.tr("time"))
+            w.setToolTip(
+                self.tr("Each flux is divided by its median in this time range (out of eclipse); empty: the night")
+            )
+            w.editingFinished.connect(self._plot_current)
+        ml.addWidget(self.norm_from, 2, 1)
+        ml.addWidget(self.norm_to, 2, 2)
+        cycle = self.cycle_button = QPushButton(self.tr("Leave each comparison star out"), self)
+        cycle.setToolTip(
+            self.tr(
+                "The target's scatter with every comparison set less one star: a star whose removal helps is suspect"
+            )
+        )
+        cycle.clicked.connect(self.leave_each_comparison_out)
+        ml.addWidget(cycle, 3, 0, 1, 2)
+        save_t = self.save_plot_button = QPushButton(self.tr("Save the plot set-up…"), self)
+        save_t.setToolTip(self.tr("The series, colours, binning and normalisation, to open on another night"))
+        save_t.clicked.connect(lambda: self.save_plot_template())
+        ml.addWidget(save_t, 3, 2)
+        open_t = self.open_plot_button = QPushButton(self.tr("Open a plot set-up…"), self)
+        open_t.clicked.connect(lambda: self.open_plot_template())
+        ml.addWidget(open_t, 3, 3)
+        self.multi_box.setVisible(False)
+        pl.addWidget(self.multi_box)
         pl.addWidget(QLabel(self.tr("Detrend against:"), self))
         trend_row = QGridLayout()
         self.trend_boxes = {}
@@ -618,7 +674,6 @@ class PhotometryPage(Undoable, QWidget):
             self.trend_boxes[key] = box
             trend_row.addWidget(box, i // 3, i % 3)
         pl.addLayout(trend_row)
-        from PySide6.QtWidgets import QSpinBox
 
         deg_row = QHBoxLayout()
         self.trend_degree = QSpinBox(self)
@@ -1593,6 +1648,8 @@ class PhotometryPage(Undoable, QWidget):
             params["aperture_m"] = self.telescope_d.value()
         params["psf"] = self.psf.isChecked()
         params["sky_method"] = self.sky_method.currentData()
+        if self.target_follows.isChecked():
+            params["fixed"] = [0]  # item 5: the target (star 0) follows the field
         if self.camera_noise.isChecked():
             params["camera"] = {"read_noise": self.read_noise.value(), "dark": self.dark_current.value()}
         if self.extras:
@@ -1648,8 +1705,6 @@ class PhotometryPage(Undoable, QWidget):
                 + self.tr(
                     "The target's light grows {x:.1f} % more than the comparison stars' between 1 and 1.5 apertures: "
                     "something faint is next to it. Keep the radii fixed (not following the seeing); its light then "
-        if self.target_follows.isChecked():
-            params["fixed"] = [0]  # item 5: the target (star 0) follows the field
                     "only dilutes the depth a little."
                 ).format(x=100 * a["target_excess"])
                 if a.get("target_excess", 0) > 0.01
@@ -1788,6 +1843,8 @@ class PhotometryPage(Undoable, QWidget):
         self.show_what.addItem(self.tr("Comparison stars against the others"), "comps")
         self.show_what.addItem(self.tr("All stars, normalised and offset"), "all")
         self.show_what.addItem(self.tr("Airmass, sky, FWHM and position"), "trends")
+        self.show_what.addItem(self.tr("Multi-plot: chosen series, normalised, binned"), "multi")
+        self._fill_multi_series()
         i = self.show_what.findData(current)
         self.show_what.setCurrentIndex(max(i, 0))
         self.show_what.blockSignals(False)
@@ -2138,6 +2195,7 @@ class PhotometryPage(Undoable, QWidget):
         if lc is None:
             return
         what = self.show_what.currentData() or "rel"
+        self.multi_box.setVisible(what == "multi")
         t = np.asarray(lc["time"], float)
         t_ref = np.floor(t.min())
         x = t - t_ref
@@ -2174,6 +2232,8 @@ class PhotometryPage(Undoable, QWidget):
             lin = self._nonlinear_frames(lc)
             if lin.any():
                 ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)  # orange: non-linear (item 4)
+        elif what == "multi":
+            label = self._plot_multi(ax, lc, t, t_ref)
         elif what == "comps":
             curves, scatter = d.comps_against_others(lc["comp_flux"], lc.get("weights"))
             for i, (c, s_) in enumerate(zip(curves, scatter, strict=True)):
@@ -2204,6 +2264,163 @@ class PhotometryPage(Undoable, QWidget):
         ax.set_xlabel(f"{lc['time_scale']} − {t_ref:.0f}")
         ax.set_ylabel(label)
         self.plot.draw()
+
+    def _fill_multi_series(self, ticked=None, colours=None):
+        """The series of this light curve in the multi-plot list (photometry/multiplot.py), ticked as before, or as
+        a template says, or T1, the check stars and airmass."""
+        from ..photometry.multiplot import available
+
+        if self.lc_raw is None:
+            return
+        old = {self.multi_series.item(i).text(): self.multi_series.item(i) for i in range(self.multi_series.count())}
+        if ticked is None:
+            ticked = [k for k, it in old.items() if it.checkState() == Qt.Checked] or None
+            colours = colours or {k: it.data(Qt.UserRole) for k, it in old.items() if it.data(Qt.UserRole)}
+        keys = available(self.lc_raw)
+        if ticked is None:
+            extra = self.lc_raw.get("extra") or []
+            checks = [keys[1 + i] for i, e in enumerate(extra) if e.get("role") == "check"]
+            ticked = ["rel_flux_T1", *checks, "airmass"]
+        self.multi_series.blockSignals(True)
+        self.multi_series.clear()
+        for k in keys:
+            it = QListWidgetItem(k, self.multi_series)
+            it.setFlags(it.flags() | Qt.ItemIsUserCheckable)
+            it.setCheckState(Qt.Checked if k in ticked else Qt.Unchecked)
+            if (colours or {}).get(k):
+                it.setData(Qt.UserRole, colours[k])
+                it.setForeground(QColor(colours[k]))
+        self.multi_series.blockSignals(False)
+
+    def _choose_series_colour(self, item):
+        from PySide6.QtWidgets import QColorDialog
+
+        colour = QColorDialog.getColor(QColor(item.data(Qt.UserRole) or "#1f77b4"), self)
+        if colour.isValid():
+            item.setData(Qt.UserRole, colour.name())
+            item.setForeground(colour)
+            self._plot_current()
+
+    def _multi_rows(self):
+        items = [self.multi_series.item(i) for i in range(self.multi_series.count())]
+        return [{"key": it.text(), "colour": it.data(Qt.UserRole)} for it in items if it.checkState() == Qt.Checked]
+
+    def _norm_range(self, t_ref):
+        """The normalisation range in the light curve's own time, from the two boxes (plot time); None: the night."""
+        try:
+            a, b = float(self.norm_from.text()), float(self.norm_to.text())
+        except ValueError:
+            return None
+        return (t_ref + min(a, b), t_ref + max(a, b))
+
+    def _plot_multi(self, ax, lc, t, t_ref):
+        """The ticked series, each divided by its median (fluxes) or scaled to its range (airmass, sky …), binned,
+        one below the other. Points can be clicked away on an unbinned T1 drawn first."""
+        from ..photometry.multiplot import QUANTITIES, prepare, series
+
+        norm = self._norm_range(t_ref)
+        gap = self.spacing.value() or 0.0
+        binned = self.bin_n.value() > 1 or self.bin_minutes.value() > 0
+        for i, row in enumerate(self._multi_rows()):
+            y, e = series(lc, row["key"])
+            if row["key"] in QUANTITIES:  # not a flux: drawn to the scatter of the fluxes, around 1
+                span = np.nanmax(y) - np.nanmin(y) or 1.0
+                y, e = 1 + (y - np.nanmean(y)) / span * 4 * max(gap, 0.01), None
+                tb, yb, eb = prepare(t, y, None, False, self.bin_n.value(), self.bin_minutes.value())
+            else:
+                tb, yb, eb = prepare(t, y, e, norm, self.bin_n.value(), self.bin_minutes.value())
+            yb = yb - gap * i
+            kw = {"color": row["colour"]} if row["colour"] else {}
+            if eb is not None:
+                ax.errorbar(tb - t_ref, yb, eb, fmt=".", ms=3, lw=0.5, label=row["key"], **kw)
+            else:
+                ax.plot(tb - t_ref, yb, ".", ms=3, label=row["key"], **kw)
+            if i == 0 and row["key"] == "rel_flux_T1" and not binned and len(tb) == len(t):
+                self._plotted = (ax, t - t_ref, yb)
+        if norm is not None:
+            ax.axvspan(norm[0] - t_ref, norm[1] - t_ref, color="#8e8e93", alpha=0.12, lw=0)
+        if self._multi_rows():
+            ax.legend(fontsize=7)
+        return self.tr("Normalised flux (offset)")
+
+    def leave_each_comparison_out(self):
+        """AstroImageJ's "cycle the comparison stars less one": T1's scatter with every ensemble less one star."""
+        from ..photometry.multiplot import leave_each_out
+
+        lc = self.light_curve
+        if lc is None or np.asarray(lc.get("comp_flux") or [[]], float).reshape(len(lc["time"]), -1).shape[1] < 2:
+            self.result.setText(self.tr("Measure a light curve with at least two comparison stars first."))
+            return None
+        rows = leave_each_out(lc)
+        full = dict(rows)["none"]
+        parts = [
+            (self.tr("all") if name == "none" else self.tr("without {star}").format(star=name)) + f": {v:.2f} mmag"
+            for name, v in rows
+        ]
+        text = self.tr("Scatter of T1 (point to point): {list}").format(list="; ".join(parts))
+        if rows[0][0] != "none" and rows[0][1] < 0.8 * full:
+            text += " " + self.tr("Leaving out {star} helps most: look at it in “Comparison stars against the others”.")
+            text = text.format(star=rows[0][0])
+        self.result.setText(text)
+        return rows
+
+    def save_plot_template(self, path=None):
+        from ..photometry.multiplot import save_template
+
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(
+                self, self.tr("Save the plot set-up"), "plot.plot.json", self.tr("Plot set-ups (*.plot.json *.json)")
+            )
+        if not path:
+            return None
+        lc = self.light_curve
+        norm = None
+        if lc is not None:
+            t0 = float(np.nanmin(lc["time"]))
+            r = self._norm_range(np.floor(t0))
+            norm = None if r is None else ((r[0] - t0) * 24, (r[1] - t0) * 24)
+        save_template(
+            path, self._multi_rows(), self.bin_n.value(), self.bin_minutes.value(), norm, self.spacing.value()
+        )
+        self.result.setText(self.tr("Plot set-up saved: {path}").format(path=path))
+        return path
+
+    def open_plot_template(self, path=None):
+        from ..photometry.multiplot import load_template
+
+        if path is None:
+            path, _ = QFileDialog.getOpenFileName(
+                self, self.tr("Open a plot set-up"), "", self.tr("Plot set-ups (*.plot.json *.json)")
+            )
+        if not path:
+            return None
+        try:
+            doc = load_template(path)
+        except (OSError, ValueError) as e:
+            self.result.setText(translate(str(e)))
+            return None
+        rows = [r for r in doc["rows"] if isinstance(r, dict) and r.get("key")]
+        self.bin_n.setValue(int(doc.get("bin_n") or 0))
+        self.bin_minutes.setValue(float(doc.get("bin_minutes") or 0))
+        self.spacing.setValue(float(doc.get("spacing") or 0))
+        lc = self.light_curve
+        if doc.get("norm_hours") and lc is not None:
+            t0 = float(np.nanmin(lc["time"]))
+            a, b = (t0 + h / 24 - np.floor(t0) for h in doc["norm_hours"])
+            self.norm_from.setText(f"{a:.5f}")
+            self.norm_to.setText(f"{b:.5f}")
+        else:
+            self.norm_from.clear()
+            self.norm_to.clear()
+        self._fill_multi_series([r["key"] for r in rows], {r["key"]: r.get("colour") for r in rows})
+        missing = [r["key"] for r in rows if not self.multi_series.findItems(r["key"], Qt.MatchExactly)]
+        i = self.show_what.findData("multi")
+        if i >= 0:
+            self.show_what.setCurrentIndex(i)
+        self._plot_current()
+        if missing:
+            self.result.setText(self.tr("Not in this light curve: {names}").format(names=", ".join(missing)))
+        return doc
 
     def _plot_differential(self, ax, lc, x, sat):
         """The classic differential plot: Δm of the target against the comparison (ensemble) and, offset from it,
