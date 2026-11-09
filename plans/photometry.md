@@ -661,7 +661,15 @@ standards' identification (Landolt / Stetson through PHO-25), the growth-curve a
 - **Files:** `photometry/allsky.py`, `coefficients.py`, UI tool, tests, guide 06.
 
 ### PHO-29. Difference-image photometry  (P2)
-**open**
+**partial** — done (2026-11-14), the core: `photometry/dia.py`: `stamps` (boxes round the brightest peaks of the
+reference), `solve_kernel` (delta-basis kernel, every pixel free, plus a sky difference; photon-noise weights and
+4σ clipping), `convolve`, `difference`, `gaussian_psf`, `flux_changes` (δF fitted with the reference PSF convolved by
+the frame's kernel, in reference units, with its error). Test (tests/test_dia.py): a crowded field of 600 stars,
+seeing 1.5–2.1 px against a 1.2 px reference, thin cloud and sky changes: the kernel's sum is the frame's scale
+within 1 %, a star varying by 5 % is recovered within 3σ, constant bright stars scatter as their errors say. Left:
+the reference built from the best frames (CAL stack) and the registration, a spatially varying kernel for wide
+fields, the GPU convolution, the reference PSF from its stars, the Measure-stage method and the result tab, the
+real crowded set and the speed target.
 - **Why:** very crowded fields (Galactic plane, clusters, novae, microlensing) where even PSF fitting fails.
 - **Reference:** Alard & Lupton 1998 (ApJ 503, 325) and Alard 2000 (kernel as Gaussians × polynomials, spatially
   varying); Bramich 2008 (MNRAS 386, L77: discrete pixel kernel, "delta basis"), Bramich et al. 2013 (extended);
