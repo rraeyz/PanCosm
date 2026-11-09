@@ -487,7 +487,7 @@ synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars
 ## P2 — complete for eclipsing binaries and variable stars
 
 ### 10. Several apertures at once and aperture correction
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** IRAF `phot` measures a list of apertures in one pass; `mkapfile` builds a curve of growth and the
   aperture correction.
 - **Ours:** the scan tries several radii but keeps one; there is no aperture correction.
@@ -554,7 +554,7 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** the ETD file is accepted by the ETD upload check (or matches its published column layout).
 
 ### 16. Eclipse and transit fit on the light-curve page
-**agent2 done (2026-11-09, this commit)** — `minima.trapezoid_fit(..., covariates=)`: the trapezoid times
+**agent2 done (2026-11-09, commit de3d416)** — `minima.trapezoid_fit(..., covariates=)`: the trapezoid times
 exp(Σ c_k (z_k − mean z_k)) in one least-squares fit (the starting point from the curve with a first trend divided
 out, since the trend can be deeper than the transit), with the coefficients and the BIC; the `timeseries.minimum`
 step takes `detrend_with` (airmass, fwhm, sky, x, y) and fits them on the light curve before any detrending. In the
