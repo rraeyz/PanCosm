@@ -525,7 +525,7 @@ four languages.
 - **Accept:** a synthetic two-filter night gives the injected colour change.
 
 ### 12. Several nights together
-**agent2 done (2026-11-09, this commit)** — `photometry/nights.py`: `join_nights` puts the raw fluxes of all nights into
+**agent2 done (2026-11-09, commit 1a70b14)** — `photometry/nights.py`: `join_nights` puts the raw fluxes of all nights into
 one ensemble (`differential.ensemble`, item 13's shares from the frames with every comparison star, so a night that
 lacks a star all night is scaled by the share it lacks) and returns one curve with the raw fluxes, the night of each
 point and how far each night moved; `read_export` reads the window's CSV export back. **Add other nights (exported
@@ -575,7 +575,7 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** HJD matches astropy's light-travel-time computation within 1 s for a test star.
 
 ### 15. Export formats
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** Siril writes ETD (Exoplanet Transit Database) format and AAVSO extended; AIJ writes its
   measurements table and MPC magnitudes.
 - **Ours:** CSV and AAVSO extended.
