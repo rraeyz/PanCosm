@@ -43,4 +43,5 @@ def test_the_log_as_csv(tmp_path):
     rows = obslog.frames_from_headers([("a.fits", header("2026-11-13T20:00:00", "AI Dra"))])
     path = obslog.to_csv(obslog.night_log(rows), tmp_path / "log.csv")
     text = path.read_text(encoding="utf-8").splitlines()
-    assert text[0].startswith("night,target") and text[1].startswith("2026-11-13,AI Dra,2026-11-13 20:00:00,2026-11-13 20:01:00,V,1,60")
+    assert text[0].startswith("night,target")
+    assert text[1].startswith("2026-11-13,AI Dra,2026-11-13 20:00:00,2026-11-13 20:01:00,V,1,60")
