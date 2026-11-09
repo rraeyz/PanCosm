@@ -377,9 +377,10 @@ asteroid night.
 and an elliptical sky ring; racetrack = the pixels within r of the trail's segment, sampled 10 × 10 per pixel, its
 ring by distance from the segment; painted pixel masks; `moments_shape` reads b/a and the angle from the star) and
 `aperture.measure(shape=…)`. Tests (tests/test_aperture_shapes.py): a 3 : 1 trailed star gives its untrailed copy's
-flux within 1 % (ellipse) and 0.5 % (racetrack) with a smaller error than the circle holding the trail. Left: the
-shape in the star list and the light-curve run, the Apertures stage's controls, the `Ap_*` columns, and the
-lightkurve cross-check of a painted mask on a TESS stamp.
+flux within 1 % (ellipse) and 0.5 % (racetrack) with a smaller error than the circle holding the trail. The light-
+curve run takes it (`photometry.light_curve`'s `aperture_shape`): a night of trailed frames comes out flat to its
+errors and below the circles' scatter. Left: the shape in the star list, the Apertures stage's controls (the
+ellipse read from the star by `moments_shape`), the `Ap_*` columns, the lightkurve cross-check of a painted mask.
 - **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
   `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
 - **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the

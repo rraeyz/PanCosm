@@ -72,6 +72,7 @@ def light_curve(
     remove_neighbours=False,
     centring="auto",
     track_stars=(),
+    shape=None,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -90,6 +91,7 @@ def light_curve(
     ring (aperture.measure).
     sky_method: the sky estimate (aperture.sky_estimate); centring: auto, moments, gauss or none (aperture.recenter);
     track_stars: stars picked on the first frame that place every frame (shift, rotation; stacking.picked_transforms).
+    shape: a non-circular aperture for every star (an ellipse, a racetrack for trailed stars; photometry/shapes.py).
     fixed: indices of stars (0 the target, then comparisons, then extra stars) that are not re-centred but follow the
     field: the median shift the centred stars took on that frame (AstroImageJ's per-aperture centroid off; a faint
     star beside a bright one is not pulled onto it).
@@ -110,12 +112,11 @@ def light_curve(
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
-            "centring": centring, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in)}  # fmt: skip
-    sky = target_coord(h0, coord)
-    where = timing.location(h0)
+            "centring": centring, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in),
+            "shape": shape}  # fmt: skip
+    sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
-    rows = []
-    chosen = None
+    rows, chosen = [], None
     # a small stamp (a TESS pixel file is 11 x 11 px) holds no ring of the default radii: every flux came out NaN
     too_big = r_in >= 0.5 * min(ref.shape[-2:])
     if auto or too_big:
@@ -126,7 +127,7 @@ def light_curve(
     opts["neighbours"] = neighbours_setup(ref, stars0, n_comp, r_out) if remove_neighbours and not psf else None
     radii, fwhms, peaks = [], [], []
     saturation = saturation_level(h0, ref)
-    src = None if psf or follow_seeing or remove_neighbours else tpf.source(paths)
+    src = None if psf or follow_seeing or remove_neighbours or shape else tpf.source(paths)
     if src is not None:  # the cadences of a TESS / Kepler pixel file: measured at once, the stars do not move
         rows, peaks, radii, src_times = _pixel_file_rows(src, paths, stars0, (r_ap, r_in, r_out), g, box)
     binning = 2 if ref.size > 4e6 else 1  # large frames: the shift from 2x2-binned frames, then re-centred anyway
@@ -443,11 +444,13 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         if camera:  # dark current over this frame's exposure
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
             cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
-        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method, sky_mask)
+        flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
+                                    shape=opts.get("shape"))  # fmt: skip
     multi = None
     if opts.get("apertures") and not psf:  # item 10: every radius asked for, the same sky ring, kept to choose later
         rs = [r * k for r in opts["apertures"]]
-        both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask)[:2] for r in rs]
+        both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
+                        shape=opts.get("shape"))[:2] for r in rs]  # fmt: skip
         multi = np.array([[fl for fl, _ in both], [e for _, e in both]])  # (flux / error, radius, star)
     return xy, flux, err, skylev, radii, f, multi, found
 

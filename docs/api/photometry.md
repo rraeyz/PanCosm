@@ -94,6 +94,7 @@ parameters (default):
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
   track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
+  aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
 ```
 
 ## photometry.multifilter
@@ -134,6 +135,7 @@ parameters (default):
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
   track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
+  aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
   t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```
