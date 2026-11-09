@@ -84,6 +84,7 @@ TEMPLATES = (
     ),
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
+    QT_TRANSLATE_NOOP("Messages", "the flats are no brighter than the biases: the gain cannot be measured"),
     QT_TRANSLATE_NOOP("Messages", "the file needs columns for the name, the right ascension and the declination"),
     QT_TRANSLATE_NOOP("Messages", "the forecast service sent no hours"),
     QT_TRANSLATE_NOOP("Messages", "the target cannot be kept inside the frame with these margins"),
