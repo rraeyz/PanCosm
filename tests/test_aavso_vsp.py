@@ -71,6 +71,7 @@ def test_report_dialog_takes_the_sequence_for_the_marked_stars(qtbot, tmp_path, 
     page.comps = [xy[0]]
     d.sequence_button.click()
     assert d.mags.text() == "11.333" and d.values()["chart"] == "X43370AGGP"
+    assert d.comp_colours.text() == "0.705"  # B − V from the sequence, ready for the colour term (PHO-35)
     page.field = None
     d.sequence_button.click()
     assert "Identify the field" in d.sequence_note.text()
