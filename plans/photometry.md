@@ -505,7 +505,7 @@ relative to the largest radius measured, not extrapolated to infinity. Guide 06 
 - **Accept:** switching radius after the measurement gives the same curve as measuring with that radius.
 
 ### 11. Several filters in one night
-**agent2 done (2026-11-09, this commit)** — `photometry/multifilter.py` (`by_filter`, moved here from the Calibrate
+**agent2 done (2026-11-09, commit 4c79ab3)** — `photometry/multifilter.py` (`by_filter`, moved here from the Calibrate
 page; `colour_pair`, the bluer filter first; `colour_curve`, each image of the sparser filter paired with the nearest
 of the other within 1.5 cadences, Δm_a − Δm_b, and with T_ab and the comparison colour the standard colour
 (A − B) = comp_colour + T_ab Δ(a − b)) and the `photometry.multifilter` step (every filter with the same stars,
@@ -525,7 +525,7 @@ four languages.
 - **Accept:** a synthetic two-filter night gives the injected colour change.
 
 ### 12. Several nights together
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** Muniwin and AIJ work per night; observers join the nights afterwards.
 - **Ours:** one night at a time (survey curves can be joined, nightly ones cannot).
 - **Build:** join nights measured with the same star list; offsets per night from the common comparison stars; the
