@@ -42,8 +42,8 @@ def test_normalise_on_a_range_and_bin():
 
 def test_leaving_out_the_jittery_comparison_lowers_the_scatter():
     rows = mp.leave_each_out(_lc(variable_comp=1))
-    assert rows[0][0] == "C3"  # the second comparison star, C3 in AstroImageJ's numbering
-    full = dict(rows)["none"]
+    assert rows[0][0] == 1  # the second comparison star
+    full = dict(rows)[None]
     assert rows[0][1] < 0.5 * full
 
 

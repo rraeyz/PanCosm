@@ -529,7 +529,7 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     assert doc["bin_n"] == 6 and page.show_what.currentData() == "multi" and page.bin_n.value() == 6
     assert [r["key"] for r in page._multi_rows()] == ticked and float(page.norm_from.text()) == pytest.approx(0.30)
     rows = page.leave_each_comparison_out()
-    assert {r[0] for r in rows} == {"none", "C2", "C3"} and "mmag" in page.result.text()
+    assert {r[0] for r in rows} == {None, 0, 1} and "without C1" in page.result.text()
     bad = tmp_path / "bad.json"
     bad.write_text("{}")
     assert page.open_plot_template(bad) is None and page.result.text().startswith("not a multi-plot")
@@ -618,3 +618,45 @@ def test_photometry_page_chooses_the_detrending_by_bic(qtbot, tmp_path):
     assert "spline_h" in page.light_curve["detrend"] and "spline" in page.result.text()
     page.undo_stack.undo()
     assert "spline_h" not in page.light_curve["detrend"]
+
+
+def test_best_comparison_set_leaves_out_the_variable_star():
+    """plans/photometry.md item 9a: one variable comparison star among six: the search leaves out exactly that
+    star, exhaustively and by toggling one star at a time; the target is never used."""
+    rng = np.random.default_rng(9)
+    n = 200
+    air = 1 + 0.2 * np.linspace(0, 1, n)  # common extinction
+    comps = np.column_stack(
+        [f * np.exp(-0.2 * air) * (1 + rng.normal(0, 0.003, n)) for f in (5e4, 4e4, 6e4, 3e4, 5e4, 4.5e4)]
+    )
+    comps[:, 3] *= 1 + 0.03 * np.sin(np.arange(n) / 3)  # C4 varies
+    rows = d.best_comparison_sets(comps)
+    assert rows[0][0] == (0, 1, 2, 4, 5)
+    greedy = d.best_comparison_sets(comps, exhaustive_up_to=3)
+    assert greedy[0][0] == (0, 1, 2, 4, 5)
+    check = 2e4 * np.exp(-0.2 * air) * (1 + rng.normal(0, 0.003, n))
+    assert d.best_comparison_sets(comps, check)[0][0] == (0, 1, 2, 4, 5)
+
+
+def test_photometry_page_finds_the_best_comparison_set(qtbot):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    rng = np.random.default_rng(4)
+    n = 80
+    lc = synthetic_lc(n)
+    comps = np.column_stack([np.full(n, f) * (1 + rng.normal(0, 0.002, n)) for f in (5e4, 3e4, 4e4, 4.5e4)])
+    comps[:, 2] *= 1 + 0.04 * np.sin(np.arange(n) / 2)  # C3 varies
+    lc |= {"comp_flux": comps.tolist(), "comp_flux_err": np.sqrt(comps).tolist(), "extra_flux": None}
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0), (40.0, 40.0), (50.0, 50.0)]
+    page.show_light_curve(lc)
+    rows = page.find_best_comparison_set()
+    assert rows[0][0] == (0, 1, 3) and page.comp_off == {2}
+    assert "left out: C3" in page.result.text() and page.best_sets.count() >= 2
+    page.best_sets.setCurrentIndex(1)
+    page._use_best_set(1)
+    assert page.comp_off == set(range(4)) - set(rows[1][0])
+    page.undo_stack.undo()
+    page.undo_stack.undo()
+    assert page.comp_off == set()

@@ -437,7 +437,16 @@ set without them). Guide 06 in four languages.
 - **Accept:** on a synthetic curve with an airmass trend and a flip jump, the true model has the lowest BIC.
 
 ### 9a. Optimising the ensemble
-**agent2 claimed (2026-11-09) — do not touch** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
+**agent2 done (2026-11-09, this commit)** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
+`differential.best_comparison_sets`: every set of two or more comparison stars (up to 12 stars; more: one star
+toggled at a time until the score stops improving, AIJ's second search); a set's score is the median point-to-point
+scatter (mmag) of every comparison star and the check star divided by the sum of the set's other stars — the target is
+never used. **Find the best comparison set** (Stars tab, Stars menu) lists the best sets in a box, uses the best one
+(Ctrl+Z) and another when chosen. Accept met: one variable star among six is left out exactly, exhaustively, by
+toggling and with a check star (`test_best_comparison_set_leaves_out_the_variable_star`). Rule 12: the search does
+not take an out-of-eclipse range — it never looks at the target, so the eclipse cannot affect it. Also fixed: the
+multi-plot's "leave each comparison star out" named the stars in AstroImageJ's numbering (C2, C3 …) while the star
+table says C1, C2 …; it now uses the table's names. Guide 06 in four languages.
 - **Reference:** AstroImageJ searches comparison-star sets for the lowest RMS: exhaustively, or by toggling one star
   at a time until the RMS stops improving.
 - **Ours now:** each star's scatter against the others and optional scatter weights; the user unticks stars by hand.

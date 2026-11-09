@@ -726,6 +726,7 @@ whenever any area gains a feature.
 | Target follows the field (not centred); donut stars centred | Photometry | — | — | Steps 2 |
 | Multi-plot (series, binning, normalisation range, colours, set-up file), leave each comparison star out | Photometry | Analyse | — | Results: Plot (Multi-plot) |
 | Detrending: BIC of every set, meridian-flip step (PIERSIDE), spline trend, leave out outliers | Photometry | Analyse | — | Results: Plot |
+| Find the best comparison set (without the target) | Photometry | Stars | — | Results: Stars |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |
