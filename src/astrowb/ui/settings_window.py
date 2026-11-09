@@ -131,7 +131,8 @@ def _tr(text):
 
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
 INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
-            "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset", "plan.horizon")  # fmt: skip
+            "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset",
+            "plan.horizon")  # fmt: skip
 SHOWN = ("shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
          "compute.device", "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
 
