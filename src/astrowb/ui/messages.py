@@ -84,6 +84,7 @@ TEMPLATES = (
     ),
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
+    QT_TRANSLATE_NOOP("Messages", "the target cannot be kept inside the frame with these margins"),
     QT_TRANSLATE_NOOP("Messages", "the horizon file has fewer than two azimuth-altitude pairs"),
     QT_TRANSLATE_NOOP("Messages", "give one colour per comparison star and the variable's colour to transform"),
     QT_TRANSLATE_NOOP("Messages", "unknown airmass formula {formula}"),
