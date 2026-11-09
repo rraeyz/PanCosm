@@ -354,7 +354,13 @@ header keywords), the input flats' levels in the run, the real LCO masters.
 - **Files:** `calibration/skyflat.py`, `calibration/matching.py` (plan column), steps, `tests/test_skyflat.py`
 
 ### CAL-12. Cosmic rays and trails: preview, masks, the right parameters  (P1)
-**open**
+**partial** — done (2026-11-14): the cosmic-ray cleaning is astroscrappy's result 2–2.5× faster
+(`calibration/cosmics.py`, UF-12); `calibration/trails.py` finds trails (`find`: stars cut out and pixels held
+within ±3σ, binned 4 × 4, projected on every direction with the angle refined to 0.05°; a second look at the map
+of bright pixels for bright trails; `band`: the trail's mask). Tests (tests/test_trails.py): a 2σ-per-pixel trail
+across a 2k frame found within 0.3° at two angles, a bright one too, none on a frame of 400 stars. Left: the
+presets and the preview, the DQ bits, running the trail search on the lights (2–3 s per 2k frame: an option) and
+listing them in the Problems, the real frame with a trail.
 - **Reference:** van Dokkum 2001 (PASP 113, 1420: L.A.Cosmic; `sigclip`, `sigfrac`, `objlim`, iterations; separate
   recipes for imaging and spectra); astroscrappy (BSD; in use); satellite trails: Hough / Radon detection (Nir,
   Zackay & Ofek 2018, AJ 156, 229; the ACS `satdet` approach; ASTRiDE, Kim 2016).
