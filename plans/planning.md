@@ -192,7 +192,13 @@ prediction-service comparisons.
 - **Files:** `planning/events.py` (from `visibility.events`, re-exported), `planning/ephemerides.py`, `tests/test_events.py`
 
 ### PLN-5. "What can I observe tonight?"  (P1)
-**open**
+**partial** — done (2026-11-14), the engine of item 2 and 5: `planning/finder.py` `tonight_events` (filters by
+magnitude, period, kind, depth and the declinations the site can reach before any astronomy; every event of the
+night at once, primary and secondary; altitudes at start, middle and end in one call; whole-event or mid-event
+rule; a score by the lowest altitude, primaries first, with its reason in words). Tests (tests/test_finder.py):
+the same events as `planning.night` for the same stars; a 40 000-star table in ~5 s. Left: the VSX / Exoplanet
+Archive / ExoClock packs (item 1), the Moon / uncertainty / "not observed lately" filters, the ranking by
+expected S/N and priority, the results table and "Add to tonight's list", the stored-page comparisons.
 - **Why:** the question every observer asks first; today answered by three web sites that do not know the
   observer's horizon or equipment.
 - **Read first:** the Transit Finder's filter list; the prediction services' filters (type, magnitude, declination,
