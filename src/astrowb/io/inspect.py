@@ -197,3 +197,26 @@ def _star_info(data, x, y, r_ap, r_in, r_out, gain, exptime, saturation):
     if gain:
         out["net_electrons"] = flux * gain
     return out
+
+
+def pair_measure(data, xy1, xy2, wcs=None, r_ap=None, r_in=None, r_out=None, gain=1.0):
+    """Two stars measured against each other (plans/photometry.md PHO-24; as AstroImageJ's Measure): both centred,
+    in apertures of the same radii (star 1's when none are given); separation in pixels (and arcseconds with a WCS),
+    position angle of star 2 from star 1 (north through east, with a WCS), flux ratio f2/f1 and Δmag = m2 − m1 with
+    their errors."""
+    a = star_info(data, *xy1, r_ap=r_ap, r_in=r_in, r_out=r_out, gain=gain)
+    b = star_info(data, *xy2, r_ap=a["r_ap"], r_in=a["r_in"], r_out=a["r_out"], gain=gain)
+    ratio = b["net_counts"] / a["net_counts"]
+    rel = float(np.hypot(b["net_counts_err"] / b["net_counts"], a["net_counts_err"] / a["net_counts"]))
+    out = {
+        "x1": a["x"], "y1": a["y"], "x2": b["x"], "y2": b["y"],
+        "separation_px": float(np.hypot(b["x"] - a["x"], b["y"] - a["y"])),
+        "ratio": float(ratio), "ratio_err": float(abs(ratio) * rel),
+        "dmag": float(-2.5 * np.log10(ratio)) if ratio > 0 else float("nan"), "dmag_err": float(1.0857 * rel),
+        "r_ap": a["r_ap"], "r_in": a["r_in"], "r_out": a["r_out"],
+    }  # fmt: skip
+    if wcs is not None:
+        one, two = wcs.pixel_to_world(a["x"], a["y"]), wcs.pixel_to_world(b["x"], b["y"])
+        out["separation_arcsec"] = float(one.separation(two).arcsec)
+        out["position_angle"] = float(one.position_angle(two).deg % 360)
+    return out

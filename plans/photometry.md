@@ -439,7 +439,11 @@ fit at the predicted window, the plots and folder, ExoFOP, the public TFOP night
     columns of our table.
 
 ### PHO-24. Measuring between two stars on the image  (P2)
-**open**
+**partial** — done (2026-11-14): `io/inspect.pair_measure` (both stars centred, apertures of star 1's radii,
+separation in px and ″, position angle N through E, f2/f1 and Δmag with errors) — the accept test passes
+(tests/test_pair_measure.py: ratio within 0.5 %, separation 0.02 px, PA 0.05°); the Images window's Line tool adds
+the pair's rows when both ends sit on stars (`ui/image_pair.py`). Left: "Add to table" with CSV / ECSV export, and
+the same in the Astrometry window.
 - **Ours now:** `io/inspect.star_info` (one star in an aperture) and the Images window's Line tool (distance only); nothing between two stars.
 - **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
   Information window (astrometric mode).

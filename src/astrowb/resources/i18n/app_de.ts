@@ -139,6 +139,36 @@
         <source>Moon closest</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="24"/>
+        <source>Pair: separation (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="25"/>
+        <source>Pair: flux ratio f2/f1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="26"/>
+        <source>Pair: Δmag (m2 − m1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="27"/>
+        <source>Pair: aperture, sky ring (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="31"/>
+        <source>Pair: separation (″)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="32"/>
+        <source>Pair: position angle (°, N through E)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AavsoDialog</name>
@@ -3877,7 +3907,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/image_page.py" line="612"/>
         <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="672"/>
+        <location filename="../../ui/image_page.py" line="675"/>
         <source>Counts</source>
         <translation>Zählwerte</translation>
     </message>
@@ -3944,12 +3974,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Mittelwert entlang der Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="672"/>
+        <location filename="../../ui/image_page.py" line="675"/>
         <source>Distance along the line (px)</source>
         <translation>Abstand entlang der Linie (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="684"/>
+        <location filename="../../ui/image_page.py" line="687"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
