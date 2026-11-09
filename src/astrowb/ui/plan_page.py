@@ -41,8 +41,7 @@ class PlanPage(Undoable, QWidget):
     def __init__(self, settings, parent=None):
         super().__init__(parent)
         self.init_undo()
-        self.settings = settings
-        self.result = None
+        self.settings, self.result = settings, None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
@@ -134,6 +133,7 @@ class PlanPage(Undoable, QWidget):
         )
         grid.addWidget(QLabel(self.tr("Local time (hours from UTC)"), self), 6, 0)
         grid.addWidget(self.utc_offset, 6, 1)
+        grid.addWidget(self._horizon_button(), 7, 0, 1, 2)
         lay.addLayout(grid)
 
         lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon"), self))
@@ -375,9 +375,50 @@ class PlanPage(Undoable, QWidget):
         self.settings.set("plan.utc_offset", self.utc_offset.value())
         self.status.setText(self.tr("Computing…"))
         self._planned = targets
+        site = self.site() | ({"horizon": self.horizon} if self.horizon else {})  # PLN-1: trees and roofs
         self.plan_requested.emit(
-            self.site(), self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
+            site, self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
         )
+
+    def _horizon_button(self):
+        """The site's horizon profile (PLN-1): a file of azimuth–altitude pairs, kept in the settings."""
+        self.horizon = [tuple(p) for p in self.settings.get("plan.horizon", [])]
+        self.horizon_button = QPushButton(self)
+        self.horizon_button.setToolTip(
+            self.tr(
+                "A file of azimuth and altitude pairs (trees, roofs, hills): a target behind them counts as not "
+                "observable. Cancel the file choice to keep the current one; an empty file clears it"
+            )
+        )
+        self.horizon_button.clicked.connect(lambda: self.load_horizon())
+        self._horizon_text()
+        return self.horizon_button
+
+    def _horizon_text(self):
+        n = len(self.horizon)
+        self.horizon_button.setText(
+            self.tr("Horizon profile: {n} points…").format(n=n) if n else self.tr("Horizon profile: none…")
+        )
+
+    def load_horizon(self, path=None):
+        from pathlib import Path
+
+        from PySide6.QtWidgets import QFileDialog, QMessageBox
+
+        from ..planning.night import parse_horizon
+
+        kinds = self.tr("Horizon files (*.txt *.hrz *.csv);;All files (*)")
+        path = path or QFileDialog.getOpenFileName(self, self.tr("Horizon profile"), "", kinds)[0]
+        if not path:
+            return
+        try:
+            text = Path(path).read_text(encoding="utf-8", errors="replace")
+            self.horizon = parse_horizon(text) if text.strip() else []
+        except (OSError, ValueError) as e:
+            QMessageBox.warning(self, self.tr("Horizon profile"), translate(e))
+            return
+        self.settings.set("plan.horizon", [list(p) for p in self.horizon])
+        self._horizon_text()
 
     def _known_site(self, name):
         """A known observatory's name fills its latitude, longitude and height."""

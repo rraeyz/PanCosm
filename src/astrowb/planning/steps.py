@@ -33,7 +33,13 @@ def night_step(inputs, params, ctx):
         "dusk": dusk.jd if dusk else None,
         "dawn": dawn.jd if dawn else None,
         "nautical": [t.jd if t else None for t in nautical],
-        "site": {"name": site.name, "lat": site.lat, "lon": site.lon, "height": site.height},
+        "site": {
+            "name": site.name,
+            "lat": site.lat,
+            "lon": site.lon,
+            "height": site.height,
+            "horizon": [list(p) for p in site.horizon],
+        },  # fmt: skip
         "date": inputs["date"],
         "targets": [],
     }
@@ -42,17 +48,22 @@ def night_step(inputs, params, ctx):
         body = body_of(t["name"])
         coord = get_body(body, times, site.location) if body else Target(t["name"], t["ra"], t["dec"]).coord
         alt = altitudes(coord, times, site)
+        az = azimuths(coord, times, site)
         sep = moon(times, site, coord)["separation"]
         entry = {
             "name": t["name"],
             "alt": alt.tolist(),
-            "az": azimuths(coord, times, site).tolist(),
+            "az": az.tolist(),
             "moon_sep": sep.tolist(),  # the chart writes it along the curve
             "airmass": np.nan_to_num(airmass(alt), nan=-1).tolist(),
             "moon_sep_min": float(np.min(sep)),
             "events": [],
             "body": body,
         }
+        if site.horizon:  # the lowest usable altitude towards the target at each time (PLN-1)
+            from .night import limit
+
+            entry["limit"] = limit(site.horizon, az, params["min_alt"]).tolist()
         if t.get("t0") and t.get("period") and not body:
             target = Target(t["name"], t["ra"], t["dec"])
             for e in events(

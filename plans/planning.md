@@ -96,7 +96,16 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Files:** `ui/planning/{window,controller,state,menus}.py`, `ui/planning/panels/{site,targets,night,schedule,send,inspector}.py`, `tests/ui/walks/planning.py`, guide 02
 
 ### PLN-1. Site, horizon and the night  (P1)
-**open**
+**partial** — done (2026-11-14): `planning/night.py`: `summary` (sunset / sunrise at −0.833°, the three dusks and
+dawns, dark hours, Moon rise / set / highest / illumination / hours up in the dark, LST at dusk, local midnight and
+dawn; polar day and night give None), `month` (dark hours and the Moon per night), `parse_horizon` (two columns,
+any separator, comments and header lines skipped), `limit` (the profile, never below the altitude limit). The site
+carries its horizon (`Site.horizon`); `planning.night` gives each target its per-time `limit`, the night chart draws
+a curve thick only above it and the legend / tables' rise and set use it; the Plan page's "Horizon profile…" loads
+a file and keeps it. Tests (tests/test_night.py): equinox day at the equator 12 h 7 min, TUG's order of twilights,
+68° N midnight Sun and polar night, a target above 20° behind an eastern wall not observable, the page's file kept
+and sent. Left: the horizon drawn in the charts and an editor, the mount's meridian limits, the month strip in the
+window, the four-site comparison with JPL Horizons.
 - **Ours now:** `planning/visibility.night` (twilights, interpolated crossings), `moon`, `Site`; `devices/safety.Rules.horizon` (a horizon profile exists for safety only).
 - **Read first:** Meeus, *Astronomical Algorithms* (twilight, rising and setting with refraction); the USNO
   definitions of twilights; Astropy's `AltAz` refraction parameters; JSkyCalc's almanac output (what observers

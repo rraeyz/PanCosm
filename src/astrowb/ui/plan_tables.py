@@ -56,15 +56,16 @@ def target_rows(n, hours, offset, min_alt):
     rows = []
     for t in n["targets"]:
         alt = np.asarray(t["alt"], float)
-        down, up = crossing_hours(hours, alt, min_alt)
+        floor = np.asarray(t.get("limit") or np.full(len(alt), min_alt), float)  # the horizon profile, when given
+        down, up = crossing_hours(hours, alt - floor, 0.0)
         k = int(np.argmax(np.where(dark, alt, -90)))  # the highest point in the dark
         sep = np.asarray(t.get("moon_sep") or [np.nan] * len(alt), float)
         close = np.nanmin(np.where(dark & (alt > 0), sep, np.nan)) if np.any(dark & (alt > 0)) else np.nan
         name = t["body"].capitalize() if t.get("body") else t["name"]
         rows.append((
             name,
-            clock(up[0] + offset) if up else ("up" if alt[0] >= min_alt else "—"),
-            clock(down[-1] + offset) if down else ("up" if alt[-1] >= min_alt else "—"),
+            clock(up[0] + offset) if up else ("up" if alt[0] >= floor[0] else "—"),
+            clock(down[-1] + offset) if down else ("up" if alt[-1] >= floor[-1] else "—"),
             clock(hours[k] + offset) if alt[k] > 0 else "—",
             f"{alt[k]:.0f}°" if alt[k] > 0 else "—",
             f"{float(airmass_of(alt[k])):.2f}" if alt[k] > 0 else "—",

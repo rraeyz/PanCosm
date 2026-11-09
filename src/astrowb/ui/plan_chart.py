@@ -88,11 +88,12 @@ def _targets(ax, n, hours, sun, min_alt):
         colour = SERIES[i % len(SERIES)]
         alt = np.asarray(t["alt"], float)
         name = t["body"].capitalize() if t.get("body") else t["name"]
-        above = np.where(alt >= min_alt, alt, np.nan)
+        floor = np.asarray(t.get("limit") or np.full(len(alt), min_alt), float)  # the horizon profile, when given
+        above = np.where(alt >= floor, alt, np.nan)
         ax.plot(hours, alt, color=colour, lw=0.9, alpha=0.55, zorder=3)
-        down, up = crossing_hours(hours, alt, min_alt)
-        rise = clock(up[0]) if up else ("up" if alt[0] >= min_alt else "—")
-        set_ = clock(down[-1]) if down else ("up" if alt[-1] >= min_alt else "—")
+        down, up = crossing_hours(hours, alt - floor, 0.0)
+        rise = clock(up[0]) if up else ("up" if alt[0] >= floor[0] else "—")
+        set_ = clock(down[-1]) if down else ("up" if alt[-1] >= floor[-1] else "—")
         ax.plot(hours, above, color=colour, lw=2.2, zorder=4, label=f"{name}   ↑ {rise}  ↓ {set_}")
         sep = t.get("moon_sep")
         if sep is not None:  # the Moon's distance from the target, along its curve every hour

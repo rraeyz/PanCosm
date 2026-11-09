@@ -24,6 +24,7 @@ class Site:
     lat: float  # deg, north positive
     lon: float  # deg, east positive
     height: float = 0.0  # m
+    horizon: tuple = ()  # [(azimuth, lowest altitude)], the trees and roofs of the site (planning/night.py)
 
     @property
     def location(self):
