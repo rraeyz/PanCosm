@@ -322,7 +322,7 @@ Guide 06 in four languages.
 - **Accept:** a synthetic night where the target saturates in 5 frames marks exactly those 5.
 
 ### 5. Centring per star
-**agent2 done (2026-11-09, commit 9e918b6)** — **The target follows the field (not centred)** under the stars (step 2):
+**agent2 done (2026-11-09, commit 9e918b6; its photometry_page.py lines landed in the wrong places, complete in f6e9fc9)** — **The target follows the field (not centred)** under the stars (step 2):
 `light_curve(..., fixed=(0,))` keeps the target off centring; on each frame it gets the predicted position plus the
 median shift of the centred stars (AIJ's un-centred aperture). Donuts wider than the box: `_wide_centroid` now also
 takes over when the box sits in the dark hole or the brightest pixel is on the box's edge, and centres on the light in
@@ -413,7 +413,20 @@ for it. Guide 06 in four languages; `tests/test_multiplot.py`, `test_multi_plot_
 - **Accept:** each AIJ plot used in the owner's NY Vir check can be made here.
 
 ### 9. Choosing the detrending with numbers
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `differential.detrend_bic` (every set of the covariates, with and without
+the flip step, fitted to ln(rel) on the same out-of-event points; BIC = χ² + k ln n with the errors, n ln(RSS/n) + k
+ln n without; reduced χ²; the chosen set is the fewest terms within 2 of the lowest BIC, AstroImageJ's rule),
+`detrend(..., flip_time=)` (a step in ln(rel) from the flip on), `flip_from_headers` (PIERSIDE changing during the
+night) and `spline_detrend` (a cubic spline in time, knot spacing from 0.5 to 6 h chosen by the BIC, 3-sigma
+clipping in three passes, bridging the left-out range, after Vanderburg & Johnson 2014 as AIJ's Kepler spline). In the
+Plot tab: **Meridian flip at**, **Smooth trend (spline)** (applied after the ticked quantities), **Choose the
+detrending (BIC)** (ticks and applies the chosen set, lists the six best with BIC, ΔBIC, χ²ᵣ) and **Leave out
+outliers** (`timeseries.fourier.sigma_clip` against the neighbours in time, the light-curve page's test; undoable);
+the last two in the Analyse menu. Times in the left-out range, the flip and the multi-plot range can be typed in
+full or as the plot's axis shows them. Accept met: on a synthetic curve with an airmass trend and a flip jump the
+true model (airmass + flip) has the lowest BIC and is chosen; without the jump the flip is not kept
+(`test_bic_picks_the_true_model_with_the_flip`). Constant covariates are left out of the search (they tie with the
+set without them). Guide 06 in four languages.
 - **Reference:** AIJ shows χ², reduced χ² and BIC; a parameter is kept when BIC drops by more than 2; a meridian-flip
   term removes the jump at the flip.
 - **Ours:** detrending against chosen covariates, with no BIC and no meridian-flip term.
