@@ -686,7 +686,14 @@ detrending, depth, Tc, T14, on time against the Timing stage's ephemeris, the NE
   tests.
 
 ### PHO-31. Removing systematics common to many stars  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `photometry/systematics.py`: `sysrem` (weighted rank-one terms, NaN
+kept out), `pca_basis` + `bic_terms` + `correct` (the field's trends, as many as the BIC asks for, a constant beside
+them), `tfa` (templates; with `fixed` = the target's model the trends are fitted on the rest), `suppression` (the
+share of an injected dip's depth a blind correction keeps). Tests (tests/test_systematics.py): SysRem brings
+constant stars within 10 % of their white noise; with the transit model given the depth is kept within 5 %; a
+blind correction of a dip that overlaps the airmass trend loses ~25 % and `suppression` says exactly how much —
+so the window must pass the fitted model (Timing and fit stage) when there is one, and show the suppression when
+not. Left: the Light curve stage's "Remove trends shared with the field stars" (≥ 30 field stars measured).
 - **Reference:** SysRem (Tamuz, Mazeh & Zucker 2005, MNRAS 356, 1466); TFA (Kovács, Bakos & Noyes 2005, MNRAS 356,
   557); cotrending basis vectors of Kepler / TESS (Smith et al. 2012); lightkurve `CBVCorrector`,
   `RegressionCorrector`, `PLDCorrector`.
