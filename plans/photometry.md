@@ -322,7 +322,7 @@ Guide 06 in four languages.
 - **Accept:** a synthetic night where the target saturates in 5 frames marks exactly those 5.
 
 ### 5. Centring per star
-**agent2 done (2026-11-09, this commit)** — **The target follows the field (not centred)** under the stars (step 2):
+**agent2 done (2026-11-09, commit 9e918b6)** — **The target follows the field (not centred)** under the stars (step 2):
 `light_curve(..., fixed=(0,))` keeps the target off centring; on each frame it gets the predicted position plus the
 median shift of the centred stars (AIJ's un-centred aperture). Donuts wider than the box: `_wide_centroid` now also
 takes over when the box sits in the dark hole or the brightest pixel is on the box's edge, and centres on the light in
@@ -388,7 +388,7 @@ languages; `tests/test_starlist.py`, `test_star_list_saved_and_opened_on_another
 - **Accept:** a list saved on night 1 of a public data set lands within 1 px of the same stars on night 2.
 
 ### 8. Multi-plot
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** AIJ Multi-Plot: many series on a shared time axis (target, comparison stars, check star, airmass,
   sky, FWHM, x / y), normalisation region, binning, residuals, shift-click to drop or restore a point, "cycle the
   comparison stars less one".
