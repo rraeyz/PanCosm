@@ -457,7 +457,7 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
 
 ### 9b. Speed of a night (time, memory, GPU, native code)
-**agent2 done (2026-11-09, commit fa527fa; corrected in the commit of item 14)** — added 2026-11-07. Profiled on 64
+**agent2 done (2026-11-09, commit fa527fa; corrected in 59cf01b)** — added 2026-11-07. Profiled on 64
 synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB):
 - **The cause was not the arithmetic.** The frame-to-frame shifts that the parallel path adds up drift (0.05 px per
   pair binned 2x2 here, the same sign every time: 3 px after 64 frames); past the 2.5 px centring limit every frame
@@ -528,7 +528,7 @@ languages.
 - **Accept:** a night where one comparison star leaves the field half-way keeps every frame, with no jump.
 
 ### 14. Time systems
-**agent2 done (2026-11-09, this commit)** — `light_curve` writes `hjd_utc` (timing.hjd, astropy's heliocentric light
+**agent2 done (2026-11-09, commit 59cf01b)** — `light_curve` writes `hjd_utc` (timing.hjd, astropy's heliocentric light
 travel time) whenever the target's position is known; it is the `HJD_UTC` column of the measurements table
 (AstroImageJ's name) and of the CSV export. `timing.mid_time(header, ref, delay)`: the header's time read as the
 start, middle or end of the exposure ("auto" keeps the old reading: start, or what the DATE-OBS comment says) and a
@@ -554,7 +554,7 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** the ETD file is accepted by the ETD upload check (or matches its published column layout).
 
 ### 16. Eclipse and transit fit on the light-curve page
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** AIJ fits a transit model with the detrending in the same χ² and reports BIC.
 - **Ours:** minimum timing (KvW and others) on the Photometry page; transit and eclipsing-binary models live on the
   Models page.
