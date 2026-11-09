@@ -40,6 +40,8 @@ NAMES = {
     "shutter_delay": QT_TRANSLATE_NOOP("Settings", "Shutter delay (s)"),
     "detrend_with": QT_TRANSLATE_NOOP("Settings", "Quantities fitted together with the transit"),
     "apertures": QT_TRANSLATE_NOOP("Settings", "Further aperture radii measured to choose later (px)"),
+    "t_ab": QT_TRANSLATE_NOOP("Settings", "Colour transformation coefficient (T_ab)"),
+    "comp_colour": QT_TRANSLATE_NOOP("Settings", "Catalogue colour of the comparison stars"),
     "camera": QT_TRANSLATE_NOOP("Settings", "Camera noise (read noise e⁻, dark e⁻/s)"),
     "photometry.apertures.rule": QT_TRANSLATE_NOOP("Settings", "Radii rule (snr or aij)"),
     "auto_apertures": QT_TRANSLATE_NOOP("Settings", "Choose the radii from the stars"),

@@ -3,7 +3,7 @@
 import numpy as np
 
 from .. import timing
-from ..engine.steps import step
+from ..engine.steps import REGISTRY, step
 from ..hdr import get, number
 from ..io.lzw import readable
 from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
@@ -71,6 +71,34 @@ def light_curve_step(inputs, params, ctx):
         apertures=tuple(params.get("apertures") or ()),
     )
     return {"light_curve": lc}
+
+
+@step(
+    "photometry.multifilter",
+    inputs=("images", "target_xy", "comps_xy"),
+    outputs=("curves", "colour"),
+    optional=("coord", "extra_xy", "ref_image"),
+    **REGISTRY["photometry.light_curve"].defaults,
+    t_ab=None,
+    comp_colour=None,
+)
+def multifilter_step(inputs, params, ctx):
+    """A mixed sequence of filters (plans/photometry.md item 11): a light curve per filter, with the same stars,
+    radii and options, and the colour-index curve of the bluer pair (multifilter.colour_curve)."""
+    from .multifilter import by_filter, colour_curve, colour_pair
+
+    groups = {f: g for f, g in by_filter(inputs["images"]).items() if len(g) >= 2}
+    if len(groups) < 2:
+        raise ValueError("a colour needs images in two filters")
+    ref = inputs.get("ref_image") or timing.chronological(inputs["images"])[0]
+    curves = {}
+    for k, (f, paths) in enumerate(groups.items()):
+        ctx.progress(k / len(groups), "photometry")
+        lc = light_curve_step(dict(inputs) | {"images": paths, "ref_image": ref}, params, ctx)
+        curves[f] = lc["light_curve"] | {"filter": f}
+    a, b = colour_pair(list(curves))
+    colour = colour_curve(curves[a], curves[b], t_ab=params.get("t_ab"), comp_colour=params.get("comp_colour"))
+    return {"curves": curves, "colour": colour}
 
 
 @step(

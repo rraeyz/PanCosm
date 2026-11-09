@@ -823,3 +823,62 @@ def test_photometry_page_chooses_another_measured_aperture(qtbot):
     assert "aperture correction +0.555 mag" in page.result.text()
     page.undo_stack.undo()
     assert page.lc_raw["target_flux"][0] == pytest.approx(lc["target_flux"][0])
+
+
+def test_two_filter_night_gives_the_injected_colour_change(tmp_path):
+    """plans/photometry.md item 11: a B / V night alternating filters, the target reddening by 0.05 mag in B − V over
+    the night: one run gives both curves and the colour curve with that change; with T_bv and the comparison stars'
+    colour, the standard colour."""
+    from astrowb.photometry.steps import multifilter_step
+
+    yy, xx = np.mgrid[:120, :140]
+    rng = np.random.default_rng(11)
+    paths = []
+    for i in range(16):
+        band = "B" if i % 2 == 0 else "V"
+        frac = i / 15
+        img = rng.normal(200, 3, yy.shape)
+        target = 4e4 * (10 ** (-0.4 * 0.05 * frac) if band == "B" else 1.0)  # B fades by 0.05 mag
+        for x, y, f in ((40.0, 40.0, target), (100.0, 40.0, 6e4), (40.0, 90.0, 5e4), (100.0, 90.0, 5.5e4)):
+            img += f / (2 * np.pi * 2.0**2) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * 2.0**2))
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{2 * i:02d}:00", "EXPTIME": 10.0, "FILTER": band})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"c{i:02d}.fits")
+        paths.append(str(tmp_path / f"c{i:02d}.fits"))
+    params = {"r_ap": 5.0, "r_in": 12.0, "r_out": 18.0, "t_ab": 1.1, "comp_colour": 0.6}
+    from astrowb.engine.steps import REGISTRY
+
+    params = REGISTRY["photometry.multifilter"].defaults | params
+    out = multifilter_step({"images": paths, "target_xy": (40.0, 40.0),
+                            "comps_xy": [(100.0, 40.0), (40.0, 90.0), (100.0, 90.0)]}, params, _Ctx())  # fmt: skip
+    assert set(out["curves"]) == {"B", "V"} and len(out["curves"]["B"]["time"]) == 8
+    c = np.asarray(out["colour"]["colour"])
+    assert out["colour"]["filters"] == ["B", "V"] and out["colour"]["pairs"] == 8
+    assert c[-1] - c[0] == pytest.approx(0.05 * 14 / 15, abs=0.01)  # the injected reddening (first to last pair)
+    std = np.asarray(out["colour"]["standard"])
+    assert np.allclose(std - 0.6, 1.1 * c)
+
+
+class _Ctx:
+    def progress(self, *a):
+        pass
+
+    def check(self):
+        pass
+
+
+def test_photometry_page_shows_the_colour_index(qtbot):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+    lc = synthetic_lc()
+    page.show_light_curve(lc)
+    t = lc["time"][::2]
+    colour = {"time": t, "colour": list(np.linspace(0, 0.05, len(t))), "colour_err": [0.003] * len(t),
+              "standard": None, "filters": ["B", "V"], "pairs": len(t)}  # fmt: skip
+    page.show_colour(colour, {"B": lc, "V": lc})
+    assert page.show_what.currentData() == "colour" and "Δ(B − V) from +0.000 to +0.050" in page.result.text()
+    assert page.plot.figure.axes[0].get_ylabel() == "Δ(B − V) (mag)"
+    page.show_light_curve(lc)  # a new measurement in one filter: no colour any more
+    assert page.show_what.findData("colour") == -1

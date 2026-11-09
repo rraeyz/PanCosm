@@ -1120,6 +1120,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def set_images(self, paths):
         self.guide.set_state(0, "done" if paths else None)
+        self.all_filter_images = None  # every filter of a mixed night (item 11): set by the caller after this
         from .. import timing
         from ..io.bayer import fits_paths
         from ..io.fits import read_image
@@ -1991,6 +1992,7 @@ class PhotometryPage(Undoable, QWidget):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.guide.set_state(4, "done")
         self._lc_measured, self._aperture_i = lc, None
+        self.colour = None  # a new measurement: its colour, if any, comes with show_colour
         self._fill_aperture_choice(lc)
         self.lc_raw, self.detrend_cfg, self.excluded, self.comp_off = lc, None, set(), set()
         self._step_titles()
@@ -2050,6 +2052,9 @@ class PhotometryPage(Undoable, QWidget):
         self.show_what.addItem(self.tr("All stars, normalised and offset"), "all")
         self.show_what.addItem(self.tr("Airmass, sky, FWHM and position"), "trends")
         self.show_what.addItem(self.tr("Multi-plot: chosen series, normalised, binned"), "multi")
+        if getattr(self, "colour", None):  # item 11
+            a, b = self.colour["filters"]
+            self.show_what.addItem(self.tr("Colour index ({a} − {b}) against time").format(a=a, b=b), "colour")
         self._fill_multi_series()
         i = self.show_what.findData(current)
         self.show_what.setCurrentIndex(max(i, 0))
@@ -2473,6 +2478,8 @@ class PhotometryPage(Undoable, QWidget):
                 ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)  # orange: non-linear (item 4)
         elif what == "multi":
             label = self._plot_multi(ax, lc, t, t_ref)
+        elif what == "colour" and getattr(self, "colour", None):
+            label = self._plot_colour(ax, t_ref)
         elif what == "comps":
             curves, scatter = d.comps_against_others(lc["comp_flux"], lc.get("weights"))
             for i, (c, s_) in enumerate(zip(curves, scatter, strict=True)):
@@ -2503,6 +2510,29 @@ class PhotometryPage(Undoable, QWidget):
         ax.set_xlabel(f"{lc['time_scale']} − {t_ref:.0f}")
         ax.set_ylabel(label)
         self.plot.draw()
+
+    def show_colour(self, colour, curves):
+        """The colour-index curve of a night in several filters (item 11), shown at once."""
+        self.colour, self.filter_curves = colour, curves
+        self._fill_show_choices()
+        self.show_what.setCurrentIndex(self.show_what.findData("colour"))
+        a, b = colour["filters"]
+        c = np.asarray(colour["colour"])
+        text = self.tr("{n} pairs of {a} and {b} images: Δ({a} − {b}) from {lo:+.3f} to {hi:+.3f} mag").format(
+            n=colour["pairs"], a=a, b=b, lo=float(np.nanmin(c)), hi=float(np.nanmax(c))
+        )
+        self.result.setText(text + "\n" + self.result.text())
+
+    def _plot_colour(self, ax, t_ref):
+        col = self.colour
+        a, b = col["filters"]
+        y = np.asarray(col["standard"] if col.get("standard") else col["colour"], float)
+        ax.errorbar(np.asarray(col["time"]) - t_ref, y, col["colour_err"], fmt=".", ms=3, lw=0.5)
+        ax.invert_yaxis()
+        self._plotted = None
+        if col.get("standard"):
+            return self.tr("{a} − {b} (standard, mag)").format(a=a, b=b)
+        return self.tr("Δ({a} − {b}) (mag)").format(a=a, b=b)
 
     def _fill_multi_series(self, ticked=None, colours=None):
         """The series of this light curve in the multi-plot list (photometry/multiplot.py), ticked as before, or as

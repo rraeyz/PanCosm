@@ -25,20 +25,10 @@ from PySide6.QtWidgets import (
 
 from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
-from ..io.lzw import readable
+from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
 from .messages import translate
 from .undo import Undoable
 from .widgets import Collapsible, StepGuide, _title
-
-
-def by_filter(paths):
-    """{filter name: paths} in the order met (FILTER keyword; "" when there is none)."""
-    from astropy.io import fits
-
-    groups = {}
-    for p in paths:
-        groups.setdefault(str(fits.getheader(readable(p)).get("FILTER", "") or "").strip(), []).append(p)
-    return groups
 
 
 class CalibratePage(Undoable, QWidget):

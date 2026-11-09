@@ -1014,17 +1014,25 @@ class MainWindow(QMainWindow):
         if not paths:
             return None
         groups = by_filter(paths)
+        all_paths = None
         if len(groups) > 1 and ask:
             names = sorted(groups, key=lambda k: -len(groups[k]))
             labels = [self.tr("{f} ({n} images)").format(f=k or "—", n=len(groups[k])) for k in names]
+            both = self.tr("All of them: a curve per filter and the colour index (stars marked in {f})").format(
+                f=names[0] or "—"
+            )  # item 11
             question = self.tr("A light curve is measured in one filter. Which one?")
-            label, ok = QInputDialog.getItem(self, self.tr("Filter"), question, labels, 0, False)
+            label, ok = QInputDialog.getItem(self, self.tr("Filter"), question, [*labels, both], 0, False)
             if not ok:
                 return None
-            paths = groups[names[labels.index(label)]]
+            if label == both:
+                all_paths, paths = paths, groups[names[0]]
+            else:
+                paths = groups[names[labels.index(label)]]
         elif len(groups) > 1:
             paths = max(groups.values(), key=len)
         self.photometry_page.set_images(paths)
+        self.photometry_page.all_filter_images = all_paths
         self.show_workspace("photometry")
         return paths
 
@@ -2424,6 +2432,19 @@ class MainWindow(QMainWindow):
                 lc["time"], lc["rel_flux"], self.tr("the Photometry window"), err=lc.get("rel_flux_err")
             )
 
+        every = getattr(self.photometry_page, "all_filter_images", None)
+        if every:  # item 11: every filter of the night, and the colour index
+
+            def done_all(out):
+                from .workspaces import by_filter
+
+                main = next(iter(by_filter(images)), "")  # the filter the stars were marked in
+                curves = out["curves"]
+                done({"light_curve": curves.get(main) or next(iter(curves.values()))})
+                self.photometry_page.show_colour(out["colour"], curves)
+
+            inputs["images"] = list(every)
+            return self.run_step("photometry.multifilter", inputs, params, on_done=done_all, area="photometry")
         return self.run_step("photometry.light_curve", inputs, params, on_done=done, area="photometry")
 
     def search_period(self, time, flux, params):
