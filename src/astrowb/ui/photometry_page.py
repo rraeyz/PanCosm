@@ -922,6 +922,16 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         ol.addWidget(self.aavso_button)
+        self.nights_button = QPushButton(self.tr("Add other nights (exported CSV)…"), self)  # item 12
+        self.nights_button.setEnabled(False)
+        self.nights_button.setToolTip(
+            self.tr(
+                "Light curves of the same star list exported on other nights join this one on the same zero point; "
+                "with T0 and the period, the minimum timing then times the eclipse of every night"
+            )
+        )
+        self.nights_button.clicked.connect(lambda: self.add_nights())
+        ol.addWidget(self.nights_button)
         ol.addStretch(1)
         self.res_tabs.addTab(self._measurements_tab(), self.tr("Measurements"))
         self.res_tabs.addTab(out_tab, self.tr("Export"))
@@ -2002,8 +2012,36 @@ class PhotometryPage(Undoable, QWidget):
         self.minimum_button.setEnabled(True)
         self.export_button.setEnabled(True)
         self.aavso_button.setEnabled(True)
+        self.nights_button.setEnabled(True)
         self._fill_show_choices()
         self._recompute()
+
+    def add_nights(self, paths=None):
+        """Other nights' exported light curves joined with this one (photometry.nights.join_nights)."""
+        from ..photometry.nights import join_nights, read_export
+
+        if self.lc_raw is None:
+            return None
+        if paths is None:
+            paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Add other nights"), "", "CSV (*.csv)")
+        if not paths:
+            return None
+        try:
+            others = [read_export(p) for p in paths]
+            joined = join_nights([getattr(self, "_lc_measured", None) or self.lc_raw, *others])
+        except (OSError, ValueError, KeyError) as e:
+            self.result.setText(translate(str(e)))
+            return None
+        self.show_light_curve(joined)
+        offsets = ", ".join(f"{o:+.3f}" for o in joined["night_offsets"])
+        self.result.setText(
+            self.tr("{n} nights joined on one zero point (each night moved by {offsets} mag).").format(
+                n=len(joined["night_offsets"]), offsets=offsets
+            )
+            + "\n"
+            + self.result.text()
+        )
+        return joined
 
     def _fill_aperture_choice(self, lc):
         """The radii of a measurement made with several apertures (item 10), the measured one current."""

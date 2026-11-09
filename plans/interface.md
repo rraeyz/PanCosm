@@ -732,6 +732,7 @@ whenever any area gains a feature.
 | Transit fitted together with the detrending (BIC) | Photometry | — | — | Results: Minimum |
 | Several apertures at once, radius chosen afterwards, aperture correction | Photometry | — | — | Steps 4 options; Results: Plot |
 | Several filters in one run, colour index against time | Photometry | (filter question) | — | Results: Plot |
+| Several nights joined on one zero point | Photometry | — | — | Results: Export |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

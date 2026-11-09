@@ -882,3 +882,56 @@ def test_photometry_page_shows_the_colour_index(qtbot):
     assert page.plot.figure.axes[0].get_ylabel() == "Δ(B − V) (mag)"
     page.show_light_curve(lc)  # a new measurement in one filter: no colour any more
     assert page.show_what.findData("colour") == -1
+
+
+def test_two_nights_with_a_star_missing_one_night_join_without_a_step(tmp_path):
+    """plans/photometry.md item 12: night 2 lacks comparison star C2 all night (a 0.05 mag step in the plain relative
+    flux); joined on night 1's shares there is no step; the export read back joins the same way."""
+    from astrowb.photometry.nights import join_nights, read_export
+    from astrowb.ui.photometry_page import export_csv
+
+    rng = np.random.default_rng(12)
+
+    def night(t0, drop=None):
+        n = 50
+        t = t0 + np.arange(n) / 1440
+        comps = np.column_stack([np.full(n, f) * (1 + rng.normal(0, 0.001, n)) for f in (5e4, 4.73e3, 4.5e4)])
+        target = np.full(n, 3e4) * (1 + rng.normal(0, 0.001, n))
+        if drop is not None:
+            comps[:, drop] = np.nan
+        ce = np.sqrt(np.nan_to_num(comps))
+        rel, err = d.ensemble(target, np.sqrt(target), comps, ce)
+        return {"time": t.tolist(), "target_flux": target.tolist(), "target_flux_err": np.sqrt(target).tolist(),
+                "comp_flux": comps.tolist(), "comp_flux_err": ce.tolist(), "rel_flux": rel.tolist(),
+                "rel_flux_err": err.tolist(), "time_scale": "BJD_TDB", "file": ["f"] * n}  # fmt: skip
+
+    a, b = night(2461000.3), night(2461001.3, drop=1)
+    plain = 2.5 * np.log10(np.median(b["rel_flux"]) / np.median(a["rel_flux"]))
+    assert plain == pytest.approx(0.05, abs=0.005)  # the step a plain join would show
+    j = join_nights([a, b])
+    rel, night_ = np.asarray(j["rel_flux"]), np.asarray(j["night"])
+    assert abs(2.5 * np.log10(np.median(rel[night_ == 1]) / np.median(rel[night_ == 0]))) < 0.002
+    assert j["night_offsets"][1] == pytest.approx(0.05, abs=0.005) and len(rel) == 100
+    pa, pb = export_csv(a, tmp_path / "a.csv"), export_csv(b, tmp_path / "b.csv")
+    j2 = join_nights([read_export(pa), read_export(pb)])
+    assert np.allclose(j2["rel_flux"], j["rel_flux"], rtol=1e-6)
+    with pytest.raises(ValueError, match="two nights"):
+        join_nights([a])
+
+
+def test_photometry_page_adds_other_nights(qtbot, tmp_path):
+    from astrowb.ui.photometry_page import export_csv
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+    first = synthetic_lc()
+    page.show_light_curve(first)
+    other = synthetic_lc() | {"time": (np.asarray(first["time"]) + 1).tolist()}
+    joined = page.add_nights([export_csv(other, tmp_path / "n2.csv")])
+    assert len(joined["time"]) == 2 * len(first["time"]) and len(page.light_curve["time"]) == 120
+    assert "2 nights joined" in page.result.text()
+    bad = tmp_path / "bad.csv"
+    bad.write_text("a,b\n1,2\n")
+    assert page.add_nights([str(bad)]) is None and page.result.text().startswith("not a light curve exported")
