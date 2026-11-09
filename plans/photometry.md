@@ -575,7 +575,7 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** HJD matches astropy's light-travel-time computation within 1 s for a test star.
 
 ### 15. Export formats
-**agent2 done (2026-11-09, this commit)** — `export.etd_text`: the format the VarAstro / ETD FAQ gives (read
+**agent2 done (2026-11-09, commit 2517995)** — `export.etd_text`: the format the VarAstro / ETD FAQ gives (read
 2026-11-09 from var.astro.cz/var-astro/doc/VarAstro_faq_en_01.pdf: "a text file, where the first column is the
 Julian date (full or reduced) and the second column is the star's brightness value (magnitude or flux)"; the time
 standard and the unit are chosen in the upload form), with the error as a third column: full JD in the curve's own
@@ -612,7 +612,7 @@ Guide 06 in four languages.
 - **Accept:** a synthetic transit with an airmass trend: depth and mid-time recovered within 1σ.
 
 ### 17. Comparison-star criteria the user can set
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** Siril findcompstars: ΔV (default 3), Δ(B−V) (default 0.5), largest catalogue error (0.03 mag),
   catalogue APASS or NOMAD, centred circle or whole image, variable catalogues GCVS / VSX / Gaia.
 - **Ours:** fixed |ΔG| ≤ 2.5 and colour within 0.5 (a preference), Gaia flag and VSX, no catalogue-error limit.
