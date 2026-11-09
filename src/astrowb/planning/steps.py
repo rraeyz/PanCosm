@@ -6,6 +6,7 @@ import numpy as np
 from astropy.coordinates import get_body
 
 from ..engine.steps import step
+from .events import annotate
 from .targets import Resolver, Target, body_of
 from .visibility import Site, airmass, altitudes, azimuths, events, moon, night, night_grid, sun_altitude
 
@@ -18,7 +19,8 @@ def resolve_step(inputs, params, ctx):
 
 @step("planning.night", inputs=("site", "date", "targets"), outputs=("night",), min_alt=20.0, step_min=5.0)
 def night_step(inputs, params, ctx):
-    """targets: [{name, ra, dec, [t0, period, duration, secondary]}]; times in JD (UTC)."""
+    """targets: [{name, ra, dec, [t0, period, duration, secondary, t0_err, period_err or t0_text, period_text]}];
+    times in JD (UTC); each event carries its σ in minutes when the ephemeris' errors are known (planning/events)."""
     site = Site(**inputs["site"])
     times = night_grid(site, inputs["date"], params["step_min"])
     dusk, dawn = night(site, inputs["date"])
@@ -78,14 +80,17 @@ def night_step(inputs, params, ctx):
                 params["min_alt"],
             ):
                 entry["events"].append(
-                    {
-                        "kind": e.kind,
-                        "mid": e.mid.jd,
-                        "start": e.start.jd if e.start else None,
-                        "end": e.end.jd if e.end else None,
-                        "alt_mid": e.alt_mid,
-                        "full": e.fully_observable,
-                    }
+                    annotate(  # its σ from the ephemeris' errors (PLN-4)
+                        {
+                            "kind": e.kind,
+                            "mid": e.mid.jd,
+                            "start": e.start.jd if e.start else None,
+                            "end": e.end.jd if e.end else None,
+                            "alt_mid": e.alt_mid,
+                            "full": e.fully_observable,
+                        },
+                        t,
+                    )
                 )
         out["targets"].append(entry)
     return {"night": out}

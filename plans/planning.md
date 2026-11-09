@@ -159,7 +159,13 @@ window, the four-site comparison with JPL Horizons.
 - **Files:** `planning/charts.py` (FigureSpec builders), `planning/visibility.py`, `ui/planning/panels/night.py`, `tests/test_planning_charts.py`
 
 ### PLN-4. Events with honest uncertainties  (P1)
-**open**
+**partial** — done (2026-11-14): `planning/events.py`: `sigma` (√(σ_T0² + (Eσ_P)² + 2E cov)), `digits_error` (half
+a unit of the last printed digit), `ephemeris_errors`, `annotate`; every event of `planning.night` carries its
+epoch and σ in minutes (estimated from the digits when no error is given, and said so); the night chart draws ±1σ
+on each event, the events table writes "± 3 min" (≈ when estimated); the Plan page passes the typed T0 and P as
+text so their digits count. Tests (tests/test_events.py). Left: errors and covariance from VSX / the Exoplanet
+Archive look-ups, the depth, the baseline / Moon / meridian flags, the observability score, the Transit Finder and
+prediction-service comparisons.
 - **Read first:** Mallonn et al. 2019 and Kokori et al. 2022 (ExoClock: ephemeris drift and how uncertainties grow);
   the VSX field definitions (epoch as HJD, eclipse duration D in per cent of the period, the period's precision
   as given by its digits); the Exoplanet Archive's ephemeris columns and their errors.
