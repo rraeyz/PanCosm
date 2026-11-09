@@ -3,7 +3,7 @@ stays uncluttered: the Moon's distance from every target through the night, and 
 north up, east left) with a slider. The charts are in English (they go into papers and reports)."""
 
 import numpy as np
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QObject, Qt, Signal
 from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QSlider, QTabWidget, QVBoxLayout, QWidget
 
 from .kit.tokens import SERIES, role
@@ -91,6 +91,37 @@ def draw_year(fig, dates, hours, sun, chosen):
     return ax
 
 
+def draw_weather(fig, f, hours0_jd, sun_hours=None, sun_alt=None):
+    """Cloud cover (total, low, middle, high) and humidity through the forecast hours, in UTC hours of the night's
+    grid (hours0_jd: the JD of its 00:00 UTC); the night shaded when the Sun's altitude is given."""
+    fig.clear()
+    ax = fig.add_subplot()
+    h = (np.asarray(f["time"], float) - hours0_jd) * 24
+    if sun_hours is not None:
+        for level, shade in SHADES:
+            ax.fill_between(sun_hours, 0, 100, where=np.asarray(sun_alt) < level, color="navy", alpha=shade, lw=0)
+    for key, label, colour, width in (
+        ("cloud", "total", role("rejected"), 2.4),
+        ("cloud_low", "low", SERIES[0], 1.2),
+        ("cloud_mid", "middle", SERIES[1], 1.2),
+        ("cloud_high", "high", SERIES[2], 1.2),
+    ):
+        ax.plot(h, f[key], color=colour, lw=width, label=f"Cloud {label} (%)")  # fmt: skip
+    ax.plot(h, f["humidity"], ":", color=SERIES[5], lw=1.2, label="Humidity (%)")
+    ax.set_ylim(0, 100)
+    ax.set_xlim(sun_hours[0], sun_hours[-1]) if sun_hours is not None else None
+    ax.set_xlabel("UTC (hours)", fontsize=8)
+    ax.set_ylabel("%", fontsize=8)
+    ax.grid(color=role("rejected"), alpha=0.3, lw=0.5)
+    ax.legend(fontsize=7, loc="upper right")
+    ax.set_title(f"Forecast — {f['source']}", fontsize=8)
+    return ax
+
+
+class _Relay(QObject):
+    done = Signal(object)
+
+
 class MoreCharts(QDialog):
     def __init__(self, n, hours, offset, parent=None, min_alt=20.0):
         super().__init__(parent)
@@ -120,7 +151,21 @@ class MoreCharts(QDialog):
         self.year = PlotCanvas(self)
         tabs.addTab(self.year, self.tr("Through the year"))
         tabs.currentChanged.connect(lambda i: i == 2 and self._year())  # computed when first looked at
-        from PySide6.QtWidgets import QScrollArea
+        from PySide6.QtWidgets import QPushButton, QScrollArea
+
+        weather = QWidget(self)
+        wl = QVBoxLayout(weather)
+        self.weather_button = QPushButton(self.tr("Get the forecast"), weather)
+        self.weather_button.setToolTip(self.tr("Cloud cover, humidity and wind for the site from Open-Meteo "
+                                               "(needs the internet; kept for an hour)"))  # fmt: skip
+        self.weather_button.clicked.connect(self.fetch_weather)
+        self.weather_note = QLabel(weather)
+        self.weather_note.setWordWrap(True)
+        self.weather = PlotCanvas(self)
+        wl.addWidget(self.weather_button)
+        wl.addWidget(self.weather_note)
+        wl.addWidget(self.weather, 1)
+        tabs.addTab(weather, self.tr("Weather"))
 
         from .plan_tables import tables_page
 
@@ -147,3 +192,42 @@ class MoreCharts(QDialog):
         dates, h, sun = year_nights(Site(site["name"], site["lat"], site["lon"], site["height"]), date)
         draw_year(self.year.figure, dates, h, sun, date)
         self.year.draw()
+
+    def fetch_weather(self, fetch=None):
+        """The forecast looked up off the window's thread (PLN-11); fetch: for tests."""
+        import threading
+
+        site = self.n["site"]
+        self.weather_note.setText(self.tr("Asking Open-Meteo…"))
+        self.relay = _Relay(self)
+        self.relay.done.connect(self.show_weather)
+
+        def work():
+            from ..services import forecast
+
+            try:
+                answer = forecast.forecast(site["lat"], site["lon"], fetch=fetch)
+            except Exception as e:  # noqa: BLE001 - the network or the service: said in the window
+                answer = e
+            try:
+                self.relay.done.emit(answer)
+            except RuntimeError:  # the window was closed meanwhile
+                pass
+
+        threading.Thread(target=work, daemon=True).start()
+
+    def show_weather(self, answer):
+        from .messages import translate
+
+        if isinstance(answer, Exception):
+            self.weather_note.setText(translate(answer))
+            return
+        zero = float(np.floor(self.n["jd"][0] + 0.5) - 0.5)
+        draw_weather(self.weather.figure, answer, zero, self.hours, self.n["sun_alt"])
+        self.weather.draw()
+        from astropy.time import Time
+
+        issued = Time(answer["issued"], format="jd").iso[:16] if answer.get("issued") else "—"
+        self.weather_note.setText(
+            self.tr("Forecast fetched {when} UTC. {source}").format(when=issued, source=answer["source"])
+        )

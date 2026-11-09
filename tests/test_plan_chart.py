@@ -109,3 +109,17 @@ def test_the_night_in_numbers():
     assert saturn[0] == "Saturn" and saturn[1] == "17:41" and saturn[2] == "02:24"  # the legend's 14:41 / 23:24 UTC
     assert float(saturn[5]) == pytest.approx(1 / np.sin(np.radians(float(saturn[4][:-1]))), abs=0.02)
     assert hat[0] == "HAT-P-32 b" and hat[6].endswith("°")
+
+
+def test_the_weather_tab(qtbot):
+    from test_forecast import ANSWER
+
+    from astrowb.ui.plan_more import MoreCharts
+
+    n = night()
+    hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
+    win = MoreCharts(n, hours, 3.0)
+    qtbot.addWidget(win)
+    win.fetch_weather(fetch=lambda url: ANSWER)
+    qtbot.waitUntil(lambda: bool(win.weather.figure.axes), timeout=20000)
+    assert "Open-Meteo" in win.weather.figure.axes[0].get_title() and "Open-Meteo" in win.weather_note.text()

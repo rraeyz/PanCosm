@@ -20,7 +20,12 @@ from contextlib import closing, contextmanager
 ENV = "ASTROWB_OFFLINE"
 MAX_BYTES = 2 << 30
 DAY = 86400.0
-AGES = {"ephemerides": 7 * DAY, "lightcurves": DAY, "updates": DAY}  # services not listed: answers never age
+AGES = {
+    "ephemerides": 7 * DAY,
+    "lightcurves": DAY,
+    "updates": DAY,
+    "forecast": DAY / 24,
+}  # services not listed: answers never age
 _fresh = [False]  # inside fresh(): every answer asked of the network (the installation check)
 last = {}  # service -> (fetched time, from the cache?) of the latest answer: windows say "from cache, fetched on …"
 
