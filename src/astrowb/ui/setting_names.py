@@ -36,6 +36,8 @@ NAMES = {
     "aperture_m": QT_TRANSLATE_NOOP("Settings", "Telescope aperture (m)"),
     "fixed": QT_TRANSLATE_NOOP("Settings", "Stars that follow the field (not centred)"),
     "sky_method": QT_TRANSLATE_NOOP("Settings", "Sky from the ring (median, mode, mean, plane)"),
+    "header_time": QT_TRANSLATE_NOOP("Settings", "What the header's time marks (start, middle, end)"),
+    "shutter_delay": QT_TRANSLATE_NOOP("Settings", "Shutter delay (s)"),
     "camera": QT_TRANSLATE_NOOP("Settings", "Camera noise (read noise e⁻, dark e⁻/s)"),
     "photometry.apertures.rule": QT_TRANSLATE_NOOP("Settings", "Radii rule (snr or aij)"),
     "auto_apertures": QT_TRANSLATE_NOOP("Settings", "Choose the radii from the stars"),

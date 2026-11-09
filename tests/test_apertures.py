@@ -439,24 +439,19 @@ def test_donut_star_is_centred():
     assert np.hypot(x - x0, y - y0) < 0.2
 
 
-def test_chained_frame_shifts_do_not_drift():
-    """plans/photometry.md item 9b: shifts between consecutive frames are added up over a night; a bias of 0.05 px
-    per pair (the 3x3 median and flat-topped stars pulled every shift towards a whole pixel) put the stars 3 px off
-    after 64 frames, and every frame after that was matched by its star pattern instead (ten times slower)."""
-    from astrowb.photometry.aperture import frame_shift
+def test_stars_a_few_pixels_off_their_prediction_are_found_without_the_slow_path():
+    """plans/photometry.md item 9b: frame-to-frame shifts added up over a night leave the predictions a few pixels
+    off; the frame is then measured after a wider search (the median offset of the stars), not read whole and
+    matched by its star pattern (partial=True returns None for that)."""
+    from astrowb.photometry.lightcurve import _measure_frame
 
-    rng = np.random.default_rng(12)
-    yy, xx = np.mgrid[:256, :256]
-    stars = rng.uniform([20, 20, 3e3], [236, 236, 3e5], (25, 3))
-
-    def frame(dx, dy):
-        img = rng.normal(500, 10, xx.shape)
-        for x, y, f in stars:
-            img += f / (2 * np.pi * 2.5**2) * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.5**2))
-        img[100, 37] = 6e4  # a hot pixel, fixed on the chip
-        return np.clip(img, 0, 65535).astype(np.uint16)
-
-    frames = [frame(0.3 * i, 0.2 * i) for i in range(30)]
-    for binning in (1, 2):
-        total = np.sum([frame_shift(a, b, binning) for a, b in zip(frames, frames[1:], strict=False)], axis=0)
-        assert np.allclose(total, (0.3 * 29, 0.2 * 29), atol=0.1), (binning, total)
+    rng = np.random.default_rng(21)
+    yy, xx = np.mgrid[:200, :200]
+    stars = np.array([(50.0, 60.0), (150.0, 40.0), (100.0, 150.0), (160.0, 160.0)])
+    img = rng.normal(300, 5, yy.shape)
+    for x, y in stars:
+        img += 4e4 / (2 * np.pi * 2.2**2) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * 2.2**2))
+    pred = stars + (3.6, -3.1)  # beyond the 2.5 px centring limit
+    out = _measure_frame(img, fits.Header(), pred, stars, (5, 12, 18), 1.0, 11, None, False, 3, None, partial=True)
+    assert out is not None and out[-1] == ()
+    assert np.allclose(out[0], stars, atol=0.2)

@@ -55,6 +55,8 @@ def light_curve(
     camera=None,
     sky_method="median",
     fixed=(),
+    header_time="auto",
+    shutter_delay=0.0,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -73,7 +75,9 @@ def light_curve(
     sky_method: how the sky ring gives the sky (aperture.sky_estimate): median, mode, mean or plane.
     fixed: indices of stars (0 the target, then comparisons, then extra stars) that are not re-centred but follow the
     field: the median shift the centred stars took on that frame (AstroImageJ's per-aperture centroid off; a faint
-    star beside a bright one is not pulled onto it)."""
+    star beside a bright one is not pulled onto it).
+    header_time, shutter_delay: what the header's time marks ("auto", "start", "mid", "end") and the camera's shutter
+    delay in seconds (timing.mid_time); the result also has "hjd_utc" when the target's position is known."""
     paths = [str(p) for p in paths]
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
@@ -89,7 +93,7 @@ def light_curve(
     stars0 = recenter(ref, stars0, box, max_move=box / 2)
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
-    opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed)}
+    opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay)}
     sky = target_coord(h0, coord)
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
@@ -164,7 +168,7 @@ def light_curve(
         radii.append(r)
         peaks.append(_peaks(data, xy, r[0]))
         try:
-            t = timing.mid_time(h)
+            t = timing.mid_time(h, *opts["time"])
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
         moved = np.hypot(*(xy - stars0 - shift).T)  # how far centring moved each star from the frame's shift
@@ -217,6 +221,8 @@ def light_curve(
         "time": tvals.tolist(),
         "time_scale": scale,
         "jd_utc": times.utc.jd.tolist() if times is not None else [float("nan")] * len(rows),  # AAVSO wants JD UTC
+        # HJD (UTC): much of the eclipsing-binary O−C literature (item 14)
+        "hjd_utc": timing.hjd(times, sky, where).jd.tolist() if times is not None and sky is not None else None,
         "rel_flux": rel.tolist(),
         "rel_flux_err": rel_err.tolist(),
         "target_flux": flux[:, 0].tolist(),
@@ -273,7 +279,7 @@ def _frame(job):
         corner = np.zeros(2)
     xy, flux, err, skylev, radii, f, lost = out
     try:
-        t = timing.mid_time(h)
+        t = timing.mid_time(h, *(opts or {}).get("time", ("auto", 0.0)))
     except timing.TimeError:
         t = None
     moved = np.hypot(*(xy + corner - asked).T)
@@ -305,6 +311,12 @@ def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, re
     out = _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts)
     lost = _lost(out, n_comp)
     if lost:
+        off = _field_offset(data, pred, box)
+        if off is not None:  # the shifts added up over the night put the stars a few pixels off (item 9b)
+            again = _measure_at(data, h, pred + off, radii0, g, box, fwhm0, psf, n_comp, opts)
+            if _rank(_lost(again, n_comp)) < _rank(lost):
+                out, lost = again, _lost(again, n_comp)
+    if lost:
         if partial:
             return None
         try:
@@ -315,6 +327,25 @@ def _measure_frame(data, h, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, re
         except ValueError:  # no pattern to match (clouds, an empty frame): left as it is
             pass
     return (*out[:-1], lost)
+
+
+def _field_offset(data, pred, box):
+    """The median offset of the stars from where they were predicted, found in a search three times as wide, or None
+    when fewer than two stars are found: a few pixels of error in the predicted positions (frame-to-frame shifts added
+    up over hundreds of frames) cost a centring pass here instead of reading the whole frame and matching its star
+    pattern (ten times slower; plans/photometry.md item 9b)."""
+    wide = 3 * box // 2 * 2 + 1
+    pred = np.asarray(pred, float)
+    off = np.zeros(2)
+    for _ in range(3):  # a star near the edge of the wide box is found only part of the way: search again from there
+        xy, found = recenter(data, pred + off, box=wide, max_move=wide / 2, found=True)
+        if found.sum() < min(2, len(pred)):
+            return None if not off.any() else off
+        step = np.median(xy[found] - (pred + off)[found], axis=0)
+        off = off + step
+        if np.hypot(*step) < 0.5:
+            break
+    return off
 
 
 def _lost(out, n_comp):

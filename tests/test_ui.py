@@ -257,7 +257,7 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     page._toggle_measurement_column("JD_UTC", False)
     qtbot.waitUntil(lambda: "JD_UTC" not in page._meas_shown)
     table = page.export_measurements(tmp_path / "m.csv")
-    assert open(table).readline().startswith("Label,slice,J.D.-2400000,BJD_TDB")
+    assert open(table).readline().startswith("Label,slice,J.D.-2400000,HJD_UTC,BJD_TDB")
     page._measurement_row(7, 0)
     assert page.shown == 7
 

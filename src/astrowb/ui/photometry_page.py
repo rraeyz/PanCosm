@@ -458,6 +458,32 @@ class PhotometryPage(Undoable, QWidget):
         )
         sky_row.addWidget(self.sky_method, 1)
         self.measure_options.body.addLayout(sky_row)
+        time_row = QHBoxLayout()  # plans/photometry.md item 14
+        time_row.addWidget(QLabel(self.tr("The header's time marks"), self))
+        self.header_time = QComboBox(self)
+        for key, text in (
+            ("auto", self.tr("the start (or what its comment says)")),
+            ("start", self.tr("the start")),
+            ("mid", self.tr("the middle")),
+            ("end", self.tr("the end")),
+        ):
+            self.header_time.addItem(text, key)
+        self.header_time.setToolTip(
+            self.tr(
+                "Some camera programs write the middle or the end of the exposure in DATE-OBS; times use the middle"
+            )
+        )
+        time_row.addWidget(self.header_time, 1)
+        time_row.addWidget(QLabel(self.tr("Shutter delay"), self))
+        self.shutter_delay = QDoubleSpinBox(self)
+        self.shutter_delay.setRange(-10, 10)
+        self.shutter_delay.setDecimals(3)
+        self.shutter_delay.setSuffix(" s")
+        self.shutter_delay.setToolTip(
+            self.tr("Seconds the shutter opens after the time stamp (from the camera's manual)")
+        )
+        time_row.addWidget(self.shutter_delay)
+        self.measure_options.body.addLayout(time_row)
         self.measure_options.body.addWidget(self.camera_noise)
         self.measure_options.body.addLayout(cam)
         self.sections[3].body.addWidget(self.measure_options)
@@ -1748,6 +1774,8 @@ class PhotometryPage(Undoable, QWidget):
             params["aperture_m"] = self.telescope_d.value()
         params["psf"] = self.psf.isChecked()
         params["sky_method"] = self.sky_method.currentData()
+        params["header_time"] = self.header_time.currentData()
+        params["shutter_delay"] = self.shutter_delay.value()
         if self.target_follows.isChecked():
             params["fixed"] = [0]  # item 5: the target (star 0) follows the field
         if self.camera_noise.isChecked():
@@ -2923,7 +2951,7 @@ class _NumberItem(QTableWidgetItem):
         value = float(value)
         if not np.isfinite(value):
             text = ""
-        elif column in ("J.D.-2400000", "JD_UTC", "BJD_TDB"):
+        elif column in ("J.D.-2400000", "JD_UTC", "HJD_UTC", "BJD_TDB"):
             text = f"{value:.6f}"
         elif column == "slice":
             text = str(int(value))
@@ -2953,6 +2981,8 @@ def export_csv(lc, path):
     )
     for i, col in enumerate(np.asarray(lc["comp_flux"]).T):
         t[f"comp{i + 1}_flux"] = col
+    if lc.get("hjd_utc") is not None and lc["time_scale"] != "HJD_UTC":
+        t["HJD_UTC"] = lc["hjd_utc"]  # for O−C tables in HJD (item 14)
     if "airmass" in lc:
         t["airmass"] = lc["airmass"]
     from ..photometry.differential import delta_mag

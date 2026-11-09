@@ -13,7 +13,7 @@ T after them. AstroImageJ columns that have no counterpart here, and why:
 
 import numpy as np
 
-AIJ_TIME = ("J.D.-2400000", "JD_UTC", "BJD_TDB")
+AIJ_TIME = ("J.D.-2400000", "JD_UTC", "HJD_UTC", "BJD_TDB")
 
 
 def star_names(n_comp, n_extra=0):
@@ -50,6 +50,8 @@ def measurements(lc):
     jd = np.asarray(lc.get("jd_utc", [np.nan] * n), float)
     cols["J.D.-2400000"] = (jd - 2400000.0).tolist()
     cols["JD_UTC"] = jd.tolist()
+    if lc.get("hjd_utc") is not None and len(lc["hjd_utc"]) == n:
+        cols["HJD_UTC"] = list(lc["hjd_utc"])
     if lc.get("time_scale") == "BJD_TDB":
         cols["BJD_TDB"] = list(lc["time"])
     if lc.get("airmass") is not None:
