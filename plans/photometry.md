@@ -575,7 +575,16 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** HJD matches astropy's light-travel-time computation within 1 s for a test star.
 
 ### 15. Export formats
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `export.etd_text`: the format the VarAstro / ETD FAQ gives (read
+2026-11-09 from var.astro.cz/var-astro/doc/VarAstro_faq_en_01.pdf: "a text file, where the first column is the
+Julian date (full or reduced) and the second column is the star's brightness value (magnitude or flux)"; the time
+standard and the unit are chosen in the upload form), with the error as a third column: full JD in the curve's own
+time standard, the magnitude when known magnitudes were given, else Δm. **Export for ETD / VarAstro (text)…** in the
+Export tab and File → Export; after saving it says which time standard and unit to choose in the form. The
+AstroImageJ-style measurements table was item 6 (its own CSV export); the light-curve CSV export already opens on the
+Models page (`read_light_curve`: time first, `rel_flux` and its error) — now tested. Accept: the file matches the
+published layout (`test_etd_text_and_the_csv_the_models_page_reads`); not tried against the real upload, which needs
+an account. Guide 06 in four languages.
 - **Reference:** Siril writes ETD (Exoplanet Transit Database) format and AAVSO extended; AIJ writes its
   measurements table and MPC magnitudes.
 - **Ours:** CSV and AAVSO extended.

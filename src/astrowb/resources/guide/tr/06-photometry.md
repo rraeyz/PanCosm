@@ -43,6 +43,8 @@ TESS ve Kepler / K2 hedef piksel dosyaları ile MAST'tan TESScut kesitleri oldu�
 
 **Birkaç gece birlikte** (Dışa aktar sekmesi, **Başka geceler ekle (dışa aktarılmış CSV)…**): aynı yıldız listesiyle başka gecelerde dışa aktarılmış ışık eğrileri şimdi ölçülene katılır. Bütün gecelerin akıları tek bir topluluğa girer: bütün karşılaştırma yıldızlarının bulunduğu kareler her yıldızın payını verir, bir yıldızı bütün gece eksik olan gece eksik payı kadar ölçeklenir; böylece geceler sıçramadan tek bir sıfır noktasında buluşur, grafiğin altındaki satır her gecenin ne kadar kaydığını söyler. T0 ve dönemle **Minimum zamanı** her gecenin tutulmasını O−C için bir kerede zamanlar.
 
+**ETD / VarAstro için dışa aktar (metin)…** (Dışa aktar sekmesi, Dosya → Dışa aktar) ışık eğrisini Ötegezegen Geçiş Veritabanı yüklemesi için onun SSS sayfasındaki biçimde yazar: birinci sütunda Jülyen tarihi, ikincide parlaklık — bilinen kadirler verildiyse kadir, yoksa karşılaştırma yıldızlarına göre Δm — üçüncüde hata. Kaydettikten sonra pencere yükleme formunda hangi zaman standardının (BJD_TDB ya da hedefin konumu yoksa JD_UTC) ve hangi birimin seçileceğini söyler. CSV dışa aktarımı Modeller sayfasında olduğu gibi açılır.
+
 ## Kare kalitesi
 **Kötü kareleri bul (bulut, odak, iz)** seçilen her kareyi ölçer: yıldızların boyutu (FWHM), kaç yıldız göründüğü ve gökyüzü düzeyi. Grafik bu üçünü gece boyunca gösterir; gecenin olağan karesinden çok daha kötü olanlar nedeniyle kırmızı işaretlenir — *yıldızlar bulanık* (rüzgâr, odak, seeing), *az yıldız* ya da *yıldız yok* (bulut, çiy), *gökyüzü parlak* (alacakaranlık, Ay). **Kötü kareleri dışarıda bırak** onları ölçmeden önce çıkarır. *Örten çift gecesi* ve *Ötegezegen geçişi* otomasyonları bunu kendiliğinden yapar.
 

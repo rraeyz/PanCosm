@@ -935,3 +935,35 @@ def test_photometry_page_adds_other_nights(qtbot, tmp_path):
     bad = tmp_path / "bad.csv"
     bad.write_text("a,b\n1,2\n")
     assert page.add_nights([str(bad)]) is None and page.result.text().startswith("not a light curve exported")
+
+
+def test_etd_text_and_the_csv_the_models_page_reads(tmp_path):
+    """plans/photometry.md item 15: the ETD / VarAstro file is "first column the Julian date, second the brightness"
+    (their FAQ), with the error third; the CSV export opens on the Models page as it is."""
+    from astrowb.models.data import read_light_curve
+    from astrowb.photometry.export import etd_text
+    from astrowb.ui.photometry_page import export_csv
+
+    lc = synthetic_lc()
+    text, scale, unit = etd_text(lc)
+    rows = [line.split() for line in text.strip().splitlines()]
+    assert len(rows) == 60 and all(len(r) == 3 for r in rows) and scale == "BJD_TDB" and unit == "delta mag"
+    jd = np.array([float(r[0]) for r in rows])
+    assert np.allclose(jd, lc["time"], atol=1e-6) and jd[0] > 2.4e6  # the full Julian date
+    dm, _ = d.delta_mag(lc["rel_flux"], lc["rel_flux_err"])
+    assert float(rows[0][1]) == pytest.approx(dm[0], abs=1e-5)
+    t, flux, err, _ = read_light_curve(export_csv(lc, tmp_path / "lc.csv"))
+    rel = np.asarray(lc["rel_flux"])
+    assert np.allclose(t, lc["time"]) and np.allclose(flux, rel / np.median(rel)) and err is not None
+
+
+def test_photometry_page_exports_for_etd(qtbot, tmp_path):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+    page.show_light_curve(synthetic_lc())
+    out = page.export_etd(tmp_path / "e.txt")
+    assert len(open(out).read().splitlines()) == 60
+    assert "time standard BJD_TDB and the unit delta mag" in page.result.text()
