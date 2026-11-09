@@ -9,7 +9,7 @@ refine_wcs: the solver's WCS (astrometry.net's index catalogue is 2MASS or Tycho
 fitted again to the Gaia positions of the stars in the frame — TAN with SIP distortion (astropy
 fit_wcs_from_points), matched stars clipped at 3 sigma — so that the astrometry rests on Gaia DR3 and an MPC report
 can say so (astCat Gaia3). On a real LCO frame of 433 Eros solved offline with 2MASS indexes: 0.60" median against
-Gaia before, see HANDOFF for after.
+Gaia before, see docs/history/HANDOFF-2026-11.md for after.
 """
 
 import numpy as np

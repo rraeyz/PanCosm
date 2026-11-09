@@ -1,394 +1,379 @@
 # Main plan: read this first
 
-Every agent starts here, every time. This file holds:
-- what the program is meant to become;
-- the rules, which come from the owner's wishes and from the mistakes made so far;
-- the plan file of every area and when to open it;
-- how work is claimed, so that unfinished work can be picked up by another agent.
+Every agent starts here, every time, and reads the whole file. It holds:
 
-`HANDOFF.md` is closed. Keep it only as a history of what was done before 2026-11-07; add nothing to it.
+- what the program is meant to become, and which programs it must beat;
+- the state of the project on 2026-11-09 (an honest audit);
+- the architecture decisions that every step relies on;
+- the rules for coding agents (each one exists because something went wrong once);
+- the roadmap: which plan file, which step, in which order;
+- how work is claimed, done and handed over.
 
-The owner speaks Turkish: answer in Turkish. Write code, comments, commits and these plan files in English.
+The detailed work is in `plans/`. One file per area; every step there says what to build, what the reference
+programs do, how to check it, and which files it touches.
 
-## Most important rules (this block heads every plan file)
+The owner speaks Turkish: **answer the owner in Turkish.** Code, comments, commit messages and plan files are in
+English.
 
-1. **Never stop.** Work until the work is finished or your quota ends, unless the owner interrupts.
-   - Set yourself reminders so that a pause, a sleep or a lost session does not end the work: a scheduled wake-up
-     every 30–60 minutes, or what suits the work. You choose the interval.
-2. **Claim every step.**
-   - Before starting: write `**agentN claimed (date) — do not touch**` and push.
-   - When finished: push the work, then write `**agentN done (date, commit)**`.
-   - Claim the next step before starting it (R2).
-3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
-   internet, real data.
-4. **Test as a real user, not only in code (the most important test, PLAN.md R3).**
-   - Install the program the way a user installs it.
-   - Run it on a machine without a display (offscreen or Xvfb) with real clicks (QTest).
-   - Take a screenshot of every window and every step, and look at each one.
-   - At every screen ask:
-     - Would a newcomer know what to do?
-     - Is the button in the right place, and is it explained?
-     - Is anything missing?
-     - Does it fit the screen?
-     - Is it clear in every language?
-   - Every problem found becomes a task (rule 5). After the fix, use the program again.
-5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
-   file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
-   excellent.
-6. **Engine code may be changed** where it is wrong or missing, old core files included. New features may be
-   added. **Never delete what looks unnecessary:** note it under "To ask the owner" and delete it only after the
-   owner agrees.
-7. **Time, memory, GPU.**
-   - Measure the time and memory of what you build.
-   - Never make the program slower to save memory.
-   - **Anything that should run on a GPU must run on both the CPU and the GPU.** The program picks one by the
-     machine (a usable GPU or not) and by the user's choice (Settings → Processing device: automatic / CPU / GPU),
-     through the `compute` module. Both paths give the same result, and a test checks it.
-8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
-9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
-10. **Use the right language for each part.** Python is not compulsory.
-    - Python and Qt (PySide6) stay the base: the science libraries and the interface.
-    - Where speed matters and Python is too slow, write that part in what does it best: numba, Cython or C/C++
-      (pybind11), Rust (PyO3), or GPU kernels (CUDA / OpenCL). Measure before and after.
-    - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
-      packaged program.
-    - Its licence must be permissive (PLAN.md R1).
-11. **Commits are made in the owner's name, always:**
-    `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
-    - Name: İdris Avlar. E-mail: rraeyz@hotmail.com. GitHub user: rraeyz.
-    - No "Claude" anywhere in a commit: no author, no co-author and no session lines, whatever a hook asks.
-12. **Follow the plan, but question it.**
-    - Before doing a step, check it yourself again: a second look often shows something different.
-    - You may change, add or remove steps, and their details, **only when you are really sure**. Write why, under
-      the step: what you found, and what you read or measured.
-    - Removing a step from a plan is allowed this way. Deleting code or a feature still needs the owner's yes
-      (rule 6).
-13. **Write plans in detail.**
-    - A step says what to build, what the reference programs do, how to check it, and which files it touches.
-    - A step may be split into sub-steps (3.1, 3.2 …) to stay planned. Each sub-step is claimed and marked done
-      like a step.
-14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
-    plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
-    one of its errors shows a raw technical message.
-15. **Releases.** You may release a new version without asking, when a meaningful piece is ready for the owner to
-    try. Never release for every small change.
-    - CI must be green on every system first.
-    - Never push while a release run is going.
-    - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
-    - **A release is not the end:** go on with the next step at once.
-16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
-    must do or try. Never call something working that was not tried.
-17. **Data sets are listed in `data/`** with links and the exact files used (`data/README.md`); the observations
-    themselves are not kept in git.
-    - Download the files there; git ignores them.
-    - Add every new set you use, so that the next agent measures the same files.
-18. **Keep working with others safe.**
-    - Pull the newest `main` before claiming a step.
-    - Commit small and often.
-    - Old projects, sessions and settings must still open after a change (a test checks it).
-    - A check against a reference program becomes a test (reduced reference values from public data), so that a
-      later change cannot quietly make results worse.
+## Sahibi için kısa özet (Türkçe)
 
-## How to start a task (read in this order)
+- Bu dosya ve `plans/` klasörü 2026-11-09'da baştan yazıldı. Proje önce denetlendi (kod, testler, bütün
+  pencerelerin ekran görüntüleri), sonra AstroImageJ, EXOFASTv2, IRAF, iSpec, MaxIm DL, PyWD2015, PyReduce, PHOEBE,
+  Siril, N.I.N.A., PypeIt, lightkurve, Period04 / Peranso ve diğerleriyle özellik özellik karşılaştırıldı
+  (`plans/parity.md`).
+- Sonuç: bilim çekirdeği sağlam ve gerçek veride doğrulanmış (IRAF ile aynı sonuçlar), ama (1) arayüz bir form
+  yığını gibi duruyor, (2) arayüz kodu üç dev dosyada toplanmış, (3) bazı alanlar çok ince: çift yıldız modeli
+  yalnızca küre, ötegezegen için küresel uyum yok, periyot analizi Period04 seviyesinde değil, tayfta eğik yarık /
+  akı kalibrasyonu / bolluk analizi yok, gözlem tarafı N.I.N.A.'nın gerisinde.
+- Yol haritası: önce sağlamlaştırma ve ortak arayüz altyapısı (`plans/architecture.md`, `plans/interface.md`), sonra
+  alanlar sırayla: Fotometri, Kalibrasyon, O−C, Periyot, Tayf, Çift yıldız modelleri, Ötegezegenler, Görüntüler,
+  Astrometri, Planlama, Gözlem, Otomasyon, Uzaktan algılama.
+- Kod yazan ajanlar yalnızca plan dosyalarındaki adımları yapar; adımın "Build" maddelerinin hepsi yapılmadan ve
+  "Accept" ölçütleri gösterilmeden adım "done" olmaz.
 
-1. **This file, all of it.** Pay special attention to the rules: each one is there because something went wrong
-   once.
-2. **The plan file of the area you will work on** (table "Area files" below), all of it: its rules, its research
-   notes, its steps and who has claimed what.
-3. **`plans/interface.md`**, every time the work changes or adds anything the user sees. Every new feature must also
-   be entered there.
-4. If the area has no plan file yet, create one from the template at the end of this file before writing any code,
-   and add it to the table.
+## 1. What the program is meant to become
 
-## Order of work (owner, 2026-11-08)
+**One program for an observer's whole road:** plan the night, observe, calibrate, measure, analyse, model, publish.
+It must be **more complete than each of the programs below in that program's own field, and easier to use than all
+of them.** A professor checking a result must find it right; a student opening a window must see what to do.
 
-Work in this order, one area after another. Never move to the next area while the current one has open steps,
-unless the owner says so.
-1. **Interface**, `plans/interface.md`:
-   - the owner's answers (side panels and sidebar removed, Turkish terms, O−C in its own window);
-   - I6c (icon toolbars and each window's own menus, as AstroImageJ and MaxIm DL);
-   - I7 (guide and screenshots).
-   - The I6 windows of the other areas are **not** part of this: each is done as the first step of its area, below.
-2. **Photometry**, `plans/photometry.md`, every item from 1 on in its order.
-3. **Then the other areas one by one**, in the order the owner names. Until then: Calibration, O−C, Period,
-   Spectroscopy, Models, then the rest. Each area starts with:
-   - a full research pass on its science and the reference programs' source (as was done for photometry), written
-     into its plan file as steps;
-   - its window (interface I6 for that area).
-- **Note (2026-11-08):** agent2 went from the interface to spectroscopy, because `plans/interface.md` I6 named
-  spectroscopy as its example and no order was written here. That was the plan's fault, not the agent's. agent2
-  finishes the sub-step it has claimed (spectroscopy 1.2), marks it done, and then continues with 1 above.
+| Field | Programs it must beat | Their strength we must match | Where they are weak (our chance) | Plan file |
+| --- | --- | --- | --- | --- |
+| Differential photometry, transits | AstroImageJ, HOPS, EXOTIC, Muniwin, MaxIm DL | multi-aperture, multi-plot, detrending with BIC, transit fit with priors, reports for TFOP / AAVSO / ExoClock | many separate windows, Java look, no undo, no catalogue help, weak errors | `plans/photometry.md` |
+| Calibration | IRAF ccdred, ccdproc, MaxIm DL, Siril | rejection algorithms, overscan, fringe and illumination frames, calibration groups | cryptic parameters; no report on the quality of the masters | `plans/calibration.md` |
+| Times of minimum, O−C | OCFit, Peranso, the O−C Gateway, Zasche's codes | LTTE, apsidal motion, databases of minima | scripts without interface; no link to the photometry | `plans/oc.md` |
+| Period and frequency | Period04, Peranso, VStar, lightkurve, Astropy | prewhitening with errors, many period methods, spectral window, wavelets | old interfaces, slow on space data, no GPU | `plans/period.md` |
+| Spectroscopy, reduction | IRAF (apall, identify, echelle), PyReduce, PypeIt, specreduce, ISIS / BASS | optimal and curved-slit extraction, 2-D wavelength solutions, flux calibration | hard to install, per-instrument set-up, little visual feedback | `plans/spectroscopy.md` |
+| Spectroscopy, analysis | iSpec, IRAF splot / fxcor, DECH, SME | continuum, equivalent widths, velocities, atmospheric parameters, abundances | Tk interface, external codes to install, no undo | `plans/spectroscopy.md` |
+| Eclipsing binaries | PHOEBE, Wilson–Devinney with PyWD2015, JKTEBOP, ellc, Binary Maker | Roche geometry, reflection, spots, LC + RV together, differential corrections, MCMC | scripts or 1990s forms; no guidance; slow; licences that forbid bundling | `plans/models.md` |
+| Exoplanets | EXOFASTv2, HOPS / pylightcurve, EXOTIC, juliet, exoplanet | global fit: transits + RV + star (SED, isochrones), TTV, tables for a paper | IDL licence, command line only, hours of MCMC without feedback | `plans/exoplanets.md` |
+| Images | MaxIm DL, DS9, AstroImageJ, Siril, ASTAP | inspection tools, regions, blink, stacking, colour | each does a part | `plans/images.md` |
+| Astrometry, moving objects | Astrometrica, Tycho Tracker, ASTAP, astrometry.net | plate solving, MPC reports, synthetic tracking on the GPU | paid, Windows only, separate programs | `plans/astrometry.md` |
+| Planning | astroplan, Tapir / TESS Transit Finder, ExoClock scheduler, AstroPlanner | visibility, event prediction, schedules | no link to observing and to the analysis | `plans/planning.md` |
+| Observing | N.I.N.A., MaxIm DL, KStars / Ekos, SGP, Voyager | equipment control, sequencer with triggers, autofocus, framing, flats | aimed at pretty pictures, not at time-series science | `plans/observing.md` |
+| Automation, scripting | IRAF CL, Siril scripts, AstroImageJ macros, PixInsight | everything can be scripted and repeated | arcane languages | `plans/automation.md` |
+| Remote sensing | SNAP, QGIS, ENVI | band math, classification, georeferencing | huge, slow | `plans/remote-sensing.md` |
 
-## What the program is meant to become
+What "better" means, in order:
 
-- **One program for an observer's whole road:** plan the night, observe, calibrate, measure, analyse, publish. That
-  covers photometry and light curves, times of minimum and O−C, periods and frequencies, spectroscopy and radial
-  velocities, models of binaries, astrometry of moving objects, and remote sensing.
-- **The results are at the level of a journal paper.** A professor checking them must find them right.
-- **IRAF-quality results, easier than IRAF.**
-- **A main window and one window per area, each like a program of its own.**
-  - The main window is a menu: the project, settings, background tasks, and a block for each area (Calibration,
-    Photometry, Spectroscopy, O−C, Period / frequency, Models, Planning, Observing, Automation, Remote sensing…).
-  - A click on a block opens that area in its own window. Each area window has its own menu bar (File, View, the
-    area's own menus such as Analyse or Process, Window, Help, as in MaxIm DL) and a toolbar of icons under it (as
-    in AstroImageJ). Its panels can be pulled out, moved to a second monitor and are remembered.
-  - Every area is then free to grow its own menus and panels without crowding the others.
-- **The workflow comes first.** Opening an area must show what to do first, then next, in order: choose the images,
-  then measure. Never a wall of buttons. In the owner's words: entering photometry and meeting a pile of ugly
-  buttons made no sense. Rarely changed options are folded, and the right choice is already set.
-- **The user stays in control.** The program suggests: comparison stars, line identifications, radii, the target
-  from the header. It shows what it did and why, and every suggestion can be checked and changed. Nothing important
-  happens silently: frames left out are listed with the reason; a wrong OBJECT in the header is named.
-- **Any data works**, from any observatory and any camera:
-  - MaxIm DL and other odd headers, compressed FITS, cubes;
-  - DSLR raw files and phone pictures;
-  - space mission files.
-  It must work on Linux (Arch / CachyOS included), Windows and macOS.
+1. **Right.** Every number carries its error and its method; checked against published results and against the
+   reference programs on the same data (`plans/validation.md`). Never a silent wrong result.
+2. **Complete.** `plans/parity.md` lists every capability of the reference programs; each one has a step or a
+   written reason why it is not needed. No "export it and finish in another program" (today the Models window says
+   exactly that for close binaries).
+3. **Easy.** The workflow comes first: a window opens on what to do first, then next. The right choice is the
+   default. Help is one click away, in the user's language. Everything can be undone.
+4. **Fast.** Interactive actions answer in under 100 ms; long jobs show progress, can be stopped, use all cores and
+   the GPU where it helps (`plans/architecture.md` "Performance budgets").
+5. **Beautiful.** One design system for all windows: real icons, clear type, calm colours, room for the data
+   (`plans/interface.md`).
+6. **Open to any data.** Any observatory, any camera, odd headers, compressed FITS, DSLR raw, video, space missions.
+   Linux (Arch / CachyOS included), Windows 10 / 11, macOS (Intel and Apple).
 
-## Rules
+The owner's standing wishes (2026-11-01 … 2026-11-09), all still valid:
 
-### R1 Before any work: research
-- **Understand the scientific basis first:** papers, the method, its limits. A method must hold for an unknown star
-  and an unknown instrument. Never tune it on a few known stars.
-- **Read how the established programs do it, in their source code,** before building or changing a method. Clone
-  them into the scratchpad, outside the repository, and only read them: do not build or run cloned code. Write what
-  you learned in the area file: the formula, thresholds, order of steps, and which file and function you read.
-  - To compare results, an established program installed from its official package may be run on the same data
-    (for example IRAF from `apt-get install iraf iraf-noao`). AstroImageJ results come from the owner.
-  - Programs to read: AstroImageJ (github.com/AstroImageJ/astroimagej), Siril (gitlab.com/free-astro/siril), IRAF
-    (github.com/iraf-community/iraf), C-Munipack, DAOPHOT, ccdproc / astropy / photutils, lightkurve, specreduce,
-    PypeIt, iSpec, PHOEBE, and others for the topic.
-  - MaxIm DL is closed source: read its manual.
-- **Learn, never copy.**
-  - Ideas, formulas, algorithms, constants and published methods are free to use. The text of someone else's code
-    is not: not pasted, and not translated line by line into Python either.
-  - AstroImageJ, Siril and C-Munipack are GPL, and the owner wants to stay free to relicense this program. That is
-    also why `tools/check_licenses.py` keeps GPL libraries out of the bundle.
-  - Work this way: read and understand, write the method in your own words, close their file, then write our code
-    from those notes in our structure.
-  - Code that is similar because the mathematics leaves one way to write it is fine. Keeping their structure,
-    names, comments or order of statements is not.
-- **MKCLASS:** never copy, bundle or run its code.
-- **Test on real data.** Download public observations: archives (MAST, ESO, LCO, Zenodo…), raw data together with
-  their published reduction where possible. Reduce them here and compare with the published result, or with an
-  established program run on the same data, with the same settings. Synthetic data with known truth is for tests;
-  it does not replace real data.
-- **Break the work into steps before coding.** Write the steps in the area file, each explained in detail:
-  - what to build;
-  - what the reference programs do;
-  - how to check it is right (acceptance);
-  - which files it touches.
-  Then do them one at a time.
-- **The task list grows.** Whatever research, the internet, a trial or a test shows to be missing or wrong is
-  written into the area file as a new step, placed where its urgency puts it. The tasks of an area end only when
-  the program is excellent in that area.
+- IRAF-quality results, easier than IRAF. Undo / redo everywhere (the owner's biggest problem with IRAF).
+- The user stays in control: the program suggests (comparison stars, line identifications, radii), shows what it
+  did and why, and every suggestion can be changed. No forced order of steps.
+- A main window with a block per area; each area in a window of its own with its own menus and icon toolbar.
+- Every control explained. Error messages say what happened and what to do, in every interface language.
+- Multilingual: English, Turkish, German, Spanish. Turkish terms: "karşılaştırma yıldızı", "kontrol yıldızı".
+- Results at the level of a journal paper: figures and tables ready for a paper.
+- Speed and memory measured; CPU and GPU paths with the same result.
+- The product name appears only in `brand.toml`, `README.md` and `packaging/install.sh`.
 
-### R2 Claiming work (a firm rule, so that nothing is lost when an agent stops half-way)
-- Each agent uses a name `agentN` (in Turkish `ajanN`). Take the next free number from the "Agents" list below and
-  add yourself to the list.
-- **Before starting a step:** write the claim under the step heading in its area file and push it:
-  `**agentN claimed (YYYY-MM-DD) — do not touch**`.
-- **When the step is finished:** push the work, then change the claim to `**agentN done (YYYY-MM-DD, commit
-  abc1234)**`.
-- **Then claim the next step before starting it.** Never work on a step that is not claimed. Never claim two steps
-  at once.
-- A claimed step is not touched by another agent. If its agent's session has clearly ended, the next agent writes
-  `**agentM took over from agentN (date)**`, reads what was pushed, and continues from there.
-- **Keep going.** An agent works without stopping until the work is done or its quota ends, unless the owner
-  interrupts. Against a lost session or a pause it sets itself reminders (a scheduled wake-up, at an interval it
-  chooses, e.g. every 30–60 minutes) to come back and continue from the area file.
-- Sub-steps (3.1, 3.2 …) are claimed and marked done the same way.
-- Notes on what was found or decided go under the step. The area file is the memory; nothing important lives only
-  in a chat.
+## 2. State of the project on 2026-11-09 (audit)
 
-### R3 Testing like a user (the most important test)
-- Code tests (pytest) are necessary but far from enough.
-- **Install the program on your own machine** the way a user does:
-  - `pip install -e ".[gui]"` in the container;
-  - or the packaged build `python packaging/build.py` and its installer, when the change touches packaging.
-- **Open it and use it as a user who knows less than you,** step by step through the area's workflow, on real
-  data.
-  - In a container without a display, run it offscreen or under Xvfb.
-  - Drive it with real clicks (QTest).
-  - Take a screenshot of every window and step, and look at the screenshots.
-- **Ask at every screen:**
-  - Would a newcomer know what to do next?
-  - Is this button in the right place? Is it explained?
-  - Should this control be here at all?
-  - Is something missing that a user would expect?
-  - Is the text clear in every language?
-  - Does it fit the screen?
-- **Write every finding into the area file as a task** (R1), fix it, and use the program again after the fix.
+Measured on `main` at `7cc4cba` (version 0.3.4): 40 600 lines of Python in `src/astrowb` (19 300 of them interface),
+16 300 lines of tests (808 tests, 11 minutes), four interface languages, installers for five systems.
 
-### R4 Interface
-- The workflow comes first (see above). Steps are numbered and open one after another. What is done gets a tick.
-  Options that are rarely changed are folded. Basic mode keeps them folded; Expert mode opens them.
-- **The most correct choice is the default:** on when it is right, off when it is not.
-- **Every control has a short tooltip that explains it**, because not everyone understands the terms.
-- **Undo / redo (Ctrl+Z / Ctrl+Y) everywhere** a user changes something. This was the owner's biggest problem with
-  IRAF.
-- **Every visible text** goes through `self.tr`.
-  - Run `python tools/i18n.py update`, fill tr / de / es with `tools/fill_translations.py`, then run
-    `python tools/i18n.py`. The result must have 0 unfinished.
-  - An error or progress word raised in an engine step needs a template in `src/astrowb/ui/messages.py` and a case
-    in `tests/test_messages.py`.
-- **Error messages say what happened and what to do,** in every interface language.
-- **Windows fit the screen:**
-  - no sideways overflow at 1366 × 768;
-  - check 960 px and 800 px too;
-  - Windows draws larger fonts than Linux: test both.
-- **The user guide** (`resources/guide/{en,tr,de,es}`) is updated with every change the user sees. The four languages
-  keep the same sections.
-- Every feature the user sees is entered in `plans/interface.md`: its window, menu, toolbar and panel.
+**Strong — keep, do not redo:**
 
-### R5 Science and results
-- **Never a silent wrong result.** If a star is not found on a frame, the frame is left out and named, with the
-  reason. Do not measure empty sky and plot it.
-- **Report what a result rests on:** errors with every value; the method named, as in a paper. Figures and tables
-  are fit for a paper.
-- **Times:**
-  - mid-exposure;
-  - BJD_TDB when the position is known;
-  - the time system always stated.
-- **Speed, memory and GPU.**
-  - Note the time and the memory each operation takes on real data. Fix what is slow, then measure again.
-  - Never make the program slower to save memory.
-  - Where the work suits a GPU (large images, many frames, long periodograms, fits over a grid), write a GPU path
-    beside the CPU path through the `compute` module. The program chooses by the machine and by the user's setting
-    (automatic / CPU / GPU); both paths must give the same result (a test compares them). Check the GPU path on a
-    GPU (the owner has one: RTX 4050) or say that it is unchecked.
-- **The right language for each part.**
-  - Python stays the base: numpy / scipy / astropy / photutils and the Qt interface through PySide6.
-  - A part whose speed matters and which Python cannot make fast enough is written in the language that suits it:
-    - numba or Cython for numeric loops;
-    - C / C++ through pybind11, or Rust through PyO3, for larger native parts;
-    - CUDA / OpenCL kernels (CuPy, pyopencl) for the GPU.
-  - Conditions:
-    - it builds on every platform of CI and inside the PyInstaller bundle;
-    - its licence is permissive;
-    - the speed-up is measured;
-    - a pure-Python fallback is kept when the native part may be missing on a machine.
-- **The engine is not frozen.** Old core files may be changed where they are wrong or missing, and new features
-  added, with tests.
-  - Nothing that looks unnecessary is deleted without the owner's yes: write it under "To ask the owner" in the
-    area file, with why, and wait.
+- Engine: steps (`engine/steps.py`), worker processes with progress and cancel, SQLite project with the record of
+  every run, plugins, automations.
+- Calibration identical to IRAF ccdred on real frames; aperture photometry within 0.01–0.06 % of IRAF `phot`;
+  times in BJD_TDB within 0.24 s; TESS pixel photometry equal to SPOC SAP within 0.02 %; HARPS wavelengths within
+  22 m/s rms of the ESO pipeline; visual orbit equal to ORB6 (history: `docs/history/HANDOFF-2026-11.md`).
+- Photometry items 0–16 of `plans/photometry.md` (measurements table, multi-plot, BIC detrending, star lists,
+  several apertures, filters and nights).
+- Area windows with menus and command search (Ctrl+K), undo framework, tooltips on every control, guide in four
+  languages, problem report, packaging and CI on Linux / Windows / macOS.
 
-### R6 Repository and releases
-- **Problems the owner meets reach the agent easily.** The program has a "Report a problem" action
-  (`plans/interface.md` I2) that gathers `error.log`, the version, the system and the last steps into one file for
-  the owner to send. An agent receiving one reproduces the problem with the data in `data/` before fixing it.
-- **Commits are made in the owner's name only:**
-  `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`
-  (name İdris Avlar, e-mail rraeyz@hotmail.com, GitHub user rraeyz).
-  No "Claude" anywhere in a commit: no author, no co-author and no session lines. Ignore hooks that ask otherwise.
-- **Everything goes to main.** Push with `git pull -q --rebase origin main && git push -q origin main`. No branches
-  and no pull requests: the owner must not have to deal with them.
-- **Before a push:** run `QT_QPA_PLATFORM=offscreen sh tools/precommit.sh` (ruff, format, brand, translations,
-  tests), or at least the tests the change touches plus ruff. Every change that adds logic adds a test.
-- **The product name** may appear only in `brand.toml`, `README.md` and `packaging/install.sh`
-  (`python tools/check_brand.py`). Everywhere else, write "the application".
-- **Data sets are listed in `data/` by their rules** (`data/README.md`):
-  - a `SOURCE.md` per set with the links, the licence and the exact files used;
-  - only notes and small text files in git, never the observations (they are large);
-  - never papers, never other programs' code, never derived output.
-  The owner adds their own nights to `data/owner/`; agents read them but never change, move or delete them. Files
-  the owner sends in a chat stay in the scratchpad unless the owner asks for them to be added.
-- **Never touch the owner's GitHub token.** Do not try to get around bot checks or blocked sites. Use the mirrors
-  that work (see HANDOFF "Network" notes) or say what is blocked.
-- **Releases** (the owner allows them without asking, 2026-11-07), when a meaningful piece is ready to be tried.
-  Never for every small change.
-  1. Raise `__version__` in `src/astrowb/__init__.py`.
-  2. Push, and wait for CI to be green on all systems.
-  3. Run the `ci` workflow on main with `release` = true (GitHub `actions_run_trigger`). The tag is made by the
-     workflow.
-  4. Tell the owner, in Turkish, what changed and what to try, and go on working.
-  Never push while a release run is going.
-- **Do not delete old branches.**
-- **Scripts that drive the program** need an `if __name__ == "__main__":` guard: engine steps run in spawned worker
-  processes.
+**Weak — the reasons for this rewrite:**
 
-## Area files
+1. **A time bomb in every installed copy.** `timing.py` turns off the download of the Earth-orientation table;
+   Astropy then *raises an error* for any altitude / airmass computation at a date after the bundled table once
+   that table is more than 30 days old. An installer older than about a month fails in Planning, Observing safety
+   and airmass. Seen on 2026-11-09 with a three-week-old table. → `plans/architecture.md` ARC-1, before anything
+   else.
+2. **The interface looks like stacked forms.** Seen in screenshots of every window at 1366 × 768: toolbar "icons"
+   are Unicode glyphs nobody can read; the Photometry steps panel shows one and a half rows of the frame list;
+   Calibration is half grey explanation text; numbered buttons ("3. Calibrate", "4. Measure…") are mixed with
+   unnumbered ones; O−C takes minima as free text; Observing shows token and certificate fields first; empty
+   black plot areas give no hint. → `plans/interface.md` UI-1 … UI-19.
+3. **Interface code in three giant files:** `ui/photometry_page.py` 3190 lines, `ui/main_window.py` 2859,
+   `ui/spectro_page.py` 2429. Every agent edits the same files; changes "land in the wrong places" (it happened:
+   photometry item 5). → ARC-4.
+4. **Thin science in several areas** (each module works, but covers a fraction of the reference programs):
+   - Models: 112 lines, two limb-darkened spheres. No Roche geometry, reflection, gravity darkening, spots, no
+     light and velocity curves fitted together, no q-search. The window sends the user to PHOEBE or WD.
+   - Exoplanets: a trapezoid and the sphere model. No exact transit model with priors, no RV + transit fit, no
+     stellar parameters, no TTV analysis, no convergence test of the MCMC.
+   - Period: Lomb–Scargle, BLS, PDM, ANOVA, DFT, CLEAN. No false-alarm probability, no TLS, no wavelet, no
+     frequency errors, no combination frequencies, no time–frequency analysis.
+   - Spectroscopy: no slit tilt / rectification, no B-spline sky, no flux calibration workflow with standard stars,
+     no curved-slit échelle extraction, no model tellurics, no line-list equivalent widths, no abundances, no
+     bisectors, no activity indices, no LSD.
+   - Calibration: no fringe or illumination frames, no detector characterisation (gain, read noise, linearity), no
+     bad-pixel mask files, no error and mask planes carried to the measurements.
+   - Observing: no native ASCOM (COM) drivers on Windows, no framing, no trigger-based sequencer, no time
+     synchronisation check, no live quality graphs.
+5. **Engine messages are translated by matching English text** (`ui/messages.py`, 458 lines of templates). A
+   changed word in an engine message silently loses its translation. → ARC-13.
+6. **Plots are Matplotlib everywhere.** Fine for a paper figure, slow for 10^5–10^6 points and for interaction.
+   → ARC-6.
+7. **Process problems of the previous agents:** steps marked "done" with parts left out under "rule 12" (the plan
+   allowed it); one plan file said "nothing here is started without the owner's word" while agents were working on
+   it; a step claimed and abandoned (photometry 17); the plan file of most areas never written. → the rules below.
 
-Each area has its own plan file in `plans/`. It starts with the "Most important rules" block, word for word, and then the rules above that matter most for
-it.
-Create a file when work in the area starts, from the template below.
+## 3. Architecture decisions (binding; details and reasons in `plans/architecture.md`)
 
-| Area | File | Window | Read before working (examples) |
+| # | Decision | Why |
+| --- | --- | --- |
+| AD-1 | **Python 3.12 + Qt 6 Widgets (PySide6) stay the base.** No rewrite in another language. | The science ecosystem (Astropy, photutils, SciPy) and 40 000 validated lines; Qt runs the same on every system we ship. |
+| AD-2 | **Native kernels in Rust (PyO3, abi3 wheels built by maturin in CI)** for hot loops measured too slow in NumPy; a NumPy twin stays as reference and fallback; a test compares them. | Roche-model synthesis, period-search statistics, optimal extraction and PSF fits need 10–100× more speed than NumPy gives; Rust builds on all five targets with one tool chain, is memory-safe, and its ecosystem is permissively licensed. Numba was rejected (packaging size and fragility, lag behind new Python versions). |
+| AD-3 | **GPU through wgpu (Vulkan / Metal / DX12)** as today; every GPU kernel has a CPU twin and an equality test; times and coordinates never in float32. | Works on NVIDIA, AMD, Intel and Apple without CUDA. |
+| AD-4 | **Interactive plots with pyqtgraph (MIT); publication figures with Matplotlib.** One figure description (`FigureSpec`) feeds both. | 10^6 points must pan at 60 fps; a paper needs vector output in journal styles. |
+| AD-5 | **Interface split into packages:** `ui/<area>/` with `window.py`, `panels/`, `dialogs/`, `controller.py`, `state.py`; no module above 700 lines; all windows built from one component kit (`ui/kit/`). | Three files of 2400–3200 lines cannot be worked on in parallel or kept consistent. |
+| AD-6 | **Typed session state per area** (`state.py` dataclasses, versioned, JSON): undo / redo, autosave and "continue where you left off" all come from it. | Today each page hand-writes `undo_state()`; sessions are partial. |
+| AD-7 | **Errors carry a code and values** (`AppError(code, **values)`), translated by code; the text-matching templates are migrated and then removed. | Translations must not depend on English wording. |
+| AD-8 | **Calibrated frames and extracted spectra carry variance and mask** (three planes: data, variance, flags). | Errors and bad pixels must reach the light curve and the spectrum; today they are estimated again downstream. |
+| AD-9 | **One services layer** for every online catalogue and archive: cache, mirrors, time-outs, offline mode, and a record of what was fetched in the project. | Queries are scattered over modules; observatories are often offline. |
+| AD-10 | **Profiles:** sites, equipment (telescope + camera: pixel scale, gain, read noise, saturation, linearity, filters) and observer (name, AAVSO and MPC codes) are entered once and used by every window. | The same numbers are typed again in Planning, Photometry, Observing and reports. |
+| AD-11 | **Everything a window does can be scripted:** a stable Python API (`astrowb.api`), a command line (`astrowb-cli run …`), "Copy as script" in every window, recipes saved from a session. | IRAF's and Siril's strength; needed for reproducible papers. |
+| AD-12 | **Provenance:** every product (frame, table, figure) records the steps, parameters, inputs and versions that made it; the project writes the "Methods" paragraph and the list of papers to cite. | Journal-level work; nobody else does it. |
+| AD-13 | **Licences:** the application is GPL-3.0-or-later; everything bundled is permissive or LGPL (`tools/check_licenses.py`), so the owner stays free to relicense. GPL programs (PHOEBE, IRAF, batman, PyReduce, AstroImageJ) are read to learn and run beside ours to compare, never bundled, never copied. | Owner's decision. |
+
+## 4. Rules for coding agents
+
+These bind every agent that writes code. (The architect who maintains these plans may change the plans and the
+rules; a coding agent may not.)
+
+### R1 Read before you work
+1. This file, all of it.
+2. `plans/architecture.md` sections "Conventions" and "Definition of done".
+3. The plan file of your area, all of it; then the step you take.
+4. `plans/interface.md`: the rules, the component kit, and the wireframe of your window — whenever the step changes
+   anything the user sees.
+5. The sources the step names under "Read first" (papers, the reference programs' code). Write what you learned
+   under the step as "Notes from the sources" before coding.
+
+### R2 Do exactly the step
+- A step's **Build** list is a contract: every bullet is built. Its **Accept** list is a contract: every line is
+  demonstrated by a test or a measured number written under the step.
+- **No silent scope cuts.** You may not leave a bullet out because you judge it unnecessary. If a bullet is wrong,
+  impossible or dangerous: write why under the step's "Questions for the architect", build everything else, and mark
+  the step `partly done` with the list of what is missing. Only the architect or the owner closes such a step.
+- You may **add**: a missing case, a better default, an extra test. Write it under the step.
+- Do not start steps of another area, and do not reorder the roadmap.
+
+### R3 Claim, finish, hand over
+- Take the next free agent name `agentN` from the "Agents" list at the end of this file and add yourself.
+- Pull `main`. Under the step heading write `**agentN claimed (YYYY-MM-DD HH:MM UTC) — do not touch**`, commit, push.
+  Only then start. One claimed step at a time.
+- While working, commit small and push at least every hour of work; a step's notes ("Notes from the sources",
+  "Progress") are updated with each push, so that another agent can continue from the file alone.
+- When finished and pushed: change the claim to `**agentN done (date, commit abc1234)**` and fill "Result" (what was
+  built, the measured numbers, what the owner should try). Then claim the next step.
+- A claim older than 24 hours without a push is abandoned: the next agent writes `**agentM took over from agentN
+  (date)**`, reads what was pushed and continues.
+- **Keep going** until the roadmap is finished or the quota ends, unless the owner interrupts. Set a wake-up
+  reminder (30–60 minutes) so that a lost session resumes from the plan file.
+
+### R4 Research first; learn, never copy
+- Understand the method from its papers before building it: the formula, its limits, the constants. A method must
+  hold for an unknown star and an unknown instrument; never tune it on a few known objects.
+- Read how the established programs do it, in their source. Clone them into the scratchpad, outside the repository;
+  do not build or run cloned code. An established program installed from its official package may be run to compare
+  results (IRAF: `apt-get install iraf iraf-noao`; PHOEBE, batman, ellc, lightkurve: `pip install` into a separate
+  virtual environment that is not the application's).
+- Ideas, formulas, algorithms, constants and published tables are free to use. Code text is not: not pasted, not
+  translated line by line. Read, close their file, write ours from your notes, in our structure. List what you
+  consulted in `THIRD_PARTY.md`.
+- Never copy, bundle or run MKCLASS.
+
+### R5 Definition of done (every step, no exception)
+The full checklist is in `plans/architecture.md`. In short, a step is done only when:
+1. every Build bullet exists and every Accept line is shown;
+2. science has a test on synthetic data with known truth **and** a check on real data from `data/`, compared with
+   a published value or a reference program; the reduced reference values are committed as a validation test;
+3. the engine part has no Qt and is reachable as a step, through `astrowb.api` and from the command line;
+4. the interface part uses only the component kit, has tooltips, undo, an empty state, an error state, fits
+   1366 × 768, and was **used by you as a user**: real clicks under offscreen Qt, a screenshot of every state in
+   four languages, each one looked at (R7);
+5. every text is translated (tr, de, es: 0 unfinished) and every error has a code with a message that says what
+   happened and what to do;
+6. the guide page of the area is updated in four languages, and `plans/interface.md` "Where everything is" has the
+   new entry;
+7. time and peak memory are measured on the data named in the step and written under it; they meet the budget;
+8. `QT_QPA_PLATFORM=offscreen sh tools/precommit.sh` is green, and CI is green on all systems after the push;
+9. old projects, sessions and settings still open (compatibility test).
+
+### R6 Science
+- **Never a silent wrong result.** What cannot be measured is left out, named, and the reason is shown.
+- Every value has an error; every result names its method as a paper would (with the reference).
+- Times: mid-exposure; BJD_TDB when the position is known; the time standard is always stated in tables, files and
+  axis labels. HJD and JD_UTC are offered, never mixed silently.
+- Wavelengths: air or vacuum is always stated. Velocities: the reference frame (barycentric / heliocentric /
+  observed) is always stated.
+- Randomness is seeded and the seed is recorded, so that a result can be reproduced exactly.
+
+### R7 Test as a user (the most important test)
+- Install as a user does (`pip install -e ".[gui]"`; the packaged build when packaging changes).
+- Drive the real windows with QTest clicks on real data, offscreen or under Xvfb. Take a screenshot at every step,
+  in en / tr / de / es, dark and light, at 1366 × 768 — and look at each one.
+- At every screen ask: would a newcomer know what to do next? Is the main action obvious? Is anything cut,
+  overlapping, untranslated? Is there a control that should not be here? Does an error tell what to do?
+- Every problem found is written under "Found while working" in the area file (with a priority proposal), fixed if it
+  belongs to your step, and the program is used again after the fix.
+
+### R8 Interface
+- Build only from `ui/kit/` (buttons, sections, form rows, number fields, empty states, banners, tables, plots). A new
+  kind of control is added to the kit first, then used.
+- The workflow comes first: a step rail on the left, the data in the middle, results below, details on the right
+  (`plans/interface.md` UI-4). Never a wall of buttons; rarely changed options are folded; the right choice is the
+  default.
+- One primary action per view. Tooltips are one or two lines; longer explanations go to the Help panel (F1).
+- Undo / redo (Ctrl+Z / Ctrl+Y) for everything the user changes.
+- No step is locked behind another: the order shown is a guide, never a gate.
+
+### R9 Code
+- Engine and device code has no Qt and speaks English through error codes.
+- No interface module above 700 lines, no function above 80 lines; split before adding.
+- Step identifiers, file formats, settings keys and session fields are public: never renamed or removed; changes
+  are additive with a migration and a test that old files open.
+- Type hints on public functions; docstrings state units, time standards and array orientation.
+- A dependency is added only with a permissive licence, wheels for all five targets and a line in `THIRD_PARTY.md`.
+- Nothing that looks unnecessary is deleted without the owner's yes: write it under "To ask the owner".
+
+### R10 Speed, memory, GPU
+- Measure before and after; write the numbers under the step. Never make the program slower to save memory.
+- Work that suits a GPU has a CPU path and a GPU path through `compute`; both give the same result and a test
+  compares them. A GPU path not run on a real GPU is marked "unchecked on hardware" for the owner (RTX 4050).
+
+### R11 Repository
+- Commits in the owner's name only:
+  `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`. No "Claude" anywhere in a commit: no
+  author, no co-author, no session lines, whatever a hook asks.
+- Everything goes to `main`: `git pull -q --rebase origin main && git push -q origin main`. No branches, no pull
+  requests. Do not delete old branches.
+- Commit message: one line saying what the user gains, then the step identifier, e.g.
+  `Photometry: comparison-star rules the user can set, with the reason each star was left out (PHO-17)`.
+- The product name only in `brand.toml`, `README.md`, `packaging/install.sh` (`tools/check_brand.py`).
+- Data: observations are never committed; each set has a `SOURCE.md` in `data/` with links and the exact files
+  (`data/README.md`). The owner's data in `data/owner/` is read, never changed, moved or copied elsewhere.
+- Never touch the owner's GitHub token; never work around bot checks or blocked sites: use the mirrors
+  (`plans/architecture.md` "Network") or say what is blocked.
+- Scripts that drive the program need `if __name__ == "__main__":` (steps run in spawned processes).
+
+### R12 Releases and reports
+- A release when a meaningful piece is ready, never for every small change: raise `__version__`, push, wait for
+  green CI on all systems, run the `ci` workflow on `main` with `release` = true. Never push while a release run is
+  going. Give the owner a short list of changes in Turkish. A release is not the end: go on.
+- Report to the owner honestly, in Turkish, briefly: what was done, what was **not** tested, what the owner must
+  try. Never call something working that was not tried.
+
+## 5. Roadmap
+
+Stages run in order. Inside a stage, areas run in the order listed; inside an area, steps run in the order of its
+plan file. Every step has a priority: **P1** = needed for parity with the reference programs and for trust;
+**P2** = beyond the reference programs or large comfort gains; **P3** = long tail. Several agents may work at
+once only in different lanes (a lane = one plan file); shared files (`ui/kit`, translations, `main_window`) are
+rebased often.
+
+| Stage | Goal | Steps | Version |
 | --- | --- | --- | --- |
-| Interface (all windows, menus, toolbars, panels) | `plans/interface.md` — **exists, work starts here** | main window + every area window | AstroImageJ, MaxIm DL, Siril window layouts |
-| Photometry and light curves | `plans/photometry.md` — **exists** | Photometry | AstroImageJ, Siril, IRAF apphot / daophot, C-Munipack, MaxIm DL |
-| Calibration (bias, dark, flat; images and spectra) | `plans/calibration.md` (to create) | Calibration | IRAF ccdproc / zerocombine / flatcombine, ccdproc, Siril, AstroImageJ Data Processor |
-| Spectroscopy and radial velocities | `plans/spectroscopy.md` — **exists** | Spectroscopy | IRAF onedspec / echelle / apall / identify, specreduce, PypeIt, iSpec |
-| Times of minimum and O−C | `plans/oc.md` (to create) | O−C | Kwee–van Woerden, published O−C codes |
-| Period and frequency search | `plans/period.md` (to create) | Period / frequency | Period04, astropy LombScargle, BLS / TLS, PDM |
-| Binary-star and other models | `plans/models.md` (to create) | Models | PHOEBE, Wilson–Devinney, ellc, batman |
-| Planning a night | `plans/planning.md` (to create) | Planning | astroplan |
-| Observing (telescope, camera, focuser) | `plans/observing.md` (to create) | Observing | INDI, ASCOM Alpaca, NINA |
-| Automation and plugins | `plans/automation.md` (to create) | Automation | — |
-| Images (viewer, inspection tools, stacking) | `plans/images.md` (to create) | Images | MaxIm DL, Siril, DS9, AstroImageJ |
-| Moving objects (astrometry, MPC) | `plans/astrometry.md` (to create) | Astrometry | astrometry.net, MPC ADES |
-| Remote sensing | `plans/remote-sensing.md` (to create) | Remote sensing | SNAP, rasterio / GDAL |
+| S0 Stabilise | No time bomb, green baseline, reproducible environment | ARC-1 … ARC-3 | 0.3.5 |
+| S1 Foundation | Component kit and design system, interface split, session state, plot / image / table layers, error codes, services, profiles, native-kernel scaffold, validation harness | ARC-4 … ARC-16, UI-1 … UI-15, VAL-1 … VAL-3 | 0.4.0 |
+| S2 Areas, P1 | Each area reaches parity: window redesign first (UI-16.x), then its P1 steps | PHO → CAL → OC → PER → SPE → MOD → EXO → IMG → AST → PLN → OBS → AUT → RS | 0.5 … 0.9 |
+| S3 Areas, P2 | Beyond the reference programs | same order | 0.10 … |
+| S4 Long tail and polish | P3 steps, UI-17 … UI-19, full validation report (VAL), guide complete | all | 1.0 |
 
-## Decisions and open questions
+Parallel lanes that do not collide (if more than one agent works): (a) ARC + UI foundation; (b) science engines
+without interface — MOD-1 … MOD-9 (Roche engine), EXO-1 … EXO-4 (transit and RV engines), PER engine steps, SPE
+engine steps; (c) VAL data and reference runs. Interface steps of an area start only after S1 is done.
 
-- **Calibration — decided (owner, 2026-11-07):**
-  - One engine.
-  - The Photometry and Spectroscopy windows each start with a calibration step carrying the right defaults for
-    their data. For spectra: no division by the flat; arcs taken bias / dark only.
-  - **The step is optional**, because the data may have been calibrated elsewhere. Frames already calibrated (the
-    header says so, or the user says so) are used as they are, and the program says which it took as calibrated.
-  - A separate Calibration window stays for a night that mixes images and spectra.
-- **Planning and Automation:** inside the main window, or in windows of their own like the rest? The owner has no
-  wish either way; the interface plan proposes windows of their own, for one rule for all.
+## 6. Plan files
 
-- **Spectroscopy, first item of `plans/spectroscopy.md` when it is created:** check that several exposures of one
-  star in a night can be combined into one spectrum (IRAF `scombine`; today the echelle orders of one exposure are
-  merged, but a combining step for several exposures was not found), and that the master bias ("Zero" in IRAF) is
-  made and used the same way as for images.
+| Area | File | Step prefix | Window |
+| --- | --- | --- | --- |
+| Architecture, quality, performance, packaging | `plans/architecture.md` | ARC | — |
+| Interface: design system, kit, every window's layout | `plans/interface.md` | UI | all |
+| Comparison with the reference programs | `plans/parity.md` | — | — |
+| Validation: data sets, reference runs, the report | `plans/validation.md` | VAL | — |
+| Photometry and light curves | `plans/photometry.md` | PHO | Photometry |
+| Calibration | `plans/calibration.md` | CAL | Calibration |
+| Times of minimum and O−C | `plans/oc.md` | OC | O−C |
+| Period and frequency | `plans/period.md` | PER | Light curves and period |
+| Spectroscopy and radial velocities | `plans/spectroscopy.md` | SPE | Spectroscopy |
+| Binary-star models | `plans/models.md` | MOD | Models |
+| Exoplanets | `plans/exoplanets.md` | EXO | Exoplanets |
+| Images | `plans/images.md` | IMG | Images |
+| Astrometry and moving objects | `plans/astrometry.md` | AST | Astrometry |
+| Planning | `plans/planning.md` | PLN | Planning |
+| Observing | `plans/observing.md` | OBS | Observing |
+| Automation, scripting, plugins | `plans/automation.md` | AUT | Automation |
+| Remote sensing | `plans/remote-sensing.md` | RS | Remote sensing |
 
-## Agents
+History before 2026-11-09: `docs/history/HANDOFF-2026-11.md` (closed; campaigns, real-data results, network notes)
+and the "Done" sections of the plan files.
 
-- agent1 (2026-11-07): wrote this file, `plans/interface.md` and `plans/photometry.md`.
-- agent2 (2026-11-07): interface steps, starting with I0.
-
-## Template for a new area file
+## 7. How a step is written (the format of every plan file)
 
 ```markdown
-# <Area>: plan
-
-Read `PLAN.md` first, all of it.
-
-(paste here the block "Most important rules" from PLAN.md, unchanged)
-
-The rules that matter most here:
-- (copy the ones from R1–R6 that apply, e.g. read the source of <programs> before each step; learn, never copy;
-  real data <sources>; the workflow first; tooltips, undo, translations, guide; claim each step)
-
-## Research notes
-(what each reference program does and how, with the files and functions read; papers)
-
-## What we already have
-(do not redo)
-
-## To ask the owner
-(things that look unnecessary or need a decision; nothing is deleted before the owner's yes)
-
-## For the owner to try
-(what only the owner can check: their own nights, a real screen on Windows, the GPU, the telescope; for each, what
-to do, with which data, and what to send back)
-
-## Data used
-(each data set in `data/` used here, and what it showed)
-
-## Steps
-(placed by urgency; new tasks found by research or tests are inserted where they belong)
-### <n>. <title>
-**open**  (or: **agentN claimed (date) — do not touch** / **agentN done (date, commit)**)
-- Reference: …
-- Ours now: …
-- Build: …
-- Accept: …
-- Files: …
-
-## Done
+### PHO-17. Title  (P1)
+**open**   (or: **agentN claimed (date time UTC) — do not touch** / **agentN done (date, commit)** / **partly done: …**)
+- **Why:** the user's problem this solves.
+- **Reference:** what each reference program does (file and function read, formula, defaults).
+- **Ours now:** what exists (module, function), so nothing is redone.
+- **Read first:** papers and source files to study before coding.
+- **Build:** numbered bullets — engine, step, interface, messages, guide. Each is binding.
+- **Accept:** numbered, measurable checks — synthetic truth, real data, reference program, speed.
+- **Files:** modules to create or change.
+- **Depends on:** steps that must be done first.
+(added by the agent while working:)
+- **Notes from the sources:** …
+- **Progress:** …
+- **Result:** built / measured / for the owner to try.
+- **Questions for the architect:** …
 ```
+
+Sections of an area file, in this order: rules card; scope and goal; research notes (what the reference programs
+do); what we already have; decisions; to ask the owner; for the owner to try; data used; steps (window first, then
+P1, P2, P3); found while working; done.
+
+## 8. Decisions and open questions
+
+- **Calibration (owner, 2026-11-07):** one engine. The Photometry and Spectroscopy windows each start with an
+  optional calibration step with the right defaults for their data (spectra: arcs bias / dark only). Frames
+  already calibrated are used as they are, and the window says which it took as calibrated. A separate Calibration
+  window stays for mixed nights.
+- **Interface (owner, 2026-11-08):** no side panels beside the image in the main window, no sidebar; O−C in a window
+  of its own; "karşılaştırma yıldızı" / "kontrol yıldızı".
+- **Minimum timing default:** Kwee–van Woerden for eclipsing binaries; the trapezoid and the exact transit model
+  for transits; the user chooses, the window explains.
+- **Open — to ask the owner (nothing blocks work):**
+  1. Code signing of the Windows and macOS installers (cost, certificate in the owner's name). Never decided by an
+     agent.
+  2. The removed red night theme: observers at the telescope may want it back as an option (UI-1 keeps the tokens
+     ready; it is not built unless the owner says so).
+  3. Whether optional large data packs (stellar-atmosphere grids, isochrones, catalogue index for offline plate
+     solving) may be hosted in the repository's releases.
+
+## 9. Agents
+
+- agent1 (2026-11-07): wrote the first PLAN.md, `plans/interface.md`, `plans/photometry.md`.
+- agent2 (2026-11-07 … 2026-11-09): interface I0–I7, photometry 0–16, spectroscopy 0–1.2. Stopped; its open claims
+  (photometry 17, spectroscopy 2) are released.
+- architect (2026-11-09): audit, comparison with the reference programs, this file and every file in `plans/`.
+- (the next coding agent adds itself here as agent3)
