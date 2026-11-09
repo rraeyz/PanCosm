@@ -1716,3 +1716,47 @@ def test_camera_noise_option_reads_the_header_and_goes_with_the_measurement(wind
     page.sky_method.setCurrentIndex(page.sky_method.findData("plane"))  # item 3
     page._measure()
     assert sent[1][4]["sky_method"] == "plane"
+
+
+def test_saturated_and_non_linear_points_are_marked_and_left_out(window, qtbot, tmp_path):
+    """plans/photometry.md item 4: the target saturates on exactly 5 frames and passes the linearity limit on 3 more:
+    those frames are marked (and named in the table), and one click leaves them out (undoable)."""
+    rng = np.random.default_rng(5)
+    y, x = np.mgrid[:60, :80]
+    stars = [(30, 20, 20000.0), (55, 40, 15000.0), (15, 45, 12000.0)]
+    paths = []
+    for i in range(20):
+        img = rng.normal(100, 3, (60, 80))
+        for k, (sx, sy, f) in enumerate(stars):
+            if k == 0 and 5 <= i < 10:
+                f *= 30  # saturated: the peak above SATURATE
+            elif k == 0 and 10 <= i < 13:
+                f *= 12  # above the linearity limit, below saturation
+            img += f / (2 * np.pi * 1.5**2) * np.exp(-((x - sx) ** 2 + (y - sy) ** 2) / (2 * 1.5**2))
+        img = np.minimum(img, 40000.0)
+        h = fits.Header({"DATE-OBS": f"2026-10-01T20:{i:02d}:00", "EXPTIME": 30.0, "GAIN": 2.0, "SATURATE": 40000.0,
+                         "LINLIMIT": 15000.0})  # fmt: skip
+        p = tmp_path / f"s{i:02d}.fits"
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(p)
+        paths.append(p)
+    page = window.photometry_page
+    page.set_images(paths)
+    assert page.linearity.value() == 15000.0
+    for sx, sy, _ in stars:
+        page._clicked(sx, sy)
+    page.r_ap.setValue(4)
+    page.r_in.setValue(8)
+    page.r_out.setValue(12)
+    page.measure_button.click()
+    qtbot.waitUntil(lambda: page.light_curve is not None, timeout=60000)
+    lc = page.light_curve
+    assert list(np.nonzero(page._saturated_frames(lc))[0]) == [5, 6, 7, 8, 9]
+    assert list(np.nonzero(page._nonlinear_frames(lc))[0]) == [10, 11, 12]
+    from astrowb.photometry.measurements import measurements
+
+    _, flags = measurements(lc | {"linearity": page.linearity.value()})
+    assert {r for r, c in flags if c == "Peak_T1"} == set(range(5, 13))
+    page.leave_out_flagged()
+    assert len(page.light_curve["time"]) == 12
+    page.undo_stack.undo()
+    assert len(page.light_curve["time"]) == 20
