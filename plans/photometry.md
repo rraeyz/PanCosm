@@ -457,7 +457,7 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
 
 ### 9b. Speed of a night (time, memory, GPU, native code)
-**agent2 done (2026-11-09, this commit)** — added 2026-11-07. Profiled on 64 synthetic 4096 × 4096 16-bit frames
+**agent2 done (2026-11-09, commit fa527fa)** — added 2026-11-07. Profiled on 64 synthetic 4096 × 4096 16-bit frames
 (40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB, frames in the page cache):
 - **The cause was not the arithmetic but a bias.** The frame-to-frame shifts that the parallel path adds up were
   pulled towards whole pixels — the 3x3 median reshaped the stars and stars cut flat at 50 sigma gave a flat
@@ -524,7 +524,7 @@ table says C1, C2 …; it now uses the table's names. Guide 06 in four languages
 - **Accept:** two nights of one star with a 0.05 mag offset injected are joined without the step.
 
 ### 13. Frames where a comparison star is missing
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** Honeycutt 1992 inhomogeneous ensemble photometry (each frame uses the stars it has); Muniwin's
   artificial comparison star.
 - **Ours:** a frame without one comparison star is left out of the light curve.
