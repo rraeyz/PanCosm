@@ -57,3 +57,38 @@ def suggest(target, stars, fov, margin=1.0, step=0.5, angles=(0.0,), target_marg
     dra = cx / 60 / np.cos(np.radians(dec0))
     return {"offset": (float(cx), float(cy)), "angle": float(angle), "kept": kept, "centred_kept": centred,
             "centre": (float((ra0 + dra) % 360), float(dec0 + cy / 60))}  # fmt: skip
+
+
+def _unplane(x, y, ra0, dec0):
+    """The inverse of _plane: tangent-plane arcminutes back to (ra, dec) degrees."""
+    xi, eta = np.radians(np.asarray(x, float) / 60), np.radians(np.asarray(y, float) / 60)
+    d0 = np.radians(dec0)
+    rho = np.hypot(xi, eta)
+    c = np.arctan(rho)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        dec = np.arcsin(np.cos(c) * np.sin(d0) + np.where(rho > 0, eta * np.sin(c) * np.cos(d0) / rho, 0.0))
+    ra = ra0 + np.degrees(np.arctan2(xi * np.sin(c), rho * np.cos(d0) * np.cos(c) - eta * np.sin(d0) * np.sin(c)))
+    return np.mod(ra, 360), np.degrees(dec)
+
+
+def mosaic(centre, rows, cols, fov, overlap=0.15, angle=0.0):
+    """Panels covering rows × cols frames of fov (arcmin) with the given overlap (share of a frame), the whole
+    turned by angle: [{"row", "col", "ra", "dec", "angle"}]. Laid out on one tangent plane about the centre, so the
+    rows stay straight near the pole; each panel's angle is turned by the plane's own north there (a camera at
+    85° declination must turn panel by panel to keep the overlaps)."""
+    ra0, dec0 = centre
+    w, h = fov
+    a = np.radians(angle)
+    out = []
+    for r in range(rows):
+        for c in range(cols):
+            u, v = (c - (cols - 1) / 2) * w * (1 - overlap), (r - (rows - 1) / 2) * h * (1 - overlap)
+            x, y = u * np.cos(a) - v * np.sin(a), u * np.sin(a) + v * np.cos(a)
+            ra, dec = _unplane(x, y, ra0, dec0)
+            # the plane's "up" (turned by angle) at this panel, as a position angle on the sky
+            ux, uy = -np.sin(a), np.cos(a)
+            ra2, dec2 = _unplane(x + 0.01 * ux, y + 0.01 * uy, ra0, dec0)
+            px, py = _plane(ra2, dec2, ra, dec)
+            local = np.degrees(np.arctan2(-px, py))  # how far "up" is turned from local north (east positive)
+            out.append({"row": r, "col": c, "ra": float(ra), "dec": float(dec), "angle": float(local)})
+    return out
