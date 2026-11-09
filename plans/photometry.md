@@ -413,7 +413,7 @@ for it. Guide 06 in four languages; `tests/test_multiplot.py`, `test_multi_plot_
 - **Accept:** each AIJ plot used in the owner's NY Vir check can be made here.
 
 ### 9. Choosing the detrending with numbers
-**agent2 done (2026-11-09, this commit)** — `differential.detrend_bic` (every set of the covariates, with and without
+**agent2 done (2026-11-09, commit ee194fa)** — `differential.detrend_bic` (every set of the covariates, with and without
 the flip step, fitted to ln(rel) on the same out-of-event points; BIC = χ² + k ln n with the errors, n ln(RSS/n) + k
 ln n without; reduced χ²; the chosen set is the fewest terms within 2 of the lowest BIC, AstroImageJ's rule),
 `detrend(..., flip_time=)` (a step in ln(rel) from the flip on), `flip_from_headers` (PIERSIDE changing during the
@@ -437,7 +437,7 @@ set without them). Guide 06 in four languages.
 - **Accept:** on a synthetic curve with an airmass trend and a flip jump, the true model has the lowest BIC.
 
 ### 9a. Optimising the ensemble
-**open** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
+**agent2 claimed (2026-11-09) — do not touch** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
 - **Reference:** AstroImageJ searches comparison-star sets for the lowest RMS: exhaustively, or by toggling one star
   at a time until the RMS stops improving.
 - **Ours now:** each star's scatter against the others and optional scatter weights; the user unticks stars by hand.
