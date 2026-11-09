@@ -365,7 +365,13 @@ its pixels exactly). Left: exports in it, the guide's example.
   for how the aperture is carried between the first and last frame.
 
 ### PHO-22. Aperture shapes  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `photometry/shapes.py` (`measure_shaped`: ellipse with exact overlap
+and an elliptical sky ring; racetrack = the pixels within r of the trail's segment, sampled 10 × 10 per pixel, its
+ring by distance from the segment; painted pixel masks; `moments_shape` reads b/a and the angle from the star) and
+`aperture.measure(shape=…)`. Tests (tests/test_aperture_shapes.py): a 3 : 1 trailed star gives its untrailed copy's
+flux within 1 % (ellipse) and 0.5 % (racetrack) with a smaller error than the circle holding the trail. Left: the
+shape in the star list and the light-curve run, the Apertures stage's controls, the `Ap_*` columns, and the
+lightkurve cross-check of a painted mask on a TESS stamp.
 - **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
   `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
 - **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the
