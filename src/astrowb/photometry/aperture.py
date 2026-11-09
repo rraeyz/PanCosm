@@ -206,10 +206,14 @@ def _wide_centroid(img, x, y, box, frame_sky, max_box=301):
     h0 = box // 2
     y0, x0 = int(round(y)), int(round(x))
     small = img[max(0, y0 - h0) : y0 + h0 + 1, max(0, x0 - h0) : x0 + h0 + 1]
-    edge = np.r_[small[0], small[-1], small[:, 0], small[:, -1]]
-    if small.size == 0 or np.mean(edge) < 0.5 * np.max(small):  # light falling off inside the box: it fits
+    if small.size == 0:
         return None
     sky, noise = frame_sky()
+    hole = np.max(small) - sky < 5 * noise  # nothing in the box: the dark centre of a donut wider than the box
+    edge = np.r_[small[0], small[-1], small[:, 0], small[:, -1]]
+    rising = np.max(edge) >= np.max(small)  # brightest on the box's edge: a donut's ring seen from inside the hole
+    if not (hole or rising) and np.mean(edge) < 0.5 * np.max(small):  # light falling off inside the box: it fits
+        return None
     h = min(max_box // 2, y0, x0, ny - 1 - y0, nx - 1 - x0)
     if h <= h0:
         return None

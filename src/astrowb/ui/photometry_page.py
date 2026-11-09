@@ -272,6 +272,14 @@ class PhotometryPage(Undoable, QWidget):
         self.save_stars_button = QPushButton(self.tr("Save the star list…"), self)
         self.save_stars_button.setToolTip(
             self.tr(
+        self.target_follows = QCheckBox(self.tr("The target follows the field (not centred)"), self)
+        self.target_follows.setToolTip(
+            self.tr(
+                "For a faint target beside a bright star: it is not re-centred on each frame (which could pull it "
+                "onto the bright star) but moves with the other stars, by their median shift"
+            )
+        )
+        self.sections[1].body.addWidget(self.target_follows)
                 "Writes the marked stars and the radii to a file, in RA / Dec when the first frame is plate-solved, "
                 "to put them back on another night"
             )
@@ -1640,6 +1648,8 @@ class PhotometryPage(Undoable, QWidget):
                 + self.tr(
                     "The target's light grows {x:.1f} % more than the comparison stars' between 1 and 1.5 apertures: "
                     "something faint is next to it. Keep the radii fixed (not following the seeing); its light then "
+        if self.target_follows.isChecked():
+            params["fixed"] = [0]  # item 5: the target (star 0) follows the field
                     "only dilutes the depth a little."
                 ).format(x=100 * a["target_excess"])
                 if a.get("target_excess", 0) > 0.01

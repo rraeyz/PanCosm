@@ -77,6 +77,9 @@ def measurements(lc):
         cols[f"Sky/Pixel_{name}"] = sky[:, k].tolist() if sky.ndim == 2 and k < sky.shape[1] else [np.nan] * n
         cols[f"N_Sky_Pixels_{name}"] = n_sky.tolist()
         cols[f"Peak_{name}"] = peak[:, k].tolist() if k < peak.shape[1] else [np.nan] * n
+        move = np.asarray(per_frame("centring_move", np.full(flux.shape, np.nan)), float)
+        if move.ndim == 2 and k < move.shape[1]:  # not an AstroImageJ column: how far centring moved the star
+            cols[f"Centring_Move_{name}"] = move[:, k].tolist()
         cols[f"Source_Radius_{name}"] = radii[:, 0].tolist()
         cols[f"Sky_Rad(min)_{name}"] = radii[:, 1].tolist()
         cols[f"Sky_Rad(max)_{name}"] = radii[:, 2].tolist()

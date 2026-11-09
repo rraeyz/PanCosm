@@ -65,6 +65,8 @@ Grafik yıldızın profilini açıklık (yeşil), dışarıda bırakılan boşlu
 
 **Gökyüzü halkadan** (Daha fazla ölçüm seçeneği) gökyüzü halkasının yıldızın altındaki gökyüzünü nasıl vereceğini seçer: kırpılmış **ortanca** (varsayılan; tamsayı veride birim aralığı içinde alınır), IRAF'ın **kipi** (kırpmadan sonra 3 ortanca − 2 ortalama), AstroImageJ'nin **±2σ içinde ortalaması** ya da bir **düzlem uydurma** — eğik bir gökyüzü (Ay, alacakaranlık, ışık kirliliği) halka üzerinde, içindeki yıldızlar dışarıda bırakılarak uydurulur; yıldızın yerindeki değeri gökyüzüdür. Eğimli ve halkasında parlak bir yıldız olan benzetilmiş bir karede düzlem gerçek gökyüzünü 0,1 σ içinde verir, diğerleri kayar.
 
+**Hedef alanla birlikte kayar (merkezlenmez)** (yıldızların altında, 2. adım): parlak bir yıldızın yanındaki sönük hedef her karede yeniden merkezlenmez — bu onu parlak yıldızın üstüne çekebilirdi; diğer yıldızlarla birlikte, onların ortanca kaymasıyla hareket eder. 6 px ötede yaklaşık 70 kat parlak bir yıldız olan benzetilmiş bir gecede hedef 0,3 px içinde kendi üstünde kalır. Odak dışı yıldızlar, merkezleme kutusundan geniş halkalar ("simit") bile, ışık merkezlerine göre merkezlenir (30 px'lik halkada 0,2 px içinde). Ölçümler tablosu merkezlemenin her yıldızı her karede ne kadar kaydırdığını gösterir (`Centring_Move`); sınırdan büyük bir kayma olursa tahmin edilen konum kalır.
+
 ## Zaman ve BJD
 Zamanlar `DATE-OBS` ve `EXPTIME`'dan alınır (pozun ortası). **Hedef RA Dec** (ya da başlıktaki `OBJCTRA`/`OBJCTDEC`) ve başlıktaki gözlem yeri ile zamanlar, örtme ve geçiş zamanlamasının standardı olan **BJD_TDB**'ye çevrilir.
 

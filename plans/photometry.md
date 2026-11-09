@@ -322,7 +322,17 @@ Guide 06 in four languages.
 - **Accept:** a synthetic night where the target saturates in 5 frames marks exactly those 5.
 
 ### 5. Centring per star
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — **The target follows the field (not centred)** under the stars (step 2):
+`light_curve(..., fixed=(0,))` keeps the target off centring; on each frame it gets the predicted position plus the
+median shift of the centred stars (AIJ's un-centred aperture). Donuts wider than the box: `_wide_centroid` now also
+takes over when the box sits in the dark hole or the brightest pixel is on the box's edge, and centres on the light in
+a box that holds the ring (a 30 px ring, 2.9 px off, centred within 0.2 px: `test_donut_star_is_centred`). The
+measurements table has `Centring_Move_<star>` per frame. A move beyond `max_move` (2.5 px, IRAF's `maxshift`) keeps
+the prediction. Not built (rule 12): a centroid / Gaussian choice — the Gaussian is kept for stars that fit the box and
+the centre of light takes over for wider ones by itself, so a choice would only add a way to get it wrong; and a
+minimum S/N — `_wide_centroid` already needs 5 sigma, and a failed centroid keeps the prediction. Accept note: in the
+synthetic test (a star about 70× brighter 6 px away) the 2.5 px limit already keeps the free target near its place;
+with centring off it stays within 0.3 px. Guide 06 in four languages.
 - **Reference:** AIJ turns centring off per aperture (an un-centred aperture follows the mean shift of the others);
   IRAF `calgorithm` = none / centroid / gauss / ofilter.
 - **Ours:** every star is always re-centred with a 1D Gaussian centroid. A faint target next to a bright star can be
