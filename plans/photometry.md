@@ -330,7 +330,15 @@ its pixels exactly). Left: exports in it, the guide's example.
 - **Files:** `core/recipe.py`, `ui/photometry/controller.py` (export), `api/photometry.py`, `tests/test_photometry_recipe.py`, guide 06
 
 ### PHO-21. Light curves of moving objects  (P2)
-**open**
+**partial** — done (2026-11-14), the engine of items 1–4: `photometry/moving_lc.py`: `linear_track` (two clicks),
+`frame_zero_point` (the frame's own zero point from the catalogue stars on it, clipped and weighted), `blended`,
+`measure` (the aperture follows the object, refined by a centroid; per frame: magnitude, error with the zero
+point's, zero point, stars used, blended), `reduced` (m − 5 log10 rΔ), `light_time`. Tests
+(tests/test_moving_lc.py): an object of constant brightness moving 300 px through a star field under a changing
+zero point comes out flat within 1.2 × its predicted error, at its true magnitude within 0.01, and the frames
+where it passes a bright star are flagged. Left: the ephemeris (JPL Horizons) positions and geometry, the ALCDEF
+2.3.0 export (written against the standard's keyword tables), the Stars stage's "Moving object" mode, the real
+asteroid night.
 - **Reference:** MPO Canopus (comparison-star selector with catalogue magnitudes, sessions joined across nights,
   reduction to unit distances and a phase angle, export to ALCDEF); Tycho Tracker's light-curve module; MaxIm DL
   (tag the object on the first and last frame). ALCDEF standard document (alcdef.org); H–G system (Bowell et al.
