@@ -128,6 +128,16 @@ def linearity(coefficients):
         _LINEARITY.reset(token)
 
 
+def _subtract(data, level, raw):
+    """data - level without a second full-size copy (a 4k x 4k frame: 64 MB less at the peak, plans/photometry.md
+    item 9b); a copy all the same when data is still the file's own array (float32 files), never changed in place."""
+    if np.may_share_memory(data, raw):
+        return data - level
+    if np.any(level):
+        data -= level
+    return data
+
+
 def _linear(values):
     poly = _LINEARITY.get()
     return values if poly is None else np.polyval(poly, values).astype(np.float32)
@@ -294,7 +304,8 @@ def load(path, crop=None):
         hdu = hdul[i]
         rows, cols, level = lay = _layout(hdu)
         if crop is None:
-            data = _linear(np.asarray(hdu.data, dtype=np.float32)[..., rows, cols]) - level
+            raw = hdu.data
+            data = _subtract(_linear(np.asarray(raw, dtype=np.float32)[..., rows, cols]), level, raw)
         else:
             y0, y1, x0, x1 = (int(v) for v in crop)
             if np.ndim(level) == 2:  # a column or a row of overscan levels
@@ -302,7 +313,7 @@ def load(path, crop=None):
             rows = slice(rows.start + y0, min(rows.stop, rows.start + y1))
             cols = slice(cols.start + x0, min(cols.stop, cols.start + x1))
             part = hdu.section[rows, cols] if len(hdu.shape) == 2 else hdu.data[..., rows, cols]
-            data = _linear(np.asarray(part, dtype=np.float32)) - level
+            data = _subtract(_linear(np.asarray(part, dtype=np.float32)), level, part)
         header = _corrected_header(inherited(hdul, i), lay)
         if _LINEARITY.get() is not None:
             header["LINCORR"] = (True, "linearity correction applied to the raw counts")
