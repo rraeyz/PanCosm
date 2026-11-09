@@ -44,3 +44,28 @@ def test_events_first_and_priority_on_conflict():
 
 def test_no_night():
     assert schedule({"jd": JD.tolist(), "dusk": None, "dawn": None, "targets": []}, []) == []
+
+
+def test_overheads_conflicts_and_totals():
+    """PLN-7: the clash is listed with the target that won, a change of target costs its overhead (taken from the
+    filler, never from an event), and the night's hours add up."""
+    from astrowb.planning.schedule import plan
+
+    eclipse = {"mid": JD[60], "start": JD[54], "end": JD[66], "full": True}
+    clash = {"mid": JD[62], "start": JD[57], "end": JD[68], "full": True}
+    n = night(target("A", JD[30]), target("B", JD[100], [eclipse]), target("C", JD[60], [clash]))
+    out = plan(
+        n,
+        [TARGETS[1], TARGETS[0], TARGETS[2]],
+        min_alt=30,
+        overheads={"slew": 60, "settle": 10, "centre": 50, "focus": 0},
+    )  # fmt: skip — two minutes per change
+    assert out["conflicts"] and out["conflicts"][0]["name"] == "C" and out["conflicts"][0]["lost_to"] == "B"
+    blocks = out["blocks"]
+    over = [b for b in blocks if b["why"] == "overhead"]
+    assert over and all(abs((b["end"] - b["start"]) * 86400 - 120) < 1e-3 for b in over)
+    event = next(b for b in blocks if b["why"] == "event")
+    assert event["start"] <= eclipse["start"] - 29 / 1440  # the event's baseline kept whole
+    assert all(a["end"] <= b["start"] + 1e-9 for a, b in zip(blocks, blocks[1:], strict=False))
+    total = sum(out["totals"].values())
+    assert abs(total - (DAWN - DUSK) * 24) < 0.1 and out["totals"]["overhead"] > 0

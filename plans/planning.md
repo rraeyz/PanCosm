@@ -253,7 +253,12 @@ the Moon's sky, the noise budget, defocus) and its real-night checks.
 - **Files:** `planning/exposure.py`, `planning/framing.py`, `photometry/comprules.py` (used), `services/hips2fits.py`, `ui/planning/panels/inspector.py`, `tests/test_framing.py`
 
 ### PLN-7. The schedule  (P1)
-**open**
+**partial** — done (2026-11-14): `schedule.plan` (the schedule with an overhead block at each change of target —
+taken from a filler, never from an event's window — the events left out with the target that holds their time,
+and the hours per target, overheads and idle); the Plan page shows the overheads in the schedule table, sends only
+the observing blocks, and says the totals and what was left out. Test (tests/test_schedule.py). Left: overheads
+from the equipment profile (slew rate, autofocus, filter changes, read-out, meridian flip), the merit function and
+its brute-force check, calibration blocks, the editable timeline, the N.I.N.A. / ACP exports.
 - **Read first:** Morris et al. 2018 §4 (scoring and the priority scheduler; transition times); the Ekos and ACP
   scheduler documentation (constraints, priorities, twilight rules) for what users expect.
 - **Ours now:** `schedule.schedule(night, targets, min_alt, block_min, baseline_min)`.
