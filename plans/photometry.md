@@ -633,7 +633,13 @@ detrending, depth, Tc, T14, on time against the Timing stage's ephemeris, the NE
   astrodennis.com/AIJMacroHelp.pdf) and with EXOTIC's output.
 
 ### PHO-28. All-sky photometry: the night's solution from standard stars  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `photometry/allsky.py`: `fit` (M − m = Z − k′X + T C [− k″ X C]
+[+ d (t − t0)], weighted least squares with 3σ clipping, the covariance and each term's error), `Solution.correction`
+and its error, `apply`, `apply_pair` (two filters, the colour iterated), `night_quality`. Tests
+(tests/test_allsky.py): k′ = 0.25, T = 0.08, Z = 21.3 recovered within their errors with bad points clipped; two
+filters of programme stars back to their standard magnitudes; a cloudy night is said not photometric. Left: the
+standards' identification (Landolt / Stetson through PHO-25), the growth-curve aperture correction, the window
+(Tools → "All-sky calibration…") and the residual plots, the IRAF fitparams cross-check.
 - **Reference:** IRAF `photcal` (`mknobsfile`, `mkconfig`, `fitparams`, `evalfit`, `invertfit`; Davis & Gigoux
   1993): transformation equations per filter fitted to standards observed over a range of airmass, e.g.
   `m_V = V + v1 + v2 X + v3 (B−V) + v4 X (B−V)`; Harris, Fitzgerald & Reed 1981 (the classical method); Landolt and
