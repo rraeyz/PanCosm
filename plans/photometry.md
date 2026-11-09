@@ -307,7 +307,7 @@ languages.
   within 0.1 σ, and the median is biased as expected.
 
 ### 4. Saturation and non-linearity flagged per point
-**agent2 done (2026-11-08, this commit)** — a **Linearity limit (ADU)** under the plot (from LINLIMIT / MAXLIN, or
+**agent2 done (2026-11-08, commit 6143b83)** — a **Linearity limit (ADU)** under the plot (from LINLIMIT / MAXLIN, or
 typed in; takes effect at once, no new measurement): points ringed orange above it, red at saturation as before, a
 summary line for each; the measurements table colours the star's Peak with "non-linear" or "saturated" and the
 level; **Leave out saturated and non-linear points** excludes those frames from every result (undoable). Accept met:
@@ -322,7 +322,7 @@ Guide 06 in four languages.
 - **Accept:** a synthetic night where the target saturates in 5 frames marks exactly those 5.
 
 ### 5. Centring per star
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** AIJ turns centring off per aperture (an un-centred aperture follows the mean shift of the others);
   IRAF `calgorithm` = none / centroid / gauss / ofilter.
 - **Ours:** every star is always re-centred with a 1D Gaussian centroid. A faint target next to a bright star can be
