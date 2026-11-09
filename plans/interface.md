@@ -730,6 +730,7 @@ whenever any area gains a feature.
 | Frames missing some comparison stars kept (orange in the frame list) | Photometry | — | — | Frames tab, under the plot |
 | Header time as start / middle / end, shutter delay; HJD_UTC column | Photometry | — | — | Steps 4, More measuring options |
 | Transit fitted together with the detrending (BIC) | Photometry | — | — | Results: Minimum |
+| Several apertures at once, radius chosen afterwards, aperture correction | Photometry | — | — | Steps 4 options; Results: Plot |
 | Measurements table (AstroImageJ's columns, filter, column chooser, CSV) | Photometry | — | — | Results: Measurements |
 | Field identification (Gaia solve, VSX, OBJECT check) | Photometry | Analyse | — | Steps 1 note |
 | Minimum timing → O−C | Photometry | Analyse | — | Minimum tab |

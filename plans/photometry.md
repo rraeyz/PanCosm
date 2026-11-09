@@ -487,7 +487,16 @@ synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars
 ## P2 — complete for eclipsing binaries and variable stars
 
 ### 10. Several apertures at once and aperture correction
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `light_curve(..., apertures=)` measures every frame through each radius
+asked for (inside the sky ring), with the same centres and sky, and keeps them in `lc["by_aperture"]`;
+`with_aperture(lc, i)` gives the curve of radius i without measuring again (stars a frame lacks stay out, item 13);
+`aperture_correction(lc)` the curve of growth: each radius's median share of the light through the largest, and
+−2.5 log10 of it. In the window: *Also measure other radii, to choose one later* (0.6–2 × the aperture) under More
+measuring options; **Aperture radius** in the Plot tab switches (undoable) and shows the share and the correction.
+Accept met: switching to 7 px after measuring 3, 5, 7, 9 px gives the same relative flux and fluxes as measuring with
+7 px (to 1e-9; `test_switching_the_aperture_after_measuring_equals_measuring_with_it`). Rule 12: the errors of a
+switched radius do not carry the scintillation term (added only for the radius measured); the aperture correction is
+relative to the largest radius measured, not extrapolated to infinity. Guide 06 in four languages.
 - **Reference:** IRAF `phot` measures a list of apertures in one pass; `mkapfile` builds a curve of growth and the
   aperture correction.
 - **Ours:** the scan tries several radii but keeps one; there is no aperture correction.

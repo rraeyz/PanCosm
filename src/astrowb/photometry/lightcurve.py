@@ -57,6 +57,7 @@ def light_curve(
     fixed=(),
     header_time="auto",
     shutter_delay=0.0,
+    apertures=(),
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -94,6 +95,7 @@ def light_curve(
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay)}
+    opts["apertures"] = tuple(float(r) for r in apertures if 0 < r < r_in)  # inside the sky ring (item 10)
     sky = target_coord(h0, coord)
     where = timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
@@ -104,6 +106,7 @@ def light_curve(
     if auto or too_big:
         chosen = choose_apertures(ref, stars0[: 1 + n_comp], g) | {"replaced": bool(too_big and not auto)}
         r_ap, r_in, r_out = chosen["r_ap"], chosen["r_in"], chosen["r_out"]
+        opts["apertures"] = tuple(r for r in opts["apertures"] if r < r_in)
     fwhm0 = seeing_fwhm(ref, recenter(ref, stars0, box)) if follow_seeing else None
     radii, fwhms, peaks = [], [], []
     saturation = saturation_level(h0, ref)
@@ -149,7 +152,7 @@ def light_curve(
         # a jolt) took every later frame with it, and the apertures measured empty sky without a word (owner's
         # NY Vir night); the stars found are then checked, and a star pattern match tried when they are not there
         shift = np.zeros(2) if i == 0 else np.asarray(frame_shift(ref, data, binning))
-        xy, flux, err, skylev, r, f, lost = _measure_frame(
+        xy, flux, err, skylev, r, f, multi, lost = _measure_frame(
             data,
             h,
             stars0 + shift,
@@ -172,7 +175,7 @@ def light_curve(
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
         moved = np.hypot(*(xy - stars0 - shift).T)  # how far centring moved each star from the frame's shift
-        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved))
+        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi))
     reader.shutdown(wait=False)
 
     def comps_seen(r):  # which comparison stars the frame has (signal above SNR_FOUND)
@@ -248,6 +251,10 @@ def light_curve(
     }
     if chosen:
         out["apertures"] = chosen
+    multi = [r[9] if len(r) > 9 else None for r in rows]
+    if opts["apertures"] and all(m is not None for m in multi):  # item 10: choose the radius later, no measuring
+        out["by_aperture"] = {"radii": list(opts["apertures"]), "flux": [m[0].tolist() for m in multi],
+                              "err": [m[1].tolist() for m in multi]}  # fmt: skip
     if fwhms:
         out["fwhm"] = fwhms
     if len(extra_xy):
@@ -277,13 +284,13 @@ def _frame(job):
         data, h = load(p)
         out = _measure_frame(data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, False, opts)
         corner = np.zeros(2)
-    xy, flux, err, skylev, radii, f, lost = out
+    xy, flux, err, skylev, radii, f, multi, lost = out
     try:
         t = timing.mid_time(h, *(opts or {}).get("time", ("auto", 0.0)))
     except timing.TimeError:
         t = None
     moved = np.hypot(*(xy + corner - asked).T)
-    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved)
+    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi)
     return row, _peaks(data, xy, radii[0]), radii, f
 
 
@@ -350,7 +357,7 @@ def _field_offset(data, pred, box):
 
 def _lost(out, n_comp):
     """Why a measured frame cannot be used, () when it can (see _measure_frame)."""
-    xy, flux, err, skylev, radii, f, found = out
+    xy, flux, err, skylev, radii, f, _, found = out
     n_main = 1 + n_comp
     if found[:n_main].mean() < 0.5:  # most stars are not where they were looked for: the frame is not placed
         return ("aligned",)
@@ -396,7 +403,12 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
             cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
         flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method)
-    return xy, flux, err, skylev, radii, f, found
+    multi = None
+    if opts.get("apertures") and not psf:  # item 10: every radius asked for, the same sky ring, kept to choose later
+        rs = [r * k for r in opts["apertures"]]
+        both = [measure(data, xy, r, radii[1], radii[2], g, h.get("PIXNOISE"), cam, sky_method)[:2] for r in rs]
+        multi = np.array([[fl for fl, _ in both], [e for _, e in both]])  # (flux / error, radius, star)
+    return xy, flux, err, skylev, radii, f, multi, found
 
 
 def _pixel_file_rows(src, paths, stars0, radii, gain, box):
@@ -471,3 +483,39 @@ def aperture_scan(paths, stars_xy, fwhm, gain=1.0, factors=(1.0, 1.25, 1.5, 1.75
     best = float(radii[near.max()])
     return {"radii": radii.tolist(), "scatter": p2p.tolist(), "best": best, "r_in": float(r_in), "r_out": r_out,
             "frames": 2 * len(pairs)}  # fmt: skip
+
+
+def with_aperture(lc, i):
+    """The light curve as if measured through radius lc["by_aperture"]["radii"][i] (plans/photometry.md item 10): the
+    fluxes of that radius, measured with the same centres and sky, and the relative flux formed again; stars a frame
+    did not have (item 13) stay out. Nothing is measured again."""
+    by = lc["by_aperture"]
+    f, e = np.asarray(by["flux"], float)[:, i, :], np.asarray(by["err"], float)[:, i, :]
+    n_comp = np.asarray(lc["comp_flux"], float).reshape(len(f), -1).shape[1]
+    gone = ~np.isfinite(np.asarray(lc["comp_flux"], float).reshape(len(f), -1))
+    cf, ce = f[:, 1 : 1 + n_comp].copy(), e[:, 1 : 1 + n_comp].copy()
+    cf[gone] = ce[gone] = np.nan
+    rel, rel_err = ensemble(f[:, 0], e[:, 0], cf, ce)
+    scale = by["radii"][i] / lc["radii"][0][0] if lc.get("radii") else 1.0
+    out = dict(lc) | {
+        "target_flux": f[:, 0].tolist(), "target_flux_err": e[:, 0].tolist(), "comp_flux": cf.tolist(),
+        "comp_flux_err": ce.tolist(), "rel_flux": rel.tolist(), "rel_flux_err": rel_err.tolist(),
+        "radii": [[r[0] * scale, *r[1:]] for r in lc.get("radii") or []],
+    }  # fmt: skip
+    if lc.get("extra_flux") is not None and f.shape[1] > 1 + n_comp:
+        out["extra_flux"], out["extra_flux_err"] = f[:, 1 + n_comp :].tolist(), e[:, 1 + n_comp :].tolist()
+    return out
+
+
+def aperture_correction(lc):
+    """Curve of growth from the radii measured (item 10): for each radius, the median over frames and comparison
+    stars of the flux through it over the flux through the largest, and the aperture correction in magnitudes
+    (-2.5 log10 of that share: add it to a magnitude measured through the radius to have the light through the
+    largest). Returns {"radii", "share", "correction_mag"}."""
+    by = lc["by_aperture"]
+    f = np.asarray(by["flux"], float)
+    n_comp = np.asarray(lc["comp_flux"], float).reshape(len(f), -1).shape[1]
+    stars = f[:, :, 1 : 1 + n_comp] if n_comp else f[:, :, :1]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        share = np.nanmedian(stars / stars[:, -1:, :], axis=(0, 2))
+    return {"radii": list(by["radii"]), "share": share.tolist(), "correction_mag": (-2.5 * np.log10(share)).tolist()}
