@@ -4,9 +4,7 @@ measured — separation, position angle, flux ratio and Δmag in apertures of th
 import numpy as np
 from PySide6.QtCore import QCoreApplication
 
-
-def tr(text):
-    return QCoreApplication.translate("ImagePage", text)
+translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Ctx", "…") calls
 
 
 def pair_rows(data, x0, y0, x1, y1, wcs=None):
@@ -21,14 +19,14 @@ def pair_rows(data, x0, y0, x1, y1, wcs=None):
     if not on_stars or not (p["ratio"] > 0 and p["ratio_err"] < p["ratio"] / 5):
         return []
     rows = [
-        (tr("Pair: separation (px)"), f"{p['separation_px']:.3f}"),
-        (tr("Pair: flux ratio f2/f1"), f"{p['ratio']:.4f} ± {p['ratio_err']:.4f}"),
-        (tr("Pair: Δmag (m2 − m1)"), f"{p['dmag']:.3f} ± {p['dmag_err']:.3f}"),
-        (tr("Pair: aperture, sky ring (px)"), f"{p['r_ap']:.1f}, {p['r_in']:.1f}–{p['r_out']:.1f}"),
+        (translate("ImagePage", "Pair: separation (px)"), f"{p['separation_px']:.3f}"),
+        (translate("ImagePage", "Pair: flux ratio f2/f1"), f"{p['ratio']:.4f} ± {p['ratio_err']:.4f}"),
+        (translate("ImagePage", "Pair: Δmag (m2 − m1)"), f"{p['dmag']:.3f} ± {p['dmag_err']:.3f}"),
+        (translate("ImagePage", "Pair: aperture, sky ring (px)"), f"{p['r_ap']:.1f}, {p['r_in']:.1f}–{p['r_out']:.1f}"),
     ]
     if "position_angle" in p:
         rows[1:1] = [
-            (tr("Pair: separation (″)"), f"{p['separation_arcsec']:.3f}"),
-            (tr("Pair: position angle (°, N through E)"), f"{p['position_angle']:.2f}"),
+            (translate("ImagePage", "Pair: separation (″)"), f"{p['separation_arcsec']:.3f}"),
+            (translate("ImagePage", "Pair: position angle (°, N through E)"), f"{p['position_angle']:.2f}"),
         ]
     return rows
