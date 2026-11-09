@@ -1912,19 +1912,19 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="484"/>
-        <location filename="../../ui/calibrate_page.py" line="635"/>
+        <location filename="../../ui/calibrate_page.py" line="649"/>
         <source>bias</source>
         <translation>Bias</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="485"/>
-        <location filename="../../ui/calibrate_page.py" line="635"/>
+        <location filename="../../ui/calibrate_page.py" line="649"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="486"/>
-        <location filename="../../ui/calibrate_page.py" line="635"/>
+        <location filename="../../ui/calibrate_page.py" line="649"/>
         <source>flat</source>
         <translation>Flat</translation>
     </message>
@@ -1994,37 +1994,67 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>kein Bias ({size}); wird ohne Bias kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="585"/>
+        <location filename="../../ui/calibrate_page.py" line="586"/>
+        <source>noise beyond what averaging leaves ({v:.2f} ADU)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="587"/>
+        <source>row or column banding ({v:.2f} ADU)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="588"/>
+        <source>{v:.0f} hot pixels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="589"/>
+        <source>an input flat at {v:.0%} of full well (20–80 % advised)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="590"/>
+        <source>a dust shadow {v:.1%} deep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="595"/>
+        <source>{master}: {what}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibrate_page.py" line="599"/>
         <source>Calibrating…</source>
         <translation>Kalibriere…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="594"/>
+        <location filename="../../ui/calibrate_page.py" line="608"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Linearitätskorrektur: Zahlen c0 c1 c2 … schreiben, z. B. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="605"/>
+        <location filename="../../ui/calibrate_page.py" line="619"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Fertig: {n} Bilder kalibriert, {m} Masterbilder nach {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="609"/>
+        <location filename="../../ui/calibrate_page.py" line="623"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} Bogenlampen-Aufnahmen kalibriert (nur Bias und Dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="615"/>
+        <location filename="../../ui/calibrate_page.py" line="629"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark mit {lo:.3f}–{hi:.3f} skaliert (DARKSCAL im Header jeder Datei).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="629"/>
+        <location filename="../../ui/calibrate_page.py" line="643"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} Gruppen von Kalibrationsbildern passen zu keinem Bild und wurden nicht kombiniert (z. B. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="637"/>
+        <location filename="../../ui/calibrate_page.py" line="651"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>Master-{kind} aus {n} Bildern (z. B. {file}) nicht erstellt, ohne ihn kalibriert: {why}</translation>
     </message>

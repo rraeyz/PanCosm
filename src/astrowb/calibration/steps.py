@@ -158,7 +158,7 @@ def _run(inputs, params, ctx):
     order = sorted(
         (k for k in plan.groups if k not in unused), key=lambda k: ("bias", "dark", "flat").index(kinds[k])
     )  # flats need bias + dark
-    failed = []  # masters that could not be made: their frames are left out, the lights calibrated without them
+    failed, qc = [], {}  # masters not made (their frames left out, lights calibrated without); the reports (CAL-6)
     for n, key in enumerate(order):
         ctx.check()
         ctx.progress(0.5 * n / max(1, len(order)), f"master {kinds[key]}")
@@ -175,8 +175,7 @@ def _run(inputs, params, ctx):
         except masters.CalibrationError as e:  # one bad group (e.g. flats that are not flats) must not stop the night
             failed.append({"kind": kinds[key], "frames": len(paths), "file": Path(paths[0]).name, "reason": str(e)})
             continue
-        name = f"master_{kinds[key]}_{n:02d}.fits"
-        built[key] = (data, h, masters.save(out / "masters" / name, data, h))
+        built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias))
 
     calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
@@ -235,9 +234,32 @@ def _run(inputs, params, ctx):
         "calibrated": calibrated,
         "missing": plan.missing,
         "failed_masters": failed,
+        "quality": qc,
         "arcs": arcs,
         "dark_scales": dark_scales,  # shown to the user: a scale far from 1 points to a wrong dark
     }
+
+
+def _save_master(out, kind, n, data, header, qc, paths, bias):
+    """The master written next to the frames, and its quality report kept under its name."""
+    name = f"master_{kind}_{n:02d}.fits"
+    qc[name] = _quality(kind, data, header, len(paths), bias)
+    return masters.save(out / "masters" / name, data, header)
+
+
+def _quality(kind, data, header, n_inputs, bias):
+    """The master's checks (calibration/quality.py, CAL-6) as plain values: {check: {value, ok, note}}."""
+    from .quality import report
+
+    known = {"n_inputs": n_inputs}
+    if kind == "dark" and bias is not None:
+        known |= {"bias": bias, "exptime": get(header, "EXPTIME", "EXPOSURE", default=0.0) or None,
+                  "gain": get(header, "EGAIN", "GAIN", default=1.0) or 1.0}  # fmt: skip
+    try:
+        return {k: {"value": float(v["value"]), "ok": bool(v["ok"]), "note": v["note"]}
+                for k, v in report(kind, data, **known).items()}  # fmt: skip
+    except (ValueError, ZeroDivisionError):  # a tiny or odd master: no report rather than no calibration
+        return {}
 
 
 def _remove_cosmic_rays(data, header, read_noise):

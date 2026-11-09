@@ -237,7 +237,14 @@ P3: 18, 20.
 - **Files:** `calibration/combine.py`, `masters.py`, `stacking.py`, `compute/stack.py`, tests.
 
 ### CAL-6. The quality report of the masters and of the calibration  (P1)
-**open**
+**partial** — done (2026-11-14), item 1 and its place in the run: `calibration/quality.py` (`level_noise` with the
+excess over σ/√N, `banding`, `hot_pixels`, `dark_current`, `flat_levels`, `dust` (binned for large flats: a 4k
+flat in 1.6 s), `flat_noise`, `report` per kind with ok / amber); `calibration.run` returns each master's report
+("quality"), and the Calibration window lists every amber check in its problems box. Tests
+(tests/test_cal_quality.py): banding 2 ADU, 500 hot pixels, 0.1 e⁻/s, a flat at 95 % of full well and a 3 % mote
+each reported within 10–15 %; a clean bias all green; a run on frames with a 6 % mote says so. Left: items 2–5 (the
+residual tests, the library comparison, the lights' before / after, the report tab with pictures and PDF, QC
+header keywords), the input flats' levels in the run, the real LCO masters.
 - **Ours now:** the Problems list after a run (groups that failed, missing frames); no statistics of the masters.
 - **Why:** no reference program tells the user whether the calibration is good. A bad flat ruins a night silently.
 - **Reference:** LCO BANZAI and ESO pipeline QC parameters (bias level and noise, structure, flat levels, number
