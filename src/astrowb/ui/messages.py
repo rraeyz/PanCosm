@@ -350,6 +350,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the target of the star list is outside this frame"),
     QT_TRANSLATE_NOOP("Messages", "not a multi-plot template"),
     QT_TRANSLATE_NOOP("Messages", "the meridian flip needs the times"),
+    QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     # photometry/measurements.py (the measurements table's filter)
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {part}"),
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the measurements table"),

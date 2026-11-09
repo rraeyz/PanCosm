@@ -554,7 +554,17 @@ keep camera profiles yet (devices item). Guide 06 in four languages.
 - **Accept:** the ETD file is accepted by the ETD upload check (or matches its published column layout).
 
 ### 16. Eclipse and transit fit on the light-curve page
-**agent2 claimed (2026-11-09) — do not touch**
+**agent2 done (2026-11-09, this commit)** — `minima.trapezoid_fit(..., covariates=)`: the trapezoid times
+exp(Σ c_k (z_k − mean z_k)) in one least-squares fit (the starting point from the curve with a first trend divided
+out, since the trend can be deeper than the transit), with the coefficients and the BIC; the `timeseries.minimum`
+step takes `detrend_with` (airmass, fwhm, sky, x, y) and fits them on the light curve before any detrending. In the
+Photometry window's Minimum tab: **Fit the ticked detrending quantities together with the transit** (with the
+trapezoid; the quantities ticked in the Plot tab); the result shows the coefficients and the BIC, and the time goes to
+O−C as before. Accept met: a synthetic transit on a curved airmass trend gives depth and mid-time within their 1σ
+(times 1.5 for the test's margin) and the airmass coefficient; the fit without the trend has a BIC more than 10
+higher (`test_transit_fitted_together_with_an_airmass_trend`). Rule 12: only the trapezoid gets the joint fit — the
+Kwee–van Woerden time has no model to put a trend in, and the physical eclipse models stay on the Models page.
+Guide 06 in four languages.
 - **Reference:** AIJ fits a transit model with the detrending in the same χ² and reports BIC.
 - **Ours:** minimum timing (KvW and others) on the Photometry page; transit and eclipsing-binary models live on the
   Models page.

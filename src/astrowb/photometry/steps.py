@@ -120,9 +120,14 @@ def apertures_step(inputs, params, ctx):
     return {"apertures": a}
 
 
-@step("timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="kvw", t0=None, period=None)
+@step(
+    "timeseries.minimum", inputs=("light_curve",), outputs=("minimum",), method="kvw", t0=None, period=None,
+    detrend_with=(),
+)  # fmt: skip
 def minimum_step(inputs, params, ctx):
-    """Time of minimum of a light curve; with t0 and period also epoch and O-C (days)."""
+    """Time of minimum of a light curve; with t0 and period also epoch and O-C (days). detrend_with: quantities
+    (airmass, fwhm, sky, x, y) fitted together with the trapezoid, on the light curve before any detrending
+    (plans/photometry.md item 16)."""
     from ..timeseries.minima import dips, each_minimum
 
     lc = inputs["light_curve"]
@@ -164,13 +169,25 @@ def minimum_step(inputs, params, ctx):
         tm, s_kvw, s_boot = kwee_van_woerden(t, y_norm)
         out = {"time": tm, "error": float(np.nanmax([s_kvw, s_boot])), "method": "kvw"}
     else:
-        fit = trapezoid_fit(t, y_norm, None if err is None else err / np.median(y))
+        cov = None
+        if params.get("detrend_with"):
+            from .differential import covariates
+
+            have = covariates(lc)
+            missing = [k for k in params["detrend_with"] if k not in have]
+            if missing:
+                raise ValueError("not in this light curve: {missing}".format(missing=", ".join(missing)))
+            cov = {k: have[k] for k in params["detrend_with"]}
+        fit = trapezoid_fit(t, y_norm, None if err is None else err / np.median(y), cov)
         out = {
             "time": fit["t0"],
             "error": fit["t0_err"],
             "method": "trapezoid",
             "depth": fit["depth"],
+            "depth_err": fit["depth_err"],
             "duration": fit["t14"],
+            "bic": fit["bic"],
+            "detrended_with": fit["coefficients"],
         }
     out["time_scale"] = lc.get("time_scale")
     if params["t0"] is not None and params["period"]:

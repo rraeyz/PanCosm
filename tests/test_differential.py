@@ -742,3 +742,60 @@ def test_header_time_convention_shutter_delay_and_hjd(tmp_path):
     want = (t.utc + ltt).jd
     assert abs(timing.hjd(t0, star, site).jd - want) * 86400 < 1
     assert abs(ltt.to_value("s")) > 60  # a real correction, not zero
+
+
+def test_transit_fitted_together_with_an_airmass_trend():
+    """plans/photometry.md item 16: a synthetic transit on an airmass trend: fitted together, depth and mid-time come
+    back within 1 sigma; the trapezoid with only a slope in time is pulled off."""
+    from astrowb.timeseries.minima import trapezoid_fit
+
+    rng = np.random.default_rng(16)
+    t = 2461000.30 + np.arange(300) / 1440.0
+    air = 1.05 + 30 * (t - 2461000.30) ** 2  # curved: not a straight line in time
+    t0, depth = 2461000.405, 0.015
+    shape = np.clip((0.045 - np.abs(t - t0)) / 0.008, 0, 1)
+    flux = (1 - depth * shape) * np.exp(-0.08 * (air - air.mean())) * (1 + rng.normal(0, 0.002, t.size))
+    err = np.full(t.size, 0.002)
+    fit = trapezoid_fit(t, flux, err, {"airmass": air})
+    assert abs(fit["t0"] - t0) < fit["t0_err"] * 1.5 and fit["t0_err"] < 0.001
+    assert abs(fit["depth"] - depth) < fit["depth_err"] * 1.5
+    assert fit["coefficients"]["airmass"] == pytest.approx(-0.08, abs=0.01)
+    plain = trapezoid_fit(t, flux, err)
+    assert plain["bic"] > fit["bic"] + 10  # the trend in the model is worth its parameter
+
+
+def test_minimum_step_fits_the_detrending_with_the_transit():
+    from astrowb.photometry.steps import minimum_step
+
+    rng = np.random.default_rng(17)
+    t = 2461000.30 + np.arange(200) / 1440.0
+    air = 1.05 + 30 * (t - 2461000.30) ** 2
+    shape = np.clip((0.04 - np.abs(t - 2461000.37)) / 0.008, 0, 1)
+    rel = (1 - 0.02 * shape) * np.exp(-0.1 * (air - air.mean())) * (1 + rng.normal(0, 0.002, t.size))
+    lc = {"time": t.tolist(), "rel_flux": rel.tolist(), "rel_flux_err": [0.002] * t.size, "airmass": air.tolist()}
+    out = minimum_step({"light_curve": lc}, {"method": "trapezoid", "t0": None, "period": None,
+                                              "detrend_with": ["airmass"]}, None)["minimum"]  # fmt: skip
+    assert abs(out["time"] - 2461000.37) < 2 * out["error"] and "airmass" in out["detrended_with"]
+    with pytest.raises(ValueError, match="not in this light curve: fwhm"):
+        minimum_step({"light_curve": lc}, {"method": "trapezoid", "t0": None, "period": None,
+                                           "detrend_with": ["fwhm"]}, None)  # fmt: skip
+
+
+def test_photometry_page_sends_the_trend_to_fit_with_the_transit(qtbot):
+    from astrowb.ui.workspaces import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
+    page.show_light_curve(synthetic_lc())
+    page.trend_boxes["airmass"].setChecked(True)
+    page._detrend()  # the shown curve is detrended; the fit must get the curve before it
+    page.trapezoid.setChecked(True)
+    page.fit_trend.setChecked(True)
+    with qtbot.waitSignal(page.minimum_requested) as sig:
+        page._minimum()
+    lc, params = sig.args
+    assert params["detrend_with"] == ["airmass"] and lc["rel_flux"] == list(page._rel_before_detrend[0])
+    page.show_minimum({"time": 2461000.4, "error": 0.0004, "time_scale": "BJD_TDB", "method": "trapezoid",
+                       "depth": 0.3, "duration": 0.08, "bic": 123.4, "detrended_with": {"airmass": -0.05}})  # fmt: skip
+    assert "Fitted together with the trend: airmass -0.0500" in page.result.text()
