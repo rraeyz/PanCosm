@@ -8,10 +8,12 @@ ready with everything imported; a task takes it over and a new spare starts behi
 runs in a process of its own.
 """
 
+import atexit
 import itertools
 import multiprocessing as mp
 import os
 import queue
+import signal
 import threading
 import time
 import traceback
@@ -23,6 +25,29 @@ SPARE_DELAY_S = 2.0  # the first spare starts after this, so it does not compete
 
 class Cancelled(Exception):
     pass
+
+
+def _own_group():
+    """A worker leads a process group of its own: the processes it starts (a pool for the frames) are in it and end
+    with it. Without this a stopped worker left its pool running, and on macOS those orphans held the resource
+    tracker's pipe open so the program never ended (CI, 2026-11-09)."""
+    if os.name == "posix":
+        try:
+            os.setpgid(0, 0)
+        except OSError:
+            pass
+
+
+def _terminate(proc):
+    """Stop a worker and the processes it started (its process group, see _own_group)."""
+    if os.name == "posix" and proc.pid:
+        try:
+            if os.getpgid(proc.pid) == proc.pid:
+                os.killpg(proc.pid, signal.SIGTERM)
+                return
+        except OSError:
+            pass
+    proc.terminate()
 
 
 class TaskFailed(Exception):
@@ -95,6 +120,7 @@ class Task:
 
 
 def _worker(task_id, fn, args, kwargs, messages, cancel_event):
+    _own_group()
     ctx = Context(task_id, messages, cancel_event)
     try:
         messages.put((task_id, "done", fn(*args, ctx=ctx, **kwargs)))
@@ -106,6 +132,7 @@ def _worker(task_id, fn, args, kwargs, messages, cancel_event):
 
 def _spare(inbox, messages, cancel_event):
     """A ready worker: import the steps now, then wait for one task."""
+    _own_group()
     try:
         from . import steps
 
@@ -147,6 +174,15 @@ class TaskQueue:
         self._spare_after = time.monotonic() + SPARE_DELAY_S
         self._monitor = threading.Thread(target=self._loop, name="task-monitor", daemon=True)
         self._monitor.start()
+        atexit.register(self._end_all)  # before multiprocessing's own exit handler, which stops only the workers
+
+    def _end_all(self):
+        """At exit: every worker and spare stopped with what it started (_terminate)."""
+        with self._lock:
+            procs = [p for _, p in self._running.values()] + ([self._spare[0]] if self._spare else [])
+        for proc in procs:
+            if proc.is_alive():
+                _terminate(proc)
 
     def submit(self, fn, *args, name: str | None = None, **kwargs) -> Task:
         """Run fn(*args, ctx=Context, **kwargs) in a worker. fn and arguments must be picklable."""
@@ -168,7 +204,7 @@ class TaskQueue:
         for _, proc in running:
             proc.join(max(0.0, deadline - time.monotonic()))
             if proc.is_alive():
-                proc.terminate()
+                _terminate(proc)
         self._stop.set()
         self._monitor.join(2)
 
@@ -218,7 +254,7 @@ class TaskQueue:
     def _end_spare(spare):
         proc, inbox, *_ = spare
         if proc.is_alive():
-            proc.terminate()  # idle: nothing to lose
+            _terminate(proc)  # idle: nothing to lose
         proc.join(1)
 
     def _finish(self, task_id, state, payload):
@@ -264,4 +300,4 @@ class TaskQueue:
                     p for t, p in self._running.values() if t._cancel_time and now - t._cancel_time > CANCEL_GRACE_S
                 ]
             for proc in stuck:
-                proc.terminate()  # reported as cancelled on the next pass
+                _terminate(proc)  # reported as cancelled on the next pass
