@@ -487,7 +487,7 @@ synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars
 ## P2 — complete for eclipsing binaries and variable stars
 
 ### 10. Several apertures at once and aperture correction
-**agent2 done (2026-11-09, this commit)** — `light_curve(..., apertures=)` measures every frame through each radius
+**agent2 done (2026-11-09, commit 0953f9f)** — `light_curve(..., apertures=)` measures every frame through each radius
 asked for (inside the sky ring), with the same centres and sky, and keeps them in `lc["by_aperture"]`;
 `with_aperture(lc, i)` gives the curve of radius i without measuring again (stars a frame lacks stay out, item 13);
 `aperture_correction(lc)` the curve of growth: each radius's median share of the light through the largest, and
@@ -505,7 +505,7 @@ relative to the largest radius measured, not extrapolated to infinity. Guide 06 
 - **Accept:** switching radius after the measurement gives the same curve as measuring with that radius.
 
 ### 11. Several filters in one night
-**open**
+**agent2 claimed (2026-11-09) — do not touch**
 - **Reference:** IRAF photcal transformation equations; common practice in B and V monitoring.
 - **Ours:** the images are grouped by filter, but each filter is measured on its own; the transformation exists only
   as separate steps.
