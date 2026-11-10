@@ -174,7 +174,13 @@ Order of work: IMG-W, then P1: 1, 2, 3, 6, 8, 10; P2: 4, 5, 7, 11, 12, 13, 14, 1
 - **Files:** `images/inspect.py` (from `io/inspect.py`, old names re-exported), `ui/images/panels/inspector_info.py`, `ui/image/tools.py`, `api/`, `tests/test_inspect.py`, `tests/validation/test_imexamine.py`
 
 ### IMG-4. Image quality across the field and through the night  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `io/field_quality.py` `analyse` (every star's FWHM, elongation and
+angle from a 2-D Gaussian — moments of a cut-out were biased by its noise and edge; the field's FWHM as a clipped
+surface a + b·u + c·v + d·r²: tilt (per cent across the sensor and its direction) and curvature (corners against
+the centre); the stars' mean axis on the doubled angle). Tests (tests/test_field_quality.py): a tilt of 2.0 → 3.0 px
+across x and a curvature of 0.8 px recovered within 10 %, stars elongated at 30° within 3°. Left: HFD, the
+whisker and aberration-tile pictures, background and vignetting maps, the report card against the profile, the
+series against time, the 4k speed target, the Images window's panel.
 - **Read first:** the descriptions of CCD Inspector's measurements (FWHM map, curvature in per cent, tilt in x and
   y, collimation) and ASTAP's image inspector (HFD in a 3 × 3 grid, tilt, off-axis aberration); N.I.N.A.'s
   aberration inspector plug-in description; Diggs & George / Weber & Brady on half-flux diameter.
