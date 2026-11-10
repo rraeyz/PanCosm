@@ -532,7 +532,11 @@ checksums, atomic writes and resuming, the estimate shown before the run.
 - **Files:** `tests/validation/test_calibration_*.py`, `tests/validation/scripts/iraf/ccdred_*.cl`, `tests/validation/scripts/ccdproc/*.py`, `tests/validation/data/calibration/`
 
 ### CAL-22. Calibrate frames as they arrive  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/live.py` `LiveCalibrator` (the night's masters read once;
+`process` calibrates one light with the batch run's calls and writes its CALB / CALD / CALF; `poll` takes every
+new file of a folder, oldest first). Test (tests/test_calibration_live.py): a night replayed frame by frame equals
+the batch run bit for bit. Left: "Follow a folder" in the Calibrate stage, handing each frame to Photometry's live
+mode and the live stack, the Observing window's switch, the library's masters.
 - **Reference:** AstroImageJ Data Processor polling; MaxIm DL auto-calibrate on acquire.
 - **Build:** "Follow a folder" in the Calibrate stage with the night's masters (or the library's): each new light is
   calibrated on arrival and handed to whoever follows (Photometry PHO-19, live stack, Images); the Observing window
