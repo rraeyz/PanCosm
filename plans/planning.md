@@ -91,6 +91,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Extra accept:** from an empty window: "What can I observe tonight?" → pick three results → chart → schedule →
   "Send to Observing": **six clicks**; no site set → the first stage says so and opens the profile.
 - **Depends on:** ARC-4.5, ARC-5, ARC-6, ARC-8, ARC-16, UI-1 … UI-4.
+- **Files:** `ui/planning/{window,controller,state,menus}.py`, `ui/planning/panels/{site,targets,night,schedule,send,inspector}.py`, `tests/ui/walks/planning.py`, guide 02
 
 ### PLN-1. Site, horizon and the night  (P1)
 **open**
@@ -122,6 +123,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Accept:** a pasted list of 50 names resolves (recorded responses) with the unresolved ones listed and
   editable; a list survives restart and project move; a high-proper-motion star's coordinates at the date differ
   from J2000 by the right amount.
+- **Files:** `planning/targets.py`, `planning/target_lists.py`, `ui/planning/panels/targets.py`, `tests/test_target_lists.py`
 
 ### PLN-3. The night chart, the sky map, the year  (P1)
 **open**
@@ -141,6 +143,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   transit.
 - **Accept:** 30 targets redraw in < 150 ms while dragging the date; the event bars equal PLN-4's times; the year
   tab's best date for a star equals the date its right ascension transits at local midnight (± 2 days).
+- **Files:** `planning/charts.py` (FigureSpec builders), `planning/visibility.py`, `ui/planning/panels/night.py`, `tests/test_planning_charts.py`
 
 ### PLN-4. Events with honest uncertainties  (P1)
 **open**
@@ -160,6 +163,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Accept:** for ten planets the predicted mid-times and windows equal the stored Transit Finder page for the
   same site and night within 1 minute; for ten eclipsing binaries the stored prediction service page within 2
   minutes; σ grows correctly with epochs since T0 (test against the formula on synthetic ephemerides).
+- **Files:** `planning/events.py` (from `visibility.events`, re-exported), `planning/ephemerides.py`, `tests/test_events.py`
 
 ### PLN-5. "What can I observe tonight?"  (P1)
 **open**
@@ -208,6 +212,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Accept:** predicted peak counts and S/N for the Qatar-1 and HAT-P-32 nights (their real zero points) within
   25 % and 20 % of the frames' measured values; the suggested framing for NY Vir's field keeps ≥ 6 rule-passing
   comparison stars where the target-centred frame keeps fewer (asserted on the catalogue).
+- **Files:** `planning/exposure.py`, `planning/framing.py`, `photometry/comprules.py` (used), `services/hips2fits.py`, `ui/planning/panels/inspector.py`, `tests/test_framing.py`
 
 ### PLN-7. The schedule  (P1)
 **open**
@@ -229,6 +234,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   constraint, includes overheads, and equals a brute-force optimum of the merit function within 5 % on a small
   case; dragging a block updates conflicts in < 50 ms; the exported sequence runs in the simulator (OBS-16) to the
   planned times within a minute.
+- **Files:** `planning/scheduler.py` (from `schedule.py`, re-exported), `planning/export_{nina,acp}.py`, `ui/planning/panels/schedule.py`, `tests/test_scheduler.py`
 
 ### PLN-8. Phase coverage over many nights  (P2)
 **open**
@@ -242,6 +248,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 - **Accept:** synthetic history covering phases 0–0.4: the planner proposes only windows in 0.4–1.0 and orders them
   by the stated score; a period commensurable with the day (P = 1.0003 d) is flagged "phase gaps close only after
   N weeks".
+- **Files:** `planning/phase_coverage.py`, `ui/planning/panels/coverage.py`, `tests/test_phase_coverage.py`
 
 ### PLN-9. Standards and calibration targets  (P2)
 **open**
@@ -252,6 +259,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   bracketing the night's airmass range for an extinction solution; inserted into the schedule as blocks.
 - **Accept:** for a stored night the suggested telluric standard's airmass matches the target's within 0.1 at the
   proposed time; lists carry their references.
+- **Files:** `planning/standards.py`, `resources/data/standards/*.ecsv` (with references), `tests/test_standards.py`
 
 ### PLN-10. Finder charts, field preview, mosaics  (P2)
 **open**
@@ -261,6 +269,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   becoming a target; printable finder charts (IMG-11).
 - **Accept:** footprints agree with the plate scale and a real frame's solved corners within 1 %; a 2 × 3 mosaic's
   panels overlap by the chosen 15 % everywhere (spherical geometry test at declination 85°).
+- **Files:** `planning/framing.py`, `images/chart.py`, `ui/planning/panels/inspector.py`, `tests/test_footprints.py`
 
 ### PLN-11. Weather and sky conditions  (P2)
 **open**
@@ -272,6 +281,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   (cached 1 hour); clearly labelled as a forecast with its source and issue time.
 - **Accept:** recorded responses parse; offline shows the last forecast with its age; the attribution text is
   shown.
+- **Files:** `services/forecast.py`, `ui/planning/panels/night.py`, `tests/test_forecast.py`
 
 ### PLN-12. Alerts and campaigns  (P3)
 **open**
@@ -279,6 +289,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   Name Server's public list, Gaia Science Alerts, ExoClock alerts): a "News" tab listing items with coordinates
   observable from the site tonight; one click adds a target. Each feed optional and off by default.
 - **Accept:** recorded feed samples parse into targets; nothing is fetched unless a feed is switched on.
+- **Files:** `services/feeds_*.py`, `ui/planning/panels/news.py`, tests with recorded samples
 
 ### PLN-13. The observing log and the night report  (P2)
 **open**
@@ -289,6 +300,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   columns for PLN-2 and PLN-5.
 - **Accept:** the practice night and two public nights produce the right spans and event coverage; the report
   compiles.
+- **Files:** `planning/obslog.py`, `engine/project.py` (queries), `ui/planning/panels/log.py`, `tests/test_obslog.py`
 
 ### PLN-14. Validation  (P2)
 **open**
@@ -297,6 +309,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
   the exposure predictor against real nights (PLN-6's accept); the scheduler's times against a simulated run
   (OBS-16).
 - **Accept:** `pytest -m validation` covers almanac, events, exposure and schedule.
+- **Files:** `tests/validation/test_planning_*.py`, `tests/validation/data/planning/` (stored reference pages and Horizons tables)
 
 ## Found while working
 

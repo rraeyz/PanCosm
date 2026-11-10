@@ -253,6 +253,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   5000 K): the out-of-eclipse reflection hump agrees within 3 % of its amplitude; `point` equals `detailed` within
   2 % of the effect for (r₁ + r₂) < 0.3.
 - **Depends on:** MOD-3.
+- **Files:** `models/roche/reflection.py`, `tests/test_roche_reflection.py`
 
 ### MOD-5. Orbit and timing terms  (P1)
 **open**
@@ -269,6 +270,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   1e-9; volume constant around the orbit to 1e-8; against PHOEBE 2 for an eccentric detached system within 2e-4;
   30-minute integration of a 2-hour eclipse equals a brute-force fine sum to 1e-6.
 - **Depends on:** MOD-3.
+- **Files:** `models/roche/orbit.py`, `occult/orbit.py` (shared Kepler and conjunction code), `tests/test_roche_orbit.py`
 
 ### MOD-6. Passbands and atmosphere tables as a data pack  (P1)
 **open**
@@ -304,6 +306,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   star eclipsed by a small dark body equals the analytic first-order formula within 3 %; against PHOEBE 2
   flux-weighted velocities of a semi-detached pair within 0.5 km/s through the eclipses.
 - **Depends on:** MOD-5.
+- **Files:** `models/roche/velocity.py`, `tests/test_roche_velocity.py`
 
 ### MOD-8. Spots  (P1)
 **open**
@@ -318,6 +321,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   spot amplitude; a contact system's O'Connell asymmetry of 0.02 mag is reproduced by one cool spot and recovered
   by a fit from a start 30° away in longitude.
 - **Depends on:** MOD-3.
+- **Files:** `models/roche/spots.py`, `models/roche/surface.py` (subdivision hook), `tests/test_roche_spots.py`
 
 ### MOD-9. Native kernel, speed, and the reference grid  (P1)
 **open**
@@ -337,6 +341,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   machine (4 threads), `fine` < 100 ms; the reference tests pass; a table of ours / PHOEBE / WD / ellc differences
   and timings is written into the guide's methods chapter.
 - **Depends on:** MOD-1 … MOD-8, ARC-9.
+- **Files:** `native/src/roche.rs`, `models/roche/engine.py` (chooses native or NumPy), `tests/validation/scripts/binary_reference/{phoebe,wd,ellc}_*.py`, `tests/validation/data/binary_reference/`, `tests/validation/test_roche_reference.py`, `tools/speed.py`
 
 ### MOD-W. The Models window on the new anatomy  (P1)
 **open**
@@ -347,6 +352,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   over the data → Fit → results table: **six clicks**; the sentence sending users to other programs is gone; a
   model evaluation after any parameter edit redraws in < 150 ms (normal accuracy).
 - **Depends on:** ARC-4.6, ARC-5, ARC-6, ARC-8, UI-1 … UI-4, MOD-10.
+- **Files:** `ui/models/{window,controller,state,menus}.py`, `ui/models/panels/{data,system,stars,extras,fit,uncertainty,results,parameters,history,view3d}.py`, `ui/models/visual/` (the visual-orbit job), `tests/ui/walks/models.py`, guide 09
 
 ### MOD-10. Data sets, parameters, constraints  (P1)
 **open**
@@ -401,6 +407,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   converges to the true solution in ≥ 85 % of the systems (a test with the fits of MOD-12); morphology suggested
   right in ≥ 90 %; e cos ω within 0.01.
 - **Depends on:** MOD-9.
+- **Files:** `models/estimate.py`, step `models.estimate`, `tests/test_model_estimate.py`
 
 ### MOD-12. Fitting, with a history the user can walk  (P1)
 **open**
@@ -430,6 +437,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   points in two bands with 10 free parameters: < 30 s (normal accuracy); the history restores an earlier row
   exactly.
 - **Depends on:** MOD-10, MOD-11.
+- **Files:** `models/fitting.py`, `models/history.py`, step `models.fit` (old `models.eb_fit` kept as a wrapper), `tests/test_model_fitting.py`
 
 ### MOD-13. The q-search and other scans  (P1)
 **open**
@@ -445,6 +453,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   eclipsing one: the verdict says unreliable; the real W UMa set: the photometric q within 0.02 of the
   spectroscopic one; 40 q values × fits in < 5 min.
 - **Depends on:** MOD-12.
+- **Files:** `models/scan.py`, step `models.scan`, `ui/models/panels/scan.py`, `tests/test_model_scan.py`
 
 ### MOD-14. Uncertainties  (P1)
 **open**
@@ -463,6 +472,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   within 0.5 % and errors comparable to the published benchmark (± a factor 1.5); 50 000 samples with the native
   kernel < 20 min on 4 cores.
 - **Depends on:** MOD-12, EXO-5.
+- **Files:** `models/uncertainty.py`, `core/inference/` (EXO-5), `models/fit.py` (old `mcmc` becomes a wrapper), `tests/test_model_uncertainty.py`, `tests/coverage/test_binary_coverage.py`
 
 ### MOD-15. Absolute dimensions, distance, where the stars sit  (P1)
 **open**
@@ -479,6 +489,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   isochrone pack of EXO-6 when installed), Roche-lobe filling percentages; a table in the layout of Torres et al.
 - **Accept:** AI Phe's published M and R reproduced within the published errors from our fit; the distance within
   2σ of Gaia's; constants are the IAU nominal ones (a test).
+- **Files:** `models/absolute.py` (from `fit.absolute_dimensions`, re-exported), `core/constants.py`, `stars/` (bolometric corrections), `tests/test_absolute.py`
 
 ### MOD-16. Seeing the system  (P1)
 **open**
@@ -493,6 +504,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   (PNG sequence and GIF through Pillow).
 - **Accept:** the silhouette areas at 50 phases equal the model's projected areas within 1 %; 30 fps while dragging
   the phase; the picture of a contact system shows the neck; four-language labels.
+- **Files:** `ui/models/panels/view3d.py`, `models/roche/render.py` (projection and shading without Qt), `tests/test_roche_render.py`
 
 ### MOD-17. More kinds of data in the same fit  (P2)
 **open**
@@ -502,6 +514,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   distance of MOD-15; colour-index curves.
 - **Accept:** each constraint moves a synthetic solution towards the truth and narrows the posterior as expected
   (tests); the apsidal-motion system of OC-7 fitted with light curve + minima gives ω̇ within its error.
+- **Files:** `models/system.py` (new data kinds), `models/fitting.py` (their likelihood terms), `tests/test_model_datakinds.py`
 
 ### MOD-18. The Simple level, complete  (P2)
 **open**
@@ -513,6 +526,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   third-light constraints, velocities and minima fitted with the light curve; a strict validity check (oblateness
   > 0.04 → advise Roche).
 - **Accept:** against JKTEBOP run beside ours on two detached systems: parameters within 0.2σ, curves within 1e-5.
+- **Files:** `models/simple.py` (from `eb.py`, old names re-exported), `occult/`, `tests/test_simple_model.py`, `tests/validation/scripts/jktebop/`
 
 ### MOD-19. Reports and exchange  (P1)
 **open**
@@ -524,6 +538,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   who must cross-check; the methods text (ARC-11) naming every physical ingredient switched on and its reference.
 - **Accept:** the WD export of five reference systems run through the WD program reproduces our curve within the
   cross-program tolerance; the PHOEBE script likewise; LaTeX tables compile.
+- **Files:** `models/report.py`, `models/{io_wd,io_phoebe}.py` (writers), `models/wd.py` and `models/data.py` (old exports kept), `resources/methods/models_*.txt`, `tests/test_model_report.py`
 
 ### MOD-20. Visual binaries  (P2)
 **open**
@@ -538,6 +553,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   sum with the parallax (Gaia) and its error.
 - **Accept:** three ORB6 grade-1 orbits reproduced within their errors from the INT4 measures; a synthetic visual +
   SB2 system: masses and distance within 1σ.
+- **Files:** `models/visual.py`, `models/visual_joint.py`, `services/{wds,orb6,int4}.py`, `ui/models/visual/`, `tests/test_visual_orbit.py`
 
 ### MOD-21. Benchmarks against published solutions  (P1)
 **open**
@@ -546,6 +562,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   differences discussed; the owner's own solved system when provided.
 - **Accept:** every benchmark's key parameters (radii, inclination, temperature ratio, q where photometric) within
   the published errors, or the difference explained by a stated cause.
+- **Files:** `tests/validation/test_binary_benchmarks.py`, `data/models/*/SOURCE.md`, guide 13
 
 ### MOD-22. Further models  (P3)
 **open**
@@ -555,6 +572,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   modulation fits); pulsation as a multi-sine term added to the binary model (for pulsating components, with PER-6's
   frequencies); a simple optically thick disc and hot spot for Algols and cataclysmic variables (Zola 1991's model
   as described in the literature) — listed so that the limits of the engine are stated in the guide.
+- **Files:** `models/extra/{spotted_star,pulsation,disc}.py` (only when built)
 
 ## Found while working
 

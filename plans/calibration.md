@@ -109,6 +109,7 @@ P3: 18, 20.
   shows before / after — **three clicks**; every grey paragraph of the old page is gone from the panel and found in
   the Help panel.
 - **Depends on:** ARC-4.5, ARC-5, ARC-7, ARC-8, UI-1 … UI-4.
+- **Files:** `ui/calibration/{window,controller,state,menus}.py`, `ui/calibration/panels/{frames,check,masters,calibrate,review,continue_,plan,report}.py`, `tests/ui/walks/calibration.py`, guide 04
 
 ### CAL-1. Frames stage: groups, previews, any folder layout  (P1)
 **open**
@@ -270,6 +271,7 @@ P3: 18, 20.
   two masters (ratio image, difference statistics), retire or delete.
 - **Accept:** a night with lights only calibrates from the library with the reasons shown; a flat older than its
   validity is offered with an amber mark, not used silently; two masters' comparison of a moved dust mote shows it.
+- **Files:** `calibration/library.py`, `calibration/matching.py`, `ui/calibration/dialogs/library.py`, `tests/test_master_library.py`
 
 ### CAL-8. Bad-pixel masks as files, cosmetic correction choices  (P1)
 **open**
@@ -337,6 +339,7 @@ P3: 18, 20.
   field's large-scale residual.
 - **Accept:** synthetic night whose dome flat has a 3 % illumination gradient the sky does not have: the corrected
   photometry of a star dithered across the field is constant within 0.3 % (was 3 %).
+- **Files:** `calibration/skyflat.py`, `calibration/matching.py` (plan column), steps, `tests/test_skyflat.py`
 
 ### CAL-12. Cosmic rays and trails: preview, masks, the right parameters  (P1)
 **open**
@@ -394,6 +397,7 @@ P3: 18, 20.
   resumed (frames already written with the same provenance hash are skipped).
 - **Accept:** a calibrated file opens in DS9, AstroImageJ and IRAF (`imstat` equal); an interrupted run resumed
   writes only the missing frames; the estimate is within 10 % of the real size.
+- **Files:** `calibration/output.py`, `calibration/masters.py` (`save`), `calibration/steps.py`, `ui/shell/settings/files.py`, `tests/test_calibration_output.py`
 
 ### CAL-15. Registration: more than shifts  (P2)
 **open**
@@ -411,6 +415,7 @@ P3: 18, 20.
 - **Accept:** synthetic frames with rotation 0.7°, scale 1.002 and barrel distortion: star positions after
   registration within 0.05 px RMS; total flux of stars conserved within 0.2 % (Lanczos) and 0.05 % (exact); a
   meridian-flipped half night aligns.
+- **Files:** `calibration/registration.py` (from `stacking.py` and `starmatch.py`), `calibration/resample.py`, `tests/test_registration.py`
 
 ### CAL-16. Stacking: parity with Siril and MaxIm DL  (P2)
 **open**
@@ -422,6 +427,7 @@ P3: 18, 20.
 - **Accept:** 50 frames of the Qatar-1 field: stack noise falls as 1/√N within 5 %; a satellite trail in one frame
   leaves no trace above 0.5σ with the default rejection; a 2 × 2 mosaic of synthetic fields joins with seams below
   0.3σ.
+- **Files:** `calibration/stacking.py`, `calibration/mosaic.py`, `calibration/drizzle.py`, steps `stacking.*`, `tests/test_stacking.py`
 
 ### CAL-17. Colour sensors  (P2)
 **open**
@@ -433,6 +439,7 @@ P3: 18, 20.
   saturation / linearity limits, sensor temperature from EXIF when present; CFA drizzle.
 - **Accept:** a synthetic Bayer night: superpixel photometry of the green channel equals the mono truth within
   noise; equalised flats remove a colour cast of the flat panel; an X-Trans raw classifies and calibrates.
+- **Files:** `io/bayer.py`, `calibration/cfa.py`, `images/debayer.py`, `tests/test_bayer.py`
 
 ### CAL-18. Spectroscopic calibration hooks  (P3; the science is in `plans/spectroscopy.md`)
 **open**
@@ -441,6 +448,7 @@ P3: 18, 20.
   exposures unless optimised; lamp frames grouped by lamp name; twilight / dome flats distinguished from lamp
   flats.
 - **Accept:** the EFOSC2 and TOFES nights group correctly and hand the right frames to SPE.
+- **Files:** `calibration/matching.py` (data kind = spectra), `calibration/frames.py`, `tests/test_calibration_spectra.py`
 
 ### CAL-19. Many nights at once  (P2)
 **open**
@@ -448,6 +456,7 @@ P3: 18, 20.
   where a night lacks them, one run in the background with a summary table per night (frames, masters used,
   problems, QC marks), resumable (CAL-14); recipe export (ARC-12).
 - **Accept:** three nights in one folder tree calibrate in one run with per-night outputs and one report.
+- **Files:** `calibration/steps.py` (`calibration.nights`), `calibration/groups.py`, UI frames panel (nights level), `tests/test_calibration_nights.py`
 
 ### CAL-20. Speed  (P3)
 **open**
@@ -455,6 +464,7 @@ P3: 18, 20.
   threads; native CPU kernels for combine (ARC-9) if NumPy partition-based code is the hot spot; GPU thresholds from
   ARC-10; peak memory cap respected (block size from available memory).
 - **Accept:** architecture budgets met; results bit-identical to before for the default methods.
+- **Files:** `tools/speed.py` cases, `calibration/{masters,combine}.py`, `native/src/combine.rs` (only if profiling asks)
 
 ### CAL-21. Validation set for calibration  (P2)
 **open**
@@ -463,6 +473,7 @@ P3: 18, 20.
   (have, as a test); fringe (CAL-10) and mosaic (CAL-4) sets. The IRAF scripts used are kept in
   `tests/validation/scripts/` so that any agent can regenerate the references.
 - **Accept:** `pytest -m validation` covers every calibration capability with a real set.
+- **Files:** `tests/validation/test_calibration_*.py`, `tests/validation/scripts/iraf/ccdred_*.cl`, `tests/validation/scripts/ccdproc/*.py`, `tests/validation/data/calibration/`
 
 ### CAL-22. Calibrate frames as they arrive  (P2)
 **open**
@@ -471,6 +482,7 @@ P3: 18, 20.
   calibrated on arrival and handed to whoever follows (Photometry PHO-19, live stack, Images); the Observing window
   can switch it on for its sequence.
 - **Accept:** a replayed night gives the same calibrated files as the batch run (bit-identical).
+- **Files:** `calibration/live.py`, `photometry/live.py` (`load_masters` moved here), `calibration/steps.py`, UI calibrate panel, `tests/test_calibration_live.py`
 
 ### CAL-23. Header tools  (P1)
 **open**

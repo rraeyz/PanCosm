@@ -729,6 +729,7 @@ the suite is green after each.
   (rewriting needs a force-push the owner's settings forbid) — `data/README.md` keeps the blob-filter advice.
 - **Accept:** a newcomer following README + CONTRIBUTING reaches a green test run in one try (tested in a clean
   container).
+- **Files:** `README.md`, `CONTRIBUTING.md`, `docs/`, `data/README.md`
 
 ## Found while working
 

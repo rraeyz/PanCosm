@@ -120,6 +120,7 @@ released and live on in SPE-7 and SPE-12)
   proposed and accepted → wavelength-calibrated spectrum saved: every state fits 1366 × 768 without scrolling, in
   four languages; a 1-D spectrum dropped on the window opens the Spectrum job directly (no forced order).
 - **Depends on:** ARC-4.3, ARC-5, ARC-6, ARC-7, ARC-8, UI-1 … UI-4.
+- **Files:** `ui/spectroscopy/{window,controller,state,menus}.py`, `ui/spectroscopy/jobs/{longslit,echelle,spectrum,velocities,orbit,parameters,cube}/`, `ui/spectroscopy/panels/{frames,profile,identify,fit}.py`, `tests/ui/walks/spectroscopy.py`, guide 08
 
 ### SPE-1. Frames, roles and associations for spectra  (P1)
 **open**
@@ -153,6 +154,7 @@ released and live on in SPE-7 and SPE-12)
   three things that cannot be read: which way the dispersion runs, where blue is, which lamp).
 - **Accept:** each data set's frames select their profile by themselves; a user profile made with the wizard reduces
   a rotated copy of the EFOSC2 set identically.
+- **Files:** `resources/spectrographs/*.toml`, `core/profiles.py` (`Spectrograph`), `spectroscopy/instrument.py`, `ui/spectroscopy/dialogs/new_profile.py`, `tests/test_spectrograph_profiles.py`
 
 ### SPE-3. Finding objects, tracing, and the aperture editor  (P1)
 **open**
@@ -190,6 +192,7 @@ released and live on in SPE-7 and SPE-12)
   residuals after SPE-5 with the map are ≤ 1.5 × the noise where the column-wise sky leaves P-Cygni-like residuals
   ≥ 5 × the noise (asserted on synthetic and on the real tilted set).
 - **Depends on:** SPE-7 (1-D solution).
+- **Files:** `spectroscopy/geometry.py`, `ui/spectroscopy/panels/geometry.py`, `tests/test_slit_geometry.py`
 
 ### SPE-5. Sky subtraction  (P1)
 **open**
@@ -304,6 +307,7 @@ released and live on in SPE-7 and SPE-12)
   flexure against time and hour angle; a warning when none is available and the arc is far in time.
 - **Accept:** frames shifted by a known 0.37 px are corrected within 0.03 px from sky lines and within 0.05 px
   from telluric bands (synthetic and the FEROS telluric set).
+- **Files:** `spectroscopy/zeropoint.py` (from `wavecal.sky_shift`, re-exported), `tests/test_zeropoint.py`
 
 ### SPE-9. Échelle: flat, blaze, orders, merging  (P1)
 **open**
@@ -326,6 +330,7 @@ released and live on in SPE-7 and SPE-12)
   over 4000–6800 Å after a low-order polynomial; line depths of the merged solar spectrum against the Kurucz atlas
   convolved to the resolving power within 2 % rms.
 - **Depends on:** SPE-6.
+- **Files:** `spectroscopy/echelle.py`, `spectroscopy/{blaze,merge}.py`, step `spectroscopy.echelle`, `tests/test_echelle.py`, `tests/validation/test_harps_drs.py`
 
 ### SPE-10. Flux calibration  (P2)
 **open**
@@ -367,6 +372,7 @@ released and live on in SPE-7 and SPE-12)
   of the continuum outside saturated cores; a synthetic stellar spectrum times a known transmission is recovered
   within 1 % where T > 0.3; the fitted water column correlates with the header's humidity-derived value where
   available (reported, not asserted).
+- **Files:** `spectroscopy/telluric_model.py`, `tools/build_telluric_templates.py`, `core/datapacks.py` entry, `spectroscopy/telluric.py`, `tests/test_telluric_model.py`
 
 ### SPE-12. The Spectrum job: 1-D tools as IRAF's `splot` and iSpec, on several spectra  (P1)
 **open**
@@ -513,6 +519,7 @@ released and live on in SPE-7 and SPE-12)
   than their errors.
 - **Accept:** synthetic PHOENIX spectra broadened to 5–150 km/s at R = 20 000–100 000: each method within 10 %
   inside its stated range and flagged outside it.
+- **Files:** `spectroscopy/rotation.py`, `spectroscopy/profile_analysis.py`, `tests/test_vsini.py`
 
 ### SPE-17. Atmospheric parameters and classification  (P2)
 **open**
@@ -535,6 +542,7 @@ released and live on in SPE-7 and SPE-12)
 - **Accept:** for 20 Gaia benchmark stars with public high-resolution spectra: Teff within 150 K, log g 0.3 dex,
   [Fe/H] 0.15 dex (median absolute differences; the table stored and published in the guide's methods chapter);
   the Sun (Kurucz atlas) within 60 K / 0.1 / 0.05; LAMOST spectra: MK types within two subtypes for ≥ 85 %.
+- **Files:** `spectroscopy/atmosphere.py`, `spectroscopy/grids.py`, `spectroscopy/mkstandards.py`, `stars/` (photometric cross-check), `tests/validation/test_benchmark_stars.py`
 
 ### SPE-18. Synthetic photometry and absolute scaling  (P2)
 **open**
@@ -544,6 +552,7 @@ released and live on in SPE-7 and SPE-12)
   simultaneous photometry.
 - **Accept:** Vega's CALSPEC spectrum gives V = 0.03 ± 0.01 and zero colours within 0.01; synthetic Gaia G of
   three CALSPEC stars within 0.02 of the catalogue.
+- **Files:** `spectroscopy/synphot.py`, `services/svo_filters.py`, `models/passbands.py` (shared curves), `tests/test_synphot.py`
 
 ### SPE-19. Abundances through external codes  (P3)
 **open**
@@ -555,6 +564,7 @@ released and live on in SPE-7 and SPE-12)
   where to get it, that it is not part of this program).
 - **Accept:** with MOOG installed in the test container (from its public source, outside the bundle) the solar EW
   list gives A(Fe) = 7.50 ± 0.05 and flat balances; without it the UI explains.
+- **Files:** `spectroscopy/external_rt.py`, `engine/external.py` (AUT-9), `ui/spectroscopy/jobs/parameters/`, tests with a fake executable
 
 ### SPE-20. Disentangling in Fourier space  (P3)
 **open**
@@ -566,6 +576,7 @@ released and live on in SPE-7 and SPE-12)
   with light ratios; hand-over of the components to SPE-17.
 - **Accept:** synthetic SB2 series: component spectra within 1 % rms and K1, K2 within 1 % without start values
   closer than 20 %.
+- **Files:** `spectroscopy/disentangle_fourier.py`, `spectroscopy/disentangle.py`, `tests/test_disentangle.py`
 
 ### SPE-21. Slitless spectra (objective gratings, Star Analyser)  (P2)
 **open**
@@ -577,6 +588,7 @@ released and live on in SPE-7 and SPE-12)
   classification by template match (as a suggestion).
 - **Accept:** a synthetic slitless frame with three stars gives each spectrum with wavelengths within 1 px; the
   real Star Analyser frame of an A star shows the Balmer lines within 10 Å of their wavelengths.
+- **Files:** `spectroscopy/slitless.py`, step `spectroscopy.slitless`, `ui/spectroscopy/jobs/longslit/` (slitless mode), `tests/test_slitless.py`
 
 ### SPE-22. A night, a series: one recipe applied to many frames  (P1)
 **open**
@@ -587,6 +599,7 @@ released and live on in SPE-7 and SPE-12)
   once; recipe export (ARC-12).
 - **Accept:** the six HARPS τ Ceti frames and the FEROS AI Phe series reduce in one run and their velocities come
   out as in SPE-14's accept; a deliberately broken frame is listed and skipped.
+- **Files:** `spectroscopy/batch.py`, step `spectroscopy.night`, `ui/spectroscopy/panels/batch.py`, `tests/test_spectroscopy_batch.py`
 
 ### SPE-23. Echelle extras: simultaneous reference, combs, drift  (P2)
 **open**
@@ -596,6 +609,7 @@ released and live on in SPE-7 and SPE-12)
   flats.
 - **Accept:** a synthetic etalon exposure lowers the solution's rms by the expected factor; HARPS frames with the
   simultaneous ThAr reproduce the DRS drift within 1 m/s.
+- **Files:** `spectroscopy/{drift,comb}.py`, `spectroscopy/echelle.py`, `tests/test_comb.py`
 
 ### SPE-24. Validation of the whole area  (P1)
 **open**
@@ -605,6 +619,7 @@ released and live on in SPE-7 and SPE-12)
   FLOYDS pipeline products; the amateur eShel night against its ISIS product; radial-velocity standards; the Gaia
   benchmark stars table of SPE-17. A page in the guide's methods chapter with these numbers.
 - **Accept:** `pytest -m validation` covers every reduction path and velocity method with real data.
+- **Files:** `tests/validation/test_spectroscopy_*.py`, `tests/validation/scripts/iraf/spec_*.cl`, `tests/validation/data/spectroscopy/`, guide 13
 
 ### SPE-25. IFU cubes  (P3)
 **open**
@@ -613,6 +628,7 @@ released and live on in SPE-7 and SPE-12)
   native); regions' spectra with the Spectrum job; continuum subtraction; cube formats of MUSE, KCWI, MaNGA
   recognised (variance and DQ extensions used); position–velocity cuts.
 - **Accept:** a synthetic rotating disc cube gives the velocity field within the errors.
+- **Files:** `spectroscopy/cube.py`, `spectroscopy/cube_maps.py`, `ui/spectroscopy/jobs/cube/`, `tests/test_cube.py`
 
 ### SPE-26. Reports and archive formats  (P3)
 **open**
@@ -622,6 +638,7 @@ released and live on in SPE-7 and SPE-12)
   text (ARC-11).
 - **Accept:** a BeSS file passes BeSS's own header rules (checked by a validator written from its specification);
   the AAVSO file's header matches the published requirements.
+- **Files:** `spectroscopy/report.py`, `spectroscopy/spectrum_io.py` (archive keywords), `spectroscopy/analysis.py` (`write_bess`), `resources/methods/spectroscopy_*.txt`, tests
 
 ## Found while working
 

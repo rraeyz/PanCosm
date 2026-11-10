@@ -134,6 +134,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   → sent to O−C) takes **seven clicks or fewer** on the practice night, counted by the QTest; every automatic choice
   on the way is listed in the stage with its reason.
 - **Depends on:** ARC-4.2, ARC-5, ARC-6, ARC-7, ARC-8, UI-1 … UI-4.
+- **Files:** `ui/photometry/{window,controller,state,menus}.py`, `ui/photometry/panels/{images,field,stars,apertures,measure,lightcurve,timing,report,frames,checks}.py`, `tests/ui/walks/photometry.py`, guide 06
 
 ### PHO-17. Comparison-star rules the user can set, with the reason for every star left out  (P1)
 **open** (agent2's claim of 2026-11-09 is released; nothing was pushed for it)
@@ -277,6 +278,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Accept:** GUI run and command-line run of the practice night and of Qatar-1 give identical measurement tables
   (byte-identical ECSV apart from the creation time).
 - **Depends on:** ARC-12, PHO-48.
+- **Files:** `core/recipe.py`, `ui/photometry/controller.py` (export), `api/photometry.py`, `tests/test_photometry_recipe.py`, guide 06
 
 ### PHO-21. Light curves of moving objects  (P2)
 **open**
@@ -359,6 +361,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   the Images and Astrometry windows (double-star measures feed AST).
 - **Accept:** two synthetic stars with ratio 0.25 at 37.5 px, PA 123°: ratio within 0.5 %, separation within 0.02
   px, PA within 0.05°.
+- **Files:** `images/inspect.py` (`pair_measure`), `ui/image/tools.py` (ruler), `tests/test_pair_measure.py`
 
 ### PHO-25. Catalogue magnitudes: more catalogues, AAVSO sequences, one model  (P1)
 **open**
@@ -618,6 +621,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   marks `TRANS=YES` and notes the coefficients; error propagation includes coefficient errors.
 - **Accept:** synthetic B / V night with colour terms 0.05 and 0.10: recovered standard magnitudes within 0.005 of
   truth, against 0.03 untransformed.
+- **Files:** `photometry/transform.py`, `photometry/coefficients.py`, `photometry/export.py` (`TRANS=YES`), `tests/test_transform.py`
 
 ### PHO-36. Bad pixels, cosmic rays and trails inside an aperture are flagged  (P1)
 **open**
@@ -632,6 +636,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   across frame 20: exactly those points carry B and T; variance-plane errors equal the formula within 3 % on clean
   frames.
 - **Depends on:** CAL-8, CAL-12, CAL-13.
+- **Files:** `photometry/aperture.py`, `photometry/lightcurve.py`, `photometry/measurements.py` (`Flags_<star>`), `core/planes.py`, `tests/test_photometry_flags.py`
 
 ### PHO-37. Speed at scale  (P2)
 **open**
@@ -640,6 +645,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   for many stars and radii in one pass, threaded) if the profile shows the sums dominate; a GPU twin only for the
   2000-star case. Reading stays the floor: measure and report the split (read, register, centre, sum, sky).
 - **Accept:** budgets of `plans/architecture.md` met; results identical to the NumPy path within 1e-10 relative.
+- **Files:** `tools/speed.py`, `native/src/aperture.rs`, `photometry/aperture.py`, `compute/aperture.py` (only for the many-star case)
 
 ### PHO-38. High-speed and video photometry, occultations  (P3)
 **open**
@@ -651,6 +657,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   report in the IOTA text layout. AVI / ADV only if a permissively licensed decoder is already bundled (else listed
   as not supported, with the conversion advice).
 - **Accept:** a synthetic 25 fps series with a 2.4 s occultation at S/N 3 per frame: D and R times within 0.05 s.
+- **Files:** `io/video.py`, `photometry/occultation.py`, `photometry/reports/iota.py`, `tests/test_occultation.py`
 
 ### PHO-39. Extended objects: comets and surface photometry  (P3)
 **open**
@@ -662,6 +669,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   and residual); sky brightness of a frame in mag arcsec⁻² from the zero point.
 - **Accept:** a synthetic 1/ρ coma gives Afρ independent of the aperture within 2 %; a synthetic Sérsic galaxy's
   profile parameters within 3 %.
+- **Files:** `photometry/comet.py`, `images/isophote.py`, `tests/test_extended.py`
 
 ### PHO-40. Polarimetry completed  (P3)
 **open**
@@ -671,6 +679,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   series of q, u, P, θ; a q–u plot; error propagation checked by Monte Carlo.
 - **Accept:** synthetic standards with 0.3 % instrumental polarisation and a 12° zero-angle offset: recovered within
   1σ; debiased P unbiased at P/σ = 2 within 10 %.
+- **Files:** `photometry/polarimetry.py`, `resources/data/polarimetric_standards.ecsv` (with references), `tests/test_polarimetry.py`
 
 ### PHO-41. Validation against the owner's AstroImageJ table  (P1, waits for the owner)
 **open — waiting for data**
@@ -680,6 +689,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   can be made public, otherwise the comparison numbers alone) as a validation test.
 - **Accept:** median |ours / AstroImageJ − 1| < 0.1 % per frame; errors within 10 %; BJD within 1 s; any larger
   difference explained.
+- **Files:** `tests/validation/test_aij_owner.py`, `tests/validation/data/` (reduced table only if public)
 
 ### PHO-42. Faint targets: measuring on running stacks  (P2)
 **open**
@@ -687,6 +697,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   stars and averaged with rejection (CAL stacking engine, in memory), measured as one frame with mid-time = the
   flux-weighted mean of the group's mid-times and exposure = the sum; moving-object variant aligned on the track.
 - **Accept:** a synthetic target at S/N 3 per frame gives a curve at S/N ≈ 3 √N (within 10 %) with unbiased times.
+- **Files:** `photometry/stacked.py`, `calibration/stacking.py` (in-memory combine), `tests/test_photometry_stacked.py`
 
 ### PHO-43. Advice for the next night  (P2)
 **open**
@@ -697,6 +708,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   against the event's ingress duration; flats' contribution if the stars drifted by more than n px.
 - **Accept:** on a synthetic night that saturates late, the advice gives the exposure that would not have; texts in
   four languages, each with its reasoning in one line.
+- **Files:** `photometry/advice.py`, `ui/photometry/panels/lightcurve.py` (card), `tests/test_advice.py`
 
 ### PHO-44. Centring algorithm choice  (P3)
 **open**
@@ -705,6 +717,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Build:** `recenter(method = auto (today's) | moments | gauss | none)` exposed under More options with `box` and
   `max_move`; `Centring_Method` in the provenance.
 - **Accept:** each method within 0.05 px on synthetic Gaussian stars at S/N 50; identical default results to today.
+- **Files:** `photometry/aperture.py` (`recenter`), `photometry/options.py`, `tests/test_centring.py`
 
 ### PHO-45. Sky ring: catalogue star mask and IRAF's histogram centroid  (P2)
 **open**
@@ -716,6 +729,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 - **Accept:** synthetic ring with a V + 5 star inside: the masked sky is unbiased within 0.1σ where the median is
   biased by > 0.5σ (asserted); "centroid" equals IRAF `phot salgorithm=centroid` on the HAT-P-32 frames within
   0.2 ADU (reference stored).
+- **Files:** `photometry/aperture.py` (`sky_estimate`, ring mask), `photometry/skymask.py`, `tests/test_sky_mask.py`, `tests/validation/test_iraf_phot.py`
 
 ### PHO-46. Detrending of every plotted series  (P3)
 **open**
@@ -723,6 +737,7 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   Y-data rows, for check stars and further targets.
 - **Accept:** a check star's curve detrended with airmass alone while the target uses airmass + FWHM, saved in and
   restored from the template.
+- **Files:** `photometry/multiplot.py`, `ui/photometry/panels/multiplot.py`, `tests/test_multiplot.py`
 
 ### PHO-48. The light-curve file: nothing lost on the way out and back  (P1)
 **open**
