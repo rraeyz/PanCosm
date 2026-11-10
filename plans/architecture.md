@@ -724,7 +724,7 @@ the suite is green after each.
   command line in `main`, the window and its options in `_app`. Item 1: `astrowb.api` — every step as
   `api.<area>.<name>(**keywords)` with its help generated from the registry, `api.run`, `api.steps`; wrong keywords
   raise TypeError; `tests/test_api_stability.py` with `tests/data/api_steps.json` fails when a step or keyword is
-  removed. `api.calibrate_night(folder, output_dir, **params)` chains the scan and the calibration (returns the calibrated lights). Pending: the other hand-written helpers (`light_curve`, `period_search`, result objects with `.to_table()`), and: `session --run` (needs the windows on
+  removed. `api.calibrate_night(folder, output_dir, **params)` chains the scan and the calibration (returns the calibrated lights). Result objects (2026-11-14): every `api` call returns an `api.Result` (a dict) whose `.to_table(key=None)` gives an astropy Table — the outputs that are columns of one length (periods and power), or a named output that is a dict of columns or a list of rows. Pending: the other hand-written helpers (`light_curve`, `period_search`), and: `session --run` (needs the windows on
   ARC-5), the API module (item 1), Item 3 done: Save as recipe… (the selected run as an automation with its settings, its inputs asked for when it runs; saved among the user's automations) and Copy as Python ( the Project page's History copies the selected run as an `api.run(...)` call), generated docs (item 4); parameters
   have no units in the registry yet, so `help` shows defaults only.
 - **Ours now:** `__main__.py` (argparse: files, `--smoke-test`, `--benchmark`, `--check-online`, `--observatory`), `engine/automation.py` (run chains), project re-run in the Project page.
