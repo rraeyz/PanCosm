@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -525,6 +526,7 @@ released and live on in SPE-7 and SPE-12)
 
 ### SPE-16. Rotation, broadening and line-profile information  (P2)
 **open**
+- **Ours now:** `spectroscopy/bf.py` (rotational profile fits give v sin i), `rv.rotate` (rotational broadening of a template).
 - **Build:** v sin i by three independent methods with their validity ranges shown: CCF / LSD width with a
   calibration from artificially broadened templates of the same type and R; Fourier first zero (SPE-13.4);
   template-broadening fit in a region (limb-darkened rotational kernel × instrumental profile × macroturbulence
@@ -593,6 +595,7 @@ released and live on in SPE-7 and SPE-12)
 
 ### SPE-21. Slitless spectra (objective gratings, Star Analyser)  (P2)
 **open**
+- **Ours now:** nothing specific; `longslit.find_spectrum` / `trace` are reused for the first order.
 - **Reference:** RSpec, BASS and ISIS slitless modes; the Star Analyser manual.
 - **Build:** the zero order as the wavelength origin (found by brightness and shape, or clicked); the first order
   rotated to horizontal by its own angle; extraction with a local sky; dispersion from two known features (e.g.
@@ -605,6 +608,7 @@ released and live on in SPE-7 and SPE-12)
 
 ### SPE-22. A night, a series: one recipe applied to many frames  (P1)
 **open**
+- **Ours now:** the `each` loop of automations (`resources/automations/40-spectroscopy-rv.json`) runs reduce → velocity per file; no batch inside the window.
 - **Build:** after one science frame is reduced to the user's satisfaction, "Apply to all science frames of this
   configuration": traces re-centred per frame, the nearest arcs' solutions with each frame's zero point (SPE-8),
   the same extraction and calibration options; a results table (file, object, BJD, S/N, zero point, rms, flags)

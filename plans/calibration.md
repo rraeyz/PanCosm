@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -236,6 +237,7 @@ P3: 18, 20.
 
 ### CAL-6. The quality report of the masters and of the calibration  (P1)
 **open**
+- **Ours now:** the Problems list after a run (groups that failed, missing frames); no statistics of the masters.
 - **Why:** no reference program tells the user whether the calibration is good. A bad flat ruins a night silently.
 - **Reference:** LCO BANZAI and ESO pipeline QC parameters (bias level and noise, structure, flat levels, number
   of saturated pixels); CCD Inspector's flat-field views; Howell ch. 4.
@@ -389,6 +391,7 @@ P3: 18, 20.
 
 ### CAL-14. What is written, where, and how much disk it needs  (P1)
 **open**
+- **Ours now:** `masters.save`, calibrated files written next to a chosen output folder as float32 FITS with HISTORY lines.
 - **Build:** output naming pattern (Settings → Files; default `<output>/<night>/<type>/<original name>_cal.fits`
   with tokens for object, filter, date, sequence number); data type choices: float32 (default), float32 RICE /
   fpack tile compression (lossless for integers, quantised q = 16 for floats — the choice explained), 16-bit scaled
@@ -421,6 +424,7 @@ P3: 18, 20.
 
 ### CAL-16. Stacking: parity with Siril and MaxIm DL  (P2)
 **open**
+- **Ours now:** `calibration/stacking.py` (rejections, normalisation, weights, coverage), `calibration/drizzle.py`, `compute/stack.py`.
 - **Build:** on CAL-5 and CAL-15: frame selection by quality (FWHM, roundness, background, star count: best x % or
   thresholds, with the table of values); normalisation options; weights by noise / FWHM / star count; rejection
   maps; drizzle (have) with CFA drizzle; mosaics of adjacent fields by WCS with background matching (`reproject`);
@@ -488,6 +492,7 @@ P3: 18, 20.
 
 ### CAL-23. Header tools  (P1)
 **open**
+- **Ours now:** header editing of one file in the Images window (`io/fits.save_as` with set / delete cards); nothing for many files.
 - **Reference:** IRAF `ccdhedit`, `hedit`, `asthedit`, `setairmass`, `setjd`; AstroImageJ DP "FITS header updates"
   (target coordinates, observatory, airmass, JD, HJD, BJD written to the header); MaxIm DL batch header edit.
 - **Build:** Tools → "Edit headers of many files…": set / rename / delete keywords by rule over a selection, with a

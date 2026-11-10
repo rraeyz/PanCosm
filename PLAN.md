@@ -169,27 +169,47 @@ rules; a coding agent may not.)
 5. The sources the step names under "Read first" (papers, the reference programs' code). Write what you learned
    under the step as "Notes from the sources" before coding.
 
-### R2 Do exactly the step
-- A step's **Build** list is a contract: every bullet is built. Its **Accept** list is a contract: every line is
-  demonstrated by a test or a measured number written under the step.
-- **No silent scope cuts.** You may not leave a bullet out because you judge it unnecessary. If a bullet is wrong,
-  impossible or dangerous: write why under the step's "Questions for the architect", build everything else, and mark
-  the step `partly done` with the list of what is missing. Only the architect or the owner closes such a step.
-- You may **add**: a missing case, a better default, an extra test. Write it under the step.
-- Do not start steps of another area, and do not reorder the roadmap.
+### R2 Check what exists first, then build, improve or change (owner, 2026-11-10)
+- **Before writing any code for a step, look for what the program already has.** Search the code for the step's
+  subject (`grep -rn` the function names, the keywords of the Build list, the file names in "Files" and "Ours now";
+  read the modules you find). Write what you found under the step as `- **Found in the code:**` with file and
+  function names.
+  - **It exists and works:** do not write it again. Use it, and mark the bullet as already there.
+  - **It exists but is weak, wrong or incomplete:** improve or change the existing code in place (keep its public
+    names, or leave a re-export); never add a second implementation beside it.
+  - **It does not exist:** build it.
+  - Two implementations of the same thing in the program is a bug; if you find one, merge them as part of your step
+    (with tests that the old callers still work) and note it.
+- **The plan is not above question.** A step was written by someone who could not see everything. Check each
+  bullet against the code, the data and the sources. If a bullet is wrong, unnecessary or would make the program
+  worse, do what is right instead — fix it, change it, or leave it out — and **tell the owner**: write it under
+  the step as `- **Changed from the plan:** what, why (what you read, measured or tried)`, and mention it in your
+  report to the owner. No approval is needed; telling is required. Deleting existing features still needs the
+  owner's yes (R9).
+- **Checking and testing are part of the work, not extra.** A step is not "write the listed code": it is "make
+  this part of the program right". Test what you build, test what you touched, and when you see something broken
+  next to your step, fix it (small) or add it as a new step under "Found while working" (large).
+- Every Accept line is shown by a test or a measured number written under the step, or, if you changed the plan,
+  by the check you put in its place.
+- You may add: a missing case, a better default, an extra test, a new step. Write it under the step.
+- Work on the roadmap's order (§5); another area's step only when yours needs it, and say so.
 
 ### R3 Claim, finish, hand over
 - Take the next free agent name `agentN` from the "Agents" list at the end of this file and add yourself.
-- Pull `main`. Under the step heading write `**agentN claimed (YYYY-MM-DD HH:MM UTC) — do not touch**`, commit, push.
-  Only then start. One claimed step at a time.
-- While working, commit small and push at least every hour of work; a step's notes ("Notes from the sources",
-  "Progress") are updated with each push, so that another agent can continue from the file alone.
-- When finished and pushed: change the claim to `**agentN done (date, commit abc1234)**` and fill "Result" (what was
-  built, the measured numbers, what the owner should try). Then claim the next step.
+- Pull `main`. Under the step heading write the claim, in English or Turkish:
+  `**agentN claimed (YYYY-MM-DD HH:MM UTC) — do not touch**` or `**agentN üstlendi (YYYY-MM-DD HH:MM UTC) —
+  dokunmayın**`; commit, push. Only then start. One claimed step at a time.
+- While working, commit small and push at least every hour of work; a step's notes ("Found in the code",
+  "Notes from the sources", "Progress") are updated with each push, so that another agent can continue from the
+  file alone.
+- When finished and pushed: change the claim to `**agentN done (date, commit abc1234)**` or `**agentN bitirdi
+  (tarih, commit abc1234)**` and fill "Result" (what was built, what was changed from the plan and why, the
+  measured numbers, what the owner should try). Then claim the next step.
 - A claim older than 24 hours without a push is abandoned: the next agent writes `**agentM took over from agentN
-  (date)**`, reads what was pushed and continues.
-- **Keep going** until the roadmap is finished or the quota ends, unless the owner interrupts. Set a wake-up
-  reminder (30–60 minutes) so that a lost session resumes from the plan file.
+  (date)**` (`agentN'den devraldı`), reads what was pushed and continues.
+- **Do not stop** until the roadmap is finished or the quota ends, unless the owner interrupts. Do not stop to ask:
+  decide, write down why, tell the owner afterwards. Set a wake-up reminder (30–60 minutes) so that a lost session
+  resumes from the plan file.
 
 ### R4 Research first; learn, never copy
 - Understand the method from its papers before building it: the formula, its limits, the constants. A method must
@@ -205,7 +225,8 @@ rules; a coding agent may not.)
 
 ### R5 Definition of done (every step, no exception)
 The full checklist is in `plans/architecture.md`. In short, a step is done only when:
-1. every Build bullet exists and every Accept line is shown;
+0. what the code already had was searched and written under the step (R2); nothing is implemented twice;
+1. every Build bullet exists (or was changed with a written reason, R2) and every Accept line is shown;
 2. science has a test on synthetic data with known truth **and** a check on real data from `data/`, compared with
    a published value or a reference program; the reduced reference values are committed as a validation test;
 3. the engine part has no Qt and is reachable as a step, through `astrowb.api` and from the command line;
@@ -278,7 +299,8 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
 - Scripts that drive the program need `if __name__ == "__main__":` (steps run in spawned processes).
 
 ### R12 Releases and reports
-- A release when a meaningful piece is ready, never for every small change: raise `__version__`, push, wait for
+- **Release whenever a meaningful change is ready** (owner, 2026-11-10: no approval needed) — a fixed bug a
+  user can meet, a finished step the owner can try, a set of steps of one area; never for every small change: raise `__version__`, push, wait for
   green CI on all systems, run the `ci` workflow on `main` with `release` = true. Never push while a release run is
   going. Give the owner a short list of changes in Turkish. A release is not the end: go on.
 - Report to the owner honestly, in Turkish, briefly: what was done, what was **not** tested, what the owner must

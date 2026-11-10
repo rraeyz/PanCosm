@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -415,6 +416,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
 
 ### MOD-12. Fitting, with a history the user can walk  (P1)
 **open**
+- **Ours now:** `models/fit.fit_light_curve` (bounded least squares, covariance errors) — kept as the Simple-level fitter and migrated into `models/fitting.py`.
 - **Read first:** the WD documentation on differential corrections (subsets, damping, why solutions oscillate);
   Conroy et al. 2020 §4.2 (optimisers; differential corrections as a Levenberg–Marquardt variant); Prša & Zwitter
   2005 (heuristic scanning, parameter kicking); Southworth 2008 (JKTEBOP practice).
@@ -461,6 +463,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
 
 ### MOD-14. Uncertainties  (P1)
 **open**
+- **Ours now:** `models/fit.mcmc` (emcee, fixed steps, flat priors) and `models/fit.absolute_dimensions` (Monte Carlo).
 - **Read first:** Conroy et al. 2020 §4.3; Southworth 2008 (residual permutation and Monte Carlo in JKTEBOP);
   Foreman-Mackey et al. 2013 (emcee) and ter Braak 2006 (differential-evolution MCMC); Hogg & Foreman-Mackey 2018
   (practical MCMC: convergence, autocorrelation time); Maxted et al. 2020 (the AI Phe comparison of codes and
@@ -497,6 +500,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
 
 ### MOD-16. Seeing the system  (P1)
 **open**
+- **Ours now:** nothing; `models/fit.roche_check` gives the fill-out only.
 - **Reference:** Binary Maker 3 (the star-shape animation is why observers use it); PyWD2015 "star positions";
   PHOEBE mesh plots.
 - **Build:** `ui/models/panels/view3d.py` (pyqtgraph's OpenGL view if its dependency PyOpenGL is acceptable on all
@@ -534,6 +538,7 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
 
 ### MOD-19. Reports and exchange  (P1)
 **open**
+- **Ours now:** `models/data.export_for_phoebe`, `models/wd.write_wd_files`, `models/transit_report.py`, `ui/export.save_results` (CSV / LaTeX of the fit).
 - **Build:** figures through `ui/plot/publish`: light curves per band with model and residual panels (phase and
   time), velocity curves with residuals, the 3-D views at four phases, the q-search plot, the corner plot; tables:
   the solution in the journal layout (parameter, value ± error, fixed marks, the method of the errors), absolute

@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -95,6 +96,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 
 ### PLN-1. Site, horizon and the night  (P1)
 **open**
+- **Ours now:** `planning/visibility.night` (twilights, interpolated crossings), `moon`, `Site`; `devices/safety.Rules.horizon` (a horizon profile exists for safety only).
 - **Read first:** Meeus, *Astronomical Algorithms* (twilight, rising and setting with refraction); the USNO
   definitions of twilights; Astropy's `AltAz` refraction parameters; JSkyCalc's almanac output (what observers
   expect to see).
@@ -112,6 +114,7 @@ Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3
 
 ### PLN-2. Target lists that remember  (P1)
 **open**
+- **Ours now:** `planning/targets.py` (`Resolver` with a local cache, SIMBAD, solar-system bodies), the Planning window's target table.
 - **Build:** the target table (kit `TableView`): name, aliases, coordinates (ICRS; proper motion applied to the
   date), type, magnitudes (band, source), ephemeris (period, epoch, standard, uncertainty, source), event duration
   and depth, priority, per-target constraints (minimum altitude, maximum airmass, Moon separation, time or phase

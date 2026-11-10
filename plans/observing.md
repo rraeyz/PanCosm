@@ -7,9 +7,10 @@ Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and 
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -197,6 +198,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 
 ### OBS-2. Time you can trust  (P1)
 **open**
+- **Ours now:** `timing.mid_time` (header conventions, shutter delay); `sequence.header` writes DATE-OBS from the computer clock; no clock check.
 - **Why:** a minimum timed to ± 10 s is worthless if the computer clock is 20 s off; nobody checks.
 - **Read first:** RFC 5905 / 4330 (SNTP: the four time stamps, offset and delay); Eastman et al. 2010 §4 (clock
   and time-stamp errors in transit timing); the AAVSO and IOTA guidance on computer time for observers; camera
@@ -387,6 +389,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 
 ### OBS-11. Live quality, the night log and the night report  (P1)
 **open**
+- **Ours now:** `devices/focus.hfr` (median HFR of a frame), the Observing page's log and device-state line; no per-frame graphs.
 - **Build:** per frame, computed in the observatory process on a binned copy (≤ 0.3 s): HFR / FWHM (arcsec with the
   scale), star count, sky median and noise, peak, eccentricity, the registration offset from the first frame;
   graphs (Graphs tab, shared time axis): HFR, star count / transparency, sky, guiding RMS, focus position and
@@ -414,6 +417,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 
 ### OBS-13. Pointing models and polar alignment made easy  (P2)
 **open**
+- **Ours now:** `devices/pointing.py` (`center`, `polar_error` from three solves: the alignment error once, no live loop, no pointing model).
 - **Read first:** Wallace's TPoint terms (index errors, collimation, non-perpendicularity, polar axis misalignment,
   tube flexure); the three-point polar alignment method (have) and continuous-update variants.
 - **Build:** a pointing-model run (N plate solves over the sky → fit of the classic six to eight terms → residual
@@ -446,6 +450,7 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
 
 ### OBS-16. The simulated observatory  (P1)
 **open**
+- **Ours now:** `tests/fake_devices.py`, `tests/fake_indi.py` (test fakes) and the INDI simulators job; `sampledata.make` (simulated frames of a practice night). The simulator must reuse `sampledata`'s star and noise rendering, not duplicate it.
 - **Why:** practise without a telescope, check tomorrow's program today, teach students, and test every feature of
   this file in CI.
 - **Build:** `devices/sim/`: a mount (German / fork models, slew rates, pointing errors, periodic error, limits,

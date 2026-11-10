@@ -7,9 +7,10 @@ base of this file), then `plans/interface.md` (rules, kit, anatomy, UI-16.12).
 
 1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
    you touch anything the user sees.
-2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
-   the commit, or `partly done` with what is missing.
-3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+2. Claim the step in its file and push before starting (English or Turkish); one step at a time; push at least
+   hourly; mark it done with the commit.
+3. First search the code: reuse or improve what exists, never write it twice. Question the step: if a bullet is
+   wrong, do what is right, write why under the step and tell the owner (no approval needed).
 4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
@@ -118,6 +119,7 @@ P3: 10.
 
 ### AUT-2. Recipes from what you just did, and chains that think  (P1)
 **open**
+- **Ours now:** `engine/automation.py` (chains, links, `each`), five templates, `ui/automation_page.py`.
 - **Build:**
   1. "Save as recipe" in every area window (ARC-12): the session's steps in order with their parameters; inputs
      that should change next time (folders, files, target) become the recipe's **questions** (with defaults); star
@@ -164,6 +166,7 @@ P3: 10.
 
 ### AUT-5. Plug-ins, second version  (P1)
 **open**
+- **Ours now:** `engine/plugins.py` (load `.py` files from the plug-in folder, examples), `ui/plugin_dialog.py` (generated form), `docs/PLUGINS.md`.
 - **Read first:** N.I.N.A.'s plug-in manifest and manager (as a model of what users need to see); Python packaging
   entry points; our `docs/PLUGINS.md`.
 - **Build:** a plug-in is a folder or single file with a manifest (name, version, author, description, the
