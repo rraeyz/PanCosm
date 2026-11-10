@@ -486,7 +486,11 @@ checksums, atomic writes and resuming, the estimate shown before the run.
 - **Files:** `calibration/stacking.py`, `calibration/mosaic.py`, `calibration/drizzle.py`, steps `stacking.*`, `tests/test_stacking.py`
 
 ### CAL-17. Colour sensors  (P2)
-**open**
+**partial** — done (2026-11-14): `calibration/cfa.py` (`equalise`: each colour of a mosaic flat to one median —
+Siril's "equalise CFA"; `debayer`: a bilinear picture for looking at, apart from the photometric superpixel path).
+Tests (tests/test_cfa.py): a reddish-green flat panel's cast removed (grey within 1 %), the picture keeps each
+colour, the superpixel green equals the mono truth within the noise. Left: equalise as a flat option in the run,
+X-Trans, Malvar–He–Cutler debayering, DSLR black / white levels and ISO, CFA drizzle.
 - **Ours now:** `io/bayer.py`: superpixel split, CFA-aware repair, DSLR raw through rawpy.
 - **Build:** per-channel statistics and flats (colour flats normalised per channel: "equalise CFA" as Siril);
   X-Trans handling (6 × 6 pattern) for classification and repair; debayering for pictures only (bilinear, and a
