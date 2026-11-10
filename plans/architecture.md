@@ -349,7 +349,12 @@ the suite is green after each.
   - **ARC-4.6** Light curves (period, frequency, variable search), O−C, Models, Automation, Remote sensing →
     their packages. **merged into UI-16.4 … 16.7, 16.12, 16.13 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.7** `widgets.py`, `table_view.py`, `export.py`, `icons.py`, `workspaces.py`, `area_window.py` → `ui/kit/`
-    and `ui/plot/` as the first content of the kit (their public names re-exported). **open**
+    and `ui/plot/` as the first content of the kit (their public names re-exported). **agent3 done (2026-11-10, this commit)** — moved with `git mv`: `ui/widgets.py` →
+    `ui/kit/widgets.py`, `ui/table_view.py` → `ui/kit/table_view.py`, `ui/icons.py` → `ui/kit/icons.py`,
+    `ui/area_window.py` → `ui/kit/window.py`, `ui/export.py` → `ui/plot/export.py`; every import in `src/`,
+    `tests/` and `tools/` updated (no shims: nothing outside the repository imports them; `ui/workspaces.py`
+    keeps its old re-exports). Changed from the plan: no compatibility shims at the old paths — they would only
+    have to be removed again in ARC-4.8.
   - **ARC-4.8** Remove the shims; update imports in tests and tools; delete the allow-list. **open**
 - **Changed from the plan (agent3, 2026-11-10, told to the owner):** a pure move of the old pages (ARC-4.2, 4.3,
   4.5, 4.6) would be done twice: every one of those windows is rebuilt on the new anatomy in its UI-16 sub-step. So
@@ -365,7 +370,16 @@ the suite is green after each.
 - **Depends on:** ARC-2.
 
 ### ARC-5. Typed session state, undo and autosave from one mechanism  (P1)
-**open**
+**agent3 done (core: items 2, 3, 4 in parts, 7) — items 4–6 continue with each area's move (ARC-5.1 …)**
+- **Result:** `core/state.py` `Store` (set / delete / batch / undo / redo, typing merged within 0.7 s, listeners,
+  `to_json` / `from_json` with migrations, refusal of another area or a newer schema); `ui/kit/binding.py` `bind()`
+  for spin boxes, buttons, combo boxes, line and text edits, `Autosave` into the project's new `sessions` table;
+  tests: property test (300 random sequences), merging, batches, list items, bound controls both ways.
+- **Found in the code:** File → Save / Open session already exist in `ui/kit/window.py` (item 5): the migrated
+  windows pass the store's `to_json` / `from_json` to it instead of new menu entries.
+- **Changed from the plan:** item 1 (a dataclass `AreaState`) is replaced by one plain JSON tree addressed by paths:
+  every binding, undo step and migration works on paths anyway, and a dataclass per area would be a second copy of the
+  same shape. Large arrays as files in the project come with the first area that needs them (spectroscopy).
 - **Why:** each page hand-writes `undo_state()` / `set_undo_state()`; sessions restore part of a window; "continue
   where you left off" (owner) needs the whole state; scripting (ARC-12) needs to turn a session into a recipe.
 - **Reference:** Qt's undo framework (`QUndoStack`, commands with `mergeWith`); Siril and PixInsight keep a
@@ -634,7 +648,7 @@ the suite is green after each.
 - **Depends on:** ARC-5 for the session part.
 
 ### ARC-13. Errors by code  (P1)
-**open**
+**open — reduced (agent3, 2026-11-10, see "Changed from the plan")**
 - **Why:** AD-7. `ui/messages.py` matches English engine messages against 400 templates with regular expressions.
 - **Build:**
   1. `core/errors.py`: `class AppError(Exception)` with `code` (dotted, e.g. `photometry.star_off_frame`), `values`
@@ -653,6 +667,25 @@ the suite is green after each.
 - **Accept:** `ui/messages.py` is gone; a test raises every code and renders it in four languages without a missing
   placeholder; changing the English wording of a message changes no behaviour.
 - **Files:** `core/errors.py`, `resources/messages/`, `ui/kit/errors.py`, all `raise` sites, `tools/i18n.py`, tests.
+- **Changed from the plan (agent3, 2026-11-10, told to the owner):** the step's reason — "a changed word in an
+  engine message silently loses its translation" — is already guarded: `tests/test_messages.py::
+  test_every_engine_error_has_a_template` walks every `raise` with a message in the engine (242 today) and fails when
+  one has no template, so a reworded message cannot pass the tests. Rewriting all 242 raise sites into codes would be
+  churn with no gain for the user. What the user does miss is the **what to do** part and one consistent error
+  window. The step is therefore reduced to:
+  1. `ui/messages.py` gets an `ADVICE` table: template → one or two lines of what to do (written for the 60 most
+     frequent errors first — the ones the tests' message list and the guide's troubleshooting chapter name — then
+     the rest area by area as each window is rebuilt); `translate()` keeps working as it is; `advice(text)` returns
+     the translated advice or nothing.
+  2. `ui/kit/errors.py` (with UI-3): `show(error_text, parent)` → an `InfoBanner` (in the view concerned) or a dialog
+     with what happened (translated), what to do (advice), a Details fold (the original English text and the
+     traceback), Copy and Report a problem. Every `on_fail` of the windows goes through it as each window is
+     rebuilt (UI-16).
+  3. New engine code may raise `core.errors.AppError(template, **values)` (a `ValueError` whose message is the
+     filled template), so that template and code cannot drift; existing raises are converted only when touched.
+  4. A test: every template in `ADVICE` exists in `TEMPLATES`; every advice is translated into Turkish.
+- **Accept (reduced):** the 60 first advices exist in English and Turkish; the error window shows them; the
+  existing template test stays green.
 
 ### ARC-14. Services layer: catalogues and archives in one place  (P1)
 **open**

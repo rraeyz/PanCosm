@@ -6,7 +6,7 @@ from PySide6.QtGui import QAction, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import QLabel
 
 from astrowb.settings import Settings
-from astrowb.ui.area_window import AreaWindow
+from astrowb.ui.kit.window import AreaWindow
 
 
 def _area(qtbot, settings, stack=None):
@@ -129,7 +129,7 @@ def test_recent_files_drop_and_sessions(qtbot, tmp_path, monkeypatch):
     state.update(stars=[], radius=9)
     assert win.open_session(session) is None and state == {"stars": [[10.0, 20.0]], "radius": 5}
     warned = []
-    monkeypatch.setattr("astrowb.ui.area_window.QMessageBox.warning", lambda *a: warned.append(a[2]))
+    monkeypatch.setattr("astrowb.ui.kit.window.QMessageBox.warning", lambda *a: warned.append(a[2]))
     other = AreaWindow("spectro", "Spectroscopy", Settings(tmp_path / "o"), QLabel("v"), session=(dict, print))
     qtbot.addWidget(other)
     assert "another window" in other.open_session(session) and warned
@@ -166,7 +166,7 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     assert steps[0]["params"] == {"radius": 5.0, "dark": "dark.fits"} and "inputs" not in steps[0]
     assert json.loads(zipfile.ZipFile(out).read("settings.json"))["photometry.last_folder"] == "2026-11-02"
     win = _area(qtbot, settings)
-    monkeypatch.setattr("astrowb.ui.area_window.QMessageBox.information", lambda *a: None)
+    monkeypatch.setattr("astrowb.ui.kit.window.QMessageBox.information", lambda *a: None)
     assert win.report_problem(tmp_path / "r2.zip") and (tmp_path / "r2.zip").exists()
     assert "Report a problem…" in [a.text() for a in win.help_menu.actions()]
 
@@ -263,7 +263,7 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     action."""
     from PySide6.QtCore import Qt
 
-    from astrowb.ui.icons import ICONS, icon
+    from astrowb.ui.kit.icons import ICONS, icon
     from astrowb.ui.main_window import MainWindow
 
     assert len(set(ICONS.values())) == len(ICONS)  # no symbol or standard icon serves two kinds

@@ -106,7 +106,7 @@ def test_main_window_is_a_menu_of_area_blocks(window, qtbot, tmp_path, monkeypat
     from PySide6.QtCore import Qt
     from PySide6.QtWidgets import QLabel, QToolButton
 
-    from astrowb.ui.area_window import AreaWindow
+    from astrowb.ui.kit.window import AreaWindow
     from astrowb.ui.start_page import areas
 
     page = window.start_page
@@ -1231,7 +1231,7 @@ def test_plot_folded_to_no_height_still_draws(qtbot):
 def test_header_table_copies_widens_and_edits(window, fits_file, monkeypatch):
     """The owner: header values could only be copied with Ctrl+C, the value column was too narrow to read and could
     not be seen to be draggable, and a keyword could not be changed by double-clicking it."""
-    from astrowb.ui.export import selected_text
+    from astrowb.ui.plot.export import selected_text
 
     long_value = "a value long enough to be cut in a narrow column of the header table"
     with fits.open(fits_file, mode="update") as hdul:
@@ -1256,7 +1256,7 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     """plans/interface.md I4.1: the Photometry page, unchanged, in its own area window; the sidebar and the start
     block raise it (never a second one); calibrated frames sent to Photometry arrive there; Undo of its edits in
     its own Edit menu; its layout is remembered."""
-    from astrowb.ui.area_window import AreaWindow
+    from astrowb.ui.kit.window import AreaWindow
 
     window.show()
     assert "photometry" not in window.area_windows  # built when first opened, like every page
@@ -1287,7 +1287,7 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
 def test_every_moved_area_opens_in_its_own_window(window):
     """plans/interface.md I4: each area already moved (MainWindow.WINDOWED) opens, unchanged, in its own window
     from the sidebar and from show_workspace, and its old place in the main window's stack stays empty."""
-    from astrowb.ui.area_window import AreaWindow
+    from astrowb.ui.kit.window import AreaWindow
 
     window.show()
     for key in window.WINDOWED:

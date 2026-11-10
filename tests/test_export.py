@@ -20,7 +20,7 @@ def test_publication_copy_is_black_on_white(qtbot, tmp_path):
     screen_colour = ax.xaxis.label.get_color()
     path = canvas.export_publication(str(tmp_path / "fig.pdf"))
     assert (tmp_path / "fig.pdf").stat().st_size > 1000 and path.endswith(".pdf")
-    from astrowb.ui.export import publication_copy
+    from astrowb.ui.plot.export import publication_copy
 
     copy = publication_copy(canvas.figure)
     assert mpl.colors.to_hex(copy.axes[0].xaxis.label.get_color()) == "#000000"
@@ -35,7 +35,7 @@ def test_publication_copy_is_black_on_white(qtbot, tmp_path):
 def test_table_to_csv_and_latex(qtbot, tmp_path):
     from PySide6.QtWidgets import QComboBox, QTableWidget, QTableWidgetItem
 
-    from astrowb.ui.export import export_table
+    from astrowb.ui.plot.export import export_table
 
     t = QTableWidget(2, 3)
     qtbot.addWidget(t)

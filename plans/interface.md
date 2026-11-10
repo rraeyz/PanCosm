@@ -373,7 +373,7 @@ for the window concerned.
 - **Accept:** a demo window with six stages, an image, two result tabs and an inspector passes the anatomy test in
   four languages; pulling a tab to a second (virtual) screen and restarting restores it; old layouts are ignored
   without error.
-- **Files:** `ui/kit/window.py`, `ui/area_window.py` (shim), tests.
+- **Files:** `ui/kit/window.py` (moved there from `ui/area_window.py` in ARC-4.7), tests.
 - **Depends on:** UI-3.
 
 ### UI-5. The start window  (P1)

@@ -25,11 +25,11 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from .area_window import _raise as _raise_window
 from .files import images_filter
 from .i18n import LANGUAGES
+from .kit.widgets import bar_menu
+from .kit.window import _raise as _raise_window
 from .messages import task_error, translate
-from .widgets import bar_menu
 from .workspaces import (
     CalibratePage,
     ImagePage,
@@ -189,7 +189,7 @@ class MainWindow(QMainWindow):
         """Put a freshly built page where its placeholder was in the stack; its tables get an export menu."""
         from PySide6.QtWidgets import QTableWidget
 
-        from .table_view import DataTable
+        from .kit.table_view import DataTable
 
         for table in page.findChildren(QTableWidget):
             if isinstance(table.parent(), DataTable):  # it has its own menu (copy, export, columns)
@@ -321,7 +321,7 @@ class MainWindow(QMainWindow):
         """The page, as it is, in an area window of its own (scrolling inside it when the window is smaller)."""
         from PySide6.QtWidgets import QFrame, QScrollArea
 
-        from .area_window import AreaWindow
+        from .kit.window import AreaWindow
         from .start_page import areas
 
         if key == "photometry":
@@ -386,7 +386,7 @@ class MainWindow(QMainWindow):
         toolbar for the frequent actions; every panel can be pulled out and is remembered."""
         from PySide6.QtGui import QAction
 
-        from .area_window import AreaWindow
+        from .kit.window import AreaWindow
         from .start_page import areas
 
         parts = page.window_parts()
@@ -756,7 +756,7 @@ class MainWindow(QMainWindow):
         from PySide6.QtCore import QCoreApplication
         from PySide6.QtGui import QAction, QActionGroup
 
-        from .area_window import AreaWindow
+        from .kit.window import AreaWindow
         from .start_page import areas
 
         parts = page.window_parts()
@@ -797,7 +797,7 @@ class MainWindow(QMainWindow):
             return
         from PySide6.QtWidgets import QApplication, QTableWidget
 
-        from .export import selected_text
+        from .plot.export import selected_text
 
         def copy():
             w = QApplication.focusWidget()
@@ -829,7 +829,7 @@ class MainWindow(QMainWindow):
     def _table_menu(self, table, pos):
         from PySide6.QtWidgets import QApplication, QMenu
 
-        from .export import export_table, selected_text, table_rows
+        from .plot.export import export_table, selected_text, table_rows
 
         menu = QMenu(table)
         selected = menu.addAction(self.tr("Copy") + "\tCtrl+C")
@@ -1470,7 +1470,7 @@ class MainWindow(QMainWindow):
         return self._key
 
     def _fill_window_menu(self):
-        from .area_window import AreaWindow, _raise
+        from .kit.window import AreaWindow, _raise
         from .start_page import areas
 
         self.window_menu.clear()
@@ -1561,7 +1561,7 @@ class MainWindow(QMainWindow):
         self._paint_glyphs()
 
     def _paint_glyphs(self):
-        from .icons import icon
+        from .kit.icons import icon
 
         for act, kind in self._glyphs:
             act.setIcon(icon(kind, self))
@@ -2249,7 +2249,7 @@ class MainWindow(QMainWindow):
         self.tasks_list.item(self._task_items[task.id][1]).setText(text)
         self.progress.setVisible(any(not t.finished for t, _ in self._task_items.values()))
         self.progress.setValue(int(task.progress * 100))
-        from .area_window import AreaWindow
+        from .kit.window import AreaWindow
 
         for win in AreaWindow.alive():  # the area window that started it shows it in its status bar
             win.task_update(task)

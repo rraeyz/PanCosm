@@ -158,7 +158,8 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
   `check` too; the loop's last line of defence `_supervisor_failed` makes the observatory safe and logs each distinct
   error at most every ten minutes; `last_check` / `interval_s` are reported in `/status` as `checked_s_ago` and
   `check_interval_s`; the Observing window shows "NOT SAFE: the safety supervisor has not checked for … s — restart
-  the observatory" when the last check is older than three intervals; a slew whose rules cannot be evaluated is
+  the observatory" when the last check is older than three intervals and at least 60 s (a slow device can stretch
+  one cycle); a slew whose rules cannot be evaluated is
   refused with "cannot evaluate the safety rules (…): the telescope was not moved". Message templates and Turkish
   translations; guide 03 (en, tr). Tests: `tests/test_safety_fail_closed.py` (7 tests: each rule raising, the
   stale-table case, a crash of the whole check, the refused slew, the status fields) — all 7 fail on the old code.

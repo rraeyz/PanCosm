@@ -55,6 +55,9 @@ def real_messages():
     out += ["the light curve spans 0.12 h: too short to search for periods"]  # photometry/steps.py
     out += ["the keyword NAXIS1 describes the data and cannot be edited"]  # io/fits.py
     out += ["the downloaded Earth-orientation table is too short: the server did not send the whole file"]
+    out += ["this session belongs to the images window, not to the photometry window"]  # core/state.py
+    out += ["this session was saved by a newer version of the application: update it to open it"]
+    out += ["no way to read a session of version 1 of the photometry window"]
     from astrowb.timeseries.ephemeris import fit, parse_minima
 
     for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from astrowb.ui.export import rounded, save_results
+from astrowb.ui.plot.export import rounded, save_results
 
 
 def test_rounded_to_the_error():

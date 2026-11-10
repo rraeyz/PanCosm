@@ -39,6 +39,13 @@ CREATE TABLE IF NOT EXISTS runs (
     finished TEXT,
     environment TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS sessions (
+    area TEXT NOT NULL,
+    name TEXT NOT NULL,
+    json TEXT NOT NULL,
+    saved TEXT NOT NULL,
+    PRIMARY KEY (area, name)
+);
 """
 
 
@@ -167,3 +174,14 @@ class Project:
         for k in ("params", "inputs", "outputs", "environment"):
             d[k] = json.loads(d[k]) if d[k] is not None else None
         return d
+
+    # --- sessions (the state of an area window, core/state.py) -------------------
+    def save_session(self, area: str, text: str, name: str = "last"):
+        with self.lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO sessions VALUES (?, ?, ?, ?)", (area, name, text, _now()))
+
+    def session(self, area: str, name: str = "last") -> str | None:
+        """The saved JSON of an area's session, or None."""
+        with self.lock:
+            row = self.db.execute("SELECT json FROM sessions WHERE area = ? AND name = ?", (area, name)).fetchone()
+        return row[0] if row else None

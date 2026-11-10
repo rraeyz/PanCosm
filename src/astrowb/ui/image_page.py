@@ -28,10 +28,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable
 from .viewer import ImageViewer
-from .widgets import PlotCanvas
 
 
 class ImagePage(Undoable, QWidget):

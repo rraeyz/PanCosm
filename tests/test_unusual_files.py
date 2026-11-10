@@ -90,7 +90,7 @@ def test_ragged_csv_rows_and_wrong_files(qtbot, tmp_path):
 
     from matplotlib.figure import Figure
 
-    from astrowb.ui.export import save_publication
+    from astrowb.ui.plot.export import save_publication
 
     fig = Figure()
     fig.add_subplot().plot([0, 1])

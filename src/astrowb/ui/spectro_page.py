@@ -1603,7 +1603,7 @@ class VelocityTab(QWidget):
         )
         lay.addWidget(self.rv_button)
         lay.addWidget(self.orbit_button)
-        from .export import results_button
+        from .plot.export import results_button
 
         self.orbit_result = None
         lay.addWidget(results_button(self, self.orbit_table))

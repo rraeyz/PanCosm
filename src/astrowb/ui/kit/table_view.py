@@ -120,7 +120,7 @@ class DataTable(QWidget):
         return menu
 
     def _menu(self, pos):
-        from .export import export_table, selected_text, table_rows
+        from ..plot.export import export_table, selected_text, table_rows
 
         menu = QMenu(self)
         copy = menu.addAction(self.tr("Copy"))
