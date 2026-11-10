@@ -259,6 +259,25 @@ def app_check(inputs, params, ctx):
     return {"report": selfcheck.report(results), "ok": all(ok for _, ok, _ in results)}
 
 
+@step("app.check_gpu", outputs=("report", "path"))
+def app_check_gpu(inputs, params, ctx):
+    """Every GPU job against its CPU twin (time and result), as text and as gpu-report.json (ARC-10)."""
+    import json
+
+    from .. import __version__
+    from ..compute.check import report
+    from ..settings import config_dir
+
+    ctx.progress(0.05, "checking")
+    found = {"version": __version__}
+    lines = list(report(found))
+    found["report"] = lines
+    path = config_dir() / "gpu-report.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(found, indent=1), encoding="utf-8")
+    return {"report": "\n".join(lines), "path": str(path)}
+
+
 @step("app.update_time_tables", outputs=("status",))
 def update_time_tables(inputs, params, ctx):
     """Download the Earth-orientation (IERS-A) and leap-second tables and keep them for every later run."""

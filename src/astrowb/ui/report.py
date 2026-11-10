@@ -49,6 +49,9 @@ def system_text():
             lines.append(f"screen {g.width()}x{g.height()} scale {screen.devicePixelRatio():g}")
     except ImportError:
         pass
+    from .. import native
+
+    lines.append(native.describe())
     try:
         lines.append(f"compute {compute.describe()}")
     except Exception as e:  # the report must be made even when the GPU check itself fails
@@ -72,6 +75,9 @@ def make_report(settings, out_path, runs=None):
         keep = ("step", "params", "status", "error", "started", "finished")
         steps = [{k: _scrub(r.get(k)) for k in keep} for r in (runs or [])][-30:]
         z.writestr("last_steps.json", json.dumps(steps, indent=1, default=str))
+        gpu = settings.path.parent / "gpu-report.json"  # Help → Check the GPU (ARC-10)
+        if gpu.exists():
+            z.writestr("gpu-report.json", _home(gpu.read_text(encoding="utf-8", errors="replace")))
         z.writestr("README.txt", f"Problem report made {datetime.now().isoformat(timespec='seconds')}\n")
     return out_path
 

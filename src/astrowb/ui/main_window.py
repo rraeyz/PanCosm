@@ -25,6 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
+from . import help_checks
 from .files import images_filter
 from .i18n import LANGUAGES
 from .kit.widgets import bar_menu
@@ -1727,14 +1728,7 @@ class MainWindow(QMainWindow):
             self._action(text_menu, text, lambda s=step: self._change_font(s), key)
         self.window_menu = bar_menu(self.menuBar(), self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
-        h = bar_menu(self.menuBar(), self.tr("&Help"))
-        self._action(h, self.tr("Report a problem…"), self.report_problem)
-        self._action(h, self.tr("Training &guide"), lambda: self.show_workspace("guide"), QKeySequence.HelpContents)
-        self.tour_action = self._action(h, self.tr("Quick &tour"), self.start_tour)
-        self._action(h, self.tr("&Practice data for a first night…"), self.practice_data)
-        self._action(h, self.tr("Check the &installation and internet services"), self.check_installation)
-        self.update_action = self._action(h, self.tr("Check for &updates…"), self.check_updates)
-        self.about_action = self._action(h, self.tr("&About {app}").format(app=BRAND.display_name), self.about)
+        help_checks.add_menu(self)
 
     # --- image processing ---------------------------------------------------
     def process_dialog(self, op):
@@ -2636,25 +2630,6 @@ class MainWindow(QMainWindow):
         self.settings.set("compute.device", code)
         compute.set_mode(code)  # new worker processes inherit it
         self.statusBar().showMessage(compute.describe(), 8000)
-
-    def check_installation(self):
-        """Every part of the installation and every web service (SIMBAD, VizieR, MAST, ...) in one report: what to
-        send when something does not work."""
-
-        def done(out):
-            box = QMessageBox(QMessageBox.Information, self.tr("Installation and internet services"), "", parent=self)
-            box.setText(
-                self.tr("Everything works.")
-                if out["ok"]
-                else self.tr(
-                    "Some checks failed (see below). A failing web service is often the network or the service."
-                )
-            )
-            box.setDetailedText(out["report"])
-            box.exec()
-
-        self.statusBar().showMessage(self.tr("Checking the installation and the internet services…"), 60000)
-        return self.run_step("app.check", {}, {}, on_done=done)
 
     def update_time_tables(self, quiet=False):
         """Download newer Earth-orientation and leap-second tables (plans/architecture.md ARC-1). quiet: the weekly
