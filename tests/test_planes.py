@@ -41,7 +41,7 @@ def test_the_variance_plane_matches_the_scatter():
     sky_px = np.hypot(xx - 35, yy - 30) > 12
     star_px = np.hypot(xx - 35, yy - 30) < 4
     assert np.mean(empirical[sky_px] / plane[sky_px]) == pytest.approx(1.0, rel=0.03)
-    assert np.mean(empirical[star_px] / plane[star_px]) == pytest.approx(1.0, rel=0.1)  # 49 pixels × 29 degrees of freedom
+    assert np.mean(empirical[star_px] / plane[star_px]) == pytest.approx(1.0, rel=0.1)  # 49 px × 29 dof
 
 
 def test_flags_survive_calibration_and_a_shift(tmp_path):
