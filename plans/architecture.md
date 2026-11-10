@@ -420,7 +420,7 @@ the suite is green after each.
 - **Progress (agent3):** items 0, 1, 2, 3, 5, 7 done — `ui/plot/spec.py` (spec, Okabe–Ito colours, time offsets,
   decimation), `ui/plot/view.py` (`PlotView`: every interaction of item 2, driven by QTests in
   `tests/test_plot_view.py`), `ui/plot/publish.py` (AAS / A&A / MNRAS / screen styles, fonts embedded, ECSV data and
-  a redraw script); pyqtgraph 0.14 locked. Pending: item 4's UT / phase toggle, item 6 (toolbar, with UI-10) and the
+  a redraw script); pyqtgraph 0.14 locked. Item 4 done (`set_time_mode`: BJD, UT hours, phase). Pending: item 6 (toolbar, with UI-10) and the
   window migrations (item 8). Axis settings, export and copy come from pyqtgraph's own context menu for now.
 - **Why:** PLAN.md §2 item 6; AstroImageJ's Multi-Plot and Period04 are interactive on every point; ours redraws a
   Matplotlib canvas.
