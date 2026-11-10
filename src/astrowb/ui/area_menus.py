@@ -64,6 +64,20 @@ def _camera_action(main, win):
     return act
 
 
+def _headers_action(main, win):
+    """Process → Edit the headers of many files… (CAL-23)."""
+    act = QAction(QCoreApplication.translate("MainWindow", "Edit the headers of many files…"), win)
+
+    def show():
+        from .headers_dialog import HeadersDialog
+
+        win.headers_dialog = HeadersDialog(main.settings, win)
+        win.headers_dialog.show()
+
+    act.triggered.connect(show)
+    return act
+
+
 def calibrate(main, page, win):
     """Calibration: Frames, Masters, Process, Send (interface I6c.4), from the page's own controls."""
 
@@ -117,7 +131,7 @@ def calibrate(main, page, win):
             ),
             (
                 QCoreApplication.translate("MainWindow", "&Process"),
-                [run, None, stack, _mirror(page.drizzle), None, _camera_action(main, win)],
+                [run, None, stack, _mirror(page.drizzle), None, _camera_action(main, win), _headers_action(main, win)],
             ),
             (QCoreApplication.translate("MainWindow", "Se&nd"), [send]),
         ],
