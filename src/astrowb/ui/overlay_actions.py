@@ -1,4 +1,5 @@
-"""The Images window's Overlays menu: contours, coordinate grid, catalogue stars and DS9 regions on the image."""
+"""The Images window's Overlays and Orientation menus: contours, coordinate grid, catalogue stars and DS9 regions on
+the image; North up, turns and mirrors of the display."""
 
 from pathlib import Path
 
@@ -30,7 +31,44 @@ def add_menu(win, menu):
         QCoreApplication.translate("Overlays", "Clear overlays"),
         lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()],
     )
+    add_orientation_menu(win, menu)
     return sub
+
+
+def add_orientation_menu(win, menu):
+    """View → Orientation: turns and mirrors of the display only (the data and their coordinates do not change)."""
+    sub = menu.addMenu(QCoreApplication.translate("Overlays", "Orien&tation"))
+    v = win.viewer
+
+    def north_up():
+        if not v.north_up():
+            _status(
+                win,
+                QCoreApplication.translate(
+                    "Overlays", "North up needs sky coordinates: plate-solve the image first (Image menu)"
+                ),
+            )
+
+    def turn(by=0.0, mirror=False):
+        rotation, flip_x, flip_y = v.orientation
+        v.set_orientation((rotation + by) % 360, flip_x != mirror, flip_y)
+
+    win._action(sub, QCoreApplication.translate("Overlays", "&North up, East left"), north_up, "N")
+    win._action(sub, QCoreApplication.translate("Overlays", "Turn 90° &clockwise"), lambda: turn(90))
+    win._action(sub, QCoreApplication.translate("Overlays", "&Mirror left–right"), lambda: turn(mirror=True))
+    win._action(sub, QCoreApplication.translate("Overlays", "&Original orientation"), lambda: v.set_orientation())
+    sub.addSeparator()
+    compass = win._action(
+        sub, QCoreApplication.translate("Overlays", "&Compass and scale bar"), lambda: _compass(v, compass.isChecked())
+    )
+    compass.setCheckable(True)
+    compass.setChecked(v.show_compass)
+    return sub
+
+
+def _compass(viewer, on):
+    viewer.show_compass = on
+    viewer.viewport().update()
 
 
 def _status(win, text):

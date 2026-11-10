@@ -7873,127 +7873,162 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>Overlays</name>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="12"/>
+        <location filename="../../ui/overlay_actions.py" line="13"/>
         <source>&amp;Overlays</source>
         <translation>&amp;Katmanlar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="13"/>
+        <location filename="../../ui/overlay_actions.py" line="14"/>
         <source>Contours…</source>
         <translation>Konturlar…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="14"/>
+        <location filename="../../ui/overlay_actions.py" line="15"/>
         <source>Coordinate grid</source>
         <translation>Koordinat ızgarası</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="16"/>
+        <location filename="../../ui/overlay_actions.py" line="17"/>
         <source>Catalogue stars (Gaia DR3)…</source>
         <translation>Katalog yıldızları (Gaia DR3)…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="19"/>
+        <location filename="../../ui/overlay_actions.py" line="20"/>
         <source>Variable stars (VSX)</source>
         <translation>Değişen yıldızlar (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="22"/>
+        <location filename="../../ui/overlay_actions.py" line="23"/>
         <source>Asteroids and comets (SkyBoT)</source>
         <translation>Asteroitler ve kuyruklu yıldızlar (SkyBoT)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="24"/>
+        <location filename="../../ui/overlay_actions.py" line="25"/>
         <source>Finder chart…</source>
         <translation>Bulucu harita…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="26"/>
+        <location filename="../../ui/overlay_actions.py" line="27"/>
         <source>Load DS9 regions…</source>
         <translation>DS9 bölgelerini yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="27"/>
+        <location filename="../../ui/overlay_actions.py" line="28"/>
         <source>Save markers as DS9 regions…</source>
         <translation>İşaretleri DS9 bölgesi olarak kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="30"/>
+        <location filename="../../ui/overlay_actions.py" line="31"/>
         <source>Clear overlays</source>
         <translation>Katmanları temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="46"/>
+        <location filename="../../ui/overlay_actions.py" line="40"/>
+        <source>Orien&amp;tation</source>
+        <translation>&amp;Yönlendirme</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="47"/>
+        <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
+        <translation>Kuzeyin yukarıda olması için gök koordinatları gerekir: önce görüntüyü plaka çözümleyin (Görüntü menüsü)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="56"/>
+        <source>&amp;North up, East left</source>
+        <translation>&amp;Kuzey yukarıda, Doğu solda</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="57"/>
+        <source>Turn 90° &amp;clockwise</source>
+        <translation>Saat yönünde 90° &amp;döndür</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="58"/>
+        <source>&amp;Mirror left–right</source>
+        <translation>Sol–sağ &amp;aynala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <source>&amp;Original orientation</source>
+        <translation>Ö&amp;zgün yönlendirme</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="62"/>
+        <source>&amp;Compass and scale bar</source>
+        <translation>&amp;Pusula ve ölçek çubuğu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="84"/>
         <source>Contours</source>
         <translation>Konturlar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="47"/>
+        <location filename="../../ui/overlay_actions.py" line="85"/>
         <source>Number of levels:</source>
         <translation>Düzey sayısı:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="66"/>
-        <location filename="../../ui/overlay_actions.py" line="83"/>
-        <location filename="../../ui/overlay_actions.py" line="151"/>
+        <location filename="../../ui/overlay_actions.py" line="104"/>
+        <location filename="../../ui/overlay_actions.py" line="121"/>
+        <location filename="../../ui/overlay_actions.py" line="189"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Görüntüde gök koordinatı yok: önce plaka çözün (Görüntü menüsü).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="91"/>
+        <location filename="../../ui/overlay_actions.py" line="129"/>
         <source>Catalogue stars</source>
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="92"/>
+        <location filename="../../ui/overlay_actions.py" line="130"/>
         <source>Faintest magnitude:</source>
         <translation>En sönük kadir:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="100"/>
-        <location filename="../../ui/overlay_actions.py" line="156"/>
+        <location filename="../../ui/overlay_actions.py" line="138"/>
+        <location filename="../../ui/overlay_actions.py" line="194"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="121"/>
-        <location filename="../../ui/overlay_actions.py" line="135"/>
+        <location filename="../../ui/overlay_actions.py" line="159"/>
+        <location filename="../../ui/overlay_actions.py" line="173"/>
         <source>Finder chart</source>
         <translation>Bulucu harita</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="122"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Hedef koordinatları (RA Dec), ör. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="128"/>
+        <location filename="../../ui/overlay_actions.py" line="166"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinatlar anlaşılamadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="140"/>
+        <location filename="../../ui/overlay_actions.py" line="178"/>
         <source>Making the finder chart…</source>
         <translation>Bulucu harita hazırlanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="175"/>
+        <location filename="../../ui/overlay_actions.py" line="213"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} katalog yıldızı gösterildi: etiketini görmek için fareyi bir halkanın üzerine getirin.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="180"/>
+        <location filename="../../ui/overlay_actions.py" line="218"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} katalog yıldızı gösterildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="189"/>
-        <location filename="../../ui/overlay_actions.py" line="223"/>
+        <location filename="../../ui/overlay_actions.py" line="227"/>
+        <location filename="../../ui/overlay_actions.py" line="261"/>
         <source>DS9 regions</source>
         <translation>DS9 bölgeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="215"/>
+        <location filename="../../ui/overlay_actions.py" line="253"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Görüntüde işaret yok (Fotometri penceresinde seçilen yıldızlar işarettir).</translation>
     </message>

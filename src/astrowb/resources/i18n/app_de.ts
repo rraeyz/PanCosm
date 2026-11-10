@@ -7873,127 +7873,162 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>Overlays</name>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="12"/>
+        <location filename="../../ui/overlay_actions.py" line="13"/>
         <source>&amp;Overlays</source>
         <translation>&amp;Überlagerungen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="13"/>
+        <location filename="../../ui/overlay_actions.py" line="14"/>
         <source>Contours…</source>
         <translation>Konturen…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="14"/>
+        <location filename="../../ui/overlay_actions.py" line="15"/>
         <source>Coordinate grid</source>
         <translation>Koordinatengitter</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="16"/>
+        <location filename="../../ui/overlay_actions.py" line="17"/>
         <source>Catalogue stars (Gaia DR3)…</source>
         <translation>Katalogsterne (Gaia DR3)…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="19"/>
+        <location filename="../../ui/overlay_actions.py" line="20"/>
         <source>Variable stars (VSX)</source>
         <translation>Veränderliche (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="22"/>
+        <location filename="../../ui/overlay_actions.py" line="23"/>
         <source>Asteroids and comets (SkyBoT)</source>
         <translation>Asteroiden und Kometen (SkyBoT)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="24"/>
+        <location filename="../../ui/overlay_actions.py" line="25"/>
         <source>Finder chart…</source>
         <translation>Aufsuchkarte…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="26"/>
+        <location filename="../../ui/overlay_actions.py" line="27"/>
         <source>Load DS9 regions…</source>
         <translation>DS9-Regionen laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="27"/>
+        <location filename="../../ui/overlay_actions.py" line="28"/>
         <source>Save markers as DS9 regions…</source>
         <translation>Markierungen als DS9-Regionen speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="30"/>
+        <location filename="../../ui/overlay_actions.py" line="31"/>
         <source>Clear overlays</source>
         <translation>Überlagerungen entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="46"/>
+        <location filename="../../ui/overlay_actions.py" line="40"/>
+        <source>Orien&amp;tation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="47"/>
+        <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="56"/>
+        <source>&amp;North up, East left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="57"/>
+        <source>Turn 90° &amp;clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="58"/>
+        <source>&amp;Mirror left–right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <source>&amp;Original orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="62"/>
+        <source>&amp;Compass and scale bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="84"/>
         <source>Contours</source>
         <translation>Konturen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="47"/>
+        <location filename="../../ui/overlay_actions.py" line="85"/>
         <source>Number of levels:</source>
         <translation>Anzahl der Stufen:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="66"/>
-        <location filename="../../ui/overlay_actions.py" line="83"/>
-        <location filename="../../ui/overlay_actions.py" line="151"/>
+        <location filename="../../ui/overlay_actions.py" line="104"/>
+        <location filename="../../ui/overlay_actions.py" line="121"/>
+        <location filename="../../ui/overlay_actions.py" line="189"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Das Bild hat keine Himmelskoordinaten: zuerst astrometrisch lösen (Menü Bild).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="91"/>
+        <location filename="../../ui/overlay_actions.py" line="129"/>
         <source>Catalogue stars</source>
         <translation>Katalogsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="92"/>
+        <location filename="../../ui/overlay_actions.py" line="130"/>
         <source>Faintest magnitude:</source>
         <translation>Schwächste Helligkeit:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="100"/>
-        <location filename="../../ui/overlay_actions.py" line="156"/>
+        <location filename="../../ui/overlay_actions.py" line="138"/>
+        <location filename="../../ui/overlay_actions.py" line="194"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog wird abgefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="121"/>
-        <location filename="../../ui/overlay_actions.py" line="135"/>
+        <location filename="../../ui/overlay_actions.py" line="159"/>
+        <location filename="../../ui/overlay_actions.py" line="173"/>
         <source>Finder chart</source>
         <translation>Aufsuchkarte</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="122"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Zielkoordinaten (RA Dec), z. B. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="128"/>
+        <location filename="../../ui/overlay_actions.py" line="166"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinaten nicht verstanden.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="140"/>
+        <location filename="../../ui/overlay_actions.py" line="178"/>
         <source>Making the finder chart…</source>
         <translation>Aufsuchkarte wird erstellt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="175"/>
+        <location filename="../../ui/overlay_actions.py" line="213"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} Katalogsterne angezeigt: den Mauszeiger auf einen Ring halten, um seine Beschriftung zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="180"/>
+        <location filename="../../ui/overlay_actions.py" line="218"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} Katalogsterne angezeigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="189"/>
-        <location filename="../../ui/overlay_actions.py" line="223"/>
+        <location filename="../../ui/overlay_actions.py" line="227"/>
+        <location filename="../../ui/overlay_actions.py" line="261"/>
         <source>DS9 regions</source>
         <translation>DS9-Regionen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="215"/>
+        <location filename="../../ui/overlay_actions.py" line="253"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Keine Markierungen im Bild (im Fenster Photometrie gewählte Sterne sind Markierungen).</translation>
     </message>

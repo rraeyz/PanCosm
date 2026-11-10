@@ -52,6 +52,7 @@ LIBRARIES = (
     "photutils.psf",
     "platformdirs",
     "pyproj",
+    "pyqtgraph",
     "rawpy",
     "scipy.cluster.vq",
     "scipy.interpolate",

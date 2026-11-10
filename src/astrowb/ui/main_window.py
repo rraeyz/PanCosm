@@ -2078,7 +2078,7 @@ class MainWindow(QMainWindow):
             self.wcs = wcs if wcs.has_celestial else None
         except Exception:
             self.wcs = None
-        self.viewer.set_image(data)
+        self.viewer.set_image(data, wcs=self.wcs)
         self.image_page.set_header(header, self.wcs)
         self._show_header(header)
         self.save_action.setEnabled(True)
