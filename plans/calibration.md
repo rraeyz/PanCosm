@@ -276,7 +276,12 @@ header keywords), the input flats' levels in the run, the real LCO masters.
 - **Files:** `calibration/quality.py`, steps (outputs), UI report tab, `ui/plot/publish` use, tests, guide 04.
 
 ### CAL-7. A library of masters across nights  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/library.py` (`Library`: masters copied in and indexed from
+their headers — kind, size, binning, read-out, temperature, exposure, filter, date; `best` for a light: same size /
+binning / read-out, a dark of the exposure and temperature, a flat of the filter, the nearest in date, with its
+age and validity (bias 90 d, dark 90 d, flat 7 d; an older one offered marked); `retire`; `compare`: the ratio of
+two masters and the dust shadows that moved). Tests (tests/test_master_library.py). Left: Settings → Files folder,
+"Add these masters to the library" after a run, the plan using it, the Library dialog, QC values in the index.
 - **Reference:** MaxIm DL keeps calibration groups between sessions; N.I.N.A.'s flat and dark libraries; observatory
   pipelines select masters by date validity.
 - **Build:** `calibration/library.py`: a folder (Settings → Files) with masters filed by camera / binning / gain /
