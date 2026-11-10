@@ -9,6 +9,7 @@ from astrowb.engine.core import Engine
 from astrowb.engine.tasks import TaskQueue
 
 
+@pytest.mark.slow
 def test_practice_night_end_to_end(tmp_path):
     q = TaskQueue(max_workers=2)
     try:
@@ -51,8 +52,10 @@ def test_help_menu_makes_practice_data_and_opens_the_guide(qtbot, tmp_path):
         win.engine.shutdown()
 
 
-def test_minimum_times_are_unbiased_with_honest_errors(tmp_path):
-    """The whole chain (scan, calibrate, light curve, BJD_TDB, Kwee-van Woerden) on 16 independent noisy nights:
+def _minimum_offsets(tmp_path, nights):
+    """Offsets of the timed minimum from the truth, and pulls (offset / reported error), over independent nights.
+
+    The whole chain (scan, calibrate, light curve, BJD_TDB, Kwee-van Woerden) on 16 independent noisy nights:
     the mean offset from the true minimum is consistent with zero and the reported errors match the scatter
     (pull = offset / error has a spread near 1). Measured on 40 nights: +1.6 +- 1.3 s, pull spread 0.95."""
     import numpy as np
@@ -69,7 +72,7 @@ def test_minimum_times_are_unbiased_with_honest_errors(tmp_path):
             pass
 
     offsets, pulls = [], []
-    for seed in range(16):
+    for seed in range(nights):
         d = tmp_path / str(seed)
         truth = sampledata.make(d, n_lights=48, seed=1000 + seed)
         frames = execute("calibration.scan", {"folder": str(d / "raw")}, {}, Ctx())["frames"]
@@ -79,6 +82,23 @@ def test_minimum_times_are_unbiased_with_honest_errors(tmp_path):
         m = execute("timeseries.minimum", {"light_curve": lc}, {"method": "kvw"}, Ctx())["minimum"]
         offsets.append((m["time"] - truth["t_min_bjd_tdb"]) * 86400)
         pulls.append(offsets[-1] / (m["error"] * 86400))
-    offsets, pulls = np.array(offsets), np.array(pulls)
+    return np.array(offsets), np.array(pulls)
+
+
+@pytest.mark.slow
+def test_minimum_times_are_unbiased_with_honest_errors(tmp_path):
+    """16 nights: no bias and honest errors (the statistical check; measured on 40 nights: +1.6 +- 1.3 s, pull
+    spread 0.95)."""
+    import numpy as np
+
+    offsets, pulls = _minimum_offsets(tmp_path, 16)
     assert abs(offsets.mean()) < 3 * offsets.std() / np.sqrt(len(offsets)) + 1.0  # no bias (seconds)
     assert 0.6 < pulls.std() < 1.5  # honest errors
+
+
+def test_minimum_times_of_a_few_nights_are_close_to_the_truth(tmp_path):
+    """The quick version for every run: 4 nights, each within 4 of its own reported errors of the true minimum."""
+    import numpy as np
+
+    _, pulls = _minimum_offsets(tmp_path, 4)
+    assert np.all(np.abs(pulls) < 4)

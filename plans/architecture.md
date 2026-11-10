@@ -253,7 +253,7 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   end of the table's predictions, not a computed accuracy.
 
 ### ARC-2. Green baseline and test tiers  (P1)
-**agent3 claimed (2026-11-10 15:30 UTC) — do not touch**
+**agent3 done (2026-11-10, this commit)**
 - **Why:** on a fresh checkout `pytest` fails in 5 tests because the compiled translations (`*.qm`, git-ignored) do
   not exist until `python tools/i18n.py` runs; the suite takes 11 minutes, one test 78 s; agents skip it and push
   untested work (it happened: photometry 9b broke the IRAF validation in CI).
@@ -278,6 +278,17 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   green three times in a row; times above met; CI uses the same script as the agents.
 - **Files:** `tests/conftest.py`, `pyproject.toml`, `tools/precommit.sh`, `tools/run_validation.sh`, the slow tests,
   `.github/workflows/ci.yml`.
+- **Result:** `tests/conftest.py` compiles the translations when a `.qm` is missing or older than its `.ts`;
+  markers `slow`, `validation`, `gpu`, `hardware`, `network` registered; the 78 s statistics test split into a
+  16-night `slow` test and a 4-night quick one; `test_every_button…`, `test_text_size`, the layout test, the EB MCMC
+  test and the practice-night run marked `slow`; `pytest-xdist` and `pytest-cov` in the dev extra; precommit and CI run
+  `-n auto --durations=10`; CI's Linux job writes coverage per module into the job summary; `tools/run_validation.sh`
+  fetches the HAT-P-32 night once and runs `tests/validation`; the practice-night generator's unit-less time sum
+  fixed, and that warning is now an error in the tests. Measured here (4 cores): whole suite serial 10 min 41 s, 818
+  passed; quick loop `-n auto -m "not slow"` 4 min 42 s, 806 passed, nothing broken by parallel running.
+- **Changed from the plan:** the quick-loop target "< 3 min" is not met on this 4-core container (4 min 42 s); the
+  remaining time is spread over many 2–6 s UI tests, which ARC-4 and the UI rebuild will change anyway — revisit
+  after UI-4. Python 3.13 in the matrix is left to ARC-3.
 
 ### ARC-3. Reproducible environment and early warning for dependency changes  (P1)
 **open**

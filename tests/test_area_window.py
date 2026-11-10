@@ -1,5 +1,6 @@
 """The frame shared by every area window (plans/interface.md I2.1)."""
 
+import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import QLabel
@@ -170,6 +171,7 @@ def test_report_a_problem_holds_what_is_needed_and_nothing_personal(qtbot, tmp_p
     assert "Report a problem…" in [a.text() for a in win.help_menu.actions()]
 
 
+@pytest.mark.slow
 def test_text_size(qtbot, tmp_path):
     from PySide6.QtWidgets import QApplication
 
