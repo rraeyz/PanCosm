@@ -1,0 +1,220 @@
+alpyca==3.1.3
+    # via astrowb
+altgraph==0.17.5
+    # via
+    #   macholib
+    #   pyinstaller
+astropy==8.0.2
+    # via
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   photutils
+    #   pyvo
+astropy-iers-data==0.2026.11.9.0.35.9
+    # via astropy
+astroquery==0.4.11
+    # via astrowb
+astroscrappy==1.3.0
+    # via astrowb
+backports-tarfile==1.2.0 ; python_full_version < '3.12'
+    # via jaraco-context
+beautifulsoup4==4.15.0
+    # via astroquery
+certifi==2026.10.23
+    # via
+    #   astrowb
+    #   pyproj
+    #   requests
+cffi==2.1.1
+    # via
+    #   cryptography
+    #   wgpu
+charset-normalizer==3.5.2
+    # via requests
+contourpy==1.3.3 ; python_full_version < '3.12'
+    # via matplotlib
+contourpy==1.4.0 ; python_full_version >= '3.12'
+    # via matplotlib
+cryptography==48.0.1
+    # via
+    #   astrowb
+    #   secretstorage
+cycler==0.12.1
+    # via matplotlib
+emcee==3.1.6
+    # via astrowb
+enum-tools==0.13.0
+    # via alpyca
+fonttools==4.68.0
+    # via matplotlib
+h5py==3.16.0
+    # via astrowb
+html5lib==1.1
+    # via astroquery
+idna==3.20
+    # via requests
+ifaddr==0.2.0
+    # via alpyca
+imagecodecs==2026.3.6 ; python_full_version < '3.12'
+    # via astrowb
+imagecodecs==2026.10.10 ; python_full_version >= '3.12'
+    # via astrowb
+importlib-metadata==10.2.0 ; python_full_version < '3.12'
+    # via keyring
+jaraco-classes==3.4.0
+    # via keyring
+jaraco-context==6.1.2
+    # via keyring
+jaraco-functools==4.6.0
+    # via keyring
+jeepney==0.9.0 ; sys_platform == 'linux'
+    # via
+    #   keyring
+    #   secretstorage
+keyring==25.7.0
+    # via astroquery
+kiwisolver==1.5.1
+    # via matplotlib
+lazy-importer==0.1.0 ; python_full_version < '3.12'
+    # via importlib-metadata
+macholib==1.16.4 ; sys_platform == 'darwin'
+    # via pyinstaller
+matplotlib==3.11.2
+    # via astrowb
+more-itertools==11.2.1
+    # via
+    #   jaraco-classes
+    #   jaraco-functools
+numpy==2.4.6 ; python_full_version < '3.12'
+    # via
+    #   astropy
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   contourpy
+    #   emcee
+    #   h5py
+    #   imagecodecs
+    #   matplotlib
+    #   photutils
+    #   pyerfa
+    #   rawpy
+    #   rendercanvas
+    #   scipy
+    #   tifffile
+numpy==2.5.4 ; python_full_version >= '3.12'
+    # via
+    #   astropy
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   contourpy
+    #   emcee
+    #   h5py
+    #   imagecodecs
+    #   matplotlib
+    #   photutils
+    #   pyerfa
+    #   rawpy
+    #   rendercanvas
+    #   scipy
+    #   tifffile
+packaging==26.3
+    # via
+    #   astropy
+    #   matplotlib
+    #   pyinstaller
+    #   pyinstaller-hooks-contrib
+pefile==2024.8.26 ; sys_platform == 'win32'
+    # via pyinstaller
+photutils==3.0.0 ; python_full_version < '3.12'
+    # via astrowb
+photutils==3.1.1 ; python_full_version >= '3.12'
+    # via astrowb
+pillow==13.0.0
+    # via
+    #   astrowb
+    #   matplotlib
+platformdirs==4.14.5
+    # via astrowb
+pycparser==3.12 ; implementation_name != 'PyPy'
+    # via cffi
+pyerfa==2.0.1.5
+    # via astropy
+pygments==2.21.0
+    # via enum-tools
+pyinstaller==6.22.3
+    # via astrowb
+pyinstaller-hooks-contrib==2026.10
+    # via pyinstaller
+pyparsing==3.3.3
+    # via matplotlib
+pyproj==3.7.2 ; python_full_version < '3.12'
+    # via astrowb
+pyproj==3.8.0 ; python_full_version >= '3.12'
+    # via astrowb
+pyside6-essentials==6.12.0
+    # via astrowb
+python-dateutil==2.9.0.post0
+    # via
+    #   alpyca
+    #   matplotlib
+pyvo==1.10.0
+    # via astroquery
+pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
+    # via
+    #   keyring
+    #   pyinstaller
+pyyaml==6.0.3
+    # via astropy
+rawpy==0.28.0
+    # via astrowb
+rendercanvas==3.0.0
+    # via wgpu
+requests==2.34.2
+    # via
+    #   alpyca
+    #   astroquery
+    #   pyvo
+rubicon-objc==0.5.7 ; sys_platform == 'darwin'
+    # via wgpu
+scipy==1.17.1 ; python_full_version < '3.12'
+    # via
+    #   astrowb
+    #   photutils
+scipy==1.18.1 ; python_full_version >= '3.12'
+    # via
+    #   astrowb
+    #   photutils
+secretstorage==3.5.0 ; sys_platform == 'linux'
+    # via keyring
+setuptools==84.2.1
+    # via pyinstaller
+shiboken6==6.12.0
+    # via pyside6-essentials
+six==1.17.0
+    # via
+    #   html5lib
+    #   python-dateutil
+soupsieve==2.10 ; python_full_version < '3.11.5'
+    # via beautifulsoup4
+soupsieve==4.1 ; python_full_version >= '3.11.5'
+    # via beautifulsoup4
+tifffile==2026.3.3 ; python_full_version < '3.12'
+    # via astrowb
+tifffile==2026.11.8 ; python_full_version >= '3.12'
+    # via astrowb
+typing-extensions==4.16.0
+    # via
+    #   alpyca
+    #   beautifulsoup4
+    #   enum-tools
+urllib3==2.8.0
+    # via requests
+webencodings==0.6.1
+    # via html5lib
+wgpu==0.33.0
+    # via astrowb
+zipp==4.1.2 ; python_full_version < '3.12'
+    # via importlib-metadata

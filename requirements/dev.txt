@@ -1,0 +1,424 @@
+alpyca==3.1.3
+    # via astrowb
+asdf==6.0.0
+    # via
+    #   asdf-astropy
+    #   asdf-coordinates-schemas
+    #   gwcs
+    #   specutils
+asdf-astropy==0.11.0
+    # via
+    #   gwcs
+    #   specutils
+asdf-coordinates-schemas==0.5.1
+    # via
+    #   asdf-astropy
+    #   asdf-wcs-schemas
+asdf-standard==1.5.0
+    # via
+    #   asdf
+    #   asdf-astropy
+    #   asdf-coordinates-schemas
+    #   asdf-transform-schemas
+    #   asdf-wcs-schemas
+asdf-transform-schemas==0.6.0
+    # via
+    #   asdf-astropy
+    #   asdf-wcs-schemas
+asdf-wcs-schemas==0.5.0
+    # via gwcs
+astropy==8.0.2
+    # via
+    #   asdf-astropy
+    #   astropy-healpix
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   ccdproc
+    #   gwcs
+    #   ndcube
+    #   photutils
+    #   pyvo
+    #   reproject
+    #   specreduce
+    #   specutils
+astropy-healpix==2.0.1
+    # via reproject
+astropy-iers-data==0.2026.11.9.0.35.9
+    # via astropy
+astroquery==0.4.11
+    # via astrowb
+astroscrappy==1.3.0
+    # via
+    #   astrowb
+    #   ccdproc
+attrs==26.1.0
+    # via asdf
+backports-tarfile==1.2.0 ; python_full_version < '3.12'
+    # via jaraco-context
+beautifulsoup4==4.15.0
+    # via astroquery
+ccdproc==2.5.1
+    # via astrowb
+certifi==2026.10.23
+    # via
+    #   astrowb
+    #   pyproj
+    #   requests
+cffi==2.1.1
+    # via
+    #   cryptography
+    #   wgpu
+charset-normalizer==3.5.2
+    # via requests
+click==8.5.1
+    # via dask
+cloudpickle==3.1.2
+    # via dask
+colorama==0.4.6 ; sys_platform == 'win32'
+    # via pytest
+contourpy==1.3.3 ; python_full_version < '3.12'
+    # via matplotlib
+contourpy==1.4.0 ; python_full_version >= '3.12'
+    # via matplotlib
+coverage==7.17.2
+    # via pytest-cov
+cryptography==48.0.1
+    # via
+    #   astrowb
+    #   secretstorage
+cycler==0.12.1
+    # via matplotlib
+dask==2026.8.0
+    # via
+    #   dask-image
+    #   reproject
+dask-image==2026.5.0
+    # via reproject
+donfig==0.8.1.post1
+    # via zarr
+emcee==3.1.6
+    # via astrowb
+enum-tools==0.13.0
+    # via alpyca
+execnet==2.1.2
+    # via pytest-xdist
+fonttools==4.68.0
+    # via matplotlib
+fsspec==2026.9.0
+    # via
+    #   dask
+    #   reproject
+google-crc32c==1.9.0
+    # via zarr
+gwcs==1.0.3
+    # via
+    #   ndcube
+    #   specreduce
+    #   specutils
+h5py==3.16.0
+    # via astrowb
+html5lib==1.1
+    # via astroquery
+idna==3.20
+    # via requests
+ifaddr==0.2.0
+    # via alpyca
+imagecodecs==2026.3.6 ; python_full_version < '3.12'
+    # via astrowb
+imagecodecs==2026.10.10 ; python_full_version >= '3.12'
+    # via astrowb
+imageio==2.38.1
+    # via
+    #   pims
+    #   scikit-image
+importlib-metadata==10.2.0 ; python_full_version < '3.12'
+    # via
+    #   asdf
+    #   dask
+    #   keyring
+iniconfig==2.3.1
+    # via pytest
+jaraco-classes==3.4.0
+    # via keyring
+jaraco-context==6.1.2
+    # via keyring
+jaraco-functools==4.6.0
+    # via keyring
+jeepney==0.9.0 ; sys_platform == 'linux'
+    # via
+    #   keyring
+    #   secretstorage
+jmespath==1.1.0
+    # via asdf
+keyring==25.7.0
+    # via astroquery
+kiwisolver==1.5.1
+    # via matplotlib
+lazy-importer==0.1.0 ; python_full_version < '3.12'
+    # via importlib-metadata
+lazy-loader==0.6
+    # via scikit-image
+locket==1.0.0
+    # via partd
+matplotlib==3.11.2
+    # via
+    #   astrowb
+    #   specreduce
+more-itertools==11.2.1
+    # via
+    #   jaraco-classes
+    #   jaraco-functools
+msgspec==0.22.0 ; python_full_version >= '3.12'
+    # via zarr
+ndcube==2.4.3
+    # via specutils
+networkx==3.6.1 ; python_full_version < '3.12'
+    # via scikit-image
+networkx==3.7 ; python_full_version >= '3.12'
+    # via scikit-image
+numcodecs==0.16.6 ; python_full_version < '3.12'
+    # via zarr
+numcodecs==0.17.1 ; python_full_version >= '3.12'
+    # via zarr
+numpy==2.4.6 ; python_full_version < '3.12'
+    # via
+    #   asdf
+    #   asdf-astropy
+    #   astropy
+    #   astropy-healpix
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   ccdproc
+    #   contourpy
+    #   dask
+    #   dask-image
+    #   emcee
+    #   gwcs
+    #   h5py
+    #   imagecodecs
+    #   imageio
+    #   matplotlib
+    #   ndcube
+    #   numcodecs
+    #   photutils
+    #   pims
+    #   pyerfa
+    #   rawpy
+    #   rendercanvas
+    #   reproject
+    #   scikit-image
+    #   scipy
+    #   specreduce
+    #   specutils
+    #   tifffile
+    #   zarr
+numpy==2.5.4 ; python_full_version >= '3.12'
+    # via
+    #   asdf
+    #   asdf-astropy
+    #   astropy
+    #   astropy-healpix
+    #   astroquery
+    #   astroscrappy
+    #   astrowb
+    #   ccdproc
+    #   contourpy
+    #   dask
+    #   dask-image
+    #   emcee
+    #   gwcs
+    #   h5py
+    #   imagecodecs
+    #   imageio
+    #   matplotlib
+    #   ndcube
+    #   numcodecs
+    #   photutils
+    #   pims
+    #   pyerfa
+    #   rawpy
+    #   rendercanvas
+    #   reproject
+    #   scikit-image
+    #   scipy
+    #   specreduce
+    #   specutils
+    #   tifffile
+    #   zarr
+packaging==26.3
+    # via
+    #   asdf
+    #   asdf-astropy
+    #   astropy
+    #   dask
+    #   lazy-loader
+    #   matplotlib
+    #   pims
+    #   pytest
+    #   scikit-image
+    #   zarr
+partd==1.4.2
+    # via dask
+photutils==3.0.0 ; python_full_version < '3.12'
+    # via astrowb
+photutils==3.1.1 ; python_full_version >= '3.12'
+    # via astrowb
+pillow==13.0.0
+    # via
+    #   imageio
+    #   matplotlib
+    #   reproject
+    #   scikit-image
+pims==0.7
+    # via dask-image
+platformdirs==4.14.5
+    # via astrowb
+pluggy==1.7.0
+    # via
+    #   pytest
+    #   pytest-cov
+    #   pytest-qt
+pyavm==0.9.9
+    # via reproject
+pycparser==3.12 ; implementation_name != 'PyPy'
+    # via cffi
+pyerfa==2.0.1.5
+    # via astropy
+pygments==2.21.0
+    # via
+    #   enum-tools
+    #   pytest
+pyparsing==3.3.3
+    # via matplotlib
+pyproj==3.7.2 ; python_full_version < '3.12'
+    # via astrowb
+pyproj==3.8.0 ; python_full_version >= '3.12'
+    # via astrowb
+pyside6-essentials==6.12.0
+    # via astrowb
+pytest==9.2.0
+    # via
+    #   astrowb
+    #   pytest-cov
+    #   pytest-qt
+    #   pytest-xdist
+pytest-cov==7.1.0
+    # via astrowb
+pytest-qt==4.5.0
+    # via astrowb
+pytest-xdist==3.8.0
+    # via astrowb
+python-dateutil==2.9.0.post0
+    # via
+    #   alpyca
+    #   matplotlib
+pyvo==1.10.0
+    # via astroquery
+pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
+    # via keyring
+pyyaml==6.0.3
+    # via
+    #   asdf
+    #   astropy
+    #   dask
+    #   donfig
+rawpy==0.28.0
+    # via astrowb
+rendercanvas==3.0.0
+    # via wgpu
+reproject==0.21.0
+    # via ccdproc
+requests==2.34.2
+    # via
+    #   alpyca
+    #   astroquery
+    #   pyvo
+rubicon-objc==0.5.7 ; sys_platform == 'darwin'
+    # via wgpu
+ruff==0.17.4
+    # via astrowb
+scikit-image==0.26.0
+    # via ccdproc
+scipy==1.17.1 ; python_full_version < '3.12'
+    # via
+    #   astrowb
+    #   ccdproc
+    #   dask-image
+    #   gwcs
+    #   ndcube
+    #   photutils
+    #   reproject
+    #   scikit-image
+    #   specreduce
+    #   specutils
+scipy==1.18.1 ; python_full_version >= '3.12'
+    # via
+    #   astrowb
+    #   ccdproc
+    #   dask-image
+    #   gwcs
+    #   ndcube
+    #   photutils
+    #   reproject
+    #   scikit-image
+    #   specreduce
+    #   specutils
+secretstorage==3.5.0 ; sys_platform == 'linux'
+    # via keyring
+semantic-version==2.10.0
+    # via asdf
+shiboken6==6.12.0
+    # via pyside6-essentials
+six==1.17.0
+    # via
+    #   html5lib
+    #   python-dateutil
+slicerator==1.1.0
+    # via pims
+soupsieve==2.10 ; python_full_version < '3.11.5'
+    # via beautifulsoup4
+soupsieve==4.1 ; python_full_version >= '3.11.5'
+    # via beautifulsoup4
+specreduce==1.9.0
+    # via astrowb
+specutils==2.4.0
+    # via specreduce
+tifffile==2026.3.3 ; python_full_version < '3.12'
+    # via
+    #   astrowb
+    #   dask-image
+    #   pims
+    #   scikit-image
+tifffile==2026.11.8 ; python_full_version >= '3.12'
+    # via
+    #   astrowb
+    #   dask-image
+    #   pims
+    #   scikit-image
+toolz==1.2.0
+    # via
+    #   dask
+    #   partd
+typing-extensions==4.16.0
+    # via
+    #   alpyca
+    #   asdf
+    #   beautifulsoup4
+    #   enum-tools
+    #   numcodecs
+    #   pytest-qt
+    #   zarr
+urllib3==2.8.0
+    # via requests
+webencodings==0.6.1
+    # via html5lib
+wgpu==0.33.0
+    # via astrowb
+zarr==3.1.6 ; python_full_version < '3.12'
+    # via reproject
+zarr==3.4.2 ; python_full_version >= '3.12'
+    # via reproject
+zipp==4.1.2 ; python_full_version < '3.12'
+    # via importlib-metadata

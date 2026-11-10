@@ -29,6 +29,22 @@ python -m astrowb --smoke-test /tmp/smoke   # QT_QPA_PLATFORM=offscreen on a mac
 Linux without a desktop needs `libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3`.
 The INDI simulator test needs `indi-bin` (skipped otherwise).
 
+## Locked dependency versions
+
+CI and the installers use the exact versions in `uv.lock` (exported to `requirements/dev.txt` and
+`requirements/build.txt`), so two builds a week apart contain the same libraries. To move to newer versions, on
+purpose:
+
+```bash
+uv lock --upgrade                      # or: uv lock --upgrade-package astropy
+uv export --frozen --extra gui --extra dev --no-hashes --no-emit-project --no-header -o requirements/dev.txt
+uv export --frozen --extra gui --extra build --no-hashes --no-emit-project --no-header -o requirements/build.txt
+sh tools/precommit.sh && sh tools/run_validation.sh
+python tools/check_licenses.py --table  # in an environment made from requirements/build.txt
+```
+
+The weekly `latest-deps` workflow runs the tests with the newest versions and lists what differs from the lock.
+
 ## Rules checked by CI
 
 - **The product name lives only in `src/astrowb/resources/brand/brand.toml`** (and in `README.md`). Never write

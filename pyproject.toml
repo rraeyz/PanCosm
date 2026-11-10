@@ -12,13 +12,13 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
-    "numpy>=1.26",
-    "astropy>=6.1",
+    "numpy>=1.26,<3",
+    "astropy>=6.1,<9",
     "platformdirs>=4",
     "wgpu>=0.30",
     "astroscrappy>=1.2",
-    "photutils>=3.0",
-    "scipy>=1.11",
+    "photutils>=3.0,<4",
+    "scipy>=1.11,<2",
     "matplotlib>=3.8",
     "astroquery>=0.4.7",
     "alpyca>=3.0",
@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gui = ["PySide6-Essentials>=6.7"]
+gui = ["PySide6-Essentials>=6.7,<7"]
 dev = ["pytest>=8", "pytest-qt>=4.4", "pytest-xdist>=3.5", "pytest-cov>=5", "ruff>=0.6", "ccdproc>=2.4", "specreduce>=1.5"]  # references in tests only
 build = ["pyinstaller>=6.10", "pillow>=10"]
 
