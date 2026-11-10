@@ -33,6 +33,14 @@ Check that the observatory process is running (start it again with **Start obser
 ## Where are my settings and files?
 Settings, plugins and automations are in the user settings folder (on Linux `~/.config/…`, on Windows `%LOCALAPPDATA%\…`, on macOS `~/Library/Application Support/…`). Projects and results are where you save them.
 
+## Earth-rotation tables
+Altitudes, airmass and the telescope's safety limits need tables of the Earth's rotation (from the IERS). The
+installation brings a copy; when you allowed it (first start, or **Settings → Keep the Earth-rotation tables up to
+date**) the program downloads a new one once a week when online, about 3 MB, quietly. **Settings → Update the
+Earth-rotation tables now** does it at once. Without updates nothing stops working: the tables' predictions slowly
+lose accuracy (seconds of arc after a year), far below what airmass or a pointing limit needs. Times of observation
+(BJD) do not use these tables at all. **Help → Check the installation and internet services** shows the age of the tables in use.
+
 ## Updates
 **Help → Check for updates…** asks the project's release page whether a newer version exists and links to its download. The application never checks on its own. Install the new version over the old one; settings, plugins and automations are kept.
 

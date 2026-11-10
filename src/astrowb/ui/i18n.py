@@ -7,6 +7,9 @@ from PySide6.QtCore import QLibraryInfo, QLocale, QTranslator
 
 I18N_DIR = Path(str(files("astrowb") / "resources" / "i18n"))
 LANGUAGES = {"en": "English", "tr": "Türkçe", "de": "Deutsch", "es": "Español"}  # native names, never translated
+# Languages kept complete while the program is built; German and Spanish are translated in one pass before 1.0
+# (PLAN.md R0, plans/architecture.md ARC-25): until then their new texts show in English.
+COMPLETE = ("en", "tr")
 
 
 def system_language() -> str:

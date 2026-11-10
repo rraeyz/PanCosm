@@ -15,7 +15,8 @@ base of this file), then `plans/interface.md` (rules, kit, anatomy, UI-16.12).
 5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
 6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
 7. Only kit components in the interface; workflow first; one primary action; tooltips; undo; nothing locked.
-8. Errors by code, saying what happened and what to do, translated (tr, de, es: 0 unfinished). Guide updated.
+8. Errors by code, saying what happened and what to do, translated into Turkish (German and Spanish wait for ARC-25,
+   PLAN.md R0). Guide updated in English and Turkish.
 9. Measure time and memory; meet the budget; CPU and GPU paths give the same result.
 10. Commits in the owner's name only, no "Claude" anywhere; everything to `main`; never delete without the owner.
 

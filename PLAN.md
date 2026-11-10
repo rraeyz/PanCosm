@@ -169,6 +169,16 @@ rules; a coding agent may not.)
 5. The sources the step names under "Read first" (papers, the reference programs' code). Write what you learned
    under the step as "Notes from the sources" before coding.
 
+### R0 Languages while the program is built (owner, 2026-11-10)
+- **English and Turkish only, until ARC-25.** Every new or changed text is translated into Turkish at once (0
+  unfinished, checked by the tests); German and Spanish are **not** translated now. The guide is written and updated
+  in English and Turkish only. Existing German and Spanish texts and guide pages stay as they are; new texts show in
+  English there until ARC-25, the one translation pass before version 1.0.
+- Wherever a plan file says "four languages", "en / tr / de / es" or "tr, de, es", read "English and Turkish" until
+  ARC-25 is done. Screenshots for checks: English and Turkish; German only in the layout test with lengthened texts
+  (ARC-18's pseudo-locale), which finds texts that would not fit.
+- Code, comments, commit messages and plan files stay in English (Turkish is allowed in claims, R3).
+
 ### R2 Check what exists first, then build, improve or change (owner, 2026-11-10)
 - **Before writing any code for a step, look for what the program already has.** Search the code for the step's
   subject (`grep -rn` the function names, the keywords of the Build list, the file names in "Files" and "Ours now";
@@ -233,9 +243,9 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
 4. the interface part uses only the component kit, has tooltips, undo, an empty state, an error state, fits
    1366 × 768, and was **used by you as a user**: real clicks under offscreen Qt, a screenshot of every state in
    four languages, each one looked at (R7);
-5. every text is translated (tr, de, es: 0 unfinished) and every error has a code with a message that says what
+5. every text is translated into Turkish (0 unfinished; German and Spanish wait for ARC-25, R0) and every error has a code with a message that says what
    happened and what to do;
-6. the guide page of the area is updated in four languages, `plans/interface.md` "Where everything is" has the
+6. the guide page of the area is updated in English and Turkish (R0), `plans/interface.md` "Where everything is" has the
    new entry, and the marks of `plans/parity.md` rows that name the step are updated;
 7. time and peak memory are measured on the data named in the step and written under it; they meet the budget;
 8. `QT_QPA_PLATFORM=offscreen sh tools/precommit.sh` is green, and CI is green on all systems after the push;

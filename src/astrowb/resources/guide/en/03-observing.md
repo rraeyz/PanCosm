@@ -46,6 +46,12 @@ Every few seconds the supervisor checks the rules. When anything is unsafe it **
 
 After an unsafe period nothing restarts by itself: check the telescope and press **Resume** (refused while still unsafe).
 
+If a rule itself cannot be checked (a device gives an answer that cannot be read, the time tables cannot be used…),
+that counts as unsafe too: the telescope is parked and the dome closed, and the reason says which check failed. Slews
+are refused for the same reason, with the words "the telescope was not moved". If the supervisor stops checking
+altogether, the safety line turns red with "the safety supervisor has not checked for … s": restart the observatory
+(**Devices → Start observatory on this computer**, or on the observatory computer).
+
 ## Moving the telescope
 Type coordinates (`02:04:10 +46:41:16`) and press **Slew**. **Park**, **Abort** (stops everything at once), **Resume** and **Autofocus** are next to it. The mount line shows altitude, azimuth and whether it is tracking or parked.
 
