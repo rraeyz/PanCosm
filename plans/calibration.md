@@ -207,7 +207,13 @@ and 4 (sensor kind and its defaults, flat-darks, the matching score shown, a nig
 - **Files:** `calibration/masters.py` (`_layout`), `io/fits.py`, tests.
 
 ### CAL-5. Combine and rejection: every method of the reference programs  (P1)
-**open**
+**partial** — done (2026-11-14), item 1's missing methods: `calibration/combine.py` (`minmax`, `ccdclip`,
+`crreject`, `avsigclip`, `pclip`, `linear_fit`, `gesd`, with `nkeep`, mean or median, and the frames kept per
+pixel). Tests (tests/test_combine_methods.py): minmax, ccdclip, crreject, pclip and the generalised ESD equal a slow
+per-pixel statement of their definitions exactly; a cosmic ray in one of five darks removed by ccdclip, crreject,
+avsigclip and gesd; linear fit keeps a sky drifting through 25 frames and drops the hit. Left: `grow`, scale and
+zero choices and weights in this module, the per-type defaults (item 2) wired into the masters and stacks, the
+rejection maps, GPU twins, the IRAF imcombine reference images, the Masters stage's choice.
 - **Reference:** IRAF `imcombine` help (the definitive description; its parameter file: `combine = average |
   median | lmedian | sum | quadrature | nmodel`, `reject = none | minmax | ccdclip | crreject | sigclip | avsigclip |
   pclip`, `nkeep 1`, `mclip yes`, `grow 0`, `sigscale 0.1`): `minmax` (nlow, nhigh), `ccdclip` (σ from the
