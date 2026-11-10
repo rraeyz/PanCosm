@@ -571,7 +571,12 @@ class ObservePage(Undoable, QWidget):
             self.safety.setText(self.tr("No connection to the observatory: {e}").format(e=translate(st["error"])))
             self.safety.setStyleSheet("font-weight: bold; padding: 6px; background: #c62828; color: white;")
             return
-        if st["safe"] and not st["aborted"]:
+        age, interval = st.get("checked_s_ago"), st.get("check_interval_s") or 5.0
+        if age is not None and age > 3 * interval:  # the supervisor has stopped checking: nothing guards the telescope
+            text = self.tr("NOT SAFE: the safety supervisor has not checked for {s:.0f} s — restart the observatory")
+            self.safety.setText(text.format(s=age))
+            self.safety.setStyleSheet("font-weight: bold; padding: 6px; background: #c62828; color: white;")
+        elif st["safe"] and not st["aborted"]:
             self.safety.setText(self.tr("Safe"))
             self.safety.setStyleSheet("font-weight: bold; padding: 6px; background: #2e7d32; color: white;")
         else:

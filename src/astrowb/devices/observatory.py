@@ -41,6 +41,9 @@ class Observatory:
         self.lock = threading.RLock()  # one device command at a time
         self.abort = threading.Event()  # set when unsafe: sequences stop at the next check
         self.reasons: list[str] = []
+        self.last_check = None  # clock() of the last completed safety check (the window shows a stale one)
+        self.interval_s = 5.0
+        self._failures = {}  # error text -> clock() of its last log line, so a failing rule does not flood the log
         self._stop = threading.Event()
         self._thread = None
 
@@ -93,7 +96,12 @@ class Observatory:
         if self.reasons:
             raise SafetyError("observatory is unsafe: " + "; ".join(self.reasons))
         t = self.now()
-        reasons = check_target(coord, t, self.location, self.rules)
+        try:
+            reasons = check_target(coord, t, self.location, self.rules)
+        except Exception as e:
+            first = (str(e).strip().splitlines() or [type(e).__name__])[0]
+            self.note(f"slew refused: cannot evaluate the safety rules: {first}")
+            raise SafetyError(f"cannot evaluate the safety rules ({first}): the telescope was not moved") from e
         if reasons:
             self.note("slew refused: " + "; ".join(reasons))
             raise SafetyError("; ".join(reasons))
@@ -144,27 +152,43 @@ class Observatory:
                     cond[key] = None if "NotImplemented" in str(e) else "error"
         return is_safe, cond
 
+    def _rule(self, name, function) -> list[str]:
+        """One safety rule; a rule that raises is itself a reason (fail closed: an unknown state is unsafe)."""
+        try:
+            return function()
+        except Exception as e:
+            first = (str(e).strip().splitlines() or [type(e).__name__])[0]
+            return [f"safety check {name} failed: {first}"]
+
+    def _mount_rules(self):
+        reasons = []
+        try:
+            parked = self.call("mount", "AtPark")
+            if not parked:
+                reasons += check_sun(self.mount_position(), self.now(), self.location, self.rules)
+            if not parked and self.call("mount", "Tracking"):
+                t = self.now()
+                aa = self.mount_position().transform_to(AltAz(obstime=t, location=self.location))
+                if aa.alt.deg < self.rules.horizon_alt(aa.az.deg) - 2:  # 2 deg grace for tracking past a limit
+                    reasons.append(f"telescope is at altitude {aa.alt.deg:.1f} deg, below the limit")
+        except DeviceError:
+            pass  # covered by the link check
+        return reasons
+
     def check(self) -> list[str]:
-        """Everything that is unsafe right now (empty list = safe)."""
+        """Everything that is unsafe right now (empty list = safe). Every rule runs on its own: one that fails
+        does not hide the others, and is a reason itself."""
         for name in self.devices:  # refresh the link times
             try:
                 self.call(name, "Connected")
             except DeviceError:
                 pass
-        reasons = check_weather(*self._weather(), self.rules)
-        reasons += check_link({k: self.clock() - v for k, v in self.last_ok.items()}, self.rules)
+        reasons = self._rule("weather", lambda: check_weather(*self._weather(), self.rules))
+        reasons += self._rule(
+            "links", lambda: check_link({k: self.clock() - v for k, v in self.last_ok.items()}, self.rules)
+        )
         if "mount" in self.devices:
-            try:
-                parked = self.call("mount", "AtPark")
-                if not parked:
-                    reasons += check_sun(self.mount_position(), self.now(), self.location, self.rules)
-                if not parked and self.call("mount", "Tracking"):
-                    t = self.now()
-                    aa = self.mount_position().transform_to(AltAz(obstime=t, location=self.location))
-                    if aa.alt.deg < self.rules.horizon_alt(aa.az.deg) - 2:  # 2 deg grace for tracking past a limit
-                        reasons.append(f"telescope is at altitude {aa.alt.deg:.1f} deg, below the limit")
-            except DeviceError:
-                pass  # covered by the link check
+            reasons += self._rule("sun and altitude", self._mount_rules)
         return reasons
 
     def make_safe(self, reasons):
@@ -191,12 +215,16 @@ class Observatory:
             return False
 
     def supervise_once(self):
-        reasons = self.check()
+        try:
+            reasons = self.check()
+        except Exception as e:  # check() guards each rule; this is the last line of defence
+            reasons = [f"safety check failed: {(str(e).strip().splitlines() or [type(e).__name__])[0]}"]
         if reasons and (reasons != self.reasons or not self._parked()):  # repeat until the mount is parked
             self.make_safe(reasons)
         elif not reasons and self.reasons:
             self.note("conditions safe again (manual restart needed)")
         self.reasons = reasons
+        self.last_check = self.clock()
         return reasons
 
     def resume(self):
@@ -208,13 +236,29 @@ class Observatory:
         self.abort.clear()
         self.note("resumed by the operator")
 
+    def _supervisor_failed(self, error):
+        """supervise_once itself failed: make safe anyway (an unknown state is unsafe), and log each distinct
+        error at most every ten minutes."""
+        text = f"safety check failed: {(str(error).strip().splitlines() or [type(error).__name__])[0]}"
+        if self.clock() - self._failures.get(text, -1e9) > 600:
+            self._failures[text] = self.clock()
+            self.note(f"supervisor error: {text}")
+        try:
+            if text not in self.reasons or not self._parked():
+                self.make_safe([text])
+            self.reasons = [text]
+        except Exception as e:  # make_safe never raises; this guards against a future change
+            self.note(f"supervisor could not make the observatory safe: {e}")
+
     def start_supervisor(self, interval_s=5.0):
+        self.interval_s = interval_s
+
         def loop():
             while not self._stop.wait(interval_s):
                 try:
                     self.supervise_once()
-                except Exception as e:  # the supervisor must never die
-                    self.note(f"supervisor error: {e}")
+                except Exception as e:  # the supervisor must never die, and never stay silent
+                    self._supervisor_failed(e)
 
         self._stop.clear()
         self._thread = threading.Thread(target=loop, name="safety-supervisor", daemon=True)

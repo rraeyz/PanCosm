@@ -37,6 +37,8 @@ def real_messages():
     out += check_sun(at(60, 120, noon), noon, SITE, rules)
     out += [str(MissingInput("calibration.run", ["frames", "output_dir"]))]
     out += ["not a frame written by the observatory"]  # devices/server.py /file
+    out += ["safety check sun and altitude failed: interpolating from IERS_Auto"]  # devices/observatory.py
+    out += ["safety check failed: boom", "cannot evaluate the safety rules (boom): the telescope was not moved"]
     out += ["no flat panel connected", "flat panel: CoverState did not become ready"]  # devices/sequence.py
     out += ["rotator did not reach its position in time", "rotation aborted: safety monitor reports unsafe"]
     from astrowb.devices import setup
@@ -52,6 +54,7 @@ def real_messages():
     out += ["the image has no sky coordinates: plate-solve it first (Image menu)"]  # engine/builtin.py
     out += ["the light curve spans 0.12 h: too short to search for periods"]  # photometry/steps.py
     out += ["the keyword NAXIS1 describes the data and cannot be edited"]  # io/fits.py
+    out += ["the downloaded Earth-orientation table is too short: the server did not send the whole file"]
     from astrowb.timeseries.ephemeris import fit, parse_minima
 
     for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):

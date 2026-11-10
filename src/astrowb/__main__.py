@@ -10,6 +10,7 @@ from pathlib import Path
 
 def smoke_test(workdir: Path) -> None:
     """Exercise the installed app end to end: GUI window, FITS open, save via worker process, project file."""
+    import astropy.units as u
     import numpy as np
     from astropy.io import fits
 
@@ -55,8 +56,17 @@ def smoke_test(workdir: Path) -> None:
         {"calibration.run": {"cosmic_rays": True}},
     )
     assert len(out["calibrated"]) == 3
+    from astropy.coordinates import AltAz, EarthLocation, SkyCoord
+    from astropy.time import Time
+
+    from .core import earth_orientation
     from .engine import automation  # ready automation templates are bundled and refer to existing steps
 
+    earth_orientation.configure()  # an installation years old still computes altitudes (ARC-1)
+    later = Time.now() + 3 * 365 * u.day
+    site = EarthLocation.from_geodetic(30 * u.deg, 39 * u.deg, 1000 * u.m)
+    alt = SkyCoord(10 * u.deg, 20 * u.deg).transform_to(AltAz(obstime=later, location=site))
+    assert abs(alt.alt.deg) <= 90
     templates = [a for a in automation.available() if a["template"]]
     assert len(templates) >= 5 and all(set(automation.needed(a)) <= set(a["inputs"]) for a in templates)
     from .ui import guide_page  # training pages are bundled in every language
@@ -303,10 +313,14 @@ def main(argv=None) -> int:
     for f in args.files:
         win.open_project(f) if f.suffix == ".astroproj" else win.open_fits(f, ask=True)
     win.show()
-    if not settings.get("ui.tour_done"):
-        from PySide6.QtCore import QTimer
+    from PySide6.QtCore import QTimer
 
+    from .core import earth_orientation
+
+    if not settings.get("ui.tour_done"):
         QTimer.singleShot(600, win.start_tour)  # once, after the first start
+    if settings.get("time.auto_refresh", True) and earth_orientation.due():  # weekly, quietly, when allowed
+        QTimer.singleShot(8000, lambda: win.update_time_tables(quiet=True))
     return app.exec()
 
 

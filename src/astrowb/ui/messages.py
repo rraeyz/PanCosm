@@ -37,6 +37,12 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "exposure aborted: {reasons}"),
     QT_TRANSLATE_NOOP("Messages", "still unsafe: {reasons}"),
     QT_TRANSLATE_NOOP("Messages", "slew did not finish in time"),
+    QT_TRANSLATE_NOOP("Messages", "safety check {rule} failed: {error}"),
+    QT_TRANSLATE_NOOP("Messages", "safety check failed: {error}"),
+    QT_TRANSLATE_NOOP("Messages", "cannot evaluate the safety rules ({error}): the telescope was not moved"),
+    QT_TRANSLATE_NOOP("Messages", "weather"),
+    QT_TRANSLATE_NOOP("Messages", "links"),
+    QT_TRANSLATE_NOOP("Messages", "sun and altitude"),
     QT_TRANSLATE_NOOP("Messages", "no {device} connected"),
     QT_TRANSLATE_NOOP("Messages", "busy with {job}"),
     QT_TRANSLATE_NOOP("Messages", "aborted: resume first"),
@@ -72,6 +78,10 @@ TEMPLATES = (
         "Messages", "the pixel scale is unknown (no FOCALLEN and XPIXSZ in the header) to solve the frame"
     ),
     QT_TRANSLATE_NOOP("Messages", "too few stars to solve the frame (clouds, or too short an exposure?)"),
+    # core/earth_orientation.py
+    QT_TRANSLATE_NOOP(
+        "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
+    ),
     QT_TRANSLATE_NOOP("Messages", "the stars of the frame do not match the Gaia stars around its pointing"),
     QT_TRANSLATE_NOOP("Messages", "the target is not a Gaia star of the field: mark it on the star"),
     # photometry/lightcurve.py
@@ -390,6 +400,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "writing"),
     QT_TRANSLATE_NOOP("Messages", "plate solving"),
     QT_TRANSLATE_NOOP("Messages", "checking"),
+    QT_TRANSLATE_NOOP("Messages", "downloading"),
     QT_TRANSLATE_NOOP("Messages", "simulating"),
     QT_TRANSLATE_NOOP("Messages", "photometry"),
     QT_TRANSLATE_NOOP("Messages", "quality"),
@@ -436,7 +447,7 @@ def translate(text: str) -> str:
     for regex, template in _patterns():
         hit = regex.fullmatch(text)
         if hit:
-            values = {k: translate(v) if k == "reasons" else v for k, v in hit.groupdict().items()}
+            values = {k: translate(v) if k in ("reasons", "rule") else v for k, v in hit.groupdict().items()}
             return QCoreApplication.translate("Messages", template).format(**values)
     if "; " in text:
         return "; ".join(translate(part) for part in text.split("; "))

@@ -282,6 +282,9 @@ class Controller:
             "safe": not obs.reasons,
             "reasons": obs.reasons,
             "aborted": obs.abort.is_set(),
+            # seconds since the supervisor last finished a check (None: not running); the window warns when stale
+            "checked_s_ago": None if obs.last_check is None else round(obs.clock() - obs.last_check, 1),
+            "check_interval_s": obs.interval_s,
             "job": self.job,
             "devices": {k: round(obs.clock() - v, 1) for k, v in obs.last_ok.items()},
             "log": list(obs.log)[-50:],
