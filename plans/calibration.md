@@ -352,7 +352,12 @@ temperature, the shutter map, amplifiers, the real flat series.
 - **Files:** `calibration/detector.py`, steps `calibration.detector_*`, UI tool, tests, guide 04.
 
 ### CAL-10. Fringe correction  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/fringe.py` (`make_fringe_frame`: dithered frames, stars
+cut out, over their sky, median-combined, the smooth background removed, lightly smoothed so that its noise neither
+biases the amplitude nor goes into the lights; `fit_amplitude`; `remove`). Test (tests/test_fringe.py): fringes of
+3 % of the sky, 20 px apart, on dithered star fields — the frame's amplitude found within 0.05, the residual below
+0.3 %, the stars' fluxes unbiased within 0.2 %. Left: control-pair amplitudes, detecting fringes in the plan, the
+library per filter, the real I-band set.
 - **Reference:** IRAF `mkfringecor` (object-masked combination of sky frames, sky level subtracted) and `ccdproc
   fringecor` with a scale; Snodgrass & Carry 2013 (The Messenger 152, 14: the fringe amplitude measured from
   control pairs of bright and dark fringe positions); thinned CCDs in I, z, narrow bands.
