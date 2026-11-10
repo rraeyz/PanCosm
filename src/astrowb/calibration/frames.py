@@ -89,6 +89,36 @@ def classify(header, filename: str = "") -> str:
     return "unknown" if any(stated) else "light"
 
 
+def rule_kind(header, rules):
+    """The kind the first matching user rule gives ({"key", "value", "kind"}, values compared without case), or
+    None."""
+    for r in rules:
+        value = header.get(str(r["key"]).strip().upper())
+        if value is not None and str(value).strip().lower() == str(r["value"]).strip().lower():
+            return r["kind"]
+    return None
+
+
+def why(header, filename="", rules=()):
+    """In words, what decided the frame's kind: a user rule, a keyword, the file name or the exposure."""
+    for r in rules:
+        if rule_kind(header, [r]):
+            return f"your rule: {r['key']} = {r['value']} is a {r['kind']}"
+    if kind := _fibre_kind(_first(header, "HIERARCH ESO DPR TYPE") or ""):
+        return f"HIERARCH ESO DPR TYPE says {kind}"
+    for key in _TYPE_KEYS:
+        text = str(_first(header, key) or "").strip()
+        for kind, pattern in _PATTERNS:
+            if text and pattern.search(text):
+                return f"{key} = '{text}' is a {kind}"
+    for kind, pattern in _PATTERNS:
+        if pattern.search(Path(filename).name):
+            return f"the file name says {kind}"
+    if _float(_first(header, "EXPTIME", "EXPOSURE")) == 0:
+        return "no exposure time: a bias"
+    return "nothing names a type: a light"
+
+
 def read_frame(path: Path) -> Frame:
     with fits.open(readable(path), memmap=True) as hdul:
         i = find_image_hdu(hdul)

@@ -19,6 +19,8 @@ from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
     outputs=("frames", "problems", "raw_converted"),
     optional=("lights",),
     clock_utc_offset=0.0,
+    rules=(),
+    filter_aliases={},
 )
 def scan_step(inputs, params, ctx):
     """Camera raw files (DSLR, mirrorless) in the folder are first written as FITS to folder/fits_from_raw.
@@ -53,11 +55,26 @@ def scan_step(inputs, params, ctx):
                 f.kind = stated if stated in ("bias", "dark", "flat", "arc") else "light"
         frames |= {str(Path(f.path).resolve()): f for f in found}  # a folder inside another one is read once
         problems += raw_problems + bad
+    _apply_rules(frames.values(), params.get("rules") or (), params.get("filter_aliases") or {})
     return {
         "frames": [frames[p].as_dict() for p in sorted(frames)],
         "problems": problems,
         "raw_converted": len(raw),
     }
+
+
+def _apply_rules(frames, rules, aliases):
+    """CAL-2 item 3: the user's own rules ("OBSTYPE = SKY is a flat") over the built-in conventions, and filter names
+    that mean the same filter ("Clear", "L", "Lum")."""
+    from .frames import rule_kind
+
+    lower = {str(k).strip().lower(): v for k, v in aliases.items()}
+    for f in frames:
+        if rules:
+            kind = rule_kind(_frame_header(f.path), rules)
+            f.kind = kind or f.kind
+        if f.filter is not None and f.filter.strip().lower() in lower:
+            f.filter = lower[f.filter.strip().lower()]
 
 
 def _frame_header(path):

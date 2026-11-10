@@ -18128,196 +18128,216 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>UTC zamanı olmayan kamera ham dosyaları ve resimler için (DSLR)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="28"/>
+        <location filename="../../calibration/step_params.py" line="23"/>
+        <source>Header rules</source>
+        <translation>Başlık kuralları</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="24"/>
+        <source>Your own rules over the usual names, e.g. [{&quot;key&quot;: &quot;OBSTYPE&quot;, &quot;value&quot;: &quot;SKY&quot;, &quot;kind&quot;: &quot;flat&quot;}]</source>
+        <translation>Alışılmış adların üstünde kendi kurallarınız, ör. [{"key": "OBSTYPE", "value": "SKY", "kind": "flat"}]</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="33"/>
+        <source>Filter names alike</source>
+        <translation>Aynı süzgecin adları</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="34"/>
+        <source>Names that mean one filter, e.g. {&quot;Clear&quot;: &quot;L&quot;, &quot;Lum&quot;: &quot;L&quot;}</source>
+        <translation>Tek bir süzgeci anlatan adlar, ör. {"Clear": "L", "Lum": "L"}</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="46"/>
         <source>Rejection limit of the masters in standard deviations</source>
         <translation>Ana karelerin standart sapma cinsinden ayıklama sınırı</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="36"/>
+        <location filename="../../calibration/step_params.py" line="54"/>
         <source>Temperature tolerance</source>
         <translation>Sıcaklık toleransı</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="37"/>
+        <location filename="../../calibration/step_params.py" line="55"/>
         <source>A dark is used for a light within this sensor temperature</source>
         <translation>Bir dark, sensör sıcaklığı bu kadar yakın olan bilim karesi için kullanılır</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="43"/>
+        <location filename="../../calibration/step_params.py" line="61"/>
         <source>Remove cosmic rays</source>
         <translation>Kozmik ışınları temizle</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="44"/>
+        <location filename="../../calibration/step_params.py" line="62"/>
         <source>L.A.Cosmic (astroscrappy) on every light</source>
         <translation>Her bilim karesinde L.A.Cosmic (astroscrappy)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="52"/>
+        <location filename="../../calibration/step_params.py" line="70"/>
         <location filename="../../spectroscopy/step_params.py" line="240"/>
         <source>Read noise</source>
         <translation>Okuma gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="53"/>
+        <location filename="../../calibration/step_params.py" line="71"/>
         <source>For the cosmic-ray search when the header does not give it</source>
         <translation>Başlık vermediğinde kozmik ışın araması için</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="59"/>
+        <location filename="../../calibration/step_params.py" line="77"/>
         <source>Scale the dark</source>
         <translation>Darkı ölçekle</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="60"/>
+        <location filename="../../calibration/step_params.py" line="78"/>
         <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
         <translation>Dark, en çok gürültüyü giderecek şekilde ölçeklenir (PixInsight&apos;ın eniyilemesi gibi)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="66"/>
+        <location filename="../../calibration/step_params.py" line="84"/>
         <source>Mend bad pixels</source>
         <translation>Kötü pikselleri onar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="67"/>
+        <location filename="../../calibration/step_params.py" line="85"/>
         <source>Hot and cold pixels found in the masters are replaced by their neighbours</source>
         <translation>Ana karelerde bulunan sıcak ve soğuk pikseller komşularıyla değiştirilir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="73"/>
+        <location filename="../../calibration/step_params.py" line="91"/>
         <source>Divide by the flat</source>
         <translation>Flat&apos;e böl</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="74"/>
+        <location filename="../../calibration/step_params.py" line="92"/>
         <source>Off: bias and dark only</source>
         <translation>Kapalı: yalnızca bias ve dark</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="80"/>
+        <location filename="../../calibration/step_params.py" line="98"/>
         <source>Split colour frames</source>
         <translation>Renkli kareleri ayır</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="81"/>
+        <location filename="../../calibration/step_params.py" line="99"/>
         <source>A colour camera&apos;s frames become one file per colour</source>
         <translation>Renkli kameranın kareleri her renk için bir dosya olur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="87"/>
+        <location filename="../../calibration/step_params.py" line="105"/>
         <source>Linearity correction</source>
         <translation>Doğrusallık düzeltmesi</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="88"/>
+        <location filename="../../calibration/step_params.py" line="106"/>
         <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
         <translation>Kameranın doğrusallık eğrisinin c0, c1, c2… katsayıları; boş: yok</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="95"/>
+        <location filename="../../calibration/step_params.py" line="113"/>
         <source>Masters chosen by hand</source>
         <translation>Elle seçilen masterlar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="96"/>
+        <location filename="../../calibration/step_params.py" line="114"/>
         <source>{filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched</source>
         <translation>{filtre ya da *: {bias / dark / flat: grubun bir dosyası ya da yok}}; boş: eşleştirilen</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="117"/>
+        <location filename="../../calibration/step_params.py" line="135"/>
         <source>Combine</source>
         <translation>Birleştir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="118"/>
+        <location filename="../../calibration/step_params.py" line="136"/>
         <location filename="../../spectroscopy/step_params.py" line="76"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation>ortalama: en az gürültü; ortanca: dayanıklı; toplam: sayımları korur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="125"/>
+        <location filename="../../calibration/step_params.py" line="143"/>
         <location filename="../../spectroscopy/step_params.py" line="83"/>
         <source>Rejection</source>
         <translation>Ayıklama</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="126"/>
+        <location filename="../../calibration/step_params.py" line="144"/>
         <source>Pixels left out before combining (satellites, cosmic rays)</source>
         <translation>Birleştirmeden önce dışarıda bırakılan pikseller (uydular, kozmik ışınlar)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="133"/>
+        <location filename="../../calibration/step_params.py" line="151"/>
         <source>Low</source>
         <translation>Alt</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="135"/>
+        <location filename="../../calibration/step_params.py" line="153"/>
         <source>Frames or percent dropped at the low end (min / max, percentile)</source>
         <translation>Alt uçta atılan kare ya da yüzde (min / maks, yüzdelik)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="142"/>
+        <location filename="../../calibration/step_params.py" line="160"/>
         <source>High</source>
         <translation>Üst</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="144"/>
+        <location filename="../../calibration/step_params.py" line="162"/>
         <source>Frames or percent dropped at the high end (min / max, percentile)</source>
         <translation>Üst uçta atılan kare ya da yüzde (min / maks, yüzdelik)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="151"/>
+        <location filename="../../calibration/step_params.py" line="169"/>
         <source>Normalise</source>
         <translation>Normalleştir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="152"/>
+        <location filename="../../calibration/step_params.py" line="170"/>
         <source>Each frame shifted or scaled to the first before combining</source>
         <translation>Birleştirmeden önce her kare ilkine kaydırılır ya da ölçeklenir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="160"/>
+        <location filename="../../calibration/step_params.py" line="178"/>
         <source>noise: 1/σ² weights</source>
         <translation>gürültü: 1/σ² ağırlıkları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="167"/>
+        <location filename="../../calibration/step_params.py" line="185"/>
         <location filename="../../engine/step_params.py" line="260"/>
         <source>Align</source>
         <translation>Hizala</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="168"/>
+        <location filename="../../calibration/step_params.py" line="186"/>
         <source>Shift only, star patterns, none (aligned already) or on the stars picked</source>
         <translation>Yalnızca kayma, yıldız desenleri, yok (zaten hizalı) ya da seçilen yıldızlara göre</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="174"/>
+        <location filename="../../calibration/step_params.py" line="192"/>
         <source>Stars to align on</source>
         <translation>Hizalama yıldızları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="175"/>
+        <location filename="../../calibration/step_params.py" line="193"/>
         <source>Positions on the first frame (x y) for the picked alignment</source>
         <translation>Seçilen hizalama için ilk karedeki konumlar (x y)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="186"/>
+        <location filename="../../calibration/step_params.py" line="204"/>
         <source>Scale</source>
         <translation>Ölçek</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="187"/>
+        <location filename="../../calibration/step_params.py" line="205"/>
         <source>The output pixels are this many times finer</source>
         <translation>Çıktı pikselleri bu kadar kat daha ince</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="195"/>
+        <location filename="../../calibration/step_params.py" line="213"/>
         <source>Drop size</source>
         <translation>Damla boyu</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="196"/>
+        <location filename="../../calibration/step_params.py" line="214"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation>Her girdi pikselinin bırakılan payı (pixfrac)</translation>
     </message>
@@ -18327,14 +18347,14 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Birleştirmeden önce dışarıda bırakılan pikseller (kozmik ışınlar, kötü pikseller)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="27"/>
-        <location filename="../../calibration/step_params.py" line="109"/>
+        <location filename="../../calibration/step_params.py" line="45"/>
+        <location filename="../../calibration/step_params.py" line="127"/>
         <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Sigma</source>
         <translation>Sigma</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="110"/>
+        <location filename="../../calibration/step_params.py" line="128"/>
         <location filename="../../spectroscopy/step_params.py" line="92"/>
         <source>Rejection limit in standard deviations</source>
         <translation>Standart sapma cinsinden ayıklama sınırı</translation>
@@ -18350,7 +18370,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Her tayf ortak düzeye (ortanca) ya da ortak biçime de</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="159"/>
+        <location filename="../../calibration/step_params.py" line="177"/>
         <location filename="../../spectroscopy/step_params.py" line="107"/>
         <source>Weights</source>
         <translation>Ağırlıklar</translation>
