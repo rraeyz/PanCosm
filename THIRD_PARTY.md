@@ -47,6 +47,7 @@ copied. Projects consulted are listed below.
 | tifffile | BSD-3-Clause | GeoTIFF / COG read and write |
 | pyproj (bundles PROJ: MIT, sqlite: public domain, libtiff: libtiff licence, curl: curl licence) | MIT | map projections, latitude/longitude |
 | pyqtgraph | MIT | interactive plots |
+| Rust crates compiled into the compiled routines (native/Cargo.lock): pyo3, rayon, ndarray, crossbeam, libc, num-*, syn, quote, proc-macro2 and the others the lock lists | MIT or Apache-2.0 (numpy crate: BSD-2-Clause; unicode-ident also Unicode-3.0; target-lexicon Apache-2.0 with LLVM exception) | compiled routines (`astrowb._native`) |
 | rendercanvas (dependency of wgpu) | BSD-2-Clause (from the LICENSE file in the wheel; no licence metadata) | — |
 
 ## Data downloaded by the application on request (not bundled)

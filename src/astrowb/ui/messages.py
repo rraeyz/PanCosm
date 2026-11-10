@@ -82,6 +82,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
+    # selfcheck.py
+    QT_TRANSLATE_NOOP("Messages", "the compiled routines are missing from this installation"),
     # core/table.py
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the table"),
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {expression}"),

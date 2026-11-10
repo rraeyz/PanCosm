@@ -21,6 +21,17 @@ R_SUN = 6.957e8
 
 
 def eccentric_anomaly(m, e, iterations=50):
+    """E from Kepler's equation m = E - e sin E; the compiled routine when present (ARC-9), else this twin."""
+    from .. import native
+
+    fast = native.use("kepler_e")
+    if fast is not None and np.ndim(e) == 0 and 0 <= e < 1:
+        m = np.asarray(m, float)
+        return fast(np.ascontiguousarray(m.ravel()), float(e)).reshape(m.shape)
+    return _eccentric_anomaly(m, e, iterations)
+
+
+def _eccentric_anomaly(m, e, iterations=50):
     m = np.mod(m, 2 * np.pi)
     ecc = np.where(e < 0.8, m, np.pi)
     for _ in range(iterations):

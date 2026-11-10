@@ -197,8 +197,29 @@ def offline():
             "image and data codecs": _codecs,
             "plots (matplotlib)": _plot,
             "certificates for HTTPS": _certificates,
+            "compiled routines": _compiled,
         }
     )
+
+
+def _compiled():
+    """Optional in a source checkout (the NumPy twins run), required in an installed copy (ARC-9)."""
+    import math
+    import sys
+
+    import numpy as np
+
+    from . import native
+
+    if not native.available():
+        if getattr(sys, "frozen", False):
+            raise RuntimeError("the compiled routines are missing from this installation")
+        return native.describe()
+    e = native.use("kepler_e")
+    if e is not None:
+        anomaly = float(e(np.array([1.0]), 0.5)[0])
+        assert abs(anomaly - 0.5 * math.sin(anomaly) - 1.0) < 1e-12, "Kepler's equation not solved"
+    return native.describe()
 
 
 def _head(url):

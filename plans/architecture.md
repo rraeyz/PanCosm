@@ -575,7 +575,21 @@ the suite is green after each.
 - **Files:** `core/table.py`, `ui/kit/{table,link}.py`, windows' panels, tests.
 
 ### ARC-9. Native kernels (Rust) with NumPy twins  (P1)
-**open**
+**agent3 claimed (2026-11-10 22:15 UTC) — do not touch** (done when the installers of all five targets carry it)
+- **Progress (agent3):** items 1, 3–7 done; item 2 changed. `native/` (pyo3 0.30 abi3, numpy, rayon; Rust pinned
+  1.97.0; `Cargo.lock` committed), `tools/build_native.py`, `src/astrowb/native.py` (`available`, `use`,
+  `describe`, `ASTROWB_NATIVE=off`), `kepler_e` behind `spectroscopy/orbit.eccentric_anomaly` with its twin kept,
+  `tests/test_native.py` (twin equality at e = 0 … 0.99 to 1e-12, empty / NaN / inf / threaded path, the twin
+  with the module switched off), Help → "Check the installation" line "compiled routines" (required in an
+  installed copy, optional in a checkout), `native/README.md`. CI builds it in the test and package jobs.
+- **Measured:** 10^6 anomalies, e = 0.3: 33 ms on 4 threads (118 ms on one) against 235 ms for the NumPy twin:
+  7× (11× at e = 0.99). **Changed from the plan:** the Accept's "≥ 10×" assumed a Python loop; the twin is a
+  vectorised NumPy loop with SIMD sine and cosine, so one core gains only 2×. Not chased further (it is not a
+  bottleneck); the kernels that matter (Roche, PDM, PSF) replace real Python loops. Item 2: no maturin wheels —
+  the module ships only inside the installers and source trees, so `cargo build` and a copy next to the package
+  (`tools/build_native.py`, a hatch artifact for the non-editable install) do the job on each runner's own
+  system. `cargo deny` not added: the licences are listed in THIRD_PARTY.md from `cargo metadata` (all MIT /
+  Apache-2.0 / BSD-2-Clause); a new crate is checked by hand (README rule 5).
 - **Why:** AD-2. The Roche model (MOD), exact transits with supersampling (EXO), fold statistics over 10^5
   frequencies (PER), PSF fits (PHO) and curved-slit extraction (SPE) are loops NumPy cannot vectorise well.
 - **Reference:** PHOEBE (C++ `libphoebe`), ellc (Fortran), batman (C with OpenMP), Astropy BLS (C), photutils
