@@ -376,7 +376,7 @@ calendar view, the night report (PDF / HTML), "last observed" in the target list
 - **Files:** `planning/obslog.py`, `engine/project.py` (queries), `ui/planning/panels/log.py`, `tests/test_obslog.py`
 
 ### PLN-14. Validation  (P2)
-**open**
+**partial** — 2026-11-14: the almanac against JPL Horizons at four sites (Ankara, La Palma, Siding Spring, Mauna Kea; one day every 10 min, `tests/validation/data/planning/horizons_almanac.csv`, fetched again by `tests/validation/scripts/horizons/almanac.py`): Sun and Moon altitude within 0.001°, Moon azimuth within 0.006°, illumination within 0.002 %, the Sun's 0 / −6 / −12 / −18° crossings within 1.6 s (`tests/validation/test_planning_almanac.py`). Pending: events against Transit Finder pages, exposure against real nights, the schedule against a simulated run.
 - **Build:** tests with stored references: almanac values against JPL Horizons (have for altitudes: extend to
   twilights, Moon, four sites); events against the stored Transit Finder and eclipsing-binary prediction pages;
   the exposure predictor against real nights (PLN-6's accept); the scheduler's times against a simulated run

@@ -1,0 +1,7 @@
+{
+ "program": "JPL Horizons API (observer table, airless apparent)",
+ "date": "2026-11-14",
+ "command": "python tests/validation/scripts/horizons/almanac.py",
+ "inputs": "sites {'Ankara': (32.78, 39.84, 1.25), 'La Palma': (-17.88, 28.76, 2.33), 'Siding Spring': (149.07, -31.27, 1.16), 'Mauna Kea': (-155.47, 19.82, 4.2)}, 2026-11-14 00:00 to 2026-11-15 00:00 every 10 m UT",
+ "output_sha256": "fc756c08552d7a9f0c863ff26124406e2f8a2d0e4d198284c26e747f45ae89cc"
+}
