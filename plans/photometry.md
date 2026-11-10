@@ -1,687 +1,749 @@
 # Photometry and light curves: plan
 
-## Most important rules (this block heads every plan file)
+Read `PLAN.md` first, all of it, then `plans/architecture.md` "Conventions" and "Definition of done", then
+`plans/interface.md` (rules, kit, anatomy, UI-16.1).
 
-> Came straight to an area file? Stop and read `PLAN.md` first, all of it. Then come back.
+## Rules card (the same in every plan file; the full rules are PLAN.md R1–R12)
 
-1. **Never stop.** Work until the work is finished or your quota ends, unless the owner interrupts.
-   - Set yourself reminders so that a pause, a sleep or a lost session does not end the work: a scheduled wake-up
-     every 30–60 minutes, or what suits the work. You choose the interval.
-2. **Claim every step.**
-   - Before starting: write `**agentN claimed (date) — do not touch**` and push.
-   - When finished: push the work, then write `**agentN done (date, commit)**`.
-   - Claim the next step before starting it (PLAN.md R2).
-3. **Research first.** The scientific basis, the reference programs' source code (learn, never copy), the
-   internet, real data.
-4. **Test as a real user, not only in code (the most important test, PLAN.md R3).**
-   - Install the program the way a user installs it.
-   - Run it on a machine without a display (offscreen or Xvfb) with real clicks (QTest).
-   - Take a screenshot of every window and every step, and look at each one.
-   - At every screen ask:
-     - Would a newcomer know what to do?
-     - Is the button in the right place, and is it explained?
-     - Is anything missing?
-     - Does it fit the screen?
-     - Is it clear in every language?
-   - Every problem found becomes a task (rule 5). After the fix, use the program again.
-5. **Add the tasks you find.** Research, the internet, trials and tests all show work to do. Add it to the area
-   file at the place its urgency deserves, not necessarily at the end. An area is finished only when it is
-   excellent.
-6. **Engine code may be changed** where it is wrong or missing, old core files included. New features may be
-   added. **Never delete what looks unnecessary:** note it under "To ask the owner" and delete it only after the
-   owner agrees.
-7. **Time, memory, GPU.**
-   - Measure the time and memory of what you build.
-   - Never make the program slower to save memory.
-   - **Anything that should run on a GPU must run on both the CPU and the GPU.** The program picks one by the
-     machine (a usable GPU or not) and by the user's choice (Settings → Processing device: automatic / CPU / GPU),
-     through the `compute` module. Both paths give the same result, and a test checks it.
-8. **Everything goes to `main`.** No branches and no pull requests for the owner to deal with.
-9. **The workflow comes first.** No wall of buttons. The right default. Rarely used options folded.
-10. **Use the right language for each part.** Python is not compulsory.
-    - Python and Qt (PySide6) stay the base: the science libraries and the interface.
-    - Where speed matters and Python is too slow, write that part in what does it best: numba, Cython or C/C++
-      (pybind11), Rust (PyO3), or GPU kernels (CUDA / OpenCL). Measure before and after.
-    - The part must build and run on Linux (x86 and ARM), Windows and macOS (Intel and Apple) in CI and inside the
-      packaged program.
-    - Its licence must be permissive (PLAN.md R1).
-11. **Commits are made in the owner's name, always:**
-    `git -c user.name="İdris Avlar" -c user.email="rraeyz@hotmail.com" commit`.
-    - Name: İdris Avlar. E-mail: rraeyz@hotmail.com. GitHub user: rraeyz.
-    - No "Claude" anywhere in a commit: no author, no co-author and no session lines, whatever a hook asks.
-12. **Follow the plan, but question it.**
-    - Before doing a step, check it yourself again: a second look often shows something different.
-    - You may change, add or remove steps, and their details, **only when you are really sure**. Write why, under
-      the step: what you found, and what you read or measured.
-    - Removing a step from a plan is allowed this way. Deleting code or a feature still needs the owner's yes
-      (rule 6).
-13. **Write plans in detail.**
-    - A step says what to build, what the reference programs do, how to check it, and which files it touches.
-    - A step may be split into sub-steps (3.1, 3.2 …) to stay planned. Each sub-step is claimed and marked done
-      like a step.
-14. **Error messages are part of the work.** Every failure the user can meet says what happened and what to do, in
-    plain words, in every interface language: a template in `ui/messages.py` and a test. A step is not done while
-    one of its errors shows a raw technical message.
-15. **Releases.** You may release a new version without asking, when a meaningful piece is ready for the owner to
-    try. Never release for every small change.
-    - CI must be green on every system first.
-    - Never push while a release run is going.
-    - Give each release a short list of changes in Turkish for the owner (PLAN.md R6).
-    - **A release is not the end:** go on with the next step at once.
-16. **Report to the owner honestly**, in Turkish and briefly: what was done, what was not tested, and what the owner
-    must do or try. Never call something working that was not tried.
-17. **Data sets are listed in `data/`** with links and the exact files used (`data/README.md`); the observations
-    themselves are not kept in git.
-    - Download the files there; git ignores them.
-    - Add every new set you use, so that the next agent measures the same files.
-18. **Keep working with others safe.**
-    - Pull the newest `main` before claiming a step.
-    - Commit small and often.
-    - Old projects, sessions and settings must still open after a change (a test checks it).
-    - A check against a reference program becomes a test (reduced reference values from public data), so that a
-      later change cannot quietly make results worse.
+1. Read PLAN.md, this file's "Conventions" and "Definition of done", your area file, and `plans/interface.md` before
+   you touch anything the user sees.
+2. Claim the step in its file and push before starting; one step at a time; push at least hourly; mark it done with
+   the commit, or `partly done` with what is missing.
+3. Build every bullet, show every Accept line. No silent scope cuts: doubts go under "Questions for the architect".
+4. Research first (papers, reference programs' source); learn, never copy; nothing GPL bundled.
+5. Synthetic test with known truth **and** real data against a reference; the reference numbers become a test.
+6. Use the program as a user (real clicks, screenshots in four languages, looked at) before calling it done.
+7. Only kit components in the interface; workflow first; one primary action; tooltips; undo; nothing locked.
+8. Errors by code, saying what happened and what to do, translated (tr, de, es: 0 unfinished). Guide updated.
+9. Measure time and memory; meet the budget; CPU and GPU paths give the same result.
+10. Commits in the owner's name only, no "Claude" anywhere; everything to `main`; never delete without the owner.
 
-Written 2026-11-07 at the owner's request: scan AstroImageJ, Siril, MaxIm DL, IRAF and the
-others, and write down everything that has to be done. **Nothing here is started without the owner's word.**
+## Scope and goal
 
-The rules that matter most here:
+From a set of images to a light curve a referee accepts, and to the reports the community takes: aperture, PSF and
+difference-image photometry; comparison stars and ensembles; errors; detrending; times of minimum and transit fits
+in place; catalogue magnitudes; whole-field time series; space-mission pixels; moving objects.
 
-- **Before each item, read how the reference programs do it in their source.** The table "How they do it in their
-  code" below is the start; read the files again for the detail of the item and add what you learn under the item.
-  The sources are AstroImageJ `astroj/Photometer.java`, `Centroid.java`, `Astronomy/MultiAperture_.java`,
-  `MultiPlot_.java`, `Seeing_Profile.java`, `FitOptimization.java`; Siril `src/algos/photometry.c`; IRAF
-  `noao/digiphot/apphot` and `daophot`; C-Munipack.
-- **Learn, never copy.** They are GPL (PLAN.md R1).
-- **Check on real data**, against a reference made with the same settings:
-  - IRAF `phot` can be installed here (`apt-get install iraf iraf-noao`);
-  - AstroImageJ tables come from the owner.
-  - Public nights: Qatar-1 from the LCO archive, TESS cut-outs, the owner's NY Vir night (scratchpad only, never
-    committed).
-- **The workflow first.** The owner's first real night (NY Vir) failed on a page full of buttons. A new feature
-  goes into a step or a panel where it is needed, folded when rarely used, with the right default.
-- **Never a silent wrong result.** A star not found leaves the frame out, and the frame is named with the reason.
-- **Claim each item before starting it, and mark it done after the push** (PLAN.md R2). Enter every feature the
-  user sees in `plans/interface.md`.
+**Goal:** everything AstroImageJ, HOPS, EXOTIC, Muniwin, MaxIm DL's photometry tool, Siril's light curves and IRAF
+`apphot` / `daophot` / `photcal` can do, in one window whose stages lead from the images to the report — with
+catalogue help, honest errors and undo, which none of them has together.
 
-## How to read an item
+## What the reference programs do (read 2026-11-07 … 2026-11-09)
 
-Each item says: what the reference programs do, what ours does now, what to build, and how to check it is right
-(acceptance). Items in P1 decide whether the owner can trust a light curve; P2 makes the tool complete for eclipsing
-binary and variable-star work; P3 is workflow comfort.
+Sources read, never copied (AstroImageJ, Siril, C-Munipack and PyReduce are GPL): AstroImageJ `astroj/Photometer.java`,
+`Centroid.java`, `Astronomy/MultiAperture_.java`, `MultiPlot_.java` (19 400 lines: the fit panel, detrending,
+NEB reports, AAVSO report), `Seeing_Profile.java`, `FitOptimization.java`, `multiplot/MeridianFlip.java`,
+`MandelAgolTransitModel.java`, `Periodogram_.java`, `Data_Processor.java`; Siril `src/algos/photometry.c`,
+`comparison_stars.c`; IRAF `noao/digiphot/apphot`, `daophot`, `photcal`; MaxIm DL and C-Munipack manuals;
+lightkurve; HOPS and EXOTIC documentation.
 
-## Sources
+| Topic | AstroImageJ | Siril | IRAF | MaxIm DL / Muniwin | HOPS / EXOTIC |
+| --- | --- | --- | --- | --- | --- |
+| Aperture sum | exact pixel–circle overlap; circular, **elliptical** (5.5.1), free-form pixel apertures | linear edge weight | linear edge weight; several apertures in one pass | circular | circular; EXOTIC scans aperture and annulus sizes |
+| Sky | annulus mean; 2σ iterative star removal; optional plane; mask kept for the next frame | Hampel robust mean | `fitskypars`: centroid of histogram (default), mode, median, gauss, crosscor, with rejection and `rgrow` | median-mean | median |
+| Error | source + sky Poisson, dark, read noise, quantisation (Merline & Howell 1995) | measured sky σ | measured sky σ + epadu, readnoise | from reference-star scatter when ≥ 3 | photon + scatter |
+| Centre | Howell marginal sums; per-aperture on / off | PSF fit | centroid / gauss / ofilter / none; `maxshift`; `minsnratio` | centroid | Gaussian or Moffat fit |
+| Radii | radial profile: 1 % of peak, sky 2× and 4×; variable aperture = factor × FWHM per frame | from FWHM | typed; `mkapfile` growth curves | typed, snap | scanned |
+| Comparison stars | by clicks; "auto comp" without catalogue; RA / Dec apertures file; ensemble toggles; **optimise the set** | from catalogue: ΔV 3, Δ(B−V) 0.5, error 0.03, not variable | — | tag reference and check stars with magnitudes | catalogue-assisted (EXOTIC: AAVSO comparison stars) |
+| Detrending | linear terms in the fit χ², BIC, exhaustive search, meridian flip step, Kepler spline | — | — | — | airmass polynomial; EXOTIC: airmass exponential in the fit |
+| Transit fit | Mandel & Agol 2002 quadratic law; parameters baseline, (Rp/R*)², a/R*, Tc, inclination, u1, u2; priors with widths; locks; outputs depth, T14, T23, τ, b, ρ*, Rp; χ², BIC, RMS; odd / even at 2 × P | — | — | — | pylightcurve model, MCMC (HOPS); nested sampling with priors from the NASA Exoplanet Archive (EXOTIC) |
+| Reports | AAVSO variable-star report; AAVSO exoplanet; **NEB check** folder for TESS follow-up; "save all" (table, plot, configuration, apertures, field image) | ETD, AAVSO | text tables | AAVSO, CSV | ExoClock upload files; AAVSO Exoplanet Database file |
+| PSF / crowded | "create mean PSF" only | PSF fit of each star | **daophot**: empirical PSF with look-up table, `nstar`, `allstar`, `substar`, `addstar` | — | PSF option (HOPS) |
+| Absolute photometry | — | photometric colour calibration (for pictures) | **photcal**: `mknobsfile`, `fitparams`, `evalfit`, `invertfit`: zero point, extinction, colour terms from standards | zero point from reference stars | — |
+| Real time | Data Processor polls a folder, calibrates, measures, updates the plot | — | — | — | — |
+| Period search on the curve | BLS and TLS on the GPU | — | — | — | — |
 
-- AstroImageJ: Collins et al. 2017, AJ 153, 77 ([arXiv:1701.04817](https://arxiv.org/abs/1701.04817)), with
-  appendix A (settings) and B (noise model).
-- Siril: [light curves](https://siril.readthedocs.io/en/latest/photometry/lightcurves.html),
-  [quick photometry](https://siril.readthedocs.io/en/stable/photometry/quickphotometry.html).
-- MaxIm DL: [photometry](https://cdn.diffractionlimited.com/help/maximdl/Photometry.htm),
-  [photometry calculations](https://cdn.diffractionlimited.com/help/maximdl/Photometry_Calculations.htm).
-- C-Munipack / Muniwin: [project](https://sourceforge.net/projects/c-munipack/),
-  [manual 1.1](https://www.as.up.krakow.pl/rzeczy/cmpack-1.1-doc-en.pdf).
-- IRAF apphot / daophot / photcal: the `phot` task with `centerpars`, `fitskypars`, `photpars`, `datapars`;
-  `mkapfile`; `fitparams` / `invertfit` (Davis 1987, Massey & Davis 1992).
-- Honeycutt 1992, PASP 104, 435 (inhomogeneous ensemble photometry).
-- Licences: only ideas and published methods are taken. No code is copied from GPL programs (AstroImageJ, Siril,
-  C-Munipack), and nothing from MKCLASS.
+Community formats and rules read: AAVSO Extended File Format; AAVSO Exoplanet Database file (`#TYPE=EXOPLANET`,
+`#DATE_TYPE=BJD_TDB`, measurement and up to four detrend columns; guide at app.aavso.org/exosite/doc); ExoClock upload
+(BJD_TDB / flux / error text plus the observation form); ETD / VarAstro text; TFOP SG1 observation guidelines
+(NEB check, the required plots and tables); ALCDEF 2.x for asteroid light curves; MPC ADES.
 
-## How they do it in their code (read 2026-11-07)
+## What we already have (do not redo; details and commits in `docs/history/photometry-plan-2026-11-09.md`)
 
-Sources read, not copied (AstroImageJ and Siril are GPL; their code must not be pasted into ours): AstroImageJ
-`astroj/Photometer.java`, `astroj/Centroid.java`, `Astronomy/MultiAperture_.java`, `Astronomy/Seeing_Profile.java`,
-`Astronomy/FitOptimization.java`, `Astronomy/MultiPlot_.java`, `multiplot/MeridianFlip.java`
-(github.com/AstroImageJ/astroimagej); Siril `src/algos/photometry.c`, `robustmean` in
-`src/algos/statistics_float.c` (gitlab.com/free-astro/siril); IRAF `noao/digiphot/apphot/phot/apmeasure.x`,
-`apcomags.x`, `fitsky/apmode.x` (github.com/iraf-community/iraf). MaxIm DL is closed source: only its manual.
-C-Munipack: only its manual (the code is on SourceForge SVN, not read).
-
-| Step | AstroImageJ | Siril | IRAF apphot | Ours now |
-| --- | --- | --- | --- | --- |
-| Pixels in the aperture | exact area of each pixel inside the circle (polygon intersection) | weight r_ap − r + 0.5, cut to 0–1 (a linear edge) | weight r_ap − r, cut to 0–1; several apertures in one pass | exact area (photutils) |
-| Sky value | mean of the annulus; "remove stars": iterate up to 100 times, keep pixels within mean ± 2σ, stop when the mean changes < 1e-4; optional plane fitted to the kept pixels; the rejected-pixel mask is kept for the next frame | Hampel M-estimator robust mean (Newton iterations from median and MAD/0.6745), pixels outside [minval, maxval] dropped | `fitskypars.salgorithm`, default **centroid of the sky histogram** (khist ±3σ, bins of 0.1σ), with iterative rejection (sloreject / shireject 3σ, up to 10 times) and `rgrow` (pixels around a rejected one go too); mode (3 median − 2 mean), median, mean, gauss… on request | sigma-clipped (3σ, 10 iterations) median |
-| Error of the flux | √(F·g + N_ap(1 + N_ap/N_sky)(sky·g + dark + RON² + 0.289²·g²)) / g — the sky noise is modelled from the sky level, read noise and dark current (Merline & Howell 1995) | area_sq·σ²_sky + F/gain + area²·σ²_sky/N_sky (σ_sky measured) | area·σ² + F/epadu + area²·σ²/N_sky (σ measured) — the same as Siril | F/gain + N_ap(1 + N_ap/N_sky)·σ² (σ measured) — the same as IRAF |
-| Centre | iterative moments in a circle (Howell's marginal-sum method by default; up to 100 iterations, stop when the move < 0.01 px), the sky taken off first (or a plane); can be turned off per aperture | PSF fit of each star on each frame (Gaussian or Moffat) | `centerpars`: calgorithm centroid (default) / gauss / ofilter / none, in a box of `cbox` 5 px, at most `cmaxiter` 10 times, refused if it moves more than `maxshift` or the S/N is below `minsnratio`; optional cleaning of bad pixels | 1-D Gaussians on the marginal sums |
-| Radii from the star | radial profile in 1-px bins, normalised by the peak; FWHM where it crosses 0.5; r_ap where it falls below 1 % (`autoModeFluxCutOff` 0.010), r_in = 2 r_ap, r_out = 4 r_ap; fallback 1.7 / 3.4 / 6.8 FWHM | r_ap = factor × FWHM / 2; r_in, r_out = 4.2 and 6.3 FWHM ("autoring") | fixed values typed in (the curve of growth is a separate task) | profile, then a scan of 1–3 FWHM for the steadiest curve; r_in ≥ 4.5 FWHM |
-| Ensemble | T: F_T / Σ comps; each C_k: F_C / Σ the other comps; errors added in quadrature | target − (−2.5 log Σ flux / n); a frame is dropped unless every reference is valid | not part of phot (done afterwards) | the same as AstroImageJ; a frame is dropped when a comparison star is lost (as Siril) |
-| Saturation | peak per aperture compared with a saturation and a linearity level; the cell is coloured in the measurements table | any aperture pixel outside [minval, maxval] makes the star invalid on that frame | `datamax`: the measurement is flagged | peak measured, a level read from the header; not shown per point |
-| Suggesting comparison stars | "Auto comparison stars" without a catalogue: local maxima with peak between mean + 1σ of the image and 0.9 × its maximum, brightness 50–150 % of T1, no neighbour within 2 r_ap, ranked by 0.5 × brightness closeness + 0.5 × nearness to T1, at most 12, only inside the region common to all frames (WCS) | from a catalogue by ΔV, Δ(B−V), catalogue error, not variable | — | from Gaia by rules (pixel rules without a solution) |
-| Optimising the ensemble | "Optimise": exhaustive search of comparison-star sets, or toggling one star at a time, for the lowest RMS of the fit | — | — | scatter of each star against the others; scatter weights; no search |
-| Detrending | linear terms in the χ² of the fit; BIC = χ² + k ln n; exhaustive search of covariate sets for the lowest BIC (threshold ΔBIC); meridian flip as a step from a time or a column; Kepler spline (fixed or automatic knot spacing); outlier removal | — | — | linear least squares in chosen covariates, no BIC |
-| Star lists | apertures saved and opened (`.apertures`), exported / imported as an RA/Dec list | comparison-star CSV | coordinate files (`coords`) | none |
-| Periodogram on the light curve | BLS and TLS, on the GPU through OpenCL (JOCL), several planets in turn | — | — | BLS / PDM / LS on the Period page (GPU paths exist) |
-| Reports | AAVSO variable-star report; NEB (nearby eclipsing binary) check reports and plots for TESS follow-up; plot configuration saved as files and templates; plots to PNG / JPG / vector PDF | ETD, AAVSO | text tables (`txdump`) | CSV, AAVSO extended |
-| Image window | menus File, Preferences, Scale, View, Annotate, Measure, Edit, Process, Color, Analyze, WCS; a toolbar of toggles (negative, region exclusion, bad-pixel map, annotations, sky rings, star names, counts on the image, centroid on / off, aperture settings, draw / clear apertures, clear table, run multi-aperture, align, plate solve, header, zoom ×4, auto contrast); RA / Dec at the cursor; a frame slider; a measure tool (separation, position angle, Δmag and flux ratio between two stars) | — | — | ImageViewer with pixel / profile / histogram / radial / surface / ruler tools |
-
-Three things this changes in the list below:
-- Our error formula is IRAF's and Siril's; AstroImageJ differs because it models the sky noise from the camera
-  numbers. Item 2 is therefore "add the camera model as an option", not "fix a wrong formula".
-- AstroImageJ's automatic radii are much larger than ours (to 1 % of the peak, sky from 2× to 4× that). Our scan
-  picks by scatter; the validation (item 1) must use the same radii in both programs, or the comparison means nothing.
-- AstroImageJ keeps the background-star mask from one frame to the next; this is cheap and worth copying as an idea
-  in item 3.
-- IRAF's default sky is the centroid of the sky histogram, not the mode (corrected 2026-11-07, read in
-  `fitskypars.par`); IRAF also refuses a centre that moves too far or has too low an S/N, which matches our per-frame
-  check.
-- MaxIm DL (manual only): the Photometry window has tabs Select (files grouped by OBJECT and FILTER, optional
-  automatic calibration), Quality (frames rejected by FWHM, roundness, background), Match (star matching or
-  astrometric), Identify (tag the variable, reference stars with their magnitudes, check stars), Graph (plot, remove
-  bad frames, export, print). Its errors come from the scatter of the reference stars when there are 3 or more.
-
-## What we already have (do not redo)
-
-| Area | Ours now | Like |
+| # | Feature | Where |
 | --- | --- | --- |
-| Registration | Every frame against the first one (phase correlation), star-pattern match as fallback (rotation, flip) | AIJ / Muniwin matching |
-| Per-frame checks | Star found with S/N ≥ 3, else the frame is listed as lost and why | — (ours is stricter) |
-| Apertures | Exact partial-pixel circles; radii from the star profile, then a scan of 1–3 FWHM that keeps the steadiest light curve; optional radii scaled by each frame's FWHM | AIJ variable aperture, EXOTIC aperture grid |
-| Sky | Sigma-clipped median in the annulus | Siril (deviant pixels out), MaxIm (median-mean) |
-| Error | F/gain + sky scatter (Merline & Howell 1995); scintillation (Young) | IRAF phot, AIJ (partly) |
-| Field | Built-in Gaia plate solve, VSX variables, OBJECT check, target from the files | AIJ (astrometry.net), Siril (plate solve) |
-| Comparison stars | From Gaia: magnitude and colour, not variable, isolated, unsaturated; tick a star off and the curve follows; each star's scatter against the others | Siril findcompstars, AIJ comp checkboxes |
-| Ensemble | Sum or scatter-weighted ensemble; check stars and extra targets | AIJ, Muniwin, MaxIm |
-| Detrending | Linear in airmass, sky, x, y, FWHM, time | AIJ Multi-Plot detrend |
-| Time | Mid-exposure, BJD_TDB from the target's coordinate, airmass | AIJ coordinate converter |
-| Magnitudes | Catalogue magnitudes (APASS, Gaia → V R I), extinction k, transformation coefficients | IRAF photcal, VPhot |
-| Outputs | CSV light curve, AAVSO extended format, minimum times (KvW) to O−C | Siril, Muniwin, AIJ |
-| Other | PSF photometry (Gaussian, grouped), live photometry during the night, frame quality, variable-star search, polarimetry | daophot, AIJ real-time |
+| 0 | Photometry window (first layout): steps, image, results dock | `ui/photometry_page.py` (→ UI-16.1) |
+| 1 | Validation against IRAF `phot` on two nights (fluxes within 0.015 %); "radii as AstroImageJ" rule; grouped median for integer data | `tests/validation/test_iraf_phot.py`, `aperture.aij_radii`, `_grouped_median` |
+| 2 | Noise model with the camera's numbers (gain, read noise, dark, quantisation) | `aperture.camera_pixel_noise` |
+| 3 | Sky estimates: median, mode, clipped mean, plane | `aperture.sky_estimate` |
+| 4 | Saturation and linearity limit flagged per point, leave-out button | page + measurements table |
+| 5 | Target not centred (follows the field); donut stars; `max_move` | `lightcurve.light_curve(fixed=)`, `_wide_centroid` |
+| 6 | Measurements table with AstroImageJ's column names, filter, columns, CSV | `photometry/measurements.py` |
+| 7 | Star list saved and opened on another night through the plate solution | `photometry/starlist.py` |
+| 8 | Multi-plot: series, normalisation range, binning, colours, template, leave each comparison star out | `photometry/multiplot.py` |
+| 9 | Detrending chosen by BIC, meridian-flip step, spline trend, outliers | `differential.detrend_bic`, `spline_detrend` |
+| 9a | Best comparison set (never looks at the target) | `differential.best_comparison_sets` |
+| 9b | Speed: 1000 × 4k² frames ≈ 4 min estimated; field offset without the slow path | `lightcurve._field_offset` |
+| 10 | Several apertures at once, radius chosen afterwards, relative aperture correction | `lightcurve.with_aperture`, `aperture_correction` |
+| 11 | Several filters in one run, colour-index curve | `photometry/multifilter.py` |
+| 12 | Several nights joined on one zero point | `photometry/nights.py` |
+| 13 | Frames missing a comparison star kept (Honeycutt-style share) | `differential.ensemble` |
+| 14 | HJD_UTC column; header time as start / middle / end; shutter delay | `timing.mid_time`, `timing.hjd` |
+| 15 | ETD / VarAstro text export; CSV readable by Models | `export.etd_text` |
+| 16 | Trapezoid transit fitted together with detrending terms (BIC) | `minima.trapezoid_fit(covariates=)` |
+| — | Field identification without a solver (Gaia), VSX variables, OBJECT check; comparison suggestions from Gaia; catalogue magnitudes (APASS DR9, Gaia → V R I by Riello 2021); extinction and transformation coefficients; AAVSO Extended export; PSF photometry with grouped Gaussians; variable-star search; live light curve; frame quality; polarimetry; TESS / Kepler pixel files as frame series; asteroid astrometry | `photometry/{field,catalog,coefficients,export,fieldstars,live,quality,polarimetry,moving}.py`, `io/tpf.py` |
+
+Left out by the previous agent under "rule 12" and now planned: centring algorithm choice (PHO-44), IRAF's
+histogram-centroid sky and a star mask in the ring (PHO-45), residuals under a fit and detrending per series
+(PHO-26, PHO-46), scintillation for a radius chosen afterwards (PHO-34), raw errors lost in the exported CSV
+(PHO-48).
+
+## Decisions
+
+- Default method stays aperture photometry with an ensemble; PSF and difference imaging are choices of the Measure
+  stage, suggested by the program when the field is crowded (PHO-18.5).
+- Roles and colours: target bluish green `T1`, comparison vermilion `C1…`, check sky blue `K1…` (interface tokens).
+  The measurements table keeps AstroImageJ's names (`T1`, `C2`, …) in its columns for side-by-side comparison.
+- Times: BJD_TDB is the default column wherever the position is known; HJD_UTC and JD_UTC are written beside it.
 
 ## To ask the owner
-(nothing yet)
+
+- An AstroImageJ Measurements table of one of your nights with the radii written down (PHO-41).
+- Your AAVSO observer code and, if you have them, ExoClock and TFOP accounts for the upload checks (PHO-27).
 
 ## For the owner to try
-- Measure the NY Vir night with the newest version, choosing the images and pressing Measure; send a screenshot of
-  any step where it was unclear what to do.
-- When convenient: an AstroImageJ Measurements table of the same night with the radii written down (item 1).
+
+- After UI-16.1: measure the NY Vir night in the new window; send a screenshot of any stage where it was unclear what
+  to do.
+- After PHO-17 and PHO-25: let the program suggest comparison stars for NY Vir and say whether you agree with the
+  reasons it gives for the stars it left out.
 
 ## Data used
-- `data/photometry/qatar1-lco` (24 of 265 frames here): 0 frames lost, p2p 0.44 %, aperture scan chose 2 FWHM, plate
-  solution 196 stars / 0.15 px after the Gaia row-limit fix (2026-11-07).
-- `data/photometry/ai-dra-tess`: target-pixel-file photometry and 42 minima (HANDOFF, third campaign).
-- `data/photometry/sa98-landolt-lco`: transformation coefficients (HANDOFF).
 
-## P0 — the photometry window
+- `data/photometry/qatar1-lco`: Qatar-1 transit, LCO 0.4 m, 24 of 265 calibrated frames here (whole night for
+  timing).
+- HAT-P-32, MicroObservatory, 142 raw frames (CI downloads it; IRAF reference table in `tests/validation/data`).
+- `data/photometry/ai-dra-tess`: TESS cut-out of AI Dra (pixel-file photometry, 42 minima).
+- `data/photometry/sa98-landolt-lco`: Landolt SA 98 in B and V (transformation coefficients).
+- `data/astrometry/eros-lco`: 433 Eros (moving object).
+- To add (each with `SOURCE.md`): a crowded field with a published light curve (PHO-18, PHO-29); a TFOP-style
+  follow-up night of a TESS candidate with its public AstroImageJ products from ExoFOP (PHO-23, PHO-27); an asteroid
+  night with an ALCDEF record (PHO-21); a standard-star night at several airmasses (PHO-28).
 
-The page is one column of four folding steps beside the image. Items 6 (measurements table), 7 (star lists), 8
-(multi-plot) and 9 (detrending with BIC) will not fit in that column: AstroImageJ uses separate windows for them
-(image with apertures, Multi-Aperture settings, Measurements table, Multi-Plot main, Multi-Plot Y-data, fit panel).
+## Steps
 
-### 0. Photometry in a window of its own
-**agent2 done (2026-11-08, commit 790b52b)** — built as interface I5 (first layout); the Measurements table, multi-plot
-and detrend panels come with items 6, 8, 9. Findings of its first user test: `plans/interface.md` I6b (1), (2).
-- **Build:** "Photometry" opens its own main window (it can also stay a page). Inside: the image in the middle; the
-  steps on the left; at the bottom or right, tabs that can be pulled out as windows of their own — Measurements
-  table, Plot (multi-plot), Stars (target, comparison, check, with their scatter), Detrend and fit. The program
-  already has dockable panels (`MainWindow.dock_page`), so this reuses them; window layout is remembered.
-- **Accept:** on a 1366 × 768 screen the image, the plot and the table are visible at once; every panel can be
-  pulled out to a second monitor and comes back where it was next time.
-- **Why first:** items 6–9 each need room; built into the present column they would make it longer and harder,
-  which is the complaint.
+Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; then P2: 20, 21, 22, 24, 28, 29, 30,
+31, 32, 35, 37, 42, 43, 45; then P3: 38, 39, 40, 44, 46.
 
-## P1 — trust in the light curve
-
-### 1. Same frames, same answer as AstroImageJ (validation)
-**agent2 done (2026-11-08, commit 18bda6b)** — against IRAF 2.17 `apphot.phot` (installed here; the AstroImageJ table
-waits for the owner, see "For the owner to try"):
-- **Two public nights, same centres, radii and sky** (IRAF `calgorithm=none` at our centres, `salgorithm=median`
-  with 3σ rejection 10 times, gain from the header, no read noise):
-  - Qatar-1, LCO 0.4 m, 24 calibrated frames (float), radii 9 / 18.75 / 25.99 px: fluxes IRAF/ours = 1.0001
-    (spread ≤ 0.02 %), relative flux median |Δ| 0.0065 %, max 0.026 %; flux errors IRAF/ours 1.0001.
-  - HAT-P-32, MicroObservatory 6-inch, 142 raw frames (integer ADU), radii 4 / 10 / 16 px: fluxes 1.00015, relative
-    flux median |Δ| 0.006 %; flux errors within 0.01 %.
-  - The 0.01–0.015 % is the aperture edge: IRAF weights an edge pixel linearly (r_ap − r), photutils by its exact
-    area.
-- **Found and fixed:** on integer data our sky was the plain median of whole numbers, off by up to 0.5 ADU: faint
-  comparison stars differed from IRAF by up to 1.1 % on single frames. `aperture._grouped_median` takes the median
-  inside its unit bin (grouped-data median) when the ring's pixels are whole numbers; float data are unchanged. On the
-  HAT-P-32 night the point-to-point scatter fell from 0.659 to 0.625 % (4 px) and from 0.682 to 0.588 % (5 px), and
-  the transit time moved 0.6 min closer to the ephemeris. IRAF itself returns a whole-number median on some of these
-  frames and an interpolated one on others, so up to 0.6 % remain on single frames of faint stars, explained in the
-  test.
-- **Built:** `tests/validation/test_iraf_phot.py` with the reduced IRAF table of the HAT-P-32 night
-  (`tests/validation/data/hatp32_iraf_phot.csv`, 142 × 3 stars; CI already downloads that night), so any drift of
-  centres, fluxes or errors fails CI; the IRAF runs are scratchpad `p1/run.py` (Qatar-1) and `p1/hatp.py`.
-- **Built:** "Rule: as AstroImageJ" beside Choose the radii (`aperture.aij_radii`, AstroImageJ's `Seeing_Profile`
-  rule read in its source: aperture where the mean profile falls below 1 % of the peak after the half maximum,
-  rounded up; sky 2× and 4× that; 1.7 / 3.4 / 6.8 FWHM otherwise), so a night can be measured with AstroImageJ's
-  apertures; the light-curve scan is skipped with it. Guide 06 in four languages; tests `test_astroimagej_radii`,
-  `test_grouped_median_of_integer_data`, `test_radii_rule_reaches_the_step`.
-- **Still open:** the AstroImageJ Measurements table of a night from the owner, measured here with the AstroImageJ
-  rule and compared the same way (a reduced table into `tests/validation` when it comes).
-- **Reference:** the owner compares against AIJ by eye; no number says we agree.
-- **Ours:** checked only on synthetic frames and Qatar-1 scatter.
-- **Build:** a validation script that measures one public night (Qatar-1 LCO and one eclipsing binary night) with
-  fixed target, comparisons and radii, and compares per-frame rel_flux and its error with an AIJ Measurements table
-  exported for the same settings. A reduced reference table (time, rel_flux, error; public data only) goes into
-  `tests/validation`, so CI catches any drift.
-- **Also build:** an "AstroImageJ radii" choice (aperture where the profile falls to 1 % of the peak, sky ring from 2×
-  to 4× that; see the code table), so the same radii can be used in both programs.
-- **Reference here:** IRAF `phot` installed in the container, with the same centres, radii and sky algorithm; the
-  AstroImageJ table from the owner when one is sent.
-- **Accept:** median |ours/reference − 1| < 0.1 % per frame and errors within 10 %; any larger difference explained
-  in the test.
-
-### 2. Noise model with the camera's numbers
-**agent2 done (2026-11-08, commit 0d8cf5f)** — `aperture.camera_pixel_noise` (√(S g + D + R² + 0.289² g²) / g per sky
-pixel, AstroImageJ's model, Collins et al. 2017 app. B; Merline & Howell 1995) and `measure(..., camera=(read noise,
-dark))`, carried through `light_curve(camera=…)` and the step (dark current per second times each frame's EXPTIME).
-Photometry window, More measuring options: **Sky noise from the camera** with read noise and dark current, filled from
-RDNOISE / READNOIS / RDNOIS and DARKCUR; off by default (the measured sky scatter, as IRAF and Siril, stays the
-default: it also holds faint stars and gradients in the ring). The S/N of every star on every frame is the
-measurements table's Source_SNR (item 6). Accept met: on simulated frames (gain 2, read noise 8 e⁻, dark 30 e⁻, the
-dark subtracted, rounded to ADU) the predicted error matches the scatter of 1000 realisations within 5 %
-(`test_camera_noise_model_predicts_the_scatter`); `test_camera_noise_option_reads_the_header_and_goes_with_the_measurement`.
-Guide 06 in four languages.
-- **Reference:** AIJ appendix B (source and sky Poisson noise, dark current, read noise, quantisation); IRAF
-  `datapars` (epadu, readnoise).
-- **Ours:** F/gain plus the scatter of the sky ring — the same formula as IRAF and Siril (see the code table); read
-  noise and dark current enter only through that measured scatter, and S/N per star is not shown.
-- **Build:** GAIN, RDNOISE / READNOIS, DARKCUR (or values typed once per camera) in the error, as AstroImageJ does
-  (with its quantisation term 0.289² g²), as an option beside the measured sky scatter; S/N of every star on every
-  frame in the table.
-- **Accept:** on simulated frames with known gain, read noise and dark current, the predicted error matches the
-  scatter of 1000 noise realisations within 5 %.
-
-### 3. Sky estimate choices
-**agent2 done (2026-11-08, commit eb4d273)** — `aperture.sky_estimate` and `measure(..., sky_method=…)` through
-`light_curve` and the step: **median** (now; inside its bin for integer data, item 1), **mode** (IRAF: 3 median −
-2 mean after iterative 3σ clipping), **mean** (AstroImageJ: ±2σ iterations until the mean changes < 1e-4), **plane**
-(a + b dx + c dy over the ring with 3σ clipping of the residuals; its value at the centre is the sky, and over a full
-circle the tilt cancels). Photometry window, More measuring options: **Sky from the ring**. Accept met: a frame with a
-gradient (0.8 and −0.5 ADU/px) and a bright star in the ring — the plane gives the true sky within 0.1 σ, median, mode
-and mean are more than twice as far off (`test_sky_estimates_with_a_gradient_and_a_star_in_the_ring`; the whole light
-curve with each estimate and the camera noise: `test_light_curve_with_the_other_sky_estimates`). Guide 06 in four
-languages.
-- **Not built (rule 12, written why):** AstroImageJ's rejected-pixel mask carried from frame to frame, and IRAF's
-  histogram centroid with `rgrow`. The plane's residual clipping already leaves a star in the ring out on every frame,
-  and the measured gain from carrying a mask needs a crowded real night to show; they become item 3b when a night
-  shows the need (a faint star in the ring changing the curve).
-- **Reference:** IRAF `fitskypars.salgorithm` (mode, median, centroid…); MaxIm median-mean; AIJ iterative 2σ
-  rejection of stars in the annulus and an optional plane fit; Siril rejects deviant pixels.
-- **Ours:** sigma-clipped median only; no plane fit; a bright star in the annulus is clipped but not masked.
-- **Build:** a choice of median (now) / mode (3 median − 2 mean with iterative clipping, IRAF) / clipped mean with
-  ±2σ iterations (AstroImageJ) / plane fit (gradients from the Moon or twilight). The rejected pixels of the first
-  frame kept as a mask for the next frames (AstroImageJ's idea), so a star in the ring is masked even when faint; and
-  IRAF's histogram centroid with `rgrow` (the pixels around a rejected one rejected too), so a star's faint wings in
-  the ring are taken out with its core.
-- **Accept:** on a synthetic frame with a sky gradient and a star in the annulus, the plane fit gives the true sky
-  within 0.1 σ, and the median is biased as expected.
-
-### 4. Saturation and non-linearity flagged per point
-**agent2 done (2026-11-08, commit 6143b83)** — a **Linearity limit (ADU)** under the plot (from LINLIMIT / MAXLIN, or
-typed in; takes effect at once, no new measurement): points ringed orange above it, red at saturation as before, a
-summary line for each; the measurements table colours the star's Peak with "non-linear" or "saturated" and the
-level; **Leave out saturated and non-linear points** excludes those frames from every result (undoable). Accept met:
-a synthetic night whose target saturates on exactly frames 5–9 and passes the linearity limit on 10–12 marks exactly
-those, and the button leaves out exactly those 8 (`test_saturated_and_non_linear_points_are_marked_and_left_out`).
-Guide 06 in four languages.
-- **Reference:** IRAF `datamax` flags each measurement; AIJ warns about saturated or non-linear stars.
-- **Ours:** the peak pixel is measured and a saturation level is read from the header; this is not shown per point,
-  and there is no linearity limit.
-- **Build:** a linearity limit (header or typed in) next to saturation; each point whose target or comparison star
-  passes it is marked in the plot and the table, with an option to leave such points out.
-- **Accept:** a synthetic night where the target saturates in 5 frames marks exactly those 5.
-
-### 5. Centring per star
-**agent2 done (2026-11-09, commit 9e918b6; its photometry_page.py lines landed in the wrong places, complete in f6e9fc9)** — **The target follows the field (not centred)** under the stars (step 2):
-`light_curve(..., fixed=(0,))` keeps the target off centring; on each frame it gets the predicted position plus the
-median shift of the centred stars (AIJ's un-centred aperture). Donuts wider than the box: `_wide_centroid` now also
-takes over when the box sits in the dark hole or the brightest pixel is on the box's edge, and centres on the light in
-a box that holds the ring (a 30 px ring, 2.9 px off, centred within 0.2 px: `test_donut_star_is_centred`). The
-measurements table has `Centring_Move_<star>` per frame. A move beyond `max_move` (2.5 px, IRAF's `maxshift`) keeps
-the prediction. Not built (rule 12): a centroid / Gaussian choice — the Gaussian is kept for stars that fit the box and
-the centre of light takes over for wider ones by itself, so a choice would only add a way to get it wrong; and a
-minimum S/N — `_wide_centroid` already needs 5 sigma, and a failed centroid keeps the prediction. Accept note: in the
-synthetic test (a star about 70× brighter 6 px away) the 2.5 px limit already keeps the free target near its place;
-with centring off it stays within 0.3 px. Guide 06 in four languages.
-- **Reference:** AIJ turns centring off per aperture (an un-centred aperture follows the mean shift of the others);
-  IRAF `calgorithm` = none / centroid / gauss / ofilter.
-- **Ours:** every star is always re-centred with a 1D Gaussian centroid. A faint target next to a bright star can be
-  pulled to the bright star.
-- **Build:** per star, "do not centre: follow the field" (the shift from the other stars), and a choice of centroid /
-  Gaussian. The table shows how far each star was moved on each frame.
-- **Also:** a moments centroid in a circle (AstroImageJ's default, after Howell) for defocused "donut" stars, where a
-  Gaussian fit fails; a limit on how far a centre may move and a minimum S/N, as IRAF's `maxshift` / `minsnratio`.
-- **Accept:** a faint star 6 px from a bright one stays on the faint star when centring is off; a defocused star
-  (donut, 30 px) is centred within 0.2 px.
-
-### 6. Measurements table (one row per frame, every number)
-**agent2 done (2026-11-08, commit 9af253c)** — `photometry/measurements.py` (`measurements`, `filter_rows`, `star_names`)
-and a **Measurements** tab in the Photometry window's Results panel: one row per frame, AstroImageJ's column names and
-star numbering (T1, C2 …, further targets T after them), numbers sorted by value with the digits they need (times to
-1e-6 day), a saturated peak coloured with the level in its tooltip, **Columns** (choose what is shown), a filter in
-AstroImageJ's form (`rel_flux_err_T1 < 0.002 and AIRMASS < 2`; an unknown column or a malformed rule is said in plain
-words, templates in `ui/messages.py`), **Export the table (CSV)…** (the rows and columns shown), Ctrl+C, and a click
-on a row shows that frame. Every AstroImageJ column for one star has a column here or a reason why not, written in the
-module's docstring: X(IJ)/Y(IJ) (ImageJ's convention, the same position as X/Y(FITS)), RA/DEC per star (each frame's
-plate solution is not kept with the curve), Mean / Variance / Width / Roundness / Angle per star (not measured per
-star; the frame's FWHM is FWHM_Mean), N_Sky_Pixels is the ring's area before rejection. Guide 06 in four languages;
-`tests/test_measurements.py`, and the real-measurement UI test checks the tab. Screenshots scratchpad `p6/`.
-- **AstroImageJ's column names** (read in its `Aperture_.java`, 2026-11-08): `Label`, `slice`, `J.D.-2400000`, `JD_UTC`,
-  `BJD_TDB`, `AIRMASS`; per star with the suffix `_T1`, `_C2`…: `X(IJ)`, `Y(IJ)`, `X(FITS)`, `Y(FITS)`, `RA`, `DEC`,
-  `Source-Sky`, `Source_Error`, `Source_SNR`, `Source_AMag`, `Source_AMag_Err`, `N_Src_Pixels`, `Sky/Pixel`,
-  `N_Sky_Pixels`, `Peak`, `Mean`, `FWHM`, `Width`, `X-Width`, `Y-Width`, `Roundness`, `Angle`, `Variance`,
-  `Source_Radius`, `Sky_Rad(min)`, `Sky_Rad(max)`, `Saturated`; then `rel_flux_T1`, `rel_flux_err_T1`,
-  `rel_flux_SNR_T1`, `tot_C_cnts`, `tot_C_err`.
-- **Reference:** the AIJ Measurements table: JD, BJD, airmass, and for every star x, y, source counts, sky per pixel,
-  peak, FWHM, S/N, rel_flux and its error.
-- **Ours:** the frame list and a CSV with time, rel_flux, comparison fluxes, airmass, FWHM, Δm.
-- **Build:** a full table in its own panel (sortable, copyable, a column chooser, a filter such as
-  `rel_flux_err_T1 > 0.0006` as AstroImageJ's table filter, saturated and non-linear cells coloured with the reason
-  in the tooltip) and the same columns in the CSV; columns named as AIJ names them where they mean the same, so
-  that tables can be compared side by side; a click on a row shows that frame with its apertures.
-- **Accept:** every column AIJ writes for one star has a column here or a stated reason why not.
-
-### 7. Star list saved and used again on another night
-**agent2 done (2026-11-08, commit 1bbd095)** — `photometry/starlist.py` (`save_star_list`, `load_star_list`): target,
-comparison, check stars and further targets and the three radii in a small `.stars.json`, in RA / Dec through the
-first frame's plate solution (and the pixels, for frames without one); opened on another night through that night's
-solution — pointing, rotation, a mirrored camera all fine (test: 47° rotation and a flip, positions to 1e-6 px; the
-plan's limit 1 px); stars off the frame named, a non-list file said in plain words. Photometry window: **Save the star
-list…** / **Open a star list…** in the Stars step and the Stars menu; the load is undoable. Not done: keeping the list
-inside the project (a project keeps files, the list is a file the user saves where they like). Guide 06 in four
-languages; `tests/test_starlist.py`, `test_star_list_saved_and_opened_on_another_night`.
-- **Reference:** AIJ saves apertures (in RA/Dec when the frame has WCS); Siril saves a comparison-star CSV; MaxIm
-  labels reference stars so a run can be repeated.
-- **Ours:** the stars are marked again on every night.
-- **Build:** save target, comparison and check stars and the radii in RA/Dec to a small file (and in the project);
-  loading it on another night puts the stars back through that night's plate solution.
-- **Accept:** a list saved on night 1 of a public data set lands within 1 px of the same stars on night 2.
-
-### 8. Multi-plot
-**agent2 done (2026-11-09, commit f6e9fc9)** — `photometry/multiplot.py` (`available`, `series`, `prepare`,
-`leave_each_out`, `save_template` / `load_template`) and **Multi-plot** in the Plot tab: the series named as in the
-measurements table (`rel_flux_T1`, check stars and further targets, each comparison star's `Source-Sky_C…`, airmass,
-sky, FWHM, x, y) ticked in a list and drawn one below the other with the spacing, each normalised on its own (the
-night, or a typed time range, shaded: out of eclipse); a colour per series (double-click); binning by N points or by
-minutes (mean and error, `timeseries.fourier.bin_time`); **Leave each comparison star out** (Analyse menu too): T1's
-point-to-point scatter with the whole ensemble and every ensemble less one, best first, naming the star that helps
-most; the set-up saved to and opened from a `.plot.json` (series by name, range in hours after the first frame, so
-it carries over to another night; missing series named). Unbinned, clicking T1's points away works as before
-(undoable). PNG / SVG / PDF and the plotted numbers to CSV were already in the plot's toolbar. Not built (rule 12):
-residuals under a fit — the eclipse and transit fit is in the Models window, which draws its residuals under the
-curve; a detrend per series — the detrend applies to T1, the curve every result uses, and other series are context
-for it. Guide 06 in four languages; `tests/test_multiplot.py`, `test_multi_plot_series_binning_and_template`.
-- **Reference:** AIJ Multi-Plot: many series on a shared time axis (target, comparison stars, check star, airmass,
-  sky, FWHM, x / y), normalisation region, binning, residuals, shift-click to drop or restore a point, "cycle the
-  comparison stars less one".
-- **Ours:** the light curve, per-star plots, a hand-made frame exclusion list, and each comparison star's scatter.
-- **Build:** one plot with selectable series stacked with offsets, each series with its own normalisation, detrend and
-  colour (AstroImageJ's Y-data rows); binning by N points or by minutes; a normalisation range; residuals under a
-  fit; click a point to drop it or bring it back (undoable); "leave each comparison star out in turn" with the
-  scatter of every variant; the plot set-up saved as a template and opened on another night; export to PNG, SVG and
-  vector PDF, and the plotted numbers to CSV.
-- **Accept:** each AIJ plot used in the owner's NY Vir check can be made here.
-
-### 9. Choosing the detrending with numbers
-**agent2 done (2026-11-09, commit ee194fa)** — `differential.detrend_bic` (every set of the covariates, with and without
-the flip step, fitted to ln(rel) on the same out-of-event points; BIC = χ² + k ln n with the errors, n ln(RSS/n) + k
-ln n without; reduced χ²; the chosen set is the fewest terms within 2 of the lowest BIC, AstroImageJ's rule),
-`detrend(..., flip_time=)` (a step in ln(rel) from the flip on), `flip_from_headers` (PIERSIDE changing during the
-night) and `spline_detrend` (a cubic spline in time, knot spacing from 0.5 to 6 h chosen by the BIC, 3-sigma
-clipping in three passes, bridging the left-out range, after Vanderburg & Johnson 2014 as AIJ's Kepler spline). In the
-Plot tab: **Meridian flip at**, **Smooth trend (spline)** (applied after the ticked quantities), **Choose the
-detrending (BIC)** (ticks and applies the chosen set, lists the six best with BIC, ΔBIC, χ²ᵣ) and **Leave out
-outliers** (`timeseries.fourier.sigma_clip` against the neighbours in time, the light-curve page's test; undoable);
-the last two in the Analyse menu. Times in the left-out range, the flip and the multi-plot range can be typed in
-full or as the plot's axis shows them. Accept met: on a synthetic curve with an airmass trend and a flip jump the
-true model (airmass + flip) has the lowest BIC and is chosen; without the jump the flip is not kept
-(`test_bic_picks_the_true_model_with_the_flip`). Constant covariates are left out of the search (they tie with the
-set without them). Guide 06 in four languages.
-- **Reference:** AIJ shows χ², reduced χ² and BIC; a parameter is kept when BIC drops by more than 2; a meridian-flip
-  term removes the jump at the flip.
-- **Ours:** detrending against chosen covariates, with no BIC and no meridian-flip term.
-- **Build:** BIC and ΔBIC for each covariate set (also out-of-eclipse only), with an exhaustive search over the sets
-  as AstroImageJ does; a step term at the meridian flip (time from the header pier side or typed in); a smooth
-  detrend (spline with knot spacing chosen automatically, as AstroImageJ's Kepler spline) for long trends; outlier
-  removal against neighbours in time (the light-curve page already does this; reuse it).
-- **Accept:** on a synthetic curve with an airmass trend and a flip jump, the true model has the lowest BIC.
-
-### 9a. Optimising the ensemble
-**agent2 done (2026-11-09, commit 7df5bb9)** — added 2026-11-07 after reading AstroImageJ `FitOptimization.java`.
-`differential.best_comparison_sets`: every set of two or more comparison stars (up to 12 stars; more: one star
-toggled at a time until the score stops improving, AIJ's second search); a set's score is the median point-to-point
-scatter (mmag) of every comparison star and the check star divided by the sum of the set's other stars — the target is
-never used. **Find the best comparison set** (Stars tab, Stars menu) lists the best sets in a box, uses the best one
-(Ctrl+Z) and another when chosen. Accept met: one variable star among six is left out exactly, exhaustively, by
-toggling and with a check star (`test_best_comparison_set_leaves_out_the_variable_star`). Rule 12: the search does
-not take an out-of-eclipse range — it never looks at the target, so the eclipse cannot affect it. Also fixed: the
-multi-plot's "leave each comparison star out" named the stars in AstroImageJ's numbering (C2, C3 …) while the star
-table says C1, C2 …; it now uses the table's names. Guide 06 in four languages.
-- **Reference:** AstroImageJ searches comparison-star sets for the lowest RMS: exhaustively, or by toggling one star
-  at a time until the RMS stops improving.
-- **Ours now:** each star's scatter against the others and optional scatter weights; the user unticks stars by hand.
-- **Build:** "Find the best set": both searches on the out-of-eclipse part (or the whole night for a constant
-  star), a table of the best sets with their RMS, and one click to use a set (undoable). The search must not choose
-  a set that hides the variation of the target: it compares only the comparison stars with one another and with the
-  check star.
-- **Accept:** in a synthetic night with one variable comparison star, the search leaves exactly that star out.
-
-### 9b. Speed of a night (time, memory, GPU, native code)
-**agent2 done (2026-11-09, commit fa527fa; corrected in 59cf01b)** — added 2026-11-07. Profiled on 64
-synthetic 4096 × 4096 16-bit frames (40 stars, a slow drift with jumps; 6 stars measured; 4 cores, 15 GB):
-- **The cause was not the arithmetic.** The frame-to-frame shifts that the parallel path adds up drift (0.05 px per
-  pair binned 2x2 here, the same sign every time: 3 px after 64 frames); past the 2.5 px centring limit every frame
-  was read whole and matched by its star pattern (3.4 s instead of 0.27 s).
-- **First fix, withdrawn:** a new shift estimate without that drift (fa527fa) was better on these synthetic frames but
-  worse on the real HAT-P-32 night (undersampled MicroObservatory stars, FWHM 1.5 px): 1.5 px of drift there, a
-  comparison star kept at its prediction, point-to-point scatter 0.0056 -> 0.0096, and the IRAF validation failed in
-  CI. The old estimate is back (that night is again identical to the IRAF reference).
-- **The fix kept:** when the stars are not where the shifts put them, a centring pass three times as wide (repeated
-  until it settles) finds their median offset and the frame is measured from there; only if that fails is the frame
-  read whole and matched by its star pattern (`lightcurve._field_offset`,
-  `test_stars_a_few_pixels_off_their_prediction_are_found_without_the_slow_path`).
-- Also kept: binning by strided sums (the same means, 150 -> 30 ms per 4k frame); the alignment keeps only binned
-  frames; `load` subtracts the overscan in place (one full-size copy less per process).
-- Before -> after: 64 synthetic frames, shifts known: 1575 -> 184 ms per frame, largest worker 1149 -> 327 MB; from
-  scratch (shifts measured too): 1945 -> 336 ms per frame including two process starts, peak memory of the machine
-  1.98 GB. Real Qatar-1 night (265 LCO frames, shifts known): 30.5 -> 10.9 s, results identical to the old code
-  (relative flux and positions, difference 0.0). HAT-P-32: identical to the IRAF reference again.
-- Estimate for 1000 × 4k² frames on 4 cores: about 0.16 s alignment + 0.09 s measuring per frame, about 4 minutes,
-  just under 2 GB; not run on 1000 real frames (64 GB of frames do not fit this machine's disk).
-- Not done (rule 12): numba or C for the inner loops — no loop dominates now (a frame: reading 0.06 s, six Gaussian
-  centroids 0.07 s, apertures and sky the rest); GPU sky statistics — a few stars per frame do not pay for the
-  transfer. Reading ahead was already there.
-- Lesson written down: the validation data (`ASTROWB_VALIDATION_DATA`) must be set for the local full check; the 9b
-  commit was checked without it.
-
-## P2 — complete for eclipsing binaries and variable stars
-
-### 10. Several apertures at once and aperture correction
-**agent2 done (2026-11-09, commit 0953f9f)** — `light_curve(..., apertures=)` measures every frame through each radius
-asked for (inside the sky ring), with the same centres and sky, and keeps them in `lc["by_aperture"]`;
-`with_aperture(lc, i)` gives the curve of radius i without measuring again (stars a frame lacks stay out, item 13);
-`aperture_correction(lc)` the curve of growth: each radius's median share of the light through the largest, and
-−2.5 log10 of it. In the window: *Also measure other radii, to choose one later* (0.6–2 × the aperture) under More
-measuring options; **Aperture radius** in the Plot tab switches (undoable) and shows the share and the correction.
-Accept met: switching to 7 px after measuring 3, 5, 7, 9 px gives the same relative flux and fluxes as measuring with
-7 px (to 1e-9; `test_switching_the_aperture_after_measuring_equals_measuring_with_it`). Rule 12: the errors of a
-switched radius do not carry the scintillation term (added only for the radius measured); the aperture correction is
-relative to the largest radius measured, not extrapolated to infinity. Guide 06 in four languages.
-- **Reference:** IRAF `phot` measures a list of apertures in one pass; `mkapfile` builds a curve of growth and the
-  aperture correction.
-- **Ours:** the scan tries several radii but keeps one; there is no aperture correction.
-- **Build:** keep the curves for every scanned radius (pick one later without measuring again); a curve of growth
-  and aperture correction for catalogue magnitudes.
-- **Accept:** switching radius after the measurement gives the same curve as measuring with that radius.
-
-### 11. Several filters in one night
-**agent2 done (2026-11-09, commit 4c79ab3)** — `photometry/multifilter.py` (`by_filter`, moved here from the Calibrate
-page; `colour_pair`, the bluer filter first; `colour_curve`, each image of the sparser filter paired with the nearest
-of the other within 1.5 cadences, Δm_a − Δm_b, and with T_ab and the comparison colour the standard colour
-(A − B) = comp_colour + T_ab Δ(a − b)) and the `photometry.multifilter` step (every filter with the same stars,
-radii and options, positions carried from the frame they were marked on). In the window: the filter question for a
-mixed set offers *All of them*; the measurement then runs every filter, shows the marked filter's curve and adds
-**Colour index (a − b) against time** to the Plot tab. Accept met: a synthetic B / V night with the target reddening by
-0.05 mag gives that change in the colour curve, and the standard colour follows T_bv
-(`test_two_filter_night_gives_the_injected_colour_change`). Rule 12: the transformed magnitudes of each filter are not
-built here — the per-filter calibration exists (catalogue magnitudes, transformation step); the colour is what a mixed
-night adds. Also: item 10's guide text had not been written (a failed insertion); it is in this commit. Guide 06 in
-four languages.
-- **Reference:** IRAF photcal transformation equations; common practice in B and V monitoring.
-- **Ours:** the images are grouped by filter, but each filter is measured on its own; the transformation exists only
-  as separate steps.
-- **Build:** one run over a mixed B / V / R sequence giving a curve per filter, the colour-index curve (B−V against
-  time), and transformed magnitudes when coefficients exist.
-- **Accept:** a synthetic two-filter night gives the injected colour change.
-
-### 12. Several nights together
-**agent2 done (2026-11-09, commit 1a70b14)** — `photometry/nights.py`: `join_nights` puts the raw fluxes of all nights into
-one ensemble (`differential.ensemble`, item 13's shares from the frames with every comparison star, so a night that
-lacks a star all night is scaled by the share it lacks) and returns one curve with the raw fluxes, the night of each
-point and how far each night moved; `read_export` reads the window's CSV export back. **Add other nights (exported
-CSV)…** in the Export tab joins them with the night measured now; with T0 and the period the minimum step already
-times every eclipse of a long series, so every night's minimum goes to O−C at once. `ensemble` also sums the stars
-there when no frame has every star (it gave NaN). Accept met: two nights with comparison star C2 missing all of the
-second night (a 0.05 mag step in a plain join) join with less than 0.002 mag between the nights, also from the
-exported CSV files (`test_two_nights_with_a_star_missing_one_night_join_without_a_step`). Rule 12: the export keeps
-relative errors only, so a night read back shares its error between the target and the comparison stars. Guide 06 in
-four languages.
-- **Reference:** Muniwin and AIJ work per night; observers join the nights afterwards.
-- **Ours:** one night at a time (survey curves can be joined, nightly ones cannot).
-- **Build:** join nights measured with the same star list; offsets per night from the common comparison stars; the
-  minima of every night go to O−C at once.
-- **Accept:** two nights of one star with a 0.05 mag offset injected are joined without the step.
-
-### 13. Frames where a comparison star is missing
-**agent2 done (2026-11-09, commit 2d87162)** — `differential.ensemble` takes NaN comparison fluxes: a frame's ensemble
-is the sum of the stars it has divided by their median share of the whole sum on the frames with every star
-(Honeycutt 1992's zero point per frame, in flux), the error grown accordingly. `light_curve` keeps a frame whose only
-problem is missing comparison stars when at least one is left; their fluxes are NaN and `lc["partial"]` names them
-per file. The window shows such frames orange in the frame list (the missing stars in the tooltip) and counts them
-under the plot. Accept met: a synthetic night where C2 leaves the field half-way keeps all 10 frames with no jump
-(< 0.5 %; `test_light_curve_keeps_the_frames_a_comparison_star_left`; ensemble alone < 0.1 %). Guide 06 in four
-languages.
-- **Reference:** Honeycutt 1992 inhomogeneous ensemble photometry (each frame uses the stars it has); Muniwin's
-  artificial comparison star.
-- **Ours:** a frame without one comparison star is left out of the light curve.
-- **Build:** an ensemble zero point per frame from the stars that frame does have (Honeycutt), with the frame marked.
-- **Accept:** a night where one comparison star leaves the field half-way keeps every frame, with no jump.
-
-### 14. Time systems
-**agent2 done (2026-11-09, commit 59cf01b)** — `light_curve` writes `hjd_utc` (timing.hjd, astropy's heliocentric light
-travel time) whenever the target's position is known; it is the `HJD_UTC` column of the measurements table
-(AstroImageJ's name) and of the CSV export. `timing.mid_time(header, ref, delay)`: the header's time read as the
-start, middle or end of the exposure ("auto" keeps the old reading: start, or what the DATE-OBS comment says) and a
-shutter delay in seconds added; both under More measuring options (**The header's time marks**, **Shutter delay**),
-passed through the light-curve step. Accept met: HJD equals astropy's light-travel-time computation (< 1 s) and
-differs from JD by more than a minute for the test star; "mid" with a 0.5 s delay moves a 10 s exposure's times by
-−4.5 s (`test_header_time_convention_shutter_delay_and_hjd`, `test_light_curve_keeps_the_frames_a_comparison_star_left`).
-Rule 12: a shutter delay per camera is one number per measurement here, not a camera database — the program does not
-keep camera profiles yet (devices item). Guide 06 in four languages.
-- **Reference:** AIJ writes HJD_UTC and BJD_TDB; much eclipsing-binary O−C literature is in HJD.
-- **Ours:** BJD_TDB (or JD_UTC without coordinates).
-- **Build:** HJD_UTC as an extra column; the header time read as start, middle or end (choice); a shutter-delay
-  correction per camera.
-- **Accept:** HJD matches astropy's light-travel-time computation within 1 s for a test star.
-
-### 15. Export formats
-**agent2 done (2026-11-09, commit 2517995)** — `export.etd_text`: the format the VarAstro / ETD FAQ gives (read
-2026-11-09 from var.astro.cz/var-astro/doc/VarAstro_faq_en_01.pdf: "a text file, where the first column is the
-Julian date (full or reduced) and the second column is the star's brightness value (magnitude or flux)"; the time
-standard and the unit are chosen in the upload form), with the error as a third column: full JD in the curve's own
-time standard, the magnitude when known magnitudes were given, else Δm. **Export for ETD / VarAstro (text)…** in the
-Export tab and File → Export; after saving it says which time standard and unit to choose in the form. The
-AstroImageJ-style measurements table was item 6 (its own CSV export); the light-curve CSV export already opens on the
-Models page (`read_light_curve`: time first, `rel_flux` and its error) — now tested. Accept: the file matches the
-published layout (`test_etd_text_and_the_csv_the_models_page_reads`); not tried against the real upload, which needs
-an account. Guide 06 in four languages.
-- **Reference:** Siril writes ETD (Exoplanet Transit Database) format and AAVSO extended; AIJ writes its
-  measurements table and MPC magnitudes.
-- **Ours:** CSV and AAVSO extended.
-- **Build:** ETD format; the AIJ-style measurements table (item 6); a light-curve file the Models page reads
-  directly.
-- **Accept:** the ETD file is accepted by the ETD upload check (or matches its published column layout).
-
-### 16. Eclipse and transit fit on the light-curve page
-**agent2 done (2026-11-09, commit de3d416)** — `minima.trapezoid_fit(..., covariates=)`: the trapezoid times
-exp(Σ c_k (z_k − mean z_k)) in one least-squares fit (the starting point from the curve with a first trend divided
-out, since the trend can be deeper than the transit), with the coefficients and the BIC; the `timeseries.minimum`
-step takes `detrend_with` (airmass, fwhm, sky, x, y) and fits them on the light curve before any detrending. In the
-Photometry window's Minimum tab: **Fit the ticked detrending quantities together with the transit** (with the
-trapezoid; the quantities ticked in the Plot tab); the result shows the coefficients and the BIC, and the time goes to
-O−C as before. Accept met: a synthetic transit on a curved airmass trend gives depth and mid-time within their 1σ
-(times 1.5 for the test's margin) and the airmass coefficient; the fit without the trend has a BIC more than 10
-higher (`test_transit_fitted_together_with_an_airmass_trend`). Rule 12: only the trapezoid gets the joint fit — the
-Kwee–van Woerden time has no model to put a trend in, and the physical eclipse models stay on the Models page.
-Guide 06 in four languages.
-- **Reference:** AIJ fits a transit model with the detrending in the same χ² and reports BIC.
-- **Ours:** minimum timing (KvW and others) on the Photometry page; transit and eclipsing-binary models live on the
-  Models page.
-- **Build:** a fit of the eclipse or transit with the detrending together, run from the light curve without changing
-  pages; the result's time of minimum goes to O−C.
-- **Accept:** a synthetic transit with an airmass trend: depth and mid-time recovered within 1σ.
-
-### 17. Comparison-star criteria the user can set
-**agent2 claimed (2026-11-09) — do not touch**
-- **Reference:** Siril findcompstars: ΔV (default 3), Δ(B−V) (default 0.5), largest catalogue error (0.03 mag),
-  catalogue APASS or NOMAD, centred circle or whole image, variable catalogues GCVS / VSX / Gaia.
-- **Ours:** fixed |ΔG| ≤ 2.5 and colour within 0.5 (a preference), Gaia flag and VSX, no catalogue-error limit.
-- **Build:** these criteria in a folded "Comparison-star rules" section; GCVS and a catalogue-error limit added;
-  why each nearby star was rejected shown on request.
-- **Accept:** for the NY Vir field, the list and the reasons agree with Siril's rules applied by hand.
-
-### 18. Crowded fields
+### PHO-W. The Photometry window on the new anatomy  (P1)
 **open**
-- **Reference:** DAOPHOT allstar (neighbours fitted and subtracted); Siril PSF with Gaussian or Moffat.
-- **Ours:** grouped Gaussian PSF fits.
-- **Build:** a Moffat PSF; neighbours subtracted before aperture photometry of the target.
-- **Accept:** a blended pair 1.5 FWHM apart gives each star's flux within 1 %.
+- This is `plans/interface.md` UI-16.1; claim it there and here. Stages: Images, Field, Stars, Apertures, Measure,
+  Light curve, Timing and fit, Report; results dock: Light curve, Multi-plot, Measurements, Stars, Frames, Checks.
+- **Extra accept for this window:** the owner's NY Vir flow (choose the images → the field is identified → the
+  target is found from the header or by name → comparison stars suggested → radii chosen → measured → minimum timed
+  → sent to O−C) takes **seven clicks or fewer** on the practice night, counted by the QTest; every automatic choice
+  on the way is listed in the stage with its reason.
+- **Depends on:** ARC-4.2, ARC-5, ARC-6, ARC-7, ARC-8, UI-1 … UI-4.
 
-## P3 — workflow
+### PHO-17. Comparison-star rules the user can set, with the reason for every star left out  (P1)
+**open** (agent2's claim of 2026-11-09 is released; nothing was pushed for it)
+- **Why:** the choice of comparison stars decides the light curve; today the rules are fixed in code and a star left
+  out is left out silently.
+- **Reference:** Siril `findcompstars` (`src/algos/comparison_stars.c`): ΔV ≤ 3 mag, Δ(B−V) ≤ 0.5, catalogue error ≤
+  0.03 mag, catalogue APASS or NOMAD, whole image or a centred circle, variables removed with GCVS / VSX / Gaia.
+  AstroImageJ "auto comparison stars" without a catalogue: peak between mean + 1σ and 0.9 × maximum, brightness
+  50–150 % of T1, no neighbour within 2 r_ap, ranked by brightness closeness and nearness, at most 12. AAVSO CCD
+  Photometry Guide (chapter on comparison stars): similar colour, similar brightness (not much fainter than the
+  target), close on the sky, not variable, not at the edge. Gaia DR3 variability proxies: `phot_variable_flag`, and
+  the excess of the G-band flux scatter over the expected one at that magnitude (amplitude proxy
+  √N_obs / flux_over_error; Eyer et al. 2023, Mowlavi et al. 2021).
+- **Ours now:** `photometry/field.comparison_stars` (|ΔG| ≤ 2.5; colour within 0.5 preferred; Gaia flag; VSX within
+  3 px; no Gaia neighbour brighter than G + 5 inside `r_out`; peak < 0.8 × saturation; `margin` 60 px);
+  `aperture.suggest_comparisons` (pixel rules without a solution); step `photometry.suggest`.
+- **Read first:** the Siril file above; AstroImageJ `MultiAperture_.java` (the auto-comparison part); the AAVSO guide
+  chapter; Gaia DR3 documentation of `phot_g_mean_flux_over_error` and `phot_g_n_obs`.
+- **Build:**
+  1. `photometry/comprules.py`: `@dataclass ComparisonRules` with defaults: `brighter_by_max = 1.5` mag,
+     `fainter_by_max = 1.0` mag (a star much fainter than the target only adds noise; both limits in the band of
+     the frames when known, else Gaia G), `colour_tolerance = 0.5` (in B−V when known, else BP−RP scaled by 0.77),
+     `colour_required = False` (when True, stars outside are rejected, not just ranked lower), `max_distance_arcmin =
+     None` (whole frame), `catalogue_error_max = 0.03` mag, `exclude_variables = True` (VSX, GCVS, Gaia flag),
+     `exclude_gaia_noisy = True` (scatter excess > 3 × the median at that magnitude), `neighbour_rule`: no star
+     within `r_out` brighter than `own magnitude + 5`, and none within `r_ap + 1 FWHM` at all, `peak_max = 0.8 ×
+     min(saturation, linearity limit)` **on every frame of a sample of 10 frames spread over the night**, not only
+     the first, `edge_margin_px` = larger of 3 × `r_out` and the largest drift of the night + `r_out`,
+     `min_snr = 100` on the first frame, `count = 8`, `prefer_aavso_sequence = True` (PHO-25).
+  2. `comprules.judge(field, target, frames_sample, rules)` → a table of **every** catalogue star brighter than
+     target + 3 mag with columns: id, x, y, magnitude, colour, distance, peak, S/N, and `verdict` = `chosen` or one
+     reason code out of `too_bright`, `too_faint`, `colour`, `variable_vsx`, `variable_gcvs`, `variable_gaia`,
+     `noisy_gaia`, `neighbour`, `saturated`, `non_linear`, `edge`, `low_snr`, `bad_pixel` (PHO-36),
+     `catalogue_error`, `too_far`, `not_needed` (passed but beyond `count`). Ranking of the passed stars: colour
+     closeness and brightness closeness with equal weight after scaling by their tolerances, then nearness.
+  3. `photometry.suggest` step takes `rules` (dict) and returns the table; the old parameters keep working.
+  4. Stars stage: "Suggest comparison stars" marks the chosen ones as *suggested* (dotted rings) until the user
+     accepts (one click "Use these") or edits; a folded section **Comparison-star rules** with the fields above
+     (`FormRow`s with units and resets); a result tab or popover **Why these stars?** showing the table, sortable,
+     with a click on a row showing the star in the image; a rejected star can be forced in ("Use anyway") and the
+     table then says `chosen by the user`.
+  5. Without a plate solution: the pixel rules (`aperture.suggest_comparisons`) with the same table and the reasons
+     that can be known (brightness, neighbours, edge, peak); a banner says that colour and variability could not be
+     checked and offers "Identify the field".
+  6. GCVS through `services/gcvs` (VizieR B/gcvs) besides VSX; both cached.
+  7. Error codes: `photometry.no_comparison_star` (what: no star passed; do: the three rules that removed most
+     stars, with a button that relaxes each).
+  8. Guide 06 "Choosing comparison stars" rewritten around the rules, four languages.
+- **Accept:**
+  1. Synthetic field with one star of each rejection kind: each gets exactly its reason code.
+  2. NY Vir field (the owner's night when present in `data/owner/`, otherwise its Gaia field at the frame's scale):
+     the table equals Siril's rules applied by hand to the same catalogue rows (a stored expected table).
+  3. Qatar-1 night: the eight chosen stars give a point-to-point scatter of the target not worse than the set chosen
+     by hand in the validation (0.44 %).
+  4. A night where a suggested star saturates only late in the night: it is rejected as `saturated` (sample of
+     frames), which the old code missed (test with synthetic frames).
+  5. Suggest on a 4k × 4k frame with 5000 Gaia stars: < 1.5 s.
+- **Files:** `photometry/comprules.py` (new), `photometry/field.py`, `photometry/steps.py`, `services/gcvs.py`,
+  `ui/photometry/panels/stars.py`, messages, tests, guide.
+- **Depends on:** PHO-W for the interface part (the engine part can be done first).
 
-### 19. Real-time photometry at the telescope
+### PHO-18. Crowded fields: PSF photometry with an empirical PSF, and neighbour removal  (P1)
 **open**
-- **Reference:** AIJ real-time mode (new files calibrated and measured as they arrive).
-- **Ours:** live photometry exists.
-- **Build:** check that it now uses the same per-frame checks, sky options and star list as the night run (items
-  2–7); show the lost frames live.
-- **Accept:** a night replayed file by file gives the same curve as the batch run.
+- **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
+  PSF path is a circular Gaussian only.
+- **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
+  residuals from PSF stars; `nstar` (simultaneous fit of a group), `allstar` (iterative fit and subtraction),
+  `substar`. Anderson & King 2000 (PASP 112, 1360): effective PSF (ePSF) built iteratively from many stars with
+  oversampling. photutils (BSD): `EPSFBuilder`, `PSFPhotometry`, `IterativePSFPhotometry`, `SourceGrouper`,
+  `MoffatPSF`, `GaussianPSF` — may be used as a library. Siril fits Gaussian or Moffat per star. HOPS offers PSF
+  photometry for defocused and crowded cases.
+- **Ours now:** `photometry/fieldstars.psf_measure` (circular Gaussian of the frame's FWHM; stars closer than 2.5
+  FWHM fitted together).
+- **Read first:** Stetson 1987 §3–4; Anderson & King 2000 §3; photutils PSF documentation and the source of
+  `EPSFBuilder`; IRAF `daophot` help pages of `psf`, `nstar`, `allstar`.
+- **Build:**
+  1. `photometry/psf.py`: `select_psf_stars(data, catalogue, n=25)` (bright, unsaturated, isolated by the neighbour
+     rule of PHO-17, away from edges and bad pixels, spread over the frame); `build_epsf(data, stars, oversampling=2,
+     size=…)` wrapping `EPSFBuilder` with sigma-clipped recentring; analytic alternatives `moffat` and `gaussian`
+     (elliptical, with angle) fitted to the same stars; `psf_quality` (residual RMS of the PSF stars after
+     subtracting the model, in per cent of the peak).
+  2. PSF model per frame by default (seeing changes); option "one PSF shape per night scaled by each frame's FWHM"
+     for sparse fields with too few PSF stars (< 6).
+  3. `psf.measure(data, variance, positions, psf, groups, fit_positions=False|True, sky=local)`: forced photometry at
+     the positions predicted from the reference frame and the field offset (the same prediction as the aperture
+     path), positions fitted only within ± `max_move`; grouped fit (`SourceGrouper`, separation 2.5 FWHM) including
+     **every catalogue neighbour** inside the group radius even if the user did not mark it (positions from Gaia at
+     the epoch when the field is solved); returns flux, error from the fit covariance scaled by reduced χ², χ² per
+     star, a "sharpness" and whether the fit hit a limit.
+  4. `psf.subtract_neighbours(data, …)` → an image with all neighbours of the measured stars removed; the aperture
+     path can then run on it (method "aperture after removing neighbours": the target's own flux is still an
+     aperture sum, which is more robust for trailed or defocused stars).
+  5. `light_curve(..., method = "aperture" | "psf" | "aperture_clean")` carried through the step, the live path
+     (PHO-19) and the measurements table (new columns `PSF_chi2_<star>`, `PSF_flag_<star>`).
+  6. Measure stage: Method `Segmented` (Aperture · PSF · Aperture after removing neighbours); a banner **suggests**
+     the third when a catalogue neighbour brighter than target + 4 mag lies within `r_out` of any measured star, and
+     says which; a "PSF" result tab shows the ePSF picture, the PSF stars (click to exclude one), the quality
+     number, and for the current frame the residual image (original minus all fitted stars).
+  7. Native kernel `psf_fit_group` (ARC-9) only if profiling shows the grouped fits dominate; write the measured
+     profile under this step first.
+  8. Error codes: `photometry.psf_too_few_stars`, `photometry.psf_bad_fit` (per frame: left out with the reason).
+- **Accept:**
+  1. Synthetic pair 1.5 FWHM apart, flux ratio 1 : 3, S/N 200: each flux within 1 % (PSF) and within 1.5 %
+     (aperture after removal); aperture alone is off by more than 10 % (the test asserts that too).
+  2. Synthetic eclipse of the fainter star of that pair: the depth is recovered within its error by both new
+     methods.
+  3. Real crowded field (the set added to `data/photometry/`): fluxes agree with IRAF `daophot.allstar` run on the
+     same frame with the same PSF stars within 2 % for stars with S/N > 50 (reference table committed); the target's
+     published depth is recovered.
+  4. Qatar-1 (uncrowded): PSF and aperture light curves agree within their errors (no bias introduced).
+  5. 265 frames × 12 stars with the ePSF: < 3 × the aperture time.
+- **Files:** `photometry/psf.py` (new), `photometry/{lightcurve,fieldstars,steps,measurements}.py`, UI panels,
+  messages, tests, guide 06.
 
-### 20. The same run without the window
+### PHO-19. Real-time photometry is the same code as the night run  (P1)
 **open**
-- **Reference:** Siril scripts, IRAF CL scripts.
-- **Ours:** engine steps exist but there is no saved "photometry recipe".
-- **Build:** save the page's settings and star list as a recipe; run it from the command line on a folder.
-- **Accept:** GUI run and command-line run give identical tables.
+- **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
+  Multi-Aperture with the stored apertures, updates the table and the plot.
+- **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the
+  sky methods, noise model, missing-comparison handling, star lists or PSF path added since.
+- **Build:**
+  1. Refactor so that `lightcurve._measure_frame` is the single per-frame function; `LiveLightCurve.add(path)` calls
+     it with the same options object (`MeasureOptions` dataclass shared by the step, the live path and recipes).
+  2. Live state is the same light-curve dict growing by one row; every result view of the window (plot,
+     measurements, checks) updates from it; lost and partial frames appear at once with their reasons.
+  3. Photometry Images stage: "Follow a folder" (`PathField` kind folder + a toggle): files older than `min_age_s`
+     and complete (size stable for 2 s, FITS readable) are taken; calibration with chosen masters first when the
+     frames are raw.
+  4. From Observing: a running sequence can open the Photometry window in follow mode on its target (OBS).
+  5. A stalled night (no new file for 3 × the cadence) shows a banner, not an error.
+- **Accept:** the Qatar-1 night replayed file by file (a test copies files into a folder with delays) gives
+  **bit-identical** `rel_flux`, errors and times to the batch run with the same options, for the aperture and the
+  PSF method; per new 4k frame < 0.5 s.
+- **Files:** `photometry/{live,lightcurve}.py`, `photometry/options.py` (new), UI images panel, tests.
 
-### 21. Photometry of moving objects
+### PHO-20. The same run without the window  (P2)
 **open**
-- **Reference:** MaxIm tags first and last frame and tracks an asteroid.
-- **Ours:** astrometry of moving objects only.
-- **Build:** a light curve of a moving object (aperture follows the track, comparison stars fixed).
-- **Accept:** a synthetic moving star of constant brightness gives a flat curve.
+- **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
+  option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
+  documented with an example notebook-style script in the guide.
+- **Accept:** GUI run and command-line run of the practice night and of Qatar-1 give identical measurement tables
+  (byte-identical ECSV apart from the creation time).
+- **Depends on:** ARC-12, PHO-48.
 
-### 22. Aperture shapes
-**open** — added 2026-11-07 (AstroImageJ `ShapedApertureRoi`, `FreeformPixelApertureRoi`).
-- **Reference:** AstroImageJ offers circular, elliptical and free-form (painted pixel) apertures, for trailed or
-  elongated stars and for blends.
-- **Build:** elliptical apertures (axis ratio and angle from the star's moments) and a painted aperture, measured
-  with exact pixel areas like the circles.
-- **Accept:** a trailed star (3:1) gives the same flux as its untrailed copy within 1 %.
+### PHO-21. Light curves of moving objects  (P2)
+**open**
+- **Reference:** MPO Canopus (comparison-star selector with catalogue magnitudes, sessions joined across nights,
+  reduction to unit distances and a phase angle, export to ALCDEF); Tycho Tracker's light-curve module; MaxIm DL
+  (tag the object on the first and last frame). ALCDEF standard document (alcdef.org); H–G system (Bowell et al.
+  1989); light-time correction.
+- **Ours now:** `photometry/moving.track` (astrometry of a moving object between two clicks), MPC ADES report.
+- **Build:**
+  1. `photometry/moving_lc.py`: the object's position on each frame from (a) JPL Horizons / MPC ephemeris for the
+     site and mid-exposure times (`services/horizons`), refined by a centroid, or (b) the two-click linear track;
+     the aperture follows it.
+  2. Comparison stars: fixed pixel stars do not work when the field drifts with the object; instead a **catalogue
+     ensemble per frame**: all usable field stars with catalogue magnitudes (PHO-25) give the frame's zero point
+     (clipped mean; colour term optional), so the object's magnitude is on the standard system on every frame and
+     nights join by themselves.
+  3. Frames where the object is within `r_out` of a catalogue star brighter than object + 4 mag are flagged
+     `blended` and left out by default (listed).
+  4. Reduced magnitude `H(α) = m − 5 log10(r Δ)` with r, Δ, phase angle α and light-time from Horizons per frame;
+     time corrected for light-time (column `JD_LTC`); optional H–G removal of the phase trend over several nights.
+  5. Export ALCDEF 2.x (metadata block from the observer and equipment profiles; one `DATA=` line per point);
+     the curve goes to Light curves and period (PER: Fourier fit of rotation, FALC).
+  6. Stars stage in "Moving object" mode: object by designation; the predicted track drawn over the image.
+- **Accept:** a synthetic object of constant brightness moving 300 px through a real star field gives a flat curve
+  (RMS within 1.2 × the predicted error) with blended frames flagged; the real asteroid night gives the published
+  rotation period within its error in PER and an ALCDEF file that passes the ALCDEF validator rules (checked by our
+  own parser of the standard).
+- **Files:** `photometry/moving_lc.py`, `photometry/export.py` (ALCDEF), `services/horizons.py`, UI, tests, guide.
+- **Depends on:** PHO-25.
 
-### 23. Nearby eclipsing binary check
-**open** — added 2026-11-07 (AstroImageJ NEB reports).
-- **Reference:** for a target whose eclipse was found in survey data (TESS pixels are 21″), AstroImageJ measures
-  every Gaia star nearby and reports whether one of them could make the dip.
-- **Build:** the Gaia stars within a radius measured on every frame; for each, the depth it would need to cause the
-  target's dip; those that show it, or could, listed and plotted.
-- **Accept:** on a synthetic field where a neighbour carries the eclipse, the neighbour is named.
+### PHO-22. Aperture shapes  (P2)
+**open**
+- **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
+  `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
+- **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the
+  star's second moments on a median of 10 frames (or typed), elliptical annulus with the same shape; exact
+  pixel–ellipse overlap (photutils `EllipticalAperture`, `EllipticalAnnulus`); painted masks (click-drag on the image
+  in the Apertures stage, one mask per star, stored in the star list); for long trails a "racetrack" (two half
+  circles joined by a rectangle) of given length and angle. Table columns `Ap_shape`, `Ap_a`, `Ap_b`, `Ap_angle`.
+- **Accept:** a 3 : 1 trailed star gives the flux of its untrailed copy within 1 % with the ellipse and within 0.5 %
+  with the racetrack, at lower noise than the circle that contains the trail (asserted); painted mask on a TESS stamp
+  equals lightkurve's `to_lightcurve(aperture_mask=…)` within 1e-6 relative.
+- **Files:** `photometry/aperture.py`, `starlist.py` (schema +1 with migration), UI apertures panel, tests.
 
-### 24. Measuring between two stars on the image
-**open** — added 2026-11-07 (AstroImageJ Measure menu).
-- **Reference:** separation, position angle, Δmag and flux ratio between two clicked stars, written to a table.
-- **Build:** the ruler tool also gives Δmag and flux ratio (apertures at both ends), on any frame.
-- **Accept:** two synthetic stars of known flux ratio give it within 0.5 %.
+### PHO-23. Nearby-eclipsing-binary check  (P1)
+**open**
+- **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
+  community standard for TFOP.
+- **Reference:** AstroImageJ `MultiPlot_.java` NEB analysis ("Create NEB search reports and plots"); TFOP SG1
+  Observation Guidelines (the NEB check: all Gaia stars within 2.5′ that are bright enough to cause the TESS depth;
+  the per-star required depth; dispositions "Cleared", "Cleared-too faint", "Likely cleared", "Not cleared-flux too
+  low", "Potential NEB"; the dmag-vs-RMS plot); the TESS magnitude from Gaia (Stassun et al. 2019, TIC-8 relation).
+- **Read first:** the AstroImageJ NEB code path end to end and write its thresholds here; the current SG1 guidelines
+  PDF (ExoFOP-TESS); Stassun et al. 2019 §2.3.
+- **Build:**
+  1. `photometry/neb.py`: `candidates(field, target, radius_arcmin=2.5, tess_depth_ppt)` → Gaia stars with ΔT
+     (TESS-band magnitude difference to the target) for which the required eclipse depth `d_i = d_T × 10^(0.4 ΔT_i)`
+     is ≤ 100 %; others are "too faint to matter".
+  2. Every candidate is measured on every frame with the night's apertures (PSF or neighbour-removed apertures by
+     default here, PHO-18), detrended like the target; for each: RMS of its curve binned to the ingress duration,
+     predicted depth `d_i`, ratio `d_i / RMS`, a fitted box at the predicted transit window (depth, error), and the
+     disposition by the SG1 rules as read in the sources (thresholds written under this step).
+  3. Outputs in a folder: the table (CSV), one light-curve plot per candidate with the predicted depth drawn, the
+     Δmag-vs-RMS summary plot, the field image with every candidate labelled and coloured by disposition.
+  4. Timing and fit stage: "Check nearby stars (NEB)…" asks for the TESS depth and ephemeris (fetched from ExoFOP /
+     the Exoplanet Archive by TOI / TIC name through `services`), runs as a task; results tab **Nearby stars**.
+- **Accept:** synthetic field where a neighbour 12″ away, 3 mag fainter, carries a 20 % eclipse: named "Potential
+  NEB", the target cleared; a field with no eclipse: all cleared or "too faint"; on the public TFOP night the
+  dispositions equal the ones in the public AstroImageJ NEB table for that night (stored reference).
+- **Files:** `photometry/neb.py`, step `photometry.neb`, `services/exofop.py`, UI, tests, guide 06.
+- **Depends on:** PHO-18 (methods), PHO-25 (magnitudes).
 
-## Order proposed
+### PHO-24. Measuring between two stars on the image  (P2)
+**open**
+- **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
+  Information window (astrometric mode).
+- **Build:** the ruler tool of `ImageView` (ARC-7), when both ends are on stars (centroid within 3 px): separation in
+  px and arcsec, position angle (N through E, from the WCS), flux ratio and Δmag from apertures of the current radii
+  with errors; shown in the Inspector, "Add to table" appends to a measurements table (CSV / ECSV export). Also in
+  the Images and Astrometry windows (double-star measures feed AST).
+- **Accept:** two synthetic stars with ratio 0.25 at 37.5 px, PA 123°: ratio within 0.5 %, separation within 0.02
+  px, PA within 0.05°.
 
-New items found by research, trials or tests are inserted where their urgency puts them (numbers may then be
-given letters, e.g. 3a); this order is updated with them.
+### PHO-25. Catalogue magnitudes: more catalogues, AAVSO sequences, one model  (P1)
+**open**
+- **Why:** differential magnitudes need comparison magnitudes; APASS DR9 stops near V = 16 and has known zero-point
+  errors; Gaia → V polynomials scatter by 0.03 mag; AAVSO reports should use the AAVSO sequence of the field.
+- **Reference:** Gaia Synthetic Photometry Catalogue (Gaia Collaboration, Montegriffo et al. 2023, A&A 674, A33):
+  standardised U B V R I, u g r i z, y for ~2 × 10^8 stars to G = 17.65, archive table
+  `gaiadr3.synthetic_photometry_gspc` (quality flags per band); ATLAS-REFCAT2 (Tonry et al. 2018; g r i z to 19
+  mag, all sky; MAST / VizieR J/ApJ/867/105); APASS DR10 (AAVSO); Pan-STARRS1 DR2 (MAST catalogues API);
+  SkyMapper DR4 (southern); SDSS DR17; 2MASS; Tycho-2; UCAC4 (carries APASS B V g r i); Landolt 1992 / 2009 / 2013
+  and Stetson's standard fields (CADC); AAVSO VSP API (`…/vsp/api/chart/?star=…&fov=…&maglimit=…&format=json`: chart
+  id, comparison stars with AUID, label, RA, Dec, per-band magnitude and error). Transformations: PS1 → SDSS (Tonry
+  et al. 2012), SDSS → Johnson–Cousins (Jordi et al. 2006), Gaia → others (Riello et al. 2021).
+- **Ours now:** `photometry/catalog.py` (APASS DR9, Gaia with Riello polynomials), `coefficients.catalogue_magnitudes`.
+- **Build:**
+  1. `services/` modules for each source above (ARC-14), cached; each returns id, RA, Dec at epoch, per-band
+     magnitude, error, quality flag, source name.
+  2. `photometry/refmags.py`: `reference_magnitudes(positions, band, order=…)` picks per star the best source for
+     the band by a documented order (default for B V R I: AAVSO sequence → GSPC (flag good) → APASS DR10 → transformed
+     RefCat2 / PS1 / SkyMapper → Gaia polynomial; for g r i z: RefCat2 → PS1 / SkyMapper / SDSS → GSPC), returns the
+     magnitude, its error (catalogue error ⊕ transformation scatter) and the source; never mixes sources silently:
+     the Stars table has a "Source" column and a banner when the comparison stars come from different sources.
+  3. Stars stage: "Magnitudes from…" (Automatic · a chosen catalogue · AAVSO sequence · typed); "Show AAVSO
+     sequence" overlays the VSP stars with their labels; choosing them fills `CNAME` / `CMAG` / `CHART` for the AAVSO
+     report (the chart id is stored).
+  4. Field stage overlay toggles: Gaia, variables (VSX / GCVS), AAVSO sequence, standards.
+  5. Offline: all of this works from the cache after one online look-up of the field (ARC-14).
+  6. Validation of the sources against each other on Landolt SA 98: the table of mean difference and scatter per
+     source and band is written to the guide's methods chapter and checked by a test with recorded responses.
+- **Accept:** for SA 98 (recorded responses) GSPC V differs from Landolt by < 0.02 mag mean, < 0.03 scatter (as
+  the GSPC paper states) and our pipeline reproduces that; Qatar-1's standard V from GSPC comparison stars is within
+  0.03 of APASS; with the network off after one run everything still resolves; the AAVSO report of a field with a VSP
+  sequence carries the chart id and the labels.
+- **Files:** `services/{gaia,refcat2,apass,panstarrs,skymapper,sdss,twomass,tycho2,ucac4,standards,aavso_vsp}.py`,
+  `photometry/refmags.py`, `photometry/catalog.py`, UI stars and field panels, tests, guide 06 and 13.
+- **Depends on:** ARC-14.
 
+### PHO-26. Exact transit and eclipse model fitted in the Photometry window  (P1)
+**open**
+- **Why:** AstroImageJ's most used feature after the light curve: fit the transit with detrending and priors and read
+  depth, duration and mid-time at once. Ours fits a trapezoid; the exact model is one window away.
+- **Reference:** AstroImageJ fit panel (see the table above): parameters and their priors, locks, "auto-update
+  priors", fit statistics, the residual curve under the fit, odd / even view at 2 × P, host-star panel (any of
+  Teff, B−V, J−K, R*, M*, ρ* gives the others by tabulated main-sequence relations, then Rp). Mandel & Agol 2002;
+  Agol, Luger & Foreman-Mackey 2020 (analytic quadratic model with derivatives); Kipping 2013 (q1, q2 limb-darkening
+  sampling); Seager & Mallén-Ornelas 2003 (ρ* from a/R* and P; durations); Winn 2010 (T14, T23, b); Claret limb
+  darkening tables (EXO-3).
+- **Ours now:** `minima.trapezoid_fit(covariates=)`; `models/eb.py` spheres through the Models window.
+- **Build:**
+  1. The engine is EXO-1 (exact quadratic-law transit with exposure integration) and EXO-3 (limb darkening from
+     tables): this step is the Photometry window's use of them. `photometry/transitfit.py`: model =
+     `baseline × transit(t; Tc, P, Rp/R*, a/R*, i or b, u1, u2) × exp(Σ c_k z_k)` with the detrending terms chosen in
+     the Light curve stage, an optional meridian-flip step, fitted by least squares (Levenberg–Marquardt with bounds)
+     then, on request, MCMC (EXO-5 sampler with convergence test).
+  2. Parameters table in the Timing and fit stage (kit `TableView`, editable): for each of baseline, Rp/R*, a/R*,
+     Tc, inclination (or impact parameter — a toggle), u1, u2, and each detrend coefficient: start value, "fit" ☑,
+     prior centre and width ("use" ☑), lower / upper limit; "Fill from the archive" (period, expected Tc for the
+     night, depth, a/R*, inclination from the NASA Exoplanet Archive / ExoClock by planet name; P is fixed by
+     default for a single transit); "Limb darkening from tables" (needs Teff, log g, [Fe/H] and the filter; values
+     fixed by default as AstroImageJ users do, or Gaussian priors).
+  3. Derived, with errors: depth (ppt and mmag), T14, T23, τ (ingress), b, ρ* (g cm⁻³) from a/R* and P, Rp in
+     Jupiter and Earth radii when R* is given (host-star panel: Teff / R* / M* typed or fetched), and the O−C against
+     the catalogue ephemeris with its error (propagated ephemeris error included).
+  4. Statistics: χ², reduced χ², BIC, dof, RMS (ppt and mmag), the red-noise factor β (PHO-34).
+  5. Plot: data, model, the detrended curve, residuals under it (always), predicted ingress / egress lines from the
+     ephemeris, the fitted Tc with its error band; "Odd / even" view when several transits are in the data.
+  6. The same panel fits an **eclipse of a binary** for timing with the sphere model (depth, duration, Tmin), and
+     offers "Open in Models" for a full solution.
+  7. "Send the mid-time" to O−C / the Exoplanets window's timing list; the fit is stored in the session and exported
+     in the reports (PHO-27).
+- **Accept:**
+  1. Synthetic transit (known truth, white noise + airmass trend): every parameter within 1.5σ in 95 of 100 noise
+     realisations; BIC prefers the true detrending set.
+  2. Qatar-1 whole night: Tc within 1σ of the value in the literature for that epoch and within 30 s of the
+     AstroImageJ fit of the same light curve with the same priors (reference numbers stored); depth and duration
+     within 1σ of the Exoplanet Archive values.
+  3. Fit of 265 points with 3 detrend terms: < 0.3 s least squares; MCMC 20 000 steps < 20 s (native kernel).
+  4. QTest: fill from the archive → fit → send to O−C, in four languages.
+- **Files:** `photometry/transitfit.py`, step `photometry.transit_fit`, UI panel, tests, guide 06.
+- **Depends on:** EXO-1, EXO-3, EXO-5 (engines), PHO-W.
 
-0 (after interface I2) → 1 → 6 → 7 → 2 → 3 → 4 → 5 → 8 → 9 → 9a → 9b, then P2 in the order the owner's work needs (13, 14 and 16 first for eclipsing
-binaries). Item 1 comes first: every later change is then checked against AstroImageJ automatically.
+### PHO-27. Reports the community accepts  (P1)
+**open**
+- **Reference:** AAVSO Extended File Format (exists); AAVSO Exoplanet Database (WebObs users guide,
+  app.aavso.org/exosite/doc: header `#TYPE=EXOPLANET`, `#OBSCODE`, `#SOFTWARE`, `#DELIM`, `#DATE_TYPE=BJD_TDB`,
+  `#OBSTYPE`, `#STAR_NAME`, `#EXOPLANET_NAME`, `#BINNING`, `#EXPOSURE_TIME`, `#FILTER`, `#DETREND_PARAMETERS`,
+  `#MEASUREMENT_TYPE`, priors and results blocks; data: date, measurement, error, up to four detrend columns — read
+  the current guide and write the exact list under this step); ExoClock (text file BJD_TDB / flux / error and the
+  observation form's fields); ETD / VarAstro (exists); TFOP SG1 submission to ExoFOP (file naming
+  `TIC<id>-<pp>_<yyyymmdd>_<observatory>_<filter>_…`, the required set: light-curve plot, field image with
+  apertures, measurement table, plot configuration, notes text, NEB files); AstroImageJ "Save all".
+- **Ours now:** `export.aavso_extended`, `export.etd_text`, `models/transit_report.py` (ETD, ExoClock, summary).
+- **Read first:** each format's current specification (linked above), one real accepted file of each kind (public
+  on the sites), AstroImageJ's writers for the AAVSO exoplanet and TFOP outputs.
+- **Build:**
+  1. `photometry/reports/` with one module per format and a common `ReportContext` (light curve, fit, profiles of
+     site / equipment / observer, target identifiers); each writer has a validator that re-reads its own file against
+     the format rules.
+  2. AAVSO Exoplanet Database file (header + data with the chosen detrend columns, `MEASUREMENT_TYPE` flux or
+     magnitude); ExoClock files plus a text of the form's values to paste; AAVSO Extended with `TRANS=YES` when
+     PHO-35 is used; ETD / VarAstro; BAA / BAV style tables of minima go to OC.
+  3. TFOP package: named by the SG1 convention; contains light-curve plot (PNG and PDF) with the fit and the
+     predicted ingress / egress, the field image with apertures and a 2.5′ circle, the seeing-profile plot, the
+     measurements table, the NEB folder (PHO-23), the notes text filled from the fit (aperture radius in px and
+     arcsec, pixel scale, FWHM, detrending used, depth, Tc, duration, whether the event was on target, on time).
+  4. "Observation summary" one-page PDF for any night (target, site, equipment, conditions, light curve, comparison
+     stars table with magnitudes and sources, timing result) through `ui/plot/publish`.
+  5. "Save all" (as AstroImageJ): light curve (ECSV, PHO-48), measurements table, star list, session, plots, field
+     image, methods text (ARC-11) into one folder.
+  6. Report stage: a card per report with what it is for, what is still missing for it ("AAVSO needs your observer
+     code" → opens the profile), and a preview of the file.
+- **Accept:** each file passes its validator and matches a stored accepted example in structure (keys, order,
+  delimiters); the AAVSO exoplanet file made from the Qatar-1 night is accepted by a format check built from the
+  users guide; the TFOP package for the public TFOP night has the same file set and names as the public one.
+- **Files:** `photometry/reports/*.py`, `models/transit_report.py` (moved in), UI report panel, tests, guide 06.
+- **Depends on:** PHO-26 (fit values), PHO-23, ARC-16 (profiles).
+
+### PHO-28. All-sky photometry: the night's solution from standard stars  (P2)
+**open**
+- **Reference:** IRAF `photcal` (`mknobsfile`, `mkconfig`, `fitparams`, `evalfit`, `invertfit`; Davis & Gigoux
+  1993): transformation equations per filter fitted to standards observed over a range of airmass, e.g.
+  `m_V = V + v1 + v2 X + v3 (B−V) + v4 X (B−V)`; Harris, Fitzgerald & Reed 1981 (the classical method); Landolt and
+  Stetson standards; AAVSO transformation campaign conventions (`Tv_bv`, `Tbv`, …) — ours has those in
+  `coefficients.py`.
+- **Ours now:** `coefficients.extinction` (k from comparison stars of one field), `transformation` (two filters, one
+  field), dialog `coefficients_dialog.py`.
+- **Build:** `photometry/allsky.py`: instrumental magnitudes of standards from many frames (several fields,
+  airmasses, filters) with aperture correction to a large radius (growth curve, PHO-10's data); a general
+  least-squares fit of zero point, first-order extinction, colour term and optionally second-order extinction and a
+  time drift of the zero point per filter, with sigma clipping and the covariance; residual plots against airmass,
+  colour, time and position; `apply()` to programme stars (iterating on the colour) giving standard magnitudes with
+  errors including the fit's; a "night quality" verdict (photometric or not: scatter of the standards' residuals and
+  the zero-point drift). Window: a tool reachable from Tools → "All-sky calibration…" with stages Standards (frames
+  and automatic identification of Landolt / Stetson stars through PHO-25), Fit, Apply.
+- **Accept:** synthetic night with known k′ = 0.25, colour term 0.08, zero point 21.3: recovered within 1σ; the
+  SA 98 + second standard field night (data to add) gives residual scatter < 0.02 mag and coefficients equal to
+  IRAF `fitparams` on the same instrumental magnitudes within 1σ (reference stored).
+- **Files:** `photometry/allsky.py`, `coefficients.py`, UI tool, tests, guide 06.
+
+### PHO-29. Difference-image photometry  (P2)
+**open**
+- **Why:** very crowded fields (Galactic plane, clusters, novae, microlensing) where even PSF fitting fails.
+- **Reference:** Alard & Lupton 1998 (ApJ 503, 325) and Alard 2000 (kernel as Gaussians × polynomials, spatially
+  varying); Bramich 2008 (MNRAS 386, L77: discrete pixel kernel, "delta basis"), Bramich et al. 2013 (extended);
+  Becker's HOTPANTS and Albrow's pyDIA as descriptions of practice (read, not copied).
+- **Build:** `photometry/dia.py`: reference image (best-seeing 5–10 frames aligned and combined, CAL stack);
+  per frame: registration to the reference (sub-pixel, flux-conserving), kernel solution on stamps around bright
+  isolated stars (delta-basis kernel of size from the seeing ratio, regularised; differential background as a
+  low-order polynomial), convolution of the reference to the frame (GPU kernel through `compute`, CPU twin),
+  difference image; photometry on the difference image at the fixed positions with the reference PSF convolved by
+  the kernel (optimal weighting), flux scale from the kernel sum; total flux = reference flux (PSF photometry on the
+  reference) + difference flux; errors from the pixel variances. Measure-stage method "Difference imaging"; result
+  tab shows the reference, the current difference image and the kernel.
+- **Accept:** synthetic crowded field (5000 stars, variable seeing, a star varying by 5 %): the variation is
+  recovered within the error and constant stars are flat to the photon limit × 1.3; on the real crowded set the
+  scatter of constant stars is lower than with PSF photometry for stars with a neighbour within 2 FWHM (asserted);
+  GPU and CPU difference images equal within 1e-5 relative; 100 frames of 2k × 2k: < 2 min CPU.
+- **Files:** `photometry/dia.py`, `compute/convolve.py`, steps, UI, tests, guide.
+- **Depends on:** PHO-18.
+
+### PHO-30. Whole-field time series and the search for variables  (P2)
+**open**
+- **Reference:** Muniwin "find variables" (magnitude–deviation diagram); Honeycutt 1992 full inhomogeneous ensemble
+  solution; Welch & Stetson 1993 / Stetson 1996 indices J, K, L; von Neumann ratio; Sokolovsky et al. 2017 (MNRAS
+  464, 274: comparison of 18 variability indices; best: IQR, 1/η, MAD, weighted σ); VaST software (description).
+- **Ours now:** `fieldstars.field_photometry`, `variability` (one index), page `varfind_page.py`.
+- **Build:** all detected or catalogue stars measured on all frames (aperture or PSF); the Honeycutt ensemble
+  solved for frame zero points and star means iteratively with weights and with variables excluded; indices: weighted
+  σ, MAD, IQR, 1/η (von Neumann), Stetson J and K, reduced χ², each against the magnitude with a running median and
+  robust spread — a star is a candidate when it is beyond n σ in at least two indices; a quick period search of each
+  candidate (PER engines, GPU batch) with the best period and its false-alarm probability; cross-match with VSX,
+  GCVS and Gaia variables (known / new); result: a table (TableView) linked to the image and to a small-multiples
+  page of light curves and folded curves; export of candidates (CSV, a VSX-submission helper sheet); "Open in
+  Photometry as target" for any star.
+- **Accept:** synthetic field with 2000 constant stars and 10 variables of amplitude 2–5 × their noise: ≥ 9 found,
+  ≤ 5 false candidates; on the real crowded set the known VSX variables in the field brighter than the limit are
+  recovered (list stored); 2000 stars × 300 frames < 3 min.
+- **Files:** `photometry/fieldstars.py`, `photometry/varindex.py`, UI (Light curves window, Variable search job),
+  tests.
+
+### PHO-31. Removing systematics common to many stars  (P2)
+**open**
+- **Reference:** SysRem (Tamuz, Mazeh & Zucker 2005, MNRAS 356, 1466); TFA (Kovács, Bakos & Noyes 2005, MNRAS 356,
+  557); cotrending basis vectors of Kepler / TESS (Smith et al. 2012); lightkurve `CBVCorrector`,
+  `RegressionCorrector`, `PLDCorrector`.
+- **Build:** `photometry/systematics.py`: `sysrem(mag, err, n_terms)` (iterative rank-one effects with errors),
+  `tfa(target, templates, n)` with reconstruction mode for a known period, PCA basis from the field's stars with a
+  BIC-chosen number of terms; applied to whole-field series (PHO-30) and offered in the Light curve stage as
+  "Remove trends shared with the field stars" when ≥ 30 field stars are measured; the amplitude suppression of a
+  signal is estimated by injection and shown ("a 1 % transit would be reduced to 0.93 %").
+- **Accept:** synthetic field with an injected airmass-and-colour systematic: scatter of constant stars falls to the
+  white-noise level within 10 %; an injected transit keeps ≥ 90 % of its depth with the default settings.
+- **Files:** `photometry/systematics.py`, UI, tests.
+
+### PHO-32. Space-mission pixel tools  (P2)
+**open**
+- **Reference:** lightkurve (MIT; may be read freely and its algorithms reimplemented or the ideas used):
+  `TargetPixelFile.interact`, custom and threshold aperture masks, `estimate_background`, `PLDCorrector`, `flatten`
+  (Savitzky–Golay), `remove_outliers`, `stitch`; `tpfplotter` (Gaia stars over the stamp, contamination); TESScut;
+  SPOC flags and crowding metrics (CROWDSAP, FLFRCSAP); `eleanor`, TESS-SIP as descriptions.
+- **Ours now:** `io/tpf.py` (frames written per cadence, `cube`), `aperture.measure_cube`, missions' light curves from
+  MAST (`timeseries/archive.py`).
+- **Build:** Images stage accepts a TIC / KIC / EPIC / name: lists the available pixel files and FFIs per sector
+  (`services/mast`), downloads the pixel file or a TESScut cut-out of chosen size; Apertures stage in "pixel mask"
+  mode: the stamp with Gaia stars drawn to scale by magnitude (contamination estimate from Gaia fluxes and the
+  pixel response as a Gaussian of the mission's FWHM), mask editor (click pixels; "pipeline mask", "threshold n σ",
+  "all pixels of the target's flux > x"); background from the faintest pixels' median per cadence (FFI cut-outs
+  have no background removed); scattered-light flagging by the background's time derivative; detrending by PLD
+  (first order, with PCA of the pixel basis) and by regression against centroids and background, both with the
+  transit / eclipse windows masked; quality bitmask choice (default, hard, none); sectors stitched with per-sector
+  normalisation; comparison with the pipeline SAP / PDCSAP in a plot; centroid shift test in and out of transit
+  (in-transit minus out-of-transit centroid, with error) for false-positive vetting.
+- **Accept:** for WASP-12 sector 20 and AI Dra sector 24: our mask-editor light curve with the pipeline mask equals
+  SAP within 0.02 %; PLD lowers the 1-hour CDPP relative to SAP (asserted); the centroid test on a synthetic blend
+  detects a 0.2 px shift at 5σ; a 15 × 15 stamp with 18 000 cadences: mask change → new light curve < 0.3 s.
+- **Files:** `photometry/pixels.py`, `io/tpf.py`, `services/mast.py`, UI, tests, guide 06 and 07.
+
+### PHO-33. Night diagnostics ("Checks" tab)  (P1)
+**open**
+- **Why:** users must see at a glance whether a dip is real or a cloud; AstroImageJ users plot airmass, sky, FWHM,
+  X / Y by hand.
+- **Build:** a results tab with small stacked `PlotView` panels on the light curve's time axis: total comparison
+  counts (transparency), sky per pixel, FWHM, ellipticity, X and Y drift of the field, airmass, peak of the target
+  relative to the linearity limit, number of comparison stars used, the comparison − check curve; automatic flags:
+  cloud (ensemble counts down by more than `x` % from a running upper envelope), bad seeing, drift jump (meridian
+  flip, guiding loss), near-saturation; each flag marks the frames in every plot and in the Frames table; "Leave out
+  flagged frames" per flag kind (undoable); a one-line verdict in the Light curve stage ("3 frames behind cloud, 1
+  with a satellite trail; 0 saturated").
+- **Accept:** synthetic night with a cloud passing (ensemble −40 % for 6 frames), a focus drift and a flip: each is
+  flagged on exactly its frames; the Qatar-1 night shows no cloud flag; rendering with 1000 frames < 150 ms.
+- **Files:** `photometry/quality.py`, UI checks panel, tests.
+
+### PHO-34. Errors that match the scatter; red noise  (P1)
+**open**
+- **Reference:** Pont, Zucker & Queloz 2006 (MNRAS 373, 231: red noise); Winn et al. 2008 (ApJ 683, 1076: the
+  time-averaging β factor); Carter & Winn 2009 (wavelets); Young 1967 / Osborn et al. 2015 (MNRAS 452, 1707:
+  scintillation with a site-dependent coefficient).
+- **Build:** after every measurement: the ratio of the observed scatter (comparison − check, and the target's
+  out-of-event residuals) to the predicted error; when above 1.2 a banner offers "Scale the errors by 1.37" (stored
+  as a factor, never overwriting the formal errors; columns `rel_flux_err` and `rel_flux_err_scaled`); β from the
+  RMS of binned residuals against bin size (plot "RMS vs bin size" with the white-noise line), reported in fits
+  (PHO-26) and used to inflate parameter errors when the user ticks "account for red noise"; scintillation: Osborn's
+  formula with the correction factor per site from the profile, added to the error of **every** aperture radius
+  (fixes the gap of item 10); a noise budget per star (photon, sky, read, dark, scintillation, as a stacked bar) in
+  the Inspector.
+- **Accept:** synthetic white noise: ratio 1.00 ± 0.05, β = 1.0 ± 0.1; synthetic red noise of known amplitude: β
+  within 15 % of the expected value; the scaled errors make reduced χ² of the Qatar-1 fit 1.0 ± 0.1.
+- **Files:** `photometry/errors.py`, `aperture.scintillation`, UI, tests, guide 13.
+
+### PHO-35. Transformed magnitudes on every frame  (P2)
+**open**
+- **Reference:** AAVSO Guide to CCD Photometry (transformation); AAVSO Extended format `TRANS=YES`; VPhot; our
+  `coefficients.transformation`.
+- **Build:** with coefficients from the profile (per filter set, dated) or from PHO-28: standard magnitude of the
+  target per frame `V = v_inst + ZP_frame + T_v_bv × (B−V)_target`, the target's colour from the two-filter curve of
+  the night interpolated in time (PHO-11) or a typed colour; second-order extinction term optional; the AAVSO report
+  marks `TRANS=YES` and notes the coefficients; error propagation includes coefficient errors.
+- **Accept:** synthetic B / V night with colour terms 0.05 and 0.10: recovered standard magnitudes within 0.005 of
+  truth, against 0.03 untransformed.
+
+### PHO-36. Bad pixels, cosmic rays and trails inside an aperture are flagged  (P1)
+**open**
+- **Why:** AD-8. A hot pixel or a satellite trail in the aperture makes an outlier that today is found only by eye.
+- **Build:** `aperture.measure` takes the frame's mask plane (CAL-13: bits for bad pixel, saturated, cosmic ray
+  repaired, satellite trail, no data) and variance plane; a flagged pixel in the aperture sets a per-star, per-frame
+  flag (`Flags_<star>` column with letters B, S, C, T, E for edge) and, for repaired pixels, the measurement is kept
+  but marked; a flagged pixel in the sky ring is simply not used; the error uses the variance plane when present
+  (the measured-σ formula stays the fall-back and the cross-check). Flags colour the points (interface roles) and
+  feed "Leave out flagged points". Frames without planes behave as today.
+- **Accept:** synthetic night with a hot pixel inside the target's aperture on drifted frames 10–14 and a trail
+  across frame 20: exactly those points carry B and T; variance-plane errors equal the formula within 3 % on clean
+  frames.
+- **Depends on:** CAL-8, CAL-12, CAL-13.
+
+### PHO-37. Speed at scale  (P2)
+**open**
+- **Build:** benchmark cases in `tools/speed.py`: 1000 × 4k² frames, 10 stars (aperture); 300 × 4k², 2000 stars
+  (PHO-30); pixel file 18 000 cadences. Native kernel `aperture_sums(data, xy, radii)` (exact circle–pixel overlap
+  for many stars and radii in one pass, threaded) if the profile shows the sums dominate; a GPU twin only for the
+  2000-star case. Reading stays the floor: measure and report the split (read, register, centre, sum, sky).
+- **Accept:** budgets of `plans/architecture.md` met; results identical to the NumPy path within 1e-10 relative.
+
+### PHO-38. High-speed and video photometry, occultations  (P3)
+**open**
+- **Reference:** Tangra, PyOTE / PyMovie (IOTA), Limovie: SER / AVI / ADV / FITS-cube input, time stamps from GPS
+  inserters, drop detection in a noisy light curve with a square-well model and confidence from Monte Carlo.
+- **Build:** readers for SER (documented header; UTC time stamps per frame) and FITS cubes with time keywords
+  (`io/video.py`); the photometry runs on frame streams without writing a FITS per frame; an "Occultation" timing
+  tool: square-well fit of disappearance and reappearance with errors by bootstrap, duration, magnitude drop;
+  report in the IOTA text layout. AVI / ADV only if a permissively licensed decoder is already bundled (else listed
+  as not supported, with the conversion advice).
+- **Accept:** a synthetic 25 fps series with a 2.4 s occultation at S/N 3 per frame: D and R times within 0.05 s.
+
+### PHO-39. Extended objects: comets and surface photometry  (P3)
+**open**
+- **Reference:** A'Hearn et al. 1984 (Afρ); photutils `isophote` (ellipse fitting after Jedrzejewski 1987; IRAF
+  `stsdas.ellipse`); surface brightness in mag arcsec⁻².
+- **Build:** comet mode in moving-object photometry: apertures of fixed physical radius (km at the comet, from Δ),
+  Afρ with the solar magnitude in the band, background from a far annulus; isophote fitting tool in Images →
+  Analyse (profile of surface brightness, ellipticity, position angle against semi-major axis, with a model image
+  and residual); sky brightness of a frame in mag arcsec⁻² from the zero point.
+- **Accept:** a synthetic 1/ρ coma gives Afρ independent of the aperture within 2 %; a synthetic Sérsic galaxy's
+  profile parameters within 3 %.
+
+### PHO-40. Polarimetry completed  (P3)
+**open**
+- **Ours now:** `photometry/polarimetry.py` (dual- and single-beam Stokes q, u, P, θ) and a step.
+- **Build:** instrumental polarisation and zero angle from standard stars (polarised and unpolarised lists bundled
+  with references); bias correction of P (Wardle & Kronberg 1974; Plaszczynski et al. 2014 MAS estimator); time
+  series of q, u, P, θ; a q–u plot; error propagation checked by Monte Carlo.
+- **Accept:** synthetic standards with 0.3 % instrumental polarisation and a 12° zero-angle offset: recovered within
+  1σ; debiased P unbiased at P/σ = 2 within 10 %.
+
+### PHO-41. Validation against the owner's AstroImageJ table  (P1, waits for the owner)
+**open — waiting for data**
+- **Build:** when the owner sends a Measurements table of a night with its radii: measure the same frames with
+  "radii as AstroImageJ" and the same stars; compare per frame `rel_flux_T1`, its error, `Source-Sky`, `Sky/Pixel`,
+  `X(FITS)`, `Y(FITS)`, `BJD_TDB`; write the differences here; store a reduced table (public data only if the night
+  can be made public, otherwise the comparison numbers alone) as a validation test.
+- **Accept:** median |ours / AstroImageJ − 1| < 0.1 % per frame; errors within 10 %; BJD within 1 s; any larger
+  difference explained.
+
+### PHO-42. Faint targets: measuring on running stacks  (P2)
+**open**
+- **Build:** "Combine frames before measuring": groups of N consecutive frames (or of T minutes) aligned on the
+  stars and averaged with rejection (CAL stacking engine, in memory), measured as one frame with mid-time = the
+  flux-weighted mean of the group's mid-times and exposure = the sum; moving-object variant aligned on the track.
+- **Accept:** a synthetic target at S/N 3 per frame gives a curve at S/N ≈ 3 √N (within 10 %) with unbiased times.
+
+### PHO-43. Advice for the next night  (P2)
+**open**
+- **Why:** beyond every reference program: the program has the numbers to say how to observe better.
+- **Build:** after a measurement, a "For next time" card: exposure time that would bring the target's peak to 60 %
+  of the linearity limit; whether to defocus (peak / total and the pixel-to-pixel term); the noise budget's largest
+  term and what reduces it; comparison stars lost at the edge → the pointing offset that keeps them all; cadence
+  against the event's ingress duration; flats' contribution if the stars drifted by more than n px.
+- **Accept:** on a synthetic night that saturates late, the advice gives the exposure that would not have; texts in
+  four languages, each with its reasoning in one line.
+
+### PHO-44. Centring algorithm choice  (P3)
+**open**
+- **Reference:** IRAF `centerpars.calgorithm` = centroid | gauss | ofilter | none with `cbox`, `cthreshold`,
+  `minsnratio`, `cmaxiter`, `maxshift`; AstroImageJ Howell centroid.
+- **Build:** `recenter(method = auto (today's) | moments | gauss | none)` exposed under More options with `box` and
+  `max_move`; `Centring_Method` in the provenance.
+- **Accept:** each method within 0.05 px on synthetic Gaussian stars at S/N 50; identical default results to today.
+
+### PHO-45. Sky ring: catalogue star mask and IRAF's histogram centroid  (P2)
+**open**
+- **Build:** stars known from the catalogue (Gaia to G + 7 of the target) are masked in every sky ring by position
+  (radius 1.5 FWHM scaled with brightness) before any statistic — better than rejection alone because faint wings
+  are removed too; `sky_method = "centroid"` (IRAF default: histogram of the ring within ± 3σ in bins of 0.1σ,
+  centroid of the histogram, iterated with rejection and `rgrow`); the rejected-pixel count per star and frame in the
+  measurements table.
+- **Accept:** synthetic ring with a V + 5 star inside: the masked sky is unbiased within 0.1σ where the median is
+  biased by > 0.5σ (asserted); "centroid" equals IRAF `phot salgorithm=centroid` on the HAT-P-32 frames within
+  0.2 ADU (reference stored).
+
+### PHO-46. Detrending of every plotted series  (P3)
+**open**
+- **Build:** multi-plot rows get their own detrend choice (none / the target's set / own set), as AstroImageJ's
+  Y-data rows, for check stars and further targets.
+- **Accept:** a check star's curve detrended with airmass alone while the target uses airmass + FWHM, saved in and
+  restored from the template.
+
+### PHO-48. The light-curve file: nothing lost on the way out and back  (P1)
+**open**
+- **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
+  comparison stars (item 12); other windows and other programs need the full table with units and provenance.
+- **Build:** `photometry/lcfile.py`: ECSV (`.lc.ecsv`) with every column of the measurements table plus the derived
+  series (rel_flux, detrended, model), units and time standard in the column metadata, the star list, the options,
+  the profiles used and the provenance record (ARC-11) in the header; `read()` restores a light-curve dict
+  identical to the measured one (round-trip test of every key); the old CSV stays as "simple CSV" export; every
+  consumer (join nights, Light curves, Models, Exoplanets, O−C minimum timing, recipes) reads the new file; the
+  format has a version and a migration reader for the old CSV.
+- **Accept:** measure → save → read → join nights gives results identical to joining the in-memory curves; Astropy's
+  `Table.read` opens the file with units; lightkurve can read it through its generic reader (time, flux, flux_err
+  columns present under those names as aliases).
+- **Files:** `photometry/lcfile.py`, `photometry/nights.py`, readers in other areas, tests.
+
+## Found while working
+
+(agents add findings here with a proposed priority; the architect moves them into steps)
 
 ## Done
 
-(none yet)
+Items 0–16 before 2026-11-09 (agent2): see the table "What we already have" and
+`docs/history/photometry-plan-2026-11-09.md` for the notes and commits of each.
