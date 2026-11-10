@@ -31,7 +31,8 @@ def page(qtbot, tmp_path):
         focuser=FakeFocuser(),
         filterwheel=FakeFilterWheel(),
     )
-    server = serve(Controller(obs), "tok", port=0)
+    obs.controller = Controller(obs)  # for the tests: wait until its job has ended
+    server = serve(obs.controller, "tok", port=0)
     p = ObservePage(Settings(tmp_path))
     qtbot.addWidget(p)
     p.url.setText(f"http://127.0.0.1:{server.server_address[1]}")
@@ -49,6 +50,8 @@ def test_connect_slew_sequence_and_safety_display(page, qtbot, tmp_path):
     p.target.setText(target.to_string("hmsdms", sep=":"))
     p._slew()
     qtbot.waitUntil(lambda: not obs.devices["mount"].AtPark, timeout=10000)
+    # the slew job outlives the unpark on a loaded machine; a sequence started meanwhile is refused ("busy")
+    qtbot.waitUntil(lambda: not obs.controller.job["running"], timeout=30000)
     p._show_status(
         p.status
         | {
