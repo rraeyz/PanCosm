@@ -305,7 +305,7 @@ the phase wheel and bar, "Add the best three windows", the RV quadratures and Fi
 - **Files:** `planning/phase_coverage.py`, `ui/planning/panels/coverage.py`, `tests/test_phase_coverage.py`
 
 ### PLN-9. Standards and calibration targets  (P2)
-**open**
+**partial** — 2026-11-14: telluric standards done: `resources/standards/telluric.ecsv` (729 bright hot single stars from Hipparcos, van Leeuwen 2007, via the ESA Gaia archive; the source in the file), `planning/standards.py` (`matching`: the standards within 0.1 airmass of the target, nearest on the sky first; `extinction_pair`), Plan → More charts → Tables lists one per target at its highest point; tests/test_standards.py. Pending: Landolt / Stetson fields, spectrophotometric, RV and polarimetric standards and sky-flat fields (CDS was down when the lists were fetched), standards as schedule blocks.
 - **Build:** lists as data with sources: Landolt and Stetson photometric standard fields, spectrophotometric
   standards (the SPE-10 pack's names), telluric standards (bright, hot, rapidly rotating stars from a published
   list), radial-velocity standards, polarimetric standards, blank fields for sky flats; for a target and its
