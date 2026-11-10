@@ -112,8 +112,13 @@ def _unused_groups(plan, reps, temp_tol):
 def run_step(inputs, params, ctx):
     """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
     linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty."""
+    from .output import check_space, estimate
+
+    need = estimate(inputs["frames"], params.get("split_colour", False))
+    check_space(inputs["output_dir"], need)  # CAL-14: refused before anything is written, with the numbers
     with masters.linearity(params["linearity"]):
         out = _run(inputs, params, ctx)
+    out["estimated_bytes"] = need
     out["scaled_glow"] = _scaled_glow(out, inputs["frames"])
     return out
 

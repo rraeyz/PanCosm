@@ -435,7 +435,12 @@ listing them in the Problems, the real frame with a trail.
 - **Files:** `core/planes.py`, `calibration/masters.py`, `stacking.py`, `io/fits.py`, tests.
 
 ### CAL-14. What is written, where, and how much disk it needs  (P1)
-**open**
+**partial** — done (2026-11-14): `calibration/output.py` (`estimate`: the bytes a run writes — lights as float32,
+split colours, one master per group, FITS headers and blocks; `check_space`: refuses with both numbers when the disk
+cannot hold it with 10 % spare); `calibration.run` checks before writing anything and returns its estimate. Tests
+(tests/test_calibration_output.py): the estimate equals the written size within 10 % (exactly on the test night),
+a disk too small refuses. Left: the naming pattern, compression and 16-bit choices, the IRAF keywords with
+checksums, atomic writes and resuming, the estimate shown before the run.
 - **Ours now:** `masters.save`, calibrated files written next to a chosen output folder as float32 FITS with HISTORY lines.
 - **Build:** output naming pattern (Settings → Files; default `<output>/<night>/<type>/<original name>_cal.fits`
   with tokens for object, filter, date, sequence number); data type choices: float32 (default), float32 RICE /
