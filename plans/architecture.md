@@ -652,7 +652,12 @@ the suite is green after each.
 - **Files:** `compute/check.py`, `compute/thresholds.json`, `compute/README.md`, `ui/shell/help.py`, CI.
 
 ### ARC-11. Provenance: every product knows how it was made  (P1)
-**open**
+**open** — item 1 done by agent3 (2026-11-10); item 2 started
+- **Progress (agent3):** `core/provenance.py`: `record`, `checksum` (BLAKE2b; first and last MiB for files over
+  4 MiB), `digest` (PROCHASH, time left out), `to_fits` (SWCREATE, SWVERS, PROCSTEP, PROCHASH, readable HISTORY
+  lines and the record as `PROV` HISTORY lines with spaces escaped, since FITS drops trailing spaces), `to_ecsv`,
+  `read`. Calibrated frames, stacks and drizzled images carry it (replacing the "… by <program> <version>" lines).
+  Pending: the other writers and the test that lists them (item 2), citations (3), methods text (4), reproduce (5).
 - **Why:** AD-12. A referee asks "how were the frames calibrated, which stars, which radii, which version?"; today
   the project records runs but the products do not carry it and nothing writes it for a paper.
 - **Reference:** IRAF writes `HISTORY` and processing keywords (`CCDPROC`, `ZEROCOR`, `FLATCOR`); ESO pipelines

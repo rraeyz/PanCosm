@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-from .. import __version__
+from ..core import provenance
 from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
@@ -115,6 +115,14 @@ def run_step(inputs, params, ctx):
         return _run(inputs, params, ctx)
 
 
+def _record_masters(header, entry, built, flat_used, params):
+    """CALB / CALD / CALF keywords and the provenance record of one calibrated light (ARC-11)."""
+    used = {k: built[entry[k]][2] for k in ("bias", "dark", "flat") if entry[k] and (k != "flat" or flat_used)}
+    for kind in ("bias", "dark", "flat"):
+        header[f"CAL{kind[0].upper()}"] = (Path(used.get(kind, "none")).name, f"{kind} used for calibration")
+    provenance.to_fits(header, provenance.record("calibration.run", params, {"light": entry["light"], **used}))
+
+
 def _run(inputs, params, ctx):
     import numpy as np
     from astropy.io import fits
@@ -196,10 +204,7 @@ def _run(inputs, params, ctx):
         data = masters.calibrate(light, exptime, b, d, dh, f, dark_factor=k, defects=None if pattern else defects)
         if pattern and defects is not None:  # fill from pixels of the same colour only
             data = bayer.repair_cfa(data, defects, masters.repair)
-        for kind in ("bias", "dark", "flat"):
-            used = built[entry[kind]][2] if entry[kind] and (kind != "flat" or f is not None) else "none"
-            header[f"CAL{kind[0].upper()}"] = (Path(used).name, f"{kind} used for calibration")
-        header.add_history(f"calibrated by astrowb {__version__}")
+        _record_masters(header, entry, built, f is not None, params)
         # shortcut: lights with the same file name in different sub-folders overwrite each other; add the
         # sub-folder to the name if users keep such layouts
         stem = re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", Path(entry["light"]).name, flags=re.I)
@@ -251,7 +256,7 @@ def drizzle_step(inputs, params, ctx):
     header = scaled_header(masters.load(paths[0])[1], params["scale"])
     header["NCOMBINE"] = (len(paths), "frames drizzled")
     header["DRIZSCAL"], header["DRIZPIXF"] = (params["scale"], "output pixels per input pixel"), params["pixfrac"]
-    header.add_history(f"drizzled by astrowb {__version__}")
+    provenance.to_fits(header, provenance.record("stacking.drizzle", params, {"images": paths}))
     fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(weight, name="WEIGHT")]).writeto(
         inputs["output"], overwrite=True, output_verify="silentfix"
     )
@@ -277,5 +282,5 @@ def stack_step(inputs, params, ctx):
 
     keys = ("sigma", "method", "rejection", "low", "high", "normalize", "weighting", "align")
     image, coverage, header = stack(timing.chronological(inputs["images"]), ctx=ctx, **{k: params[k] for k in keys})
-    header.add_history(f"stacked by astrowb {__version__}")
+    provenance.to_fits(header, provenance.record("stacking.stack", params, {"images": list(inputs["images"])}))
     return {"stack": save_stack(inputs["output"], image, coverage, header)}
