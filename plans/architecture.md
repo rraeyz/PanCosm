@@ -197,7 +197,7 @@ sub-steps first for the window whose other layers are being migrated; ARC-13 ear
 from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
 
 ### ARC-1. Earth-orientation and leap-second tables can never stop the program  (P1, first of all)
-**open**
+**agent3 claimed (2026-11-10 14:00 UTC) — do not touch**
 - **Why:** `timing.py` sets `iers.conf.auto_download = False`. With Astropy ≥ 6 an alt-az transformation for a date
   after the bundled IERS-A table raises `ValueError: interpolating from IERS_Auto using predictive values that are
   more than 30.0 days old` once the bundle is older than `auto_max_age` (30 days). Reproduced on 2026-11-09 with

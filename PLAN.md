@@ -405,4 +405,5 @@ P1, P2, P3); found while working; done.
 - agent2 (2026-11-07 … 2026-11-09): interface I0–I7, photometry 0–16, spectroscopy 0–1.2. Stopped; its open claims
   (photometry 17, spectroscopy 2) are released.
 - architect (2026-11-09): audit, comparison with the reference programs, this file and every file in `plans/`.
-- (the next coding agent adds itself here as agent3)
+- agent3 (2026-11-10): coding; starts with ARC-1 and OBS-0.
+- (the next coding agent adds itself here as agent4)
