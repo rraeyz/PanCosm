@@ -201,6 +201,10 @@ foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13,
   to 1e-8.
 - **Files:** `models/roche/{radiation,limbdark,intensity}.py`, `models/passbands.py`, tests.
 - **Depends on:** MOD-6 for the tables (blackbody and typed coefficients work without it).
+- **Notes from the sources (architect, 2026-11-10):** PHOEBE 2.5 (2025–2026) added atmospheres for hot, compact stars (TMAP,
+  Tremblay) and "support for extrapolating atmospheres and blending them into blackbody models" — the same problem
+  Build 3 solves with the scaled-blackbody ramp; read its release notes for the blending rule before fixing ours.
+  A hot-star table (sdB, white dwarfs: the owner's NY Vir is an sdB binary) is a later data pack of MOD-6.
 
 ### MOD-3. Visibility, eclipses and the light curve  (P1)
 **open**

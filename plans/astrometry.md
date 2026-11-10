@@ -222,6 +222,13 @@ Order of work: AST-W, then P1: 1, 3, 4, 6; P2: 2, 5, 7, 8; P3: 9, 10, 11.
 - **Accept:** files for Eros and for a synthetic unknown object pass the validator; designations of the MPC's
   examples (numbered, provisional, comets, survey designations) pack and unpack correctly (a table-driven test).
 - **Files:** `astrometry/reports/{ades,mpc80,cobs,designations}.py`, `photometry/moving.py` (`ades_psv` re-exported), UI report panel, `tests/test_ades.py`
+- **Notes from the sources (architect, 2026-11-10):** the MPC's current default is **ADES 2022** (backward compatible
+  with 2017); a PSV file starts with the line `# version=2022`; the allowed values of `astCat` (Gaia DR3 = `Gaia3`),
+  bands, `mode`, `stn` and notes are listed at docs.minorplanetcenter.net/mpc-ops-docs/observations/valid-ades-values/
+  — a value not on the list makes the MPC reject the whole batch, so the writer takes its vocabularies from a
+  table copied from that page (with the date) and the validator checks against it; `rmsRA`, `rmsDec` are the random
+  1σ uncertainties in arcsec and sit after `dec` and before `astCat` in XML; the MPC offers web validators for
+  both forms (the guide tells the user to run one before sending).
 
 ### AST-7. Catalogue positions for anything: the measure tool  (P2)
 **open**

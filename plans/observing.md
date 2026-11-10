@@ -186,6 +186,14 @@ Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3,
   what to do) and never in a hang (each call returns within its time-out + 1 s); image download of a 6k × 4k
   16-bit frame over Alpaca `ImageBytes` < 2 s on localhost.
 - **Files:** `devices/{api,alpaca,indi,ascom_com,health}.py`, `devices/setup.py`, UI set-up dialog, CI jobs, tests.
+- **Notes from the sources (architect, 2026-11-10):** alpyca 3.x implements the Platform 7 interface additions
+  (asynchronous `Connect()` with `Connecting`); the ASCOM documentation states that Alpaca clients reach classic
+  Windows COM drivers through the **ASCOM Remote** server — so the owner can use COM-only drivers today with no new
+  code (written into the guide by this step), and `ascom_com.py` is the convenience that removes that extra
+  program. For CI on Linux: the ASCOM Omni simulators are on GitHub for Linux / macOS, and a Python package
+  `alpaca-simulators` exists on PyPI — check its licence and coverage before choosing one. N.I.N.A. 3.2 (November
+  2025) added more weather data sources, guiding enhancements, refined dome safety logic and time-based
+  conditions: read its release notes when doing OBS-5, OBS-6 and OBS-10.
 
 ### OBS-2. Time you can trust  (P1)
 **open**
