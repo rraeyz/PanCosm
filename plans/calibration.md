@@ -161,7 +161,11 @@ P3: 18, 20.
 - **Files:** `resources/headers/conventions.toml`, `calibration/frames.py`, `hdr.py`, settings panel, tests.
 
 ### CAL-3. CMOS-correct matching: flat-darks, no forced bias, no blind dark scaling  (P1)
-**open**
+**partial** — done (2026-11-14), item 3: `quality.amp_glow` (the brightest corner of a master dark against its
+centre) is in every dark's report, and `calibration.run` returns "scaled_glow" — darks with glow whose exposure
+differs from the lights' (scaling them leaves the glow wrong); the Calibration window says which and offers the
+choice in words. Test (test_cal_quality: a 300 s dark with a glowing corner and 60 s lights). Left: items 1, 2
+and 4 (sensor kind and its defaults, flat-darks, the matching score shown, a night without bias).
 - **Why:** most new amateur and many observatory cameras are CMOS: bias frames are unstable at the shortest
   exposure, amplifier glow does not scale with time, gain and offset change the pattern.
 - **Reference:** Siril's and PixInsight's guidance for CMOS (darks at the lights' exposure, gain, offset and

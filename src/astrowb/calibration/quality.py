@@ -55,6 +55,21 @@ def hot_pixels(dark, nsigma=10.0):
             "threshold": level + nsigma * sigma}  # fmt: skip
 
 
+def amp_glow(dark, corner=0.1):
+    """{"excess" (ADU), "significance", "glow"}: the brightest corner of a master dark against its centre (CAL-3;
+    the amplifier glow of CMOS sensors, which does not grow in proportion to the exposure)."""
+    d = np.asarray(dark)
+    ny, nx = d.shape
+    cy, cx = max(4, int(ny * corner)), max(4, int(nx * corner))
+    centre = d[ny // 2 - cy // 2 : ny // 2 + cy // 2, nx // 2 - cx // 2 : nx // 2 + cx // 2]
+    corners = (d[:cy, :cx], d[:cy, -cx:], d[-cy:, :cx], d[-cy:, -cx:])
+    level = float(np.nanmedian(centre))
+    excess = max(float(np.nanmedian(c)) for c in corners) - level
+    noise = _robust_sigma(centre) / np.sqrt(cy * cx)
+    significance = excess / max(noise, 1e-9)
+    return {"excess": excess, "significance": float(significance), "glow": bool(significance > 10 and excess > 2.0)}
+
+
 def dark_current(dark, bias, exptime, gain=1.0):
     """e⁻ per pixel per second: the dark's median above the bias's, times the gain, over the exposure."""
     return float((np.nanmedian(np.asarray(dark, float)) - np.nanmedian(np.asarray(bias, float))) * gain / exptime)
@@ -126,6 +141,8 @@ def report(kind, master, **known):
         "note": "RMS of row / column medians",
     }
     if kind == "dark":
+        glow = amp_glow(master)
+        out["amp_glow"] = {"value": glow["excess"], "ok": not glow["glow"], "note": "corner above centre (ADU)"}
         hot = hot_pixels(master)
         out["hot_pixels"] = {"value": hot["count"], "ok": hot["count"] < 1e-3 * np.size(master), "note": "≥ 10σ"}
         if known.get("bias") is not None and known.get("exptime"):

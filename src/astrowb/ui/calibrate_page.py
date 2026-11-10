@@ -595,6 +595,16 @@ class CalibratePage(Undoable, QWidget):
                 lines.append(self.tr("{master}: {what}.").format(master=master, what="; ".join(bad)))
         return lines
 
+    def _glow_lines(self, glow):
+        """CAL-3: a dark with amplifier glow scaled to other exposures leaves the glow wrong; the user decides."""
+        return [
+            self.tr(
+                "{dark} has amplifier glow: scaling it from {t:g} s to {others} s leaves the glow wrong; take darks of "
+                "the lights' exposure or accept the residual."
+            ).format(dark=g["dark"], t=g["dark_exptime"], others=", ".join(f"{x:g}" for x in g["light_exptimes"]))
+            for g in glow
+        ]
+
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))
         params = {"sigma": self.sigma.value(), "cosmic_rays": self.cosmics.isChecked()}
@@ -654,6 +664,6 @@ class CalibratePage(Undoable, QWidget):
                 for f in failed
             ]
             self.warnings.setPlainText("\n".join(lines + [self.warnings.toPlainText()]).strip())
-        amber = self._quality_lines(out.get("quality") or {})
+        amber = self._quality_lines(out.get("quality") or {}) + self._glow_lines(out.get("scaled_glow") or [])
         if amber:  # CAL-6: a master that works but is not as good as it should be
             self.warnings.setPlainText("\n".join([self.warnings.toPlainText(), *amber]).strip())

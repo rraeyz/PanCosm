@@ -88,3 +88,39 @@ def test_the_run_reports_each_master_and_the_window_says_the_ambers(tmp_path, qa
     page = CalibratePage()
     lines = page._quality_lines(out["quality"])
     assert lines and "dust shadow" in lines[0]
+
+
+def test_a_glowing_dark_scaled_to_other_exposures_is_said(tmp_path, qapp):
+    """CAL-3 item 3: a CMOS dark with amplifier glow in a corner; the lights are shorter, so the plan scales it."""
+    from astropy.io import fits
+
+    from astrowb.engine.steps import execute
+    from astrowb.ui.calibrate_page import CalibratePage
+
+    rng = np.random.default_rng(8)
+    yy, xx = np.indices((120, 160))
+    glow = 40 * np.exp(-np.hypot(xx - 159, yy - 119) / 12)  # the amplifier's corner
+    for i in range(5):
+        fits.PrimaryHDU((300 + rng.normal(0, 3, (120, 160))).astype(np.float32),
+                        fits.Header({"IMAGETYP": "BIAS"})).writeto(tmp_path / f"b{i}.fits")  # fmt: skip
+        dark = 300 + 5 + glow + rng.normal(0, 3, (120, 160))
+        fits.PrimaryHDU(dark.astype(np.float32), fits.Header({"IMAGETYP": "DARK", "EXPTIME": 300.0})).writeto(
+            tmp_path / f"d{i}.fits"
+        )
+    fits.PrimaryHDU((800 + rng.normal(0, 10, (120, 160))).astype(np.float32),
+                    fits.Header({"IMAGETYP": "LIGHT", "EXPTIME": 60.0})).writeto(tmp_path / "l.fits")  # fmt: skip
+    assert quality.amp_glow(glow + 305 + rng.normal(0, 1, (120, 160)))["glow"]
+    assert not quality.amp_glow(305 + rng.normal(0, 1, (120, 160)))["glow"]
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    scan = execute("calibration.scan", {"folder": str(tmp_path)}, {}, Ctx())
+    out = execute("calibration.run", {"frames": scan["frames"], "output_dir": str(tmp_path / "cal")}, {}, Ctx())
+    assert out["scaled_glow"] and out["scaled_glow"][0]["light_exptimes"] == [60.0]
+    lines = CalibratePage()._glow_lines(out["scaled_glow"])
+    assert "amplifier glow" in lines[0] and "300 s to 60 s" in lines[0]
