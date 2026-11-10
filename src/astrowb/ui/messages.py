@@ -82,6 +82,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
+    # core/table.py
+    QT_TRANSLATE_NOOP("Messages", "no column {name} in the table"),
+    QT_TRANSLATE_NOOP("Messages", "filter not understood: {expression}"),
+    QT_TRANSLATE_NOOP("Messages", "cannot write tables as {kind}"),
     # core/state.py
     QT_TRANSLATE_NOOP("Messages", "this session belongs to the {found} window, not to the {area} window"),
     QT_TRANSLATE_NOOP("Messages", "this session was saved by a newer version of the application: update it to open it"),

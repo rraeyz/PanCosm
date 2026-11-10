@@ -4,6 +4,8 @@ screen theme, and any table as CSV or a LaTeX tabular."""
 import pickle
 from pathlib import Path
 
+from ...core.table import rounded
+
 INK = "black"
 
 
@@ -98,17 +100,6 @@ def export_table(table, path):
         with open(path, "w", encoding="utf-8", newline="") as f:
             csv.writer(f).writerows([header, *rows])
     return path
-
-
-def rounded(value, error):
-    """(value, error) as texts for a paper: the error to two significant digits, the value to the same decimal
-    place (e.g. 1.234567 ± 0.000123 -> '1.23457', '0.00012'); without an error, six significant digits."""
-    import math
-
-    if error is None or not math.isfinite(error) or error <= 0:
-        return f"{value:.6g}", ""
-    digits = max(0, 1 - math.floor(math.log10(error)))
-    return f"{value:.{digits}f}", f"{error:.{digits}f}"
 
 
 def save_results(path, rows, caption=""):
