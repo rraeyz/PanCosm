@@ -290,7 +290,12 @@ header keywords), the input flats' levels in the run, the real LCO masters.
 - **Files:** `calibration/library.py`, `calibration/matching.py`, `ui/calibration/dialogs/library.py`, `tests/test_master_library.py`
 
 ### CAL-8. Bad-pixel masks as files, cosmetic correction choices  (P1)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/badpix.py` (`bad_lines`: whole bad columns and rows;
+`from_masters`: the masters' defect map with them; `read` / `write`: a FITS mask image or IRAF text regions
+"x1 x2 y1 y2", round trip exact; `repair`: none / neighbours / along the rows). Tests (tests/test_badpix.py): a
+bad column, 300 hot pixels and a dead cluster all masked with hardly anything else; both formats round trip;
+repairs within the noise on a smooth sky; "none" leaves the data. Left: Siril lists and DS9 regions, the
+ccdmask method on two flats, the library per camera and binning, the DQ plane, the masters panel's choice.
 - **Reference:** IRAF `fixpix` and its bad-pixel file formats (text regions; mask images `.pl`), `ccdmask` (from a
   flat ratio); ccdproc `ccdmask` (after IRAF); Siril cosmetic correction (hot / cold sigma from the dark, or a list
   file); MaxIm DL bad-pixel maps and column repair.
