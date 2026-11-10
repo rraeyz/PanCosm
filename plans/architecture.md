@@ -488,7 +488,15 @@ the suite is green after each.
 - **Depends on:** ARC-4.7.
 
 ### ARC-7. Image layer: one viewer for every window  (P1)
-**open**
+**agent3 claimed (2026-11-10 21:45 UTC) — do not touch**
+- **Progress (agent3):** speed part of the Accept met without item 1's tile pyramid. Measured first (Qt software
+  raster, 4 cores, 1400 × 900 view): the old viewer already panned and zoomed in 2–7 ms a frame (Qt scales one
+  pixmap); only the first view (9576 × 6388: 1.1 s) and a level change (0.7 s) were slow, both from converting
+  every pixel. Now: the conversion runs in row blocks on every core (574 → 158 ms), and frames above 8 MP show a
+  screen-sized preview at once and their full resolution from a background thread. Result: first view 0.41 s (of
+  which 0.3 s is the one-time Astropy import), level change visible in 72 ms, 16 384² mosaic 0.11 s, pan / zoom
+  1.5–2 ms. **Changed from the plan:** no tile pyramid (item 1) — it would add a cache, a thread pool and tile
+  seams for no measured gain; revisit only if a frame larger than memory has to be shown. Items 2–9 continue.
 - **Why:** `ui/viewer.py` renders the whole image to one pixmap on every change of levels; 9k × 9k CMOS frames and
   mosaics are slow; overlays, tools and read-outs are wired differently in Images, Photometry and Spectroscopy.
 - **Reference:** DS9 (frames, lock by WCS / image, regions, magnifier, panner, pixel table, scales zscale / minmax /
