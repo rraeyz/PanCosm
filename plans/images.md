@@ -197,7 +197,11 @@ series against time, the 4k speed target, the Images window's panel.
 - **Files:** `images/quality.py`, `photometry/quality.py` (uses it), step `image.quality`, `ui/images/panels/quality.py`, `tests/test_image_quality.py`
 
 ### IMG-5. Source lists and the frame's zero point  (P2)
-**open**
+**partial** — done (2026-11-14), the zero point: `io/zeropoint.py` (`fit`: M − m = ZP (+ T·colour), weighted, 3σ
+clipped, with errors and residuals; `write`: MAGZP, MAGZPERR, ZPCAT, MAGZPCT). Test (tests/test_zeropoint.py): ZP
+22.3 and colour term 0.05 recovered within 3σ with a variable and two blends clipped. Left: the source extraction
+(background mesh, deblending, Kron fluxes, flags, the table), the catalogue cross-match on a solved frame, the
+residual plots, the SA 98 check.
 - **Read first:** Bertin & Arnouts 1996 (SExtractor: background mesh, thresholding, deblending, Kron apertures,
   flags); photutils `Background2D`, `detect_sources`, `deblend_sources`, `SourceCatalog` (BSD; may be used);
   Stetson 1987 (DAOFIND).
