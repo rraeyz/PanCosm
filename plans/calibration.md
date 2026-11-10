@@ -414,7 +414,14 @@ listing them in the Problems, the real frame with a trail.
 - **Files:** `calibration/cosmic.py`, `calibration/trails.py`, steps, UI, tests.
 
 ### CAL-13. Variance and mask planes  (P1)
-**open**
+**partial** — done (2026-11-14), items 1–3's core: `core/planes.py` (`Frame` with SCI / VAR / DQ and the DQ bits;
+`from_raw` (photon + read noise, saturated and non-linear flagged), `master` (σ²/N), `calibrate` (bias, k·dark and
+flat with their variances and the flat's relative error, DQ OR-ed), `shift` (bilinear, the variance with squared
+weights and VARCORR in the header, DQ of every contributing pixel, NODATA at the edges), `write` / `read` (a plain
+FITS reads without planes)). Tests (tests/test_planes.py): over 30 repeated lights the scatter equals the frames'
+own variance plane within 3 % on the sky (10 % over 49 star pixels); a saturated core, a hot pixel and a cosmic ray
+stay flagged through calibration and a 0.4 px shift; the file round trip. Left: the calibration run and the stacks
+writing these planes, inverse-variance weights, overscan errors, the check tool, Photometry using VAR and DQ.
 - **Why:** AD-8.
 - **Reference:** Astropy `CCDData` (data, `StdDevUncertainty` / `VarianceUncertainty`, mask, flags), ccdproc's
   propagation through `subtract_bias`, `subtract_dark`, `flat_correct`; ESO pipelines' ERR and DQ extensions; HST
