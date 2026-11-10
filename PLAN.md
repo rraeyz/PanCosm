@@ -213,8 +213,8 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
    four languages, each one looked at (R7);
 5. every text is translated (tr, de, es: 0 unfinished) and every error has a code with a message that says what
    happened and what to do;
-6. the guide page of the area is updated in four languages, and `plans/interface.md` "Where everything is" has the
-   new entry;
+6. the guide page of the area is updated in four languages, `plans/interface.md` "Where everything is" has the
+   new entry, and the marks of `plans/parity.md` rows that name the step are updated;
 7. time and peak memory are measured on the data named in the step and written under it; they meet the budget;
 8. `QT_QPA_PLATFORM=offscreen sh tools/precommit.sh` is green, and CI is green on all systems after the push;
 9. old projects, sessions and settings still open (compatibility test).
@@ -294,14 +294,14 @@ rebased often.
 | Stage | Goal | Steps | Version |
 | --- | --- | --- | --- |
 | S0 Stabilise | No time bomb, green baseline, reproducible environment | ARC-1 … ARC-3 | 0.3.5 |
-| S1 Foundation | Component kit and design system, interface split, session state, plot / image / table layers, error codes, services, profiles, native-kernel scaffold, validation harness | ARC-4 … ARC-16, UI-1 … UI-15, VAL-1 … VAL-3 | 0.4.0 |
+| S1 Foundation | Component kit and design system, interface split, session state, plot / image / table layers, error codes, services, profiles, native-kernel scaffold, validation harness | ARC-4 … ARC-16, ARC-18, ARC-23, UI-1 … UI-15 (P1 ones), AUT-1, VAL-1 … VAL-3, VAL-8 | 0.4.0 |
 | S2 Areas, P1 | Each area reaches parity: window redesign first (UI-16.x), then its P1 steps | PHO → CAL → OC → PER → SPE → MOD → EXO → IMG → AST → PLN → OBS → AUT → RS | 0.5 … 0.9 |
 | S3 Areas, P2 | Beyond the reference programs | same order | 0.10 … |
 | S4 Long tail and polish | P3 steps, UI-17 … UI-19, full validation report (VAL), guide complete | all | 1.0 |
 
 Parallel lanes that do not collide (if more than one agent works): (a) ARC + UI foundation; (b) science engines
-without interface — MOD-1 … MOD-9 (Roche engine), EXO-1 … EXO-4 (transit and RV engines), PER engine steps, SPE
-engine steps; (c) VAL data and reference runs. Interface steps of an area start only after S1 is done.
+without interface — MOD-1 … MOD-9 (Roche engine), EXO-1 … EXO-5 (transit and RV engines, the shared inference
+engine), PER-3 and PER-4, OC-1 … OC-3, the engine parts of SPE and CAL steps; (c) VAL data and reference runs. Interface steps of an area start only after S1 is done.
 
 ## 6. Plan files
 

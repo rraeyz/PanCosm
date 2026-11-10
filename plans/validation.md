@@ -111,7 +111,7 @@ before each release; VAL-10 for 1.0.
 | Calibration | calibrated pixel values | IRAF `ccdproc` | identical to float precision | CAL-21 |
 | Calibration | combine with each rejection method | IRAF `imcombine` | 1e-4 ADU | CAL-5 |
 | Calibration | variance plane | empirical variance of repeats | 3 % | CAL-13 |
-| Photometry | aperture flux, error, centre | IRAF `phot` | 0.1 %, 10 %, 0.05 px | PHO-1 (done), PHO-41 |
+| Photometry | aperture flux, error, centre | IRAF `phot` | 0.1 %, 10 %, 0.05 px | photometry item 1 (done), PHO-41 |
 | Photometry | PSF fluxes in a crowded field | IRAF `daophot.allstar` | 2 % (S/N > 50) | PHO-18 |
 | Photometry | BJD_TDB | Astropy independent script, Eastman's values | 1 ms | ARC-15 |
 | Photometry | transit mid-time, depth | literature / AstroImageJ on the same curve | 1σ, 30 s | PHO-26 |

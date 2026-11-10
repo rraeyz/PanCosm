@@ -147,8 +147,9 @@ and reported in the same convention: Ω₂ = q Ω′ + (1 − q)/2.
 
 ## Steps
 
-Order of work: the engine MOD-1 … MOD-9 can start before the interface foundation is finished (PLAN.md §5, lane
-b); then MOD-W, MOD-10 … MOD-16, MOD-19, MOD-21 (P1); then P2: 17, 18, 20; P3: 22.
+Order of work: the engine first — MOD-1, 2, 3, 4, 5, 6, 7, 8, 9 — which can start before the interface
+foundation is finished (PLAN.md §5, lane b); then MOD-W and P1: 10, 11, 12, 13, 14, 15, 16, 19, 21; then P2: 17, 18,
+20; P3: 22.
 
 ### MOD-1. Roche geometry  (P1)
 **open**
@@ -548,7 +549,9 @@ b); then MOD-W, MOD-10 … MOD-16, MOD-19, MOD-21 (P1); then P2: 17, 18, 20; P3:
 
 ### MOD-22. Further models  (P3)
 **open**
-- **Build (each only when asked for or when a data set needs it):** a single rotating spotted star (rotational
+- **Build (each only when asked for or when a data set needs it):** synthetic line profiles of the components
+  (rotation and orbital broadening over the visible surface) as a data kind; interstellar extinction per passband
+  in the absolute-flux mode; spin axes not aligned with the orbit; a single rotating spotted star (rotational
   modulation fits); pulsation as a multi-sine term added to the binary model (for pulsating components, with PER-6's
   frequencies); a simple optically thick disc and hot spot for Algols and cataclysmic variables (Zola 1991's model
   as described in the literature) — listed so that the limits of the engine are stated in the guide.

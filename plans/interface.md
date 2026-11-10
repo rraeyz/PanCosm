@@ -281,8 +281,9 @@ Model curves are `text` colour at 1.5 px; residuals share the series colour.
 
 ## Steps
 
-Order: UI-1 … UI-15 in stage S1 (PLAN.md §5); UI-16.x each as the first step of its area in stage S2;
-UI-17 … UI-19 in stage S4. UI steps depend on ARC-4.7 (kit location); UI-16.x depend on ARC-5, ARC-6, ARC-7, ARC-8
+Order of work: UI-1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 15 in stage S1 (PLAN.md §5; UI-8 and UI-14 are P2 and
+follow the windows they need); UI-16 sub-steps each as the first step of its area in stage S2; UI-17, 18, 19 in
+stage S4. UI steps depend on ARC-4.7 (kit location); UI-16.x depend on ARC-5, ARC-6, ARC-7, ARC-8
 for the window concerned.
 
 ### UI-1. Tokens and theme  (P1)

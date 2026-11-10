@@ -270,7 +270,7 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
 **open**
 - **Why:** the features no imaging-oriented program has.
 - **Build:** (a) **linear-range guard**: after each frame the peak of the target and of the chosen comparison
-  stars (positions from the star list, PHO-7) against the profile's linearity limit; when above 80 % (or below
+  stars (positions from the star list, `photometry/starlist.py`) against the profile's linearity limit; when above 80 % (or below
   15 %) the next exposure time is adjusted by a bounded step (and logged; photometry handles changing exposure
   times) or, if the user prefers fixed exposures, an alarm is raised; (b) **protected windows**: during ingress,
   egress and a margin around mid-event (from Planning's event with its uncertainty) the sequencer does not run
