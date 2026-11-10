@@ -104,3 +104,31 @@ def test_rows_chosen_marks_copy_and_export_follow_sort_and_filter(qapp, tmp_path
     back = Table.read(v.export(tmp_path / "shown.ecsv"))
     assert list(back["cycle"]) == [2, 3] and "type" not in back.colnames
     v.close()
+
+
+def test_table_and_plot_select_together(qapp):
+    from PySide6.QtWidgets import QAbstractItemView
+
+    from astrowb.ui.kit.link import link
+    from astrowb.ui.kit.table import TableView
+    from astrowb.ui.plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+    from astrowb.ui.plot.view import PlotView
+
+    t = minima()
+    plot = PlotView(FigureSpec([PanelSpec(AxisSpec("cycle"), AxisSpec("err"), [
+        SeriesSpec("minima", t["cycle"], t["bjd_err"], pickable=True, ids=list(range(len(t))))])]))  # fmt: skip
+    table = TableView()
+    table.set_table(t)
+    table.view.setSelectionMode(QAbstractItemView.ExtendedSelection)
+    select_rows = link(table, plot, "minima")
+    table._sort_by(0)
+    table._sort_by(0)  # descending: shown order 3, 2, 1, 0
+    table.view.selectRow(0)
+    ring = plot.items[0]["ring"]
+    assert list(ring.getData()[0]) == [3]
+    plot.point_clicked.emit("minima", 1)
+    assert table.selected_rows() == [1] and list(ring.getData()[0]) == [1]
+    plot.points_selected.emit("minima", [0, 2])
+    assert table.selected_rows() == [0, 2]
+    select_rows([])
+    assert table.selected_rows() == [] and len(ring.getData()[0]) == 0

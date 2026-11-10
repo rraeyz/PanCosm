@@ -270,6 +270,19 @@ class PlotView(QWidget):
                 e["errors"].setData(x=x[index], y=y[index], **err) if small else e["errors"].setData(x=[], y=[])
                 e["errors"].setVisible(small and e["item"].isVisible())
 
+    def highlight(self, name, ids):
+        """Ring the points of series `name` whose ids are given (a selection in a linked table); [] clears."""
+        for e in self.items:
+            if e["spec"].name != name or e["y"] is None:
+                continue
+            ring = e.get("ring")
+            if ring is None:
+                ring = e["ring"] = pg.ScatterPlotItem(pen=pg.mkPen("#D55E00", width=2), brush=None, size=11)
+                ring.setZValue(e["spec"].z + 100)
+                e["vb"].addItem(ring)
+            index = np.flatnonzero(np.isin(e["ids"], np.asarray(ids)) & e["ok"])
+            ring.setData(e["x"][index], e["y"][index])
+
     def set_visible(self, name, visible):
         for e in self.items:
             if e["spec"].name == name:

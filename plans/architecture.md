@@ -546,10 +546,10 @@ the suite is green after each.
   to CSV, ECSV, VOTable, HTML (Astropy's writers), AASTeX deluxetable and Markdown with "value ± error" rounded by
   the error. `ui/kit/table.py`: `TableView` over the table without copying it — 10^6 × 40 opens in < 0.5 s and
   sorts in < 1 s (tested); NaN last both ways, filter errors shown on the line, marks with reasons, column
-  chooser, copy, Export…. Floats show 15 significant digits (a BJD keeps its microdays). **Changed from the plan:**
+  chooser, copy, Export…. Floats show 15 significant digits (a BJD keeps its microdays). Item 3 done: `ui/kit/link.py` `link(table, plot, series)` (table selection ringed in the plot, clicked or lassoed points select their rows; tested). **Changed from the plan:**
   no own `Columns` class — Astropy's `Table` already holds named columns with unit, description and format and
-  reads / writes every format; `rounded()` moved from `ui/plot/export.py` to `core/table.py`. Pending: item 3
-  (selection linked to a `PlotView`), item 4 (editing), item 5 (moving the old tables).
+  reads / writes every format; `rounded()` moved from `ui/plot/export.py` to `core/table.py`. Pending: item 4
+  (editing), item 5 (moving the old tables).
 - **Why:** the measurements table, minima lists, line lists, frame lists and results tables are separate
   `QTableWidget`s with separate export code; a million TESS cadences cannot be shown.
 - **Reference:** AstroImageJ's Measurements window (filter, column chooser, sort), TOPCAT (columns with units and
