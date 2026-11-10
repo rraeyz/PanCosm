@@ -328,7 +328,13 @@ the suite is green after each.
   6. `tools/module_sizes.py` + `tests/test_module_sizes.py`: every `ui/` module ≤ 700 lines except those on the
      allow-list in the tool; a sub-step removes its file from the allow-list.
 - **Sub-steps:**
-  - **ARC-4.1** `tools/module_sizes.py`, the test, the allow-list of today's files. **open**
+  - **ARC-4.1** `tools/module_sizes.py`, the test, the allow-list of today's files. **agent3 done (2026-11-10, this
+    commit)** — limits ui 700 / other 900 lines per module, 80 per function; allow-list
+    `tools/module_sizes_allow.json` (a ratchet: listed items may shrink, not grow): 5 modules
+    (photometry_page 3190, main_window 2893, spectro_page 2429, observe_page 861, spectrum_tools 810) and 39
+    functions — the largest `PhotometryPage.__init__` with 953 lines, `CalibratePage.__init__` 372,
+    `photometry/lightcurve.light_curve` 228. Run in precommit and by `tests/test_module_sizes.py`.
+    Changed from the plan: functions are on the allow-list too (the plan's code rule limits them as well).
   - **ARC-4.2** Photometry (`photometry_page.py`, 3190 lines) → `ui/photometry/`: `window.py`, `controller.py`,
     `panels/{images,stars,apertures,measure,plot,stars_table,minimum,measurements,export,multiplot,detrend}.py`,
     `dialogs/{aavso,star_list,coefficients}.py`. **open**
