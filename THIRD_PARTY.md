@@ -46,6 +46,7 @@ copied. Projects consulted are listed below.
 | wgpu (wgpu-py, wgpu-native) | BSD-2-Clause (wgpu-native: MIT/Apache-2.0) | GPU compute |
 | tifffile | BSD-3-Clause | GeoTIFF / COG read and write |
 | pyproj (bundles PROJ: MIT, sqlite: public domain, libtiff: libtiff licence, curl: curl licence) | MIT | map projections, latitude/longitude |
+| pyqtgraph | MIT | interactive plots |
 | rendercanvas (dependency of wgpu) | BSD-2-Clause (from the LICENSE file in the wheel; no licence metadata) | — |
 
 ## Data downloaded by the application on request (not bundled)
@@ -95,6 +96,7 @@ copied. Projects consulted are listed below.
 | certifi | 2026.10.23 | Mozilla Public License 2.0 (MPL 2.0) |
 | cffi | 2.1.1 | MIT-0 |
 | charset-normalizer | 3.5.2 | MIT |
+| colorama | 0.4.6 | BSD License |
 | contourpy | 1.4.0 | BSD-3-Clause |
 | cryptography | 48.0.1 | Apache-2.0 OR BSD-3-Clause |
 | cycler | 0.12.1 | BSD License |
@@ -124,6 +126,7 @@ copied. Projects consulted are listed below.
 | Pygments | 2.21.0 | BSD-2-Clause |
 | pyparsing | 3.3.3 | MIT |
 | pyproj | 3.8.0 | MIT |
+| pyqtgraph | 0.14.0 | MIT |
 | PySide6_Essentials | 6.12.0 | LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only |
 | python-dateutil | 2.9.0.post0 | BSD License; Apache Software License |
 | pyvo | 1.10.0 | BSD-3-Clause |

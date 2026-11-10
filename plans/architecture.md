@@ -416,7 +416,12 @@ the suite is green after each.
 - **Depends on:** ARC-4 for the area being migrated.
 
 ### ARC-6. Plot layer: fast interactive plots, publication export from the same description  (P1)
-**open**
+**agent3 claimed (2026-11-10 21:30 UTC) — do not touch**
+- **Progress (agent3):** items 0, 1, 2, 3, 5, 7 done — `ui/plot/spec.py` (spec, Okabe–Ito colours, time offsets,
+  decimation), `ui/plot/view.py` (`PlotView`: every interaction of item 2, driven by QTests in
+  `tests/test_plot_view.py`), `ui/plot/publish.py` (AAS / A&A / MNRAS / screen styles, fonts embedded, ECSV data and
+  a redraw script); pyqtgraph 0.14 locked. Pending: item 4's UT / phase toggle, item 6 (toolbar, with UI-10) and the
+  window migrations (item 8). Axis settings, export and copy come from pyqtgraph's own context menu for now.
 - **Why:** PLAN.md §2 item 6; AstroImageJ's Multi-Plot and Period04 are interactive on every point; ours redraws a
   Matplotlib canvas.
 - **Reference:** pyqtgraph (MIT; `PlotItem`, `ScatterPlotItem`, downsampling, `LinearRegionItem`, linked views);
@@ -454,6 +459,16 @@ the suite is green after each.
      10^5, 10^6 and 10^7 points, pan / zoom frame times, with and without OpenGL, with our decimation. If 10^6
      points cannot reach 30 fps even with decimation, stop and write the numbers under "Questions for the
      architect" (the fall-back is our own `QPainter` renderer on decimated data behind the same `PlotView` API).
+     **Gate result (agent3, 2026-11-10; Qt software raster, no OpenGL, 4 cores, 1200 × 700 px, median of 30 pans):**
+     | points | line, pyqtgraph peak downsampling | line, ours | scatter, pyqtgraph | scatter, ours |
+     |---|---|---|---|---|
+     | 10^5 | 18 ms first, 112 fps | 11 ms, 199 fps | 203 ms, 49 fps | 10 ms, 158 fps |
+     | 10^6 | 82 ms, 119 fps | 12 ms, 189 fps | 1.8 s, 5 fps | 17 ms, 149 fps |
+     | 10^7 | 229 ms, 75 fps | 22 ms, 112 fps | (too slow) | 28 ms, 97 fps |
+     Passed without OpenGL: pyqtgraph stays, OpenGL is not needed (fewer driver problems on old laptops). Our own
+     decimation is required for scatter plots (pyqtgraph draws every symbol). **Changed from the plan:** scatter
+     series are decimated to one point per occupied pixel cell (min / max per column would draw only the envelope
+     of a noisy light curve); lines keep min / max per column.
   7. Dependency: `pyqtgraph >= 0.14` (MIT) in the gui extra; PyInstaller hook checked on all five targets;
      `THIRD_PARTY.md`.
   8. Migration, one sub-step per window (ARC-6.1 Photometry plot and multi-plot; .2 Light curves, period,
