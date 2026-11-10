@@ -464,9 +464,9 @@ def translate(text: str) -> str:
     return text
 
 
-def task_error(traceback_text: str) -> str:
+def error_line(traceback_text: str) -> str:
     """The error itself from a worker's traceback (its "Type: message" line and the lines of a message that runs
-    over several lines, at most ten), translated."""
+    over several lines, at most ten), in English as raised."""
     lines = [line for line in str(traceback_text).strip().splitlines() if line.strip()]
     frames = [i for i, line in enumerate(lines) if line.startswith(("Traceback", "  File "))]
     after = frames[-1] + 1 if frames else 0  # the error follows the last frame and its indented code line
@@ -476,4 +476,9 @@ def task_error(traceback_text: str) -> str:
         r"^(?:[A-Za-z_]\w*\.)+(?=\w+:)", "", text
     )  # "astrowb.planning.targets.TargetError:" -> "TargetError:"
     text = re.sub(r"^ValueError: ", "", text)  # Python's generic type says nothing to an observer; SafetyError etc. do
-    return translate(text) if lines else ""
+    return text if lines else ""
+
+
+def task_error(traceback_text: str) -> str:
+    """error_line(), translated."""
+    return translate(error_line(traceback_text))
