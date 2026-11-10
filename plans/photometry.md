@@ -514,6 +514,15 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   users guide; the TFOP package for the public TFOP night has the same file set and names as the public one.
 - **Files:** `photometry/reports/*.py`, `models/transit_report.py` (moved in), UI report panel, tests, guide 06.
 - **Depends on:** PHO-26 (fit values), PHO-23, ARC-16 (profiles).
+- **Notes from the sources (architect, 2026-11-10):** the AAVSO's own format page is
+  aavso.org/aavso-exoplanet-report-file-format (and apps.aavso.org/exosite/doc): `#TYPE=EXOPLANET` is mandatory;
+  `#STAR_NAME`, `#EXOPLANET_NAME`, `#FILTER`, `#DATE_TYPE`, `#OBSTYPE`, `#MEASUREMENT_TYPE`, `#DETREND_PARAMETERS`
+  and a free-form `#PRIORS` note are header parameters; data rows are date, the differential measurement of the type
+  named by `MEASUREMENT_TYPE`, its error, then `DETREND_1` … `DETREND_4` **only** when the header names them; the
+  format is case sensitive; a blank line that is not commented with `#` makes WebObs reject the file. The pages
+  answer 403 to automated fetches from the agents' network: open them in a browser tool, copy the field tables into
+  this step, and compare with a file produced by the public AstroImageJ macro for this report (its guide:
+  astrodennis.com/AIJMacroHelp.pdf) and with EXOTIC's output.
 
 ### PHO-28. All-sky photometry: the night's solution from standard stars  (P2)
 **open**
