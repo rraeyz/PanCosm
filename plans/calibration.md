@@ -507,7 +507,11 @@ checksums, atomic writes and resuming, the estimate shown before the run.
 - **Files:** `calibration/matching.py` (data kind = spectra), `calibration/frames.py`, `tests/test_calibration_spectra.py`
 
 ### CAL-19. Many nights at once  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/nights.py` (`split`: frames by their evening's date, a
+frame after midnight UTC in the night it belongs to; `run`: each night into its own folder with its own masters, a
+kind it lacks borrowed from the nearest night and said; one summary). Test (tests/test_calibration_nights.py): three
+nights in one folder tree, the middle one without flats borrows the nearest night's. Left: the step and its
+background run, the nights level in the frames panel, resuming, the library's masters, recipe export.
 - **Build:** a queue of nights (the groups tree with nights at the top level): one plan per night, library masters
   where a night lacks them, one run in the background with a summary table per night (frames, masters used,
   problems, QC marks), resumable (CAL-14); recipe export (ARC-12).
