@@ -100,7 +100,7 @@ Alpaca REST and discovery; the `ImageBytes` transfer) and the INDI protocol and 
 
 ## Steps
 
-Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9, 12, 13, 14; P3: 15, 19.
+Order of work: OBS-0 at once (stage S0, with ARC-1); then OBS-W and P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9, 12, 13, 14; P3: 15, 19.
 
 ### OBS-W. The Observing window on the new anatomy  (P1)
 **open**
@@ -112,6 +112,43 @@ Order of work: OBS-W, then P1: 1, 2, 3, 4, 6, 7, 8, 10, 11, 16, 17, 18; P2: 5, 9
   main face; "Stop everything" works from every state within 2 s (test with slow fake devices).
 - **Depends on:** ARC-4.5, ARC-5, ARC-6, ARC-7, UI-1 … UI-4, OBS-16.
 - **Files:** `ui/observing/{window,controller,state,menus}.py`, `ui/observing/panels/{devices,connect,point,focus,sequence,night,graphs,log}.py`, `ui/observing/dialogs/setup.py` (from `observatory_dialog.py`), `tests/ui/walks/observing.py`, guide 03
+
+### OBS-0. The supervisor fails closed when a check itself fails  (P1, urgent: with ARC-1, before any other step here)
+**open**
+- **Why:** found 2026-11-10 by reading `devices/observatory.py`: `check()` builds the list of reasons rule after
+  rule; an exception in one rule (today: `check_sun` raising Astropy's stale-table `ValueError`, see ARC-1; tomorrow
+  any bug or odd device answer) leaves `check()` by the exception, `start_supervisor`'s loop logs "supervisor error"
+  and does **nothing**. The weather reasons already computed in that cycle are lost. An unparked telescope is then
+  not parked for rain, wind or sunrise. The module's own docstring promises the opposite ("when a value cannot be
+  determined … the answer is not safe").
+- **Ours now:** `Observatory.check` (lines 147–168), `supervise_once`, `start_supervisor.loop` (catches `Exception`
+  and only notes it), `slew` (calls `check_target`; a raised error refuses the slew — closed, but with a raw text).
+- **Read first:** `devices/safety.py` and `devices/observatory.py` whole; `tests/test_devices*.py` and
+  `tests/fake_devices.py` (how the supervisor is tested today); the literature of fail-safe design is one sentence:
+  an unknown state is an unsafe state.
+- **Build:**
+  1. `Observatory.check()` evaluates every rule in its own guarded call (`_rule(name, function)`): a rule that
+     raises contributes the reason `safety.rule_failed` with the rule's name and the error's first line; the other
+     rules still run; the returned list is never lost.
+  2. The supervisor's loop treats an exception anywhere in `supervise_once` as unsafe: `make_safe(["safety check
+     failed: …"])`, once per distinct error with a repeat every N minutes in the log, never a silent skip.
+  3. `make_safe` itself stays "never raises" (verify each step is guarded; add the cover / roof steps of OBS-10
+     later through the same guard).
+  4. A heartbeat the window can read: time of the last **completed** check and its result; the Observing window's
+     safety chip turns red "supervisor not checking" when it is older than 3 intervals (today a dead or failing
+     supervisor is invisible to the user).
+  5. Slew and exposure guards: an error inside `check_target` refuses the action with the code
+     `safety.cannot_evaluate` (what: the rule that failed; do: the usual cause — time tables, site missing — and
+     "the telescope was not moved").
+  6. Tests with the fakes: for each rule in turn make it raise → the telescope is parked and the dome closed within
+     one interval, the other rules' reasons are present, the chip reports; a rule raising on every cycle does not
+     flood the log; the stale-table case of ARC-1 is one of the tests (monkeypatched to raise) and stays as a
+     regression test after ARC-1 removes the cause.
+- **Accept:** no code path exists in which an exception in a safety rule leaves an unparked telescope unattended
+  (a test enumerates the rules and injects a failure into each); the existing safety tests still pass; the fix is
+  released together with ARC-1 as 0.3.5.
+- **Files:** `devices/observatory.py`, `devices/safety.py`, `devices/server.py` (heartbeat in `/status`),
+  `ui/observe_page.py` (chip), `ui/messages.py` templates (until ARC-13), `tests/test_safety_fail_closed.py`.
 
 ### OBS-1. Devices: one interface, three back-ends, every capability known  (P1)
 **open**

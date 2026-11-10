@@ -136,7 +136,7 @@ answers.
 
 ## Steps
 
-Order of work: stage S0: ARC-1, 2, 3; stage S1: ARC-4, 13, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 23 (ARC-4's
+Order of work: stage S0: ARC-1 (together with OBS-0 of `plans/observing.md`), 2, 3; stage S1: ARC-4, 13, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 23 (ARC-4's
 sub-steps first for the window whose other layers are being migrated; ARC-13 early so that new code raises codes
 from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
 
@@ -149,7 +149,10 @@ from the start); P2 with the areas: ARC-17, 19, 20, 21, 22; P3: ARC-24.
   older than about a month fails in Planning, airmass, Observing safety (which then fails closed: no slews).
 - **Reference:** Astropy documentation "IERS data access" (`astropy.utils.iers`): `auto_max_age = None` disables the
   check; predictions of UT1−UTC a year ahead are good to ~0.1 s (1.5″ in hour angle), irrelevant for airmass and
-  far below a pointing error. BJD_TDB does not use UT1. Leap seconds: `iers.LeapSeconds.auto_open()` and its expiry.
+  far below a pointing error. BJD_TDB does not use UT1. **Safety consequence found 2026-11-10:**
+  `devices/observatory.Observatory.check()` calls `check_sun` (an alt-az transformation); with a stale table it
+  raises `ValueError`, the supervisor's loop catches it as "supervisor error" and **makes nothing safe**: weather
+  and sunrise are then ignored for an unparked telescope (OBS-0 closes this hole on the supervisor's side). Leap seconds: `iers.LeapSeconds.auto_open()` and its expiry.
 - **Ours now:** `timing.py` lines 19–22; `selfcheck.iers()` only counts rows.
 - **Build:**
   1. `core/earth_orientation.py`: `configure()` sets `auto_download = False`, `auto_max_age = None`,
@@ -594,7 +597,25 @@ the suite is green after each.
      column of times, get the converted column.
   4. Reading published minima: HJD (UTC or TT unknown) is the rule in old literature; the converter and O−C offer
      "HJD, time scale unknown: assume UTC" with the size of the possible error (up to ~69 s since 2017) shown.
-- **Accept:** conversions agree with Eastman's on-line applets' published test values and with `astropy` to 1 ms;
+  5. **Header times read without guessing** (found 2026-11-10 in `timing.start_time` / `mid_time`): (a) `TIMESYS`
+     is honoured (UTC default; TT, TAI, TDB, GPS converted; an unknown value is an error naming it) — today every
+     header time is taken as UTC; (b) the mid-exposure time is taken, in this order, from `DATE-AVG` / `MJD-AVG`
+     (FITS standard), `JD-MID` and the known mid-time keywords of capture programs (CAL-2's table), then from the
+     mean of `DATE-OBS` and `DATE-END` when both exist and agree with the exposure time within 20 % (this covers
+     dead time, co-adds and stacks, where start + EXPTIME / 2 is wrong), then start + EXPTIME / 2; which rule was
+     used is recorded per frame and shown in the Frames table; (c) stacked or co-added frames (`NCOMBINE`,
+     `STACKCNT`, our own stacks) take the flux-weighted mean mid-time their writer stored, never start + EXPTIME /
+     2 of the sum; (d) a series whose time stamps repeat, run backwards or step unevenly beyond 3 × the median
+     cadence is flagged in the Frames stage.
+  6. **One airmass function** `core/units.airmass(altitude, formula = "young1994")` used by Photometry, Planning and
+     Observing (today `timing.airmass` is the plane-parallel sec z from a geometric altitude, and Planning uses sec z
+     with Pickering's formula below 30°): Young 1994 (Appl. Opt. 33, 1108) as default, sec z, Hardie 1962, Kasten &
+     Young 1989 and Pickering 2002 as choices; the formula's name is written beside every airmass column. Sec z is
+     3 % too large at altitude 10° and grows without limit towards the horizon.
+- **Accept:** a header with `TIMESYS = 'TT'` gives times 69.184 s earlier in UTC than the same header without it
+  (2017 onwards); a co-added frame with `DATE-OBS`, `DATE-END` and dead time gets the mid-point of the two; the
+  airmass formulas equal their papers' tabulated values and each other within 0.1 % above altitude 30°;
+  conversions agree with Eastman's on-line applets' published test values and with `astropy` to 1 ms;
   the tool's batch mode converts 10^5 times in < 1 s; mixing standards in a join raises the code.
 - **Files:** `core/units.py`, `timing.py`, `ui/shell/tools/converter.py`, tests, guide 13.
 
