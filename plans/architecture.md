@@ -337,20 +337,27 @@ the suite is green after each.
     Changed from the plan: functions are on the allow-list too (the plan's code rule limits them as well).
   - **ARC-4.2** Photometry (`photometry_page.py`, 3190 lines) → `ui/photometry/`: `window.py`, `controller.py`,
     `panels/{images,stars,apertures,measure,plot,stars_table,minimum,measurements,export,multiplot,detrend}.py`,
-    `dialogs/{aavso,star_list,coefficients}.py`. **open**
+    `dialogs/{aavso,star_list,coefficients}.py`. **merged into UI-16.1 (Photometry) (agent3, 2026-11-10; see the note below)**
   - **ARC-4.3** Spectroscopy (`spectro_page.py` 2429, `spectrum_tools.py` 810) → `ui/spectroscopy/` with one module
     per job (long slit, échelle, telluric, velocity, cube, tools) and shared `panels/{profile,identify,fit}.py`.
-    **open**
+    **merged into UI-16.3 (Spectroscopy) (agent3, 2026-11-10; see the note below)**
   - **ARC-4.4** `main_window.py` (2859) → `ui/shell/`: `app.py` (start-up), `main_window.py` (the start window only),
     `menus.py`, `area_registry.py` (the table of areas: key, title, icon, factory, opener — one source for the
     start window, Window menus and Ctrl+K), `tasks_panel.py`, `settings_menu.py`, `help.py`, and each area's
     `_xxx_menus` moved into that area's package as `menus.py`. **open**
-  - **ARC-4.5** Calibration, Images, Observing, Planning pages → their packages. **open**
+  - **ARC-4.5** Calibration, Images, Observing, Planning pages → their packages. **merged into UI-16.2, 16.8, 16.9, 16.10 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.6** Light curves (period, frequency, variable search), O−C, Models, Automation, Remote sensing →
-    their packages. **open**
+    their packages. **merged into UI-16.4 … 16.7, 16.12, 16.13 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.7** `widgets.py`, `table_view.py`, `export.py`, `icons.py`, `workspaces.py`, `area_window.py` → `ui/kit/`
     and `ui/plot/` as the first content of the kit (their public names re-exported). **open**
   - **ARC-4.8** Remove the shims; update imports in tests and tools; delete the allow-list. **open**
+- **Changed from the plan (agent3, 2026-11-10, told to the owner):** a pure move of the old pages (ARC-4.2, 4.3,
+  4.5, 4.6) would be done twice: every one of those windows is rebuilt on the new anatomy in its UI-16 sub-step. So
+  each UI-16 sub-step creates its `ui/<area>/` package and moves the old page's code into it as it rebuilds the
+  window (engine calls into `controller.py`, panels into `panels/`); the old file shrinks with each move and is
+  removed when empty. The size ratchet (ARC-4.1) keeps the old files from growing meanwhile. ARC-4.4 (the shell out
+  of `main_window.py`) and ARC-4.7 (the kit's location) stay as written: the kit and the start window need them
+  first.
 - **Accept:** no `ui/` module above 700 lines; the suite and the four-language layout tests green; start-up time not
   worse (measure before and after); `git log --follow` works on the moved files (moves done with `git mv` where a
   file moves whole).
