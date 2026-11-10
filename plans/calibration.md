@@ -499,7 +499,12 @@ table shared with Photometry, a meridian-flipped night, wiring it into the stack
 - **Files:** `calibration/registration.py` (from `stacking.py` and `starmatch.py`), `calibration/resample.py`, `tests/test_registration.py`
 
 ### CAL-16. Stacking: parity with Siril and MaxIm DL  (P2)
-**open**
+**partial** — done (2026-11-14): `calibration/mosaic.py` (`select`: the frames worth stacking by FWHM, background,
+star count — thresholds and the best share; `weights` by noise, FWHM or stars; `join`: tiles at their offsets with
+each one's background solved from the overlaps, then averaged). Tests (tests/test_stack_choices.py): selection and
+weights; a 2 × 2 mosaic whose skies differ by up to 111 ADU joins with seams below 0.3σ. Left: the selection table
+in the window, WCS mosaics (reproject), comet two-pass stacks, live stack preview, VAR / DQ in the output, the
+Qatar-1 1/√N and satellite-trail checks.
 - **Ours now:** `calibration/stacking.py` (rejections, normalisation, weights, coverage), `calibration/drizzle.py`, `compute/stack.py`.
 - **Build:** on CAL-5 and CAL-15: frame selection by quality (FWHM, roundness, background, star count: best x % or
   thresholds, with the table of values); normalisation options; weights by noise / FWHM / star count; rejection
