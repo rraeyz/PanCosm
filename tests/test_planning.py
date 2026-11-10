@@ -34,7 +34,7 @@ def test_altitude_matches_spherical_formula():
 def test_airmass():
     assert abs(airmass(90.0) - 1.0) < 1e-3
     assert abs(airmass(30.0) - 1.995) < 0.01
-    assert 30 < airmass(0.5) < 40 and np.isnan(airmass(-1.0))
+    assert 25 < airmass(0.5) < 30 and np.isnan(airmass(-1.0))  # Young (1994) at a true altitude of 0.5°
 
 
 def test_twilight():

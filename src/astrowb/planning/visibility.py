@@ -2,9 +2,8 @@
 
 Pure astropy (AltAz, get_body with the built-in ephemeris): works offline. The Sun and Moon
 are sampled on a fine time grid and twilight crossings are interpolated (accuracy ~10 s,
-far below what planning needs). Airmass is sec z above 30 deg and the Pickering (2002)
-formula below it, which stays finite at the horizon:
-    X = 1 / sin(h + 244 / (165 + 47 h^1.1)),  h in degrees.
+far below what planning needs). Airmass: core/units.airmass, Young (1994) from the true altitude, as in
+Photometry and Observing (ARC-15 item 6); finite down to the horizon.
 """
 
 from dataclasses import dataclass
@@ -32,11 +31,10 @@ class Site:
 
 
 def airmass(alt_deg):
-    """Pickering (2002) airmass; NaN below the horizon."""
-    h = np.asarray(alt_deg, float)
-    with np.errstate(invalid="ignore"):
-        x = 1 / np.sin(np.radians(h + 244 / (165 + 47 * np.clip(h, 0, None) ** 1.1)))
-    return np.where(h > 0, x, np.nan)
+    """Airmass of true altitudes (core/units.airmass, Young 1994); NaN below the horizon."""
+    from ..core.units import airmass as of_altitude
+
+    return np.asarray(of_altitude(np.asarray(alt_deg, float)))
 
 
 def night_grid(site: Site, date: str, step_min=5.0):

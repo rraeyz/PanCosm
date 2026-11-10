@@ -28,7 +28,27 @@ class TimeError(ValueError):
     pass
 
 
-def _parse_iso(text: str) -> Time:
+# FITS TIMESYS values and the astropy scale with the offset of the header's times from it (GPS = TAI - 19 s)
+_SCALES = {"UTC": ("utc", 0.0), "UT": ("utc", 0.0), "TT": ("tt", 0.0), "TDT": ("tt", 0.0), "ET": ("tt", 0.0),
+           "TAI": ("tai", 0.0), "IAT": ("tai", 0.0), "TDB": ("tdb", 0.0), "GPS": ("tai", 19.0)}  # fmt: skip
+
+
+def _scale(header):
+    """(astropy scale, seconds to add) of the times in a header, from TIMESYS (UTC when absent)."""
+    value = str(header.get("TIMESYS", "UTC") or "UTC").strip().upper()
+    if value not in _SCALES:
+        raise TimeError(f"time system {value} (TIMESYS) is not known: give the times in UTC, TT, TAI, TDB or GPS")
+    return _SCALES[value]
+
+
+def _in(header, value, fmt):
+    """A header time (number or ISO text) in its header's time system, as UTC."""
+    scale, add = _scale(header)
+    t = _parse_iso(value, scale) if fmt == "isot" else Time(value, format=fmt, scale=scale)
+    return (t + TimeDelta(add, format="sec")).utc if (scale != "utc" or add) else t
+
+
+def _parse_iso(text: str, scale="utc") -> Time:
     """ISO date-time, optionally with a time-zone offset like -0700 or +03:00 (converted to UTC)."""
     text = text.strip()
     if text.endswith("Z"):
@@ -39,7 +59,7 @@ def _parse_iso(text: str) -> Time:
         sign = -1 if m.group(1) == "-" else 1
         offset_h = sign * (int(m.group(2)) + int(m.group(3)) / 60)
         text = text[: 10 + m.start()]
-    return Time(text, format="isot", scale="utc") - TimeDelta(offset_h * 3600, format="sec")
+    return Time(text, format="isot", scale=scale) - TimeDelta(offset_h * 3600, format="sec")
 
 
 # keywords that hold the time of day when DATE-OBS has the date only (IRAF, NOAO, MaxIm, ... spell it differently)
@@ -67,6 +87,7 @@ def _date_and_time(value, header):
 def start_time(header) -> Time:
     """Exposure start in UTC. Prefers explicit UT keywords; MJD/JD only when nothing better exists
     (some cameras round them to 0.001 d = 86 s)."""
+    _scale(header)  # an unknown time system is an error of its own, not "no time found"
     date_only = None
     for key in ("UT-OBS", "DATE-BEG", "DATE-OBS", "DATE_OBS"):
         value = header.get(key)
@@ -77,13 +98,13 @@ def start_time(header) -> Time:
             date_only = key
             continue
         try:
-            return _parse_iso(full)
+            return _in(header, full, "isot")
         except ValueError:
             continue
     for key, fmt in (("JD-OBS", "jd"), ("JD", "jd"), ("MJD-OBS", "mjd"), ("MJD", "mjd")):
         if key in header:
             if number(header[key]) is not None:
-                return Time(number(header[key]), format=fmt, scale="utc")
+                return _in(header, number(header[key]), fmt)
     if date_only:
         raise TimeError(f"{date_only} holds a date but no time of day, and no time keyword was found")
     raise TimeError(
@@ -105,15 +126,29 @@ def mid_time(header, ref="auto", delay=0.0) -> Time:
         return start_time(header) + TimeDelta(half + delay, format="sec")
     if delay:
         return mid_time(header) + TimeDelta(delay, format="sec")
-    if header.get("DATE-AVG"):
-        return _parse_iso(header["DATE-AVG"])
-    if number(header.get("JD-MID")) is not None:
-        return Time(number(header["JD-MID"]), format="jd", scale="utc")
+    if header.get("DATE-AVG"):  # the FITS standard's mid-time, then the others in order (ARC-15 item 5)
+        return _in(header, header["DATE-AVG"], "isot")
+    for key, fmt in (("MJD-AVG", "mjd"), ("JD-MID", "jd")):
+        if number(header.get(key)) is not None:
+            return _in(header, number(header[key]), fmt)
     note = header.comments["DATE-OBS"] if hasattr(header, "comments") and "DATE-OBS" in header else ""
     if re.search(r"\b(median|mid|middle)\b", note, re.I) and "T" in str(header["DATE-OBS"]):
-        return _parse_iso(header["DATE-OBS"])  # LAMOST: 'The observation median UTC'
+        return _in(header, header["DATE-OBS"], "isot")  # LAMOST: 'The observation median UTC'
     exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
-    return start_time(header) + TimeDelta(exptime / 2, format="sec")
+    start = start_time(header)
+    end = header.get("DATE-END")
+    if isinstance(end, str) and "T" in end:
+        try:
+            end = _in(header, end, "isot")
+        except ValueError:
+            end = None
+        if end is not None:
+            span = (end - start).to_value("sec")
+            # start and end bracket the light: their midpoint stays right with dead time, where start + EXPTIME / 2
+            # does not; a span far from EXPTIME means the keywords mean something else (item (c): stacks)
+            if span > 0 and (not exptime or 0.8 * exptime <= span <= 1.2 * exptime):
+                return start + TimeDelta(span / 2, format="sec")
+    return start + TimeDelta(exptime / 2, format="sec")
 
 
 def location(header) -> EarthLocation | None:
@@ -230,8 +265,11 @@ def hjd(t: Time, target: SkyCoord, where: EarthLocation | None = None) -> Time:
     return t.utc + t.light_travel_time(target, kind="heliocentric", ephemeris="builtin")
 
 
-def airmass(t: Time, target: SkyCoord, where: EarthLocation) -> float:
-    return float(target.transform_to(AltAz(obstime=t, location=where)).secz)
+def airmass(t: Time, target: SkyCoord, where: EarthLocation, formula="young1994") -> float:
+    """Air mass (core/units.airmass, Young 1994 by default) at the target's true altitude."""
+    from .core.units import airmass as of_altitude
+
+    return of_altitude(float(target.transform_to(AltAz(obstime=t, location=where)).alt.deg), formula)
 
 
 def chronological(paths, times=None) -> list[str]:
