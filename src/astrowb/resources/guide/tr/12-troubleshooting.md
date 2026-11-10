@@ -42,6 +42,15 @@ tablolarını şimdi güncelle** bunu hemen yapar. Güncelleme olmasa da hiçbir
 gerektirdiğinin çok altındadır. Gözlem zamanları (BJD) bu tabloları hiç kullanmaz. **Yardım → Kurulumu ve internet servislerini denetle**
 kullanılan tabloların yaşını gösterir.
 
+## İnternetsiz çalışmak
+
+Bir katalog ya da arşivin her yanıtı (Gaia yıldızları, APASS kadirleri, VSX ve ötegezegen efemerisleri, tarama ışık
+eğrileri, DSS görüntüleri, bir alandaki asteroitler) ilk kez indirildiğinde bu bilgisayara kaydedilir. Ağ
+kesildiğinde kaydedilen yanıt kullanılır. İnternet olmayan bir gözlem yerine gitmeden önce kareleri ve hedefleri
+bir kez çevrimiçiyken açın, sonra **Ayarlar → Çevrimdışı çalış** seçeneğini seçin: daha önce indirilen her şey
+çalışmaya devam eder, yeni olan her şey önbellekte olmadığını söyler. **Ayarlar → Kaydedilmiş katalog yanıtlarını
+sil** yeri boşaltır (en çok 2 GB).
+
 ## Güncellemeler
 **Yardım → Güncellemeleri denetle…** projenin sürüm sayfasına daha yeni bir sürüm olup olmadığını sorar ve indirme bağlantısını verir. Uygulama bunu kendiliğinden hiç yapmaz. Yeni sürümü eskisinin üstüne kurun; ayarlar, eklentiler ve otomasyonlar korunur.
 

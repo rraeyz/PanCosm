@@ -44,12 +44,17 @@ def stars(ra, dec, radius_deg, mag_limit=17.0, row_limit=4000):
     if hit is not None:
         return hit
     radius_deg = radius_deg * 1.3  # a little more: the next frames of a series (dithers, drift) fall inside
-    try:
-        rows = _vizier(ra, dec, radius_deg, mag_limit, row_limit)
-    except Exception:  # noqa: BLE001 - every VizieR server down or refusing: the ESA archive
-        rows = None
-    if rows is None or len(rows["ra"]) == 0:
-        rows = _esa(ra, dec, radius_deg, mag_limit, row_limit)
+    from .services.cache import cached
+
+    def fetch():
+        try:
+            rows = _vizier(ra, dec, radius_deg, mag_limit, row_limit)
+        except Exception:  # noqa: BLE001 - every VizieR server down or refusing: the ESA archive
+            rows = None
+        return rows if rows is not None and len(rows["ra"]) else _esa(ra, dec, radius_deg, mag_limit, row_limit)
+
+    request = ("stars", round(float(ra), 6), round(float(dec), 6), round(radius_deg, 6), mag_limit, row_limit)
+    rows = cached("gaia", request, fetch)
     order = np.argsort(rows["gmag"])
     rows = {k: np.asarray(v, float)[order] for k, v in rows.items()}
     if len(rows["ra"]) < row_limit:  # a complete cone (not cut at row_limit) can serve later frames
@@ -113,8 +118,15 @@ def _flag(column):
 
 
 def _run(query):
-    """An ADQL query on the ESA Gaia archive: synchronous, or through its asynchronous queue when the synchronous
-    queue is full (HTTP 503 "server overloaded", seen from the agent's network on 2026-11-06)."""
+    """An ADQL query on the ESA Gaia archive (kept in the cache: services/cache.py)."""
+    from .services.cache import cached
+
+    return cached("gaia", query, lambda: _run_now(query))
+
+
+def _run_now(query):
+    """The query now: synchronous, or through the archive's asynchronous queue when the synchronous queue is full
+    (HTTP 503 "server overloaded", seen from the agent's network on 2026-11-06)."""
     from astroquery.gaia import Gaia
 
     try:

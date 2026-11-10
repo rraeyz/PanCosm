@@ -82,6 +82,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
+    # services/cache.py
+    QT_TRANSLATE_NOOP("Messages", "working offline: the answer of {service} is not in the cache"),
     # selfcheck.py
     QT_TRANSLATE_NOOP("Messages", "the compiled routines are missing from this installation"),
     # core/table.py

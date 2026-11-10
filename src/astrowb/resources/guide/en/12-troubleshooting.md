@@ -41,6 +41,14 @@ Earth-rotation tables now** does it at once. Without updates nothing stops worki
 lose accuracy (seconds of arc after a year), far below what airmass or a pointing limit needs. Times of observation
 (BJD) do not use these tables at all. **Help → Check the installation and internet services** shows the age of the tables in use.
 
+## Working without the internet
+
+Every answer of a catalogue or archive (Gaia stars, APASS magnitudes, VSX and exoplanet ephemerides, survey light
+curves, DSS images, asteroids in a field) is saved on this computer the first time it is fetched. When the network
+fails, the saved answer is used. Before a trip to a site without internet, open the frames and targets once while
+online, then choose **Settings → Work offline**: everything fetched before still works, and anything new says that
+it is missing from the cache. **Settings → Clear the saved catalogue answers** frees the space (at most 2 GB).
+
 ## Updates
 **Help → Check for updates…** asks the project's release page whether a newer version exists and links to its download. The application never checks on its own. Install the new version over the old one; settings, plugins and automations are kept.
 

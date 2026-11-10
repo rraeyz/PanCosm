@@ -29,7 +29,14 @@ def from_gaia(band, g, bp_rp):
 
 
 def vizier_fetch(coord, radius_arcsec=3.0):
-    """{"apass": row or None, "gaia": row or None} of the nearest catalogue entries (needs the internet)."""
+    """{"apass": row or None, "gaia": row or None} of the nearest catalogue entries (the internet, or the cache)."""
+    from ..services.cache import cached
+
+    request = ("nearest", round(coord.ra.deg, 6), round(coord.dec.deg, 6), radius_arcsec)
+    return cached("vizier", request, lambda: _vizier_fetch(coord, radius_arcsec))
+
+
+def _vizier_fetch(coord, radius_arcsec):
     import astropy.units as u
     from astroquery.vizier import Vizier
 

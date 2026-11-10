@@ -19,9 +19,14 @@ AAVSO_URL = "https://www.aavso.org/vsx/index.php"
 
 
 def _get_text(url, params, timeout=60):
-    req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https archive URLs)
-        return r.read().decode("utf-8", errors="replace")
+    from ..services.cache import cached
+
+    def now():
+        req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https archive URLs)
+            return r.read().decode("utf-8", errors="replace")
+
+    return cached("lightcurves", (url, params), now)
 
 
 def _rows(text):

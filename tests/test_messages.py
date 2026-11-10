@@ -60,6 +60,7 @@ def real_messages():
     out += ["no way to read a session of version 1 of the photometry window"]
     out += ["no column flux in the table", "filter not understood: flux >", "cannot write tables as .fits"]
     out += ["the compiled routines are missing from this installation"]  # selfcheck.py
+    out += ["working offline: the answer of gaia is not in the cache"]  # services/cache.py
     from astrowb.timeseries.ephemeris import fit, parse_minima
 
     for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):
