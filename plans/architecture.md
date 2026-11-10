@@ -80,6 +80,60 @@ tools/             precommit, i18n, screenshots, speed, licence and brand checks
 - Long work never on the GUI thread: steps through `run_step`, light work through `QThreadPool` helpers in
   `ui/shell/work.py`.
 
+## Use what exists: libraries and their pieces (binding: look here before writing your own)
+
+Checked on 2026-11-10 against the installed versions (Astropy 8.0, photutils 3.1, SciPy 1.18, specreduce 1.9,
+ccdproc 2.5). A step that needs one of these uses it, or writes under the step why it cannot (accuracy, speed,
+a missing case) and keeps the library call as the reference twin in its test.
+
+| Need | Already bundled | Used by |
+| --- | --- | --- |
+| Empirical PSF, PSF and grouped photometry, flags | `photutils.psf`: `EPSFBuilder`, `ImagePSF`, `MoffatPSF`, `GaussianPSF`, `PSFPhotometry`, `IterativePSFPhotometry`, `SourceGrouper`, `PSF_FLAGS`, `fit_fwhm`, `fit_2dgaussian` | PHO-18, PHO-29, IMG-3, AST-3, AST-8 |
+| Radial profile, curve of growth (also elliptical) | `photutils.profiles`: `RadialProfile`, `CurveOfGrowth`, `EllipticalCurveOfGrowth` | IMG-3, PHO-28, PHO-22 |
+| Aperture shapes with exact overlap; statistics in an aperture | `photutils.aperture`: `CircularAperture`, `EllipticalAperture`, `RectangularAperture`, `PolygonAperture`, annuli, `ApertureStats` | PHO-22, IMG-3, IMG-6 |
+| Background maps; the DAOPHOT "MMM" mode estimator | `photutils.background`: `Background2D`, `MMMBackground`, `LocalBackground`, biweight estimators | IMG-5, IMG-7, PHO-45 |
+| Detection, deblending, source catalogue | `photutils.segmentation`: `SourceFinder`, `deblend_sources`, `SourceCatalog` | IMG-5, IMG-4, PHO-30 |
+| Isophotes | `photutils.isophote`: `Ellipse`, `build_ellipse_model` | PHO-39 |
+| Lomb–Scargle (fast, floating mean, multi-term), multi-band, box least squares, false-alarm levels | `astropy.timeseries`: `LombScargle`, `LombScargleMultiband`, `BoxLeastSquares` | PER-3, PER-4, PER-13 |
+| Robust statistics: sigma clipping, biweight location / scale, Bayesian blocks, bootstrap | `astropy.stats` | PER-2, CAL-5, IMG-3 |
+| Times, barycentric and heliocentric corrections, velocity corrections | `astropy.time`, `Time.light_travel_time`, `SkyCoord.radial_velocity_correction` | ARC-15, SPE-14 |
+| Data with variance and mask; cut-outs; block reduce | `astropy.nddata`: `NDData`, `VarianceUncertainty`, `Cutout2D`, `block_reduce` | CAL-13, IMG-14 |
+| WCS fitting with SIP; WCS axes for figures | `astropy.wcs` (`fit_wcs_from_points`), `astropy.visualization.wcsaxes` | AST-1, AST-3, IMG-16 |
+| Stretches and intervals, Lupton RGB | `astropy.visualization`: `ZScaleInterval`, `AsinhStretch`, `make_lupton_rgb` | IMG-2, IMG-7 |
+| Tables to ECSV, VOTable, LaTeX (AASTeX), HTML | `astropy.table.Table.write` (`ascii.ecsv`, `votable`, `ascii.aastex`, `ascii.latex`) | ARC-8 |
+| SAMP hub and client | `astropy.samp` | IMG-12, SPE-12 |
+| Nominal solar and physical constants (IAU 2015) | `astropy.constants` | MOD-15, EXO-4 |
+| Catalogue and archive protocols | `astroquery` (SIMBAD, VizieR, Gaia TAP, MAST incl. TESScut, Exoplanet Archive, Horizons, MPC, IRSA, ESO) — always behind `services/` (ARC-14) | every area |
+| Global and local optimisers; splines; signal tools | `scipy.optimize` (`differential_evolution`, `least_squares`), `scipy.interpolate`, `scipy.signal`, `scipy.ndimage` | MOD-12, OC-6, PER-2, IMG-7 |
+| Ensemble MCMC | `emcee` (kept as the alternative sampler) | EXO-5 |
+| Cosmic rays (L.A.Cosmic) | `astroscrappy` | CAL-12 |
+| TIFF / GeoTIFF, projections, HDF5, raw decoding | `tifffile`, `pyproj`, `h5py`, `rawpy` | RS, IMG-1 |
+
+For reading and for reference twins in tests only (development dependencies, not bundled today): **specreduce**
+(BSD; modules `tracing`, `background`, `extract` (boxcar, Horne), `tilt_solution`, `tilt_correction`,
+`line_matching`, `wavecal1d`, `fluxcal`) — read before SPE-3 … SPE-7 and SPE-10; **ccdproc** (BSD) — the twin for
+CAL-5 and CAL-13.
+
+Candidate new dependencies (decide in the step named; conditions of R9: permissive licence, wheels for all five
+targets, maintained, small; write the verdict in this table):
+
+| Package | Licence | For | Verdict today |
+| --- | --- | --- | --- |
+| pyqtgraph ≥ 0.14 | MIT | interactive plots | adopt after ARC-6's gate |
+| PyO3 / maturin (build time) | MIT / Apache | native kernels | adopt (ARC-9) |
+| dynesty | MIT | nested sampling | adopt in EXO-5.5 |
+| celerite2 | MIT | Gaussian-process noise | adopt in EXO-13 if wheels exist on all targets |
+| reproject | BSD | WCS resampling, mosaics | decide in CAL-15 |
+| regions (astropy-regions) | BSD | DS9 region language | decide in IMG-6 (size, wheels) |
+| dust_extinction | BSD | reddening laws | decide in SPE-12 (or 40 lines of our own from the papers) |
+| synphot | BSD | synthetic photometry | reference twin for SPE-18; own code preferred (small) |
+| specutils | BSD | spectrum readers | reference twin for SPE-12 readers; not bundled (pulls gwcs / asdf) |
+| rasterio (GDAL) | BSD / MIT | raster warping, formats | decide in RS-3 |
+| pywin32 or comtypes | PSF-like / MIT | ASCOM COM on Windows | decide in OBS-1 |
+| barycorrpy | MIT | reference for barycentric corrections | test reference only (SPE-14) |
+| lightkurve | MIT | reference for mission data handling | test reference only |
+| batman, PyTransit, ellc, PHOEBE, PyReduce, TLS reference package, JKTEBOP, IRAF, LDTk | GPL | — | **never bundled**; run beside ours for validation (VAL-2) |
+
 ## Definition of done (the checklist; copy it under the step and tick it)
 
 ```
