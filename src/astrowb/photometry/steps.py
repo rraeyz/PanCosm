@@ -44,6 +44,8 @@ def _check_positions(image, target, comps=()):
     apertures=(),
 )
 def light_curve_step(inputs, params, ctx):
+    """Differential aperture photometry of the target against the comparison stars on every frame: the light curve
+    and its table."""
     images = timing.chronological(inputs["images"])
     ref = inputs.get("ref_image") or images[0]  # the positions belong to the frame they were marked on
     _check_positions(ref, inputs["target_xy"], inputs["comps_xy"])
@@ -236,6 +238,7 @@ def minimum_step(inputs, params, ctx):
     p_max=None,
 )
 def period_step(inputs, params, ctx):
+    """Period search of a light curve (Lomb-Scargle, BLS, PDM or ANOVA): the periodogram and the best periods."""
     from ..timeseries import period
     from ..timeseries.fourier import anova
 

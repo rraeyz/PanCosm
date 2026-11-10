@@ -277,6 +277,8 @@ def drizzle_step(inputs, params, ctx):
     align="translation",
 )
 def stack_step(inputs, params, ctx):
+    """Calibrated frames aligned and combined into one image (mean or median, with rejection); the coverage as a
+    second extension."""
     from .. import timing
     from .stacking import save_stack, stack
 

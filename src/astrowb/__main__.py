@@ -198,6 +198,16 @@ def main(argv=None) -> int:
         import certifi
 
         os.environ["SSL_CERT_FILE"] = certifi.where()  # worker processes inherit it
+    words = sys.argv[1:] if argv is None else list(argv)
+    if words and words[0] in ("steps", "help", "run", "recipe"):  # the command line without a window (ARC-12)
+        from .cli import main as cli_main
+
+        return cli_main(words)
+    return _app(argv)
+
+
+def _app(argv) -> int:
+    """The window, or one of the options that run without it (--smoke-test, --benchmark, …)."""
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs="*", type=Path, help="FITS files or a project to open")
     parser.add_argument("--smoke-test", type=Path, metavar="DIR")

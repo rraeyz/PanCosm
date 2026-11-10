@@ -7,7 +7,7 @@
   "ui/spectrum_tools.py": 811
  },
  "functions": {
-  "__main__.py:main": 132,
+  "__main__.py:_app": 126,
   "__main__.py:smoke_test": 154,
   "calibration/steps.py:_run": 105,
   "compute/bls.py:gpu_bls_power": 90,
