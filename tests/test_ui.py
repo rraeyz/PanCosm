@@ -1437,7 +1437,7 @@ def test_calibration_window_menus_and_toolbar(window):
     assert {"F&rames", "&Masters", "&Process", "Se&nd"} <= set(menus)
     masters = [a for a in menus["&Masters"].actions() if not a.isSeparator()]
     assert all(a.isCheckable() for a in masters) and page.cosmics.text() in [a.text() for a in masters]
-    tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+    tools = win.area_tools()
     assert len(tools) == 5 and all(not a.icon().isNull() and a.toolTip() for a in tools)
     seen = []
     page.scan_requested.connect(lambda *a: seen.append(a))
@@ -1478,7 +1478,7 @@ def test_light_curves_and_oc_window_menus(window):
     models[2].trigger()  # third body
     assert page.ltte.isChecked() and not page.linear.isChecked() and not models[0].isChecked()
     for win in (lc, oc):
-        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        tools = win.area_tools()
         assert tools and all(not a.icon().isNull() for a in tools)
 
 
@@ -1495,7 +1495,7 @@ def test_models_window_menus(window, tmp_path):
     assert page.file.text() == str(path)
     exports = next(a.menu() for a in win.file_menu.actions() if a.menu() and a.text() == "&Export")
     assert len(exports.actions()) == 4
-    tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+    tools = win.area_tools()
     assert all(not a.icon().isNull() for a in tools)
     seen = []
     page.visual_tab.load_button.clicked.disconnect()
@@ -1559,7 +1559,7 @@ def test_planning_and_observing_window_menus(window):
         win = window.area_windows[key]
         shown = [a.text() for a in win.menuBar().actions() if a.isVisible()]
         assert shown[3:-2] == titles
-        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        tools = win.area_tools()
         assert tools and all(not a.icon().isNull() for a in tools)
     page = window.observe_page
     menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
@@ -1570,7 +1570,7 @@ def test_planning_and_observing_window_menus(window):
     next(a for a in menus["&Telescope"].actions() if a.text() == "Park").trigger()
     assert seen == ["park"]
     plan = window.plan_page
-    send = next(a for a in window.area_windows["plan"].toolbar.actions() if a.iconText() == "Send")
+    send = next(a for a in window.area_windows["plan"].area_tools() if a.iconText() == "Send")
     assert not send.isEnabled()  # as the page's button: nothing to send before a schedule
     plan.send_button.setEnabled(True)
     assert send.isEnabled()
@@ -1582,7 +1582,7 @@ def test_automation_and_remote_sensing_window_menus(window):
         window.show_workspace(key)
         win = window.area_windows[key]
         assert [a.text() for a in win.menuBar().actions() if a.isVisible()][3:-2] == titles
-        tools = [a for a in win.toolbar.actions() if not a.isSeparator()]
+        tools = win.area_tools()
         assert tools and all(not a.icon().isNull() for a in tools)
     page, win = window.automation_page, window.area_windows["automation"]
     assert "New automation" in [a.text() for a in win.file_menu.actions()]

@@ -3,7 +3,7 @@
 import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QUndoCommand, QUndoStack
-from PySide6.QtWidgets import QLabel
+from PySide6.QtWidgets import QLabel, QToolButton, QWidget
 
 from astrowb.settings import Settings
 from astrowb.ui.kit.window import AreaWindow
@@ -282,7 +282,8 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     try:
         for key in ("photometry", "spectroscopy"):
             main.show_workspace(key)
-            acts = [a for a in main.area_windows[key].toolbar.actions() if not a.isSeparator()]
+            bar = main.area_windows[key].toolbar
+            acts = [a for a in bar.actions() if not a.isSeparator() and isinstance(bar.widgetForAction(a), QToolButton)]
             assert acts and all(not a.icon().isNull() and a.toolTip() for a in acts), key
     finally:
         main.engine.shutdown()
@@ -317,3 +318,22 @@ def test_area_window_anatomy(qtbot, tmp_path):
     win.help_requested.connect(asked.append)
     win.stage_panels["stars"].help_requested.emit("demo/stars")
     assert asked == ["demo"]
+
+
+def test_toolbar_right_end_finds_actions(qtbot, tmp_path):
+    """UI-4 item 4: the toolbar ends with Find an action and Help; typing there opens the search with the text."""
+    act = QAction("Measure the stars")
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main view"), toolbar=[act])
+    qtbot.addWidget(win)
+    later = QAction("Later action")
+    win.add_menus([], toolbar=[later])
+    acts = win.toolbar.actions()
+    assert acts.index(later) < acts.index(win._end) < acts.index(win.help_action)  # area actions stay left
+    asked = []
+    win.help_requested.connect(asked.append)
+    win.help_action.trigger()
+    assert asked == ["demo"] and not win.help_action.icon().isNull()
+    win.show()
+    qtbot.keyClicks(win.find_field, "m")
+    dialog = next(w for w in win.findChildren(QWidget) if type(w).__name__ == "CommandSearch")
+    assert dialog.search.text() == "m" and win.find_field.text() == ""

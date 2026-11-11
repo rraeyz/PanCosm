@@ -22,9 +22,11 @@ from PySide6.QtWidgets import (
     QMenu,
     QMessageBox,
     QProgressBar,
+    QSizePolicy,
     QToolBar,
     QToolButton,
     QVBoxLayout,
+    QWidget,
 )
 
 from .anatomy import Anatomy
@@ -79,6 +81,7 @@ class AreaWindow(Anatomy, QMainWindow):
         self.toolbar.setVisible(bool(toolbar))
         self._icon_kinds = {}  # action -> icon kind (ui/icons.py), painted again when the theme changes
         self._build_menus(menus)
+        self._toolbar_end()
         self.statusBar().showMessage(self.tr("Ready"))
         self._build_task_bar()
         self._fit_screen()
@@ -190,7 +193,7 @@ class AreaWindow(Anatomy, QMainWindow):
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
         help_menu = bar_menu(bar, self.tr("&Help"))
         self.help_menu = help_menu
-        self._action(
+        self.help_action = self._action(
             help_menu, self.tr("Guide for this window"), lambda: self.help_requested.emit(self.key),
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
@@ -379,8 +382,10 @@ class AreaWindow(Anatomy, QMainWindow):
                 out.append((_plain(act.text()), act))
         return out
 
-    def find_command(self):
+    def find_command(self, text=""):
         dialog = CommandSearch(self.commands(), self)
+        if text:
+            dialog.search.setText(text)  # typed into the toolbar's field: go on there
         dialog.move(self.mapToGlobal(self.rect().center()) - dialog.rect().center())
         dialog.show()
         dialog.search.setFocus()
@@ -437,10 +442,30 @@ class AreaWindow(Anatomy, QMainWindow):
             for act in actions:
                 menu.addSeparator() if act is None else menu.addAction(act)
             self.menuBar().insertMenu(self.window_menu.menuAction(), menu)
-        for act in toolbar:
-            self.toolbar.addSeparator() if act is None else self.toolbar.addAction(act)
+        for act in toolbar:  # before the toolbar's right end
+            self.toolbar.insertSeparator(self._end) if act is None else self.toolbar.insertAction(self._end, act)
         if toolbar:
             self.toolbar.setVisible(True)
+
+    def area_tools(self):
+        """The area's own toolbar actions (left of the toolbar's right end), without separators."""
+        acts = self.toolbar.actions()
+        return [a for a in acts[: acts.index(self._end)] if not a.isSeparator()]
+
+    def _toolbar_end(self):
+        """The toolbar's right end (UI-4 item 4): Find an action (Ctrl+K) and the window's guide (F1)."""
+        spacer = QWidget(self.toolbar)
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self._end = self.toolbar.addWidget(spacer)
+        self.find_field = QLineEdit(self.toolbar)
+        self.find_field.setPlaceholderText(self.tr("Find an action (Ctrl+K)"))
+        self.find_field.setMaximumWidth(220)
+        self.find_field.setClearButtonEnabled(True)
+        self.find_field.textEdited.connect(lambda text: (self.find_field.clear(), self.find_command(text)))
+        self.find_field.returnPressed.connect(self.find_command)
+        self.toolbar.addWidget(self.find_field)
+        self.toolbar.addAction(self.help_action)
+        self.set_icons({self.help_action: "help"})
 
     def set_icons(self, kinds):
         """{action: icon kind}: the actions get the icons of ui/icons.py, the same in every window."""
