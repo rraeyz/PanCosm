@@ -114,7 +114,9 @@ class PlotView(QWidget):
     def __init__(self, figure=None, parent=None):
         super().__init__(parent)
         self.graphics = pg.GraphicsLayoutWidget()
-        self.graphics.setBackground("w")
+        pal = self.palette()  # the theme's colours (ui/theme.py, from kit/tokens.py), dark or light
+        self._ink, self._muted = pal.color(pal.ColorRole.Text), pal.color(pal.ColorRole.PlaceholderText)
+        self.graphics.setBackground(pal.color(pal.ColorRole.Base))
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.graphics)
@@ -147,6 +149,10 @@ class PlotView(QWidget):
             self.offsets[id(vb)] = offset
             plot.setLabel("bottom", panel.x.title(offset))
             plot.setLabel("left", panel.y.title())
+            for side in ("left", "bottom"):
+                axis = plot.getAxis(side)
+                axis.setPen(self._muted)
+                axis.setTextPen(self._ink)
             plot.setLogMode(x=panel.x.scale == "log", y=panel.y.scale == "log")
             vb.invertX(panel.x.invert)
             vb.invertY(panel.y.invert)
