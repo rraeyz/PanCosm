@@ -92,8 +92,27 @@ def minima(folder, seed=5):
     return path
 
 
+SB2 = {"period": 4.6345, "e": 0.18, "omega": 70.0, "k1": 62.0, "k2": 91.0, "gamma": -12.0, "t_peri": 2460003.20}
+
+
+def sb2(folder, seed=9):
+    """sb2.csv (time BJD, rv1, rv2 km/s): 30 nights' velocities of both stars of a double-lined binary (SB2),
+    noise 1.5 km/s. Spectroscopy → Radial velocity → orbit (period guess 4.6 d) finds K1, K2 and q = 0.68."""
+    from .spectroscopy.orbit import rv_model
+
+    rng = np.random.default_rng(seed)
+    t = np.sort(2460000.0 + rng.uniform(0, 60, 30))
+    o = SB2
+    v1 = rv_model(t, o["period"], o["t_peri"], o["e"], o["omega"], o["k1"], o["gamma"])
+    v2 = rv_model(t, o["period"], o["t_peri"], o["e"], o["omega"] + 180.0, o["k2"], o["gamma"])
+    path = Path(folder) / "sb2.csv"
+    rows = np.column_stack([t, v1 + rng.normal(0, 1.5, t.size), v2 + rng.normal(0, 1.5, t.size)])
+    np.savetxt(path, rows, delimiter=",", header="time,rv1,rv2", comments="", fmt="%.5f")
+    return path
+
+
 def practice_sets(folder):
-    """The light-curve and O−C practice files in folder; returns {name: path} and the answers."""
+    """The light-curve, O−C and radial-velocity practice files in folder; returns {name: path} and the answers."""
     Path(folder).mkdir(parents=True, exist_ok=True)
-    files = {"pulsator": str(pulsator(folder)), "minima": str(minima(folder))}
-    return {"files": files, "answers": {"pulsator": PULSATOR, "minima": LTTE}}
+    files = {"pulsator": str(pulsator(folder)), "minima": str(minima(folder)), "sb2": str(sb2(folder))}
+    return {"files": files, "answers": {"pulsator": PULSATOR, "minima": LTTE, "sb2": SB2}}

@@ -383,6 +383,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
     QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    QT_TRANSLATE_NOOP("Messages", "a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)"),
     QT_TRANSLATE_NOOP(  # noqa: E501
         "Messages", "the light curves have times in different standards ({scales}): convert them to one first"
     ),

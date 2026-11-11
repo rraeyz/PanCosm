@@ -2091,3 +2091,26 @@ def test_a_run_saved_as_a_recipe_loads_as_an_automation(window, tmp_path):
     auto = automation.load(window.project_page.save_recipe(tmp_path / "r.json"))
     assert auto["steps"] == [{"step": "image.process", "params": {"operation": "median"}}]
     assert "image" in automation.needed(auto)
+
+
+def test_practice_velocities_open_and_fit_in_the_spectroscopy_window(window, tmp_path):
+    """ARC-21: sb2.csv opens through Velocity → Open a velocity table… and its orbit is fitted from there."""
+    from astrowb import sampledata
+    from astrowb.ui import velocity_table
+
+    path = sampledata.sb2(tmp_path)
+    window.show_workspace("spectroscopy")
+    vel = window.spectro_page.velocity_tab
+    texts = [a.text() for m in window.area_windows["spectroscopy"].menuBar().actions() if m.menu()
+             for a in m.menu().actions()]  # fmt: skip
+    assert "Open a velocity table…" in texts
+    rows = velocity_table.open_dialog(vel, str(path))
+    assert len(rows) == 30 and vel._is_sb2() and vel.orbit_button.isEnabled()
+    asked = []
+    vel.orbit_requested.connect(lambda inputs, params: asked.append(inputs))
+    vel.period.setValue(4.6)
+    vel._orbit()
+    assert len(asked[0]["rv2"]) == 30
+    bad = tmp_path / "bad.csv"
+    bad.write_text("a,b\n1,2\n")
+    assert velocity_table.open_dialog(vel, str(bad)) is None and "time column" in vel.status.text()

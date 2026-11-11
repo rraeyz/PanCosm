@@ -60,6 +60,13 @@ Choose the **Spectrum (1-D)** and the spectrum of a **telluric standard** (a hot
 6. **Period guess (d)** (e.g. from the period search) and **Fit orbit:** P, e, ω, K, γ with errors and the rms. For double-lined binaries also K2, the mass ratio q, M sin³i of both stars and a sin i; for single-lined ones the mass function f(m). **Export results (CSV / LaTeX)…** writes the orbit as a table for a paper; the plot shows the velocities with the residuals (O−C) below.
    An eccentricity smaller than 2.45 times its error is not significant (Lucy & Sweeney 1971): the orbit is then fitted circular (e = 0, ω fixed at 90°) and the result says so; with e free a circular orbit leaves T_peri and ω undefined and spoils the other errors.
 
+## Try it (practice data) {#spectroscopy-try-it-practice}
+**Help → Practice data for a first night…** also writes `sb2.csv`: 30 nights' velocities of both stars of a
+double-lined binary. In the Spectroscopy window choose **Velocity → Open a velocity table…** and open it; set the
+**Period guess** to 4.6 days and **Fit orbit**. You should find P = **4.634 d**, e = **0.18**, K1 = **62 km/s**,
+K2 = **91 km/s** and the mass ratio q = **0.68**. A table of your own velocities opens the same way: a time column
+(time or bjd), rv1 and, for a second star, rv2; error columns (err1, err2) are optional.
+
 ## Disentangling a double-lined binary {#spectroscopy-disentangling-double-lined-binary}
 After measuring both stars' velocities (TODCOR or the broadening function), **Separate the two stars' spectra (disentangling)** recovers each star's own spectrum from the series (iterative shift-and-add, González & Levato 2006). It uses the velocities measured on these spectra and the light ratio, and writes `star1.fits` and `star2.fits`. Use at least four spectra spread over the orbit, ideally several near both quadratures; the separated spectra are the best templates for a second, more precise velocity measurement, and show each star's lines for classification.
 
