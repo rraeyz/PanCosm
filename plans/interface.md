@@ -516,7 +516,7 @@ for the window concerned.
 - **Depends on:** ARC-6.
 
 ### UI-11. Table behaviour standard  (P1)
-**open**
+**partial** — done: the count line under every TableView ("12 of 48 rows · 2 selected"); numbers in the monospace font. Left: header menu, the row-action words, digits by error, time standards in headers, EmptyState for an empty table.
 - **Build:** on top of ARC-8: header menu (sort, hide, columns…, fit width); filter line with examples in its
   placeholder; a count line ("48 frames, 3 left out, 2 selected"); row actions in a context menu, the same words
   everywhere ("Leave out", "Bring back", "Show in the image", "Show in the plot", "Copy"); numbers right-aligned in

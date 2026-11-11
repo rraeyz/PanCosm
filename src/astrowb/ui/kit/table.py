@@ -8,12 +8,13 @@ coloured with their reason in a tooltip, copy and Export… in every core/table 
 
 import numpy as np
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Signal
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QFont
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
     QFileDialog,
     QHeaderView,
+    QLabel,
     QLineEdit,
     QMenu,
     QTableView,
@@ -32,6 +33,9 @@ class _Model(QAbstractTableModel):
         super().__init__()
         self.table, self.rows, self.marks, self.cache = None, np.arange(0), {}, {}
         self.editable = set()  # names of the columns a user may change
+        from ..theme import MONO
+
+        self.mono = QFont(MONO)
 
     def flags(self, index):
         base = super().flags(index)
@@ -88,6 +92,8 @@ class _Model(QAbstractTableModel):
             return _text(self.table[name], row)
         if role == Qt.TextAlignmentRole:
             return int(Qt.AlignRight | Qt.AlignVCenter) if self.table[name].dtype.kind in "iuf" else None
+        if role == Qt.FontRole and self.table[name].dtype.kind in "iuf":
+            return self.mono  # digits of one width: a column of numbers lines up
         mark = self.marks.get((row, name))
         if mark and role == Qt.BackgroundRole:
             return QColor(mark[0])
@@ -137,8 +143,12 @@ class TableView(QWidget):
         self.view.selectionModel().currentRowChanged.connect(
             lambda cur, _prev: cur.isValid() and self.row_chosen.emit(int(self.model.rows[cur.row()]))
         )
+        self.count = QLabel(self)  # "12 of 48 rows · 2 selected"
+        self.count.setProperty("muted", True)
+        self.view.selectionModel().selectionChanged.connect(lambda *_: self._count())
         lay.addWidget(self.filter)
         lay.addWidget(self.view)
+        lay.addWidget(self.count)
         self.sort = None  # (column name, ascending)
 
     def set_table(self, table, marks=None, editable=()):
@@ -184,6 +194,17 @@ class TableView(QWidget):
         self.model.beginResetModel()
         self.model.rows = keep
         self.model.endResetModel()
+        self._count()
+
+    def _count(self):
+        t = self.model.table
+        if t is None:
+            self.count.setText("")
+            return
+        shown, total, chosen = len(self.model.rows), len(t), len(self.view.selectionModel().selectedRows())
+        text = self.tr("{n} rows").format(n=total) if shown == total else self.tr("{n} of {total} rows").format(
+            n=shown, total=total)  # fmt: skip
+        self.count.setText(text + (self.tr(" · {n} selected").format(n=chosen) if chosen else ""))
 
     def _sort_by(self, section):
         name = self.model.table.colnames[section]
