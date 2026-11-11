@@ -16,7 +16,7 @@ DOT = "●"
 
 
 class FormRow(QWidget):
-    def __init__(self, label, control, unit=None, help=None, reset=True, parent=None):  # noqa: A002 (the plan's name)
+    def __init__(self, label, control, unit=None, help=None, reset=True, default=None, parent=None):  # noqa: A002
         super().__init__(parent)
         lay = QHBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -38,7 +38,7 @@ class FormRow(QWidget):
         self.dot = None
         if reset:
             signal, self._read, self._write = _parts(control)
-            self.default = self._read()
+            self.default = self._read() if default is None else default  # given: the program's own default
             self.dot = QToolButton(self)
             self.dot.setText(DOT)  # a state mark, not an action icon
             self.dot.setAutoRaise(True)
