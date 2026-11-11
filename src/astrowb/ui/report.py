@@ -81,7 +81,7 @@ def system_text():
     return "\n".join(lines) + "\n"
 
 
-def make_report(settings, out_path, runs=None):
+def make_report(settings, out_path, runs=None, session=None):
     """Write the zip: error.log (newest part), system.txt, settings.json and last_steps.json (step, settings,
     status, error and times of the last runs, without their input files). Returns the path."""
     out_path = Path(out_path)
@@ -103,11 +103,13 @@ def make_report(settings, out_path, runs=None):
         gpu = settings.path.parent / "gpu-report.json"  # Help → Check the GPU (ARC-10)
         if gpu.exists():
             z.writestr("gpu-report.json", _home(gpu.read_text(encoding="utf-8", errors="replace")))
+        if session is not None:  # the window in front, as its Save session would keep it: enough to redo the steps
+            z.writestr("session.json", json.dumps(_scrub(session), indent=1, default=str))
         z.writestr("README.txt", f"Problem report made {datetime.now().isoformat(timespec='seconds')}\n")
     return out_path
 
 
-def report_dialog(parent, settings, engine=None, path=None):
+def report_dialog(parent, settings, engine=None, path=None, session=None):
     """Help → Report a problem in any window: ask where to save (unless path), make the zip, say what to send."""
     from datetime import date
 
@@ -124,7 +126,7 @@ def report_dialog(parent, settings, engine=None, path=None):
         if not path:
             return None
     project = getattr(engine, "project", None)
-    make_report(settings, path, project.runs(full=False) if project is not None else [])
+    make_report(settings, path, project.runs(full=False) if project is not None else [], session)
     QMessageBox.information(
         parent,
         QCoreApplication.translate("AreaWindow", "Report a problem"),
