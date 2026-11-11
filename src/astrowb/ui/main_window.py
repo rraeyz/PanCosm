@@ -26,7 +26,8 @@ from ..io import fits as fitsio
 from ..settings import Settings
 from . import advice, area_menus, area_pages, area_windows, main_menus, tour
 from .area_menus import _undo_source
-from .files import images_filter
+from .files import FITS_FILTER, images_filter
+from .image_actions import ImageActions
 from .kit.window import _raise as _raise_window
 from .messages import task_error, translate
 from .workspaces import (
@@ -35,8 +36,6 @@ from .workspaces import (
     ProjectPage,
     StartPage,
 )
-
-FITS_FILTER = "FITS (*.fits *.fit *.fts *.fits.gz *.fit.gz)"
 
 
 class _TaskList(QListWidget):
@@ -60,7 +59,7 @@ class _Lazy:
         return page
 
 
-class MainWindow(QMainWindow):
+class MainWindow(ImageActions, QMainWindow):
     taskUpdated = Signal(object)  # emitted from the task monitor thread, delivered on the GUI thread
     updateChecked = Signal(object, object)  # newer release or None, error or None (from a thread)
     start_page = _Lazy()
@@ -453,65 +452,6 @@ class MainWindow(QMainWindow):
         if start is not None:
             (start.expert if mode == "expert" else start.basic).setChecked(True)
 
-    def image_menu(self, x, y):
-        """Right click on the image: what can be done with the star or place under the mouse."""
-        from PySide6.QtWidgets import QMenu
-
-        menu = QMenu(self)
-        page = self.image_page
-        self._action(
-            menu,
-            self.tr("Send the open images to Photometry"),
-            lambda: self.send_to_photometry(page.open_paths() or [str(self.current_path)]),
-        )
-        menu.addSeparator()
-        self._action(menu, self.tr("Measure this star"), lambda: page.measure_star(x, y))
-        self._action(menu, self.tr("Photometry: this star as the target"), lambda: self.photometry_from_image(x, y))
-        comp = self._action(
-            menu, self.tr("Photometry: add as a comparison star"), lambda: self.photometry_from_image(x, y, True)
-        )
-        phot = self.__dict__.get("photometry_page")
-        comp.setEnabled(bool(phot and phot.images and phot.target and str(phot.images[0]) == str(self.current_path)))
-        menu.addSeparator()
-        self._action(menu, self.tr("Copy the position"), lambda: self._copy_position(x, y))
-        simbad = self._action(menu, self.tr("Look up in SIMBAD"), lambda: self._simbad(x, y))
-        simbad.setEnabled(self.wcs is not None)
-        menu.addSeparator()
-        self._action(
-            menu,
-            self.tr("Centre the view here"),
-            lambda: self.viewer.centerOn(x + 0.5, page.viewer.data.shape[0] - 0.5 - y),
-        )
-        menu.addAction(self.fit_action)
-        self._action(menu, self.tr("Statistics of the whole image"), page.measure_whole)
-        return menu
-
-    def _sky(self, x, y):
-        return self.wcs.pixel_to_world(x, y) if self.wcs is not None else None
-
-    def _copy_position(self, x, y):
-        from PySide6.QtWidgets import QApplication
-
-        text = f"x={x + 1:.1f} y={y + 1:.1f}"  # FITS convention, as in the status bar
-        sky = self._sky(x, y)
-        if sky is not None:
-            text += f"  {sky.to_string('hmsdms', sep=':', precision=2)}  ({sky.ra.deg:.6f} {sky.dec.deg:+.6f})"
-        QApplication.clipboard().setText(text)
-        self.statusBar().showMessage(text, 8000)
-        return text
-
-    def _simbad(self, x, y):
-        from PySide6.QtCore import QUrl
-        from PySide6.QtGui import QDesktopServices
-
-        sky = self._sky(x, y)
-        url = QUrl(
-            "https://simbad.cds.unistra.fr/simbad/sim-coo?Coord="
-            f"{sky.ra.deg:.6f}%20{sky.dec.deg:+.6f}&Radius=10&Radius.unit=arcsec"
-        )
-        QDesktopServices.openUrl(url)
-        return url
-
     def send_to_photometry(self, paths, ask=True):
         """Images to the Photometry window, which is then shown. Several filters: one light curve per filter, so the
         user picks the filter (the largest group first)."""
@@ -565,22 +505,6 @@ class MainWindow(QMainWindow):
         if not comparison:
             self.show_workspace("photometry")
         return True
-
-    def save_header_changes(self, set_cards, delete, destination=None):
-        """A copy of the current file with the edited header, opened when written."""
-        if self.current_path is None:
-            return None
-        if destination is None:
-            suggestion = str(self.current_path.with_name(self.current_path.stem + "_hdr.fits"))
-            destination, _ = QFileDialog.getSaveFileName(self, self.tr("Save FITS as"), suggestion, FITS_FILTER)
-        if not destination:
-            return None
-        return self.run_step(
-            "fits.save_as",
-            {"source": str(self.current_path), "destination": str(destination)},
-            {"overwrite": True, "set_cards": set_cards, "delete": delete},
-            on_done=lambda out: self.open_fits(Path(out["destination"])),
-        )
 
     def _make_project_page(self):
         page = ProjectPage(self)
@@ -747,166 +671,6 @@ class MainWindow(QMainWindow):
         main_menus.build(self)
 
     # --- image processing ---------------------------------------------------
-    def process_dialog(self, op):
-        """Ask for the operation's settings (if any) and run it on the current image."""
-        from PySide6.QtWidgets import QInputDialog
-
-        if isinstance(op, tuple):
-            return self.process_image(*op)
-        if op == "pixel_math":
-            others, _ = QFileDialog.getOpenFileNames(
-                self, self.tr("Other images, named B, C, … (optional)"), "", images_filter()
-            )
-            expr, ok = QInputDialog.getText(
-                self, self.tr("Pixel math"), self.tr("Expression (A is this image), e.g. A - 0.95 * B:")
-            )
-            from ..io.bayer import fits_paths
-
-            return self.process_image("pixel_math", {"expression": expr}, fits_paths(others)) if ok and expr else None
-        if op == "crop":
-            text, ok = QInputDialog.getText(
-                self, self.tr("Crop"), self.tr("x0 x1 y0 y1 (pixels, 0-based, end excluded):")
-            )
-            try:
-                x0, x1, y0, y1 = (int(v) for v in text.replace(",", " ").split())
-            except ValueError:
-                return None
-            return self.process_image("crop", {"x0": x0, "x1": x1, "y0": y0, "y1": y1}) if ok else None
-        if op == "rotate":
-            angle, ok = QInputDialog.getDouble(
-                self, self.tr("Rotate"), self.tr("Angle (degrees, counter-clockwise):"), 0.0, -360.0, 360.0, 3
-            )
-            return self.process_image("rotate", {"angle": angle}) if ok else None
-        if op == "histogram_match":
-            ref, _ = QFileDialog.getOpenFileName(self, self.tr("Reference image"), "", images_filter())
-            from ..io.bayer import fits_copy
-
-            return self.process_image("histogram_match", {"reference": str(fits_copy(ref))}) if ref else None
-        if op == "kernel":
-            kinds = {
-                self.tr("Low pass (smooth)"): "lowpass",
-                self.tr("High pass (sharpen)"): "highpass",
-                self.tr("Laplacian"): "laplacian",
-                self.tr("Edges (Sobel)"): "sobel",
-                self.tr("Vertical edges"): "edge_x",
-                self.tr("Horizontal edges"): "edge_y",
-            }
-            name, ok = QInputDialog.getItem(self, self.tr("Kernel filter"), self.tr("Filter:"), list(kinds), 0, False)
-            return self.process_image("kernel", {"kind": kinds[name]}) if ok else None
-        if op == "deconvolve":
-            fwhm, ok = QInputDialog.getDouble(
-                self,
-                self.tr("Deconvolution"),
-                self.tr("Star FWHM (pixels; measure it with the Star tool):"),
-                3.0,
-                0.5,
-                50,
-                2,
-            )
-            if not ok:
-                return None
-            n, ok = QInputDialog.getInt(self, self.tr("Deconvolution"), self.tr("Iterations:"), 20, 1, 500)
-            return self.process_image("deconvolve", {"fwhm": fwhm, "iterations": n}) if ok else None
-        prompts = {
-            "resample": (self.tr("Factor (2: twice as many pixels across, 0.5: half):"), "factor", 2.0),
-            "gaussian": (self.tr("Sigma (pixels):"), "sigma", 1.5),
-            "median": (self.tr("Box size (pixels, odd):"), "size", 3),
-            "unsharp": (self.tr("Sigma (pixels):"), "sigma", 2.0),
-            "background": (self.tr("Box size (pixels):"), "box", 64),
-        }
-        label, key, default = prompts[op]
-        value, ok = QInputDialog.getDouble(self, self.tr("Process"), label, default, 0.01, 10000, 2)
-        if not ok:
-            return None
-        return self.process_image(op, {key: int(value) if key in ("size", "box") else value})
-
-    def process_image(self, op, args=None, others=None):
-        """Run an image operation on the current file, or on every open image (Process -> Apply to all open
-        images: each processed copy takes the place of its original in the list); the result opens when written."""
-        if getattr(self, "current_path", None) is None:
-            return None
-        every = self.apply_all_action.isChecked()
-        tasks = []
-        for path in self.image_page.open_paths() if every else [str(self.current_path)]:
-            inputs = {"image": path, "operation": op}
-            if others:
-                inputs["others"] = list(others)
-            tasks.append(
-                self.run_step(
-                    "image.process", inputs, {"args": args or {}}, on_done=lambda out, p=path: self._processed(p, out)
-                )
-            )
-        return tasks if every else tasks[0]
-
-    def _processed(self, source, out):
-        if self.apply_all_action.isChecked():
-            self.image_page.replace_open(source, out["image"])
-        if source == str(self.current_path) or not self.apply_all_action.isChecked():
-            # Ctrl+Z shows the image before the operation again (the processed copy stays on disk)
-            self.image_page.edit(self.tr("image operation"), self.open_fits, Path(out["image"]))
-
-    def colour_dialog(self, paths=None, output=None):
-        """Red, green and blue frames -> a colour PNG (aligned, Lupton asinh stretch), shown when ready."""
-        if paths is None:
-            paths = []
-            for label in (self.tr("Red frame"), self.tr("Green frame"), self.tr("Blue frame")):
-                path, _ = QFileDialog.getOpenFileName(self, label, "", images_filter())
-                if not path:
-                    return None
-                paths.append(path)
-            output, _ = QFileDialog.getSaveFileName(self, self.tr("Colour image"), "colour.png", "PNG (*.png)")
-            if not output:
-                return None
-        from ..io.bayer import fits_paths
-
-        inputs = dict(zip(("red", "green", "blue"), fits_paths(paths), strict=True)) | {"output": output}
-        return self.run_step("image.rgb", inputs, {}, on_done=lambda out: self.show_picture(out["rgb"]))
-
-    def coefficients_dialog(self):
-        from .coefficients_dialog import CoefficientsDialog
-
-        lc = getattr(self.photometry_page, "lc_raw", None) if "photometry_page" in self.__dict__ else None
-        dlg = CoefficientsDialog(lc, self)
-        dlg.transform_requested.connect(
-            lambda a, b, params: self.run_step(
-                "photometry.transformation", {"image_a": a, "image_b": b}, params, on_done=dlg.show_transformation
-            )
-        )
-        dlg.open()
-        self.coefficients = dlg
-        return dlg
-
-    def moving_dialog(self):
-        from .moving_dialog import MovingObjectDialog
-
-        dlg = MovingObjectDialog(self.settings, self)
-        dlg.measure_requested.connect(
-            lambda images, first, last: self.run_step(
-                "astrometry.moving",
-                {"images": images, "first_xy": first, "last_xy": last},
-                {},
-                on_done=lambda out: dlg.show_positions(out["positions"], out.get("unsolved", ())),
-            )
-        )
-        dlg.open()
-        self.astrometry_dialog = dlg
-        return dlg
-
-    def show_picture(self, path):
-        from PySide6.QtGui import QPixmap
-        from PySide6.QtWidgets import QDialog, QScrollArea, QVBoxLayout
-
-        dlg = QDialog(self)
-        dlg.setWindowTitle(Path(path).name)
-        label = QLabel(dlg)
-        label.setPixmap(QPixmap(str(path)))
-        area = QScrollArea(dlg)
-        area.setWidget(label)
-        QVBoxLayout(dlg).addWidget(area)
-        dlg.resize(900, 700)
-        dlg.open()
-        self.picture_dialog = dlg
-        return dlg
 
     # --- plugins ------------------------------------------------------------
     def _fill_plugins_menu(self):
@@ -1122,72 +886,6 @@ class MainWindow(QMainWindow):
         for col, most in ((0, 120), (1, 260)):
             table.setColumnWidth(col, min(table.columnWidth(col), most))
 
-    def levels_dialog(self):
-        from .levels_dialog import LevelsDialog
-
-        if getattr(self, "_levels", None) is None:
-            self._levels = LevelsDialog(self.viewer, self)
-        self._levels.refresh()
-        self._levels.show()
-        self._levels.raise_()
-        return self._levels
-
-    def blink_dialog(self):
-        from .blink_dialog import BlinkDialog
-
-        dlg = BlinkDialog(self)
-        dlg.show()
-        return dlg
-
-    def save_picture_dialog(self, path=None):
-        """The image as shown on screen (PNG / JPEG), or its data as a 32-bit TIFF."""
-        from ..display import save_picture
-
-        if self.viewer.data is None:
-            return None
-        if path is None:
-            stem = self.current_path.stem if self.current_path else "image"
-            path, _ = QFileDialog.getSaveFileName(
-                self, self.tr("Save picture"), f"{stem}.png", "PNG (*.png);;JPEG (*.jpg);;TIFF, 32-bit data (*.tif)"
-            )
-        if not path:
-            return None
-        v = self.viewer
-        return save_picture(path, v.data, v.interval, v.stretch, v.limits, v.cmap, v.invert)
-
-    def convert_dialog(self, paths=None, folder=None, fmt=None):
-        """Batch conversion: FITS files to pictures with the current display interval and stretch."""
-        from PySide6.QtWidgets import QInputDialog
-
-        if paths is None:
-            paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Images to convert"), "", images_filter())
-            if not paths:
-                return None
-        from ..io.bayer import fits_paths
-
-        paths = fits_paths(paths)
-        if fmt is None:
-            choices = {"PNG": "png", "JPEG": "jpg", self.tr("TIFF, 32-bit data"): "tif"}
-            name, ok = QInputDialog.getItem(
-                self, self.tr("Convert images"), self.tr("Format:"), list(choices), 0, False
-            )
-            if not ok:
-                return None
-            fmt = choices[name]
-        if folder is None:
-            folder = QFileDialog.getExistingDirectory(self, self.tr("Folder for the pictures"))
-            if not folder:
-                return None
-        params = {"fmt": fmt, "interval": self.viewer.interval, "stretch": self.viewer.stretch}
-        return self.run_step(
-            "image.convert",
-            {"images": list(paths), "output_dir": folder},
-            params,
-            on_done=lambda out: self.statusBar().showMessage(
-                self.tr("{n} pictures written to {folder}.").format(n=len(out["written"]), folder=folder), 10000
-            ),
-        )
-
     def save_as_dialog(self):
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Save FITS as"), "", FITS_FILTER)
         if path:
@@ -1282,25 +980,6 @@ class MainWindow(QMainWindow):
             box.setDetailedText(str(task.error))  # the full traceback, for reports
             box.open()
 
-    def plate_solve(self):
-        from .. import astrometry
-
-        if astrometry.find_solver() is None:
-            QMessageBox.information(
-                self,
-                self.tr("No plate solver"),
-                self.tr(
-                    "Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, "
-                    "then try again. Nothing is sent over the internet."
-                ),
-            )
-            return None
-        return self.run_step(
-            "astrometry.solve",
-            {"image": str(self.current_path)},
-            on_done=lambda out: self.open_fits(Path(out["solved"])),
-        )
-
     # --- calibration --------------------------------------------------------
     def scan_raw(self, folder, lights=""):
         if folder or lights:
@@ -1334,59 +1013,6 @@ class MainWindow(QMainWindow):
         return self.run_step(
             "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
         )
-
-    def split_channels(self):
-        """The current colour-camera raw image as three half-size FITS files (R, G, B superpixels, as calibration
-        splits them), written next to it and opened."""
-        from astropy.io import fits
-
-        from ..io import bayer
-
-        header = self.image_page.header
-        pattern = bayer.pattern_of(header) if header is not None else None
-        if self.current_path is None or not pattern:
-            return []
-        data, header, _ = fitsio.read_image(self.current_path)
-        paths = []
-        for colour, plane in bayer.split(data, pattern).items():
-            path = self.current_path.with_name(f"{self.current_path.stem}_{colour}.fits")
-            fits.PrimaryHDU(plane, bayer.channel_header(header, pattern, colour)).writeto(path, overwrite=True)
-            paths.append(str(path))
-        self.open_many(paths)
-        return paths
-
-    def stack_open_images(self, drizzle=False, output=None):
-        """The images open in the Images window stacked (or drizzled) into one, which then opens (MaxIm DL's
-        Combine); the stacking settings are the step's defaults, the Calibration window has them all."""
-        images = self.image_page.open_paths()
-        if len(images) < 2:
-            win = self.area_windows.get("image", self)
-            win.statusBar().showMessage(self.tr("Open two or more images to stack them."), 8000)
-            return None
-        if output is None:
-            first = Path(images[0])
-            suggestion = str(first.with_name(first.stem + ("_drizzle.fits" if drizzle else "_stack.fits")))
-            output, _ = QFileDialog.getSaveFileName(self, self.tr("Save FITS as"), suggestion, FITS_FILTER)
-            if not output:
-                return None
-
-        def done(out):
-            if self.engine.project:
-                self.engine.project.add_file(Path(out["stack"]), "stack")
-            self.open_fits(Path(out["stack"]))
-
-        step_id = "stacking.drizzle" if drizzle else "stacking.stack"
-        return self.run_step(step_id, {"images": images, "output": str(output)}, {}, on_done=done, area="image")
-
-    def stack_images(self, images, output, params):
-        def done(out):
-            if self.engine.project:
-                self.engine.project.add_file(Path(out["stack"]), "stack")
-            self.calibrate_page.result.setText(self.tr("Stack written: {path}").format(path=out["stack"]))
-            self.open_fits(Path(out["stack"]))
-
-        step_id = "stacking.drizzle" if params.pop("drizzle", False) else "stacking.stack"
-        return self.run_step(step_id, {"images": images, "output": output}, params, on_done=done, area="calibrate")
 
     def _spectrum_done(self, spectrum):
         self.spectro_page.reduce_tab.show_spectrum(spectrum)
@@ -1501,15 +1127,6 @@ class MainWindow(QMainWindow):
         )
 
     # --- misc ---------------------------------------------------------------
-    def _show_pixel(self, x, y, value):
-        label = self.tr("value")
-        text = f"x={x:.0f}  y={y:.0f}  {label}={value:.6g}"
-        if self.wcs is not None:
-            sky = self.wcs.pixel_to_world(x - 1, y - 1)
-            text += "  " + sky.to_string("hmsdms", precision=1)
-        self.pixel_label.setText(text)
-        if getattr(self, "image_pixel_label", None) is not None:  # the cursor read-out of the Images window
-            self.image_pixel_label.setText(text)
 
     def _update_title(self):
         parts = [BRAND.display_name]

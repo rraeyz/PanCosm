@@ -353,7 +353,7 @@ the suite is green after each.
     package in UI-16) and six area pages with their wiring (`ui/area_pages.py`) moved out, texts kept in the
     "MainWindow" translation context: 2861 → 2228 lines; then the Photometry and Spectroscopy windows and the
     Images menus and toolbar (`ui/area_windows.py`), the tour (`ui/tour.py`) and the main menus
-    (`ui/main_menus.py`): 1732 lines.
+    (`ui/main_menus.py`), and the image commands as a mixin (`ui/image_actions.py`, `ImageActions`): 1349 lines.
   - **ARC-4.5** Calibration, Images, Observing, Planning pages → their packages. **merged into UI-16.2, 16.8, 16.9, 16.10 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.6** Light curves (period, frequency, variable search), O−C, Models, Automation, Remote sensing →
     their packages. **merged into UI-16.4 … 16.7, 16.12, 16.13 (agent3, 2026-11-10; see the note below)**
