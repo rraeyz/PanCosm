@@ -107,7 +107,8 @@ def glossary_problems(lang="tr"):
             source = source.replace(name, "")
         if tr is None or tr.get("type") in ("obsolete", "vanished") or not tr.text:
             continue
-        text = tr.text.replace("I", "ı").replace("İ", "i").lower()  # Turkish lower case: I -> ı, İ -> i
+        # Turkish lower case (I -> ı, İ -> i), without the menu's accelerator mark ("Yö&rünge")
+        text = tr.text.replace("&", "").replace("I", "ı").replace("İ", "i").lower()
         for term, stems in terms.items():
             stem = term.endswith("*")
             word = term.rstrip("*")

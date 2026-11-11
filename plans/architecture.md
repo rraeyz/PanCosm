@@ -954,7 +954,7 @@ the suite is green after each.
 
 ### ARC-18. Translation quality  (P1)
 **open** — items 1 (Turkish column), 2 (glossary check) and 4 done by agent3 (2026-11-11)
-- **Progress (agent3):** `resources/i18n/glossary.toml`: 74 terms with their Turkish stems (German and Spanish
+- **Progress (agent3):** `resources/i18n/glossary.toml`: 74 terms (106 since 2026-11-11: pixel, camera, read noise, dark current, orbit, eccentricity, luminosity class, … — each already translated one way everywhere; the check ignores a menu's & mark) with their Turkish stems (German and Spanish
   with ARC-25); `python tools/translation_review.py glossary` and `tests/test_glossary.py` fail on a translation
   that drifts (whole words or `*` stems, Turkish lower case, product names and code examples left out). It found
   and fixed 48 drifted translations: periyot / dönem (now periyot), dikine hız / radyal hız (now dikine hız),
