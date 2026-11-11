@@ -13269,7 +13269,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_transit.py" line="136"/>
         <source>Residuals that drift together (β above 1, see the Checks tab) carry less information than their errors say: the parameter errors are multiplied by β</source>
-        <translation>Birlikte kayan artıklar (β 1'in üstünde, Kontroller sekmesine bakın) hatalarının söylediğinden az bilgi taşır: parametre hataları β ile çarpılır</translation>
+        <translation>Birlikte kayan artıklar (β 1'in üstünde, Denetimler sekmesine bakın) hatalarının söylediğinden az bilgi taşır: parametre hataları β ile çarpılır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_transit.py" line="148"/>
