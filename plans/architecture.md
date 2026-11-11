@@ -1061,7 +1061,7 @@ the suite is green after each.
 - **Files:** `tools/speed.py`, `speed/baseline-ci.json`, CI.
 
 ### ARC-24. Repository hygiene  (P3)
-**open**
+**partial** — done (2026-11-11): CONTRIBUTING.md points to PLAN.md and the plans, lists the size, anchor, API-docs and gallery rules and maps `core`, `api`, `ui/kit`, `ui/plot`; docs/PLUGINS.md says how a plugin is allowed and links docs/api. Left: README checked against the new windows, the clean-container try.
 - **Build:** `README.md` and `docs/` checked against the new structure; `CONTRIBUTING.md` points to PLAN.md and this
   file; `docs/PLUGINS.md` regenerated from the API docs (ARC-12); the 880 MB of observations in the history stay
   (rewriting needs a force-push the owner's settings forbid) — `data/README.md` keeps the blob-filter advice.

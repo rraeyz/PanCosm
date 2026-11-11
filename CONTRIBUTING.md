@@ -65,6 +65,20 @@ The weekly `latest-deps` workflow runs the tests with the newest versions and li
 - The training guide (`src/astrowb/resources/guide/<language>/`) has the same topics in every language.
 - Never copy code from another project. Reading other projects to learn is fine; list what you consulted in
   `THIRD_PARTY.md`.
+- **Sizes:** an interface module stays under 700 lines, any other under 900, a function under 80
+  (`tools/module_sizes.py`; the files above it today are listed and may only shrink).
+- Every guide topic has a stable anchor (`## Title {#area-words}`), the same in every language; a `help="…"` in
+  the interface must name one that exists.
+- `docs/api/` is generated from the step registry: run `python tools/api_docs.py` after adding or changing a step.
+- No window cuts a text, scrolls a panel sideways or has a button without a name, in any language, theme or the
+  pseudo-locale (`tools/ui_gallery.py`, `tests/test_gallery.py`).
+
+## Plans
+
+`PLAN.md` says where the program is going and in what order; `plans/architecture.md` (the structure: ARC steps)
+and `plans/interface.md` (the windows and the component kit: UI steps) hold each step with what it builds, how
+it is accepted and how far it is. Read the step before you work on its part of the code, and write what you did
+under it.
 
 ## Code map
 
@@ -81,7 +95,11 @@ The weekly `latest-deps` workflow runs the tests with the newest versions and li
 | `src/astrowb/devices` | safety rules, observatory and supervisor, sequences, focus, guiding, Alpaca, INDI |
 | `src/astrowb/io` | FITS reading and saving, image operations |
 | `src/astrowb/compute` | GPU kernels with CPU twins |
-| `src/astrowb/ui` | Qt pages; `main_window.py` wires pages to steps with `run_step(step_id, inputs, params, on_done)` |
+| `src/astrowb/core` | no Qt: session state and undo (`state.py`), profiles, provenance, units and times, tables, the log |
+| `src/astrowb/api`, `cli.py` | the scripting surface: `api.<area>.<step>(…)` and `astrowb-cli` |
+| `src/astrowb/ui` | Qt pages and area windows; `main_window.py` wires pages to steps with `run_step(step_id, inputs, params, on_done)` |
+| `src/astrowb/ui/kit` | the component kit every window is built from (fields, buttons, sections, stages, inspector, help, tokens, icons); `tools/kit_gallery.py` shows them |
+| `src/astrowb/ui/plot` | the figure description shared by the screen and the publication export |
 | `tests/` | one test file per area; synthetic data with a known answer |
 
 ## Adding a feature
