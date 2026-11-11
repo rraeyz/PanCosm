@@ -14253,43 +14253,48 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>TaskChip</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>waiting</source>
         <translation>sırada</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>finished</source>
         <translation>bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
         <source>failed</source>
         <translation>başarısız</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="61"/>
         <source>cancelled</source>
         <translation>iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="65"/>
+        <location filename="../../ui/kit/tasks.py" line="66"/>
         <source> · about {left} left</source>
         <translation> · yaklaşık {left} kaldı</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
         <source>{n} tasks running</source>
         <translation>{n} görev çalışıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="70"/>
-        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
+        <location filename="../../ui/kit/tasks.py" line="87"/>
         <source>No task running</source>
         <translation>Çalışan görev yok</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="82"/>
+        <location filename="../../ui/kit/tasks.py" line="80"/>
+        <source>Report a problem…</source>
+        <translation>Sorun bildir…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="85"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>

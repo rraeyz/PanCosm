@@ -28,9 +28,10 @@ def _clock(seconds):
 
 
 class TaskChip(QToolButton):
-    def __init__(self, parent=None, name_of=str):
+    def __init__(self, parent=None, name_of=str, report=None):
         super().__init__(parent)
         self.name_of = name_of  # step id -> words (ui/step_names.step_name)
+        self.report = report  # Help → Report a problem…, offered under a failed task
         self.tasks, self.started = {}, {}  # id -> task, id -> monotonic start
         self.setIcon(icon("tasks", self, 16))
         self.setAutoRaise(True)
@@ -75,7 +76,9 @@ class TaskChip(QToolButton):
         menu.clear()
         tasks = sorted(self.tasks.values(), key=lambda t: (t.finished, -self.started.get(t.id, 0)))
         for task in tasks:
-            if task.finished:
+            if task.state == "failed" and self.report is not None:
+                menu.addMenu(self.row_text(task)).addAction(self.tr("Report a problem…"), lambda: self.report())
+            elif task.finished:
                 menu.addAction(self.row_text(task)).setEnabled(False)
             else:
                 sub = menu.addMenu(self.row_text(task))
