@@ -12598,17 +12598,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>ShortcutSheet</name>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="53"/>
+        <location filename="../../ui/kit/shortcuts.py" line="54"/>
+        <source>Keyboard shortcuts</source>
+        <translation>Klavye kısayolları</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/shortcuts.py" line="57"/>
         <source>Find a shortcut or an action</source>
         <translation>Bir kısayol ya da işlem bulun</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="56"/>
+        <location filename="../../ui/kit/shortcuts.py" line="60"/>
         <source>Action</source>
         <translation>İşlem</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/shortcuts.py" line="56"/>
+        <location filename="../../ui/kit/shortcuts.py" line="60"/>
         <source>Keys</source>
         <translation>Tuşlar</translation>
     </message>
@@ -15030,14 +15035,6 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/spectro_page.py" line="99"/>
         <source>Tick when the wavelength decreases along the axis (blue on the right, or at the top)</source>
         <translation>Dalga boyu eksen boyunca azalıyorsa işaretleyin (mavi sağda ya da üstte)</translation>
-    </message>
-</context>
-<context>
-    <name>window</name>
-    <message>
-        <location filename="../../ui/kit/shortcuts.py" line="51"/>
-        <source>Keyboard shortcuts</source>
-        <translation>Klavye kısayolları</translation>
     </message>
 </context>
 </TS>
