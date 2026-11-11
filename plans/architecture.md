@@ -347,7 +347,10 @@ the suite is green after each.
   - **ARC-4.4** `main_window.py` (2859) → `ui/shell/`: `app.py` (start-up), `main_window.py` (the start window only),
     `menus.py`, `area_registry.py` (the table of areas: key, title, icon, factory, opener — one source for the
     start window, Window menus and Ctrl+K), `tasks_panel.py`, `settings_menu.py`, `help.py`, and each area's
-    `_xxx_menus` moved into that area's package as `menus.py`. **open**
+    `_xxx_menus` moved into that area's package as `menus.py`. **open** — first parts by agent3 (2026-11-11):
+    the Help menu with both checks (`ui/help_checks.py`), the internet settings (`ui/online_actions.py`) and the
+    nine areas' menus with `_mirror` / `_follow_enabled` (`ui/area_menus.py`; one module until each area has its
+    package in UI-16) moved out, texts kept in the "MainWindow" translation context: 2861 → 2525 lines.
   - **ARC-4.5** Calibration, Images, Observing, Planning pages → their packages. **merged into UI-16.2, 16.8, 16.9, 16.10 (agent3, 2026-11-10; see the note below)**
   - **ARC-4.6** Light curves (period, frequency, variable search), O−C, Models, Automation, Remote sensing →
     their packages. **merged into UI-16.4 … 16.7, 16.12, 16.13 (agent3, 2026-11-10; see the note below)**
