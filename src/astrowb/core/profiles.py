@@ -129,3 +129,20 @@ def aavso_band(settings, name):
         return own
     upper = text.upper()
     return upper if upper in AAVSO_BANDS else _GUESS.get(upper)
+
+
+def scale_differs(settings, header, tolerance=0.05):
+    """(profile's ″/px, the solution's ″/px) when a plate solution in header disagrees with the profile's pixel
+    scale by more than tolerance (a wrong focal length or pixel size, a reducer forgotten); None otherwise."""
+    from astropy.wcs import WCS
+    from astropy.wcs.utils import proj_plane_pixel_scales
+
+    mine = pixel_scale(settings)
+    try:
+        wcs = WCS(header)
+    except Exception:  # noqa: BLE001 (any header astropy cannot read as a WCS: nothing to compare)
+        return None
+    if mine is None or not wcs.has_celestial:
+        return None
+    solved = float(proj_plane_pixel_scales(wcs.celestial).mean() * 3600)
+    return (mine, solved) if abs(solved / mine - 1) > tolerance else None

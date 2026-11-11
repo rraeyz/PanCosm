@@ -5014,7 +5014,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Yineleme:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="420"/>
+        <location filename="../../ui/image_actions.py" line="402"/>
+        <source>The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel size in Settings → Profiles.</source>
+        <translation>Çözüm {solved:.3f} ″/piksel veriyor, profil {mine:.3f} ″/piksel: Ayarlar → Profiller'de odak uzunluğunu ve piksel boyutunu denetleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_actions.py" line="436"/>
         <source>Open two or more images to stack them.</source>
         <translation>Üst üste eklemek için iki ya da daha çok görüntü açın.</translation>
     </message>
@@ -5120,27 +5125,27 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="197"/>
+        <location filename="../../ui/file_actions.py" line="203"/>
         <source>No plugins installed</source>
         <translation>Kurulu eklenti yok</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="199"/>
+        <location filename="../../ui/file_actions.py" line="205"/>
         <source>Failed to load: {f}</source>
         <translation>Yüklenemedi: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="202"/>
+        <location filename="../../ui/file_actions.py" line="208"/>
         <source>Plugin error</source>
         <translation>Eklenti hatası</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="211"/>
         <source>Allow {f}…</source>
         <translation>{f} için izin ver…</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="210"/>
+        <location filename="../../ui/file_actions.py" line="216"/>
         <source>Open plugins folder</source>
         <translation>Eklenti klasörünü aç</translation>
     </message>
@@ -5155,19 +5160,19 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Proje aç</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="68"/>
+        <location filename="../../ui/file_actions.py" line="74"/>
         <source>Open FITS</source>
         <translation>FITS aç</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="129"/>
+        <location filename="../../ui/file_actions.py" line="135"/>
         <source>Cannot open file</source>
         <translation>Dosya açılamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="174"/>
+        <location filename="../../ui/file_actions.py" line="180"/>
         <location filename="../../ui/image_actions.py" line="91"/>
-        <location filename="../../ui/image_actions.py" line="426"/>
+        <location filename="../../ui/image_actions.py" line="442"/>
         <source>Save FITS as</source>
         <translation>FITS&apos;i farklı kaydet</translation>
     </message>
@@ -5192,17 +5197,17 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>görüntü işlemi</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="209"/>
+        <location filename="../../ui/file_actions.py" line="215"/>
         <source>Install the example plugins</source>
         <translation>Örnek eklentileri kur</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="211"/>
+        <location filename="../../ui/file_actions.py" line="217"/>
         <source>What are plugins?</source>
         <translation>Eklenti nedir?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="217"/>
+        <location filename="../../ui/file_actions.py" line="223"/>
         <source>{path}
 
 This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
@@ -5211,17 +5216,17 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
 Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkilerinizle çalışır: yalnızca kendiniz yazdıysanız ya da nereden geldiğini biliyorsanız izin verin.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="223"/>
+        <location filename="../../ui/file_actions.py" line="229"/>
         <source>Allow a plugin</source>
         <translation>Bir eklentiye izin ver</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="237"/>
+        <location filename="../../ui/file_actions.py" line="243"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Kuruldu: {names}. Artık Eklentiler menüsündeler.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="241"/>
+        <location filename="../../ui/file_actions.py" line="247"/>
         <source>The example plugins are already installed.</source>
         <translation>Örnek eklentiler zaten kurulu.</translation>
     </message>
@@ -5231,12 +5236,12 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Proje açılamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="116"/>
+        <location filename="../../ui/file_actions.py" line="122"/>
         <source>Image extension</source>
         <translation>Görüntü uzantısı</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="117"/>
+        <location filename="../../ui/file_actions.py" line="123"/>
         <source>This file holds several images:</source>
         <translation>Bu dosyada birden çok görüntü var:</translation>
     </message>
@@ -5316,12 +5321,12 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>ASTAP&apos;ı ve yıldız veritabanlarından birini (hnsky.org/astap.htm) ya da astrometry.net&apos;i kurup tekrar deneyin. İnternete hiçbir şey gönderilmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="444"/>
+        <location filename="../../ui/image_actions.py" line="460"/>
         <source>Stack written: {path}</source>
         <translation>Birleştirilmiş görüntü yazıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="452"/>
+        <location filename="../../ui/image_actions.py" line="468"/>
         <source>value</source>
         <translation>değer</translation>
     </message>

@@ -2001,3 +2001,19 @@ def test_a_new_project_keeps_a_copy_of_the_profile(window, tmp_path):
     profiles.update(window.settings, "site", name="Home")
     window.open_project(tmp_path / "p.astroproj")
     assert json.loads(window.engine.project.meta("profile"))["site"]["name"] == "TUG"
+
+
+def test_plate_solution_checked_against_the_profile(window, tmp_path):
+    """ARC-16: a solution whose pixel scale differs from the profile's is pointed out in the status bar."""
+    import numpy as np
+
+    from astrowb.core import profiles
+
+    path = tmp_path / "solved.fits"
+    fits.PrimaryHDU(np.zeros((8, 8)), fits.Header({"CTYPE1": "RA---TAN", "CTYPE2": "DEC--TAN", "CDELT1": -0.62 / 3600,
+                    "CDELT2": 0.62 / 3600})).writeto(path)  # fmt: skip
+    profiles.update(window.settings, "camera", pixel_size=3.76)
+    profiles.update(window.settings, "optics", focal_length=2000.0)
+    assert window._check_scale(path)
+    win = window.area_windows.get("image", window)
+    assert "0.620" in win.statusBar().currentMessage() and "0.388" in win.statusBar().currentMessage()

@@ -93,3 +93,19 @@ def test_aavso_dialog_takes_the_band_from_the_images(qtbot, tmp_path):
     dialog = AavsoDialog(2, settings=Settings(tmp_path))
     qtbot.addWidget(dialog)
     assert dialog.band_of([str(image)]) == "V" and dialog.band_of([]) is None
+
+
+def test_a_plate_solution_that_disagrees_with_the_profile_is_found(tmp_path):
+    from astropy.io import fits
+
+    settings = Settings(tmp_path)
+    solved = fits.Header({"CTYPE1": "RA---TAN", "CTYPE2": "DEC--TAN", "CRVAL1": 10.0, "CRVAL2": 20.0,
+                          "CDELT1": -0.62 / 3600, "CDELT2": 0.62 / 3600, "CRPIX1": 50, "CRPIX2": 50})  # fmt: skip
+    assert profiles.scale_differs(settings, solved) is None  # no scale in the profile yet
+    profiles.update(settings, "camera", pixel_size=3.76)
+    profiles.update(settings, "optics", focal_length=1250.0)  # 0.620 ″/px
+    assert profiles.scale_differs(settings, solved) is None
+    profiles.update(settings, "optics", focal_length=2000.0)  # 0.388 ″/px: a reducer forgotten
+    mine, got = profiles.scale_differs(settings, solved)
+    assert abs(mine - 0.388) < 0.001 and abs(got - 0.62) < 1e-6
+    assert profiles.scale_differs(settings, fits.Header()) is None
