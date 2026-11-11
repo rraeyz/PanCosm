@@ -1,0 +1,42 @@
+"""ARC-16: one profile entered once; older settings move in; two windows do not undo each other's settings."""
+
+import pytest
+
+from astrowb.core import profiles
+from astrowb.settings import Settings
+
+
+def test_older_settings_move_into_the_profile(tmp_path):
+    s = Settings(tmp_path)
+    s.set("site", {"name": "TUG", "lat": 36.82, "lon": 30.34, "height": 2500.0})
+    s.set("mpc", {"code": "A84", "observers": "A. B.", "catalog": "Gaia3"})
+    assert profiles.section(s, "site")["lat"] == 36.82
+    assert profiles.section(s, "observer")["mpc_code"] == "A84" and profiles.section(s, "camera")["gain"] == 0.0
+    profiles.update(s, "observer", aavso_code="XYZ")
+    assert Settings(tmp_path).get("profile")["observer"] == {"mpc_code": "A84", "observers": "A. B.",
+                                                             "catalog": "Gaia3", "aavso_code": "XYZ"}  # fmt: skip
+    with pytest.raises(KeyError):
+        profiles.update(s, "camera", gian=2.0)
+
+
+def test_two_settings_objects_do_not_undo_each_other(tmp_path):
+    a, b = Settings(tmp_path), Settings(tmp_path)
+    a.set("ui.theme", "dark")
+    b.set("plan.utc_offset", 3.0)  # b was made before a's change
+    assert Settings(tmp_path).values == {"ui.theme": "dark", "plan.utc_offset": 3.0}
+
+
+def test_the_aavso_code_is_remembered(qapp, tmp_path):
+    from astrowb.ui.aavso_dialog import AavsoDialog
+
+    s = Settings(tmp_path)
+    d = AavsoDialog(2, settings=s)
+    d.obscode.setText("abc")
+    d.accept()
+    assert AavsoDialog(2, settings=Settings(tmp_path)).obscode.text() == "ABC"
+
+
+def test_a_site_with_a_name_is_saved(tmp_path):
+    s = Settings(tmp_path)
+    profiles.update(s, "site", name="TUG", lat=36.8, lon=30.3, height=2500.0)
+    assert profiles.section(s, "site")["name"] == "TUG" and s.get("site")["lat"] == 36.8

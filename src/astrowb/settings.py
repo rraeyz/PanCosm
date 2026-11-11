@@ -51,6 +51,12 @@ class Settings:
         return self.values.get(key, default)
 
     def set(self, key, value):
+        """Change one key. The file is read first: another window (another Settings object) may have changed
+        other keys since this one was made, and writing a stale copy would undo them."""
+        try:
+            self.values = json.loads(self.path.read_text(encoding="utf-8"))
+        except (FileNotFoundError, ValueError):
+            pass
         self.values[key] = value
         self.save()
 

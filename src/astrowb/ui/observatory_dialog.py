@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from ..core import profiles
 from ..devices import setup
 from .messages import translate
 
@@ -45,7 +46,7 @@ class ObservatoryDialog(QDialog):
         self.setWindowTitle(self.tr("Observatory set-up"))
         self.resize(760, 600)  # a starting size; small screens may make it narrower
         lay = QVBoxLayout(self)
-        site = settings.get("site", {"lat": 39.9, "lon": 32.8, "height": 900.0})
+        site = profiles.section(settings, "site")
         form = QFormLayout()
         self.lat = _spin(site["lat"], -90, 90, " °", 5)
         self.lon = _spin(site["lon"], -180, 360, " °", 5)
