@@ -69,7 +69,8 @@ def night(folder, size, n, rng):
 
 
 def cases(tmp, ci):
-    """[(name, budget row, function, repeats)] in the order they run (later cases use earlier results)."""
+    """[(name, budget row, function, repeats[, set-up])] in the order they run (later cases use earlier results); a
+    set-up runs before every call, untimed."""
     from astrowb.engine import builtin  # noqa: F401  (registers the steps)
     from astrowb.engine.steps import execute
     from astrowb.io.fits import read_image
@@ -129,7 +130,14 @@ def cases(tmp, ci):
 
         eccentric_anomaly(rng.uniform(0, 100, 1_000_000), 0.3)
 
+    def close_main():
+        main = keep.pop("main", None)
+        if main is not None:
+            main.engine.shutdown()
+            main.close()
+
     def start_window():  # from source: the budget's "Start window visible" (< 1.0 s)
+        import atexit
         import os
 
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -139,25 +147,25 @@ def cases(tmp, ci):
         from astrowb.ui.main_window import MainWindow
 
         keep["app"] = QApplication.instance() or QApplication([])
-        folder = Path(tmp) / "settings"
-        folder.mkdir(exist_ok=True)
+        atexit.register(close_main)
+        folder = Path(tmp) / f"settings{id(object())}"
+        folder.mkdir()
         keep["main"] = MainWindow(Settings(folder))
         keep["main"].show()
         keep["app"].processEvents()
 
-    def open_window():  # the first time: the budget's "Open an area window" (first time < 1.0 s)
-        main = keep.pop("main")
-        try:
-            main.show_workspace("photometry")
-            keep["app"].processEvents()
-        finally:
-            main.engine.shutdown()
-            main.close()
+    def open_window():  # in a fresh start window: the budget's "Open an area window" (first time < 1.0 s)
+        keep["main"].show_workspace("photometry")
+        keep["app"].processEvents()
+
+    def fresh_main():
+        close_main()
+        start_window()
 
     return [
         (f"open a {size}x{size} FITS", "Show a frame", lambda: read_image(raw / "l00.fits"), 3),
-        ("start window", "Start window visible", start_window, 1),
-        ("open the Photometry window (first time)", "Open an area window", open_window, 1),
+        ("start window", "Start window visible", start_window, 1, close_main),
+        ("open the Photometry window (first time)", "Open an area window", open_window, 1, fresh_main),
         (f"display conversion {size}x{size}", "Show a frame", display, 3),
         (f"calibrate: 3 masters of 5 + {n} lights", "Calibrate", calibrate, 1),
         (f"stack {n} lights (sigma clip)", "Calibrate", stack, 1),
@@ -186,13 +194,16 @@ def commit():
 def run(ci, out):
     results = {}
     with tempfile.TemporaryDirectory() as tmp:
-        for name, budget, fn, repeats in cases(tmp, ci):
+        for name, budget, fn, repeats, *setup in cases(tmp, ci):
+            prepare = setup[0] if setup else (lambda: None)
+            prepare()
             tracemalloc.start()  # a first run for the memory (tracing slows allocations: not timed), then the times
             fn()
             peak = tracemalloc.get_traced_memory()[1]
             tracemalloc.stop()
             times = []
             for _ in range(repeats):
+                prepare()
                 t0 = time.perf_counter()
                 fn()
                 times.append(time.perf_counter() - t0)
