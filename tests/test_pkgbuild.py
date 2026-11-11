@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -27,7 +28,7 @@ def test_pkgbuild_names_each_appimage_with_its_checksum(tmp_path):
     assert f"pkgname={app}-bin" in text and "arch=(x86_64)" in text and "aarch64" not in text
     assert f"sha256sums_x86_64=('{hashlib.sha256(image.read_bytes()).hexdigest()}')" in text
     assert f"/releases/download/v{version}/{image.name}" in text
-    if shutil.which("bash"):  # the file is valid shell: makepkg sources it
+    if shutil.which("bash") and sys.platform != "win32":  # valid shell: makepkg sources it (Windows' bash is WSL's)
         run = subprocess.run(["bash", "-n", str(tmp_path / "PKGBUILD")], capture_output=True, text=True)
         assert run.returncode == 0, run.stderr
     with pytest.raises(SystemExit):
