@@ -410,27 +410,37 @@
         <translation>Aşama panelini göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="85"/>
+        <location filename="../../ui/kit/anatomy.py" line="67"/>
+        <source>Run the stage&apos;s main action</source>
+        <translation>Aşamanın ana işlemini çalıştır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/anatomy.py" line="88"/>
+        <source>This stage has no main action to run now</source>
+        <translation>Bu aşamanın şu an çalıştırılacak ana işlemi yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/anatomy.py" line="99"/>
         <source>Inspector</source>
         <translation>Ayrıntılar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="86"/>
+        <location filename="../../ui/kit/anatomy.py" line="100"/>
         <source>Show or hide the inspector</source>
         <translation>Ayrıntılar panelini göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="95"/>
+        <location filename="../../ui/kit/anatomy.py" line="109"/>
         <source>Show or hide the results</source>
         <translation>Sonuçları göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="96"/>
+        <location filename="../../ui/kit/anatomy.py" line="110"/>
         <source>Next result tab</source>
         <translation>Sonraki sonuç sekmesi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="106"/>
+        <location filename="../../ui/kit/anatomy.py" line="120"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
@@ -637,116 +647,121 @@
         <translation>Bu pencere için çalışan işi durdur</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="248"/>
-        <location filename="../../ui/kit/window.py" line="252"/>
+        <location filename="../../ui/kit/window.py" line="228"/>
+        <source>Stop the running work</source>
+        <translation>Çalışan işi durdur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/window.py" line="255"/>
+        <location filename="../../ui/kit/window.py" line="259"/>
         <source>{name}: finished</source>
         <translation>{name}: bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="253"/>
+        <location filename="../../ui/kit/window.py" line="260"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: başarısız (iletiye bakın)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="254"/>
+        <location filename="../../ui/kit/window.py" line="261"/>
         <source>{name}: cancelled</source>
         <translation>{name}: iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="270"/>
+        <location filename="../../ui/kit/window.py" line="278"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} iş daha)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="281"/>
+        <location filename="../../ui/kit/window.py" line="289"/>
         <source> · from the cache, fetched on {date}</source>
         <translation> · önbellekten, alındığı tarih {date}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="288"/>
+        <location filename="../../ui/kit/window.py" line="296"/>
         <source>Working: {task}</source>
         <translation>Çalışıyor: {task}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="293"/>
+        <location filename="../../ui/kit/window.py" line="301"/>
         <source>Stopping…</source>
         <translation>Durduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="310"/>
+        <location filename="../../ui/kit/window.py" line="318"/>
         <source>(none yet)</source>
         <translation>(henüz yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="313"/>
+        <location filename="../../ui/kit/window.py" line="321"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="344"/>
+        <location filename="../../ui/kit/window.py" line="352"/>
         <source>Session saved: {path}</source>
         <translation>Oturum kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="353"/>
+        <location filename="../../ui/kit/window.py" line="361"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="356"/>
+        <location filename="../../ui/kit/window.py" line="364"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="361"/>
+        <location filename="../../ui/kit/window.py" line="369"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="365"/>
+        <location filename="../../ui/kit/window.py" line="373"/>
         <source>Session opened: {path}</source>
         <translation>Oturum açıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="367"/>
-        <location filename="../../ui/kit/window.py" line="378"/>
+        <location filename="../../ui/kit/window.py" line="375"/>
+        <location filename="../../ui/kit/window.py" line="386"/>
         <source>Open session</source>
         <translation>Oturum aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="372"/>
+        <location filename="../../ui/kit/window.py" line="380"/>
         <source>Save session</source>
         <translation>Oturumu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="372"/>
-        <location filename="../../ui/kit/window.py" line="378"/>
+        <location filename="../../ui/kit/window.py" line="380"/>
+        <location filename="../../ui/kit/window.py" line="386"/>
         <source>Session (*.session.json)</source>
         <translation>Oturum (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="388"/>
+        <location filename="../../ui/kit/window.py" line="396"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="448"/>
+        <location filename="../../ui/kit/window.py" line="460"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="511"/>
+        <location filename="../../ui/kit/window.py" line="523"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="120"/>
-        <location filename="../../ui/report.py" line="130"/>
+        <location filename="../../ui/report.py" line="122"/>
+        <location filename="../../ui/report.py" line="132"/>
         <source>Report a problem</source>
         <translation>Sorun bildir</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="131"/>
+        <location filename="../../ui/report.py" line="133"/>
         <source>The report is saved:
 {path}
 
@@ -1945,12 +1960,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="602"/>
+        <location filename="../../ui/kit/window.py" line="614"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="603"/>
+        <location filename="../../ui/kit/window.py" line="615"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -2035,7 +2050,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/converter_dialog.py" line="120"/>
         <source>If the source did not say whether its HJD is in UTC or TT, the times may be off by up to {s:.1f} s (TT − UTC on those dates).</source>
-        <translation>Kaynak HJD'sinin UTC mi TT mi olduğunu söylemediyse zamanlar {s:.1f} s'ye kadar kayık olabilir (o tarihlerde TT − UTC).</translation>
+        <translation>Kaynak HJD&apos;sinin UTC mi TT mi olduğunu söylemediyse zamanlar {s:.1f} s&apos;ye kadar kayık olabilir (o tarihlerde TT − UTC).</translation>
     </message>
 </context>
 <context>
@@ -3821,13 +3836,13 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Resim olarak kaydet (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="336"/>
+        <location filename="../../ui/area_windows.py" line="340"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="332"/>
+        <location filename="../../ui/area_windows.py" line="336"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Görüntüyü &amp;kapat</translation>
@@ -3873,67 +3888,67 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="183"/>
+        <location filename="../../ui/area_windows.py" line="187"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="183"/>
+        <location filename="../../ui/area_windows.py" line="187"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="184"/>
+        <location filename="../../ui/area_windows.py" line="188"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="186"/>
+        <location filename="../../ui/area_windows.py" line="190"/>
         <source>not marked</source>
         <translation>işaretli değil</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="187"/>
+        <location filename="../../ui/area_windows.py" line="191"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="189"/>
+        <location filename="../../ui/area_windows.py" line="193"/>
         <source>Role</source>
         <translation>Rol</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="190"/>
+        <location filename="../../ui/area_windows.py" line="194"/>
         <source>x, y (FITS pixels)</source>
         <translation>x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="191"/>
+        <location filename="../../ui/area_windows.py" line="195"/>
         <source>Peak</source>
         <translation>Tepe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="192"/>
+        <location filename="../../ui/area_windows.py" line="196"/>
         <source>Sky per pixel</source>
         <translation>Piksel başına gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="193"/>
+        <location filename="../../ui/area_windows.py" line="197"/>
         <source>Net counts</source>
         <translation>Net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="194"/>
+        <location filename="../../ui/area_windows.py" line="198"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="203"/>
+        <location filename="../../ui/area_windows.py" line="207"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="334"/>
+        <location filename="../../ui/area_windows.py" line="338"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Tüm görüntüleri kapat</translation>
@@ -4119,7 +4134,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="425"/>
+        <location filename="../../ui/area_windows.py" line="429"/>
         <source>&amp;Measure</source>
         <translation>Ö&amp;lç</translation>
     </message>
@@ -4140,69 +4155,69 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="81"/>
-        <location filename="../../ui/area_windows.py" line="397"/>
+        <location filename="../../ui/area_windows.py" line="401"/>
         <source>F&amp;rames</source>
         <translation>&amp;Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="411"/>
+        <location filename="../../ui/area_windows.py" line="415"/>
         <source>&amp;Stars</source>
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="375"/>
-        <location filename="../../ui/area_windows.py" line="306"/>
-        <location filename="../../ui/area_windows.py" line="437"/>
+        <location filename="../../ui/area_windows.py" line="310"/>
+        <location filename="../../ui/area_windows.py" line="441"/>
         <source>&amp;Analyse</source>
         <translation>&amp;Analiz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="284"/>
+        <location filename="../../ui/area_windows.py" line="288"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Renk kanallarına ayır (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="286"/>
+        <location filename="../../ui/area_windows.py" line="290"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Renkli kameranın ham görüntüsü, her renk için bir tane olmak üzere yarı boyutta üç görüntü olarak (ara değerleme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="292"/>
+        <location filename="../../ui/area_windows.py" line="296"/>
         <source>Stack the open images…</source>
         <translation>Açık görüntüleri üst üste ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="294"/>
+        <location filename="../../ui/area_windows.py" line="298"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Açık görüntüler yıldızlarına göre hizalanır, aykırı değerler atılarak ortalaması alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="297"/>
+        <location filename="../../ui/area_windows.py" line="301"/>
         <source>Drizzle the open images…</source>
         <translation>Açık görüntüleri drizzle ile birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="299"/>
+        <location filename="../../ui/area_windows.py" line="303"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Kaydırılarak çekilmiş görüntüler iki kat ince bir ızgaraya (az örneklenmiş yıldızlar için daha keskin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="310"/>
+        <location filename="../../ui/area_windows.py" line="314"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="311"/>
+        <location filename="../../ui/area_windows.py" line="315"/>
         <source>&amp;Colour</source>
         <translation>&amp;Renk</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="312"/>
+        <location filename="../../ui/area_windows.py" line="316"/>
         <source>S&amp;tack</source>
         <translation>&amp;Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="322"/>
+        <location filename="../../ui/area_windows.py" line="326"/>
         <source>Copy the header</source>
         <translation>Başlığı kopyala</translation>
     </message>
@@ -4578,7 +4593,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Tayfı farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="245"/>
+        <location filename="../../ui/area_windows.py" line="249"/>
         <source>&amp;Job</source>
         <translation>&amp;İş</translation>
     </message>

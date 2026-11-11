@@ -163,6 +163,16 @@ def _photometry_stages(win, page):
     page.steps_shown = follow
     page.viewer.step_frame.connect(lambda d: page.frame_slider.setValue(page.frame_slider.value() + d))  # [ ]
     page.viewer.blink_key.connect(lambda: page.blink.isEnabled() and page.blink.click())  # b
+    for main in (
+        page.load_button,
+        page.suggest_button,
+        page.apertures_button,
+        page.measure_button,
+        page.minimum_button,
+        page.export_button,
+    ):  # one main button per stage: F5 presses it (UI-12)
+        main.setProperty("primary", True)
+        main.style().polish(main)  # fmt: skip
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)

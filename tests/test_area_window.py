@@ -434,3 +434,35 @@ def test_cache_note_names_the_oldest_saved_answer(qtbot, tmp_path):
     old = QDateTime.fromString("2026-11-02 10:00", "yyyy-MM-dd HH:mm").toSecsSinceEpoch()
     note = win.cache_note(SimpleNamespace(sources={"vizier": (old + 86400, True), "simbad": (old, True)}))
     assert "2026-11-02 10:00" in note
+
+
+def test_f5_runs_the_stage_and_esc_stops_the_work(qtbot, tmp_path):
+    """UI-12: F5 presses the stage's main button; Esc cancels running work, and only then (Esc stays for fields)."""
+    from types import SimpleNamespace
+
+    from PySide6.QtWidgets import QPushButton
+
+    from astrowb.ui.kit.anatomy import Stage
+
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main view"))
+    qtbot.addWidget(win)
+    run = QPushButton("Measure")
+    run.setProperty("primary", True)
+    pressed = []
+    run.clicked.connect(lambda: pressed.append(1))
+    win.set_stages([Stage("images", "Images", QLabel("none")), Stage("measure", "Measure", run)])
+    win.show()
+    win.activateWindow()
+    qtbot.waitUntil(win.isActiveWindow)
+    qtbot.keyClick(win, Qt.Key_F5)
+    assert not pressed and "no main action" in win.statusBar().currentMessage()
+    win.show_stage("measure")
+    qtbot.keyClick(win, Qt.Key_F5)
+    assert pressed == [1]
+    assert not win.cancel_action.isEnabled()
+    stopped = []
+    task = SimpleNamespace(id=1, name="photometry.measure", state="running", progress=0.2, message="", finished=False,
+                           cancel=lambda: stopped.append(1))  # fmt: skip
+    win.track(task)
+    qtbot.keyClick(win, Qt.Key_Escape)
+    assert stopped == [1]
