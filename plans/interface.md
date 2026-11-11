@@ -444,7 +444,7 @@ for the window concerned.
 - **Depends on:** UI-3, UI-4, ARC-5 (cards), ARC-16 (tonight line; without it the line shows the set-up hint).
 
 ### UI-6. Empty, loading and error states for every view  (P1)
-**open**
+**partial** — done: every PlotCanvas (21 plots) says why it is empty until something is drawn (`set_empty_hint` for a page's own words); the image viewers of Images, Photometry, Spectroscopy and Remote sensing already had their hint. Left: the table of views with their own texts, loading and error states, the walk test.
 - **Build:** a table in this step (filled by the agent) of every main view and result tab of every window with its
   `EmptyState` text, primary action and practice set; loading states (skeleton: the view's frame with a thin
   progress line and the task's phase text); error states (the `InfoBanner` with the error's what / do and "Try
