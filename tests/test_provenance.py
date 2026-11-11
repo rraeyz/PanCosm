@@ -102,3 +102,29 @@ def test_ecsv_products_carry_the_record_too(tmp_path):
     rec = provenance.read(table)
     assert rec["step"] == "photometry.light_curve" and rec["params"] == {"r": 5}
     assert Table.read(table)["bjd"][0] == 2460512.123456789 and plain.read_text() == "bjd,mag\n1,2\n"
+
+
+def test_a_product_names_the_online_answers_its_step_used(tmp_path, monkeypatch):
+    """ARC-14 item 4: the record lists each catalogue asked and when its answer was fetched; the hash ignores it."""
+    from types import SimpleNamespace
+
+    from astrowb import settings
+    from astrowb.engine import steps
+    from astrowb.services import cache
+
+    monkeypatch.setenv(settings.ENV_CONFIG_DIR, str(tmp_path))
+    out = tmp_path / "out.fits"
+
+    def func(inputs, params, ctx):
+        cache.cached("vizier", "cone", lambda: 3)
+        fits.PrimaryHDU(np.ones((4, 4), np.float32)).writeto(out)
+        return {"image": str(out)}
+
+    fake = SimpleNamespace(inputs=[], outputs=["image"], defaults={}, func=func)
+    monkeypatch.setattr(steps, "get", lambda _id: fake)
+    cache.last["simbad"] = (0.0, True)  # from before the step: not its own
+    steps.execute("test.fetch", {}, {}, None)
+    rec = provenance.read(out)
+    assert list(rec["services"]) == ["vizier"] and rec["services"]["vizier"].startswith("20")
+    assert "online: vizier" in str(fits.getheader(out)["HISTORY"])
+    assert provenance.digest(rec) == provenance.digest({k: v for k, v in rec.items() if k != "services"})

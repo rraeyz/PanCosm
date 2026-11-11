@@ -72,9 +72,15 @@ def record(step_id, params, inputs):
     }
 
 
+def when(seconds):
+    """A time in seconds since 1970 as the records write it (UTC, ISO 8601)."""
+    return datetime.fromtimestamp(seconds, UTC).isoformat(timespec="seconds")
+
+
 def digest(rec):
-    """A short hash of the record (PROCHASH): equal for equal steps on equal inputs, whenever they ran."""
-    stable = {k: v for k, v in rec.items() if k != "made"}
+    """A short hash of the record (PROCHASH): equal for equal steps on equal inputs, whenever they ran (and
+    whenever their catalogue answers were fetched)."""
+    stable = {k: v for k, v in rec.items() if k not in ("made", "services")}
     return hashlib.blake2b(json.dumps(stable, sort_keys=True).encode(), digest_size=8).hexdigest()
 
 
@@ -92,6 +98,8 @@ def to_fits(header, rec):
     for role, files in rec["inputs"].items():
         for f in files:
             header.add_history(f"  {role}: {f['name']} {f.get('blake2', '')}"[:72])
+    for service, fetched in rec.get("services", {}).items():
+        header.add_history(f"  online: {service} answer of {fetched}"[:72])
     # spaces escaped: FITS drops the trailing spaces of a card, which would cut a space at the end of a chunk
     text = json.dumps(rec, separators=(",", ":"), ensure_ascii=True).replace(" ", "\\u0020")
     for i in range(0, len(text), _LINE):

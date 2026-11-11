@@ -63,6 +63,9 @@ def execute(step_id, inputs, params, ctx):
     if missing:
         raise MissingInput(step_id, missing)
     started = time.time()
+    from ..services import cache
+
+    cache.last.clear()  # what is left after the step: the online answers it used (ARC-14 item 4)
     out = s.func(dict(inputs), s.defaults | dict(params), ctx)
     absent = [n for n in s.outputs if n not in out]
     if absent:
@@ -95,6 +98,10 @@ def _mark_products(step_id, inputs, params, out, started):
     made = {str(p) for p in products}
     files = {k: [p for p in paths(v) if Path(p).is_file() and str(p) not in made] for k, v in inputs.items()}
     record = provenance.record(step_id, params, {k: v for k, v in files.items() if v})  # inputs that are files
+    from ..services import cache
+
+    if cache.last:  # the catalogues and archives asked, with the date of each answer: the methods text cites them
+        record["services"] = {svc: provenance.when(t) for svc, (t, _) in sorted(cache.last.items())}
     for path in products:
         try:
             (_mark_ecsv if path.suffix.lower() == ".ecsv" else _mark_fits)(path, step_id, record)

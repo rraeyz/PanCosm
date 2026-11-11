@@ -809,7 +809,7 @@ the suite is green after each.
   cache wraps the call rather than the HTTP request; `mirrors.cds` stays the fall-back between servers. A worker task now
   passes `cache.last` back (`Task.sources`) and the area window's toast and status line add "from the cache,
   fetched on <date>". SIMBAD names and the MAST light-curve lists go through the
-  cache too (the downloaded files stay in astroquery's own folder). Pending: the module consolidation (item 3), fetch records for the methods text (4), the installation
+  cache too (the downloaded files stay in astroquery's own folder). Item 4: a step's products list in their record (`services`) each catalogue / archive the step asked and when that answer was fetched (a `HISTORY` line too; left out of `PROCHASH`). Pending: the module consolidation (item 3), the installation
   check from a registry (5), recorded responses for tests (6).
 - **Ours now:** `mirrors.py` (CDS → Harvard / IDIA fall-back, remembered server), `gaia.py` (VizieR or ESA archive, cache), separate queries in `overlays.py`, `photometry/catalog.py`, `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`.
 - **Why:** AD-9. Queries live in `gaia.py`, `mirrors.py`, `overlays.py`, `photometry/catalog.py`,
