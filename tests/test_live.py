@@ -94,3 +94,17 @@ def test_a_frame_without_a_comparison_star_is_measured_against_the_others(tmp_pa
     assert lc["partial"] == {"f02.fits": [2]} and abs(lc["rel_flux"][2] / lc["rel_flux"][0] - 1) < 0.01  # no jump
     batch = light_curve(paths, STARS[0][:2], [s[:2] for s in STARS[1:]], 4, 10, 16)
     assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=1e-6) and batch["partial"] == lc["partial"]
+
+
+def test_live_measures_the_check_stars_as_the_night_run(tmp_path):
+    """PHO-19: a check star given to the live session is measured against the same comparison stars, as the night
+    run's extra stars (the window computes their curves from extra_flux)."""
+    paths = write_frames(tmp_path, 6)
+    target, comps, check = STARS[0][:2], [STARS[1][:2]], [STARS[2][:2]]
+    session = live.LiveLightCurve(target, comps, 4, 10, 16, extra_xy=check)
+    for p in paths:
+        assert session.add(p) is not None
+    lc = session.light_curve()
+    batch = light_curve(paths, target, comps, 4, 10, 16, extra_xy=check)
+    assert np.allclose(lc["extra_flux"], batch["extra_flux"], rtol=1e-9)
+    assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=1e-9)

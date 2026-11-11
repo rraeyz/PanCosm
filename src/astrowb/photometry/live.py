@@ -58,10 +58,13 @@ def _ensemble(pts):
 
 
 class LiveLightCurve:
-    def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None, **method):
+    def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None,
+                 extra_xy=(), **method):  # fmt: skip
         """method: psf, remove_neighbours, sky_method, centring, track_stars — light_curve's own per-frame code
-        (PHO-19); track_stars: stars picked on the first frame that place every frame (stacking.follow_stars)."""
-        self.xy = np.array([target_xy, *comps_xy], dtype=float)
+        (PHO-19); track_stars: stars picked on the first frame that place every frame (stacking.follow_stars);
+        extra_xy: check stars and further targets, measured against the same comparison stars (as the night run)."""
+        self.xy = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
+        self.n_comp = len(comps_xy)
         self.psf = bool(method.get("psf"))
         self.remove_neighbours = bool(method.get("remove_neighbours")) and not self.psf
         self.opts = {
@@ -117,22 +120,23 @@ class LiveLightCurve:
                 shift = frame_shift(self.ref, data)
             pred = self.xy @ self.place[0].T + self.place[1] if len(self.track) else self.xy + shift
             xy, flux, err, *_, lost = _measure_frame(
-                data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.ref_path,
+                data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, self.n_comp, self.ref_path,
                 opts=self.opts,
             )  # fmt: skip
-            seen = np.divide(flux[1:], err[1:], out=np.zeros(len(flux) - 1), where=err[1:] > 0) >= SNR_FOUND
+            k = 1 + self.n_comp  # target, comparison stars, then the extra stars
+            seen = np.divide(flux[1:k], err[1:k], out=np.zeros(k - 1), where=err[1:k] > 0) >= SNR_FOUND
             if lost and (lost[0] != "comparison" or not seen.any()):  # as the night run: no target, no comparison
                 self.failed[str(path)] = " ".join(str(x) for x in lost)  # star at all, or not placed: left out
                 return None
             flux, err = np.asarray(flux, float).copy(), np.asarray(err, float).copy()
-            flux[1:][~seen], err[1:][~seen] = np.nan, np.nan  # measured against the comparison stars it has
+            flux[1:k][~seen], err[1:k][~seen] = np.nan, np.nan  # measured against the comparison stars it has
             t = timing.mid_time(h)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"
             return None
         self.prev = data
-        pts = [*self.points, {"target_flux": flux[0], "target_flux_err": err[0], "comp_flux": flux[1:].tolist(),
-                              "comp_flux_err": err[1:].tolist()}]  # fmt: skip
+        pts = [*self.points, {"target_flux": flux[0], "target_flux_err": err[0], "comp_flux": flux[1:k].tolist(),
+                              "comp_flux_err": err[1:k].tolist()}]  # fmt: skip
         rel, rel_err = (float(v[-1]) for v in _ensemble(pts))
         if self.sky is not None:
             tv, scale = float(timing.bjd_tdb(t, self.sky, self.where).jd), "BJD_TDB"
@@ -147,8 +151,10 @@ class LiveLightCurve:
             "rel_flux_err": float(rel_err),
             "target_flux": float(flux[0]),
             "target_flux_err": float(err[0]),
-            "comp_flux": flux[1:].tolist(),
-            "comp_flux_err": err[1:].tolist(),
+            "comp_flux": flux[1:k].tolist(),
+            "comp_flux_err": err[1:k].tolist(),
+            "extra_flux": flux[k:].tolist(),
+            "extra_flux_err": err[k:].tolist(),
             "xy": xy.tolist(),
             "missing": [int(k) + 1 for k in np.flatnonzero(~seen)],  # 1-based, as the night run's "partial"
         }
@@ -166,6 +172,9 @@ class LiveLightCurve:
             rel, rel_err = _ensemble(pts)
             out["rel_flux"], out["rel_flux_err"] = rel.tolist(), rel_err.tolist()
         out["partial"] = {p["file"]: p["missing"] for p in pts if p["missing"]}
+        if len(self.xy) > 1 + self.n_comp:  # the check stars, as the night run gives them (the window computes theirs)
+            out["extra_flux"] = [p["extra_flux"] for p in pts]
+            out["extra_flux_err"] = [p["extra_flux_err"] for p in pts]
         out["time_scale"] = pts[0]["time_scale"] if pts else "JD_UTC"
         out["coord"] = self.sky.to_string("hmsdms") if self.sky is not None else None
         return out
