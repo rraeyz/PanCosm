@@ -37,6 +37,8 @@ def add(win, menu):
         )
     )
     win.offline_action.toggled.connect(lambda on: (settings.set("services.offline", on), cache.set_offline(on)))
+    win.offline_action.toggled.connect(lambda on: win.start_page.show_offline(on))
+    win.start_page.show_offline(cache.offline())
     menu.addAction(win.offline_action)
     win._action(
         menu, QCoreApplication.translate("MainWindow", "Clear the saved catalogue answers…"), lambda: clear(win)

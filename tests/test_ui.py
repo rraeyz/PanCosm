@@ -1914,3 +1914,15 @@ def test_settings_profile_filled_from_a_header(window, tmp_path):
     assert profiles.section(window.settings, "camera")["gain"] == 1.4
     assert win.profile_controls[("site", "lat")].value() == 36.8247
     win.close()
+
+
+def test_start_window_says_when_working_offline(window):
+    """UI-5: while Settings → Work offline is on, the start window says so (a forgotten switch looks like
+    "not found" in every catalogue)."""
+    page = window.start_page
+    window.offline_action.setChecked(True)
+    try:
+        assert page.offline_banner.isVisibleTo(page) and "offline" in page.offline_banner.text().lower()
+    finally:
+        window.offline_action.setChecked(False)
+    assert not page.offline_banner.isVisibleTo(page)
