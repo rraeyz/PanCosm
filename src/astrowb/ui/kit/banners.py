@@ -7,7 +7,7 @@ for information.
 """
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QToolButton, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QToolButton, QWidget
 
 from . import tokens
 
@@ -79,3 +79,4 @@ class Badge(QLabel):
             raise ValueError(f"unknown badge kind {kind}")
         edge, _ink = _colours(self, kind)
         self.setStyleSheet(f"QLabel {{ color: {edge}; border: 1px solid {edge}; border-radius: 8px; padding: 0 6px; }}")
+        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)

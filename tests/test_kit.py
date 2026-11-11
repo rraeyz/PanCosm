@@ -292,3 +292,17 @@ def test_path_field(qtbot, tmp_path):
     qtbot.addWidget(one)
     qtbot.keyClicks(one.edit, str(files[0]))
     assert one.paths() == [str(files[0])] and one.kit_binding()[1]() == str(files[0])
+
+
+def test_kit_gallery_builds(qtbot):
+    import importlib.util
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "tools" / "kit_gallery.py"
+    spec = importlib.util.spec_from_file_location("kit_gallery", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    _app, page = module.gallery()
+    qtbot.addWidget(page)
+    page.show()
+    assert page.findChildren(type(page)) and not page.grab().isNull()
