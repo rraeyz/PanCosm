@@ -120,6 +120,20 @@ def glossary_problems(lang="tr"):
     return out
 
 
+def infinitives(lang="tr", longest=40):
+    """[(source, translation)] of short Turkish texts (buttons, menu items) that end in an infinitive ("Ölçmek")
+    instead of the imperative a button uses ("Ölç"; plans/interface.md UI-18)."""
+    out = []
+    for _ctx, _where, m in _messages(lang):
+        source, tr = m.findtext("source") or "", m.find("translation")
+        if tr is None or tr.get("type") in ("obsolete", "vanished") or not tr.text:
+            continue
+        text = tr.text.replace("&", "").rstrip("…. ")
+        if len(text) < longest and re.search(r"\w(mek|mak)$", text, re.I):
+            out.append((source, tr.text))
+    return out
+
+
 def long_translations(lang="tr", factor=1.6, shortest=12):
     """[(source, translation, ratio)] of translations longer than factor × the English (ARC-18 item 2: where a label
     may be cut); very short sources (a word, a unit) are left out, their ratios mean nothing."""
