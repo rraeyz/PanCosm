@@ -143,3 +143,18 @@ def test_zoom_keys_over_the_image(qtbot):
     assert v.transform().m11() == 0.8
     qtbot.keyClick(v, Qt.Key_0)
     assert abs(v.transform().m11() - fitted) < 1e-9 and v._fit_mode
+
+
+def test_bracket_keys_step_the_frames(qtbot):
+    """UI-12: [ and ] over an image ask for the previous / next frame of the series."""
+    import numpy as np
+
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    qtbot.addWidget(v)
+    v.set_image(np.zeros((10, 10), np.float32))
+    steps = []
+    v.step_frame.connect(steps.append)
+    qtbot.keyClicks(v, "][")
+    assert steps == [1, -1]
