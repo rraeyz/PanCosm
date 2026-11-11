@@ -8587,43 +8587,43 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PathField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="176"/>
+        <location filename="../../ui/kit/fields.py" line="177"/>
         <source>Drop files here or choose with …</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="180"/>
+        <location filename="../../ui/kit/fields.py" line="181"/>
         <source>Choose…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="198"/>
-        <location filename="../../ui/kit/fields.py" line="256"/>
+        <location filename="../../ui/kit/fields.py" line="199"/>
+        <location filename="../../ui/kit/fields.py" line="257"/>
         <source>{n} files — first: {name}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="204"/>
+        <location filename="../../ui/kit/fields.py" line="205"/>
         <source>Not found: {path}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="219"/>
+        <location filename="../../ui/kit/fields.py" line="220"/>
         <source>Choose a folder</source>
         <translation type="unfinished">Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="222"/>
+        <location filename="../../ui/kit/fields.py" line="223"/>
         <source>Choose files</source>
         <translation type="unfinished">Dateien wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="224"/>
+        <location filename="../../ui/kit/fields.py" line="225"/>
         <source>Choose a file</source>
         <translation type="unfinished">Datei wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="260"/>
+        <location filename="../../ui/kit/fields.py" line="261"/>
         <source>No recent choices</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13293,6 +13293,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/spectrum_tools.py" line="743"/>
         <source>BeSS file</source>
         <translation>BeSS-Datei</translation>
+    </message>
+</context>
+<context>
+    <name>StagePanel</name>
+    <message>
+        <location filename="../../ui/kit/rail.py" line="116"/>
+        <source>Help on this stage</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StageRail</name>
+    <message>
+        <location filename="../../ui/kit/rail.py" line="57"/>
+        <source>Keep the names shown</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
