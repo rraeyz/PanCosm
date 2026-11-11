@@ -220,6 +220,8 @@ class PlotCanvas(QWidget):
         self.hint.setAttribute(Qt.WA_TransparentForMouseEvents)
         self.canvas.mpl_connect("draw_event", lambda _e: self._update_hint())
         self._update_hint()
+        self.canvas.setContextMenuPolicy(Qt.CustomContextMenu)  # the same right-click menu on every plot (UI-10)
+        self.canvas.customContextMenuRequested.connect(self._context_menu)
 
     def set_empty_hint(self, text):
         self.hint.setText(text)
@@ -296,6 +298,42 @@ class PlotCanvas(QWidget):
                 for x, y in np.asarray(xy, float).reshape(-1, 2):
                     rows.append((name, label, float(x), float(y)))
         return rows
+
+    def _context_menu(self, pos):
+        self.context_menu().exec(self.canvas.mapToGlobal(pos))
+
+    def context_menu(self):
+        from PySide6.QtWidgets import QMenu
+
+        menu = QMenu(self)
+        menu.addAction(self.tr("Show all"), self.show_all)
+        menu.addSeparator()
+        menu.addAction(self.tr("Copy picture"), self.copy_picture)
+        menu.addAction(self.tr("Copy data"), self.copy_data).setEnabled(not self.is_empty())
+        # lambdas: the action's "checked" flag must not arrive as the file name
+        menu.addAction(self.tr("Save data…"), lambda: self.export_data()).setEnabled(not self.is_empty())
+        menu.addAction(self.tr("Publication figure…"), lambda: self.export_publication())
+        return menu
+
+    def show_all(self):
+        """Every axis back to its data's full range (after zooming)."""
+        for ax in self.figure.axes:
+            ax.relim()
+            ax.autoscale()
+        self.canvas.draw_idle()
+
+    def copy_picture(self):
+        from PySide6.QtWidgets import QApplication
+
+        QApplication.clipboard().setPixmap(self.canvas.grab())
+
+    def copy_data(self):
+        """Tab-separated axis, series, x, y: pastes into a spreadsheet."""
+        from PySide6.QtWidgets import QApplication
+
+        lines = ["axis\tseries\tx\ty"] + ["\t".join(str(v) for v in row) for row in self.data_rows()]
+        QApplication.clipboard().setText("\n".join(lines))
+        return len(lines) - 1
 
     def export_data(self, path=None):
         import csv
