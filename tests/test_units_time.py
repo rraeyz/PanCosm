@@ -108,3 +108,26 @@ def test_converter_window(qapp, tmp_path):
     assert "69.2 s" in d.status.text()
     d.times.setPlainText("")
     assert d.convert() is None and d.status.text()
+
+
+def test_velocity_frames():
+    """ARC-15 item 1: barycentric and heliocentric differ by the Sun's pull (< 15 m/s); towards the solar apex the
+    local standard of rest adds the Sun's whole motion, 18.0 km/s; at right angles to it, nothing."""
+    import astropy.units as u
+    from astropy.coordinates import EarthLocation, SkyCoord
+    from astropy.time import Time
+
+    from astrowb.core import units
+
+    site = EarthLocation.from_geodetic(32.78 * u.deg, 39.84 * u.deg, 1000 * u.m)
+    t = Time("2026-11-02T20:00:00", scale="utc")
+    apex = SkyCoord(*units.SOLAR_MOTION, unit="km/s", representation_type="cartesian", frame="galactic")
+    apex = SkyCoord(l=apex.spherical.lon, b=apex.spherical.lat, frame="galactic").icrs
+    bary, helio = (units.velocity_correction(t, apex, site, f) for f in ("barycentric", "heliocentric"))
+    assert abs(bary - helio) < 0.015
+    assert units.velocity_correction(t, apex, site, "lsr") - bary == pytest.approx(18.04, abs=0.01)
+    side = SkyCoord(l=apex.galactic.l + 90 * u.deg, b=0 * u.deg, frame="galactic").icrs
+    lsr_side = units.velocity_correction(t, side, site, "lsr") - units.velocity_correction(t, side, site)
+    assert abs(lsr_side) < 0.01
+    with pytest.raises(ValueError, match="velocity frame"):
+        units.velocity_correction(t, apex, site, "galactocentric")

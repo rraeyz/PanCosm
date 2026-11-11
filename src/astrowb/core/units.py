@@ -107,7 +107,29 @@ def convert_times(values, standard, target, site=None):
         out["alt"], out["az"] = altaz.alt.deg, altaz.az.deg
         out["ha"] = ((lst - target.ra).wrap_at(12 * u.hourangle)).hour
         out["airmass"] = np.atleast_1d(airmass(out["alt"]))
+        out["v_bary"] = np.atleast_1d(velocity_correction(utc, target, site))
     return out
+
+
+SOLAR_MOTION = (11.1, 12.24, 7.25)  # km/s towards the Galactic centre, rotation, north pole (Schönrich+ 2010)
+FRAMES = ("barycentric", "heliocentric", "lsr")
+
+
+def velocity_correction(time, target, site, frame="barycentric"):
+    """km/s to add to a velocity observed at site and time (astropy Time) to have it in frame (ARC-15 item 1):
+    the barycentre or the Sun (astropy's radial_velocity_correction), or the local standard of rest (barycentric
+    plus the Sun's motion relative to it, Schönrich, Binney & Dehnen 2010, projected on the line of sight)."""
+    if frame not in FRAMES:
+        raise ValueError(f"unknown velocity frame {frame}; known: {', '.join(FRAMES)}")
+    from astropy.time import Time
+
+    kind = "heliocentric" if frame == "heliocentric" else "barycentric"
+    time = Time(time.jd1, time.jd2, format="jd", scale=time.scale)  # astropy refuses a site given twice
+    v = target.radial_velocity_correction(kind=kind, obstime=time, location=site).to_value("km/s")
+    if frame == "lsr":
+        g = target.galactic.cartesian.xyz.value  # unit vector: x to the centre, y along rotation, z to the pole
+        v = v + float(np.dot(SOLAR_MOTION, g / np.linalg.norm(g)))
+    return v
 
 
 def vac_to_air(w):

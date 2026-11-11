@@ -204,7 +204,9 @@ def ccf(wave, flux, t_wave, t_flux, v_min=-300.0, v_max=300.0, v_step=None):
 
 def barycentric_correction(time, coord, location) -> float:
     """km/s to add (relativistically) to an observed velocity."""
-    return float(coord.radial_velocity_correction(kind="barycentric", obstime=time, location=location).to_value("km/s"))
+    from ..core.units import velocity_correction
+
+    return float(velocity_correction(time, coord, location))
 
 
 def to_barycentric(v_obs, v_corr):
