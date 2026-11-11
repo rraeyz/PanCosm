@@ -1005,7 +1005,15 @@ the suite is green after each.
 - **Files:** `engine/plugins.py`, `ui/plugin_dialog.py`, `devices/server.py`, CI.
 
 ### ARC-23. Speed harness  (P1)
-**open**
+**open** — the harness and the CI job done by agent3 (2026-11-11); the baseline comes from the first CI run
+- **Progress (agent3):** `tools/speed.py run [--ci] [--out]` (10 named cases with their budget row: open and show a
+  frame, calibrate, stack, light curve, Lomb–Scargle, frequency analysis, plot decimation, table filter and sort,
+  Kepler; best of three, memory from a separate traced run), `compare A B`, `check baseline result` (1.5×; cases
+  under 0.2 s never fail); `tests/test_speed_harness.py`. CI job `speed` on Linux. **Changed from the plan:** the
+  job is not one the release waits for — shared CI machines vary by more than 1.5× from run to run often enough
+  that a release could stop for noise; it stays visible red. Pending: `speed/baseline-ci.json` from the first CI
+  run, cases for the budget rows whose code does not exist yet (Roche, transit, échelle) and the interface rows
+  (window opening, six windows' memory).
 - **Ours now:** `tools/speed.py`.
 - **Build:** `tools/speed.py` becomes a benchmark suite with named cases bound to the budgets above (data generated
   or from `data/`), results written to `speed/<date>-<commit>.json` (machine described); `tools/speed.py compare A B`
