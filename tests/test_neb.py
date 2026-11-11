@@ -70,3 +70,12 @@ def test_a_night_checked_star_by_star(tmp_path):
     got = {(round(r["x"]), round(r["y"])): r for r in rows}
     assert set(got) == {(60, 30), (60, 90)}  # the comparison (0 mag) cannot make the depth
     assert got[(60, 90)]["disposition"] == "Cleared" and got[(60, 30)]["disposition"] != "Cleared"
+    # with the predicted window (frames 12–17 dim by 30 %): the box finds 300 ppt there, nothing on the quiet star
+    from astropy.time import Time
+
+    t0 = Time("2026-01-01T00:00:00").jd + 30 / 86400  # mid-exposure of the first frame
+    params |= {"tc": t0 + 14.5 / 1440, "duration_h": 6 / 60}
+    got = {(round(r["x"]), round(r["y"])): r for r in execute("photometry.neb_check", inputs, params, Ctx())["neb"]}
+    neb_box, quiet = got[(60, 30)], got[(60, 90)]
+    assert abs(neb_box["box_ppt"] - 300) < 5 * neb_box["box_err_ppt"] + 10 and neb_box["box_ppt"] > 250
+    assert abs(quiet["box_ppt"]) < 4 * quiet["box_err_ppt"]

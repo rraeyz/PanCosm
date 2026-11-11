@@ -10891,7 +10891,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/photometry_neb.py" line="30"/>
-        <location filename="../../ui/photometry_neb.py" line="77"/>
+        <location filename="../../ui/photometry_neb.py" line="96"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation>Yakın örten çift denetimi</translation>
     </message>
@@ -10901,82 +10901,87 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>TESS&apos;in hedefte gördüğü derinlik (ppt):</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="38"/>
+        <location filename="../../ui/photometry_neb.py" line="51"/>
         <source>Mark the target and the comparison stars first.</source>
         <translation>Önce hedefi ve karşılaştırma yıldızlarını işaretleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="42"/>
+        <location filename="../../ui/photometry_neb.py" line="55"/>
         <source>Identify the field first, with the stars marked on the first frame.</source>
         <translation>Önce alanı tanımlayın; yıldızlar ilk karede işaretli olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="51"/>
+        <location filename="../../ui/photometry_neb.py" line="65"/>
         <source>Measuring the neighbours on every frame…</source>
         <translation>Komşular her karede ölçülüyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="63"/>
+        <location filename="../../ui/photometry_neb.py" line="82"/>
         <source>No star near enough and bright enough to make a {d:g} ppt dip.</source>
         <translation>{d:g} ppt&apos;lik bir düşüş yapabilecek kadar yakın ve parlak yıldız yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="66"/>
+        <location filename="../../ui/photometry_neb.py" line="85"/>
         <source>Cleared</source>
         <translation>Aklandı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="67"/>
+        <location filename="../../ui/photometry_neb.py" line="86"/>
         <source>Likely cleared</source>
         <translation>Büyük olasılıkla aklandı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="68"/>
+        <location filename="../../ui/photometry_neb.py" line="87"/>
         <source>Cleared - too faint</source>
         <translation>Aklandı - çok sönük</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="69"/>
+        <location filename="../../ui/photometry_neb.py" line="88"/>
         <source>Not cleared</source>
         <translation>Aklanmadı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="70"/>
+        <location filename="../../ui/photometry_neb.py" line="89"/>
         <source>Not cleared - flux too low</source>
         <translation>Aklanmadı - akı çok düşük</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="73"/>
+        <location filename="../../ui/photometry_neb.py" line="92"/>
         <source>{c} of {n} neighbours cleared for a {d:g} ppt dip.</source>
         <translation>{d:g} ppt&apos;lik düşüş için {n} komşudan {c} tanesi aklandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <location filename="../../ui/photometry_neb.py" line="98"/>
         <source>Disposition</source>
         <translation>Karar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <location filename="../../ui/photometry_neb.py" line="98"/>
         <source>Distance (″)</source>
         <translation>Uzaklık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="80"/>
+        <location filename="../../ui/photometry_neb.py" line="99"/>
         <source>Depth needed (ppt)</source>
         <translation>Gereken derinlik (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="80"/>
+        <location filename="../../ui/photometry_neb.py" line="99"/>
         <source>RMS (ppt)</source>
         <translation>RMS (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="81"/>
+        <location filename="../../ui/photometry_neb.py" line="100"/>
         <source>Depth / RMS</source>
         <translation>Derinlik / RMS</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="88"/>
+        <location filename="../../ui/photometry_neb.py" line="100"/>
+        <source>Box at the transit (ppt)</source>
+        <translation>Geçişte kutu (ppt)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="108"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -17094,6 +17099,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../photometry/fit_steps.py" line="98"/>
         <source>Sky ring, outer radius</source>
         <translation>Gök halkası, dış yarıçap</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="100"/>
+        <source>Predicted mid-transit</source>
+        <translation>Tahmini geçiş ortası</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="101"/>
+        <source>JD (UTC); 0: no box fit</source>
+        <translation>JD (UTC); 0: kutu uyumu yok</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="102"/>
+        <source>Transit duration</source>
+        <translation>Geçiş süresi</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="103"/>
+        <source>T14; with the mid-transit time, a box is fitted there on every star</source>
+        <translation>T14; geçiş ortasıyla birlikte, her yıldıza orada bir kutu uydurulur</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="594"/>

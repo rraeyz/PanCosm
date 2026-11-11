@@ -97,6 +97,10 @@ def transit_fit_step(inputs, params, ctx):
           help=QT_TRANSLATE_NOOP("Steps", "As the light curve's")),
         P("r_out", "float", 16.0, unit="px", min=0.5, label=QT_TRANSLATE_NOOP("Steps", "Sky ring, outer radius"),
           help=QT_TRANSLATE_NOOP("Steps", "As the light curve's")),
+        P("tc", "float", 0.0, unit="d", label=QT_TRANSLATE_NOOP("Steps", "Predicted mid-transit"),
+          help=QT_TRANSLATE_NOOP("Steps", "JD (UTC); 0: no box fit")),
+        P("duration_h", "float", 0.0, unit="h", min=0.0, label=QT_TRANSLATE_NOOP("Steps", "Transit duration"),
+          help=QT_TRANSLATE_NOOP("Steps", "T14; with the mid-transit time, a box is fitted there on every star")),
     ],
 )  # fmt: skip
 def neb_check_step(inputs, params, ctx):
@@ -104,6 +108,8 @@ def neb_check_step(inputs, params, ctx):
     every frame, with its disposition (photometry.neb)."""
     from . import neb
 
+    tc, half = params.get("tc") or 0.0, (params.get("duration_h") or 0.0) / 48
     rows = neb.run(inputs["images"], inputs["target_xy"], inputs["comps_xy"], inputs["field"], params["depth_ppt"],
-                   params["r_ap"], params["r_in"], params["r_out"], params["radius_arcsec"], ctx)  # fmt: skip
+                   params["r_ap"], params["r_in"], params["r_out"], params["radius_arcsec"], ctx,
+                   (tc - half, tc + half) if tc and half else None)  # fmt: skip
     return {"neb": rows}

@@ -161,6 +161,8 @@ parameters (default):
   r_ap = 6.0  (float, px, >= 0.5)  Aperture radius: As the light curve's
   r_in = 10.0  (float, px, >= 0.5)  Sky ring, inner radius: As the light curve's
   r_out = 16.0  (float, px, >= 0.5)  Sky ring, outer radius: As the light curve's
+  tc = 0.0  (float, d)  Predicted mid-transit: JD (UTC); 0: no box fit
+  duration_h = 0.0  (float, h, >= 0.0)  Transit duration: T14; with the mid-transit time, a box is fitted there on every star
 ```
 
 ## photometry.polarimetry
