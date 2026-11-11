@@ -54,3 +54,22 @@ def test_a_long_label_is_found(qtbot):
     QVBoxLayout(page).addWidget(label)
     page.show()
     assert _gallery().cut_texts(page) == [("long_label", label.text())]
+
+
+def test_a_small_button_and_a_control_off_the_tab_chain_are_found(qtbot):
+    """ARC-19: hit targets and the focus chain are measured too."""
+    from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QToolButton, QWidget
+
+    page = QWidget()
+    qtbot.addWidget(page)
+    tiny = QToolButton(page)
+    tiny.setObjectName("tiny")
+    tiny.setToolTip("Tiny")
+    tiny.setFixedSize(12, 12)
+    field = QLineEdit(page)
+    QHBoxLayout(page).addWidget(tiny)
+    page.layout().addWidget(field)
+    page.show()
+    gallery = _gallery()
+    assert gallery.small_targets(page) == [("tiny", "small target")]
+    assert gallery.unreachable(page) == []  # the field is on the chain

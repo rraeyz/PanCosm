@@ -62,6 +62,34 @@ def unnamed(window):
             and not (b.text().strip() or b.accessibleName() or b.toolTip())]  # fmt: skip
 
 
+MIN_TARGET = 22  # px at 96 dpi: the platforms' own tool buttons are 23 (ARC-19)
+
+
+def small_targets(window, minimum=MIN_TARGET):
+    """[(object name or class, "small target")] of visible buttons narrower or lower than minimum: hard to hit
+    with a mouse on a touchpad or a shaking hand at night (ARC-19). Qt's own dock and table corner buttons and
+    check boxes (their text is part of what a click hits) are left out."""
+    from PySide6.QtWidgets import QAbstractButton, QCheckBox, QRadioButton
+
+    return [(b.objectName() or type(b).__name__, "small target") for b in window.findChildren(QAbstractButton)
+            if b.isVisible() and not b.objectName().startswith("qt_") and not isinstance(b, QCheckBox | QRadioButton)
+            and min(b.width(), b.height()) < minimum]  # fmt: skip
+
+
+def unreachable(window):
+    """[(object name or class, "not reached by Tab")] of visible, enabled controls that take Tab focus but are
+    not on the window's focus chain (ARC-19): keyboard users could never get to them."""
+    from PySide6.QtCore import Qt
+    from PySide6.QtWidgets import QWidget
+
+    chain, w = set(), window.nextInFocusChain()
+    while w is not window and len(chain) < 20000:
+        chain.add(w)
+        w = w.nextInFocusChain()
+    return [(c.objectName() or type(c).__name__, "not reached by Tab") for c in window.findChildren(QWidget)
+            if c.isVisible() and c.isEnabled() and c.focusPolicy() & Qt.TabFocus and c not in chain]  # fmt: skip
+
+
 def pseudo_translator():
     """A translator that lengthens every text by 40 % and accents its letters (ARC-18 item 3): the cuts a German or
     Spanish translation would cause show before any translator works. Placeholders and markup stay as they are."""
@@ -126,7 +154,9 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
                     for key, win in windows(main):
                         win.show()
                         app.processEvents()
-                        found[f"{key}-{lang}-{name}"] = cut_texts(win) + sideways(win) + unnamed(win)
+                        found[f"{key}-{lang}-{name}"] = (
+                            cut_texts(win) + sideways(win) + unnamed(win) + small_targets(win) + unreachable(win)
+                        )
                         if out:
                             Path(out).mkdir(parents=True, exist_ok=True)
                             win.grab().save(str(Path(out) / f"{key}-{lang}-{name}.png"))
