@@ -70,3 +70,26 @@ def test_optics_and_pixel_scale(tmp_path):
     for part, values in got.items():
         profiles.update(settings, part, **values)
     assert abs(profiles.pixel_scale(settings) - 0.38778) < 1e-4
+
+
+def test_header_filter_names_become_aavso_bands(tmp_path):
+    """ARC-16: "Johnson V" is V, "Luminance" CV, Sloan names S-bands; the profile's own table wins; an unknown
+    name is left to the user."""
+    settings = Settings(tmp_path)
+    got = [profiles.aavso_band(settings, n) for n in ("V", "Johnson V", "Luminance", "r'", "Green", "Ha", None)]
+    assert got == ["V", "V", "CV", "SR", "TG", None, None]
+    profiles.update(settings, "filters", names={"Ha": "CR"})
+    assert profiles.aavso_band(settings, "Ha") == "CR"
+
+
+def test_aavso_dialog_takes_the_band_from_the_images(qtbot, tmp_path):
+    import numpy as np
+    from astropy.io import fits
+
+    from astrowb.ui.aavso_dialog import AavsoDialog
+
+    image = tmp_path / "a.fits"
+    fits.PrimaryHDU(np.zeros((4, 4)), fits.Header({"FILTER": "Johnson V"})).writeto(image)
+    dialog = AavsoDialog(2, settings=Settings(tmp_path))
+    qtbot.addWidget(dialog)
+    assert dialog.band_of([str(image)]) == "V" and dialog.band_of([]) is None

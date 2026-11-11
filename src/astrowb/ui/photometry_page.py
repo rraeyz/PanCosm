@@ -3030,8 +3030,9 @@ class PhotometryPage(Undoable, QWidget):
         mags = self.known_comp_mags()
         if mags and all(m is not None for m in mags):
             dialog.mags.setText(", ".join(f"{m:.3f}" for m in mags))
-        if self.catalog:
-            dialog.filter.setCurrentText(self.catalog["filter"])
+        band = self.catalog["filter"] if self.catalog else dialog.band_of(getattr(self, "images", None))
+        if band:
+            dialog.filter.setCurrentText(band)
         checks = [x for x in self.light_curve.get("extra", []) if x["role"] == "check"]
         if checks:
             dialog.check.setText(checks[0]["name"])

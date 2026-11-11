@@ -10747,7 +10747,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Ajustado junto con la tendencia: {terms}; BIC {bic:.1f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3062"/>
+        <location filename="../../ui/photometry_page.py" line="3063"/>
         <source>Save the light curve for the model</source>
         <translation>Guardar la curva de luz para el modelo</translation>
     </message>
@@ -11166,13 +11166,13 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Época {n}, O−C = {oc:+.2f} min</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3046"/>
-        <location filename="../../ui/photometry_page.py" line="3048"/>
+        <location filename="../../ui/photometry_page.py" line="3047"/>
+        <location filename="../../ui/photometry_page.py" line="3049"/>
         <source>AAVSO report</source>
         <translation>Informe AAVSO</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3054"/>
+        <location filename="../../ui/photometry_page.py" line="3055"/>
         <source>Export light curve</source>
         <translation>Exportar curva de luz</translation>
     </message>
