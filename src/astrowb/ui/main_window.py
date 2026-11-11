@@ -18,17 +18,18 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .. import __version__, compute
 from ..brand import BRAND
 from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
 from . import advice, area_menus, area_pages, area_windows, main_menus, tour
+from .area_actions import AreaActions
 from .area_menus import _undo_source
 from .files import FITS_FILTER, images_filter
 from .image_actions import ImageActions
 from .kit.window import _raise as _raise_window
+from .main_settings import SettingsActions
 from .messages import task_error, translate
 from .workspaces import (
     CalibratePage,
@@ -59,7 +60,7 @@ class _Lazy:
         return page
 
 
-class MainWindow(ImageActions, QMainWindow):
+class MainWindow(AreaActions, SettingsActions, ImageActions, QMainWindow):
     taskUpdated = Signal(object)  # emitted from the task monitor thread, delivered on the GUI thread
     updateChecked = Signal(object, object)  # newer release or None, error or None (from a thread)
     start_page = _Lazy()
@@ -452,60 +453,6 @@ class MainWindow(ImageActions, QMainWindow):
         if start is not None:
             (start.expert if mode == "expert" else start.basic).setChecked(True)
 
-    def send_to_photometry(self, paths, ask=True):
-        """Images to the Photometry window, which is then shown. Several filters: one light curve per filter, so the
-        user picks the filter (the largest group first)."""
-        from PySide6.QtWidgets import QInputDialog
-
-        from .workspaces import by_filter
-
-        paths = [str(p) for p in paths if p]
-        if not paths:
-            return None
-        groups = by_filter(paths)
-        all_paths = None
-        if len(groups) > 1 and ask:
-            names = sorted(groups, key=lambda k: -len(groups[k]))
-            labels = [self.tr("{f} ({n} images)").format(f=k or "—", n=len(groups[k])) for k in names]
-            both = self.tr("All of them: a curve per filter and the colour index (stars marked in {f})").format(
-                f=names[0] or "—"
-            )  # item 11
-            question = self.tr("A light curve is measured in one filter. Which one?")
-            label, ok = QInputDialog.getItem(self, self.tr("Filter"), question, [*labels, both], 0, False)
-            if not ok:
-                return None
-            if label == both:
-                all_paths, paths = paths, groups[names[0]]
-            else:
-                paths = groups[names[labels.index(label)]]
-        elif len(groups) > 1:
-            paths = max(groups.values(), key=len)
-        self.photometry_page.set_images(paths)
-        self.photometry_page.all_filter_images = all_paths
-        self.show_workspace("photometry")
-        return paths
-
-    def photometry_from_image(self, x, y, comparison=False):
-        """Start photometry from the Images page: the open images (or the shown one) go to the Photometry window with
-        this star as the target, or add it as a comparison star."""
-        phot = self.photometry_page
-        if not comparison:
-            paths = self.image_page.open_paths() or [str(self.current_path)]
-            phot.set_images(paths if str(self.current_path) in paths else [str(self.current_path)])
-            if str(phot.images[0]) != str(self.current_path):  # stars are marked on the first frame in time
-                self.statusBar().showMessage(
-                    self.tr("Click the target on the first image in time, shown in the Photometry window."), 10000
-                )
-                self.show_workspace("photometry")
-                return False
-            phot.target = (x, y)
-        else:
-            phot.comps.append((x, y))
-        phot._draw_markers()
-        if not comparison:
-            self.show_workspace("photometry")
-        return True
-
     def _make_project_page(self):
         page = ProjectPage(self)
         page.run_selected.connect(lambda run_id: page.show_run(self.engine.project.run(run_id)))
@@ -592,13 +539,6 @@ class MainWindow(ImageActions, QMainWindow):
         page.stack_requested.connect(self.stack_images)
         page.photometry_requested.connect(self.send_to_photometry)
         return page
-
-    def _set_clock_offset(self, hours):
-        """Camera clock - UTC, for every camera raw file and picture opened from now on (all pages)."""
-        from ..io import bayer
-
-        bayer.CLOCK_UTC_OFFSET_H = float(hours)
-        self.settings.set("camera.clock_utc_offset", float(hours))
 
     def show_workspace(self, key):
         if key in self.WINDOWED:
@@ -917,29 +857,6 @@ class MainWindow(ImageActions, QMainWindow):
         """run_step for an area: its window shows the progress."""
         return self.run_step(step_id, inputs, params, on_done=on_done, on_fail=on_fail, area=area)
 
-    def run_automation(self, auto, inputs):
-        """Run an automation task by task: each step starts when the previous one has finished."""
-        from ..engine import automation
-
-        gen, page, n = automation.calls(auto, inputs), self.automation_page, [0]
-
-        def advance(out=None):
-            try:
-                call = next(gen) if out is None else gen.send(out)
-                n[0] += 1
-                page.step_started(n[0], call[0])
-                self.run_step(*call, on_done=advance, on_fail=page.failed)  # a failed step stops the chain
-            except StopIteration as stop:
-                page.finished(stop.value, out)
-            except Exception as e:  # a link to a missing field, a refused input: say where it stopped
-                page.failed(str(e))
-
-        advance()
-
-    def _load_sequence(self, target):
-        self.observe_page.load_sequence(target)
-        self.show_workspace("observe")
-
     def _on_task(self, task):
         states = {
             "queued": self.tr("queued"),
@@ -981,150 +898,10 @@ class MainWindow(ImageActions, QMainWindow):
             box.open()
 
     # --- calibration --------------------------------------------------------
-    def scan_raw(self, folder, lights=""):
-        if folder or lights:
-            inputs = {"folder": folder or ""}
-            if lights:
-                inputs["lights"] = lights
-            return self.run_step(
-                "calibration.scan",
-                inputs,
-                {"clock_utc_offset": self.calibrate_page.clock_offset.value()},
-                on_done=lambda out: self.calibrate_page.show_frames(
-                    out["frames"], out["problems"], out.get("raw_converted", 0)
-                ),
-                area="calibrate",
-            )
-
-    def calibrate(self, frames, output_dir, params):
-        def done(out):
-            if self.engine.project:
-                for p in out["masters"]:
-                    self.engine.project.add_file(Path(p), "master")
-                for p in out["calibrated"]:
-                    self.engine.project.add_file(Path(p), "calibrated")
-            self.calibrate_page.show_result(out)
-            if out["calibrated"] and not self.photometry_page.images:  # next step of the workflow is ready
-                from .workspaces import by_filter
-
-                groups = by_filter(out["calibrated"])  # one filter only; a colour camera's green (TG) first
-                self.photometry_page.set_images(groups.get("TG") or max(groups.values(), key=len))
-
-        return self.run_step(
-            "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
-        )
-
-    def _spectrum_done(self, spectrum):
-        self.spectro_page.reduce_tab.show_spectrum(spectrum)
-        if spectrum.get("path"):
-            if self.engine.project:
-                self.engine.project.add_file(Path(spectrum["path"]), "spectrum")
-            self.spectro_page.velocity_tab.add_files([spectrum["path"]])  # ready for radial velocities
-
-    def _echelle_done(self, result):
-        self.spectro_page.echelle_tab.show_result(result)
-        if result.get("path"):
-            if self.engine.project:
-                self.engine.project.add_file(Path(result["path"]), "spectrum")
-            self.spectro_page.velocity_tab.add_files([result["path"]])
-
-    def _telluric_done(self, result):
-        self.spectro_page.telluric_tab.show_result(result)
-        if result.get("path") and self.engine.project:
-            self.engine.project.add_file(Path(result["path"]), "spectrum")
 
     # --- planning -----------------------------------------------------------
-    def resolve_target(self, name):
-        from ..settings import config_dir
-
-        return self.run_step(
-            "planning.resolve",
-            {"name": name, "cache_file": str(config_dir() / "targets.json")},
-            on_done=lambda out: self.plan_page.add_target(out["target"]),
-            on_fail=self.plan_page.status.setText,
-        )
-
-    def lookup_ephemeris(self, name):
-        return self.run_step(
-            "planning.ephemeris",
-            {"name": name},
-            on_done=lambda out: self.plan_page.add_target(out["target"]),
-            on_fail=self.plan_page.status.setText,
-        )
 
     # --- photometry ---------------------------------------------------------
-    def _photometry_next(self, where, path):
-        """From a measured light curve to the page that fits it (the period page already has the curve)."""
-        if where == "orbits" and path:
-            self.models_page.file.edit.setText(path)
-        self.show_workspace(where)
-
-    def measure_light_curve(self, images, target, comps, coord, params):
-        inputs = {"images": images, "target_xy": target, "comps_xy": comps}
-        if coord:
-            inputs["coord"] = coord
-        params = dict(params)
-        if params.get("extra_xy"):  # check stars and further targets are inputs of the step
-            inputs["extra_xy"] = params.pop("extra_xy")
-        params.pop("extra_xy", None)
-        if params.get("ref_image"):  # the frame the stars were marked on
-            inputs["ref_image"] = params.pop("ref_image")
-        params.pop("ref_image", None)
-
-        def done(out):
-            lc = out["light_curve"]
-            self.photometry_page.show_light_curve(lc)
-            self.period_page.set_light_curve(
-                lc["time"], lc["rel_flux"], self.tr("the Photometry window"), err=lc.get("rel_flux_err")
-            )
-
-        every = getattr(self.photometry_page, "all_filter_images", None)
-        if every:  # item 11: every filter of the night, and the colour index
-
-            def done_all(out):
-                from .workspaces import by_filter
-
-                main = next(iter(by_filter(images)), "")  # the filter the stars were marked in
-                curves = out["curves"]
-                done({"light_curve": curves.get(main) or next(iter(curves.values()))})
-                self.photometry_page.show_colour(out["colour"], curves)
-
-            inputs["images"] = list(every)
-            return self.run_step("photometry.multifilter", inputs, params, on_done=done_all, area="photometry")
-        return self.run_step("photometry.light_curve", inputs, params, on_done=done, area="photometry")
-
-    def search_period(self, time, flux, params):
-        params = dict(params)
-        inputs = {"time": time, "flux": flux}
-        if params.get("err") is not None:
-            inputs["err"] = params.pop("err")
-        params.pop("err", None)
-        return self.run_step(
-            "timeseries.period", inputs, params, on_done=self.period_page.show_result, area="timeseries"
-        )
-
-    def time_minimum(self, light_curve, params):
-        pp, page = self.period_page, self.photometry_page
-        if "period" not in params and pp.best and pp.time and len(pp.time) == len(light_curve["time"]):
-            params = params | {"period": float(pp.best), "t0": float(pp._t0())}  # from the period search just made
-            page.period.setText(f"{params['period']:.8f}")
-            page.t0.setText(f"{params['t0']:.6f}")
-
-        def done(out):
-            m = out["minimum"]
-            page.show_minimum(m)
-            for x in m.get("minima", [m]):  # ready for the O-C diagram
-                self.oc_page.add_minimum(x["time"], x["error"], "this work", x.get("kind", "I"))
-            obj = (page.field or {}).get("object") or {}
-            if obj.get("in_field") and not self.oc_page.star.text():  # the star the files name, for Look up
-                self.oc_page.star.setText(obj["name"])
-            if params.get("t0") and not self.oc_page.t0.text():
-                self.oc_page.t0.setText(repr(params["t0"]))
-                self.oc_page.period.setText(repr(params["period"]))
-
-        return self.run_step(
-            "timeseries.minimum", {"light_curve": light_curve}, params, on_done=done, area="photometry"
-        )
 
     # --- misc ---------------------------------------------------------------
 
@@ -1136,116 +913,8 @@ class MainWindow(ImageActions, QMainWindow):
             parts.insert(0, self.current_path.name)
         self.setWindowTitle(" — ".join(parts))
 
-    def set_language(self, code):
-        self.settings.set("ui.language", code)
-        QMessageBox.information(
-            self,
-            self.tr("Language"),
-            self.tr("The new language will be used after restarting {app}.").format(app=BRAND.display_name),
-        )
-
     def start_tour(self):
         return tour.start(self)
-
-    def set_theme(self, code):
-        from PySide6.QtWidgets import QApplication
-
-        from . import theme
-
-        self.settings.set("ui.theme", code)
-        theme.apply(QApplication.instance(), code, theme.font_size(self.settings))
-        self._paint_glyphs()  # the symbols take the text colour of the new theme
-        for canvas in self.findChildren(PlotCanvas):  # plots already drawn pick up the new colours
-            canvas.figure.set_facecolor(theme.colors(code)["window"])
-            canvas.draw()
-
-    def _change_font(self, step):
-        from PySide6.QtWidgets import QApplication
-
-        from . import theme
-
-        size = theme.change_font(QApplication.instance(), self.settings, step)
-        self._paint_glyphs()
-        self.statusBar().showMessage(self.tr("Text size: {pt:g} pt").format(pt=size), 3000)
-        return size
-
-    def set_compute(self, code):
-        self.settings.set("compute.device", code)
-        compute.set_mode(code)  # new worker processes inherit it
-        self.statusBar().showMessage(compute.describe(), 8000)
-
-    def update_time_tables(self, quiet=False):
-        """Download newer Earth-orientation and leap-second tables (plans/architecture.md ARC-1). quiet: the weekly
-        update at start-up, which only reports in the status bar and stays silent when offline."""
-        from ..core import earth_orientation
-
-        def done(out):
-            earth_orientation.use_stored()
-            self.statusBar().showMessage(self.tr("Earth-rotation tables updated: {0}").format(out["status"]), 15000)
-
-        def failed(error):
-            if quiet:
-                self.statusBar().showMessage(self.tr("Earth-rotation tables not updated (offline?)"), 8000)
-            else:
-                QMessageBox.warning(
-                    self,
-                    self.tr("Earth-rotation tables"),
-                    self.tr(
-                        "The tables could not be downloaded: {0}\n\nThe tables in use stay; nothing stops working. "
-                        "Try again when online."
-                    ).format(str(error).strip().splitlines()[-1]),
-                )
-
-        return self.run_step("app.update_time_tables", {}, {}, on_done=done, on_fail=failed)
-
-    def practice_data(self, folder=None):
-        """Simulated raw frames of an eclipsing binary night, for the Guide's first-night exercise."""
-        folder = folder or QFileDialog.getExistingDirectory(self, self.tr("Folder for the practice data"))
-        if not folder:
-            return None
-
-        def done(out):
-            self.show_workspace("guide")
-            self.guide_page.search.setText(self.tr("practice"))
-            self.statusBar().showMessage(
-                self.tr("Practice data in {f}: follow 'Your first night' in the Guide.").format(f=folder), 15000
-            )
-
-        return self.run_step("sample.night", {"folder": folder}, {}, on_done=done)
-
-    def check_updates(self, fetch=None):
-        """Ask GitHub for the newest release in the background; the answer comes in a message box."""
-        import threading
-
-        from .. import updates
-
-        if not getattr(self, "_updates_connected", False):
-            self.updateChecked.connect(self._show_update)
-            self._updates_connected = True
-        args = {"fetch": fetch} if fetch else {}
-        threading.Thread(target=lambda: self.updateChecked.emit(*updates.check(**args)), daemon=True).start()
-
-    def _show_update(self, release, error):
-        if error:
-            text = self.tr("Could not check for updates: {e}").format(e=translate(error))
-        elif release:
-            text = self.tr("Version {v} is available (you have {c}).").format(v=release["version"], c=__version__)
-            link = self.tr("Open the download page")
-            text += f"<br><a href='{release['url']}'>{link}</a>"
-        else:
-            text = self.tr("You have the latest version ({c}).").format(c=__version__)
-        self.update_box = QMessageBox(QMessageBox.Information, self.tr("Updates"), text, parent=self)
-        self.update_box.setTextFormat(Qt.RichText)
-        self.update_box.setTextInteractionFlags(Qt.TextBrowserInteraction)
-        self.update_box.open()
-
-    def about(self):
-        QMessageBox.about(
-            self,
-            self.tr("About {app}").format(app=BRAND.display_name),
-            f"<b>{BRAND.display_name}</b> {__version__}<br>{BRAND.organization}<br>"
-            f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{compute.describe()}",
-        )
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -1310,8 +979,6 @@ def _fields_scroll(page, tall=200):
     whole page scrolled and the plots and buttons below went out of sight (the owner's Photometry and Plan pages).
     Plots, images, tables and lists scroll or shrink by themselves and are left alone."""
     from PySide6.QtWidgets import QAbstractScrollArea, QFrame, QScrollArea, QSplitter, QTabWidget
-
-    from .workspaces import PlotCanvas
 
     targets = []
     for split in page.findChildren(QSplitter):
