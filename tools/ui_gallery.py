@@ -4,7 +4,8 @@
     python tools/ui_gallery.py [--langs en,tr,de,es] [--themes dark,light] [--out gallery]
 
 Writes gallery/<area>-<lang>-<theme>.png and gallery/measurements.json: per window, the labels and buttons whose
-text does not fit (size hint wider than the widget, without word wrap). tests/test_gallery.py runs the measuring
+text does not fit (size hint wider than the widget, without word wrap) and the panels that scroll sideways. The
+language "pseudo" is English lengthened by 40 % and accented (ARC-18 item 3). tests/test_gallery.py runs the measuring
 part.
 """
 
@@ -43,6 +44,38 @@ def cut_texts(window):
     return out
 
 
+def sideways(window):
+    """[(object name or class, "scrolls sideways")] of visible scroll areas whose content is wider than they are."""
+    from PySide6.QtWidgets import QScrollArea
+
+    return [(s.objectName() or type(s.widget()).__name__, "scrolls sideways") for s in window.findChildren(QScrollArea)
+            if s.isVisible() and s.widget() is not None and s.horizontalScrollBar().isVisible()]  # fmt: skip
+
+
+def pseudo_translator():
+    """A translator that lengthens every text by 40 % and accents its letters (ARC-18 item 3): the cuts a German or
+    Spanish translation would cause show before any translator works. Placeholders and markup stay as they are."""
+    import re
+
+    from PySide6.QtCore import QTranslator
+
+    accents = str.maketrans("aeiouAEIOUcnsyz", "àéîõüÀÉÎÕÜçñšÿž")
+    keep = re.compile(r"(\{[^}]*\}|<[^>]*>|&\w+;|%\w)")
+
+    class Pseudo(QTranslator):
+        def translate(self, context, source, disambiguation=None, n=-1):
+            if not source:
+                return source
+            parts = keep.split(source)
+            text = "".join(part if i % 2 else part.translate(accents) for i, part in enumerate(parts))
+            return text + "·" * (len(source) * 2 // 5)
+
+        def isEmpty(self):  # Qt asks an empty translator nothing
+            return False
+
+    return Pseudo()
+
+
 def windows(main):
     """(area key, window) for every area that opens a window of its own."""
     from astrowb.ui.start_page import areas
@@ -67,7 +100,11 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
     app = QApplication.instance() or QApplication([])
     found = {}
     for lang in langs:
-        translators = i18n.install(app, lang)
+        if lang == "pseudo":
+            translators = [pseudo_translator()]
+            app.installTranslator(translators[0])
+        else:
+            translators = i18n.install(app, lang)
         try:
             for name in themes:
                 theme.apply(app, name)
@@ -79,7 +116,7 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
                     for key, win in windows(main):
                         win.show()
                         app.processEvents()
-                        found[f"{key}-{lang}-{name}"] = cut_texts(win)
+                        found[f"{key}-{lang}-{name}"] = cut_texts(win) + sideways(win)
                         if out:
                             Path(out).mkdir(parents=True, exist_ok=True)
                             win.grab().save(str(Path(out) / f"{key}-{lang}-{name}.png"))

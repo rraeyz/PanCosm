@@ -30,6 +30,17 @@ def test_no_cut_text_in_any_window(qapp, tmp_path):
     assert not cut, cut
 
 
+@pytest.mark.slow
+@pytest.mark.skipif(sys.platform != "linux", reason="measured with the Linux fonts")
+def test_no_cut_text_with_texts_40_percent_longer(qapp, tmp_path):
+    """ARC-18 item 3: the pseudo-locale (every text 40 % longer, accented) cuts nothing and scrolls nothing sideways."""
+    gallery = _gallery()
+    assert gallery.pseudo_translator().translate("MainWindow", "Open {n} files") == "Õpéñ {n} fîléš·····"
+    found = gallery.run(("pseudo",), ("dark",), settings_dir=tmp_path)
+    cut = {k: v for k, v in found.items() if v}
+    assert found and not cut, cut
+
+
 def test_a_long_label_is_found(qtbot):
     """The measurement names the widget whose text does not fit (a deliberately long German-like label)."""
     from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
