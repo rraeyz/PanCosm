@@ -528,7 +528,7 @@ for the window concerned.
 - **Files:** `ui/kit/table.py`, every window's table panels, `tests/ui/test_table_standard.py`
 
 ### UI-12. Keyboard  (P1)
-**partial** — done: Help → Keyboard shortcuts (Ctrl+/) in every area window, a searchable sheet read from the actions (`kit/shortcuts.py`); a test finds a key given to two actions of a window (it found the text-size keys twice in every area window: fixed). Image keys: + / − zoom, 0 fit, 1 100 % in every image viewer. [ and ] step the frames (Images, Photometry). Left: the shortcuts.toml map editable in Settings, B I N on images, the plot and spectrum keys, F5 / Esc for the stage.
+**partial** — done: Help → Keyboard shortcuts (Ctrl+/) in every area window, a searchable sheet read from the actions (`kit/shortcuts.py`); a test finds a key given to two actions of a window (it found the text-size keys twice in every area window: fixed). Image keys: + / − zoom, 0 fit, 1 100 % in every image viewer. [ and ] step the frames (Images, Photometry). i inverts, n turns North up. Left: the shortcuts.toml map editable in Settings, B (blink) on images, the plot and spectrum keys, F5 / Esc for the stage.
 - **Ours now:** shortcuts set one by one in `main_window.py` and `area_window.py` (Ctrl+K, Ctrl+Z / Y, text size, F1).
 - **Build:** one map for all windows (file `resources/shortcuts.toml`, shown by Help → "Keyboard shortcuts"
   (Ctrl+/) as a searchable sheet, and editable in Settings): Ctrl+O open, Ctrl+S save session, Ctrl+E export,

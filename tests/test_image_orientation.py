@@ -158,3 +158,19 @@ def test_bracket_keys_step_the_frames(qtbot):
     v.step_frame.connect(steps.append)
     qtbot.keyClicks(v, "][")
     assert steps == [1, -1]
+
+
+def test_invert_key_keeps_the_levels(qtbot):
+    """UI-12: i inverts the display and keeps the black and white levels chosen."""
+    import numpy as np
+
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    qtbot.addWidget(v)
+    v.set_image(np.arange(100, dtype=np.float32).reshape(10, 10))
+    v.set_levels((10.0, 50.0))
+    qtbot.keyClicks(v, "i")
+    assert v.invert and v.limits == (10.0, 50.0)
+    qtbot.keyClicks(v, "n")  # no WCS: North up does nothing, without an error
+    assert not v.north_up()

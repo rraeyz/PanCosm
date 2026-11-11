@@ -499,16 +499,19 @@ class ImageViewer(QGraphicsView):
         self._press = None
 
     def keyPressEvent(self, event):
-        """Keys over the image: + / − zoom, 0 fit, 1 100 %; and as IRAF's imexamine (ARC-7 item 4): a the star,
-        m statistics of the 11 × 11 box, l / c the line / column through the cursor (as the area and line tools)."""
+        """Keys over the image (UI-12): + / − zoom, 0 fit, 1 100 %, i invert, n North up, [ / ] frames; and as IRAF's
+        imexamine (ARC-7 item 4): a the star, m statistics of the 11 × 11 box, l / c the line / column through the
+        cursor (as the area and line tools)."""
         key = event.text().lower()
         views = {
             "+": lambda: self.zoom(1.25),
             "=": lambda: self.zoom(1.25),
             "-": lambda: self.zoom(0.8),
             "0": self.fit,
+            "i": lambda: self.set_levels(self.limits, invert=not self.invert),
+            "n": self.north_up,
             "1": self.actual_size,
-        }  # fmt: skip  (UI-12: the same keys in every image)
+        }
         if key in views and self.data is not None and not event.modifiers() & ~Qt.KeypadModifier & ~Qt.ShiftModifier:
             views[key]()
             return None
