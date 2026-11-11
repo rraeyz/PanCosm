@@ -145,6 +145,52 @@ def _photometry_stages(win, page):
     page.steps_shown = follow
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
+    _photometry_inspector(win, page)
+
+
+def star_rows(page, x, y):
+    """The inspector's rows for the star at a click (0-based array x, y), or None where there is no star."""
+    from ..io.inspect import saturation_level, star_info
+
+    data = page.viewer.data
+    if data is None:
+        return None
+    try:
+        s = star_info(data, x, y, r_ap=page.r_ap.value(), r_in=page.r_in.value(), r_out=page.r_out.value(),
+                      saturation=saturation_level(None, data))  # fmt: skip
+    except Exception:  # noqa: BLE001 — no star there, at the edge: nothing to show
+        return None
+    names = {"target": translate("MainWindow", "target"), "comparison": translate("MainWindow", "comparison"),
+             "check": translate("MainWindow", "check star")}  # fmt: skip
+    near = [(n, role) for n, role, xy in page._star_names() if (xy[0] - s["x"]) ** 2 + (xy[1] - s["y"]) ** 2 <= 9]
+    role = f"{near[0][0]} · {names[near[0][1]]}" if near else translate("MainWindow", "not marked")
+    peak = f"{s['peak']:.0f}" + (" ⚠ " + translate("MainWindow", "saturated") if s["saturated"] else "")
+    return [
+        (translate("MainWindow", "Role"), role),
+        (translate("MainWindow", "x, y (FITS pixels)"), f"{s['x'] + 1:.2f}, {s['y'] + 1:.2f}"),
+        (translate("MainWindow", "Peak"), peak, "ADU"),
+        (translate("MainWindow", "Sky per pixel"), s["background"], "ADU"),
+        (translate("MainWindow", "Net counts"), f"{s['net_counts']:.0f} ± {s['net_counts_err']:.0f}", "ADU"),
+        (translate("MainWindow", "Signal-to-noise"), round(s["snr"], 1)),
+        ("FWHM", round(s["fwhm"], 2), "px"),
+    ]
+
+
+def _photometry_inspector(win, page):
+    """The inspector (UI-16.1): what a click on the image finds there — the star's role, peak, sky, counts, FWHM."""
+    from .kit.inspector import Inspector
+
+    panel = Inspector(translate("MainWindow", "Star"))
+    dock = win.set_inspector(panel)
+    dock.hide()  # until a star is clicked
+
+    def show(x, y):
+        rows = star_rows(page, x, y)
+        if rows:
+            panel.set_rows(rows)
+            dock.show()
+
+    page.viewer.clicked.connect(show)
 
 
 def spectroscopy_window(main, page):
