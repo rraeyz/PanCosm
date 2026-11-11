@@ -6,7 +6,17 @@ settings actions and methods, so the menus and this window always agree.
 """
 
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QListWidget, QStackedWidget, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QPushButton,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 from ..core import profiles
 from .i18n import LANGUAGES
@@ -192,6 +202,10 @@ class SettingsWindow(Dialog):
 
     def _profiles(self):
         c = self._category(self.tr("Profiles"))
+        fill = QPushButton(self.tr("Fill from a FITS header…"), self)
+        fill.clicked.connect(lambda: self.fill_from_header())
+        self._row(c, "", fill, self.tr("Site, camera and observer as an image's header gives them"))
+        self.profile_controls = {}
         for (part, field), (label, description, kind, unit) in PROFILE_FIELDS.items():
             value = profiles.section(self.settings, part)[field]
             if kind == "text":
@@ -204,6 +218,28 @@ class SettingsWindow(Dialog):
                 control = NumberField(float(value or 0), low, high, 1, decimals, parent=self)
                 control.valueChanged.connect(lambda v, p=part, f=field: profiles.update(self.settings, p, **{f: v}))
             self._row(c, _tr(label), control, _tr(description), unit or None)
+            self.profile_controls[(part, field)] = control
+
+    def fill_from_header(self, path=None):
+        """The profile's fields an image's header gives (the others stay); returns how many were filled."""
+        if path is None:
+            from .files import FITS_FILTER
+
+            path, _ = QFileDialog.getOpenFileName(
+                self, self.tr("An image of your telescope and camera"), "", FITS_FILTER
+            )
+            if not path:
+                return 0
+        from astropy.io import fits
+
+        found = profiles.from_header(fits.getheader(path))
+        for part, values in found.items():
+            profiles.update(self.settings, part, **values)
+            for field, value in values.items():
+                control = self.profile_controls.get((part, field))
+                if control is not None:
+                    control.setText(str(value)) if isinstance(control, QLineEdit) else control.setValue(value)
+        return sum(len(v) for v in found.values())
 
     def _processing(self):
         c = self._category(self.tr("Processing"))

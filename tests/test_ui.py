@@ -1893,3 +1893,20 @@ def test_photometry_inspector_shows_the_clicked_star(window):
     assert win.docks["inspector"].isVisible() and rows["Role"].startswith("T1")
     assert rows["x, y (FITS pixels)"].startswith("51.3") and 3.5 < rows["FWHM"] < 4.5
     assert 4500 < int(rows["Peak"]) < 5100  # the brightest pixel (the centre falls between pixels)
+
+
+def test_settings_profile_filled_from_a_header(window, tmp_path):
+    """ARC-16 item 2: Settings → Profiles → Fill from a FITS header puts the header's site and camera in."""
+    import numpy as np
+    from astropy.io import fits
+
+    from astrowb.core import profiles
+
+    path = tmp_path / "f.fits"
+    fits.PrimaryHDU(np.zeros((4, 4), np.float32),
+                    fits.Header({"SITELAT": 36.8247, "SITELONG": 30.3353, "EGAIN": 1.4})).writeto(path)  # fmt: skip
+    win = window.show_settings()
+    assert win.fill_from_header(str(path)) == 4  # lat, lon, height, gain
+    assert profiles.section(window.settings, "camera")["gain"] == 1.4
+    assert win.profile_controls[("site", "lat")].value() == 36.8247
+    win.close()

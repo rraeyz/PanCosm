@@ -9102,7 +9102,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>agrupada</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="300"/>
+        <location filename="../../ui/period_page.py" line="301"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Los flujos deben ser positivos para pasar a magnitudes.</translation>
     </message>
@@ -12743,257 +12743,272 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../ui/settings_window.py" line="23"/>
+        <location filename="../../ui/settings_window.py" line="33"/>
         <source>Site name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="24"/>
+        <location filename="../../ui/settings_window.py" line="34"/>
         <source>Shown in the start window&apos;s Tonight line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="29"/>
+        <location filename="../../ui/settings_window.py" line="39"/>
         <source>Latitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="30"/>
+        <location filename="../../ui/settings_window.py" line="40"/>
         <source>North positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="35"/>
+        <location filename="../../ui/settings_window.py" line="45"/>
         <source>Longitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="36"/>
+        <location filename="../../ui/settings_window.py" line="46"/>
         <source>East positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="41"/>
+        <location filename="../../ui/settings_window.py" line="51"/>
         <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="42"/>
+        <location filename="../../ui/settings_window.py" line="52"/>
         <source>Above sea level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="47"/>
+        <location filename="../../ui/settings_window.py" line="57"/>
         <source>Gain</source>
         <translation type="unfinished">Ganancia</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="48"/>
+        <location filename="../../ui/settings_window.py" line="58"/>
         <source>Electrons per ADU</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="53"/>
+        <location filename="../../ui/settings_window.py" line="63"/>
         <source>Read noise</source>
         <translation type="unfinished">Ruido de lectura</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="54"/>
+        <location filename="../../ui/settings_window.py" line="64"/>
         <source>Noise of one read-out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="59"/>
+        <location filename="../../ui/settings_window.py" line="69"/>
         <source>Dark current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="60"/>
+        <location filename="../../ui/settings_window.py" line="70"/>
         <source>Electrons per second per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="65"/>
+        <location filename="../../ui/settings_window.py" line="75"/>
         <source>Linear up to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="66"/>
+        <location filename="../../ui/settings_window.py" line="76"/>
         <source>Where the response stops being linear (0: unknown)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="71"/>
+        <location filename="../../ui/settings_window.py" line="81"/>
         <source>Saturation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="72"/>
+        <location filename="../../ui/settings_window.py" line="82"/>
         <source>The largest value a pixel holds (0: unknown)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="77"/>
+        <location filename="../../ui/settings_window.py" line="87"/>
         <source>Observer</source>
         <translation type="unfinished">Observador</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="78"/>
+        <location filename="../../ui/settings_window.py" line="88"/>
         <source>Your name, in reports and FITS headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="83"/>
+        <location filename="../../ui/settings_window.py" line="93"/>
         <source>AAVSO code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="84"/>
+        <location filename="../../ui/settings_window.py" line="94"/>
         <source>Your observer code for AAVSO reports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="89"/>
+        <location filename="../../ui/settings_window.py" line="99"/>
         <source>MPC code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="90"/>
+        <location filename="../../ui/settings_window.py" line="100"/>
         <source>Your observatory code for minor-planet reports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="112"/>
+        <location filename="../../ui/settings_window.py" line="122"/>
         <source>Settings</source>
         <translation type="unfinished">Configuración</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="116"/>
+        <location filename="../../ui/settings_window.py" line="126"/>
         <source>Find a setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="165"/>
+        <location filename="../../ui/settings_window.py" line="175"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="169"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>Language</source>
         <translation type="unfinished">Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="169"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>The language of the program (after a restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="181"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="181"/>
         <source>Light</source>
         <translation type="unfinished">Claro</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="174"/>
+        <location filename="../../ui/settings_window.py" line="184"/>
         <source>Look</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="174"/>
+        <location filename="../../ui/settings_window.py" line="184"/>
         <source>Dark or light windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="179"/>
+        <location filename="../../ui/settings_window.py" line="189"/>
         <source>Text size</source>
         <translation type="unfinished">Tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="179"/>
+        <location filename="../../ui/settings_window.py" line="189"/>
         <source>The size of the text in every window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="182"/>
+        <location filename="../../ui/settings_window.py" line="192"/>
         <source>Toolbar text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="182"/>
+        <location filename="../../ui/settings_window.py" line="192"/>
         <source>The names beside the toolbar&apos;s icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="183"/>
+        <location filename="../../ui/settings_window.py" line="193"/>
         <source>Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="184"/>
+        <location filename="../../ui/settings_window.py" line="194"/>
         <source>Expert mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="194"/>
+        <location filename="../../ui/settings_window.py" line="204"/>
         <source>Profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="209"/>
+        <location filename="../../ui/settings_window.py" line="205"/>
+        <source>Fill from a FITS header…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="207"/>
+        <source>Site, camera and observer as an image&apos;s header gives them</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="229"/>
+        <source>An image of your telescope and camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="245"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="212"/>
+        <location filename="../../ui/settings_window.py" line="248"/>
         <source>Automatic (GPU when useful)</source>
         <translation type="unfinished">Automático (GPU cuando conviene)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="212"/>
+        <location filename="../../ui/settings_window.py" line="248"/>
         <source>CPU only</source>
         <translation type="unfinished">Solo CPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="213"/>
+        <location filename="../../ui/settings_window.py" line="249"/>
         <source>GPU</source>
         <translation type="unfinished">GPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="215"/>
+        <location filename="../../ui/settings_window.py" line="251"/>
         <source>Processing device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="215"/>
+        <location filename="../../ui/settings_window.py" line="251"/>
         <source>Where the heavy computations run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="218"/>
+        <location filename="../../ui/settings_window.py" line="254"/>
         <source>Online services</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="220"/>
+        <location filename="../../ui/settings_window.py" line="256"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="221"/>
+        <location filename="../../ui/settings_window.py" line="257"/>
         <source>Work offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="222"/>
+        <location filename="../../ui/settings_window.py" line="258"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="223"/>
+        <location filename="../../ui/settings_window.py" line="259"/>
         <source>Earth-rotation tables</source>
         <translation type="unfinished">Tablas de rotación terrestre</translation>
     </message>

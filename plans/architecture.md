@@ -909,8 +909,9 @@ the suite is green after each.
   report remembers the observer code (`ui/aavso_dialog.py`, moved out of `photometry_page.py`); Photometry takes
   read noise, dark current and the linearity limit from the profile when the header lacks them and keeps what was
   measured with. **Found while doing it:** two `Settings` objects on the same file undid each other's keys (each
-  wrote its whole stale copy); `Settings.set` now reads the file first. Pending: several profiles and the
-  Settings → Profiles window (UI-13), optics and filters, spectrograph, "Fill from a FITS header", the pixel-scale
+  wrote its whole stale copy); `Settings.set` now reads the file first. Done since: the profile's fields in Settings → Profiles (UI-13) and "Fill from a FITS header…"
+  (`profiles.from_header`: site by `timing.location`, gain, read noise, dark current, saturation, linearity, observer;
+  a field the header lacks is left as it is). Pending: several profiles, optics and filters, spectrograph, the pixel-scale
   check against a plate solution, copying the profile into a project.
 - **Ours now:** the Planning window's site (and `planning/sites.py`), gain / read noise typed in Photometry, observatory set-up JSON (`devices/setup.py`); settings in `settings.py`.
 - **Why:** AD-10.

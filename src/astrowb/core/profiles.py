@@ -52,3 +52,32 @@ def update(settings, part, /, **values):
     settings.set("profile", profile)
     if part == "site":  # shortcut: windows not moved yet read "site"; drop it when they all read the profile
         settings.set("site", section(settings, "site"))
+
+
+def from_header(header):
+    """{part: {field: value}} of what a FITS header says about the site, camera and observer (ARC-16 item 2: "Fill
+    from a FITS header"); a field the header does not give is left out, so it never overwrites with a guess."""
+    from ..hdr import get
+    from ..timing import location
+
+    out = {}
+    where = location(header)
+    if where is not None:
+        site = {"lat": round(float(where.lat.deg), 5), "lon": round(float(where.lon.deg), 5),
+                "height": round(float(where.height.value), 1)}  # fmt: skip
+        name = str(header.get("SITENAME") or header.get("OBSERVAT") or "").strip()
+        out["site"] = {**site, **({"name": name} if name else {})}
+    camera = {
+        "gain": get(header, "EGAIN", "GAIN"),
+        "read_noise": get(header, "RDNOISE", "READNOIS", "RDNOIS"),
+        "dark_current": get(header, "DARKCUR"),
+        "saturation": get(header, "SATURATE", "DATAMAX"),
+        "linearity": get(header, "MAXLIN"),
+    }
+    camera = {k: float(v) for k, v in camera.items() if v is not None and v > 0}
+    if camera:
+        out["camera"] = camera
+    observer = str(header.get("OBSERVER") or "").strip()
+    if observer:
+        out["observer"] = {"name": observer}
+    return out
