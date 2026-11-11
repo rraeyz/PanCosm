@@ -2295,6 +2295,19 @@ def test_the_checks_tab(window):
     axes = page.checks.panels.figure.axes  # counts, FWHM, x, y: the series this curve has
     assert [a.get_ylabel() for a in axes] == ["Comparison counts", "FWHM", "x", "y"]
     assert len(axes[0].lines) == 2 and list(axes[0].lines[1].get_xdata()) == [10, 11, 12]  # the cloud marked
+    lc["flags"] = [["C" if i == 30 else "", ""] for i in range(n)]  # a cosmic ray in the target's aperture
+    flags = page.checks.show_checks(lc)
+    menu = page.checks.leave_kind.menu()
+    assert flags["spike"] == [30] and page.checks.leave_kind.isEnabled()
+    assert [a.text() for a in menu.actions()] == [
+        "behind cloud (3)",
+        "cosmic ray or hot pixel in an aperture (1)",
+    ]
+    left = []
+    page.checks.leave_out_flagged = lambda kind=None: left.append(kind)
+    menu.actions()[1].trigger()
+    del page.checks.leave_out_flagged  # the class's own again
+    assert left == ["spike"]
 
 
 def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):

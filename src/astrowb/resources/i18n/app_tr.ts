@@ -10746,78 +10746,93 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Noktaları ışık eğrisinden çıkar; Geri al onları geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="106"/>
+        <location filename="../../ui/photometry_checks.py" line="98"/>
+        <source>Leave out only…</source>
+        <translation>Yalnızca şunu çıkar…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="99"/>
+        <source>The frames of one kind of flag, the others kept</source>
+        <translation>Tek bir işaret türünün kareleri; diğerleri kalır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="110"/>
         <source>Reports and files then carry the scaled errors too (rel_flux_err_scaled); the formal ones stay</source>
         <translation>Raporlar ve dosyalar o zaman ölçeklenmiş hataları da taşır (rel_flux_err_scaled); biçimsel hatalar kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="148"/>
+        <location filename="../../ui/photometry_checks.py" line="156"/>
         <source>For next time:</source>
         <translation>Bir dahaki sefere:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="160"/>
+        <location filename="../../ui/photometry_checks.py" line="168"/>
         <source>Scatter from point to point: {r:.2f} × the predicted errors.</source>
         <translation>Noktadan noktaya saçılma: tahmin edilen hataların {r:.2f} katı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="163"/>
+        <location filename="../../ui/photometry_checks.py" line="171"/>
         <source> The errors are too small: scale them.</source>
         <translation> Hatalar çok küçük: ölçekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="171"/>
+        <location filename="../../ui/photometry_checks.py" line="179"/>
         <source>Use the formal errors</source>
         <translation>Biçimsel hataları kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="173"/>
+        <location filename="../../ui/photometry_checks.py" line="181"/>
         <source>Scale the errors by {f:.2f}</source>
         <translation>Hataları {f:.2f} ile ölçekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="201"/>
+        <location filename="../../ui/photometry_checks.py" line="209"/>
         <source>Comparison counts</source>
         <translation>Karşılaştırma sayımları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="202"/>
+        <location filename="../../ui/photometry_checks.py" line="210"/>
         <source>Sky</source>
         <translation>Gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="203"/>
+        <location filename="../../ui/photometry_checks.py" line="211"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="230"/>
+        <location filename="../../ui/photometry_checks.py" line="239"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="241"/>
+        <location filename="../../ui/photometry_checks.py" line="252"/>
+        <source>{kind} ({n})</source>
+        <translation>{kind} ({n})</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="257"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="243"/>
+        <location filename="../../ui/photometry_checks.py" line="259"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="221"/>
-        <location filename="../../ui/photometry_checks.py" line="251"/>
+        <location filename="../../ui/photometry_checks.py" line="229"/>
+        <location filename="../../ui/photometry_checks.py" line="267"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="251"/>
+        <location filename="../../ui/photometry_checks.py" line="267"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="252"/>
+        <location filename="../../ui/photometry_checks.py" line="268"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>
@@ -13342,7 +13357,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/plan_almanac.py" line="36"/>
         <source>The chosen night at this site, in local time; dark: the Sun below −18°</source>
-        <translation>Bu yerde seçilen gece, yerel saatle; karanlık: Güneş −18°'nin altında</translation>
+        <translation>Bu yerde seçilen gece, yerel saatle; karanlık: Güneş −18°&apos;nin altında</translation>
     </message>
 </context>
 <context>
@@ -13423,17 +13438,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Gözlem yerinin enlemi, derece, kuzey artı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="152"/>
+        <location filename="../../ui/plan_page.py" line="151"/>
         <source>Add</source>
         <translation>Ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="160"/>
+        <location filename="../../ui/plan_page.py" line="159"/>
         <source>Add with ephemeris</source>
         <translation>Efemerisle ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="141"/>
+        <location filename="../../ui/plan_page.py" line="140"/>
         <source>Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon</source>
         <translation>Hedefler: ad (SIMBAD&apos;da aranır), koordinat ya da bir gezegen / Ay</translation>
     </message>
@@ -13493,77 +13508,77 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Yerel saat (UTC&apos;den fark, saat)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="148"/>
+        <location filename="../../ui/plan_page.py" line="147"/>
         <source>A star name (looked up in SIMBAD, needs the internet), coordinates RA Dec, or a planet / the Moon (followed through the night, works offline); Enter adds it</source>
         <translation>Bir yıldız adı (SIMBAD&apos;da aranır, internet gerekir), RA Dec koordinatı ya da bir gezegen / Ay (gece boyunca izlenir, internetsiz çalışır); Enter ekler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="156"/>
+        <location filename="../../ui/plan_page.py" line="155"/>
         <source>Adds the target with its coordinates only: enough to see when it is high in the sky. Several targets (stars, planets, the Moon) are drawn together in one chart</source>
         <translation>Hedefi yalnızca koordinatlarıyla ekler: gökyüzünde ne zaman yüksekte olduğunu görmek için yeterli. Birden çok hedef (yıldızlar, gezegenler, Ay) aynı grafikte birlikte çizilir</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="163"/>
+        <location filename="../../ui/plan_page.py" line="162"/>
         <source>An ephemeris is the timetable of a variable star or planet: the time of one minimum or transit (T0) and the period, from which every later one is computed. This button adds the target with its coordinates and its T0, period and duration from VSX (variable stars) or the NASA Exoplanet Archive; the night plan then lists the eclipses / transits you can observe</source>
         <translation>Efemeris, bir değişen yıldızın ya da gezegenin zaman çizelgesidir: bir minimumun ya da geçişin zamanı (T0) ve periyot; sonraki tüm minimumlar bunlardan hesaplanır. Bu düğme hedefi koordinatlarıyla birlikte T0, periyot ve süresiyle VSX&apos;ten (değişen yıldızlar) ya da NASA Ötegezegen Arşivi&apos;nden ekler; gece planı da gözleyebileceğiniz örtmeleri / geçişleri listeler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="180"/>
+        <location filename="../../ui/plan_page.py" line="179"/>
         <source>Name</source>
         <translation>Ad</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="183"/>
+        <location filename="../../ui/plan_page.py" line="182"/>
         <source>T0 (BJD)</source>
         <translation>T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="184"/>
+        <location filename="../../ui/plan_page.py" line="183"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="185"/>
+        <location filename="../../ui/plan_page.py" line="184"/>
         <source>Duration (d)</source>
         <translation>Süre (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="186"/>
+        <location filename="../../ui/plan_page.py" line="185"/>
         <source>Secondary</source>
         <translation>İkincil</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="190"/>
+        <location filename="../../ui/plan_page.py" line="189"/>
         <source>Enter T0 and period to list minima / transits of the night.</source>
         <translation>Gecenin minimum/geçişlerini listelemek için T0 ve periyot girin.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="192"/>
+        <location filename="../../ui/plan_page.py" line="191"/>
         <source>type a value</source>
         <translation>değer yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="193"/>
+        <location filename="../../ui/plan_page.py" line="192"/>
         <source>Remove selected</source>
         <translation>Seçileni kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="195"/>
+        <location filename="../../ui/plan_page.py" line="194"/>
         <source>remove a target</source>
         <translation>hedefi sil</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="197"/>
+        <location filename="../../ui/plan_page.py" line="196"/>
         <source>Removes the selected target from the list</source>
         <translation>Seçili hedefi listeden çıkarır</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="198"/>
+        <location filename="../../ui/plan_page.py" line="197"/>
         <source>Exposure time…</source>
         <translation>Poz süresi…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="199"/>
+        <location filename="../../ui/plan_page.py" line="198"/>
         <source>How long to expose for a wanted signal-to-noise, and when a star saturates</source>
         <translation>İstenen sinyal/gürültü için ne kadar poz verileceği ve bir yıldızın ne zaman doyuma ulaşacağı</translation>
     </message>
@@ -13578,27 +13593,27 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Bir hedef için UTC, TT ya da TDB&apos;de JD, HJD ve BJD, yükseklik ve hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="205"/>
+        <location filename="../../ui/plan_page.py" line="204"/>
         <source>Plan the night</source>
         <translation>Geceyi planla</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="209"/>
+        <location filename="../../ui/plan_page.py" line="208"/>
         <source>Altitude of every target through the night with twilight and the Moon, and the minima / transits that fall in the dark hours</source>
         <translation>Gece boyunca her hedefin yüksekliği, alacakaranlık ve Ay ile birlikte, ve karanlık saatlere düşen minimumlar / geçişler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="563"/>
+        <location filename="../../ui/plan_page.py" line="567"/>
         <source>More charts…</source>
         <translation>Diğer grafikler…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="565"/>
+        <location filename="../../ui/plan_page.py" line="569"/>
         <source>The Moon&apos;s distance from each target and the sky at any hour of the night</source>
         <translation>Ay&apos;ın her hedefe uzaklığı ve gecenin istenen saatindeki gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="215"/>
+        <location filename="../../ui/plan_page.py" line="214"/>
         <source>Make a schedule</source>
         <translation>Program yap</translation>
     </message>
@@ -13608,237 +13623,237 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Grafiğin altında ve olaylarda gösterilen yerel saat için UTC&apos;ye eklenecek saat (Türkiye: 3). Otomatik: bu bilgisayarın o geceki saat dilimi (yaz saati dahil), konuma uyuyorsa; uzaksa boylamına en yakın tam saat. Biliyorsanız farkı yazın</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="217"/>
+        <location filename="../../ui/plan_page.py" line="216"/>
         <source>Eclipses and transits first, then the highest target in each hour of the night</source>
         <translation>Önce örtmeler ve geçişler, sonra gecenin her saatinde en yüksekteki hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="253"/>
-        <location filename="../../ui/plan_page.py" line="267"/>
+        <location filename="../../ui/plan_page.py" line="252"/>
+        <location filename="../../ui/plan_page.py" line="266"/>
         <source>Target</source>
         <translation>Hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="254"/>
+        <location filename="../../ui/plan_page.py" line="253"/>
         <source>Event</source>
         <translation>Olay</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="255"/>
-        <location filename="../../ui/plan_page.py" line="267"/>
+        <location filename="../../ui/plan_page.py" line="254"/>
+        <location filename="../../ui/plan_page.py" line="266"/>
         <source>Start (UTC)</source>
         <translation>Başlangıç (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="256"/>
+        <location filename="../../ui/plan_page.py" line="255"/>
         <source>Middle (UTC)</source>
         <translation>Orta (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="257"/>
+        <location filename="../../ui/plan_page.py" line="256"/>
         <source>Middle (local)</source>
         <translation>Orta (yerel)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="258"/>
-        <location filename="../../ui/plan_page.py" line="267"/>
+        <location filename="../../ui/plan_page.py" line="257"/>
+        <location filename="../../ui/plan_page.py" line="266"/>
         <source>End (UTC)</source>
         <translation>Bitiş (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="259"/>
+        <location filename="../../ui/plan_page.py" line="258"/>
         <source>Observable</source>
         <translation>Gözlenebilir</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="267"/>
+        <location filename="../../ui/plan_page.py" line="266"/>
         <source>Why</source>
         <translation>Neden</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="297"/>
-        <location filename="../../ui/plan_page.py" line="347"/>
+        <location filename="../../ui/plan_page.py" line="296"/>
+        <location filename="../../ui/plan_page.py" line="346"/>
         <source>Looking up {name}…</source>
         <translation>{name} aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="322"/>
+        <location filename="../../ui/plan_page.py" line="321"/>
         <source>Also list the secondary minima (half a period after the primary)</source>
         <translation>İkincil minimumları da listele (birincilden yarım periyot sonra)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="323"/>
+        <location filename="../../ui/plan_page.py" line="322"/>
         <source>secondary minima</source>
         <translation>ikincil minimumlar</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="327"/>
+        <location filename="../../ui/plan_page.py" line="326"/>
         <source>add a target</source>
         <translation>hedef ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="342"/>
+        <location filename="../../ui/plan_page.py" line="341"/>
         <source>{name} added ({source}).</source>
         <translation>{name} eklendi ({source}).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="370"/>
+        <location filename="../../ui/plan_page.py" line="369"/>
         <source>Row {row}: T0, period and duration must be numbers</source>
         <translation>Satır {row}: T0, periyot ve süre sayı olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="383"/>
+        <location filename="../../ui/plan_page.py" line="382"/>
         <source>Computing…</source>
         <translation>Hesaplanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="394"/>
+        <location filename="../../ui/plan_page.py" line="393"/>
         <source>On target: {hours}; overheads {over:.1f} h; idle {idle:.1f} h.</source>
         <translation>Hedeflerde: {hours}; ek süreler {over:.1f} sa; boş {idle:.1f} sa.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="399"/>
+        <location filename="../../ui/plan_page.py" line="398"/>
         <source>Left out: {events}.</source>
         <translation>Dışarıda kalan: {events}.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="401"/>
+        <location filename="../../ui/plan_page.py" line="400"/>
         <source>{name}&apos;s event (held by {other})</source>
         <translation>{name} olayı ({other} tutuyor)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="415"/>
+        <location filename="../../ui/plan_page.py" line="414"/>
         <source>Import targets</source>
         <translation>Hedef al</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="424"/>
+        <location filename="../../ui/plan_page.py" line="423"/>
         <source>{n} targets imported.</source>
         <translation>{n} hedef alındı.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="426"/>
+        <location filename="../../ui/plan_page.py" line="425"/>
         <source>Rows without a name or position: {rows}.</source>
         <translation>Adı ya da konumu olmayan satırlar: {rows}.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="448"/>
+        <location filename="../../ui/plan_page.py" line="447"/>
         <source>Save the target list</source>
         <translation>Hedef listesini kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="448"/>
+        <location filename="../../ui/plan_page.py" line="447"/>
         <source>Name of the list</source>
         <translation>Listenin adı</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="461"/>
+        <location filename="../../ui/plan_page.py" line="460"/>
         <source>No saved target list yet: Targets → Save the list…</source>
         <translation>Henüz kayıtlı hedef listesi yok: Hedefler → Listeyi kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="463"/>
+        <location filename="../../ui/plan_page.py" line="462"/>
         <source>Open a target list</source>
         <translation>Bir hedef listesi aç</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="463"/>
+        <location filename="../../ui/plan_page.py" line="462"/>
         <source>List</source>
         <translation>Liste</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="467"/>
+        <location filename="../../ui/plan_page.py" line="466"/>
         <source>{n} targets from the list {name}.</source>
         <translation>{name} listesinden {n} hedef.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="476"/>
+        <location filename="../../ui/plan_page.py" line="480"/>
         <source>A file of azimuth and altitude pairs (trees, roofs, hills): a target behind them counts as not observable. Cancel the file choice to keep the current one; an empty file clears it</source>
         <translation>Azimut ve yükseklik çiftlerinden oluşan bir dosya (ağaçlar, çatılar, tepeler): bunların arkasındaki hedef gözlenemez sayılır. Mevcut olanı korumak için dosya seçimini iptal edin; boş bir dosya onu siler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="487"/>
+        <location filename="../../ui/plan_page.py" line="491"/>
         <source>Horizon profile: {n} points…</source>
         <translation>Ufuk profili: {n} nokta…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="487"/>
+        <location filename="../../ui/plan_page.py" line="491"/>
         <source>Horizon profile: none…</source>
         <translation>Ufuk profili: yok…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="497"/>
+        <location filename="../../ui/plan_page.py" line="501"/>
         <source>Horizon files (*.txt *.hrz *.csv);;All files (*)</source>
         <translation>Ufuk dosyaları (*.txt *.hrz *.csv);;Tüm dosyalar (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="498"/>
-        <location filename="../../ui/plan_page.py" line="505"/>
+        <location filename="../../ui/plan_page.py" line="502"/>
+        <location filename="../../ui/plan_page.py" line="509"/>
         <source>Horizon profile</source>
         <translation>Ufuk profili</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="543"/>
+        <location filename="../../ui/plan_page.py" line="547"/>
         <source>eclipse / transit</source>
         <translation>örtme / geçiş</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="543"/>
+        <location filename="../../ui/plan_page.py" line="547"/>
         <source>highest target</source>
         <translation>en yüksek hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="544"/>
+        <location filename="../../ui/plan_page.py" line="548"/>
         <source>slew, settle, centring</source>
         <translation>dönüş, oturma, ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="557"/>
+        <location filename="../../ui/plan_page.py" line="561"/>
         <source>No target is high enough during the dark hours.</source>
         <translation>Karanlık saatlerde yeterince yüksek bir hedef yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="629"/>
+        <location filename="../../ui/plan_page.py" line="633"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Astronomik gece: {dusk} – {dawn} UTC ({ldusk} – {ldawn} yerel, UTC{off}); {n} olay.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="606"/>
+        <location filename="../../ui/plan_page.py" line="610"/>
         <source>minimum I / transit</source>
         <translation>minimum I / geçiş</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="174"/>
+        <location filename="../../ui/plan_page.py" line="173"/>
         <source>Add: position only. Add with ephemeris: also the times of its eclipses or transits.</source>
         <translation>Ekle: yalnızca konum. Efemerisle ekle: örtme ya da geçiş zamanlarıyla birlikte.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="220"/>
+        <location filename="../../ui/plan_page.py" line="219"/>
         <source>Send to the Observing window</source>
         <translation>Gözlem penceresine gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="225"/>
+        <location filename="../../ui/plan_page.py" line="224"/>
         <source>The schedule becomes the night plan of the Observing window; you still check it and start it there</source>
         <translation>Program, Gözlem penceresinin gece planı olur; yine de orada kontrol edip siz başlatırsınız</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="606"/>
+        <location filename="../../ui/plan_page.py" line="610"/>
         <source>minimum II</source>
         <translation>minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="623"/>
+        <location filename="../../ui/plan_page.py" line="627"/>
         <source>yes</source>
         <translation>evet</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="623"/>
+        <location filename="../../ui/plan_page.py" line="627"/>
         <source>partly</source>
         <translation>kısmen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="627"/>
+        <location filename="../../ui/plan_page.py" line="631"/>
         <source>no astronomical night</source>
         <translation>astronomik gece yok</translation>
     </message>
