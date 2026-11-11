@@ -110,11 +110,10 @@ def _tr(text):
 
 
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
-INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done",
-            "site", "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset",
-            "camera.clock_utc_offset")  # fmt: skip
+INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
+            "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset")  # fmt: skip
 SHOWN = ("ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "profile", "compute.device",
-         "services.offline", "time.auto_refresh")  # fmt: skip
+         "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
 
 
 class SettingsWindow(Dialog):
@@ -138,6 +137,7 @@ class SettingsWindow(Dialog):
         self._general()
         self._profiles()
         self._processing()
+        self._time()
         self._online()
         self.categories.setCurrentRow(0)
         if self.width() < 400:
@@ -249,6 +249,16 @@ class SettingsWindow(Dialog):
                               ("gpu", self.tr("GPU"))], compute.mode(), self)  # fmt: skip
         device.currentIndexChanged.connect(lambda _i: self.main.set_compute(device.value()))
         self._row(c, self.tr("Processing device"), device, self.tr("Where the heavy computations run"))
+
+    def _time(self):
+        c = self._category(self.tr("Time"))
+        from ..io import bayer
+
+        clock = NumberField(bayer.CLOCK_UTC_OFFSET_H, -14, 14, 0.5, 2, parent=self)
+        # through Calibration's own field: the camera's raw files and the open pages follow it as before
+        clock.valueChanged.connect(self.main.calibrate_page.clock_offset.setValue)
+        note = self.tr("The camera's clock minus UTC, for camera raw files and pictures without a UTC time (DSLR)")
+        self._row(c, self.tr("Camera clock − UTC"), clock, note, "h")
 
     def _online(self):
         c = self._category(self.tr("Online services"))

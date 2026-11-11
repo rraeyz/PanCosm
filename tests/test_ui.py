@@ -1815,9 +1815,9 @@ def test_settings_in_one_window(window, qtbot):
     win = window.show_settings()
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
-    assert names == ["General", "Profiles", "Processing", "Online services"]
+    assert names == ["General", "Profiles", "Processing", "Time", "Online services"]
     assert win.filter("offline") == 1
-    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [3]
+    assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [4]
     win.filter("")
     toggle = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Work offline")
     toggle.setChecked(not window.offline_action.isChecked())
@@ -1827,6 +1827,9 @@ def test_settings_in_one_window(window, qtbot):
     lat = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Latitude")
     lat.setValue(41.0)
     assert profiles.section(window.settings, "site")["lat"] == 41.0
+    clock = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Camera clock − UTC")
+    clock.setValue(3.0)
+    assert window.calibrate_page.clock_offset.value() == 3.0 and window.settings.get("camera.clock_utc_offset") == 3.0
 
 
 def test_every_settings_key_is_shown_or_internal():
