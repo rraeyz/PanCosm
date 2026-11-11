@@ -4,6 +4,7 @@ Any step can be the entry point: the caller provides its inputs directly. A step
 required inputs are missing raises MissingInput naming them, so the UI can ask the user.
 """
 
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
@@ -61,11 +62,52 @@ def execute(step_id, inputs, params, ctx):
     missing = [n for n in s.inputs if n not in inputs]
     if missing:
         raise MissingInput(step_id, missing)
+    started = time.time()
     out = s.func(dict(inputs), s.defaults | dict(params), ctx)
     absent = [n for n in s.outputs if n not in out]
     if absent:
         raise RuntimeError(f"{step_id} did not produce: {', '.join(absent)}")
+    _mark_products(step_id, inputs, s.defaults | dict(params), out, started)
     return out
+
+
+def _mark_products(step_id, inputs, params, out, started):
+    """Every FITS file a step wrote (named in its outputs, written since it started) carries how it was made
+    (ARC-11), unless its writer marked it already."""
+    from pathlib import Path
+
+    from ..core import provenance
+
+    def paths(value):
+        if isinstance(value, str | Path):
+            yield value
+        elif isinstance(value, list | tuple):
+            for v in value:
+                yield from paths(v)
+
+    products = [Path(p) for v in out.values() for p in paths(v) if str(p).lower().endswith((".fits", ".fit", ".fts"))]
+    # never an input file (a step may list its input frames, e.g. the good ones), except a destination it was given
+    given = {str(p) for k, v in inputs.items() if not k.startswith(("output", "destination")) for p in paths(v)}
+    products = [p for p in products if str(p) not in given and p.is_file() and p.stat().st_mtime >= started - 2]
+    if not products:
+        return
+    from astropy.io import fits
+
+    record = None
+    for path in products:
+        try:
+            with fits.open(path, mode="update", output_verify="silentfix") as hdul:
+                if hdul[0].header.get("PROCSTEP") == step_id:
+                    continue  # its writer recorded it, with the inputs of this one file
+                if record is None:  # the inputs that are files (not text, numbers or folders)
+                    made = {str(p) for p in products}
+                    given = {
+                        k: [p for p in paths(v) if Path(p).is_file() and str(p) not in made] for k, v in inputs.items()
+                    }
+                    record = provenance.record(step_id, params, {k: v for k, v in given.items() if v})
+                provenance.to_fits(hdul[0].header, record)
+        except OSError:
+            continue  # a file the step did not write as FITS after all: left as it is
 
 
 def _load_builtin():
