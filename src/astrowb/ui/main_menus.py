@@ -160,6 +160,10 @@ def _plugins_settings_window_help(main):
     main.plugins_menu.aboutToShow.connect(main._fill_plugins_menu)
 
     s = main.settings_menu = bar_menu(main.menuBar(), translate("MainWindow", "&Settings"))
+    every = main._action(s, translate("MainWindow", "All settings…"), main.show_settings, "Ctrl+,")
+    every.setShortcutContext(Qt.WidgetWithChildrenShortcut)  # the area windows show this menu too (one key, one action)
+    main.addAction(every)
+    s.addSeparator()
     main.expert_action = QAction(translate("MainWindow", "&Expert mode (every option open)"), main)
     main.expert_action.setCheckable(True)
     main.expert_action.setChecked(main.ui_mode() == "expert")

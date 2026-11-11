@@ -3924,22 +3924,22 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>&amp;Parpadear imágenes…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="199"/>
+        <location filename="../../ui/main_menus.py" line="203"/>
         <source>Text size</source>
         <translation>Tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="201"/>
+        <location filename="../../ui/main_menus.py" line="205"/>
         <source>&amp;Larger text</source>
         <translation>Texto más &amp;grande</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="202"/>
+        <location filename="../../ui/main_menus.py" line="206"/>
         <source>&amp;Smaller text</source>
         <translation>Texto más &amp;pequeño</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="203"/>
+        <location filename="../../ui/main_menus.py" line="207"/>
         <source>&amp;Normal text size</source>
         <translation>Tamaño de texto &amp;normal</translation>
     </message>
@@ -4638,46 +4638,51 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/main_menus.py" line="163"/>
+        <source>All settings…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_menus.py" line="167"/>
         <source>&amp;Expert mode (every option open)</source>
         <translation>Modo &amp;experto (todas las opciones abiertas)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="169"/>
+        <location filename="../../ui/main_menus.py" line="173"/>
         <source>&amp;Language</source>
         <translation>&amp;Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="177"/>
+        <location filename="../../ui/main_menus.py" line="181"/>
         <source>&amp;Look</source>
         <translation>&amp;Aspecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="178"/>
+        <location filename="../../ui/main_menus.py" line="182"/>
         <source>Dark</source>
         <translation>Oscuro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="178"/>
+        <location filename="../../ui/main_menus.py" line="182"/>
         <source>Light</source>
         <translation>Claro</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="185"/>
+        <location filename="../../ui/main_menus.py" line="189"/>
         <source>&amp;Processing device</source>
         <translation>&amp;Unidad de cálculo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="187"/>
+        <location filename="../../ui/main_menus.py" line="191"/>
         <source>Automatic (GPU when useful)</source>
         <translation>Automático (GPU cuando conviene)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="188"/>
+        <location filename="../../ui/main_menus.py" line="192"/>
         <source>CPU only</source>
         <translation>Solo CPU</translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="189"/>
+        <location filename="../../ui/main_menus.py" line="193"/>
         <source>GPU</source>
         <translation>GPU</translation>
     </message>
@@ -4722,7 +4727,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_menus.py" line="211"/>
+        <location filename="../../ui/main_menus.py" line="215"/>
         <source>&amp;Window</source>
         <translation>Ven&amp;tana</translation>
     </message>
@@ -5231,22 +5236,22 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Comprobando la instalación y los servicios de internet…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="63"/>
+        <location filename="../../ui/main_settings.py" line="71"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Tablas de rotación terrestre actualizadas: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="69"/>
+        <location filename="../../ui/main_settings.py" line="77"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Tablas de rotación terrestre no actualizadas (¿sin conexión?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="74"/>
+        <location filename="../../ui/main_settings.py" line="82"/>
         <source>Earth-rotation tables</source>
         <translation>Tablas de rotación terrestre</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="75"/>
+        <location filename="../../ui/main_settings.py" line="83"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5255,47 +5260,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con conexión.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="87"/>
+        <location filename="../../ui/main_settings.py" line="95"/>
         <source>Folder for the practice data</source>
         <translation>Carpeta para los datos de práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="94"/>
+        <location filename="../../ui/main_settings.py" line="102"/>
         <source>practice</source>
         <translation>práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="96"/>
+        <location filename="../../ui/main_settings.py" line="104"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Datos de práctica en {f}: siga «Su primera noche» en la Guía.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="118"/>
+        <location filename="../../ui/main_settings.py" line="126"/>
         <source>Could not check for updates: {e}</source>
         <translation>No se pudo buscar actualizaciones: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="120"/>
+        <location filename="../../ui/main_settings.py" line="128"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>La versión {v} está disponible (usted tiene {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="123"/>
+        <location filename="../../ui/main_settings.py" line="131"/>
         <source>Open the download page</source>
         <translation>Abrir la página de descarga</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="126"/>
+        <location filename="../../ui/main_settings.py" line="134"/>
         <source>You have the latest version ({c}).</source>
         <translation>Tiene la versión más reciente ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="127"/>
+        <location filename="../../ui/main_settings.py" line="135"/>
         <source>Updates</source>
         <translation>Actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="135"/>
+        <location filename="../../ui/main_settings.py" line="143"/>
         <source>About {app}</source>
         <translation>Acerca de {app}</translation>
     </message>
@@ -12637,6 +12642,254 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/setting_names.py" line="105"/>
         <source>Search method</source>
         <translation>Método de búsqueda</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWindow</name>
+    <message>
+        <location filename="../../ui/settings_window.py" line="23"/>
+        <source>Site name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="24"/>
+        <source>Shown in the start window&apos;s Tonight line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="29"/>
+        <source>Latitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="30"/>
+        <source>North positive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="35"/>
+        <source>Longitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="36"/>
+        <source>East positive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="41"/>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="42"/>
+        <source>Above sea level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="47"/>
+        <source>Gain</source>
+        <translation type="unfinished">Ganancia</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="48"/>
+        <source>Electrons per ADU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="53"/>
+        <source>Read noise</source>
+        <translation type="unfinished">Ruido de lectura</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="54"/>
+        <source>Noise of one read-out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="59"/>
+        <source>Dark current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="60"/>
+        <source>Electrons per second per pixel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="65"/>
+        <source>Linear up to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="66"/>
+        <source>Where the response stops being linear (0: unknown)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="71"/>
+        <source>Saturation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="72"/>
+        <source>The largest value a pixel holds (0: unknown)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="77"/>
+        <source>Observer</source>
+        <translation type="unfinished">Observador</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="78"/>
+        <source>Your name, in reports and FITS headers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="83"/>
+        <source>AAVSO code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="84"/>
+        <source>Your observer code for AAVSO reports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="89"/>
+        <source>MPC code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="90"/>
+        <source>Your observatory code for minor-planet reports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="104"/>
+        <source>Settings</source>
+        <translation type="unfinished">Configuración</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="108"/>
+        <source>Find a setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="157"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="161"/>
+        <source>Language</source>
+        <translation type="unfinished">Idioma</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="161"/>
+        <source>The language of the program (after a restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="163"/>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="163"/>
+        <source>Light</source>
+        <translation type="unfinished">Claro</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="166"/>
+        <source>Look</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="166"/>
+        <source>Dark or light windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="171"/>
+        <source>Text size</source>
+        <translation type="unfinished">Tamaño del texto</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="171"/>
+        <source>The size of the text in every window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="172"/>
+        <source>Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="173"/>
+        <source>Expert mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="176"/>
+        <source>Profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="191"/>
+        <source>Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="194"/>
+        <source>Automatic (GPU when useful)</source>
+        <translation type="unfinished">Automático (GPU cuando conviene)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="194"/>
+        <source>CPU only</source>
+        <translation type="unfinished">Solo CPU</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="195"/>
+        <source>GPU</source>
+        <translation type="unfinished">GPU</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="197"/>
+        <source>Processing device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="197"/>
+        <source>Where the heavy computations run</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="200"/>
+        <source>Online services</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="202"/>
+        <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="203"/>
+        <source>Work offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="204"/>
+        <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="205"/>
+        <source>Earth-rotation tables</source>
+        <translation type="unfinished">Tablas de rotación terrestre</translation>
     </message>
 </context>
 <context>

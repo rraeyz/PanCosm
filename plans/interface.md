@@ -544,7 +544,7 @@ for the window concerned.
 - **Files:** `resources/shortcuts.toml`, `ui/kit/shortcuts.py`, tests.
 
 ### UI-13. Settings in one place  (P1)
-**open**
+**partial** — done: Settings → All settings… (Ctrl+,) — `ui/settings_window.py`: General (language, look, text size, Expert mode), Profiles (site, camera, observer), Processing (device), Online services (offline, Earth-rotation tables); a search field over labels and descriptions; changes apply at once and the menus agree. Left: Files, Time and units, Data packs, Shortcuts, Plugins, Advanced; Reset per setting; the test that every settings key is shown or listed internal.
 - **Ours now:** a Settings menu (language, look, processing device) and settings scattered in pages.
 - **Build:** one Settings window (Ctrl+,) with a search field and categories: General (language, look, text size,
   Basic / Expert, hints), Profiles (ARC-16: sites, equipment, observer), Processing (CPU / GPU, threads, memory cap,

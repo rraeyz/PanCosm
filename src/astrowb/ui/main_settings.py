@@ -47,6 +47,14 @@ class SettingsActions:
         self.statusBar().showMessage(translate("MainWindow", "Text size: {pt:g} pt").format(pt=size), 3000)
         return size
 
+    def show_settings(self):
+        """Settings → All settings… (Ctrl+,): every setting in one window with a search field (UI-13)."""
+        from .settings_window import SettingsWindow
+
+        window = SettingsWindow(self)
+        window.show()
+        return window
+
     def set_compute(self, code):
         self.settings.set("compute.device", code)
         compute.set_mode(code)  # new worker processes inherit it
