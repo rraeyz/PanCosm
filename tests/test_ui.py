@@ -743,9 +743,10 @@ def test_update_check(window, qtbot):
         raise OSError("no network")
 
     assert updates.check(offline) == (None, "no network")
-    window.check_updates(fetch=lambda: {"version": "99.0", "url": "https://x/r"})
+    window.check_updates(fetch=lambda: {"version": "99.0", "url": "https://x/r", "notes": "- Faster photometry"})
     qtbot.waitUntil(lambda: hasattr(window, "update_box") and window.update_box.isVisible(), timeout=10000)
     assert "99.0" in window.update_box.text() and "https://x/r" in window.update_box.text()
+    assert window.update_box.detailedText() == "- Faster photometry"  # what changed (ARC-20 item 4)
     window.update_box.close()
 
 

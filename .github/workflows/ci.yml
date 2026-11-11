@@ -215,6 +215,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # the history since the last release, for the notes
       - name: The tag matches the version in the code
         run: |
           TAG="v$(sed -n 's/^__version__ = "\(.*\)"/\1/p' src/astrowb/__init__.py)"
@@ -225,12 +227,18 @@ jobs:
           pattern: installer-*
           path: out
           merge-multiple: true
+      - name: What changed since the last release (the notes; Help → Check for updates shows them)
+        run: |
+          PREV=$(git tag --list 'v*' --sort=-v:refname | grep -vx "$TAG" | head -1)
+          { echo "Changes since ${PREV:-the first commit}:"; echo
+            git log --no-merges --pretty='- %s' ${PREV:+$PREV..}HEAD | grep -v -e '^- Version ' -e '^- Plan' ; } > notes.md
+          cat notes.md
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |  # the release may already exist when it was drafted on GitHub's Releases page
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
-            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "$TAG" --generate-notes
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "$TAG" --notes-file notes.md
           for f in out/*; do  # one file at a time, three tries: a large upload once timed out (HTTP 408)
             for try in 1 2 3; do
               gh release upload "$TAG" "$f" --repo "$GITHUB_REPOSITORY" --clobber && break
