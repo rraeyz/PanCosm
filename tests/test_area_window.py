@@ -336,3 +336,32 @@ def test_toolbar_right_end_finds_actions(qtbot, tmp_path):
     qtbot.keyClicks(win.find_field, "m")
     dialog = next(w for w in win.findChildren(QWidget) if type(w).__name__ == "CommandSearch")
     assert dialog.search.text() == "m" and win.find_field.text() == ""
+
+
+def test_keyboard_shortcuts_sheet_and_no_key_twice(qtbot, tmp_path):
+    """UI-12: Help → Keyboard shortcuts lists the window's keys; no window gives one key to two actions."""
+    from astrowb.ui.kit.shortcuts import duplicates
+    from astrowb.ui.main_window import MainWindow
+
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main"))
+    qtbot.addWidget(win)
+    sheet = win.show_shortcuts()
+    rows = [sheet.table.item(i, 0).text() for i in range(sheet.table.rowCount())]
+    assert any("Find an action" in r for r in rows) and any("Keyboard shortcuts" in r for r in rows)
+    sheet.search.setText("find action")
+    shown = [i for i in range(sheet.table.rowCount()) if not sheet.table.isRowHidden(i)]
+    assert shown and all("Find" in sheet.table.item(i, 0).text() for i in shown)
+    main = MainWindow(Settings(tmp_path / "main"))
+    qtbot.addWidget(main)
+    try:
+        from astrowb.ui.start_page import areas
+
+        for key, *_ in areas():
+            main.show_workspace(key)
+            area = main.area_windows.get(key)
+            if area is not None:
+                assert duplicates(area) == {}, key
+        sizes = [a for a in main.actions() if a.shortcut().toString() == "Ctrl+Shift++"]
+        assert sizes and sizes[0].shortcutContext() == Qt.WidgetWithChildrenShortcut  # main window keeps the keys
+    finally:
+        main.engine.shutdown()

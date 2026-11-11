@@ -203,7 +203,11 @@ def _plugins_settings_window_help(main):
         (translate("MainWindow", "&Normal text size"), 0, "Ctrl+Shift+0"),
     )
     for text, step, key in sizes:
-        main._action(text_menu, text, lambda s=step: main._change_font(s), key)
+        act = main._action(text_menu, text, lambda s=step: main._change_font(s), key)
+        # the keys only in the main window: the area windows show this menu under Edit and have the same keys in
+        # their View menu (one key on two actions of a window does nothing: Ctrl+Shift++ did not work there)
+        act.setShortcutContext(Qt.WidgetWithChildrenShortcut)
+        main.addAction(act)
     main.window_menu = bar_menu(main.menuBar(), translate("MainWindow", "&Window"))
     main.window_menu.aboutToShow.connect(main._fill_window_menu)
     help_checks.add_menu(main)
