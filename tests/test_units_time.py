@@ -51,3 +51,20 @@ def test_airmass_formulas_agree_high_and_young_is_the_default():
     assert np.isfinite(airmass(0.5)) and np.isnan(airmass(-1))
     with pytest.raises(ValueError):
         airmass(45, "guess")
+
+
+def test_a_stack_is_dated_by_all_its_frames(tmp_path):
+    from astrowb.calibration.stacking import _stack_times
+
+    paths = []
+    for i in range(3):
+        h = fits.Header({"DATE-OBS": f"2024-03-01T22:0{2 * i}:00", "EXPTIME": 60.0, "TIMESYS": "TT"})
+        paths.append(tmp_path / f"f{i}.fits")
+        fits.PrimaryHDU(np.zeros((4, 4), np.float32), h).writeto(paths[-1])
+    stack = fits.getheader(paths[0])
+    _stack_times(stack, [str(p) for p in paths], None)
+    first = timing.mid_time(fits.getheader(paths[0]))
+    assert (timing.mid_time(stack) - first).to_value("sec") == pytest.approx(120, abs=1e-3)  # the middle frame
+    assert stack["DATE-END"].startswith("2024-03-01T22:05:00") and stack["TIMESYS"] == "TT"
+    _stack_times(stack, [str(p) for p in paths], [1.0, 0.0, 0.0])  # weights: only the first frame counts
+    assert (timing.mid_time(stack) - first).to_value("sec") == pytest.approx(0, abs=1e-3)

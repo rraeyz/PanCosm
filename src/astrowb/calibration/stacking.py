@@ -418,6 +418,7 @@ def stack(
     out = np.concatenate([o for o, _ in parts])
     cnt = np.concatenate([c for _, c in parts])
     header["NCOMBINE"] = (len(paths), "frames stacked")
+    _stack_times(header, paths, weights)
     how = {"sigma": "IRAF sigclip, MAD below 10 frames", "mad": "median / MAD"}.get(rejection, rejection)
     header["STACKMTH"] = (f"{method}, {how} rejection", "stack method")
     header["STACKNRM"] = (normalize, "normalisation before stacking")
@@ -430,6 +431,43 @@ def stack(
         turn = f" rot={angle:+.2f} scale={scale:.4f}" if abs(angle) > 1e-6 or abs(scale - 1) > 1e-9 else ""
         header.add_history(f"stacked {Path(p).name} dx={t[0]:+.2f} dy={t[1]:+.2f}{turn}{w}")
     return out, cnt, header
+
+
+def _stack_times(header, paths, weights):
+    """DATE-AVG: the frames' mid-exposures averaged with their weights (the first frame's DATE-OBS alone would date
+    the whole stack to its first exposure, ARC-15 item 5 (c)); DATE-END: the end of the last frame. Both in the
+    header's own time system (TIMESYS)."""
+    from astropy.time import Time, TimeDelta
+
+    from .. import timing
+    from ..hdr import get
+
+    mids, ends = [], []
+    for p in paths:
+        try:
+            with fits.open(readable(p)) as hdul:
+                h = hdul[find_image_hdu(hdul)].header
+                mid = timing.mid_time(h)
+                exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0)
+        except (OSError, ValueError):
+            return  # a frame without a time: the stack keeps the first frame's keywords
+        mids.append(mid.utc.jd)
+        ends.append(mid.utc.jd + exptime / 2 / 86400)
+    w = np.ones(len(mids)) if weights is None else np.asarray(weights, float)
+    offsets = np.asarray(mids) - mids[0]  # small numbers: the average keeps its microseconds
+    scale, add = timing._scale(header)
+
+    def in_header_system(jd):
+        t = Time(jd, format="jd", scale="utc") - TimeDelta(add, format="sec")
+        return getattr(t, scale).isot
+
+    header["DATE-AVG"] = (
+        in_header_system(mids[0] + float(np.average(offsets, weights=w))),
+        "weighted mean mid-exposure",
+    )
+    header["DATE-END"] = (in_header_system(max(ends)), "end of the last frame")
+    for key in ("JD-MID", "MJD-AVG"):  # the first frame's, which DATE-AVG replaces
+        header.remove(key, ignore_missing=True)
 
 
 def save_stack(path, image, count, header):

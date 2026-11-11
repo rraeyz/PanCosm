@@ -212,4 +212,10 @@ jobs:
         run: |  # the release may already exist when it was drafted on GitHub's Releases page
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
             || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "$TAG" --generate-notes
-          gh release upload "$TAG" out/* --repo "$GITHUB_REPOSITORY" --clobber
+          for f in out/*; do  # one file at a time, three tries: a large upload once timed out (HTTP 408)
+            for try in 1 2 3; do
+              gh release upload "$TAG" "$f" --repo "$GITHUB_REPOSITORY" --clobber && break
+              [ "$try" = 3 ] && exit 1
+              sleep 20
+            done
+          done
