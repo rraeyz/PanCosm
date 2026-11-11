@@ -3422,6 +3422,15 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>InfoBanner</name>
+    <message>
+        <location filename="../../ui/kit/banners.py" line="60"/>
+        <location filename="../../ui/kit/banners.py" line="61"/>
+        <source>Dismiss</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LevelsDialog</name>
     <message>
         <location filename="../../ui/levels_dialog.py" line="25"/>

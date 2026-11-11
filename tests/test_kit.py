@@ -1,5 +1,5 @@
-"""UI-3: the kit's NumberField — keystroke check, Enter commits, Esc restores, wheel only with focus, Shift ×10 /
-Ctrl ×0.1 steps, the auto state, and the store binding."""
+"""UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
+Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner and Badge."""
 
 import pytest
 
@@ -66,3 +66,19 @@ def test_number_field_auto_and_binding(qtbot):
     bind(f, store, "r", "radius")
     f.setValue(7.0)
     assert store.get("r") == 7.0
+
+
+def test_info_banner_and_badge(qtbot):
+    from astrowb.ui.kit.banners import Badge, InfoBanner
+
+    clicked, gone = [], []
+    b = InfoBanner("attention", "3 frames have no time stamp", [("Show them", lambda: clicked.append(1))])
+    qtbot.addWidget(b)
+    b.dismissed.connect(lambda: gone.append(1))
+    b.show()
+    b.buttons[0].click()
+    b.close_button.click()
+    assert clicked == [1] and gone == [1] and not b.isVisible() and b.text().startswith("3 frames")
+    assert Badge("calibrated", "ok").text() == "calibrated"
+    with pytest.raises(ValueError):
+        InfoBanner("loud", "x")
