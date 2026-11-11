@@ -46,8 +46,8 @@ def test_themes_filters_and_roles():
 
 
 def test_tabular_figures_with_either_tag_constructor(monkeypatch):
-    """PySide 6.8 (the Linux ARM build) has no QFont.Tag(str): the theme takes Tag.fromString there (the ARM
-    installer stopped at start-up on it)."""
+    """PySide 6.8 (the Linux ARM build) has no QFont.Tag(str) (the ARM installer stopped at start-up on it): the
+    theme tries Tag.fromString, and goes on without tabular figures when there is neither."""
     pytest.importorskip("PySide6")
     from PySide6.QtGui import QFont
 
@@ -66,3 +66,5 @@ def test_tabular_figures_with_either_tag_constructor(monkeypatch):
 
     monkeypatch.setattr(QFont, "Tag", OldTag)
     assert theme._tabular_figures(QFont())
+    del OldTag.fromString  # PySide 6.8: no way to name a tag
+    assert theme._tabular_figures(QFont()) is False

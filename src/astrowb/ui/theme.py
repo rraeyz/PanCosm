@@ -130,8 +130,8 @@ def font_size(settings):
 
 
 def _tabular_figures(font):
-    """Figures of one width, so columns of numbers line up (Qt 6.7+). PySide 6.8 (Linux ARM builds) has no
-    QFont.Tag(str), only Tag.fromString; an older Qt keeps proportional figures."""
+    """Figures of one width, so columns of numbers line up (Qt 6.7+). PySide 6.8 (the Linux ARM builds) can make
+    no tag from a name (neither Tag(str) nor Tag.fromString): there the figures stay proportional."""
     tag_type = getattr(QFont, "Tag", None)
     if tag_type is None or not hasattr(font, "setFeature"):
         return False
