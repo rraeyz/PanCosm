@@ -173,6 +173,18 @@ def test_suggestion_says_what_it_chose(qtbot):
     assert page.result.text().startswith("2 comparison stars suggested") and "take it off" in page.result.text()
     page.set_comparisons([])
     assert page.result.text().startswith("No suitable comparison star")
+    table = [{"verdict": "chosen", "x": 140.2, "y": 60.1, "mag": -12.0, "colour": float("nan"), "distance": 82.0,
+              "peak": 900.0, "snr": 300.0}]  # fmt: skip
+    page.set_comparisons([(140.2, 60.1)], {"table": table, "pixels": True})
+    assert page.result.text().startswith("1 comparison stars chosen from the image") and page.why_button.isEnabled()
+    from astrowb.ui.photometry_stars import why_dialog
+
+    d = why_dialog(page, page.judged_stars)
+    qtbot.addWidget(d)
+    from astrowb.ui.kit.table_view import DataTable
+
+    table = d.findChild(DataTable).table
+    assert table.horizontalHeaderItem(1).text() == "Magnitude (instrumental)" and table.item(0, 2).text() == "—"
 
 
 def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):

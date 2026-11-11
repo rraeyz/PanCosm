@@ -334,7 +334,7 @@ def suggest_step(inputs, params, ctx):
     from ..calibration.masters import load
     from ..calibration.stacking import align_offsets
     from ..io.inspect import saturation_level
-    from .aperture import suggest_comparisons
+    from .aperture import judge_pixels
 
     images = [inputs["images"][0], *timing.chronological(inputs["images"][1:])]  # the marked frame first
     _check_positions(images[0], inputs["target_xy"])
@@ -354,8 +354,9 @@ def suggest_step(inputs, params, ctx):
             r_out=params["r_out"], margin=60 + drift,
         )  # fmt: skip
         return {"comps_xy": [[x, y] for x, y, *_ in out["stars"]], "catalogue": out}
-    picks = suggest_comparisons(data, inputs["target_xy"], params["r_out"], n=params["n"], r_in=None, offsets=offsets)
-    return {"comps_xy": [list(p) for p in picks], "catalogue": None}
+    rows = judge_pixels(data, inputs["target_xy"], params["r_out"], n=params["n"], r_in=None, offsets=offsets)
+    picks = [[r["x"], r["y"]] for r in rows if r["verdict"] == "chosen"]
+    return {"comps_xy": picks, "catalogue": {"table": rows, "pixels": True}}  # every star's verdict (PHO-17)
 
 
 @step(
