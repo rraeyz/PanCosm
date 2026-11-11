@@ -171,6 +171,9 @@ def _show_unexpected_errors(settings):
 
     from PySide6.QtWidgets import QApplication, QMessageBox
 
+    from .core import log as app_log
+
+    app_log.start(settings.path.parent)  # app.log beside error.log (ARC-17)
     log = settings.path.parent / "error.log"
 
     def hook(kind, value, tb):
@@ -316,9 +319,6 @@ def _app(argv) -> int:
     from .ui.main_window import MainWindow
 
     _show_unexpected_errors(settings)
-    from .core import log
-
-    log.start(settings.path.parent)
     win = MainWindow(settings)
     area = app.primaryScreen().availableGeometry()  # never larger than the screen, and on it
     win.resize(min(1500, int(area.width() * 0.92)), min(950, int(area.height() * 0.9)))
