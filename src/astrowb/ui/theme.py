@@ -129,6 +129,22 @@ def font_size(settings):
         return FONT_PT
 
 
+def _tabular_figures(font):
+    """Figures of one width, so columns of numbers line up (Qt 6.7+). PySide 6.8 (Linux ARM builds) has no
+    QFont.Tag(str), only Tag.fromString; an older Qt keeps proportional figures."""
+    tag_type = getattr(QFont, "Tag", None)
+    if tag_type is None or not hasattr(font, "setFeature"):
+        return False
+    try:
+        tag = tag_type("tnum")
+    except TypeError:
+        tag = tag_type.fromString("tnum") if hasattr(tag_type, "fromString") else None
+    if tag is None:
+        return False
+    font.setFeature(tag, 1)
+    return True
+
+
 def apply(app, name=DEFAULT, font_pt=FONT_PT):
     """Apply a theme and text size to the whole application (widgets and matplotlib plots)."""
     import matplotlib as mpl
@@ -139,8 +155,7 @@ def apply(app, name=DEFAULT, font_pt=FONT_PT):
     if family:
         font = QFont(family)
         font.setPointSizeF(font_pt)
-        if hasattr(font, "setFeature"):  # Qt 6.7+: figures of one width, so columns of numbers line up
-            font.setFeature(QFont.Tag("tnum"), 1)
+        _tabular_figures(font)
         app.setFont(font)
     pal = QPalette()
     for role, key in (
