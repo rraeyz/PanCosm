@@ -10761,78 +10761,108 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Raporlar ve dosyalar o zaman ölçeklenmiş hataları da taşır (rel_flux_err_scaled); biçimsel hatalar kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="156"/>
+        <location filename="../../ui/photometry_checks.py" line="160"/>
         <source>For next time:</source>
         <translation>Bir dahaki sefere:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="168"/>
+        <location filename="../../ui/photometry_checks.py" line="172"/>
         <source>Scatter from point to point: {r:.2f} × the predicted errors.</source>
         <translation>Noktadan noktaya saçılma: tahmin edilen hataların {r:.2f} katı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="171"/>
+        <location filename="../../ui/photometry_checks.py" line="175"/>
         <source> The errors are too small: scale them.</source>
         <translation> Hatalar çok küçük: ölçekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="179"/>
+        <location filename="../../ui/photometry_checks.py" line="183"/>
         <source>Use the formal errors</source>
         <translation>Biçimsel hataları kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="181"/>
+        <location filename="../../ui/photometry_checks.py" line="185"/>
         <source>Scale the errors by {f:.2f}</source>
         <translation>Hataları {f:.2f} ile ölçekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="209"/>
+        <location filename="../../ui/photometry_checks.py" line="213"/>
         <source>Comparison counts</source>
         <translation>Karşılaştırma sayımları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="210"/>
+        <location filename="../../ui/photometry_checks.py" line="214"/>
         <source>Sky</source>
         <translation>Gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="211"/>
+        <location filename="../../ui/photometry_checks.py" line="215"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="239"/>
+        <location filename="../../ui/photometry_checks.py" line="259"/>
+        <source>measured</source>
+        <translation>ölçülen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="260"/>
+        <source>white noise</source>
+        <translation>beyaz gürültü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="262"/>
+        <source>check star</source>
+        <translation>kontrol yıldızı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="264"/>
+        <source>T1 (no check star)</source>
+        <translation>T1 (kontrol yıldızı yok)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="266"/>
+        <source>RMS against bin size, {who}: β = {beta:.2f}</source>
+        <translation>Kutu boyutuna göre RMS, {who}: β = {beta:.2f}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="268"/>
+        <source>Points per bin</source>
+        <translation>Kutu başına nokta</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="282"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="252"/>
+        <location filename="../../ui/photometry_checks.py" line="295"/>
         <source>{kind} ({n})</source>
         <translation>{kind} ({n})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="257"/>
+        <location filename="../../ui/photometry_checks.py" line="300"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="259"/>
+        <location filename="../../ui/photometry_checks.py" line="302"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="229"/>
-        <location filename="../../ui/photometry_checks.py" line="267"/>
+        <location filename="../../ui/photometry_checks.py" line="233"/>
+        <location filename="../../ui/photometry_checks.py" line="311"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="267"/>
+        <location filename="../../ui/photometry_checks.py" line="311"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="268"/>
+        <location filename="../../ui/photometry_checks.py" line="312"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>

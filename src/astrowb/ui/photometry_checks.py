@@ -127,6 +127,10 @@ class ChecksTab(QWidget):
         self.panels.setMinimumHeight(260)
         self.panels.hide()
         lay.addWidget(self.panels, 2)
+        self.rms = PlotCanvas(self)  # PHO-34: RMS against bin size, the red noise's β
+        self.rms.setMinimumHeight(180)
+        self.rms.hide()
+        lay.addWidget(self.rms, 1)
         lay.addWidget(self.table, 1)
 
     def _show(self, i):
@@ -229,6 +233,45 @@ class ChecksTab(QWidget):
         np.atleast_1d(axes)[-1].set_xlabel(translate("PhotometryChecks", "Frame"), fontsize=7)
         self.panels.draw()
 
+    def _draw_rms(self, lc):
+        """The binned RMS of a constant star's curve against the bin size, with the white-noise line, and β (Winn et
+        al. 2008): the first check star, else T1 (an eclipse in it then raises the RMS too, as the title says)."""
+        import numpy as np
+
+        from ..exoplanets.noise import beta_factor
+        from ..photometry.errors import rms_vs_bin
+
+        check = next((e for e in lc.get("extra") or [] if e.get("role") == "check"), None)
+        y = np.asarray((check or lc).get("rel_flux") or [], float)
+        y = y[np.isfinite(y)]
+        sizes = [n for n in (1, 2, 3, 5, 8, 12, 20, 30, 50, 80) if len(y) // n >= 3]
+        show = len(sizes) >= 3 and bool(np.std(y) > 0)
+        self.rms.setVisible(show)
+        if not show:
+            return None
+        r = y / np.median(y) - 1
+        rows = rms_vs_bin(r, sizes)
+        beta = beta_factor(r, sizes[1:])
+        fig = self.rms.figure
+        fig.clear()
+        ax = fig.add_subplot(111)
+        n, got, white = (np.array(c, float) for c in zip(*rows, strict=True))
+        ax.loglog(n, 1000 * got, "o-", ms=3, label=translate("PhotometryChecks", "measured"))
+        ax.loglog(n, 1000 * white, "--", label=translate("PhotometryChecks", "white noise"))
+        who = (
+            translate("PhotometryChecks", "check star")
+            if check
+            else translate("PhotometryChecks", "T1 (no check star)")
+        )
+        ax.set_title(translate("PhotometryChecks", "RMS against bin size, {who}: β = {beta:.2f}").format(who=who,
+                     beta=beta), fontsize=8)  # fmt: skip
+        ax.set_xlabel(translate("PhotometryChecks", "Points per bin"), fontsize=7)
+        ax.set_ylabel("RMS (ppt)", fontsize=7)
+        ax.tick_params(labelsize=7)
+        ax.legend(fontsize=7)
+        self.rms.draw()
+        return beta
+
     def leave_out_flagged(self, kind=None):
         """Through the page's undoable exclusion, as its saturated-points command: every flagged frame, or only those
         of one kind ("cloud", "spike" …)."""
@@ -261,6 +304,7 @@ class ChecksTab(QWidget):
         self.advice.setText(self._advice(lc))
         self._show_noise(lc)
         self._draw_panels(lc, flags)
+        self.beta = self._draw_rms(lc)
         files = self.files = list(lc.get("file") or [""] * len(lc.get("rel_flux", [])))
         rows = sorted({i for v in flags.values() for i in v})
         self.table.set_data(

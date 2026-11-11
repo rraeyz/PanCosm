@@ -2318,6 +2318,23 @@ def test_the_checks_tab(window):
     assert left == ["spike"]
 
 
+def test_the_checks_tab_shows_red_noise(window):
+    """PHO-34: the RMS against bin size of the check star: white noise follows the 1/√N line (β ≈ 1), a slow
+    wander does not (β well above 1)."""
+    window.show_workspace("photometry")
+    page = window.photometry_page
+    rng = np.random.default_rng(8)
+    n = 400
+    white = 1 + rng.normal(0, 0.002, n)
+    red = white + 0.003 * np.sin(np.arange(n) / 25.0)
+    for curve, low, high in ((white, 0.8, 1.25), (red, 2.0, 99)):
+        lc = {"comp_flux": [[1e5, 1e5]] * n, "rel_flux": [1.0] * n, "file": [""] * n,
+              "extra": [{"name": "C3", "role": "check", "rel_flux": curve.tolist()}]}  # fmt: skip
+        page.checks.show_checks(lc)
+        assert low < page.checks.beta < high and page.checks.rms.isVisibleTo(page.checks)
+        assert "check star" in page.checks.rms.figure.axes[0].get_title()
+
+
 def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):
     """PHO-34: scatter 2× the stated errors: the tab says so and scales them beside the formal ones (undone by a
     second press); the AAVSO magnitudes' errors follow."""

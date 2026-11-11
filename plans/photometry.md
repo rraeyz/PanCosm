@@ -815,7 +815,7 @@ frames): the ratio 1.62, and the transit fit's χ²_r 2.79 with the formal error
 accept); the ratio is the clipped standard deviation of the differences (the MAD gave 1.43 and χ²_r 1.36). The
 several radii's errors carry the scintillation too (`lightcurve._by_aperture`). The Inspector (a click on a star)
 adds "Noise from" (the shares of star, sky, dark and read noise, errors.budget with the profile's camera) and the
-predicted error; a drawn bar is left.
+predicted error; a drawn bar is left. (2026-11-14) The Checks tab draws the RMS against bin size of the check star (T1 without one) with the white-noise line and β (Winn et al. 2008); white noise β ≈ 1, a slow wander well above (test_ui). Left: β in the transit fit's errors ("account for red noise").
 - **Ours now:** `aperture.scintillation` (Young's formula, one radius only) and the camera noise model of done item 2; no observed-vs-predicted ratio, no β.
 - **Reference:** Pont, Zucker & Queloz 2006 (MNRAS 373, 231: red noise); Winn et al. 2008 (ApJ 683, 1076: the
   time-averaging β factor); Carter & Winn 2009 (wavelets); Young 1967 / Osborn et al. 2015 (MNRAS 452, 1707:
