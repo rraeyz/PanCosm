@@ -806,8 +806,9 @@ the suite is green after each.
   cones, DSS images, SkyBoT, VSX and exoplanet ephemerides, ZTF / AAVSO light curves. Guide (en, tr): "Working
   without the internet". The Settings entries moved out of `main_window.py` (`ui/online_actions.py`).
   **Changed from the plan:** no `Service` class and HTTP helper yet — most queries go through astroquery, so the
-  cache wraps the call rather than the HTTP request; `mirrors.cds` stays the fall-back between servers. Pending:
-  "from cache, fetched on …" in the windows (`cache.last` holds it), MAST light curves and SIMBAD names (they have
+  cache wraps the call rather than the HTTP request; `mirrors.cds` stays the fall-back between servers. A worker task now
+  passes `cache.last` back (`Task.sources`) and the area window's toast and status line add "from the cache,
+  fetched on <date>". Pending: MAST light curves and SIMBAD names (they have
   their own files), the module consolidation (item 3), fetch records for the methods text (4), the installation
   check from a registry (5), recorded responses for tests (6).
 - **Ours now:** `mirrors.py` (CDS → Harvard / IDIA fall-back, remembered server), `gaia.py` (VizieR or ESA archive, cache), separate queries in `overlays.py`, `photometry/catalog.py`, `planning/ephemerides.py`, `timeseries/{archive,surveys}.py`, `spectroscopy/{templates,mkstandards,atmosphere}.py`.

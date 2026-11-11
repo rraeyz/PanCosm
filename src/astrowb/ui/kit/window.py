@@ -245,7 +245,7 @@ class AreaWindow(Anatomy, QMainWindow):
         if task.finished and task.state == "done":
             from .toast import Toast
 
-            Toast.show_in(self, self.tr("{name}: finished").format(name=name))
+            Toast.show_in(self, self.tr("{name}: finished").format(name=name) + self.cache_note(task))
         if task.finished:
             self._tasks.pop(task.id, None)
             ends = {
@@ -253,7 +253,7 @@ class AreaWindow(Anatomy, QMainWindow):
                 "failed": self.tr("{name}: failed (see the message)"),
                 "cancelled": self.tr("{name}: cancelled"),
             }
-            self.statusBar().showMessage(ends.get(task.state, "{name}").format(name=name))
+            self.statusBar().showMessage(ends.get(task.state, "{name}").format(name=name) + self.cache_note(task))
             if not self.isActiveWindow():  # long work ended while the user was in another window
                 from PySide6.QtWidgets import QApplication
 
@@ -268,6 +268,17 @@ class AreaWindow(Anatomy, QMainWindow):
             self.task_progress.setValue(int(shown.progress * 100))
             extra = len(running) - 1
             self.task_progress.setFormat("%p %" if not extra else self.tr("%p % (+{n} more)").format(n=extra))
+
+    def cache_note(self, task):
+        """ " · from the cache, fetched on 2026-11-02" when an online answer of the task was a saved one (ARC-14);
+        the oldest date, since that is the one that may be out of date."""
+        times = [t for t, from_cache in getattr(task, "sources", {}).values() if from_cache]
+        if not times:
+            return ""
+        from PySide6.QtCore import QDateTime
+
+        when = QDateTime.fromSecsSinceEpoch(int(min(times))).toString("yyyy-MM-dd HH:mm")
+        return self.tr(" · from the cache, fetched on {date}").format(date=when)
 
     def _show_busy(self, text):
         """Empty plots of the window say what is running instead of "nothing to show" (UI-6)."""
