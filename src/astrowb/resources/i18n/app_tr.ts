@@ -3701,12 +3701,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="97"/>
+        <location filename="../../ui/main_window.py" line="98"/>
         <source>Tasks</source>
         <translation>Görevler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="160"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Start</source>
         <translation>Başlangıç</translation>
     </message>
@@ -3721,12 +3721,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="164"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="164"/>
         <source>Guide</source>
         <translation>Kılavuz</translation>
     </message>
@@ -4608,12 +4608,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;İş</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="321"/>
+        <location filename="../../ui/main_window.py" line="323"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="322"/>
+        <location filename="../../ui/main_window.py" line="324"/>
         <source>Copies the selected cells or text</source>
         <translation>Seçili hücreleri ya da metni kopyalar</translation>
     </message>
@@ -4848,17 +4848,52 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kataloglar, arşivler ve ad sorguları yalnızca daha önce indirilenlerden yanıt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="44"/>
+        <location filename="../../ui/online_actions.py" line="45"/>
         <source>Clear the saved catalogue answers…</source>
         <translation>Kaydedilmiş katalog yanıtlarını sil…</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="50"/>
+        <location filename="../../ui/online_actions.py" line="63"/>
+        <source>● Offline</source>
+        <translation>● Çevrimdışı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="63"/>
+        <source>● Online</source>
+        <translation>● Çevrimiçi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="64"/>
+        <source>Click to work online again</source>
+        <translation>Yeniden çevrimiçi çalışmak için tıklayın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="65"/>
+        <source>Click to work offline (catalogues answer from what was fetched)</source>
+        <translation>Çevrimdışı çalışmak için tıklayın (kataloglar daha önce alınanlardan cevap verir)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="81"/>
+        <source>Processing: automatic</source>
+        <translation>İşlem: otomatik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="82"/>
+        <source>Processing: CPU</source>
+        <translation>İşlem: CPU</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="83"/>
+        <source>Processing: GPU</source>
+        <translation>İşlem: GPU</translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="90"/>
         <source>Delete {n} saved answers of catalogues and archives ({mb:.0f} MB)? They are fetched again when needed.</source>
         <translation>Katalog ve arşivlerin kaydedilmiş {n} yanıtı ({mb:.0f} MB) silinsin mi? Gerektiğinde yeniden indirilirler.</translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="54"/>
+        <location filename="../../ui/online_actions.py" line="94"/>
         <source>Saved catalogue answers</source>
         <translation>Kaydedilmiş katalog yanıtları</translation>
     </message>
@@ -5016,7 +5051,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/image_actions.py" line="402"/>
         <source>The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel size in Settings → Profiles.</source>
-        <translation>Çözüm {solved:.3f} ″/piksel veriyor, profil {mine:.3f} ″/piksel: Ayarlar → Profiller'de odak uzunluğunu ve piksel boyutunu denetleyin.</translation>
+        <translation>Çözüm {solved:.3f} ″/piksel veriyor, profil {mine:.3f} ″/piksel: Ayarlar → Profiller&apos;de odak uzunluğunu ve piksel boyutunu denetleyin.</translation>
     </message>
     <message>
         <location filename="../../ui/image_actions.py" line="436"/>
@@ -5401,22 +5436,22 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Hiçbir yere kullanım verisi gönderilmez. Program yalnızca sizin başlattığınız işler (kataloglar, arşivler, ad sorguları, güncelleme denetimi) ve açık bırakılırsa haftalık Dünya dönme tabloları için internete çıkar. Eklentiler sizin yetkilerinizle çalışır: yeni ya da değişmiş bir eklenti siz izin verene kadar bekler.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="81"/>
+        <location filename="../../ui/main_settings.py" line="85"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Dünya dönme tabloları güncellendi: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="87"/>
+        <location filename="../../ui/main_settings.py" line="91"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Dünya dönme tabloları güncellenmedi (çevrimdışı mı?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="92"/>
+        <location filename="../../ui/main_settings.py" line="96"/>
         <source>Earth-rotation tables</source>
         <translation>Dünya dönme tabloları</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="93"/>
+        <location filename="../../ui/main_settings.py" line="97"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5425,47 +5460,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi olduğunuzda tekrar deneyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="105"/>
+        <location filename="../../ui/main_settings.py" line="109"/>
         <source>Folder for the practice data</source>
         <translation>Alıştırma verisi için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="112"/>
+        <location filename="../../ui/main_settings.py" line="116"/>
         <source>practice</source>
         <translation>alıştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="114"/>
+        <location filename="../../ui/main_settings.py" line="118"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Alıştırma verisi {f} içinde: Kılavuz&apos;daki &apos;İlk geceniz&apos; adımlarını izleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="136"/>
+        <location filename="../../ui/main_settings.py" line="140"/>
         <source>Could not check for updates: {e}</source>
         <translation>Güncellemeler denetlenemedi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="138"/>
+        <location filename="../../ui/main_settings.py" line="142"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>{v} sürümü çıktı (sizdeki: {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="141"/>
+        <location filename="../../ui/main_settings.py" line="145"/>
         <source>Open the download page</source>
         <translation>İndirme sayfasını aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="144"/>
+        <location filename="../../ui/main_settings.py" line="148"/>
         <source>You have the latest version ({c}).</source>
         <translation>En son sürümü kullanıyorsunuz ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="145"/>
+        <location filename="../../ui/main_settings.py" line="149"/>
         <source>Updates</source>
         <translation>Güncellemeler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="155"/>
+        <location filename="../../ui/main_settings.py" line="159"/>
         <source>About {app}</source>
         <translation>{app} hakkında</translation>
     </message>

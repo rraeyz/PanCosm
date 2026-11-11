@@ -68,6 +68,10 @@ class SettingsActions:
     def set_compute(self, code):
         self.settings.set("compute.device", code)
         compute.set_mode(code)  # new worker processes inherit it
+        if hasattr(self, "compute_chip"):
+            from .online_actions import show_compute
+
+            show_compute(self)
         self.statusBar().showMessage(compute.describe(), 8000)
 
     def update_time_tables(self, quiet=False):

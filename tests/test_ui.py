@@ -2032,3 +2032,18 @@ def test_plate_solution_checked_against_the_profile(window, tmp_path):
     assert window._check_scale(path)
     win = window.area_windows.get("image", window)
     assert "0.620" in win.statusBar().currentMessage() and "0.388" in win.statusBar().currentMessage()
+
+
+def test_start_window_status_strip(window):
+    """UI-5 item 5: the strip names the processing device and Online / Offline; a click switches working offline."""
+    assert window.compute_chip.text().startswith("Processing:")
+    was = window.offline_action.isChecked()
+    assert window.online_chip.text() == ("● Offline" if was else "● Online")
+    window.online_chip.click()
+    assert window.offline_action.isChecked() != was and window.online_chip.text() == (
+        "● Online" if was else "● Offline"
+    )
+    window.online_chip.click()
+    window.set_compute("cpu")
+    assert window.compute_chip.text() == "Processing: CPU"
+    window.set_compute("auto")

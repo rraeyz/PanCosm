@@ -39,10 +39,50 @@ def add(win, menu):
     win.offline_action.toggled.connect(lambda on: (settings.set("services.offline", on), cache.set_offline(on)))
     win.offline_action.toggled.connect(lambda on: win.start_page.show_offline(on))
     win.start_page.show_offline(cache.offline())
+    status_strip(win)
     menu.addAction(win.offline_action)
     win._action(
         menu, QCoreApplication.translate("MainWindow", "Clear the saved catalogue answers…"), lambda: clear(win)
     )
+
+
+def status_strip(win):
+    """The start window's status strip (UI-5 item 5): the processing device and Online / Offline; a click on the
+    second switches working offline."""
+    from PySide6.QtWidgets import QLabel, QToolButton
+
+    translate = QCoreApplication.translate
+    win.compute_chip = QLabel(win)
+    win.compute_chip.setProperty("muted", True)
+    show_compute(win)
+    online = win.online_chip = QToolButton(win)
+    online.setAutoRaise(True)
+
+    def show(_on=None):
+        off = win.offline_action.isChecked()
+        online.setText(translate("MainWindow", "● Offline") if off else translate("MainWindow", "● Online"))
+        back = translate("MainWindow", "Click to work online again")
+        away = translate("MainWindow", "Click to work offline (catalogues answer from what was fetched)")
+        online.setToolTip(back if off else away)
+
+    online.clicked.connect(win.offline_action.toggle)
+    win.offline_action.toggled.connect(show)
+    show()
+    win.statusBar().addPermanentWidget(win.compute_chip)
+    win.statusBar().addPermanentWidget(online)
+
+
+def show_compute(win):
+    """The processing setting in words (never probing the GPU here: that would load its driver at start-up)."""
+    from .. import compute
+
+    translate = QCoreApplication.translate
+    words = {
+        "auto": translate("MainWindow", "Processing: automatic"),
+        "cpu": translate("MainWindow", "Processing: CPU"),
+        "gpu": translate("MainWindow", "Processing: GPU"),
+    }
+    win.compute_chip.setText(words.get(compute.mode(), compute.mode()))
 
 
 def clear(win, ask=True):

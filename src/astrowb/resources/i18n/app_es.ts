@@ -3701,12 +3701,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="97"/>
+        <location filename="../../ui/main_window.py" line="98"/>
         <source>Tasks</source>
         <translation>Tareas</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="160"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Start</source>
         <translation>Inicio</translation>
     </message>
@@ -3721,12 +3721,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="164"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="164"/>
         <source>Guide</source>
         <translation>Guía</translation>
     </message>
@@ -4608,12 +4608,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Tra&amp;bajo</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="321"/>
+        <location filename="../../ui/main_window.py" line="323"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="322"/>
+        <location filename="../../ui/main_window.py" line="324"/>
         <source>Copies the selected cells or text</source>
         <translation>Copia las celdas o el texto seleccionados</translation>
     </message>
@@ -4848,17 +4848,52 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="44"/>
+        <location filename="../../ui/online_actions.py" line="45"/>
         <source>Clear the saved catalogue answers…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="50"/>
+        <location filename="../../ui/online_actions.py" line="63"/>
+        <source>● Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="63"/>
+        <source>● Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="64"/>
+        <source>Click to work online again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="65"/>
+        <source>Click to work offline (catalogues answer from what was fetched)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="81"/>
+        <source>Processing: automatic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="82"/>
+        <source>Processing: CPU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="83"/>
+        <source>Processing: GPU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/online_actions.py" line="90"/>
         <source>Delete {n} saved answers of catalogues and archives ({mb:.0f} MB)? They are fetched again when needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/online_actions.py" line="54"/>
+        <location filename="../../ui/online_actions.py" line="94"/>
         <source>Saved catalogue answers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5399,22 +5434,22 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="81"/>
+        <location filename="../../ui/main_settings.py" line="85"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Tablas de rotación terrestre actualizadas: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="87"/>
+        <location filename="../../ui/main_settings.py" line="91"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Tablas de rotación terrestre no actualizadas (¿sin conexión?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="92"/>
+        <location filename="../../ui/main_settings.py" line="96"/>
         <source>Earth-rotation tables</source>
         <translation>Tablas de rotación terrestre</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="93"/>
+        <location filename="../../ui/main_settings.py" line="97"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5423,47 +5458,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con conexión.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="105"/>
+        <location filename="../../ui/main_settings.py" line="109"/>
         <source>Folder for the practice data</source>
         <translation>Carpeta para los datos de práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="112"/>
+        <location filename="../../ui/main_settings.py" line="116"/>
         <source>practice</source>
         <translation>práctica</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="114"/>
+        <location filename="../../ui/main_settings.py" line="118"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Datos de práctica en {f}: siga «Su primera noche» en la Guía.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="136"/>
+        <location filename="../../ui/main_settings.py" line="140"/>
         <source>Could not check for updates: {e}</source>
         <translation>No se pudo buscar actualizaciones: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="138"/>
+        <location filename="../../ui/main_settings.py" line="142"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>La versión {v} está disponible (usted tiene {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="141"/>
+        <location filename="../../ui/main_settings.py" line="145"/>
         <source>Open the download page</source>
         <translation>Abrir la página de descarga</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="144"/>
+        <location filename="../../ui/main_settings.py" line="148"/>
         <source>You have the latest version ({c}).</source>
         <translation>Tiene la versión más reciente ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="145"/>
+        <location filename="../../ui/main_settings.py" line="149"/>
         <source>Updates</source>
         <translation>Actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="155"/>
+        <location filename="../../ui/main_settings.py" line="159"/>
         <source>About {app}</source>
         <translation>Acerca de {app}</translation>
     </message>
