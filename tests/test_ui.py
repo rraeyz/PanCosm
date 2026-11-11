@@ -1975,6 +1975,21 @@ def test_closing_the_start_window_keeps_the_area_windows(window, qtbot):
     area.close()
     window.engine.shutdown = real  # the fixture ends the workers
     assert ended == [1]
+    from PySide6.QtCore import QEvent
+
+    from astrowb.ui.main_window import _QuitWatch
+
+    _QuitWatch(window).eventFilter(None, QEvent(QEvent.Quit))  # the program's own Quit (macOS Dock)
+    from PySide6.QtGui import QCloseEvent
+
+    class ByTheUser(QCloseEvent):
+        def spontaneous(self):
+            return True
+
+    window.show()
+    window.show_workspace("photometry")
+    window.closeEvent(ByTheUser())
+    assert window._closing and not window.area_windows["photometry"].isVisible()  # all of it closed
 
 
 def test_settings_show_the_pixel_scale(window, qtbot):

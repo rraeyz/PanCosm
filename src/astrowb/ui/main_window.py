@@ -6,6 +6,7 @@ from pathlib import Path
 from PySide6.QtCore import QEvent, QObject, QSize, Qt, Signal
 from PySide6.QtGui import QAction, QIcon, QKeySequence
 from PySide6.QtWidgets import (
+    QApplication,
     QLabel,
     QListWidget,
     QMainWindow,
@@ -114,6 +115,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         area_windows.fill_image_toolbar(self)
         self._update_title()
+        QApplication.instance().installEventFilter(_QuitWatch(self))  # a quit of the whole program closes all
 
     # --- construction -------------------------------------------------------
     PAGES = {  # key (stable, never translated) -> attribute of the page
@@ -559,7 +561,8 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
     def closeEvent(self, event):
         from .kit.window import AreaWindow
 
-        if event.spontaneous() and AreaWindow.shown():  # the user closed the start window: the areas go on (UI-14)
+        quitting = getattr(self, "_app_quitting", False)  # the Dock's or the desktop's Quit: everything ends
+        if event.spontaneous() and AreaWindow.shown() and not quitting:  # the start window alone: areas go on (UI-14)
             self.hide()  # back from any Window menu; the program ends with the last window, or by File → Quit
             self._hidden_by_user = True
             event.ignore()
@@ -571,6 +574,15 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
+
+
+class _QuitWatch(QObject):
+    """Notes a quit of the whole program (macOS Dock → Quit, a log-out): the start window must not hide then."""
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Quit:
+            self.parent()._app_quitting = True
+        return False
 
 
 class _Columns(QObject):
