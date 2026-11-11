@@ -378,3 +378,20 @@ def test_status_segments(qtbot):
     bar.set_progress(None)
     bar.message("Saved")
     assert not bar.progress.isVisible() and bar.currentMessage() == "Saved" and bar.readout.text().startswith("x")
+
+
+def test_error_dialog(qtbot):
+    from PySide6.QtWidgets import QApplication
+
+    from astrowb.ui.kit.dialogs import ErrorDialog
+
+    reported = []
+    d = ErrorDialog(None, "Task failed", "Photometry stopped", "Check the apertures.", "Traceback …",
+                    report=lambda: reported.append(1))  # fmt: skip
+    qtbot.addWidget(d)
+    d.show()
+    copy = next(b for b in d.buttons() if b.text() == "Copy")
+    copy.click()
+    assert QApplication.clipboard().text().startswith("Task failed") and d.isVisible()  # copying keeps it open
+    d.report_button.click()
+    assert reported == [1] and d.detailedText() == "Traceback …"

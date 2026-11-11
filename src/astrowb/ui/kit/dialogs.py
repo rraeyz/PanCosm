@@ -7,7 +7,7 @@ UI-3): buttons on the right with the primary one last, Esc cancels, the size is 
     if d.exec(): ...
 """
 
-from PySide6.QtWidgets import QDialog, QHBoxLayout, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QDialog, QHBoxLayout, QMessageBox, QPushButton, QVBoxLayout
 
 
 class Dialog(QDialog):
@@ -40,3 +40,26 @@ class Dialog(QDialog):
         if self.settings is not None and self.key:
             self.settings.set(f"dialog.{self.key}.size", [self.width(), self.height()])
         super().done(result)
+
+
+class ErrorDialog(QMessageBox):
+    """The failure of a task (plans/interface.md "The component kit"): what happened, what to do, the details
+    folded, Copy and Report.
+
+    ErrorDialog(parent, self.tr("Task failed"), what, todo, details=traceback, report=self.report_problem).open()
+    """
+
+    def __init__(self, parent, title, what, todo="", details="", report=None):
+        super().__init__(QMessageBox.Warning, title, what, parent=parent)
+        self.setInformativeText(todo)
+        if details:
+            self.setDetailedText(details)  # the full traceback, for reports
+        self.full = "\n\n".join(t for t in (title, what, todo, details) if t)
+        copy = self.addButton(self.tr("Copy"), QMessageBox.ActionRole)
+        copy.clicked.disconnect()  # an action button closes the box by default: copying keeps it open
+        copy.clicked.connect(lambda: QApplication.clipboard().setText(self.full))
+        self.report_button = None
+        if report is not None:
+            self.report_button = self.addButton(self.tr("Report…"), QMessageBox.ActionRole)
+            self.report_button.clicked.connect(lambda: report())  # not with the clicked flag as an argument
+        self.addButton(QMessageBox.Close)

@@ -2593,6 +2593,19 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
 </context>
 <context>
+    <name>ErrorDialog</name>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="58"/>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="63"/>
+        <source>Report…</source>
+        <translation>Bildir…</translation>
+    </message>
+</context>
+<context>
     <name>Export</name>
     <message>
         <location filename="../../ui/plot/export.py" line="135"/>
@@ -5056,7 +5069,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/task_actions.py" line="69"/>
+        <location filename="../../ui/task_actions.py" line="71"/>
         <source>Task failed</source>
         <translation>Görev başarısız</translation>
     </message>
