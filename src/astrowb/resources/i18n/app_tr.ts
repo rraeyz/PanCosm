@@ -1091,87 +1091,87 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>BessDialog</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="759"/>
+        <location filename="../../ui/spectrum_tools.py" line="756"/>
         <source>Export for BeSS / ARAS</source>
         <translation>BeSS / ARAS için dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="762"/>
+        <location filename="../../ui/spectrum_tools.py" line="759"/>
         <source>Object (Simbad name)</source>
         <translation>Cisim (Simbad adı)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="763"/>
+        <location filename="../../ui/spectrum_tools.py" line="760"/>
         <source>Observer</source>
         <translation>Gözlemci</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="764"/>
+        <location filename="../../ui/spectrum_tools.py" line="761"/>
         <source>Start of exposure (UTC)</source>
         <translation>Poz başlangıcı (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="765"/>
+        <location filename="../../ui/spectrum_tools.py" line="762"/>
         <source>Exposure (s)</source>
         <translation>Poz (sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="766"/>
+        <location filename="../../ui/spectrum_tools.py" line="763"/>
         <source>Telescope + spectrograph + camera</source>
         <translation>Teleskop + spektrograf + kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="767"/>
+        <location filename="../../ui/spectrum_tools.py" line="764"/>
         <source>Site</source>
         <translation>Gözlem yeri</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="768"/>
+        <location filename="../../ui/spectrum_tools.py" line="765"/>
         <source>Latitude (°)</source>
         <translation>Enlem (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="769"/>
+        <location filename="../../ui/spectrum_tools.py" line="766"/>
         <source>Longitude (°)</source>
         <translation>Boylam (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="770"/>
+        <location filename="../../ui/spectrum_tools.py" line="767"/>
         <source>Elevation (m)</source>
         <translation>Yükseklik (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="776"/>
+        <location filename="../../ui/spectrum_tools.py" line="773"/>
         <source>A keyword BeSS requires; filled from the spectrum&apos;s header when it has it</source>
         <translation>BeSS&apos;in istediği bir anahtar sözcük; tayfın başlığında varsa oradan doldurulur</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="778"/>
+        <location filename="../../ui/spectrum_tools.py" line="775"/>
         <source>Telluric lines removed</source>
         <translation>Tellürik çizgiler giderildi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="779"/>
+        <location filename="../../ui/spectrum_tools.py" line="776"/>
         <source>Cosmic rays removed</source>
         <translation>Kozmik ışınlar giderildi</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="780"/>
+        <location filename="../../ui/spectrum_tools.py" line="777"/>
         <source>Tick if cosmic-ray hits were removed; written into the header for BeSS</source>
         <translation>Kozmik ışın izleri silindiyse işaretleyin; BeSS için başlığa yazılır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="782"/>
+        <location filename="../../ui/spectrum_tools.py" line="779"/>
         <source>Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS</source>
         <translation>Tellürik (atmosferik) çizgiler bölünerek çıkarıldıysa işaretleyin; BeSS için başlığa yazılır</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="787"/>
+        <location filename="../../ui/spectrum_tools.py" line="784"/>
         <source>The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS needs it to compare spectra</source>
         <translation>Dalga boylarına zaten uygulanmış heliosentrik hız düzeltmesi (yoksa 0); BeSS tayfları karşılaştırmak için buna ihtiyaç duyar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="793"/>
+        <location filename="../../ui/spectrum_tools.py" line="790"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Uygulanan güneş merkezli düzeltme (km/sn)</translation>
     </message>
@@ -13293,646 +13293,659 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
-    <name>SpectrumToolsTab</name>
+    <name>SpectrumKeys</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="84"/>
-        <source>Open spectrum…</source>
-        <translation>Tayf aç…</translation>
+        <location filename="../../ui/spectrum_keys.py" line="10"/>
+        <source>Keys over the plot: w window edges, m centre the window here, f measure, c continuum point, d delete point</source>
+        <translation>Grafik üzerinde tuşlar: w pencere kenarları, m pencereyi buraya ortala, f ölç, c süreklilik noktası, d noktayı sil</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="88"/>
-        <source>A wavelength-calibrated 1-D spectrum: FITS (table or wavelength WCS) or a text file of wavelength and flux</source>
-        <translation>Dalga boyu kalibre edilmiş 1-B tayf: FITS (tablo ya da dalga boyu WCS&apos;li) veya dalga boyu ve akı içeren metin dosyası</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="92"/>
-        <source>No spectrum.</source>
-        <translation>Tayf yok.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="95"/>
-        <source>Combine exposures…</source>
-        <translation>Pozları birleştir…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="99"/>
-        <source>Several exposures of one star in one night as one spectrum (IRAF scombine): one wavelength grid, scaled to one level, cosmic rays rejected, averaged; saved beside the first file and opened here</source>
-        <translation>Bir yıldızın bir gecedeki birkaç pozu tek tayf olarak (IRAF scombine): tek dalga boyu ızgarası, tek düzeye ölçeklenmiş, kozmik ışınlar atılmış, ortalaması alınmış; ilk dosyanın yanına kaydedilir ve burada açılır</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="106"/>
-        <source>Show line markers</source>
-        <translation>Çizgi işaretlerini göster</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="109"/>
-        <source>Marks common stellar lines (Balmer, Na D, Mg b, Ca II…) on the plot to help identify them</source>
-        <translation>Yaygın yıldız çizgilerini (Balmer, Na D, Mg b, Ca II…) tanımaya yardım etmek için grafikte işaretler</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="112"/>
-        <source>Shift the markers by this radial velocity (km/s)</source>
-        <translation>İşaretleri bu dikine hız kadar kaydır (km/sn)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="118"/>
-        <source>Measure a line</source>
-        <translation>Çizgi ölç</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="122"/>
-        <source>Gaussian</source>
-        <translation>Gauss</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="123"/>
-        <source>Voigt</source>
-        <translation>Voigt</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="125"/>
-        <source>Gaussian for most lines; Voigt for strong lines with broad wings (Balmer lines, Na D)</source>
-        <translation>Çoğu çizgi için Gauss; geniş kanatlı güçlü çizgiler için Voigt (Balmer çizgileri, Na D)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="129"/>
-        <location filename="../../ui/spectrum_tools.py" line="134"/>
-        <source>Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot</source>
-        <translation>Çizginin dalga boyu penceresi, iki yanında biraz süreklilikle; ya da grafikte çizginin üzerinden sürükleyin</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="137"/>
-        <source>Measure</source>
-        <translation>Ölç</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="141"/>
-        <source>Equivalent width, centre, FWHM and depth of the line from a profile fitted over a straight continuum at the window&apos;s edges</source>
-        <translation>Pencerenin kenarlarındaki düz bir süreklilik üzerine fit edilen profilden çizginin eşdeğer genişliği, merkezi, FWHM&apos;si ve derinliği</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="145"/>
-        <source>From / to (Å) — or drag on the plot</source>
-        <translation>Başlangıç / bitiş (Å) — ya da grafikte sürükleyin</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="153"/>
-        <source>The violet peak is searched below the centre and the red one above it, within this half width</source>
-        <translation>Mor tepe merkezin altında, kırmızı tepe üstünde, bu yarı genişlik içinde aranır</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="155"/>
-        <source>Rest wavelength of the emission line, e.g. 6562.80 for Hα</source>
-        <translation>Salma çizgisinin durgun dalga boyu, örneğin Hα için 6562,80</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="156"/>
-        <location filename="../../ui/spectrum_tools.py" line="337"/>
-        <source>V/R</source>
-        <translation>V/R</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="157"/>
-        <source>Violet / red emission peaks of a normalised spectrum: (I_V − 1) / (I_R − 1)</source>
-        <translation>Normalize tayfta mor / kırmızı salma tepeleri: (I_V − 1) / (I_R − 1)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="159"/>
-        <source>Line centre, ± half width (Å)</source>
-        <translation>Çizgi merkezi, ± yarı genişlik (Å)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="163"/>
-        <source>Measure in several spectra…</source>
-        <translation>Birçok tayfta ölç…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="164"/>
-        <source>The same window in many spectra: EW (and V/R) against date, e.g. Hα of a Be star</source>
-        <translation>Aynı aralık birçok tayfta: tarihe karşı EW (ve V/R), ör. bir Be yıldızının Hα&apos;sı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="169"/>
-        <source>Change the spectrum</source>
-        <translation>Tayfı değiştir</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="173"/>
-        <source>Gaussian (FWHM px)</source>
-        <translation>Gauss (FWHM pks)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="174"/>
-        <source>Boxcar (px)</source>
-        <translation>Kutu (pks)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="175"/>
-        <source>Median (px)</source>
-        <translation>Medyan (pks)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="180"/>
-        <source>Gaussian: lowers the resolution like a poorer spectrograph; boxcar: a running mean; median: removes spikes and keeps edges</source>
-        <translation>Gauss: çözünürlüğü daha zayıf bir tayfçeker gibi düşürür; kutu: kayan ortalama; medyan: sivri uçları siler, kenarları korur</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="185"/>
-        <source>Width of the smoothing in pixels</source>
-        <translation>Yumuşatmanın piksel cinsinden genişliği</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="186"/>
-        <source>Smooth</source>
-        <translation>Yumuşat</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="188"/>
-        <source>Smooths the spectrum (Undo takes it back)</source>
-        <translation>Tayfı yumuşatır (Geri al onu geri alır)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="195"/>
-        <source>Operation with a number or with spectrum B (e.g. divide by a standard star&apos;s spectrum)</source>
-        <translation>Bir sayıyla ya da B tayfıyla işlem (örneğin bir standart yıldızın tayfına bölme)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="198"/>
-        <source>number, or empty for spectrum B</source>
-        <translation>sayı, ya da B tayfı için boş</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="199"/>
-        <source>A number; empty: spectrum B, resampled onto this spectrum&apos;s wavelengths</source>
-        <translation>Bir sayı; boşsa B tayfı, bu tayfın dalga boylarına yeniden örneklenerek</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="200"/>
-        <source>Apply</source>
-        <translation>Uygula</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="202"/>
-        <source>Applies the operation to the spectrum (Undo takes it back)</source>
-        <translation>İşlemi tayfa uygular (Geri al onu geri alır)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="203"/>
-        <source>Spectrum B…</source>
-        <translation>B tayfı…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="205"/>
-        <source>A second spectrum for the operation with two spectra</source>
-        <translation>İki tayflı işlem için ikinci bir tayf</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="211"/>
-        <source>Step of the new, even wavelength grid in Å</source>
-        <translation>Yeni, eşit aralıklı dalga boyu ızgarasının Å cinsinden adımı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="212"/>
-        <source>Resample (Å step)</source>
-        <translation>Yeniden örnekle (Å adım)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="216"/>
-        <source>Puts the spectrum on an even wavelength grid with this step by linear interpolation (needed by some programs and archives)</source>
-        <translation>Tayfı doğrusal aradeğerlemeyle bu adımlı eşit aralıklı bir dalga boyu ızgarasına koyar (bazı programlar ve arşivler bunu ister)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="222"/>
-        <source>Normalise (automatic)</source>
-        <translation>Normalize et (otomatik)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="226"/>
-        <source>Divides by a smooth curve through the top of the spectrum (absorption lines left out); check the result, or pick the points yourself</source>
-        <translation>Tayfın üstünden geçen düzgün bir eğriye böler (soğurma çizgileri dışarıda); sonucu kontrol edin ya da noktaları kendiniz seçin</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="230"/>
-        <source>Pick continuum points</source>
-        <translation>Süreklilik noktaları seç</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="232"/>
-        <source>Click continuum points on the plot, then press Normalise through points</source>
-        <translation>Grafikte süreklilik noktalarına tıklayın, sonra Noktalardan normalize et&apos;e basın</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="233"/>
-        <source>Normalise through points</source>
-        <translation>Noktalardan normalize et</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="235"/>
-        <source>Divides by a spline through the continuum points you clicked</source>
-        <translation>Tıkladığınız süreklilik noktalarından geçen bir eğriye (spline) böler</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="239"/>
-        <source>Instrument response…</source>
-        <translation>Alet tepkisi…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="242"/>
-        <source>The open spectrum is a reference star; choose its known flux distribution (e.g. a Pickles spectrum)</source>
-        <translation>Açık tayf bir referans yıldızdır; bilinen akı dağılımını seçin (ör. bir Pickles tayfı)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="246"/>
-        <source>Divide by response</source>
-        <translation>Tepkiye böl</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="251"/>
-        <source>Divides the open spectrum by the instrument response measured from a reference star: relative fluxes</source>
-        <translation>Açık tayfı bir referans yıldızdan ölçülen cihaz tepkisine böler: göreli akılar</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="254"/>
-        <source>Undo</source>
-        <translation>Geri al</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="256"/>
-        <source>Takes back the last change of the spectrum</source>
-        <translation>Tayftaki son değişikliği geri alır</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="260"/>
-        <source>Save as…</source>
-        <translation>Farklı kaydet…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="262"/>
-        <source>Saves the spectrum as it is now, as FITS or text</source>
-        <translation>Tayfı şimdiki hâliyle FITS ya da metin olarak kaydeder</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="263"/>
-        <source>Export for BeSS / ARAS…</source>
-        <translation>BeSS / ARAS için dışa aktar…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="267"/>
-        <source>A FITS file in the format of the BeSS database and ARAS (header keywords they ask for, even wavelength grid)</source>
-        <translation>BeSS veritabanı ve ARAS biçiminde bir FITS dosyası (istedikleri başlık anahtarları, eşit aralıklı dalga boyu ızgarası)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="275"/>
-        <source>Stellar parameters (FGK stars)</source>
-        <translation>Yıldız parametreleri (FGK yıldızları)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="280"/>
-        <source>give R</source>
-        <translation>R girin</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="281"/>
-        <source>Resolving power R = λ / Δλ of the spectrograph (FWHM of an arc line)</source>
-        <translation>Spektrografın ayırma gücü R = λ / Δλ (bir ark çizgisinin FWHM&apos;i)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="282"/>
-        <source>Resolution R</source>
-        <translation>Ayırma gücü R</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="285"/>
-        <source>solar spectrum, same spectrograph (optional)</source>
-        <translation>Güneş tayfı, aynı spektrograf (isteğe bağlı)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="288"/>
-        <source>The Sun observed with the same spectrograph (twilight sky, the Moon, an asteroid) makes the best reference; without it the Kurucz solar atlas is used.</source>
-        <translation>Aynı spektrografla gözlenen Güneş (alacakaranlık göğü, Ay, bir asteroit) en iyi referanstır; verilmezse Kurucz Güneş atlası kullanılır.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="292"/>
-        <source>Browse…</source>
-        <translation>Gözat…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="293"/>
-        <source>Choose the file in a dialog</source>
-        <translation>Dosyayı bir pencereden seçin</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="296"/>
-        <source>Solar spectrum</source>
-        <translation>Güneş tayfı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="301"/>
-        <source>Find Teff, log g, [Fe/H], v sin i</source>
-        <translation>Teff, log g, [Fe/H], v sin i bul</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="304"/>
-        <source>Fits synthetic spectra (PHOENIX, downloaded as needed) to the open spectrum, using only the wavelengths where the models reproduce the Sun, and gives the result relative to the Sun.</source>
-        <translation>Açık tayfa sentetik tayfları (PHOENIX, gerektikçe indirilir) uydurur; yalnızca modellerin Güneş&apos;i doğru verdiği dalgaboylarını kullanır ve sonucu Güneş&apos;e göre verir.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="328"/>
-        <source>File / date</source>
-        <translation>Dosya / tarih</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="329"/>
-        <source>Centre (Å)</source>
-        <translation>Merkez (Å)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="330"/>
-        <source>FWHM (Å)</source>
-        <translation>FWHM (Å)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="331"/>
-        <source>EW (Å)</source>
-        <translation>EW (Å)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="332"/>
-        <source>σ EW</source>
-        <translation>σ EW</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="333"/>
-        <source>EW of fit</source>
-        <translation>Fit EW&apos;si</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="334"/>
-        <source>Depth</source>
-        <translation>Derinlik</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="335"/>
-        <source>Line flux</source>
-        <translation>Çizgi akısı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="336"/>
-        <source>S/N</source>
-        <translation>S/G</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="352"/>
-        <source>Give the spectrograph&apos;s resolution R first.</source>
-        <translation>Önce spektrografın ayırma gücü R&apos;yi girin.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="363"/>
-        <source>Fitting stellar parameters (the first time, model spectra are downloaded)…</source>
-        <translation>Yıldız parametreleri uyduruluyor (ilk seferde model tayfları indirilir)…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="369"/>
-        <source>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Relative to the Sun fitted the same way; {pct:.0f} % of the pixels used (where the models reproduce the Sun); χ²ᵣ = {chi:.2f}.</source>
-        <translation>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Aynı yolla uydurulan Güneş&apos;e göre; piksellerin %{pct:.0f}&apos;i kullanıldı (modellerin Güneş&apos;i doğru verdiği yerler); χ²ᵣ = {chi:.2f}.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="377"/>
-        <source>This star is far from the Sun: the solar reference is less reliable here.</source>
-        <translation>Bu yıldız Güneş&apos;ten uzak: Güneş referansı burada daha az güvenilir.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="379"/>
-        <source>The fit stopped at the edge of the model grid.</source>
-        <translation>Uydurma model ızgarasının kenarında durdu.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="380"/>
-        <source>So far checked on the Sun only; see the guide before publishing.</source>
-        <translation>Şimdiye kadar yalnızca Güneş&apos;le denetlendi; yayımlamadan önce rehbere bakın.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="385"/>
-        <source>observed</source>
-        <translation>gözlenen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="386"/>
-        <source>model</source>
-        <translation>model</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="398"/>
-        <source>Cannot read {file}: {error}</source>
-        <translation>{file} okunamıyor: {error}</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="402"/>
-        <source>Open spectrum</source>
-        <translation>Tayf aç</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="412"/>
-        <source>{file}: {n} points, {a:.1f}–{b:.1f} Å</source>
-        <translation>{file}: {n} nokta, {a:.1f}–{b:.1f} Å</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="416"/>
-        <source>(vacuum wavelengths in the file, converted to air)</source>
-        <translation>(dosyada vakum dalgaboyları, havaya dönüştürüldü)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="424"/>
-        <source>Combine exposures</source>
-        <translation>Pozları birleştir</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="427"/>
-        <source>Choose at least two exposures to combine.</source>
-        <translation>Birleştirmek için en az iki poz seçin.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="431"/>
-        <source>Combining {n} exposures…</source>
-        <translation>{n} poz birleştiriliyor…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="444"/>
-        <source>{n} exposures combined, {r} pixels rejected.</source>
-        <translation>{n} poz birleştirildi, {r} piksel atıldı.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="452"/>
-        <source>Spectrum B</source>
-        <translation>B tayfı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="456"/>
-        <source>Spectrum B: {file}</source>
-        <translation>B tayfı: {file}</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="349"/>
-        <location filename="../../ui/spectrum_tools.py" line="481"/>
-        <source>Open a spectrum first.</source>
-        <translation>Önce bir tayf açın.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="64"/>
-        <source>Open a wavelength-calibrated 1-D spectrum</source>
-        <translation>Dalga boyu kalibre edilmiş 1-B bir tayf açın</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="65"/>
-        <source>Press Open spectrum… (FITS, or a text file of wavelength and flux).</source>
-        <translation>Tayf aç… düğmesine basın (FITS ya da dalga boyu ve akı içeren bir metin dosyası).</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="68"/>
-        <source>Normalise the continuum (IRAF continuum)</source>
-        <translation>Sürekliliği normalize edin (IRAF continuum)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="70"/>
-        <source>Normalise (automatic), or Pick continuum points and Normalise through points; for the flux shape, Divide by response.</source>
-        <translation>Normalize et (otomatik) ya da Süreklilik noktaları seç ve Noktalardan normalize et; akı biçimi için Tepkiye böl.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="75"/>
-        <source>Measure lines (IRAF splot: centre, FWHM, equivalent width)</source>
-        <translation>Çizgileri ölçün (IRAF splot: merkez, FWHM, eşdeğer genişlik)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="76"/>
-        <source>Give the line&apos;s range and press Measure; V/R for emission lines with two peaks.</source>
-        <translation>Çizginin aralığını verin ve Ölç düğmesine basın; iki tepeli salma çizgileri için V/R.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="78"/>
-        <source>Save or export</source>
-        <translation>Kaydedin ya da dışa aktarın</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="78"/>
-        <source>Save as… a FITS file, or Export for BeSS / ARAS…</source>
-        <translation>Farklı kaydet… ile FITS dosyası olarak kaydedin ya da BeSS / ARAS için dışa aktar…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="387"/>
-        <location filename="../../ui/spectrum_tools.py" line="518"/>
-        <source>Wavelength (Å)</source>
-        <translation>Dalga boyu (Å)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="519"/>
-        <source>Flux</source>
-        <translation>Akı</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="532"/>
+        <location filename="../../ui/spectrum_keys.py" line="49"/>
         <source>pick a continuum point</source>
         <translation>süreklilik noktası seç</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="561"/>
+        <location filename="../../ui/spectrum_keys.py" line="53"/>
+        <source>delete a continuum point</source>
+        <translation>süreklilik noktasını sil</translation>
+    </message>
+</context>
+<context>
+    <name>SpectrumToolsTab</name>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="85"/>
+        <source>Open spectrum…</source>
+        <translation>Tayf aç…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="89"/>
+        <source>A wavelength-calibrated 1-D spectrum: FITS (table or wavelength WCS) or a text file of wavelength and flux</source>
+        <translation>Dalga boyu kalibre edilmiş 1-B tayf: FITS (tablo ya da dalga boyu WCS&apos;li) veya dalga boyu ve akı içeren metin dosyası</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="93"/>
+        <source>No spectrum.</source>
+        <translation>Tayf yok.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="96"/>
+        <source>Combine exposures…</source>
+        <translation>Pozları birleştir…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="100"/>
+        <source>Several exposures of one star in one night as one spectrum (IRAF scombine): one wavelength grid, scaled to one level, cosmic rays rejected, averaged; saved beside the first file and opened here</source>
+        <translation>Bir yıldızın bir gecedeki birkaç pozu tek tayf olarak (IRAF scombine): tek dalga boyu ızgarası, tek düzeye ölçeklenmiş, kozmik ışınlar atılmış, ortalaması alınmış; ilk dosyanın yanına kaydedilir ve burada açılır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="107"/>
+        <source>Show line markers</source>
+        <translation>Çizgi işaretlerini göster</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="110"/>
+        <source>Marks common stellar lines (Balmer, Na D, Mg b, Ca II…) on the plot to help identify them</source>
+        <translation>Yaygın yıldız çizgilerini (Balmer, Na D, Mg b, Ca II…) tanımaya yardım etmek için grafikte işaretler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="113"/>
+        <source>Shift the markers by this radial velocity (km/s)</source>
+        <translation>İşaretleri bu dikine hız kadar kaydır (km/sn)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="119"/>
+        <source>Measure a line</source>
+        <translation>Çizgi ölç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="123"/>
+        <source>Gaussian</source>
+        <translation>Gauss</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="124"/>
+        <source>Voigt</source>
+        <translation>Voigt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="126"/>
+        <source>Gaussian for most lines; Voigt for strong lines with broad wings (Balmer lines, Na D)</source>
+        <translation>Çoğu çizgi için Gauss; geniş kanatlı güçlü çizgiler için Voigt (Balmer çizgileri, Na D)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="130"/>
+        <location filename="../../ui/spectrum_tools.py" line="135"/>
+        <source>Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot</source>
+        <translation>Çizginin dalga boyu penceresi, iki yanında biraz süreklilikle; ya da grafikte çizginin üzerinden sürükleyin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="138"/>
+        <source>Measure</source>
+        <translation>Ölç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="142"/>
+        <source>Equivalent width, centre, FWHM and depth of the line from a profile fitted over a straight continuum at the window&apos;s edges</source>
+        <translation>Pencerenin kenarlarındaki düz bir süreklilik üzerine fit edilen profilden çizginin eşdeğer genişliği, merkezi, FWHM&apos;si ve derinliği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="146"/>
+        <source>From / to (Å) — or drag on the plot</source>
+        <translation>Başlangıç / bitiş (Å) — ya da grafikte sürükleyin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="154"/>
+        <source>The violet peak is searched below the centre and the red one above it, within this half width</source>
+        <translation>Mor tepe merkezin altında, kırmızı tepe üstünde, bu yarı genişlik içinde aranır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="156"/>
+        <source>Rest wavelength of the emission line, e.g. 6562.80 for Hα</source>
+        <translation>Salma çizgisinin durgun dalga boyu, örneğin Hα için 6562,80</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="157"/>
+        <location filename="../../ui/spectrum_tools.py" line="338"/>
+        <source>V/R</source>
+        <translation>V/R</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="158"/>
+        <source>Violet / red emission peaks of a normalised spectrum: (I_V − 1) / (I_R − 1)</source>
+        <translation>Normalize tayfta mor / kırmızı salma tepeleri: (I_V − 1) / (I_R − 1)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="160"/>
+        <source>Line centre, ± half width (Å)</source>
+        <translation>Çizgi merkezi, ± yarı genişlik (Å)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="164"/>
+        <source>Measure in several spectra…</source>
+        <translation>Birçok tayfta ölç…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="165"/>
+        <source>The same window in many spectra: EW (and V/R) against date, e.g. Hα of a Be star</source>
+        <translation>Aynı aralık birçok tayfta: tarihe karşı EW (ve V/R), ör. bir Be yıldızının Hα&apos;sı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="170"/>
+        <source>Change the spectrum</source>
+        <translation>Tayfı değiştir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="174"/>
+        <source>Gaussian (FWHM px)</source>
+        <translation>Gauss (FWHM pks)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="175"/>
+        <source>Boxcar (px)</source>
+        <translation>Kutu (pks)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="176"/>
+        <source>Median (px)</source>
+        <translation>Medyan (pks)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="181"/>
+        <source>Gaussian: lowers the resolution like a poorer spectrograph; boxcar: a running mean; median: removes spikes and keeps edges</source>
+        <translation>Gauss: çözünürlüğü daha zayıf bir tayfçeker gibi düşürür; kutu: kayan ortalama; medyan: sivri uçları siler, kenarları korur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="186"/>
+        <source>Width of the smoothing in pixels</source>
+        <translation>Yumuşatmanın piksel cinsinden genişliği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="187"/>
+        <source>Smooth</source>
+        <translation>Yumuşat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="189"/>
+        <source>Smooths the spectrum (Undo takes it back)</source>
+        <translation>Tayfı yumuşatır (Geri al onu geri alır)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="196"/>
+        <source>Operation with a number or with spectrum B (e.g. divide by a standard star&apos;s spectrum)</source>
+        <translation>Bir sayıyla ya da B tayfıyla işlem (örneğin bir standart yıldızın tayfına bölme)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="199"/>
+        <source>number, or empty for spectrum B</source>
+        <translation>sayı, ya da B tayfı için boş</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="200"/>
+        <source>A number; empty: spectrum B, resampled onto this spectrum&apos;s wavelengths</source>
+        <translation>Bir sayı; boşsa B tayfı, bu tayfın dalga boylarına yeniden örneklenerek</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="201"/>
+        <source>Apply</source>
+        <translation>Uygula</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="203"/>
+        <source>Applies the operation to the spectrum (Undo takes it back)</source>
+        <translation>İşlemi tayfa uygular (Geri al onu geri alır)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="204"/>
+        <source>Spectrum B…</source>
+        <translation>B tayfı…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="206"/>
+        <source>A second spectrum for the operation with two spectra</source>
+        <translation>İki tayflı işlem için ikinci bir tayf</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="212"/>
+        <source>Step of the new, even wavelength grid in Å</source>
+        <translation>Yeni, eşit aralıklı dalga boyu ızgarasının Å cinsinden adımı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="213"/>
+        <source>Resample (Å step)</source>
+        <translation>Yeniden örnekle (Å adım)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="217"/>
+        <source>Puts the spectrum on an even wavelength grid with this step by linear interpolation (needed by some programs and archives)</source>
+        <translation>Tayfı doğrusal aradeğerlemeyle bu adımlı eşit aralıklı bir dalga boyu ızgarasına koyar (bazı programlar ve arşivler bunu ister)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="223"/>
+        <source>Normalise (automatic)</source>
+        <translation>Normalize et (otomatik)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="227"/>
+        <source>Divides by a smooth curve through the top of the spectrum (absorption lines left out); check the result, or pick the points yourself</source>
+        <translation>Tayfın üstünden geçen düzgün bir eğriye böler (soğurma çizgileri dışarıda); sonucu kontrol edin ya da noktaları kendiniz seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="231"/>
+        <source>Pick continuum points</source>
+        <translation>Süreklilik noktaları seç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="233"/>
+        <source>Click continuum points on the plot, then press Normalise through points</source>
+        <translation>Grafikte süreklilik noktalarına tıklayın, sonra Noktalardan normalize et&apos;e basın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="234"/>
+        <source>Normalise through points</source>
+        <translation>Noktalardan normalize et</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="236"/>
+        <source>Divides by a spline through the continuum points you clicked</source>
+        <translation>Tıkladığınız süreklilik noktalarından geçen bir eğriye (spline) böler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="240"/>
+        <source>Instrument response…</source>
+        <translation>Alet tepkisi…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="243"/>
+        <source>The open spectrum is a reference star; choose its known flux distribution (e.g. a Pickles spectrum)</source>
+        <translation>Açık tayf bir referans yıldızdır; bilinen akı dağılımını seçin (ör. bir Pickles tayfı)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="247"/>
+        <source>Divide by response</source>
+        <translation>Tepkiye böl</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="252"/>
+        <source>Divides the open spectrum by the instrument response measured from a reference star: relative fluxes</source>
+        <translation>Açık tayfı bir referans yıldızdan ölçülen cihaz tepkisine böler: göreli akılar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="255"/>
+        <source>Undo</source>
+        <translation>Geri al</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="257"/>
+        <source>Takes back the last change of the spectrum</source>
+        <translation>Tayftaki son değişikliği geri alır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="261"/>
+        <source>Save as…</source>
+        <translation>Farklı kaydet…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="263"/>
+        <source>Saves the spectrum as it is now, as FITS or text</source>
+        <translation>Tayfı şimdiki hâliyle FITS ya da metin olarak kaydeder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="264"/>
+        <source>Export for BeSS / ARAS…</source>
+        <translation>BeSS / ARAS için dışa aktar…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="268"/>
+        <source>A FITS file in the format of the BeSS database and ARAS (header keywords they ask for, even wavelength grid)</source>
+        <translation>BeSS veritabanı ve ARAS biçiminde bir FITS dosyası (istedikleri başlık anahtarları, eşit aralıklı dalga boyu ızgarası)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="276"/>
+        <source>Stellar parameters (FGK stars)</source>
+        <translation>Yıldız parametreleri (FGK yıldızları)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="281"/>
+        <source>give R</source>
+        <translation>R girin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="282"/>
+        <source>Resolving power R = λ / Δλ of the spectrograph (FWHM of an arc line)</source>
+        <translation>Spektrografın ayırma gücü R = λ / Δλ (bir ark çizgisinin FWHM&apos;i)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="283"/>
+        <source>Resolution R</source>
+        <translation>Ayırma gücü R</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="286"/>
+        <source>solar spectrum, same spectrograph (optional)</source>
+        <translation>Güneş tayfı, aynı spektrograf (isteğe bağlı)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="289"/>
+        <source>The Sun observed with the same spectrograph (twilight sky, the Moon, an asteroid) makes the best reference; without it the Kurucz solar atlas is used.</source>
+        <translation>Aynı spektrografla gözlenen Güneş (alacakaranlık göğü, Ay, bir asteroit) en iyi referanstır; verilmezse Kurucz Güneş atlası kullanılır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="293"/>
+        <source>Browse…</source>
+        <translation>Gözat…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="294"/>
+        <source>Choose the file in a dialog</source>
+        <translation>Dosyayı bir pencereden seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="297"/>
+        <source>Solar spectrum</source>
+        <translation>Güneş tayfı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="302"/>
+        <source>Find Teff, log g, [Fe/H], v sin i</source>
+        <translation>Teff, log g, [Fe/H], v sin i bul</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="305"/>
+        <source>Fits synthetic spectra (PHOENIX, downloaded as needed) to the open spectrum, using only the wavelengths where the models reproduce the Sun, and gives the result relative to the Sun.</source>
+        <translation>Açık tayfa sentetik tayfları (PHOENIX, gerektikçe indirilir) uydurur; yalnızca modellerin Güneş&apos;i doğru verdiği dalgaboylarını kullanır ve sonucu Güneş&apos;e göre verir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="329"/>
+        <source>File / date</source>
+        <translation>Dosya / tarih</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="330"/>
+        <source>Centre (Å)</source>
+        <translation>Merkez (Å)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="331"/>
+        <source>FWHM (Å)</source>
+        <translation>FWHM (Å)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="332"/>
+        <source>EW (Å)</source>
+        <translation>EW (Å)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="333"/>
+        <source>σ EW</source>
+        <translation>σ EW</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="334"/>
+        <source>EW of fit</source>
+        <translation>Fit EW&apos;si</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="335"/>
+        <source>Depth</source>
+        <translation>Derinlik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="336"/>
+        <source>Line flux</source>
+        <translation>Çizgi akısı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="337"/>
+        <source>S/N</source>
+        <translation>S/G</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="353"/>
+        <source>Give the spectrograph&apos;s resolution R first.</source>
+        <translation>Önce spektrografın ayırma gücü R&apos;yi girin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="364"/>
+        <source>Fitting stellar parameters (the first time, model spectra are downloaded)…</source>
+        <translation>Yıldız parametreleri uyduruluyor (ilk seferde model tayfları indirilir)…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="370"/>
+        <source>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Relative to the Sun fitted the same way; {pct:.0f} % of the pixels used (where the models reproduce the Sun); χ²ᵣ = {chi:.2f}.</source>
+        <translation>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Aynı yolla uydurulan Güneş&apos;e göre; piksellerin %{pct:.0f}&apos;i kullanıldı (modellerin Güneş&apos;i doğru verdiği yerler); χ²ᵣ = {chi:.2f}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="378"/>
+        <source>This star is far from the Sun: the solar reference is less reliable here.</source>
+        <translation>Bu yıldız Güneş&apos;ten uzak: Güneş referansı burada daha az güvenilir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="380"/>
+        <source>The fit stopped at the edge of the model grid.</source>
+        <translation>Uydurma model ızgarasının kenarında durdu.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="381"/>
+        <source>So far checked on the Sun only; see the guide before publishing.</source>
+        <translation>Şimdiye kadar yalnızca Güneş&apos;le denetlendi; yayımlamadan önce rehbere bakın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="386"/>
+        <source>observed</source>
+        <translation>gözlenen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="387"/>
+        <source>model</source>
+        <translation>model</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="399"/>
+        <source>Cannot read {file}: {error}</source>
+        <translation>{file} okunamıyor: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="403"/>
+        <source>Open spectrum</source>
+        <translation>Tayf aç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="413"/>
+        <source>{file}: {n} points, {a:.1f}–{b:.1f} Å</source>
+        <translation>{file}: {n} nokta, {a:.1f}–{b:.1f} Å</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="417"/>
+        <source>(vacuum wavelengths in the file, converted to air)</source>
+        <translation>(dosyada vakum dalgaboyları, havaya dönüştürüldü)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="425"/>
+        <source>Combine exposures</source>
+        <translation>Pozları birleştir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="428"/>
+        <source>Choose at least two exposures to combine.</source>
+        <translation>Birleştirmek için en az iki poz seçin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="432"/>
+        <source>Combining {n} exposures…</source>
+        <translation>{n} poz birleştiriliyor…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="445"/>
+        <source>{n} exposures combined, {r} pixels rejected.</source>
+        <translation>{n} poz birleştirildi, {r} piksel atıldı.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="453"/>
+        <source>Spectrum B</source>
+        <translation>B tayfı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="457"/>
+        <source>Spectrum B: {file}</source>
+        <translation>B tayfı: {file}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="350"/>
+        <location filename="../../ui/spectrum_tools.py" line="482"/>
+        <source>Open a spectrum first.</source>
+        <translation>Önce bir tayf açın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="65"/>
+        <source>Open a wavelength-calibrated 1-D spectrum</source>
+        <translation>Dalga boyu kalibre edilmiş 1-B bir tayf açın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="66"/>
+        <source>Press Open spectrum… (FITS, or a text file of wavelength and flux).</source>
+        <translation>Tayf aç… düğmesine basın (FITS ya da dalga boyu ve akı içeren bir metin dosyası).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="69"/>
+        <source>Normalise the continuum (IRAF continuum)</source>
+        <translation>Sürekliliği normalize edin (IRAF continuum)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="71"/>
+        <source>Normalise (automatic), or Pick continuum points and Normalise through points; for the flux shape, Divide by response.</source>
+        <translation>Normalize et (otomatik) ya da Süreklilik noktaları seç ve Noktalardan normalize et; akı biçimi için Tepkiye böl.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="76"/>
+        <source>Measure lines (IRAF splot: centre, FWHM, equivalent width)</source>
+        <translation>Çizgileri ölçün (IRAF splot: merkez, FWHM, eşdeğer genişlik)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="77"/>
+        <source>Give the line&apos;s range and press Measure; V/R for emission lines with two peaks.</source>
+        <translation>Çizginin aralığını verin ve Ölç düğmesine basın; iki tepeli salma çizgileri için V/R.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="79"/>
+        <source>Save or export</source>
+        <translation>Kaydedin ya da dışa aktarın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="79"/>
+        <source>Save as… a FITS file, or Export for BeSS / ARAS…</source>
+        <translation>Farklı kaydet… ile FITS dosyası olarak kaydedin ya da BeSS / ARAS için dışa aktar…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="388"/>
+        <location filename="../../ui/spectrum_tools.py" line="519"/>
+        <source>Wavelength (Å)</source>
+        <translation>Dalga boyu (Å)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="520"/>
+        <source>Flux</source>
+        <translation>Akı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_tools.py" line="558"/>
         <source>Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}</source>
         <translation>Merkez {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/G {s:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="573"/>
+        <location filename="../../ui/spectrum_tools.py" line="570"/>
         <source>The line reaches the edge of the window: widen it so both sides show continuum.</source>
         <translation>Çizgi pencerenin kenarına ulaşıyor: iki yanda süreklilik görünecek kadar genişletin.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="589"/>
+        <location filename="../../ui/spectrum_tools.py" line="586"/>
         <source>V/R = {vr:.3f}; peaks at {vv:.0f} and {rv:.0f} km/s</source>
         <translation>V/R = {vr:.3f}; tepeler {vv:.0f} ve {rv:.0f} km/sn&apos;de</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="619"/>
+        <location filename="../../ui/spectrum_tools.py" line="616"/>
         <source>{n} spectra measured.</source>
         <translation>{n} tayf ölçüldü.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="623"/>
+        <location filename="../../ui/spectrum_tools.py" line="620"/>
         <source>Spectra</source>
         <translation>Tayflar</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="633"/>
+        <location filename="../../ui/spectrum_tools.py" line="630"/>
         <source>Smoothed.</source>
         <translation>Yumuşatıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="647"/>
+        <location filename="../../ui/spectrum_tools.py" line="644"/>
         <source>Not a number: {text}</source>
         <translation>Sayı değil: {text}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="650"/>
+        <location filename="../../ui/spectrum_tools.py" line="647"/>
         <source>Open spectrum B first, or type a number.</source>
         <translation>Önce B tayfını açın ya da bir sayı yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="654"/>
+        <location filename="../../ui/spectrum_tools.py" line="651"/>
         <source>Done.</source>
         <translation>Tamam.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="654"/>
+        <location filename="../../ui/spectrum_tools.py" line="651"/>
         <source>arithmetic</source>
         <translation>aritmetik</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="660"/>
+        <location filename="../../ui/spectrum_tools.py" line="657"/>
         <source>resample</source>
         <translation>yeniden örnekle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="665"/>
+        <location filename="../../ui/spectrum_tools.py" line="662"/>
         <source>Resampled.</source>
         <translation>Yeniden örneklendi.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="471"/>
-        <location filename="../../ui/spectrum_tools.py" line="673"/>
-        <location filename="../../ui/spectrum_tools.py" line="690"/>
+        <location filename="../../ui/spectrum_tools.py" line="472"/>
+        <location filename="../../ui/spectrum_tools.py" line="670"/>
+        <location filename="../../ui/spectrum_tools.py" line="687"/>
         <source>Normalised.</source>
         <translation>Normalize edildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="686"/>
+        <location filename="../../ui/spectrum_tools.py" line="683"/>
         <source>normalise through points</source>
         <translation>noktalardan normalleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="704"/>
+        <location filename="../../ui/spectrum_tools.py" line="701"/>
         <source>Response computed; open a target spectrum and press Divide by response.</source>
         <translation>Tepki hesaplandı; bir hedef tayfı açıp Tepkiye böl&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="708"/>
+        <location filename="../../ui/spectrum_tools.py" line="705"/>
         <source>Reference flux distribution</source>
         <translation>Referans akı dağılımı</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="716"/>
+        <location filename="../../ui/spectrum_tools.py" line="713"/>
         <source>Relative flux (response removed).</source>
         <translation>Göreli akı (tepki giderildi).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="726"/>
+        <location filename="../../ui/spectrum_tools.py" line="723"/>
         <source>Save spectrum</source>
         <translation>Tayfı kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="730"/>
-        <location filename="../../ui/spectrum_tools.py" line="747"/>
+        <location filename="../../ui/spectrum_tools.py" line="727"/>
+        <location filename="../../ui/spectrum_tools.py" line="744"/>
         <source>Saved: {path}</source>
         <translation>Kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="743"/>
+        <location filename="../../ui/spectrum_tools.py" line="740"/>
         <source>BeSS file</source>
         <translation>BeSS dosyası</translation>
     </message>

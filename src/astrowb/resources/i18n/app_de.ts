@@ -1091,87 +1091,87 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>BessDialog</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="759"/>
+        <location filename="../../ui/spectrum_tools.py" line="756"/>
         <source>Export for BeSS / ARAS</source>
         <translation>Export für BeSS / ARAS</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="762"/>
+        <location filename="../../ui/spectrum_tools.py" line="759"/>
         <source>Object (Simbad name)</source>
         <translation>Objekt (Simbad-Name)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="763"/>
+        <location filename="../../ui/spectrum_tools.py" line="760"/>
         <source>Observer</source>
         <translation>Beobachter</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="764"/>
+        <location filename="../../ui/spectrum_tools.py" line="761"/>
         <source>Start of exposure (UTC)</source>
         <translation>Belichtungsbeginn (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="765"/>
+        <location filename="../../ui/spectrum_tools.py" line="762"/>
         <source>Exposure (s)</source>
         <translation>Belichtung (s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="766"/>
+        <location filename="../../ui/spectrum_tools.py" line="763"/>
         <source>Telescope + spectrograph + camera</source>
         <translation>Teleskop + Spektrograf + Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="767"/>
+        <location filename="../../ui/spectrum_tools.py" line="764"/>
         <source>Site</source>
         <translation>Standort</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="768"/>
+        <location filename="../../ui/spectrum_tools.py" line="765"/>
         <source>Latitude (°)</source>
         <translation>Breite (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="769"/>
+        <location filename="../../ui/spectrum_tools.py" line="766"/>
         <source>Longitude (°)</source>
         <translation>Länge (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="770"/>
+        <location filename="../../ui/spectrum_tools.py" line="767"/>
         <source>Elevation (m)</source>
         <translation>Höhe (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="776"/>
+        <location filename="../../ui/spectrum_tools.py" line="773"/>
         <source>A keyword BeSS requires; filled from the spectrum&apos;s header when it has it</source>
         <translation>Ein von BeSS verlangtes Schlüsselwort; aus dem Header des Spektrums gefüllt, wenn vorhanden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="778"/>
+        <location filename="../../ui/spectrum_tools.py" line="775"/>
         <source>Telluric lines removed</source>
         <translation>Tellurische Linien entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="779"/>
+        <location filename="../../ui/spectrum_tools.py" line="776"/>
         <source>Cosmic rays removed</source>
         <translation>Kosmische Strahlen entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="780"/>
+        <location filename="../../ui/spectrum_tools.py" line="777"/>
         <source>Tick if cosmic-ray hits were removed; written into the header for BeSS</source>
         <translation>Ankreuzen, wenn Treffer kosmischer Strahlung entfernt wurden; wird für BeSS in den Header geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="782"/>
+        <location filename="../../ui/spectrum_tools.py" line="779"/>
         <source>Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS</source>
         <translation>Ankreuzen, wenn die tellurischen (atmosphärischen) Linien herausgeteilt wurden; wird für BeSS in den Header geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="787"/>
+        <location filename="../../ui/spectrum_tools.py" line="784"/>
         <source>The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS needs it to compare spectra</source>
         <translation>Die bereits auf die Wellenlängen angewandte heliozentrische Geschwindigkeitskorrektur (0, falls keine); BeSS braucht sie zum Vergleich der Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="793"/>
+        <location filename="../../ui/spectrum_tools.py" line="790"/>
         <source>Heliocentric correction applied (km/s)</source>
         <translation>Angewandte heliozentrische Korrektur (km/s)</translation>
     </message>
@@ -13291,646 +13291,659 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>SpectrumKeys</name>
+    <message>
+        <location filename="../../ui/spectrum_keys.py" line="10"/>
+        <source>Keys over the plot: w window edges, m centre the window here, f measure, c continuum point, d delete point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_keys.py" line="49"/>
+        <source>pick a continuum point</source>
+        <translation type="unfinished">Kontinuumspunkt wählen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectrum_keys.py" line="53"/>
+        <source>delete a continuum point</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SpectrumToolsTab</name>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="84"/>
+        <location filename="../../ui/spectrum_tools.py" line="85"/>
         <source>Open spectrum…</source>
         <translation>Spektrum öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="88"/>
+        <location filename="../../ui/spectrum_tools.py" line="89"/>
         <source>A wavelength-calibrated 1-D spectrum: FITS (table or wavelength WCS) or a text file of wavelength and flux</source>
         <translation>Ein wellenlängenkalibriertes 1-D-Spektrum: FITS (Tabelle oder Wellenlängen-WCS) oder eine Textdatei mit Wellenlänge und Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="92"/>
+        <location filename="../../ui/spectrum_tools.py" line="93"/>
         <source>No spectrum.</source>
         <translation>Kein Spektrum.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="95"/>
+        <location filename="../../ui/spectrum_tools.py" line="96"/>
         <source>Combine exposures…</source>
         <translation>Aufnahmen kombinieren…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="99"/>
+        <location filename="../../ui/spectrum_tools.py" line="100"/>
         <source>Several exposures of one star in one night as one spectrum (IRAF scombine): one wavelength grid, scaled to one level, cosmic rays rejected, averaged; saved beside the first file and opened here</source>
         <translation>Mehrere Aufnahmen eines Sterns in einer Nacht als ein Spektrum (IRAF scombine): ein Wellenlängenraster, auf ein Niveau skaliert, kosmische Strahlen verworfen, gemittelt; neben der ersten Datei gespeichert und hier geöffnet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="106"/>
+        <location filename="../../ui/spectrum_tools.py" line="107"/>
         <source>Show line markers</source>
         <translation>Linienmarken zeigen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="109"/>
+        <location filename="../../ui/spectrum_tools.py" line="110"/>
         <source>Marks common stellar lines (Balmer, Na D, Mg b, Ca II…) on the plot to help identify them</source>
         <translation>Markiert häufige Sternlinien (Balmer, Na D, Mg b, Ca II…) im Diagramm, um sie zu erkennen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="112"/>
+        <location filename="../../ui/spectrum_tools.py" line="113"/>
         <source>Shift the markers by this radial velocity (km/s)</source>
         <translation>Marken um diese Radialgeschwindigkeit verschieben (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="118"/>
+        <location filename="../../ui/spectrum_tools.py" line="119"/>
         <source>Measure a line</source>
         <translation>Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="122"/>
+        <location filename="../../ui/spectrum_tools.py" line="123"/>
         <source>Gaussian</source>
         <translation>Gauß</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="123"/>
+        <location filename="../../ui/spectrum_tools.py" line="124"/>
         <source>Voigt</source>
         <translation>Voigt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="125"/>
+        <location filename="../../ui/spectrum_tools.py" line="126"/>
         <source>Gaussian for most lines; Voigt for strong lines with broad wings (Balmer lines, Na D)</source>
         <translation>Gauß für die meisten Linien; Voigt für starke Linien mit breiten Flügeln (Balmerlinien, Na D)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="129"/>
-        <location filename="../../ui/spectrum_tools.py" line="134"/>
+        <location filename="../../ui/spectrum_tools.py" line="130"/>
+        <location filename="../../ui/spectrum_tools.py" line="135"/>
         <source>Wavelength window of the line, with some continuum on both sides; or drag across the line on the plot</source>
         <translation>Wellenlängenfenster der Linie mit etwas Kontinuum auf beiden Seiten; oder im Diagramm über die Linie ziehen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="137"/>
+        <location filename="../../ui/spectrum_tools.py" line="138"/>
         <source>Measure</source>
         <translation>Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="141"/>
+        <location filename="../../ui/spectrum_tools.py" line="142"/>
         <source>Equivalent width, centre, FWHM and depth of the line from a profile fitted over a straight continuum at the window&apos;s edges</source>
         <translation>Äquivalentbreite, Mitte, FWHM und Tiefe der Linie aus einem Profil, angepasst über ein gerades Kontinuum an den Fensterrändern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="145"/>
+        <location filename="../../ui/spectrum_tools.py" line="146"/>
         <source>From / to (Å) — or drag on the plot</source>
         <translation>Von / bis (Å) — oder in der Grafik ziehen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="153"/>
+        <location filename="../../ui/spectrum_tools.py" line="154"/>
         <source>The violet peak is searched below the centre and the red one above it, within this half width</source>
         <translation>Der violette Gipfel wird unterhalb der Mitte gesucht, der rote oberhalb, innerhalb dieser halben Breite</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="155"/>
+        <location filename="../../ui/spectrum_tools.py" line="156"/>
         <source>Rest wavelength of the emission line, e.g. 6562.80 for Hα</source>
         <translation>Ruhewellenlänge der Emissionslinie, z. B. 6562,80 für Hα</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="156"/>
-        <location filename="../../ui/spectrum_tools.py" line="337"/>
+        <location filename="../../ui/spectrum_tools.py" line="157"/>
+        <location filename="../../ui/spectrum_tools.py" line="338"/>
         <source>V/R</source>
         <translation>V/R</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="157"/>
+        <location filename="../../ui/spectrum_tools.py" line="158"/>
         <source>Violet / red emission peaks of a normalised spectrum: (I_V − 1) / (I_R − 1)</source>
         <translation>Violette / rote Emissionsspitzen eines normierten Spektrums: (I_V − 1) / (I_R − 1)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="159"/>
+        <location filename="../../ui/spectrum_tools.py" line="160"/>
         <source>Line centre, ± half width (Å)</source>
         <translation>Linienmitte, ± halbe Breite (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="163"/>
+        <location filename="../../ui/spectrum_tools.py" line="164"/>
         <source>Measure in several spectra…</source>
         <translation>In mehreren Spektren messen…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="164"/>
+        <location filename="../../ui/spectrum_tools.py" line="165"/>
         <source>The same window in many spectra: EW (and V/R) against date, e.g. Hα of a Be star</source>
         <translation>Dasselbe Fenster in vielen Spektren: EW (und V/R) gegen Datum, z. B. Hα eines Be-Sterns</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="169"/>
+        <location filename="../../ui/spectrum_tools.py" line="170"/>
         <source>Change the spectrum</source>
         <translation>Spektrum ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="173"/>
+        <location filename="../../ui/spectrum_tools.py" line="174"/>
         <source>Gaussian (FWHM px)</source>
         <translation>Gauß (FWHM px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="174"/>
+        <location filename="../../ui/spectrum_tools.py" line="175"/>
         <source>Boxcar (px)</source>
         <translation>Rechteck (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="175"/>
+        <location filename="../../ui/spectrum_tools.py" line="176"/>
         <source>Median (px)</source>
         <translation>Median (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="180"/>
+        <location filename="../../ui/spectrum_tools.py" line="181"/>
         <source>Gaussian: lowers the resolution like a poorer spectrograph; boxcar: a running mean; median: removes spikes and keeps edges</source>
         <translation>Gauß: senkt die Auflösung wie ein schwächerer Spektrograph; Box: gleitender Mittelwert; Median: entfernt Spitzen und erhält Kanten</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="185"/>
+        <location filename="../../ui/spectrum_tools.py" line="186"/>
         <source>Width of the smoothing in pixels</source>
         <translation>Breite der Glättung in Pixeln</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="186"/>
+        <location filename="../../ui/spectrum_tools.py" line="187"/>
         <source>Smooth</source>
         <translation>Glätten</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="188"/>
+        <location filename="../../ui/spectrum_tools.py" line="189"/>
         <source>Smooths the spectrum (Undo takes it back)</source>
         <translation>Glättet das Spektrum (Rückgängig nimmt es zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="195"/>
+        <location filename="../../ui/spectrum_tools.py" line="196"/>
         <source>Operation with a number or with spectrum B (e.g. divide by a standard star&apos;s spectrum)</source>
         <translation>Rechenart mit einer Zahl oder mit Spektrum B (z. B. durch das Spektrum eines Standardsterns teilen)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="198"/>
+        <location filename="../../ui/spectrum_tools.py" line="199"/>
         <source>number, or empty for spectrum B</source>
         <translation>Zahl, oder leer für Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="199"/>
+        <location filename="../../ui/spectrum_tools.py" line="200"/>
         <source>A number; empty: spectrum B, resampled onto this spectrum&apos;s wavelengths</source>
         <translation>Eine Zahl; leer: Spektrum B, auf die Wellenlängen dieses Spektrums umgerechnet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="200"/>
+        <location filename="../../ui/spectrum_tools.py" line="201"/>
         <source>Apply</source>
         <translation>Anwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="202"/>
+        <location filename="../../ui/spectrum_tools.py" line="203"/>
         <source>Applies the operation to the spectrum (Undo takes it back)</source>
         <translation>Wendet die Rechenart auf das Spektrum an (Rückgängig nimmt es zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="203"/>
+        <location filename="../../ui/spectrum_tools.py" line="204"/>
         <source>Spectrum B…</source>
         <translation>Spektrum B…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="205"/>
+        <location filename="../../ui/spectrum_tools.py" line="206"/>
         <source>A second spectrum for the operation with two spectra</source>
         <translation>Ein zweites Spektrum für die Rechnung mit zwei Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="211"/>
+        <location filename="../../ui/spectrum_tools.py" line="212"/>
         <source>Step of the new, even wavelength grid in Å</source>
         <translation>Schrittweite des neuen, gleichmäßigen Wellenlängenrasters in Å</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="212"/>
+        <location filename="../../ui/spectrum_tools.py" line="213"/>
         <source>Resample (Å step)</source>
         <translation>Neu abtasten (Å Schritt)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="216"/>
+        <location filename="../../ui/spectrum_tools.py" line="217"/>
         <source>Puts the spectrum on an even wavelength grid with this step by linear interpolation (needed by some programs and archives)</source>
         <translation>Legt das Spektrum durch lineare Interpolation auf ein gleichmäßiges Wellenlängenraster mit dieser Schrittweite (manche Programme und Archive verlangen das)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="222"/>
+        <location filename="../../ui/spectrum_tools.py" line="223"/>
         <source>Normalise (automatic)</source>
         <translation>Normieren (automatisch)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="226"/>
+        <location filename="../../ui/spectrum_tools.py" line="227"/>
         <source>Divides by a smooth curve through the top of the spectrum (absorption lines left out); check the result, or pick the points yourself</source>
         <translation>Teilt durch eine glatte Kurve über die Oberkante des Spektrums (Absorptionslinien ausgelassen); prüfen Sie das Ergebnis oder wählen Sie die Punkte selbst</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="230"/>
+        <location filename="../../ui/spectrum_tools.py" line="231"/>
         <source>Pick continuum points</source>
         <translation>Kontinuumspunkte wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="232"/>
+        <location filename="../../ui/spectrum_tools.py" line="233"/>
         <source>Click continuum points on the plot, then press Normalise through points</source>
         <translation>Klicken Sie Kontinuumspunkte in der Grafik an, dann Durch Punkte normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="233"/>
+        <location filename="../../ui/spectrum_tools.py" line="234"/>
         <source>Normalise through points</source>
         <translation>Durch Punkte normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="235"/>
+        <location filename="../../ui/spectrum_tools.py" line="236"/>
         <source>Divides by a spline through the continuum points you clicked</source>
         <translation>Teilt durch einen Spline durch die angeklickten Kontinuumspunkte</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="239"/>
+        <location filename="../../ui/spectrum_tools.py" line="240"/>
         <source>Instrument response…</source>
         <translation>Instrumentenantwort…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="242"/>
+        <location filename="../../ui/spectrum_tools.py" line="243"/>
         <source>The open spectrum is a reference star; choose its known flux distribution (e.g. a Pickles spectrum)</source>
         <translation>Das offene Spektrum ist ein Referenzstern; wählen Sie seine bekannte Flussverteilung (z. B. ein Pickles-Spektrum)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="246"/>
+        <location filename="../../ui/spectrum_tools.py" line="247"/>
         <source>Divide by response</source>
         <translation>Durch Antwort teilen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="251"/>
+        <location filename="../../ui/spectrum_tools.py" line="252"/>
         <source>Divides the open spectrum by the instrument response measured from a reference star: relative fluxes</source>
         <translation>Teilt das offene Spektrum durch die an einem Referenzstern gemessene Instrumentantwort: relative Flüsse</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="254"/>
+        <location filename="../../ui/spectrum_tools.py" line="255"/>
         <source>Undo</source>
         <translation>Rückgängig</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="256"/>
+        <location filename="../../ui/spectrum_tools.py" line="257"/>
         <source>Takes back the last change of the spectrum</source>
         <translation>Nimmt die letzte Änderung des Spektrums zurück</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="260"/>
+        <location filename="../../ui/spectrum_tools.py" line="261"/>
         <source>Save as…</source>
         <translation>Speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="262"/>
+        <location filename="../../ui/spectrum_tools.py" line="263"/>
         <source>Saves the spectrum as it is now, as FITS or text</source>
         <translation>Speichert das Spektrum im jetzigen Zustand als FITS oder Text</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="263"/>
+        <location filename="../../ui/spectrum_tools.py" line="264"/>
         <source>Export for BeSS / ARAS…</source>
         <translation>Export für BeSS / ARAS…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="267"/>
+        <location filename="../../ui/spectrum_tools.py" line="268"/>
         <source>A FITS file in the format of the BeSS database and ARAS (header keywords they ask for, even wavelength grid)</source>
         <translation>Eine FITS-Datei im Format der BeSS-Datenbank und von ARAS (die verlangten Header-Schlüsselwörter, gleichmäßiges Wellenlängenraster)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="275"/>
+        <location filename="../../ui/spectrum_tools.py" line="276"/>
         <source>Stellar parameters (FGK stars)</source>
         <translation>Sternparameter (FGK-Sterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="280"/>
+        <location filename="../../ui/spectrum_tools.py" line="281"/>
         <source>give R</source>
         <translation>R angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="281"/>
+        <location filename="../../ui/spectrum_tools.py" line="282"/>
         <source>Resolving power R = λ / Δλ of the spectrograph (FWHM of an arc line)</source>
         <translation>Auflösungsvermögen R = λ / Δλ des Spektrographen (FWHM einer Bogenlinie)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="282"/>
+        <location filename="../../ui/spectrum_tools.py" line="283"/>
         <source>Resolution R</source>
         <translation>Auflösung R</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="285"/>
+        <location filename="../../ui/spectrum_tools.py" line="286"/>
         <source>solar spectrum, same spectrograph (optional)</source>
         <translation>Sonnenspektrum, gleicher Spektrograph (optional)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="288"/>
+        <location filename="../../ui/spectrum_tools.py" line="289"/>
         <source>The Sun observed with the same spectrograph (twilight sky, the Moon, an asteroid) makes the best reference; without it the Kurucz solar atlas is used.</source>
         <translation>Die mit demselben Spektrographen beobachtete Sonne (Dämmerungshimmel, Mond, ein Asteroid) ist die beste Referenz; ohne sie wird der Kurucz-Sonnenatlas verwendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="292"/>
+        <location filename="../../ui/spectrum_tools.py" line="293"/>
         <source>Browse…</source>
         <translation>Durchsuchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="293"/>
+        <location filename="../../ui/spectrum_tools.py" line="294"/>
         <source>Choose the file in a dialog</source>
         <translation>Die Datei in einem Dialog wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="296"/>
+        <location filename="../../ui/spectrum_tools.py" line="297"/>
         <source>Solar spectrum</source>
         <translation>Sonnenspektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="301"/>
+        <location filename="../../ui/spectrum_tools.py" line="302"/>
         <source>Find Teff, log g, [Fe/H], v sin i</source>
         <translation>Teff, log g, [Fe/H], v sin i bestimmen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="304"/>
+        <location filename="../../ui/spectrum_tools.py" line="305"/>
         <source>Fits synthetic spectra (PHOENIX, downloaded as needed) to the open spectrum, using only the wavelengths where the models reproduce the Sun, and gives the result relative to the Sun.</source>
         <translation>Passt synthetische Spektren (PHOENIX, nach Bedarf heruntergeladen) an das geöffnete Spektrum an, nur in den Wellenlängen, in denen die Modelle die Sonne wiedergeben, und gibt das Ergebnis relativ zur Sonne.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="328"/>
+        <location filename="../../ui/spectrum_tools.py" line="329"/>
         <source>File / date</source>
         <translation>Datei / Datum</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="329"/>
+        <location filename="../../ui/spectrum_tools.py" line="330"/>
         <source>Centre (Å)</source>
         <translation>Mitte (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="330"/>
+        <location filename="../../ui/spectrum_tools.py" line="331"/>
         <source>FWHM (Å)</source>
         <translation>FWHM (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="331"/>
+        <location filename="../../ui/spectrum_tools.py" line="332"/>
         <source>EW (Å)</source>
         <translation>EW (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="332"/>
+        <location filename="../../ui/spectrum_tools.py" line="333"/>
         <source>σ EW</source>
         <translation>σ EW</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="333"/>
+        <location filename="../../ui/spectrum_tools.py" line="334"/>
         <source>EW of fit</source>
         <translation>EW des Fits</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="334"/>
+        <location filename="../../ui/spectrum_tools.py" line="335"/>
         <source>Depth</source>
         <translation>Tiefe</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="335"/>
+        <location filename="../../ui/spectrum_tools.py" line="336"/>
         <source>Line flux</source>
         <translation>Linienfluss</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="336"/>
+        <location filename="../../ui/spectrum_tools.py" line="337"/>
         <source>S/N</source>
         <translation>S/N</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="352"/>
+        <location filename="../../ui/spectrum_tools.py" line="353"/>
         <source>Give the spectrograph&apos;s resolution R first.</source>
         <translation>Zuerst die Auflösung R des Spektrographen angeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="363"/>
+        <location filename="../../ui/spectrum_tools.py" line="364"/>
         <source>Fitting stellar parameters (the first time, model spectra are downloaded)…</source>
         <translation>Sternparameter werden angepasst (beim ersten Mal werden Modellspektren heruntergeladen)…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="369"/>
+        <location filename="../../ui/spectrum_tools.py" line="370"/>
         <source>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Relative to the Sun fitted the same way; {pct:.0f} % of the pixels used (where the models reproduce the Sun); χ²ᵣ = {chi:.2f}.</source>
         <translation>Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Relativ zur gleich angepassten Sonne; {pct:.0f} % der Pixel verwendet (wo die Modelle die Sonne wiedergeben); χ²ᵣ = {chi:.2f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="377"/>
+        <location filename="../../ui/spectrum_tools.py" line="378"/>
         <source>This star is far from the Sun: the solar reference is less reliable here.</source>
         <translation>Dieser Stern ist weit von der Sonne entfernt: Die Sonnenreferenz ist hier weniger zuverlässig.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="379"/>
+        <location filename="../../ui/spectrum_tools.py" line="380"/>
         <source>The fit stopped at the edge of the model grid.</source>
         <translation>Die Anpassung endete am Rand des Modellgitters.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="380"/>
+        <location filename="../../ui/spectrum_tools.py" line="381"/>
         <source>So far checked on the Sun only; see the guide before publishing.</source>
         <translation>Bisher nur an der Sonne geprüft; vor einer Veröffentlichung den Leitfaden lesen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="385"/>
+        <location filename="../../ui/spectrum_tools.py" line="386"/>
         <source>observed</source>
         <translation>beobachtet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="386"/>
+        <location filename="../../ui/spectrum_tools.py" line="387"/>
         <source>model</source>
         <translation>Modell</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="398"/>
+        <location filename="../../ui/spectrum_tools.py" line="399"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="402"/>
+        <location filename="../../ui/spectrum_tools.py" line="403"/>
         <source>Open spectrum</source>
         <translation>Spektrum öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="412"/>
+        <location filename="../../ui/spectrum_tools.py" line="413"/>
         <source>{file}: {n} points, {a:.1f}–{b:.1f} Å</source>
         <translation>{file}: {n} Punkte, {a:.1f}–{b:.1f} Å</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="416"/>
+        <location filename="../../ui/spectrum_tools.py" line="417"/>
         <source>(vacuum wavelengths in the file, converted to air)</source>
         <translation>(Vakuum-Wellenlängen in der Datei, in Luft umgerechnet)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="424"/>
+        <location filename="../../ui/spectrum_tools.py" line="425"/>
         <source>Combine exposures</source>
         <translation>Aufnahmen kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="427"/>
+        <location filename="../../ui/spectrum_tools.py" line="428"/>
         <source>Choose at least two exposures to combine.</source>
         <translation>Mindestens zwei Aufnahmen zum Kombinieren wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="431"/>
+        <location filename="../../ui/spectrum_tools.py" line="432"/>
         <source>Combining {n} exposures…</source>
         <translation>{n} Aufnahmen werden kombiniert…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="444"/>
+        <location filename="../../ui/spectrum_tools.py" line="445"/>
         <source>{n} exposures combined, {r} pixels rejected.</source>
         <translation>{n} Aufnahmen kombiniert, {r} Pixel verworfen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="452"/>
+        <location filename="../../ui/spectrum_tools.py" line="453"/>
         <source>Spectrum B</source>
         <translation>Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="456"/>
+        <location filename="../../ui/spectrum_tools.py" line="457"/>
         <source>Spectrum B: {file}</source>
         <translation>Spektrum B: {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="349"/>
-        <location filename="../../ui/spectrum_tools.py" line="481"/>
+        <location filename="../../ui/spectrum_tools.py" line="350"/>
+        <location filename="../../ui/spectrum_tools.py" line="482"/>
         <source>Open a spectrum first.</source>
         <translation>Öffnen Sie zuerst ein Spektrum.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="64"/>
+        <location filename="../../ui/spectrum_tools.py" line="65"/>
         <source>Open a wavelength-calibrated 1-D spectrum</source>
         <translation>Ein wellenlängenkalibriertes 1-D-Spektrum öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="65"/>
+        <location filename="../../ui/spectrum_tools.py" line="66"/>
         <source>Press Open spectrum… (FITS, or a text file of wavelength and flux).</source>
         <translation>Drücken Sie Spektrum öffnen… (FITS oder eine Textdatei mit Wellenlänge und Fluss).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="68"/>
+        <location filename="../../ui/spectrum_tools.py" line="69"/>
         <source>Normalise the continuum (IRAF continuum)</source>
         <translation>Das Kontinuum normieren (IRAF continuum)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="70"/>
+        <location filename="../../ui/spectrum_tools.py" line="71"/>
         <source>Normalise (automatic), or Pick continuum points and Normalise through points; for the flux shape, Divide by response.</source>
         <translation>Normieren (automatisch) oder Kontinuumspunkte wählen und Durch Punkte normieren; für die Flussform Durch Antwort teilen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="75"/>
+        <location filename="../../ui/spectrum_tools.py" line="76"/>
         <source>Measure lines (IRAF splot: centre, FWHM, equivalent width)</source>
         <translation>Linien messen (IRAF splot: Zentrum, FWHM, Äquivalentbreite)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="76"/>
+        <location filename="../../ui/spectrum_tools.py" line="77"/>
         <source>Give the line&apos;s range and press Measure; V/R for emission lines with two peaks.</source>
         <translation>Geben Sie den Bereich der Linie an und drücken Sie Messen; V/R für Emissionslinien mit zwei Spitzen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="78"/>
+        <location filename="../../ui/spectrum_tools.py" line="79"/>
         <source>Save or export</source>
         <translation>Speichern oder exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="78"/>
+        <location filename="../../ui/spectrum_tools.py" line="79"/>
         <source>Save as… a FITS file, or Export for BeSS / ARAS…</source>
         <translation>Speichern unter… als FITS-Datei oder Export für BeSS / ARAS…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="387"/>
-        <location filename="../../ui/spectrum_tools.py" line="518"/>
+        <location filename="../../ui/spectrum_tools.py" line="388"/>
+        <location filename="../../ui/spectrum_tools.py" line="519"/>
         <source>Wavelength (Å)</source>
         <translation>Wellenlänge (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="519"/>
+        <location filename="../../ui/spectrum_tools.py" line="520"/>
         <source>Flux</source>
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="532"/>
-        <source>pick a continuum point</source>
-        <translation>Kontinuumspunkt wählen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/spectrum_tools.py" line="561"/>
+        <location filename="../../ui/spectrum_tools.py" line="558"/>
         <source>Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}</source>
         <translation>Mitte {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (Fit {ef:.4f}), S/N {s:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="573"/>
+        <location filename="../../ui/spectrum_tools.py" line="570"/>
         <source>The line reaches the edge of the window: widen it so both sides show continuum.</source>
         <translation>Die Linie reicht bis an den Rand des Fensters: so weit vergrößern, dass auf beiden Seiten Kontinuum zu sehen ist.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="589"/>
+        <location filename="../../ui/spectrum_tools.py" line="586"/>
         <source>V/R = {vr:.3f}; peaks at {vv:.0f} and {rv:.0f} km/s</source>
         <translation>V/R = {vr:.3f}; Spitzen bei {vv:.0f} und {rv:.0f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="619"/>
+        <location filename="../../ui/spectrum_tools.py" line="616"/>
         <source>{n} spectra measured.</source>
         <translation>{n} Spektren gemessen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="623"/>
+        <location filename="../../ui/spectrum_tools.py" line="620"/>
         <source>Spectra</source>
         <translation>Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="633"/>
+        <location filename="../../ui/spectrum_tools.py" line="630"/>
         <source>Smoothed.</source>
         <translation>Geglättet.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="647"/>
+        <location filename="../../ui/spectrum_tools.py" line="644"/>
         <source>Not a number: {text}</source>
         <translation>Keine Zahl: {text}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="650"/>
+        <location filename="../../ui/spectrum_tools.py" line="647"/>
         <source>Open spectrum B first, or type a number.</source>
         <translation>Öffnen Sie zuerst Spektrum B oder geben Sie eine Zahl ein.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="654"/>
+        <location filename="../../ui/spectrum_tools.py" line="651"/>
         <source>Done.</source>
         <translation>Fertig.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="654"/>
+        <location filename="../../ui/spectrum_tools.py" line="651"/>
         <source>arithmetic</source>
         <translation>Rechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="660"/>
+        <location filename="../../ui/spectrum_tools.py" line="657"/>
         <source>resample</source>
         <translation>neu abtasten</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="665"/>
+        <location filename="../../ui/spectrum_tools.py" line="662"/>
         <source>Resampled.</source>
         <translation>Neu abgetastet.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="471"/>
-        <location filename="../../ui/spectrum_tools.py" line="673"/>
-        <location filename="../../ui/spectrum_tools.py" line="690"/>
+        <location filename="../../ui/spectrum_tools.py" line="472"/>
+        <location filename="../../ui/spectrum_tools.py" line="670"/>
+        <location filename="../../ui/spectrum_tools.py" line="687"/>
         <source>Normalised.</source>
         <translation>Normiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="686"/>
+        <location filename="../../ui/spectrum_tools.py" line="683"/>
         <source>normalise through points</source>
         <translation>durch Punkte normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="704"/>
+        <location filename="../../ui/spectrum_tools.py" line="701"/>
         <source>Response computed; open a target spectrum and press Divide by response.</source>
         <translation>Antwort berechnet; öffnen Sie ein Zielspektrum und drücken Sie Durch Antwort teilen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="708"/>
+        <location filename="../../ui/spectrum_tools.py" line="705"/>
         <source>Reference flux distribution</source>
         <translation>Referenz-Flussverteilung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="716"/>
+        <location filename="../../ui/spectrum_tools.py" line="713"/>
         <source>Relative flux (response removed).</source>
         <translation>Relativer Fluss (Antwort entfernt).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="726"/>
+        <location filename="../../ui/spectrum_tools.py" line="723"/>
         <source>Save spectrum</source>
         <translation>Spektrum speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="730"/>
-        <location filename="../../ui/spectrum_tools.py" line="747"/>
+        <location filename="../../ui/spectrum_tools.py" line="727"/>
+        <location filename="../../ui/spectrum_tools.py" line="744"/>
         <source>Saved: {path}</source>
         <translation>Gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectrum_tools.py" line="743"/>
+        <location filename="../../ui/spectrum_tools.py" line="740"/>
         <source>BeSS file</source>
         <translation>BeSS-Datei</translation>
     </message>

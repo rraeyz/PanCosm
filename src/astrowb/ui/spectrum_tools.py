@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from . import spectrum_keys
 from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable
@@ -320,7 +321,7 @@ class SpectrumToolsTab(Undoable, QWidget):
 
         right = QSplitter(Qt.Vertical, self)
         self.plot = PlotCanvas(self)
-        self.plot.canvas.mpl_connect("button_press_event", self._clicked)
+        spectrum_keys.connect(self)  # clicks, and the splot keys w m f c d
         right.addWidget(self.plot)
         self.table = QTableWidget(0, len(LINE_COLUMNS), self)
         self.table.setHorizontalHeaderLabels(
@@ -526,10 +527,6 @@ class SpectrumToolsTab(Undoable, QWidget):
         if not self.pick.isChecked():
             self.lo.setValue(min(a, b))
             self.hi.setValue(max(a, b))
-
-    def _clicked(self, event):
-        if self.pick.isChecked() and event.inaxes is not None and event.xdata is not None:
-            self.edit(self.tr("pick a continuum point"), self._add_point, float(event.xdata))
 
     def _add_point(self, x):
         self.points.append(x)

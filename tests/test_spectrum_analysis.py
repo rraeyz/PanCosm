@@ -127,6 +127,34 @@ def test_spectrum_tools_tab(qtbot, tmp_path):
     assert spectrum_io.read(tab._save(str(tmp_path / "saved.fits")))[0].size == w.size
 
 
+def test_spectrum_keys(qtbot, tmp_path):
+    """UI-12: the splot keys over the plot: w w a window, m centres it, f measures, c adds a point, d deletes it."""
+    from types import SimpleNamespace
+
+    from astrowb.ui.spectrum_keys import key
+    from astrowb.ui.spectrum_tools import SpectrumToolsTab
+
+    tab = SpectrumToolsTab()
+    qtbot.addWidget(tab)
+    w = np.arange(6400.0, 6700.0, 0.5)
+    line = 1 - 0.5 * np.exp(-0.5 * ((w - 6563) / 2.0) ** 2)
+    assert tab._open(spectrum_io.write(tmp_path / "s.fits", w, line, np.zeros(w.size)))
+
+    def press(k, x):
+        return key(tab, SimpleNamespace(key=k, xdata=x, inaxes=True))
+
+    assert press("w", 6580) == "edge" and press("w", 6540) == "window"
+    assert (tab.lo.value(), tab.hi.value()) == (6540, 6580)
+    assert press("m", 6563) == "centre" and (tab.lo.value(), tab.hi.value()) == (6543, 6583)
+    assert press("f", None) == "measure" and tab.table.rowCount() == 1
+    press("c", 6450)
+    press("c", 6650)
+    assert press("d", 6460) == "delete" and tab.points == [6650]
+    tab._undo()
+    assert tab.points == [6450, 6650]  # each key is one undo step
+    assert press("z", 6500) is None
+
+
 def test_a_window_that_cuts_the_line_is_pointed_out(qtbot, tmp_path):
     """The continuum is read at the window's edges: a window inside the line gives nonsense, so the tab says so."""
     import numpy as np
