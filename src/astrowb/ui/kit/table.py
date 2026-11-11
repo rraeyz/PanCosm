@@ -33,6 +33,7 @@ class _Model(QAbstractTableModel):
         super().__init__()
         self.table, self.rows, self.marks, self.cache = None, np.arange(0), {}, {}
         self.editable = set()  # names of the columns a user may change
+        self.numeric = set()  # names of the number columns: right-aligned, monospace
         from ..theme import MONO
 
         self.mono = QFont(MONO)
@@ -91,8 +92,8 @@ class _Model(QAbstractTableModel):
         if role in (Qt.DisplayRole, Qt.EditRole):
             return _text(self.table[name], row)
         if role == Qt.TextAlignmentRole:
-            return int(Qt.AlignRight | Qt.AlignVCenter) if self.table[name].dtype.kind in "iuf" else None
-        if role == Qt.FontRole and self.table[name].dtype.kind in "iuf":
+            return int(Qt.AlignRight | Qt.AlignVCenter) if name in self.numeric else None
+        if role == Qt.FontRole and name in self.numeric:
             return self.mono  # digits of one width: a column of numbers lines up
         mark = self.marks.get((row, name))
         if mark and role == Qt.BackgroundRole:
@@ -156,6 +157,8 @@ class TableView(QWidget):
         columns a user may change (each change is the model's edited signal: an undo step for the window)."""
         self.model.beginResetModel()
         self.model.table, self.model.marks, self.model.editable = table, dict(marks or {}), set(editable)
+        # found once: asked per cell and role, a column look-up made a million-row table open late
+        self.model.numeric = {n for n in table.colnames if table[n].dtype.kind in "iuf"}
         self.model.rows = np.arange(len(table))
         self.model.endResetModel()
         self._apply()

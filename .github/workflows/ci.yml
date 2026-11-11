@@ -34,7 +34,7 @@ jobs:
           cache: pip
       - name: Qt system libraries
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+        run: for i in 1 2 3; do sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 && exit 0; sleep 60; done; exit 1
       - run: pip install -r requirements/dev.txt && pip install --no-deps -e .  # locked versions (ARC-3)
       - name: Compiled routines (Rust; installed where the runner has none)
         shell: bash
@@ -84,7 +84,7 @@ jobs:
           cache: pip
       - name: Qt system libraries
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 file
+        run: for i in 1 2 3; do sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 file && exit 0; sleep 60; done; exit 1
       - name: Inno Setup
         if: runner.os == 'Windows'
         run: if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
@@ -166,7 +166,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
-      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+      - run: for i in 1 2 3; do sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 && exit 0; sleep 60; done; exit 1
       - run: pip install -r requirements/dev.txt && pip install --no-deps -e .  # locked versions (ARC-3)
       - name: HAT-P-32 b transit (EXOTIC sample data)
         run: git clone --depth 1 https://github.com/rzellem/EXOTIC_sampledata ../validation-data
@@ -184,7 +184,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
-      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+      - run: for i in 1 2 3; do sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 && exit 0; sleep 60; done; exit 1
       - run: pip install -r requirements/dev.txt && pip install --no-deps -e .
       - run: python tools/build_native.py
       - run: python tools/speed.py run --ci --out speed-result.json
@@ -202,7 +202,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
-      - run: sudo apt-get update && sudo apt-get install -y indi-bin libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+      - run: for i in 1 2 3; do sudo apt-get update && sudo apt-get install -y indi-bin libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3 && exit 0; sleep 60; done; exit 1
       - run: pip install -r requirements/dev.txt && pip install --no-deps -e .  # locked versions (ARC-3)
       - run: pytest -v tests/test_indi_simulators.py -rs
 
