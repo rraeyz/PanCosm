@@ -202,6 +202,10 @@ class AreaWindow(Anatomy, QMainWindow):
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
         self._action(
+            help_menu, self.tr("What is this?"), self.whats_this, "Shift+F1",
+            self.tr("Click a control afterwards to read about it in the guide (Esc: never mind)"),
+        )  # fmt: skip
+        self._action(
             help_menu, self.tr("Keyboard shortcuts"), self.show_shortcuts, "Ctrl+/",
             self.tr("Every key of this window, with a search field"),
         )  # fmt: skip
@@ -434,12 +438,22 @@ class AreaWindow(Anatomy, QMainWindow):
     def help_for_focus(self):
         """F1: the guide paragraph of the control in focus beside the work (the Help panel), when its section or
         stage names one; otherwise the guide of this window."""
+        self.help_for_widget(QApplication.focusWidget())
+
+    def help_for_widget(self, widget):
         from .help import anchor_for
 
-        anchor = anchor_for(QApplication.focusWidget())
+        anchor = anchor_for(widget)
         if anchor and self.show_help(anchor):
             return
         self.help_requested.emit(self.key)
+
+    def whats_this(self):
+        """Shift+F1: the next click names its control's guide topic."""
+        from .help import WhatsThis
+
+        self._whats_this = WhatsThis(self)
+        return self._whats_this
 
     def show_shortcuts(self):
         from .shortcuts import ShortcutSheet
