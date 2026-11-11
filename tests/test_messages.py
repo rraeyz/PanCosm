@@ -63,6 +63,7 @@ def real_messages():
     out += ["working offline: the answer of gaia is not in the cache"]  # services/cache.py
     out += ["time system LOCAL (TIMESYS) is not known: give the times in UTC, TT, TAI, TDB or GPS"]  # timing.py
     out += ["unknown airmass formula guess"]  # core/units.py
+    out += ["unknown time standard JD; known: JD_UTC, BJD_TDB"]  # core/units.py
     from astrowb.timeseries.ephemeris import fit, parse_minima
 
     for call in (lambda: parse_minima("2460500.3 0.001 I\nabc"), lambda: fit(parse_minima("2460500.3"), 2460500, 1)):
@@ -152,7 +153,7 @@ def test_every_engine_error_has_a_template():
     from astrowb.ui.messages import _patterns
 
     src = Path(__file__).parents[1] / "src" / "astrowb"
-    skip = {"engine/steps.py", "engine/plugins.py", "cli.py"}  # cli.py: command-line usage, English only
+    skip = {"engine/steps.py", "engine/plugins.py", "cli.py", "api/__init__.py"}  # scripting: English only
     untranslated = []
     for path in src.rglob("*.py"):
         rel = path.relative_to(src).as_posix()
