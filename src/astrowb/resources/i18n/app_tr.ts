@@ -14230,22 +14230,37 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation> · {n} seçili</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="246"/>
+        <location filename="../../ui/kit/table.py" line="228"/>
+        <source>Sort ascending</source>
+        <translation>Artan sırala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="229"/>
+        <source>Sort descending</source>
+        <translation>Azalan sırala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="230"/>
+        <source>Fit the width</source>
+        <translation>Genişliği sığdır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="263"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="247"/>
+        <location filename="../../ui/kit/table.py" line="264"/>
         <source>Export…</source>
         <translation>Dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="251"/>
+        <location filename="../../ui/kit/table.py" line="268"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="252"/>
+        <location filename="../../ui/kit/table.py" line="269"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
     </message>

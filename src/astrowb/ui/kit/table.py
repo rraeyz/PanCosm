@@ -211,19 +211,36 @@ class TableView(QWidget):
 
     def _sort_by(self, section):
         name = self.model.table.colnames[section]
-        ascending = not (self.sort == (name, True))
-        self.sort = (name, ascending)
-        self.view.horizontalHeader().setSortIndicator(section, Qt.AscendingOrder if ascending else Qt.DescendingOrder)
-        self._apply()
+        self.sort_by(name, not (self.sort == (name, True)))
 
     def _column_menu(self, pos):
+        self.column_menu(self.view.horizontalHeader().logicalIndexAt(pos)).exec(
+            self.view.horizontalHeader().mapToGlobal(pos)
+        )
+
+    def column_menu(self, section):
+        """The header's menu (UI-11): sort by the column clicked, fit its width, then show or hide each column."""
         menu = QMenu(self)
-        for i, name in enumerate(self.model.table.colnames if self.model.table is not None else []):
+        if self.model.table is None:
+            return menu
+        if section >= 0:
+            col = self.model.table.colnames[section]
+            menu.addAction(self.tr("Sort ascending"), lambda c=col: self.sort_by(c, True))
+            menu.addAction(self.tr("Sort descending"), lambda c=col: self.sort_by(c, False))
+            menu.addAction(self.tr("Fit the width"), lambda: self.view.resizeColumnToContents(section))
+            menu.addSeparator()
+        for i, name in enumerate(self.model.table.colnames):
             act = menu.addAction(name)
             act.setCheckable(True)
             act.setChecked(not self.view.isColumnHidden(i))
             act.toggled.connect(lambda on, i=i: self.view.setColumnHidden(i, not on))
-        menu.exec(self.view.horizontalHeader().mapToGlobal(pos))
+        return menu
+
+    def sort_by(self, name, ascending=True):
+        self.sort = (name, ascending)
+        section = self.model.table.colnames.index(name)
+        self.view.horizontalHeader().setSortIndicator(section, Qt.AscendingOrder if ascending else Qt.DescendingOrder)
+        self._apply()
 
     def copy_text(self, rows=None):
         """Tab-separated text of the given table rows (default: the selected, else the shown) with the headers."""
