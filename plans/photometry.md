@@ -320,7 +320,9 @@ recipe's; `api.photometry.light_curve` was already there (ARC-12). The stars by 
 carries `stars_sky` (through the identified field or the marked frame's WCS); run on another night's frames
 (ref_image not among them) the stars are placed by the sky on their solved first frame (`recipe.placed_by_sky`;
 test: frames 15 px and −9 px off give the light curve measured at the moved pixels; the night it was made on keeps
-its pixels exactly). Left: exports in it, the guide's example.
+its pixels exactly). Exports in it (2026-11-14): the recipe's second step `photometry.save_light_curve` writes the
+.lc.ecsv file beside the frames (`--set output=…` elsewhere; `--set` may now be given more than once). Left: the
+guide's example.
 - **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
   option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
   documented with an example notebook-style script in the guide.

@@ -141,6 +141,7 @@ OUTPUTS = {
     "skipped": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectra left out")),
     "solved": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Plate-solved image")),
     "stack": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Stacked image")),
+    "file": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Light-curve file (.lc.ecsv)")),
     "stars": IO("object", QT_TRANSLATE_NOOP("Steps", "Stars")),
     "status": IO("object", QT_TRANSLATE_NOOP("Steps", "Status")),
     "t_ref": IO("object", QT_TRANSLATE_NOOP("Steps", "Reference time")),

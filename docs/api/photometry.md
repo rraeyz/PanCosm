@@ -205,6 +205,21 @@ parameters (default):
   background_factor = 3.0  (float, >= 1.0)  Sky limit: A frame whose sky exceeds this times the median is bad (Moon, twilight)
 ```
 
+## photometry.save_light_curve
+
+```text
+photometry.save_light_curve
+
+The light curve written as a .lc.ecsv file (photometry/lcfile.py: every series and value kept), as File →
+Export in the window writes it; a recipe's last step (PHO-20).
+
+inputs:      light_curve, output
+outputs:     file
+  light_curve  (file)  Light curve
+  output  (new_file)  Output file
+  file  (new_file)  Light-curve file (.lc.ecsv)
+```
+
 ## photometry.suggest_comparisons
 
 ```text

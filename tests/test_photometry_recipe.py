@@ -27,9 +27,16 @@ def test_recipe_runs_as_the_window_did(tmp_path, capsys):
     assert cli.main(["recipe", str(path), "--json", "--quiet"]) == 0
     got = json.loads(capsys.readouterr().out)["light_curve"]
     assert np.allclose(got["rel_flux"], direct["rel_flux"], rtol=1e-12)
+    from astrowb.photometry.lcfile import read
+
+    saved = read(tmp_path / "light_curve.lc.ecsv")  # the file beside the frames, as File → Export writes it
+    assert np.allclose(saved["rel_flux"], direct["rel_flux"], rtol=1e-12)
     # three frames only, given on the command line
-    assert cli.main(["recipe", str(path), "--json", "--quiet", "--set", f"images={json.dumps(paths[:3])}"]) == 0
+    out = tmp_path / "three.lc.ecsv"
+    assert cli.main(["recipe", str(path), "--json", "--quiet", "--set", f"images={json.dumps(paths[:3])}",
+                     "--set", f"output={out}"]) == 0  # fmt: skip
     assert len(json.loads(capsys.readouterr().out)["light_curve"]["rel_flux"]) == 3
+    assert len(read(out)["rel_flux"]) == 3
 
 
 def test_recipe_finds_the_stars_by_the_sky_on_another_night(tmp_path, capsys):

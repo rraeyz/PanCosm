@@ -1,18 +1,25 @@
-"""The Photometry window's measurement as a recipe (plans/photometry.md PHO-20): an automation file with the one
-step photometry.light_curve, its inputs carried as values (the frames, the stars, the target's position) and its
-parameters as the window set them. `astrowb-cli recipe night.json --set images='["a.fits", …]'` runs it again
-without the window; any input can be replaced that way."""
+"""The Photometry window's measurement as a recipe (plans/photometry.md PHO-20): an automation file with the step
+photometry.light_curve and the .lc.ecsv file written (photometry.save_light_curve), its inputs carried as values (the
+frames, the stars, the target's position, the output file) and its parameters as the window set them.
+`astrowb-cli recipe night.json --set images='["a.fits", …]'` runs it again without the window; any input can be
+replaced that way."""
 
 from ..engine import automation
 
-KINDS = {"images": "files", "target_xy": "xy", "comps_xy": "pairs", "coord": "text", "extra_xy": "pairs",
-         "ref_image": "file", "stars_sky": "object"}  # fmt: skip
+KINDS = {"output": "file", "images": "files", "target_xy": "xy", "comps_xy": "pairs", "coord": "text",
+         "extra_xy": "pairs", "ref_image": "file", "stars_sky": "object"}  # fmt: skip
 
 
 def light_curve_recipe(images, target_xy, comps_xy, params, coord="", extra_xy=(), ref_image=None, name="Light curve",
                        stars_sky=None):  # fmt: skip
-    values = {"images": [str(p) for p in images], "target_xy": list(map(float, target_xy)),
-              "comps_xy": [list(map(float, c)) for c in comps_xy]}  # fmt: skip
+    from pathlib import Path
+
+    values = {
+        "images": [str(p) for p in images],
+        "target_xy": list(map(float, target_xy)),
+        "comps_xy": [list(map(float, c)) for c in comps_xy],
+        "output": str(Path(images[0]).parent / "light_curve.lc.ecsv"),
+    }  # the file beside the frames; --set output=… writes it elsewhere
     if coord:
         values["coord"] = coord
     if extra_xy:
@@ -25,7 +32,10 @@ def light_curve_recipe(images, target_xy, comps_xy, params, coord="", extra_xy=(
         "name": {"en": name},
         "description": {"en": "Differential photometry as measured in the Photometry window."},
         "inputs": {k: {"kind": KINDS[k], "label": {"en": k}, "value": v} for k, v in values.items()},
-        "steps": [{"step": "photometry.light_curve", "params": dict(params)}],
+        "steps": [
+            {"step": "photometry.light_curve", "params": dict(params)},
+            {"step": "photometry.save_light_curve", "params": {}},
+        ],  # the file, as File → Export writes it
     }
 
 
