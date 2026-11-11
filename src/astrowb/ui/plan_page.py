@@ -26,6 +26,7 @@ from .converter_dialog import converter_button
 from .kit.help import help_line
 from .kit.widgets import PlotCanvas, _title
 from .messages import translate
+from .plan_almanac import almanac_label
 from .undo import Undoable, track_typing
 
 AUTO = -13.0  # the UTC offset box's lowest value, shown as "Auto": this computer's time zone
@@ -133,7 +134,7 @@ class PlanPage(Undoable, QWidget):
         )
         grid.addWidget(QLabel(self.tr("Local time (hours from UTC)"), self), 6, 0)
         grid.addWidget(self.utc_offset, 6, 1)
-        grid.addWidget(self._horizon_button(), 7, 0, 1, 2)
+        self._site_extras(grid)
         lay.addLayout(grid)
 
         lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon"), self))
@@ -464,6 +465,11 @@ class PlanPage(Undoable, QWidget):
         added = self._add_list(load(name))
         self.status.setText(self.tr("{n} targets from the list {name}.").format(n=len(added), name=name))
         return added
+
+    def _site_extras(self, grid):
+        """Below the site: the horizon profile button and the night's almanac line (UI-16.8 stage 1)."""
+        grid.addWidget(self._horizon_button(), 7, 0, 1, 2)
+        grid.addWidget(almanac_label(self), 8, 0, 1, 2)
 
     def _horizon_button(self):
         """The site's horizon profile (PLN-1): a file of azimuth–altitude pairs, kept in the settings."""

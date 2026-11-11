@@ -125,3 +125,33 @@ def test_the_weather_tab(qtbot):
     win.fetch_weather(fetch=lambda url: ANSWER)
     qtbot.waitUntil(lambda: bool(win.weather.figure.axes), timeout=20000)
     assert "Open-Meteo" in win.weather.figure.axes[0].get_title() and "Open-Meteo" in win.weather_note.text()
+
+
+def test_almanac_line_follows_the_site_and_date(qtbot, tmp_path):
+    """UI-16.8 stage 1: the night's almanac in local time under the site, refreshed when the date changes."""
+    from PySide6.QtCore import QDate
+
+    from astrowb.planning.night import summary
+    from astrowb.planning.visibility import Site
+    from astrowb.settings import Settings
+    from astrowb.ui.plan_chart import clock
+    from astrowb.ui.plan_page import PlanPage
+
+    page = PlanPage(Settings(tmp_path))
+    qtbot.addWidget(page)
+    page.lat.setValue(39.84)
+    page.lon.setValue(32.78)
+    page.height.setValue(1250)
+    page.utc_offset.setValue(3.0)
+    page.date.setDate(QDate(2026, 11, 14))
+    qtbot.waitUntil(lambda: page.almanac.text().startswith("Sunset"), timeout=5000)
+    qtbot.waitUntil(lambda: not page._almanac_timer.isActive(), timeout=5000)
+    a = summary(Site("", 39.84, 32.78, 1250), "2026-11-14", step_min=1.0)
+    text = page.almanac.text()
+    assert (
+        text.startswith(f"Sunset {clock(a['sun_down'] + 3)}")
+        and f"({a['astronomical_up'] - a['astronomical_down']:.1f} h)" in text
+    )
+    assert "% lit" in text
+    page.date.setDate(QDate(2026, 6, 21))
+    qtbot.waitUntil(lambda: page.almanac.text() != text, timeout=5000)

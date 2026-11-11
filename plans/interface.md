@@ -744,7 +744,7 @@ rail           stage panel (example: 3 Planets)             main                
 - **Files:** `ui/exoplanets/` (see EXO-W)
 
 #### UI-16.8 Planning
-**open**
+**open** — 2026-11-14: stage 1's almanac line is in the present Plan page (`ui/plan_almanac.py`: sunset, dark hours, sunrise and the Moon in local time under the site, refreshed as the site or date changes; test_plan_chart)
 ```
 rail            stage panel (example: 2 Targets)            main                                   inspector
 1 Site, night   Targets of 2026-11-14            ?          ┌ altitude / airmass against time, ────┐ NY Vir
