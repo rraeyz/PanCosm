@@ -275,6 +275,42 @@ def main(argv=None) -> int:
     return _app(argv)
 
 
+def _report(text, out, title):
+    """A check's report saved beside the settings and printed, or shown in a window by applications without a
+    console (Windows, macOS)."""
+    try:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n", encoding="utf-8")
+    except OSError:  # a read-only settings folder: the report is still shown
+        pass
+    if sys.stdout is not None:
+        print(text)
+        print(f"(saved in {out})")
+        return
+    from PySide6.QtWidgets import QApplication, QMessageBox
+
+    app = QApplication.instance() or QApplication(sys.argv[:1])  # noqa: F841  (must stay alive)
+    box = QMessageBox(QMessageBox.Information, title, f"{text}\n\n{out}")
+    box.setStyleSheet("QLabel { font-family: monospace; }")
+    box.exec()
+
+
+def _splash(app):
+    """The program's icon and its name while the main window loads (about 2 s on a cold start)."""
+    from PySide6.QtCore import QCoreApplication, Qt
+    from PySide6.QtGui import QPixmap
+    from PySide6.QtWidgets import QSplashScreen
+
+    from .brand import BRAND
+
+    splash = QSplashScreen(QPixmap(str(BRAND.icon_path)).scaledToWidth(256))
+    splash.show()
+    splash.showMessage(QCoreApplication.translate("Splash", "Starting {app}…").format(app=BRAND.display_name),
+                       Qt.AlignHCenter | Qt.AlignBottom)  # fmt: skip
+    app.processEvents()
+    return splash
+
+
 def _app(argv) -> int:
     """The window, or one of the options that run without it (--smoke-test, --benchmark, …)."""
     parser = argparse.ArgumentParser()
@@ -300,44 +336,12 @@ def _app(argv) -> int:
         from . import selfcheck
 
         results = selfcheck.offline() + selfcheck.online()
-        text = selfcheck.report(results)
-        out = settings.path.parent / "check-online.txt"
-        try:
-            out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(text + "\n", encoding="utf-8")
-        except OSError:  # a read-only settings folder: the report is still shown
-            pass
-        if sys.stdout is not None:
-            print(text)
-            print(f"(saved in {out})")
-        else:  # the Windows and macOS applications have no console: show the report in a window
-            from PySide6.QtWidgets import QApplication, QMessageBox
-
-            app = QApplication.instance() or QApplication(sys.argv[:1])
-            box = QMessageBox(QMessageBox.Information, "--check-online", f"{text}\n\n{out}")
-            box.setStyleSheet("QLabel { font-family: monospace; }")
-            box.exec()
+        _report(selfcheck.report(results), settings.path.parent / "check-online.txt", "--check-online")
         return 0 if all(ok for _, ok, _ in results) else 1
     if args.benchmark:
         from .compute.check import benchmark
 
-        text = "\n".join(benchmark())
-        out = settings.path.parent / "gpu-check.txt"
-        try:
-            out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(text + "\n", encoding="utf-8")
-        except OSError:  # a read-only settings folder: the report is still shown
-            pass
-        if sys.stdout is not None:
-            print(text)
-            print(f"(saved in {out})")
-        else:  # the Windows and macOS applications have no console: show the report in a window
-            from PySide6.QtWidgets import QApplication, QMessageBox
-
-            app = QApplication.instance() or QApplication(sys.argv[:1])
-            box = QMessageBox(QMessageBox.Information, "--benchmark", f"{text}\n\n{out}")
-            box.setStyleSheet("QLabel { font-family: monospace; }")
-            box.exec()
+        _report("\n".join(benchmark()), settings.path.parent / "gpu-check.txt", "--benchmark")
         return 0
 
     from PySide6.QtWidgets import QApplication
@@ -380,6 +384,7 @@ def _app(argv) -> int:
             traceback.print_exc()
             return 1
 
+    splash = _splash(app)  # at once, before the long imports (UI-17): the user sees the program start
     from .ui.main_window import MainWindow
 
     _show_unexpected_errors(settings)
@@ -390,6 +395,7 @@ def _app(argv) -> int:
     for f in args.files:
         win.open_project(f) if f.suffix == ".astroproj" else win.open_fits(f, ask=True)
     win.show()
+    splash.finish(win)
     from PySide6.QtCore import QTimer
 
     from .core import earth_orientation
