@@ -1,8 +1,8 @@
 {
  "files": {
   "ui/observe_page.py": 862,
-  "ui/photometry_page.py": 3149,
-  "ui/spectro_page.py": 2430,
+  "ui/photometry_page.py": 3136,
+  "ui/spectro_page.py": 2423,
   "ui/spectrum_tools.py": 811
  },
  "functions": {
@@ -18,22 +18,21 @@
   "spectroscopy/steps.py:rv_step": 116,
   "ui/area_pages.py:make_spectro_page": 106,
   "ui/automation_page.py:AutomationPage.__init__": 116,
-  "ui/calibrate_page.py:CalibratePage.__init__": 372,
+  "ui/calibrate_page.py:CalibratePage.__init__": 351,
   "ui/exposure_dialog.py:ExposureDialog.__init__": 103,
-  "ui/frequency_page.py:FrequencyPage.__init__": 127,
+  "ui/frequency_page.py:FrequencyPage.__init__": 120,
   "ui/image_page.py:ImagePage.__init__": 166,
-  "ui/kit/window.py:AreaWindow._build_menus": 86,
-  "ui/models_page.py:ModelsPage.__init__": 187,
+  "ui/models_page.py:ModelsPage.__init__": 179,
   "ui/moving_dialog.py:MovingObjectDialog.__init__": 83,
   "ui/observatory_dialog.py:ObservatoryDialog.__init__": 116,
   "ui/observe_page.py:ObservePage.__init__": 274,
   "ui/observe_page.py:ObservePage._device_controls": 95,
   "ui/oc_page.py:OCPage.__init__": 159,
   "ui/period_page.py:PeriodPage.__init__": 200,
-  "ui/photometry_page.py:PhotometryPage.__init__": 953,
+  "ui/photometry_page.py:PhotometryPage.__init__": 939,
   "ui/photometry_page.py:PhotometryPage._recompute": 93,
   "ui/photometry_page.py:PhotometryPage._summarise": 107,
-  "ui/plan_page.py:PlanPage.__init__": 241,
+  "ui/plan_page.py:PlanPage.__init__": 235,
   "ui/rs_page.py:RemoteSensingPage.__init__": 129,
   "ui/spectro_page.py:EchelleTab.__init__": 219,
   "ui/spectro_page.py:ReduceTab.__init__": 193,
@@ -41,7 +40,6 @@
   "ui/spectro_page.py:VelocityTab.show_classes": 105,
   "ui/spectro_page.py:VelocityTab.show_rvs": 89,
   "ui/spectrum_tools.py:SpectrumToolsTab.__init__": 295,
-  "ui/start_page.py:StartPage.__init__": 83,
-  "ui/varfind_page.py:VarFindPage.__init__": 99
+  "ui/varfind_page.py:VarFindPage.__init__": 92
  }
 }

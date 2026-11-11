@@ -35,6 +35,7 @@ from PySide6.QtWidgets import (
 from ..core import profiles
 from ..settings import Settings
 from .aavso_dialog import AavsoDialog
+from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .undo import Undoable
@@ -336,15 +337,8 @@ class PhotometryPage(Undoable, QWidget):
             grid.addWidget(QLabel(label, self), row, 0)
             grid.addWidget(w, row, 1)
         self.sections[2].body.addLayout(grid)
-        rings_note = QLabel(
-            self.tr(
-                "Radii in image pixels: the rings grow with the zoom. Between rings 1 and 2 nothing is measured "
-                "(the star's faint wings); between 2 and 3 the sky. Shift + mouse wheel on the image makes them "
-                "larger or smaller."
-            ),
-            self,
-        )
-        rings_note.setWordWrap(True)
+        rings_note = help_line(self.tr("Radii in pixels; ring 1 the star, 2–3 the sky. Shift + wheel on the image "
+                                       "resizes them."), "photometry-apertures", self)  # fmt: skip
         self.sections[2].body.addWidget(rings_note)
         self.apertures_button = QPushButton(self.tr("Choose the radii from the star profiles"), self)
         self.apertures_button.setToolTip(
@@ -854,15 +848,8 @@ class PhotometryPage(Undoable, QWidget):
         for b in (self.kvw, self.trapezoid):
             group.addButton(b)
             mb.addWidget(b)
-        note = QLabel(
-            self.tr(
-                "Choose by what you observe: a V-shaped or rounded minimum of a binary star, or the flat-bottomed "
-                "dip of a planet passing in front of its star."
-            ),
-            self,
-        )
-        note.setWordWrap(True)
-        note.setProperty("muted", True)
+        note = help_line(self.tr("A V-shaped or rounded minimum: a binary star; a flat-bottomed dip: a planet."),
+                         "photometry-time-minimum", self)  # fmt: skip
         mb.addWidget(note)
         self.fit_trend = QCheckBox(self.tr("Fit the ticked detrending quantities together with the transit"), self)
         self.fit_trend.setToolTip(

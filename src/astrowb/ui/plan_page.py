@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from .converter_dialog import converter_button
+from .kit.help import help_line
 from .messages import translate
 from .undo import Undoable, track_typing
 from .workspaces import PlotCanvas, _title
@@ -168,14 +169,8 @@ class PlanPage(Undoable, QWidget):
         row.addWidget(add)
         row.addWidget(ephem)
         lay.addLayout(row)
-        hint = QLabel(
-            self.tr(
-                "Add: position only (when is it high?). Add with ephemeris: also the times of its eclipses or "
-                "transits (an ephemeris = T0 and period of a variable star or planet)."
-            ),
-            self,
-        )
-        hint.setWordWrap(True)
+        hint = help_line(self.tr("Add: position only. Add with ephemeris: also the times of its eclipses or "
+                                 "transits."), "planning-adding-targets", self)  # fmt: skip
         lay.addWidget(hint)
         self.table = QTableWidget(0, len(TARGET_COLUMNS), self)
         self.table.setHorizontalHeaderLabels(

@@ -497,3 +497,38 @@ def test_every_help_anchor_used_exists():
         used |= set(re.findall(r'\bhelp=["\']([a-z0-9]+(?:-[a-z0-9]+)+)["\']', path.read_text(encoding="utf-8")))
     known = guide_page.anchors("en")
     assert used and not used - set(known), used - set(known)
+
+
+def test_no_long_explanations_in_working_panels():
+    """UI-7 item 3: a label in a working panel is at most 140 characters; the explanation lives in the guide (a
+    "More…" link). Kept: Spectroscopy's "In what order?", which the owner asked to see in the window."""
+    import re
+    from pathlib import Path
+
+    kept = {"1. Raw frames from your spectrograph"}
+    long = []
+    for path in (Path(__file__).resolve().parents[1] / "src" / "astrowb" / "ui").rglob("*.py"):
+        src = path.read_text(encoding="utf-8")
+        for m in re.finditer(r'(?:QLabel|help_line)\(\s*(?:self\.tr|translate\([^,]+,)\(\s*((?:"[^"]*"\s*)+)', src):
+            text = "".join(re.findall(r'"([^"]*)"', m.group(1)))
+            if len(text) > 140 and not any(text.startswith(k) for k in kept):
+                long.append(f"{path.name}: {text[:60]}")
+    assert not long, long
+
+
+def test_help_line_opens_the_topic(qtbot, tmp_path):
+    from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
+
+    from astrowb.settings import Settings
+    from astrowb.ui.kit.help import help_line
+    from astrowb.ui.kit.window import AreaWindow
+
+    body = QWidget()
+    line = help_line("Radii in pixels.", "photometry-apertures", body)
+    QVBoxLayout(body).addWidget(line)
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), body)
+    qtbot.addWidget(win)
+    win.show()
+    assert len(line.text()) < 200 and isinstance(line, QLabel)
+    line.linkActivated.emit("photometry-apertures")
+    assert win.docks["help"].isVisible() and "Apertures" in win.help_panel.title.text()
