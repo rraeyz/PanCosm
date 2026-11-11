@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter."""
+Shift ×10 / Ctrl ×0.1 steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector."""
 
 import pytest
 
@@ -166,3 +166,17 @@ def test_splitter_remembers_and_resets(qtbot):
     assert again.sizes()[0] == 250  # remembered
     qtbot.mouseDClick(again.handle(1), Qt.LeftButton)
     assert abs(again.sizes()[0] - 100) <= 2 and mem["split.test.main"] == again.sizes()  # the handle's width aside
+
+
+def test_inspector(qtbot):
+    from astrowb.ui.kit.inspector import Inspector
+
+    panel = Inspector("Star")
+    qtbot.addWidget(panel)
+    panel.set_rows([("Flux", 12345.6, "ADU"), ("Name", "V1234 Cyg")])
+    panel.set_rows([("Flux", 12345.6, "ADU"), ("FWHM", 3.2, "px")])  # replaces the rows
+    assert panel.form.rowCount() == 2 and panel.copy_text() == "Flux\t12345.6\tADU\nFWHM\t3.2\tpx"
+    panel.copy_button.click()
+    from PySide6.QtWidgets import QApplication
+
+    assert QApplication.clipboard().text() == panel.copy_text()

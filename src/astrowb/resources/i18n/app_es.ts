@@ -3439,6 +3439,14 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
 </context>
 <context>
+    <name>Inspector</name>
+    <message>
+        <location filename="../../ui/kit/inspector.py" line="25"/>
+        <source>Copy</source>
+        <translation type="unfinished">Copiar</translation>
+    </message>
+</context>
+<context>
     <name>LevelsDialog</name>
     <message>
         <location filename="../../ui/levels_dialog.py" line="25"/>
