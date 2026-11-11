@@ -62,7 +62,10 @@ class TaskChip(QToolButton):
         if task.state in states:
             return f"{name} — {states[task.state]}"
         left = eta(elapsed, task.progress)
-        text = f"{name} — {int(task.progress * 100)} % · {_clock(elapsed)}"
+        from ..messages import translate
+
+        phase = f" · {translate(task.message)}" if getattr(task, "message", "") else ""  # "reading", "measuring"…
+        text = f"{name} — {int(task.progress * 100)} %{phase} · {_clock(elapsed)}"
         return text + (self.tr(" · about {left} left").format(left=_clock(left)) if left is not None else "")
 
     def _show(self):
@@ -72,12 +75,18 @@ class TaskChip(QToolButton):
         self.setEnabled(bool(self.tasks))
 
     def _fill(self):
+        from ..messages import translate
+
         menu = self.menu()
         menu.clear()
         tasks = sorted(self.tasks.values(), key=lambda t: (t.finished, -self.started.get(t.id, 0)))
         for task in tasks:
             if task.state == "failed" and self.report is not None:
                 menu.addMenu(self.row_text(task)).addAction(self.tr("Report a problem…"), lambda: self.report())
+            elif task.finished and getattr(task, "timeline", None):  # how long each phase took (ARC-17)
+                sub = menu.addMenu(self.row_text(task))
+                for phase, took in task.timeline:
+                    sub.addAction(f"{translate(phase)}: {took:.1f} s").setEnabled(False)
             elif task.finished:
                 menu.addAction(self.row_text(task)).setEnabled(False)
             else:

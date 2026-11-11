@@ -14468,28 +14468,28 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished">cancelada</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="66"/>
+        <location filename="../../ui/kit/tasks.py" line="69"/>
         <source> · about {left} left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="71"/>
+        <location filename="../../ui/kit/tasks.py" line="74"/>
         <source>{n} tasks running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="71"/>
-        <location filename="../../ui/kit/tasks.py" line="87"/>
+        <location filename="../../ui/kit/tasks.py" line="74"/>
+        <location filename="../../ui/kit/tasks.py" line="96"/>
         <source>No task running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="80"/>
+        <location filename="../../ui/kit/tasks.py" line="85"/>
         <source>Report a problem…</source>
         <translation type="unfinished">Informar de un problema…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="85"/>
+        <location filename="../../ui/kit/tasks.py" line="94"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancelar</translation>
     </message>

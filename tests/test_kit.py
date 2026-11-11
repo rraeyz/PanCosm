@@ -472,6 +472,12 @@ def test_task_chip(qtbot):
     failed.actions()[0].trigger()  # a failed task offers Report a problem…
     assert reported == [1]
     assert T.eta(10, 0.5) == 10 and T.eta(10, 0.01) is None
+    a.state, a.finished, a.message = "running", False, "measuring"  # the phase in the row (UI-9)
+    assert "measuring" in chip.row_text(a)
+    b.timeline = [("reading", 1.25), ("measuring", 3.5)]  # a finished task: how long each phase took (ARC-17)
+    chip._fill()
+    done = next(act.menu() for act in chip.menu().actions() if act.menu() and "finished" in act.text())
+    assert [x.text() for x in done.actions()] == ["reading: 1.2 s", "measuring: 3.5 s"]
 
 
 def test_area_window_task_chip_and_toast(qtbot, tmp_path):
