@@ -18,7 +18,7 @@ from ..display import COLOUR_MAPS, display_limits
 
 class LevelsDialog(QDialog):
     def __init__(self, viewer, parent=None):
-        from .workspaces import PlotCanvas
+        from .kit.widgets import PlotCanvas
 
         super().__init__(parent)
         self.viewer = viewer

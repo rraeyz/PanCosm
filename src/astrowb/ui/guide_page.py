@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .workspaces import _title
+from .kit.widgets import _title
 
 GUIDE = Path(__file__).resolve().parents[1] / "resources" / "guide"
 

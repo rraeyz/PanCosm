@@ -65,7 +65,7 @@ def test_radii_follow_the_seeing(tmp_path):
 
 
 def test_photometry_page_draws_three_rings_and_the_profile(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -162,7 +162,7 @@ def test_suggested_comparisons_near_the_target_first():
 
 
 def test_suggestion_says_what_it_chose(qtbot):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)
@@ -183,7 +183,7 @@ def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):
         field(4.5, stars=stars + [(106.0, 105.0, 1.5e4)], shape=(420, 420)), [s[:2] for s in stars]
     )
     assert abs(clean["target_excess"]) < 0.005 and blended["target_excess"] > 0.01
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)

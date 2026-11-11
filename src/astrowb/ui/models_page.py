@@ -25,10 +25,10 @@ from PySide6.QtWidgets import (
 
 from ..models.fit import DEFAULT_FREE, NAMES
 from .kit.help import help_line
+from .kit.widgets import PlotCanvas
 from .messages import translate
 from .spectro_page import _FileRow
 from .undo import Undoable, track_typing
-from .workspaces import PlotCanvas
 
 START = {
     "period": 1.0,
@@ -54,7 +54,7 @@ class ModelsPage(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

@@ -24,9 +24,9 @@ from PySide6.QtWidgets import (
 from ..core import profiles
 from .converter_dialog import converter_button
 from .kit.help import help_line
+from .kit.widgets import PlotCanvas, _title
 from .messages import translate
 from .undo import Undoable, track_typing
-from .workspaces import PlotCanvas, _title
 
 AUTO = -13.0  # the UTC offset box's lowest value, shown as "Auto": this computer's time zone
 TARGET_COLUMNS = ("name", "ra", "dec", "t0", "period", "duration", "secondary")
@@ -47,7 +47,7 @@ class PlanPage(Undoable, QWidget):
         left = QWidget(self)
         lay = QVBoxLayout(left)
         lay.addWidget(_title(self.tr("Planning"), self))
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

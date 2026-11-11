@@ -8,7 +8,7 @@ def test_publication_copy_is_black_on_white(qtbot, tmp_path):
     from PySide6.QtWidgets import QApplication
 
     from astrowb.ui import theme
-    from astrowb.ui.workspaces import PlotCanvas
+    from astrowb.ui.kit.widgets import PlotCanvas
 
     theme.apply(QApplication.instance(), "dark")
     canvas = PlotCanvas()

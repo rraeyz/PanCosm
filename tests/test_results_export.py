@@ -28,7 +28,7 @@ def test_save_results_csv_and_latex(tmp_path):
 
 
 def test_oc_and_models_tables(qtbot, tmp_path):
-    from astrowb.ui.workspaces import OCPage
+    from astrowb.ui.oc_page import OCPage
 
     page = OCPage()
     qtbot.addWidget(page)

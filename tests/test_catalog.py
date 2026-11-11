@@ -90,7 +90,7 @@ def test_catalog_step_uses_the_wcs(tmp_path, monkeypatch):
 
 
 def test_photometry_page_shows_standard_magnitudes(qtbot, tmp_path):
-    from astrowb.ui.workspaces import PhotometryPage, export_csv
+    from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
     qtbot.addWidget(page)

@@ -3661,12 +3661,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="99"/>
+        <location filename="../../ui/main_window.py" line="97"/>
         <source>Tasks</source>
         <translation>Görevler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="160"/>
         <source>Start</source>
         <translation>Başlangıç</translation>
     </message>
@@ -3681,12 +3681,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Guide</source>
         <translation>Kılavuz</translation>
     </message>
@@ -4568,12 +4568,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;İş</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="323"/>
+        <location filename="../../ui/main_window.py" line="321"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="324"/>
+        <location filename="../../ui/main_window.py" line="322"/>
         <source>Copies the selected cells or text</source>
         <translation>Seçili hücreleri ya da metni kopyalar</translation>
     </message>
@@ -4588,7 +4588,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Hedefi Fotometri penceresinde gösterilen, zamanca ilk görüntüde tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_pages.py" line="230"/>
+        <location filename="../../ui/area_pages.py" line="233"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
@@ -14194,43 +14194,43 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>TableView</name>
     <message>
-        <location filename="../../ui/kit/table.py" line="124"/>
+        <location filename="../../ui/kit/table.py" line="125"/>
         <source>Filter, e.g. flux_err &lt; 0.01 and not isnan(airmass)</source>
         <translation>Süzgeç, ör. flux_err &lt; 0.01 and not isnan(airmass)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="177"/>
-        <location filename="../../ui/kit/table.py" line="205"/>
+        <location filename="../../ui/kit/table.py" line="180"/>
+        <location filename="../../ui/kit/table.py" line="208"/>
         <source>{n} of {total} rows</source>
         <translation>{total} satırın {n} tanesi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="205"/>
+        <location filename="../../ui/kit/table.py" line="208"/>
         <source>{n} rows</source>
         <translation>{n} satır</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="207"/>
+        <location filename="../../ui/kit/table.py" line="210"/>
         <source> · {n} selected</source>
         <translation> · {n} seçili</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="243"/>
+        <location filename="../../ui/kit/table.py" line="246"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="244"/>
+        <location filename="../../ui/kit/table.py" line="247"/>
         <source>Export…</source>
         <translation>Dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="248"/>
+        <location filename="../../ui/kit/table.py" line="251"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="249"/>
+        <location filename="../../ui/kit/table.py" line="252"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
     </message>

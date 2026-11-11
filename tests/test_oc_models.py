@@ -70,7 +70,7 @@ def test_apsidal_motion_recovers_omega_dot():
 
 
 def test_oc_page_fits_both_models(qtbot):
-    from astrowb.ui.workspaces import OCPage
+    from astrowb.ui.oc_page import OCPage
 
     page = OCPage()
     qtbot.addWidget(page)
@@ -99,7 +99,7 @@ def test_oc_page_fits_both_models(qtbot):
 
 def test_mcmc_runs_as_a_task_and_reports_progress(qtbot):
     from astrowb.timeseries.steps import oc_fit_step
-    from astrowb.ui.workspaces import OCPage
+    from astrowb.ui.oc_page import OCPage
 
     rng = np.random.default_rng(6)
     ps, e = 2.5, np.arange(0, 3000, 75.0)
@@ -137,7 +137,7 @@ def test_mcmc_runs_as_a_task_and_reports_progress(qtbot):
 
 def test_oc_page_needs_only_the_minima_and_the_star_name(qtbot):
     """T0 empty: the first primary minimum (as its tooltip says); the period from VSX by the star's name."""
-    from astrowb.ui.workspaces import OCPage
+    from astrowb.ui.oc_page import OCPage
 
     page = OCPage()
     qtbot.addWidget(page)

@@ -27,9 +27,9 @@ from PySide6.QtWidgets import (
 )
 
 from .kit.help import help_line
+from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable, track_typing
-from .workspaces import PlotCanvas
 
 
 def _rows(table):
@@ -241,7 +241,7 @@ class ReduceTab(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [
@@ -731,7 +731,7 @@ class EchelleTab(Undoable, QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [
@@ -1331,7 +1331,7 @@ class TelluricTab(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [
@@ -1425,7 +1425,7 @@ class VelocityTab(QWidget):
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [
@@ -2283,7 +2283,7 @@ class SpectroscopyPage(QWidget):
         bar.addStretch(1)
         lay = QVBoxLayout(self)
         lay.addWidget(self.profile_bar)
-        from .workspaces import Collapsible
+        from .kit.widgets import Collapsible
 
         # the owner "did something but was not sure what": the order of the tabs' work, in one place
         self.steps = Collapsible(self.tr("In what order? (click)"), self, mode="basic")  # open for beginners

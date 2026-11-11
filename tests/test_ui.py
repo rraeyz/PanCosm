@@ -239,7 +239,7 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     rel = np.array(page.light_curve["rel_flux"])
     assert abs(rel[12] / rel[2] - 0.97) < 0.01 and page.light_curve["time_scale"] == "BJD_TDB"
     out = tmp_path / "lc.csv"
-    from astrowb.ui.workspaces import export_csv
+    from astrowb.ui.photometry_page import export_csv
 
     export_csv(page.light_curve, out)
     assert out.read_text().splitlines()[0].startswith("BJD_TDB,rel_flux")
@@ -298,7 +298,7 @@ def test_stack_from_calibrate_page(window, qtbot, tmp_path):
 
 
 def test_aavso_dialog_values(qtbot):
-    from astrowb.ui.workspaces import AavsoDialog
+    from astrowb.ui.aavso_dialog import AavsoDialog
 
     d = AavsoDialog(2)
     qtbot.addWidget(d)
@@ -1141,7 +1141,7 @@ def test_minimum_method_is_a_visible_choice_with_kvw_first(window):
 
 def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbot, tmp_path):
     from astrowb.models.data import read_light_curve
-    from astrowb.ui.workspaces import PeriodPage
+    from astrowb.ui.period_page import PeriodPage
 
     page = PeriodPage()
     qtbot.addWidget(page)
@@ -1189,7 +1189,7 @@ def test_basic_and_expert_mode(window):
 def test_every_working_page_has_a_folded_workflow(window):
     """The owner: not knowing what to do and how was the confusion on every page; a folded "Workflow" line names
     the next step, opens to the usual order, and never locks a step (data can start half way)."""
-    from astrowb.ui.workspaces import StepGuide
+    from astrowb.ui.kit.widgets import StepGuide
 
     def page_of(g):  # the nearest parent that is a page or a tab of the program, not a Qt container
         w = g.parent()
@@ -1226,7 +1226,7 @@ def test_plot_folded_to_no_height_still_draws(qtbot):
     from PySide6.QtGui import QResizeEvent
     from PySide6.QtWidgets import QApplication
 
-    from astrowb.ui.workspaces import PlotCanvas
+    from astrowb.ui.kit.widgets import PlotCanvas
 
     plot = PlotCanvas()
     qtbot.addWidget(plot)

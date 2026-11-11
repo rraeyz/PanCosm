@@ -20,9 +20,9 @@ from PySide6.QtWidgets import (
 )
 
 from ..remotesensing import analysis
+from .kit.widgets import PlotCanvas, _title
 from .messages import translate
 from .viewer import ImageViewer
-from .workspaces import PlotCanvas, _title
 
 ROLES = ("BLUE", "GREEN", "RED", "NIR", "SWIR")
 SENTINEL2 = {"B02": "BLUE", "B03": "GREEN", "B04": "RED", "B08": "NIR", "B11": "SWIR"}
@@ -47,7 +47,7 @@ class RemoteSensingPage(QWidget):
         side = QWidget(self)
         lay = QVBoxLayout(side)
         lay.addWidget(_title(self.tr("Remote sensing"), self))
-        from .workspaces import StepGuide
+        from .kit.widgets import StepGuide
 
         self.guide = StepGuide(
             [

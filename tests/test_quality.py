@@ -51,7 +51,7 @@ def test_judge_handles_empty_frames():
 
 
 def test_photometry_page_leaves_out_bad_frames(qtbot, tmp_path):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
     qtbot.addWidget(page)

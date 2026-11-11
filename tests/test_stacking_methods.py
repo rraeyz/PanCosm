@@ -73,7 +73,7 @@ def test_normalisation_and_weighting_in_the_stack(tmp_path):
 
 
 def test_calibrate_page_stack_options(qtbot):
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     page = CalibratePage()
     qtbot.addWidget(page)
@@ -97,7 +97,7 @@ def test_calibrate_page_stack_options(qtbot):
 
 
 def test_calibrate_page_sends_the_calibration_options(qtbot, tmp_path):
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     page = CalibratePage()
     qtbot.addWidget(page)
@@ -112,7 +112,7 @@ def test_calibrate_page_sends_the_calibration_options(qtbot, tmp_path):
 
 
 def test_calibrate_page_spectra_option(qtbot, tmp_path):
-    from astrowb.ui.workspaces import CalibratePage
+    from astrowb.ui.calibrate_page import CalibratePage
 
     page = CalibratePage()
     qtbot.addWidget(page)

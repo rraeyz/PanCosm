@@ -98,7 +98,7 @@ def test_without_pointing_or_scale_the_reason_is_given():
 
 
 def test_photometry_page_shows_the_field_and_makes_a_variable_the_target(qtbot, tmp_path):
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     cat = _sky()
     img, w, x, y = _frame(cat)
@@ -131,7 +131,7 @@ def test_photometry_page_shows_the_field_and_makes_a_variable_the_target(qtbot, 
 def test_images_then_measure_is_the_whole_of_it(qtbot, tmp_path):
     """The star the files name becomes the target, the comparison stars and then the radii are asked for without a
     press; a suggestion that arrives after stars were clicked by hand is dropped."""
-    from astrowb.ui.workspaces import PhotometryPage
+    from astrowb.ui.photometry_page import PhotometryPage
 
     cat = _sky()
     img, w, x, y = _frame(cat)
