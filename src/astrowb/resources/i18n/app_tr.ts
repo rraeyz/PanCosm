@@ -7123,18 +7123,18 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>NumberField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="40"/>
-        <location filename="../../ui/kit/fields.py" line="66"/>
+        <location filename="../../ui/kit/fields.py" line="42"/>
+        <location filename="../../ui/kit/fields.py" line="68"/>
         <source>auto</source>
         <translation>otomatik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="42"/>
+        <location filename="../../ui/kit/fields.py" line="44"/>
         <source>Let the program choose this value</source>
         <translation>Bu değeri program seçsin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="87"/>
+        <location filename="../../ui/kit/fields.py" line="89"/>
         <source>A number from {low} to {high}</source>
         <translation>{low} ile {high} arasında bir sayı</translation>
     </message>
@@ -8582,6 +8582,50 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/overlay_actions.py" line="277"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Görüntüde işaret yok (Fotometri penceresinde seçilen yıldızlar işarettir).</translation>
+    </message>
+</context>
+<context>
+    <name>PathField</name>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="176"/>
+        <source>Drop files here or choose with …</source>
+        <translation>Dosyaları buraya bırakın ya da … ile seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="180"/>
+        <source>Choose…</source>
+        <translation>Seç…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="198"/>
+        <location filename="../../ui/kit/fields.py" line="256"/>
+        <source>{n} files — first: {name}</source>
+        <translation>{n} dosya — ilki: {name}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="204"/>
+        <source>Not found: {path}</source>
+        <translation>Bulunamadı: {path}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="219"/>
+        <source>Choose a folder</source>
+        <translation>Klasör seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="222"/>
+        <source>Choose files</source>
+        <translation>Dosyaları seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="224"/>
+        <source>Choose a file</source>
+        <translation>Dosya seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/fields.py" line="260"/>
+        <source>No recent choices</source>
+        <translation>Son seçim yok</translation>
     </message>
 </context>
 <context>

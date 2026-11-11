@@ -257,3 +257,38 @@ def test_form_row(qtbot):
 
     assert a.control.mapTo(page, QPoint()).x() == b.control.mapTo(page, QPoint()).x()  # one left edge
     assert isinstance(a.layout(), QHBoxLayout) and FormRow("x", NumberField(), reset=False).dot is None
+
+
+def test_path_field(qtbot, tmp_path):
+    from PySide6.QtCore import QMimeData, QPointF, Qt, QUrl
+    from PySide6.QtGui import QDropEvent
+
+    from astrowb.ui.kit.fields import PathField
+
+    class Mem(dict):
+        def set(self, k, v):
+            self[k] = v
+
+    files = [tmp_path / f"light_V_{i:03d}.fits" for i in range(48)]
+    for f in files:
+        f.write_bytes(b"")
+    mem = Mem()
+    field = PathField("files", "FITS (*.fits)", "test.frames", mem)
+    qtbot.addWidget(field)
+    seen = []
+    field.changed.connect(seen.append)
+    data = QMimeData()
+    data.setUrls([QUrl.fromLocalFile(str(f)) for f in files])
+    drop = QDropEvent(QPointF(5, 5), Qt.CopyAction, data, Qt.LeftButton, Qt.NoModifier)
+    field.dropEvent(drop)
+    assert len(field.paths()) == 48 and "48" in field.edit.text() and "light_V_000.fits" in field.edit.text()
+    assert len(seen) == 1 and mem["recent.test.frames"][0] == field.paths()
+    field.set_paths([str(tmp_path / "gone.fits")])
+    assert "gone.fits" in field.edit.toolTip() and field.edit.styleSheet()  # amber, with the reason
+    field._recent_menu()
+    field.button.menu().actions()[0].trigger()  # the recent choice comes back
+    assert len(field.paths()) == 48 and field.edit.styleSheet() == ""
+    one = PathField("file")
+    qtbot.addWidget(one)
+    qtbot.keyClicks(one.edit, str(files[0]))
+    assert one.paths() == [str(files[0])] and one.kit_binding()[1]() == str(files[0])
