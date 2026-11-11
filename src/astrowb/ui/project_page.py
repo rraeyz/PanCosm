@@ -52,6 +52,13 @@ class ProjectPage(QWidget):
         self.python_button.setToolTip(self.tr("The selected step as a line of a Python script (astrowb.api), to copy"))
         self.python_button.clicked.connect(self.copy_python)
         row.addWidget(self.python_button)
+        self.recipe_button = QPushButton(self.tr("Save as recipe…"), self)
+        self.recipe_button.setEnabled(False)
+        self.recipe_button.setToolTip(
+            self.tr("The selected step with its settings as an automation: Automation runs it on other files")
+        )
+        self.recipe_button.clicked.connect(lambda: self.save_recipe())
+        row.addWidget(self.recipe_button)
         row.addStretch(1)
         lay.addLayout(row)
         self.details = QPlainTextEdit(self)
@@ -75,6 +82,7 @@ class ProjectPage(QWidget):
 
         self.shown_run = run
         self.python_button.setEnabled(True)
+        self.recipe_button.setEnabled(True)
         parts = [f"{run['step']} — {run['status']} — {run['started']}"]
         for key, title in (
             ("inputs", self.tr("Inputs")),
@@ -88,12 +96,38 @@ class ProjectPage(QWidget):
                 parts.append(f"{title}:\n{text[:20000]}")
         self.details.setPlainText("\n\n".join(parts))
 
+    def save_recipe(self, path=None):
+        """Into the user's automations (the Automation window lists them) unless another place is chosen."""
+        from ..engine import automation
+
+        recipe = recipe_for(self.shown_run)
+        if path is None:
+            from PySide6.QtWidgets import QFileDialog
+
+            folder = automation.user_dir()
+            folder.mkdir(parents=True, exist_ok=True)
+            suggestion = str(folder / f"{self.shown_run['step']}.json")
+            path, _ = QFileDialog.getSaveFileName(self, self.tr("Save as recipe"), suggestion, "JSON (*.json)")
+            if not path:
+                return None
+        return automation.save(recipe, path)
+
     def copy_python(self):
         from PySide6.QtWidgets import QApplication
 
         text = python_for(self.shown_run)
         QApplication.clipboard().setText(text)
         return text
+
+
+def recipe_for(run):
+    """A recorded run as an automation (a recipe, ARC-12 item 3): the step with its settings; its input files are
+    asked for when the recipe runs, so it works on other nights."""
+    return {
+        "name": f"{run['step']} ({str(run.get('started', ''))[:10]})",
+        "description": f"Saved from the project history: {run['step']} as run on {run.get('started', '')}",
+        "steps": [{"step": run["step"], "params": dict(run.get("params") or {})}],
+    }
 
 
 def python_for(run):

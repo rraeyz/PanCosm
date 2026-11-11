@@ -11742,7 +11742,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="81"/>
+        <location filename="../../ui/project_page.py" line="89"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
@@ -11767,29 +11767,44 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Seçili adım, bir Python betiğinin satırı olarak (astrowb.api), kopyalanmak üzere</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="59"/>
+        <location filename="../../ui/project_page.py" line="55"/>
+        <source>Save as recipe…</source>
+        <translation>Tarif olarak kaydet…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="58"/>
+        <source>The selected step with its settings as an automation: Automation runs it on other files</source>
+        <translation>Seçili adım ayarlarıyla bir otomasyon olarak: Otomasyon onu başka dosyalarda çalıştırır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="66"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Girdilerini, ayarlarını, sonuçlarını ve sürümleri görmek için bir çalıştırma seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="80"/>
+        <location filename="../../ui/project_page.py" line="88"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="82"/>
+        <location filename="../../ui/project_page.py" line="90"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="83"/>
+        <location filename="../../ui/project_page.py" line="91"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="84"/>
+        <location filename="../../ui/project_page.py" line="92"/>
         <source>Versions</source>
         <translation>Sürümler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="110"/>
+        <source>Save as recipe</source>
+        <translation>Tarif olarak kaydet</translation>
     </message>
 </context>
 <context>

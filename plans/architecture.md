@@ -719,7 +719,7 @@ the suite is green after each.
   `api.<area>.<name>(**keywords)` with its help generated from the registry, `api.run`, `api.steps`; wrong keywords
   raise TypeError; `tests/test_api_stability.py` with `tests/data/api_steps.json` fails when a step or keyword is
   removed. `api.calibrate_night(folder, output_dir, **params)` chains the scan and the calibration (returns the calibrated lights). Pending: the other hand-written helpers (`light_curve`, `period_search`, result objects with `.to_table()`), and: `session --run` (needs the windows on
-  ARC-5), the API module (item 1), Save as recipe (item 3; Copy as Python done: the Project page's History copies the selected run as an `api.run(...)` call), generated docs (item 4); parameters
+  ARC-5), the API module (item 1), Item 3 done: Save as recipe… (the selected run as an automation with its settings, its inputs asked for when it runs; saved among the user's automations) and Copy as Python ( the Project page's History copies the selected run as an `api.run(...)` call), generated docs (item 4); parameters
   have no units in the registry yet, so `help` shows defaults only.
 - **Ours now:** `__main__.py` (argparse: files, `--smoke-test`, `--benchmark`, `--check-online`, `--observatory`), `engine/automation.py` (run chains), project re-run in the Project page.
 - **Why:** AD-11; `astrowb-cli` only opens files, runs the smoke test, the benchmark and the observatory.

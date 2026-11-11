@@ -11740,7 +11740,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="81"/>
+        <location filename="../../ui/project_page.py" line="89"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
@@ -11765,29 +11765,44 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="59"/>
+        <location filename="../../ui/project_page.py" line="55"/>
+        <source>Save as recipe…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="58"/>
+        <source>The selected step with its settings as an automation: Automation runs it on other files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="66"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Elija una ejecución para ver sus entradas, ajustes, resultados y versiones.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="80"/>
+        <location filename="../../ui/project_page.py" line="88"/>
         <source>Inputs</source>
         <translation>Entradas</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="82"/>
+        <location filename="../../ui/project_page.py" line="90"/>
         <source>Results</source>
         <translation>Resultados</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="83"/>
+        <location filename="../../ui/project_page.py" line="91"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="84"/>
+        <location filename="../../ui/project_page.py" line="92"/>
         <source>Versions</source>
         <translation>Versiones</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="110"/>
+        <source>Save as recipe</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
