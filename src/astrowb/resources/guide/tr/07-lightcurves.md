@@ -55,3 +55,15 @@ Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl
 - Bir parabol: periyot değişiyor (kütle aktarımı, manyetik etkinlik, açısal momentum kaybı).
 - Bir dalga: üçüncü bir cismin ışık yolu zaman etkisi ya da apsidal hareket (dış merkezli sistemlerde birincil ve ikincil minimumların zıt yönde kayması).
 - Hatalar önemlidir: hatası verilmeyen minimumlar eşit ağırlık alır.
+
+## Deneyin (alıştırma verisi) {#lightcurves-try-it-practice}
+**Yardım → İlk gece için alıştırma verisi…** seçtiğiniz klasöre bu bölüm için iki dosya daha yazar:
+
+1. `pulsator.csv` — iki frekansta zonklayan bir yıldızın 27 günü. Işık eğrileri → Frekans analizinde açıp
+   çalıştırın: bulunan ilk frekans **8,123 c/g** (genlik 10 mmag), ikincisi **11,470 c/g**.
+2. `minima.txt` — periyodu 0,8123456 g olan bir örten çiftin 12 yıllık birincil minimumları. O−C penceresinde
+   T0 = 2455000,1234 ve bu periyotla yükleyin, Üçüncü cisim'i seçip fit edin: üçüncü cismin periyodu yaklaşık
+   **2900 gün**, ışık-yolu-zamanı genliği yaklaşık **0,005 g** (7 dakika) çıkar.
+
+Bu sayıları buluyorsanız adımlar makinenizde olması gerektiği gibi çalışıyor.
+

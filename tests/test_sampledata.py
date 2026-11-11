@@ -102,3 +102,28 @@ def test_minimum_times_of_a_few_nights_are_close_to_the_truth(tmp_path):
 
     _, pulls = _minimum_offsets(tmp_path, 4)
     assert np.all(np.abs(pulls) < 4)
+
+
+def test_practice_exercises_find_their_answers(tmp_path):
+    """ARC-21: the guide's "Try it" exercises, run by script, find the numbers the guide says."""
+    import numpy as np
+
+    from astrowb import sampledata
+    from astrowb.engine import builtin  # noqa: F401  (registers the steps)
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    sets = sampledata.practice_sets(tmp_path)
+    data = np.loadtxt(sets["files"]["pulsator"], delimiter=",", skiprows=1)
+    found = execute("timeseries.frequencies", {"time": data[:, 0].tolist(), "flux": data[:, 1].tolist()}, {}, Ctx())
+    assert abs(found["frequencies"][0]["freq"] - 8.123) < 0.001  # Light curves → Frequency analysis: f1 = 8.123 c/d
+    text = open(sets["files"]["minima"], encoding="utf-8").read()
+    params = {"t0": sampledata.LTTE["t0"], "period": sampledata.LTTE["period"]}
+    fit = execute("timeseries.oc_fit", {"minima": text}, params, Ctx())["fit"]
+    assert abs(fit.p3 - 2900) < 100 and abs(fit.amplitude - 0.005) < 0.0005  # O−C → third body: about 2900 d
