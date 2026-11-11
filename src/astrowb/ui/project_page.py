@@ -47,6 +47,11 @@ class ProjectPage(QWidget):
         )
         self.rerun_button.clicked.connect(lambda: self.rerun_requested.emit(self.selected_run()))
         row.addWidget(self.rerun_button)
+        self.python_button = QPushButton(self.tr("Copy as Python"), self)
+        self.python_button.setEnabled(False)
+        self.python_button.setToolTip(self.tr("The selected step as a line of a Python script (astrowb.api), to copy"))
+        self.python_button.clicked.connect(self.copy_python)
+        row.addWidget(self.python_button)
         row.addStretch(1)
         lay.addLayout(row)
         self.details = QPlainTextEdit(self)
@@ -68,6 +73,8 @@ class ProjectPage(QWidget):
         """Everything recorded about a run, as text (long results are cut)."""
         import json
 
+        self.shown_run = run
+        self.python_button.setEnabled(True)
         parts = [f"{run['step']} — {run['status']} — {run['started']}"]
         for key, title in (
             ("inputs", self.tr("Inputs")),
@@ -80,3 +87,18 @@ class ProjectPage(QWidget):
                 text = run[key] if isinstance(run[key], str) else json.dumps(run[key], indent=1, default=str)
                 parts.append(f"{title}:\n{text[:20000]}")
         self.details.setPlainText("\n\n".join(parts))
+
+    def copy_python(self):
+        from PySide6.QtWidgets import QApplication
+
+        text = python_for(self.shown_run)
+        QApplication.clipboard().setText(text)
+        return text
+
+
+def python_for(run):
+    """A recorded run as a call of astrowb.api (plans/architecture.md ARC-12 item 3: Copy as Python)."""
+    values = {**(run.get("inputs") or {}), **(run.get("params") or {})}
+    lines = ["from astrowb import api", "", f"out = api.run({run['step']!r},"]
+    lines += [f"    {key}={value!r}," for key, value in values.items()]
+    return "\n".join(lines) + "\n)\n"

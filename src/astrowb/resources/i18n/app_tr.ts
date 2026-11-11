@@ -11742,7 +11742,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="74"/>
+        <location filename="../../ui/project_page.py" line="81"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
@@ -11757,27 +11757,37 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Seçilen adımı tam önceki gibi yeniden çalıştırır, örneğin girdi dosyaları değiştikten sonra</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="54"/>
+        <location filename="../../ui/project_page.py" line="50"/>
+        <source>Copy as Python</source>
+        <translation>Python olarak kopyala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="52"/>
+        <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
+        <translation>Seçili adım, bir Python betiğinin satırı olarak (astrowb.api), kopyalanmak üzere</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="59"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Girdilerini, ayarlarını, sonuçlarını ve sürümleri görmek için bir çalıştırma seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="73"/>
+        <location filename="../../ui/project_page.py" line="80"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="75"/>
+        <location filename="../../ui/project_page.py" line="82"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="76"/>
+        <location filename="../../ui/project_page.py" line="83"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="77"/>
+        <location filename="../../ui/project_page.py" line="84"/>
         <source>Versions</source>
         <translation>Sürümler</translation>
     </message>

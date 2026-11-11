@@ -2057,3 +2057,24 @@ def test_the_site_hint_opens_settings_at_profiles(window, qtbot):
     win = window.findChildren(SettingsWindow)[-1]
     qtbot.addWidget(win)
     assert win.categories.currentItem().text() == "Profiles"
+
+
+def test_a_run_copied_as_python_runs_again(window, tmp_path):
+    """ARC-12 item 3: History → Copy as Python gives a script line that runs the step with the same values."""
+    from astrowb.ui.project_page import python_for
+
+    run = {"step": "image.process", "inputs": {"image": "a.fits", "output": "b.fits"},
+           "params": {"operation": "median", "size": 3}}  # fmt: skip
+    text = python_for(run)
+    assert text.startswith("from astrowb import api") and "image='a.fits'," in text and "size=3," in text
+    called = {}
+    import astrowb.api as api
+
+    real, api.run = api.run, lambda step, **kw: called.update(step=step, **kw)
+    try:
+        exec(compile(text, "copied", "exec"), {})
+    finally:
+        api.run = real
+    assert called == {"step": "image.process", "image": "a.fits", "output": "b.fits", "operation": "median", "size": 3}
+    window.project_page.show_run({**run, "status": "done", "started": "now"})
+    assert window.project_page.copy_python() == text

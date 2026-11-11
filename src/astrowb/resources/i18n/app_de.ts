@@ -11740,7 +11740,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="74"/>
+        <location filename="../../ui/project_page.py" line="81"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -11755,27 +11755,37 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Führt den gewählten Schritt genau wie zuvor erneut aus, z. B. nachdem sich die Eingabedateien geändert haben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="54"/>
+        <location filename="../../ui/project_page.py" line="50"/>
+        <source>Copy as Python</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="52"/>
+        <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="59"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Einen Lauf wählen, um Eingaben, Einstellungen, Ergebnisse und Versionen zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="73"/>
+        <location filename="../../ui/project_page.py" line="80"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="75"/>
+        <location filename="../../ui/project_page.py" line="82"/>
         <source>Results</source>
         <translation>Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="76"/>
+        <location filename="../../ui/project_page.py" line="83"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="77"/>
+        <location filename="../../ui/project_page.py" line="84"/>
         <source>Versions</source>
         <translation>Versionen</translation>
     </message>
