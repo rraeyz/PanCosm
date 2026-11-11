@@ -400,37 +400,37 @@
 <context>
     <name>Anatomy</name>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="54"/>
+        <location filename="../../ui/kit/anatomy.py" line="60"/>
         <source>Stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="55"/>
+        <location filename="../../ui/kit/anatomy.py" line="61"/>
         <source>Show or hide the stage panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="74"/>
+        <location filename="../../ui/kit/anatomy.py" line="80"/>
         <source>Inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="75"/>
+        <location filename="../../ui/kit/anatomy.py" line="81"/>
         <source>Show or hide the inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="84"/>
+        <location filename="../../ui/kit/anatomy.py" line="90"/>
         <source>Show or hide the results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="85"/>
+        <location filename="../../ui/kit/anatomy.py" line="91"/>
         <source>Next result tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="95"/>
+        <location filename="../../ui/kit/anatomy.py" line="101"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3671,12 +3671,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Inicio</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="64"/>
+        <location filename="../../ui/area_menus.py" line="67"/>
         <source>Calibrate</source>
         <translation>Calibrar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="73"/>
+        <location filename="../../ui/area_menus.py" line="76"/>
         <source>Photometry</source>
         <translation>Fotometría</translation>
     </message>
@@ -3806,19 +3806,39 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar &amp;imagen (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="216"/>
+        <location filename="../../ui/area_windows.py" line="270"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Convertir muchas imágenes (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="212"/>
+        <location filename="../../ui/area_windows.py" line="266"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>&amp;Cerrar imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="214"/>
+        <location filename="../../ui/area_windows.py" line="102"/>
+        <source>Images</source>
+        <translation type="unfinished">Imágenes</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="102"/>
+        <source>Stars</source>
+        <translation type="unfinished">Estrellas</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="103"/>
+        <source>Apertures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="123"/>
+        <source>Other tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_windows.py" line="268"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>Cerrar &amp;todas las imágenes</translation>
@@ -3987,6 +4007,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="43"/>
+        <location filename="../../ui/area_windows.py" line="103"/>
         <source>Measure</source>
         <translation>Medir</translation>
     </message>
@@ -3996,19 +4017,19 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Mínimo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="190"/>
-        <location filename="../../ui/area_menus.py" line="399"/>
+        <location filename="../../ui/area_menus.py" line="193"/>
+        <location filename="../../ui/area_menus.py" line="402"/>
         <location filename="../../ui/area_windows.py" line="45"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="67"/>
+        <location filename="../../ui/area_windows.py" line="66"/>
         <source>Results: light curve, stars, minimum, export</source>
         <translation>Resultados: curva de luz, estrellas, mínimo, exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="305"/>
+        <location filename="../../ui/area_windows.py" line="359"/>
         <source>&amp;Measure</source>
         <translation>&amp;Medir</translation>
     </message>
@@ -4028,446 +4049,446 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Los próximos clics en la imagen marcan estrellas de control (K1, K2…)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="78"/>
-        <location filename="../../ui/area_windows.py" line="277"/>
+        <location filename="../../ui/area_menus.py" line="81"/>
+        <location filename="../../ui/area_windows.py" line="331"/>
         <source>F&amp;rames</source>
         <translation>T&amp;omas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="291"/>
+        <location filename="../../ui/area_windows.py" line="345"/>
         <source>&amp;Stars</source>
         <translation>E&amp;strellas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="372"/>
-        <location filename="../../ui/area_windows.py" line="186"/>
-        <location filename="../../ui/area_windows.py" line="317"/>
+        <location filename="../../ui/area_menus.py" line="375"/>
+        <location filename="../../ui/area_windows.py" line="240"/>
+        <location filename="../../ui/area_windows.py" line="371"/>
         <source>&amp;Analyse</source>
         <translation>A&amp;nalizar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="164"/>
+        <location filename="../../ui/area_windows.py" line="218"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Separar en canales de color (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="166"/>
+        <location filename="../../ui/area_windows.py" line="220"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>La imagen en bruto de una cámara de color como tres imágenes de la mitad de tamaño, una por color (sin interpolación)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="172"/>
+        <location filename="../../ui/area_windows.py" line="226"/>
         <source>Stack the open images…</source>
         <translation>Apilar las imágenes abiertas…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="174"/>
+        <location filename="../../ui/area_windows.py" line="228"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Las imágenes abiertas alineadas en sus estrellas y promediadas rechazando los valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="177"/>
+        <location filename="../../ui/area_windows.py" line="231"/>
         <source>Drizzle the open images…</source>
         <translation>Combinar las imágenes abiertas con drizzle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="179"/>
+        <location filename="../../ui/area_windows.py" line="233"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Imágenes desplazadas sobre una rejilla el doble de fina (más nítida para estrellas submuestreadas)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="190"/>
+        <location filename="../../ui/area_windows.py" line="244"/>
         <source>A&amp;strometry</source>
         <translation>Astro&amp;metría</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="191"/>
+        <location filename="../../ui/area_windows.py" line="245"/>
         <source>&amp;Colour</source>
         <translation>&amp;Color</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="192"/>
+        <location filename="../../ui/area_windows.py" line="246"/>
         <source>S&amp;tack</source>
         <translation>A&amp;pilar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="202"/>
+        <location filename="../../ui/area_windows.py" line="256"/>
         <source>Copy the header</source>
         <translation>Copiar la cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="202"/>
-        <location filename="../../ui/area_menus.py" line="411"/>
-        <location filename="../../ui/area_menus.py" line="465"/>
-        <location filename="../../ui/area_windows.py" line="81"/>
+        <location filename="../../ui/area_menus.py" line="205"/>
+        <location filename="../../ui/area_menus.py" line="414"/>
+        <location filename="../../ui/area_menus.py" line="468"/>
+        <location filename="../../ui/area_windows.py" line="80"/>
         <source>&amp;Export</source>
         <translation>E&amp;xportar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="59"/>
+        <location filename="../../ui/area_menus.py" line="62"/>
         <source>Lights folder…</source>
         <translation>Carpeta de lights…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="60"/>
+        <location filename="../../ui/area_menus.py" line="63"/>
         <source>Lights</source>
         <translation>Lights</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="62"/>
+        <location filename="../../ui/area_menus.py" line="65"/>
         <source>Calibration frames folder…</source>
         <translation>Carpeta de tomas de calibración…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="67"/>
+        <location filename="../../ui/area_menus.py" line="70"/>
         <source>Stack into one deep picture</source>
         <translation>Apilar en una imagen profunda</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="68"/>
+        <location filename="../../ui/area_menus.py" line="71"/>
         <source>Stack</source>
         <translation>Apilar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="72"/>
+        <location filename="../../ui/area_menus.py" line="75"/>
         <source>Send to Photometry →</source>
         <translation>Enviar a Fotometría →</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="91"/>
+        <location filename="../../ui/area_menus.py" line="94"/>
         <source>&amp;Masters</source>
         <translation>&amp;Másteres</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="100"/>
+        <location filename="../../ui/area_menus.py" line="103"/>
         <source>&amp;Process</source>
         <translation>&amp;Procesar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="101"/>
-        <location filename="../../ui/area_menus.py" line="147"/>
+        <location filename="../../ui/area_menus.py" line="104"/>
+        <location filename="../../ui/area_menus.py" line="150"/>
         <source>Se&amp;nd</source>
         <translation>E&amp;nviar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="122"/>
-        <location filename="../../ui/area_menus.py" line="182"/>
+        <location filename="../../ui/area_menus.py" line="125"/>
+        <location filename="../../ui/area_menus.py" line="185"/>
         <source>Load</source>
         <translation>Cargar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="126"/>
+        <location filename="../../ui/area_menus.py" line="129"/>
         <source>Download a light curve (TESS, Kepler, ZTF, AAVSO)</source>
         <translation>Descargar una curva de luz (TESS, Kepler, ZTF, AAVSO)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="127"/>
+        <location filename="../../ui/area_menus.py" line="130"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="129"/>
+        <location filename="../../ui/area_menus.py" line="132"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="130"/>
+        <location filename="../../ui/area_menus.py" line="133"/>
         <source>Period search</source>
         <translation>Búsqueda de períodos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="136"/>
+        <location filename="../../ui/area_menus.py" line="139"/>
         <source>&amp;Data</source>
         <translation>&amp;Datos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="146"/>
+        <location filename="../../ui/area_menus.py" line="149"/>
         <source>Se&amp;arch</source>
         <translation>&amp;Buscar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="152"/>
+        <location filename="../../ui/area_menus.py" line="155"/>
         <source>&amp;Light curve</source>
         <translation>C&amp;urva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="181"/>
+        <location filename="../../ui/area_menus.py" line="184"/>
         <source>Load minimum times…</source>
         <translation>Cargar tiempos de mínimo…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="186"/>
+        <location filename="../../ui/area_menus.py" line="189"/>
         <source>Look up the ephemeris (VSX)</source>
         <translation>Buscar las efemérides (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="187"/>
+        <location filename="../../ui/area_menus.py" line="190"/>
         <source>Look up</source>
         <translation>Buscar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="189"/>
-        <location filename="../../ui/area_menus.py" line="395"/>
+        <location filename="../../ui/area_menus.py" line="192"/>
+        <location filename="../../ui/area_menus.py" line="398"/>
         <source>Fit</source>
         <translation>Ajustar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="198"/>
+        <location filename="../../ui/area_menus.py" line="201"/>
         <source>&amp;Models</source>
         <translation>&amp;Modelos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="217"/>
+        <location filename="../../ui/area_menus.py" line="220"/>
         <source>Add target</source>
         <translation>Añadir objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="220"/>
+        <location filename="../../ui/area_menus.py" line="223"/>
         <source>Add target with ephemeris</source>
         <translation>Añadir objeto con efemérides</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="221"/>
+        <location filename="../../ui/area_menus.py" line="224"/>
         <source>With ephemeris</source>
         <translation>Con efemérides</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="225"/>
+        <location filename="../../ui/area_menus.py" line="228"/>
         <source>Send</source>
         <translation>Enviar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="229"/>
+        <location filename="../../ui/area_menus.py" line="232"/>
         <source>&amp;Targets</source>
         <translation>&amp;Objetos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="230"/>
+        <location filename="../../ui/area_menus.py" line="233"/>
         <source>&amp;Night</source>
         <translation>&amp;Noche</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="259"/>
+        <location filename="../../ui/area_menus.py" line="262"/>
         <source>Cooler off</source>
         <translation>Apagar la refrigeración</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="260"/>
+        <location filename="../../ui/area_menus.py" line="263"/>
         <source>Move the focuser</source>
         <translation>Mover el enfocador</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="261"/>
+        <location filename="../../ui/area_menus.py" line="264"/>
         <source>Change the filter</source>
         <translation>Cambiar el filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="262"/>
+        <location filename="../../ui/area_menus.py" line="265"/>
         <source>Cool the camera</source>
         <translation>Enfriar la cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="268"/>
+        <location filename="../../ui/area_menus.py" line="271"/>
         <source>&amp;Devices</source>
         <translation>&amp;Dispositivos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="270"/>
+        <location filename="../../ui/area_menus.py" line="273"/>
         <source>&amp;Telescope</source>
         <translation>Telesc&amp;opio</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="274"/>
+        <location filename="../../ui/area_menus.py" line="277"/>
         <source>&amp;Camera</source>
         <translation>&amp;Cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="277"/>
+        <location filename="../../ui/area_menus.py" line="280"/>
         <source>F&amp;ocus</source>
         <translation>E&amp;nfoque</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="278"/>
+        <location filename="../../ui/area_menus.py" line="281"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="280"/>
+        <location filename="../../ui/area_menus.py" line="283"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Secuencia</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="323"/>
+        <location filename="../../ui/area_menus.py" line="326"/>
         <source>New automation</source>
         <translation>Nueva automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="324"/>
+        <location filename="../../ui/area_menus.py" line="327"/>
         <source>New</source>
         <translation>Nuevo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="328"/>
+        <location filename="../../ui/area_menus.py" line="331"/>
         <source>Save the automation as…</source>
         <translation>Guardar la automatización como…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="329"/>
+        <location filename="../../ui/area_menus.py" line="332"/>
         <source>Save as</source>
         <translation>Guardar como</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="337"/>
+        <location filename="../../ui/area_menus.py" line="340"/>
         <source>Remove the step</source>
         <translation>Quitar el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="338"/>
+        <location filename="../../ui/area_menus.py" line="341"/>
         <source>Move the step up</source>
         <translation>Subir el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="339"/>
+        <location filename="../../ui/area_menus.py" line="342"/>
         <source>Move the step down</source>
         <translation>Bajar el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="346"/>
+        <location filename="../../ui/area_menus.py" line="349"/>
         <source>Run the automation</source>
         <translation>Ejecutar la automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="347"/>
+        <location filename="../../ui/area_menus.py" line="350"/>
         <source>Run</source>
         <translation>Ejecutar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="350"/>
+        <location filename="../../ui/area_menus.py" line="353"/>
         <source>To Observing</source>
         <translation>A Observación</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="354"/>
+        <location filename="../../ui/area_menus.py" line="357"/>
         <source>&amp;Steps</source>
         <translation>&amp;Pasos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="355"/>
+        <location filename="../../ui/area_menus.py" line="358"/>
         <source>&amp;Run</source>
         <translation>E&amp;jecutar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="367"/>
+        <location filename="../../ui/area_menus.py" line="370"/>
         <source>Compute</source>
         <translation>Calcular</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="368"/>
+        <location filename="../../ui/area_menus.py" line="371"/>
         <source>Compute the band formula</source>
         <translation>Calcular la fórmula de bandas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="369"/>
+        <location filename="../../ui/area_menus.py" line="372"/>
         <source>Classify</source>
         <translation>Clasificar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="370"/>
+        <location filename="../../ui/area_menus.py" line="373"/>
         <source>Components</source>
         <translation>Componentes</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="394"/>
+        <location filename="../../ui/area_menus.py" line="397"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Ajustar el modelo de eclipse o tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="397"/>
+        <location filename="../../ui/area_menus.py" line="400"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="398"/>
+        <location filename="../../ui/area_menus.py" line="401"/>
         <source>Visual orbit</source>
         <translation>Órbita visual</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="403"/>
+        <location filename="../../ui/area_menus.py" line="406"/>
         <source>F&amp;it</source>
         <translation>A&amp;justar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="479"/>
+        <location filename="../../ui/area_menus.py" line="482"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reducir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="482"/>
+        <location filename="../../ui/area_menus.py" line="485"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Extraer el espectro de rendija larga</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="488"/>
+        <location filename="../../ui/area_menus.py" line="491"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Encontrar los órdenes echelle en el flat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="490"/>
+        <location filename="../../ui/area_menus.py" line="493"/>
         <source>Extract the échelle orders</source>
         <translation>Extraer los órdenes echelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="495"/>
+        <location filename="../../ui/area_menus.py" line="498"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Guardar el espectro de la región del cubo…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="500"/>
+        <location filename="../../ui/area_menus.py" line="503"/>
         <source>&amp;Lines</source>
         <translation>&amp;Líneas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="505"/>
+        <location filename="../../ui/area_menus.py" line="508"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Ajustar las longitudes de onda (rendija larga)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="509"/>
+        <location filename="../../ui/area_menus.py" line="512"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Ajustar las longitudes de onda, unir los órdenes (echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="523"/>
+        <location filename="../../ui/area_menus.py" line="526"/>
         <source>S&amp;pectrum</source>
         <translation>Es&amp;pectro</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="537"/>
+        <location filename="../../ui/area_menus.py" line="540"/>
         <source>Telluric correction</source>
         <translation>Corrección telúrica</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="539"/>
+        <location filename="../../ui/area_menus.py" line="542"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Aritmética con el espectro B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="543"/>
+        <location filename="../../ui/area_menus.py" line="546"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="545"/>
+        <location filename="../../ui/area_menus.py" line="548"/>
         <source>Measure a line</source>
         <translation>Medir una línea</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="469"/>
+        <location filename="../../ui/area_menus.py" line="472"/>
         <source>Save the spectrum as…</source>
         <translation>Guardar el espectro como…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="125"/>
+        <location filename="../../ui/area_windows.py" line="179"/>
         <source>&amp;Job</source>
         <translation>Tra&amp;bajo</translation>
     </message>
@@ -5031,17 +5052,17 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar FITS como</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="197"/>
+        <location filename="../../ui/area_menus.py" line="200"/>
         <source>E&amp;phemeris</source>
         <translation>E&amp;femérides</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="406"/>
+        <location filename="../../ui/area_menus.py" line="409"/>
         <source>Visual &amp;orbit</source>
         <translation>Ó&amp;rbita visual</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="554"/>
+        <location filename="../../ui/area_menus.py" line="557"/>
         <source>Velo&amp;city</source>
         <translation>Velocida&amp;d</translation>
     </message>
@@ -9111,1900 +9132,1900 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>PhotometryPage</name>
     <message>
-        <location filename="../../ui/photometry_page.py" line="86"/>
+        <location filename="../../ui/photometry_page.py" line="87"/>
         <source>Photometry</source>
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="91"/>
+        <location filename="../../ui/photometry_page.py" line="92"/>
         <source>Choose images… — the calibrated frames of the night (bias, dark and flat taken off).</source>
         <translation>Elegir imágenes… — las imágenes calibradas de la noche (bias, dark y flat restados).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="94"/>
+        <location filename="../../ui/photometry_page.py" line="95"/>
         <source>Find the bad frames: clouds, focus, trails (optional)</source>
         <translation>Encuentre las imágenes malas: nubes, foco, trazas (opcional)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="95"/>
+        <location filename="../../ui/photometry_page.py" line="96"/>
         <source>Find the bad frames, look at the red ones in the list and leave them out.</source>
         <translation>Pulse Encontrar las imágenes malas, mire las rojas de la lista y pulse Dejar fuera las imágenes malas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="98"/>
+        <location filename="../../ui/photometry_page.py" line="99"/>
         <source>Mark the target, then the comparison stars (IRAF phot coordinates)</source>
         <translation>Marque el objetivo y luego las estrellas de comparación (coordenadas de IRAF phot)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="106"/>
+        <location filename="../../ui/photometry_page.py" line="107"/>
         <source>Choose the aperture and the sky annulus (phot apertures, annulus)</source>
         <translation>Elija la apertura y el anillo de cielo (phot apertures, annulus)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="107"/>
+        <location filename="../../ui/photometry_page.py" line="108"/>
         <source>Press Choose the radii from the star profiles, or type the radii yourself.</source>
         <translation>Pulse Elegir los radios a partir de los perfiles estelares, o escriba usted los radios.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="110"/>
+        <location filename="../../ui/photometry_page.py" line="111"/>
         <source>Measure the light curve (phot, differential photometry)</source>
         <translation>Mida la curva de luz (phot, fotometría diferencial)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="111"/>
+        <location filename="../../ui/photometry_page.py" line="112"/>
         <source>Press Measure light curve.</source>
         <translation>Pulse Medir curva de luz.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="114"/>
+        <location filename="../../ui/photometry_page.py" line="115"/>
         <source>Check the curve, then time of minimum, export or AAVSO report</source>
         <translation>Revise la curva, luego tiempo de mínimo, exportar o informe AAVSO</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="116"/>
+        <location filename="../../ui/photometry_page.py" line="117"/>
         <source>Click points that are clearly bad (clouds, a cosmic ray) to delete them, detrend against airmass if needed; then Time of minimum, Export CSV or the AAVSO report; Period search and O−C → or Fit an eclipse or transit model → for the next page.</source>
         <translation>Pulse los puntos claramente malos (nubes, un rayo cósmico) para borrarlos, Eliminar tendencia con la masa de aire si hace falta; luego Instante del mínimo, Exportar CSV… o Exportar informe AAVSO…; Búsqueda de períodos y O−C → o Ajustar un modelo de eclipse o de tránsito → para la página siguiente.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="130"/>
+        <location filename="../../ui/photometry_page.py" line="131"/>
         <source>Choose images…</source>
         <translation>Elegir imágenes…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="134"/>
+        <location filename="../../ui/photometry_page.py" line="135"/>
         <source>The calibrated frames of one field (FITS, also TESS / Kepler target pixel files); they are sorted by time</source>
         <translation>Los fotogramas calibrados de un campo (FITS, también archivos de píxeles objetivo de TESS / Kepler); se ordenan por tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="139"/>
+        <location filename="../../ui/photometry_page.py" line="140"/>
         <source>No images</source>
         <translation>Sin imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="147"/>
+        <location filename="../../ui/photometry_page.py" line="148"/>
         <source>The first frame is solved against the Gaia catalogue (no plate solver to install; it needs the pointing and the pixel scale in the header and an internet connection), and the known variable stars in it are named (AAVSO VSX)</source>
         <translation>La primera imagen se resuelve contra el catálogo Gaia (sin instalar un resolvedor; necesita el apuntado y la escala de píxel en la cabecera y conexión a internet), y se nombran las estrellas variables conocidas en ella (AAVSO VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="162"/>
+        <location filename="../../ui/photometry_page.py" line="163"/>
         <source>Make it the target</source>
         <translation>Hacerla el objetivo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="165"/>
+        <location filename="../../ui/photometry_page.py" line="166"/>
         <source>Marks this star as the target T1 on the first frame and takes its catalogue position for the barycentric times (BJD)</source>
         <translation>Marca esta estrella como objetivo T1 en la primera imagen y toma su posición de catálogo para los tiempos baricéntricos (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="180"/>
+        <location filename="../../ui/photometry_page.py" line="181"/>
         <source>Previous frame (in time)</source>
         <translation>Imagen anterior (en el tiempo)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="181"/>
+        <location filename="../../ui/photometry_page.py" line="182"/>
         <source>Next frame (in time)</source>
         <translation>Imagen siguiente (en el tiempo)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="183"/>
+        <location filename="../../ui/photometry_page.py" line="184"/>
         <source>Go through the frames of the series</source>
         <translation>Recorrer las imágenes de la serie</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="193"/>
+        <location filename="../../ui/photometry_page.py" line="194"/>
         <source>Use this frame</source>
         <translation>Usar esta imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="195"/>
+        <location filename="../../ui/photometry_page.py" line="196"/>
         <source>Untick to leave this frame out of the light curve (clouds, a satellite trail, a bad focus)</source>
         <translation>Desmarque para dejar esta imagen fuera de la curva de luz (nubes, la traza de un satélite, mal foco)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="201"/>
+        <location filename="../../ui/photometry_page.py" line="202"/>
         <source>Time (UTC)</source>
         <translation>Hora (UTC)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="201"/>
+        <location filename="../../ui/photometry_page.py" line="202"/>
         <source>Sky</source>
         <translation>Cielo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="212"/>
+        <location filename="../../ui/photometry_page.py" line="213"/>
         <source>Every frame of the series: click one to show it, untick it to leave it out. FWHM and sky are filled by “Find the bad frames”; bad frames are red.</source>
         <translation>Todas las imágenes de la serie: pulse una para verla, desmárquela para dejarla fuera. El FWHM y el cielo los rellena «Encontrar las imágenes malas»; las imágenes malas están en rojo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="221"/>
+        <location filename="../../ui/photometry_page.py" line="222"/>
         <source>Blink</source>
         <translation>Parpadeo (blink)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="225"/>
+        <location filename="../../ui/photometry_page.py" line="226"/>
         <source>Shows the frames used one after the other (about 2 a second): a passing cloud, a satellite trail, a jump in the pointing or a missing star catches the eye at once. Click again to stop.</source>
         <translation>Muestra las imágenes en uso una tras otra (unas 2 por segundo): una nube que pasa, la traza de un satélite, un salto en el apuntado o una estrella que falta saltan a la vista. Pulse de nuevo para parar.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="247"/>
+        <location filename="../../ui/photometry_page.py" line="248"/>
         <source>Leave out the bad frames</source>
         <translation>Dejar fuera las imágenes malas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="251"/>
+        <location filename="../../ui/photometry_page.py" line="252"/>
         <source>Takes the frames the quality check marked as bad out of the list; the files stay on disk</source>
         <translation>Quita de la lista los fotogramas que la comprobación de calidad marcó como malos; los archivos quedan en el disco</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="262"/>
+        <location filename="../../ui/photometry_page.py" line="263"/>
         <source>Clicks add:</source>
         <translation>Los clics añaden:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="264"/>
+        <location filename="../../ui/photometry_page.py" line="265"/>
         <source>target, then comparison stars</source>
         <translation>objetivo y luego estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="265"/>
+        <location filename="../../ui/photometry_page.py" line="266"/>
         <source>check stars</source>
         <translation>estrellas de control</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="266"/>
+        <location filename="../../ui/photometry_page.py" line="267"/>
         <source>more targets</source>
         <translation>más objetivos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="269"/>
+        <location filename="../../ui/photometry_page.py" line="270"/>
         <source>Check stars and further targets are measured against the same comparison stars, not used in them</source>
         <translation>Las estrellas de control y los demás objetivos se miden frente a las mismas estrellas de comparación, sin usarse en ellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="273"/>
+        <location filename="../../ui/photometry_page.py" line="274"/>
         <source>Clear stars</source>
         <translation>Borrar estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="274"/>
+        <location filename="../../ui/photometry_page.py" line="275"/>
         <source>clear the stars</source>
         <translation>borrar las estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="275"/>
+        <location filename="../../ui/photometry_page.py" line="276"/>
         <source>Takes off every marked star (Ctrl+Z brings them back)</source>
         <translation>Quita todas las estrellas marcadas (Ctrl+Z las recupera)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="277"/>
+        <location filename="../../ui/photometry_page.py" line="278"/>
         <source>The target follows the field (not centred)</source>
         <translation>El objetivo sigue al campo (sin centrar)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="280"/>
+        <location filename="../../ui/photometry_page.py" line="281"/>
         <source>For a faint target beside a bright star: it is not re-centred on each frame (which could pull it onto the bright star) but moves with the other stars, by their median shift</source>
         <translation>Para un objetivo débil junto a una estrella brillante: no se vuelve a centrar en cada imagen (lo que podría arrastrarlo hacia la estrella brillante), sino que se mueve con las demás estrellas, según su desplazamiento mediano</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="286"/>
+        <location filename="../../ui/photometry_page.py" line="287"/>
         <source>Save the star list…</source>
         <translation>Guardar la lista de estrellas…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="289"/>
+        <location filename="../../ui/photometry_page.py" line="290"/>
         <source>Writes the marked stars and the radii to a file, in RA / Dec when the first frame is plate-solved, to put them back on another night</source>
         <translation>Escribe las estrellas marcadas y los radios en un archivo, en AR / Dec cuando la primera toma tiene reducción astrométrica, para ponerlas de nuevo otra noche</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="294"/>
+        <location filename="../../ui/photometry_page.py" line="295"/>
         <source>Open a star list…</source>
         <translation>Abrir una lista de estrellas…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="297"/>
+        <location filename="../../ui/photometry_page.py" line="298"/>
         <source>Puts a saved star list on these images: through this night&apos;s plate solution, so the pointing and the camera may differ; without a solution at the saved pixels</source>
         <translation>Pone una lista de estrellas guardada en estas imágenes: mediante la reducción astrométrica de esta noche, así que el apuntado y la cámara pueden ser distintos; sin reducción, en los píxeles guardados</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="305"/>
+        <location filename="../../ui/photometry_page.py" line="306"/>
         <source>Suggest comparison stars</source>
         <translation>Sugerir estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="308"/>
+        <location filename="../../ui/photometry_page.py" line="309"/>
         <source>Similar brightness, not saturated, no bright neighbour, inside the frame in every image</source>
         <translation>Brillo parecido, no saturada, sin vecina brillante, dentro del campo en todas las imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="316"/>
+        <location filename="../../ui/photometry_page.py" line="317"/>
         <source>Outer edge of the sky ring; the ring should hold several times as many pixels as the aperture</source>
         <translation>Borde exterior del anillo de cielo; el anillo debe tener varias veces más píxeles que la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="320"/>
+        <location filename="../../ui/photometry_page.py" line="321"/>
         <source>The sky is measured in a ring around the star starting at this radius, where the star&apos;s light has ended (at least 3 FWHM)</source>
         <translation>El cielo se mide en un anillo alrededor de la estrella a partir de este radio, donde ya no llega su luz (al menos 3 FWHM)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="326"/>
+        <location filename="../../ui/photometry_page.py" line="327"/>
         <source>Radius of the circle in which the star&apos;s light is added up; about 1 to 2 times the FWHM gives the best signal-to-noise</source>
         <translation>Radio del círculo en el que se suma la luz de la estrella; de 1 a 2 veces la FWHM da la mejor relación señal/ruido</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="343"/>
+        <location filename="../../ui/photometry_page.py" line="344"/>
         <source>Choose the radii from the star profiles</source>
         <translation>Elegir los radios a partir de los perfiles estelares</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="346"/>
+        <location filename="../../ui/photometry_page.py" line="347"/>
         <source>Measures the stars&apos; FWHM; aperture = best signal-to-noise (1–3 FWHM), sky from where the star&apos;s light has ended (at least 3 FWHM) with four times as many pixels as the aperture</source>
         <translation>Mide la FWHM de las estrellas; apertura = mejor señal-ruido (1–3 FWHM), cielo desde donde termina la luz de la estrella (al menos 3 FWHM) con cuatro veces más píxeles que la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="353"/>
+        <location filename="../../ui/photometry_page.py" line="354"/>
         <source>best signal-to-noise, steadiest light curve</source>
         <translation>mejor señal-ruido, curva de luz más estable</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="354"/>
+        <location filename="../../ui/photometry_page.py" line="355"/>
         <source>as AstroImageJ: to 1 % of the peak, sky 2–4 times that</source>
         <translation>como AstroImageJ: hasta el 1 % del pico, cielo de 2 a 4 veces eso</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="357"/>
+        <location filename="../../ui/photometry_page.py" line="358"/>
         <source>How the radii are chosen from the stars. AstroImageJ&apos;s rule gives much larger apertures; use it to measure a night with the same radii as AstroImageJ and compare the two programs</source>
         <translation>Cómo se eligen los radios a partir de las estrellas. La regla de AstroImageJ da aperturas mucho mayores; úsela para medir una noche con los mismos radios que AstroImageJ y comparar ambos programas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="362"/>
+        <location filename="../../ui/photometry_page.py" line="363"/>
         <source>Rule:</source>
         <translation>Regla:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="367"/>
+        <location filename="../../ui/photometry_page.py" line="368"/>
         <source>Radii follow the seeing (scaled by each frame&apos;s FWHM)</source>
         <translation>Los radios siguen al seeing (escalados con la FWHM de cada toma)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="375"/>
+        <location filename="../../ui/photometry_page.py" line="376"/>
         <source>More measuring options: seeing, PSF, scintillation</source>
         <translation>Más opciones de medida: seeing, PSF, centelleo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="377"/>
+        <location filename="../../ui/photometry_page.py" line="378"/>
         <source>PSF photometry (crowded fields: blended stars fitted together)</source>
         <translation>Fotometría PSF (campos densos: estrellas mezcladas ajustadas juntas)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="380"/>
+        <location filename="../../ui/photometry_page.py" line="381"/>
         <source>For crowded fields: stars that overlap are fitted together with the image&apos;s star profile instead of being added up in a circle. Slower; for isolated stars the aperture is as good.</source>
         <translation>Para campos poblados: las estrellas que se solapan se ajustan juntas con el perfil estelar de la imagen en lugar de sumarse en un círculo. Más lento; para estrellas aisladas la apertura es igual de buena.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="385"/>
+        <location filename="../../ui/photometry_page.py" line="386"/>
         <source>Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16</source>
         <translation>AR Dec del objeto (para BJD), p. ej. 02:04:10.3 +46:41:16</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="389"/>
+        <location filename="../../ui/photometry_page.py" line="390"/>
         <source>Needed to turn the times into BJD (barycentric). Empty: taken from the header (OBJCTRA / OBJCTDEC or RA / DEC).</source>
         <translation>Necesario para convertir los tiempos a BJD (baricéntrico). Vacío: se toma de la cabecera (OBJCTRA / OBJCTDEC o RA / DEC).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="395"/>
+        <location filename="../../ui/photometry_page.py" line="396"/>
         <source>Telescope aperture (m)</source>
         <translation>Apertura del telescopio (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="400"/>
+        <location filename="../../ui/photometry_page.py" line="401"/>
         <source>from the header</source>
         <translation>de la cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="403"/>
+        <location filename="../../ui/photometry_page.py" line="404"/>
         <source>For the scintillation noise in the error bars (Osborn et al. 2015). 0: APTDIA from the header; without it, scintillation is not included</source>
         <translation>Para el ruido de centelleo en las barras de error (Osborn et al. 2015). 0: APTDIA de la cabecera; sin él no se incluye el centelleo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="410"/>
+        <location filename="../../ui/photometry_page.py" line="411"/>
         <source>Sky noise from the camera (read noise, dark current)</source>
         <translation>Ruido del cielo a partir de la cámara (ruido de lectura, corriente oscura)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="413"/>
+        <location filename="../../ui/photometry_page.py" line="414"/>
         <source>The error of every star from the gain, the read noise, the dark current and the sky level, as AstroImageJ does; off: from the scatter measured in the sky ring (as IRAF and Siril). The values are read from the header (RDNOISE / READNOIS, DARKCUR) when it has them</source>
         <translation>El error de cada estrella a partir de la ganancia, el ruido de lectura, la corriente oscura y el nivel del cielo, como hace AstroImageJ; desactivado: a partir de la dispersión medida en el anillo de cielo (como IRAF y Siril). Los valores se leen de la cabecera (RDNOISE / READNOIS, DARKCUR) cuando los tiene</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="423"/>
+        <location filename="../../ui/photometry_page.py" line="424"/>
         <source>Read noise of the camera in electrons (header RDNOISE or READNOIS)</source>
         <translation>Ruido de lectura de la cámara en electrones (cabecera RDNOISE o READNOIS)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="429"/>
+        <location filename="../../ui/photometry_page.py" line="430"/>
         <source>Dark current per pixel in electrons per second at the sensor&apos;s temperature (header DARKCUR)</source>
         <translation>Corriente oscura por píxel en electrones por segundo a la temperatura del sensor (cabecera DARKCUR)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="431"/>
+        <location filename="../../ui/photometry_page.py" line="432"/>
         <source>Read noise</source>
         <translation>Ruido de lectura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="433"/>
+        <location filename="../../ui/photometry_page.py" line="434"/>
         <source>Dark</source>
         <translation>Oscuridad</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="439"/>
+        <location filename="../../ui/photometry_page.py" line="440"/>
         <source>Sky from the ring</source>
         <translation>Cielo del anillo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="442"/>
+        <location filename="../../ui/photometry_page.py" line="443"/>
         <source>median (clipped)</source>
         <translation>mediana (recortada)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="443"/>
+        <location filename="../../ui/photometry_page.py" line="444"/>
         <source>mode, 3 median − 2 mean (IRAF)</source>
         <translation>moda, 3 mediana − 2 media (IRAF)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="444"/>
+        <location filename="../../ui/photometry_page.py" line="445"/>
         <source>mean within ±2σ (AstroImageJ)</source>
         <translation>media dentro de ±2σ (AstroImageJ)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="445"/>
+        <location filename="../../ui/photometry_page.py" line="446"/>
         <source>plane fit (a gradient: Moon, twilight)</source>
         <translation>ajuste de un plano (un gradiente: Luna, crepúsculo)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="450"/>
+        <location filename="../../ui/photometry_page.py" line="451"/>
         <source>How the sky ring gives the sky under the star. The median suits most nights; a plane follows a sky that brightens towards one side (the Moon, twilight, light pollution) and leaves out stars in the ring</source>
         <translation>Cómo el anillo de cielo da el cielo bajo la estrella. La mediana sirve para la mayoría de las noches; un plano sigue un cielo que se aclara hacia un lado (la Luna, el crepúsculo, la contaminación lumínica) y deja fuera las estrellas del anillo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="493"/>
+        <location filename="../../ui/photometry_page.py" line="494"/>
         <source>Measure light curve</source>
         <translation>Medir curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="498"/>
+        <location filename="../../ui/photometry_page.py" line="499"/>
         <source>Measures the marked stars in every image and draws the differential light curve (target against the comparison stars)</source>
         <translation>Mide las estrellas marcadas en cada imagen y dibuja la curva de luz diferencial (objetivo frente a las estrellas de comparación)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="504"/>
+        <location filename="../../ui/photometry_page.py" line="505"/>
         <source>Live: follow a folder during the night…</source>
         <translation>En vivo: seguir una carpeta durante la noche…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="508"/>
+        <location filename="../../ui/photometry_page.py" line="509"/>
         <source>Each new frame in the folder is calibrated (optional masters) and measured as it arrives; the light curve grows on its own.</source>
         <translation>Cada imagen nueva de la carpeta se calibra (maestras opcionales) y se mide al llegar; la curva de luz crece sola.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="514"/>
+        <location filename="../../ui/photometry_page.py" line="515"/>
         <source>Other tools: live light curve, polarimetry</source>
         <translation>Otras herramientas: curva de luz en vivo, polarimetría</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="516"/>
+        <location filename="../../ui/photometry_page.py" line="517"/>
         <source>Polarimetry (dual beam)</source>
         <translation>Polarimetría (doble haz)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="519"/>
+        <location filename="../../ui/photometry_page.py" line="520"/>
         <source>Click the ordinary image of the star as target and its extraordinary image as the first comparison; the half-wave-plate angle is read from the header.</source>
         <translation>Pulse la imagen ordinaria de la estrella como objetivo y la extraordinaria como primera comparación; el ángulo de la lámina de media onda se lee de la cabecera.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="549"/>
+        <location filename="../../ui/photometry_page.py" line="550"/>
         <source>Star</source>
         <translation>Estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="549"/>
+        <location filename="../../ui/photometry_page.py" line="550"/>
         <source>Role</source>
         <translation>Papel</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="549"/>
+        <location filename="../../ui/photometry_page.py" line="550"/>
         <source>Known magnitude</source>
         <translation>Magnitud conocida</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="565"/>
+        <location filename="../../ui/photometry_page.py" line="566"/>
         <source>Weight comparison stars by their scatter</source>
         <translation>Ponderar las estrellas de comparación según su dispersión</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="567"/>
+        <location filename="../../ui/photometry_page.py" line="568"/>
         <source>Each comparison star is measured against the others; noisy or variable ones count less</source>
         <translation>Cada estrella de comparación se mide frente a las demás; las ruidosas o variables cuentan menos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="592"/>
+        <location filename="../../ui/photometry_page.py" line="593"/>
         <source>Measure a light curve to choose what to plot</source>
         <translation>Mida una curva de luz para elegir qué dibujar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="597"/>
+        <location filename="../../ui/photometry_page.py" line="598"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
         <translation>Qué curva dibujar: el objetivo frente a las estrellas de comparación, las de control, las de comparación entre sí, cielo, FWHM, masa de aire…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="617"/>
+        <location filename="../../ui/photometry_page.py" line="618"/>
         <source>Click a point to delete it</source>
         <translation>Pulse un punto para borrarlo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="619"/>
+        <location filename="../../ui/photometry_page.py" line="620"/>
         <source>For a bad frame (cloud, satellite, wrong star): it is left out of every result, export included</source>
         <translation>Para una toma mala (nube, satélite, estrella equivocada): queda fuera de todo resultado, exportación incluida</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="622"/>
+        <location filename="../../ui/photometry_page.py" line="623"/>
         <source>Restore deleted points</source>
         <translation>Recuperar los puntos borrados</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="624"/>
+        <location filename="../../ui/photometry_page.py" line="625"/>
         <source>Brings back every point deleted by clicking</source>
         <translation>Recupera todos los puntos borrados con un clic</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="628"/>
+        <location filename="../../ui/photometry_page.py" line="629"/>
         <source>Linearity limit (ADU)</source>
         <translation>Límite de linealidad (ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="632"/>
-        <location filename="../../ui/photometry_page.py" line="1558"/>
-        <location filename="../../ui/photometry_page.py" line="2911"/>
+        <location filename="../../ui/photometry_page.py" line="633"/>
+        <location filename="../../ui/photometry_page.py" line="1559"/>
+        <location filename="../../ui/photometry_page.py" line="2910"/>
         <source>none</source>
         <translation>ninguno</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="635"/>
+        <location filename="../../ui/photometry_page.py" line="636"/>
         <source>Above this peak the camera no longer counts in proportion to the light: such points are marked orange (saturated ones red). From the header (LINLIMIT, MAXLIN) when it has one</source>
         <translation>Por encima de este pico la cámara ya no cuenta en proporción a la luz: esos puntos se marcan en naranja (los saturados en rojo). De la cabecera (LINLIMIT, MAXLIN) cuando la tiene</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="641"/>
+        <location filename="../../ui/photometry_page.py" line="642"/>
         <source>Leave out saturated and non-linear points</source>
         <translation>Dejar fuera los puntos saturados y no lineales</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="643"/>
+        <location filename="../../ui/photometry_page.py" line="644"/>
         <source>The frames where the target or a comparison star passes either level; Ctrl+Z brings them back</source>
         <translation>Las tomas en las que el objetivo o una estrella de comparación supera alguno de los dos niveles; Ctrl+Z las recupera</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="649"/>
+        <location filename="../../ui/photometry_page.py" line="650"/>
         <source>Spacing between curves</source>
         <translation>Separación entre curvas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="655"/>
+        <location filename="../../ui/photometry_page.py" line="656"/>
         <source>For the views with several curves; 0 puts them on top of each other</source>
         <translation>Para las vistas con varias curvas; 0 las superpone</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="711"/>
+        <location filename="../../ui/photometry_page.py" line="712"/>
         <source>Detrend against:</source>
         <translation>Eliminar tendencias frente a:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="715"/>
+        <location filename="../../ui/photometry_page.py" line="716"/>
         <source>airmass</source>
         <translation>masa de aire</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="716"/>
+        <location filename="../../ui/photometry_page.py" line="717"/>
         <source>FWHM</source>
         <translation>FWHM</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="717"/>
+        <location filename="../../ui/photometry_page.py" line="718"/>
         <source>sky</source>
         <translation>cielo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="687"/>
-        <location filename="../../ui/photometry_page.py" line="720"/>
-        <location filename="../../ui/photometry_page.py" line="750"/>
-        <location filename="../../ui/photometry_page.py" line="764"/>
+        <location filename="../../ui/photometry_page.py" line="688"/>
+        <location filename="../../ui/photometry_page.py" line="721"/>
+        <location filename="../../ui/photometry_page.py" line="751"/>
+        <location filename="../../ui/photometry_page.py" line="765"/>
         <source>time</source>
         <translation>tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="340"/>
+        <location filename="../../ui/photometry_page.py" line="341"/>
         <source>Radii in pixels; ring 1 the star, 2–3 the sky. Shift + wheel on the image resizes them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="456"/>
+        <location filename="../../ui/photometry_page.py" line="457"/>
         <source>Also measure other radii, to choose one later</source>
         <translation>Medir también otros radios, para elegir uno después</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="459"/>
+        <location filename="../../ui/photometry_page.py" line="460"/>
         <source>0.6 to 2 times the aperture, with the same centres and sky: after the measurement another radius is chosen in the Plot tab without measuring again, and the aperture correction is given</source>
         <translation>De 0,6 a 2 veces la apertura, con los mismos centros y cielo: tras la medida se elige otro radio en la pestaña Gráfico sin volver a medir, y se da la corrección de apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="465"/>
+        <location filename="../../ui/photometry_page.py" line="466"/>
         <source>The header&apos;s time marks</source>
         <translation>La hora de la cabecera marca</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="468"/>
+        <location filename="../../ui/photometry_page.py" line="469"/>
         <source>the start (or what its comment says)</source>
         <translation>el inicio (o lo que diga su comentario)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="469"/>
+        <location filename="../../ui/photometry_page.py" line="470"/>
         <source>the start</source>
         <translation>el inicio</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="470"/>
+        <location filename="../../ui/photometry_page.py" line="471"/>
         <source>the middle</source>
         <translation>la mitad</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="471"/>
+        <location filename="../../ui/photometry_page.py" line="472"/>
         <source>the end</source>
         <translation>el final</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="476"/>
+        <location filename="../../ui/photometry_page.py" line="477"/>
         <source>Some camera programs write the middle or the end of the exposure in DATE-OBS; times use the middle</source>
         <translation>Algunos programas de cámara escriben la mitad o el final de la exposición en DATE-OBS; los tiempos usan la mitad</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="480"/>
+        <location filename="../../ui/photometry_page.py" line="481"/>
         <source>Shutter delay</source>
         <translation>Retardo del obturador</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="486"/>
+        <location filename="../../ui/photometry_page.py" line="487"/>
         <source>Seconds the shutter opens after the time stamp (from the camera&apos;s manual)</source>
         <translation>Segundos que el obturador tarda en abrirse tras la marca de tiempo (del manual de la cámara)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="572"/>
+        <location filename="../../ui/photometry_page.py" line="573"/>
         <source>Find the best comparison set</source>
         <translation>Encontrar el mejor conjunto de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="575"/>
+        <location filename="../../ui/photometry_page.py" line="576"/>
         <source>Tries the sets of comparison stars and uses the one whose stars agree best with one another and with the check star; the target is not used, so no set can hide its variation. Ctrl+Z goes back</source>
         <translation>Prueba los conjuntos de estrellas de comparación y usa aquel cuyas estrellas concuerdan mejor entre sí y con la estrella de control; el objetivo no se usa, así que ningún conjunto puede ocultar su variación. Ctrl+Z vuelve atrás</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="582"/>
+        <location filename="../../ui/photometry_page.py" line="583"/>
         <source>The best sets with the median scatter of their stars; choose one to use it</source>
         <translation>Los mejores conjuntos con la dispersión mediana de sus estrellas; elija uno para usarlo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="603"/>
+        <location filename="../../ui/photometry_page.py" line="604"/>
         <source>Aperture radius</source>
         <translation>Radio de apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="606"/>
+        <location filename="../../ui/photometry_page.py" line="607"/>
         <source>The radii measured at once: another one is used without measuring again (Ctrl+Z goes back)</source>
         <translation>Los radios medidos a la vez: se usa otro sin volver a medir (Ctrl+Z vuelve atrás)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="609"/>
+        <location filename="../../ui/photometry_page.py" line="610"/>
         <source>choose the aperture</source>
         <translation>elegir la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="665"/>
+        <location filename="../../ui/photometry_page.py" line="666"/>
         <source>Tick the series to draw, one below the other; double-click one to choose its colour</source>
         <translation>Marque las series que dibujar, una bajo otra; doble clic en una para elegir su color</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="670"/>
+        <location filename="../../ui/photometry_page.py" line="671"/>
         <source>Bin</source>
         <translation>Agrupar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="673"/>
+        <location filename="../../ui/photometry_page.py" line="674"/>
         <source>no</source>
         <translation>no</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="674"/>
+        <location filename="../../ui/photometry_page.py" line="675"/>
         <source> points</source>
         <translation> puntos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="677"/>
+        <location filename="../../ui/photometry_page.py" line="678"/>
         <source>or by minutes</source>
         <translation>o por minutos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="678"/>
+        <location filename="../../ui/photometry_page.py" line="679"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="680"/>
+        <location filename="../../ui/photometry_page.py" line="681"/>
         <source>Mean of every N points, or of every few minutes, with its error</source>
         <translation>Media de cada N puntos, o de cada pocos minutos, con su error</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="684"/>
+        <location filename="../../ui/photometry_page.py" line="685"/>
         <source>Normalise over</source>
         <translation>Normalizar sobre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="689"/>
+        <location filename="../../ui/photometry_page.py" line="690"/>
         <source>Each flux is divided by its median in this time range (out of eclipse); empty: the night</source>
         <translation>Cada flujo se divide por su mediana en este intervalo de tiempo (fuera del eclipse); vacío: toda la noche</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="694"/>
+        <location filename="../../ui/photometry_page.py" line="695"/>
         <source>Leave each comparison star out</source>
         <translation>Dejar fuera cada estrella de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="697"/>
+        <location filename="../../ui/photometry_page.py" line="698"/>
         <source>The target&apos;s scatter with every comparison set less one star: a star whose removal helps is suspect</source>
         <translation>La dispersión del objetivo con cada conjunto de comparación menos una estrella: una estrella cuya eliminación ayuda es sospechosa</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="702"/>
+        <location filename="../../ui/photometry_page.py" line="703"/>
         <source>Save the plot set-up…</source>
         <translation>Guardar la configuración del gráfico…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="703"/>
+        <location filename="../../ui/photometry_page.py" line="704"/>
         <source>The series, colours, binning and normalisation, to open on another night</source>
         <translation>Las series, colores, agrupación y normalización, para abrir en otra noche</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="706"/>
+        <location filename="../../ui/photometry_page.py" line="707"/>
         <source>Open a plot set-up…</source>
         <translation>Abrir una configuración de gráfico…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="723"/>
+        <location filename="../../ui/photometry_page.py" line="724"/>
         <source>Extinction: the stars change with their height above the horizon</source>
         <translation>Extinción: las estrellas cambian con su altura sobre el horizonte</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="724"/>
+        <location filename="../../ui/photometry_page.py" line="725"/>
         <source>Seeing: larger star images lose more light outside the aperture</source>
         <translation>Seeing: las imágenes estelares más grandes pierden más luz fuera de la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="725"/>
+        <location filename="../../ui/photometry_page.py" line="726"/>
         <source>Sky brightness: twilight, moonlight, thin cloud</source>
         <translation>Brillo del cielo: crepúsculo, luz de la Luna, nubes finas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="726"/>
         <location filename="../../ui/photometry_page.py" line="727"/>
+        <location filename="../../ui/photometry_page.py" line="728"/>
         <source>Position on the chip: the stars drift over pixels of different sensitivity</source>
         <translation>Posición en el chip: las estrellas se desplazan sobre píxeles de distinta sensibilidad</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="728"/>
+        <location filename="../../ui/photometry_page.py" line="729"/>
         <source>A slow change with time</source>
         <translation>Un cambio lento con el tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="740"/>
+        <location filename="../../ui/photometry_page.py" line="741"/>
         <source>1: linear; 2 or 3: curved trends (a polynomial in each quantity)</source>
         <translation>1: lineal; 2 o 3: tendencias curvas (un polinomio en cada magnitud)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="741"/>
+        <location filename="../../ui/photometry_page.py" line="742"/>
         <source>Trend degree</source>
         <translation>Grado de la tendencia</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="746"/>
+        <location filename="../../ui/photometry_page.py" line="747"/>
         <source>Leave out from</source>
         <translation>Dejar fuera desde</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="753"/>
+        <location filename="../../ui/photometry_page.py" line="754"/>
         <source>Points in this time range (the eclipse or transit itself) are left out of the trend fit, then corrected with it</source>
         <translation>Los puntos de este intervalo (el propio eclipse o tránsito) se excluyen del ajuste de la tendencia y luego se corrigen con él</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="758"/>
+        <location filename="../../ui/photometry_page.py" line="759"/>
         <source>to</source>
         <translation>hasta</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="762"/>
+        <location filename="../../ui/photometry_page.py" line="763"/>
         <source>Meridian flip at</source>
         <translation>Volteo de meridiano a las</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="767"/>
+        <location filename="../../ui/photometry_page.py" line="768"/>
         <source>After the flip the stars fall on other pixels: a step in the flux from this time on is fitted with the trend. Found from PIERSIDE in the headers when they have it</source>
         <translation>Tras el volteo las estrellas caen en otros píxeles: un escalón en el flujo desde ese momento se ajusta con la tendencia. Se toma de PIERSIDE en las cabeceras si lo tienen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="772"/>
+        <location filename="../../ui/photometry_page.py" line="773"/>
         <source>Smooth trend (spline)</source>
         <translation>Tendencia suave (spline)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="775"/>
+        <location filename="../../ui/photometry_page.py" line="776"/>
         <source>A slow change of any shape divided out by a spline in time, its knot spacing chosen by the BIC; the left-out range is bridged</source>
         <translation>Un cambio lento de cualquier forma se divide con un spline en el tiempo, con la separación de nodos elegida por el BIC; el intervalo dejado fuera se salva</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="782"/>
+        <location filename="../../ui/photometry_page.py" line="783"/>
         <source>Detrend</source>
         <translation>Eliminar tendencia</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="784"/>
+        <location filename="../../ui/photometry_page.py" line="785"/>
         <source>Fits ln(flux) linearly in the ticked quantities on the points outside the left-out range</source>
         <translation>Ajusta ln(flujo) linealmente en las magnitudes marcadas con los puntos fuera del intervalo excluido</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="787"/>
+        <location filename="../../ui/photometry_page.py" line="788"/>
         <source>Undo detrending</source>
         <translation>Deshacer la eliminación de tendencias</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="789"/>
+        <location filename="../../ui/photometry_page.py" line="790"/>
         <source>Back to the light curve before detrending</source>
         <translation>Vuelve a la curva de luz anterior a la corrección de tendencias</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="794"/>
+        <location filename="../../ui/photometry_page.py" line="795"/>
         <source>Choose the detrending (BIC)</source>
         <translation>Elegir la corrección de tendencia (BIC)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="797"/>
+        <location filename="../../ui/photometry_page.py" line="798"/>
         <source>Every set of the quantities (and the flip) is fitted outside the left-out range; the set with the fewest terms within 2 of the lowest BIC is ticked and applied, as in AstroImageJ</source>
         <translation>Cada conjunto de las magnitudes (y el volteo) se ajusta fuera del intervalo dejado fuera; el conjunto con menos términos a menos de 2 del BIC más bajo se marca y se aplica, como en AstroImageJ</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="803"/>
+        <location filename="../../ui/photometry_page.py" line="804"/>
         <source>Leave out outliers</source>
         <translation>Dejar fuera los valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="805"/>
+        <location filename="../../ui/photometry_page.py" line="806"/>
         <source>Points more than 4 sigma from the median of their neighbours in time; Ctrl+Z brings them back</source>
         <translation>Puntos a más de 4 sigma de la mediana de sus vecinos en el tiempo; Ctrl+Z los recupera</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="811"/>
+        <location filename="../../ui/photometry_page.py" line="812"/>
         <source>Plot</source>
         <translation>Gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="817"/>
-        <location filename="../../ui/photometry_page.py" line="819"/>
+        <location filename="../../ui/photometry_page.py" line="818"/>
+        <location filename="../../ui/photometry_page.py" line="820"/>
         <source>optional</source>
         <translation>opcional</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="820"/>
+        <location filename="../../ui/photometry_page.py" line="821"/>
         <source>Ephemeris T0 (BJD)</source>
         <translation>Efemérides T0 (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="822"/>
+        <location filename="../../ui/photometry_page.py" line="823"/>
         <source>Period (d)</source>
         <translation>Período (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="825"/>
         <location filename="../../ui/photometry_page.py" line="826"/>
+        <location filename="../../ui/photometry_page.py" line="827"/>
         <source>Optional: with T0 and the period the minimum gets its cycle number and O−C</source>
         <translation>Opcional: con T0 y el período el mínimo recibe su número de ciclo y su O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="851"/>
+        <location filename="../../ui/photometry_page.py" line="852"/>
         <source>A V-shaped or rounded minimum: a binary star; a flat-bottomed dip: a planet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="854"/>
+        <location filename="../../ui/photometry_page.py" line="855"/>
         <source>Fit the ticked detrending quantities together with the transit</source>
         <translation>Ajustar las magnitudes de tendencia marcadas junto con el tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="857"/>
+        <location filename="../../ui/photometry_page.py" line="858"/>
         <source>The trapezoid and the trend in airmass, FWHM, sky, x, y (ticked in the Plot tab) in one fit, on the curve before detrending, as AstroImageJ: the trend cannot pull the depth or the mid-time</source>
         <translation>El trapecio y la tendencia en masa de aire, FWHM, cielo, x, y (marcadas en la pestaña Gráfico) en un solo ajuste, sobre la curva antes de corregir la tendencia, como AstroImageJ: la tendencia no puede desplazar la profundidad ni el instante central</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="865"/>
+        <location filename="../../ui/photometry_page.py" line="866"/>
         <source>Time of minimum</source>
         <translation>Instante del mínimo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="870"/>
+        <location filename="../../ui/photometry_page.py" line="871"/>
         <source>Time of minimum of the curve shown, with its error (every minimum if the night holds more than one)</source>
         <translation>Instante del mínimo de la curva mostrada, con su error (cada mínimo si la noche tiene varios)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="875"/>
+        <location filename="../../ui/photometry_page.py" line="876"/>
         <source>Minimum</source>
         <translation>Mínimo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="879"/>
+        <location filename="../../ui/photometry_page.py" line="880"/>
         <source>Export CSV…</source>
         <translation>Exportar CSV…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="883"/>
+        <location filename="../../ui/photometry_page.py" line="884"/>
         <source>Time, flux, magnitude and error of every star as a table for a spreadsheet or another program</source>
         <translation>Tiempo, flujo, magnitud y error de cada estrella como tabla para una hoja de cálculo u otro programa</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="889"/>
+        <location filename="../../ui/photometry_page.py" line="890"/>
         <source>Filter of the images (CV: unfiltered, reduced to V)</source>
         <translation>Filtro de las imágenes (CV: sin filtro, reducido a V)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="890"/>
+        <location filename="../../ui/photometry_page.py" line="891"/>
         <source>Standard magnitudes (APASS / Gaia)</source>
         <translation>Magnitudes estándar (APASS / Gaia)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="893"/>
+        <location filename="../../ui/photometry_page.py" line="894"/>
         <source>Looks up the comparison stars in APASS and Gaia (needs the internet and a plate-solved first image) and turns the light curve into magnitudes in the standard system</source>
         <translation>Busca las estrellas de comparación en APASS y Gaia (requiere internet y una primera imagen con reducción astrométrica) y convierte la curva de luz en magnitudes del sistema estándar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="903"/>
+        <location filename="../../ui/photometry_page.py" line="904"/>
         <source>Export AAVSO report…</source>
         <translation>Exportar informe AAVSO…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="908"/>
+        <location filename="../../ui/photometry_page.py" line="909"/>
         <source>A report in AAVSO&apos;s Extended File Format to submit through WebObs; the comparison stars&apos; magnitudes are asked for</source>
         <translation>Un informe en el formato Extended File Format de la AAVSO para enviar por WebObs; se piden las magnitudes de las estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="913"/>
+        <location filename="../../ui/photometry_page.py" line="914"/>
         <source>Export for ETD / VarAstro (text)…</source>
         <translation>Exportar para ETD / VarAstro (texto)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="917"/>
+        <location filename="../../ui/photometry_page.py" line="918"/>
         <source>Julian date, magnitude (or Δm) and error, as the Exoplanet Transit Database upload reads them; the time standard and the unit to choose in its form are said after saving</source>
         <translation>Fecha juliana, magnitud (o Δm) y error, como los lee la carga de la Exoplanet Transit Database; el estándar de tiempo y la unidad que elegir en su formulario se indican tras guardar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="923"/>
+        <location filename="../../ui/photometry_page.py" line="924"/>
         <source>Add other nights (exported CSV)…</source>
         <translation>Añadir otras noches (CSV exportado)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="927"/>
+        <location filename="../../ui/photometry_page.py" line="928"/>
         <source>Light curves of the same star list exported on other nights join this one on the same zero point; with T0 and the period, the minimum timing then times the eclipse of every night</source>
         <translation>Las curvas de luz de la misma lista de estrellas exportadas en otras noches se unen a esta en el mismo punto cero; con T0 y el período, el cálculo del mínimo fecha el eclipse de cada noche</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="934"/>
+        <location filename="../../ui/photometry_page.py" line="935"/>
         <source>Measurements</source>
         <translation>Medidas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="935"/>
+        <location filename="../../ui/photometry_page.py" line="936"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="961"/>
+        <location filename="../../ui/photometry_page.py" line="962"/>
         <source>Fit an eclipse or transit model →</source>
         <translation>Ajustar un modelo de eclipse o de tránsito →</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1001"/>
+        <location filename="../../ui/photometry_page.py" line="1002"/>
         <source>Click the ordinary and the extraordinary image of the star first.</source>
         <translation>Pulse primero la imagen ordinaria y la extraordinaria de la estrella.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1010"/>
+        <location filename="../../ui/photometry_page.py" line="1011"/>
         <source>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (debiased {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} frames, angles: {src}</source>
         <translation>q = {q:.5f} ± {qe:.5f}, u = {u:.5f} ± {ue:.5f}, P = {p:.3f} ± {pe:.3f} % (sin sesgo {p0:.3f} %), θ = {t:.1f} ± {te:.1f}°; {n} imágenes, ángulos: {src}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1032"/>
+        <location filename="../../ui/photometry_page.py" line="1033"/>
         <source>Folder the camera writes to</source>
         <translation>Carpeta donde escribe la cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1037"/>
+        <location filename="../../ui/photometry_page.py" line="1038"/>
         <source>Master bias / dark / flat (optional; Cancel for none)</source>
         <translation>Bias / dark / flat maestros (opcional; Cancelar para ninguno)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1049"/>
+        <location filename="../../ui/photometry_page.py" line="1050"/>
         <source>Click the target and comparison stars on the first frame, then start Live.</source>
         <translation>Pulse las estrellas objetivo y de comparación en la primera imagen y luego inicie En vivo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1066"/>
+        <location filename="../../ui/photometry_page.py" line="1067"/>
         <source>Live: waiting for frames in {f}</source>
         <translation>En vivo: esperando imágenes en {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1111"/>
+        <location filename="../../ui/photometry_page.py" line="1112"/>
         <source>{n} frames skipped.</source>
         <translation>{n} imágenes omitidas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1125"/>
+        <location filename="../../ui/photometry_page.py" line="1126"/>
         <source>Choose images</source>
         <translation>Elegir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1186"/>
+        <location filename="../../ui/photometry_page.py" line="1187"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Identificando el campo (Gaia, VSX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1191"/>
+        <location filename="../../ui/photometry_page.py" line="1192"/>
         <source>{n} images, first: {name}</source>
         <translation>{n} imágenes, primera: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1194"/>
+        <location filename="../../ui/photometry_page.py" line="1195"/>
         <source>Target pixel file: {n} cadences left out (no time, or flagged as useless by the mission).</source>
         <translation>Archivo de píxeles: {n} cadencias omitidas (sin tiempo o marcadas como inútiles por la misión).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1237"/>
+        <location filename="../../ui/photometry_page.py" line="1238"/>
         <source>mark or unmark a star</source>
         <translation>marcar o desmarcar una estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1243"/>
+        <location filename="../../ui/photometry_page.py" line="1244"/>
         <source>The stars are marked on frame {k}: go back to it to change them, or Clear stars to mark them on this frame.</source>
         <translation>Las estrellas están marcadas en la imagen {k}: vuelva a ella para cambiarlas, o pulse Borrar estrellas para marcarlas en esta imagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1257"/>
+        <location filename="../../ui/photometry_page.py" line="1258"/>
         <source>The target was removed: click the new target.</source>
         <translation>Se quitó el objetivo: haga clic en el nuevo objetivo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1284"/>
+        <location filename="../../ui/photometry_page.py" line="1285"/>
         <source>Mark the target (and the comparison stars) first, then save the list.</source>
         <translation>Marque primero el objetivo (y las estrellas de comparación) y luego guarde la lista.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1288"/>
+        <location filename="../../ui/photometry_page.py" line="1289"/>
         <source>Save the star list</source>
         <translation>Guardar la lista de estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1288"/>
-        <location filename="../../ui/photometry_page.py" line="1313"/>
+        <location filename="../../ui/photometry_page.py" line="1289"/>
+        <location filename="../../ui/photometry_page.py" line="1314"/>
         <source>Star lists (*.stars.json *.json)</source>
         <translation>Listas de estrellas (*.stars.json *.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1296"/>
+        <location filename="../../ui/photometry_page.py" line="1297"/>
         <source>Star list saved in RA / Dec: {path}</source>
         <translation>Lista de estrellas guardada en AR / Dec: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1298"/>
+        <location filename="../../ui/photometry_page.py" line="1299"/>
         <source>Star list saved (pixels only: the first frame is not plate-solved): {path}</source>
         <translation>Lista de estrellas guardada (solo píxeles: la primera toma no tiene reducción astrométrica): {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1309"/>
+        <location filename="../../ui/photometry_page.py" line="1310"/>
         <source>Choose the images first, then open the star list.</source>
         <translation>Elija primero las imágenes y luego abra la lista de estrellas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1313"/>
+        <location filename="../../ui/photometry_page.py" line="1314"/>
         <source>Open a star list</source>
         <translation>Abrir una lista de estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1325"/>
+        <location filename="../../ui/photometry_page.py" line="1326"/>
         <source>open a star list</source>
         <translation>abrir una lista de estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1326"/>
+        <location filename="../../ui/photometry_page.py" line="1327"/>
         <source>through this night&apos;s plate solution</source>
         <translation>mediante la reducción astrométrica de esta noche</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1327"/>
+        <location filename="../../ui/photometry_page.py" line="1328"/>
         <source>at the saved pixels (no plate solution on both nights)</source>
         <translation>en los píxeles guardados (no hay reducción astrométrica en ambas noches)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1328"/>
+        <location filename="../../ui/photometry_page.py" line="1329"/>
         <source>{n} stars put back {how}.</source>
         <translation>{n} estrellas colocadas de nuevo {how}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1330"/>
+        <location filename="../../ui/photometry_page.py" line="1331"/>
         <source>Outside this frame: {names}.</source>
         <translation>Fuera de esta toma: {names}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1356"/>
+        <location filename="../../ui/photometry_page.py" line="1357"/>
         <source>Frame {k} of {n}: {name}</source>
         <translation>Imagen {k} de {n}: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1361"/>
+        <location filename="../../ui/photometry_page.py" line="1362"/>
         <source>The stars are marked on this frame.</source>
         <translation>Las estrellas están marcadas en esta imagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1363"/>
+        <location filename="../../ui/photometry_page.py" line="1364"/>
         <source>The stars are marked on frame {k}.</source>
         <translation>Las estrellas están marcadas en la imagen {k}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1397"/>
-        <location filename="../../ui/photometry_page.py" line="1453"/>
-        <location filename="../../ui/photometry_page.py" line="1966"/>
+        <location filename="../../ui/photometry_page.py" line="1398"/>
+        <location filename="../../ui/photometry_page.py" line="1454"/>
+        <location filename="../../ui/photometry_page.py" line="1965"/>
         <source>{n} images, {k} of them used</source>
         <translation>{n} imágenes, {k} de ellas en uso</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1487"/>
+        <location filename="../../ui/photometry_page.py" line="1488"/>
         <source>target</source>
         <translation>objetivo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1487"/>
+        <location filename="../../ui/photometry_page.py" line="1488"/>
         <source>comparison</source>
         <translation>comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1487"/>
+        <location filename="../../ui/photometry_page.py" line="1488"/>
         <source>check</source>
         <translation>control</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1526"/>
+        <location filename="../../ui/photometry_page.py" line="1527"/>
         <source>use or leave out a comparison star</source>
         <translation>usar o dejar fuera una estrella de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1536"/>
+        <location filename="../../ui/photometry_page.py" line="1537"/>
         <source>Measure a light curve with at least three comparison stars first.</source>
         <translation>Mida primero una curva de luz con al menos tres estrellas de comparación.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1555"/>
+        <location filename="../../ui/photometry_page.py" line="1556"/>
         <source>Best comparison set: {set} ({mmag:.2f} mmag); left out: {out}.</source>
         <translation>Mejor conjunto de comparación: {set} ({mmag:.2f} mmag); dejadas fuera: {out}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1569"/>
+        <location filename="../../ui/photometry_page.py" line="1570"/>
         <source>use the best comparison set</source>
         <translation>usar el mejor conjunto de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1682"/>
+        <location filename="../../ui/photometry_page.py" line="1683"/>
         <source>1. Images</source>
         <translation>1. Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1682"/>
+        <location filename="../../ui/photometry_page.py" line="1683"/>
         <source>2. Target and comparison stars</source>
         <translation>2. Objetivo y estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1682"/>
+        <location filename="../../ui/photometry_page.py" line="1683"/>
         <source>3. Aperture and sky ring</source>
         <translation>3. Apertura y anillo de cielo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1683"/>
+        <location filename="../../ui/photometry_page.py" line="1684"/>
         <source>4. Measure</source>
         <translation>4. Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1710"/>
+        <location filename="../../ui/photometry_page.py" line="1709"/>
         <source>Field solved against Gaia: {n} stars, {scale:.2f}″ per pixel.</source>
         <translation>Campo resuelto contra Gaia: {n} estrellas, {scale:.2f}″ por píxel.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1718"/>
+        <location filename="../../ui/photometry_page.py" line="1717"/>
         <source>⚠ The files say OBJECT = {name}, but that star is {deg:.1f}° from this field: the name in the files is wrong. Choose the target from the variable stars below, or by its position.</source>
         <translation>⚠ Los archivos dicen OBJECT = {name}, pero esa estrella está a {deg:.1f}° de este campo: el nombre de los archivos es erróneo. Elija el objetivo entre las estrellas variables de abajo, o por su posición.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1724"/>
+        <location filename="../../ui/photometry_page.py" line="1723"/>
         <source>OBJECT {name} is in the field, at x {x:.0f}, y {y:.0f}.</source>
         <translation>OBJECT {name} está en el campo, en x {x:.0f}, y {y:.0f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1734"/>
+        <location filename="../../ui/photometry_page.py" line="1733"/>
         <source>{n} known variable star(s) in the field (marked in cyan on the first frame).</source>
         <translation>{n} estrella(s) variable(s) conocida(s) en el campo (marcadas en cian en la primera imagen).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1738"/>
+        <location filename="../../ui/photometry_page.py" line="1737"/>
         <source>No known variable star (AAVSO VSX) in the field.</source>
         <translation>Ninguna estrella variable conocida (AAVSO VSX) en el campo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1746"/>
+        <location filename="../../ui/photometry_page.py" line="1745"/>
         <source>the target from the files</source>
         <translation>el objetivo de los archivos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1751"/>
+        <location filename="../../ui/photometry_page.py" line="1750"/>
         <source>The field was not identified ({why}): mark the stars by hand.</source>
         <translation>El campo no se identificó ({why}): marque las estrellas a mano.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1767"/>
+        <location filename="../../ui/photometry_page.py" line="1766"/>
         <source>make a variable star the target</source>
         <translation>hacer de una estrella variable el objetivo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1778"/>
+        <location filename="../../ui/photometry_page.py" line="1777"/>
         <source>T1 = {name}; its catalogue position is used for the barycentric times (BJD).</source>
         <translation>T1 = {name}; su posición de catálogo se usa para los tiempos baricéntricos (BJD).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1791"/>
+        <location filename="../../ui/photometry_page.py" line="1790"/>
         <source>Choosing the comparison stars…</source>
         <translation>Eligiendo las estrellas de comparación…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1803"/>
+        <location filename="../../ui/photometry_page.py" line="1802"/>
         <source>suggested comparison stars</source>
         <translation>estrellas de comparación sugeridas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1805"/>
+        <location filename="../../ui/photometry_page.py" line="1804"/>
         <source>{n} comparison stars chosen from Gaia: about as bright as the target, not variable, alone, unsaturated, inside every frame.</source>
         <translation>{n} estrellas de comparación elegidas de Gaia: de brillo parecido al objetivo, no variables, aisladas, no saturadas, dentro de cada imagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1809"/>
+        <location filename="../../ui/photometry_page.py" line="1808"/>
         <source>No star of the target&apos;s colour (BP−RP {c:.2f}) is in the field: with stars of another colour the light curve can drift slowly with airmass; detrend it against airmass.</source>
         <translation>No hay ninguna estrella del color del objetivo (BP−RP {c:.2f}) en el campo: con estrellas de otro color la curva de luz puede derivar lentamente con la masa de aire; corrija la tendencia frente a la masa de aire.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1820"/>
+        <location filename="../../ui/photometry_page.py" line="1819"/>
         <source>No suitable comparison star found; click them by hand.</source>
         <translation>No se encontró una estrella de comparación adecuada; púlselas a mano.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1891"/>
+        <location filename="../../ui/photometry_page.py" line="1890"/>
         <source>AstroImageJ&apos;s rule: the aperture ends where the profile falls to 1 % of its peak.</source>
         <translation>Regla de AstroImageJ: la apertura termina donde el perfil cae al 1 % de su pico.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1908"/>
+        <location filename="../../ui/photometry_page.py" line="1907"/>
         <source>Chosen on {k} frames of the series: the light curve changed least from one frame to the next ({best:.2f} %) with this aperture; {small:.2f} % with {r1:.1f} px, the best for one star&apos;s noise alone, which loses a share of the light that moves with the seeing.</source>
         <translation>Elegida en {k} imágenes de la serie: con esta apertura la curva de luz cambió menos de una imagen a la siguiente ({best:.2f} %); {small:.2f} % con {r1:.1f} px, la mejor solo para el ruido de una estrella, que pierde una parte de la luz que cambia con el seeing.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2036"/>
+        <location filename="../../ui/photometry_page.py" line="2035"/>
         <source>Export for ETD / VarAstro</source>
         <translation>Exportar para ETD / VarAstro</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2042"/>
+        <location filename="../../ui/photometry_page.py" line="2041"/>
         <source>Saved {path}. In the upload form choose the time standard {scale} and the unit {unit}.</source>
         <translation>{path} guardado. En el formulario de carga elija el estándar de tiempo {scale} y la unidad {unit}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2055"/>
+        <location filename="../../ui/photometry_page.py" line="2054"/>
         <source>Add other nights</source>
         <translation>Añadir otras noches</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2067"/>
+        <location filename="../../ui/photometry_page.py" line="2066"/>
         <source>{n} nights joined on one zero point (each night moved by {offsets} mag).</source>
         <translation>{n} noches unidas en un punto cero (cada noche desplazada {offsets} mag).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2101"/>
+        <location filename="../../ui/photometry_page.py" line="2100"/>
         <source>Aperture {r:.2f} px: {p:.1f} % of the light within {big:.2f} px, aperture correction {c:+.3f} mag</source>
         <translation>Apertura {r:.2f} px: {p:.1f} % de la luz dentro de {big:.2f} px, corrección de apertura {c:+.3f} mag</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2121"/>
+        <location filename="../../ui/photometry_page.py" line="2120"/>
         <source>Multi-plot: chosen series, normalised, binned</source>
         <translation>Gráfico múltiple: series elegidas, normalizadas, agrupadas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2124"/>
+        <location filename="../../ui/photometry_page.py" line="2123"/>
         <source>Colour index ({a} − {b}) against time</source>
         <translation>Índice de color ({a} − {b}) frente al tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2246"/>
+        <location filename="../../ui/photometry_page.py" line="2245"/>
         <source>No point has a saturated or non-linear star.</source>
         <translation>Ningún punto tiene una estrella saturada o no lineal.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2249"/>
+        <location filename="../../ui/photometry_page.py" line="2248"/>
         <source>leave out saturated and non-linear points</source>
         <translation>dejar fuera los puntos saturados y no lineales</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2252"/>
+        <location filename="../../ui/photometry_page.py" line="2251"/>
         <source>{stars} not on this frame: measured against the other comparison stars, scaled</source>
         <translation>{stars} no está en esta toma: medida frente a las demás estrellas de comparación, escalada</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2259"/>
+        <location filename="../../ui/photometry_page.py" line="2258"/>
         <source>the target was not found there (clouds, or off the frame?)</source>
         <translation>el objetivo no se encontró allí (¿nubes, o fuera de la imagen?)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2261"/>
+        <location filename="../../ui/photometry_page.py" line="2260"/>
         <source>comparison star C{k} was not found there (clouds, off the frame, or saturated?)</source>
         <translation>la estrella de comparación C{k} no se encontró allí (¿nubes, fuera de la imagen o saturada?)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2264"/>
+        <location filename="../../ui/photometry_page.py" line="2263"/>
         <source>the stars were not found (clouds, a jolt, or another field)</source>
         <translation>las estrellas no se encontraron (nubes, una sacudida u otro campo)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2275"/>
+        <location filename="../../ui/photometry_page.py" line="2274"/>
         <source>filter, e.g. rel_flux_err_T1 &lt; 0.002</source>
         <translation>filtro, p. ej. rel_flux_err_T1 &lt; 0.002</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2278"/>
+        <location filename="../../ui/photometry_page.py" line="2277"/>
         <source>Rows to show: a column, a comparison (&gt; &lt; &gt;= &lt;= == !=) and a number; several joined by &quot;and&quot;, as AstroImageJ&apos;s table filter. Enter applies it, an empty filter shows every frame</source>
         <translation>Filas que mostrar: una columna, una comparación (&gt; &lt; &gt;= &lt;= == !=) y un número; varias unidas con &quot;and&quot;, como el filtro de tablas de AstroImageJ. Intro lo aplica; un filtro vacío muestra todas las tomas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2285"/>
+        <location filename="../../ui/photometry_page.py" line="2284"/>
         <source>Columns</source>
         <translation>Columnas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2286"/>
+        <location filename="../../ui/photometry_page.py" line="2285"/>
         <source>Choose the columns to show; the export writes the columns shown</source>
         <translation>Elija las columnas que mostrar; la exportación escribe las columnas mostradas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2290"/>
+        <location filename="../../ui/photometry_page.py" line="2289"/>
         <source>Export the table (CSV)…</source>
         <translation>Exportar la tabla (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2291"/>
+        <location filename="../../ui/photometry_page.py" line="2290"/>
         <source>The rows and columns shown, with AstroImageJ&apos;s column names</source>
         <translation>Las filas y columnas mostradas, con los nombres de columna de AstroImageJ</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2300"/>
+        <location filename="../../ui/photometry_page.py" line="2299"/>
         <source>Click a row to show that frame; Ctrl+C copies the selected rows</source>
         <translation>Un clic en una fila muestra esa toma; Ctrl+C copia las filas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2360"/>
+        <location filename="../../ui/photometry_page.py" line="2359"/>
         <source>{n} of {total} frames shown, {c} columns.</source>
         <translation>{n} de {total} tomas mostradas, {c} columnas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2382"/>
+        <location filename="../../ui/photometry_page.py" line="2381"/>
         <source>Export the measurements</source>
         <translation>Exportar las medidas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2402"/>
+        <location filename="../../ui/photometry_page.py" line="2401"/>
         <source>The rings do not fit these small frames: aperture {r:.1f} px, sky {a:.1f}–{b:.1f} px, chosen from the stars.</source>
         <translation>Los anillos no caben en estas tomas pequeñas: apertura {r:.1f} px, cielo {a:.1f}–{b:.1f} px, elegidos a partir de las estrellas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2411"/>
+        <location filename="../../ui/photometry_page.py" line="2410"/>
         <source>Comparison stars in use: {used} (left out: {out}).</source>
         <translation>Estrellas de comparación en uso: {used} (fuera: {out}).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2418"/>
+        <location filename="../../ui/photometry_page.py" line="2417"/>
         <source>⚠ {n} frame(s) left out by the measurement (in red in the frame list):</source>
         <translation>⚠ {n} imagen(es) dejadas fuera en la medida (en rojo en la lista de imágenes):</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2427"/>
+        <location filename="../../ui/photometry_page.py" line="2426"/>
         <source>{n} frame(s) without some comparison stars, kept against the others (orange in the frame list).</source>
         <translation>{n} toma(s) sin algunas estrellas de comparación, conservadas frente a las demás (en naranja en la lista de tomas).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2470"/>
+        <location filename="../../ui/photometry_page.py" line="2469"/>
         <source>spline, knots every {h:g} h</source>
         <translation>spline, nodos cada {h:g} h</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2496"/>
+        <location filename="../../ui/photometry_page.py" line="2495"/>
         <source>⚠ {n} frames have a star above the linearity limit (marked orange).</source>
         <translation>⚠ {n} tomas tienen una estrella por encima del límite de linealidad (marcadas en naranja).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2588"/>
+        <location filename="../../ui/photometry_page.py" line="2587"/>
         <source>{n} pairs of {a} and {b} images: Δ({a} − {b}) from {lo:+.3f} to {hi:+.3f} mag</source>
         <translation>{n} pares de imágenes {a} y {b}: Δ({a} − {b}) de {lo:+.3f} a {hi:+.3f} mag</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2601"/>
+        <location filename="../../ui/photometry_page.py" line="2600"/>
         <source>{a} − {b} (standard, mag)</source>
         <translation>{a} − {b} (estándar, mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2602"/>
+        <location filename="../../ui/photometry_page.py" line="2601"/>
         <source>Δ({a} − {b}) (mag)</source>
         <translation>Δ({a} − {b}) (mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2680"/>
+        <location filename="../../ui/photometry_page.py" line="2679"/>
         <source>Normalised flux (offset)</source>
         <translation>Flujo normalizado (desplazado)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2688"/>
+        <location filename="../../ui/photometry_page.py" line="2687"/>
         <source>Measure a light curve with at least two comparison stars first.</source>
         <translation>Mida primero una curva de luz con al menos dos estrellas de comparación.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2695"/>
+        <location filename="../../ui/photometry_page.py" line="2694"/>
         <source>all</source>
         <translation>todas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2695"/>
+        <location filename="../../ui/photometry_page.py" line="2694"/>
         <source>without {star}</source>
         <translation>sin {star}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2698"/>
+        <location filename="../../ui/photometry_page.py" line="2697"/>
         <source>Scatter of T1 (point to point): {list}</source>
         <translation>Dispersión de T1 (punto a punto): {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2700"/>
+        <location filename="../../ui/photometry_page.py" line="2699"/>
         <source>Leaving out {star} helps most: look at it in “Comparison stars against the others”.</source>
         <translation>Dejar fuera {star} es lo que más ayuda: mírela en «Estrellas de comparación frente a las demás».</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2710"/>
+        <location filename="../../ui/photometry_page.py" line="2709"/>
         <source>Save the plot set-up</source>
         <translation>Guardar la configuración del gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2710"/>
-        <location filename="../../ui/photometry_page.py" line="2731"/>
+        <location filename="../../ui/photometry_page.py" line="2709"/>
+        <location filename="../../ui/photometry_page.py" line="2730"/>
         <source>Plot set-ups (*.plot.json *.json)</source>
         <translation>Configuraciones de gráfico (*.plot.json *.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2723"/>
+        <location filename="../../ui/photometry_page.py" line="2722"/>
         <source>Plot set-up saved: {path}</source>
         <translation>Configuración del gráfico guardada: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2731"/>
+        <location filename="../../ui/photometry_page.py" line="2730"/>
         <source>Open a plot set-up</source>
         <translation>Abrir una configuración de gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2760"/>
+        <location filename="../../ui/photometry_page.py" line="2759"/>
         <source>Not in this light curve: {names}</source>
         <translation>No está en esta curva de luz: {names}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2846"/>
-        <location filename="../../ui/photometry_page.py" line="2892"/>
+        <location filename="../../ui/photometry_page.py" line="2845"/>
+        <location filename="../../ui/photometry_page.py" line="2891"/>
         <source>The meridian flip must be a time (a number).</source>
         <translation>El volteo de meridiano debe ser un tiempo (un número).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2885"/>
+        <location filename="../../ui/photometry_page.py" line="2884"/>
         <source>Measure a light curve first.</source>
         <translation>Mida primero una curva de luz.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2909"/>
+        <location filename="../../ui/photometry_page.py" line="2908"/>
         <source>BIC of each detrending (lowest first; ΔBIC &lt; 2 is no real gain):</source>
         <translation>BIC de cada corrección de tendencia (la más baja primero; ΔBIC &lt; 2 no es una ganancia real):</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2912"/>
+        <location filename="../../ui/photometry_page.py" line="2911"/>
         <source>chosen</source>
         <translation>elegida</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2937"/>
+        <location filename="../../ui/photometry_page.py" line="2936"/>
         <source>leave out outliers</source>
         <translation>dejar fuera los valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2938"/>
+        <location filename="../../ui/photometry_page.py" line="2937"/>
         <source>{n} outlier(s) left out (Ctrl+Z brings them back).</source>
         <translation>{n} valor(es) atípico(s) dejado(s) fuera (Ctrl+Z los recupera).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2967"/>
+        <location filename="../../ui/photometry_page.py" line="2966"/>
         <source>Tick the quantities to fit in the Plot tab (airmass, FWHM, sky, x, y).</source>
         <translation>Marque las magnitudes que ajustar en la pestaña Gráfico (masa de aire, FWHM, cielo, x, y).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2994"/>
+        <location filename="../../ui/photometry_page.py" line="2993"/>
         <source>All of them are in the O-C tab.</source>
         <translation>Todos están en la pestaña O-C.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3012"/>
+        <location filename="../../ui/photometry_page.py" line="3011"/>
         <source>Fitted together with the trend: {terms}; BIC {bic:.1f}</source>
         <translation>Ajustado junto con la tendencia: {terms}; BIC {bic:.1f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3063"/>
+        <location filename="../../ui/photometry_page.py" line="3062"/>
         <source>Save the light curve for the model</source>
         <translation>Guardar la curva de luz para el modelo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1004"/>
-        <location filename="../../ui/photometry_page.py" line="1849"/>
+        <location filename="../../ui/photometry_page.py" line="1005"/>
+        <location filename="../../ui/photometry_page.py" line="1848"/>
         <source>Measuring…</source>
         <translation>Midiendo…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="78"/>
+        <location filename="../../ui/photometry_page.py" line="79"/>
         <source>No images yet: press Choose images… in step 1, or drop the frames here</source>
         <translation>Aún no hay imágenes: pulse Elegir imágenes… en el paso 1 o suelte aquí las tomas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="953"/>
+        <location filename="../../ui/photometry_page.py" line="954"/>
         <source>Period search →</source>
         <translation>Búsqueda de períodos →</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="956"/>
+        <location filename="../../ui/photometry_page.py" line="957"/>
         <source>Opens Light curves and period, which already has this light curve; times of minimum timed here go to the O−C window by themselves. Photometry only measures</source>
         <translation>Abre Curvas de luz y período, que ya tiene esta curva de luz; los tiempos de mínimo medidos aquí van solos a la ventana O−C. La fotometría solo mide</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1865"/>
+        <location filename="../../ui/photometry_page.py" line="1864"/>
         <source>aperture</source>
         <translation>apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1866"/>
+        <location filename="../../ui/photometry_page.py" line="1865"/>
         <source>sky annulus</source>
         <translation>anillo de cielo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1867"/>
+        <location filename="../../ui/photometry_page.py" line="1866"/>
         <source>star profile (peak = 1)</source>
         <translation>perfil estelar (pico = 1)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1873"/>
+        <location filename="../../ui/photometry_page.py" line="1872"/>
         <source>Radius (px)</source>
         <translation>Radio (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1874"/>
+        <location filename="../../ui/photometry_page.py" line="1873"/>
         <source>Relative brightness</source>
         <translation>Brillo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1879"/>
+        <location filename="../../ui/photometry_page.py" line="1878"/>
         <source>FWHM {f:.2f} px. Aperture {a:.2f} px ({af:.1f} FWHM; best S/N at {b:.2f} px; holds {ee:.1f} % of the light). Gap {a:.2f}–{i:.2f} px is left out. Sky annulus {i:.2f}–{o:.2f} px.</source>
         <translation>FWHM {f:.2f} px. Apertura {a:.2f} px ({af:.1f} FWHM; mejor S/R en {b:.2f} px; contiene el {ee:.1f} % de la luz). El hueco {a:.2f}–{i:.2f} px queda fuera. Anillo de cielo {i:.2f}–{o:.2f} px.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1937"/>
+        <location filename="../../ui/photometry_page.py" line="1936"/>
         <source>FWHM (px)</source>
         <translation>FWHM (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="587"/>
-        <location filename="../../ui/photometry_page.py" line="1937"/>
+        <location filename="../../ui/photometry_page.py" line="588"/>
+        <location filename="../../ui/photometry_page.py" line="1936"/>
         <source>Stars</source>
         <translation>Estrellas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1937"/>
+        <location filename="../../ui/photometry_page.py" line="1936"/>
         <source>Sky (ADU)</source>
         <translation>Cielo (ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="201"/>
-        <location filename="../../ui/photometry_page.py" line="1944"/>
+        <location filename="../../ui/photometry_page.py" line="202"/>
+        <location filename="../../ui/photometry_page.py" line="1943"/>
         <source>Frame</source>
         <translation>Imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1952"/>
+        <location filename="../../ui/photometry_page.py" line="1951"/>
         <source>{g} of {n} frames are good.</source>
         <translation>{g} de {n} imágenes son buenas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1972"/>
+        <location filename="../../ui/photometry_page.py" line="1971"/>
         <source>Looking up the comparison stars…</source>
         <translation>Buscando las estrellas de comparación…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1980"/>
+        <location filename="../../ui/photometry_page.py" line="1979"/>
         <source>Comparison {i}: {m:.3f} ± {e:.3f} ({src})</source>
         <translation>Comparación {i}: {m:.3f} ± {e:.3f} ({src})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1984"/>
+        <location filename="../../ui/photometry_page.py" line="1983"/>
         <source>Comparison {i}: not in the catalogues</source>
         <translation>Comparación {i}: no está en los catálogos</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2466"/>
+        <location filename="../../ui/photometry_page.py" line="2465"/>
         <source>Detrended ({k}): scatter of the {n} points fitted {a:.2f} % → {b:.2f} %</source>
         <translation>Tendencia corregida ({k}): dispersión de los {n} puntos ajustados {a:.2f} % → {b:.2f} %</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2538"/>
+        <location filename="../../ui/photometry_page.py" line="2537"/>
         <source>Relative flux</source>
         <translation>Flujo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2397"/>
+        <location filename="../../ui/photometry_page.py" line="2396"/>
         <source>{n} points, scatter {rms:.2f} %</source>
         <translation>{n} puntos, dispersión {rms:.2f} %</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="90"/>
+        <location filename="../../ui/photometry_page.py" line="91"/>
         <source>Choose the calibrated images (Calibration window)</source>
         <translation>Elija las imágenes calibradas (ventana Calibración)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="100"/>
+        <location filename="../../ui/photometry_page.py" line="101"/>
         <source>The star the files name is marked as the target when it is in the field (else click it); the comparison stars and the radii then follow on their own. A click on a marked star takes it off, a click elsewhere adds one.</source>
         <translation>La estrella que nombran los archivos se marca como objetivo si está en el campo (si no, haga clic en ella); las estrellas de comparación y los radios se eligen luego solos. Un clic en una estrella marcada la quita, un clic en otro lugar añade una.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="157"/>
+        <location filename="../../ui/photometry_page.py" line="158"/>
         <source>Known variable stars in this field (AAVSO VSX), brightest first. The one chosen here is named on the image; point at any cyan ring for its name</source>
         <translation>Estrellas variables conocidas en este campo (AAVSO VSX), la más brillante primero. La elegida aquí lleva su nombre en la imagen; apunte a cualquier anillo cian para ver su nombre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="236"/>
+        <location filename="../../ui/photometry_page.py" line="237"/>
         <source>Find the bad frames (clouds, focus, trails)</source>
         <translation>Encontrar las imágenes malas (nubes, foco, trazas)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="239"/>
+        <location filename="../../ui/photometry_page.py" line="240"/>
         <source>Optional, before measuring: measures every frame&apos;s star size (FWHM), sky brightness and number of stars, and names the frames far from the night&apos;s usual values (passing clouds, lost focus or tracking, twilight). You then choose to leave them out; nothing is removed by itself.</source>
         <translation>Opcional, antes de medir: mide en cada imagen el tamaño de las estrellas (FWHM), el brillo del cielo y el número de estrellas, y nombra las imágenes muy alejadas de los valores habituales de la noche (nubes de paso, foco o seguimiento perdidos, crepúsculo). Usted decide dejarlas fuera; nada se elimina solo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="256"/>
+        <location filename="../../ui/photometry_page.py" line="257"/>
         <source>Click the target star, then one or more comparison stars. A click on a marked star takes it off.</source>
         <translation>Haga clic en la estrella objetivo y luego en una o más de comparación. Un clic sobre una estrella marcada la quita.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="332"/>
+        <location filename="../../ui/photometry_page.py" line="333"/>
         <source>Ring 1 — the star&apos;s light inside (px)</source>
         <translation>Anillo 1 — dentro, la luz de la estrella (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="333"/>
+        <location filename="../../ui/photometry_page.py" line="334"/>
         <source>Ring 2 — the sky starts (px)</source>
         <translation>Anillo 2 — empieza el cielo (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="334"/>
+        <location filename="../../ui/photometry_page.py" line="335"/>
         <source>Ring 3 — the sky ends (px)</source>
         <translation>Anillo 3 — termina el cielo (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="370"/>
+        <location filename="../../ui/photometry_page.py" line="371"/>
         <source>Each frame&apos;s radii are scaled by its FWHM over the first frame&apos;s, so the aperture holds the same part of the light when the seeing changes during the night. In a crowded field a changing aperture can add trends of its own: measure once with fixed radii too and compare</source>
         <translation>Los radios de cada fotograma se escalan por su FWHM respecto a la del primero, para que la apertura contenga la misma parte de la luz cuando el seeing cambia durante la noche. En un campo poblado una apertura variable puede añadir tendencias propias: mida también una vez con radios fijos y compare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="549"/>
+        <location filename="../../ui/photometry_page.py" line="550"/>
         <source>Scatter (mmag)</source>
         <translation>Dispersión (mmag)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="557"/>
+        <location filename="../../ui/photometry_page.py" line="558"/>
         <source>Untick a comparison star to leave it out of the ensemble: the light curve and the scatters change at once (Ctrl+Z brings it back). Scatter: each comparison star against the others, in mmag; the largest is the one to look at. Type the comparison stars&apos; magnitudes (from a chart or catalogue) to get the target&apos;s magnitude.</source>
         <translation>Desmarque una estrella de comparación para dejarla fuera del conjunto: la curva de luz y las dispersiones cambian al momento (Ctrl+Z la recupera). Dispersión: cada estrella de comparación frente a las demás, en mmag; mire la mayor. Escriba las magnitudes de las estrellas de comparación (de una carta o catálogo) para obtener la magnitud del objetivo.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="829"/>
+        <location filename="../../ui/photometry_page.py" line="830"/>
         <source>What kind of minimum is it?</source>
         <translation>¿Qué tipo de mínimo es?</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="831"/>
+        <location filename="../../ui/photometry_page.py" line="832"/>
         <source>Eclipsing binary: Kwee–van Woerden method</source>
         <translation>Binaria eclipsante: método de Kwee–van Woerden</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="834"/>
+        <location filename="../../ui/photometry_page.py" line="835"/>
         <source>Kwee &amp; van Woerden (1956), the standard method for minima of eclipsing binaries and the times collected in O−C databases: the time about which the descending and ascending branches are most symmetric, with its error</source>
         <translation>Kwee y van Woerden (1956), el método estándar para los mínimos de binarias eclipsantes y los tiempos reunidos en las bases de datos O−C: el instante respecto al cual las ramas descendente y ascendente son más simétricas, con su error</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="839"/>
+        <location filename="../../ui/photometry_page.py" line="840"/>
         <source>Exoplanet transit: trapezoid fit</source>
         <translation>Tránsito de exoplaneta: ajuste de trapecio</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="842"/>
+        <location filename="../../ui/photometry_page.py" line="843"/>
         <source>A trapezoid (ingress, flat bottom, egress) fitted to the dip: mid-transit time with its error, depth and duration, as the ExoClock and ETD projects use</source>
         <translation>Un trapecio (entrada, fondo plano, salida) ajustado a la caída: instante central del tránsito con su error, profundidad y duración, como usan los proyectos ExoClock y ETD</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="964"/>
+        <location filename="../../ui/photometry_page.py" line="965"/>
         <source>Saves the light curve as a CSV file and opens it in the Models window: a physical model of an eclipsing binary or a transit (formulas: Guide, Mathematics of the methods)</source>
         <translation>Guarda la curva de luz como archivo CSV y la abre en la ventana Modelos: un modelo físico de una binaria eclipsante o de un tránsito (fórmulas: Guía, Matemáticas de los métodos)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1198"/>
+        <location filename="../../ui/photometry_page.py" line="1199"/>
         <source>Times: camera clock − {h} h. A camera on local time needs DSLR clock − UTC in the Calibration window.</source>
         <translation>Horas: reloj de la cámara − {h} h. Una cámara en hora local necesita Reloj de la DSLR − UTC en la ventana Calibración.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1824"/>
+        <location filename="../../ui/photometry_page.py" line="1823"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
         <translation>{n} estrellas de comparación sugeridas: brillo similar, cerca del objetivo, sin saturar, sin vecinas en el anillo de cielo, dentro de cada fotograma. Haga clic en una para quitarla o en otras para añadirlas.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="1898"/>
+        <location filename="../../ui/photometry_page.py" line="1897"/>
         <source>The target&apos;s light grows {x:.1f} % more than the comparison stars&apos; between 1 and 1.5 apertures: something faint is next to it. Keep the radii fixed (not following the seeing); its light then only dilutes the depth a little.</source>
         <translation>La luz del objetivo crece un {x:.1f} % más que la de las estrellas de comparación entre 1 y 1,5 aperturas: hay algo débil a su lado. Mantenga los radios fijos (sin seguir el seeing); su luz solo diluye un poco la profundidad.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2003"/>
+        <location filename="../../ui/photometry_page.py" line="2002"/>
         <source>Target {band}: {lo:.3f} – {hi:.3f} mag</source>
         <translation>Objetivo {band}: {lo:.3f} – {hi:.3f} mag</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2112"/>
+        <location filename="../../ui/photometry_page.py" line="2111"/>
         <source>Differential: target − comparison, the check star above it</source>
         <translation>Diferencial: objetivo − comparación, encima la estrella de control</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2113"/>
+        <location filename="../../ui/photometry_page.py" line="2112"/>
         <source>T1: relative flux</source>
         <translation>T1: flujo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2114"/>
+        <location filename="../../ui/photometry_page.py" line="2113"/>
         <source>T1: differential magnitude (Δm)</source>
         <translation>T1: magnitud diferencial (Δm)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2115"/>
+        <location filename="../../ui/photometry_page.py" line="2114"/>
         <source>T1: magnitude (needs known magnitudes)</source>
         <translation>T1: magnitud (necesita magnitudes conocidas)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2117"/>
+        <location filename="../../ui/photometry_page.py" line="2116"/>
         <source>{name}: relative flux</source>
         <translation>{name}: flujo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2118"/>
+        <location filename="../../ui/photometry_page.py" line="2117"/>
         <source>Comparison stars against the others</source>
         <translation>Estrellas de comparación frente a las demás</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2119"/>
+        <location filename="../../ui/photometry_page.py" line="2118"/>
         <source>All stars, normalised and offset</source>
         <translation>Todas las estrellas, normalizadas y desplazadas</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2120"/>
+        <location filename="../../ui/photometry_page.py" line="2119"/>
         <source>Airmass, sky, FWHM and position</source>
         <translation>Masa de aire, cielo, FWHM y posición</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2432"/>
+        <location filename="../../ui/photometry_page.py" line="2431"/>
         <source>{n} points deleted by hand (Restore deleted points brings them back).</source>
         <translation>{n} puntos borrados a mano («Recuperar los puntos borrados» los devuelve).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2439"/>
+        <location filename="../../ui/photometry_page.py" line="2438"/>
         <source>Scintillation {lo:.1f}–{hi:.1f} mmag per frame is included in the errors.</source>
         <translation>El centelleo de {lo:.1f}–{hi:.1f} mmag por toma está incluido en los errores.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2446"/>
+        <location filename="../../ui/photometry_page.py" line="2445"/>
         <source>No comparison star: the target&apos;s own flux over its median. Right for space data (TESS, Kepler); from the ground, clouds and airmass stay in the light curve.</source>
         <translation>Sin estrella de comparación: el flujo propio del objetivo dividido por su mediana. Correcto para datos espaciales (TESS, Kepler); desde tierra, las nubes y la masa de aire quedan en la curva de luz.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2451"/>
+        <location filename="../../ui/photometry_page.py" line="2450"/>
         <source>Scintillation is not in the errors: give the telescope aperture (and the site).</source>
         <translation>El centelleo no está en los errores: indique la apertura del telescopio (y el lugar).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2455"/>
+        <location filename="../../ui/photometry_page.py" line="2454"/>
         <source>{name}: scatter {mmag:.1f} mmag</source>
         <translation>{name}: dispersión {mmag:.1f} mmag</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2461"/>
+        <location filename="../../ui/photometry_page.py" line="2460"/>
         <source>Weights: {w}</source>
         <translation>Pesos: {w}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2482"/>
+        <location filename="../../ui/photometry_page.py" line="2481"/>
         <source>C{i} disagrees with its known magnitude by more than 0.1 mag and was left out.</source>
         <translation>C{i} difiere de su magnitud conocida en más de 0,1 mag y se dejó fuera.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2489"/>
+        <location filename="../../ui/photometry_page.py" line="2488"/>
         <source>⚠ {n} frames have a star at or above the saturation level (marked red).</source>
         <translation>⚠ {n} tomas tienen una estrella en el nivel de saturación o por encima (marcadas en rojo).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2529"/>
+        <location filename="../../ui/photometry_page.py" line="2528"/>
         <source>Magnitude ({band})</source>
         <translation>Magnitud ({band})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2534"/>
+        <location filename="../../ui/photometry_page.py" line="2533"/>
         <source>Δm (target − comparison)</source>
         <translation>Δm (objetivo − comparación)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2560"/>
-        <location filename="../../ui/photometry_page.py" line="2567"/>
+        <location filename="../../ui/photometry_page.py" line="2559"/>
+        <location filename="../../ui/photometry_page.py" line="2566"/>
         <source>Relative flux (offset)</source>
         <translation>Flujo relativo (desplazado)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2575"/>
+        <location filename="../../ui/photometry_page.py" line="2574"/>
         <source>Normalised value</source>
         <translation>Valor normalizado</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2772"/>
+        <location filename="../../ui/photometry_page.py" line="2771"/>
         <source>T1 − comparison</source>
         <translation>T1 − comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2778"/>
+        <location filename="../../ui/photometry_page.py" line="2777"/>
         <source>{n} frame(s) without a positive flux for T1 ({frames}), no magnitude: is the star on those frames, or a brighter star in its sky ring? Leave them out with “Use this frame”.</source>
         <translation>{n} imagen(es) sin flujo positivo para T1 ({frames}), sin magnitud: ¿está la estrella en esas imágenes, o hay una estrella más brillante en su anillo de cielo? Déjelas fuera con «Usar esta imagen».</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2792"/>
+        <location filename="../../ui/photometry_page.py" line="2791"/>
         <source>{k} (check) − comparison</source>
         <translation>{k} (control) − comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2806"/>
+        <location filename="../../ui/photometry_page.py" line="2805"/>
         <source>Δm (mag)</source>
         <translation>Δm (mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2821"/>
+        <location filename="../../ui/photometry_page.py" line="2820"/>
         <source>delete a point</source>
         <translation>borrar un punto</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2824"/>
+        <location filename="../../ui/photometry_page.py" line="2823"/>
         <source>restore deleted points</source>
         <translation>restaurar los puntos borrados</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2849"/>
+        <location filename="../../ui/photometry_page.py" line="2848"/>
         <source>Tick at least one quantity to detrend against.</source>
         <translation>Marque al menos una magnitud para eliminar tendencias.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2857"/>
+        <location filename="../../ui/photometry_page.py" line="2856"/>
         <source>Not in this light curve: {names} (FWHM needs ‘Radii follow the seeing’; airmass needs the site and RA/Dec).</source>
         <translation>No está en esta curva de luz: {names} (la FWHM necesita «Los radios siguen al seeing»; la masa de aire, el lugar y AR/Dec).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2867"/>
+        <location filename="../../ui/photometry_page.py" line="2866"/>
         <source>The left-out range must be two times (numbers).</source>
         <translation>El intervalo excluido deben ser dos tiempos (números).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2942"/>
+        <location filename="../../ui/photometry_page.py" line="2941"/>
         <source>detrending</source>
         <translation>eliminación de tendencia</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2942"/>
+        <location filename="../../ui/photometry_page.py" line="2941"/>
         <source>undo detrending</source>
         <translation>deshacer la eliminación de tendencia</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2961"/>
+        <location filename="../../ui/photometry_page.py" line="2960"/>
         <source>T0 and period must be numbers.</source>
         <translation>T0 y el período deben ser números.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2976"/>
+        <location filename="../../ui/photometry_page.py" line="2975"/>
         <source>Kwee–van Woerden</source>
         <translation>Kwee–van Woerden</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2976"/>
+        <location filename="../../ui/photometry_page.py" line="2975"/>
         <source>trapezoid fit</source>
         <translation>ajuste trapezoidal</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2981"/>
+        <location filename="../../ui/photometry_page.py" line="2980"/>
         <source>{n} minima timed ({p} primary, {s} secondary), {method}; O−C {mean:+.2f} min, scatter {sd:.2f} min</source>
         <translation>{n} mínimos medidos ({p} primarios, {s} secundarios), {method}; O−C {mean:+.2f} min, dispersión {sd:.2f} min</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="2991"/>
+        <location filename="../../ui/photometry_page.py" line="2990"/>
         <source>{n} predicted minima left out: not covered on both sides, or no dip.</source>
         <translation>{n} mínimos predichos omitidos: sin datos a ambos lados o sin descenso.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3003"/>
+        <location filename="../../ui/photometry_page.py" line="3002"/>
         <source>Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</source>
         <translation>Mínimo: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3007"/>
+        <location filename="../../ui/photometry_page.py" line="3006"/>
         <source>Depth {d:.2f} %, duration {h:.2f} h</source>
         <translation>Profundidad {d:.2f} %, duración {h:.2f} h</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3016"/>
+        <location filename="../../ui/photometry_page.py" line="3015"/>
         <source>Epoch {n}, O−C = {oc:+.2f} min</source>
         <translation>Época {n}, O−C = {oc:+.2f} min</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3047"/>
-        <location filename="../../ui/photometry_page.py" line="3049"/>
+        <location filename="../../ui/photometry_page.py" line="3046"/>
+        <location filename="../../ui/photometry_page.py" line="3048"/>
         <source>AAVSO report</source>
         <translation>Informe AAVSO</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="3055"/>
+        <location filename="../../ui/photometry_page.py" line="3054"/>
         <source>Export light curve</source>
         <translation>Exportar curva de luz</translation>
     </message>

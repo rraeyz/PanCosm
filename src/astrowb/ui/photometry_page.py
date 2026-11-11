@@ -45,6 +45,7 @@ from .viewer import ImageViewer
 class PhotometryPage(Undoable, QWidget):
     """Pick target and comparison stars on the first image, measure, plot, time the minimum."""
 
+    steps_shown = None  # (step now, (done per step)) -> None: the Photometry window's stage rail follows (UI-16.1)
     measure_requested = Signal(list, list, list, str, dict)  # images, target_xy, comps_xy, coord, params
     suggest_requested = Signal(list, list, dict)  # images, target_xy, params
     minimum_requested = Signal(dict, dict)  # light curve, params
@@ -1681,14 +1682,12 @@ class PhotometryPage(Undoable, QWidget):
         """Numbered step titles; a step that is done gets a tick."""
         names = (self.tr("1. Images"), self.tr("2. Target and comparison stars"), self.tr("3. Aperture and sky ring"),
                  self.tr("4. Measure"))  # fmt: skip
-        done = (
-            bool(self.images),
-            self.target is not None and bool(self.comps),
-            self._radii_set,
-            self.lc_raw is not None,
-        )
+        done = (bool(self.images), self.target is not None and bool(self.comps), self._radii_set,
+                self.lc_raw is not None)  # fmt: skip
         for sec, name, ok in zip(self.sections, names, done, strict=True):
             sec.button.setText(("✓ " if ok else "") + name)
+        if self.steps_shown is not None:  # the Photometry window's stage rail follows (UI-16.1)
+            self.steps_shown(self._step_now, done)
 
     def _advance(self, k):
         """Open step k and fold steps 2 and 3 before it (they reopen with a click); the images step stays as it is:
