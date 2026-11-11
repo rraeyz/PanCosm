@@ -560,3 +560,26 @@ def test_plot_canvas_right_click_menu(qtbot):
     assert not QApplication.clipboard().pixmap().isNull()
     names = [a.text() for a in plot.context_menu().actions()]
     assert "Copy data" in names and "Save data…" in names and "Show all" in names
+
+
+def test_empty_plots_say_what_is_running(qtbot, tmp_path):
+    """UI-6: while a window's task runs, its empty plots name the task and its progress; then their hint again."""
+    from PySide6.QtWidgets import QVBoxLayout, QWidget
+
+    from astrowb.settings import Settings
+    from astrowb.ui.kit.widgets import PlotCanvas
+    from astrowb.ui.kit.window import AreaWindow
+
+    body = QWidget()
+    plot = PlotCanvas(body)
+    QVBoxLayout(body).addWidget(plot)
+    plot.set_empty_hint("Measure to see the light curve")
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), body)
+    qtbot.addWidget(win)
+    task = _FakeTask(3, "photometry.measure")
+    task.progress = 0.4
+    win.track(task)
+    assert plot.hint.text().startswith("Working:") and "40 %" in plot.hint.text()
+    task.state, task.finished = "done", True
+    win.task_update(task)
+    assert plot.hint.text() == "Measure to see the light curve"
