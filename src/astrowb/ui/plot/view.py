@@ -16,6 +16,7 @@ from PySide6.QtCore import QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QPainterPath, QPen
 from PySide6.QtWidgets import QGraphicsPathItem, QVBoxLayout, QWidget
 
+from ..kit import tokens
 from . import spec as S
 
 _SYMBOLS = {"o": "o", "s": "s", "^": "t1", "v": "t", "d": "d", "+": "+", "x": "x", "*": "star"}
@@ -70,7 +71,7 @@ class _ViewBox(pg.ViewBox):
             if ev.isStart() or self._lasso is None:
                 self._lasso = QPainterPath(self.mapSceneToView(ev.buttonDownScenePos()))
                 self._lasso_item = QGraphicsPathItem()
-                self._lasso_item.setPen(QPen(QColor("#D55E00"), 0))
+                self._lasso_item.setPen(QPen(QColor(tokens.DARK["accent"]), 0))
                 self.addItem(self._lasso_item, ignoreBounds=True)
             self._lasso.lineTo(p)
             self._lasso_item.setPath(self._lasso)
@@ -277,7 +278,7 @@ class PlotView(QWidget):
                 continue
             ring = e.get("ring")
             if ring is None:
-                ring = e["ring"] = pg.ScatterPlotItem(pen=pg.mkPen("#D55E00", width=2), brush=None, size=11)
+                ring = e["ring"] = pg.ScatterPlotItem(pen=pg.mkPen(tokens.DARK["accent"], width=2), brush=None, size=11)
                 ring.setZValue(e["spec"].z + 100)
                 e["vb"].addItem(ring)
             index = np.flatnonzero(np.isin(e["ids"], np.asarray(ids)) & e["ok"])

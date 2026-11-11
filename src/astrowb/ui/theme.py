@@ -5,18 +5,23 @@ The text size (points) is the user's (View → Larger / Smaller text), 10 pt by 
 
 from PySide6.QtGui import QColor, QPalette
 
-THEMES = {
-    # window, panel (inputs, lists), raised (buttons, tabs), text, muted text, accent, accent text, border
-    "dark": ("#16191f", "#1e232b", "#272d37", "#e6e9ef", "#8b93a3", "#4f8cff", "#ffffff", "#323946"),
-    "light": ("#f3f5f8", "#ffffff", "#e8ecf2", "#1b2230", "#5d6778", "#2f6fe4", "#ffffff", "#cfd6e0"),
-}
-DEFAULT = "dark"
+from .kit import tokens
+
+THEMES = tokens.THEMES
+DEFAULT = tokens.DEFAULT
 FONT_PT, FONT_MIN, FONT_MAX = 10.0, 7.0, 18.0
 
 
 def colors(name):
-    keys = ("window", "panel", "raised", "text", "muted", "accent", "accent_text", "border")
-    return dict(zip(keys, THEMES.get(name, THEMES[DEFAULT]), strict=True))
+    """The theme's tokens (kit/tokens.py) under the names the style sheet and older code use."""
+    t = tokens.theme(name)
+    return {
+        "window": t["surface.0"], "panel": t["surface.1"], "raised": t["surface.2"], "hover": t["surface.3"],
+        "text": t["text"], "muted": t["text.muted"], "faint": t["text.faint"], "accent": t["accent"],
+        "accent_hover": t["accent.hover"], "accent_pressed": t["accent.pressed"], "accent_text": t["on.accent"],
+        "border": t["border"], "border_strong": t["border.strong"], "ok": t["ok"], "attention": t["attention"],
+        "error": t["error"], "image": t["image.background"],
+    }  # fmt: skip
 
 
 def style_sheet(c, font_pt=FONT_PT):
@@ -41,12 +46,14 @@ QPushButton {{
     background: {c["raised"]}; border: 1px solid {c["border"]}; border-radius: 7px;
     padding: 6px 14px; min-height: 18px;
 }}
-QPushButton:hover {{ border-color: {c["accent"]}; }}
-QPushButton:pressed, QPushButton:checked {{ background: {c["accent"]}; color: {c["accent_text"]}; }}
-QPushButton:disabled {{ color: {c["muted"]}; border-color: {c["raised"]}; }}
+QPushButton:hover {{ background: {c["hover"]}; border-color: {c["border_strong"]}; }}
+QPushButton:pressed, QPushButton:checked {{ background: {c["accent_pressed"]}; color: {c["accent_text"]}; }}
+QPushButton:disabled {{ color: {c["faint"]}; border-color: {c["raised"]}; }}
+QPushButton:focus, QToolButton:focus {{ border: 2px solid {c["accent"]}; }}
 QPushButton:default, QPushButton[primary="true"] {{
     background: {c["accent"]}; color: {c["accent_text"]}; border: none;
 }}
+QPushButton:default:hover, QPushButton[primary="true"]:hover {{ background: {c["accent_hover"]}; }}
 QSpinBox, QDoubleSpinBox, QComboBox {{ min-height: 24px; }}  /* frames and arrows: Fusion + palette */
 QLineEdit, QPlainTextEdit, QTextEdit, QTextBrowser {{
     background: {c["panel"]}; border: 1px solid {c["border"]}; border-radius: 6px; padding: 4px 6px;
@@ -88,7 +95,7 @@ QScrollBar::handle {{ background: {c["border"]}; border-radius: 5px; min-height:
 QScrollBar::add-line, QScrollBar::sub-line {{ width: 0; height: 0; }}
 QCheckBox::indicator, QRadioButton::indicator {{ width: 15px; height: 15px; }}
 QDockWidget::title {{ background: {c["panel"]}; padding: 5px; }}
-QGraphicsView {{ background: #000000; border: none; }}
+QGraphicsView {{ background: {c["image"]}; border: none; }}
 """
 
 
@@ -123,11 +130,11 @@ def apply(app, name=DEFAULT, font_pt=FONT_PT):
         (QPalette.Link, "accent"),
     ):
         pal.setColor(role, QColor(c[key]))
-    pal.setColor(QPalette.Disabled, QPalette.Text, QColor(c["muted"]))
-    pal.setColor(QPalette.Disabled, QPalette.ButtonText, QColor(c["muted"]))
+    pal.setColor(QPalette.Disabled, QPalette.Text, QColor(c["faint"]))
+    pal.setColor(QPalette.Disabled, QPalette.ButtonText, QColor(c["faint"]))
     app.setPalette(pal)
     app.setStyleSheet(style_sheet(c, font_pt))
-    cycle = [c["accent"], "#ff8a3d", "#3ecf8e", "#e5484d", "#b07cff", "#f5c542"]
+    cycle = [*tokens.SERIES, c["muted"]]  # the plot series palette of the design system
     mpl.rcParams.update(
         {
             "font.size": font_pt,

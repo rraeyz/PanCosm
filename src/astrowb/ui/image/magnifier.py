@@ -24,6 +24,7 @@ def draw(painter, viewer):
     from PySide6.QtGui import QColor, QImage, QPen
 
     from ...display import display_limits, to_display
+    from ..kit import tokens
 
     row, col = viewer.cursor_pixel
     if viewer._magnifier_limits is None:  # the frame's levels, once per image (or the levels the user set)
@@ -39,7 +40,7 @@ def draw(painter, viewer):
     side = n * SCALE
     target = QRectF(viewer.viewport().width() - side - MARGIN, MARGIN, side, side)
     painter.drawImage(target, image)
-    painter.setPen(QPen(QColor("#ffd54f"), 1))
+    painter.setPen(QPen(QColor(tokens.DARK["attention"]), 1))
     painter.setBrush(Qt.NoBrush)
     painter.drawRect(target)
     painter.drawRect(QRectF(target.x() + HALF * SCALE, target.y() + HALF * SCALE, SCALE, SCALE))  # the cursor's pixel
