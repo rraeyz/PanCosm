@@ -1048,7 +1048,7 @@ the suite is green after each.
   under 0.2 s never fail); `tests/test_speed_harness.py`. CI job `speed` on Linux. **Changed from the plan:** the
   job is not one the release waits for — shared CI machines vary by more than 1.5× from run to run often enough
   that a release could stop for noise; it stays visible red. Pending: `speed/baseline-ci.json` from the first CI
-  run, a Roche case (its code does not exist yet) and the interface rows
+  run, a Roche case (its code does not exist yet) and the memory of the interface ("six area windows open" times the opening, 0.32 s on CI; its memory column counts Python's allocations only, not Qt's)
   (six windows' memory). Done since: "start window" and "open the Photometry window" in a fresh start window (cases may
   have an untimed set-up now); measured in the harness's warm process (imports done: 0.14 s and 0.07 s on the CI
   shape here; a cold first start is the smoke test's to watch); they join the CI comparison when the baseline is next taken. Added (2026-11-11): "eclipse model, 10^5 times" (the transit row's shape, `models.eb.light_curve`: 0.09 s in NumPy against the 30 ms budget meant for native code) and "échelle extraction" (20 orders × 1024 px on CI, 70 × 4096 locally; optimal: 0.18 s on CI).

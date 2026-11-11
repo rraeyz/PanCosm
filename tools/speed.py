@@ -166,14 +166,22 @@ def cases(tmp, ci):
 
         keep["app"] = QApplication.instance() or QApplication([])
         atexit.register(close_main)
-        folder = Path(tmp) / f"settings{id(object())}"
-        folder.mkdir()
+        import tempfile
+
+        folder = Path(tempfile.mkdtemp(prefix="settings", dir=tmp))  # a fresh one each start (id() repeats)
         keep["main"] = MainWindow(Settings(folder))
         keep["main"].show()
         keep["app"].processEvents()
 
     def open_window():  # in a fresh start window: the budget's "Open an area window" (first time < 1.0 s)
         keep["main"].show_workspace("photometry")
+        keep["app"].processEvents()
+
+    # shortcut: tracemalloc sees Python's allocations, not Qt's widgets; measure the process size when this row
+    # is checked against its 500 MB
+    def six_windows():  # the budget's "six windows open" (< 500 MB without data)
+        for key in ("calibrate", "image", "photometry", "timeseries", "spectroscopy", "plan"):
+            keep["main"].show_workspace(key)
         keep["app"].processEvents()
 
     def fresh_main():
@@ -184,6 +192,7 @@ def cases(tmp, ci):
         (f"open a {size}x{size} FITS", "Show a frame", lambda: read_image(raw / "l00.fits"), 3),
         ("start window", "Start window visible", start_window, 1, close_main),
         ("open the Photometry window (first time)", "Open an area window", open_window, 1, fresh_main),
+        ("six area windows open", "Memory of the interface process with six windows open", six_windows, 1, fresh_main),
         (f"display conversion {size}x{size}", "Show a frame", display, 3),
         (f"calibrate: 3 masters of 5 + {n} lights", "Calibrate", calibrate, 1),
         (f"stack {n} lights (sigma clip)", "Calibrate", stack, 1),
