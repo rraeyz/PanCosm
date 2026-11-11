@@ -25,7 +25,7 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import advice, area_menus, help_checks, online_actions
+from . import advice, area_menus, area_pages, help_checks, online_actions
 from .area_menus import _mirror
 from .files import images_filter
 from .i18n import LANGUAGES
@@ -34,10 +34,6 @@ from .kit.window import _raise as _raise_window
 from .messages import task_error, translate
 from .workspaces import (
     CalibratePage,
-    ImagePage,
-    LightCurvePage,
-    OCPage,
-    PhotometryPage,
     PlotCanvas,
     ProjectPage,
     StartPage,
@@ -60,7 +56,8 @@ class _Lazy:
     def __get__(self, win, owner=None):
         if win is None:
             return self
-        page = getattr(win, "_make_" + self.name)()
+        own = getattr(win, "_make_" + self.name, None)  # the pages not yet moved to area_pages.py (ARC-4.4)
+        page = own() if own else getattr(area_pages, "make_" + self.name)(win)
         vars(win)[self.name] = page  # later reads find the page directly
         win._place(self.name, page)
         return page
@@ -643,13 +640,6 @@ class MainWindow(QMainWindow):
         if start is not None:
             (start.expert if mode == "expert" else start.basic).setChecked(True)
 
-    def _make_image_page(self):
-        page = ImagePage(self)
-        page.header_save_requested.connect(self.save_header_changes)
-        page.image_chosen.connect(lambda p: self.open_fits(Path(p)))
-        page.viewer.context_requested.connect(lambda x, y, pos: self.image_menu(x, y).exec(pos))
-        return page
-
     def image_menu(self, x, y):
         """Right click on the image: what can be done with the star or place under the mouse."""
         from PySide6.QtWidgets import QMenu
@@ -838,113 +828,6 @@ class MainWindow(QMainWindow):
         page.sequence_requested.connect(self._load_sequence)
         return page
 
-    def _make_spectro_page(self):
-        from .spectro_page import SpectroscopyPage  # imported with its page: start-up stays fast
-
-        page = SpectroscopyPage(self, self.settings)
-        rt, vt, et, tt = page.reduce_tab, page.velocity_tab, page.echelle_tab, page.telluric_tab
-        rt.reduce_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.reduce",
-                inputs,
-                params,
-                on_done=lambda out: self._spectrum_done(out["spectrum"]),
-                on_fail=rt.status.setText,  # not "Working…" behind an error box
-            )
-        )
-        et.reduce_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.echelle",
-                inputs,
-                params,
-                on_done=lambda out: self._echelle_done(out["echelle"]),
-                on_fail=et.status.setText,
-            )
-        )
-        et.orders_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.orders",
-                inputs,
-                params,
-                on_done=lambda out: et.show_orders(out["orders"]),
-                on_fail=et.status.setText,
-            )
-        )
-        tt.correct_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.telluric",
-                inputs,
-                params,
-                on_done=lambda out: self._telluric_done(out["telluric"]),
-                on_fail=tt.status.setText,
-            )
-        )
-        vt.rv_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.rv",
-                inputs | ({"site": self.settings.get("site")} if self.settings.get("site") else {}),
-                params,
-                on_done=lambda out: vt.show_rvs(out["rvs"], out.get("skipped")),
-                on_fail=vt.status.setText,
-            )
-        )
-        vt.disentangle_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.disentangle",
-                inputs,
-                params,
-                on_done=lambda out: vt.show_components(out["components"]),
-                on_fail=vt.status.setText,
-            )
-        )
-        page.tools_tab.combine_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.combine",
-                inputs,
-                params,
-                on_done=lambda out: page.tools_tab.show_combined(out["combined"]),
-                on_fail=page.tools_tab.source.setText,
-            )
-        )
-        page.tools_tab.atmosphere_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.atmosphere",
-                inputs | {"cache": str(self.settings.path.parent / "phoenix")},
-                params,
-                on_done=lambda out: page.tools_tab.show_atmosphere(out["atmosphere"]),
-            )
-        )
-        vt.classify_requested.connect(
-            lambda spectrum: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.classify",
-                {"spectrum": spectrum, "library": str(self.settings.path.parent / "templates")},
-                {},
-                on_done=lambda out: vt.show_classes(
-                    out["classes"], out.get("mk"), out.get("mk_note"), out.get("mk_model"), out.get("classes_note")
-                ),
-            )
-        )
-        vt.orbit_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "spectroscopy",
-                "spectroscopy.orbit",
-                inputs,
-                params,
-                on_done=lambda out: (vt.show_orbit(out["orbit"]), self.models_page.set_orbit(out["orbit"])),
-                on_fail=vt.status.setText,
-            )
-        )
-        return page
-
     def _make_rs_page(self):
         from .rs_page import RemoteSensingPage  # imported with its page: start-up stays fast
 
@@ -959,186 +842,6 @@ class MainWindow(QMainWindow):
                 on_fail=page.status.setText,
             )
         )
-        return page
-
-    def _make_models_page(self):
-        from .models_page import ModelsPage  # imported with its page: start-up stays fast
-
-        page = ModelsPage(self)
-        page.fit_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "orbits",
-                "models.eb_fit",
-                inputs,
-                params,
-                on_done=lambda out: page.show_fit(out["model"]),
-                on_fail=page.status.setText,
-            )
-        )
-        page.visual_tab.fit_requested.connect(
-            lambda inputs, params: self.run_step_for(
-                "orbits",
-                "models.visual_orbit",
-                inputs,
-                params,
-                on_done=lambda out: page.visual_tab.show_orbit(out["orbit"]),
-                on_fail=page.visual_tab.status.setText,
-            )
-        )
-        return page
-
-    def _make_photometry_page(self):
-        page = PhotometryPage(self)
-        page.measure_requested.connect(self.measure_light_curve)
-        page.catalog_requested.connect(
-            lambda inputs, params: self.run_step(
-                "photometry.catalog",
-                inputs,
-                params,
-                on_done=lambda out: page.show_catalog(out["catalog"]),
-                area="photometry",
-            )
-        )
-        page.quality_requested.connect(
-            lambda images: self.run_step(
-                "photometry.quality",
-                {"images": images},
-                {},
-                on_done=lambda out: page.show_quality(out["quality"]),
-                area="photometry",
-            )
-        )
-        page.minimum_requested.connect(self.time_minimum)
-        page.next_requested.connect(self._photometry_next)
-        page.apertures_requested.connect(
-            lambda images, target, comps, rule: self.run_step(
-                "photometry.apertures",
-                {"images": images, "target_xy": target, "comps_xy": comps},
-                {"rule": rule},
-                on_done=lambda out: page.show_apertures(out["apertures"]),
-                area="photometry",
-            )
-        )
-        page.polarimetry_requested.connect(
-            lambda images, o, e, params: self.run_step(
-                "photometry.polarimetry",
-                {"images": images, "o_xy": o, "e_xy": e},
-                params,
-                on_done=lambda out: page.show_polarimetry(out["polarimetry"]),
-                area="photometry",
-            )
-        )
-        page.suggest_requested.connect(
-            lambda images, target, params: self.run_step(
-                "photometry.suggest_comparisons",
-                # the Gaia stars of the field when it was solved on the frame the stars are marked on
-                {"images": images, "target_xy": target}
-                | ({"field": page.field} if page.field and page.ref == 0 else {}),
-                params,
-                on_done=lambda out: page.set_comparisons(out["comps_xy"], out.get("catalogue")),
-                area="photometry",
-            )
-        )
-        page.field_requested.connect(
-            lambda image: self.run_step(
-                "photometry.identify_field",
-                {"image": image},
-                on_done=lambda out: page.show_field(out["field"]),
-                on_fail=page.field_failed,
-                area="photometry",
-            )
-        )
-        return page
-
-    def _make_oc_page(self):
-        """O-C in a window of its own (the owner, 2026-11-08); minima timed in Photometry and maxima from the
-        frequency analysis arrive here."""
-        oc = OCPage(self)
-        oc.ephemeris_requested.connect(
-            lambda name: self.run_step_for(
-                "oc",
-                "planning.ephemeris",
-                {"name": name},
-                {"catalogue": "vsx"},
-                on_done=lambda out: oc.set_ephemeris(out["target"]),
-                on_fail=lambda msg: oc.result.setText(translate(msg)),
-            )
-        )
-
-        def oc_background(model, text, t0, period, steps, minima):
-            from .messages import translate
-
-            params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
-            fail = self.tr("Cannot fit: {error}")
-            self.run_step_for(
-                "oc",
-                "timeseries.oc_fit",
-                {"minima": text},
-                params,
-                on_done=lambda out: oc.show_fit(out["fit"], minima),
-                on_fail=lambda msg: oc.result.setText(fail.format(error=translate(msg))),
-            )
-
-        oc.background = oc_background
-        return oc
-
-    def _make_lightcurve_page(self):
-        page = LightCurvePage(self)
-        page.period_page.search_requested.connect(self.search_period)
-        vf = page.varfind_page
-        vf.search_requested.connect(
-            lambda images, params: self.run_step_for(
-                "timeseries", "photometry.varfind", {"images": images}, params, on_done=vf.show_result
-            )
-        )
-        vf.light_curve_chosen.connect(
-            lambda t, f, label: (
-                page.period_page.set_light_curve(t, f, label),
-                page.setCurrentWidget(page.period_page),
-            )
-        )
-        fp = page.frequency_page
-        fp.analyse_requested.connect(
-            lambda t, y, params: self.run_step_for(
-                "timeseries", "timeseries.frequencies", {"time": t, "flux": y}, params, on_done=fp.show_result
-            )
-        )
-        fp.to_oc.clicked.connect(  # to the O-C window, opened so the user sees them arrive
-            lambda: (
-                [self.oc_page.add_minimum(tm, err, "maximum") for tm, err in (fp.result or {}).get("maxima", [])],
-                self.open_area("oc"),
-            )
-        )
-        pp = page.period_page
-
-        def fetch(target, mission):
-            from ..settings import config_dir
-
-            def done(out):
-                lc = out["light_curve"]
-                pp.set_light_curve(lc["time"], lc["rel_flux"], f"{target} ({lc['source']})", err=lc.get("rel_flux_err"))
-
-            if mission in ("ZTF", "AAVSO"):
-                inputs = {"target": target, "cache_file": str(config_dir() / "targets.json")}
-                return self.run_step_for(
-                    "timeseries",
-                    "timeseries.survey_lc",
-                    inputs,
-                    {"source": mission},
-                    on_done=done,
-                    on_fail=pp.source.setText,
-                )
-            inputs = {"target": target, "folder": str(self.settings.path.parent / "archive")}
-            return self.run_step_for(
-                "timeseries",
-                "timeseries.mission_lc",
-                inputs,
-                {"mission": mission},
-                on_done=done,
-                on_fail=pp.source.setText,
-            )
-
-        pp.archive_requested.connect(fetch)
         return page
 
     def _make_calibrate_page(self):

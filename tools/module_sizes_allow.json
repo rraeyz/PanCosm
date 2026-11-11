@@ -1,6 +1,6 @@
 {
  "files": {
-  "ui/main_window.py": 2525,
+  "ui/main_window.py": 2228,
   "ui/observe_page.py": 862,
   "ui/photometry_page.py": 3149,
   "ui/spectro_page.py": 2430,
@@ -17,6 +17,7 @@
   "spectroscopy/echelle.py:solve_2d": 82,
   "spectroscopy/sb2.py:todcor": 97,
   "spectroscopy/steps.py:rv_step": 116,
+  "ui/area_pages.py:make_spectro_page": 106,
   "ui/automation_page.py:AutomationPage.__init__": 116,
   "ui/calibrate_page.py:CalibratePage.__init__": 372,
   "ui/exposure_dialog.py:ExposureDialog.__init__": 103,
@@ -24,7 +25,6 @@
   "ui/image_page.py:ImagePage.__init__": 166,
   "ui/kit/window.py:AreaWindow._build_menus": 86,
   "ui/main_window.py:MainWindow._build_menus": 154,
-  "ui/main_window.py:MainWindow._make_spectro_page": 106,
   "ui/main_window.py:MainWindow.start_tour": 92,
   "ui/models_page.py:ModelsPage.__init__": 187,
   "ui/moving_dialog.py:MovingObjectDialog.__init__": 83,
