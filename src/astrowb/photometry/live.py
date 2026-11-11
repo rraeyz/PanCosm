@@ -16,7 +16,8 @@ from ..calibration.masters import calibrate, load
 from ..calibration.stacking import follow_stars
 from ..hdr import get
 from .aperture import frame_shift, recenter, snap_to_star
-from .lightcurve import _measure_frame, target_coord
+from .differential import ensemble
+from .lightcurve import SNR_FOUND, _measure_frame, target_coord
 from .psf import neighbours_setup
 
 FITS_SUFFIXES = (".fits", ".fit", ".fts")
@@ -47,6 +48,13 @@ def load_masters(paths):
         if kind in ("bias", "dark", "flat"):
             masters[kind] = (data, header)
     return masters
+
+
+def _ensemble(pts):
+    """Relative fluxes of the points against their comparison stars (differential.ensemble: a missing star's share
+    taken from the frames that have them all)."""
+    return ensemble([p["target_flux"] for p in pts], [p["target_flux_err"] for p in pts],
+                    [p["comp_flux"] for p in pts], [p["comp_flux_err"] for p in pts])  # fmt: skip
 
 
 class LiveLightCurve:
@@ -112,17 +120,20 @@ class LiveLightCurve:
                 data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.ref_path,
                 opts=self.opts,
             )  # fmt: skip
-            if lost:  # as the night run: a frame without its target or a comparison star is left out, with why
-                self.failed[str(path)] = " ".join(str(x) for x in lost)
+            seen = np.divide(flux[1:], err[1:], out=np.zeros(len(flux) - 1), where=err[1:] > 0) >= SNR_FOUND
+            if lost and (lost[0] != "comparison" or not seen.any()):  # as the night run: no target, no comparison
+                self.failed[str(path)] = " ".join(str(x) for x in lost)  # star at all, or not placed: left out
                 return None
+            flux, err = np.asarray(flux, float).copy(), np.asarray(err, float).copy()
+            flux[1:][~seen], err[1:][~seen] = np.nan, np.nan  # measured against the comparison stars it has
             t = timing.mid_time(h)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"
             return None
         self.prev = data
-        comp = flux[1:].sum()
-        rel = flux[0] / comp
-        rel_err = abs(rel) * np.sqrt((err[0] / flux[0]) ** 2 + (err[1:] ** 2).sum() / comp**2)
+        pts = [*self.points, {"target_flux": flux[0], "target_flux_err": err[0], "comp_flux": flux[1:].tolist(),
+                              "comp_flux_err": err[1:].tolist()}]  # fmt: skip
+        rel, rel_err = (float(v[-1]) for v in _ensemble(pts))
         if self.sky is not None:
             tv, scale = float(timing.bjd_tdb(t, self.sky, self.where).jd), "BJD_TDB"
         else:
@@ -135,8 +146,11 @@ class LiveLightCurve:
             "rel_flux": float(rel),
             "rel_flux_err": float(rel_err),
             "target_flux": float(flux[0]),
+            "target_flux_err": float(err[0]),
             "comp_flux": flux[1:].tolist(),
+            "comp_flux_err": err[1:].tolist(),
             "xy": xy.tolist(),
+            "missing": [int(k) + 1 for k in np.flatnonzero(~seen)],  # 1-based, as the night run's "partial"
         }
         self.points.append(point)
         return point
@@ -148,6 +162,10 @@ class LiveLightCurve:
             key: [p[key] for p in pts]
             for key in ("file", "time", "jd_utc", "rel_flux", "rel_flux_err", "target_flux", "comp_flux", "xy")
         }
+        if pts:  # every point again against the shares of the whole night so far, as the night run computes them
+            rel, rel_err = _ensemble(pts)
+            out["rel_flux"], out["rel_flux_err"] = rel.tolist(), rel_err.tolist()
+        out["partial"] = {p["file"]: p["missing"] for p in pts if p["missing"]}
         out["time_scale"] = pts[0]["time_scale"] if pts else "JD_UTC"
         out["coord"] = self.sky.to_string("hmsdms") if self.sky is not None else None
         return out
