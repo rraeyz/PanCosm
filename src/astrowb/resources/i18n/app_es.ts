@@ -11978,6 +11978,15 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>Section</name>
+    <message>
+        <location filename="../../ui/kit/sections.py" line="27"/>
+        <location filename="../../ui/kit/sections.py" line="28"/>
+        <source>Help on this part</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Settings</name>
     <message>
         <location filename="../../ui/setting_names.py" line="8"/>

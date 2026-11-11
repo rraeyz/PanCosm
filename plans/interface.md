@@ -343,7 +343,7 @@ for the window concerned.
 - **Depends on:** UI-1.
 
 ### UI-3. The component kit and its gallery  (P1)
-**partial** — done: `kit/fields.NumberField`, `kit/banners` InfoBanner and Badge, `kit/toast.Toast`, `kit/fields.Segmented`, `kit/empty.EmptyState`, `kit/splitter.Splitter`, `kit/inspector.Inspector`, `kit/dialogs.Dialog`, `kit/buttons.Button` (NumberField item 2 without the faint unit and label scrubbing; tests/test_kit.py).
+**partial** — done: `kit/fields.NumberField`, `kit/banners` InfoBanner and Badge, `kit/toast.Toast`, `kit/fields.Segmented`, `kit/empty.EmptyState`, `kit/splitter.Splitter`, `kit/inspector.Inspector`, `kit/dialogs.Dialog`, `kit/buttons.Button`, `kit/sections.Section` (NumberField item 2 without the faint unit and label scrubbing; tests/test_kit.py).
 - **Build:**
   1. Every component of the table above in `ui/kit/` (`buttons.py`, `sections.py`, `forms.py`, `fields.py`,
      `rail.py`, `empty.py`, `banners.py`, `toast.py`, `inspector.py`, `help.py`, `tasks.py`, `status.py`,
