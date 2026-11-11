@@ -1,5 +1,8 @@
 """Named conversions used everywhere (plans/architecture.md ARC-15). No Qt here.
 
+convert_times(values, standard, target, site): Julian dates given in one standard (JD_UTC, MJD_UTC, HJD_UTC,
+BJD_TDB, …) for a target and a site, in every standard, with altitude, azimuth, hour angle and airmass.
+
 airmass(altitude, formula): the air mass of a line of sight at a true (geometric) altitude in degrees. Young (1994)
 is the default; sec z is 3 % too large at 10° and grows without limit towards the horizon. The formula's name is
 written beside every airmass column (AIRMASS_NOTE).
@@ -38,3 +41,66 @@ def airmass(altitude_deg, formula="young1994"):
             raise ValueError(f"unknown airmass formula {formula}")
         x = np.where(h > 0, x, np.nan)
     return float(x) if np.ndim(x) == 0 else x
+
+
+STANDARDS = ("JD_UTC", "MJD_UTC", "JD_TT", "HJD_UTC", "HJD_TT", "BJD_UTC", "BJD_TDB")
+DIRECT_ABOVE = 2000  # more times than this: light times on a grid and interpolated (Astropy takes 0.3 ms a time)
+
+
+def _light_time(t, target, how):
+    """Light travel time (TimeDelta) to the barycentre or the Sun at times t. Many times: computed every 0.02 d
+    (and at least every span / 20 000) and interpolated linearly: the error stays below 0.1 ms at a site (the daily
+    21 ms term) and far below over the Earth's orbit."""
+    from astropy.time import Time, TimeDelta
+
+    if t.size <= DIRECT_ABOVE:
+        return t.light_travel_time(target, kind=how, ephemeris="builtin")
+    jd = t.jd
+    step = max(0.02, (jd.max() - jd.min()) / 20000)
+    nodes = np.arange(jd.min(), jd.max() + step, step)
+    grid = Time(nodes, format="jd", scale=t.scale, location=t.location)
+    seconds = grid.light_travel_time(target, kind=how, ephemeris="builtin").to_value("s")
+    return TimeDelta(np.interp(jd, nodes, seconds), format="sec")
+
+
+def convert_times(values, standard, target, site=None):
+    """{standard: array} for every STANDARDS entry, plus "alt", "az" (deg), "ha" (h), "airmass" (when a site is
+    given). values: Julian dates (or MJD for MJD_UTC) in `standard`; target: SkyCoord; site: EarthLocation or None
+    (geocentre: no altitude). Heliocentric and barycentric dates are turned back into UTC iteratively (the light
+    travel time depends on the time itself; two passes reach microseconds)."""
+    import astropy.units as u
+    from astropy.coordinates import AltAz, EarthLocation
+    from astropy.time import Time
+
+    if standard not in STANDARDS:
+        raise ValueError(f"unknown time standard {standard}; known: {', '.join(STANDARDS)}")
+    where = site if site is not None else EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
+    v = np.atleast_1d(np.asarray(values, float))
+    kind, scale = standard.split("_")
+    base = Time(v, format="mjd" if kind == "MJD" else "jd", scale=scale.lower(), location=where)
+    if kind in ("HJD", "BJD"):
+        how = "heliocentric" if kind == "HJD" else "barycentric"
+        t = base
+        for _ in range(3):  # t + light time(t) = given: solve for t
+            t = Time(base - _light_time(t, target, how), location=where)
+        base = t
+    utc = base.utc
+    bary = _light_time(utc, target, "barycentric")
+    helio = _light_time(utc, target, "heliocentric")
+    out = {
+        "JD_UTC": utc.jd,
+        "MJD_UTC": utc.mjd,
+        "JD_TT": utc.tt.jd,
+        "HJD_UTC": (utc + helio).utc.jd,
+        "HJD_TT": (utc.tt + helio).jd,
+        "BJD_UTC": (utc + bary).utc.jd,
+        "BJD_TDB": (utc.tdb + bary).jd,
+    }
+    if site is not None and utc.size <= DIRECT_ABOVE:  # shortcut: no altitudes for long batches (40 s per 10^5)
+        frame = AltAz(obstime=utc, location=site)
+        altaz = target.transform_to(frame)
+        lst = utc.sidereal_time("apparent", longitude=site.lon)
+        out["alt"], out["az"] = altaz.alt.deg, altaz.az.deg
+        out["ha"] = ((lst - target.ra).wrap_at(12 * u.hourangle)).hour
+        out["airmass"] = np.atleast_1d(airmass(out["alt"]))
+    return out
