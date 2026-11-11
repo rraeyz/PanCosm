@@ -83,6 +83,24 @@ PROFILE_FIELDS = {
         (0, 1e6, 0),
         "ADU",
     ),
+    ("camera", "pixel_size"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Pixel size"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "With binning, as XPIXSZ in the header (0: unknown)"),
+        (0, 100, 2),
+        "µm",
+    ),
+    ("optics", "aperture"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Aperture"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "Diameter of the telescope (0: unknown)"),
+        (0, 20000, 0),
+        "mm",
+    ),
+    ("optics", "focal_length"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Focal length"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "With a reducer or Barlow if one is used (0: unknown)"),
+        (0, 100000, 0),
+        "mm",
+    ),
     ("observer", "name"): (
         QT_TRANSLATE_NOOP("SettingsWindow", "Observer"),
         QT_TRANSLATE_NOOP("SettingsWindow", "Your name, in reports and FITS headers"),
@@ -226,6 +244,15 @@ class SettingsWindow(Dialog):
                 control.valueChanged.connect(lambda v, p=part, f=field: profiles.update(self.settings, p, **{f: v}))
             self._row(c, _tr(label), control, _tr(description), unit or None)
             self.profile_controls[(part, field)] = control
+        self.scale = QLabel(self)
+        self._row(c, self.tr("Pixel scale"), self.scale, self.tr("From the pixel size and the focal length"))
+        for key in (("camera", "pixel_size"), ("optics", "focal_length")):
+            self.profile_controls[key].valueChanged.connect(lambda _v: self._show_scale())
+        self._show_scale()
+
+    def _show_scale(self):
+        scale = profiles.pixel_scale(self.settings)
+        self.scale.setText(self.tr("{s:.3f} ″/px").format(s=scale) if scale else self.tr("Give both to see it"))
 
     def fill_from_header(self, path=None):
         """The profile's fields an image's header gives (the others stay); returns how many were filled."""
@@ -246,6 +273,7 @@ class SettingsWindow(Dialog):
                 control = self.profile_controls.get((part, field))
                 if control is not None:
                     control.setText(str(value)) if isinstance(control, QLineEdit) else control.setValue(value)
+        self._show_scale()
         return sum(len(v) for v in found.values())
 
     def _processing(self):
