@@ -132,3 +132,24 @@ def test_table_and_plot_select_together(qapp):
     assert table.selected_rows() == [0, 2]
     select_rows([])
     assert table.selected_rows() == [] and len(ring.getData()[0]) == 0
+
+
+def test_editable_columns_check_the_kind_and_report_each_change(qapp):
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.kit.table import TableView
+
+    v = TableView()
+    t = minima()
+    v.set_table(t, editable=("bjd_err", "type"))
+    edits = []
+    v.model.edited.connect(lambda *e: edits.append(e))
+    err_col, type_col, cycle_col = (t.colnames.index(c) for c in ("bjd_err", "type", "cycle"))
+    assert not v.model.flags(v.model.index(0, cycle_col)) & Qt.ItemIsEditable
+    assert v.model.flags(v.model.index(0, err_col)) & Qt.ItemIsEditable
+    assert not v.model.setData(v.model.index(0, err_col), "abc")  # not a number: refused
+    assert v.model.setData(v.model.index(0, err_col), "0,0002")  # a decimal comma is read
+    assert t["bjd_err"][0] == 0.0002 and edits == [(0, "bjd_err", 0.000123, 0.0002)]
+    assert v.model.setData(v.model.index(1, type_col), "I")
+    v.model.set_value(0, "bjd_err", 0.000123)  # undo, as a window's undo step does it
+    assert t["bjd_err"][0] == 0.000123 and len(edits) == 2
