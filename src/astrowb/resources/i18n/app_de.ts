@@ -2732,6 +2732,19 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>FormRow</name>
+    <message>
+        <location filename="../../ui/kit/forms.py" line="45"/>
+        <source>Changed from the default; click to put the default back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/forms.py" line="46"/>
+        <source>Reset to the default</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FrequencyPage</name>
     <message>
         <location filename="../../ui/frequency_page.py" line="37"/>

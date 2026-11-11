@@ -2732,6 +2732,19 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
 </context>
 <context>
+    <name>FormRow</name>
+    <message>
+        <location filename="../../ui/kit/forms.py" line="45"/>
+        <source>Changed from the default; click to put the default back</source>
+        <translation>Varsayılandan farklı; varsayılana dönmek için tıklayın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/forms.py" line="46"/>
+        <source>Reset to the default</source>
+        <translation>Varsayılana dön</translation>
+    </message>
+</context>
+<context>
     <name>FrequencyPage</name>
     <message>
         <location filename="../../ui/frequency_page.py" line="37"/>

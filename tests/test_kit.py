@@ -1,5 +1,5 @@
-"""UI-3: the component kit: NumberField (keystroke check, Enter, Esc, wheel only with focus, Shift / Ctrl steps,
-auto, binding), InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter, Inspector, Dialog, Button, Section."""
+"""UI-3: the component kit (one test per component; NumberField: keystroke check, Enter, Esc, wheel only with
+focus, Shift / Ctrl steps, auto, binding)."""
 
 import pytest
 
@@ -231,3 +231,29 @@ def test_section(qtbot):
     s.button.click()
     assert s.content.isVisibleTo(s)
     assert Section("Plain").help_button is None and Section("Plain").mode is None
+
+
+def test_form_row(qtbot):
+    from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget
+
+    from astrowb.ui.kit.fields import NumberField
+    from astrowb.ui.kit.forms import LABEL_WIDTH, FormRow
+
+    page = QWidget()
+    qtbot.addWidget(page)
+    lay = QVBoxLayout(page)
+    a = FormRow("Aperture radius", NumberField(5, 1, 50), unit="px", help="Radius of the star's circle")
+    b = FormRow("A much longer label that wraps", NumberField(1, 0, 9))
+    lay.addWidget(a)
+    lay.addWidget(b)
+    page.show()
+    assert not a.is_changed() and a.dot.text() == ""
+    a.control.setValue(8)
+    assert a.is_changed() and a.dot.isEnabled()
+    a.dot.click()
+    assert a.control.value() == 5 and not a.is_changed()
+    assert a.label.width() == b.label.width() == LABEL_WIDTH
+    from PySide6.QtCore import QPoint
+
+    assert a.control.mapTo(page, QPoint()).x() == b.control.mapTo(page, QPoint()).x()  # one left edge
+    assert isinstance(a.layout(), QHBoxLayout) and FormRow("x", NumberField(), reset=False).dot is None
