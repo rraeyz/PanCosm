@@ -365,3 +365,30 @@ def test_keyboard_shortcuts_sheet_and_no_key_twice(qtbot, tmp_path):
         assert sizes and sizes[0].shortcutContext() == Qt.WidgetWithChildrenShortcut  # main window keeps the keys
     finally:
         main.engine.shutdown()
+
+
+def test_f1_opens_the_help_panel_for_the_control_in_focus(qtbot, tmp_path):
+    """UI-7 item 2: F1 on a control inside a Section with help opens that guide topic beside the work; elsewhere
+    the window's guide as before; "Open the full guide" goes on in the guide."""
+    from PySide6.QtWidgets import QLineEdit
+
+    from astrowb.ui.kit.sections import Section
+
+    section = Section("Apertures", help="photometry-apertures")
+    field = QLineEdit()
+    section.body.addWidget(field)
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), section)
+    qtbot.addWidget(win)
+    asked = []
+    win.help_requested.connect(asked.append)
+    win.show()
+    field.setFocus()
+    qtbot.waitUntil(field.hasFocus)
+    win.help_action.trigger()
+    assert win.docks["help"].isVisible() and "Apertures" in win.help_panel.title.text() and not asked
+    assert "aperture" in win.help_panel.text.toPlainText().lower()
+    win.help_panel.more.click()
+    assert asked == ["photometry-apertures"]
+    win.centralWidget().setFocus()
+    section.button.setFocus()
+    assert not win.show_help("no-such-anchor")

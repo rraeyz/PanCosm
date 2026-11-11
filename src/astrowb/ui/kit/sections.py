@@ -20,6 +20,7 @@ class Section(Collapsible):
         # advanced: folded in Basic mode, open in Expert mode; otherwise the interface mode leaves it alone
         super().__init__(title, parent, expanded=not folded, mode="expert" if advanced else None)
         self.help, self.help_button = help, None
+        self.setProperty("help_anchor", help)  # F1 on a control inside opens this topic (kit/help.anchor_for)
         if help:
             self.help_button = QToolButton(self)
             self.help_button.setIcon(icon("help", self, 16))

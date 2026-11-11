@@ -105,6 +105,7 @@ class StagePanel(QWidget):
     def __init__(self, title, help=None, parent=None):  # noqa: A002 (the plan's name)
         super().__init__(parent)
         self.help = help
+        self.setProperty("help_anchor", help)
         lay = QVBoxLayout(self)
         head = QHBoxLayout()
         self.title = QLabel(f"<b>{title}</b>", self)

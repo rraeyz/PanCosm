@@ -85,6 +85,20 @@ class Anatomy:
             self._key_action(self.tr("Next result tab"), "Ctrl+Tab", self._next_result)
         return dock
 
+    def show_help(self, anchor):
+        """The Help panel at the right (UI-7) with the guide's topic; False when the anchor names none."""
+        if "help" not in self.docks:
+            from .help import HelpPanel
+
+            self.help_panel = HelpPanel(self.settings.get("ui.language", "en"), self)
+            self.help_panel.full_guide.connect(lambda a: self.help_requested.emit(a or self.key))
+            self._dock("help", self.tr("Help"), self.help_panel, Qt.RightDockWidgetArea)
+        shown = self.help_panel.show_anchor(anchor)
+        self.docks["help"].setVisible(shown)
+        if shown:
+            self.docks["help"].raise_()
+        return shown
+
     def _results(self):
         return [self.docks[f"result_{k}"] for k in getattr(self, "result_keys", [])]
 
