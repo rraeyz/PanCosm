@@ -166,3 +166,20 @@ def test_https_with_a_pinned_certificate(tmp_path):
             Client(url, "wrong", fingerprint=fp).status()
     finally:
         server.shutdown()
+
+
+def test_wrong_tokens_lock_the_address_out(api):
+    """ARC-22: after MAX_WRONG wrong tokens in a row an address is refused for LOCK_S, the right token too; a
+    right token before that clears the count."""
+    from astrowb.devices import server
+
+    _, _, client, url = api
+    for _ in range(server.MAX_WRONG - 1):
+        with pytest.raises(RuntimeError, match="token"):
+            Client(url, "wrong").status()
+    assert client.status()["safe"] is not None  # the count starts again
+    for _ in range(server.MAX_WRONG):
+        with pytest.raises(RuntimeError, match="token"):
+            Client(url, "wrong").status()
+    with pytest.raises(RuntimeError, match="too many wrong tokens"):
+        client.status()
