@@ -132,7 +132,7 @@ def _tr(text):
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
 INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
             "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset",
-            "plan.horizon")  # fmt: skip
+            "plan.horizon", "profiles")  # fmt: skip
 SHOWN = ("shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
          "compute.device", "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
 
@@ -239,6 +239,10 @@ class SettingsWindow(Dialog):
 
     def _profiles(self):
         c = self.profiles_category = self._category(self.tr("Profiles"))
+        from .profile_chooser import ProfileChooser
+
+        self.chooser = ProfileChooser(self)
+        self._row(c, self.tr("Profile"), self.chooser, self.tr("Each site or camera can have its own profile"))
         fill = QPushButton(self.tr("Fill from a FITS header…"), self)
         fill.clicked.connect(lambda: self.fill_from_header())
         self._row(c, "", fill, self.tr("Site, camera and observer as an image's header gives them"))

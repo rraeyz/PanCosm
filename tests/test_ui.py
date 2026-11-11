@@ -2007,6 +2007,16 @@ def test_settings_profile_filled_from_a_header(window, tmp_path):
     assert win.fill_from_header(str(path)) == 4  # lat, lon, height, gain
     assert profiles.section(window.settings, "camera")["gain"] == 1.4
     assert win.profile_controls[("site", "lat")].value() == 36.8247
+    # ARC-16: a second profile, a copy; the fields follow the profile chosen; Remove forgets the one shown
+    first = profiles.active(window.settings)
+    win.chooser.new("Second site")
+    win.profile_controls[("site", "lat")].setValue(28.76)
+    win.chooser.switch(first)
+    assert win.profile_controls[("site", "lat")].value() == 36.8247 and win.chooser.combo.currentText() == first
+    win.chooser.switch("Second site")
+    assert win.profile_controls[("site", "lat")].value() == 28.76 and win.chooser.remove_button.isEnabled()
+    win.chooser.remove_shown()
+    assert profiles.names(window.settings) == [first] and win.profile_controls[("site", "lat")].value() == 36.8247
     win.close()
 
 

@@ -6541,62 +6541,62 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>gökyüzü parlak</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="137"/>
+        <location filename="../../ui/messages.py" line="140"/>
         <source>the target position {x}, {y} is outside the image ({nx} × {ny} px)</source>
         <translation>hedef konumu {x}, {y} görüntünün dışında ({nx} × {ny} piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="138"/>
+        <location filename="../../ui/messages.py" line="141"/>
         <source>comparison star {n} at {x}, {y} is outside the image ({nx} × {ny} px)</source>
         <translation>{n}. karşılaştırma yıldızı ({x}, {y}) görüntünün dışında ({nx} × {ny} piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="140"/>
+        <location filename="../../ui/messages.py" line="143"/>
         <source>no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia</source>
         <translation>hiçbir karşılaştırma yıldızının katalog kadiri yok: ilk görüntüyü plaka çözümleyin, APASS / Gaia&apos;daki yıldızları seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="195"/>
+        <location filename="../../ui/messages.py" line="198"/>
         <source>no whole eclipse at the times predicted by T0 and the period: check T0, the period and the time scale</source>
         <translation>T0 ve periyodun öngördüğü zamanlarda tam bir tutulma yok: T0&apos;ı, periyodu ve zaman ölçeğini denetleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="234"/>
+        <location filename="../../ui/messages.py" line="237"/>
         <source>too few stars to match the frames: choose Align &apos;shift only&apos;, or use frames with more stars</source>
         <translation>kareleri eşlemek için çok az yıldız var: Hizala&apos;da &apos;yalnızca kaydırma&apos;yı seçin ya da daha çok yıldızlı kareler kullanın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="238"/>
+        <location filename="../../ui/messages.py" line="241"/>
         <source>the star patterns of the frames do not match: check that all frames show one field, or align by shift only</source>
         <translation>karelerin yıldız desenleri eşleşmiyor: tüm karelerin aynı alanı gösterdiğini denetleyin ya da yalnız kaydırmayla hizalayın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="281"/>
+        <location filename="../../ui/messages.py" line="284"/>
         <source>no image data in file: open a FITS image, a picture or a camera raw file</source>
         <translation>dosyada görüntü verisi yok: bir FITS görüntüsü, bir resim ya da kamera ham (raw) dosyası açın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="294"/>
+        <location filename="../../ui/messages.py" line="297"/>
         <source>the images do not have the same size: use frames of one camera and binning, or crop / bin them first</source>
         <translation>görüntülerin boyutları aynı değil: aynı kamera ve binning ile alınmış kareler kullanın ya da önce kırpın / binleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="357"/>
+        <location filename="../../ui/messages.py" line="360"/>
         <source>no orders found: check that the flat shows the orders as bright stripes, or add them by hand on the flat</source>
         <translation>order/mertebe bulunamadı: flat&apos;in mertebeleri parlak şeritler olarak gösterdiğini denetleyin ya da onları flat üzerinde elle ekleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="381"/>
+        <location filename="../../ui/messages.py" line="384"/>
         <source>the spectrum could not be followed: for a faint one, give a brighter spectrum&apos;s row for its trace shape</source>
         <translation>tayf izlenemedi: sönük bir tayf için iz biçimini almak üzere daha parlak bir tayfın satırını verin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="495"/>
+        <location filename="../../ui/messages.py" line="498"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>minimum bulunamadı: pencere, iki yanında da nokta olan tam bir minimum içermeli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="144"/>
+        <location filename="../../ui/messages.py" line="147"/>
         <source>the first image has no sky coordinates: plate-solve it first (Image menu)</source>
         <translation>ilk görüntüde gök koordinatı yok: önce plaka çözümü yapın (Görüntü menüsü)</translation>
     </message>
@@ -6782,1276 +6782,1286 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/messages.py" line="121"/>
+        <source>a profile named {name} exists already</source>
+        <translation>{name} adında bir profil zaten var</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="122"/>
+        <source>the active profile cannot be removed: switch to another first</source>
+        <translation>etkin profil kaldırılamaz: önce başka birine geçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="124"/>
         <source>no column {name} in the table</source>
         <translation>tabloda {name} sütunu yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="122"/>
+        <location filename="../../ui/messages.py" line="125"/>
         <source>filter not understood: {expression}</source>
         <translation>süzgeç anlaşılamadı: {expression}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="123"/>
+        <location filename="../../ui/messages.py" line="126"/>
         <source>cannot write tables as {kind}</source>
         <translation>tablolar {kind} olarak yazılamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="125"/>
+        <location filename="../../ui/messages.py" line="128"/>
         <source>this session belongs to the {found} window, not to the {area} window</source>
         <translation>bu oturum {area} penceresine değil, {found} penceresine ait</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="126"/>
+        <location filename="../../ui/messages.py" line="129"/>
         <source>this session was saved by a newer version of the application: update it to open it</source>
         <translation>bu oturum uygulamanın daha yeni bir sürümüyle kaydedilmiş: açmak için uygulamayı güncelleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="127"/>
+        <location filename="../../ui/messages.py" line="130"/>
         <source>no way to read a session of version {version} of the {area} window</source>
         <translation>{area} penceresinin {version}. sürüm oturumu okunamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="128"/>
+        <location filename="../../ui/messages.py" line="131"/>
         <source>the stars of the frame do not match the Gaia stars around its pointing</source>
         <translation>karedeki yıldızlar, yönün çevresindeki Gaia yıldızlarıyla eşleşmiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="129"/>
+        <location filename="../../ui/messages.py" line="132"/>
         <source>the target is not a Gaia star of the field: mark it on the star</source>
         <translation>hedef alandaki bir Gaia yıldızı değil: yıldızın üstüne işaretleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="131"/>
+        <location filename="../../ui/messages.py" line="134"/>
         <source>too few frames with every star found to compare apertures</source>
         <translation>açıklıkları karşılaştırmak için her yıldızın bulunduğu kare çok az</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="132"/>
+        <location filename="../../ui/messages.py" line="135"/>
         <source>the target or a comparison star was not found on any frame: check the stars marked on the first frame</source>
         <translation>hedef ya da bir karşılaştırma yıldızı hiçbir karede bulunamadı: ilk karede işaretlenen yıldızları kontrol edin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="146"/>
+        <location filename="../../ui/messages.py" line="149"/>
         <source>the image has no sky coordinates: plate-solve it first (Image menu)</source>
         <translation>görüntüde gök koordinatı yok: önce plaka çözün (Görüntü menüsü)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="148"/>
+        <location filename="../../ui/messages.py" line="151"/>
         <source>at least two spectra are needed to combine</source>
         <translation>birleştirmek için en az iki tayf gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="149"/>
+        <location filename="../../ui/messages.py" line="152"/>
         <source>unknown combine method {method} or rejection {rejection}</source>
         <translation>bilinmeyen birleştirme yöntemi {method} ya da reddetme {rejection}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="150"/>
+        <location filename="../../ui/messages.py" line="153"/>
         <source>the exposures span {days} days: the star&apos;s velocity changes between nights; combine one night at a time, or shift the spectra to one velocity first</source>
         <translation>pozlar {days} güne yayılıyor: yıldızın hızı geceden geceye değişir; her geceyi ayrı birleştirin ya da tayfları önce tek bir hıza kaydırın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="155"/>
+        <location filename="../../ui/messages.py" line="158"/>
         <source>the light curve spans {hours} h: too short to search for periods</source>
         <translation>ışık eğrisi {hours} saat sürüyor: periyot aramak için çok kısa</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="156"/>
+        <location filename="../../ui/messages.py" line="159"/>
         <source>the light curve spans {hours} h, less than two cycles of the shortest period searched ({p_min} d): no period in this range can be found; observe longer and search again</source>
         <translation>ışık eğrisi {hours} sa sürüyor; aranan en kısa periyodun ({p_min} gün) iki çevriminden az: bu aralıkta periyot bulunamaz; daha uzun gözleyip yeniden arayın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="160"/>
+        <location filename="../../ui/messages.py" line="163"/>
         <source>the best period ({best} d) is longer than half the time the light curve spans ({span} d): fewer than two cycles were seen</source>
         <translation>en iyi periyot ({best} gün), ışık eğrisinin kapsadığı sürenin ({span} gün) yarısından uzun: iki çevrimden azı görüldü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="164"/>
+        <location filename="../../ui/messages.py" line="167"/>
         <source>the best period is at the edge of the range searched ({p_min} to {p_max} d): widen the range</source>
         <translation>en iyi periyot, aranan aralığın ({p_min} – {p_max} gün) kenarında: aralığı genişletin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="168"/>
+        <location filename="../../ui/messages.py" line="171"/>
         <source>fewer than 3 usable stars</source>
         <translation>kullanılabilir yıldız 3&apos;ten az</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="169"/>
+        <location filename="../../ui/messages.py" line="172"/>
         <source>the airmass hardly changed during the series: no extinction from it</source>
         <translation>dizi boyunca airmass/hava kütlesi neredeyse değişmedi: ondan sönümleme bulunamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="171"/>
+        <location filename="../../ui/messages.py" line="174"/>
         <source>fewer than 5 stars found on the first frame</source>
         <translation>ilk karede 5&apos;ten az yıldız bulundu</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="173"/>
+        <location filename="../../ui/messages.py" line="176"/>
         <source>{pick} is not a {kind} frame of this night: choose another</source>
         <translation>{pick} bu gecenin bir {kind} karesi değil: başka birini seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="175"/>
+        <location filename="../../ui/messages.py" line="178"/>
         <source>designation, observatory code and observer names are required</source>
         <translation>adlandırma, gözlemevi kodu ve gözlemci adları gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="177"/>
+        <location filename="../../ui/messages.py" line="180"/>
         <source>VSX does not know &apos;{name}&apos;</source>
         <translation>VSX &apos;{name}&apos; adını bilmiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="178"/>
+        <location filename="../../ui/messages.py" line="181"/>
         <source>the NASA Exoplanet Archive does not know &apos;{planet}&apos;</source>
         <translation>NASA Ötegezegen Arşivi &apos;{planet}&apos; adını bilmiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="180"/>
+        <location filename="../../ui/messages.py" line="183"/>
         <source>no {mission} light curves for {target}</source>
         <translation>{target} için {mission} ışık eğrisi yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="182"/>
+        <location filename="../../ui/messages.py" line="185"/>
         <source>no measurements in the file</source>
         <translation>dosyada ölçüm yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="183"/>
+        <location filename="../../ui/messages.py" line="186"/>
         <source>fewer than 3 measurements in band {band}</source>
         <translation>{band} bandında 3&apos;ten az ölçüm var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="185"/>
+        <location filename="../../ui/messages.py" line="188"/>
         <source>need at least 8 minima for a third-body orbit</source>
         <translation>üçüncü cisim yörüngesi için en az 8 minimum gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="186"/>
+        <location filename="../../ui/messages.py" line="189"/>
         <source>apsidal motion needs at least 3 primary and 3 secondary minima</source>
         <translation>apsidal hareket için en az 3 birincil ve 3 ikincil minimum gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="188"/>
+        <location filename="../../ui/messages.py" line="191"/>
         <source>no eclipse or transit stands out of the noise in this light curve: do the frames cover it?</source>
         <translation>bu ışık eğrisinde gürültüden ayrışan bir örtme ya da geçiş yok: kareler onu kapsıyor mu?</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="191"/>
+        <location filename="../../ui/messages.py" line="194"/>
         <source>the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one</source>
         <translation>ışık eğrisinde {n} tutulma var: her birini zamanlamak için T0&apos;ı ve periyodu girin (ör. periyot aramasından)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="199"/>
+        <location filename="../../ui/messages.py" line="202"/>
         <source>{name}: no cadence with a time and good quality</source>
         <translation>{name}: zamanı olan ve kalitesi iyi hiç kadans yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="201"/>
+        <location filename="../../ui/messages.py" line="204"/>
         <source>line {n}: &apos;{value}&apos; is not a time</source>
         <translation>satır {n}: &apos;{value}&apos; bir zaman değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="202"/>
+        <location filename="../../ui/messages.py" line="205"/>
         <source>need at least {n} minima</source>
         <translation>en az {n} minimum gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="204"/>
+        <location filename="../../ui/messages.py" line="207"/>
         <source>{step}: missing input(s): {names}</source>
         <translation>{step}: eksik girdi: {names}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="205"/>
+        <location filename="../../ui/messages.py" line="208"/>
         <source>the automation has no steps</source>
         <translation>otomasyonda hiç adım yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="206"/>
+        <location filename="../../ui/messages.py" line="209"/>
         <source>unknown step {step} (a plugin that is not installed?)</source>
         <translation>bilinmeyen adım {step} (kurulu olmayan bir eklenti mi?)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="207"/>
+        <location filename="../../ui/messages.py" line="210"/>
         <source>no plate solver installed: install ASTAP (with a star database) or astrometry.net</source>
         <translation>plaka çözücü kurulu değil: ASTAP&apos;ı (bir yıldız veritabanıyla) ya da astrometry.net&apos;i kurun</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="209"/>
+        <location filename="../../ui/messages.py" line="212"/>
         <source>the keyword {key} describes the data and cannot be edited</source>
         <translation>{key} anahtar sözcüğü veriyi tanımlar ve düzenlenemez</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="210"/>
+        <location filename="../../ui/messages.py" line="213"/>
         <source>the value of {key} must be plain ASCII text (FITS standard)</source>
         <translation>{key} değeri düz ASCII metin olmalı (FITS standardı)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="213"/>
+        <location filename="../../ui/messages.py" line="216"/>
         <source>the solver&apos;s output has no celestial WCS</source>
         <translation>çözücünün çıktısında gök koordinatı (WCS) yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="214"/>
+        <location filename="../../ui/messages.py" line="217"/>
         <source>solver did not finish within {timeout} s</source>
         <translation>çözücü {timeout} sn içinde bitmedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="215"/>
+        <location filename="../../ui/messages.py" line="218"/>
         <source>{server} did not answer within {seconds} s</source>
         <translation>{server} {seconds} s içinde yanıt vermedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="217"/>
+        <location filename="../../ui/messages.py" line="220"/>
         <source>only {n} stars found in the image: too few to refine the plate solution</source>
         <translation>görüntüde yalnızca {n} yıldız bulundu: plaka çözümünü inceltmek için çok az</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="218"/>
+        <location filename="../../ui/messages.py" line="221"/>
         <source>only {n} stars match Gaia DR3: too few to refine the plate solution</source>
         <translation>yalnızca {n} yıldız Gaia DR3 ile eşleşiyor: plaka çözümünü inceltmek için çok az</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="220"/>
+        <location filename="../../ui/messages.py" line="223"/>
         <source>dark ({t_dark} s) without bias subtraction cannot be scaled to {exptime} s; add bias frames or darks with the same exposure</source>
         <translation>bias çıkarılmamış dark ({t_dark} sn) {exptime} sn&apos;ye ölçeklenemez; bias kareleri ya da aynı pozlamalı darklar ekleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="224"/>
+        <location filename="../../ui/messages.py" line="227"/>
         <source>linearity coefficients: give at least c0 and c1, with c1 &gt; 0</source>
         <translation>doğrusallık katsayıları: en az c0 ve c1 girin, c1 &gt; 0 olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="225"/>
+        <location filename="../../ui/messages.py" line="228"/>
         <source>frames have different sizes: {shapes}</source>
         <translation>karelerin boyutları farklı: {shapes}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="226"/>
+        <location filename="../../ui/messages.py" line="229"/>
         <source>no frames to combine: check the folder and the frame types listed in the Calibration window</source>
         <translation>birleştirilecek kare yok: klasörü ve Kalibrasyon penceresinde listelenen kare türlerini denetleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="230"/>
+        <location filename="../../ui/messages.py" line="233"/>
         <source>{name}: no EXPTIME</source>
         <translation>{name}: EXPTIME yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="231"/>
+        <location filename="../../ui/messages.py" line="234"/>
         <source>darks with different exposure times cannot be combined: {times}</source>
         <translation>farklı pozlama süreli darklar birleştirilemez: {times}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="232"/>
+        <location filename="../../ui/messages.py" line="235"/>
         <source>{name}: flat level {level} is not positive</source>
         <translation>{name}: flat düzeyi {level} pozitif değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="243"/>
+        <location filename="../../ui/messages.py" line="246"/>
         <source>no GPU adapter</source>
         <translation>GPU bağdaştırıcısı yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="244"/>
+        <location filename="../../ui/messages.py" line="247"/>
         <source>only a software adapter: {device}</source>
         <translation>yalnızca yazılımsal bağdaştırıcı var: {device}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="246"/>
+        <location filename="../../ui/messages.py" line="249"/>
         <source>too few focus measurements</source>
         <translation>odak ölçümü çok az</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="248"/>
+        <location filename="../../ui/messages.py" line="251"/>
         <source>INDI server connection lost</source>
         <translation>INDI sunucusuyla bağlantı koptu</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="249"/>
+        <location filename="../../ui/messages.py" line="252"/>
         <source>pier side not reported</source>
         <translation>kolon tarafı (pier side) bildirilmedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="250"/>
+        <location filename="../../ui/messages.py" line="253"/>
         <source>{device} cannot bin</source>
         <translation>{device} birleştirme (binning) yapamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="251"/>
+        <location filename="../../ui/messages.py" line="254"/>
         <source>{device}: property {name} not available</source>
         <translation>{device}: {name} özelliği yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="252"/>
+        <location filename="../../ui/messages.py" line="255"/>
         <source>{device}: {name} did not reach {states}</source>
         <translation>{device}: {name} {states} durumuna ulaşmadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="254"/>
+        <location filename="../../ui/messages.py" line="257"/>
         <source>PHD2 closed the connection</source>
         <translation>PHD2 bağlantıyı kapattı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="255"/>
+        <location filename="../../ui/messages.py" line="258"/>
         <source>PHD2 did not answer in time</source>
         <translation>PHD2 zamanında yanıt vermedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="256"/>
+        <location filename="../../ui/messages.py" line="259"/>
         <source>PHD2 connection lost: {error}</source>
         <translation>PHD2 bağlantısı koptu: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="257"/>
+        <location filename="../../ui/messages.py" line="260"/>
         <source>guiding did not settle: {error}</source>
         <translation>kılavuzlama oturmadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="259"/>
+        <location filename="../../ui/messages.py" line="262"/>
         <source>not centred after {n} images ({error} arcsec off)</source>
         <translation>{n} görüntüden sonra ortalanamadı ({error} yay saniyesi kaçık)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="260"/>
+        <location filename="../../ui/messages.py" line="263"/>
         <source>the three positions are too close together: turn the RA axis further</source>
         <translation>üç konum birbirine çok yakın: RA eksenini daha çok döndürün</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="262"/>
+        <location filename="../../ui/messages.py" line="265"/>
         <source>filter {name} is not in the wheel {names}</source>
         <translation>{name} filtresi tekerde yok {names}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="263"/>
+        <location filename="../../ui/messages.py" line="266"/>
         <source>camera did not deliver the image in time</source>
         <translation>kamera görüntüyü zamanında vermedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="265"/>
+        <location filename="../../ui/messages.py" line="268"/>
         <source>no {what} tonight at this site</source>
         <translation>bu gece bu yerde {what} yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="266"/>
+        <location filename="../../ui/messages.py" line="269"/>
         <source>request too large</source>
         <translation>istek çok büyük</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="268"/>
+        <location filename="../../ui/messages.py" line="271"/>
         <source>{path}: not an automation (no step list)</source>
         <translation>{path}: bir otomasyon değil (adım listesi yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="269"/>
+        <location filename="../../ui/messages.py" line="272"/>
         <source>two numbers expected: x y</source>
         <translation>iki sayı bekleniyor: x y</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="270"/>
+        <location filename="../../ui/messages.py" line="273"/>
         <source>pairs expected: a b; c d; ...</source>
         <translation>çiftler bekleniyor: a b; c d; ...</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="271"/>
+        <location filename="../../ui/messages.py" line="274"/>
         <source>latitude longitude [height in m] expected</source>
         <translation>enlem boylam [yükseklik, m] bekleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="273"/>
+        <location filename="../../ui/messages.py" line="276"/>
         <source>unknown operation {op}</source>
         <translation>bilinmeyen işlem {op}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="275"/>
+        <location filename="../../ui/messages.py" line="278"/>
         <source>project file must end with {extension}</source>
         <translation>proje dosyasının adı {extension} ile bitmeli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="276"/>
+        <location filename="../../ui/messages.py" line="279"/>
         <source>project was written by a newer version (schema {version})</source>
         <translation>proje daha yeni bir sürümle yazılmış (şema {version})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="278"/>
+        <location filename="../../ui/messages.py" line="281"/>
         <source>{name}: not a 2-D picture (shape {shape})</source>
         <translation>{name}: iki boyutlu bir resim değil (biçim {shape})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="279"/>
+        <location filename="../../ui/messages.py" line="282"/>
         <source>{name}: not a 2 x 2 Bayer sensor (e.g. Fujifilm X-Trans, Foveon)</source>
         <translation>{name}: 2 x 2 Bayer algılayıcı değil (ör. Fujifilm X-Trans, Foveon)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="285"/>
+        <location filename="../../ui/messages.py" line="288"/>
         <source>destination must differ from source</source>
         <translation>hedef dosya kaynaktan farklı olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="287"/>
+        <location filename="../../ui/messages.py" line="290"/>
         <source>the rectangle is outside the image</source>
         <translation>dikdörtgen görüntünün dışında</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="288"/>
+        <location filename="../../ui/messages.py" line="291"/>
         <source>the rectangle has no valid pixels</source>
         <translation>dikdörtgende geçerli piksel yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="290"/>
+        <location filename="../../ui/messages.py" line="293"/>
         <source>empty crop region</source>
         <translation>kırpma bölgesi boş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="291"/>
+        <location filename="../../ui/messages.py" line="294"/>
         <source>the factor must be positive</source>
         <translation>çarpan pozitif olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="292"/>
+        <location filename="../../ui/messages.py" line="295"/>
         <source>the image has no valid pixels</source>
         <translation>görüntüde geçerli piksel yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="293"/>
+        <location filename="../../ui/messages.py" line="296"/>
         <source>image too small for this box size</source>
         <translation>görüntü bu kutu boyutu için çok küçük</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="299"/>
+        <location filename="../../ui/messages.py" line="302"/>
         <source>{name}: need at least a time and a value column</source>
         <translation>{name}: en az bir zaman ve bir değer sütunu gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="300"/>
+        <location filename="../../ui/messages.py" line="303"/>
         <source>not a table with two columns (time or phase, flux)</source>
         <translation>iki sütunlu bir tablo değil (zaman ya da evre, akı)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="302"/>
+        <location filename="../../ui/messages.py" line="305"/>
         <source>give the period and the time of primary minimum</source>
         <translation>periyodu ve birincil minimum zamanını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="304"/>
+        <location filename="../../ui/messages.py" line="307"/>
         <source>a visual orbit needs at least 7 measures (seven elements)</source>
         <translation>görsel yörünge için en az 7 ölçüm gerekli (yedi öğe)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="305"/>
+        <location filename="../../ui/messages.py" line="308"/>
         <source>no measures</source>
         <translation>ölçüm yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="306"/>
+        <location filename="../../ui/messages.py" line="309"/>
         <source>each line needs epoch, position angle and separation</source>
         <translation>her satırda periyot, konum açısı ve ayrıklık olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="308"/>
+        <location filename="../../ui/messages.py" line="311"/>
         <source>the telescope aperture and the exposure time must be positive</source>
         <translation>teleskop açıklığı ve poz süresi pozitif olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="309"/>
+        <location filename="../../ui/messages.py" line="312"/>
         <source>Input data must have a nonzero sum and nonconstant values to fit 1D Gaussians.</source>
         <translation>Gauss eğrisi uydurulamadı: kutudaki veriler sıfır ya da tamamen düz.</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="311"/>
+        <location filename="../../ui/messages.py" line="314"/>
         <source>too few points outside the left-out range to detrend</source>
         <translation>detrend için dışarıda bırakılan aralığın dışında çok az nokta var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="313"/>
+        <location filename="../../ui/messages.py" line="316"/>
         <source>not a .Z (compress) file: check the file name, or download it again</source>
         <translation>bir .Z (compress) dosyası değil: dosya adını denetleyin ya da yeniden indirin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="314"/>
+        <location filename="../../ui/messages.py" line="317"/>
         <source>unsupported .Z file: decompress it with gzip -d or 7-Zip and open the .fits</source>
         <translation>desteklenmeyen .Z dosyası: gzip -d ya da 7-Zip ile açıp .fits dosyasını açın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="315"/>
+        <location filename="../../ui/messages.py" line="318"/>
         <source>damaged .Z file: download it again</source>
         <translation>bozuk .Z dosyası: yeniden indirin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="316"/>
+        <location filename="../../ui/messages.py" line="319"/>
         <source>no spectrum covers the chosen wavelengths: widen the range or set it to 0 (all)</source>
         <translation>seçilen dalgaboylarını kapsayan tayf yok: aralığı genişletin ya da 0 (tümü) yapın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="317"/>
+        <location filename="../../ui/messages.py" line="320"/>
         <source>{k} in the left-out range is far from its values at the fitted points: leave out only the eclipse</source>
         <translation>dışarıda bırakılan aralıktaki {k}, uydurulan noktalardaki değerlerinden çok uzak: yalnızca tutulmayı dışarıda bırakın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="321"/>
+        <location filename="../../ui/messages.py" line="324"/>
         <source>give one catalogue magnitude per comparison star</source>
         <translation>her karşılaştırma yıldızı için bir katalog kadiri girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="322"/>
+        <location filename="../../ui/messages.py" line="325"/>
         <source>star name, observer code and filter are required</source>
         <translation>yıldız adı, gözlemci kodu ve filtre gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="324"/>
+        <location filename="../../ui/messages.py" line="327"/>
         <source>need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)</source>
         <translation>farklı yarım dalga levhası açıları gerekli (ör. 0, 22.5, 45, 67.5)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="326"/>
+        <location filename="../../ui/messages.py" line="329"/>
         <source>SIMBAD does not know &apos;{name}&apos;</source>
         <translation>SIMBAD &apos;{name}&apos; adını tanımıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="327"/>
+        <location filename="../../ui/messages.py" line="330"/>
         <source>cannot reach SIMBAD and &apos;{name}&apos; is not in the local cache ({error})</source>
         <translation>SIMBAD&apos;a ulaşılamıyor ve &apos;{name}&apos; yerel önbellekte yok ({error})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="329"/>
+        <location filename="../../ui/messages.py" line="332"/>
         <source>not allowed in an expression: {expr}</source>
         <translation>ifadede izin verilmiyor: {expr}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="330"/>
+        <location filename="../../ui/messages.py" line="333"/>
         <source>the two images are not on the same pixel grid</source>
         <translation>iki görüntü aynı piksel ızgarasında değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="331"/>
+        <location filename="../../ui/messages.py" line="334"/>
         <source>cannot read the expression: {error}</source>
         <translation>ifade okunamıyor: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="332"/>
+        <location filename="../../ui/messages.py" line="335"/>
         <source>unknown band {band}; available: {bands}</source>
         <translation>bilinmeyen bant {band}; var olanlar: {bands}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="333"/>
+        <location filename="../../ui/messages.py" line="336"/>
         <source>no pixel has a value in every band</source>
         <translation>hiçbir pikselin her bantta değeri yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="335"/>
+        <location filename="../../ui/messages.py" line="338"/>
         <source>the files are not the same size: open bands of one scene at the same resolution</source>
         <translation>dosyalar aynı boyutta değil: tek bir sahnenin aynı çözünürlükteki bantlarını açın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="336"/>
+        <location filename="../../ui/messages.py" line="339"/>
         <source>no image (2-D variable) in this file</source>
         <translation>bu dosyada görüntü (iki boyutlu değişken) yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="338"/>
+        <location filename="../../ui/messages.py" line="341"/>
         <source>too few points in the window</source>
         <translation>pencerede çok az nokta var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="339"/>
+        <location filename="../../ui/messages.py" line="342"/>
         <source>too few points on one side of the line</source>
         <translation>çizginin bir yanında çok az nokta var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="340"/>
+        <location filename="../../ui/messages.py" line="343"/>
         <source>no red emission peak above the continuum</source>
         <translation>sürekliliğin üstünde kırmızı salma tepesi yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="341"/>
+        <location filename="../../ui/messages.py" line="344"/>
         <source>pick at least two continuum points</source>
         <translation>en az iki süreklilik noktası seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="342"/>
+        <location filename="../../ui/messages.py" line="345"/>
         <source>the reference spectrum does not cover the observed one</source>
         <translation>başvuru tayfı gözlenen tayfı kapsamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="344"/>
+        <location filename="../../ui/messages.py" line="347"/>
         <source>no grid spectra</source>
         <translation>ızgara tayfı yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="345"/>
+        <location filename="../../ui/messages.py" line="348"/>
         <source>the grid does not cover this spectrum&apos;s wavelengths</source>
         <translation>ızgara bu tayfın dalga boylarını kapsamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="346"/>
+        <location filename="../../ui/messages.py" line="349"/>
         <source>the grid has no complete box of points</source>
         <translation>ızgarada eksiksiz bir nokta kutusu yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="348"/>
+        <location filename="../../ui/messages.py" line="351"/>
         <source>observed and template spectra hardly overlap for this velocity range</source>
         <translation>gözlenen ve şablon tayflar bu hız aralığında neredeyse örtüşmüyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="349"/>
+        <location filename="../../ui/messages.py" line="352"/>
         <source>the broadening function shows fewer than {n} peaks</source>
         <translation>genişleme fonksiyonunda {n} tepeden az var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="351"/>
+        <location filename="../../ui/messages.py" line="354"/>
         <source>the cube has no wavelength axis (CRVAL3 / CDELT3)</source>
         <translation>küpte dalgaboyu ekseni yok (CRVAL3 / CDELT3)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="352"/>
+        <location filename="../../ui/messages.py" line="355"/>
         <source>unknown wavelength unit {unit}</source>
         <translation>bilinmeyen dalgaboyu birimi {unit}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="353"/>
+        <location filename="../../ui/messages.py" line="356"/>
         <source>no 3-D data cube in this file</source>
         <translation>bu dosyada üç boyutlu veri küpü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="355"/>
+        <location filename="../../ui/messages.py" line="358"/>
         <source>the spectra hardly overlap</source>
         <translation>tayflar neredeyse örtüşmüyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="361"/>
+        <location filename="../../ui/messages.py" line="364"/>
         <source>identify at least four lines in at least two orders</source>
         <translation>en az iki order/mertebede en az dört çizgi tanımlayın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="362"/>
+        <location filename="../../ui/messages.py" line="365"/>
         <source>order at row {row} could not be traced</source>
         <translation>{row}. satırdaki order/mertebe izlenemedi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="363"/>
+        <location filename="../../ui/messages.py" line="366"/>
         <source>too few lines matched: check the identified lines, order numbers and line list</source>
         <translation>çok az çizgi eşleşti: tanımlanan çizgileri, order/mertebe numaralarını ve çizgi listesini denetleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="364"/>
+        <location filename="../../ui/messages.py" line="367"/>
         <source>at least two orders are needed to measure the scattered light</source>
         <translation>saçılan ışığı ölçmek için en az iki order/mertebe gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="366"/>
+        <location filename="../../ui/messages.py" line="369"/>
         <source>observed and template spectra hardly overlap</source>
         <translation>gözlenen ve şablon tayflar neredeyse örtüşmüyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="367"/>
+        <location filename="../../ui/messages.py" line="370"/>
         <source>CCF peak at the edge of the velocity range: widen the range</source>
         <translation>CCF tepesi hız aralığının kenarında: aralığı genişletin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="369"/>
+        <location filename="../../ui/messages.py" line="372"/>
         <source>TODCOR peak at the edge of the velocity range: widen the range</source>
         <translation>TODCOR tepesi hız aralığının kenarında: aralığı genişletin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="371"/>
+        <location filename="../../ui/messages.py" line="374"/>
         <source>{name}: no spectrum found</source>
         <translation>{name}: tayf bulunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="372"/>
+        <location filename="../../ui/messages.py" line="375"/>
         <source>{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)</source>
         <translation>{name}: dalgaboyu çözümü olmayan tek boyutlu görüntü (CRVAL1/CDELT1)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="374"/>
+        <location filename="../../ui/messages.py" line="377"/>
         <source>give a period guess (e.g. from the period search)</source>
         <translation>bir periyot tahmini girin (ör. periyot aramasından)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="375"/>
+        <location filename="../../ui/messages.py" line="378"/>
         <source>the arc and the spectrum differ in length: extract the arc with the same aperture</source>
         <translation>ark ile tayfın uzunlukları farklı: arkı aynı açıklıkla çıkarın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="376"/>
+        <location filename="../../ui/messages.py" line="379"/>
         <source>{file} has {n} orders of {nx} pixels, the science spectrum {m} of {mx}: extract it with the same apertures</source>
         <translation>{file} dosyasında {nx} piksellik {n} mertebe var, bilim tayfında {mx} piksellik {m}: aynı açıklıklarla çıkarın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="385"/>
+        <location filename="../../ui/messages.py" line="388"/>
         <source>the spectrum runs the other way on this frame: change &apos;Dispersion along&apos; (rows / columns)</source>
         <translation>tayf bu karede diğer yönde uzanıyor: &apos;Dağılma yönü&apos; ayarını değiştirin (satırlar / sütunlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="390"/>
+        <location filename="../../ui/messages.py" line="393"/>
         <source>the spectrum has no part with a clear signal to compare</source>
         <translation>tayfta karşılaştırılacak kadar belirgin sinyali olan bir kısım yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="392"/>
+        <location filename="../../ui/messages.py" line="395"/>
         <source>the spectrum does not cover a telluric band</source>
         <translation>tayf bir tellürik bandı kapsamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="394"/>
+        <location filename="../../ui/messages.py" line="397"/>
         <source>identify at least two lines</source>
         <translation>en az iki çizgi tanımlayın</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="395"/>
+        <location filename="../../ui/messages.py" line="398"/>
         <source>too few lines matched: check the identified lines and the line list</source>
         <translation>çok az çizgi eşleşti: tanımlanan çizgileri ve çizgi listesini denetleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="397"/>
+        <location filename="../../ui/messages.py" line="400"/>
         <source>the MK standards cover 3800-5600 A: the spectrum has too little of that range</source>
         <translation>MK standartları 3800-5600 Å aralığını kapsar: tayfta bu aralıktan çok az var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="398"/>
+        <location filename="../../ui/messages.py" line="401"/>
         <source>the MK standards could not be read from the download</source>
         <translation>MK standartları indirilen dosyadan okunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="399"/>
+        <location filename="../../ui/messages.py" line="402"/>
         <source>no MK standards in the library folder</source>
         <translation>kütüphane klasöründe MK standardı yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="401"/>
+        <location filename="../../ui/messages.py" line="404"/>
         <source>{name}: no identified lines (not an IRAF identify / ecidentify database?)</source>
         <translation>{name}: tanımlı çizgi yok (bir IRAF identify / ecidentify veritabanı değil mi?)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="402"/>
+        <location filename="../../ui/messages.py" line="405"/>
         <source>no IRAF database {name} next to it: choose the database file itself</source>
         <translation>yanında {name} IRAF veritabanı yok: veritabanı dosyasının kendisini seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="404"/>
+        <location filename="../../ui/messages.py" line="407"/>
         <source>not a star list (.stars.json)</source>
         <translation>bir yıldız listesi değil (.stars.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="405"/>
+        <location filename="../../ui/messages.py" line="408"/>
         <source>the target of the star list is outside this frame</source>
         <translation>yıldız listesinin hedefi bu karenin dışında</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="406"/>
+        <location filename="../../ui/messages.py" line="409"/>
         <source>not a multi-plot template</source>
         <translation>çoklu grafik şablonu değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="407"/>
+        <location filename="../../ui/messages.py" line="410"/>
         <source>the meridian flip needs the times</source>
         <translation>meridyen dönüşü için zamanlar gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="408"/>
+        <location filename="../../ui/messages.py" line="411"/>
         <source>not in this light curve: {missing}</source>
         <translation>bu ışık eğrisinde yok: {missing}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="409"/>
+        <location filename="../../ui/messages.py" line="412"/>
         <source>a colour needs images in two filters</source>
         <translation>renk için iki filtrede görüntü gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="410"/>
+        <location filename="../../ui/messages.py" line="413"/>
         <source>join needs two nights or more</source>
         <translation>birleştirmek için iki ya da daha fazla gece gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="412"/>
+        <location filename="../../ui/messages.py" line="415"/>
         <source>too few points around the minimum for a polynomial</source>
         <translation>minimum çevresinde polinom için çok az nokta var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="413"/>
+        <location filename="../../ui/messages.py" line="416"/>
         <source>the eclipse&apos;s branches are not covered between 20 % and 80 % of its depth</source>
         <translation>tutulmanın kolları derinliğinin %20&apos;si ile %80&apos;i arasında kapsanmamış</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="414"/>
+        <location filename="../../ui/messages.py" line="417"/>
         <source>unknown timing method {method}</source>
         <translation>bilinmeyen zamanlama yöntemi {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="415"/>
+        <location filename="../../ui/messages.py" line="418"/>
         <source>too few points around this kind of minimum to make its template</source>
         <translation>bu tür minimumun şablonunu yapmak için çevresinde çok az nokta var</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="416"/>
+        <location filename="../../ui/messages.py" line="419"/>
         <source>the template does not match this eclipse</source>
         <translation>şablon bu tutulmaya uymuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="417"/>
+        <location filename="../../ui/messages.py" line="420"/>
         <source>no template for this kind of minimum</source>
         <translation>bu tür minimum için şablon yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="418"/>
+        <location filename="../../ui/messages.py" line="421"/>
         <source>unknown time standard {standard}</source>
         <translation>bilinmeyen zaman standardı {standard}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="420"/>
+        <location filename="../../ui/messages.py" line="423"/>
         <source>the potential is below the critical one: the surface is not closed</source>
         <translation>potansiyel kritik değerin altında: yüzey kapalı değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="422"/>
+        <location filename="../../ui/messages.py" line="425"/>
         <source>the upper limit must be above the lower one</source>
         <translation>üst sınır alt sınırın üstünde olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="423"/>
+        <location filename="../../ui/messages.py" line="426"/>
         <source>a log-uniform prior needs a positive lower limit</source>
         <translation>log-düzgün önsel pozitif bir alt sınır ister</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="424"/>
+        <location filename="../../ui/messages.py" line="427"/>
         <source>the width of a Gaussian prior must be positive</source>
         <translation>Gauss önselinin genişliği pozitif olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="425"/>
+        <location filename="../../ui/messages.py" line="428"/>
         <source>the start is outside the prior or the model fails there</source>
         <translation>başlangıç noktası önselin dışında ya da model orada hesaplanamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="427"/>
+        <location filename="../../ui/messages.py" line="430"/>
         <source>differential evolution needs finite limits on every free parameter</source>
         <translation>diferansiyel evrim her serbest parametre için sonlu sınırlar ister</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="428"/>
+        <location filename="../../ui/messages.py" line="431"/>
         <source>unknown optimiser: {optimiser}</source>
         <translation>bilinmeyen eniyileyici: {optimiser}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="430"/>
+        <location filename="../../ui/messages.py" line="433"/>
         <source>unknown morphology: {morphology}</source>
         <translation>bilinmeyen biçim: {morphology}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="432"/>
+        <location filename="../../ui/messages.py" line="435"/>
         <source>append curves in the same unit and time standard</source>
         <translation>aynı birimde ve aynı zaman standardındaki eğrileri birleştirin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="433"/>
+        <location filename="../../ui/messages.py" line="436"/>
         <source>unknown weighting: {kind}</source>
         <translation>bilinmeyen ağırlıklandırma: {kind}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="435"/>
+        <location filename="../../ui/messages.py" line="438"/>
         <source>not a light-curve file of this version: {version}</source>
         <translation>bu sürümün ışık eğrisi dosyası değil: {version}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="437"/>
+        <location filename="../../ui/messages.py" line="440"/>
         <source>the AAVSO exoplanet file takes at most four detrending columns</source>
         <translation>AAVSO ötegezegen dosyası en çok dört eğilim sütunu alır</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="438"/>
+        <location filename="../../ui/messages.py" line="441"/>
         <source>the first line must be #TYPE=EXOPLANET</source>
         <translation>ilk satır #TYPE=EXOPLANET olmalı (ötegezegen raporu)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="439"/>
+        <location filename="../../ui/messages.py" line="442"/>
         <source>line {n} is blank: WebObs rejects a blank line not commented with #</source>
         <translation>{n}. satır boş: WebObs, # ile açıklama yapılmamış boş satırı reddeder</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="440"/>
+        <location filename="../../ui/messages.py" line="443"/>
         <source>line {n}: unknown header key {key}</source>
         <translation>{n}. satır: bilinmeyen başlık anahtarı {key}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="441"/>
+        <location filename="../../ui/messages.py" line="444"/>
         <source>the header needs #{key}</source>
         <translation>başlıkta #{key} gerekli</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="442"/>
+        <location filename="../../ui/messages.py" line="445"/>
         <source>line {n}: {expected} columns expected</source>
         <translation>{n}. satır: {expected} sütun bekleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="444"/>
+        <location filename="../../ui/messages.py" line="447"/>
         <source>ExoClock needs BJD_TDB times: give the target&apos;s position when measuring</source>
         <translation>ExoClock BJD_TDB zamanları ister: ölçerken hedefin konumunu verin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="446"/>
+        <location filename="../../ui/messages.py" line="449"/>
         <source>no object found near x={x0} y={y0} on {name}: mark it on the first and the last frame</source>
         <translation>{name} üzerinde x={x0} y={y0} yakınında cisim bulunamadı: ilk ve son karede işaretleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="450"/>
+        <location filename="../../ui/messages.py" line="453"/>
         <source>pick at least one star on the first frame to align on</source>
         <translation>hizalamak için ilk karede en az bir yıldız seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="452"/>
+        <location filename="../../ui/messages.py" line="455"/>
         <source>unknown detrending series: {name}</source>
         <translation>bilinmeyen eğilim serisi: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="454"/>
+        <location filename="../../ui/messages.py" line="457"/>
         <source>no comparison star passed the rules; most were removed by: {reasons}</source>
         <translation>hiçbir karşılaştırma yıldızı kuralları geçmedi; çoğunu eleyen kurallar: {reasons}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="456"/>
+        <location filename="../../ui/messages.py" line="459"/>
         <source>unknown detrending method: {method}</source>
         <translation>bilinmeyen eğilim giderme yöntemi: {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="458"/>
+        <location filename="../../ui/messages.py" line="461"/>
         <source>unknown table style: {style}</source>
         <translation>bilinmeyen tablo biçimi: {style}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="460"/>
+        <location filename="../../ui/messages.py" line="463"/>
         <source>conservative transfer between equal masses changes no period</source>
         <translation>eşit kütleler arasında korunumlu aktarım periyodu değiştirmez</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="462"/>
+        <location filename="../../ui/messages.py" line="465"/>
         <source>{child} is related to {parent}, which is itself related</source>
         <translation>{child}, {parent} frekansına bağlı; ama {parent} de başka bir frekansa bağlı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="463"/>
+        <location filename="../../ui/messages.py" line="466"/>
         <source>unknown frequency unit: {freq_unit}</source>
         <translation>bilinmeyen frekans birimi: {freq_unit}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="465"/>
+        <location filename="../../ui/messages.py" line="468"/>
         <source>at most {MAX_SPOTS} spots per star</source>
         <translation>yıldız başına en çok {MAX_SPOTS} leke</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="466"/>
+        <location filename="../../ui/messages.py" line="469"/>
         <source>unknown spot overlap rule: {rule}</source>
         <translation>bilinmeyen leke örtüşme kuralı: {rule}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="468"/>
+        <location filename="../../ui/messages.py" line="471"/>
         <source>the {law} law takes {need} coefficients</source>
         <translation>{law} yasası {need} katsayı alır</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="469"/>
+        <location filename="../../ui/messages.py" line="472"/>
         <source>the limb-darkening coefficients make the intensity negative near the limb</source>
         <translation>kenar kararması katsayıları kenara yakın yeğinliği negatif yapıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="470"/>
+        <location filename="../../ui/messages.py" line="473"/>
         <source>the limb-darkening coefficients make the limb brighter than the centre</source>
         <translation>kenar kararması katsayıları kenarı merkezden parlak yapıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="472"/>
+        <location filename="../../ui/messages.py" line="475"/>
         <source>{name}: there is no {path}</source>
         <translation>{name}: {path} yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="474"/>
+        <location filename="../../ui/messages.py" line="477"/>
         <source>{name} must be a number, not {value}</source>
         <translation>{name} bir sayı olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="475"/>
+        <location filename="../../ui/messages.py" line="478"/>
         <source>{name} must be a whole number, not {value}</source>
         <translation>{name} bir tam sayı olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="476"/>
+        <location filename="../../ui/messages.py" line="479"/>
         <source>{name} = {value} is below the smallest allowed value {low}</source>
         <translation>{name} = {value}, izin verilen en küçük değerin ({low}) altında</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="477"/>
+        <location filename="../../ui/messages.py" line="480"/>
         <source>{name} = {value} is above the largest allowed value {high}</source>
         <translation>{name} = {value}, izin verilen en büyük değerin ({high}) üstünde</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="478"/>
+        <location filename="../../ui/messages.py" line="481"/>
         <source>{name} must be true or false, not {value}</source>
         <translation>{name} doğru ya da yanlış olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="479"/>
+        <location filename="../../ui/messages.py" line="482"/>
         <source>{name} must be one of {known}, not {value}</source>
         <translation>{name} şunlardan biri olmalı: {known}; {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="480"/>
+        <location filename="../../ui/messages.py" line="483"/>
         <source>unknown parameter kind {kind}</source>
         <translation>bilinmeyen parametre türü {kind}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="481"/>
+        <location filename="../../ui/messages.py" line="484"/>
         <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation>{step_id}: {name} açıklaması adımın varsayılanıyla uyuşmuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="482"/>
+        <location filename="../../ui/messages.py" line="485"/>
         <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
         <translation>bir hız tablosunda bir zaman sütunu ve bir hız sütunu olmalı (ör. time, rv1, rv2)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="483"/>
+        <location filename="../../ui/messages.py" line="486"/>
         <source>the light curves have times in different standards ({scales}): convert them to one first</source>
         <translation>ışık eğrilerinin zamanları farklı standartlarda ({scales}): önce hepsini tek standarda çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="486"/>
+        <location filename="../../ui/messages.py" line="489"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>geceler farklı sayıda karşılaştırma yıldızıyla ölçülmüş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="487"/>
+        <location filename="../../ui/messages.py" line="490"/>
         <source>no night has a frame with every comparison star</source>
         <translation>hiçbir gecede bütün karşılaştırma yıldızlarının bulunduğu bir kare yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="488"/>
+        <location filename="../../ui/messages.py" line="491"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>Fotometri penceresinden dışa aktarılmış bir ışık eğrisi değil (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="489"/>
+        <location filename="../../ui/messages.py" line="492"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>iki filtrenin renk oluşturacak kadar zamanca yakın iki görüntüsü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="491"/>
+        <location filename="../../ui/messages.py" line="494"/>
         <source>filter not understood: {part}</source>
         <translation>süzgeç anlaşılamadı: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="492"/>
+        <location filename="../../ui/messages.py" line="495"/>
         <source>no column {name} in the measurements table</source>
         <translation>ölçüm tablosunda {name} sütunu yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="494"/>
+        <location filename="../../ui/messages.py" line="497"/>
         <source>the minimum must have data on both sides</source>
         <translation>minimumun iki yanında da veri olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="500"/>
+        <location filename="../../ui/messages.py" line="503"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>başlıkta gözlem zamanı yok (DATE-OBS, UT-OBS, JD, MJD-OBS): Görüntüler penceresinin Başlık sekmesinde DATE-OBS ekleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="504"/>
+        <location filename="../../ui/messages.py" line="507"/>
         <source>not an angle: {value}</source>
         <translation>bir açı değil: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="506"/>
+        <location filename="../../ui/messages.py" line="509"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>güncelleme denetimi için GitHub deposu ayarlanmamış</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="508"/>
+        <location filename="../../ui/messages.py" line="511"/>
         <source>solving</source>
         <translation>çözülüyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="509"/>
+        <location filename="../../ui/messages.py" line="512"/>
         <source>catalogues</source>
         <translation>kataloglar</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="510"/>
+        <location filename="../../ui/messages.py" line="513"/>
         <source>reading headers</source>
         <translation>başlıklar okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="511"/>
+        <location filename="../../ui/messages.py" line="514"/>
         <source>master bias</source>
         <translation>master bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="512"/>
+        <location filename="../../ui/messages.py" line="515"/>
         <source>master dark</source>
         <translation>master dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="513"/>
+        <location filename="../../ui/messages.py" line="516"/>
         <source>master flat</source>
         <translation>master flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="514"/>
+        <location filename="../../ui/messages.py" line="517"/>
         <source>calibrating</source>
         <translation>kalibre ediliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="515"/>
+        <location filename="../../ui/messages.py" line="518"/>
         <source>combining</source>
         <translation>birleştiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="516"/>
+        <location filename="../../ui/messages.py" line="519"/>
         <source>aligning</source>
         <translation>hizalanıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="517"/>
+        <location filename="../../ui/messages.py" line="520"/>
         <source>stacking</source>
         <translation>yığılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="518"/>
+        <location filename="../../ui/messages.py" line="521"/>
         <source>drizzle</source>
         <translation>drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="519"/>
+        <location filename="../../ui/messages.py" line="522"/>
         <source>reading</source>
         <translation>okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="520"/>
+        <location filename="../../ui/messages.py" line="523"/>
         <source>writing</source>
         <translation>yazılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="521"/>
+        <location filename="../../ui/messages.py" line="524"/>
         <source>plate solving</source>
         <translation>plaka çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="522"/>
+        <location filename="../../ui/messages.py" line="525"/>
         <source>checking</source>
         <translation>denetleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="523"/>
+        <location filename="../../ui/messages.py" line="526"/>
         <source>downloading</source>
         <translation>indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="524"/>
+        <location filename="../../ui/messages.py" line="527"/>
         <source>simulating</source>
         <translation>benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="525"/>
+        <location filename="../../ui/messages.py" line="528"/>
         <source>simulating a transit night</source>
         <translation>bir geçiş gecesi benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="526"/>
+        <location filename="../../ui/messages.py" line="529"/>
         <source>photometry</source>
         <translation>fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="527"/>
+        <location filename="../../ui/messages.py" line="530"/>
         <source>quality</source>
         <translation>kalite</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="528"/>
+        <location filename="../../ui/messages.py" line="531"/>
         <source>catalogue</source>
         <translation>katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="529"/>
+        <location filename="../../ui/messages.py" line="532"/>
         <source>astrometry</source>
         <translation>astrometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="530"/>
+        <location filename="../../ui/messages.py" line="533"/>
         <source>fit</source>
         <translation>uydurma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="531"/>
+        <location filename="../../ui/messages.py" line="534"/>
         <source>trace</source>
         <translation>iz</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="532"/>
+        <location filename="../../ui/messages.py" line="535"/>
         <source>trace orders</source>
         <translation>sıraların izi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="533"/>
+        <location filename="../../ui/messages.py" line="536"/>
         <source>extraction</source>
         <translation>çıkarma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="534"/>
+        <location filename="../../ui/messages.py" line="537"/>
         <source>arc</source>
         <translation>ark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="535"/>
+        <location filename="../../ui/messages.py" line="538"/>
         <source>wavelength solution</source>
         <translation>dalga boyu çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="536"/>
+        <location filename="../../ui/messages.py" line="539"/>
         <source>downloading the template library</source>
         <translation>şablon kütüphanesi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="537"/>
+        <location filename="../../ui/messages.py" line="540"/>
         <source>comparing</source>
         <translation>karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="538"/>
+        <location filename="../../ui/messages.py" line="541"/>
         <source>comparing with the MK standards</source>
         <translation>MK standartlarıyla karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="539"/>
+        <location filename="../../ui/messages.py" line="542"/>
         <source>disentangling</source>
         <translation>ayrıştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="540"/>
+        <location filename="../../ui/messages.py" line="543"/>
         <source>band math</source>
         <translation>bant hesabı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="541"/>
+        <location filename="../../ui/messages.py" line="544"/>
         <source>folder not found: {path}</source>
         <translation>klasör bulunamadı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="542"/>
+        <location filename="../../ui/messages.py" line="545"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} yalnızca tarih içeriyor, saat yok; saati veren bir başlık da bulunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="543"/>
+        <location filename="../../ui/messages.py" line="546"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>hedefin adını ya da koordinatlarını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="544"/>
+        <location filename="../../ui/messages.py" line="547"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>spektrografın ayırma gücünü girin: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="545"/>
+        <location filename="../../ui/messages.py" line="548"/>
         <source>the Sun</source>
         <translation>Güneş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="546"/>
+        <location filename="../../ui/messages.py" line="549"/>
         <source>first estimate</source>
         <translation>ilk tahmin</translation>
     </message>
@@ -13269,7 +13279,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_transit.py" line="136"/>
         <source>Residuals that drift together (β above 1, see the Checks tab) carry less information than their errors say: the parameter errors are multiplied by β</source>
-        <translation>Birlikte kayan artıklar (β 1'in üstünde, Denetimler sekmesine bakın) hatalarının söylediğinden az bilgi taşır: parametre hataları β ile çarpılır</translation>
+        <translation>Birlikte kayan artıklar (β 1&apos;in üstünde, Denetimler sekmesine bakın) hatalarının söylediğinden az bilgi taşır: parametre hataları β ile çarpılır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_transit.py" line="148"/>
@@ -14256,6 +14266,39 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>ProfileChooser</name>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="19"/>
+        <source>New…</source>
+        <translation>Yeni…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="20"/>
+        <source>A copy of this profile under a new name</source>
+        <translation>Bu profilin yeni adla bir kopyası</translation>
+    </message>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="21"/>
+        <source>Remove</source>
+        <translation>Kaldır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="22"/>
+        <source>Forget this profile; the next one becomes active</source>
+        <translation>Bu profili unut; sıradaki etkin olur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="44"/>
+        <source>New profile</source>
+        <translation>Yeni profil</translation>
+    </message>
+    <message>
+        <location filename="../../ui/profile_chooser.py" line="45"/>
+        <source>Name:</source>
+        <translation>Ad:</translation>
+    </message>
+</context>
+<context>
     <name>ProjectPage</name>
     <message>
         <location filename="../../ui/project_page.py" line="28"/>
@@ -15189,177 +15232,187 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Profiller</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="242"/>
+        <location filename="../../ui/settings_window.py" line="245"/>
+        <source>Profile</source>
+        <translation>Profil</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="245"/>
+        <source>Each site or camera can have its own profile</source>
+        <translation>Her site ya da kameranın kendi profili olabilir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="246"/>
         <source>Fill from a FITS header…</source>
         <translation>Bir FITS başlığından doldur…</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="244"/>
+        <location filename="../../ui/settings_window.py" line="248"/>
         <source>Site, camera and observer as an image&apos;s header gives them</source>
         <translation>Bir görüntünün başlığındaki konum, kamera ve gözlemci bilgileri</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="260"/>
+        <location filename="../../ui/settings_window.py" line="264"/>
         <source>Pixel scale</source>
         <translation>Piksel ölçeği</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="260"/>
+        <location filename="../../ui/settings_window.py" line="264"/>
         <source>From the pixel size and the focal length</source>
         <translation>Piksel boyutu ve odak uzunluğundan</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="267"/>
+        <location filename="../../ui/settings_window.py" line="271"/>
         <source>{s:.3f} ″/px</source>
         <translation>{s:.3f} ″/piksel</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="267"/>
+        <location filename="../../ui/settings_window.py" line="271"/>
         <source>Give both to see it</source>
         <translation>Görmek için ikisini de girin</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="275"/>
+        <location filename="../../ui/settings_window.py" line="279"/>
         <source>An image of your telescope and camera</source>
         <translation>Teleskobunuzla ve kameranızla çekilmiş bir görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="292"/>
+        <location filename="../../ui/settings_window.py" line="296"/>
         <source>Processing</source>
         <translation>İşlem</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="295"/>
+        <location filename="../../ui/settings_window.py" line="299"/>
         <source>Automatic (GPU when useful)</source>
         <translation>Otomatik (yararlıysa GPU)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="295"/>
+        <location filename="../../ui/settings_window.py" line="299"/>
         <source>CPU only</source>
         <translation>Yalnızca işlemci (CPU)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="296"/>
+        <location filename="../../ui/settings_window.py" line="300"/>
         <source>GPU</source>
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="298"/>
+        <location filename="../../ui/settings_window.py" line="302"/>
         <source>Processing device</source>
         <translation>İşlem birimi</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="298"/>
+        <location filename="../../ui/settings_window.py" line="302"/>
         <source>Where the heavy computations run</source>
         <translation>Ağır hesapların yapıldığı yer</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="304"/>
+        <location filename="../../ui/settings_window.py" line="308"/>
         <source>Automatic steps</source>
         <translation>Otomatik adımlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="313"/>
+        <location filename="../../ui/settings_window.py" line="317"/>
         <source>Time</source>
         <translation>Zaman</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="319"/>
+        <location filename="../../ui/settings_window.py" line="323"/>
         <source>The camera&apos;s clock minus UTC, for camera raw files and pictures without a UTC time (DSLR)</source>
         <translation>Kamera saatinin UTC&apos;den farkı; UTC zamanı olmayan ham kamera dosyaları ve resimler için (DSLR)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="320"/>
+        <location filename="../../ui/settings_window.py" line="324"/>
         <source>Camera clock − UTC</source>
         <translation>Kamera saati − UTC</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="323"/>
+        <location filename="../../ui/settings_window.py" line="327"/>
         <source>Online services</source>
         <translation>Çevrimiçi hizmetler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="325"/>
+        <location filename="../../ui/settings_window.py" line="329"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation>Kataloglar, arşivler ve ad sorguları yalnızca daha önce indirilenlerden yanıt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="326"/>
+        <location filename="../../ui/settings_window.py" line="330"/>
         <source>Work offline</source>
         <translation>Çevrimdışı çalış</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="327"/>
+        <location filename="../../ui/settings_window.py" line="331"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation>Çevrimiçiyken haftada bir güncellenir (IERS&apos;ten yaklaşık 3 MB)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="328"/>
+        <location filename="../../ui/settings_window.py" line="332"/>
         <source>Earth-rotation tables</source>
         <translation>Dünya dönme tabloları</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="337"/>
+        <location filename="../../ui/settings_window.py" line="341"/>
         <source>Shortcuts</source>
         <translation>Kısayollar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="345"/>
+        <location filename="../../ui/settings_window.py" line="349"/>
         <source>Click the field and press the keys; the dot puts the program&apos;s keys back</source>
         <translation>Alana tıklayıp tuşlara basın; nokta programın kendi tuşlarını geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="360"/>
+        <location filename="../../ui/settings_window.py" line="364"/>
         <source>Plugins</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="362"/>
+        <location filename="../../ui/settings_window.py" line="366"/>
         <source>Plugins folder</source>
         <translation>Eklenti klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="362"/>
+        <location filename="../../ui/settings_window.py" line="366"/>
         <source>Python files put here add steps and menu entries</source>
         <translation>Buraya konan Python dosyaları adım ve menü girdisi ekler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="366"/>
+        <location filename="../../ui/settings_window.py" line="370"/>
         <source>New or changed plugins run only once you allow them: they run with your rights</source>
         <translation>Yeni ya da değişmiş eklentiler ancak siz izin verince çalışır: sizin yetkilerinizle çalışırlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="367"/>
+        <location filename="../../ui/settings_window.py" line="371"/>
         <source>Waiting to be allowed</source>
         <translation>İzin bekleyenler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="373"/>
+        <location filename="../../ui/settings_window.py" line="377"/>
         <source>Allow…</source>
         <translation>İzin ver…</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="373"/>
+        <location filename="../../ui/settings_window.py" line="377"/>
         <source>None</source>
         <translation>Yok</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="387"/>
+        <location filename="../../ui/settings_window.py" line="391"/>
         <source>Advanced</source>
         <translation>Gelişmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="388"/>
+        <location filename="../../ui/settings_window.py" line="392"/>
         <source>The settings, app.log and error.log: what a problem report is made from</source>
         <translation>Ayarlar, app.log ve error.log: sorun raporunun yapıldığı dosyalar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="389"/>
+        <location filename="../../ui/settings_window.py" line="393"/>
         <source>Settings and logs folder</source>
         <translation>Ayar ve günlük klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="395"/>
+        <location filename="../../ui/settings_window.py" line="399"/>
         <source>Open the folder</source>
         <translation>Klasörü aç</translation>
     </message>

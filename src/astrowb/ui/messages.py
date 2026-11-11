@@ -117,6 +117,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the AAVSO has no comparison sequence for this field"),
     # selfcheck.py
     QT_TRANSLATE_NOOP("Messages", "the compiled routines are missing from this installation"),
+    # core/profiles.py
+    QT_TRANSLATE_NOOP("Messages", "a profile named {name} exists already"),
+    QT_TRANSLATE_NOOP("Messages", "the active profile cannot be removed: switch to another first"),
     # core/table.py
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the table"),
     QT_TRANSLATE_NOOP("Messages", "filter not understood: {expression}"),
