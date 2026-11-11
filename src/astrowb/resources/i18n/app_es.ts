@@ -13390,14 +13390,9 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>En el modo básico no se quita nada: las secciones plegadas se abren con un clic. Cámbielo aquí o en el menú Ajustes cuando quiera.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="107"/>
+        <location filename="../../ui/start_page.py" line="146"/>
         <source>Continue where you left off:</source>
         <translation>Seguir donde lo dejó:</translation>
-    </message>
-    <message>
-        <location filename="../../ui/start_page.py" line="109"/>
-        <source>Double-click to open it again</source>
-        <translation>Doble clic para volver a abrirlo</translation>
     </message>
     <message>
         <location filename="../../ui/start_page.py" line="76"/>
@@ -13430,27 +13425,32 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Ver una imagen y su cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="116"/>
+        <location filename="../../ui/start_page.py" line="110"/>
         <source>Choose what you want to do:</source>
         <translation>Elija lo que quiere hacer:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="168"/>
+        <location filename="../../ui/start_page.py" line="148"/>
+        <source>Click to open it again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="175"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="194"/>
+        <location filename="../../ui/start_page.py" line="201"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="195"/>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>your site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="202"/>
+        <location filename="../../ui/start_page.py" line="209"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>

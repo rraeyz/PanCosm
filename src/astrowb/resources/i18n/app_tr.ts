@@ -13390,14 +13390,9 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Temel modda hiçbir şey kaldırılmaz: katlı bölümler tek tıkla açılır. İstediğiniz zaman burada ya da Ayarlar menüsünde değiştirin.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="107"/>
+        <location filename="../../ui/start_page.py" line="146"/>
         <source>Continue where you left off:</source>
         <translation>Kaldığınız yerden devam edin:</translation>
-    </message>
-    <message>
-        <location filename="../../ui/start_page.py" line="109"/>
-        <source>Double-click to open it again</source>
-        <translation>Yeniden açmak için çift tıklayın</translation>
     </message>
     <message>
         <location filename="../../ui/start_page.py" line="76"/>
@@ -13430,27 +13425,32 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüyü ve başlığını inceleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="116"/>
+        <location filename="../../ui/start_page.py" line="110"/>
         <source>Choose what you want to do:</source>
         <translation>Ne yapmak istediğinizi seçin:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="168"/>
+        <location filename="../../ui/start_page.py" line="148"/>
+        <source>Click to open it again</source>
+        <translation>Yeniden açmak için tıklayın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="175"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation>Bu gecenin gökyüzünü görmek için konumunuzu girin</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="194"/>
+        <location filename="../../ui/start_page.py" line="201"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation>Bu gece {site}: karanlık {dusk}–{dawn} · Ay %{moon}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="195"/>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>your site</source>
         <translation>konumunuz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="202"/>
+        <location filename="../../ui/start_page.py" line="209"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>
