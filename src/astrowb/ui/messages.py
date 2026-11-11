@@ -382,6 +382,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
     QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    QT_TRANSLATE_NOOP(  # noqa: E501
+        "Messages", "the light curves have times in different standards ({scales}): convert them to one first"
+    ),
     QT_TRANSLATE_NOOP("Messages", "the nights were measured with different numbers of comparison stars"),
     QT_TRANSLATE_NOOP("Messages", "no night has a frame with every comparison star"),
     QT_TRANSLATE_NOOP("Messages", "not a light curve exported from the Photometry window (CSV)"),

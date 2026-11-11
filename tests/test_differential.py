@@ -918,6 +918,8 @@ def test_two_nights_with_a_star_missing_one_night_join_without_a_step(tmp_path):
     assert np.allclose(j2["rel_flux"], j["rel_flux"], rtol=1e-6)
     with pytest.raises(ValueError, match="two nights"):
         join_nights([a])
+    with pytest.raises(ValueError, match="different standards"):  # ARC-15 item 2: never joined silently
+        join_nights([a, b | {"time_scale": "HJD_UTC"}])
 
 
 def test_photometry_page_adds_other_nights(qtbot, tmp_path):

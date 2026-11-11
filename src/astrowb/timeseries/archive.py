@@ -42,6 +42,9 @@ def read_mission_lc(path, flux="PDCSAP"):
 
 def join(curves):
     """Several sectors / quarters into one light curve, in time order."""
+    from ..photometry.nights import mixed_standards
+
+    mixed_standards(curves)
     keys = ("time", "rel_flux", "rel_flux_err")
     t, f, e = (np.concatenate([np.asarray(c[k], float) for c in curves]) for k in keys)
     order = np.argsort(t)
