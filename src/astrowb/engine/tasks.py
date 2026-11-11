@@ -15,6 +15,7 @@ import multiprocessing as mp
 import os
 import queue
 import signal
+import sys
 import threading
 import time
 import traceback
@@ -88,6 +89,7 @@ class Task:
         self._done = threading.Event()
         self._callbacks = []
         self.sources = {}  # online services asked: service -> (fetched time, from the cache?)
+        self.cpu_s = self.peak_mb = None  # the worker's processor seconds and largest memory (ARC-17)
 
     def add_callback(self, fn):
         """fn(task) is called on every update, from a background thread."""
@@ -131,10 +133,23 @@ class Task:
                 marks = [*self.phases, ("", now)]
                 parts = [f"{name} {nxt - t:.1f} s" for (name, t), (_n, nxt) in zip(marks, marks[1:], strict=False)]
                 log.info("task %s phases: %s", self.id, ", ".join(parts))
+            if ended and getattr(self, "cpu_s", None) is not None:
+                peak = f", peak memory {self.peak_mb:.0f} MB" if self.peak_mb else ""
+                log.info("task %s used %.1f s of processor time%s", self.id, self.cpu_s, peak)
         if self.state in ("done", "failed", "cancelled"):
             self._done.set()
         for fn in self._callbacks:
             fn(self)
+
+
+def _peak_mb():
+    """The largest memory this worker process held, in MB; None where the system does not tell (Windows)."""
+    try:
+        import resource
+    except ImportError:  # shortcut: no peak memory on Windows, until a task's memory there is asked about
+        return None
+    peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    return peak / 2**20 if sys.platform == "darwin" else peak / 1024  # bytes on macOS, KiB on Linux
 
 
 def _worker(task_id, fn, args, kwargs, messages, cancel_event):
@@ -144,8 +159,9 @@ def _worker(task_id, fn, args, kwargs, messages, cancel_event):
         result = fn(*args, ctx=ctx, **kwargs)
         from ..services import cache
 
-        if cache.last:  # which online answers came from the cache, and when they were fetched (ARC-14)
-            messages.put((task_id, "sources", dict(cache.last)))
+        # which online answers came from the cache and when they were fetched (ARC-14); the worker's cost (ARC-17)
+        messages.put((task_id, "facts", {"sources": dict(cache.last), "cpu_s": time.process_time(),
+                                         "peak_mb": _peak_mb()}))  # fmt: skip
         messages.put((task_id, "done", result))
     except Cancelled:
         messages.put((task_id, "cancelled", None))
@@ -301,11 +317,11 @@ class TaskQueue:
             try:  # drain after collecting dead workers, so their last message is not missed
                 while True:
                     tid, kind, payload = self._messages.get(timeout=0.1)
-                    if kind in ("progress", "sources"):
+                    if kind in ("progress", "facts"):
                         with self._lock:
                             entry = self._running.get(tid)
-                        if entry and kind == "sources":
-                            entry[0].sources = payload  # service -> (fetched time, from the cache?)
+                        if entry and kind == "facts":
+                            entry[0].__dict__.update(payload)  # sources, cpu_s, peak_mb
                         elif entry:
                             entry[0]._update(progress=payload[0], message=payload[1])
                     else:
