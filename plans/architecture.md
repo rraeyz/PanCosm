@@ -502,8 +502,10 @@ the suite is green after each.
   the viewer's interval / stretch / limits / colour map / orientation attributes are that state, and ARC-5's store
   holds them when the Images window moves. Item 3 (first part): View → Overlays → Layers shows / hides each
   overlay of the image; `set_layer(name, visible, opacity)`. Item 6 (first part): View → Magnifier: 15 × 15
-  pixels round the cursor at 9× in the view's corner, with the image's levels (`ui/image/magnifier.py`). Items 3
-  (plain-spec items, fixed-size markers), 4, 5, 6 (navigator, printed values), 7–9 continue.
+  pixels round the cursor at 9× in the view's corner, with the image's levels (`ui/image/magnifier.py`). Item 4 (first part): keys a (star), m (11 × 11
+  statistics), l / c (line / column profile) over the image whatever the tool, reusing the existing measurements;
+  guide (en, tr). Items 3 (plain-spec items, fixed-size markers), 4 (r, e, s, h), 5, 6 (navigator, printed
+  values), 7–9 continue.
 - **Why:** `ui/viewer.py` renders the whole image to one pixmap on every change of levels; 9k × 9k CMOS frames and
   mosaics are slow; overlays, tools and read-outs are wired differently in Images, Photometry and Spectroscopy.
 - **Reference:** DS9 (frames, lock by WCS / image, regions, magnifier, panner, pixel table, scales zscale / minmax /

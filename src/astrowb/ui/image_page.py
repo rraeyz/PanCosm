@@ -116,7 +116,7 @@ class ImagePage(Undoable, QWidget):
         self.viewer.clicked.connect(self._clicked)
         self.viewer.region_selected.connect(self.measure_area)
         self.viewer.line_selected.connect(self.measure_line)
-
+        self.viewer.star_key.connect(self.measure_star)  # the a key over a star (imexamine)
         self.header_table = QTableWidget(0, 3, self)
         self.header_table.setHorizontalHeaderLabels([self.tr("Keyword"), self.tr("Value"), self.tr("Comment")])
         self.header_table.horizontalHeader().setStretchLastSection(True)
