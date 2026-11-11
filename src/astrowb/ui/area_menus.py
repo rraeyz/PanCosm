@@ -17,8 +17,11 @@ def _mirror(widget, parent=None, short=None):
     if widget.isCheckable():
         act.setCheckable(True)
         act.setChecked(widget.isChecked())
-        act.toggled.connect(widget.setChecked)
-        widget.toggled.connect(act.setChecked)
+        # each follows the other's state now, not the value its signal carried: a slot that unchecks the button
+        # while it is being checked (Live, folder dialog cancelled) otherwise had the action check it again, for
+        # ever (the program crashed)
+        act.toggled.connect(lambda _on: widget.setChecked(act.isChecked()))
+        widget.toggled.connect(lambda _on: act.setChecked(widget.isChecked()))
     else:
         act.triggered.connect(lambda _=False, b=widget: b.click())
     _follow_enabled(widget, act)

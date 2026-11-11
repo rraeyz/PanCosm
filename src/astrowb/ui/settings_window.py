@@ -157,8 +157,8 @@ class SettingsWindow(Dialog):
     def _mirror(self, action):
         """A Toggle that is the menu action's check box (both ways)."""
         toggle = Toggle("", action.isChecked(), self)
-        toggle.toggled.connect(action.setChecked)
-        action.toggled.connect(toggle.setChecked)
+        toggle.toggled.connect(lambda _on: action.setChecked(toggle.isChecked()))  # the state now (area_menus._mirror)
+        action.toggled.connect(lambda _on: toggle.setChecked(action.isChecked()))
         return toggle
 
     def _general(self):
