@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast, Segmented."""
+Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast, Segmented, EmptyState."""
 
 import pytest
 
@@ -121,3 +121,16 @@ def test_segmented(qtbot):
     assert store.get("time") == "ut"
     store.set("time", "bjd")
     assert s.value() == "bjd"
+
+
+def test_empty_state(qtbot):
+    from astrowb.ui.kit.empty import EmptyState
+
+    hits = []
+    e = EmptyState("open", "No images yet", "Open FITS files.", ("Open images…", lambda: hits.append("open")),
+                   sample=lambda: hits.append("sample"))  # fmt: skip
+    qtbot.addWidget(e)
+    assert [b.text() for b in e.buttons] == ["Open images…", "Try with practice data"] and e.buttons[0].isDefault()
+    for b in e.buttons:
+        b.click()
+    assert hits == ["open", "sample"]

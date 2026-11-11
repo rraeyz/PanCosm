@@ -2577,6 +2577,14 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>EmptyState</name>
+    <message>
+        <location filename="../../ui/kit/empty.py" line="33"/>
+        <source>Try with practice data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Export</name>
     <message>
         <location filename="../../ui/plot/export.py" line="135"/>

@@ -2577,6 +2577,14 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
 </context>
 <context>
+    <name>EmptyState</name>
+    <message>
+        <location filename="../../ui/kit/empty.py" line="33"/>
+        <source>Try with practice data</source>
+        <translation>Alıştırma verisiyle dene</translation>
+    </message>
+</context>
+<context>
     <name>Export</name>
     <message>
         <location filename="../../ui/plot/export.py" line="135"/>
