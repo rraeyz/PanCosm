@@ -58,18 +58,25 @@ def download(target, mission, folder, author=None, observations=None, max_files=
     """Pipeline light-curve files of a target (name or 'RA Dec') into folder; returns their paths."""
     if not str(target).strip():
         raise ValueError("give the target's name or coordinates")
-    if observations is None:
+    given = observations is not None
+    if not given:
         from astroquery.mast import Observations as observations
     from astroquery.mast import conf
 
-    collection = "K2" if mission == "K2" else mission
-    with conf.set_temp("timeout", 120):  # an archive that stops answering must not hold the task forever
-        obs = observations.query_criteria(
-            objectname=target, radius="0.001 deg", obs_collection=collection, dataproduct_type="timeseries"
-        )
-    if len(obs) == 0:
-        raise ValueError(f"no {mission} light curves for {target}")
-    products = observations.get_product_list(obs)
+    def lookup():
+        collection = "K2" if mission == "K2" else mission
+        with conf.set_temp("timeout", 120):  # an archive that stops answering must not hold the task forever
+            obs = observations.query_criteria(
+                objectname=target, radius="0.001 deg", obs_collection=collection, dataproduct_type="timeseries"
+            )
+        if len(obs) == 0:
+            raise ValueError(f"no {mission} light curves for {target}")
+        return observations.get_product_list(obs)
+
+    from ..services.cache import cached
+
+    # the archive's list kept a day (ARC-14); a list handed in (tests) is not the archive's and is not kept
+    products = lookup() if given else cached("lightcurves", ("mast", str(target).strip(), mission), lookup)
     # light curves: "LC" (TESS), "LLC" (Kepler / K2 long cadence); the product list names the pipeline in
     # "project" (astroquery 0.4.11, 2026; "provenance_name" before)
     lcs = products[np.isin(np.asarray(products["productSubGroupDescription"], str), ["LC", "LLC"])]
