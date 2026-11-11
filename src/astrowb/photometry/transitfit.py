@@ -23,11 +23,12 @@ def _inc(a_rs, b):
 
 
 def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), priors=None, detrend=None,
-        exposure=None, mcmc_steps=0, ctx=None):  # fmt: skip
+        exposure=None, mcmc_steps=0, ctx=None, red_noise=False):  # fmt: skip
     """start: {"tc", "k", "a_rs", "b", "u1", "u2", "baseline"} (tc absolute); priors: {name: (centre, width)};
     detrend: {name: series}. Returns values, errors, derived quantities and fit statistics; with mcmc_steps, "mcmc":
     {name: (median, minus, plus)} of the posterior around the least-squares answer (core.inference, flat priors in
-    the bounds, the Gaussian priors kept; the errors as given — scale them first when they are too small)."""
+    the bounds, the Gaussian priors kept; the errors as given — scale them first when they are too small).
+    red_noise: the errors multiplied by β (time-averaging, Winn et al. 2008), "red_noise_scale" says by how much."""
     t, f, e = (np.asarray(v, float) for v in (t, flux, err))
     t0 = float(t[0])
     x = t - t0
@@ -79,6 +80,9 @@ def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), 
                       inc, v["k"]) * 24), "t23_h": float(t23(period, v["a_rs"], inc, v["k"]) * 24),
                       "rho_star": float(density_from_a(v["a_rs"], period))}  # fmt: skip
     out["derived"]["depth_mmag"] = float(-2.5 * np.log10(1 - v["k"] ** 2) * 1000)
+    if red_noise and out["beta"] > 1:  # correlated residuals: every point counts for less than its error says
+        out["errors"] = {k2: float(v2 * out["beta"]) for k2, v2 in errs.items()}
+        out["red_noise_scale"] = out["beta"]
     if mcmc_steps:
         out["mcmc"] = _posterior(resid, sol.x, cov, names + z_names, bounds, mcmc_steps, t0, ctx)
     return out

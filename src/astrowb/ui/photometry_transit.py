@@ -33,7 +33,16 @@ def result_text(out):
         "a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.",
     ).format(tc=paren(v["tc"], e.get("tc", 0)), depth=d["depth_ppt"], mmag=d["depth_mmag"], t14=d["t14_h"],
              t23=d["t23_h"], a=paren(v["a_rs"], e.get("a_rs", 0)), b=paren(v["b"], e.get("b", 0)), inc=d["inc"],
-             rho=d["rho_star"], chi2r=out["chi2r"], rms=out["rms_ppt"], beta=out["beta"]) + _mcmc_text(out)  # fmt: skip
+             rho=d["rho_star"], chi2r=out["chi2r"], rms=out["rms_ppt"], beta=out["beta"]) + _red_text(out) + _mcmc_text(
+                 out)  # fmt: skip
+
+
+def _red_text(out):
+    if not out.get("red_noise_scale"):
+        return ""
+    return " " + translate("PhotometryTransit", "Errors × {beta:.2f} for red noise.").format(
+        beta=out["red_noise_scale"]
+    )
 
 
 def _mcmc_text(out):
@@ -122,6 +131,12 @@ def add_mcmc_box(page, layout):
                   "parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.")
     )  # fmt: skip
     layout.addWidget(page.transit_mcmc)
+    page.transit_red = QCheckBox(translate("PhotometryTransit", "Account for red noise (errors × β)"), page)
+    page.transit_red.setToolTip(
+        translate("PhotometryTransit", "Residuals that drift together (β above 1, see the Checks tab) carry less "
+                  "information than their errors say: the parameter errors are multiplied by β")
+    )  # fmt: skip
+    layout.addWidget(page.transit_red)
 
 
 def details_dialog(page, lc, out):
@@ -207,7 +222,8 @@ def attach(main, page):
         tc, k = starts(lc)
         known = getattr(page, "archive", None) or {}
         params = {"period": period, "tc": tc, "k": known.get("k", k), "detrend": "airmass" if lc.get("airmass") else "",
-                  "mcmc_steps": 5000 if page.transit_mcmc.isChecked() else 0}  # fmt: skip
+                  "mcmc_steps": 5000 if page.transit_mcmc.isChecked() else 0,
+                  "red_noise": page.transit_red.isChecked()}  # fmt: skip
         params |= {n: known[n] for n in ("a_rs", "b") if n in known}  # the archive's values as the start
         page.transit_result.setText(translate("PhotometryTransit", "Fitting the transit…"))
         main.run_step_for("photometry", "photometry.transit_fit", {"light_curve": lc}, params,

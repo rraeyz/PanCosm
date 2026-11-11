@@ -13210,157 +13210,172 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="47"/>
-        <source>(not converged: more steps)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="48"/>
-        <source>MCMC: {values}.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="58"/>
-        <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="63"/>
-        <source>NASA Exoplanet Archive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="65"/>
-        <source>Planet, e.g. Qatar-1 b:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="68"/>
-        <source>Asking the NASA Exoplanet Archive…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="87"/>
-        <source>{name}: period and T0 filled; the fit starts from {known}.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="119"/>
-        <source>MCMC uncertainties (slower)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="121"/>
-        <source>After the fit, Markov chains give each parameter&apos;s 68 % interval; correlated parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="133"/>
-        <source>Transit fit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="136"/>
-        <source>fixed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
-        <source>Parameter</source>
-        <translation type="unfinished">Parámetro</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
-        <source>Value</source>
-        <translation type="unfinished">Valor</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="140"/>
-        <source>Error</source>
-        <translation type="unfinished">Error</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="146"/>
-        <source>measured</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="147"/>
-        <source>model</source>
-        <translation type="unfinished">modelo</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="148"/>
-        <source>Relative flux</source>
-        <translation type="unfinished">Flujo relativo</translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="152"/>
-        <source>O − C (ppt)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="153"/>
-        <source>Days from {t0:.5f}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="157"/>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="164"/>
-        <source>Exact transit model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="166"/>
-        <source>Fit the transit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="168"/>
-        <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="176"/>
-        <source>Parameters and plot…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="200"/>
-        <source>Measure the light curve first.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="205"/>
-        <source>Type the period (d) above first.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="212"/>
-        <source>Fitting the transit…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/photometry_transit.py" line="95"/>
-        <source>Add the times to the O−C list</source>
+        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <source>Errors × {beta:.2f} for red noise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>(not converged: more steps)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <source>MCMC: {values}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="72"/>
+        <source>NASA Exoplanet Archive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
+        <source>Planet, e.g. Qatar-1 b:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="77"/>
+        <source>Asking the NASA Exoplanet Archive…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="96"/>
+        <source>{name}: period and T0 filled; the fit starts from {known}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="128"/>
+        <source>MCMC uncertainties (slower)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="130"/>
+        <source>After the fit, Markov chains give each parameter&apos;s 68 % interval; correlated parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="134"/>
+        <source>Account for red noise (errors × β)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="136"/>
+        <source>Residuals that drift together (β above 1, see the Checks tab) carry less information than their errors say: the parameter errors are multiplied by β</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="148"/>
+        <source>Transit fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="151"/>
+        <source>fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="154"/>
+        <source>Parameter</source>
+        <translation type="unfinished">Parámetro</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="154"/>
+        <source>Value</source>
+        <translation type="unfinished">Valor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="155"/>
+        <source>Error</source>
+        <translation type="unfinished">Error</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="161"/>
+        <source>measured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="162"/>
+        <source>model</source>
+        <translation type="unfinished">modelo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="163"/>
+        <source>Relative flux</source>
+        <translation type="unfinished">Flujo relativo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="167"/>
+        <source>O − C (ppt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="168"/>
+        <source>Days from {t0:.5f}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="172"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="179"/>
+        <source>Exact transit model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="181"/>
+        <source>Fit the transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="183"/>
+        <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="191"/>
+        <source>Parameters and plot…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="215"/>
+        <source>Measure the light curve first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="220"/>
+        <source>Type the period (d) above first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="228"/>
+        <source>Fitting the transit…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="104"/>
+        <source>Add the times to the O−C list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="65"/>
         <source>From the NASA archive…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="97"/>
+        <location filename="../../ui/photometry_transit.py" line="106"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="109"/>
+        <location filename="../../ui/photometry_transit.py" line="118"/>
         <source>{n} times added to the O−C list.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16974,39 +16989,49 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/fit_steps.py" line="45"/>
+        <source>Account for red noise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../photometry/fit_steps.py" line="46"/>
+        <source>The errors multiplied by β, the time-averaging factor of the residuals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="48"/>
         <source>Posterior errors after the fit (the chains stop earlier once converged); 0: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="77"/>
+        <location filename="../../photometry/fit_steps.py" line="90"/>
         <source>Transit depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="78"/>
+        <location filename="../../photometry/fit_steps.py" line="91"/>
         <source>The depth TESS saw on the target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="80"/>
+        <location filename="../../photometry/fit_steps.py" line="93"/>
         <source>Stars this near the target are checked (TFOP: 2.5′)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="82"/>
-        <location filename="../../photometry/fit_steps.py" line="84"/>
-        <location filename="../../photometry/fit_steps.py" line="86"/>
+        <location filename="../../photometry/fit_steps.py" line="95"/>
+        <location filename="../../photometry/fit_steps.py" line="97"/>
+        <location filename="../../photometry/fit_steps.py" line="99"/>
         <source>As the light curve&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="83"/>
+        <location filename="../../photometry/fit_steps.py" line="96"/>
         <source>Sky ring, inner radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="85"/>
+        <location filename="../../photometry/fit_steps.py" line="98"/>
         <source>Sky ring, outer radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17710,7 +17735,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="81"/>
+        <location filename="../../photometry/fit_steps.py" line="94"/>
         <location filename="../../photometry/measure_params.py" line="13"/>
         <source>Aperture radius</source>
         <translation>Radio de apertura</translation>
@@ -18036,7 +18061,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="104"/>
-        <location filename="../../photometry/fit_steps.py" line="45"/>
+        <location filename="../../photometry/fit_steps.py" line="47"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation type="unfinished"></translation>
@@ -18069,7 +18094,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="138"/>
-        <location filename="../../photometry/fit_steps.py" line="79"/>
+        <location filename="../../photometry/fit_steps.py" line="92"/>
         <source>Search radius</source>
         <translation type="unfinished"></translation>
     </message>
