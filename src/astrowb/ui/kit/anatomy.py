@@ -59,6 +59,11 @@ class Anatomy:
         frame.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         dock = self._dock("stages", self.tr("Stages"), frame, Qt.LeftDockWidgetArea)
         self._key_action(self.tr("Show or hide the stage panel"), "F9", lambda: dock.setVisible(not dock.isVisible()))
+        from .rail import NARROW, WIDE
+
+        self.rail.pinned_changed.connect(  # the names take their own room, not the stage's controls'
+            lambda on: self.resizeDocks([dock], [dock.width() + (WIDE - NARROW) * (1 if on else -1)], Qt.Horizontal)
+        )
         for i, s in enumerate(stages[:9], 1):
             self._key_action(s.title, f"Ctrl+{i}", lambda _on=False, k=s.key: self.show_stage(k))
         if stages:

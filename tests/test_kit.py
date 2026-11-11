@@ -325,12 +325,12 @@ def test_stage_rail_and_panel(qtbot):
     assert chosen == ["stars"] and r.width() == R.NARROW and r.buttons["images"].text() == "1 ✓"
     assert r.buttons["stars"].text() == "2 ●" and r.buttons["stars"].isChecked()
     QApplication.sendEvent(r, QEvent(QEvent.Enter))
-    assert r.width() == R.WIDE and r.buttons["measure"].text().endswith("Measure")
-    QApplication.sendEvent(r, QEvent(QEvent.Leave))
-    assert r.width() == R.NARROW
+    assert r.width() == R.NARROW and r.buttons["measure"].toolTip() == "Measure"  # hover: names in the tooltips
+    pinned = []
+    r.pinned_changed.connect(pinned.append)
     r.pin.click()
     QApplication.sendEvent(r, QEvent(QEvent.Leave))
-    assert r.width() == R.WIDE  # pinned
+    assert r.width() == R.WIDE and r.buttons["measure"].text().endswith("Measure") and pinned == [True]
     p = R.StagePanel("Stars", help="photometry-choosing-images-stars")
     qtbot.addWidget(p)
     p.add(QLabel("a row"))

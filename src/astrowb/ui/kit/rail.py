@@ -5,9 +5,9 @@
     panel = StagePanel(self.tr("Stars"), help="photometry-choosing-images-stars")
     panel.add(...); panel.set_primary(Button(self.tr("Measure"), "primary")); panel.set_status("…")
 
-The rail is 48 px wide with numbers and a state mark (○ empty, ● current, ✓ done, ! attention) and widens to
-180 px with the names while the mouse is over it or when pinned. The panel's content scrolls; its status line and
-primary action stay in sight at the bottom.
+The rail is 48 px wide with numbers and a state mark (○ empty, ● current, ✓ done, ! attention), the names in the
+tooltips; pinned, it is 180 px with the names (widening on hover squeezed the stage's controls under the mouse).
+The panel's content scrolls; its status line and primary action stay in sight at the bottom.
 """
 
 from PySide6.QtCore import Qt, Signal
@@ -30,6 +30,7 @@ MARKS = {"empty": "○", "current": "●", "done": "✓", "attention": "!"}
 
 class StageRail(QWidget):
     stage_chosen = Signal(str)
+    pinned_changed = Signal(bool)  # the window widens its stage panel by the names' room
 
     def __init__(self, stages, parent=None):
         super().__init__(parent)
@@ -78,16 +79,7 @@ class StageRail(QWidget):
         self.pinned = bool(on)
         self._expanded = self.pinned
         self._show()
-
-    def enterEvent(self, event):
-        self._expanded = True
-        self._show()
-        super().enterEvent(event)
-
-    def leaveEvent(self, event):
-        self._expanded = self.pinned
-        self._show()
-        super().leaveEvent(event)
+        self.pinned_changed.emit(self.pinned)
 
     def _show(self):
         self.setFixedWidth(WIDE if self._expanded else NARROW)
