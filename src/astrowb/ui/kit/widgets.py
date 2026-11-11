@@ -1,7 +1,6 @@
 """Shared widgets of the pages: titles, folding sections, the workflow line and the plot canvas."""
 
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
@@ -29,22 +28,6 @@ def bar_menu(bar, title):
     menu = QMenu(title, bar)
     bar.addMenu(menu)
     return menu
-
-
-def glyph(text, color, size=40):
-    """A toolbar icon drawn from a symbol of the user interface font, in the text colour of the theme."""
-    from PySide6.QtGui import QPainter, QPixmap
-
-    pix = QPixmap(size, size)
-    pix.fill(Qt.transparent)
-    p = QPainter(pix)
-    font = p.font()
-    font.setPixelSize(int(size * 0.8))
-    p.setFont(font)
-    p.setPen(color)
-    p.drawText(pix.rect(), Qt.AlignCenter, text)
-    p.end()
-    return QIcon(pix)
 
 
 class _FoldButton(QToolButton):
