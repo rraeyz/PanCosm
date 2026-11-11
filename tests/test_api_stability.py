@@ -42,3 +42,15 @@ def test_a_step_runs_from_a_script():
     text = "\n".join(f"{a:.4f} {b:.3f} {c:.4f} {d} {e}" for a, b, c, d, e in zip(t, th, rho, s_r, s_t, strict=True))
     out = api.models.visual_orbit(measures=text, p_min=2, p_max=60)
     assert 2 < out["orbit"]["P"] < 60
+
+
+def test_scripting_reference_is_up_to_date():
+    """ARC-12 item 4: docs/api/ is generated from the step registry (python tools/api_docs.py after a change)."""
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("api_docs", root / "tools" / "api_docs.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert module.stale(root / "docs" / "api") == []
