@@ -79,3 +79,11 @@ def test_gpu_check_step_writes_its_report(tmp_path, monkeypatch):
     saved = json.loads((tmp_path / "gpu-report.json").read_text(encoding="utf-8"))
     assert out["path"] == str(tmp_path / "gpu-report.json") and "1 of 1" in out["report"]
     assert saved["adapter"]["device"] == "Test GPU" and saved["jobs"][0]["same"] and saved["version"]
+
+
+def test_the_iers_check_imports(monkeypatch):
+    """It named the module one package too far up: the check failed on every computer."""
+    from astrowb import selfcheck
+
+    monkeypatch.setattr(selfcheck, "_checks", lambda vega, mast, iers: {"IERS": iers})
+    assert selfcheck.online()[0][1] is True

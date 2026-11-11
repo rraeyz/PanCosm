@@ -60,3 +60,12 @@ def test_the_cache_stays_under_its_size(monkeypatch):
     assert cache.cached("hips2fits", "image 9", lambda: pytest.fail("the newest stays")) == b"x" * 10_000
     cache.clear()
     assert cache.size() == (0, 0)
+
+
+def test_the_internet_check_asks_the_network_not_the_cache():
+    cache.cached("simbad", "Vega", lambda: 1)
+    with cache.fresh():
+        assert cache.cached("simbad", "Vega", lambda: 2) == 2  # asked again, and kept
+        with pytest.raises(ConnectionError):  # a failing network is reported, not hidden by the old answer
+            cache.cached("simbad", "Vega", lambda: (_ for _ in ()).throw(ConnectionError("down")))
+    assert cache.cached("simbad", "Vega", lambda: 3) == 2
