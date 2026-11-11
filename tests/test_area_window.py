@@ -483,3 +483,21 @@ def test_tile_and_gather_windows(qtbot, tmp_path):
     assert room.contains(b.geometry().topLeft()) and room.contains(a.geometry().topLeft())
     texts = [act.text() for act in (a._fill_window_menu() or a.window_menu.actions())]
     assert "Tile side by side" in texts and "Bring all windows to this screen" in texts
+
+
+def test_long_work_is_worth_a_desktop_notification(qtbot, tmp_path):
+    """UI-9: work longer than a minute ends while the program is behind: a system notification (unless turned off;
+    a desktop without a tray simply gets none)."""
+    import time
+    from types import SimpleNamespace
+
+    from astrowb.ui.kit import notify
+
+    settings = Settings(tmp_path)
+    long, short = SimpleNamespace(_started=time.monotonic() - 61), SimpleNamespace(_started=time.monotonic())
+    assert notify.worth_it(long, settings) and not notify.worth_it(short, settings)
+    assert not notify.worth_it(SimpleNamespace(), settings)  # never started (cancelled while waiting)
+    settings.set("ui.notify", False)
+    assert not notify.worth_it(long, settings)
+    win = _area(qtbot, settings)
+    assert notify.notify(win, "Photometry", "Measure: finished") in (True, False)
