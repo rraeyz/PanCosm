@@ -269,12 +269,12 @@
     <message>
         <location filename="../../ui/advice.py" line="116"/>
         <source>Check the spelling (e.g. &apos;V0523 Cas&apos;), or enter the coordinates and the period yourself.</source>
-        <translation>Yazımı denetleyin (ör. &apos;V0523 Cas&apos;) ya da koordinatları ve dönemi kendiniz girin.</translation>
+        <translation>Yazımı denetleyin (ör. &apos;V0523 Cas&apos;) ya da koordinatları ve periyodu kendiniz girin.</translation>
     </message>
     <message>
         <location filename="../../ui/advice.py" line="119"/>
         <source>Check the name (e.g. &apos;HAT-P-32 b&apos;, with the planet&apos;s letter), or enter T0, period and duration yourself.</source>
-        <translation>Adı denetleyin (ör. &apos;HAT-P-32 b&apos;, gezegenin harfiyle) ya da T0, dönem ve süreyi kendiniz girin.</translation>
+        <translation>Adı denetleyin (ör. &apos;HAT-P-32 b&apos;, gezegenin harfiyle) ya da T0, periyot ve süreyi kendiniz girin.</translation>
     </message>
     <message>
         <location filename="../../ui/advice.py" line="123"/>
@@ -773,7 +773,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/start_page.py" line="41"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
-        <translation>Tayf indirgeme, dalga boyları, radyal hızlar, yörüngeler</translation>
+        <translation>Tayf indirgeme, dalga boyları, dikine hızlar, yörüngeler</translation>
     </message>
     <message>
         <location filename="../../ui/start_page.py" line="42"/>
@@ -2300,7 +2300,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/spectro_page.py" line="779"/>
         <source>The merged spectrum is saved: measure it on the Radial velocity tab (Telluric first, if the red part matters).</source>
-        <translation>Birleştirilmiş tayf kaydedildi: Radyal hız sekmesinde ölçün (kırmızı kısım önemliyse önce Tellürik).</translation>
+        <translation>Birleştirilmiş tayf kaydedildi: Dikine hız sekmesinde ölçün (kırmızı kısım önemliyse önce Tellürik).</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="871"/>
@@ -2800,7 +2800,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/frequency_page.py" line="146"/>
         <source>The times of maximum go to the O−C tab, for a period change of a pulsating star</source>
-        <translation>Maksimum zamanları, zonklayan bir yıldızın dönem değişimi için O−C sekmesine gider</translation>
+        <translation>Maksimum zamanları, zonklayan bir yıldızın periyot değişimi için O−C sekmesine gider</translation>
     </message>
     <message>
         <location filename="../../ui/frequency_page.py" line="158"/>
@@ -5331,7 +5331,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="115"/>
         <source>no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia</source>
-        <translation>hiçbir karşılaştırma yıldızının katalog parlaklığı yok: ilk görüntünün gök konumunu çözün (plate solve), APASS / Gaia&apos;daki yıldızları seçin</translation>
+        <translation>hiçbir karşılaştırma yıldızının katalog kadiri yok: ilk görüntüyü plaka çözümleyin, APASS / Gaia&apos;daki yıldızları seçin</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="168"/>
@@ -5491,7 +5491,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="106"/>
         <source>too few frames with every star found to compare apertures</source>
-        <translation>aperture&apos;leri karşılaştırmak için her yıldızın bulunduğu kare çok az</translation>
+        <translation>açıklıkları karşılaştırmak için her yıldızın bulunduğu kare çok az</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="107"/>
@@ -5601,7 +5601,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="164"/>
         <source>the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one</source>
-        <translation>ışık eğrisinde {n} tutulma var: her birini zamanlamak için T0&apos;ı ve dönemi girin (ör. dönem aramasından)</translation>
+        <translation>ışık eğrisinde {n} tutulma var: her birini zamanlamak için T0&apos;ı ve periyodu girin (ör. periyot aramasından)</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="172"/>
@@ -5891,7 +5891,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="275"/>
         <source>give the period and the time of primary minimum</source>
-        <translation>dönemi ve birincil minimum zamanını girin</translation>
+        <translation>periyodu ve birincil minimum zamanını girin</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="277"/>
@@ -5906,7 +5906,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="279"/>
         <source>each line needs epoch, position angle and separation</source>
-        <translation>her satırda dönem, konum açısı ve ayrıklık olmalı</translation>
+        <translation>her satırda periyot, konum açısı ve ayrıklık olmalı</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="281"/>
@@ -6126,7 +6126,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="347"/>
         <source>give a period guess (e.g. from the period search)</source>
-        <translation>bir dönem tahmini girin (ör. dönem aramasından)</translation>
+        <translation>bir periyot tahmini girin (ör. periyot aramasından)</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="348"/>
@@ -7016,7 +7016,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="56"/>
         <source>Type the star&apos;s name and press Look up (VSX), or type the period (and T0) of a published ephemeris; it counts the cycles.</source>
-        <translation>Yıldızın adını yazıp Bul&apos;a basın (VSX) ya da yayımlanmış bir efemerisin dönemini (ve T0&apos;ını) yazın; çevrimleri o sayar.</translation>
+        <translation>Yıldızın adını yazıp Bul&apos;a basın (VSX) ya da yayımlanmış bir efemerisin periyodunu (ve T0&apos;ını) yazın; çevrimleri o sayar.</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="61"/>
@@ -7036,7 +7036,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="71"/>
         <source>Parabola: Quadratic (period change). Wave: Third body (light-travel time). Primary and secondary minima drifting apart: Apsidal motion. Fit again.</source>
-        <translation>Parabol: İkinci derece (dönem değişimi). Dalga: Üçüncü cisim (ışık-zaman etkisi). Birbirinden ayrılan birincil ve ikincil minimumlar: Apsidal hareket. Yeniden fit edin.</translation>
+        <translation>Parabol: İkinci derece (periyot değişimi). Dalga: Üçüncü cisim (ışık-zaman etkisi). Birbirinden ayrılan birincil ve ikincil minimumlar: Apsidal hareket. Yeniden fit edin.</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="76"/>
@@ -7066,7 +7066,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="105"/>
         <source>The star&apos;s name: Look up fills T0 and the period from AAVSO VSX</source>
-        <translation>Yıldızın adı: Bul, T0&apos;ı ve dönemi AAVSO VSX&apos;ten doldurur</translation>
+        <translation>Yıldızın adı: Bul, T0&apos;ı ve periyodu AAVSO VSX&apos;ten doldurur</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="106"/>
@@ -7076,7 +7076,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="107"/>
         <source>T0 and the period of the star from AAVSO VSX (needs the internet)</source>
-        <translation>Yıldızın T0&apos;ı ve dönemi AAVSO VSX&apos;ten (internet gerekir)</translation>
+        <translation>Yıldızın T0&apos;ı ve periyodu AAVSO VSX&apos;ten (internet gerekir)</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="110"/>
@@ -7091,7 +7091,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="119"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
-        <translation>Çevrimleri saymak için kullanılan efemerik dönemi; fit onu iyileştirir</translation>
+        <translation>Çevrimleri saymak için kullanılan efemerik periyodu; fit onu iyileştirir</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="120"/>
@@ -7111,17 +7111,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="126"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
-        <translation>Sabit dönem: O−C bir doğru üzerinde (T0 ve dönemi düzeltir)</translation>
+        <translation>Sabit periyot: O−C bir doğru üzerinde (T0 ve periyodu düzeltir)</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="127"/>
         <source>Quadratic (period change)</source>
-        <translation>İkinci derece (dönem değişimi)</translation>
+        <translation>İkinci derece (periyot değişimi)</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="129"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
-        <translation>Düzenli değişen dönem (kütle aktarımı, kütle kaybı): O−C bir parabol üzerinde; dP/dt verir</translation>
+        <translation>Düzenli değişen periyot (kütle aktarımı, kütle kaybı): O−C bir parabol üzerinde; dP/dt verir</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="131"/>
@@ -7191,12 +7191,12 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="213"/>
         <source>{name}: no period in VSX; type it.</source>
-        <translation>{name}: VSX&apos;te dönem yok; elle yazın.</translation>
+        <translation>{name}: VSX&apos;te periyot yok; elle yazın.</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="219"/>
         <source>{name}: T0 and period from {source}. Press Fit and draw O-C.</source>
-        <translation>{name}: T0 ve dönem {source} kaynağından. Fit et ve O-C çiz&apos;e basın.</translation>
+        <translation>{name}: T0 ve periyot {source} kaynağından. Fit et ve O-C çiz&apos;e basın.</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="231"/>
@@ -7211,7 +7211,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="256"/>
         <source>apsidal motion of an eccentric orbit</source>
-        <translation>dış merkezli yörüngenin apsis hareketi</translation>
+        <translation>dış merkezli yörüngenin apsidal hareketi</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="261"/>
@@ -7236,7 +7236,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_page.py" line="280"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
-        <translation>Dönemi gün olarak yazın ya da yıldızın adını yazıp Bul&apos;a basın.</translation>
+        <translation>Periyodu gün olarak yazın ya da yıldızın adını yazıp Bul&apos;a basın.</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="291"/>
@@ -7469,7 +7469,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/observatory_dialog.py" line="116"/>
         <source>Address of a running PHD2 for guiding and dithering during sequences</source>
-        <translation>Diziler sırasında rehberlik ve kaydırma (dithering) için çalışan bir PHD2&apos;nin adresi</translation>
+        <translation>Diziler sırasında kılavuzlama ve kaydırma (dithering) için çalışan bir PHD2&apos;nin adresi</translation>
     </message>
     <message>
         <location filename="../../ui/observatory_dialog.py" line="118"/>
@@ -7969,7 +7969,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/observe_page.py" line="322"/>
         <source>Twilight flats with the filter and count of the selected row; exposure times follow the sky brightness. Point the telescope at the flat spot first, tracking off.</source>
-        <translation>Seçili satırın filtresi ve sayısıyla alacakaram flatları; poz süreleri gökyüzü parlaklığını izler. Önce teleskopu flat noktasına çevirin, izleme kapalı.</translation>
+        <translation>Seçili satırın filtresi ve sayısıyla alacakaranlık flatları; poz süreleri gökyüzü parlaklığını izler. Önce teleskopu flat noktasına çevirin, izleme kapalı.</translation>
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="327"/>
@@ -8571,7 +8571,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/period_page.py" line="152"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
-        <translation>Aranan en kısa dönem; noktalar arası sürenin iki katından kısa dönemler bulunamaz</translation>
+        <translation>Aranan en kısa periyot; noktalar arası sürenin iki katından kısa periyotlar bulunamaz</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="154"/>
@@ -8581,7 +8581,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/period_page.py" line="156"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
-        <translation>Aranan en uzun dönem; veri bunun en az iki çevrimini kapsamalıdır</translation>
+        <translation>Aranan en uzun periyot; veri bunun en az iki çevrimini kapsamalıdır</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="162"/>
@@ -8686,7 +8686,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/period_page.py" line="215"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
-        <translation>En kısa ve en uzun dönem arasında periyodogramı hesaplar ve eğriyi en iyi döneme göre katlar; katlanmış grafiği gözle kontrol edin</translation>
+        <translation>En kısa ve en uzun periyot arasında periyodogramı hesaplar ve eğriyi en iyi periyoda göre katlar; katlanmış grafiği gözle kontrol edin</translation>
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="236"/>
@@ -8841,7 +8841,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="104"/>
         <source>Choose the aperture and the sky annulus (phot apertures, annulus)</source>
-        <translation>Açıklığı ve gökyüzü halkasını seçin (phot apertures, annulus)</translation>
+        <translation>Açıklığı ve gök halkasını seçin (phot apertures, annulus)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="105"/>
@@ -9041,7 +9041,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="314"/>
         <source>Outer edge of the sky ring; the ring should hold several times as many pixels as the aperture</source>
-        <translation>Gökyüzü halkasının dış kenarı; halkada açıklıktakinin birkaç katı piksel olmalıdır</translation>
+        <translation>Gök halkasının dış kenarı; halkada açıklıktakinin birkaç katı piksel olmalıdır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="318"/>
@@ -9136,7 +9136,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="418"/>
         <source>The error of every star from the gain, the read noise, the dark current and the sky level, as AstroImageJ does; off: from the scatter measured in the sky ring (as IRAF and Siril). The values are read from the header (RDNOISE / READNOIS, DARKCUR) when it has them</source>
-        <translation>Her yıldızın hatası kazançtan, okuma gürültüsünden, karanlık akımdan ve gökyüzü düzeyinden, AstroImageJ&apos;nin yaptığı gibi; kapalıysa gökyüzü halkasında ölçülen saçılmadan (IRAF ve Siril gibi). Değerler başlıkta varsa oradan okunur (RDNOISE / READNOIS, DARKCUR)</translation>
+        <translation>Her yıldızın hatası kazançtan, okuma gürültüsünden, karanlık akımdan ve gökyüzü düzeyinden, AstroImageJ&apos;nin yaptığı gibi; kapalıysa gök halkasında ölçülen saçılmadan (IRAF ve Siril gibi). Değerler başlıkta varsa oradan okunur (RDNOISE / READNOIS, DARKCUR)</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="428"/>
@@ -9161,7 +9161,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="444"/>
         <source>Sky from the ring</source>
-        <translation>Gökyüzü halkadan</translation>
+        <translation>Gök halkadan</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="447"/>
@@ -9186,7 +9186,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="455"/>
         <source>How the sky ring gives the sky under the star. The median suits most nights; a plane follows a sky that brightens towards one side (the Moon, twilight, light pollution) and leaves out stars in the ring</source>
-        <translation>Gökyüzü halkasının yıldızın altındaki gökyüzünü nasıl vereceği. Ortanca çoğu geceye uyar; düzlem, bir yana doğru parlayan gökyüzünü (Ay, alacakaranlık, ışık kirliliği) izler ve halkadaki yıldızları dışarıda bırakır</translation>
+        <translation>Gök halkasının yıldızın altındaki gökyüzünü nasıl vereceği. Ortanca çoğu geceye uyar; düzlem, bir yana doğru parlayan gökyüzünü (Ay, alacakaranlık, ışık kirliliği) izler ve halkadaki yıldızları dışarıda bırakır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="498"/>
@@ -9401,7 +9401,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="580"/>
         <source>Tries the sets of comparison stars and uses the one whose stars agree best with one another and with the check star; the target is not used, so no set can hide its variation. Ctrl+Z goes back</source>
-        <translation>Karşılaştırma yıldızlarının kümelerini dener ve yıldızları birbiriyle ve denetim yıldızıyla en iyi uyuşanı kullanır; hedef kullanılmaz, böylece hiçbir küme onun değişimini gizleyemez. Ctrl+Z geri alır</translation>
+        <translation>Karşılaştırma yıldızlarının kümelerini dener ve yıldızları birbiriyle ve kontrol yıldızıyla en iyi uyuşanı kullanır; hedef kullanılmaz, böylece hiçbir küme onun değişimini gizleyemez. Ctrl+Z geri alır</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="587"/>
@@ -9629,7 +9629,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/photometry_page.py" line="830"/>
         <location filename="../../ui/photometry_page.py" line="831"/>
         <source>Optional: with T0 and the period the minimum gets its cycle number and O−C</source>
-        <translation>İsteğe bağlı: T0 ve dönemle minimuma çevrim numarası ve O−C verilir</translation>
+        <translation>İsteğe bağlı: T0 ve periyotla minimuma çevrim numarası ve O−C verilir</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="866"/>
@@ -9709,7 +9709,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="939"/>
         <source>Light curves of the same star list exported on other nights join this one on the same zero point; with T0 and the period, the minimum timing then times the eclipse of every night</source>
-        <translation>Aynı yıldız listesiyle başka gecelerde dışa aktarılmış ışık eğrileri bununla aynı sıfır noktasında birleşir; T0 ve dönemle minimum zamanlaması her gecenin tutulmasını zamanlar</translation>
+        <translation>Aynı yıldız listesiyle başka gecelerde dışa aktarılmış ışık eğrileri bununla aynı sıfır noktasında birleşir; T0 ve periyotla minimum zamanlaması her gecenin tutulmasını zamanlar</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="946"/>
@@ -9927,7 +9927,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="1686"/>
         <source>3. Aperture and sky ring</source>
-        <translation>3. Aperture ve gökyüzü halkası</translation>
+        <translation>3. Açıklık ve gök halkası</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1687"/>
@@ -10012,7 +10012,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="1909"/>
         <source>Chosen on {k} frames of the series: the light curve changed least from one frame to the next ({best:.2f} %) with this aperture; {small:.2f} % with {r1:.1f} px, the best for one star&apos;s noise alone, which loses a share of the light that moves with the seeing.</source>
-        <translation>Serinin {k} karesinde seçildi: ışık eğrisi bir kareden ötekine en az bu aperture ile değişti (%{best:.2f}); tek bir yıldızın gürültüsü için en iyisi olan {r1:.1f} piksel ile %{small:.2f}, çünkü o yarıçap ışığın görüşle değişen bir kısmını dışarıda bırakır.</translation>
+        <translation>Serinin {k} karesinde seçildi: ışık eğrisi bir kareden ötekine en az bu açıklık ile değişti (%{best:.2f}); tek bir yıldızın gürültüsü için en iyisi olan {r1:.1f} piksel ile %{small:.2f}, çünkü o yarıçap ışığın görüşle değişen bir kısmını dışarıda bırakır.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="2037"/>
@@ -10492,7 +10492,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="1828"/>
         <source>{n} comparison stars suggested: similar brightness, near the target, unsaturated, no neighbour in the sky ring, inside every frame. Click one to take it off, or click others to add them.</source>
-        <translation>{n} karşılaştırma yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gökyüzü halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
+        <translation>{n} karşılaştırma yıldızı önerildi: benzer parlaklıkta, hedefe yakın, doymamış, gök halkasında komşusu yok, her karenin içinde. Kaldırmak için birine tıklayın ya da eklemek için başkalarına tıklayın.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="1899"/>
@@ -10613,7 +10613,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_page.py" line="2779"/>
         <source>{n} frame(s) without a positive flux for T1 ({frames}), no magnitude: is the star on those frames, or a brighter star in its sky ring? Leave them out with “Use this frame”.</source>
-        <translation>T1 için pozitif akısı olmayan {n} kare ({frames}), kadir yok: yıldız o karelerde mi, yoksa gökyüzü halkasında daha parlak bir yıldız mı var? Bu kareleri “Bu kareyi kullan” ile dışarıda bırakın.</translation>
+        <translation>T1 için pozitif akısı olmayan {n} kare ({frames}), kadir yok: yıldız o karelerde mi, yoksa gök halkasında daha parlak bir yıldız mı var? Bu kareleri “Bu kareyi kullan” ile dışarıda bırakın.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="2793"/>
@@ -11016,7 +11016,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/plan_page.py" line="323"/>
         <source>Also list the secondary minima (half a period after the primary)</source>
-        <translation>İkincil minimumları da listele (birincilden yarım dönem sonra)</translation>
+        <translation>İkincil minimumları da listele (birincilden yarım periyot sonra)</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="324"/>
@@ -11481,7 +11481,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="282"/>
         <source>The calibrated spectrum is saved: measure it on the Radial velocity tab.</source>
-        <translation>Kalibre edilmiş tayf kaydedildi: Radyal hız sekmesinde ölçün.</translation>
+        <translation>Kalibre edilmiş tayf kaydedildi: Dikine hız sekmesinde ölçün.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="368"/>
@@ -11972,7 +11972,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/setting_names.py" line="38"/>
         <source>Sky from the ring (median, mode, mean, plane)</source>
-        <translation>Gökyüzü halkadan (ortanca, kip, ortalama, düzlem)</translation>
+        <translation>Gök halkadan (ortanca, kip, ortalama, düzlem)</translation>
     </message>
     <message>
         <location filename="../../ui/setting_names.py" line="39"/>
@@ -12335,7 +12335,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="2257"/>
         <source>Radial velocity &amp;&amp; orbit</source>
-        <translation>Radyal hız ve yörünge</translation>
+        <translation>Dikine hız ve yörünge</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="2258"/>
@@ -12386,7 +12386,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="2299"/>
         <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) in the Calibration window first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
-        <translation>1. Tayfçekerinizden ham kareler: &lt;b&gt;İndirgeme&lt;/b&gt; (uzun yarık: ark lambası → iz → çıkarma → dalga boyları) ya da &lt;b&gt;Eşel&lt;/b&gt; (çok mertebe). Kareleri önce Kalibrasyon penceresinde kalibre edin (bias, dark, flat).&lt;br&gt;2. Dalga boyları zaten olan tayflar (bir arşiv, başka bir indirgeme): 3&apos;ten başlayın.&lt;br&gt;3. &lt;b&gt;Tellürik&lt;/b&gt; (isteğe bağlı): Dünya atmosferini (O₂, H₂O bantları, çoğu kırmızıda) hedefin yakınında gözlenmiş sıcak bir yıldızla böler.&lt;br&gt;4. &lt;b&gt;Radyal hız ve yörünge&lt;/b&gt;: her tayfta yıldızın bir şablona göre hızı, bir çiftin iki yıldızı (TODCOR, genişleme fonksiyonu), yörünge, tayf türü (MK).&lt;br&gt;5. &lt;b&gt;Tayf araçları&lt;/b&gt;: normalleştirme, bir çizgiyi ölçme (eşdeğer genişlik, FWHM, V/R), yumuşatma, tayfları toplama ya da bölme, atmosfer parametreleri (Teff, log g, [Fe/H]).&lt;br&gt;Yöntemler ve formülleri: Kılavuz, Tayf ve Yöntemlerin matematiği.</translation>
+        <translation>1. Tayfçekerinizden ham kareler: &lt;b&gt;İndirgeme&lt;/b&gt; (uzun yarık: ark lambası → iz → çıkarma → dalga boyları) ya da &lt;b&gt;Eşel&lt;/b&gt; (çok mertebe). Kareleri önce Kalibrasyon penceresinde kalibre edin (bias, dark, flat).&lt;br&gt;2. Dalga boyları zaten olan tayflar (bir arşiv, başka bir indirgeme): 3&apos;ten başlayın.&lt;br&gt;3. &lt;b&gt;Tellürik&lt;/b&gt; (isteğe bağlı): Dünya atmosferini (O₂, H₂O bantları, çoğu kırmızıda) hedefin yakınında gözlenmiş sıcak bir yıldızla böler.&lt;br&gt;4. &lt;b&gt;Dikine hız ve yörünge&lt;/b&gt;: her tayfta yıldızın bir şablona göre hızı, bir çiftin iki yıldızı (TODCOR, genişleme fonksiyonu), yörünge, tayf türü (MK).&lt;br&gt;5. &lt;b&gt;Tayf araçları&lt;/b&gt;: normalleştirme, bir çizgiyi ölçme (eşdeğer genişlik, FWHM, V/R), yumuşatma, tayfları toplama ya da bölme, atmosfer parametreleri (Teff, log g, [Fe/H]).&lt;br&gt;Yöntemler ve formülleri: Kılavuz, Tayf ve Yöntemlerin matematiği.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="2371"/>
@@ -13200,7 +13200,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/step_names.py" line="11"/>
         <source>Plate solve</source>
-        <translation>Gök konumunu çöz (plate solve)</translation>
+        <translation>Plaka çözümü</translation>
     </message>
     <message>
         <location filename="../../ui/step_names.py" line="12"/>
@@ -13385,7 +13385,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/step_names.py" line="48"/>
         <source>Measure radial velocities</source>
-        <translation>Radyal hızları ölç</translation>
+        <translation>Dikine hızları ölç</translation>
     </message>
     <message>
         <location filename="../../ui/step_names.py" line="49"/>
@@ -13512,7 +13512,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1350"/>
         <source>Measure the corrected spectrum on the Radial velocity tab.</source>
-        <translation>Düzeltilmiş tayfı Radyal hız ve yörünge sekmesinde ölçün.</translation>
+        <translation>Düzeltilmiş tayfı Dikine hız ve yörünge sekmesinde ölçün.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1379"/>
@@ -13916,7 +13916,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1590"/>
         <source>Measure radial velocities</source>
-        <translation>Radyal hızları ölç</translation>
+        <translation>Dikine hızları ölç</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1593"/>
@@ -13931,7 +13931,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1600"/>
         <source>Fits a Keplerian orbit to the velocities: period, eccentricity, K, γ (both stars for a double-lined binary)</source>
-        <translation>Hızlara bir Kepler yörüngesi fit eder: dönem, dış merkezlik, K, γ (çift çizgili çiftte iki yıldız)</translation>
+        <translation>Hızlara bir Kepler yörüngesi fit eder: periyot, dış merkezlik, K, γ (çift çizgili çiftte iki yıldız)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1610"/>
@@ -14054,7 +14054,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1455"/>
         <source>Press Measure radial velocities.</source>
-        <translation>Radyal hızları ölç&apos;e basın.</translation>
+        <translation>Dikine hızları ölç&apos;e basın.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1458"/>
@@ -14412,7 +14412,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="35"/>
         <source>Measures, one per line: epoch (year)  position angle (°)  separation (″)  [σ″]  [σ°]</source>
-        <translation>Ölçümler, her satıra bir tane: dönem (yıl)  konum açısı (°)  ayrıklık (″)  [σ″]  [σ°]</translation>
+        <translation>Ölçümler, her satıra bir tane: periyot (yıl)  konum açısı (°)  ayrıklık (″)  [σ″]  [σ°]</translation>
     </message>
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="42"/>
@@ -14443,17 +14443,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/visual_orbit_tab.py" line="56"/>
         <location filename="../../ui/visual_orbit_tab.py" line="57"/>
         <source>Range of periods searched; automatic: from the time span of the measures</source>
-        <translation>Aranan dönem aralığı; otomatik: ölçümlerin zaman açıklığından</translation>
+        <translation>Aranan periyot aralığı; otomatik: ölçümlerin zaman açıklığından</translation>
     </message>
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="60"/>
         <source>Shortest period (years)</source>
-        <translation>En kısa dönem (yıl)</translation>
+        <translation>En kısa periyot (yıl)</translation>
     </message>
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="61"/>
         <source>Longest period (years)</source>
-        <translation>En uzun dönem (yıl)</translation>
+        <translation>En uzun periyot (yıl)</translation>
     </message>
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="62"/>
@@ -14498,7 +14498,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="117"/>
         <source>Period P (years)</source>
-        <translation>Dönem P (yıl)</translation>
+        <translation>Periyot P (yıl)</translation>
     </message>
     <message>
         <location filename="../../ui/visual_orbit_tab.py" line="118"/>

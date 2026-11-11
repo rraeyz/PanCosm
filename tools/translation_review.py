@@ -3,6 +3,7 @@
     python tools/translation_review.py export de review_de.csv     # every string: English, current text
     python tools/translation_review.py import de review_de.csv     # corrections back into app_de.ts
     python tools/i18n.py                                           # compile
+    python tools/translation_review.py glossary                    # astronomy terms kept (glossary.toml)
 
 The CSV opens in LibreOffice / Excel. The reviewer writes a better text in the column "corrected" (and, if useful,
 a note in "comment"); rows left empty keep the current translation. Placeholders in braces ({n}, {app}, ...) must
@@ -93,5 +94,36 @@ def main():
         print(f"refused: {src!r}: {why}")
 
 
-if __name__ == "__main__":
+def glossary_problems(lang="tr"):
+    """[(source, translation, term, allowed stems)] where a glossary term of the source is not translated with its
+    fixed term (plans/architecture.md ARC-18)."""
+    import tomllib
+
+    terms = tomllib.loads((I18N / "glossary.toml").read_text(encoding="utf-8")).get(lang, {})
+    out = []
+    for _ctx, _where, m in _messages(lang):
+        source, tr = m.findtext("source") or "", m.find("translation")
+        for name in ("astrometry.net", "Period04", "Exoplanet Transit Database"):  # names, not terms
+            source = source.replace(name, "")
+        if tr is None or tr.get("type") in ("obsolete", "vanished") or not tr.text:
+            continue
+        text = tr.text.replace("I", "ı").replace("İ", "i").lower()  # Turkish lower case: I -> ı, İ -> i
+        for term, stems in terms.items():
+            stem = term.endswith("*")
+            word = term.rstrip("*")
+            # a whole word (plurals too) or a stem, never inside a code example such as isnan(airmass) or flux_err
+            ending = "" if stem or not word[-1].isalpha() else r"(?:s|es|'s)?(?![\w(])"
+            pattern = r"(?<![\w(])" + re.escape(word) + ending
+            if re.search(pattern, source, 0 if word[0].isupper() else re.I) and not any(s in text for s in stems):
+                out.append((source, tr.text, term, stems))
+    return out
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["glossary"]:
+    found = glossary_problems()
+    for source, tr, term, stems in found:
+        print(f"{term} -> {' / '.join(stems)}\n  {source}\n  {tr}\n")
+    print(f"{len(found)} strings do not use the glossary's term")
+    sys.exit(1 if found else 0)
+elif __name__ == "__main__":
     main()

@@ -24,9 +24,10 @@ _ARITH = {ast.Add: np.add, ast.Sub: np.subtract, ast.Mult: np.multiply, ast.Div:
 
 def rounded(value, error):
     """(value, error) as texts for a paper: the error to two significant digits, the value to the same decimal
-    place (e.g. 1.234567 ± 0.000123 -> '1.23457', '0.00012'); without an error, six significant digits."""
+    place (e.g. 1.234567 ± 0.000123 -> '1.23457', '0.00012'); without an error, the value as given (up to 15
+    significant digits: six turned a BJD into 2.46051e+06)."""
     if error is None or not math.isfinite(error) or error <= 0:
-        return f"{value:.6g}", ""
+        return f"{value:.15g}", ""
     digits = max(0, 1 - math.floor(math.log10(error)))
     return f"{value:.{digits}f}", f"{error:.{digits}f}"
 
@@ -118,7 +119,8 @@ def _cells(table):
                 value, e = rounded(float(v), float(row[err]))
                 cells.append(f"{value} ± {e}" if e else value)
             elif _number(v):
-                cells.append(f"{float(v):.6g}" if not float(v).is_integer() or abs(float(v)) > 1e15 else str(int(v)))
+                # 15 digits: a BJD keeps its microdays (6 gave 2.46051e+06)
+                cells.append(f"{float(v):.15g}" if not float(v).is_integer() or abs(float(v)) > 1e15 else str(int(v)))
             else:
                 cells.append(str(v))
         rows.append(cells)

@@ -12,6 +12,7 @@ def test_rounded_to_the_error():
     assert rounded(86.46, 0.97) == ("86.46", "0.97")
     assert rounded(1234.0, 56.0) == ("1234", "56")
     assert rounded(5.0, float("nan")) == ("5", "")
+    assert rounded(2460512.123456, None) == ("2460512.123456", "")  # a BJD without an error keeps its digits
 
 
 def test_save_results_csv_and_latex(tmp_path):
