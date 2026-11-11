@@ -7123,18 +7123,18 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>NumberField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="42"/>
-        <location filename="../../ui/kit/fields.py" line="68"/>
+        <location filename="../../ui/kit/fields.py" line="52"/>
+        <location filename="../../ui/kit/fields.py" line="78"/>
         <source>auto</source>
         <translation>otomatik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="44"/>
+        <location filename="../../ui/kit/fields.py" line="54"/>
         <source>Let the program choose this value</source>
         <translation>Bu değeri program seçsin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="89"/>
+        <location filename="../../ui/kit/fields.py" line="99"/>
         <source>A number from {low} to {high}</source>
         <translation>{low} ile {high} arasında bir sayı</translation>
     </message>
@@ -8587,43 +8587,43 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PathField</name>
     <message>
-        <location filename="../../ui/kit/fields.py" line="177"/>
+        <location filename="../../ui/kit/fields.py" line="187"/>
         <source>Drop files here or choose with …</source>
         <translation>Dosyaları buraya bırakın ya da … ile seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="181"/>
+        <location filename="../../ui/kit/fields.py" line="191"/>
         <source>Choose…</source>
         <translation>Seç…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="199"/>
-        <location filename="../../ui/kit/fields.py" line="257"/>
+        <location filename="../../ui/kit/fields.py" line="209"/>
+        <location filename="../../ui/kit/fields.py" line="267"/>
         <source>{n} files — first: {name}</source>
         <translation>{n} dosya — ilki: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="205"/>
+        <location filename="../../ui/kit/fields.py" line="215"/>
         <source>Not found: {path}</source>
         <translation>Bulunamadı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="220"/>
+        <location filename="../../ui/kit/fields.py" line="230"/>
         <source>Choose a folder</source>
         <translation>Klasör seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="223"/>
+        <location filename="../../ui/kit/fields.py" line="233"/>
         <source>Choose files</source>
         <translation>Dosyaları seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="225"/>
+        <location filename="../../ui/kit/fields.py" line="235"/>
         <source>Choose a file</source>
         <translation>Dosya seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/fields.py" line="261"/>
+        <location filename="../../ui/kit/fields.py" line="271"/>
         <source>No recent choices</source>
         <translation>Son seçim yok</translation>
     </message>
@@ -13387,6 +13387,14 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/start_page.py" line="152"/>
         <source>Project</source>
         <translation>Proje</translation>
+    </message>
+</context>
+<context>
+    <name>StatusSegments</name>
+    <message>
+        <location filename="../../ui/kit/status.py" line="28"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
     </message>
 </context>
 <context>

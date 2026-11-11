@@ -359,3 +359,22 @@ def test_tool_button_choice_toggle(qtbot):
     with pytest.raises(ValueError):
         c.setValue("nope")
     assert Toggle("Subtract the sky", True).isChecked()
+
+
+def test_status_segments(qtbot):
+    from astrowb.ui.kit.status import StatusSegments
+
+    bar = StatusSegments()
+    qtbot.addWidget(bar)
+    bar.show()
+    stopped = []
+    assert not bar.progress.isVisible()
+    bar.set_readout("x 1024.3  y 512.7")
+    bar.set_progress(62, cancel=lambda: stopped.append(1))
+    assert bar.progress.isVisible() and bar.progress.value() == 62 and bar.cancel.isVisible()
+    bar.cancel.click()
+    bar.set_progress(-1)
+    assert stopped == [1] and bar.progress.maximum() == 0 and not bar.cancel.isVisible()
+    bar.set_progress(None)
+    bar.message("Saved")
+    assert not bar.progress.isVisible() and bar.currentMessage() == "Saved" and bar.readout.text().startswith("x")
