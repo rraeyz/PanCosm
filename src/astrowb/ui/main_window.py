@@ -25,8 +25,8 @@ from ..engine.core import Engine
 from ..engine.project import EXTENSION, Project
 from ..io import fits as fitsio
 from ..settings import Settings
-from . import advice, area_menus, area_pages, help_checks, online_actions
-from .area_menus import _mirror
+from . import advice, area_menus, area_pages, area_windows, help_checks, online_actions, tour
+from .area_menus import _undo_source
 from .files import images_filter
 from .i18n import LANGUAGES
 from .kit.widgets import bar_menu
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
         self._menus_to_image_window()
         self._follow_undo()
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
-        self._fill_image_toolbar()
+        area_windows.fill_image_toolbar(self)
         self._update_title()
 
     # --- construction -------------------------------------------------------
@@ -243,78 +243,7 @@ class MainWindow(QMainWindow):
 
         self.image_pixel_label = QLabel(win)
         win.statusBar().addWidget(self.image_pixel_label, 1)
-        self._fill_image_menus(win)
-
-    def _fill_image_menus(self, win):
-        """The Images window's menus as MaxIm DL and AstroImageJ group them (interface I6c.8): Process, Analyse,
-        Overlays, Astrometry, Colour, Stack; the page's tool and header buttons are mirrored, not copied."""
-        from PySide6.QtWidgets import QApplication
-
-        page = self.image_page
-        view = self.view_menu
-        view.removeAction(self.overlay_menu.menuAction())  # a menu of its own, as AstroImageJ's Annotate
-        tools, group = [], QActionGroup(win)
-        for key in page.TOOLS:
-            button = page.tool_buttons[key]
-            act = QAction(button.text(), win)
-            act.setToolTip(button.toolTip())
-            act.setStatusTip(button.toolTip())
-            act.setCheckable(True)
-            act.setChecked(button.isChecked())
-            act.triggered.connect(lambda _=False, k=key: page.set_tool(k))
-            button.toggled.connect(act.setChecked)
-            group.addAction(act)
-            tools.append(act)
-        self.split_action = QAction(self.tr("Split into colour channels (R, G, B)"), win)
-        self.split_action.setToolTip(
-            self.tr("A colour camera's raw image as three half-size images, one per colour (no interpolation)")
-        )
-        self.split_action.triggered.connect(lambda _=False: self.split_channels())
-        self.split_action.setEnabled(False)
-        stack = QAction(self.tr("Stack the open images…"), win)
-        stack.setToolTip(self.tr("The open images aligned on their stars and averaged with outliers rejected"))
-        stack.triggered.connect(lambda _=False: self.stack_open_images())
-        drizzle = QAction(self.tr("Drizzle the open images…"), win)
-        drizzle.setToolTip(self.tr("Dithered images onto a grid twice as fine (sharper for undersampled stars)"))
-        drizzle.triggered.connect(lambda _=False: self.stack_open_images(drizzle=True))
-        win.add_menus(
-            [
-                (self.process_menu.title(), []),
-                (self.tr("&Analyse"), [*tools, None, _mirror(page.whole_button, win), self.coefficients_action]),
-                (self.overlay_menu.title(), []),
-                (self.tr("A&strometry"), [self.solve_action, self.moving_action]),
-                (self.tr("&Colour"), [self.colour_action, self.split_action]),
-                (self.tr("S&tack"), [stack, drizzle, None, self.blink_action]),
-            ]
-        )
-        bar = win.menuBar()
-        for menu in (self.process_menu, self.overlay_menu):  # the menus themselves: the toolbar opens them too
-            empty = next(a for a in bar.actions() if a.menu() and a.text() == menu.title() and a.menu() is not menu)
-            bar.insertMenu(empty, menu)
-            bar.removeAction(empty)
-        view.removeAction(self.blink_action)
-        edit = win.edit_menu
-        copy_header = QAction(self.tr("Copy the header"), win)
-        copy_header.triggered.connect(
-            lambda _=False: QApplication.clipboard().setText(page.header.tostring(sep="\n") if page.header else "")
-        )
-        for act in (*[_mirror(b, win) for b in page.keyword_buttons], copy_header):
-            edit.insertAction(win.find_action, act)
-        edit.insertSeparator(win.find_action)
-        file_menu = win.file_menu
-        acts = file_menu.actions()
-        after_save, close = acts[acts.index(self.save_action) + 1], acts[-1]
-        close_image = QAction(self.tr("&Close image"), win)
-        close_image.triggered.connect(lambda _=False: self.close_image())
-        close_all = QAction(self.tr("Close &all images"), win)
-        close_all.triggered.connect(lambda _=False: self.close_image(everything=True))
-        convert = QAction(self.tr("&Convert many images (PNG / JPEG / TIFF)…"), win)
-        convert.triggered.connect(lambda _=False: self.convert_dialog())
-        file_menu.insertActions(after_save, [_mirror(page.header_save, win), self.picture_action, convert])
-        file_menu.insertSeparator(after_save)
-        file_menu.insertAction(after_save, _mirror(page.export_button, win))
-        file_menu.insertActions(close, [close_image, close_all])
-        file_menu.insertSeparator(close)
+        area_windows.fill_image_menus(self, win)
 
     def _place_in_window(self, key, page):
         """The page, as it is, in an area window of its own (scrolling inside it when the window is smaller)."""
@@ -324,10 +253,10 @@ class MainWindow(QMainWindow):
         from .start_page import areas
 
         if key == "photometry":
-            self._photometry_window(page)
+            area_windows.photometry_window(self, page)
             return
         if key == "spectroscopy":
-            self._spectroscopy_window(page)
+            area_windows.spectroscopy_window(self, page)
             return
 
         frame = QScrollArea()
@@ -378,119 +307,6 @@ class MainWindow(QMainWindow):
             "spectroscopy": (spectrum, images_filter()),
             "remotesensing": (lambda paths: page.open(";".join(paths)), ""),
         }.get(key, (None, ""))
-
-    def _photometry_window(self, page):
-        """Photometry in its full window (plans/interface.md I5): the image in the middle, the numbered steps in a
-        panel on the left, the results (light curve, stars, detrending, minimum, export) in a panel below; a
-        toolbar for the frequent actions; every panel can be pulled out and is remembered."""
-        from PySide6.QtGui import QAction
-
-        from .kit.window import AreaWindow
-        from .start_page import areas
-
-        parts = page.window_parts()
-        kinds = {}
-
-        def mirror(widget, short=None, kind=None):
-            act = _mirror(widget, page, short)
-            if kind:
-                kinds[act] = kind
-            return act
-
-        images = mirror(page.load_button, self.tr("Images…"), "open")
-        blink = mirror(page.blink, self.tr("Blink"), "blink")
-        prev, nxt = (mirror(page.prev_frame, self.tr("Previous frame"), "previous"),
-                     mirror(page.next_frame, self.tr("Next frame"), "next"))  # fmt: skip
-        for act, text in ((prev, self.tr("Previous frame")), (nxt, self.tr("Next frame"))):
-            act.setText(text)  # the tool buttons show only an arrow
-        bad = mirror(page.quality_button, self.tr("Bad frames"), "bad_frames")
-        comps = mirror(page.suggest_button, self.tr("Comparisons"), "comparisons")
-        radii = mirror(page.apertures_button, self.tr("Radii"), "radii")
-        measure = mirror(page.measure_button, self.tr("Measure"), "measure")
-        minimum = mirror(page.minimum_button, self.tr("Minimum"), "minimum")
-        export = mirror(page.export_button, self.tr("Export"), "export")
-        target = mirror(page.make_target)
-        target.setText(self.tr("Make the chosen variable star the target"))  # the button sits beside its list
-        check = QAction(self.tr("Mark check stars"), page)
-        check.setToolTip(self.tr("The next clicks on the image mark check stars (K1, K2…)"))
-        check.triggered.connect(lambda: page.click_role.setCurrentIndex(page.click_role.findData("check")))
-        menus = [  # the approved table (plans/interface.md I6c), in the order of the work
-            (self.tr("F&rames"), [images, mirror(page.live_button), blink, prev, nxt, None, bad,
-                                  mirror(page.drop_bad), mirror(page.restore_button)]),
-            (self.tr("&Stars"), [comps, mirror(page.best_set_button), target, check, None,
-                                 mirror(page.save_stars_button),
-                                 mirror(page.load_stars_button), None, mirror(page.clear_button)]),
-            (self.tr("&Measure"), [radii, mirror(page.follow_seeing), mirror(page.psf), None, measure,
-                                   mirror(page.catalog_button), mirror(page.pol_button)]),
-            (self.tr("&Analyse"), [mirror(page.detrend_button), mirror(page.undo_detrend), mirror(page.bic_button),
-                                   mirror(page.outlier_button), None,
-                                   mirror(page.cycle_button), mirror(page.save_plot_button),
-                                   mirror(page.open_plot_button), None, minimum, None,
-                                   mirror(page.go_model), mirror(page.go_period)]),
-        ]  # fmt: skip
-        actions = [images, blink, prev, nxt, None, bad, comps, radii, measure, None, minimum, export]
-        name = next(n for k, _, n, _ in areas() if k == "photometry")
-        win = AreaWindow(
-            "photometry", name, self.settings, parts["view"], steps=parts["steps"],
-            panels=[("results", self.tr("Results: light curve, stars, minimum, export"), parts["results"],
-                     Qt.BottomDockWidgetArea)],
-            menus=menus, toolbar=actions,
-            undo_stack=_undo_source(page), open_files=page.set_images, file_filter=images_filter(), parent=self,
-        )  # fmt: skip
-        from PySide6.QtWidgets import QMenu
-
-        exports = QMenu(self.tr("&Export"), win)  # File → Export, just before Close window
-        win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
-        exports.addActions([export, mirror(page.aavso_button), mirror(page.etd_button)])
-        win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
-        page.setParent(win)  # the page keeps the state and the logic, unseen
-        page.hide()
-        page.results_dock = win.docks["results"]
-        page.results_dock.setVisible(page.target is not None or page.lc_raw is not None)
-        self._frames[page] = parts["steps"]
-        win.setWindowIcon(self.windowIcon())
-        win.help_requested.connect(self._help_for)
-        self.area_windows["photometry"] = win
-        self._complete_menus(win)
-
-    def _spectroscopy_window(self, page):
-        """Spectroscopy in its own window (plans/spectroscopy.md step 1.1): the job chosen in the toolbar (and the
-        Job menu), its view in the middle, its steps in the left panel."""
-        from PySide6.QtCore import QCoreApplication
-        from PySide6.QtGui import QAction, QActionGroup
-
-        from .kit.window import AreaWindow
-        from .start_page import areas
-
-        parts = page.window_parts()
-        group, actions = QActionGroup(page), []
-        for i, (job, tip) in enumerate(zip(parts["jobs"], page.JOB_TIPS, strict=True)):
-            act = QAction(job, page)
-            act.setCheckable(True)
-            act.setToolTip(QCoreApplication.translate("SpectroscopyPage", tip))
-            act.setStatusTip(act.toolTip())
-            act.triggered.connect(lambda _=False, k=i: page.tabs.setCurrentIndex(k))
-            group.addAction(act)
-            actions.append(act)
-        page.tabs.currentChanged.connect(lambda i: actions[i].setChecked(True))
-        actions[page.tabs.currentIndex()].setChecked(True)
-        handler, file_filter = self._opener("spectroscopy", page)
-        name = next(n for k, _, n, _ in areas() if k == "spectroscopy")
-        win = AreaWindow(
-            "spectroscopy", name, self.settings, parts["view"], steps=parts["steps"],
-            menus=[(self.tr("&Job"), actions)], toolbar=actions, undo_stack=_undo_source(page),
-            open_files=handler, file_filter=file_filter, parent=self,
-        )  # fmt: skip
-        jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
-        win.set_icons(dict(zip(actions, jobs, strict=True)))
-        area_menus.spectroscopy(self, page, win)
-        page.setParent(win)  # the page keeps the state and the logic, unseen
-        page.hide()
-        self._frames[page] = parts["steps"]
-        win.setWindowIcon(self.windowIcon())
-        win.help_requested.connect(self._help_for)
-        self.area_windows["spectroscopy"] = win
-        self._complete_menus(win)
 
     def _complete_menus(self, win):
         """The common menus of every area window (interface I6c.2): Edit → Copy and the settings, Help → the tour,
@@ -923,51 +739,6 @@ class MainWindow(QMainWindow):
             act.setShortcut(shortcut)
         menu.addAction(act)
         return act
-
-    def _fill_image_toolbar(self):
-        """The most used image commands as small icons above the image: the same actions as in the menus."""
-        from PySide6.QtWidgets import QToolButton
-
-        bar, self._glyphs = self.image_page.toolbar, []
-        first = bar.actions()[0]  # the measuring tools stay at the end
-        icons = (  # kinds of ui/icons.py: the same icon as in the other windows
-            (self.open_action, "open"),
-            (self.save_action, "save"),
-            None,
-            (self.previous_action, "previous"),
-            (self.next_action, "next"),
-            None,
-            (self.fit_action, "fit"),
-            (self.zoom_in_action, "zoom_in"),
-            (self.zoom_out_action, "zoom_out"),
-            None,
-            (self.levels_action, "levels"),
-            (self.blink_action, "blink"),
-            (self.overlay_menu.menuAction(), "overlays"),
-            None,
-            (self.process_menu.menuAction(), "process"),
-            (self.solve_action, "solve"),
-            None,
-        )
-        for item in icons:
-            if item is None:
-                bar.insertSeparator(first)
-                continue
-            act, kind = item
-            if act.menu():  # a button of its own: an icon on the menu's action would replace its name in the menu bar
-                menu, button = act.menu(), QToolButton(bar)
-                button.setMenu(menu)
-                button.setPopupMode(QToolButton.InstantPopup)
-                button.setToolTip(act.text().replace("&", ""))
-                button.setEnabled(act.isEnabled())
-                act.changed.connect(lambda b=button, a=act: b.setEnabled(a.isEnabled()))
-                self._glyphs.append((button, kind))
-                bar.insertWidget(first, button)
-                continue
-            self._glyphs.append((act, kind))
-            act.setToolTip(act.text().replace("&", ""))
-            bar.insertAction(first, act)
-        self._paint_glyphs()
 
     def _paint_glyphs(self):
         from .kit.icons import icon
@@ -1912,97 +1683,7 @@ class MainWindow(QMainWindow):
         )
 
     def start_tour(self):
-        """Short guided tour of the pages and the main controls."""
-        from PySide6.QtWidgets import QToolButton
-
-        from .tour import TourOverlay, rect_of
-
-        def item(key):  # the area's block on the start page
-            return lambda: rect_of(self.start_page.findChild(QToolButton, f"start_{key}"), self)
-
-        def blocks():
-            shown = [rect_of(b, self) for b in self.start_page.blocks]
-            shown = [r for r in shown if r is not None]
-            return shown[0].united(shown[-1]) if shown else None
-
-        self.show_workspace("start")
-        dock = self.findChild(QDockWidget, "tasks")
-        steps = [
-            (None, self.tr("Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time.")),
-            (blocks, self.tr("The areas, in the order of an observing night. Click one to open it in its window.")),
-            (
-                lambda: rect_of(self.start_page, self),
-                self.tr(
-                    "Start here: pick what you have — raw frames, images, spectra, a list of minima — and its window opens."  # noqa: E501
-                ),
-            ),
-            (
-                item("plan"),
-                self.tr("Planning: when your targets are visible, airmass, the Moon, predicted eclipses and transits."),
-            ),
-            (
-                item("observe"),
-                self.tr(
-                    "Observing: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong."  # noqa: E501
-                ),
-            ),
-            (
-                item("calibrate"),
-                self.tr(
-                    "Calibration: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked."  # noqa: E501
-                ),
-            ),
-            (
-                item("photometry"),
-                self.tr(
-                    "Photometry, then Light curves and period and O−C: measure stars, get light curves, periods, minima and O−C diagrams."  # noqa: E501
-                ),
-            ),
-            (
-                item("spectroscopy"),
-                self.tr(
-                    "Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes."
-                ),
-            ),
-            (
-                item("orbits"),
-                self.tr(
-                    "Models: eclipsing-binary and transit light-curve models, absolute dimensions and visual orbits."
-                ),
-            ),
-            (
-                item("remotesensing"),
-                self.tr(
-                    "Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes."
-                ),
-            ),
-            (
-                item("automation"),
-                self.tr(
-                    "Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go."  # noqa: E501
-                ),
-            ),
-            (
-                lambda: rect_of(self.menuBar(), self),  # the guide has no block: Help → Training guide opens it
-                self.tr(
-                    "Guide: every window explained step by step, by category, with search. Help → Training guide opens it; F1 in a window opens its own page."  # noqa: E501
-                ),
-            ),
-            (
-                lambda: rect_of(dock, self),
-                self.tr("Tasks: long jobs run here in the background with their progress; you can keep working."),
-            ),
-            (
-                lambda: rect_of(self.menuBar(), self),
-                self.tr(
-                    "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area's window has its own menus and toolbar."  # noqa: E501
-                ),
-            ),
-        ]
-        self.tour = TourOverlay(self, steps)
-        self.tour.start()
-        self.settings.set("ui.tour_done", True)
-        return self.tour
+        return tour.start(self)
 
     def set_theme(self, code):
         from PySide6.QtWidgets import QApplication
@@ -2126,28 +1807,6 @@ class MainWindow(QMainWindow):
         if self.engine.project:
             self.engine.project.close()
         super().closeEvent(event)
-
-
-def _undo_source(page):
-    """What an area window's Undo / Redo act on: the page's undo stack, or for a page of tabs (Light curves: period,
-    frequency, variables, O−C) a group that follows the tab shown."""
-    tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
-    if tabs is None or getattr(page, "undo_stack", None) is not None:  # a page with one stack of its own (Models)
-        return getattr(page, "undo_stack", None)
-    group = QUndoGroup(page)
-    stacks = {}
-    for i in range(tabs.count()):
-        stack = getattr(tabs.widget(i), "undo_stack", None)
-        if stack is not None:
-            group.addStack(stack)
-            stacks[i] = stack
-
-    def follow(i):
-        group.setActiveStack(stacks.get(i))
-
-    tabs.currentChanged.connect(follow)
-    follow(tabs.currentIndex())
-    return group
 
 
 class _Columns(QObject):

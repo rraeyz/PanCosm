@@ -2,9 +2,9 @@
 An overlay darkens the window except the highlighted part and shows a short text with Next / Skip.
 Help → Quick tour shows it again."""
 
-from PySide6.QtCore import QRect, Qt
+from PySide6.QtCore import QCoreApplication, QRect, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QDockWidget, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 
 class TourOverlay(QWidget):
@@ -112,3 +112,142 @@ def rect_of(widget, window):
     if widget is None or not widget.isVisible():
         return None
     return QRect(widget.mapTo(window, widget.rect().topLeft()), widget.size())
+
+
+translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
+
+
+def start(main):
+    """Short guided tour of the pages and the main controls."""
+    from .tour import TourOverlay, rect_of
+
+    steps = _steps(main, rect_of)
+    main.tour = TourOverlay(main, steps)
+    main.tour.start()
+    main.settings.set("ui.tour_done", True)
+    return main.tour
+
+
+def _steps(main, rect_of):
+    """The tour's stops: (where, text)."""
+    from PySide6.QtWidgets import QToolButton
+
+    def item(key):  # the area's block on the start page
+        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
+
+    def blocks():
+        shown = [rect_of(b, main) for b in main.start_page.blocks]
+        shown = [r for r in shown if r is not None]
+        return shown[0].united(shown[-1]) if shown else None
+
+    main.show_workspace("start")
+    dock = main.findChild(QDockWidget, "tasks")
+    return [
+        (
+            None,
+            translate(
+                "MainWindow", "Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time."
+            ),
+        ),
+        (
+            blocks,
+            translate(
+                "MainWindow", "The areas, in the order of an observing night. Click one to open it in its window."
+            ),
+        ),
+        (
+            lambda: rect_of(main.start_page, main),
+            translate(
+                "MainWindow",
+                "Start here: pick what you have — raw frames, images, spectra, a list of minima — and its window opens.",  # noqa: E501
+            ),
+        ),
+        (
+            item("plan"),
+            translate(
+                "MainWindow",
+                "Planning: when your targets are visible, airmass, the Moon, predicted eclipses and transits.",
+            ),
+        ),
+        (
+            item("observe"),
+            translate(
+                "MainWindow",
+                "Observing: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.",  # noqa: E501
+            ),
+        ),
+        (
+            item("calibrate"),
+            translate(
+                "MainWindow",
+                "Calibration: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.",  # noqa: E501
+            ),
+        ),
+        (
+            item("photometry"),
+            translate(
+                "MainWindow",
+                "Photometry, then Light curves and period and O−C: measure stars, get light curves, periods, minima and O−C diagrams.",  # noqa: E501
+            ),
+        ),
+    ] + _later_steps(main, rect_of, dock)
+
+
+def _later_steps(main, rect_of, dock):
+    """The second half of the tour's stops."""
+
+    def item(key):  # the area's block on the start page
+        from PySide6.QtWidgets import QToolButton
+
+        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
+
+    return [
+        (
+            item("spectroscopy"),
+            translate(
+                "MainWindow",
+                "Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.",
+            ),
+        ),
+        (
+            item("orbits"),
+            translate(
+                "MainWindow",
+                "Models: eclipsing-binary and transit light-curve models, absolute dimensions and visual orbits.",
+            ),
+        ),
+        (
+            item("remotesensing"),
+            translate(
+                "MainWindow",
+                "Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.",
+            ),
+        ),
+        (
+            item("automation"),
+            translate(
+                "MainWindow",
+                "Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.",  # noqa: E501
+            ),
+        ),
+        (
+            lambda: rect_of(main.menuBar(), main),  # the guide has no block: Help → Training guide opens it
+            translate(
+                "MainWindow",
+                "Guide: every window explained step by step, by category, with search. Help → Training guide opens it; F1 in a window opens its own page.",  # noqa: E501
+            ),
+        ),
+        (
+            lambda: rect_of(dock, main),
+            translate(
+                "MainWindow", "Tasks: long jobs run here in the background with their progress; you can keep working."
+            ),
+        ),
+        (
+            lambda: rect_of(main.menuBar(), main),
+            translate(
+                "MainWindow",
+                "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area's window has its own menus and toolbar.",  # noqa: E501
+            ),
+        ),
+    ]

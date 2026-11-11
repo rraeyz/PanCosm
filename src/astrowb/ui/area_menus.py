@@ -2,7 +2,7 @@
 main_window.py (plans/architecture.md ARC-4.4). Texts keep the main window's translation context ("MainWindow")."""
 
 from PySide6.QtCore import QCoreApplication, QObject
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QUndoGroup
 
 
 def _mirror(widget, parent=None, short=None):
@@ -555,3 +555,25 @@ def _spectrum_measure_velocity(job, red, ech, tel, vel, cube, tools):
             [job(vel, vel.rv_button), job(vel, vel.separate_button), job(vel, vel.orbit_button)],
         ),
     ]
+
+
+def _undo_source(page):
+    """What an area window's Undo / Redo act on: the page's undo stack, or for a page of tabs (Light curves: period,
+    frequency, variables, O−C) a group that follows the tab shown."""
+    tabs = page if hasattr(page, "currentWidget") else getattr(page, "tabs", None)
+    if tabs is None or getattr(page, "undo_stack", None) is not None:  # a page with one stack of its own (Models)
+        return getattr(page, "undo_stack", None)
+    group = QUndoGroup(page)
+    stacks = {}
+    for i in range(tabs.count()):
+        stack = getattr(tabs.widget(i), "undo_stack", None)
+        if stack is not None:
+            group.addStack(stack)
+            stacks[i] = stack
+
+    def follow(i):
+        group.setActiveStack(stacks.get(i))
+
+    tabs.currentChanged.connect(follow)
+    follow(tabs.currentIndex())
+    return group
