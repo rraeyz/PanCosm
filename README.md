@@ -80,6 +80,9 @@ Every change is built, installed and tested automatically on all three systems. 
 Uninstall from *Settings → Apps → Installed apps*. Settings, plugins and automations stay in
 `%LOCALAPPDATA%\pancosm`, so a reinstall keeps them.
 
+Where nothing may be installed, `PanCosm-…-windows-x64-portable.zip` holds the same program: unzip it anywhere
+(a USB stick too) and start `PanCosm.exe` inside.
+
 ### macOS
 
 1. Open the `.dmg` and drag PanCosm into **Applications**.
@@ -116,6 +119,9 @@ AppImages need **FUSE 2**; if the file does not start and the terminal mentions 
 | Ubuntu 24.04 and later | `sudo apt install libfuse2t64` |
 | Fedora | `sudo dnf install fuse fuse-libs` |
 | Arch / CachyOS / Manjaro | `sudo pacman -S fuse2` |
+
+On **Arch, CachyOS or Manjaro** the release also has a `PKGBUILD`: put it in an empty folder and run
+`makepkg -si` there; pacman then installs, updates and removes PanCosm like any package.
 
 Without FUSE it still runs with `--appimage-extract-and-run`. Settings are in `~/.config/pancosm`. Tested on
 Ubuntu 22.04 and 24.04, Debian 12, Fedora and Arch Linux.
