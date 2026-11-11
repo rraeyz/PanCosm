@@ -114,15 +114,22 @@ class Task:
         return self._result
 
     def _update(self, **kw):
-        before = self.state
+        before, said = self.state, self.message
         for k, v in kw.items():
             setattr(self, k, v)
+        now = time.monotonic()
+        if self.message and self.message != said:  # a new phase ("reading", "measuring"…): when it began
+            self.phases = [*getattr(self, "phases", []), (self.message, now)]
         if self.state != before:  # the task timeline in app.log (ARC-17)
             if self.state == "running":
-                self._started = time.monotonic()
-            took = time.monotonic() - getattr(self, "_started", time.monotonic())
-            log.info("task %s %s %s%s", self.id, self.name, self.state,
-                     f" after {took:.1f} s" if self.state in ("done", "failed", "cancelled") else "")  # fmt: skip
+                self._started = now
+            took = now - getattr(self, "_started", now)
+            ended = self.state in ("done", "failed", "cancelled")
+            log.info("task %s %s %s%s", self.id, self.name, self.state, f" after {took:.1f} s" if ended else "")
+            if ended and getattr(self, "phases", None):  # why it was slow: how long each phase took
+                marks = [*self.phases, ("", now)]
+                parts = [f"{name} {nxt - t:.1f} s" for (name, t), (_n, nxt) in zip(marks, marks[1:], strict=False)]
+                log.info("task %s phases: %s", self.id, ", ".join(parts))
         if self.state in ("done", "failed", "cancelled"):
             self._done.set()
         for fn in self._callbacks:
