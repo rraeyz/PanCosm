@@ -557,6 +557,14 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         event.acceptProposedAction()
 
     def closeEvent(self, event):
+        from .kit.window import AreaWindow
+
+        if event.spontaneous() and AreaWindow.shown():  # the user closed the start window: the areas go on (UI-14)
+            self.hide()  # back from any Window menu; the program ends with the last window, or by File → Quit
+            self._hidden_by_user = True
+            event.ignore()
+            return
+        self._closing = True
         for win in self.area_windows.values():  # the area windows end with the main window (layouts saved)
             win.close()
         self.engine.shutdown()
