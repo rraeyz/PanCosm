@@ -105,6 +105,21 @@ def dispatch_size(n_items: int) -> tuple[int, int, int]:
     return gx, math.ceil(groups / gx), 1
 
 
+def read_buffer(dev, buffer) -> memoryview:
+    """dev.queue.read_buffer with the garbage collector paused: wgpu-native runs the map callback on its poller
+    thread, and a collection there frees other GPU objects inside that callback, which aborts the process
+    (CI, 2026-11-11: "thread caused non-unwinding panic")."""
+    import gc
+
+    was_on = gc.isenabled()
+    gc.disable()
+    try:
+        return dev.queue.read_buffer(buffer)
+    finally:
+        if was_on:
+            gc.enable()
+
+
 def run(name: str, shader: str, inputs: list, out_nbytes: int, groups) -> memoryview:
     """Run a compute shader: inputs bound at 0..k-1 (read-only), output at k (read_write)."""
     import wgpu
@@ -130,7 +145,7 @@ def run(name: str, shader: str, inputs: list, out_nbytes: int, groups) -> memory
     cpass.dispatch_workgroups(*groups)
     cpass.end()
     dev.queue.submit([encoder.finish()])
-    result = dev.queue.read_buffer(out)
+    result = read_buffer(dev, out)
     for b in buffers + [out]:
         b.destroy()
     return result
