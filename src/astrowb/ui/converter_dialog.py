@@ -99,6 +99,7 @@ class ConverterDialog(QDialog):
         self.status.setText(
             self.tr("{n} times converted.").format(n=n)
             + ("" if "alt" in self.result else " " + self.tr("Altitudes are left out for more than 2000 times."))
+            + self._scale_doubt()
         )
         shown = min(n, 2000)
         self.table.setRowCount(shown)
@@ -109,6 +110,16 @@ class ConverterDialog(QDialog):
                 text = f"{v:.6f}" if key in units.STANDARDS else f"{v:.3f}"
                 self.table.setItem(row, col, QTableWidgetItem(text))
         return self.result
+
+    def _scale_doubt(self):
+        """Old literature gives HJD without saying UTC or TT (ARC-15 item 4): how far apart the two readings are."""
+        if not self.standard.currentText().startswith("HJD"):
+            return ""
+        apart = float(np.max(np.abs(self.result["JD_TT"] - self.result["JD_UTC"]))) * 86400
+        return " " + self.tr(
+            "If the source did not say whether its HJD is in UTC or TT, the times may be off by up to {s:.1f} s "
+            "(TT − UTC on those dates)."
+        ).format(s=apart)
 
     def text(self):
         """The whole result, tab-separated with a header line (every row, also beyond the 2000 shown)."""
