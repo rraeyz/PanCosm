@@ -553,7 +553,9 @@ def test_plot_canvas_right_click_menu(qtbot):
     ax = plot.figure.add_subplot()
     ax.plot([1, 2, 3], [3, 1, 2], label="V")
     ax.set_xlim(1.5, 2)
-    plot.show_all()
+    from matplotlib.backend_bases import KeyEvent
+
+    plot.canvas.callbacks.process("key_press_event", KeyEvent("key_press_event", plot.canvas, "a"))  # the a key
     assert ax.get_xlim()[0] < 1.5
     assert plot.copy_data() == 3 and QApplication.clipboard().text().splitlines()[1].endswith("\t3.0")
     plot.copy_picture()

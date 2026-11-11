@@ -221,6 +221,8 @@ class PlotCanvas(QWidget):
         self.hint.setAttribute(Qt.WA_TransparentForMouseEvents)
         self.canvas.mpl_connect("draw_event", lambda _e: (self._update_hint(), self._pickable_legends()))
         self.canvas.mpl_connect("pick_event", self._legend_picked)
+        # a: show all (UI-12's plot key; matplotlib's own keys stay: o zoom box, p pan, h home)
+        self.canvas.mpl_connect("key_press_event", lambda e: e.key == "a" and self.show_all())
         self._update_hint()
         self.canvas.setContextMenuPolicy(Qt.CustomContextMenu)  # the same right-click menu on every plot (UI-10)
         self.canvas.customContextMenuRequested.connect(self._context_menu)
