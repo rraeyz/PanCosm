@@ -197,3 +197,18 @@ def test_header_menu_sorts_fits_and_hides(qapp):
     hide_b = next(a for a in v.column_menu(0).actions() if a.text() == "b")
     hide_b.toggle()
     assert v.view.isColumnHidden(1) and [a.text() for a in v.column_menu(-1).actions()] == ["a", "b"]
+
+
+def test_an_empty_table_says_why(qapp):
+    """UI-11: an empty table says it has no rows yet, or that the filter keeps none."""
+    from astropy.table import Table
+
+    from astrowb.ui.kit.table import TableView
+
+    v = TableView()
+    v.set_table(Table({"a": []}))
+    assert v.count.text() == "No rows yet"
+    v.set_table(Table({"a": [1.0, 2.0]}))
+    v.filter.setText("a > 5")
+    v._apply()
+    assert v.count.text() == "No row matches the filter (2 rows in all)"

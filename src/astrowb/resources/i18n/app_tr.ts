@@ -11535,7 +11535,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <name>PlotCanvas</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="199"/>
-        <location filename="../../ui/kit/widgets.py" line="321"/>
+        <location filename="../../ui/kit/widgets.py" line="346"/>
         <source>Publication figure…</source>
         <translation>Yayın şekli…</translation>
     </message>
@@ -11560,37 +11560,37 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="264"/>
+        <location filename="../../ui/kit/widgets.py" line="289"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="315"/>
+        <location filename="../../ui/kit/widgets.py" line="340"/>
         <source>Show all</source>
         <translation>Tümünü göster</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="317"/>
+        <location filename="../../ui/kit/widgets.py" line="342"/>
         <source>Copy picture</source>
         <translation>Resmi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="318"/>
+        <location filename="../../ui/kit/widgets.py" line="343"/>
         <source>Copy data</source>
         <translation>Veriyi kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="320"/>
+        <location filename="../../ui/kit/widgets.py" line="345"/>
         <source>Save data…</source>
         <translation>Veriyi kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="348"/>
+        <location filename="../../ui/kit/widgets.py" line="373"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="364"/>
+        <location filename="../../ui/kit/widgets.py" line="389"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
     </message>
@@ -14259,52 +14259,62 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/kit/table.py" line="180"/>
-        <location filename="../../ui/kit/table.py" line="208"/>
+        <location filename="../../ui/kit/table.py" line="212"/>
         <source>{n} of {total} rows</source>
         <translation>{total} satırın {n} tanesi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="208"/>
+        <location filename="../../ui/kit/table.py" line="209"/>
+        <source>No rows yet</source>
+        <translation>Henüz satır yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="209"/>
+        <source>No row matches the filter ({n} rows in all)</source>
+        <translation>Süzgece uyan satır yok (toplam {n} satır)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/table.py" line="212"/>
         <source>{n} rows</source>
         <translation>{n} satır</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="210"/>
+        <location filename="../../ui/kit/table.py" line="214"/>
         <source> · {n} selected</source>
         <translation> · {n} seçili</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="228"/>
+        <location filename="../../ui/kit/table.py" line="232"/>
         <source>Sort ascending</source>
         <translation>Artan sırala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="229"/>
+        <location filename="../../ui/kit/table.py" line="233"/>
         <source>Sort descending</source>
         <translation>Azalan sırala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="230"/>
+        <location filename="../../ui/kit/table.py" line="234"/>
         <source>Fit the width</source>
         <translation>Genişliği sığdır</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="263"/>
+        <location filename="../../ui/kit/table.py" line="267"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="264"/>
+        <location filename="../../ui/kit/table.py" line="268"/>
         <source>Export…</source>
         <translation>Dışa aktar…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="268"/>
+        <location filename="../../ui/kit/table.py" line="272"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="269"/>
+        <location filename="../../ui/kit/table.py" line="273"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
     </message>

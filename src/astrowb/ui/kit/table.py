@@ -205,6 +205,10 @@ class TableView(QWidget):
             self.count.setText("")
             return
         shown, total, chosen = len(self.model.rows), len(t), len(self.view.selectionModel().selectedRows())
+        if not shown:  # an empty table says why (UI-11)
+            empty = self.tr("No rows yet") if not total else self.tr("No row matches the filter ({n} rows in all)")
+            self.count.setText(empty.format(n=total))
+            return
         text = self.tr("{n} rows").format(n=total) if shown == total else self.tr("{n} of {total} rows").format(
             n=shown, total=total)  # fmt: skip
         self.count.setText(text + (self.tr(" · {n} selected").format(n=chosen) if chosen else ""))
