@@ -2538,6 +2538,7 @@ class PhotometryPage(Undoable, QWidget):
             lin = self._nonlinear_frames(lc)
             if lin.any():
                 ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)  # orange: non-linear (item 4)
+            getattr(self, "checks", None) and self.checks.mark(ax, x, y, lc)  # flagged frames crossed (PHO-36)
         elif what == "multi":
             label = self._plot_multi(ax, lc, t, t_ref)
         elif what == "colour" and getattr(self, "colour", None):
