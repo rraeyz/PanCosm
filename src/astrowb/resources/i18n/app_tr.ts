@@ -1793,7 +1793,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/calibrate_page.py" line="326"/>
         <source>Normalise</source>
-        <translation>Normalize et</translation>
+        <translation>Normalleştir</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="329"/>
@@ -2197,7 +2197,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="112"/>
         <source>Airmass</source>
-        <translation>Airmass/hava kütlesi</translation>
+        <translation>Hava kütlesi</translation>
     </message>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="113"/>
@@ -2497,7 +2497,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/spectro_page.py" line="2173"/>
         <source>Wavelength (Å)</source>
-        <translation>Dalgaboyu (Å)</translation>
+        <translation>Dalga boyu (Å)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="2174"/>
@@ -2709,7 +2709,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/spectro_page.py" line="860"/>
         <location filename="../../ui/spectro_page.py" line="1165"/>
         <source>Wavelength (Å)</source>
-        <translation>Dalgaboyu (Å)</translation>
+        <translation>Dalga boyu (Å)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="862"/>
@@ -3303,7 +3303,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/frequency_page.py" line="124"/>
         <source>Period (d)</source>
-        <translation>Periyot (g)</translation>
+        <translation>Periyot (gün)</translation>
     </message>
     <message>
         <location filename="../../ui/frequency_page.py" line="125"/>
@@ -8272,7 +8272,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/models_page.py" line="324"/>
         <source>Fitting…</source>
-        <translation>Fit ediliyor…</translation>
+        <translation>Uyduruluyor…</translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="330"/>
@@ -9166,7 +9166,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/observatory_dialog.py" line="97"/>
         <source>Lowest altitude</source>
-        <translation>En düşük irtifa</translation>
+        <translation>En düşük yükseklik</translation>
     </message>
     <message>
         <location filename="../../ui/observatory_dialog.py" line="98"/>
@@ -14354,7 +14354,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="254"/>
         <source>Science frame</source>
-        <translation>Bilimsel kare</translation>
+        <translation>Bilim karesi</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="255"/>
@@ -14399,7 +14399,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="293"/>
         <source>Optimal extraction (Horne)</source>
-        <translation>Optimal çıkarma (Horne)</translation>
+        <translation>Optimal çıkarım (Horne)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="297"/>
@@ -14511,7 +14511,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="407"/>
         <source>Choose a science frame.</source>
-        <translation>Bilimsel bir kare seçin.</translation>
+        <translation>Bir bilim karesi seçin.</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="417"/>
@@ -15572,7 +15572,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectrum_tools.py" line="119"/>
         <source>Measure a line</source>
-        <translation>Çizgi ölç</translation>
+        <translation>Bir çizgiyi ölç</translation>
     </message>
     <message>
         <location filename="../../ui/spectrum_tools.py" line="123"/>
@@ -15959,7 +15959,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectrum_tools.py" line="399"/>
         <source>Cannot read {file}: {error}</source>
-        <translation>{file} okunamıyor: {error}</translation>
+        <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
         <location filename="../../ui/spectrum_tools.py" line="403"/>
@@ -17907,7 +17907,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../photometry/measure_params.py" line="156"/>
         <source>Shutter delay</source>
-        <translation>Deklanşör gecikmesi</translation>
+        <translation>Örtücü gecikmesi</translation>
     </message>
     <message>
         <location filename="../../photometry/measure_params.py" line="158"/>
@@ -19090,7 +19090,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1372"/>
         <source>Wavelength (Å)</source>
-        <translation>Dalgaboyu (Å)</translation>
+        <translation>Dalga boyu (Å)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1375"/>
@@ -19572,7 +19572,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/spectro_page.py" line="1778"/>
         <location filename="../../ui/spectro_page.py" line="1810"/>
         <source>Wavelength (Å)</source>
-        <translation>Dalgaboyu (Å)</translation>
+        <translation>Dalga boyu (Å)</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1398"/>
@@ -19617,7 +19617,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/spectro_page.py" line="1424"/>
         <source>Fit the orbit</source>
-        <translation>Yörüngeyi fit edin</translation>
+        <translation>Yörüngeyi uydur</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_page.py" line="1425"/>

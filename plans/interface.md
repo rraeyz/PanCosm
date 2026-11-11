@@ -914,7 +914,7 @@ rail           stage panel (example: 3 Indices)            main: the map        
 - **Files:** `ui/shell/{splash,about}.py`, `ui/kit/*` (states), `resources/icons/app/`
 
 ### UI-18. Language review  (P2)
-**open** — done (2026-11-11): Turkish buttons and menu items are imperatives, never infinitives (`translation_review.infinitives`, in `tests/test_glossary.py`; none found); the glossary grew to 106 terms (ARC-18).
+**open** — done (2026-11-11): Turkish buttons and menu items are imperatives, never infinitives (`translation_review.infinitives`, in `tests/test_glossary.py`; none found); the glossary grew to 106 terms (ARC-18). (2026-11-14) Turkish consistency pass: the same short English text translated two ways was unified (37 strings: Hava kütlesi, Dalga boyu, Bilim karesi, Normalleştir, uydur, okunamadı …); the 14 left differ by context (Dark as a frame and as darkness, Preview as noun and verb).
 - **Build:** with ARC-18's glossary: every Turkish, German and Spanish string of each window read in context on the
   gallery sheets by an agent fluent in that language's astronomy vocabulary; awkward machine phrasing rewritten;
   consistency of imperative forms on buttons (Turkish: "Ölç", "Kaydet" — verb stems as commands, never "Ölçmek");
