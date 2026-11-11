@@ -431,3 +431,54 @@ def test_plot_canvas_says_why_it_is_empty(qtbot):
     ax.clear()
     plot.canvas.draw()
     assert plot.hint.isVisible() and plot.hint.text().startswith("Choose a star")
+
+
+class _FakeTask:
+    def __init__(self, tid, name="photometry.measure"):
+        self.id, self.name, self.state, self.progress, self.message = tid, name, "running", 0.0, ""
+        self.finished, self.cancelled = False, False
+
+    def cancel(self):
+        self.cancelled = True
+
+
+def test_task_chip(qtbot):
+    from astrowb.ui.kit import tasks as T
+
+    chip = T.TaskChip(name_of=lambda n: n.split(".")[-1])
+    qtbot.addWidget(chip)
+    assert not chip.isEnabled() and chip.text() == ""
+    a, b = _FakeTask(1), _FakeTask(2, "spectro.reduce")
+    chip.update_task(a)
+    chip.update_task(b)
+    assert chip.text() == "2" and chip.isEnabled()
+    a.progress = 0.02
+    assert "left" not in chip.row_text(a, now=chip.started[1] + 10)  # no estimate before 5 %
+    a.progress = 0.25
+    assert chip.row_text(a, now=chip.started[1] + 10).endswith("about 30 s left")
+    chip._fill()
+    first = chip.menu().actions()[0].menu()
+    first.actions()[0].trigger()  # Cancel of a running task
+    assert a.cancelled or b.cancelled
+    b.state, b.finished = "done", True
+    chip.update_task(b)
+    assert chip.text() == "1" and chip.row_text(b).endswith("finished")
+    assert T.eta(10, 0.5) == 10 and T.eta(10, 0.01) is None
+
+
+def test_area_window_task_chip_and_toast(qtbot, tmp_path):
+    from PySide6.QtWidgets import QLabel
+
+    from astrowb.settings import Settings
+    from astrowb.ui.kit.toast import Toast
+    from astrowb.ui.kit.window import AreaWindow
+
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main"))
+    qtbot.addWidget(win)
+    win.show()
+    task = _FakeTask(7)
+    win.track(task)
+    assert win.task_chip.text() == "1"
+    task.state, task.finished, task.progress = "done", True, 1.0
+    win.task_update(task)
+    assert win.task_chip.text() == "" and win.findChildren(Toast)

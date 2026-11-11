@@ -622,94 +622,95 @@
         <translation>Bu pencere için çalışan işi durdur</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="237"/>
+        <location filename="../../ui/kit/window.py" line="238"/>
+        <location filename="../../ui/kit/window.py" line="242"/>
         <source>{name}: finished</source>
         <translation>{name}: bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="238"/>
+        <location filename="../../ui/kit/window.py" line="243"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: başarısız (iletiye bakın)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="239"/>
+        <location filename="../../ui/kit/window.py" line="244"/>
         <source>{name}: cancelled</source>
         <translation>{name}: iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="255"/>
+        <location filename="../../ui/kit/window.py" line="260"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} iş daha)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="260"/>
+        <location filename="../../ui/kit/window.py" line="265"/>
         <source>Stopping…</source>
         <translation>Durduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="277"/>
+        <location filename="../../ui/kit/window.py" line="282"/>
         <source>(none yet)</source>
         <translation>(henüz yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="280"/>
+        <location filename="../../ui/kit/window.py" line="285"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="311"/>
+        <location filename="../../ui/kit/window.py" line="316"/>
         <source>Session saved: {path}</source>
         <translation>Oturum kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="320"/>
+        <location filename="../../ui/kit/window.py" line="325"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="323"/>
+        <location filename="../../ui/kit/window.py" line="328"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="328"/>
+        <location filename="../../ui/kit/window.py" line="333"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="332"/>
+        <location filename="../../ui/kit/window.py" line="337"/>
         <source>Session opened: {path}</source>
         <translation>Oturum açıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="334"/>
-        <location filename="../../ui/kit/window.py" line="345"/>
+        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="350"/>
         <source>Open session</source>
         <translation>Oturum aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="344"/>
         <source>Save session</source>
         <translation>Oturumu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
-        <location filename="../../ui/kit/window.py" line="345"/>
+        <location filename="../../ui/kit/window.py" line="344"/>
+        <location filename="../../ui/kit/window.py" line="350"/>
         <source>Session (*.session.json)</source>
         <translation>Oturum (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="355"/>
+        <location filename="../../ui/kit/window.py" line="360"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
+        <location filename="../../ui/kit/window.py" line="403"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="461"/>
+        <location filename="../../ui/kit/window.py" line="466"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
@@ -1919,12 +1920,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="547"/>
+        <location filename="../../ui/kit/window.py" line="557"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="548"/>
+        <location filename="../../ui/kit/window.py" line="558"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -13785,6 +13786,50 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/kit/table.py" line="228"/>
         <source>Export table</source>
         <translation>Tabloyu dışa aktar</translation>
+    </message>
+</context>
+<context>
+    <name>TaskChip</name>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>waiting</source>
+        <translation>sırada</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>finished</source>
+        <translation>bitti</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>failed</source>
+        <translation>başarısız</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <source>cancelled</source>
+        <translation>iptal edildi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="65"/>
+        <source> · about {left} left</source>
+        <translation> · yaklaşık {left} kaldı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <source>{n} tasks running</source>
+        <translation>{n} görev çalışıyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <source>No task running</source>
+        <translation>Çalışan görev yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="82"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
     </message>
 </context>
 <context>

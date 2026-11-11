@@ -622,94 +622,95 @@
         <translation>Die für dieses Fenster laufende Arbeit anhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="237"/>
+        <location filename="../../ui/kit/window.py" line="238"/>
+        <location filename="../../ui/kit/window.py" line="242"/>
         <source>{name}: finished</source>
         <translation>{name}: fertig</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="238"/>
+        <location filename="../../ui/kit/window.py" line="243"/>
         <source>{name}: failed (see the message)</source>
         <translation>{name}: fehlgeschlagen (siehe Meldung)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="239"/>
+        <location filename="../../ui/kit/window.py" line="244"/>
         <source>{name}: cancelled</source>
         <translation>{name}: abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="255"/>
+        <location filename="../../ui/kit/window.py" line="260"/>
         <source>%p % (+{n} more)</source>
         <translation>%p % (+{n} weitere)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="260"/>
+        <location filename="../../ui/kit/window.py" line="265"/>
         <source>Stopping…</source>
         <translation>Wird angehalten…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="277"/>
+        <location filename="../../ui/kit/window.py" line="282"/>
         <source>(none yet)</source>
         <translation>(noch keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="280"/>
+        <location filename="../../ui/kit/window.py" line="285"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="311"/>
+        <location filename="../../ui/kit/window.py" line="316"/>
         <source>Session saved: {path}</source>
         <translation>Sitzung gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="320"/>
+        <location filename="../../ui/kit/window.py" line="325"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} ist keine Sitzungsdatei oder beschädigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="323"/>
+        <location filename="../../ui/kit/window.py" line="328"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} ist eine Sitzung eines anderen Fensters ({area}): öffnen Sie sie dort.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="328"/>
+        <location filename="../../ui/kit/window.py" line="333"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} wurde mit einer neueren Version der Anwendung gespeichert: aktualisieren Sie sie, um diese Sitzung zu öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="332"/>
+        <location filename="../../ui/kit/window.py" line="337"/>
         <source>Session opened: {path}</source>
         <translation>Sitzung geöffnet: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="334"/>
-        <location filename="../../ui/kit/window.py" line="345"/>
+        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="350"/>
         <source>Open session</source>
         <translation>Sitzung öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="344"/>
         <source>Save session</source>
         <translation>Sitzung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
-        <location filename="../../ui/kit/window.py" line="345"/>
+        <location filename="../../ui/kit/window.py" line="344"/>
+        <location filename="../../ui/kit/window.py" line="350"/>
         <source>Session (*.session.json)</source>
         <translation>Sitzung (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="355"/>
+        <location filename="../../ui/kit/window.py" line="360"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Textgröße: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
+        <location filename="../../ui/kit/window.py" line="403"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="461"/>
+        <location filename="../../ui/kit/window.py" line="466"/>
         <source>Find an action (Ctrl+K)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1919,12 +1920,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="547"/>
+        <location filename="../../ui/kit/window.py" line="557"/>
         <source>Type what you want to do…</source>
         <translation>Tippen Sie, was Sie tun möchten…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="548"/>
+        <location filename="../../ui/kit/window.py" line="558"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Wörter in beliebiger Reihenfolge; ↑ ↓ wählen, Enter führt aus, Esc schließt</translation>
     </message>
@@ -13785,6 +13786,50 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/kit/table.py" line="228"/>
         <source>Export table</source>
         <translation type="unfinished">Tabelle exportieren</translation>
+    </message>
+</context>
+<context>
+    <name>TaskChip</name>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>waiting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="59"/>
+        <source>failed</source>
+        <translation type="unfinished">fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <source>cancelled</source>
+        <translation type="unfinished">abgebrochen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="65"/>
+        <source> · about {left} left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <source>{n} tasks running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <source>No task running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tasks.py" line="82"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
     </message>
 </context>
 <context>

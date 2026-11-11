@@ -365,7 +365,7 @@ for the window concerned.
 - **Depends on:** UI-1, UI-2, ARC-4.7.
 
 ### UI-4. The area window frame  (P1)
-**partial** — done: `kit/anatomy` on AreaWindow: `set_stages([Stage])` (rail + stage panels in a dock), `show_stage`, `set_stage_state`, `set_inspector`, `add_result_tab` (items 1 without set_main / set_empty_state, 5: F9, F10, F11, Ctrl+1…9, Ctrl+Tab); a window whose title bar would open on no screen is moved onto one (item 2); the toolbar ends with Find an action and Help (item 4 without the TaskChip, which is UI-9). No area uses the stages yet (UI-16).
+**partial** — done: `kit/anatomy` on AreaWindow: `set_stages([Stage])` (rail + stage panels in a dock), `show_stage`, `set_stage_state`, `set_inspector`, `add_result_tab` (items 1 without set_main / set_empty_state, 5: F9, F10, F11, Ctrl+1…9, Ctrl+Tab); a window whose title bar would open on no screen is moved onto one (item 2); the toolbar ends with Find an action and Help and the TaskChip (item 4). No area uses the stages yet (UI-16).
 - **Ours now:** `ui/area_window.AreaWindow` (menus, toolbar, docks, layout memory, command search, sessions frame).
 - **Build:**
   1. `ui/kit/window.py`: `AreaWindow` rebuilt on the anatomy above: `set_stages([Stage(key, title, icon, panel,
@@ -488,7 +488,7 @@ for the window concerned.
 - **Depends on:** the windows it drives (added as each UI-16.x lands).
 
 ### UI-9. Tasks, progress, notifications  (P1)
-**open**
+**partial** — done: `kit/tasks.TaskChip` in every area window's toolbar (running count; popover with state, progress, elapsed, estimate from 5 %, Cancel); a Toast in the window when its task finishes. Left: phase text and timeline (ARC-17), system notification after 60 s, failed tasks with Report in the popover, the primary button as Stop.
 - **Ours now:** `engine/tasks.TaskQueue` (progress, cancel), the Tasks dock, status-bar progress of area windows (I2.7).
 - **Build:** `TaskChip` in every window (running count; pulses when one finishes); `TaskPopover` (name of the step
   in words, the window that started it, phase text, progress or "working…", elapsed and estimated time, Cancel,
