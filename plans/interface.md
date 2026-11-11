@@ -343,7 +343,7 @@ for the window concerned.
 - **Depends on:** UI-1.
 
 ### UI-3. The component kit and its gallery  (P1)
-**partial** — done: `kit/fields.NumberField`, `kit/banners` InfoBanner and Badge, `kit/toast.Toast`, `kit/fields.Segmented`, `kit/empty.EmptyState`, `kit/splitter.Splitter`, `kit/inspector.Inspector`, `kit/dialogs.Dialog`, `kit/buttons.Button`, `kit/sections.Section`, `kit/forms.FormRow`, `kit/fields.PathField`, `kit/rail` StageRail and StagePanel, `kit/buttons.ToolButton`, `kit/fields` ChoiceField and Toggle, `kit/status.StatusSegments`, `kit/dialogs.ErrorDialog` (used for failed tasks), `tools/kit_gallery.py` (item 4: the gallery; per-component tests in tests/test_kit.py) (item 3 with the names in a tooltip, not a popover; NumberField item 2 without the faint unit and label scrubbing; tests/test_kit.py).
+**partial** — done: Button, ToolButton, Section, FormRow, NumberField, ChoiceField, Toggle, Segmented, PathField, StageRail, StagePanel, EmptyState, InfoBanner, Badge, Toast, ErrorDialog (failed tasks use it), Inspector, StatusSegments, Splitter, Dialog in `ui/kit/`; `tools/kit_gallery.py`; one test per component in tests/test_kit.py. Shortcuts: PathField lists many files in a tooltip, not a popover; NumberField shows the unit as a suffix (not faint) and has no label scrubbing. Left: ObjectField (with UI-16), HelpPanel (UI-7), TaskChip / TaskPopover (UI-9), the focus-chain and FormRow-alignment checks over the gallery in four languages (UI-15), item 5 (with UI-16).
 - **Build:**
   1. Every component of the table above in `ui/kit/` (`buttons.py`, `sections.py`, `forms.py`, `fields.py`,
      `rail.py`, `empty.py`, `banners.py`, `toast.py`, `inspector.py`, `help.py`, `tasks.py`, `status.py`,
@@ -365,7 +365,7 @@ for the window concerned.
 - **Depends on:** UI-1, UI-2, ARC-4.7.
 
 ### UI-4. The area window frame  (P1)
-**open**
+**partial** — done: a window whose title bar would open on no screen is moved onto one (`kit/window.on_screen`, item 2).
 - **Ours now:** `ui/area_window.AreaWindow` (menus, toolbar, docks, layout memory, command search, sessions frame).
 - **Build:**
   1. `ui/kit/window.py`: `AreaWindow` rebuilt on the anatomy above: `set_stages([Stage(key, title, icon, panel,

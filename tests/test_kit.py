@@ -395,3 +395,19 @@ def test_error_dialog(qtbot):
     assert QApplication.clipboard().text().startswith("Task failed") and d.isVisible()  # copying keeps it open
     d.report_button.click()
     assert reported == [1] and d.detailedText() == "Traceback …"
+
+
+def test_window_moved_back_onto_a_screen(qtbot):
+    from PySide6.QtGui import QGuiApplication
+    from PySide6.QtWidgets import QMainWindow
+
+    from astrowb.ui.kit.window import on_screen
+
+    w = QMainWindow()
+    qtbot.addWidget(w)
+    room = QGuiApplication.primaryScreen().availableGeometry()
+    w.resize(400, 300)
+    w.move(room.right() + 5000, room.bottom() + 5000)  # where a removed monitor was
+    assert on_screen(w)
+    assert room.contains(w.geometry().topLeft())
+    assert not on_screen(w)  # already on a screen: left alone
