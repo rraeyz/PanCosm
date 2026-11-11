@@ -31,6 +31,10 @@ def add_menu(win, menu):
         QCoreApplication.translate("Overlays", "Clear overlays"),
         lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()],
     )
+    magnify = win._action(
+        menu, QCoreApplication.translate("Overlays", "&Magnifier"), lambda: _magnifier(win.viewer, magnify.isChecked())
+    )
+    magnify.setCheckable(True)
     layers = sub.addMenu(QCoreApplication.translate("Overlays", "&Layers"))
     layers.aboutToShow.connect(lambda: _fill_layers(win.viewer, layers))
     add_orientation_menu(win, menu)
@@ -79,6 +83,11 @@ def add_orientation_menu(win, menu):
     compass.setCheckable(True)
     compass.setChecked(v.show_compass)
     return sub
+
+
+def _magnifier(viewer, on):
+    viewer.show_magnifier = on
+    viewer.viewport().update()
 
 
 def _compass(viewer, on):

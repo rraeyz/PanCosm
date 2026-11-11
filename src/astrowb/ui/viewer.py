@@ -50,6 +50,7 @@ class ImageViewer(QGraphicsView):
         self._pick, self._hover_rings, self._hover_items = False, [], []
         self._generation = 0
         self.wcs, self.show_compass, self.orientation = None, True, (0.0, False, False)
+        self.show_magnifier, self.cursor_pixel, self._magnifier_limits = False, None, None
         self._rendered.connect(self._full_rendered)
         self.empty_hint = ""  # said in the middle while no image is shown (a black view told a newcomer nothing)
 
@@ -60,7 +61,7 @@ class ImageViewer(QGraphicsView):
         for name in list(self._overlays):  # overlays belong to the previous image
             self.set_overlay(name)
         same = keep_view and self.data is not None and self.data.shape == np.shape(data)
-        self.data = data
+        self.data, self._magnifier_limits = data, None
         self.refresh()
         if not same:
             self.fit()
@@ -132,6 +133,13 @@ class ImageViewer(QGraphicsView):
             painter.save()
             painter.resetTransform()
             self._draw_compass_and_bar(painter)
+            painter.restore()
+        if self.data is not None and self.show_magnifier and self.cursor_pixel is not None:
+            from .image import magnifier
+
+            painter.save()
+            painter.resetTransform()
+            magnifier.draw(painter, self)
             painter.restore()
         if self.data is None and self.empty_hint:
             painter.save()
@@ -493,3 +501,6 @@ class ImageViewer(QGraphicsView):
         if 0 <= col < w and 0 <= row_from_top < h:
             row = h - 1 - row_from_top
             self.hovered.emit(col + 1, row + 1, float(self.data[row, col]))
+            self.cursor_pixel = (row, col)
+            if self.show_magnifier:
+                self.viewport().update()
