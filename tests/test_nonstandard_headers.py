@@ -79,6 +79,7 @@ def test_calibrate_stack_and_process_nonstandard_files(tmp_path):
         Ctx(),
     )["light_curve"]
     assert len(lc["rel_flux"]) == 3 and lc["time_scale"].startswith("BJD") and np.all(np.isfinite(lc["time"]))
+    assert lc["time_rule"] == ["DATE-OBS + EXPTIME/2"] * 3  # which rule gave each frame's time (ARC-15)
 
 
 def test_longitude_written_in_hours_is_recognised():

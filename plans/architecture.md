@@ -868,8 +868,7 @@ file saying HJD with no scale is taken as UTC and the window says by how much ev
   the rest), altitudes only up to 2000 times. **Changed from the plan:** the Accept's "within 0.1 %
   above 30°" is too tight for the published formulas themselves: Hardie is 0.14 % and sec z 0.4 % above Young at
   30°; the test uses 0.2 % (sec z: 0.5 %, and 0.1 % above 55°). Item 1 in part (2026-11-11): `core/units` holds `vac_to_air` / `air_to_vac` (Morton 2000; Spectroscopy reads them from there) and `flux_to_mag` / `mag_to_flux` with errors (the Period page converts with them); velocity frames not yet. Item 2 in part (2026-11-11): joining nights or archive sectors whose times are in different standards is refused with a translated message (`photometry.nights.mixed_standards`); the `TimeStandard` type on table columns not yet. Item 4 in the converter: for HJD times it says how far apart the UTC and TT readings are on those dates (O−C has no standard choice yet). Item 1 done: `core/units.velocity_correction(time, target, site, frame)` for barycentric, heliocentric and LSR (Schönrich+ 2010 solar motion); Spectroscopy's correction and the converter's new `v_bary` column use it. Pending: items 2 (the column type), 4 in O−C, 5 (c) stacks' stored
-  mid-times and (d) uneven series, recording which rule gave each frame's time, the formula's name beside the
-  airmass columns.
+  mid-times and (d) uneven series, the formula's name beside the airmass columns. Done 2026-11-14: which rule gave each frame's time (`timing.mid_time_and_rule`; the light curve's per-frame `time_rule`, kept in the .lc.ecsv file).
 - **Reference:** Eastman, Siverd & Gaudi 2010 (PASP 122, 935) for BJD_TDB / HJD / JD_UTC differences and the
   online converters; AstroImageJ's Coordinate Converter window (object → coordinates, site, time in every standard,
   airmass, altitude, hour angle, Moon); IAU SOFA / ERFA.

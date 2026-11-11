@@ -121,20 +121,29 @@ def mid_time(header, ref="auto", delay=0.0) -> Time:
     marks when the camera software is known to differ — "start", "mid" or "end" of the exposure; "auto" reads it as
     the start unless its comment says otherwise. delay: seconds the shutter opens after the time stamp (a camera's
     shutter delay), added (plans/photometry.md item 14)."""
+    return mid_time_and_rule(header, ref, delay)[0]
+
+
+def mid_time_and_rule(header, ref="auto", delay=0.0):
+    """(mid_time(), the rule that gave it) — the rule is recorded per frame (ARC-15 item 5): "DATE-OBS as start /
+    mid / end" (chosen), "DATE-AVG", "MJD-AVG", "JD-MID", "DATE-OBS (mid, its comment)", "DATE-OBS…DATE-END" or
+    "DATE-OBS + EXPTIME/2"; "+ delay" when a shutter delay was added."""
     if ref != "auto":
         exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
         half = {"start": exptime / 2, "mid": 0.0, "end": -exptime / 2}[ref]
-        return start_time(header) + TimeDelta(half + delay, format="sec")
+        rule = f"DATE-OBS as {ref}" + (" + delay" if delay else "")
+        return start_time(header) + TimeDelta(half + delay, format="sec"), rule
     if delay:
-        return mid_time(header) + TimeDelta(delay, format="sec")
+        t, rule = mid_time_and_rule(header)
+        return t + TimeDelta(delay, format="sec"), rule + " + delay"
     if header.get("DATE-AVG"):  # the FITS standard's mid-time, then the others in order (ARC-15 item 5)
-        return _in(header, header["DATE-AVG"], "isot")
+        return _in(header, header["DATE-AVG"], "isot"), "DATE-AVG"
     for key, fmt in (("MJD-AVG", "mjd"), ("JD-MID", "jd")):
         if number(header.get(key)) is not None:
-            return _in(header, number(header[key]), fmt)
+            return _in(header, number(header[key]), fmt), key
     note = header.comments["DATE-OBS"] if hasattr(header, "comments") and "DATE-OBS" in header else ""
     if re.search(r"\b(median|mid|middle)\b", note, re.I) and "T" in str(header["DATE-OBS"]):
-        return _in(header, header["DATE-OBS"], "isot")  # LAMOST: 'The observation median UTC'
+        return _in(header, header["DATE-OBS"], "isot"), "DATE-OBS (mid, its comment)"  # LAMOST: 'median UTC'
     exptime = get(header, "EXPTIME", "EXPOSURE", "EXP_TIME", "ITIME", default=0.0)
     start = start_time(header)
     end = header.get("DATE-END")
@@ -148,8 +157,8 @@ def mid_time(header, ref="auto", delay=0.0) -> Time:
             # start and end bracket the light: their midpoint stays right with dead time, where start + EXPTIME / 2
             # does not; a span far from EXPTIME means the keywords mean something else (item (c): stacks)
             if span > 0 and (not exptime or 0.8 * exptime <= span <= 1.2 * exptime):
-                return start + TimeDelta(span / 2, format="sec")
-    return start + TimeDelta(exptime / 2, format="sec")
+                return start + TimeDelta(span / 2, format="sec"), "DATE-OBS…DATE-END"
+    return start + TimeDelta(exptime / 2, format="sec"), "DATE-OBS + EXPTIME/2"
 
 
 def location(header) -> EarthLocation | None:
