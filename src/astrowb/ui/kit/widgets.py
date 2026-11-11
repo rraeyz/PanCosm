@@ -219,7 +219,8 @@ class PlotCanvas(QWidget):
         self.hint.setAlignment(Qt.AlignCenter)
         self.hint.setProperty("muted", True)
         self.hint.setAttribute(Qt.WA_TransparentForMouseEvents)
-        self.canvas.mpl_connect("draw_event", lambda _e: self._update_hint())
+        self.canvas.mpl_connect("draw_event", lambda _e: (self._update_hint(), self._pickable_legends()))
+        self.canvas.mpl_connect("pick_event", self._legend_picked)
         self._update_hint()
         self.canvas.setContextMenuPolicy(Qt.CustomContextMenu)  # the same right-click menu on every plot (UI-10)
         self.canvas.customContextMenuRequested.connect(self._context_menu)
@@ -228,6 +229,30 @@ class PlotCanvas(QWidget):
         self._empty_text = text
         self.hint.setText(text)
         self._update_hint()
+
+    def _pickable_legends(self):
+        """A click on a legend entry hides or shows its series (UI-10), on every plot."""
+        self._legend_map = {}
+        for ax in self.figure.axes:
+            legend = ax.get_legend()
+            if legend is None:
+                continue
+            series = {a.get_label(): a for a in [*ax.get_lines(), *ax.collections]}
+            for handle, text in zip(legend.legend_handles, legend.get_texts(), strict=False):
+                target = series.get(text.get_text())
+                if target is not None and handle is not None:
+                    handle.set_picker(5)
+                    self._legend_map[handle] = (target, text)
+
+    def _legend_picked(self, event):
+        hit = getattr(self, "_legend_map", {}).get(event.artist)
+        if hit is None:
+            return
+        target, text = hit
+        target.set_visible(not target.get_visible())
+        event.artist.set_alpha(1.0 if target.get_visible() else 0.25)
+        text.set_alpha(1.0 if target.get_visible() else 0.4)
+        self.canvas.draw_idle()
 
     def set_busy(self, text):
         """UI-6's loading state: while the window's task runs, an empty plot says so (None: back to its hint)."""
