@@ -100,6 +100,10 @@ class Project:
             row = self.db.execute("SELECT value FROM meta WHERE key = ?", (key,)).fetchone()
         return row[0] if row else None
 
+    def set_meta(self, key: str, value: str):
+        with self.lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO meta VALUES (?, ?)", (key, value))
+
     # --- files -------------------------------------------------------------
     def _store(self, path: Path) -> str:
         path = Path(path).resolve()

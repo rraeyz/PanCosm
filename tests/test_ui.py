@@ -1985,3 +1985,19 @@ def test_settings_show_the_pixel_scale(window, qtbot):
     win.profile_controls[("camera", "pixel_size")].setValue(3.76)
     win.profile_controls[("optics", "focal_length")].setValue(2000)
     assert win.scale.text().startswith("0.388")
+
+
+def test_a_new_project_keeps_a_copy_of_the_profile(window, tmp_path):
+    """ARC-16: the site, camera and observer go into the project the first time it is opened, and stay as they were
+    when the profile changes later (a project is self-contained)."""
+    import json
+
+    from astrowb.core import profiles
+
+    profiles.update(window.settings, "site", name="TUG")
+    window.open_project(tmp_path / "p.astroproj")
+    kept = json.loads(window.engine.project.meta("profile"))
+    assert kept["site"]["name"] == "TUG" and "camera" in kept and "observer" in kept
+    profiles.update(window.settings, "site", name="Home")
+    window.open_project(tmp_path / "p.astroproj")
+    assert json.loads(window.engine.project.meta("profile"))["site"]["name"] == "TUG"
