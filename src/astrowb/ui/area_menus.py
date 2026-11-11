@@ -260,9 +260,11 @@ def plan(main, page, win):
     send = named(page.send_button, short=QCoreApplication.translate("MainWindow", "Send"))
     exposure = named(page.exposure_button)
     lists = []  # PLN-2: lists kept between sessions, CSV import
-    for text, slot in ((QCoreApplication.translate("MainWindow", "Import targets from CSV…"), page.import_targets),
-                       (QCoreApplication.translate("MainWindow", "Save the list…"), page.save_list),
-                       (QCoreApplication.translate("MainWindow", "Open a saved list…"), page.open_list)):  # fmt: skip
+    translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Ctx", "…") calls
+    for text, slot in ((translate("MainWindow", "Import targets from CSV…"), page.import_targets),
+                       (translate("MainWindow", "Save the list…"), page.save_list),
+                       (translate("MainWindow", "Open a saved list…"), page.open_list),
+                       (translate("MainWindow", "Gaia alerts tonight…"), page.alerts_dialog)):  # fmt: skip
         act = QAction(text, win)
         act.triggered.connect(lambda _on=False, f=slot: f())
         lists.append(act)

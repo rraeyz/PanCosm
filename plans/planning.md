@@ -352,7 +352,7 @@ scheduler's "cloud < x %" per block, seeing / transparency classes.
 - **Files:** `services/forecast.py`, `ui/planning/panels/night.py`, `tests/test_forecast.py`
 
 ### PLN-12. Alerts and campaigns  (P3)
-**open**
+**partial** — 2026-11-14: Gaia Science Alerts (`services/feeds_gaia.py`: the public CSV, kept a day; `observable` keeps those above the altitude limit in tonight's dark hours; Targets → Gaia alerts tonight… asks only when Fetch is pressed, off the window's thread, and adds the chosen one; tests/test_feeds.py with a recorded sample). Left: AAVSO alerts and campaigns, TNS, ExoClock.
 - **Build:** target sources from public feeds where terms allow (AAVSO alert notices and campaigns, the Transient
   Name Server's public list, Gaia Science Alerts, ExoClock alerts): a "News" tab listing items with coordinates
   observable from the site tonight; one click adds a target. Each feed optional and off by default.
