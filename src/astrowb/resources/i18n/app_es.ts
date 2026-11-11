@@ -734,112 +734,112 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>Areas</name>
     <message>
-        <location filename="../../ui/start_page.py" line="27"/>
+        <location filename="../../ui/start_page.py" line="28"/>
         <source>Planning</source>
         <translation>Planificación</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="28"/>
+        <location filename="../../ui/start_page.py" line="29"/>
         <source>Visibility, airmass, the Moon, eclipses and transits of the night</source>
         <translation>Visibilidad, masa de aire, la Luna, eclipses y tránsitos de la noche</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="29"/>
+        <location filename="../../ui/start_page.py" line="30"/>
         <source>Observing</source>
         <translation>Observación</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="30"/>
+        <location filename="../../ui/start_page.py" line="31"/>
         <source>Telescope, camera, focuser and guider; sequences and whole nights</source>
         <translation>Telescopio, cámara, enfocador y guiado; secuencias y noches enteras</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="31"/>
+        <location filename="../../ui/start_page.py" line="32"/>
         <source>Calibration</source>
         <translation>Calibración</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="32"/>
+        <location filename="../../ui/start_page.py" line="33"/>
         <source>Bias, dark and flat frames: masters and calibrated images</source>
         <translation>Bias, darks y flats: maestros e imágenes calibradas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="33"/>
+        <location filename="../../ui/start_page.py" line="34"/>
         <source>Images</source>
         <translation>Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="34"/>
+        <location filename="../../ui/start_page.py" line="35"/>
         <source>Look at images and headers, measure, process, stack</source>
         <translation>Ver imágenes y cabeceras, medir, procesar, apilar</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="35"/>
+        <location filename="../../ui/start_page.py" line="36"/>
         <source>Photometry</source>
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="36"/>
+        <location filename="../../ui/start_page.py" line="37"/>
         <source>Brightness of stars on a series of images: the light curve</source>
         <translation>Brillo de estrellas en una serie de imágenes: la curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="37"/>
+        <location filename="../../ui/start_page.py" line="38"/>
         <source>Light curves and period</source>
         <translation>Curvas de luz y período</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="38"/>
+        <location filename="../../ui/start_page.py" line="39"/>
         <source>Periods, frequencies, variable stars in a set of frames</source>
         <translation>Períodos, frecuencias, estrellas variables en una serie de tomas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="39"/>
+        <location filename="../../ui/start_page.py" line="40"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="40"/>
+        <location filename="../../ui/start_page.py" line="41"/>
         <source>Times of minimum, ephemeris, O−C diagram, third body, apsidal motion</source>
         <translation>Tiempos de mínimo, efemérides, diagrama O−C, tercer cuerpo, movimiento apsidal</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="41"/>
+        <location filename="../../ui/start_page.py" line="42"/>
         <source>Spectroscopy</source>
         <translation>Espectroscopía</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="42"/>
+        <location filename="../../ui/start_page.py" line="43"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
         <translation>Reducir espectros, longitudes de onda, velocidades radiales, órbitas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="43"/>
+        <location filename="../../ui/start_page.py" line="44"/>
         <source>Models</source>
         <translation>Modelos</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="44"/>
+        <location filename="../../ui/start_page.py" line="45"/>
         <source>Eclipsing binaries, visual orbits, light-curve models</source>
         <translation>Binarias eclipsantes, órbitas visuales, modelos de curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="45"/>
+        <location filename="../../ui/start_page.py" line="46"/>
         <source>Remote sensing</source>
         <translation>Teledetección</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="46"/>
+        <location filename="../../ui/start_page.py" line="47"/>
         <source>Satellite images: bands, indices, classes</source>
         <translation>Imágenes de satélite: bandas, índices, clases</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="47"/>
+        <location filename="../../ui/start_page.py" line="48"/>
         <source>Automation</source>
         <translation>Automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="48"/>
+        <location filename="../../ui/start_page.py" line="49"/>
         <source>Chain steps into a pipeline and run it in one go</source>
         <translation>Encadenar pasos en un flujo y ejecutarlo de una vez</translation>
     </message>
@@ -13365,77 +13365,92 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/start_page.py" line="68"/>
+        <location filename="../../ui/start_page.py" line="70"/>
         <source>Welcome to {app}</source>
         <translation>Bienvenido a {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="85"/>
+        <location filename="../../ui/start_page.py" line="87"/>
         <source>Interface:</source>
         <translation>Interfaz:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="86"/>
+        <location filename="../../ui/start_page.py" line="88"/>
         <source>Basic — the main steps; the rarely changed options folded</source>
         <translation>Básico — los pasos principales; las opciones poco usadas plegadas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="87"/>
+        <location filename="../../ui/start_page.py" line="89"/>
         <source>Expert — every option open</source>
         <translation>Experto — todas las opciones abiertas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="89"/>
+        <location filename="../../ui/start_page.py" line="91"/>
         <source>Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the Settings menu at any time.</source>
         <translation>En el modo básico no se quita nada: las secciones plegadas se abren con un clic. Cámbielo aquí o en el menú Ajustes cuando quiera.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="104"/>
+        <location filename="../../ui/start_page.py" line="107"/>
         <source>Continue where you left off:</source>
         <translation>Seguir donde lo dejó:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="106"/>
+        <location filename="../../ui/start_page.py" line="109"/>
         <source>Double-click to open it again</source>
         <translation>Doble clic para volver a abrirlo</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>New project</source>
         <translation>Nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="74"/>
+        <location filename="../../ui/start_page.py" line="76"/>
         <source>Keep frames, settings and results together</source>
         <translation>Mantener juntas imágenes, ajustes y resultados</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="77"/>
         <source>Open project…</source>
         <translation>Abrir proyecto…</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="75"/>
+        <location filename="../../ui/start_page.py" line="77"/>
         <source>Continue earlier work</source>
         <translation>Continuar un trabajo anterior</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="78"/>
         <source>Open a FITS image</source>
         <translation>Abrir una imagen FITS</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="78"/>
         <source>Look at an image and its header</source>
         <translation>Ver una imagen y su cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="113"/>
+        <location filename="../../ui/start_page.py" line="116"/>
         <source>Choose what you want to do:</source>
         <translation>Elija lo que quiere hacer:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="152"/>
+        <location filename="../../ui/start_page.py" line="168"/>
+        <source>Set up your site to see tonight&apos;s sky</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="194"/>
+        <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="195"/>
+        <source>your site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>

@@ -112,3 +112,16 @@ def test_planets_and_the_moon_are_followed_through_the_night(tmp_path):
     times = Time(night["night"]["jd"], format="jd")
     s = Site(**site)
     assert np.allclose(saturn["alt"], altitudes(get_body("saturn", times, s.location), times, s), atol=1e-6)
+
+
+def test_tonight_for_the_start_window():
+    from astropy.time import Time
+
+    from astrowb.planning.visibility import Site, tonight
+
+    ankara = Site("Ankara", 39.9, 32.8, 900)
+    evening = tonight(ankara, Time("2026-11-11T12:00:00"))  # afternoon (15:00 local): tonight's night
+    assert evening["dusk"].iso.startswith("2026-11-11 16:") and evening["dawn"].iso.startswith("2026-11-12 02:")
+    late = tonight(ankara, Time("2026-11-11T23:00:00"))  # 02:00 local, before dawn: still that night
+    assert late["dusk"].iso == evening["dusk"].iso
+    assert 0 <= evening["moon"] <= 0.1  # new Moon on 2026-11-09

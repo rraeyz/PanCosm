@@ -343,6 +343,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.action.connect(self._start_action)
         page.resume.connect(self._resume)
         page.mode_chosen.connect(self.set_ui_mode)
+        page.show_tonight(self.settings)
         return page
 
     def recent_work(self):

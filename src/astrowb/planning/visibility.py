@@ -123,3 +123,18 @@ def events(t0_bjd, period, coord, site, dusk, dawn, duration_d=None, secondary=F
             full = bool(np.all(alt >= min_alt) and check[0] >= dusk and check[-1] <= dawn)
             out.append(Event(kind, mid, start, end, float(alt[1]), full))
     return sorted(out, key=lambda e: e.mid.jd)
+
+
+def tonight(site: Site, now=None):
+    """The coming night at a site, for the start window: {"dusk", "dawn"} (astronomical twilight, Time or None),
+    "moon" (illuminated fraction at the middle of the night). The night of today's date, or of yesterday's while
+    yesterday's night is not over yet (after midnight, before dawn)."""
+    now = Time.now() if now is None else now
+    local = now + site.lon / 360 * u.day  # local mean time: the date the night starts on
+    for days in (-1, 0):
+        date = (local + days * u.day).strftime("%Y-%m-%d")
+        dusk, dawn = night(site, date)
+        if dawn is None or dawn > now or days == 0:
+            break
+    middle = dusk + (dawn - dusk) / 2 if dusk is not None and dawn is not None else now
+    return {"dusk": dusk, "dawn": dawn, "moon": float(moon(middle, site)["illumination"])}

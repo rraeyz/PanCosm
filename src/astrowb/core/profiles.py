@@ -32,6 +32,11 @@ def _profile(settings):
     return profile
 
 
+def has(settings, part):
+    """Whether the user has filled in this section (the defaults alone do not count)."""
+    return bool(_profile(settings).get(part))
+
+
 def section(settings, part):
     """One section of the profile with every field (defaults filled in)."""
     return {**DEFAULTS[part], **_profile(settings).get(part, {})}

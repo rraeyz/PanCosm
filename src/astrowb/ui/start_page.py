@@ -2,6 +2,7 @@
 area has moved there, plans/interface.md I4), with the project and a "Continue where you left off" list on top —
 as NINA's area tabs with an icon and a short name, but each area its own window."""
 
+from datetime import UTC
 from pathlib import Path
 
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication, QEvent, QSize, Qt, Signal
@@ -61,6 +62,7 @@ class StartPage(QWidget):
     action = Signal(str)  # "new_project" | "open_project" | "open_fits" | area key
     resume = Signal(str, str)  # (kind, path): "project" or an area key, and the file to open
     mode_chosen = Signal(str)  # "basic" | "expert"
+    tonight_ready = Signal(str)  # the Tonight line, computed off the GUI thread
 
     def __init__(self, parent=None, mode="basic", recent=()):
         super().__init__(parent)
@@ -100,6 +102,7 @@ class StartPage(QWidget):
         top.addLayout(self.project_row, 1)
         top.addLayout(self.mode_row)
         lay.addLayout(top)
+        lay.addWidget(self._tonight_label())
 
         self.continue_label = QLabel(self.tr("Continue where you left off:"), self)
         self.continue_list = QListWidget(self)
@@ -144,6 +147,53 @@ class StartPage(QWidget):
         self._arrange(1)
         lay.addLayout(self.grid)
         lay.addStretch(1)
+
+    def _tonight_label(self):
+        self.tonight = QLabel(self)
+        self.tonight.setProperty("muted", True)
+        self.tonight.setHidden(True)
+        self.tonight.linkActivated.connect(self.action.emit)  # the hint's link: the Planning window, where the site is
+        self.tonight_ready.connect(self.set_tonight)
+        return self.tonight
+
+    def set_tonight(self, text):
+        self.tonight.setText(text)
+        self.tonight.setVisible(bool(text))
+
+    def show_tonight(self, settings):
+        """The Tonight line when a site is set up (computed in a thread: astropy takes a second), else the hint."""
+        from ..core import profiles
+
+        if not profiles.has(settings, "site"):
+            hint = self.tr("Set up your site to see tonight's sky")
+            self.set_tonight(f'<a href="plan">{hint}</a>')
+            return
+        site = profiles.section(settings, "site")
+        import threading
+
+        def work():
+            text = self._tonight_text(site)
+            try:
+                self.tonight_ready.emit(text)
+            except RuntimeError:  # the window was closed meanwhile
+                pass
+
+        threading.Thread(target=work, daemon=True).start()
+
+    def _tonight_text(self, site):
+        from ..planning.visibility import Site, tonight
+
+        try:
+            night = tonight(Site(site["name"], site["lat"], site["lon"], site["height"]))
+        except Exception:  # noqa: BLE001 — a line of the start window never stops the program
+            return ""
+
+        def clock(t):
+            return t.to_datetime(UTC).astimezone().strftime("%H:%M") if t is not None else "—"
+
+        return self.tr("Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %").format(
+            site=site["name"] or self.tr("your site"), dusk=clock(night["dusk"]), dawn=clock(night["dawn"]),
+            moon=round(100 * night["moon"]))  # fmt: skip
 
     def set_recent(self, recent):
         """recent: [(kind, path)] — "project" or an area key — newest first; missing files are left out."""
