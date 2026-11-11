@@ -159,7 +159,7 @@ class StartPage(QWidget):
         self.tonight = QLabel(self)
         self.tonight.setProperty("muted", True)
         self.tonight.setHidden(True)
-        self.tonight.linkActivated.connect(self.action.emit)  # the hint's link: the Planning window, where the site is
+        self.tonight.linkActivated.connect(self.action.emit)  # the hint's link: Settings → Profiles
         self.tonight_ready.connect(self.set_tonight)
         return self.tonight
 
@@ -186,7 +186,7 @@ class StartPage(QWidget):
 
         if not profiles.has(settings, "site"):
             hint = self.tr("Set up your site to see tonight's sky")
-            self.set_tonight(f'<a href="plan">{hint}</a>')
+            self.set_tonight(f'<a href="profiles">{hint}</a>')  # Settings → Profiles
             return
         site = profiles.section(settings, "site")
         import threading
