@@ -31,8 +31,23 @@ def add_menu(win, menu):
         QCoreApplication.translate("Overlays", "Clear overlays"),
         lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()],
     )
+    layers = sub.addMenu(QCoreApplication.translate("Overlays", "&Layers"))
+    layers.aboutToShow.connect(lambda: _fill_layers(win.viewer, layers))
     add_orientation_menu(win, menu)
     return sub
+
+
+def _fill_layers(viewer, menu):
+    """One check box per overlay drawn on the image: shown or hidden (ARC-7 item 3)."""
+    menu.clear()
+    names = viewer.overlay_names()
+    if not names:
+        menu.addAction(QCoreApplication.translate("Overlays", "No overlays on this image")).setEnabled(False)
+    for name in names:
+        act = menu.addAction(name)
+        act.setCheckable(True)
+        act.setChecked(viewer.layer_visible(name))
+        act.toggled.connect(lambda on, n=name: viewer.set_layer(n, visible=on))
 
 
 def add_orientation_menu(win, menu):
