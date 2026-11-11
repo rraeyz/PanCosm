@@ -438,7 +438,7 @@
 <context>
     <name>App</name>
     <message>
-        <location filename="../../__main__.py" line="185"/>
+        <location filename="../../__main__.py" line="188"/>
         <source>Unexpected error</source>
         <translation>Beklenmeyen hata</translation>
     </message>
@@ -730,13 +730,13 @@
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="95"/>
-        <location filename="../../ui/report.py" line="105"/>
+        <location filename="../../ui/report.py" line="120"/>
+        <location filename="../../ui/report.py" line="130"/>
         <source>Report a problem</source>
         <translation>Sorun bildir</translation>
     </message>
     <message>
-        <location filename="../../ui/report.py" line="106"/>
+        <location filename="../../ui/report.py" line="131"/>
         <source>The report is saved:
 {path}
 
@@ -5095,7 +5095,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Eklenti hatası</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="206"/>
+        <location filename="../../ui/file_actions.py" line="205"/>
+        <source>Allow {f}…</source>
+        <translation>{f} için izin ver…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="210"/>
         <source>Open plugins folder</source>
         <translation>Eklenti klasörünü aç</translation>
     </message>
@@ -5147,22 +5152,36 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>görüntü işlemi</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="209"/>
         <source>Install the example plugins</source>
         <translation>Örnek eklentileri kur</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="207"/>
+        <location filename="../../ui/file_actions.py" line="211"/>
         <source>What are plugins?</source>
         <translation>Eklenti nedir?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="216"/>
+        <location filename="../../ui/file_actions.py" line="217"/>
+        <source>{path}
+
+This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
+        <translation>{path}
+
+Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkilerinizle çalışır: yalnızca kendiniz yazdıysanız ya da nereden geldiğini biliyorsanız izin verin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="223"/>
+        <source>Allow a plugin</source>
+        <translation>Bir eklentiye izin ver</translation>
+    </message>
+    <message>
+        <location filename="../../ui/file_actions.py" line="237"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Kuruldu: {names}. Artık Eklentiler menüsündeler.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="220"/>
+        <location filename="../../ui/file_actions.py" line="241"/>
         <source>The example plugins are already installed.</source>
         <translation>Örnek eklentiler zaten kurulu.</translation>
     </message>

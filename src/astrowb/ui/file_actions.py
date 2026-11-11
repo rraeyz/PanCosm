@@ -201,10 +201,31 @@ class FileActions:
             act.triggered.connect(
                 lambda _=False, e=err: QMessageBox.warning(self, translate("MainWindow", "Plugin error"), e)
             )
+        for name, path in list(plugins.WAITING.items()):
+            act = menu.addAction(translate("MainWindow", "Allow {f}…").format(f=name))
+            act.setToolTip(str(path))
+            act.triggered.connect(lambda _=False, p=path: self.allow_plugin(p))
         menu.addSeparator()
         self._action(menu, translate("MainWindow", "Install the example plugins"), self.install_example_plugins)
         self._action(menu, translate("MainWindow", "Open plugins folder"), self.open_plugins_folder)
         self._action(menu, translate("MainWindow", "What are plugins?"), lambda: self.show_workspace("guide"))
+
+    def allow_plugin(self, path, ask=True):
+        """A new or changed plugin runs only once allowed (ARC-22): it runs with the user's rights."""
+        from ..engine import plugins
+
+        text = translate(
+            "MainWindow",
+            "{path}\n\nThis plugin is new or has changed. A plugin runs with your rights, like any program: allow it "
+            "only if you wrote it or know where it comes from.",
+        ).format(path=path)
+        buttons = QMessageBox.Yes | QMessageBox.No
+        title = translate("MainWindow", "Allow a plugin")
+        if ask and QMessageBox.warning(self, title, text, buttons, QMessageBox.No) != QMessageBox.Yes:
+            return False
+        plugins.allow(path)
+        plugins.load_plugins()
+        return True
 
     def install_example_plugins(self):
         """Copy the three example plugins into the plugins folder; they appear in this menu at once."""

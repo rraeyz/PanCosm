@@ -326,8 +326,32 @@ MAX_WRONG = 10  # wrong tokens in a row from one address before it is locked out
 LOCK_S = 300.0  # how long the lock-out lasts
 
 
+class _Guard:
+    """The token check with a lock-out per address (ARC-22)."""
+
+    def __init__(self, token):
+        self.expected = f"Bearer {token}".encode()
+        self.wrong, self.lock = {}, threading.Lock()  # address -> (wrong tokens in a row, locked until)
+
+    def check(self, address, given):
+        """None when the request may go on, else (HTTP code, error text)."""
+        now = time.monotonic()
+        with self.lock:
+            count, until = self.wrong.get(address, (0, 0.0))
+        if until > now:  # guessing the token: every request is refused for a while, the right one too
+            return 429, f"too many wrong tokens; try again in {until - now:.0f} s"
+        if hmac.compare_digest(given.encode(), self.expected):
+            with self.lock:
+                self.wrong.pop(address, None)
+            return None
+        count += 1
+        with self.lock:
+            self.wrong[address] = (0, now + LOCK_S) if count >= MAX_WRONG else (count, 0.0)
+        return 401, "missing or wrong token"
+
+
 def make_handler(ctrl: Controller, token: str):
-    wrong, lock = {}, threading.Lock()  # address -> (wrong tokens in a row, locked until)
+    guard = _Guard(token)
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):  # no console noise; the observatory log has the events
@@ -342,22 +366,9 @@ def make_handler(ctrl: Controller, token: str):
             self.wfile.write(body)
 
         def _authorised(self):
-            address, now = self.client_address[0], time.monotonic()
-            with lock:
-                count, until = wrong.get(address, (0, 0.0))
-            if until > now:  # guessing the token: every request is refused for a while, the right one too
-                self._reply(429, {"error": f"too many wrong tokens; try again in {until - now:.0f} s"})
-                return False
-            given = self.headers.get("Authorization", "")
-            if hmac.compare_digest(given.encode(), f"Bearer {token}".encode()):
-                with lock:
-                    wrong.pop(address, None)
-                return True
-            count += 1
-            with lock:
-                wrong[address] = (0, now + LOCK_S) if count >= MAX_WRONG else (count, 0.0)
-            self._reply(401, {"error": "missing or wrong token"})
-            return False
+            if refused := guard.check(self.client_address[0], self.headers.get("Authorization", "")):
+                self._reply(refused[0], {"error": refused[1]})
+            return not refused
 
         def do_GET(self):
             if not self._authorised():
