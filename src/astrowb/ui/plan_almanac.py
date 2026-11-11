@@ -41,6 +41,7 @@ def almanac_label(page):
     for w in (page.lat, page.lon, page.height, page.utc_offset):
         w.valueChanged.connect(timer.start)
     page.date.dateChanged.connect(timer.start)
+    page.site_name.textChanged.connect(timer.start)  # a name typed: the hint for a new user goes
     page.almanac, page._almanac_timer = label, timer
     timer.start()
     return label
@@ -55,5 +56,11 @@ def refresh(page, label):
     date = page.date.date().toString("yyyy-MM-dd")
     site = Site("", page.lat.value(), page.lon.value(), page.height.value())
     a = summary(site, date, step_min=10.0)  # the crossings are interpolated: within a second of a fine grid
-    label.setText(text(a, page.local_offset(Time(f"{date}T00:00:00").jd + 1.0)))
+    line = text(a, page.local_offset(Time(f"{date}T00:00:00").jd + 1.0))
+    from ..core import profiles
+
+    if not profiles.has(page.settings, "site") and not page.site_name.text().strip():  # PLN-W: say so first
+        line = translate("PlanAlmanac", "No site saved yet: these times are for the default place. Type your "
+                         "observatory's name or position above; Plan the night keeps it.") + "\n" + line  # fmt: skip
+    label.setText(line)
     return a

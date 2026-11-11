@@ -87,7 +87,7 @@ mosaic panels); KStars / Ekos and ACP schedulers (priorities, constraints, twili
 Order of work: PLN-W, then P1: 1, 2, 3, 4, 5, 6, 7; P2: 8, 9, 10, 11, 13, 14; P3: 12.
 
 ### PLN-W. The Planning window on the new anatomy  (P1)
-**open**
+**open** — 2026-11-14: "no site set → the first stage says so" in the present page (the almanac line starts with the hint until a site is typed or saved; test_plan_chart)
 - `plans/interface.md` UI-16.8: stages Site and night, Targets, Night, Schedule, Send; Inspector for the selected
   target.
 - **Extra accept:** from an empty window: "What can I observe tonight?" → pick three results → chart → schedule →
