@@ -191,6 +191,9 @@ class AreaWindow(Anatomy, QMainWindow):
                 menu.addSeparator() if act is None else menu.addAction(act)
         self.window_menu = bar_menu(bar, self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
+        self._build_help_menu(bar)
+
+    def _build_help_menu(self, bar):
         help_menu = bar_menu(bar, self.tr("&Help"))
         self.help_menu = help_menu
         self.help_action = self._action(
