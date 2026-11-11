@@ -5124,6 +5124,11 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kılavuz: her pencere adım adım, kategorilere göre, aramalı olarak anlatılır. Yardım → Eğitim kılavuzu onu açar; bir pencerede F1 o pencerenin sayfasını açar.</translation>
     </message>
     <message>
+        <location filename="../../ui/tour.py" line="255"/>
+        <source>In every area window: the stages on the left (Ctrl+1…9), F5 runs the stage&apos;s main action, F1 or Shift+F1 opens help, Ctrl+K finds any action, Ctrl+/ lists every key. To try it all, Help → Practice data for a first night gives data with known answers.</source>
+        <translation>Her alan penceresinde: aşamalar solda (Ctrl+1…9), F5 aşamanın ana işlemini çalıştırır, F1 ya da Shift+F1 yardımı açar, Ctrl+K her işlemi bulur, Ctrl+/ bütün tuşları listeler. Hepsini denemek için Yardım → İlk gece için alıştırma verisi, cevapları bilinen veriler verir.</translation>
+    </message>
+    <message>
         <location filename="../../ui/image_actions.py" line="134"/>
         <source>Rotate</source>
         <translation>Döndür</translation>
