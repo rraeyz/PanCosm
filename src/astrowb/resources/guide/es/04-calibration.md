@@ -3,7 +3,7 @@ La ventana **Calibración** convierte las tomas brutas en imágenes calibradas: 
 
 ![La ventana Calibración](images/es/window-calibrate.jpg)
 
-## 1. Explorar las tomas brutas
+## 1. Explorar las tomas brutas {#calibration-1-scan-raw-frames}
 **Dos carpetas, como se suele guardar una noche:** ponga los lights (sus datos) en **Lights** y los bias, dark y flat en **BDF**. Cada imagen de la carpeta de lights es un light se llame como se llame — las imágenes científicas suelen llevar el nombre de la estrella (`nsvs01286630_017.fits`); solo una imagen cuya cabecera diga bias, dark o flat cuenta como tal. La carpeta BDF se clasifica en bias, dark y flat. ¿Todo en una carpeta? Dela solo como **BDF** y deje **Lights** vacío: las imágenes se clasifican entonces por cabecera y nombre, como se explica abajo.
 
 Elija la carpeta con sus tomas brutas (lights, bias, darks y flats pueden estar mezclados, subcarpetas incluidas) y pulse **Explorar**. La tabla lista cada archivo con su **tipo**, **exposición**, **filtro**, **temperatura** y **agrupamiento** (binning).
@@ -18,13 +18,13 @@ También se leen las subcarpetas. Si las lights y las tomas de calibración est�
 
 Los fotogramas brutos de archivos funcionan tal como llegan: los `.fits.Z` de ESO (Unix compress) se descomprimen en fits_from_raw, se reconocen los tipos de ESO (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT), y el grisma o la red de un espectrógrafo forma parte del filtro, de modo que nunca se usa un flat tomado con otro grisma.
 
-## Cómo se asignan los másteres
+## Cómo se asignan los másteres {#calibration-how-masters-matched}
 - **Bias:** mismo agrupamiento y tamaño.
 - **Dark:** mismo agrupamiento, mismo tiempo de exposición y una temperatura dentro de 2 °C. Un dark de otra exposición se escala a la exposición del light solo si hay tomas bias (la corriente oscura es proporcional al tiempo una vez restado el bias).
 - **Flat:** mismo filtro y agrupamiento; a los flats se les resta bias/dark y se normalizan a una mediana de 1.
 - Cada máster es la media con recorte sigma de sus tomas; **Rechazo (sigma)** (3 por defecto) elimina satélites, rayos cósmicos y píxeles calientes que solo aparecen en algunas tomas.
 
-## 2. Carpeta de salida y opciones
+## 2. Carpeta de salida y opciones {#calibration-2-output-folder-options}
 Elija dónde se escriben los másteres y las imágenes calibradas. Los archivos brutos nunca se modifican.
 
 - **Quitar rayos cósmicos de los lights** limpia los impactos de un solo píxel con el método L.A.Cosmic (astroscrappy). Úselo en exposiciones largas; no hace falta en series fotométricas cortas.
@@ -36,13 +36,13 @@ Elija dónde se escriben los másteres y las imágenes calibradas. Los archivos 
 
 - **Espectros: no dividir por el flat:** márquelo para tomas echelle y de rendija larga. Su flat es casi cero entre los órdenes y dividir por él dispararía el ruido (en IRAF ese flat se normaliza antes con apflatten / apnormalize). El bias y el dark se siguen restando; el flat maestro se sigue creando — páselo a la ventana Espectroscopía, que traza los órdenes sobre él y divide por su blaze. El mapa de defectos sale entonces solo del dark.
 
-## 3. Calibrar
+## 3. Calibrar {#calibration-3-calibrate}
 Pulse **Calibrar**. La tarea se ejecuta en segundo plano; al terminar verá cuántas imágenes se calibraron y cuántos másteres se escribieron. Cada imagen calibrada registra en su cabecera qué másteres se usaron (`CALB`, `CALD`, `CALF`), así que siempre puede comprobarlo. Después, **4. Medirlas en la ventana Fotometría →** envía allí los lights calibrados y abre la ventana (con varios filtros se elige uno: una curva de luz se mide en un solo filtro). El menú del botón derecho de la ventana Imágenes tiene lo mismo: **Enviar las imágenes abiertas a Fotometría**.
 
-## 4. Alinear y apilar
+## 4. Alinear y apilar {#calibration-4-align-stack}
 **Alinear y apilar…** alinea las imágenes calibradas sobre las estrellas (desplazamiento hallado por correlación cruzada) y las combina con una media con recorte sigma en una sola imagen profunda. Un mapa de cobertura, guardado como segunda extensión del archivo, indica cuántas tomas contribuyeron a cada píxel. Apile solo tomas del mismo filtro. Apilar es opcional y **no sirve para una curva de luz**: una pila tiene un solo tiempo, mientras que la fotometría mide cada imagen. Apile para una imagen profunda, astrometría de objetos débiles o una imagen en color.
 
-## Opciones de apilado
+## Opciones de apilado {#calibration-stacking-options}
 Las opciones junto al botón de apilar funcionan como en Siril, PixInsight o MaxIm DL:
 
 - **Combinar:** *media* (menor ruido), *mediana* (robusta, un 25 % más ruidosa) o *suma* (la media por el número de tomas, de modo que el nivel es el de una exposición larga aunque alguna toma no cubra el píxel).
@@ -54,16 +54,16 @@ Las opciones junto al botón de apilar funcionan como en Siril, PixInsight o Max
 
 La cabecera del apilado registra las opciones (STACKMTH, STACKNRM, STACKWGT) y el peso de cada toma.
 
-## Drizzle
+## Drizzle {#calibration-drizzle}
 Para imágenes submuestreadas (estrellas de solo uno o dos píxeles de ancho) tomadas con pequeños desplazamientos (dither) entre tomas, marque **Drizzle sobre una rejilla 2× más fina** antes de apilar. Cada píxel se reduce al 60 % de su tamaño y se deposita, en su posición alineada, sobre una rejilla con el doble de píxeles (Fruchter & Hook 2002); con ocho o más tomas con dither las estrellas salen más nítidas que en un apilado normal. El flujo se conserva, las coordenadas celestes (WCS) se escalan y el peso de cada píxel de salida se guarda como segunda extensión. Quite antes los rayos cósmicos durante la calibración: drizzle no rechaza valores atípicos.
 
-## Cámaras en color y archivos raw de DSLR
+## Cámaras en color y archivos raw de DSLR {#calibration-colour-cameras-dslr-raw}
 - Los **archivos raw de cámara** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) de la carpeta elegida se convierten al pulsar **Explorar**: cada uno pasa a ser un FITS en la subcarpeta `fits_from_raw`, con los valores del sensor intactos (sin balance de blancos, sin gamma, sin interpolación). Póngalos en carpetas llamadas `bias`, `darks`, `flats`, `lights`: el nombre de la carpeta da el tipo de toma. El tiempo de exposición, el ISO y los niveles de negro y blanco se leen del archivo. Los sensores Fujifilm X-Trans y Foveon no son Bayer 2 × 2 y se rechazan.
 - **Hora**: una DSLR guarda su propio reloj, a menudo en hora local y desviado minutos. Indique **Reloj de la DSLR − UTC** antes de explorar (p. ej. 1 para un reloj en hora de España peninsular en invierno) y compare el reloj de la cámara con una señal horaria: un error de tiempo pasa directamente a los mínimos y al O−C. La lectura original se guarda como DATE-CAM. Mientras no lo indique, se usa la diferencia con UTC del propio ordenador (correcta si la cámara está en la misma hora local). El valor se recuerda y se aplica a todo archivo raw de cámara y foto de móvil abierto en cualquier ventana (Fotometría, Imágenes, Búsqueda de estrellas variables…); la ventana Fotometría muestra con qué diferencia se leyeron sus tomas.
 - Las **cámaras en color (one-shot-color)** escriben BAYERPAT; los archivos DSLR lo toman del raw. Con **Cámara en color: cada color como imagen propia** (activado por defecto) el mosaico se calibra tal cual y luego cada light se escribe como tres imágenes de mitad de tamaño `_R`, `_G`, `_B` (filtros TR, TG, TB): un valor por celda de 2 × 2, el verde como media de los dos píxeles verdes, sin interpolación que mezclaría píxeles y cambiaría los perfiles estelares. Los píxeles calientes y muertos se reparan con píxeles del mismo color. Es el método del AAVSO DSLR Observing Manual; el canal verde (TG) es el más cercano a Johnson V, por eso va a la ventana Fotometría.
 - **Las pilas se hacen por filtro**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (y en cámaras monocromas, una por filtro). Combínelas en una imagen en color con **Color → Imagen en color con tres filtros…** en la ventana Imágenes.
 
-## Consejos
+## Consejos {#calibration-tips}
 - Tome al menos 20 bias y 10–20 darks a la misma temperatura que los lights; 10–20 flats por filtro, con la media en torno a la mitad de la capacidad del pozo.
 - No mueva el enfocador ni gire la cámara entre flats y lights: los anillos de polvo se desplazan con ellos.
 - La automatización *Calibración y apilado al final de la noche* explora, calibra y apila de una vez.

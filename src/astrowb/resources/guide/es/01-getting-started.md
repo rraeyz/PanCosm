@@ -3,7 +3,7 @@ La aplicación cubre todo el trabajo de observación en una sola ventana: elegir
 
 Cada ventana y pestaña de trabajo tiene arriba una línea plegada **Flujo de trabajo** que nombra el paso siguiente. Al pulsarla se ve el orden de trabajo habitual (la tarea de IRAF entre paréntesis cuando la hay), cada paso marcado como hecho (✓), omitido (–) o siguiente (▶), y qué hacer en el paso siguiente. Es una guía, nunca un bloqueo: empiece en el paso donde estén sus datos —un espectro ya extraído solo necesita sus longitudes de onda, una curva de luz de un archivo no necesita fotometría— y omita lo que sus datos no necesiten.
 
-## El primer inicio
+## El primer inicio {#getting-started-first-start}
 La primera vez que se abre, la aplicación muestra una breve ventana de bienvenida en inglés con tres opciones:
 
 - **Language** (idioma) — el idioma de la interfaz. Se aplica de inmediato; más adelante puede cambiarlo en **Configuración → Idioma**.
@@ -12,7 +12,7 @@ La primera vez que se abre, la aplicación muestra una breve ventana de bienveni
 
 Pulse **Start**. Las opciones se guardan y no se vuelven a preguntar. A continuación viene un **Recorrido rápido** de un minuto; puede saltarlo y abrirlo de nuevo desde **Ayuda → Recorrido rápido**.
 
-## Su primera noche (datos de práctica)
+## Su primera noche (datos de práctica) {#getting-started-your-first-night-practice}
 Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las imágenes brutas hasta el instante del mínimo de una binaria eclipsante.
 
 1. **Ayuda → Datos de práctica para una primera noche…** y elija una carpeta vacía. Aparece una carpeta `raw` con 7 bias, 7 darks (60 s), 7 flats V y 48 tomas de ciencia V de una binaria durante un eclipse primario, y `truth.json` con las respuestas correctas.
@@ -31,14 +31,14 @@ Un ejercicio completo con datos simulados cuya respuesta se conoce: desde las im
 
 6. Para ir más allá: pegue el mínimo en la pestaña **O-C** con su propio T0 de referencia y su periodo, exporte la curva de luz (**Exportar CSV…**) o ajústela en la ventana **Modelos**.
 
-## La ventana
+## La ventana {#getting-started-window}
 - **Bloques de áreas:** cada área, en el orden de una noche de observación, se abre en una ventana propia; el menú **Ventana** de cada ventana también las enumera, junto con Inicio, Proyecto y esta Guía.
 - **Panel de tareas (abajo):** cada trabajo largo (calibración, fotometría, ajustes, espectros…) se ejecuta en segundo plano en su propio proceso. El panel muestra su progreso y estado (en cola, en curso, hecha, fallida, cancelada). Puede seguir trabajando mientras se ejecutan las tareas, y una tarea que falla nunca cierra la ventana.
 - **Barra de estado:** el valor del píxel y las coordenadas celestes bajo el ratón cuando hay una imagen abierta, y una barra de progreso mientras se ejecutan tareas.
 - **Menús:** Archivo (proyectos, FITS), Ver (zoom y estiramiento de la visualización), Imagen (reducción astrométrica, procesado), Complementos, Configuración y Ayuda.
 - **Deshacer y rehacer:** Editar → Deshacer (Ctrl+Z) revierte el último cambio en la ventana — una estrella marcada o quitada, puntos borrados, una eliminación de tendencia, valores atípicos quitados, una operación de imagen, un cambio en la cabecera, una línea del arco identificada u omitida — y Editar → Rehacer (Ctrl+Y o Ctrl+Mayús+Z) lo vuelve a hacer paso a paso. El menú nombra el paso. En un campo de texto Ctrl+Z deshace lo escrito en ese campo.
 
-## La página de inicio
+## La página de inicio {#getting-started-start-page}
 La página de inicio es un menú de las áreas del trabajo:
 
 - **Seguir donde lo dejó** (cuando hay algo que continuar): los últimos proyectos y los últimos archivos de cada área; doble clic para volver a abrir uno.
@@ -46,7 +46,7 @@ La página de inicio es un menú de las áreas del trabajo:
 - **Elija lo que quiere hacer:** un bloque por área — Planificación, Observación, Calibración, Imágenes, Fotometría, Curvas de luz y período, O−C, Espectroscopía, Modelos, Teledetección, Automatización — cada uno con una línea de lo que hace. Un clic abre el área. Las áreas pasan a ventanas propias, cada una con sus menús, barra de herramientas y paneles; un área que ya está en su ventana se trae al frente, nunca se abre dos veces.
 - Menú **Ventana**: la ventana principal y cada ventana de área abierta. **Ayuda → Informar de un problema…** crea un zip (registro de errores, versión, sistema, ajustes, últimos pasos; sin archivos de datos ni nombres de carpetas) para enviar al desarrollador. **Ver → Texto más grande / más pequeño / Tamaño de texto normal** en una ventana de área (**Configuración → Tamaño del texto** en la ventana principal) agranda o reduce el texto en todas las ventanas (Ctrl+Mayús++ / − / 0). La barra de herramientas de una ventana de área muestra iconos pequeños (el nombre de cada uno en su ayuda emergente); **Ver → Texto de la barra** escribe los nombres al lado. Cada ventana de área tiene además **Editar → Copiar** y la **Configuración** (idioma, aspecto, dispositivo de cálculo, tamaño del texto), y en **Ayuda** el recorrido, **Buscar actualizaciones…** y **Acerca de**.
 
-## Proyectos
+## Proyectos {#getting-started-projects}
 Un proyecto es un único archivo con la extensión `.astroproj`. Registra cada archivo que añada y cada paso que ejecute: qué paso, sus ajustes, cuándo empezó, si tuvo éxito y sus resultados, junto con las versiones de las bibliotecas usadas. Así el trabajo es reproducible: meses después puede ver exactamente cómo se obtuvo un número.
 
 - **Archivo → Nuevo proyecto…** crea el archivo; **Archivo → Abrir proyecto…** continúa un trabajo anterior.
@@ -55,12 +55,12 @@ Un proyecto es un único archivo con la extensión `.astroproj`. Registra cada a
 - Seleccione una fila del historial para ver todo sobre esa ejecución: entradas, ajustes, resultados (o error) y versiones de las bibliotecas. **Ejecutar de nuevo con las mismas entradas y ajustes** la repite exactamente; la repetición se registra como una ejecución nueva.
 - Sin proyecto también puede trabajar; entonces no se registra nada.
 
-## Configuración
+## Configuración {#getting-started-settings}
 - **Básico o Experto** (en la página de Inicio o **Configuración → Modo experto**): en el modo básico las opciones poco usadas (más opciones de calibración y de apilado, las opciones de seeing / PSF / centelleo de la fotometría, otras herramientas) están plegadas —un clic las abre, no se quita nada— y la ventana Espectroscopía muestra el orden de sus pestañas; en el modo experto todas las secciones están abiertas.
 - **Configuración → Idioma:** inglés, turco, alemán o español. Puede hacer falta reiniciar para que cambien todos los textos.
 - **Configuración → Aspecto:** Oscuro o Claro. Los gráficos ya mostrados adoptan los colores nuevos. **Figura para publicación…** en la barra de herramientas de cada gráfico lo guarda en negro sobre blanco (PDF, SVG, EPS o PNG a 300 ppp) sea cual sea el aspecto; con un clic derecho sobre cualquier tabla se exporta como CSV o LaTeX.
 - **Configuración → Unidad de cálculo:** Automático, solo CPU o GPU. La barra de estado muestra qué unidad está en uso. Ejecute la aplicación con `--benchmark` para comprobar la GPU: indica si se encontró una, ejecuta cada tarea de GPU (apilado, clases k-means, deconvolución, búsquedas de periodos BLS y PDM) en ambas unidades e informa si los resultados coinciden y cuánto tardó cada una (también se guarda como `gpu-check.txt` en la carpeta de configuración).
 - La configuración se guarda en un pequeño archivo JSON en su carpeta de configuración de usuario; los complementos y sus propias automatizaciones están a su lado.
 
-## Tarjeta gráfica (GPU)
+## Tarjeta gráfica (GPU) {#getting-started-graphics-card-gpu}
 El trabajo pesado con matrices (por ejemplo, el apilado con recorte sigma) puede ejecutarse en la tarjeta gráfica mediante Vulkan, Metal o DirectX 12. Cada cálculo en GPU tiene un gemelo en CPU que da el mismo resultado, y *Automático* solo usa la tarjeta cuando realmente es más rápida. Si no se encuentra un controlador gráfico utilizable, se usa el procesador y no cambia nada más.

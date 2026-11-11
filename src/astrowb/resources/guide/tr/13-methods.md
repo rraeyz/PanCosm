@@ -1,7 +1,7 @@
 # Yöntemlerin matematiği
 Programdaki her fit ve arama yayımlanmış bir yöntemdir: aşağıdaki model kodun hesapladığı şeydir, adı geçen makale de yöntemin kaynağıdır. Hiçbiri program için uydurulmuş bir pratik kural değildir. Simgeler: t zaman, y ölçülen değer (akı, kadir, hız), σ hatası, N nokta sayısı.
 
-## En küçük kareler, hatalar ve MCMC
+## En küçük kareler, hatalar ve MCMC {#methods-least-squares-errors-mcmc}
 Her fit, parametreler p üzerinden ağırlıklı kareler toplamını en küçük yapar:
 
     χ² = Σ [(yᵢ − model(tᵢ; p)) / σᵢ]²
@@ -10,7 +10,7 @@ Doğrusal problemler (efemeris, polinomlar, Thiele–Innes sabitleri, ışık or
 
 **MCMC** ("MCMC belirsizlikleri" kutuları): afin-değişmez topluluk örnekleyicisi (Goodman & Weare 2010; emcee, Foreman-Mackey ve ark. 2013) parametre takımlarını exp(−χ²/2) ile orantılı olasılıkla çeker (fiziksel sınırlar içinde düz önseller); en küçük kareler çözümünün çevresinden başlar. Zincirin ilk yarısı atılır; her parametre ortanca ve 16. ile 84. yüzdelikleriyle verilir. Kovaryanstan farklı olarak, parametreler birbirine bağlı olduğunda da (eğim ve yarıçaplar, e ve ω) doğrudur.
 
-## Periyot arama
+## Periyot arama {#methods-period-search}
 Dört yöntemin hepsi bir frekans ızgarası (f = 1/P) dener; adımı son noktanın evresini sabit küçük bir miktar kaydırır, böylece hiçbir tepe iki deneme periyodu arasına düşemez. En iyi tepe sonra 50 kat sık bir ızgarada inceltilir.
 
 **Lomb–Scargle** (Lomb 1976, Ap&SS 39, 447; Scargle 1982, ApJ 263, 835; kayan ortalama ve hatalarla Zechmeister & Kürster 2009, A&A 496, 577). Her f'de bir sinüs dalgası artı sabit en küçük karelerle uydurulur:
@@ -39,7 +39,7 @@ ve açıkladığı varyans, varyans analizinin F istatistiğiyle artık varyansl
 
 **Örtüşmeler (alias).** Örnekleme (geceler, uydu yörüngeleri) tekrarlanır; her gerçek f frekansı f ± 1/T_boşluk'ta da tepe verir. Minimumları eşit örten çiftlerde en güçlü tepe çoğu zaman gerçek periyodun yarısındadır: katlanmış eğriye bakın.
 
-## Frekans analizi ve önbeyazlatma
+## Frekans analizi ve önbeyazlatma {#methods-frequency-analysis-prewhitening}
 Düzensiz örneklenmiş verinin genlik tayfı (Deeming 1975, Ap&SS 36, 137):
 
     A(f) = (2/N) | Σ (yᵢ − ȳ) exp(−2πi f tᵢ) |
@@ -54,7 +54,7 @@ Uydurulan eğri çıkarılır (**önbeyazlatma**) ve artıklar yeniden aranır. 
 
 **CLEAN** (Roberts, Lehár & Dreher 1987, AJ 93, 968) pencerenin yan loblarını tayftan çıkarır: her seferinde en yüksek tepenin bir kesri (0,2).
 
-## Minimum zamanları
+## Minimum zamanları {#methods-times-minimum}
 **Kwee & van Woerden** (1956, BAN 12, 327). Işık eğrisi düzgün bir ızgaraya aradeğerlenir ve bir deneme zamanı T'ye göre yansıtılır. İnen ve çıkan kol arasındaki ortalama kare fark S(T), minimum zamanında en küçüktür. Yakınında S bir paraboldür, S(T) = aT² + bT + c, dolayısıyla
 
     T_min = −b / 2a,     σ² = (4ac − b²) / (4a² (Z − 1))
@@ -65,7 +65,7 @@ Z bağımsız nokta çiftlerinin sayısıdır. Klasik formül gürültülü veri
 
 **Yamuk** (düz tabanlı geçişler için): derinliği δ, toplam süresi T₁₄ ve giriş süresi τ olan, T_min'de ortalanmış simetrik bir yamuk, doğrusal bir taban üzerinde; altı parametre en küçük karelerle uydurulur.
 
-## Efemeris ve O-C
+## Efemeris ve O-C {#methods-ephemeris-o-c}
 Minimumlar E = round((T − T₀) / P) devir numarasıyla numaralanır ve şu modelle uydurulur:
 
     doğrusal:   T(E) = T₀ + P E
@@ -73,7 +73,7 @@ Minimumlar E = round((T − T₀) / P) devir numarasıyla numaralanır ve şu mo
 
 Her minimum 1/σ² ile ağırlıklandırılır. Fit ortadaki devir çevresinde yapılır (T₀ ile P'nin en az bağımlı olduğu yer) ve verdiğiniz devre geri taşınır. O − C = T_gözlenen − T₀ − P E. dP/dt saniye/yıl olarak gösterilir.
 
-## Üçüncü cisim ve aps hareketi
+## Üçüncü cisim ve aps hareketi {#methods-third-body-apsidal-motion}
 **Işık-zaman etkisi** (Irwin 1952, ApJ 116, 211). Örten çift üçüncü bir yıldızla kütle merkezi çevresinde döner; ışık şu kadar erken ya da geç gelir:
 
     τ = A [ (1 − e²) / (1 + e cos ν) · sin(ν + ω) + e sin ω ],     A = a₁₂ sin i / c
@@ -87,7 +87,7 @@ Her minimum 1/σ² ile ağırlıklandırılır. Fit ortadaki devir çevresinde y
 
 Birincil ve ikincil minimumlar ters yönlerde salınır; aps periyodu U = 360° / ω̇ devirdir. e yaklaşık 0,1'in üstündeyse yüksek dereceli terimler önem kazanır.
 
-## Örten çift ışık eğrisi
+## Örten çift ışık eğrisi {#methods-eclipsing-binary-light-curve}
 Kepler yörüngesinde iki küre (EBOP / JKTEBOP'un küresel yaklaşımı, Popper & Etzel 1981, AJ 86, 102; Southworth 2013, A&A 557, A119). Yarıçaplar r₁, r₂ büyük yarı eksen biriminde olmak üzere izdüşüm uzaklığı:
 
     d = (1 − e²) / (1 + e cos ν) · √(1 − sin² i sin²(ν + ω))
@@ -98,7 +98,7 @@ Her yıldızın ikinci dereceden kenar kararması vardır, I(μ) = I₀ [1 − u
 
 Model akısı F = (1 − L₃)(F₁ + F₂ − ΔF)/(F₁ + F₂) + L₃ (örtme dışında 1; üçüncü ışık L₃ toplamın bir kesri) en küçük karelerle uydurulur (istenirse MCMC ile). Yansıma, gelgit bozulması ve kütle çekim kararması modellenmez; yakın çiftler için PHOEBE ya da WD gerekir (dışa aktarma düğmeleri).
 
-## Dikine hızlar ve tayfsal yörüngeler
+## Dikine hızlar ve tayfsal yörüngeler {#methods-radial-velocities-spectroscopic-orbits}
 **Çapraz ilişki** (Tonry & Davis 1979, AJ 84, 1511). Tayf ve şablon bir ln λ ızgarasındadır; orada hız bir kaymadır: Δln λ = v/c. Normalleştirilmiş ilişki C(v) hızda tepe yapar; en yüksek üç noktadan geçen parabol hızı verir; hata Zucker'a (2003, MNRAS 342, 1291) göre:
 
     σᵥ² = −[N · C''/C · C² / (1 − C²)]⁻¹
@@ -122,7 +122,7 @@ parametre olarak √e cos ω ve √e sin ω ile en küçük karelerle uydurulur 
 
 Işık eğrisinin eğimi ve yarıçaplarıyla: kütleler, yarıçaplar R = r · a ve log g, her girdinin aynı rastgele çekilişlerinden (JKTABSDIM'in yaptığı gibi); böylece hatalar bağımlılıklarıyla birlikte yayılır.
 
-## Görsel çift yörüngesi
+## Görsel çift yörüngesi {#methods-visual-binary-orbit}
 Thiele–Innes biçimi (Heintz 1978, Double Stars). Kepler denkleminden dış merkez ayrıklığı E ile:
 
     X = cos E − e,    Y = √(1 − e²) sin E
@@ -130,7 +130,7 @@ Thiele–Innes biçimi (Heintz 1978, Double Stars). Kepler denkleminden dış me
 
 Sabit P, T ve e için A, B, F, G sabitleri doğrusaldır: tam çözülür. P, T, e bir ızgarada aranır, sonra yedi öğenin hepsi Levenberg–Marquardt ile birlikte inceltilir. Campbell öğeleri a, i, Ω, ω, A, B, F, G'den çıkar; toplam kütle Kepler'in üçüncü yasasından: M₁ + M₂ = a³ / (ϖ³ P²) (a ve paralaks ϖ yay saniyesi, P yıl).
 
-## Tayflar: dalga boyu, atmosfer, tellürik, ayrıştırma
+## Tayflar: dalga boyu, atmosfer, tellürik, ayrıştırma {#methods-spectra-wavelength-atmosphere-telluric}
 **Dalga boyu çözümü**: ark çizgileri Gauss fitiyle ortalanır; λ(x) = Σ cₖ xᵏ sigma kırpmayla uydurulur, IRAF identify'ın yaptığı gibi. Eşel tayflarda ızgara denklemi m·λ'yı piksel x ve mertebe (order) m'nin düzgün bir fonksiyonu yapar; tek bir yüzey Σ cᵢⱼ xⁱ mʲ bütün mertebeleri kapsar (IRAF ecidentify; Baranne ve ark. 1996).
 
 **Atmosfer parametreleri** (iSpec / SME yaklaşımı, önceden hesaplanmış bir ızgarada): gözlenen tayf şöyle modellenir:
@@ -143,7 +143,7 @@ S, PHOENIX ızgarasında aradeğerlenir (Husser ve ark. 2013); Pₖ her dalga bo
 
 **Ayrıştırma (disentangling)** (González & Levato 2006, A&A 448, 283): her yıldızın tayfı, öteki yıldızın o anki tayfı çıkarıldıktan sonra kendi durgun çerçevesine kaydırılmış gözlenen tayfların ortalamasıdır; yakınsayana kadar tekrarlanır.
 
-## Fotometri
+## Fotometri {#methods-photometry}
 **Açıklık fotometrisi**: gökyüzü bir halkanın sigma kırpılmış düzeyidir; F = açıklıktaki toplam − N_açk · gök; hatası, gökyüzü gürültüsü σ_gök halkada ölçülen CCD denklemidir (Merline & Howell 1995, Exp. Astron. 6, 163):
 
     σ_F² = F / kazanç + N_açk (1 + N_açk / N_gök) σ_gök²

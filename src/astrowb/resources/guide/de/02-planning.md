@@ -3,16 +3,16 @@ Das Fenster **Planung** zeigt, wann Ihre Ziele heute Nacht beobachtbar sind und 
 
 ![Das Fenster Planung](images/de/window-plan.jpg)
 
-## Ihr Standort
+## Ihr Standort {#planning-your-site}
 Geben Sie **Breite** (Grad, Nord positiv), **Länge** (Grad, Ost positiv) und **Höhe** (Meter) der Sternwarte ein. Die Werte werden gespeichert. Sie dienen auch der baryzentrischen Korrektur von Radialgeschwindigkeiten und den Dämmerungszeiten.
 
 Geben Sie in **Standort** den Namen einer bekannten Sternwarte ein (zum Beispiel *TUG*, *Roque de los Muchachos*, *Kitt Peak*): beim Tippen erscheint eine Liste von etwa 380 Sternwarten, und die Auswahl trägt Breite, Länge und Höhe ein. Die Liste stammt aus astropy und funktioniert offline.
 
-## Die Nacht und die Höhengrenze
+## Die Nacht und die Höhengrenze {#planning-night-altitude-limit}
 - **Nacht beginnend am:** das Datum des Abends, an dem die Nacht beginnt.
 - **Niedrigste Höhe (°):** Darunter gilt ein Ziel als nicht beobachtbar (Bäume, Gebäude, dicke Luft). Üblich sind 20–30°.
 
-## Ziele hinzufügen
+## Ziele hinzufügen {#planning-adding-targets}
 Geben Sie einen **Namen** ein (wird in SIMBAD nachgeschlagen, z. B. `HAT-P-32`, `V523 Cas`, `M 42`) oder **Koordinaten** (`02:04:10 +46:41:16` oder Dezimalgrad) und drücken Sie **Hinzufügen**.
 
 **Mit Ephemeride hinzufügen** sucht den Namen im AAVSO-Katalog **VSX** (Veränderliche) oder im **NASA Exoplanet Archive** (Planeten wie `HAT-P-32 b`) und füllt Koordinaten, Periode, Epoche und Dauer aus, sodass die Bedeckungen oder Transits der Nacht sofort erscheinen. Bei Bedeckungsveränderlichen ist die Epoche das VSX-Hauptminimum (HJD; weicht von BJD um Sekunden ab) und *Sekundär* ist angekreuzt; bei Pulsationsveränderlichen wird nur die Periode gezeigt. Braucht Internet.
@@ -20,7 +20,7 @@ Geben Sie einen **Namen** ein (wird in SIMBAD nachgeschlagen, z. B. `HAT-P-32`, 
 - Einmal gefundene Namen werden zwischengespeichert, sodass die Planung später auch ohne Internet funktioniert.
 - **Auswahl entfernen** löscht Zeilen aus der Tabelle.
 
-## Bedeckungen und Transits
+## Bedeckungen und Transits {#planning-eclipses-transits}
 Für Bedeckungsveränderliche und Exoplaneten füllen Sie die Spalten der Zieltabelle aus:
 
 - **T0 (BJD):** eine Zeit des Hauptminimums oder der Transitmitte (BJD_TDB).
@@ -29,7 +29,7 @@ Für Bedeckungsveränderliche und Exoplaneten füllen Sie die Spalten der Zielta
 
 Der Plan listet dann jedes Ereignis der Nacht mit Beginn, Mitte und Ende in UTC und ob es angesichts von Höhengrenze und Dunkelheit **beobachtbar** ist (*ja*, *teilweise* oder gar nicht).
 
-## Das Diagramm lesen
+## Das Diagramm lesen {#planning-reading-plot}
 **Die Nacht planen** zeichnet die Höhe jedes Ziels über der UTC-Zeit für die ganze Nacht, mit der Ortszeit auf der oberen Achse (**Ortszeit (Stunden zu UTC)**: *Automatisch* nimmt die Zeitzone dieses Computers an diesem Datum, Sommerzeit eingeschlossen; für eine Sternwarte anderswo den Unterschied eingeben, z. B. 1 für La Palma im Sommer). Die Texte des Diagramms sind unabhängig von der Sprache der Oberfläche englisch, damit es so in einen Artikel oder Bericht passt:
 
 - die blaue Schattierung wird von Sonnenuntergang über bürgerliche (−6°), nautische (−12°) und astronomische (−18°) Dämmerung schrittweise dunkler; der dunkelste Teil ist die astronomische Nacht;
@@ -40,7 +40,7 @@ Der Plan listet dann jedes Ereignis der Nacht mit Beginn, Mitte und Ende in UTC 
 
 Die Zeile unter dem Diagramm nennt Beginn und Ende der astronomischen Nacht in UTC und in Ortszeit und die Zahl der Ereignisse; die Ereignistabelle gibt die Mitte jedes Ereignisses auch in Ortszeit an. In Polnähe gibt es im Sommer womöglich **keine astronomische Nacht**.
 
-## Vom Plan zur Beobachtung
+## Vom Plan zur Beobachtung {#planning-plan-observing}
 **Zeitplan erstellen** (nach *Die Nacht planen*) macht aus der Nacht ein Programm für mehrere Ziele: zuerst jede beobachtbare Bedeckung oder jeder Transit mit 30 Minuten Grundlinie davor und danach (überschneiden sich zwei, gewinnt das Ziel, das in Ihrer Liste weiter oben steht); der Rest der dunklen Zeit in Blöcken von einer Stunde, jeder für das Ziel, das am höchsten über Ihrer Höhengrenze bleibt. **An das Fenster Beobachten senden** übergibt jeden Block mit Beginn und Ende an die Sequenz; die dort eingestellten Belichtungszeilen gelten für jedes Ziel.
 
 Verwenden Sie die Zeiten des Plans als **Start** und **Ende** einer Sequenz im Fenster Beobachten (oder tippen Sie `dusk` und `dawn`), oder beginnen Sie mit einer Automatisierungsvorlage wie *Nacht eines Bedeckungsveränderlichen* oder *Exoplaneten-Transit*.

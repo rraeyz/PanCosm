@@ -3,7 +3,7 @@
 
 ![Kalibrasyon penceresi](images/tr/window-calibrate.jpg)
 
-## 1. Ham kareleri taramak
+## 1. Ham kareleri taramak {#calibration-1-scan-raw-frames}
 **İki klasör, bir gecenin genellikle tutulduğu gibi:** light karelerini (verinizi) **Light'lar** alanına, bias, dark ve flat karelerini **BDF** alanına verin. Light klasöründeki her kare, adı ne olursa olsun light'tır — bilim kareleri genellikle yıldızın adıyla kaydedilir (`nsvs01286630_017.fits`); yalnızca başlığı bias, dark ya da flat diyen kare öyle sayılır. BDF klasöründekiler bias, dark ve flat olarak ayrılır. Hepsi tek klasörde mi? Onu yalnızca **BDF** olarak verin, **Light'lar**ı boş bırakın: kareler o zaman aşağıdaki gibi başlığa ve ada göre ayrılır.
 
 Ham karelerin bulunduğu klasörü seçin (light, bias, dark ve flat karışık olabilir, alt klasörler dahil) ve **Tara**'ya basın. Tablo her dosyayı **türü**, **pozu**, **filtresi**, **sıcaklığı** ve **binning**'iyle listeler.
@@ -18,13 +18,13 @@ Alt klasörler de okunur. Light'lar ve kalibrasyon kareleri ayrı klasörlerdeys
 
 Arşivlerden gelen ham kareler olduğu gibi kullanılır: ESO'nun `.fits.Z` dosyaları (Unix compress) fits_from_raw klasörüne açılır, ESO kare türleri (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT) tanınır ve bir tayfçekerin grizması ya da ağı filtrenin parçası sayılır; böylece başka bir grizmayla alınmış flat asla kullanılmaz.
 
-## Master'lar nasıl eşlenir
+## Master'lar nasıl eşlenir {#calibration-how-masters-matched}
 - **Bias:** aynı binning ve boyut.
 - **Dark:** aynı binning, aynı poz süresi ve 2 °C içinde sıcaklık. Başka pozdaki bir dark, light'ın pozuna yalnızca bias kareleri varsa ölçeklenir (bias çıkarılınca karanlık akım süreyle orantılıdır).
 - **Flat:** aynı filtre ve binning; flat'lerden bias/dark çıkarılır ve medyanı 1 olacak şekilde normalleştirilir.
 - Her master, karelerinin sigma kırpmalı ortalamasıdır; **Reddetme (sigma)** (varsayılan 3) yalnızca bazı karelerde görünen uyduları, kozmik ışınları ve sıcak pikselleri atar.
 
-## 2. Çıktı klasörü ve seçenekler
+## 2. Çıktı klasörü ve seçenekler {#calibration-2-output-folder-options}
 Master karelerin ve kalibre görüntülerin yazılacağı yeri seçin. Ham dosyalar hiç değiştirilmez.
 
 - **Light karelerden kozmik ışınları temizle** tek piksellik izleri L.A.Cosmic yöntemiyle (astroscrappy) temizler. Uzun pozlarda kullanın; kısa fotometrik serilerde gerekmez.
@@ -36,13 +36,13 @@ Master karelerin ve kalibre görüntülerin yazılacağı yeri seçin. Ham dosya
 
 - **Tayf: flat'e bölme:** eşel ve uzun yarık kareleri için işaretleyin. Bunların flat'i order/mertebeler arasında sıfıra yakındır, ona bölmek gürültüyü patlatır (IRAF kullanıcıları böyle bir flat'i önce apflatten / apnormalize ile normalize eder). Bias ve dark yine çıkarılır; master flat yine yapılır — onu Tayf penceresine verin; mertebeleri onun üzerinde izler ve blaze'ine böler. Kusur haritası o zaman yalnızca dark'tan çıkar.
 
-## 3. Kalibre et
+## 3. Kalibre et {#calibration-3-calibrate}
 **Kalibre et**'e basın. Görev arka planda çalışır; bitince kaç görüntünün kalibre edildiğini ve kaç master yazıldığını görürsünüz. Her kalibre görüntü hangi master'ların kullanıldığını başlığına yazar (`CALB`, `CALD`, `CALF`); her zaman kontrol edebilirsiniz. Ardından **4. Fotometri penceresinde ölç →** kalibre edilmiş light'ları oraya gönderir ve pencereyi açar (birkaç filtre varsa birini seçersiniz: ışık eğrisi tek filtrede ölçülür). Görüntüler penceresinin sağ tık menüsünde de aynısı vardır: **Açık görüntüleri Fotometriye gönder**.
 
-## 4. Hizala ve birleştir
+## 4. Hizala ve birleştir {#calibration-4-align-stack}
 **Hizala ve birleştir…** kalibre görüntüleri yıldızlara göre hizalar (kayma çapraz korelasyonla bulunur) ve sigma kırpmalı ortalamayla tek derin görüntüde birleştirir. Dosyanın ikinci uzantısına kaydedilen kapsama haritası her piksele kaç karenin katkı verdiğini söyler. Yalnızca aynı filtredeki kareleri birleştirin. Yığma isteğe bağlıdır ve **ışık eğrisi için değildir**: yığının tek bir zamanı vardır, fotometri ise her görüntüyü ayrı ölçer. Derin bir görüntü, sönük cisimlerin astrometrisi ya da renkli görüntü için yığın.
 
-## Birleştirme seçenekleri
+## Birleştirme seçenekleri {#calibration-stacking-options}
 Birleştir düğmesinin yanındaki seçenekler Siril, PixInsight ya da MaxIm DL'deki gibi çalışır:
 
 - **Birleştir:** *ortalama* (en az gürültü), *medyan* (sağlam, yaklaşık %25 daha gürültülü) ya da *toplam* (ortalama çarpı kare sayısı; bir karenin örtmediği yerde bile düzey uzun bir pozun düzeyidir).
@@ -54,16 +54,16 @@ Birleştir düğmesinin yanındaki seçenekler Siril, PixInsight ya da MaxIm DL'
 
 Birleştirilmiş görüntünün başlığı seçimleri (STACKMTH, STACKNRM, STACKWGT) ve her karenin ağırlığını kaydeder.
 
-## Drizzle
+## Drizzle {#calibration-drizzle}
 Az örneklenmiş görüntüler (yıldızlar bir iki piksel genişliğinde) kareler arasında küçük dither'larla çekildiyse, birleştirmeden önce **2× ince ızgaraya drizzle**'ı işaretleyin. Her piksel boyutunun %60'ına küçültülüp hizalanmış konumunda iki kat sık bir ızgaraya bırakılır (Fruchter & Hook 2002); sekiz ya da daha çok dither'lı karede yıldızlar normal birleştirmeden daha keskin çıkar. Akı korunur, gök koordinatları (WCS) ölçeklenir ve her çıktı pikselinin ağırlığı ikinci uzantıya yazılır. Önce kalibrasyonda kozmik ışınları temizleyin: drizzle aykırı değerleri ayıklamaz.
 
-## Renkli kameralar ve DSLR ham dosyaları
+## Renkli kameralar ve DSLR ham dosyaları {#calibration-colour-cameras-dslr-raw}
 - Seçilen klasördeki **kamera ham dosyaları** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) **Tara**'ya basınca dönüştürülür: her biri `fits_from_raw` alt klasöründe bir FITS dosyası olur; algılayıcı değerlerine dokunulmaz (beyaz dengesi, gama, ara değerleme yok). Dosyaları `bias`, `darks`, `flats`, `lights` gibi adlı klasörlere koyun: klasör adı kare türünü verir. Poz süresi, ISO, siyah ve beyaz düzeyi dosyadan okunur. Fujifilm X-Trans ve Foveon algılayıcıları 2 × 2 Bayer değildir ve reddedilir.
 - **Zaman**: DSLR kendi saatini yazar; bu çoğu zaman yerel saattir ve dakikalarca kaymış olabilir. Taramadan önce **DSLR saati − UTC** değerini girin (ör. Türkiye saatindeki bir saat için 3) ve kamera saatini bir zaman sinyaliyle karşılaştırın: zaman hatası doğrudan minimumlara ve O−C'ye geçer. Asıl okuma DATE-CAM olarak saklanır. Siz girene kadar bilgisayarın kendi UTC farkı kullanılır (kamera bilgisayarla aynı yerel saatteyse doğrudur). Değer hatırlanır ve hangi pencerede açılırsa açılsın (Fotometri, Görüntüler, Değişken yıldız arama…) her kamera ham dosyasına ve telefon resmine uygulanır; Fotometri penceresi karelerinin hangi farkla okunduğunu gösterir.
 - **Renkli (tek çekimde renkli) kameralar** BAYERPAT yazar; DSLR dosyaları bunu ham dosyadan alır. **Renkli kamera: her renk ayrı görüntü** seçiliyken (öntanımlı) mozaik olduğu gibi kalibre edilir, sonra her ışık karesi yarı boyutlu üç görüntü olarak yazılır: `_R`, `_G`, `_B` (filtreler TR, TG, TB). Her 2 × 2 hücre için tek değer vardır, yeşil iki yeşil pikselin ortalamasıdır; pikselleri karıştırıp yıldız profillerini değiştirecek ara değerleme yapılmaz. Sıcak ve ölü pikseller aynı renkten piksellerle onarılır. Bu, AAVSO DSLR Gözlem El Kitabı'nın yöntemidir; yeşil kanal (TG) Johnson V'ye en yakın olandır, bu yüzden Fotometri penceresine o gider.
 - **Yığınlar filtre başına yapılır**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (tek renkli kameralarda da her filtre için bir tane). Renkli resim için Görüntüler penceresinde **Renk → Üç filtreden renkli görüntü…** ile birleştirin.
 
-## İpuçları
+## İpuçları {#calibration-tips}
 - Light'larla aynı sıcaklıkta en az 20 bias ve 10–20 dark alın; filtre başına 10–20 flat, ortalaması tam kuyu kapasitesinin yarısı civarında olsun.
 - Flat'lerle light'lar arasında odaklayıcıyı oynatmayın, kamerayı döndürmeyin: toz halkaları onlarla birlikte kayar.
 - *Gece sonu kalibrasyonu ve yığma* otomasyonu tarama, kalibrasyon ve yığmayı tek seferde yapar.

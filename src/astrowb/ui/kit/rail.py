@@ -2,7 +2,7 @@
 
     rail = StageRail([("images", self.tr("Images")), ("stars", self.tr("Stars")), ("measure", self.tr("Measure"))])
     rail.stage_chosen.connect(show_stage); rail.set_state("images", "done"); rail.set_current("stars")
-    panel = StagePanel(self.tr("Stars"), help="photometry/stars")
+    panel = StagePanel(self.tr("Stars"), help="photometry-choosing-images-stars")
     panel.add(...); panel.set_primary(Button(self.tr("Measure"), "primary")); panel.set_status("…")
 
 The rail is 48 px wide with numbers and a state mark (○ empty, ● current, ✓ done, ! attention) and widens to

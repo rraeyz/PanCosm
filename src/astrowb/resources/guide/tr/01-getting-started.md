@@ -3,7 +3,7 @@ Uygulama gözlem işinin tamamını tek pencerede toplar: hedef seç, geceyi pla
 
 Her çalışma penceresinin ve sekmesinin en üstünde, sıradaki adımı söyleyen katlanmış bir **İş akışı** satırı vardır. Üzerine tıklayınca olağan iş sırası açılır (varsa IRAF görevi parantez içinde): her adım bitti (✓), atlandı (–) ya da sıradaki (▶) olarak işaretli, altında da sıradaki adım için ne yapılacağı. Bu bir rehberdir, asla kilit değildir: verinizin bulunduğu adımdan başlayın — zaten çıkarılmış bir tayfa yalnızca dalga boyları gerekir, arşivden gelen bir ışık eğrisine fotometri gerekmez — ve verinizin gerektirmediği adımları atlayın.
 
-## İlk açılış
+## İlk açılış {#getting-started-first-start}
 Uygulama ilk kez açıldığında İngilizce kısa bir karşılama penceresi üç seçim sorar:
 
 - **Language (Dil)** — arayüz dili. Hemen uygulanır; sonradan **Ayarlar → Dil** menüsünden değiştirilebilir.
@@ -12,7 +12,7 @@ Uygulama ilk kez açıldığında İngilizce kısa bir karşılama penceresi ü�
 
 **Start (Başla)** düğmesine basın. Seçimler kaydedilir ve bir daha sorulmaz. Ardından bir dakikalık **kısa tur** gelir; atlanabilir ve **Yardım → Kısa tur** ile tekrar açılabilir.
 
-## İlk geceniz (alıştırma verisi)
+## İlk geceniz (alıştırma verisi) {#getting-started-your-first-night-practice}
 Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir örten çiftin minimum zamanına kadar.
 
 1. **Yardım → İlk gece için alıştırma verisi…** ve boş bir klasör seçin. Bir `raw` klasörü oluşur: birincil örtmeden geçen bir çiftin 7 bias, 7 dark (60 sn), 7 V flat ve 48 V ışık karesi; doğru cevaplar da `truth.json` dosyasında.
@@ -31,14 +31,14 @@ Cevabı bilinen benzetim verisiyle eksiksiz bir alıştırma: ham karelerden bir
 
 6. Daha ileri gitmek için: minimumu kendi referans T0 ve periyodunuzla **O-C** sekmesine yapıştırın, ışık eğrisini dışa aktarın (**CSV olarak dışa aktar…**) ya da **Modeller** penceresinde fit edin.
 
-## Pencere
+## Pencere {#getting-started-window}
 - **Alan blokları:** her alan, bir gözlem gecesinin sırasıyla, kendi penceresinde açılır; her pencerenin **Pencere** menüsü de onları Başlangıç, Proje ve bu Kılavuz ile birlikte listeler.
 - **Görevler paneli (alt):** her uzun iş (kalibrasyon, fotometri, fit, tayf…) arka planda kendi sürecinde çalışır. Panel ilerlemesini ve durumunu gösterir (sırada, çalışıyor, bitti, başarısız, iptal). Görevler çalışırken çalışmaya devam edebilirsiniz; çöken bir görev pencereyi düşürmez.
 - **Durum çubuğu:** görüntü açıkken farenin altındaki pikselin değeri ve gök koordinatları; görevler çalışırken ilerleme çubuğu.
 - **Menüler:** Dosya (projeler, FITS), Görünüm (yakınlaştırma ve görüntü germe), Görüntü (plaka çözümü, işlemler), Eklentiler, Ayarlar ve Yardım.
 - **Geri al ve ileri al:** Düzen → Geri al (Ctrl+Z) penceredeki son değişikliği geri alır — işaretlenen ya da kaldırılan bir yıldız, silinen noktalar, bir detrend, atılan aykırı noktalar, bir görüntü işlemi, bir başlık değişikliği, tanımlanan ya da dışlanan bir ark çizgisi — Düzen → İleri al (Ctrl+Y ya da Ctrl+Shift+Z) adım adım yeniden yapar. Menü, adımın adını gösterir. Bir metin alanında Ctrl+Z o alandaki yazmayı geri alır.
 
-## Başlangıç sayfası
+## Başlangıç sayfası {#getting-started-start-page}
 Başlangıç sayfası işin alanlarından oluşan bir menüdür:
 
 - **Kaldığınız yerden devam edin** (devam edilecek bir şey varsa): son projeler ve her alanın son dosyaları; yeniden açmak için birine çift tıklayın.
@@ -46,7 +46,7 @@ Başlangıç sayfası işin alanlarından oluşan bir menüdür:
 - **Ne yapmak istediğinizi seçin:** her alan için bir blok — Planlama, Gözlem, Kalibrasyon, Görüntüler, Fotometri, Işık eğrileri ve periyot, O−C, Tayf, Modeller, Uzaktan algılama, Otomasyon — her birinde ne yaptığını söyleyen bir satır. Tıklayınca alan açılır. Alanlar kendi menüleri, araç çubuğu ve panelleri olan ayrı pencerelere taşınıyor; kendi penceresinde olan bir alan öne getirilir, asla iki kez açılmaz.
 - **Pencere** menüsü: ana pencere ve açık her alan penceresi. **Yardım → Sorun bildir…** geliştiriciye göndermek için tek bir zip hazırlar (hata kaydı, sürüm, sistem, ayarlar, son adımlar; veri dosyası ve klasör adı yok). Bir alan penceresinde **Görünüm → Yazıyı büyüt / küçült / Normal yazı boyutu** (ana pencerede **Ayarlar → Yazı boyutu**) her penceredeki yazıyı büyütür ya da küçültür (Ctrl+Shift++ / − / 0). Bir alan penceresinin araç çubuğu küçük simgeler gösterir (her birinin adı ipucunda); **Görünüm → Araç çubuğu yazıları** adları yanlarına yazar. Her alan penceresinde ayrıca **Düzen → Kopyala** ve **Ayarlar** (dil, görünüm, işlem aygıtı, yazı boyutu), **Yardım**'da da tur, **Güncellemeleri denetle…** ve **Hakkında** vardır.
 
-## Projeler
+## Projeler {#getting-started-projects}
 Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı ve çalıştırdığınız her adımı kaydeder: hangi adım, ayarları, ne zaman başladığı, başarılı olup olmadığı ve sonuçları, kullanılan kütüphanelerin sürümleriyle birlikte. Böylece iş tekrar üretilebilir: aylar sonra bir sayının nasıl elde edildiğini tam olarak görebilirsiniz.
 
 - **Dosya → Yeni proje…** dosyayı oluşturur; **Dosya → Proje aç…** önceki işe devam eder.
@@ -55,12 +55,12 @@ Proje, uzantısı `.astroproj` olan tek bir dosyadır. Eklediğiniz her dosyayı
 - Geçmişte bir satır seçince o çalıştırmanın her şeyi görünür: girdileri, ayarları, sonuçları (ya da hatası) ve kütüphane sürümleri. **Aynı girdi ve ayarlarla yeniden çalıştır** onu birebir tekrarlar; tekrar yeni bir çalıştırma olarak kaydedilir.
 - Proje açmadan da çalışabilirsiniz; o zaman hiçbir şey kaydedilmez.
 
-## Ayarlar
+## Ayarlar {#getting-started-settings}
 - **Temel ya da Uzman** (Başlangıç sayfasında ya da **Ayarlar → Uzman modu**): Temel modda az değiştirilen seçenekler (diğer kalibrasyon ve yığma seçenekleri, fotometrinin seeing / PSF / sintilasyon seçenekleri, diğer araçlar) katlıdır — tek tıkla açılır, hiçbir şey kaldırılmaz — ve Tayf penceresi sekmelerinin sırasını gösterir; Uzman modda her bölüm açıktır.
 - **Ayarlar → Dil:** İngilizce, Türkçe, Almanca ya da İspanyolca. Bütün metinlerin değişmesi için yeniden başlatmak gerekebilir.
 - **Ayarlar → Görünüm:** Karanlık (gece) ya da Aydınlık. Ekrandaki grafikler yeni renklere geçer. Her grafiğin araç çubuğundaki **Yayın şekli…** görünüm ne olursa olsun onu beyaz zemine siyah olarak kaydeder (PDF, SVG, EPS ya da 300 dpi PNG); her tabloya sağ tıklayıp CSV ya da LaTeX olarak dışa aktarabilirsiniz.
 - **Ayarlar → İşlem birimi:** Otomatik, Yalnız işlemci ya da GPU. Durum çubuğu hangi birimin kullanıldığını gösterir. GPU'yu denetlemek için uygulamayı `--benchmark` ile çalıştırın: bir GPU bulunup bulunmadığını söyler, her GPU işini (yığınlama, k-means sınıfları, ters evrişim, BLS ve PDM dönem aramaları) iki birimde de çalıştırır, sonuçların aynı olup olmadığını ve her birinin ne kadar sürdüğünü yazar (ayarlar klasörüne `gpu-check.txt` olarak da kaydedilir).
 - Ayarlar kullanıcı ayar klasörünüzde küçük bir JSON dosyasında durur; eklentiler ve kendi otomasyonlarınız da onun yanındadır.
 
-## Ekran kartı (GPU)
+## Ekran kartı (GPU) {#getting-started-graphics-card-gpu}
 Ağır dizi hesapları (ör. sigma kırpmalı yığma) Vulkan, Metal ya da DirectX 12 üzerinden ekran kartında çalışabilir. Her GPU hesabının aynı sonucu veren bir işlemci (CPU) karşılığı vardır; *Otomatik* kartı yalnızca gerçekten daha hızlıysa kullanır. Kullanılabilir bir sürücü bulunmazsa işlemci kullanılır, başka hiçbir şey değişmez.

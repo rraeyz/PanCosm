@@ -1,7 +1,7 @@
 """A titled group of the component kit that folds (plans/interface.md "The component kit", UI-3), built on the
 existing Collapsible so the interface mode still opens and folds it.
 
-    s = Section(self.tr("Apertures"), help="photometry/apertures", advanced=True)
+    s = Section(self.tr("Apertures"), help="photometry-apertures", advanced=True)
     s.body.addWidget(...)
     s.help_requested.connect(window.show_help)      # the help button asks for the guide at that place (HelpPanel, UI-7)
 """

@@ -3,7 +3,7 @@ Eine **Automatisierung** verkettet Schritte zu Ihrer eigenen Pipeline — „die
 
 ![Das Fenster Automatisierung](images/de/window-automation.jpg)
 
-## Fertige Vorlagen
+## Fertige Vorlagen {#automation-plugins-ready-templates}
 Das Fenster **Automatisierung** listet fertige Vorlagen (markiert mit „Vorlage“) und Ihre eigenen Automatisierungen:
 
 - **Nacht eines Bedeckungsveränderlichen** — eine Sequenz von der Abend- bis zur Morgendämmerung, dann Kalibrierung, Vergleichssterne, Lichtkurve, Minimumszeit (Kwee–van Woerden) und O-C.
@@ -14,15 +14,15 @@ Das Fenster **Automatisierung** listet fertige Vorlagen (markiert mit „Vorlage
 
 Wählen Sie eine aus, um ihre Beschreibung und ihre Schritte zu sehen.
 
-## Eine Automatisierung ausführen
+## Eine Automatisierung ausführen {#automation-plugins-running-automation}
 1. Rechts die **Eingaben** ausfüllen (Ordner und Dateien haben eine Schaltfläche **…**). Gefragt wird nur, was kein Schritt erzeugen kann: zum Beispiel der Ordner mit den Rohaufnahmen und die Zielposition.
 2. **Ausführen** drücken. Jeder Schritt läuft als normale Aufgabe im Aufgabenbereich und wird im Projekt festgehalten; der nächste beginnt, wenn der vorige fertig ist. Die Zeile unter der Schaltfläche zeigt, welcher Schritt läuft.
 3. Am Ende werden darunter die Ergebnisse des letzten Schritts gezeigt (z. B. Minimumszeit und O-C). Schlägt ein Schritt fehl, hält die Automatisierung dort an und zeigt den Fehler.
 
-## Der Beobachtungsteil
+## Der Beobachtungsteil {#automation-plugins-observing-part}
 Vorlagen mit einer Beobachtungssequenz haben **Zum Fenster Beobachten**: Das trägt Ziel, Start und Ende (z. B. dusk und dawn) und die Belichtungszeilen ein. Ergänzen Sie die Koordinaten, prüfen Sie die Belichtungszeiten und starten Sie dort. Kreuzen Sie vor dem Senden **Nach der Sequenz auswerten** an: Endet die Sequenz (auch wenn das Wetter sie vorzeitig beendet, sofern Aufnahmen entstanden sind), läuft die Automatisierung von selbst auf dem Ordner der Sequenz. Bei einem entfernten Observatorium werden die Aufnahmen zuerst auf diesen Rechner kopiert und dann ausgewertet.
 
-## Eigene Automatisierungen bauen
+## Eigene Automatisierungen bauen {#automation-plugins-building-your-own}
 1. **Neu** beginnt eine leere Automatisierung (oder beginnen Sie mit einer Vorlage und ändern Sie sie).
 2. Einen Schritt in der Liste unter **Schritte, der Reihe nach** wählen und **Schritt hinzufügen** drücken. **Entfernen**, **Auf** und **Ab** ändern die Reihenfolge.
 3. Einen Schritt auswählen, um seine **Einstellungen** zu sehen:
@@ -34,7 +34,7 @@ Vorlagen mit einer Beobachtungssequenz haben **Zum Fenster Beobachten**: Das tr�
 
 Automatisierungen sind einfache JSON-Dateien und lassen sich daher weitergeben: Kopieren Sie die Datei in den Ordner `automations` eines anderen Benutzers.
 
-## Plugins
+## Plugins {#automation-plugins-plugins}
 **Was sie sind:** Ein Plugin ist ein kleines Zusatzwerkzeug, das Sie selbst zur Anwendung hinzufügen — für eine Rechnung, die die Anwendung nicht hat, oder die nur Ihre Gruppe braucht. Es ist eine einzige Python-Datei. Liegt sie im Plugin-Ordner, erscheint sie im Menü **Plugins**, öffnet ein kleines Formular für ihre Eingaben, läuft wie jeder eingebaute Schritt (im Hintergrund, mit Fortschritt und Abbrechen, im Projekt protokolliert) und kann als Schritt einer Automatisierung dienen.
 
 **Zum Ausprobieren müssen Sie nicht programmieren.** **Plugins → Beispiel-Plugins installieren** fügt drei fertige hinzu:
@@ -44,7 +44,7 @@ Automatisierungen sind einfache JSON-Dateien und lassen sich daher weitergeben: 
 
 Wählen Sie eines im Menü **Plugins**, füllen Sie das Formular aus und drücken Sie OK; das Ergebnis öffnet sich in einem Fenster. Ein fehlerhaftes Plugin wird mit Grund als „Laden fehlgeschlagen“ gelistet; es hält die Anwendung nie an. Plugins laufen mit Ihren Rechten wie jedes installierte Programm: nur vertrauenswürdige Dateien verwenden.
 
-## Ein eigenes Plugin schreiben
+## Ein eigenes Plugin schreiben {#automation-plugins-writing-your-own-plugin}
 Öffnen Sie **Plugins → Plugin-Ordner öffnen**, kopieren Sie ein Beispiel, benennen Sie es um und ändern Sie es. So sieht das ganze Himmels-Beispiel aus:
 
 ```python

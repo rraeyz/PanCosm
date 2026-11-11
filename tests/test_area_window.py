@@ -294,7 +294,7 @@ def test_area_window_anatomy(qtbot, tmp_path):
 
     win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("main view"))
     qtbot.addWidget(win)
-    win.set_stages([Stage(k, k.title(), QLabel(k), help=f"demo/{k}") for k in ("images", "stars", "measure")])
+    win.set_stages([Stage(k, k.title(), QLabel(k), help=f"demo-{k}") for k in ("images", "stars", "measure")])
     win.set_inspector(QLabel("details"))
     win.add_result_tab("plot", "Plot", QLabel("plot"))
     win.add_result_tab("table", "Table", QLabel("table"))
@@ -315,8 +315,8 @@ def test_area_window_anatomy(qtbot, tmp_path):
     assert all(d.isVisible() for d in win._results())
     asked = []
     win.help_requested.connect(asked.append)
-    win.stage_panels["stars"].help_requested.emit("demo/stars")
-    assert asked == ["demo"]
+    win.stage_panels["stars"].help_requested.emit("photometry-apertures")
+    assert asked == ["photometry-apertures"]
 
 
 def test_toolbar_right_end_finds_actions(qtbot, tmp_path):

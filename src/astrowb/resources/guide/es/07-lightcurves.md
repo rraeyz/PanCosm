@@ -5,7 +5,7 @@ Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de pe
 
 ![La ventana O−C](images/es/window-oc.jpg)
 
-## Búsqueda de períodos
+## Búsqueda de períodos {#lightcurves-period-search}
 La curva de luz medida en la ventana Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
 
 - **Lomb–Scargle** — ajusta una onda sinusoidal en cada período de prueba y elige la que explica la mayor parte de la variación. Para variaciones sinusoidales: estrellas pulsantes, rotación y manchas.
@@ -23,7 +23,7 @@ Fije el **Período más corto** y el **Período más largo** (el más largo es, 
 
 **Intervalos de fase** dibuja la curva media sobre los puntos plegados. **Editar la curva de luz:** *Quitar valores atípicos (σ)*, *Agrupar en tiempo (min)*, *Borrar puntos con un clic* (luego haga clic en un punto de la gráfica), *Flujo ↔ magnitud* y *Deshacer ediciones*. La búsqueda de periodo y el análisis de frecuencias usan la curva editada. *Quitar valores atípicos* compara cada punto con sus vecinos en el tiempo (y, una vez hallado un periodo, en la curva plegada), así que los eclipses y las pulsaciones se conservan. **Errores:** si la curva de luz los tiene (de la ventana Fotometría, de las descargas de TESS / Kepler / ZTF / AAVSO o de una tercera columna del CSV), se dibujan como barras de error, siguen cada edición (puntos atípicos, agrupado —el error de cada media—, puntos borrados, flujo ↔ magnitud) y ponderan las búsquedas Lomb–Scargle y BLS con 1/σ²; **Guardar** los escribe como tercera columna.
 
-## Análisis de frecuencias
+## Análisis de frecuencias {#lightcurves-frequency-analysis}
 Para estrellas pulsantes con varios modos (δ Scuti, γ Dor, β Cep), como Period04. Indique la **frecuencia máxima** (ciclos por día) y pulse **Analizar frecuencias**:
 
 1. Se calcula el espectro de amplitud (transformada de Fourier de Deeming para muestreo irregular).
@@ -35,7 +35,7 @@ La tabla da cada frecuencia, periodo, amplitud y fase con sus errores (Montgomer
 
 Los **tiempos de máximo** se miden en cada ciclo cubierto (parábola alrededor de cada máximo de la curva ajustada); marque *Los valores son magnitudes* si la curva está en magnitudes. **Enviar los máximos al diagrama O-C** los añade a la lista O-C.
 
-## Diagrama O-C (la ventana O−C)
+## Diagrama O-C (la ventana O−C) {#lightcurves-o-c-diagram-o}
 El O-C (observado menos calculado) muestra cómo se apartan los instantes de mínimo de un período constante.
 
 1. Escriba o pegue los **instantes de mínimo**, uno por línea: `tiempo [error] [I/II] [fuente]` — p. ej. `2459876.43215 0.00021 I TESS`. O **Cargar archivo…**. Tiempos en BJD o HJD; no los mezcle.
@@ -45,12 +45,12 @@ El O-C (observado menos calculado) muestra cómo se apartan los instantes de mí
 
 El resultado da el nuevo T0 y P con sus errores; el ajuste cuadrático da además el ritmo de cambio del período dP/dt en segundos por año, y el χ² reducido. Los mínimos primarios se dibujan como círculos y los secundarios como cuadrados; el gráfico inferior muestra los residuos.
 
-## Tercer cuerpo y movimiento apsidal
+## Tercer cuerpo y movimiento apsidal {#lightcurves-third-body-apsidal-motion}
 - **Tercer cuerpo (tiempo de luz):** la pareja eclipsante orbita el centro de masas con una tercera estrella, por lo que sus eclipses llegan antes y después a lo largo de una órbita (Irwin 1952). El ajuste da el período del tercer cuerpo P3 (años), la semiamplitud A (minutos), la excentricidad e, el argumento ω y la función de masa f(m3), el límite inferior de la masa de la tercera estrella. Necesita al menos 8 mínimos repartidos en más de un P3.
 - **Movimiento apsidal:** en una órbita excéntrica la línea de los ápsides gira, de modo que los mínimos primarios y secundarios oscilan en sentidos opuestos. Dé ambos tipos (I y II); el ajuste da e, ω en la época 0, dω/dE (grados por ciclo) y el período apsidal U (años). El modelo es de primer orden en e (bueno para e ≲ 0,1).
 - **Incertidumbres MCMC:** en estos dos modelos, la casilla ejecuta una cadena de Markov (emcee) tras el ajuste: intervalos del 68 % de cada parámetro, e y ω incluidos, y de f(m3) y U, honestos cuando los parámetros dependen unos de otros (como en OCFit). Tarda unos segundos; más pasos dan errores más estables. Las efemérides lineal y cuadrática son problemas lineales: sus errores de mínimos cuadrados ya son exactos y la casilla está desactivada.
 
-## Leer un diagrama O-C
+## Leer un diagrama O-C {#lightcurves-reading-o-c-diagram}
 - Una recta inclinada: el período es ligeramente incorrecto — el ajuste lo corrige.
 - Una parábola: el período cambia (transferencia de masa, actividad magnética, pérdida de momento angular).
 - Una onda: efecto de tiempo de luz de un tercer cuerpo, o movimiento apsidal (en sistemas excéntricos, los mínimos primarios y secundarios se mueven en sentidos opuestos).

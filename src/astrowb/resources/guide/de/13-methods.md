@@ -1,7 +1,7 @@
 # Mathematik der Methoden
 Jede Anpassung und jede Suche im Programm ist eine veröffentlichte Methode: Das Modell unten ist das, was der Code berechnet, und die genannte Arbeit ist seine Quelle. Nichts davon ist eine für das Programm erfundene Faustregel. Symbole: t Zeit, y der Messwert (Fluss, Helligkeit, Geschwindigkeit), σ sein Fehler, N die Zahl der Punkte.
 
-## Kleinste Quadrate, Fehler und MCMC
+## Kleinste Quadrate, Fehler und MCMC {#methods-least-squares-errors-mcmc}
 Jede Anpassung minimiert die gewichtete Quadratsumme
 
     χ² = Σ [(yᵢ − Modell(tᵢ; p)) / σᵢ]²
@@ -10,7 +10,7 @@ Jede Anpassung minimiert die gewichtete Quadratsumme
 
 **MCMC** (die Kästchen „MCMC-Unsicherheiten“): Der affin-invariante Ensemble-Sampler (Goodman & Weare 2010; emcee, Foreman-Mackey et al. 2013) zieht Parametersätze mit einer Wahrscheinlichkeit ∝ exp(−χ²/2) (flache Priors innerhalb der physikalischen Grenzen), beginnend um die Lösung der kleinsten Quadrate. Die erste Hälfte der Kette wird verworfen; jeder Parameter wird als Median mit dem 16. und 84. Perzentil angegeben. Anders als die Kovarianz stimmt das auch, wenn Parameter voneinander abhängen (Inklination und Radien, e und ω).
 
-## Periodensuche
+## Periodensuche {#methods-period-search}
 Alle vier Methoden probieren ein Frequenzgitter f = 1/P, dessen Schritt die Phase des letzten Punktes um einen festen kleinen Betrag verschiebt, sodass kein Maximum zwischen zwei Testperioden fallen kann; das beste Maximum wird dann auf einem 50-fach feineren Gitter verfeinert.
 
 **Lomb–Scargle** (Lomb 1976, Ap&SS 39, 447; Scargle 1982, ApJ 263, 835; mit freiem Mittelwert und den Fehlern Zechmeister & Kürster 2009, A&A 496, 577). Bei jedem f wird eine Sinuswelle plus Konstante nach kleinsten Quadraten angepasst:
@@ -39,7 +39,7 @@ und ihre erklärte Varianz wird mit der Restvarianz über die F-Statistik der Va
 
 **Aliase.** Die Abtastung (Nächte, Satellitenbahnen) wiederholt sich, daher erzeugt jede wahre Frequenz f auch Maxima bei f ± 1/T_Lücke. Bei Bedeckungsveränderlichen mit gleich tiefen Minima liegt das stärkste Maximum oft bei der halben wahren Periode: die gefaltete Kurve prüfen.
 
-## Frequenzanalyse und Prewhitening
+## Frequenzanalyse und Prewhitening {#methods-frequency-analysis-prewhitening}
 Das Amplitudenspektrum ungleichmäßig abgetasteter Daten (Deeming 1975, Ap&SS 36, 137):
 
     A(f) = (2/N) | Σ (yᵢ − ȳ) exp(−2πi f tᵢ) |
@@ -54,7 +54,7 @@ Die angepasste Kurve wird abgezogen (**Prewhitening**) und die Residuen werden e
 
 **CLEAN** (Roberts, Lehár & Dreher 1987, AJ 93, 968) entfernt die Nebenkeulen des Fensters aus dem Spektrum, jeweils einen Bruchteil (0,2) des höchsten Maximums.
 
-## Minimumszeiten
+## Minimumszeiten {#methods-times-minimum}
 **Kwee & van Woerden** (1956, BAN 12, 327). Die Lichtkurve wird auf ein gleichmäßiges Gitter interpoliert und an einer Testzeit T gespiegelt. S(T), die mittlere quadratische Differenz zwischen absteigendem und aufsteigendem Ast, ist zur Minimumszeit am kleinsten. In der Nähe ist S eine Parabel, S(T) = aT² + bT + c, also
 
     T_min = −b / 2a,     σ² = (4ac − b²) / (4a² (Z − 1))
@@ -65,7 +65,7 @@ mit Z der Zahl unabhängiger Punktpaare. Die klassische Formel unterschätzt den
 
 **Trapez** (für Transits mit flachem Boden): ein symmetrisches Trapez der Tiefe δ, Gesamtdauer T₁₄ und Eintrittsdauer τ, zentriert auf T_min, auf einer geraden Grundlinie; die sechs Parameter werden nach kleinsten Quadraten angepasst.
 
-## Ephemeride und O-C
+## Ephemeride und O-C {#methods-ephemeris-o-c}
 Die Minima werden mit der Epoche E = round((T − T₀) / P) nummeriert und angepasst mit
 
     linear:     T(E) = T₀ + P E
@@ -73,7 +73,7 @@ Die Minima werden mit der Epoche E = round((T − T₀) / P) nummeriert und ange
 
 gewichtet mit 1/σ² jedes Minimums. Die Anpassung erfolgt um die mittlere Epoche (wo T₀ und P am wenigsten korreliert sind) und wird auf die angegebene Epoche zurückgerechnet. O − C = T_beobachtet − T₀ − P E. dP/dt wird in Sekunden pro Jahr angegeben.
 
-## Dritter Körper und Apsidendrehung
+## Dritter Körper und Apsidendrehung {#methods-third-body-apsidal-motion}
 **Lichtlaufzeiteffekt** (Irwin 1952, ApJ 116, 211). Das bedeckende Paar bewegt sich mit einem dritten Stern um den Schwerpunkt, daher kommt das Licht zu früh oder zu spät um
 
     τ = A [ (1 − e²) / (1 + e cos ν) · sin(ν + ω) + e sin ω ],     A = a₁₂ sin i / c
@@ -87,7 +87,7 @@ gewichtet mit 1/σ² jedes Minimums. Die Anpassung erfolgt um die mittlere Epoch
 
 Haupt- und Nebenminima schwingen gegenläufig; die Apsidenperiode ist U = 360° / ω̇ Zyklen. Für e über etwa 0,1 werden die Terme höherer Ordnung wichtig.
 
-## Lichtkurve eines Bedeckungsveränderlichen
+## Lichtkurve eines Bedeckungsveränderlichen {#methods-eclipsing-binary-light-curve}
 Zwei Kugeln auf einer Kepler-Bahn (die Kugelnäherung von EBOP / JKTEBOP, Popper & Etzel 1981, AJ 86, 102; Southworth 2013, A&A 557, A119). Mit den Radien r₁, r₂ in Einheiten der großen Halbachse ist der projizierte Abstand
 
     d = (1 − e²) / (1 + e cos ν) · √(1 − sin² i sin²(ν + ω))
@@ -98,7 +98,7 @@ Jeder Stern hat quadratische Randverdunklung I(μ) = I₀ [1 − u₁(1 − μ) 
 
 Der Modellfluss F = (1 − L₃)(F₁ + F₂ − ΔF)/(F₁ + F₂) + L₃ (1 außerhalb der Bedeckungen, drittes Licht L₃ als Anteil am Gesamtlicht) wird nach kleinsten Quadraten angepasst (auf Wunsch mit MCMC). Reflexion, Gezeitenverformung und Schwerkraftverdunklung werden nicht modelliert; enge Doppelsterne brauchen PHOEBE oder WD (Export-Knöpfe).
 
-## Radialgeschwindigkeiten und spektroskopische Bahnen
+## Radialgeschwindigkeiten und spektroskopische Bahnen {#methods-radial-velocities-spectroscopic-orbits}
 **Kreuzkorrelation** (Tonry & Davis 1979, AJ 84, 1511). Spektrum und Vorlage auf einem ln-λ-Gitter, wo eine Geschwindigkeit eine Verschiebung ist: Δln λ = v/c. Die normierte Korrelation C(v) hat ihr Maximum bei der Geschwindigkeit; eine Parabel durch die drei höchsten Punkte liefert sie, der Fehler folgt Zucker (2003, MNRAS 342, 1291):
 
     σᵥ² = −[N · C''/C · C² / (1 − C²)]⁻¹
@@ -122,7 +122,7 @@ angepasst nach kleinsten Quadraten mit √e cos ω und √e sin ω als Parameter
 
 Mit Inklination und Radien aus der Lichtkurve: Massen, Radien R = r · a und log g, aus denselben Zufallsziehungen aller Eingaben (wie JKTABSDIM), sodass die Fehler mit ihren Korrelationen fortgepflanzt werden.
 
-## Bahn eines visuellen Doppelsterns
+## Bahn eines visuellen Doppelsterns {#methods-visual-binary-orbit}
 Thiele-Innes-Form (Heintz 1978, Double Stars). Mit der exzentrischen Anomalie E aus der Kepler-Gleichung:
 
     X = cos E − e,    Y = √(1 − e²) sin E
@@ -130,7 +130,7 @@ Thiele-Innes-Form (Heintz 1978, Double Stars). Mit der exzentrischen Anomalie E 
 
 Für feste P, T und e sind die Konstanten A, B, F, G linear: Sie werden exakt gelöst. P, T, e werden auf einem Gitter gesucht, dann werden alle sieben Elemente gemeinsam mit Levenberg-Marquardt verfeinert. Die Campbell-Elemente a, i, Ω, ω folgen aus A, B, F, G; die Gesamtmasse aus dem dritten Kepler-Gesetz: M₁ + M₂ = a³ / (ϖ³ P²) (a und Parallaxe ϖ in Bogensekunden, P in Jahren).
 
-## Spektren: Wellenlänge, Atmosphäre, Tellurik, Entflechtung
+## Spektren: Wellenlänge, Atmosphäre, Tellurik, Entflechtung {#methods-spectra-wavelength-atmosphere-telluric}
 **Wellenlängenlösung**: Bogenlinien werden mit einer Gauß-Anpassung zentriert; λ(x) = Σ cₖ xᵏ wird mit Sigma-Clipping angepasst, wie IRAF identify. Bei Echelle-Spektren macht die Gittergleichung m·λ zu einer glatten Funktion von Pixel x und Ordnung m, sodass eine Fläche Σ cᵢⱼ xⁱ mʲ alle Ordnungen abdeckt (IRAF ecidentify; Baranne et al. 1996).
 
 **Atmosphärenparameter** (der Ansatz von iSpec / SME, auf einem vorberechneten Gitter): Das beobachtete Spektrum wird modelliert als
@@ -143,7 +143,7 @@ S interpoliert im PHOENIX-Gitter (Husser et al. 2013), Pₖ ein niedriges Polyno
 
 **Entflechtung** (González & Levato 2006, A&A 448, 283): Das Spektrum jedes Sterns ist das Mittel der beobachteten Spektren, in sein Ruhesystem verschoben, nachdem das aktuelle Spektrum des anderen Sterns abgezogen wurde; dies wird bis zur Konvergenz wiederholt.
 
-## Photometrie
+## Photometrie {#methods-photometry}
 **Aperturphotometrie**: Der Himmel ist das sigma-geclippte Niveau eines Rings; F = Summe in der Apertur − N_Ap · Himmel; sein Fehler ist die CCD-Gleichung mit dem im Ring gemessenen Himmelsrauschen σ_Himmel (Merline & Howell 1995, Exp. Astron. 6, 163):
 
     σ_F² = F / Gain + N_Ap (1 + N_Ap / N_Himmel) σ_Himmel²

@@ -223,11 +223,11 @@ def test_section(qtbot):
     from astrowb.ui.kit.sections import Section
 
     asked = []
-    s = Section("Apertures", help="photometry/apertures", folded=True, advanced=True)
+    s = Section("Apertures", help="photometry-apertures", folded=True, advanced=True)
     qtbot.addWidget(s)
     s.help_requested.connect(asked.append)
     s.help_button.click()
-    assert asked == ["photometry/apertures"] and not s.content.isVisibleTo(s) and s.mode == "expert"
+    assert asked == ["photometry-apertures"] and not s.content.isVisibleTo(s) and s.mode == "expert"
     s.button.click()
     assert s.content.isVisibleTo(s)
     assert Section("Plain").help_button is None and Section("Plain").mode is None
@@ -331,7 +331,7 @@ def test_stage_rail_and_panel(qtbot):
     r.pin.click()
     QApplication.sendEvent(r, QEvent(QEvent.Leave))
     assert r.width() == R.WIDE  # pinned
-    p = R.StagePanel("Stars", help="photometry/stars")
+    p = R.StagePanel("Stars", help="photometry-choosing-images-stars")
     qtbot.addWidget(p)
     p.add(QLabel("a row"))
     p.set_primary(Button("Measure", "primary"))
@@ -482,3 +482,18 @@ def test_area_window_task_chip_and_toast(qtbot, tmp_path):
     task.state, task.finished, task.progress = "done", True, 1.0
     win.task_update(task)
     assert win.task_chip.text() == "" and win.findChildren(Toast)
+
+
+def test_every_help_anchor_used_exists():
+    """UI-7 item 1: a section's or stage's help="…" names a guide topic that exists (in every language)."""
+    import re
+    from pathlib import Path
+
+    from astrowb.ui import guide_page
+
+    root = Path(__file__).resolve().parents[1]
+    used = set()
+    for path in [*(root / "src" / "astrowb").rglob("*.py"), root / "tools" / "kit_gallery.py"]:
+        used |= set(re.findall(r'\bhelp=["\']([a-z0-9]+(?:-[a-z0-9]+)+)["\']', path.read_text(encoding="utf-8")))
+    known = guide_page.anchors("en")
+    assert used and not used - set(known), used - set(known)

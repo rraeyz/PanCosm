@@ -1,39 +1,39 @@
 # Troubleshooting
 Common problems and what to do.
 
-## A task failed
+## A task failed {#troubleshooting-task-failed}
 The Tasks panel shows *failed* and a window gives the error. Typical causes: a file that cannot be read, a missing input (the message names it), too few stars or frames. The window stays usable; correct the input and run the step again. The project's history keeps the failed run with its settings.
 
 The error window shows the error itself; **Show Details…** has the full report. To check the installation and every web service the application uses (SIMBAD, VizieR, MAST, ZTF, AAVSO, SkyBoT, …), choose **Help → Check the installation and internet services** (or run the application from a terminal with `--check-online`): each line says OK or FAIL and why. A FAIL for one service is usually that service or your network; a FAIL in the first lines means part of the installation is missing — please report it.
 
-## The calibration says frames are missing
+## The calibration says frames are missing {#troubleshooting-calibration-frames-missing}
 "no flat for filter …", "no dark for … s", "no bias" — those lights are still calibrated without that correction. Take the missing frames (same filter, binning, exposure and temperature) or accept the result. Darks of another exposure can be used only with bias frames.
 
-## Stars are not found or the light curve jumps
+## Stars are not found or the light curve jumps {#troubleshooting-stars-not-found-light}
 - Make sure the images are calibrated and of one filter.
 - Increase the aperture for defocused or trailed stars; move the sky annulus away from neighbours.
 - If the field drifts a lot, check that the target is inside every frame; frames where it is not are skipped.
 - Choose other comparison stars: one of them may be variable or saturated.
 
-## Times look wrong
+## Times look wrong {#troubleshooting-times-look-wrong}
 Check `DATE-OBS` (it must be the UTC start of the exposure) and `EXPTIME` in the header. For BJD the target coordinates and the site must be known (header or the fields in the window).
 
-## Plate solving does nothing
+## Plate solving does nothing {#troubleshooting-plate-solving-nothing}
 Install ASTAP with a star database (or astrometry.net with index files) and try again. Approximate coordinates in the header make it much faster. Very small fields need a deeper database.
 
-## The observatory says NOT SAFE
+## The observatory says NOT SAFE {#troubleshooting-observatory-not-safe}
 The reasons are listed: Sun up, target too low, humidity, wind, rain, a device not answering… Fix the cause, then press **Resume**. While anything is still unsafe, Resume is refused — that is intended.
 
-## No connection to the observatory
+## No connection to the observatory {#troubleshooting-no-connection-observatory}
 Check that the observatory process is running (start it again with **Start observatory on this computer…**), the address and the token. A firewall may block the port on a remote computer.
 
-## The graphics card is not used
+## The graphics card is not used {#troubleshooting-graphics-card-not-used}
 **Settings → Processing device** shows the mode; the status bar names the device. With *Automatic* the card is used only when it is faster. Update the graphics driver if no card is found; everything also works on the processor.
 
-## Where are my settings and files?
+## Where are my settings and files? {#troubleshooting-where-settings-files}
 Settings, plugins and automations are in the user settings folder (on Linux `~/.config/…`, on Windows `%LOCALAPPDATA%\…`, on macOS `~/Library/Application Support/…`). Projects and results are where you save them.
 
-## Earth-rotation tables
+## Earth-rotation tables {#troubleshooting-earth-rotation-tables}
 Altitudes, airmass and the telescope's safety limits need tables of the Earth's rotation (from the IERS). The
 installation brings a copy; when you allowed it (first start, or **Settings → Keep the Earth-rotation tables up to
 date**) the program downloads a new one once a week when online, about 3 MB, quietly. **Settings → Update the
@@ -41,7 +41,7 @@ Earth-rotation tables now** does it at once. Without updates nothing stops worki
 lose accuracy (seconds of arc after a year), far below what airmass or a pointing limit needs. Times of observation
 (BJD) do not use these tables at all. **Help → Check the installation and internet services** shows the age of the tables in use.
 
-## Working without the internet
+## Working without the internet {#troubleshooting-working-without-internet}
 
 Every answer of a catalogue or archive (Gaia stars, APASS magnitudes, VSX and exoplanet ephemerides, survey light
 curves, DSS images, asteroids in a field) is saved on this computer the first time it is fetched. When the network
@@ -49,8 +49,8 @@ fails, the saved answer is used. Before a trip to a site without internet, open 
 online, then choose **Settings → Work offline**: everything fetched before still works, and anything new says that
 it is missing from the cache. **Settings → Clear the saved catalogue answers** frees the space (at most 2 GB).
 
-## Updates
+## Updates {#troubleshooting-updates}
 **Help → Check for updates…** asks the project's release page whether a newer version exists and links to its download. The application never checks on its own. Install the new version over the old one; settings, plugins and automations are kept.
 
-## Reporting a problem
+## Reporting a problem {#troubleshooting-reporting-problem}
 Note what you did, the error text, and if possible attach a small file that shows the problem. The project file contains the exact settings of every run, which helps reproduce it.

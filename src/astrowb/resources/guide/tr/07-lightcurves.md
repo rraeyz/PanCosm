@@ -5,7 +5,7 @@
 
 ![O−C penceresi](images/tr/window-oc.jpg)
 
-## Periyot arama
+## Periyot arama {#lightcurves-period-search}
 Fotometri penceresinde ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
 
 - **Lomb–Scargle** — her deneme periyodunda bir sinüs dalgası uydurur ve değişimin en büyük kısmını açıklayanı seçer. Sinüs biçimli değişimler için: zonklayan yıldızlar, dönme ve lekeler.
@@ -23,7 +23,7 @@ Her yöntemin nasıl çalıştığı, formülleri ve kaynakları: **Yöntemlerin
 
 **Evre aralıkları** katlanmış noktaların üstüne ortalama eğriyi çizer. **Işık eğrisini düzenleme:** *Aykırı noktaları at (σ)*, *Zamanda grupla (dk)*, *Tıklayarak nokta sil* (sonra grafikte bir noktaya tıklayın), *Akı ↔ kadir* ve *Düzenlemeleri geri al*. Periyot arama ve frekans analizi düzenlenmiş eğriyi kullanır. *Aykırı noktaları at* her noktayı zamandaki komşularıyla (periyot bulunduktan sonra katlanmış eğrideki komşularıyla da) karşılaştırır; tutulmalar ve zonklamalar silinmez. **Hatalar:** ışık eğrisinde varsa (Fotometri penceresinden, TESS / Kepler / ZTF / AAVSO indirmelerinden ya da CSV dosyasının üçüncü sütunundan), hata çubukları olarak çizilir, her düzenlemeyi izler (aykırı noktalar, gruplama — her ortalamanın hatası —, silinen noktalar, akı ↔ kadir) ve Lomb–Scargle ile BLS aramalarını 1/σ² ile ağırlıklandırır; **Kaydet** onları üçüncü sütun olarak yazar.
 
-## Frekans analizi
+## Frekans analizi {#lightcurves-frequency-analysis}
 Birden çok modlu zonklayan yıldızlar için (δ Scuti, γ Dor, β Cep), Period04 gibi. **En yüksek frekansı** (gün başına çevrim) girin ve **Frekansları analiz et**'e basın:
 
 1. Genlik spektrumu (düzensiz örnekleme için Deeming Fourier dönüşümü) hesaplanır.
@@ -35,7 +35,7 @@ Tablo her frekansı, periyodu, genliği ve evreyi hatalarıyla (Montgomery & O'D
 
 **Maksimum zamanları** verinin kapsadığı her çevrim için ölçülür (fit edilen eğrinin her maksimumu çevresinde parabol); ışık eğrisi kadir ise *Değerler kadir* kutusunu işaretleyin. **Maksimumları O-C diyagramına gönder** onları O-C listesine ekler.
 
-## O-C diyagramı (O−C penceresi)
+## O-C diyagramı (O−C penceresi) {#lightcurves-o-c-diagram-o}
 O-C (gözlenen eksi hesaplanan), minimum zamanlarının sabit bir periyottan nasıl saptığını gösterir.
 
 1. **Minimum zamanlarını** her satıra bir tane olmak üzere yazın ya da yapıştırın: `zaman [hata] [I/II] [kaynak]` — ör. `2459876.43215 0.00021 I TESS`. Ya da **Dosya yükle…**. Zamanlar BJD ya da HJD olabilir; karıştırmayın.
@@ -45,12 +45,12 @@ O-C (gözlenen eksi hesaplanan), minimum zamanlarının sabit bir periyottan nas
 
 Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl olarak periyot değişim hızı dP/dt'yi ve indirgenmiş χ²'yi verir. Birincil minimumlar daire, ikinciller kare ile çizilir; alttaki grafik artıkları gösterir.
 
-## Üçüncü cisim ve apsidal hareket
+## Üçüncü cisim ve apsidal hareket {#lightcurves-third-body-apsidal-motion}
 - **Üçüncü cisim (ışık-zaman etkisi):** örten çift üçüncü bir yıldızla ortak kütle merkezi etrafında döner; örtmeler bu yörünge boyunca erken ve geç gelir (Irwin 1952). Fit üçüncü cismin periyodunu P3 (yıl), yarı genliği A (dakika), dış merkezliliği e, ω açısını ve üçüncü yıldızın kütlesi için alt sınır olan kütle fonksiyonunu f(m3) verir. Birden fazla P3'e yayılmış en az 8 minimum gerekir.
 - **Apsidal hareket:** dış merkezli yörüngede apsis çizgisi döner; birincil ve ikincil minimumlar zıt yönlerde salınır. İki türü de (I ve II) girin; fit e'yi, 0. çevrimdeki ω'yı, dω/dE'yi (çevrim başına derece) ve apsidal periyodu U (yıl) verir. Model e'de birinci derecedir (e ≲ 0,1 için iyi).
 - **MCMC belirsizlikleri:** bu iki modelde kutuyu işaretlerseniz fitten sonra bir Markov zinciri (emcee) çalışır: e ve ω dahil her parametrenin, f(m3) ve U'nun %68 aralığı; parametreler birbirine bağlı olduğunda dürüst hatalar (OCFit'teki gibi). Birkaç saniye sürer; daha çok adım daha kararlı hatalar verir. Doğrusal ve kuadratik efemeris doğrusal problemlerdir; en küçük kareler hataları zaten kesindir, kutu kapalıdır.
 
-## O-C diyagramını okumak
+## O-C diyagramını okumak {#lightcurves-reading-o-c-diagram}
 - Eğimli düz bir çizgi: periyot biraz yanlış — fit onu düzeltir.
 - Bir parabol: periyot değişiyor (kütle aktarımı, manyetik etkinlik, açısal momentum kaybı).
 - Bir dalga: üçüncü bir cismin ışık yolu zaman etkisi ya da apsidal hareket (dış merkezli sistemlerde birincil ve ikincil minimumların zıt yönde kayması).

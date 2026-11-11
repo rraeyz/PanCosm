@@ -3,7 +3,7 @@ The **Calibration** window turns raw frames into calibrated images: it recognise
 
 ![The Calibration window](images/en/window-calibrate.jpg)
 
-## 1. Scan the raw frames
+## 1. Scan the raw frames {#calibration-1-scan-raw-frames}
 **Two folders, as a night is usually kept:** put the light frames (your data) in **Lights** and the bias, dark and flat frames in **BDF**. Every frame in the light folder is a light whatever its name — science frames are usually named after the star (`nsvs01286630_017.fits`); only a frame whose header states bias, dark or flat counts as that. The BDF folder is sorted into bias, dark and flat. Everything in one folder? Give it as **BDF** only and leave **Lights** empty: the frames are then sorted by header and name as below.
 
 Choose the folder with your raw frames (lights, bias, darks and flats may be mixed, sub-folders included) and press **Scan**. The table lists every file with its **type**, **exposure**, **filter**, **temperature** and **binning**.
@@ -18,13 +18,13 @@ Sub-folders are read too. If the lights and the calibration frames are in separa
 
 Archive raw frames work as they come: ESO's `.fits.Z` files (Unix compress) are decompressed into fits_from_raw, ESO frame types (DPR TYPE: BIAS, FLAT, STD, WAVE, OBJECT) are recognised, and the grism or grating of a spectrograph is part of the filter, so a flat taken with another grism is never used.
 
-## How masters are matched
+## How masters are matched {#calibration-how-masters-matched}
 - **Bias:** same binning and size.
 - **Dark:** same binning, the same exposure time and a temperature within 2 °C. A dark of another exposure is scaled to the light's exposure only when bias frames exist (dark current is proportional to time once the bias is removed).
 - **Flat:** same filter and binning; flats are bias/dark-subtracted and normalised to a median of 1.
 - Each master is the sigma-clipped mean of its frames; **Rejection (sigma)** (default 3) removes satellites, cosmic rays and hot pixels that appear in only some frames.
 
-## 2. Output folder and options
+## 2. Output folder and options {#calibration-2-output-folder-options}
 Choose where master frames and calibrated images are written. Raw files are never changed.
 
 - **Remove cosmic rays from lights** cleans single-pixel hits with the L.A.Cosmic method (astroscrappy). Use it for long exposures; it is not needed for short photometric series.
@@ -36,13 +36,13 @@ Choose where master frames and calibrated images are written. Raw files are neve
 
 - **Spectra: do not divide by the flat:** tick it for echelle and long-slit frames. Their flat is near zero between the orders, so dividing by it would blow up the noise (IRAF users normalise such a flat first with apflatten / apnormalize). Bias and dark are still subtracted; the master flat is still made — give it to the Spectroscopy window, which traces the orders on it and divides by its blaze. The defect map then comes from the dark only.
 
-## 3. Calibrate
+## 3. Calibrate {#calibration-3-calibrate}
 Press **Calibrate**. The task runs in the background; when it finishes you see how many images were calibrated and how many masters were written. Each calibrated image records in its header which masters were used (`CALB`, `CALD`, `CALF`), so you can always check. **4. Measure them in the Photometry window →** then sends the calibrated lights there and opens it (with several filters you choose one: a light curve is measured in one filter). The right-click menu of the Images window has the same: **Send the open images to Photometry**.
 
-## 4. Align and stack
+## 4. Align and stack {#calibration-4-align-stack}
 **Stacking…** aligns the calibrated images on the stars (translation found by cross-correlation) and combines them with a sigma-clipped mean into one deep image. A coverage map, saved as a second extension of the file, tells how many frames contributed to each pixel. Stack only frames of the same filter. Stacking is optional and **not for a light curve**: a stack has one time only, while photometry measures every single image. Stack for a deep picture, astrometry of faint objects or a colour image.
 
-## Stacking options
+## Stacking options {#calibration-stacking-options}
 The choices next to the stack button work as in Siril, PixInsight or MaxIm DL:
 
 - **Combine:** *mean* (lowest noise), *median* (robust, about 25 % noisier) or *sum* (the mean times the number of frames, so the level is that of a long exposure even where a frame does not cover the pixel).
@@ -54,16 +54,16 @@ The choices next to the stack button work as in Siril, PixInsight or MaxIm DL:
 
 The header of the stack records the choices (STACKMTH, STACKNRM, STACKWGT) and the weight of every frame.
 
-## Drizzle
+## Drizzle {#calibration-drizzle}
 For undersampled images (stars only one or two pixels wide) taken with small dithers between frames, tick **Drizzle onto a 2× finer grid** before stacking. Each pixel is shrunk to 60 % of its size and laid on a grid with twice as many pixels at its aligned position (Fruchter & Hook 2002); with eight or more dithered frames the stars come out sharper than in a normal stack. The flux is kept, the sky coordinates (WCS) are scaled, and the weight of every output pixel is saved as the second extension. Remove cosmic rays during calibration first: drizzle does not reject outliers.
 
-## Colour cameras and DSLR raw files
+## Colour cameras and DSLR raw files {#calibration-colour-cameras-dslr-raw}
 - **Camera raw files** (CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, PEF…) in the chosen folder are converted when you press **Scan**: each becomes a FITS file in the sub-folder `fits_from_raw`, with the sensor values untouched (no white balance, no gamma, no interpolation). Put them in folders named like `bias`, `darks`, `flats`, `lights`: the folder name gives the frame type. Exposure time, ISO, black and white level are read from the file. Fujifilm X-Trans and Foveon sensors are not 2 × 2 Bayer sensors and are refused.
 - **Time**: a DSLR stores its own clock, often local time and minutes off. Set **DSLR clock − UTC** (e.g. 3 for a clock on Turkish time) before scanning, and compare the camera clock with a time signal: a timing error goes straight into minima and O−C. The original reading is kept as DATE-CAM. Until you set it, the computer's own offset from UTC is used (a camera on the same local time as the computer). The value is remembered and used for every camera raw file and phone picture opened in any window (Photometry, Images, Variable star search…); the Photometry window shows which offset its frames have.
 - **Colour (one-shot-colour) cameras** write BAYERPAT; DSLR files get it from the raw file. With **Colour camera: each colour as its own image** (on by default) the mosaic is calibrated as it is, then each light is written as three half-size images `_R`, `_G`, `_B` (filters TR, TG, TB): one value per 2 × 2 cell, the green being the mean of the two green pixels, with no interpolation that would mix pixels and change the star profiles. Hot and dead pixels are repaired from pixels of the same colour. This is the method of the AAVSO DSLR Observing Manual; the green channel (TG) is closest to Johnson V, so it goes to the Photometry window.
 - **Stacks are made per filter**: `stack_TR.fits`, `stack_TG.fits`, `stack_TB.fits` (and for monochrome cameras, one per filter). Combine them into a colour picture with **Colour → Colour image from three filters…** in the Images window.
 
-## Tips
+## Tips {#calibration-tips}
 - Take at least 20 bias and 10–20 darks at the same temperature as the lights; 10–20 flats per filter, with the mean around half of the full well.
 - Do not move the focuser or rotate the camera between flats and lights: dust rings move with them.
 - The *End-of-night calibration and stack* automation does scanning, calibration and stacking in one go.

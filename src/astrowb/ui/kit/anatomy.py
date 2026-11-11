@@ -40,7 +40,7 @@ class Anatomy:
                 panel = StagePanel(s.title, s.help, self)
                 panel.add(s.panel)
             if s.help:
-                panel.help_requested.connect(lambda _h, k=self.key: self.help_requested.emit(k))
+                panel.help_requested.connect(self.help_requested.emit)  # the stage's guide anchor
             self.stage_panels[s.key] = panel
             self.stage_stack.addWidget(panel)
         holder = QWidget(self)
