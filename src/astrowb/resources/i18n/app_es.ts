@@ -12767,127 +12767,137 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="104"/>
+        <location filename="../../ui/settings_window.py" line="112"/>
         <source>Settings</source>
         <translation type="unfinished">Configuración</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="108"/>
+        <location filename="../../ui/settings_window.py" line="116"/>
         <source>Find a setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="157"/>
+        <location filename="../../ui/settings_window.py" line="165"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="161"/>
+        <location filename="../../ui/settings_window.py" line="169"/>
         <source>Language</source>
         <translation type="unfinished">Idioma</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="161"/>
+        <location filename="../../ui/settings_window.py" line="169"/>
         <source>The language of the program (after a restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="163"/>
+        <location filename="../../ui/settings_window.py" line="171"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="163"/>
+        <location filename="../../ui/settings_window.py" line="171"/>
         <source>Light</source>
         <translation type="unfinished">Claro</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="166"/>
+        <location filename="../../ui/settings_window.py" line="174"/>
         <source>Look</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="166"/>
+        <location filename="../../ui/settings_window.py" line="174"/>
         <source>Dark or light windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>Text size</source>
         <translation type="unfinished">Tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="171"/>
+        <location filename="../../ui/settings_window.py" line="179"/>
         <source>The size of the text in every window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="172"/>
+        <location filename="../../ui/settings_window.py" line="182"/>
+        <source>Toolbar text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="182"/>
+        <source>The names beside the toolbar&apos;s icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="183"/>
         <source>Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="173"/>
+        <location filename="../../ui/settings_window.py" line="184"/>
         <source>Expert mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="176"/>
+        <location filename="../../ui/settings_window.py" line="194"/>
         <source>Profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="191"/>
+        <location filename="../../ui/settings_window.py" line="209"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="194"/>
+        <location filename="../../ui/settings_window.py" line="212"/>
         <source>Automatic (GPU when useful)</source>
         <translation type="unfinished">Automático (GPU cuando conviene)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="194"/>
+        <location filename="../../ui/settings_window.py" line="212"/>
         <source>CPU only</source>
         <translation type="unfinished">Solo CPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="195"/>
+        <location filename="../../ui/settings_window.py" line="213"/>
         <source>GPU</source>
         <translation type="unfinished">GPU</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="197"/>
+        <location filename="../../ui/settings_window.py" line="215"/>
         <source>Processing device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="197"/>
+        <location filename="../../ui/settings_window.py" line="215"/>
         <source>Where the heavy computations run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="200"/>
+        <location filename="../../ui/settings_window.py" line="218"/>
         <source>Online services</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="202"/>
+        <location filename="../../ui/settings_window.py" line="220"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="203"/>
+        <location filename="../../ui/settings_window.py" line="221"/>
         <source>Work offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="204"/>
+        <location filename="../../ui/settings_window.py" line="222"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="205"/>
+        <location filename="../../ui/settings_window.py" line="223"/>
         <source>Earth-rotation tables</source>
         <translation type="unfinished">Tablas de rotación terrestre</translation>
     </message>

@@ -99,6 +99,14 @@ def _tr(text):
     return translate("SettingsWindow", text)
 
 
+# keys of the settings file that are not choices of the user (state, memory of windows, older names)
+INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done",
+            "site", "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset",
+            "camera.clock_utc_offset")  # fmt: skip
+SHOWN = ("ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "profile", "compute.device",
+         "services.offline", "time.auto_refresh")  # fmt: skip
+
+
 class SettingsWindow(Dialog):
     def __init__(self, main):
         super().__init__(self.tr("Settings"), main, main.settings, "settings")
@@ -169,8 +177,18 @@ class SettingsWindow(Dialog):
         size = NumberField(theme.font_size(self.settings), theme.FONT_MIN, theme.FONT_MAX, 1, 0, parent=self)
         size.valueChanged.connect(lambda v: main._change_font(int(v) - theme.font_size(self.settings)))
         self._row(c, self.tr("Text size"), size, self.tr("The size of the text in every window"), "pt")
+        names = Toggle("", bool(self.settings.get("ui.toolbar_text", False)), self)
+        names.toggled.connect(self._toolbar_text)
+        self._row(c, self.tr("Toolbar text"), names, self.tr("The names beside the toolbar's icons"))
         expert = self.tr("Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)")
         self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert)
+
+    def _toolbar_text(self, on):
+        from .kit.window import AreaWindow
+
+        self.settings.set("ui.toolbar_text", on)
+        for win in AreaWindow.alive():  # the open windows follow at once
+            win.toolbar_text_action.setChecked(on)
 
     def _profiles(self):
         c = self._category(self.tr("Profiles"))
