@@ -2136,6 +2136,14 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
 </context>
 <context>
+    <name>Dialog</name>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="30"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+</context>
+<context>
     <name>EchelleTab</name>
     <message>
         <location filename="../../ui/spectro_page.py" line="740"/>

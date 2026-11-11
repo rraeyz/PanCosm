@@ -2136,6 +2136,14 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>Dialog</name>
+    <message>
+        <location filename="../../ui/kit/dialogs.py" line="30"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+</context>
+<context>
     <name>EchelleTab</name>
     <message>
         <location filename="../../ui/spectro_page.py" line="740"/>
