@@ -91,6 +91,7 @@ def _view_and_image(main):
         v, translate("MainWindow", "Display &levels and colours…"), main.levels_dialog, "Ctrl+L"
     )
     main.blink_action = main._action(v, translate("MainWindow", "&Blink images…"), main.blink_dialog)
+    main.image_page.viewer.blink_key.connect(main.blink_dialog)  # b over the image
     from .overlay_actions import add_menu as add_overlay_menu
 
     main.overlay_menu = add_overlay_menu(main, v)

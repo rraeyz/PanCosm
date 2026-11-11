@@ -162,6 +162,7 @@ def _photometry_stages(win, page):
 
     page.steps_shown = follow
     page.viewer.step_frame.connect(lambda d: page.frame_slider.setValue(page.frame_slider.value() + d))  # [ ]
+    page.viewer.blink_key.connect(lambda: page.blink.isEnabled() and page.blink.click())  # b
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)

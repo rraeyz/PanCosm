@@ -156,8 +156,10 @@ def test_bracket_keys_step_the_frames(qtbot):
     v.set_image(np.zeros((10, 10), np.float32))
     steps = []
     v.step_frame.connect(steps.append)
-    qtbot.keyClicks(v, "][")
-    assert steps == [1, -1]
+    blinks = []
+    v.blink_key.connect(lambda: blinks.append(1))
+    qtbot.keyClicks(v, "][b")
+    assert steps == [1, -1] and blinks == [1]
 
 
 def test_invert_key_keeps_the_levels(qtbot):
