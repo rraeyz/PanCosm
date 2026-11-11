@@ -10,7 +10,7 @@ import json
 import numpy as np
 
 from ..timeseries.fourier import bin_time
-from .differential import covariates, ensemble
+from .differential import covariates, detrend, ensemble
 from .measurements import star_names
 
 QUANTITIES = ("airmass", "sky", "fwhm", "x", "y")
@@ -43,6 +43,18 @@ def series(lc, key):
     if key in QUANTITIES:
         return np.asarray(covariates(lc)[key], float), None
     raise KeyError(key)
+
+
+def detrend_row(lc, y, choice, target_set=(), exclude=None):
+    """One plotted series divided by its own trend (PHO-46, AstroImageJ's per-row detrending): choice None or ()
+    none, "target" the quantities the target was detrended with (target_set), or a list of quantity names. Names the
+    light curve lacks are skipped; exclude=(t1, t2) leaves the eclipse out of the fit."""
+    names = list(target_set) if choice == "target" else list(choice or ())
+    cov = covariates(lc)
+    use = {n: cov[n] for n in names if n in cov}
+    if not use:
+        return np.asarray(y, float)
+    return np.asarray(detrend(y, use, exclude=exclude, time=lc["time"])["rel_flux"], float)
 
 
 def prepare(t, y, err=None, norm=None, bin_n=0, bin_minutes=0.0):
