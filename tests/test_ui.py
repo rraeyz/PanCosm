@@ -1815,7 +1815,7 @@ def test_settings_in_one_window(window, qtbot):
     win = window.show_settings()
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
-    assert names == ["General", "Profiles", "Processing", "Time", "Online services"]
+    assert names == ["General", "Profiles", "Processing", "Time", "Online services", "Plugins", "Advanced"]
     assert win.filter("offline") == 1
     assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [4]
     win.filter("")
@@ -1830,6 +1830,21 @@ def test_settings_in_one_window(window, qtbot):
     clock = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Camera clock − UTC")
     clock.setValue(3.0)
     assert window.calibrate_page.clock_offset.value() == 3.0 and window.settings.get("camera.clock_utc_offset") == 3.0
+
+
+def test_settings_lists_the_plugins_waiting_to_be_allowed(window, qtbot, monkeypatch, tmp_path):
+    """UI-13: Plugins shows the new or changed plugins and asks about each, as at start-up (ARC-22)."""
+    from astrowb.engine import plugins
+
+    path = tmp_path / "mine.py"
+    monkeypatch.setitem(plugins.WAITING, "mine.py", path)
+    asked = []
+    monkeypatch.setattr(window, "allow_plugin", lambda p: asked.append(p) or plugins.WAITING.pop(p.name))
+    win = window.show_settings()
+    qtbot.addWidget(win)
+    assert win.waiting.isEnabled() and "mine.py" in win.waiting.text()
+    win.waiting.click()
+    assert asked == [path] and not win.waiting.isEnabled()
 
 
 def test_every_settings_key_is_shown_or_internal():
