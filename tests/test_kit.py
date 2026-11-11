@@ -1,5 +1,5 @@
 """UI-3: the component kit. NumberField (keystroke check, Enter commits, Esc restores, wheel only with focus,
-Shift ×10 / Ctrl ×0.1 steps, the auto state, the store binding); InfoBanner, Badge, Toast, Segmented, EmptyState."""
+Shift ×10 / Ctrl ×0.1 steps, auto, binding); InfoBanner, Badge, Toast, Segmented, EmptyState, Splitter."""
 
 import pytest
 
@@ -134,3 +134,35 @@ def test_empty_state(qtbot):
     for b in e.buttons:
         b.click()
     assert hits == ["open", "sample"]
+
+
+def test_splitter_remembers_and_resets(qtbot):
+    from PySide6.QtCore import Qt
+    from PySide6.QtWidgets import QLabel
+
+    from astrowb.ui.kit.splitter import Splitter
+
+    class Mem(dict):
+        def set(self, k, v):
+            self[k] = v
+
+    mem = Mem()
+
+    def make():
+        s = Splitter(Qt.Horizontal, mem, "test.main")
+        qtbot.addWidget(s)
+        s.addWidget(QLabel("a"))
+        s.addWidget(QLabel("b"))
+        s.resize(400, 100)
+        s.show()
+        s.setSizes([100, 300])
+        s.restore()
+        return s
+
+    s = make()
+    s.moveSplitter(250, 1)  # the user drags the handle
+    assert mem["split.test.main"][0] == 250
+    again = make()
+    assert again.sizes()[0] == 250  # remembered
+    qtbot.mouseDClick(again.handle(1), Qt.LeftButton)
+    assert abs(again.sizes()[0] - 100) <= 2 and mem["split.test.main"] == again.sizes()  # the handle's width aside
