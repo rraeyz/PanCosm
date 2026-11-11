@@ -82,3 +82,23 @@ def test_input_frames_listed_in_the_outputs_are_left_alone(tmp_path):
     fits.PrimaryHDU(np.ones((4, 4), np.float32)).writeto(frame)
     _mark_products("photometry.quality", {"images": [str(frame)]}, {}, {"good": [str(frame)]}, 0.0)
     assert provenance.read(frame) is None
+
+
+def test_ecsv_products_carry_the_record_too(tmp_path):
+    """ARC-11: a table a step writes as ECSV carries how it was made, in its meta; CSV is left as it is."""
+    import time
+
+    from astropy.table import Table
+
+    from astrowb.engine.steps import _mark_products
+
+    src = tmp_path / "in.fits"
+    fits.PrimaryHDU(np.ones((4, 4), np.float32)).writeto(src)
+    table, plain = tmp_path / "lc.ecsv", tmp_path / "lc.csv"
+    Table({"bjd": [2460512.123456789], "mag": [12.3]}).write(table, format="ascii.ecsv")
+    plain.write_text("bjd,mag\n1,2\n")
+    _mark_products("photometry.light_curve", {"images": [str(src)]}, {"r": 5}, {"table": str(table),
+                   "csv": str(plain)}, time.time())  # fmt: skip
+    rec = provenance.read(table)
+    assert rec["step"] == "photometry.light_curve" and rec["params"] == {"r": 5}
+    assert Table.read(table)["bjd"][0] == 2460512.123456789 and plain.read_text() == "bjd,mag\n1,2\n"

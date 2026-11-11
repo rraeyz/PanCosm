@@ -72,7 +72,7 @@ def execute(step_id, inputs, params, ctx):
 
 
 def _mark_products(step_id, inputs, params, out, started):
-    """Every FITS file a step wrote (named in its outputs, written since it started) carries how it was made
+    """Every FITS or ECSV file a step wrote (named in its outputs, written since it started) carries how it was made
     (ARC-11), unless its writer marked it already."""
     from pathlib import Path
 
@@ -85,29 +85,42 @@ def _mark_products(step_id, inputs, params, out, started):
             for v in value:
                 yield from paths(v)
 
-    products = [Path(p) for v in out.values() for p in paths(v) if str(p).lower().endswith((".fits", ".fit", ".fts"))]
+    kinds = (".fits", ".fit", ".fts", ".ecsv")
+    products = [Path(p) for v in out.values() for p in paths(v) if str(p).lower().endswith(kinds)]
     # never an input file (a step may list its input frames, e.g. the good ones), except a destination it was given
     given = {str(p) for k, v in inputs.items() if not k.startswith(("output", "destination")) for p in paths(v)}
     products = [p for p in products if str(p) not in given and p.is_file() and p.stat().st_mtime >= started - 2]
     if not products:
         return
-    from astropy.io import fits
-
-    record = None
+    made = {str(p) for p in products}
+    files = {k: [p for p in paths(v) if Path(p).is_file() and str(p) not in made] for k, v in inputs.items()}
+    record = provenance.record(step_id, params, {k: v for k, v in files.items() if v})  # inputs that are files
     for path in products:
         try:
-            with fits.open(path, mode="update", output_verify="silentfix") as hdul:
-                if hdul[0].header.get("PROCSTEP") == step_id:
-                    continue  # its writer recorded it, with the inputs of this one file
-                if record is None:  # the inputs that are files (not text, numbers or folders)
-                    made = {str(p) for p in products}
-                    given = {
-                        k: [p for p in paths(v) if Path(p).is_file() and str(p) not in made] for k, v in inputs.items()
-                    }
-                    record = provenance.record(step_id, params, {k: v for k, v in given.items() if v})
-                provenance.to_fits(hdul[0].header, record)
-        except OSError:
-            continue  # a file the step did not write as FITS after all: left as it is
+            (_mark_ecsv if path.suffix.lower() == ".ecsv" else _mark_fits)(path, step_id, record)
+        except (OSError, ValueError):
+            continue  # a file the step did not write in that format after all: left as it is
+
+
+def _mark_fits(path, step_id, record):
+    from astropy.io import fits
+
+    from ..core import provenance
+
+    with fits.open(path, mode="update", output_verify="silentfix") as hdul:
+        if hdul[0].header.get("PROCSTEP") != step_id:  # else its writer recorded it, with this file's own inputs
+            provenance.to_fits(hdul[0].header, record)
+
+
+def _mark_ecsv(path, step_id, record):
+    from astropy.table import Table
+
+    from ..core import provenance
+
+    table = Table.read(path, format="ascii.ecsv")
+    if (table.meta.get("provenance") or {}).get("step") != step_id:
+        table.meta = provenance.to_ecsv(table.meta, record)
+        table.write(path, format="ascii.ecsv", overwrite=True)
 
 
 def _load_builtin():
