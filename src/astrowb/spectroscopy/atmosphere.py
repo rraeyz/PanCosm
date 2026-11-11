@@ -36,18 +36,13 @@ from pathlib import Path
 
 import numpy as np
 
+from ..core.units import vac_to_air
+
 C_KMS = 299792.458
 PHOENIX = "https://phoenix.astro.physik.uni-goettingen.de/data/HiResFITS/"
 STORE_RANGE = (3000.0, 10000.0)
 STORE_R = 200_000  # samples per unit ln(lambda): 1.5 km/s
 TELLURIC = ((6860, 6960), (7590, 7700), (8100, 8400), (8900, 9900))  # as templates.TELLURIC
-
-
-def vac_to_air(w):
-    """Air wavelength (Angstrom) of a vacuum wavelength (Morton 2000; valid above 2000 A)."""
-    w = np.asarray(w, float)
-    s2 = (1e4 / w) ** 2
-    return w / (1 + 8.34254e-5 + 2.406147e-2 / (130 - s2) + 1.5998e-4 / (38.9 - s2))
 
 
 # --- the grid -----------------------------------------------------------------------------------------------------

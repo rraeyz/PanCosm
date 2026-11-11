@@ -89,7 +89,9 @@ def test_phase_binning_and_editing():
     assert keep.tolist() == [True] * 8 + [False] + [True] * 6
     tb, yb = fourier.bin_time(np.arange(10.0), np.arange(10.0), 5)
     assert tb.tolist() == [2.0, 7.0] and yb.tolist() == [2.0, 7.0]
-    assert np.allclose(fourier.mag_to_flux(fourier.flux_to_mag([0.5, 2])), [0.5, 2])
+    from astrowb.core.units import flux_to_mag, mag_to_flux
+
+    assert np.allclose(mag_to_flux(flux_to_mag([0.5, 2])), [0.5, 2])
 
 
 def test_clean_removes_the_daily_aliases(sampling):

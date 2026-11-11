@@ -3,6 +3,9 @@
 convert_times(values, standard, target, site): Julian dates given in one standard (JD_UTC, MJD_UTC, HJD_UTC,
 BJD_TDB, …) for a target and a site, in every standard, with altitude, azimuth, hour angle and airmass.
 
+vac_to_air / air_to_vac: wavelengths in Angstrom (Morton 2000, ApJS 130, 403, the IAU standard; above 2000 A).
+flux_to_mag / mag_to_flux: with the error carried when one is given.
+
 airmass(altitude, formula): the air mass of a line of sight at a true (geometric) altitude in degrees. Young (1994)
 is the default; sec z is 3 % too large at 10° and grows without limit towards the horizon. The formula's name is
 written beside every airmass column (AIRMASS_NOTE).
@@ -105,3 +108,32 @@ def convert_times(values, standard, target, site=None):
         out["ha"] = ((lst - target.ra).wrap_at(12 * u.hourangle)).hour
         out["airmass"] = np.atleast_1d(airmass(out["alt"]))
     return out
+
+
+def vac_to_air(w):
+    """Air wavelength (Angstrom) of a vacuum wavelength (Morton 2000; valid above 2000 A)."""
+    w = np.asarray(w, float)
+    s2 = (1e4 / w) ** 2
+    return w / (1 + 8.34254e-5 + 2.406147e-2 / (130 - s2) + 1.5998e-4 / (38.9 - s2))
+
+
+def air_to_vac(w):
+    """Vacuum wavelength (Angstrom) of an air wavelength: vac_to_air inverted (three passes reach 1e-8 A)."""
+    air = np.asarray(w, float)
+    vac = air.copy()
+    for _ in range(3):
+        vac = vac + (air - vac_to_air(vac))
+    return vac
+
+
+def flux_to_mag(flux, err=None):
+    """Magnitude of a flux (zero point 0), and its error when the flux error is given (2.5 / ln 10 · σ / f)."""
+    f = np.asarray(flux, float)
+    mag = -2.5 * np.log10(f)
+    return mag if err is None else (mag, 2.5 / np.log(10) * np.asarray(err, float) / f)
+
+
+def mag_to_flux(mag, err=None):
+    """Flux of a magnitude (zero point 0), and its error when the magnitude error is given."""
+    f = 10 ** (-0.4 * np.asarray(mag, float))
+    return f if err is None else (f, f * np.log(10) / 2.5 * np.asarray(err, float))

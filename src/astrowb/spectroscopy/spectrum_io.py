@@ -96,7 +96,7 @@ def _air(wave, header):
     off); the header is changed to say the wavelengths are now in air."""
     if header.get("VACUUM") is not True:
         return wave
-    from .atmosphere import vac_to_air
+    from ..core.units import vac_to_air
 
     header["VACUUM"] = (False, "converted to air on reading (Morton 2000)")
     return vac_to_air(wave)
