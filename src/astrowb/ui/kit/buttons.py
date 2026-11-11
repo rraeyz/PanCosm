@@ -6,7 +6,8 @@ its task runs a button is busy: disabled, its text led by a turning mark.
 """
 
 from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QPushButton
+from PySide6.QtGui import QKeySequence
+from PySide6.QtWidgets import QPushButton, QToolButton
 
 KINDS = ("primary", "normal", "quiet", "danger")
 SPINNER = "◐◓◑◒"
@@ -43,3 +44,25 @@ class Button(QPushButton):
     def _spin(self):
         self._turn = (self._turn + 1) % len(SPINNER)
         self.setText(f"{SPINNER[self._turn]}  {self._text}")
+
+
+class ToolButton(QToolButton):
+    """A toolbar or icon button of one kind of action: the kind's icon, its name and shortcut in the tooltip.
+
+    ToolButton("zoom_in", self.tr("Zoom in"), shortcut="Ctrl++", checkable=False)
+    """
+
+    def __init__(self, kind, text, shortcut=None, checkable=False, parent=None):
+        super().__init__(parent)
+        from .icons import icon
+
+        self.kind = kind
+        self.setIcon(icon(kind, self))
+        self.setText(text)
+        self.setAccessibleName(text)
+        self.setAutoRaise(True)
+        self.setCheckable(checkable)
+        if shortcut:
+            self.setShortcut(QKeySequence(shortcut))
+        keys = self.shortcut().toString(QKeySequence.NativeText)
+        self.setToolTip(f"{text} ({keys})" if keys else text)

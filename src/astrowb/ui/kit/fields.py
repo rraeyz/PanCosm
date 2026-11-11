@@ -14,7 +14,17 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QAction, QPalette, QValidator
-from PySide6.QtWidgets import QButtonGroup, QDoubleSpinBox, QHBoxLayout, QLineEdit, QMenu, QToolButton, QWidget
+from PySide6.QtWidgets import (
+    QButtonGroup,
+    QCheckBox,
+    QComboBox,
+    QDoubleSpinBox,
+    QHBoxLayout,
+    QLineEdit,
+    QMenu,
+    QToolButton,
+    QWidget,
+)
 
 from . import tokens
 
@@ -268,3 +278,38 @@ class PathField(QWidget):
             lambda: (self._paths[0] if self._paths else "") if one else self.paths(),
             lambda v: self.set_paths([v] if isinstance(v, str) and v else list(v or [])),
         )
+
+
+class ChoiceField(QComboBox):
+    """A choice among many by key: ChoiceField([("young1994", "Young (1994)"), ("secz", "sec z")], "young1994")."""
+
+    def __init__(self, options, value=None, parent=None):
+        super().__init__(parent)
+        for key, text in options:
+            self.addItem(text, key)
+        if value is not None:
+            self.setValue(value)
+        self.setFocusPolicy(Qt.StrongFocus)  # the wheel over a closed list scrolls the panel, not the choice
+
+    def value(self):
+        return self.currentData()
+
+    def setValue(self, key):
+        i = self.findData(key)
+        if i < 0:
+            raise ValueError(f"unknown choice {key}")
+        self.setCurrentIndex(i)
+
+    def wheelEvent(self, event):
+        if not self.hasFocus():
+            event.ignore()
+            return
+        super().wheelEvent(event)
+
+
+class Toggle(QCheckBox):
+    """An on / off setting: Toggle(self.tr("Subtract the sky"), True)."""
+
+    def __init__(self, text, on=False, parent=None):
+        super().__init__(text, parent)
+        self.setChecked(on)

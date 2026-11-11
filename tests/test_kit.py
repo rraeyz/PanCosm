@@ -338,3 +338,24 @@ def test_stage_rail_and_panel(qtbot):
     p.set_primary(Button("Measure again", "primary"))  # replaces
     p.set_status("12 stars chosen")
     assert p.bottom.count() == 1 and p.primary.text() == "Measure again" and p.status.text() == "12 stars chosen"
+
+
+def test_tool_button_choice_toggle(qtbot):
+    from astrowb.core.state import Store
+    from astrowb.ui.kit.binding import bind
+    from astrowb.ui.kit.buttons import ToolButton
+    from astrowb.ui.kit.fields import ChoiceField, Toggle
+
+    t = ToolButton("zoom_in", "Zoom in", shortcut="Ctrl+=", checkable=True)
+    qtbot.addWidget(t)
+    assert not t.icon().isNull() and t.toolTip().startswith("Zoom in (") and t.isCheckable()
+    c = ChoiceField([("young1994", "Young (1994)"), ("secz", "sec z")], "secz")
+    qtbot.addWidget(c)
+    assert c.value() == "secz"
+    store = Store("test")
+    bind(c, store, "airmass", "airmass formula")
+    c.setValue("young1994")
+    assert store.get("airmass") == "young1994"
+    with pytest.raises(ValueError):
+        c.setValue("nope")
+    assert Toggle("Subtract the sky", True).isChecked()
