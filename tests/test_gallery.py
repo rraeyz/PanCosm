@@ -42,6 +42,21 @@ def test_no_cut_text_with_texts_40_percent_longer(qapp, tmp_path):
     assert found and not cut, cut
 
 
+@pytest.mark.slow
+@pytest.mark.skipif(sys.platform != "linux", reason="measured with the Linux fonts")
+@pytest.mark.parametrize("factor", ["1.25", "1.5", "2"])
+def test_no_cut_text_at_other_scale_factors(tmp_path, factor):
+    """ARC-19: at 125 %, 150 % and 200 % (Windows' usual settings) nothing is cut either. The factor is read when
+    Qt starts, so each runs in a process of its own."""
+    import os
+    import subprocess
+
+    env = os.environ | {"QT_SCALE_FACTOR": factor, "QT_QPA_PLATFORM": "offscreen"}
+    run = subprocess.run([sys.executable, str(TOOL), "--langs", "en", "--themes", "dark", "--out", str(tmp_path)],
+                         env=env, capture_output=True, text=True, timeout=600)  # fmt: skip
+    assert run.returncode == 0 and run.stdout.strip().endswith("no cut text"), run.stdout[-3000:] + run.stderr[-2000:]
+
+
 def test_a_long_label_is_found(qtbot):
     """The measurement names the widget whose text does not fit (a deliberately long German-like label)."""
     from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget

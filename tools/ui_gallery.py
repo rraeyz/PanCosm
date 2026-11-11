@@ -54,11 +54,12 @@ def sideways(window):
 
 def unnamed(window):
     """[(object name or class, "no name")] of visible buttons with no text, accessible name or tooltip: a screen
-    reader says nothing for them (ARC-19). Qt's own select-all corner of tables is left out."""
+    reader says nothing for them (ARC-19). Qt's own buttons (a table's select-all corner, a full toolbar's »)
+    are left out."""
     from PySide6.QtWidgets import QAbstractButton
 
     return [(b.objectName() or type(b).__name__, "no name") for b in window.findChildren(QAbstractButton)
-            if b.isVisible() and b.objectName() != "qt_tableview_cornerbutton"
+            if b.isVisible() and not b.objectName().startswith("qt_")
             and not (b.text().strip() or b.accessibleName() or b.toolTip())]  # fmt: skip
 
 
