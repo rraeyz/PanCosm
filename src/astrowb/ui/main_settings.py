@@ -12,6 +12,16 @@ from .messages import translate as message_text
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
 
 
+def privacy_text():
+    """What the program sends and runs (ARC-22): in About and in the guide (Getting started → Privacy)."""
+    return translate(
+        "MainWindow",
+        "No usage data is sent anywhere. The program goes online only for what you start (catalogues, archives, "
+        "name look-ups, update checks) and, when left on, the weekly Earth-rotation tables. Plugins run with your "
+        "rights: a new or changed one waits until you allow it.",
+    )
+
+
 class SettingsActions:
     """Methods of MainWindow (self is the main window)."""
 
@@ -142,7 +152,7 @@ class SettingsActions:
             self,
             translate("MainWindow", "About {app}").format(app=BRAND.display_name),
             f"<b>{BRAND.display_name}</b> {__version__}<br>{BRAND.organization}<br>"
-            f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{compute.describe()}",
+            f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{compute.describe()}<br><br>" + privacy_text(),
         )
 
     def _set_clock_offset(self, hours):

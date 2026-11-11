@@ -5286,12 +5286,12 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>değer</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="22"/>
+        <location filename="../../ui/main_settings.py" line="32"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="23"/>
+        <location filename="../../ui/main_settings.py" line="33"/>
         <source>The new language will be used after restarting {app}.</source>
         <translation>Yeni dil, {app} yeniden başlatıldığında kullanılacak.</translation>
     </message>
@@ -5326,7 +5326,7 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Menüler: kendi araçlarınız için Eklentiler, dil, görünüm ve CPU/GPU için Ayarlar, bu tur ve kılavuz için Yardım; her alanın penceresinin kendi menüleri ve araç çubuğu vardır.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="47"/>
+        <location filename="../../ui/main_settings.py" line="57"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
@@ -5351,22 +5351,27 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Kurulum ve internet servisleri denetleniyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="71"/>
+        <location filename="../../ui/main_settings.py" line="17"/>
+        <source>No usage data is sent anywhere. The program goes online only for what you start (catalogues, archives, name look-ups, update checks) and, when left on, the weekly Earth-rotation tables. Plugins run with your rights: a new or changed one waits until you allow it.</source>
+        <translation>Hiçbir yere kullanım verisi gönderilmez. Program yalnızca sizin başlattığınız işler (kataloglar, arşivler, ad sorguları, güncelleme denetimi) ve açık bırakılırsa haftalık Dünya dönme tabloları için internete çıkar. Eklentiler sizin yetkilerinizle çalışır: yeni ya da değişmiş bir eklenti siz izin verene kadar bekler.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_settings.py" line="81"/>
         <source>Earth-rotation tables updated: {0}</source>
         <translation>Dünya dönme tabloları güncellendi: {0}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="77"/>
+        <location filename="../../ui/main_settings.py" line="87"/>
         <source>Earth-rotation tables not updated (offline?)</source>
         <translation>Dünya dönme tabloları güncellenmedi (çevrimdışı mı?)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="82"/>
+        <location filename="../../ui/main_settings.py" line="92"/>
         <source>Earth-rotation tables</source>
         <translation>Dünya dönme tabloları</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="83"/>
+        <location filename="../../ui/main_settings.py" line="93"/>
         <source>The tables could not be downloaded: {0}
 
 The tables in use stay; nothing stops working. Try again when online.</source>
@@ -5375,47 +5380,47 @@ The tables in use stay; nothing stops working. Try again when online.</source>
 Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi olduğunuzda tekrar deneyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="95"/>
+        <location filename="../../ui/main_settings.py" line="105"/>
         <source>Folder for the practice data</source>
         <translation>Alıştırma verisi için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="102"/>
+        <location filename="../../ui/main_settings.py" line="112"/>
         <source>practice</source>
         <translation>alıştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="104"/>
+        <location filename="../../ui/main_settings.py" line="114"/>
         <source>Practice data in {f}: follow &apos;Your first night&apos; in the Guide.</source>
         <translation>Alıştırma verisi {f} içinde: Kılavuz&apos;daki &apos;İlk geceniz&apos; adımlarını izleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="126"/>
+        <location filename="../../ui/main_settings.py" line="136"/>
         <source>Could not check for updates: {e}</source>
         <translation>Güncellemeler denetlenemedi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="128"/>
+        <location filename="../../ui/main_settings.py" line="138"/>
         <source>Version {v} is available (you have {c}).</source>
         <translation>{v} sürümü çıktı (sizdeki: {c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="131"/>
+        <location filename="../../ui/main_settings.py" line="141"/>
         <source>Open the download page</source>
         <translation>İndirme sayfasını aç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="134"/>
+        <location filename="../../ui/main_settings.py" line="144"/>
         <source>You have the latest version ({c}).</source>
         <translation>En son sürümü kullanıyorsunuz ({c}).</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="135"/>
+        <location filename="../../ui/main_settings.py" line="145"/>
         <source>Updates</source>
         <translation>Güncellemeler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_settings.py" line="143"/>
+        <location filename="../../ui/main_settings.py" line="153"/>
         <source>About {app}</source>
         <translation>{app} hakkında</translation>
     </message>
