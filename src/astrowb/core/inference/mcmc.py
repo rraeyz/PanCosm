@@ -5,7 +5,9 @@ The chains are split in two halves; each half is updated from differences of the
 meanwhile), so a half's proposals are independent and evaluated together (vectorised or in a thread pool) and the
 chain is still a valid Metropolis sampler. Moves: x + γ (z₁ − z₂) + ε with γ = 2.38 / √(2d) (1 every tenth
 generation, to jump between modes), or with probability `snooker` the snooker move along x − z with its Jacobian
-(|x′ − z| / |x − z|)^(d−1).
+(|x′ − z| / |x − z|)^(d−1). Parallel tempering (optional): the same at temperatures T with target prior +
+likelihood / T, and swaps between neighbours accepted with exp((β_i − β_j)(ℓ_j − ℓ_i)); only the cold chains
+are kept.
 
 Stopping: every check_every generations the burn-in is found (diagnostics.burn_in) and the run stops when every
 parameter's rank-normalised split-R̂ is below rhat_limit and its bulk and tail effective sizes above ess_min; else
@@ -25,22 +27,27 @@ from .results import Posterior
 
 
 class _State:
-    def __init__(self, pos, lp, rng):
-        self.pos, self.lp, self.rng = pos, lp, rng
-        self.chain = np.empty((1024, *pos.shape))
-        self.lps = np.empty((1024, len(lp)))
+    """Positions, log-probabilities and log-likelihoods of every chain at every temperature (the cold chains
+    first); the stored history holds the cold chains."""
+
+    def __init__(self, pos, lp, ll, betas, rng):
+        self.pos, self.lp, self.ll, self.betas, self.rng = pos, lp, ll, np.asarray(betas, float), rng
+        self.cold = len(pos) // len(self.betas)
+        self.chain = np.empty((1024, self.cold, pos.shape[1]))
+        self.lps = np.empty((1024, self.cold))
         self.step = 0
 
     def store(self):
         if self.step == len(self.chain):
             self.chain = np.concatenate([self.chain, np.empty_like(self.chain)])
             self.lps = np.concatenate([self.lps, np.empty_like(self.lps)])
-        self.chain[self.step], self.lps[self.step] = self.pos, self.lp
+        self.chain[self.step], self.lps[self.step] = self.pos[: self.cold], self.lp[: self.cold]
         self.step += 1
 
     def save(self, path):
         tmp = path + ".part.npz"
-        np.savez_compressed(tmp, pos=self.pos, lp=self.lp, chain=self.chain[: self.step], lps=self.lps[: self.step],
+        np.savez_compressed(tmp, pos=self.pos, lp=self.lp, ll=self.ll, betas=self.betas,
+                            chain=self.chain[: self.step], lps=self.lps[: self.step],
                             rng=json.dumps(self.rng.bit_generator.state))  # fmt: skip
         os.replace(tmp, path)
 
@@ -49,32 +56,38 @@ class _State:
         with np.load(path) as f:
             rng = np.random.default_rng()
             rng.bit_generator.state = json.loads(str(f["rng"]))
-            state = cls(f["pos"].copy(), f["lp"].copy(), rng)
+            state = cls(f["pos"].copy(), f["lp"].copy(), f["ll"].copy(), f["betas"], rng)
             n = len(f["chain"])
-            state.chain = np.concatenate([f["chain"], np.empty((max(n, 1024), *state.pos.shape))])
-            state.lps = np.concatenate([f["lps"], np.empty((max(n, 1024), len(state.lp)))])
+            state.chain = np.concatenate([f["chain"], np.empty((max(n, 1024), *state.chain.shape[1:]))])
+            state.lps = np.concatenate([f["lps"], np.empty((max(n, 1024), state.cold))])
             state.step = n
         return state
 
 
-def _evaluate(problem, thetas, pool):
+def _evaluate(problem, thetas, pool, tempered=False):
+    """(log-probability, log-likelihood) of the points; the likelihood only when tempering needs it."""
     if getattr(problem, "vectorized", False):
-        return np.asarray(problem(thetas), float)
-    if pool is None:
-        return np.array([problem(t) for t in thetas])
-    return np.array(list(pool.map(problem, thetas)))
+        lp = np.asarray(problem(thetas), float)
+    elif pool is None:
+        lp = np.array([problem(t) for t in thetas])
+    else:
+        lp = np.array(list(pool.map(problem, thetas)))
+    if not tempered:
+        return lp, np.zeros_like(lp)
+    with np.errstate(invalid="ignore"):
+        return lp, np.where(np.isfinite(lp), lp - np.asarray(problem.log_prior(thetas), float), -np.inf)
 
 
-def _start(problem, n_chains, rng, spread, pool):
+def _start(problem, n, rng, spread, pool, tempered):
     """Chains scattered around the start by spread × scale; points outside the prior drawn again."""
-    pos = problem.start + spread * problem.scale * rng.normal(size=(n_chains, problem.dim))
-    lp = _evaluate(problem, pos, pool)
+    pos = problem.start + spread * problem.scale * rng.normal(size=(n, problem.dim))
+    lp, ll = _evaluate(problem, pos, pool, tempered)
     for _ in range(100):
         bad = ~np.isfinite(lp)
         if not bad.any():
-            return pos, lp
+            return pos, lp, ll
         pos[bad] = problem.start + spread * problem.scale * rng.normal(size=(bad.sum(), problem.dim))
-        lp[bad] = _evaluate(problem, pos[bad], pool)
+        lp[bad], ll[bad] = _evaluate(problem, pos[bad], pool, tempered)
     raise ValueError("the start is outside the prior or the model fails there")
 
 
@@ -102,13 +115,29 @@ def _proposals(x, others, rng, gamma, snooker):
 
 
 def _generation(problem, state, halves, pool, snooker):
-    d = problem.dim
+    """One DE step of both halves at every temperature (target: prior + β · likelihood), then swaps between
+    neighbouring temperatures."""
+    d, c = problem.dim, state.cold
+    tempered = len(state.betas) > 1
     gamma = 1.0 if state.step % 10 == 9 else 2.38 / np.sqrt(2 * d)
-    for me, other in (halves, halves[::-1]):
-        prop, extra = _proposals(state.pos[me], state.pos[other], state.rng, gamma, snooker)
-        lp = _evaluate(problem, prop, pool)
-        accept = np.log(state.rng.random(len(me))) < lp - state.lp[me] + extra
-        state.pos[me[accept]], state.lp[me[accept]] = prop[accept], lp[accept]
+    for k, beta in enumerate(state.betas):
+        for me, other in (halves, halves[::-1]):
+            me, other = me + k * c, other + k * c
+            prop, extra = _proposals(state.pos[me], state.pos[other], state.rng, gamma, snooker)
+            lp, ll = _evaluate(problem, prop, pool, tempered)
+            with np.errstate(invalid="ignore"):
+                delta = lp - state.lp[me] - (1 - beta) * (ll - state.ll[me]) if tempered else lp - state.lp[me]
+            accept = np.log(state.rng.random(len(me))) < np.where(np.isfinite(lp), delta, -np.inf) + extra
+            hit = me[accept]
+            state.pos[hit], state.lp[hit], state.ll[hit] = prop[accept], lp[accept], ll[accept]
+    for k in range(len(state.betas) - 1, 0, -1):  # swaps, hot to cold
+        hot = np.arange(c) + k * c
+        cold = state.rng.permutation(c) + (k - 1) * c
+        ratio = (state.betas[k - 1] - state.betas[k]) * (state.ll[hot] - state.ll[cold])
+        swap = np.log(state.rng.random(c)) < ratio
+        a, b = hot[swap], cold[swap]
+        for arr in (state.pos, state.lp, state.ll):
+            arr[a], arr[b] = arr[b].copy(), arr[a].copy()
     state.store()
 
 
@@ -136,9 +165,12 @@ def _next_check(step, every):
 
 
 def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_limit=1.01, ess_min=1000,
-        max_seconds=None, snooker=0.1, spread=1.0, workers=1, checkpoint=None, ctx=None):  # fmt: skip
+        max_seconds=None, snooker=0.1, spread=1.0, workers=1, temperatures=1, t_max=100.0, checkpoint=None,
+        ctx=None):  # fmt: skip
     """Sample the problem; returns a results.Posterior. n_chains: at least 2 d and 16 (even). checkpoint: a file
-    written every check_every generations and at the end; if it exists the run continues from it."""
+    written every check_every generations and at the end; if it exists the run continues from it. temperatures > 1:
+    parallel tempering, n_chains at each of that many temperatures spaced geometrically up to t_max (for posteriors
+    with separated modes; needs a Problem, whose prior is split from the likelihood)."""
     n_chains = max(n_chains or 0, 2 * problem.dim, 16)
     n_chains += n_chains % 2
     halves = (np.arange(0, n_chains, 2), np.arange(1, n_chains, 2))
@@ -148,7 +180,9 @@ def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_l
             state = _State.load(checkpoint)
         else:
             rng = np.random.default_rng(seed)
-            state = _State(*_start(problem, n_chains, rng, spread, pool), rng)
+            betas = np.geomspace(1.0, 1.0 / t_max, temperatures) if temperatures > 1 else [1.0]
+            start = _start(problem, n_chains * len(betas), rng, spread, pool, temperatures > 1)
+            state = _State(*start, betas, rng)
         began, burn, diag, converged = time.monotonic(), 0, None, False
         next_check = _next_check(state.step, check_every)
         while state.step < max_steps:
