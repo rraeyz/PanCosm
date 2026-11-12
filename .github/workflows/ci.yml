@@ -143,6 +143,9 @@ jobs:
           path: packaging/out
       - name: Run the AppImage smoke test
         run: python3 packaging/smoke_installed.py
+      - name: Install the .deb with apt and run its smoke test (Debian, Ubuntu)
+        if: startsWith(matrix.image, 'debian') || startsWith(matrix.image, 'ubuntu')
+        run: SMOKE_DEB=1 python3 packaging/smoke_installed.py
 
   # Windows installer built on the latest image; also check an older Windows build.
   windows-versions:
