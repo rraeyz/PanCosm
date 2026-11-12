@@ -173,6 +173,8 @@ def _photometry_stages(win, page):
     ):  # one main button per stage: F5 presses it (UI-12)
         main.setProperty("primary", True)
         main.style().polish(main)  # fmt: skip
+    # the frame list: a results tab beside the light curve, Stars and Measurements (UI-16.1), not in the Images stage
+    page.res_tabs.addTab(page.frame_table, translate("MainWindow", "Frames"))
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)
