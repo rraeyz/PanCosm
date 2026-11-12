@@ -191,7 +191,16 @@ Left: Deeg's revised KvW error, the automatic window and the trend fitted with t
 - **Files:** `timeseries/timing_methods.py`, `minima.py`, steps, UI timing panel, tests, guide 07 and 13.
 
 ### OC-3. Many minima from long or sparse series  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/etv.py`: `template_from_fold` (the folded curve around each kind of
+minimum, binned median, smoothed; or folded on given per-eclipse times), `time_by_template` (shift, depth scale and
+a straight baseline by least squares, error from the covariance scaled by χ²ᵣ), `eclipse_times` (dense data: every
+eclipse, the template rebuilt once from the first pass's times) and `chunk_times` (sparse data: the in-eclipse
+points cut into chunks of ≥ 10 in time order, each moved to its middle cycle). Tests: two TESS sectors at 2 min with
+a 30 s wave: 84 eclipses in 0.5 s, the scatter about the wave equal to the reported errors; 1200 survey points over
+8 years with a 0.01 d, 1500 d light-travel-time wave: amplitude and P₃ within 2 σ. **Changed from the plan:** with
+300 points (the plan's figure) only ten chunks come out and the seven-parameter LTTE fit aliases its period
+(measured on six seeds); 1200 points are the test. Left: cadence integration of the template for 30-min data, the
+odd/even averaging, KIC 6525196 against the stored solution, the Light curves window job.
 - **Reference:** Zasche et al. 2014 (template fitted to data chunks); Gies et al. 2012 and Conroy et al. 2014
   (Kepler eclipse timing with a template per star); Borkovits et al. 2016 (odd / even averaging to suppress spots).
 - **Ours now:** `minima.each_minimum(t, y, t0, period, timer, window)`.
