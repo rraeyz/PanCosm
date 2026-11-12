@@ -20,6 +20,8 @@ def test_no_new_step_without_a_description():
     allowed = set(json.loads(LEFT.read_text()))
     assert old_form <= allowed, f"describe these steps with params=[P(...)]: {sorted(old_form - allowed)}"
     assert not allowed - old_form, f"described now: take {sorted(allowed - old_form)} off {LEFT.name}"
+    partly = {k: sorted(set(s.defaults) - {p.name for p in s.params}) for k, s in steps.REGISTRY.items() if s.params}
+    assert not {k: v for k, v in partly.items() if v}, "every setting of a described step is described"
 
 
 def test_values_out_of_range_or_kind_are_named():

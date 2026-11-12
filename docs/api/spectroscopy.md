@@ -89,23 +89,23 @@ inputs:      science
 optional:    flat, arc, guesses, output
 outputs:     echelle
 parameters (default):
-  first_order = null
-  order_step = 1
-  optimal = true
-  gain = null
-  read_noise = 5.0
-  line_list = "thar"
-  sky_lines = true
-  deg_x = 4
-  deg_m = 3
-  min_blaze = 0.1
-  orientation = "x"
-  reverse = false
-  sky = true
-  scatter = false
-  exclude = []
-  rows = null
-  extracted = null
+  first_order = null  (int, >= 1)  First order number: The physical number of the first order; empty: found
+  order_step = 1  (int)  Order step: +1 or −1: how the numbers run
+  optimal = true  (bool)  Optimal extraction: Horne (1986): each pixel counts by its signal-to-noise
+  gain = null  (float, e⁻/ADU, >= 0.0)  Gain: Empty: from the header or the profile
+  read_noise = 5.0  (float, e⁻, >= 0.0)  Read noise: For the optimal weights
+  line_list = "thar"  (text)  Line list: The arc lamp's lines
+  sky_lines = true  (bool)  Night-sky lines: The wavelength zero point is checked on the sky's own lines
+  deg_x = 4  (int, >= 1, <= 9)  Degree along the order: Of the 2-D wavelength solution
+  deg_m = 3  (int, >= 1, <= 9)  Degree across the orders: Of the 2-D wavelength solution
+  min_blaze = 0.1  (float, >= 0.0, <= 1.0)  Lowest blaze: The order ends below this share of the peak are left out of the merge
+  orientation = "x"  (choice, one of x, y)  Dispersion along: The axis the spectrum runs along
+  reverse = false  (bool)  Reversed: Wavelength decreases along the axis
+  sky = true  (bool)  Subtract the sky: From the gaps between the orders
+  scatter = false  (bool)  Scattered light: A smooth scattered-light surface is subtracted first
+  exclude = []  (table)  Lines left out: Arc lines kept out of the wavelength fit
+  rows = null  (table)  Order rows: Where the orders cross; empty: found on the flat
+  extracted = null  (object)  Extracted orders: Orders extracted elsewhere, for the wavelengths only
 ```
 
 ## spectroscopy.orbit
@@ -135,9 +135,9 @@ the automatic search (after the user removed or added orders).
 inputs:      image
 outputs:     orders
 parameters (default):
-  orientation = "x"
-  reverse = false
-  rows = null
+  orientation = "x"  (choice, one of x, y)  Dispersion along: The axis the spectrum runs along
+  reverse = false  (bool)  Reversed: Wavelength decreases along the axis
+  rows = null  (table)  Order rows: Where the orders cross; empty: found on the flat
 ```
 
 ## spectroscopy.reduce
@@ -152,20 +152,20 @@ inputs:      science
 optional:    arc, guesses, output
 outputs:     spectrum
 parameters (default):
-  guess_row = null
-  trace_row = null
-  width = 10.0
-  sky_offset = 15.0
-  sky_width = 10.0
-  optimal = true
-  gain = null
-  read_noise = 5.0
-  line_list = "henear"
-  order = 5
-  orientation = "x"
-  reverse = false
-  sky_lines = true
-  exclude = []
+  guess_row = null  (float, px, >= 0.0)  Spectrum row: Where the spectrum crosses; empty: the brightest
+  trace_row = null  (float, px, >= 0.0)  Reference trace row: A brighter spectrum whose trace shape is used (IRAF apall)
+  width = 10.0  (float, px, >= 0.0)  Width: Extraction width across the spectrum
+  sky_offset = 15.0  (float, px, >= 0.0)  Sky offset: Distance of the sky bands from the trace
+  sky_width = 10.0  (float, px, >= 0.0)  Sky width: Width of each sky band
+  optimal = true  (bool)  Optimal extraction: Horne (1986): each pixel counts by its signal-to-noise
+  gain = null  (float, e⁻/ADU, >= 0.0)  Gain: Empty: from the header or the profile
+  read_noise = 5.0  (float, e⁻, >= 0.0)  Read noise: For the optimal weights
+  line_list = "henear"  (text)  Line list: The arc lamp's lines
+  order = 5  (int, >= 1, <= 9)  Highest degree: Of the wavelength solution; the lines choose up to it
+  orientation = "x"  (choice, one of x, y)  Dispersion along: The axis the spectrum runs along
+  reverse = false  (bool)  Reversed: Wavelength decreases along the axis
+  sky_lines = true  (bool)  Night-sky lines: The wavelength zero point is checked on the sky's own lines
+  exclude = []  (table)  Lines left out: Arc lines kept out of the wavelength fit
 ```
 
 ## spectroscopy.rv
