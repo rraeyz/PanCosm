@@ -57,6 +57,7 @@ page. *Help → Check for updates…* in the application tells you when a newer 
 | macOS on an Intel Mac | `PanCosm-<version>-macos-x86_64.dmg` |
 | Linux, 64-bit PC | `PanCosm-<version>-linux-x86_64.AppImage` |
 | Linux on 64-bit ARM (Raspberry Pi 4/5 with a 64-bit OS) | `PanCosm-<version>-linux-aarch64.AppImage` |
+| Debian / Ubuntu (64-bit PC or ARM) | `PanCosm-<version>-linux-amd64.deb` / `…-linux-arm64.deb` |
 
 The installers are **not code-signed yet**, so your system warns the first time; the steps below show how to
 get past that warning.
@@ -119,6 +120,9 @@ AppImages need **FUSE 2**; if the file does not start and the terminal mentions 
 | Ubuntu 24.04 and later | `sudo apt install libfuse2t64` |
 | Fedora | `sudo dnf install fuse fuse-libs` |
 | Arch / CachyOS / Manjaro | `sudo pacman -S fuse2` |
+
+On **Debian or Ubuntu** the `.deb` installs like any package: `sudo apt install ./PanCosm-*-linux-amd64.deb`
+(remove with `sudo apt remove pancosm`).
 
 On **Arch, CachyOS or Manjaro** the release also has a `PKGBUILD`: put it in an empty folder and run
 `makepkg -si` there; pacman then installs, updates and removes PanCosm like any package.
