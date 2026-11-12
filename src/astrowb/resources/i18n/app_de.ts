@@ -14765,6 +14765,8 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../photometry/steps.py" line="513"/>
         <location filename="../../photometry/steps.py" line="545"/>
         <location filename="../../photometry/steps.py" line="573"/>
+        <location filename="../../spectroscopy/step_params.py" line="74"/>
+        <location filename="../../spectroscopy/step_params.py" line="151"/>
         <source>Method</source>
         <translation type="unfinished">Methode</translation>
     </message>
@@ -14943,6 +14945,198 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../timeseries/steps.py" line="189"/>
         <source>Length of the Markov chain for the errors; 0: none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="14"/>
+        <source>Period guess</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="15"/>
+        <source>Where the orbit fit starts (e.g. from the period search)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="21"/>
+        <source>Keep the period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="22"/>
+        <source>The period is not fitted (known better from photometry)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="33"/>
+        <source>Iterations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="34"/>
+        <source>Rounds of shift-and-add (González &amp; Levato 2006)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="45"/>
+        <source>Resolution FWHM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="46"/>
+        <source>The templates are smoothed to it; empty: measured from the spectrum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="56"/>
+        <source>Resolving power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="57"/>
+        <source>R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="63"/>
+        <source>Vacuum wavelengths</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="64"/>
+        <source>The spectrum&apos;s wavelengths are in vacuum, not air</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="75"/>
+        <source>mean: the least noise; median: robust; sum: keeps the counts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="82"/>
+        <source>Rejection</source>
+        <translation type="unfinished">Verwerfung</translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="83"/>
+        <source>Pixels left out before combining (cosmic rays, bad pixels)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="90"/>
+        <source>Sigma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="91"/>
+        <source>Rejection limit in standard deviations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="98"/>
+        <source>Scaling</source>
+        <translation type="unfinished">Skalierung</translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="99"/>
+        <source>Each spectrum to the common level (median) or also to the common shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="106"/>
+        <source>Weights</source>
+        <translation type="unfinished">Gewichte</translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="107"/>
+        <source>variance: 1/σ² weights in the mean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="117"/>
+        <source>Lowest velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="118"/>
+        <location filename="../../spectroscopy/step_params.py" line="126"/>
+        <source>The velocity range searched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="125"/>
+        <source>Highest velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="134"/>
+        <source>From wavelength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="135"/>
+        <location filename="../../spectroscopy/step_params.py" line="144"/>
+        <source>Only this window is used (avoid telluric bands); empty: all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="143"/>
+        <source>To wavelength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="152"/>
+        <source>Cross-correlation (TODCOR with a second template) or the broadening function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="160"/>
+        <source>Stars</source>
+        <translation type="unfinished">Sterne</translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="161"/>
+        <source>How many stars the broadening function looks for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="168"/>
+        <source>Template velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="169"/>
+        <source>The template&apos;s own radial velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="176"/>
+        <source>Second template velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="177"/>
+        <source>The second template&apos;s own radial velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="185"/>
+        <source>Template v sin i</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="186"/>
+        <source>Broadens a sharp-lined template to a fast rotator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="194"/>
+        <source>Second template v sin i</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../spectroscopy/step_params.py" line="195"/>
+        <source>Broadens the second template the same way</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

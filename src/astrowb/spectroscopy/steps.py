@@ -738,3 +738,6 @@ def disentangle_step(inputs, params, ctx):
         "components": {"paths": paths, "wave": wave.tolist(), "star1": s1.tolist(), "star2": s2.tolist(),
                        "separable_kms": width, "separable_a": width / rv.C_KMS * float(np.median(wave))}
     }  # fmt: skip
+
+
+from . import step_params  # noqa: E402, F401  (the settings described, AUT-1.3; after the steps exist)

@@ -16,8 +16,8 @@ inputs:      spectrum, cache
 optional:    grid, sun
 outputs:     atmosphere
 parameters (default):
-  resolution = null
-  vacuum = false
+  resolution = null  (float, >= 0.0)  Resolving power: R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum
+  vacuum = false  (bool)  Vacuum wavelengths: The spectrum's wavelengths are in vacuum, not air
 ```
 
 ## spectroscopy.classify
@@ -31,7 +31,7 @@ is empty (needs the internet once).
 inputs:      spectrum, library
 outputs:     classes
 parameters (default):
-  fwhm = null
+  fwhm = null  (float, Å, >= 0.0)  Resolution FWHM: The templates are smoothed to it; empty: measured from the spectrum
 ```
 
 ## spectroscopy.combine
@@ -45,11 +45,11 @@ inputs:      spectra
 optional:    output
 outputs:     combined
 parameters (default):
-  method = "mean"
-  rejection = "sigma"
-  sigma = 3.0
-  scale = "median"
-  weight = "none"
+  method = "mean"  (choice, one of mean, median, sum)  Method: mean: the least noise; median: robust; sum: keeps the counts
+  rejection = "sigma"  (choice, one of none, sigma, minmax)  Rejection: Pixels left out before combining (cosmic rays, bad pixels)
+  sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit in standard deviations
+  scale = "median"  (choice, one of none, median, shape)  Scaling: Each spectrum to the common level (median) or also to the common shape
+  weight = "none"  (choice, one of none, variance)  Weights: variance: 1/σ² weights in the mean
 ```
 
 ## spectroscopy.disentangle
@@ -63,7 +63,7 @@ inputs:      spectra, rv1, rv2, output_dir
 optional:    light_ratio
 outputs:     components
 parameters (default):
-  iterations = 40
+  iterations = 40  (int, >= 1, <= 1000)  Iterations: Rounds of shift-and-add (González & Levato 2006)
 ```
 
 ## spectroscopy.echelle
@@ -119,8 +119,8 @@ inputs:      time, rv
 optional:    error, rv2, error2
 outputs:     orbit
 parameters (default):
-  period = null
-  fix_period = false
+  period = null  (float, d, >= 0.0)  Period guess: Where the orbit fit starts (e.g. from the period search)
+  fix_period = false  (bool)  Keep the period: The period is not fitted (known better from photometry)
 ```
 
 ## spectroscopy.orders
@@ -185,16 +185,16 @@ inputs:      spectra, template
 optional:    coord, site, template2
 outputs:     rvs, skipped
 parameters (default):
-  v_min = -300.0
-  v_max = 300.0
-  wave_min = null
-  wave_max = null
-  method = "ccf"
-  components = 1
-  template_rv = 0.0
-  template2_rv = null
-  template_vsini = 0.0
-  template2_vsini = 0.0
+  v_min = -300.0  (float, km/s)  Lowest velocity: The velocity range searched
+  v_max = 300.0  (float, km/s)  Highest velocity: The velocity range searched
+  wave_min = null  (float, Å, >= 0.0)  From wavelength: Only this window is used (avoid telluric bands); empty: all
+  wave_max = null  (float, Å, >= 0.0)  To wavelength: Only this window is used (avoid telluric bands); empty: all
+  method = "ccf"  (choice, one of ccf, bf)  Method: Cross-correlation (TODCOR with a second template) or the broadening function
+  components = 1  (int, >= 1, <= 2)  Stars: How many stars the broadening function looks for
+  template_rv = 0.0  (float, km/s)  Template velocity: The template's own radial velocity
+  template2_rv = null  (float, km/s)  Second template velocity: The second template's own radial velocity
+  template_vsini = 0.0  (float, km/s, >= 0.0)  Template v sin i: Broadens a sharp-lined template to a fast rotator
+  template2_vsini = 0.0  (float, km/s, >= 0.0)  Second template v sin i: Broadens the second template the same way
 ```
 
 ## spectroscopy.telluric
