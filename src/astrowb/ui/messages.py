@@ -391,6 +391,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the template does not match this eclipse"),
     QT_TRANSLATE_NOOP("Messages", "no template for this kind of minimum"),
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}"),
+    # occult/laws.py (EXO-1)
+    QT_TRANSLATE_NOOP("Messages", "the {law} law takes {need} coefficients"),
+    QT_TRANSLATE_NOOP("Messages", "the limb-darkening coefficients make the intensity negative near the limb"),
+    QT_TRANSLATE_NOOP("Messages", "the limb-darkening coefficients make the limb brighter than the centre"),
     # engine/io.py: a file or folder input that is not there (AUT-1)
     QT_TRANSLATE_NOOP("Messages", "{name}: there is no {path}"),
     # engine/params.py: a described setting out of its range or kind (AUT-1)

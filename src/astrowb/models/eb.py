@@ -32,48 +32,11 @@ def t_peri_from_t0(t0, period, e, omega_deg):
     return t0 - period * m / (2 * np.pi)
 
 
-_NODES, _WEIGHTS = np.polynomial.legendre.leggauss(24)
-
-
-def _theta(x, d, ra):
-    """Half-angle of the circle of radius x (centred on the eclipsed star) behind the occulter."""
-    with np.errstate(invalid="ignore", divide="ignore"):
-        c = (x * x + d * d - ra * ra) / (2 * x * d)
-    th = np.arccos(np.clip(c, -1, 1))
-    th = np.where(x + d <= ra, np.pi, th)  # the whole circle behind the occulter
-    th = np.where((x >= d + ra) | (d >= x + ra), 0.0, th)
-    return np.where(d == 0, np.where(x < ra, np.pi, 0.0), th)
-
-
-def _intensity(x, rb, u1, u2):
-    mu = np.sqrt(np.clip(1 - (x / rb) ** 2, 0, 1))
-    return 1 - u1 * (1 - mu) - u2 * (1 - mu) ** 2
-
-
 def eclipsed_fraction(d, ra, rb, u1=0.0, u2=0.0):
     """Fraction of the flux of a limb-darkened star (radius rb) hidden by a disc (radius ra) at separation d."""
-    d = np.atleast_1d(np.asarray(d, float))
-    out = np.zeros(d.shape)
-    hit = d < ra + rb
-    if not hit.any():
-        return out
-    dd = d[hit][:, None]
-    # integrate x over [0, rb] in pieces split at the kinks |d - ra| and d + ra
-    lo_k = np.clip(np.abs(dd - ra), 0, rb)
-    hi_k = np.clip(dd + ra, 0, rb)
-    edges = np.sort(np.concatenate([np.zeros_like(dd), lo_k, hi_k, np.full_like(dd, rb)], axis=1), axis=1)
-    total = np.zeros(len(dd))
-    for k in range(edges.shape[1] - 1):
-        a, b = edges[:, k : k + 1], edges[:, k + 1 : k + 2]
-        # x = a + (b - a)(1 - cos phi)/2 clusters nodes at both ends, where theta and the limb
-        # darkening have square-root behaviour; dx = (b - a)/2 sin(phi) dphi
-        phi = 0.5 * np.pi * (_NODES[None, :] + 1)
-        x = a + 0.5 * (b - a) * (1 - np.cos(phi))
-        f = _intensity(x, rb, u1, u2) * 2 * x * _theta(x, dd, ra) * 0.5 * (b - a) * np.sin(phi)
-        total += np.sum(f * _WEIGHTS[None, :], axis=1) * 0.5 * np.pi
-    norm = np.pi * rb * rb * (1 - u1 / 3 - u2 / 6)
-    out[hit] = total / norm
-    return out
+    from ..occult.flux import occulted_fraction
+
+    return occulted_fraction(np.asarray(d, float) / rb, ra / rb, "quadratic", (u1, u2))
 
 
 def light_curve(

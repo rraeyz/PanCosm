@@ -98,7 +98,18 @@ Order of work: engines first (lane b of PLAN.md §5): EXO-1, 2, 3, 4, 5; then EX
 P2: 8, 11, 13, 14, 17; P3: 15, 18.
 
 ### EXO-1. The transit and occultation kernel  (P1)
-**open**
+**partial** — done (2026-11-12): `occult/laws.py` (uniform, linear, quadratic, square-root, logarithmic, power-2,
+four-parameter; the disc flux; a physical check as messages; Kipping's q ↔ u), `occult/flux.py`
+(`occulted_fraction(z, k, law, coeffs)`: the radial integral split at the kinks, cosine-clustered Gauss–Legendre —
+the eclipsing-binary model's kernel made general; `models.eb.eclipsed_fraction` now calls it), `occult/model.py`
+(`separation`: z(t) and in-front from P, Tc, a/R★, i, e, ω with the binaries' orbit code; `transit`: exposure
+sub-samples chosen from the ingress, third light, the occultation as a uniform planet disc). Tests: the uniform
+disc within 1e-8 of the closed form for k 0.001–2, z 0–3; every law within 1e-7 of an independent adaptive
+integration (56 random cases); no jump above 1e-8 at any contact; depth, T14, occultation depth and dilution;
+30-min exposures within 1e-6 of a fine midpoint average. **Changed from the plan:** the integral, not Mandel–Agol's
+elliptic integrals, for every law — its error (2e-9) is already under the analytic target. Left: analytic
+derivatives for the fits, several planets, phase curve, ellipsoidal and beaming terms, light-travel time, the
+native twin and the 30 ms budget (0.75 s now for 10⁵ × 5 points in NumPy), the batman comparison script.
 - **Read first:** Mandel & Agol 2002 (the cases and the elliptic integrals); Agol, Luger & Foreman-Mackey 2020
   (stable analytic solution for polynomial limb darkening with derivatives; their accuracy figures); Eastman et al.
   2013 §3 (numerical stability of the quadratic case; `exofast_occultquad_cel`: Bulirsch's elliptic integrals);
