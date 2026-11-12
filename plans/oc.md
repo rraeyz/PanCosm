@@ -138,7 +138,21 @@ Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14;
 - **Files:** `timeseries/minima_table.py`, `timeseries/ephemeris.py`, UI minima panel, tests.
 
 ### OC-2. Timing one eclipse: every method, honest errors, a verdict on symmetry  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/timing_methods.py`: `time_minimum(t, y, err, method)` → TimingResult
+(time, the largest of the analytic, bootstrap and prayer-bead errors, all three, branch coverage, depth S/N, notes)
+for kvw, mikulasek (Mikulášek 2015), polynomial (order 2–8 by BIC, Newton on the derivative, error propagated to
+the root), gaussian, lorentzian, bisector (7 levels), trapezoid; methods without a model of their own resample
+about the better of a Gaussian and a Mikulášek fit (the mirror-symmetric curve, smoothed, when neither fits);
+`compare_methods`: every method, their error-weighted χ²ᵣ ("disagree" above 9: a shape that does not suit reports a
+large error and weighs little) and the bisector's tilt from 20 % to 80 % of the depth with its error ("asymmetric"
+beyond 3 σ); `timeseries.minimum` takes every method (recipes, command line). Tests: at S/N 50 with one branch covered
+to 60 %, 60 realisations, each suited method unbiased within 0.3 × its error and its error 0.7–1.7 × the scatter.
+**Found:** Mikulášek's model is biased by 0.5–0.8 σ with one branch covered to 60 % (its shape against a Gaussian
+or a trapezoid, with a free baseline slope): KvW stays the default; the bisector's error is 4 × too large on a flat
+bottom; the bisector's tilt from a 2 % spot asymmetry (8 s at depth 0.3) is below its error at S/N 100 with 160
+points (10 s) — the acceptance's 2 % holds only for denser or better data (5 % at S/N 600 with 400 points is found).
+Left: Deeg's revised KvW error, the automatic window and the trend fitted with the model, the timing panel and its
+"Compare methods" table in the windows, the 500-realisation acceptance with the W UMa shape, the speed check.
 - **Ours now:** `minima.kwee_van_woerden` (with bootstrap error), `polynomial_minimum`, `trapezoid_fit` (with covariates), `each_minimum`.
 - **Read first:** Kwee & van Woerden 1956; Mikulášek et al. 2014 (KvW: to use or not to use); Deeg 2021; Mikulášek
   2015 §2–3 (the model functions and their use for timing); the AVE manual's description of its methods.

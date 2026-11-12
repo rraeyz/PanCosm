@@ -20,10 +20,11 @@ def _tool():
 
 def test_registry_and_source_notes_agree():
     sets = {e["id"]: e for e in _tool().load()}
-    notes = {str(p.parent.relative_to(ROOT / "data")): p for p in (ROOT / "data").rglob("SOURCE.md")}
+    notes = {p.parent.relative_to(ROOT / "data").as_posix(): p for p in (ROOT / "data").rglob("SOURCE.md")}
     assert set(sets) == set(notes), "a set without its note, or a note without its set"
     for sid, note in notes.items():
-        listed = re.findall(r"^- `([^`]+)`", note.read_text().split("## Files used in the checks", 1)[-1], re.M)
+        files_part = note.read_text(encoding="utf-8").split("## Files used in the checks", 1)[-1]
+        listed = re.findall(r"^- `([^`]+)`", files_part, re.M)
         assert sets[sid]["files"] == listed, sid
         assert sets[sid]["source"] in ("lco", "url", "archive", "manual")
         assert set(sets[sid].get("sha256", {})) <= set(listed), sid
