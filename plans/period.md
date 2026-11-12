@@ -259,7 +259,14 @@ table and verdict in the window, `period_warnings` as notes.
 - **Files:** `timeseries/significance.py`, `timeseries/aliases.py`, UI peak table, tests, guide 13.
 
 ### PER-5. Folding and refining  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/fold.py`: `binned` (median per phase bin with its error),
+`refine` (a mean and n harmonics with the frequency free, by least squares about the middle of the data; error from
+the covariance scaled by χ²ᵣ), `eclipses` (both minima of a folded binary: phases, depths below maximum light,
+widths at half depth, e cos ω ≈ π/2 (φ_II − 0.5)), `p_or_2p` (folded on 2P, odd and even minima: a depth difference
+beyond 3 σ makes 2P the orbital period). Tests: 20 refinements of a W UMa with nightly gaps, pulls with σ 0.6–1.5;
+a W UMa that GLS finds at half its period gets its orbital period back (z ≈ 9), equal minima keep the half; an
+eccentric Algol's depths, widths and secondary phase. Left: the fold panel (slider, keys, colours by cycle), T0
+choices, "Send to O−C / Models / Exoplanets", the 10⁶-point refolding speed.
 - **Ours now:** `timeseries/period.fold`, the folded plot of the Period search tab (`ui/period_page.py`, `ui/workspaces.fold_phase`).
 - **Build:** the folded plot: phase −0.25 … 1.25 (or 0 … 2), points coloured by set / band / time (cycle number as
   a colour scale to see period error as a drift), binned median with error bars, optional harmonic model; a period
