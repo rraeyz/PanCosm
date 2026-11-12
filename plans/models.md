@@ -364,9 +364,11 @@ centres in the sense the orbit turns, angular radius, temperature factor); overl
 wins"; every element split into k × k sub-points so edges are shared smoothly; intensities scaled by I(T f) / I(T)
 in the band (bolometric by default); longitudes move with F ≠ 1 and a drift per cycle. Tests: a 3° spot equals the
 analytic small-spot curve within 0.8 % of its amplitude (limit 2 %); a cool spot gives a 0.02 mag difference of
-the maxima and a fit from 30° away recovers its longitude within 0.5° and factor within 0.002 — on a close
-detached pair. Left: the contact case (the grids are not cut at the neck yet: a MOD-3 item); the parameter table
-flag for the drift (MOD-10); the guide picture.
+the maxima of a contact system (q = 0.4, fillout 0.3) and a fit from 30° away recovers its longitude within 0.5°
+and factor within 0.002. Contact stars now end at the plane through L1 (`roche.radius(neck=True)`); cells the
+rays cross badly (the neck's rim, steep cells) are measured as 6 × 6 quadrilaterals on the surface, the neck plane
+left dark: a contact envelope's projected area equals an independent pixel count within 1e-3. Left: the parameter
+table flag for the drift (MOD-10); the guide picture.
 - **Read first:** the WD spot parameters (latitude, longitude, radius, temperature factor); Eker 1994 and Budding
   1977 (analytic spot curves for tests); Prša et al. 2016 §3 (spots on meshes).
 - **Build:** up to 8 circular spots per star: colatitude, longitude (0 towards the companion, increasing in the

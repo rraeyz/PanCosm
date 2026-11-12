@@ -61,12 +61,16 @@ def omega_from_fillout(fill, q):
     return om_in - fill * (om_in - om_out)
 
 
-def radius(om, q, lam, nu, d=1.0, f=1.0):
-    """r of the equipotential Ω along the direction (λ, ν); up to the L1 distance towards the companion."""
+def radius(om, q, lam, nu, d=1.0, f=1.0, neck=False):
+    """r of the equipotential Ω along the direction (λ, ν); up to the L1 distance towards the companion. neck: the
+    star ends at the plane through L1 (a contact star's half of the common envelope): r no further than that plane."""
     l1, l2, _l3 = lagrange(q, d, f)
     if om < _omega_x(l2, q, d, f):
         raise ValueError("the potential is below the critical one: the surface is not closed")
     top = l1 if lam > 0.999999 else 3 * d  # towards the companion no further than L1
+    cut = neck and lam > 0 and l1 / lam <= top
+    if cut:
+        top = l1 / lam
 
     def g(r):
         return omega(r, lam, nu, q, d, f) - om
@@ -75,6 +79,8 @@ def radius(om, q, lam, nu, d=1.0, f=1.0):
     grid = np.geomspace(1e-6, top, 400)
     vals = g(grid)
     k = int(np.argmax(vals < 0)) if np.any(vals < 0) else None
+    if k is None and cut:  # the ray leaves through the neck
+        return float(top)
     if k is None or k == 0:
         raise ValueError("the potential is below the critical one: the surface is not closed")
     return float(brentq(g, grid[k - 1], grid[k]))
