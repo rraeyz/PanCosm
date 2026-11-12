@@ -627,7 +627,10 @@ the OC-7 apsidal system.
 - **Files:** `models/simple.py` (from `eb.py`, old names re-exported), `occult/`, `tests/test_simple_model.py`, `tests/validation/scripts/jktebop/`
 
 ### MOD-19. Reports and exchange  (P1)
-**open**
+**partial** — done (2026-11-12): `models/report.py`: the solution table (value(error) to the error's digits, fixed
+and constrained parameters marked with the reason, the error method in the caption). Left: figures, the absolute
+dimensions and spot tables, the synthetic curves, the WD and PHOEBE exports with their cross-program checks, the
+methods text.
 - **Ours now:** `models/data.export_for_phoebe`, `models/wd.write_wd_files`, `models/transit_report.py`, `ui/export.save_results` (CSV / LaTeX of the fit).
 - **Build:** figures through `ui/plot/publish`: light curves per band with model and residual panels (phase and
   time), velocity curves with residuals, the 3-D views at four phases, the q-search plot, the corner plot; tables:
