@@ -414,7 +414,11 @@ the rise time and the skewness of the fitted curve. Left: the class boundaries w
 - **Files:** `timeseries/methods/falc.py`, `ui/lightcurves/panels/asteroid.py`, `tests/test_falc.py`
 
 ### PER-12. Injection and detection limits  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/injection.py`: `recovery` (signals injected over a period × amplitude
+grid into given data, any search, recovered within half the frequency resolution — a relative period tolerance
+missed long periods — aliases optional for eclipses; threads), `gls_half_amplitude` (the analytic 50 % level).
+Tests: the measured 50 % amplitudes of two periods within 20 % of the analytic one. Left: transit and eclipse
+signal shapes, the contour plot, the GPU batch and its 2-minute target.
 - **Build:** "What could I have detected?": inject sinusoids / transits / eclipses of given shape over a grid of
   periods and amplitudes into the residuals (or the cleaned data), run the chosen search, and map the recovery
   fraction; a contour plot of 50 % and 90 % detection; batch on the GPU.
