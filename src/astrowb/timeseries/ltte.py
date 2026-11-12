@@ -240,3 +240,18 @@ def stable(p_in, p_out, e_out, m12, m3, incl_mutual_deg=0.0):
     q = m3 / m12
     limit = 2.8 * (1 + q) ** 0.4 * (1 + e_out) ** 0.4 * (1 - e_out) ** -1.2 * (1 - 0.3 * incl_mutual_deg / 180)
     return ratio > limit, float(ratio), float(limit)
+
+
+def residual_periodogram(times, residuals, errors, p_min=None, p_max=None):
+    """The GLS periodogram of the O−C residuals after the polynomial, to justify a periodic term before fitting it:
+    (periods, power, best period, its false-alarm probability (Baluev) over the searched range)."""
+    from .methods import gls
+    from .significance import fap_baluev
+
+    t = np.asarray(times, float)
+    span = np.ptp(t)
+    p_min = p_min or max(2 * np.median(np.diff(np.sort(t))), span / 50)
+    p_max = p_max or 3 * span
+    periods, power, best = gls(t, residuals, errors, p_min, p_max)
+    peak = float(np.max(power))
+    return periods, power, best, fap_baluev(t - t.min(), residuals, errors, peak, 1 / p_max, 1 / p_min)

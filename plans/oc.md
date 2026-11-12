@@ -281,7 +281,8 @@ one searched again with the later held — a joint 8-parameter search fell into 
 (the shared inference engine); `derived` (a₁₂ sin i₃, f(m₃), m₃ minimum / at 60° / 30°, the systemic-velocity
 amplitude, cycles covered with a warning below 1.5); `stable` (Mardling & Aarseth 2001). Tests: e₃ = 0.4 over 2.3
 cycles found in 30 of 30 realisations, each parameter within 1.5σ in ≥ 22 of 30; with a parabola; two orbits
-(800 d and 3000 d); 300 minima searched in 1.6 s. Left: the residual periodogram tab (item 3), the Gaia parallax
+(800 d and 3000 d); 300 minima searched in 1.6 s; `residual_periodogram` (GLS of the residuals after the
+polynomial with Baluev's false-alarm probability). Left: the periodogram tab, the Gaia parallax
 and magnitude checks, the diagram's parts and prediction band (item 5), the published system's check, replacing
 oc_models.fit_ltte in the O−C page.
 - **Read first:** Irwin 1952 and 1959; Mayer 1990 (BAICz 41, 231: practical formulas, mass function); OCFit's model

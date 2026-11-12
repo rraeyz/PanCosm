@@ -67,3 +67,14 @@ def test_the_posterior_of_the_fit():
     med, lo, hi = post["params"]["e_1"]
     assert med == pytest.approx(o["e"], abs=0.5 * o["e_err"]) and 0.5 < (lo + hi) / 2 / o["e_err"] < 2
     assert set(post["params"]) >= {"T0", "P", "P3_1", "A_1", "omega_1"}
+
+
+def test_the_residual_periodogram_justifies_the_orbit():
+    from astrowb.timeseries import ephemeris_models as em
+
+    t, e, s = minima(2, n=200)
+    lin = em.fit(t, e, s, 1)
+    _p, _power, best, fap = ltte.residual_periodogram(t, lin["residuals"], s)
+    assert best == pytest.approx(ORBIT["P3"], rel=0.1) and fap < 1e-10
+    noise = np.random.default_rng(0).normal(0, 0.0004, t.size)
+    assert ltte.residual_periodogram(t, noise, s)[3] > 0.01
