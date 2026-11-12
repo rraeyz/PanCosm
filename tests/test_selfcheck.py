@@ -87,3 +87,15 @@ def test_the_iers_check_imports(monkeypatch):
 
     monkeypatch.setattr(selfcheck, "_checks", lambda vega, mast, iers: {"IERS": iers})
     assert selfcheck.online()[0][1] is True
+
+
+def test_offline_checks_pass_in_a_fresh_process():
+    """The installed copy runs the check before anything else is imported: a module imported first in that order
+    (a step description before its steps) failed there only, not in this test process."""
+    import subprocess
+    import sys
+
+    code = "from astrowb import selfcheck; print([r for r in selfcheck.offline() if not r[1]])"
+    env = {**__import__("os").environ, "QT_QPA_PLATFORM": "offscreen"}
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env, timeout=300)
+    assert out.stdout.strip().endswith("[]"), out.stdout[-2000:] + out.stderr[-2000:]
