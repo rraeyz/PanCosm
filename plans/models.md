@@ -539,7 +539,12 @@ adaptive refinement, parallel grid points, the W UMa set, the verdict's wording 
 - **Files:** `models/scan.py`, step `models.scan`, `ui/models/panels/scan.py`, `tests/test_model_scan.py`
 
 ### MOD-14. Uncertainties  (P1)
-**open**
+**partial** — done (2026-11-12): `models/uncertainty.py` on MOD-12: `monte_carlo` (model + each set's scatter,
+refitted), `prayer_bead` (cyclic residual shifts per set, refitted), `mcmc` (the shared engine with each
+parameter's limits and Gaussian priors); on white noise the Monte Carlo and MCMC spreads agree with the formal
+errors within 50 % (the prayer bead below 3×: 40 shifts of few independent residual patterns). Left: the
+less-correlated parameter set for sampling, derived quantities, the coverage test over five systems, AI Phe, the
+red-noise inflation, storing the chain.
 - **Ours now:** `models/fit.mcmc` (emcee, fixed steps, flat priors) and `models/fit.absolute_dimensions` (Monte Carlo).
 - **Read first:** Conroy et al. 2020 §4.3; Southworth 2008 (residual permutation and Monte Carlo in JKTEBOP);
   Foreman-Mackey et al. 2013 (emcee) and ter Braak 2006 (differential-evolution MCMC); Hogg & Foreman-Mackey 2018
