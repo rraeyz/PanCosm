@@ -1,0 +1,30 @@
+# A guided task (plans/interface.md UI-8): the steps drive the real window. widget: an attribute of the area's
+# page; the texts per language (English when one is missing). Practice data: Help → Practice data → minima.txt.
+area = "oc"
+title.en = "Times of minimum to an O−C diagram and a third body"
+title.tr = "Minimum zamanlarından O−C diyagramına ve üçüncü cisme"
+
+[[step]]
+widget = "load_button"
+text.en = "Load the times of minimum: Load file… and choose minima.txt from the practice data (Help → Practice data)."
+text.tr = "Minimum zamanlarını yükleyin: Dosya yükle… ile alıştırma verisindeki minima.txt'yi seçin (Yardım → Alıştırma verisi)."
+
+[[step]]
+widget = "t0"
+text.en = "Type the reference epoch: T0 = 2455000.1234."
+text.tr = "Başlangıç anını yazın: T0 = 2455000.1234."
+
+[[step]]
+widget = "period"
+text.en = "Type the period: 0.8123456 days."
+text.tr = "Periyodu yazın: 0.8123456 gün."
+
+[[step]]
+widget = "ltte"
+text.en = "The O−C of these minima waves: choose Third body (light-travel time)."
+text.tr = "Bu minimumların O−C'si dalgalanıyor: Üçüncü cisim (ışık-yol zamanı) seçeneğini işaretleyin."
+
+[[step]]
+widget = "fit_button"
+text.en = "Fit and draw O−C. The third body's period comes out near 2900 days, the amplitude near 0.005 d."
+text.tr = "O−C'yi fit edip çizin. Üçüncü cismin periyodu 2900 gün, genlik 0.005 g dolayında çıkar."
