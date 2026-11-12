@@ -288,3 +288,80 @@ def variations(t, y, terms, info, groups, err=None):
                                    "amp": float(amp), "amp_err": float(amp_err), "phase": phase,
                                    "phase_err": float(ph_err)})  # fmt: skip
     return out
+
+
+ORBIT = ("period", "a", "t_peri", "e", "omega")
+
+
+def time_shift(t, y, terms, info, orbit, err=None):
+    """Period04's periodic time shift for a pulsator in a binary: the light-travel time τ(t) of an orbit (period,
+    a = a₁ sin i / c in days, t_peri, e, omega in degrees; oc_models' light-time formula) delays every pulsation
+    alike, y = c + Σ A sin(2π (f (t − τ(t) − t_ref) + φ)). The terms and the orbit are fitted together (trust-region
+    least squares; e kept in 0 … 0.95). Returns (terms, info, orbit, orbit_errors)."""
+    from .oc_models import _tau
+
+    t, y = np.asarray(t, float), np.asarray(y, float)
+    w = np.ones_like(y) if err is None else 1 / np.asarray(err, float)
+    terms = [dict(v) for v in terms]
+    layout = _layout(terms)
+    f_free, a_free, p_free, _n = layout
+    p_terms = np.concatenate([[info["zero_point"]], [terms[i]["freq"] for i in f_free],
+                              [terms[i]["amp"] for i in a_free], [terms[i]["phase"] for i in p_free]])  # fmt: skip
+    p0 = np.concatenate([p_terms, [orbit[k] for k in ORBIT]])
+    k = len(p_terms)
+    lo = np.full(len(p0), -np.inf)
+    hi = np.full(len(p0), np.inf)
+    lo[k + 3], hi[k + 3] = 0.0, 0.95
+    p0[k + 3] = np.clip(p0[k + 3], 1e-6, 0.95 - 1e-6)
+
+    def resid(p):
+        c, f, a, ph = _unpack(p[:k], terms, layout)
+        x = t - _tau(t, p[k + 1], p[k], p[k + 2], p[k + 3], p[k + 4]) - info["t_ref"]
+        return (model(x, c, f, a, ph) - y) * w
+
+    from scipy.optimize import least_squares
+
+    sol = least_squares(resid, p0, bounds=(lo, hi), x_scale="jac", xtol=1e-12, ftol=1e-12)
+    dof = max(len(y) - len(p0), 1)
+    chi2r = float(np.sum(sol.fun**2) / dof)
+    try:
+        cov = np.linalg.inv(sol.jac.T @ sol.jac) * (chi2r if err is None else max(chi2r, 1.0))
+        e = np.sqrt(np.clip(np.diag(cov), 0, None))
+    except np.linalg.LinAlgError:
+        e = np.full(len(p0), np.nan)
+    c, f, a, ph = _unpack(sol.x[:k], terms, layout)
+    flip = a < 0
+    a, ph = np.abs(a), (ph + 0.5 * flip) % 1.0
+    for i, v in enumerate(terms):
+        v.update(freq=float(f[i]), amp=float(a[i]), phase=float(ph[i]))
+    out = dict(zip(ORBIT, map(float, sol.x[k:]), strict=True))
+    out["omega"] %= 360.0
+    errors = dict(zip(ORBIT, map(float, e[k:]), strict=True))
+    rms = float(np.sqrt(np.mean((sol.fun / w) ** 2)))
+    return terms, {**info, "zero_point": float(c), "rms": rms, "chi2r": chi2r}, out, errors
+
+
+def to_table(terms, info, freq_unit="c/d", amp_unit="", amp_scale=1.0):
+    """The frequency list as an astropy Table (frequencies in c/d or µHz, amplitudes times amp_scale in amp_unit,
+    phases in cycles of a sine at the reference time, which the table's meta states). Write it with
+    .write(path, format="ascii.ecsv" | "ascii.latex")."""
+    from astropy.table import Table
+
+    if freq_unit not in ("c/d", "uHz"):
+        raise ValueError(f"unknown frequency unit: {freq_unit}")
+    k = 1.0 if freq_unit == "c/d" else 1e6 / 86400.0
+    t = Table()
+    t["id"] = [v["name"] for v in terms]
+    t["frequency"] = [v["freq"] * k for v in terms]
+    t["frequency_err"] = [v.get("freq_err", np.nan) * k for v in terms]
+    t["amplitude"] = [v["amp"] * amp_scale for v in terms]
+    t["amplitude_err"] = [v.get("amp_err", np.nan) * amp_scale for v in terms]
+    t["phase"] = [v["phase"] for v in terms]
+    t["phase_err"] = [v.get("phase_err", np.nan) for v in terms]
+    t["relation"] = [" + ".join(f"{c}{p}" for p, c in v["relation"].items()) if v["relation"] else "" for v in terms]
+    t["frequency"].unit = t["frequency_err"].unit = "1/d" if freq_unit == "c/d" else "uHz"
+    if amp_unit:
+        t["amplitude"].unit = t["amplitude_err"].unit = amp_unit
+    t.meta.update({"t_ref": info["t_ref"], "zero_point": info["zero_point"], "rms": info["rms"],
+                   "phase": "cycles of sin(2 pi (f (t - t_ref) + phase))"})  # fmt: skip
+    return t
