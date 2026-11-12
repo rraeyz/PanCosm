@@ -383,6 +383,14 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
     QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    # engine/params.py: a described setting out of its range or kind (AUT-1)
+    QT_TRANSLATE_NOOP("Messages", "{name} must be a number, not {value}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} must be a whole number, not {value}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} = {value} is below the smallest allowed value {low}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} = {value} is above the largest allowed value {high}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} must be true or false, not {value}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} must be one of {known}, not {value}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown parameter kind {kind}"),
     QT_TRANSLATE_NOOP("Messages", "a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)"),
     QT_TRANSLATE_NOOP(  # noqa: E501
         "Messages", "the light curves have times in different standards ({scales}): convert them to one first"
