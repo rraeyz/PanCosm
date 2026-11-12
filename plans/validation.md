@@ -174,7 +174,10 @@ astrometry.net).
 - **Files:** `resources/recipes/gold/*.toml`, `tests/validation/test_gold_paths.py`, `.github/workflows/validation-weekly.yml`
 
 ### VAL-5. The science changelog  (P1)
-**open**
+**partial** — done (2026-11-12): `tools/validation_report.py --save <version>` (the run's rows into
+docs/validation/history/) and `--diff old new` (rows whose measured number moved by more than a third of the
+tolerance, and rows only in one run); tested. Left: the release notes' "Science changes" section, the line in the
+release procedure, the first stored version.
 - **Build:** at every release the gold-path numbers and the tolerance tables' "measured" columns are stored in
   `docs/validation/history/<version>.json`; `tools/validation_report.py --diff A B` lists every number that moved
   by more than a third of its tolerance; the release notes get a "Science changes" section from it (in Turkish for
