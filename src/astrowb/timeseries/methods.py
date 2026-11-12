@@ -141,3 +141,46 @@ def _fine(score, best, step):
     fine = np.linspace(best - step, best + step, 41)
     fine = fine[fine > 0]
     return float(1 / fine[int(np.argmax(score(fine)))])
+
+
+def _multiband_power(t, y, w, band_idx, n_bands, freqs, n_base, n_band, chunk=500):
+    """1 − χ²(f) / χ²₀ of the shared-shape model: a mean per band, n_base harmonics shared by all bands and
+    n_band harmonics of each band's own (VanderPlas & Ivezić 2015, ApJ 812, 18); χ²₀ with the band means only."""
+    onehot = (band_idx[:, None] == np.arange(n_bands)[None, :]).astype(float)
+    sw = np.sqrt(w)
+    means = np.array([np.sum(w[band_idx == b] * y[band_idx == b]) / np.sum(w[band_idx == b]) for b in range(n_bands)])
+    chi0 = np.sum(w * (y - means[band_idx]) ** 2)
+    out = np.empty(len(freqs))
+    for a in range(0, len(freqs), chunk):
+        f = freqs[a : a + chunk]
+        cols = [np.broadcast_to(onehot, (len(f), *onehot.shape))]
+        for k in range(1, max(n_base, n_band) + 1):
+            arg = 2 * np.pi * k * f[:, None] * t[None, :]
+            s, c = np.sin(arg)[..., None], np.cos(arg)[..., None]
+            if k <= n_base:
+                cols += [s, c]
+            if k <= n_band:
+                cols += [s * onehot, c * onehot]
+        m = np.concatenate(cols, axis=2) * sw[None, :, None]
+        ata = np.einsum("fnp,fnq->fpq", m, m)
+        atb = np.einsum("fnp,n->fp", m, y * sw)
+        coef = np.linalg.solve(ata + 1e-12 * np.eye(ata.shape[1]), atb[..., None])[..., 0]
+        chi = np.sum((y * sw)[None, :] ** 2, axis=1) - np.einsum("fp,fp->f", coef, atb)
+        out[a : a + chunk] = 1 - chi / chi0
+    return out
+
+
+def multiband(t, y, band, err=None, p_min=0.05, p_max=None, n_base=1, n_band=0, oversample=5, budget=2e8):
+    """The multiband Lomb–Scargle periodogram (VanderPlas & Ivezić 2015): bands sampled at different times
+    (ZTF g / r, Gaia G / BP / RP, ATLAS o / c) searched together; band: a label per point."""
+    order = np.argsort(t)
+    tt, yy, w = _prepare(t, y, err)
+    labels = np.asarray(band)[order]
+    names, idx = np.unique(labels, return_inverse=True)
+    p_max = p_max or np.ptp(tt) / 2
+
+    def power(sel, freqs):
+        return _multiband_power(tt[sel], yy[sel], w[sel], idx[sel], len(names), freqs, n_base, n_band)
+
+    freqs, pw, best = search(tt, p_min, p_max, 1 / oversample / max(n_base, 1), power, budget)
+    return 1 / freqs, pw, _fine(lambda f: power(slice(None), f), best, 1 / oversample / np.ptp(tt) / 2)
