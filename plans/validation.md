@@ -70,7 +70,7 @@ Order of work: VAL-1, 2, 3 in stage S1 (with the foundation); VAL-4, 7, 8 as the
 before each release; VAL-10 for 1.0.
 
 ### VAL-1. The data registry and one command to fetch  (P1)
-**open**
+**partial** — done (2026-11-12): `data/registry.toml` (14 sets: id, title, area, source — LCO archive by file name, a URL, a tar / zip archive, or manual for ESO and NIST — and the exact files of each SOURCE.md; SHA-256 recorded for the sets fetched here: Eros, SA 98, FLOYDS, AI Dra, Kurucz); `tools/fetch_data.py <id> | --area A | --all [--into DIR] [--record]` (into `data/<id>/` or `$ASTROWB_DATA`; a verified file is never fetched again, a changed one is; what cannot be fetched is listed with why); `tests/test_data_registry.py` keeps the registry and the notes in step and checks the fetch logic. Found: one FLOYDS file (`…-0001-e00_1d.fits`) is not in the LCO archive under that name; STScI's server fails certificate checks from this network (Pickles). Left: checksums of the large sets (Qatar-1, Palomar, TOFES), CI caching and the per-area validation matrix.
 - **Ours now:** `data/` with a `SOURCE.md` per set and `data/README.md` (download commands by hand); CI's validation job downloads the HAT-P-32 night.
 - **Build:** `data/registry.toml`: for each set: id, title, areas, source URLs (with mirrors), licence and
   citation, size, the exact files with SHA-256, how it is used (tests' names), and whether CI fetches it;
