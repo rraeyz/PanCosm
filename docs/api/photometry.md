@@ -185,6 +185,7 @@ outputs:     comps_xy, catalogue
 parameters (default):
   r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: No other star may fall inside it
   n = 4  (int, >= 1, <= 50)  Comparison stars: How many to suggest
+  rules = null  (object)  Comparison-star rules: The rules' settings; each star left out is given its reason (with a field)
 ```
 
 ## photometry.transformation

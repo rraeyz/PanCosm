@@ -1020,6 +1020,9 @@
            ],
            "minimum": 1,
            "maximum": 50
+          },
+          "rules": {
+           "description": "Comparison-star rules: The rules' settings; each star left out is given its reason (with a field)"
           }
          },
          "additionalProperties": false
