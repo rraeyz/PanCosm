@@ -208,7 +208,20 @@ band, T_FWHM and τ, ESM, RM amplitude, occultation timing, the HAT-P-3 b compar
 - **Files:** `exoplanets/{parameters,derived}.py`, `core/constants.py` (IAU 2015 B3 nominal values), `tests/test_exo_derived.py`
 
 ### EXO-5. The inference engine (shared by O−C, Spectroscopy, Models, Exoplanets)  (P1)
-**open**
+**partial** — done (2026-11-12): `core/inference/`: `priors.py` (Uniform, LogUniform, Gaussian, TruncatedGaussian,
+Fixed, Derived; logpdf, sample, unit-cube transform, description); `problem.py` (named parameters with prior, start,
+scale; fixed ones passed to the likelihood; vectorised likelihoods evaluate whole sets of points); `diagnostics.py`
+(rank-normalised split-R̂ with the folded version, bulk and tail ESS with Geyer's monotone sequence, EXOFAST's
+burn-in); `mcmc.py` (DE-MC in two halves with snooker moves, γ = 1 every tenth generation, a thread pool for
+likelihoods that are not vectorised, the stopping rule R̂ < 1.01 and ESS > 1000 checked at growing intervals on
+chains thinned to ≤ 1000 draws, max steps / seconds, checkpoints that resume to the identical chain; chains start
+spread by the parameters' scales — a tight start next to the truth passed its own cluster off as posterior and gave
+73 % coverage); `results.py` (Posterior: summary with 68 / 95 % intervals and mode, derived quantities, correlation,
+rounding to the error's digits, NPZ storage). Tests: the 20-dimensional correlated Gaussian (covariance within 3 %,
+means within 4 Monte Carlo errors — at ESS 1000 a mean is itself good only to 3 % of σ), the banana, coverage 62–74 %
+over 300 intervals, the resumed chain identical. Left: item 3 (optimiser), parallel tempering and the bimodal test,
+the emcee alternative, nested sampling, ECSV / FITS export, the interface kit (item 7) and the migration of
+models/fit.py and timeseries/oc_models.py (item 8); the speed acceptance (item 4).
 - **Read first:** ter Braak 2006 (Stat. Comput. 16, 239: DE-MC) and ter Braak & Vrugt 2008 (snooker update);
   Goodman & Weare 2010 and Foreman-Mackey et al. 2013 (emcee); Eastman et al. 2013 §2 and 2019 (EXOFAST's
   DE-MC with parallel tempering, its stopping rule: Gelman–Rubin < 1.01 and independent draws > 1000); Vehtari et
