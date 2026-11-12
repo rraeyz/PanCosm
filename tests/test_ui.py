@@ -1815,7 +1815,7 @@ def test_settings_in_one_window(window, qtbot):
     win = window.show_settings()
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
-    assert names == ["General", "Profiles", "Processing", "Time", "Online services", "Plugins", "Advanced"]
+    assert names == ["General", "Profiles", "Processing", "Time", "Online services", "Shortcuts", "Plugins", "Advanced"]
     assert win.filter("offline") == 1
     assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [4]
     win.filter("")
@@ -2139,3 +2139,29 @@ def test_guided_task_drives_the_real_window(window, qtbot):
             bar.next()
         assert bar.window_.findChild(guided.GuidedBar) is None or not bar.isVisible()
     assert guided.load(tasks[0]["path"], "tr")["title"] != tasks[0]["title"]  # the Turkish script
+
+
+def test_shortcuts_are_changed_in_settings_and_kept(window, qtbot, tmp_path):
+    """UI-12 / UI-13: Settings → Shortcuts changes an action's keys in every open window, keeps them for the next
+    start, and the dot puts the program's keys back."""
+    from PySide6.QtGui import QAction, QKeySequence
+
+    from astrowb.ui.main_window import MainWindow
+
+    window.show_workspace("photometry")
+    win = window.show_settings()
+    qtbot.addWidget(win)
+    names = [w.categories.item(i).text() for w in (win,) for i in range(w.categories.count())]
+    assert "Shortcuts" in names and "act_show_settings" in win.shortcut_fields
+    row = next(row for _c, row, _n, _w in win.rows if row.label.text() == "All settings…")
+    row.control.setKeySequence(QKeySequence("Ctrl+Alt+J"))
+    acts = window.findChildren(QAction, "act_show_settings")
+    assert acts and all(a.shortcut().toString() == "Ctrl+Alt+J" for a in acts)
+    again = MainWindow(window.settings)  # the next start
+    qtbot.addWidget(again)
+    try:
+        assert again.findChildren(QAction, "act_show_settings")[0].shortcut().toString() == "Ctrl+Alt+J"
+    finally:
+        again.engine.shutdown()
+    row.reset()
+    assert acts[0].shortcut().toString(QKeySequence.PortableText) == "Ctrl+,"

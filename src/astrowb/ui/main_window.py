@@ -25,6 +25,7 @@ from .calibrate_page import CalibratePage
 from .file_actions import FileActions
 from .files import images_filter
 from .image_actions import ImageActions
+from .kit.shortcuts import own_keys
 from .kit.widgets import PlotCanvas
 from .kit.window import _raise as _raise_window
 from .main_settings import SettingsActions
@@ -500,6 +501,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         act.triggered.connect(lambda _checked=False: slot())  # Qt's "checked" flag must not reach the slot
         if shortcut:
             act.setShortcut(shortcut)
+        own_keys(act, slot, self.settings)  # the user's keys from Settings → Shortcuts
         menu.addAction(act)
         return act
 
