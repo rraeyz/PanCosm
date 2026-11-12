@@ -391,6 +391,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "{name} must be true or false, not {value}"),
     QT_TRANSLATE_NOOP("Messages", "{name} must be one of {known}, not {value}"),
     QT_TRANSLATE_NOOP("Messages", "unknown parameter kind {kind}"),
+    QT_TRANSLATE_NOOP("Messages", "{step_id}: the description of {name} does not match the step's default"),
     QT_TRANSLATE_NOOP("Messages", "a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)"),
     QT_TRANSLATE_NOOP(  # noqa: E501
         "Messages", "the light curves have times in different standards ({scales}): convert them to one first"

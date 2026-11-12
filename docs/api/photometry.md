@@ -14,7 +14,7 @@ inputs:      images, target_xy
 optional:    comps_xy
 outputs:     apertures
 parameters (default):
-  rule = "snr"
+  rule = "snr"  (choice, one of snr, aij)  Rule: snr: the radius of the best signal-to-noise; aij: AstroImageJ's, from the FWHM
 ```
 
 ## photometry.catalog
@@ -27,7 +27,7 @@ Catalogue magnitudes (APASS / Gaia) of the comparison stars and the target, foun
 inputs:      image, comps_xy, target_xy
 outputs:     catalog
 parameters (default):
-  filter = "V"
+  filter = "V"  (band)  Band: The band of the standard magnitudes
 ```
 
 ## photometry.identify_field
@@ -128,9 +128,9 @@ FWHM, background, star count of every frame; "good" lists the frames that pass (
 inputs:      images
 outputs:     quality, good
 parameters (default):
-  fwhm_factor = 1.5
-  star_fraction = 0.5
-  background_factor = 3.0
+  fwhm_factor = 1.5  (float, >= 1.0)  FWHM limit: A frame whose FWHM exceeds this times the median is bad (focus, trails)
+  star_fraction = 0.5  (float, >= 0.0, <= 1.0)  Star fraction: A frame that finds fewer than this share of the stars is bad (clouds)
+  background_factor = 3.0  (float, >= 1.0)  Sky limit: A frame whose sky exceeds this times the median is bad (Moon, twilight)
 ```
 
 ## photometry.suggest_comparisons
@@ -146,8 +146,8 @@ inputs:      images, target_xy
 optional:    field
 outputs:     comps_xy, catalogue
 parameters (default):
-  r_out = 16.0
-  n = 4
+  r_out = 16.0  (float, px, >= 0.0)  Outer sky radius: No other star may fall inside it
+  n = 4  (int, >= 1, <= 50)  Comparison stars: How many to suggest
 ```
 
 ## photometry.transformation
@@ -160,8 +160,8 @@ Transformation coefficients from two plate-solved images of a standard field (ca
 inputs:      image_a, image_b
 outputs:     transformation, stars
 parameters (default):
-  band_a = "B"
-  band_b = "V"
+  band_a = "B"  (band)  First band: The filter of the first image
+  band_b = "V"  (band)  Second band: The filter of the second image
 ```
 
 ## photometry.varfind
@@ -174,7 +174,7 @@ Every star of the field on every frame, and which of them vary (fieldstars.py).
 inputs:      images
 outputs:     field, variability
 parameters (default):
-  max_stars = 300
-  method = "aperture"
-  threshold = 3.0
+  max_stars = 300  (int, >= 1)  Most stars: The brightest stars of the field that are measured
+  method = "aperture"  (choice, one of aperture, psf)  Method: Aperture photometry, or PSF fitting for crowded fields
+  threshold = 3.0  (float, >= 0.0)  Threshold: How many times its expected scatter a star must vary to be listed
 ```

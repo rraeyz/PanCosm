@@ -3,7 +3,8 @@
 import numpy as np
 
 from .. import timing
-from ..engine.steps import REGISTRY, step
+from ..engine.params import QT_TRANSLATE_NOOP, P
+from ..engine.steps import REGISTRY, describe, step
 from ..hdr import get, number
 from ..io.lzw import readable
 from ..timeseries.minima import kwee_van_woerden, o_minus_c, trapezoid_fit
@@ -491,3 +492,197 @@ def transformation_step(inputs, params, ctx):
         stars["cat_a"], stars["cat_b"], stars["inst_a"], stars["inst_b"], (params["band_a"], params["band_b"])
     )
     return {"transformation": coef, "stars": stars}
+
+
+# --- the settings described (AUT-1): kind, unit, range, label and help -------------------------------------------
+describe(
+    "photometry.varfind",
+    P(
+        "max_stars",
+        "int",
+        300,
+        min=1,
+        label=QT_TRANSLATE_NOOP("Steps", "Most stars"),
+        help=QT_TRANSLATE_NOOP("Steps", "The brightest stars of the field that are measured"),
+    ),
+    P(
+        "method",
+        "choice",
+        "aperture",
+        choices=("aperture", "psf"),
+        label=QT_TRANSLATE_NOOP("Steps", "Method"),
+        help=QT_TRANSLATE_NOOP("Steps", "Aperture photometry, or PSF fitting for crowded fields"),
+    ),
+    P(
+        "threshold",
+        "float",
+        3.0,
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Threshold"),
+        help=QT_TRANSLATE_NOOP("Steps", "How many times its expected scatter a star must vary to be listed"),
+    ),
+)
+describe(
+    "photometry.apertures",
+    P(
+        "rule",
+        "choice",
+        "snr",
+        choices=("snr", "aij"),
+        label=QT_TRANSLATE_NOOP("Steps", "Rule"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "snr: the radius of the best signal-to-noise; aij: AstroImageJ's, from the FWHM"
+        ),
+    ),
+)
+describe(
+    "timeseries.minimum",
+    P(
+        "method",
+        "choice",
+        "kvw",
+        choices=("kvw", "trapezoid"),
+        label=QT_TRANSLATE_NOOP("Steps", "Method"),
+        help=QT_TRANSLATE_NOOP("Steps", "Kwee–van Woerden for eclipses, a trapezoid for transits"),
+    ),
+    P(
+        "t0",
+        "time",
+        None,
+        unit="d",
+        label=QT_TRANSLATE_NOOP("Steps", "Reference T0"),
+        help=QT_TRANSLATE_NOOP("Steps", "With the period: every eclipse in the curve gets its own time"),
+    ),
+    P(
+        "period",
+        "float",
+        None,
+        unit="d",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Period"),
+        help=QT_TRANSLATE_NOOP("Steps", "Period of the ephemeris used to count the cycles"),
+    ),
+)
+describe(
+    "timeseries.period",
+    P(
+        "method",
+        "choice",
+        "lomb-scargle",
+        choices=("lomb-scargle", "bls", "pdm", "anova"),
+        label=QT_TRANSLATE_NOOP("Steps", "Method"),
+        help=QT_TRANSLATE_NOOP("Steps", "Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA"),
+    ),
+    P(
+        "p_min",
+        "float",
+        0.05,
+        unit="d",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Shortest period"),
+        help=QT_TRANSLATE_NOOP("Steps", "The search starts here"),
+    ),
+    P(
+        "p_max",
+        "float",
+        None,
+        unit="d",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Longest period"),
+        help=QT_TRANSLATE_NOOP("Steps", "Empty: half the time span"),
+    ),
+)
+describe(
+    "photometry.suggest_comparisons",
+    P(
+        "r_out",
+        "float",
+        16.0,
+        unit="px",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Outer sky radius"),
+        help=QT_TRANSLATE_NOOP("Steps", "No other star may fall inside it"),
+    ),
+    P(
+        "n",
+        "int",
+        4,
+        min=1,
+        max=50,
+        label=QT_TRANSLATE_NOOP("Steps", "Comparison stars"),
+        help=QT_TRANSLATE_NOOP("Steps", "How many to suggest"),
+    ),
+)
+describe(
+    "photometry.quality",
+    P(
+        "fwhm_factor",
+        "float",
+        1.5,
+        min=1.0,
+        label=QT_TRANSLATE_NOOP("Steps", "FWHM limit"),
+        help=QT_TRANSLATE_NOOP("Steps", "A frame whose FWHM exceeds this times the median is bad (focus, trails)"),
+    ),
+    P(
+        "star_fraction",
+        "float",
+        0.5,
+        min=0.0,
+        max=1.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Star fraction"),
+        help=QT_TRANSLATE_NOOP("Steps", "A frame that finds fewer than this share of the stars is bad (clouds)"),
+    ),
+    P(
+        "background_factor",
+        "float",
+        3.0,
+        min=1.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Sky limit"),
+        help=QT_TRANSLATE_NOOP("Steps", "A frame whose sky exceeds this times the median is bad (Moon, twilight)"),
+    ),
+)
+describe(
+    "photometry.transformation",
+    P(
+        "band_a",
+        "band",
+        "B",
+        label=QT_TRANSLATE_NOOP("Steps", "First band"),
+        help=QT_TRANSLATE_NOOP("Steps", "The filter of the first image"),
+    ),
+    P(
+        "band_b",
+        "band",
+        "V",
+        label=QT_TRANSLATE_NOOP("Steps", "Second band"),
+        help=QT_TRANSLATE_NOOP("Steps", "The filter of the second image"),
+    ),
+)
+describe(
+    "photometry.catalog",
+    P(
+        "filter",
+        "band",
+        "V",
+        label=QT_TRANSLATE_NOOP("Steps", "Band"),
+        help=QT_TRANSLATE_NOOP("Steps", "The band of the standard magnitudes"),
+    ),
+)
+describe(
+    "timeseries.mission_lc",
+    P(
+        "mission",
+        "choice",
+        "TESS",
+        choices=("TESS", "Kepler", "K2"),
+        label=QT_TRANSLATE_NOOP("Steps", "Mission"),
+        help=QT_TRANSLATE_NOOP("Steps", "The space telescope whose light curves are fetched"),
+    ),
+    P(
+        "flux",
+        "text",
+        "PDCSAP",
+        label=QT_TRANSLATE_NOOP("Steps", "Flux"),
+        help=QT_TRANSLATE_NOOP("Steps", "PDCSAP: corrected for the spacecraft; SAP: as measured"),
+    ),
+)

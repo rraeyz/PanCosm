@@ -5885,7 +5885,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>das Spektrum konnte nicht verfolgt werden: für ein schwaches die Zeile eines helleren Spektrums für die Spurform angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="407"/>
+        <location filename="../../ui/messages.py" line="408"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>kein Minimum gefunden: das Fenster muss ein ganzes Minimum mit Punkten auf beiden Seiten enthalten</translation>
     </message>
@@ -6786,256 +6786,261 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/messages.py" line="394"/>
-        <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
+        <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="395"/>
+        <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="396"/>
         <source>the light curves have times in different standards ({scales}): convert them to one first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="398"/>
+        <location filename="../../ui/messages.py" line="399"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>die Nächte wurden mit unterschiedlich vielen Vergleichssternen gemessen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="399"/>
+        <location filename="../../ui/messages.py" line="400"/>
         <source>no night has a frame with every comparison star</source>
         <translation>keine Nacht hat eine Aufnahme mit allen Vergleichssternen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="400"/>
+        <location filename="../../ui/messages.py" line="401"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>keine aus dem Photometrie-Fenster exportierte Lichtkurve (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="401"/>
+        <location filename="../../ui/messages.py" line="402"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>keine zwei Bilder der beiden Filter liegen zeitlich nah genug, um eine Farbe zu bilden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="403"/>
+        <location filename="../../ui/messages.py" line="404"/>
         <source>filter not understood: {part}</source>
         <translation>Filter nicht verstanden: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="404"/>
+        <location filename="../../ui/messages.py" line="405"/>
         <source>no column {name} in the measurements table</source>
         <translation>keine Spalte {name} in der Messtabelle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="406"/>
+        <location filename="../../ui/messages.py" line="407"/>
         <source>the minimum must have data on both sides</source>
         <translation>das Minimum braucht Daten auf beiden Seiten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="412"/>
+        <location filename="../../ui/messages.py" line="413"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>keine Beobachtungszeit im Header (DATE-OBS, UT-OBS, JD, MJD-OBS): DATE-OBS im Fenster Bilder im Reiter Header hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="416"/>
+        <location filename="../../ui/messages.py" line="417"/>
         <source>not an angle: {value}</source>
         <translation>kein Winkel: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="418"/>
+        <location filename="../../ui/messages.py" line="419"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>kein GitHub-Repository für die Update-Prüfung eingestellt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="420"/>
+        <location filename="../../ui/messages.py" line="421"/>
         <source>solving</source>
         <translation>Lösen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="421"/>
+        <location filename="../../ui/messages.py" line="422"/>
         <source>catalogues</source>
         <translation>Kataloge</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="422"/>
+        <location filename="../../ui/messages.py" line="423"/>
         <source>reading headers</source>
         <translation>Header werden gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="423"/>
+        <location filename="../../ui/messages.py" line="424"/>
         <source>master bias</source>
         <translation>Master-Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="424"/>
+        <location filename="../../ui/messages.py" line="425"/>
         <source>master dark</source>
         <translation>Master-Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="425"/>
+        <location filename="../../ui/messages.py" line="426"/>
         <source>master flat</source>
         <translation>Master-Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="426"/>
+        <location filename="../../ui/messages.py" line="427"/>
         <source>calibrating</source>
         <translation>wird kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="427"/>
+        <location filename="../../ui/messages.py" line="428"/>
         <source>combining</source>
         <translation>wird kombiniert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="428"/>
+        <location filename="../../ui/messages.py" line="429"/>
         <source>aligning</source>
         <translation>wird ausgerichtet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="429"/>
+        <location filename="../../ui/messages.py" line="430"/>
         <source>stacking</source>
         <translation>wird gestapelt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="430"/>
+        <location filename="../../ui/messages.py" line="431"/>
         <source>drizzle</source>
         <translation>Drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="431"/>
+        <location filename="../../ui/messages.py" line="432"/>
         <source>reading</source>
         <translation>wird gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="432"/>
+        <location filename="../../ui/messages.py" line="433"/>
         <source>writing</source>
         <translation>wird geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="433"/>
+        <location filename="../../ui/messages.py" line="434"/>
         <source>plate solving</source>
         <translation>Astrometrische Lösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="434"/>
+        <location filename="../../ui/messages.py" line="435"/>
         <source>checking</source>
         <translation>wird geprüft</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="435"/>
+        <location filename="../../ui/messages.py" line="436"/>
         <source>downloading</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="436"/>
+        <location filename="../../ui/messages.py" line="437"/>
         <source>simulating</source>
         <translation>wird simuliert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="437"/>
+        <location filename="../../ui/messages.py" line="438"/>
         <source>simulating a transit night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="438"/>
+        <location filename="../../ui/messages.py" line="439"/>
         <source>photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="439"/>
+        <location filename="../../ui/messages.py" line="440"/>
         <source>quality</source>
         <translation>Qualität</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="440"/>
+        <location filename="../../ui/messages.py" line="441"/>
         <source>catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="441"/>
+        <location filename="../../ui/messages.py" line="442"/>
         <source>astrometry</source>
         <translation>Astrometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="442"/>
+        <location filename="../../ui/messages.py" line="443"/>
         <source>fit</source>
         <translation>Anpassung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="443"/>
+        <location filename="../../ui/messages.py" line="444"/>
         <source>trace</source>
         <translation>Spur</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="444"/>
+        <location filename="../../ui/messages.py" line="445"/>
         <source>trace orders</source>
         <translation>Ordnungen verfolgen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="445"/>
+        <location filename="../../ui/messages.py" line="446"/>
         <source>extraction</source>
         <translation>Extraktion</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="446"/>
+        <location filename="../../ui/messages.py" line="447"/>
         <source>arc</source>
         <translation>Vergleichsspektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="447"/>
+        <location filename="../../ui/messages.py" line="448"/>
         <source>wavelength solution</source>
         <translation>Wellenlängenlösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="448"/>
+        <location filename="../../ui/messages.py" line="449"/>
         <source>downloading the template library</source>
         <translation>Vorlagenbibliothek wird heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="449"/>
+        <location filename="../../ui/messages.py" line="450"/>
         <source>comparing</source>
         <translation>wird verglichen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="450"/>
+        <location filename="../../ui/messages.py" line="451"/>
         <source>comparing with the MK standards</source>
         <translation>Vergleich mit den MK-Standards</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="451"/>
+        <location filename="../../ui/messages.py" line="452"/>
         <source>disentangling</source>
         <translation>wird entflochten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="452"/>
+        <location filename="../../ui/messages.py" line="453"/>
         <source>band math</source>
         <translation>Bandrechnung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="453"/>
+        <location filename="../../ui/messages.py" line="454"/>
         <source>folder not found: {path}</source>
         <translation>Ordner nicht gefunden: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="454"/>
+        <location filename="../../ui/messages.py" line="455"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} enthält ein Datum, aber keine Uhrzeit, und kein Zeit-Schlüsselwort wurde gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="455"/>
+        <location filename="../../ui/messages.py" line="456"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>Namen oder Koordinaten des Ziels angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="456"/>
+        <location filename="../../ui/messages.py" line="457"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>die Auflösung des Spektrographen angeben: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="457"/>
+        <location filename="../../ui/messages.py" line="458"/>
         <source>the Sun</source>
         <translation>die Sonne</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="458"/>
+        <location filename="../../ui/messages.py" line="459"/>
         <source>first estimate</source>
         <translation>erste Schätzung</translation>
     </message>
@@ -14715,6 +14720,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/steps.py" line="667"/>
         <location filename="../../timeseries/steps.py" line="125"/>
         <source>Band</source>
         <translation type="unfinished">Band</translation>
@@ -14735,6 +14741,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/steps.py" line="553"/>
         <location filename="../../timeseries/steps.py" line="169"/>
         <source>Reference T0</source>
         <translation type="unfinished">Referenz-T0</translation>
@@ -14745,13 +14752,187 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/steps.py" line="505"/>
+        <source>Most stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="506"/>
+        <source>The brightest stars of the field that are measured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="513"/>
+        <location filename="../../photometry/steps.py" line="545"/>
+        <location filename="../../photometry/steps.py" line="573"/>
+        <source>Method</source>
+        <translation type="unfinished">Methode</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="514"/>
+        <source>Aperture photometry, or PSF fitting for crowded fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="521"/>
+        <source>Threshold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="522"/>
+        <source>How many times its expected scatter a star must vary to be listed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="532"/>
+        <source>Rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="533"/>
+        <source>snr: the radius of the best signal-to-noise; aij: AstroImageJ&apos;s, from the FWHM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="546"/>
+        <source>Kwee–van Woerden for eclipses, a trapezoid for transits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="554"/>
+        <source>With the period: every eclipse in the curve gets its own time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="562"/>
         <location filename="../../timeseries/steps.py" line="178"/>
         <source>Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/steps.py" line="563"/>
         <location filename="../../timeseries/steps.py" line="179"/>
         <source>Period of the ephemeris used to count the cycles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="574"/>
+        <source>Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="582"/>
+        <source>Shortest period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="583"/>
+        <source>The search starts here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="591"/>
+        <source>Longest period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="592"/>
+        <source>Empty: half the time span</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="603"/>
+        <source>Outer sky radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="604"/>
+        <source>No other star may fall inside it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="612"/>
+        <source>Comparison stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="613"/>
+        <source>How many to suggest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="623"/>
+        <source>FWHM limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="624"/>
+        <source>A frame whose FWHM exceeds this times the median is bad (focus, trails)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="632"/>
+        <source>Star fraction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="633"/>
+        <source>A frame that finds fewer than this share of the stars is bad (clouds)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="640"/>
+        <source>Sky limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="641"/>
+        <source>A frame whose sky exceeds this times the median is bad (Moon, twilight)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="650"/>
+        <source>First band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="651"/>
+        <source>The filter of the first image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="657"/>
+        <source>Second band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="658"/>
+        <source>The filter of the second image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="668"/>
+        <source>The band of the standard magnitudes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="678"/>
+        <source>Mission</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="679"/>
+        <source>The space telescope whose light curves are fetched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="685"/>
+        <source>Flux</source>
+        <translation type="unfinished">Fluss</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="686"/>
+        <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

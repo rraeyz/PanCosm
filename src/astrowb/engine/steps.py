@@ -43,6 +43,19 @@ def step(id, inputs=(), outputs=(), optional=(), params=(), **defaults):
     return register
 
 
+def describe(step_id, *params):
+    """Describe the settings of a step registered in the old keyword form (AUT-1): each P must name one of its
+    settings with the same default, so a description never changes what a step does."""
+    from dataclasses import replace
+
+    s = REGISTRY[step_id]
+    for p in params:
+        if p.name not in s.defaults or s.defaults[p.name] != p.default:
+            name = p.name
+            raise ValueError(f"{step_id}: the description of {name} does not match the step's default")
+    REGISTRY[step_id] = replace(s, params=tuple(params))
+
+
 def get(step_id) -> Step:
     _load_builtin()
     return REGISTRY[step_id]

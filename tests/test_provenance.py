@@ -120,7 +120,7 @@ def test_a_product_names_the_online_answers_its_step_used(tmp_path, monkeypatch)
         fits.PrimaryHDU(np.ones((4, 4), np.float32)).writeto(out)
         return {"image": str(out)}
 
-    fake = SimpleNamespace(inputs=[], outputs=["image"], defaults={}, func=func)
+    fake = SimpleNamespace(inputs=[], outputs=["image"], defaults={}, params=(), func=func)
     monkeypatch.setattr(steps, "get", lambda _id: fake)
     cache.last["simbad"] = (0.0, True)  # from before the step: not its own
     steps.execute("test.fetch", {}, {}, None)
