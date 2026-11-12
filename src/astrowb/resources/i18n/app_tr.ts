@@ -4574,7 +4574,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="400"/>
         <source>Posterior</source>
-        <translation>Posterior</translation>
+        <translation>Sonsal dağılım</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="401"/>
@@ -7103,7 +7103,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/models_page.py" line="104"/>
         <location filename="../../ui/models_page.py" line="169"/>
         <source>Fit</source>
-        <translation>Fit</translation>
+        <translation>Fit et</translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="114"/>
