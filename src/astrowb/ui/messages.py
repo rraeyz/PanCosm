@@ -398,6 +398,9 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "a log-uniform prior needs a positive lower limit"),
     QT_TRANSLATE_NOOP("Messages", "the width of a Gaussian prior must be positive"),
     QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
+    # models/fitting.py (MOD-12)
+    QT_TRANSLATE_NOOP("Messages", "differential evolution needs finite limits on every free parameter"),
+    QT_TRANSLATE_NOOP("Messages", "unknown optimiser: {optimiser}"),
     # models/system.py (MOD-10)
     QT_TRANSLATE_NOOP("Messages", "unknown morphology: {morphology}"),
     # timeseries/lightcurve.py (PER-1)
