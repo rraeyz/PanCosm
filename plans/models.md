@@ -270,7 +270,13 @@ comparison (MOD-9), normalisation options and magnitudes, outputs for the views.
 - **Depends on:** MOD-1, MOD-2.
 
 ### MOD-4. Reflection  (P1)
-**open**
+**partial** — done (2026-11-12): `models/reflection.py`: `incident_point` (the companion as a point of its
+luminosity, inverse square and projection), `incident_detailed` (element to element, both horizons, bolometric
+limb darkening normalised to σT⁴), `heated` (T⁴ + A F/σ), on the grids of models.roche_lc. Tests: a far sphere
+catches its solid angle of the light within 0.5 % by both; with A = 1 the re-radiated power equals the intercepted
+one (by construction, checked); point and detailed within 2 % for r₁ + r₂ = 0.27. Left: iterations of mutual
+heating, eclipse of the irradiating element by the receiver's own limb, eccentric scaling, the heated temperatures
+in the light curve (MOD-2's intensities per element), the PHOEBE comparison.
 - **Read first:** Wilson 1990 (the detailed reflection scheme and its convergence); Ruciński 1969; Horvat et al.
   2019 (irradiation frameworks; what Wilson's scheme assumes); Budaj 2011 (AJ 141, 59) for context.
 - **Build:** `models/roche/reflection.py`: (a) `point` — the companion as a limb-darkened point-like source with
