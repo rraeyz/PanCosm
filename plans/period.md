@@ -455,7 +455,11 @@ stacked folded plot, the stored RR Lyrae set's alias check.
 - **Files:** `timeseries/seismology.py`, `ui/lightcurves/panels/seismology.py`, `tests/test_seismology.py`
 
 ### PER-15. Rotation and activity  (P3)
-**open**
+**partial** — done (2026-11-12): `timeseries/rotation.py`: the ACF on a regular grid with gaps weighted out,
+McQuillan et al.'s period from its peaks (a P/2 peak lower than the P one is passed over; only the rotation's own
+multiples averaged): 1.7, 3.4 and 6.1 d spotted stars with evolving spots and a gap within 5 %; `flares` (runs of
+≥ 3 points above 3σ after a running median, equivalent durations): 27+ of 30 injected flares, ≤ 5 % invented.
+Left: the quasi-periodic GP, the river plot, flare energies.
 - **Build:** rotation period from ACF (McQuillan) and GLS with harmonic checks; a quasi-periodic Gaussian-process
   fit (celerite2, MIT — dependency checked) for the period posterior; spot-evolution plots (phase–time "river");
   flare finder (upward outliers of ≥ 3 consecutive points above nσ after detrending) with equivalent durations and,
