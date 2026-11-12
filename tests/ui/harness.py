@@ -116,11 +116,11 @@ class Harness:
 
         try:
             found = self.page
-            for part in name.split("."):
-                found = getattr(found, part)
+            for part in name.split("."):  # "edits.folder": a dict of fields on the page too
+                found = found[part] if isinstance(found, dict) else getattr(found, part)
             GuidedBar._bring_forward(found)
             return found
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
         for top in [self.window, *QApplication.topLevelWidgets()]:
             w = top.findChild(QWidget, name)
@@ -162,6 +162,17 @@ class Harness:
             QTest.keyClick(w, Qt.Key_Return)
 
         self._act(f"type into {name}", typing, budget)
+
+    def choose(self, name, row, budget=BUDGET_S):
+        """Click a list's row (a combo box is set: its popup is not a widget offscreen clicks reach)."""
+        w = self.find(name)
+        if hasattr(w, "visualItemRect"):
+            pos = w.visualItemRect(w.item(row)).center()
+            self._act(
+                f"choose {name} row {row}", lambda: QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos), budget
+            )
+        else:
+            self._act(f"choose {name} item {row}", lambda: w.setCurrentIndex(row), budget)
 
     def menu(self, text, budget=BUDGET_S):
         """Trigger the window's menu command with this English source text ("&Open…") or its translation."""
