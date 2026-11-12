@@ -282,7 +282,16 @@ choices, "Send to O−C / Models / Exoplanets", the 10⁶-point refolding speed.
 - **Files:** `timeseries/fold.py`, UI fold panel, tests.
 
 ### PER-6. Frequency analysis as Period04, and beyond  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/frequency.py`: terms with f / A / φ fit flags and
+relations (Σ n_j f_j of independent terms: computed, not fitted, their errors propagated); `improve_all`
+(Levenberg–Marquardt on the normal equations with the analytic Jacobian, weights, covariance errors; 50 terms on
+10⁵ points in 1.6 s here, a case in tools/speed.py — MINPACK's QR without BLAS took 10 s); `identify` (simplest
+combination of up to three stronger independent terms, |n| ≤ 3, within 1.5/T or 4 σ of the propagated errors;
+unresolved pairs): every injected combination found and a false one in under 5 % of 200 realisations;
+`analytic_errors` (M&O 1999 with Schwarzenberg-Czerny's √D from the residual runs), `monte_carlo_errors` (model +
+shuffled residuals, threads): within 25 % of each other and of the covariance on white noise; `variations`
+(amplitude and phase per subset with errors). Left: the δ Scuti campaign check, the periodic time shift (item 5),
+units and exports (item 7), the interface (items 1–2, 6), the native DFT (item 8).
 - **Read first:** Period04 manual (Fourier and Fit modules; "Improve all", "Calculate amplitude / phase
   variations", "Periodic time shift"); Lenz & Breger 2005; Breger et al. 1999 (combination frequencies); Pápics
   2012 (identification of combinations and harmonics by resolution); Kurtz et al. 2015 (the fσ / TESS practices);
