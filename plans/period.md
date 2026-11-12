@@ -444,7 +444,11 @@ stacked folded plot, the stored RR Lyrae set's alias check.
 - **Files:** `timeseries/methods/multiband.py`, `services/lc_{ztf,asassn,atlas,gaia}.py` (cleaning presets), `tests/test_multiband.py`
 
 ### PER-14. Solar-like and classical pulsators: seismology basics  (P3)
-**open**
+**partial** — done (2026-11-12): `timeseries/seismology.py`: the power density spectrum in ppm² µHz⁻¹ (Parseval
+normalised), the background divided out by a running median in log frequency, νmax from the smoothed excess, Δν
+from the spectrum's autocorrelation near Stello et al.'s expectation, the scaling relations with Huber et al.
+2011's solar values: a synthetic red giant's νmax = 100 µHz and Δν = 9 µHz within 3 %. Left: the Harvey background
+fit, the échelle diagrams (Δν and period spacing), the Kepler set.
 - **Read first:** Huber et al. 2009 (CoAst 160, 74: νmax and Δν pipeline); Kjeldsen & Bedding 1995 (scaling
   relations); lightkurve's seismology module (method descriptions).
 - **Build:** power density spectrum (ppm² µHz⁻¹), smoothing, background fit (Harvey-like terms + white noise),
