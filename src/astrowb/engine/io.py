@@ -120,6 +120,8 @@ OUTPUTS = {
     "orders": IO("object", QT_TRANSLATE_NOOP("Steps", "Échelle orders")),
     "ok": IO("object", QT_TRANSLATE_NOOP("Steps", "Passed")),
     "path": IO("object", QT_TRANSLATE_NOOP("Steps", "Path")),
+    "peaks": IO("object", QT_TRANSLATE_NOOP("Steps", "Highest peaks and their aliases")),
+    "fap": IO("number", QT_TRANSLATE_NOOP("Steps", "False-alarm probability")),
     "periods": IO("object", QT_TRANSLATE_NOOP("Steps", "Periods")),
     "polarimetry": IO("object", QT_TRANSLATE_NOOP("Steps", "Polarisation")),
     "positions": IO("object", QT_TRANSLATE_NOOP("Steps", "Positions")),

@@ -218,7 +218,16 @@ cleanest; the grid of item 2; the chooser and "Compare methods" in the window; n
 - **Files:** `timeseries/methods/*.py`, `native/src/fold.rs`, `compute/*.py`, steps, tests, guide 07 and 13.
 
 ### PER-4. Is the peak real? Significance, window, aliases, errors  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/significance.py`: `peak_table` (the highest local peaks, each noted when
+it follows from a higher one: alias by k × 1 d⁻¹ or 1 yr⁻¹ including the reflection at zero, harmonic, subharmonic),
+`fap_baluev` (Astropy's Baluev bound over the searched range), `fap_shuffled` (values shuffled among the times, any
+method), `frequency_error` (Montgomery & O'Donoghue 1999), `verdict` (the top peak in words); `timeseries.period`
+returns `peaks` and, for LS-type power, `fap`. Tests: nightly sampling with P = 0.3719 d at S/N 1 per point: the
+daily aliases labelled and the true peak first in ≥ 90 % (20 of 20 measured); pure noise: the analytic 1 % level
+exceeded in 1.25 % of 400 realisations; shuffled and analytic FAP within a factor 2 near 1 %; M&O's error within
+20 % of the scatter of 200 fitted frequencies. Left: the window overlay, the sampling's own window peaks, S/N of DFT
+peaks with selectable criteria, SDE for BLS / TLS, bootstrap / MCMC frequency errors, red-noise levels, the peak
+table and verdict in the window, `period_warnings` as notes.
 - **Read first:** Baluev 2008 (MNRAS 385, 1279: analytic false-alarm bound); VanderPlas 2018 §7 (window, aliases,
   failure modes); Breger et al. 1993 (A&A 271, 482: S/N ≥ 4), Baran & Koen 2021 (AcA 71, 113: thresholds for TESS
   lengths); Montgomery & O'Donoghue 1999 (DSSN 13, 28: errors of f, A, φ), Kovács 1981 (period error); Loumos &
