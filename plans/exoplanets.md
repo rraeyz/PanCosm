@@ -423,7 +423,10 @@ Left: the depth against wavelength, the practice nights through the interface, t
 - **Files:** `exoplanets/report.py`, `resources/methods/exoplanets_*.txt`, `tests/test_exo_report.py`
 
 ### EXO-13. Noise that is not white  (P2)
-**open**
+**partial** — done (2026-11-12), the simple treatments: `exoplanets/noise.py`: the β factor of the time-averaging
+method (median over bin sizes, never below 1; ≈ 1 on white noise, > 1.5 on a red component) and the error scaling to
+χ²ᵣ = 1. Left: the Gaussian processes (celerite2 after the licence and wheel check), the comparison table, the
+coverage test.
 - **Read first:** Foreman-Mackey et al. 2017 (celerite); Pont et al. 2006; Carter & Winn 2009 (wavelet
   likelihood); Rajpaul et al. 2015 (GPs for activity in velocities).
 - **Build:** optional Gaussian-process noise per light curve (celerite2, MIT: Matérn-3/2 and damped-oscillator
