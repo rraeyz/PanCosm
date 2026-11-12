@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLES = ROOT / "tests" / "validation" / "data"
-REFERENCE_PROGRAMS = ("pyraf", "iraf", "lightkurve", "batman", "ellc", "phoebe", "transitleastsquares")
+REFERENCE_PROGRAMS = ("pyraf", "iraf", "lightkurve", "batman", "ellc", "phoebe", "transitleastsquares", "wotan")
 
 
 def test_every_reference_table_has_a_manifest_and_its_script():

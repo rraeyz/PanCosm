@@ -1,0 +1,8 @@
+{
+ "program": "wotan.flatten (biweight)",
+ "version": "2.1",
+ "date": "2026-11-12",
+ "command": "python tests/validation/scripts/wotan/biweight.py",
+ "inputs": "the synthetic curve of curve() (seed 7)",
+ "inputs_sha256": "fb0c42ce87cb847b095258d1f4c1245e4e65641829fb17f8cf5dddcfb4ae2188"
+}

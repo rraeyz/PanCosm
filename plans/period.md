@@ -141,7 +141,14 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
   panel, tests.
 
 ### PER-2. Cleaning that does not eat the signal  (P1)
-**open**
+**partial** — done (2026-11-12), the engine: `timeseries/clean.py`: `segments` (gaps over k × the cadence or a
+given length), `event_mask` (a known ephemeris), `trend` per segment with a mask (time-windowed biweight with the
+scale fixed while the location iterates, sliding median, Savitzky–Golay, polynomial with the order by BIC, spline
+with a knot spacing), `nightly_means`, `outliers` (both / up / down). Tests: the biweight equals wotan 2.1's on a
+stored curve within 2e-9 (tests/validation/data/wotan_biweight.txt with its manifest and script; wotan run in its
+own environment); with the events masked a 1 % transit keeps its depth within 3 % under biweight, median and spline
+detrending and the trend's residual stays below the white noise. Left: the high-pass for pulsators, mission quality
+flags, the history list with its switches (the interface).
 - **Reference:** lightkurve `remove_outliers`, `flatten` (Savitzky–Golay with a break tolerance and a mask),
   `remove_nans`; Wōtan (Hippke et al. 2019, AJ 158, 143: comparison of detrending filters for transit searches —
   the biweight with a window of 3 × the transit duration is the best general choice); Period04 "subtract zero points
