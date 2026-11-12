@@ -451,7 +451,13 @@ by gravity darkening, the WD and PHOEBE importers.
 - **Files:** `models/system.py`, `models/io_wd.py`, `models/io_phoebe.py`, tests.
 
 ### MOD-11. Starting values from the data  (P1)
-**open**
+**partial** — done (2026-11-12), the light-curve part: `models/estimate.py`: Mowlavi et al.'s two-Gaussian model
+(constant, ellipsoidal cosine, one wrapped Gaussian per eclipse; several starts for the secondary's phase) and from
+it e cos ω (within 0.01 on 25 random detached systems), e sin ω from the widths, r₁ + r₂ from the widths (within
+35 %: partial eclipses and e), J from the depths, a morphology suggestion with its reason (a W UMa curve called
+contact), `oconnell` (the maxima's difference: a spot suggested beyond 3σ). Left: the velocity part (SPE-15), T₁
+from Gaia colours, the inclination from the depth and shape, the 40-system convergence test (needs MOD-12), the
+step and the one-click table.
 - **Why:** the hardest part for a newcomer in every reference program; PHOEBE's estimators are its most praised
   addition.
 - **Read first:** Conroy et al. 2020 §4.1 (`lc_geometry`: two-Gaussian models of the eclipses → positions, widths,
