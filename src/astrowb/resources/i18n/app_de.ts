@@ -11727,7 +11727,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <name>PlotCanvas</name>
     <message>
         <location filename="../../ui/kit/widgets.py" line="199"/>
-        <location filename="../../ui/kit/widgets.py" line="348"/>
+        <location filename="../../ui/kit/widgets.py" line="375"/>
         <source>Publication figure…</source>
         <translation>Publikationsgrafik…</translation>
     </message>
@@ -11752,37 +11752,42 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="291"/>
+        <location filename="../../ui/kit/widgets.py" line="273"/>
+        <source>This plot could not be drawn: {error}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/widgets.py" line="318"/>
         <source>Plot</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="342"/>
+        <location filename="../../ui/kit/widgets.py" line="369"/>
         <source>Show all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="344"/>
+        <location filename="../../ui/kit/widgets.py" line="371"/>
         <source>Copy picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="345"/>
+        <location filename="../../ui/kit/widgets.py" line="372"/>
         <source>Copy data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="347"/>
+        <location filename="../../ui/kit/widgets.py" line="374"/>
         <source>Save data…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="375"/>
+        <location filename="../../ui/kit/widgets.py" line="402"/>
         <source>Export data</source>
         <translation>Daten exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/widgets.py" line="391"/>
+        <location filename="../../ui/kit/widgets.py" line="418"/>
         <source>Publication figure</source>
         <translation>Publikationsgrafik</translation>
     </message>
