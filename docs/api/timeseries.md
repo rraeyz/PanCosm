@@ -13,6 +13,16 @@ inputs:      time, flux
 outputs:     frequencies, grid, spectrum, residual_spectrum, window, maxima, rms, t_ref, zero_point, clean_spectrum
   time  (object)  Times
   flux  (object)  Flux
+  frequencies  (object)  Frequencies
+  grid  (folder)  Folder of model spectra
+  spectrum  (file)  Spectrum
+  residual_spectrum  (object)  Residual frequency spectrum
+  window  (object)  Spectral window
+  maxima  (object)  Times of maximum
+  rms  (object)  Scatter of the residuals
+  t_ref  (object)  Reference time
+  zero_point  (object)  Zero point
+  clean_spectrum  (object)  Cleaned frequency spectrum
 parameters (default):
   f_max = 50.0  (float, c/d, >= 0.0)  Highest frequency: The spectrum is computed from 0 up to this frequency
   n_max = 10  (int, >= 1, <= 200)  Most frequencies: Prewhitening stops after this many frequencies
@@ -33,6 +43,7 @@ Time of minimum of a light curve; with t0 and period also epoch and O-C (days). 
 inputs:      light_curve
 outputs:     minimum
   light_curve  (file)  Light curve
+  minimum  (object)  Time of minimum
 parameters (default):
   method = "kvw"  (choice, one of kvw, trapezoid)  Method: Kwee–van Woerden for eclipses, a trapezoid for transits
   t0 = null  (time, d)  Reference T0: With the period: every eclipse in the curve gets its own time
@@ -51,6 +62,7 @@ inputs:      target, folder
 outputs:     light_curve
   target  (text)  Target
   folder  (folder)  Folder of the night's frames
+  light_curve  (file)  Light curve
 parameters (default):
   mission = "TESS"  (choice, one of TESS, Kepler, K2)  Mission: The space telescope whose light curves are fetched
   flux = "PDCSAP"  (text)  Flux: PDCSAP: corrected for the spacecraft; SAP: as measured
@@ -67,6 +79,7 @@ so the page stays usable during the chain and it can be cancelled.
 inputs:      minima
 outputs:     fit
   minima  (object)  Times of minimum
+  fit  (object)  O−C fit
 parameters (default):
   model = "ltte"  (choice, one of ltte, apsidal)  Model: Third body (light-travel time) or apsidal motion
   t0 = 0.0  (time, d)  Reference T0: Epoch zero of the ephemeris
@@ -87,6 +100,10 @@ outputs:     periods, power, best, warnings
   time  (object)  Times
   flux  (object)  Flux
   err  (object)  Errors
+  periods  (object)  Periods
+  power  (object)  Periodogram
+  best  (object)  Best period
+  warnings  (object)  Warnings
 parameters (default):
   method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova)  Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA
   p_min = 0.05  (float, d, >= 0.0)  Shortest period: The search starts here
@@ -105,6 +122,7 @@ optional:    cache_file
 outputs:     light_curve
   target  (text)  Target
   cache_file  (new_file)  File for the answers kept offline
+  light_curve  (file)  Light curve
 parameters (default):
   source = "ZTF"  (choice, one of ZTF, AAVSO)  Archive: Where the light curve comes from
   band = null  (band)  Band: One band of the archive; empty: the first

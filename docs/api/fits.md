@@ -13,6 +13,7 @@ inputs:      source, destination
 outputs:     destination
   source  (file)  File to copy
   destination  (new_file)  Output file
+  destination  (new_file)  Output file
 parameters (default):
   overwrite = false  (bool)  Overwrite: An existing file of that name is replaced
   set_cards = {}  (object)  Header cards to set: Keyword: value pairs written into the header

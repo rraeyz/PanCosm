@@ -13,6 +13,7 @@ inputs:      images, output
 outputs:     stack
   images  (files)  Images
   output  (new_file)  Output file
+  stack  (new_file)  Stacked image
 parameters (default):
   scale = 2  (int, >= 1, <= 4)  Scale: The output pixels are this many times finer
   pixfrac = 0.6  (float, >= 0.0, <= 1.0)  Drop size: The share of each input pixel that is dropped (pixfrac)
@@ -30,6 +31,7 @@ inputs:      images, output
 outputs:     stack
   images  (files)  Images
   output  (new_file)  Output file
+  stack  (new_file)  Stacked image
 parameters (default):
   sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit in standard deviations
   method = "mean"  (choice, one of mean, median, sum)  Combine: mean: the least noise; median: robust; sum: keeps the counts

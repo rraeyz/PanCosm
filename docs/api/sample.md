@@ -14,4 +14,5 @@ and a long-slit frame with its arc (see the Guide).
 inputs:      folder
 outputs:     truth
   folder  (new_folder)  Folder for the practice data
+  truth  (object)  True values of the practice data
 ```

@@ -15,6 +15,7 @@ outputs:     product
   raster  (file)  Raster image
   output  (new_file)  Output file
   bands  (text)  Bands
+  product  (new_file)  Product image
 parameters (default):
   k = 5  (int, >= 2, <= 50)  Classes: How many k-means classes
 ```
@@ -33,6 +34,7 @@ outputs:     product
   expression  (text)  Band formula
   output  (new_file)  Output file
   name  (text)  Name
+  product  (new_file)  Product image
 ```
 
 ## rs.pca
@@ -47,6 +49,7 @@ optional:    output
 outputs:     product
   raster  (file)  Raster image
   output  (new_file)  Output file
+  product  (new_file)  Product image
 parameters (default):
   n = 3  (int, >= 1, <= 50)  Components: How many principal components are kept
 ```

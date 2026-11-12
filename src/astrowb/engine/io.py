@@ -1,6 +1,7 @@
-"""What the inputs of the steps are (AUT-1 items 1 and 3): one vocabulary for every step, an input named the same
+"""What the inputs and outputs of the steps are (AUT-1 items 1 and 3): one vocabulary for every step, a name
 meaning the same everywhere ("images": the frames to measure); a name that means something else in one step is keyed
-"step id.name". The kind says what the value is; a file or folder given as a path must exist before the step runs."""
+"step id.name". The kind says what the value is; a file or folder input given as a path must exist before the step
+runs."""
 
 from dataclasses import dataclass
 
@@ -86,9 +87,73 @@ INPUTS = {
 }
 
 
+# what the steps give; a name both taken and given (images, light_curve, spectrum, …) is described once, above
+OUTPUTS = {
+    "apertures": IO("object", QT_TRANSLATE_NOOP("Steps", "Measurements at each aperture radius")),
+    "arcs": IO("files", QT_TRANSLATE_NOOP("Steps", "Calibrated arc frames")),
+    "atmosphere": IO("object", QT_TRANSLATE_NOOP("Steps", "Stellar parameters")),
+    "best": IO("object", QT_TRANSLATE_NOOP("Steps", "Best period")),
+    "calibrated": IO("files", QT_TRANSLATE_NOOP("Steps", "Calibrated frames")),
+    "catalog": IO("object", QT_TRANSLATE_NOOP("Steps", "Catalogue magnitudes")),
+    "catalogue": IO("object", QT_TRANSLATE_NOOP("Steps", "Catalogue stars")),
+    "chart": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Finder chart")),
+    "classes": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectral classes")),
+    "clean_spectrum": IO("object", QT_TRANSLATE_NOOP("Steps", "Cleaned frequency spectrum")),
+    "colour": IO("object", QT_TRANSLATE_NOOP("Steps", "Colour curve")),
+    "combined": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Combined spectrum")),
+    "components": IO("files", QT_TRANSLATE_NOOP("Steps", "Spectra of the components")),
+    "curves": IO("object", QT_TRANSLATE_NOOP("Steps", "Light curves")),
+    "dark_scales": IO("object", QT_TRANSLATE_NOOP("Steps", "Dark scale factors")),
+    "echelle": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Merged échelle spectrum")),
+    "failed_masters": IO("object", QT_TRANSLATE_NOOP("Steps", "Masters that could not be made")),
+    "fit": IO("object", QT_TRANSLATE_NOOP("Steps", "O−C fit")),
+    "frequencies": IO("object", QT_TRANSLATE_NOOP("Steps", "Frequencies")),
+    "good": IO("files", QT_TRANSLATE_NOOP("Steps", "Good frames")),
+    "labelled": IO("object", QT_TRANSLATE_NOOP("Steps", "Labelled objects")),
+    "masters": IO("files", QT_TRANSLATE_NOOP("Steps", "Master frames")),
+    "maxima": IO("object", QT_TRANSLATE_NOOP("Steps", "Times of maximum")),
+    "minimum": IO("object", QT_TRANSLATE_NOOP("Steps", "Time of minimum")),
+    "missing": IO("object", QT_TRANSLATE_NOOP("Steps", "Missing calibration frames")),
+    "model": IO("object", QT_TRANSLATE_NOOP("Steps", "Model fit")),
+    "night": IO("object", QT_TRANSLATE_NOOP("Steps", "The night's plan")),
+    "objects": IO("object", QT_TRANSLATE_NOOP("Steps", "Minor planets in the field")),
+    "orders": IO("object", QT_TRANSLATE_NOOP("Steps", "Échelle orders")),
+    "ok": IO("object", QT_TRANSLATE_NOOP("Steps", "Passed")),
+    "path": IO("object", QT_TRANSLATE_NOOP("Steps", "Path")),
+    "periods": IO("object", QT_TRANSLATE_NOOP("Steps", "Periods")),
+    "polarimetry": IO("object", QT_TRANSLATE_NOOP("Steps", "Polarisation")),
+    "positions": IO("object", QT_TRANSLATE_NOOP("Steps", "Positions")),
+    "power": IO("object", QT_TRANSLATE_NOOP("Steps", "Periodogram")),
+    "problems": IO("object", QT_TRANSLATE_NOOP("Steps", "Problems found")),
+    "product": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Product image")),
+    "quality": IO("object", QT_TRANSLATE_NOOP("Steps", "Frame quality")),
+    "raw_converted": IO("files", QT_TRANSLATE_NOOP("Steps", "Camera raw files converted to FITS")),
+    "report": IO("object", QT_TRANSLATE_NOOP("Steps", "Report")),
+    "residual_spectrum": IO("object", QT_TRANSLATE_NOOP("Steps", "Residual frequency spectrum")),
+    "rgb": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Colour image")),
+    "rms": IO("object", QT_TRANSLATE_NOOP("Steps", "Scatter of the residuals")),
+    "rvs": IO("object", QT_TRANSLATE_NOOP("Steps", "Radial velocities")),
+    "skipped": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectra left out")),
+    "solved": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Plate-solved image")),
+    "stack": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Stacked image")),
+    "stars": IO("object", QT_TRANSLATE_NOOP("Steps", "Stars")),
+    "status": IO("object", QT_TRANSLATE_NOOP("Steps", "Status")),
+    "t_ref": IO("object", QT_TRANSLATE_NOOP("Steps", "Reference time")),
+    "telluric": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Telluric-corrected spectrum")),
+    "transformation": IO("object", QT_TRANSLATE_NOOP("Steps", "Transformation coefficients")),
+    "truth": IO("object", QT_TRANSLATE_NOOP("Steps", "True values of the practice data")),
+    "unsolved": IO("object", QT_TRANSLATE_NOOP("Steps", "Frames without a solution")),
+    "variability": IO("object", QT_TRANSLATE_NOOP("Steps", "Variability of the stars")),
+    "warnings": IO("object", QT_TRANSLATE_NOOP("Steps", "Warnings")),
+    "window": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectral window")),
+    "written": IO("files", QT_TRANSLATE_NOOP("Steps", "Files written")),
+    "zero_point": IO("object", QT_TRANSLATE_NOOP("Steps", "Zero point")),
+}
+
+
 def describe(step_id, name):
-    """The IO of a step's input, or None for one not in the vocabulary (a plugin's)."""
-    return INPUTS.get(f"{step_id}.{name}") or INPUTS.get(name)
+    """The IO of a step's input or output, or None for one not in the vocabulary (a plugin's)."""
+    return INPUTS.get(f"{step_id}.{name}") or INPUTS.get(name) or OUTPUTS.get(name)
 
 
 def check(step_id, inputs):

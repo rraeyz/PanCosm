@@ -14,6 +14,12 @@ inputs:      frames, output_dir
 outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales
   frames  (object)  Frames
   output_dir  (new_folder)  Folder for masters and calibrated frames
+  masters  (files)  Master frames
+  calibrated  (files)  Calibrated frames
+  missing  (object)  Missing calibration frames
+  failed_masters  (object)  Masters that could not be made
+  arcs  (files)  Calibrated arc frames
+  dark_scales  (object)  Dark scale factors
 parameters (default):
   sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit of the masters in standard deviations
   temp_tol = 2.0  (float, °C, >= 0.0)  Temperature tolerance: A dark is used for a light within this sensor temperature
@@ -41,6 +47,9 @@ optional:    lights
 outputs:     frames, problems, raw_converted
   folder  (folder)  Folder of the night's frames
   lights  (folder)  Folder of the lights
+  frames  (object)  Frames
+  problems  (object)  Problems found
+  raw_converted  (files)  Camera raw files converted to FITS
 parameters (default):
   clock_utc_offset = 0.0  (float, h, >= -14.0, <= 14.0)  Camera clock − UTC: For camera raw files and pictures without a UTC time (DSLR)
 ```
