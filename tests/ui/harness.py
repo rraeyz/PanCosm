@@ -19,7 +19,6 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from PySide6.QtCore import QPoint, QPointF, Qt
-from PySide6.QtGui import QAction
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import (
     QAbstractButton,
@@ -165,13 +164,25 @@ class Harness:
         self._act(f"type into {name}", typing, budget)
 
     def menu(self, text, budget=BUDGET_S):
-        """Trigger the window's menu command with this English text (or its translation)."""
-        wanted = {text, self._sources.get(text, text)}
-        for act in self.window.findChildren(QAction):
-            if act.text().replace("&", "") in wanted:
+        """Trigger the window's menu command with this English source text ("&Open…") or its translation."""
+        wanted = {t.replace("&", "") for t in (text, self._sources.get(text, text))}
+        for act in self._menu_actions(self.window.menuBar().actions()):
+            shown = act.text().replace("&", "")
+            if shown in wanted or any(shown.startswith(w + " ") for w in wanted):  # "Undo image operation"
                 self._act(f"menu {text}", act.trigger, budget)
                 return
         raise LookupError(f"no menu command {text!r} in {self.window.windowTitle()!r}")
+
+    def _menu_actions(self, actions):
+        """Every visible command of the menu bar, in its submenus too (the main window's menus are lent to areas)."""
+        for act in actions:
+            if not act.isVisible():
+                continue
+            if act.menu() is not None:
+                act.menu().aboutToShow.emit()  # menus filled when they open
+                yield from self._menu_actions(act.menu().actions())
+            else:
+                yield act
 
     def click_image(self, viewer, x, y, budget=BUDGET_S):
         """A click at array pixel (x, y) of an ImageViewer, through its viewport as the mouse gives it."""

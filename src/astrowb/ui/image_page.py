@@ -44,6 +44,7 @@ class ImagePage(Undoable, QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.owner = parent  # the main window, which opens the files: the page itself moves into the Images window
         self.init_undo()
         from PySide6.QtWidgets import QButtonGroup
 
@@ -331,8 +332,11 @@ class ImagePage(Undoable, QWidget):
         win.raise_()
 
     # --- state ------------------------------------------------------------
+    def _files_window(self):
+        return self.owner if hasattr(self.owner, "current_path") else self.window()
+
     def undo_state(self):
-        win = self.window()
+        win = self._files_window()
         path = getattr(win, "current_path", None)
         return {
             "path": None if path is None else str(path),
@@ -342,7 +346,7 @@ class ImagePage(Undoable, QWidget):
 
     def set_undo_state(self, st):
         """The image that was shown (an operation taken back) and its header changes not yet saved."""
-        win = self.window()
+        win = self._files_window()
         current = getattr(win, "current_path", None)
         if st["path"] and str(current) != st["path"] and hasattr(win, "open_fits"):
             win.open_fits(Path(st["path"]))
