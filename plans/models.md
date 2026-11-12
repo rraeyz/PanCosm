@@ -414,7 +414,13 @@ table flag for the drift (MOD-10); the guide picture.
 - **Files:** `ui/models/{window,controller,state,menus}.py`, `ui/models/panels/{data,system,stars,extras,fit,uncertainty,results,parameters,history,view3d}.py`, `ui/models/visual/` (the visual-orbit job), `tests/ui/walks/models.py`, guide 09
 
 ### MOD-10. Data sets, parameters, constraints  (P1)
-**open**
+**partial** — done (2026-11-12): `models/system.py`: `Parameter` (value, free, limits, prior, unit, locked with the
+reason), `DataSet`, `System` with the morphology applied on every edit (detached; semi-detached 1 / 2: Ω = Ω_in;
+contact: both potentials from the fill-out); exact conversions (r₁ + r₂, k; e cos ω, e sin ω; √e cos ω, √e sin ω;
+star 2's own-frame potential; potentials ↔ volume radius and fill-out in models.roche) round-tripping to 1e-10;
+`check` (codes with advice: T0 far, no period, beyond the lobe, RV with a fixed a, third light with the inclination
+on a partial eclipse); the TOML system file both ways. Left: per-band parameters (item 4), double contact, T₂ tied
+by gravity darkening, the WD and PHOEBE importers.
 - **Read first:** Conroy et al. 2020 §2–3 (parameters, constraints, distributions); the WD modes (what each
   constrains: mode 2 detached; 3 overcontact; 4 / 5 semi-detached; 1 overcontact with T₂ tied by gravity darkening;
   6 double contact); JKTEBOP's parameter choices (r₁ + r₂, k, e cos ω, e sin ω; why they are less correlated).
