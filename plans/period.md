@@ -458,7 +458,10 @@ signal shapes, the contour plot, the GPU batch and its 2-minute target.
 - **Files:** `timeseries/{rotation,flares}.py`, `tests/test_rotation.py`
 
 ### PER-16. Report  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/report.py`: the peaks table (A&A style, value(error) as OC-12's
+`paren`), the methods paragraph, the VSX submission sheet (type as a suggestion, period and epoch with errors,
+range, rise time or eclipse duration); frequencies through `frequency.to_table`. Left: the figure set, the AAVSO /
+BAV summaries, the W UMa and δ Scuti report checks.
 - **Ours now:** `ui/export.save_results` (CSV / LaTeX of a results table), the plot toolbar's publication figure.
 - **Build:** the figure set through `ui/plot/publish` (light curve, periodogram with significance levels and the
   window inset, folded curve with the binned mean, frequency spectrum before / after prewhitening); tables: peaks,
