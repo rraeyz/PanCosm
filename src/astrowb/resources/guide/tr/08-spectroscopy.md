@@ -67,6 +67,11 @@ tahmini**ni 4,6 gün yapıp **Yörünge fit et**'e basın. Sonuç P = **4,634 g*
 K2 = **91 km/s** ve kütle oranı q = **0,68** olmalı. Kendi hızlarınızın tablosu da aynı yolla açılır: bir zaman
 sütunu (time ya da bjd), rv1 ve ikinci yıldız için rv2; hata sütunları (err1, err2) isteğe bağlıdır.
 
+Aynı klasörde `slit_science.fits` ve `slit_arc.fits` de var: bir uzun yarık karesi ve He-Ne arkı. **İndirgeme**
+sekmesinde ikisini seçin, **Çıkar**'a basın, arkta 269, 578 ve 1062. piksellerdeki çizgilere tıklayıp 4471.477,
+5015.675 ve 5875.618 Å verin, sonra **Dalga boylarını uydur ve kaydet**: Hβ **4862,0 Å**'da çıkar (durgun hâlde
+4861,3: yıldız 45 km/s ile uzaklaşıyor). Yardım → Rehberli görevler sizi adım adım götürür.
+
 ## Çift çizgili bir çifti ayrıştırmak {#spectroscopy-disentangling-double-lined-binary}
 İki yıldızın hızları ölçüldükten sonra (TODCOR ya da genişleme fonksiyonu) **İki yıldızın tayfını ayır (disentangling)** dizideki tayflardan her yıldızın kendi tayfını çıkarır (yinelemeli kaydır-ve-topla, González & Levato 2006). Bu tayflarda ölçülen hızları ve ışık oranını kullanır, `star1.fits` ve `star2.fits` dosyalarını yazar. Yörünge boyunca dağılmış en az dört tayf kullanın, tercihen iki kavuşum noktası yakınında birkaçar tane; ayrılmış tayflar ikinci, daha hassas bir hız ölçümü için en iyi şablonlardır ve her yıldızın çizgilerini sınıflandırma için gösterir.
 

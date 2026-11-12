@@ -131,3 +131,14 @@ def test_practice_exercises_find_their_answers(tmp_path):
     inputs = {"time": rv[:, 0].tolist(), "rv": rv[:, 1].tolist(), "rv2": rv[:, 2].tolist()}
     sb2 = execute("spectroscopy.orbit", inputs, {"period": 4.6}, Ctx())["orbit"]  # Spectroscopy → orbit, SB2
     assert abs(sb2["k"] - 62) < 1.5 and abs(sb2["k2"] - 91) < 1.5 and abs(sb2["q"] - 0.68) < 0.02
+    from astrowb.spectroscopy import spectrum_io
+
+    guesses = [list(g) for g in sampledata.SLIT["arc_lines"]]
+    one_d = str(tmp_path / "slit_1d.fits")
+    execute("spectroscopy.reduce", {"science": sets["files"]["slit_science"], "arc": sets["files"]["slit_arc"],
+            "guesses": guesses, "output": one_d}, {"read_noise": 4.0}, Ctx())  # fmt: skip
+    w, f, _, _ = spectrum_io.read(one_d)
+    near = (w > 4852) & (w < 4872)
+    depth = np.median(f[(w > 4830) & (w < 4895)]) - f[near]
+    centre = np.sum(w[near] * depth) / np.sum(depth)  # the line's centroid (pixels are 1.75 Å)
+    assert abs(centre - 4862.0) < 0.5  # Spectroscopy → Reduce: Hβ at 4862.0 Å (45 km/s away)

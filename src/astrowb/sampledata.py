@@ -111,8 +111,48 @@ def sb2(folder, seed=9):
     return path
 
 
+SLIT = {"v": 45.0, "arc_lines": [(268.8, 4471.477), (577.5, 5015.675), (1062.1, 5875.618)]}  # pixel, Å (He I)
+
+
+def longslit(folder, seed=11):
+    """slit_science.fits and slit_arc.fits: a long-slit frame of a star (Balmer and metal lines, receding at 45 km/s,
+    night-sky lines on the slit) and a He-Ne arc, 1400 × 80 pixels, 4000–6480 Å. Spectroscopy → Reduce: identify the
+    three He I lines of SLIT on the arc, fit, and Hβ lies at 4862.0 Å."""
+    from astropy.io import fits
+
+    from .spectroscopy import wavecal
+
+    rng = np.random.default_rng(seed)
+    nx, ny = 1400, 80
+    x, y = np.arange(nx), np.arange(ny)[:, None]
+    wave = 4000.0 + 1.75 * x + 1.5e-5 * x**2
+    trace = 40.0 + 4e-3 * (x - 700) + 3e-6 * (x - 700) ** 2
+    prof = np.exp(-0.5 * ((y - trace[None, :]) / 2.0) ** 2)
+    prof /= prof.sum(axis=0, keepdims=True)
+    star = np.ones_like(wave)
+    for line in (4101.7, 4340.5, 4383.5, 4861.3, 5167.3, 5172.7, 5183.6, 5270.4, 5328.0, 5889.95, 5895.9):
+        star -= 0.5 * np.exp(-0.5 * ((wave - line * (1 + SLIT["v"] / 299792.458)) / 1.2) ** 2)
+    sky = 40.0 + 300 * np.exp(-0.5 * ((wave - 5577.3) / 1.5) ** 2) + 200 * np.exp(-0.5 * ((wave - 6300.3) / 1.5) ** 2)
+    model = prof * (20000.0 * star * (1 + 0.2 * np.sin(x / 300)))[None, :] + sky[None, :]
+    science = rng.poisson(model * 1.5) / 1.5 + rng.normal(0, 4 / 1.5, model.shape)
+    lines = wavecal.load_line_list("henear")
+    arc1d = sum(5000 * np.exp(-0.5 * ((x - np.interp(lam, wave, x)) / 1.3) ** 2)
+                for lam in lines[(lines > wave[0] + 5) & (lines < wave[-1] - 5)])  # fmt: skip
+    arc = np.tile(arc1d, (ny, 1)) + rng.normal(0, 3, (ny, nx)) + 100
+    header = fits.Header({"OBJECT": "practice star", "DATE-OBS": "2026-11-15T22:00:00", "EXPTIME": 600.0,
+                          "IMAGETYP": "Light Frame", "GAIN": 1.5, "RDNOISE": 4.0})  # fmt: skip
+    folder = Path(folder)
+    fits.PrimaryHDU(science.astype(np.float32), header).writeto(folder / "slit_science.fits", overwrite=True)
+    arc_header = fits.Header({"OBJECT": "HeNe arc", "IMAGETYP": "Arc", "EXPTIME": 5.0})
+    fits.PrimaryHDU(arc.astype(np.float32), arc_header).writeto(folder / "slit_arc.fits", overwrite=True)
+    return folder / "slit_science.fits", folder / "slit_arc.fits"
+
+
 def practice_sets(folder):
     """The light-curve, O−C and radial-velocity practice files in folder; returns {name: path} and the answers."""
     Path(folder).mkdir(parents=True, exist_ok=True)
-    files = {"pulsator": str(pulsator(folder)), "minima": str(minima(folder)), "sb2": str(sb2(folder))}
-    return {"files": files, "answers": {"pulsator": PULSATOR, "minima": LTTE, "sb2": SB2}}
+    science, arc = longslit(folder)
+    files = {"pulsator": str(pulsator(folder)), "minima": str(minima(folder)), "sb2": str(sb2(folder)),
+             "slit_science": str(science), "slit_arc": str(arc)}  # fmt: skip
+    answers = {"pulsator": PULSATOR, "minima": LTTE, "sb2": SB2, "longslit": SLIT}
+    return {"files": files, "answers": answers}

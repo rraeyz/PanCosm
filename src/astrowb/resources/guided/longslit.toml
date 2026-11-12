@@ -1,0 +1,29 @@
+# A guided task (plans/interface.md UI-8). Practice data: Help → Practice data → slit_science.fits, slit_arc.fits.
+area = "spectroscopy"
+title.en = "A long-slit spectrum from raw frames to wavelengths"
+title.tr = "Ham karelerden dalga boyu kalibreli bir uzun yarık tayfına"
+
+[[step]]
+widget = "reduce_tab.science"
+text.en = "Science frame: choose slit_science.fits from the practice data (Help → Practice data for a first night)."
+text.tr = "Bilim karesi: alıştırma verisinden slit_science.fits'i seçin (Yardım → İlk gece için alıştırma verisi)."
+
+[[step]]
+widget = "reduce_tab.arc"
+text.en = "Arc lamp: choose slit_arc.fits."
+text.tr = "Ark lambası: slit_arc.fits'i seçin."
+
+[[step]]
+widget = "reduce_tab.extract_button"
+text.en = "3. Extract: the star's spectrum and the arc's lines are drawn below."
+text.tr = "3. Çıkar: yıldızın tayfı ve arkın çizgileri aşağıda çizilir."
+
+[[step]]
+widget = "reduce_tab.plot"
+text.en = "Click three arc lines and give their wavelengths (He I): pixel 269 = 4471.477 Å, pixel 578 = 5015.675 Å, pixel 1062 = 5875.618 Å."
+text.tr = "Üç ark çizgisine tıklayıp dalga boylarını verin (He I): piksel 269 = 4471.477 Å, piksel 578 = 5015.675 Å, piksel 1062 = 5875.618 Å."
+
+[[step]]
+widget = "reduce_tab.solve_button"
+text.en = "5. Fit wavelengths and save. Hβ then lies at 4862.0 Å instead of 4861.3: the star moves away at 45 km/s."
+text.tr = "5. Dalga boylarını uydur ve kaydet. Hβ 4861.3 yerine 4862.0 Å'da çıkar: yıldız 45 km/s ile uzaklaşıyor."
