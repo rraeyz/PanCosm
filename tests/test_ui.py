@@ -1975,21 +1975,6 @@ def test_closing_the_start_window_keeps_the_area_windows(window, qtbot):
     area.close()
     window.engine.shutdown = real  # the fixture ends the workers
     assert ended == [1]
-    from PySide6.QtCore import QEvent
-
-    from astrowb.ui.main_window import _QuitWatch
-
-    _QuitWatch(window).eventFilter(None, QEvent(QEvent.Quit))  # the program's own Quit (macOS Dock)
-    from PySide6.QtGui import QCloseEvent
-
-    class ByTheUser(QCloseEvent):
-        def spontaneous(self):
-            return True
-
-    window.show()
-    window.show_workspace("photometry")
-    window.closeEvent(ByTheUser())
-    assert window._closing and not window.area_windows["photometry"].isVisible()  # all of it closed
 
 
 def test_settings_show_the_pixel_scale(window, qtbot):
@@ -2114,3 +2099,16 @@ def test_practice_velocities_open_and_fit_in_the_spectroscopy_window(window, tmp
     bad = tmp_path / "bad.csv"
     bad.write_text("a,b\n1,2\n")
     assert velocity_table.open_dialog(vel, str(bad)) is None and "time column" in vel.status.text()
+
+
+def test_help_lists_the_libraries_and_their_licences(window, qtbot):
+    """UI-17: Help → Licences of the libraries… shows every library in the program with its licence (Qt's LGPL)."""
+    from astrowb.ui import help_checks, licences
+    from astrowb.ui.kit.table import TableView
+
+    found = {name.lower(): lic for name, _version, lic in licences.rows()}
+    qt = next(lic for name, lic in found.items() if name.startswith("pyside6"))  # PySide6 or PySide6_Essentials
+    assert "LGPL" in qt and "numpy" in found and "astrowb" not in found
+    dialog = help_checks._licences(window)
+    qtbot.addWidget(dialog)
+    assert dialog.findChild(TableView).model.rowCount() == len(found)

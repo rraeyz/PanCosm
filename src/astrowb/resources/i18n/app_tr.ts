@@ -3711,12 +3711,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="98"/>
+        <location filename="../../ui/main_window.py" line="97"/>
         <source>Tasks</source>
         <translation>Görevler</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="160"/>
         <source>Start</source>
         <translation>Başlangıç</translation>
     </message>
@@ -3731,12 +3731,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Project</source>
         <translation>Proje</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="162"/>
         <source>Guide</source>
         <translation>Kılavuz</translation>
     </message>
@@ -4628,12 +4628,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;İş</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="323"/>
+        <location filename="../../ui/main_window.py" line="321"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="324"/>
+        <location filename="../../ui/main_window.py" line="322"/>
         <source>Copies the selected cells or text</source>
         <translation>Seçili hücreleri ya da metni kopyalar</translation>
     </message>
@@ -4964,21 +4964,26 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="32"/>
+        <source>Licences of the libraries…</source>
+        <translation>Kütüphanelerin lisansları…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/help_checks.py" line="33"/>
         <source>&amp;About {app}</source>
         <translation>{app} &amp;hakkında</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="65"/>
+        <location filename="../../ui/help_checks.py" line="66"/>
         <source>GPU check</source>
         <translation>GPU denetimi</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="67"/>
+        <location filename="../../ui/help_checks.py" line="68"/>
         <source>The report is also saved in {path} (Report a problem includes it).</source>
         <translation>Rapor ayrıca {path} dosyasına kaydedildi (Sorun bildir onu da ekler).</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="75"/>
+        <location filename="../../ui/help_checks.py" line="76"/>
         <source>Checking the GPU: every GPU job against the CPU (about a minute)…</source>
         <translation>GPU denetleniyor: her GPU işi CPU ile karşılaştırılıyor (yaklaşık bir dakika)…</translation>
     </message>
@@ -5436,22 +5441,22 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="42"/>
+        <location filename="../../ui/help_checks.py" line="43"/>
         <source>Installation and internet services</source>
         <translation>Kurulum ve internet servisleri</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="45"/>
+        <location filename="../../ui/help_checks.py" line="46"/>
         <source>Everything works.</source>
         <translation>Her şey çalışıyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="47"/>
+        <location filename="../../ui/help_checks.py" line="48"/>
         <source>Some checks failed (see below). A failing web service is often the network or the service.</source>
         <translation>Bazı denetimler başarısız (aşağıya bakın). Başarısız bir web servisi çoğu zaman ağdan ya da servisin kendisinden kaynaklanır.</translation>
     </message>
     <message>
-        <location filename="../../ui/help_checks.py" line="55"/>
+        <location filename="../../ui/help_checks.py" line="56"/>
         <source>Checking the installation and the internet services…</source>
         <translation>Kurulum ve internet servisleri denetleniyor…</translation>
     </message>
@@ -5533,6 +5538,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/velocity_table.py" line="48"/>
         <source>Open a velocity table</source>
         <translation>Bir hız tablosu aç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="39"/>
+        <source>Licences of the libraries</source>
+        <translation>Kütüphanelerin lisansları</translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Library</source>
+        <translation>Kütüphane</translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Version</source>
+        <translation>Sürüm</translation>
+    </message>
+    <message>
+        <location filename="../../ui/licences.py" line="42"/>
+        <source>Licence</source>
+        <translation>Lisans</translation>
     </message>
 </context>
 <context>

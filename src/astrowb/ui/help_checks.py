@@ -29,6 +29,7 @@ def add_menu(win):
     win.update_action = win._action(
         h, QCoreApplication.translate("MainWindow", "Check for &updates…"), win.check_updates
     )
+    win._action(h, QCoreApplication.translate("MainWindow", "Licences of the libraries…"), lambda: _licences(win))
     about = QCoreApplication.translate("MainWindow", "&About {app}").format(app=BRAND.display_name)
     win.about_action = win._action(h, about, win.about)
     return h
@@ -75,3 +76,9 @@ def gpu(win):
     text = QCoreApplication.translate("MainWindow", "Checking the GPU: every GPU job against the CPU (about a minute)…")
     win.statusBar().showMessage(text, 120000)
     return win.run_step("app.check_gpu", {}, {}, on_done=done)
+
+
+def _licences(win):
+    from . import licences
+
+    return licences.show(win)
