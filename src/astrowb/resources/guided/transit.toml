@@ -1,0 +1,49 @@
+# A guided task (plans/interface.md UI-8): the practice transit night (Help → Practice data → the transit folder)
+# from raw frames to the time of mid-transit and a report for ETD / ExoClock.
+area = "calibrate"
+title.en = "An exoplanet transit: raw frames to a timing report"
+title.tr = "Bir ötegezegen geçişi: ham karelerden zamanlama raporuna"
+
+[[step]]
+widget = "folder"
+text.en = "Choose the transit folder inside the practice data (Help → Practice data for a first night)."
+text.tr = "Alıştırma verisinin içindeki transit klasörünü seçin (Yardım → İlk gece için alıştırma verisi)."
+
+[[step]]
+widget = "scan_button"
+text.en = "Scan the frames."
+text.tr = "Kareleri tarayın (Tara)."
+
+[[step]]
+widget = "run_button"
+text.en = "Calibrate."
+text.tr = "3. Kalibre et'e basın."
+
+[[step]]
+widget = "photometry_button"
+text.en = "Send the calibrated frames to the Photometry window."
+text.tr = "4. Fotometri penceresinde ölç → ile kareleri Fotometri penceresine gönderin."
+
+[[step]]
+area = "photometry"
+widget = "suggest_button"
+text.en = "Click the star in the middle of the image (the one with the planet), then Suggest comparison stars."
+text.tr = "Görüntünün ortasındaki yıldıza (gezegenli olana) tıklayın, sonra Karşılaştırma yıldızı öner'e basın."
+
+[[step]]
+area = "photometry"
+widget = "measure_button"
+text.en = "Measure the light curve: a 1.2 % dip of about two hours."
+text.tr = "Işık eğrisini ölç'e basın: yaklaşık iki saatlik %1,2'lik bir düşüş görünür."
+
+[[step]]
+area = "photometry"
+widget = "minimum_button"
+text.en = "Time of minimum gives the mid-transit time; truth.json in the transit folder has the real one."
+text.tr = "Minimum zamanı orta-geçiş zamanını verir; transit klasöründeki truth.json gerçeğini söyler."
+
+[[step]]
+area = "photometry"
+widget = "etd_button"
+text.en = "Export for ETD / VarAstro: the file that ETD and ExoClock take."
+text.tr = "ETD / VarAstro için dışa aktar (metin)… ile ETD ve ExoClock'un aldığı dosyayı yazın."

@@ -14,8 +14,20 @@ RA, DEC = "02:04:10.3", "+46:41:16"
 T_MIN_JD = 2461000.40  # UTC JD of mid-eclipse
 
 
-def make(folder, n_lights=48, seed=7):
-    """Writes raw/*.fits and truth.json into folder; returns the truth."""
+TRANSIT = {"depth": 0.012, "duration": 0.09, "ingress": 0.012}  # relative flux, days (an exoplanet's transit)
+
+
+def _dip(t, transit):
+    """The target's lost light at JD t: a Gaussian primary eclipse, or a transit's trapezoid."""
+    if not transit:
+        return 0.45 * np.exp(-0.5 * ((t - T_MIN_JD) / 0.012) ** 2)
+    edge = abs(t - T_MIN_JD) - (TRANSIT["duration"] / 2 - TRANSIT["ingress"])
+    return TRANSIT["depth"] * float(np.clip(1 - edge / TRANSIT["ingress"], 0, 1))
+
+
+def make(folder, n_lights=48, seed=7, transit=False):
+    """Writes raw/*.fits and truth.json into folder; returns the truth. transit: a hot Jupiter's transit (1.2 %,
+    2.2 h) of a brighter star over 120 frames instead of the eclipsing binary (ExoClock / ETD practice)."""
     import astropy.units as u
     from astropy.io import fits
     from astropy.time import Time
@@ -26,7 +38,13 @@ def make(folder, n_lights=48, seed=7):
     yy, xx = np.mgrid[: SHAPE[0], : SHAPE[1]]
     bias, dark_rate, gain = 300.0, 2.0, 1.0
     flat = 1.0 - 0.25 * ((xx - 100) ** 2 + (yy - 80) ** 2) / (100**2 + 80**2)  # vignetting
-    base = {"OBJECT": "PRACTICE", "OBJCTRA": RA, "OBJCTDEC": DEC, "SITELAT": 36.82, "SITELONG": 30.34}
+    base = {
+        "OBJECT": "PRACTICE-TRANSIT" if transit else "PRACTICE",
+        "OBJCTRA": RA,
+        "OBJCTDEC": DEC,
+        "SITELAT": 36.82,
+        "SITELONG": 30.34,
+    }
     base |= {"SITEELEV": 2500.0, "XBINNING": 1, "YBINNING": 1, "CCD-TEMP": -10.0, "GAIN": gain}
 
     def write(name, data, kind, exptime, extra=None):
@@ -42,10 +60,12 @@ def make(folder, n_lights=48, seed=7):
     for i in range(n_lights):
         start = t0 + i * 150 * u.s
         mid = start.jd + 30 / 86400
-        depth = 0.45 * np.exp(-0.5 * ((mid - T_MIN_JD) / 0.012) ** 2)  # primary eclipse
+        depth = _dip(mid, transit)
         dx, dy = 0.04 * i, -0.03 * i  # slow drift
         sky = np.full(SHAPE, 150.0)
-        for (x, y), f in zip((TARGET, *COMPS), (30000 * (1 - depth), 40000, 25000, 35000), strict=True):
+        bright = 10 if transit else 1  # a transit needs the photons: 0.2 % per frame
+        fluxes = (30000 * bright * (1 - depth), 40000 * bright, 25000 * bright, 35000 * bright)
+        for (x, y), f in zip((TARGET, *COMPS), fluxes, strict=True):
             sky += f / (2 * np.pi * 2.0**2) * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 2.0**2))
         light = noise(sky * flat + dark_rate * 60) + bias
         write(f"light_V_{i:03d}.fits", light, "Light Frame", 60.0, {"FILTER": "V", "DATE-OBS": start.isot})
@@ -57,7 +77,7 @@ def make(folder, n_lights=48, seed=7):
     bjd = timing.bjd_tdb(Time(T_MIN_JD, format="jd", scale="utc"), SkyCoord(RA, DEC, unit=(u.hourangle, u.deg)), site)
     truth = {"t_min_jd_utc": T_MIN_JD, "t_min_bjd_tdb": float(bjd.jd), "target_xy": list(TARGET)}
     truth["comps_xy"] = [list(c) for c in COMPS]
-    truth |= {"ra": RA, "dec": DEC, "depth": 0.45}
+    truth |= {"ra": RA, "dec": DEC, "depth": TRANSIT["depth"] if transit else 0.45}
     (Path(folder) / "truth.json").write_text(json.dumps(truth, indent=1), encoding="utf-8")
     return truth
 
