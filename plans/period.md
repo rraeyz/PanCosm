@@ -404,7 +404,11 @@ the rise time and the skewness of the fitted curve. Left: the class boundaries w
 - **Files:** `timeseries/shape.py`, `timeseries/classify.py`, `resources/data/class_boundaries.toml` (with citations), `tests/test_lc_shape.py`
 
 ### PER-11. Asteroid rotation: FALC and multi-night zero points  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/falc.py`: Harris et al.'s FALC (Fourier series in rotational phase and
+a zero point per night, linear at each trial period; the RMS spectrum, refined), the order by successive F-tests
+(the highest significant harmonic: a missing one does not stop it), the composite amplitude. Test: three nights with
+±0.05 mag offsets give a 5.3 h double-peaked rotation within 0.2 %, its amplitude and the offsets. Left: the ALCDEF
+export, the light-time check, the asteroid set, the panel.
 - **Build:** on PER-3's `falc`: nights as sets with free zero points (or fixed from calibrated magnitudes, PHO-21),
   Fourier order by F-test, the period spectrum (RMS against period), the composite light curve with amplitude and
   the usual plot style, double-peaked assumption explained (P vs P/2), export to ALCDEF with the result fields;
