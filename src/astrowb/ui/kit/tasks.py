@@ -94,3 +94,27 @@ class TaskChip(QToolButton):
                 sub.addAction(self.tr("Cancel"), task.cancel)
         if not tasks:
             menu.addAction(self.tr("No task running")).setEnabled(False)
+
+
+class HeldButton:
+    """A stage's main button while the work it started runs (UI-9): disabled, so the work is not started twice,
+    and showing the progress; back as it was when the work ends. Esc or Cancel stop the work."""
+
+    def __init__(self, button):
+        self.button, self.text = button, button.text()
+        button.setEnabled(False)
+
+    def show(self, task):
+        if task.finished:
+            self.button.setText(self.text)
+            self.button.setEnabled(True)
+        else:
+            self.button.setText(f"{self.text} — {int(task.progress * 100)} %")
+
+
+def hold(widget):
+    """The HeldButton for the widget that started a task when it is a stage's main (primary) button, else None
+    (a click gives a push button the focus, so the focus names the button)."""
+    from PySide6.QtWidgets import QPushButton
+
+    return HeldButton(widget) if isinstance(widget, QPushButton) and widget.property("primary") else None

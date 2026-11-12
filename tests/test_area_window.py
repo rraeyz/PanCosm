@@ -528,3 +528,30 @@ def test_shift_f1_then_a_click_opens_that_controls_topic(qtbot, tmp_path):
     qtbot.keyClick(button, Qt.Key_Escape)
     qtbot.mouseClick(button, Qt.LeftButton)
     assert pressed == [1, 1] and not win.docks["help"].isVisible()
+
+
+def test_the_main_button_waits_while_its_work_runs(qtbot, tmp_path):
+    """UI-9: the stage's main button that started a task is disabled and shows the progress until the task ends."""
+    from types import SimpleNamespace
+
+    from PySide6.QtWidgets import QPushButton
+
+    from astrowb.ui.kit.anatomy import Stage
+
+    win = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("view"))
+    qtbot.addWidget(win)
+    run = QPushButton("Measure")
+    run.setProperty("primary", True)
+    win.set_stages([Stage("measure", "Measure", run)])
+    win.show()
+    run.setFocus()
+    qtbot.waitUntil(run.hasFocus)
+    task = SimpleNamespace(id=7, name="photometry.measure", state="running", progress=0.0, message="", finished=False,
+                           cancel=lambda: None)  # fmt: skip
+    win.track(task)
+    task.progress = 0.4
+    win.task_update(task)
+    assert not run.isEnabled() and run.text() == "Measure — 40 %"
+    task.state, task.finished = "done", True
+    win.task_update(task)
+    assert run.isEnabled() and run.text() == "Measure"

@@ -31,6 +31,7 @@ from PySide6.QtWidgets import (
 )
 
 from .anatomy import Anatomy
+from .tasks import hold
 from .widgets import bar_menu
 
 
@@ -217,7 +218,7 @@ class AreaWindow(Anatomy, QMainWindow):
 
     # --- long work ------------------------------------------------------------
     def _build_task_bar(self):
-        self._tasks = {}  # id -> task running for this window
+        self._tasks, self._held = {}, {}  # id -> task running for this window; id -> its HeldButton or None
         self.task_progress = QProgressBar(self)
         self.task_progress.setMaximumWidth(220)
         self.task_progress.setRange(0, 100)
@@ -239,6 +240,7 @@ class AreaWindow(Anatomy, QMainWindow):
     def track(self, task):
         """Show a task started for this window (engine task: name, state, progress, message) in its status bar."""
         self._tasks[task.id] = task
+        self._held[task.id] = hold(QApplication.focusWidget())  # the main button that started it (UI-9)
         self.task_update(task)
 
     def task_update(self, task):
@@ -257,6 +259,9 @@ class AreaWindow(Anatomy, QMainWindow):
             from .toast import Toast
 
             Toast.show_in(self, self.tr("{name}: finished").format(name=name) + self.cache_note(task))
+        held = self._held.pop(task.id, None) if task.finished else self._held.get(task.id)
+        if held is not None:
+            held.show(task)
         if task.finished:
             self._tasks.pop(task.id, None)
             ends = {
