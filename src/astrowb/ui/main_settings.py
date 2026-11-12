@@ -158,7 +158,9 @@ class SettingsActions:
             self,
             translate("MainWindow", "About {app}").format(app=BRAND.display_name),
             f"<b>{BRAND.display_name}</b> {__version__}<br>{BRAND.organization}<br>"
-            f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{compute.describe()}<br><br>" + privacy_text(),
+            # the setting, not compute.describe(): that opens the GPU (its driver) in the window's own process
+            f"<a href='{BRAND.homepage}'>{BRAND.homepage}</a><br><br>{self.compute_chip.text()}<br><br>"
+            + privacy_text(),
         )
 
     def _set_clock_offset(self, hours):
