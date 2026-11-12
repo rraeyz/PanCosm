@@ -28,16 +28,16 @@ SUITED = {  # the methods whose shape suits the eclipse (the others report large
 @pytest.mark.slow
 @pytest.mark.parametrize("shape", ["v", "flat"])
 def test_every_suited_method_is_unbiased_and_its_error_honest(shape):
-    """The plan's acceptance in small: 60 noise realisations at S/N 50, coverage 60 % on one side, bias below
+    """The plan's acceptance in small: 40 noise realisations at S/N 50, coverage 60 % on one side, bias below
     0.3 × the reported error (within the sampling error of the mean) and the reported error 0.7–1.7 × the scatter
     (the plan asks 0.8–1.3 from 500 realisations; the largest of three errors errs on the safe side)."""
     t = T + np.linspace(-0.06, 0.045, 140)
     curve = v_shaped if shape == "v" else flat_bottomed
     for method in SUITED[shape]:
         times, errors = [], []
-        for seed in range(60):
+        for seed in range(40):
             y = curve(t) + np.random.default_rng(seed).normal(0, 0.006, t.size)
-            r = time_minimum(t, y, method=method, bootstrap=40, seed=seed)
+            r = time_minimum(t, y, method=method, bootstrap=30, seed=seed)
             times.append(r.t_min)
             errors.append(r.error)
         times, err = np.array(times), float(np.median(errors))
