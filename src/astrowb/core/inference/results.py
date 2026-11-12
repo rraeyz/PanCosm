@@ -26,6 +26,14 @@ class Posterior:
         self.chains, self.log_probs = chains, log_probs
         self.derived = dict(derived or {})
 
+    @property
+    def acceptance(self):
+        """The share of moves accepted over the kept generations (a chain stays put when one is rejected)."""
+        if self.chains is None or len(self.chains) - self.burn < 2:
+            return float("nan")
+        kept = self.chains[self.burn :]
+        return float(np.mean(np.any(np.diff(kept, axis=0) != 0, axis=-1)))
+
     def column(self, name):
         if name in self.derived:
             return np.asarray(self.derived[name], float)
@@ -45,6 +53,25 @@ class Posterior:
             out[name] = {"median": q[2], "minus": q[2] - q[1], "plus": q[3] - q[2], "lo95": q[0], "hi95": q[4],
                          "mode": x[best]}  # fmt: skip
         return out
+
+    def summary_table(self):
+        """The summary as an astropy Table (one row per parameter or derived quantity), with the diagnostics."""
+        from astropy.table import Table
+
+        rows = self.summary()
+        diag = self.diagnostics or {}
+        t = Table(names=("name", "median", "minus", "plus", "lo95", "hi95", "mode", "rhat", "ess_bulk", "ess_tail"),
+                  dtype=(str, float, float, float, float, float, float, float, float, float))  # fmt: skip
+        for name, r in rows.items():
+            d = diag.get(name, (np.nan, np.nan, np.nan))
+            t.add_row((name, r["median"], r["minus"], r["plus"], r["lo95"], r["hi95"], r["mode"], *d))
+        t.meta.update({"converged": bool(self.converged), "steps": int(self.steps), "burn": int(self.burn)})
+        return t
+
+    def export(self, path):
+        """The summary as ECSV or a FITS table (by the file's extension)."""
+        fmt = "fits" if str(path).lower().endswith((".fits", ".fit")) else "ascii.ecsv"
+        self.summary_table().write(path, format=fmt, overwrite=True)
 
     def correlation(self):
         return np.corrcoef(self.samples, rowvar=False)

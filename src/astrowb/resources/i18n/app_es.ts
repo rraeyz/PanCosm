@@ -5885,7 +5885,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>no se pudo seguir el espectro: para uno débil, indique la fila de un espectro más brillante para la forma de su traza</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="432"/>
+        <location filename="../../ui/messages.py" line="434"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>no se encontró ningún mínimo: la ventana debe contener un mínimo completo con puntos a ambos lados</translation>
     </message>
@@ -6811,326 +6811,331 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/messages.py" line="402"/>
+        <source>{child} is related to {parent}, which is itself related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="404"/>
         <source>at most {MAX_SPOTS} spots per star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="403"/>
+        <location filename="../../ui/messages.py" line="405"/>
         <source>unknown spot overlap rule: {rule}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="405"/>
+        <location filename="../../ui/messages.py" line="407"/>
         <source>the {law} law takes {need} coefficients</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="406"/>
+        <location filename="../../ui/messages.py" line="408"/>
         <source>the limb-darkening coefficients make the intensity negative near the limb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="407"/>
+        <location filename="../../ui/messages.py" line="409"/>
         <source>the limb-darkening coefficients make the limb brighter than the centre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="409"/>
+        <location filename="../../ui/messages.py" line="411"/>
         <source>{name}: there is no {path}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="411"/>
+        <location filename="../../ui/messages.py" line="413"/>
         <source>{name} must be a number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="412"/>
+        <location filename="../../ui/messages.py" line="414"/>
         <source>{name} must be a whole number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="413"/>
+        <location filename="../../ui/messages.py" line="415"/>
         <source>{name} = {value} is below the smallest allowed value {low}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="414"/>
+        <location filename="../../ui/messages.py" line="416"/>
         <source>{name} = {value} is above the largest allowed value {high}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="415"/>
+        <location filename="../../ui/messages.py" line="417"/>
         <source>{name} must be true or false, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="416"/>
+        <location filename="../../ui/messages.py" line="418"/>
         <source>{name} must be one of {known}, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="417"/>
+        <location filename="../../ui/messages.py" line="419"/>
         <source>unknown parameter kind {kind}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="418"/>
+        <location filename="../../ui/messages.py" line="420"/>
         <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="419"/>
+        <location filename="../../ui/messages.py" line="421"/>
         <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="420"/>
+        <location filename="../../ui/messages.py" line="422"/>
         <source>the light curves have times in different standards ({scales}): convert them to one first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="423"/>
+        <location filename="../../ui/messages.py" line="425"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>las noches se midieron con distinto número de estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="424"/>
+        <location filename="../../ui/messages.py" line="426"/>
         <source>no night has a frame with every comparison star</source>
         <translation>ninguna noche tiene una toma con todas las estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="425"/>
+        <location filename="../../ui/messages.py" line="427"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>no es una curva de luz exportada desde la ventana de Fotometría (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="426"/>
+        <location filename="../../ui/messages.py" line="428"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>no hay dos imágenes de los dos filtros lo bastante cercanas en el tiempo para formar un color</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="428"/>
+        <location filename="../../ui/messages.py" line="430"/>
         <source>filter not understood: {part}</source>
         <translation>filtro no entendido: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="429"/>
+        <location filename="../../ui/messages.py" line="431"/>
         <source>no column {name} in the measurements table</source>
         <translation>no hay ninguna columna {name} en la tabla de medidas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="431"/>
+        <location filename="../../ui/messages.py" line="433"/>
         <source>the minimum must have data on both sides</source>
         <translation>el mínimo debe tener datos a ambos lados</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="437"/>
+        <location filename="../../ui/messages.py" line="439"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>no hay hora de observación en la cabecera (DATE-OBS, UT-OBS, JD, MJD-OBS): añada DATE-OBS en la pestaña Cabecera de la ventana Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="441"/>
+        <location filename="../../ui/messages.py" line="443"/>
         <source>not an angle: {value}</source>
         <translation>no es un ángulo: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="443"/>
+        <location filename="../../ui/messages.py" line="445"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>no hay repositorio de GitHub configurado para buscar actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="445"/>
+        <location filename="../../ui/messages.py" line="447"/>
         <source>solving</source>
         <translation>resolviendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="446"/>
+        <location filename="../../ui/messages.py" line="448"/>
         <source>catalogues</source>
         <translation>catálogos</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="447"/>
+        <location filename="../../ui/messages.py" line="449"/>
         <source>reading headers</source>
         <translation>leyendo cabeceras</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="448"/>
+        <location filename="../../ui/messages.py" line="450"/>
         <source>master bias</source>
         <translation>bias maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="449"/>
+        <location filename="../../ui/messages.py" line="451"/>
         <source>master dark</source>
         <translation>dark maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="450"/>
+        <location filename="../../ui/messages.py" line="452"/>
         <source>master flat</source>
         <translation>flat maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="451"/>
+        <location filename="../../ui/messages.py" line="453"/>
         <source>calibrating</source>
         <translation>calibrando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="452"/>
+        <location filename="../../ui/messages.py" line="454"/>
         <source>combining</source>
         <translation>combinando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="453"/>
+        <location filename="../../ui/messages.py" line="455"/>
         <source>aligning</source>
         <translation>alineando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="454"/>
+        <location filename="../../ui/messages.py" line="456"/>
         <source>stacking</source>
         <translation>apilando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="455"/>
+        <location filename="../../ui/messages.py" line="457"/>
         <source>drizzle</source>
         <translation>drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="456"/>
+        <location filename="../../ui/messages.py" line="458"/>
         <source>reading</source>
         <translation>leyendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="457"/>
+        <location filename="../../ui/messages.py" line="459"/>
         <source>writing</source>
         <translation>escribiendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="458"/>
+        <location filename="../../ui/messages.py" line="460"/>
         <source>plate solving</source>
         <translation>reducción astrométrica</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="459"/>
+        <location filename="../../ui/messages.py" line="461"/>
         <source>checking</source>
         <translation>comprobando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="460"/>
+        <location filename="../../ui/messages.py" line="462"/>
         <source>downloading</source>
         <translation>descargando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="461"/>
+        <location filename="../../ui/messages.py" line="463"/>
         <source>simulating</source>
         <translation>simulando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="462"/>
+        <location filename="../../ui/messages.py" line="464"/>
         <source>simulating a transit night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="463"/>
+        <location filename="../../ui/messages.py" line="465"/>
         <source>photometry</source>
         <translation>fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="464"/>
+        <location filename="../../ui/messages.py" line="466"/>
         <source>quality</source>
         <translation>calidad</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="465"/>
+        <location filename="../../ui/messages.py" line="467"/>
         <source>catalogue</source>
         <translation>catálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="466"/>
+        <location filename="../../ui/messages.py" line="468"/>
         <source>astrometry</source>
         <translation>astrometría</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="467"/>
+        <location filename="../../ui/messages.py" line="469"/>
         <source>fit</source>
         <translation>ajuste</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="468"/>
+        <location filename="../../ui/messages.py" line="470"/>
         <source>trace</source>
         <translation>traza</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="469"/>
+        <location filename="../../ui/messages.py" line="471"/>
         <source>trace orders</source>
         <translation>trazar órdenes</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="470"/>
+        <location filename="../../ui/messages.py" line="472"/>
         <source>extraction</source>
         <translation>extracción</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="471"/>
+        <location filename="../../ui/messages.py" line="473"/>
         <source>arc</source>
         <translation>arco</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="472"/>
+        <location filename="../../ui/messages.py" line="474"/>
         <source>wavelength solution</source>
         <translation>solución de longitud de onda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="473"/>
+        <location filename="../../ui/messages.py" line="475"/>
         <source>downloading the template library</source>
         <translation>descargando la biblioteca de plantillas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="474"/>
+        <location filename="../../ui/messages.py" line="476"/>
         <source>comparing</source>
         <translation>comparando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="475"/>
+        <location filename="../../ui/messages.py" line="477"/>
         <source>comparing with the MK standards</source>
         <translation>comparando con los estándares MK</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="476"/>
+        <location filename="../../ui/messages.py" line="478"/>
         <source>disentangling</source>
         <translation>separando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="477"/>
+        <location filename="../../ui/messages.py" line="479"/>
         <source>band math</source>
         <translation>álgebra de bandas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="478"/>
+        <location filename="../../ui/messages.py" line="480"/>
         <source>folder not found: {path}</source>
         <translation>carpeta no encontrada: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="479"/>
+        <location filename="../../ui/messages.py" line="481"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} contiene una fecha pero no la hora, y no se encontró ninguna palabra clave de hora</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="480"/>
+        <location filename="../../ui/messages.py" line="482"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>indique el nombre o las coordenadas del objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="481"/>
+        <location filename="../../ui/messages.py" line="483"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>indique la resolución del espectrógrafo: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="482"/>
+        <location filename="../../ui/messages.py" line="484"/>
         <source>the Sun</source>
         <translation>el Sol</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="483"/>
+        <location filename="../../ui/messages.py" line="485"/>
         <source>first estimate</source>
         <translation>primera estimación</translation>
     </message>
@@ -7252,11 +7257,6 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/models_page.py" line="163"/>
         <source> steps</source>
         <translation> pasos</translation>
-    </message>
-    <message>
-        <location filename="../../ui/models_page.py" line="164"/>
-        <source>Length of the Markov chain; more steps give steadier errors</source>
-        <translation>Longitud de la cadena de Markov; más pasos dan errores más estables</translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="173"/>
@@ -7397,6 +7397,11 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/models_page.py" line="146"/>
         <source>With the velocities&apos; K1, K2 and the light curve&apos;s radii and inclination: masses and radii of both stars in solar units (needs a double-lined orbit fitted in the Spectroscopy window)</source>
         <translation>Con K1, K2 de las velocidades y los radios y la inclinación de la curva de luz: masas y radios de ambas estrellas en unidades solares (necesita una órbita de doble línea ajustada en la ventana Espectroscopía)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="164"/>
+        <source>The most steps of the Markov chains; they stop earlier once converged</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/models_page.py" line="215"/>
@@ -7840,18 +7845,23 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="152"/>
-        <source>After the fit, a Markov chain (emcee) explores the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
-        <translation>Tras el ajuste, una cadena de Markov (emcee) explora los parámetros del tercer cuerpo o del movimiento apsidal: intervalos del 68 % de cada parámetro, e y ω incluidos, cuando dependen unos de otros. Una efeméride lineal o cuadrática es un problema lineal: sus errores de mínimos cuadrados ya son exactos.</translation>
+        <source>After the fit, Markov chains explore the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_page.py" line="162"/>
+        <source>The most steps of the Markov chains; they stop earlier once converged</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_page.py" line="267"/>
+        <source>Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="161"/>
         <source> steps</source>
         <translation> pasos</translation>
-    </message>
-    <message>
-        <location filename="../../ui/oc_page.py" line="162"/>
-        <source>Length of the Markov chain; more steps give steadier errors</source>
-        <translation>Longitud de la cadena de Markov; más pasos dan errores más estables</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="174"/>
@@ -7917,11 +7927,6 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/oc_page.py" line="264"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>Ajuste O−C a {n} tiempos de mínimo: {model}; mínimos cuadrados ponderados, errores 1σ (escalados por √χ²ᵣ cuando χ²ᵣ &gt; 1).</translation>
-    </message>
-    <message>
-        <location filename="../../ui/oc_page.py" line="267"/>
-        <source>Errors: the larger side of the MCMC 68 % intervals (emcee, {s} steps).</source>
-        <translation>Errores: el lado mayor de los intervalos del 68 % del MCMC (emcee, {s} pasos).</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="280"/>
@@ -15449,7 +15454,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="36"/>
-        <location filename="../../engine/step_params.py" line="156"/>
+        <location filename="../../engine/step_params.py" line="158"/>
         <source>Catalogue</source>
         <translation>Catálogo</translation>
     </message>
@@ -15533,180 +15538,180 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../engine/step_params.py" line="106"/>
         <location filename="../../timeseries/steps.py" line="189"/>
-        <source>Length of the Markov chain for the errors; 0: none</source>
+        <source>The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="113"/>
+        <location filename="../../engine/step_params.py" line="115"/>
         <source>Export for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="114"/>
+        <location filename="../../engine/step_params.py" line="116"/>
         <source>PHOEBE, Wilson–Devinney or a transit-fitting program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="126"/>
+        <location filename="../../engine/step_params.py" line="128"/>
         <source>Search radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="127"/>
+        <location filename="../../engine/step_params.py" line="129"/>
         <source>Around the header&apos;s position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="133"/>
+        <location filename="../../engine/step_params.py" line="135"/>
         <source>Refine on Gaia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="134"/>
+        <location filename="../../engine/step_params.py" line="136"/>
         <source>The solution is fitted again on Gaia DR3 stars (higher-order distortion)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="146"/>
+        <location filename="../../engine/step_params.py" line="148"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="147"/>
+        <location filename="../../engine/step_params.py" line="149"/>
         <source>The object is looked for in a box this wide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="157"/>
+        <location filename="../../engine/step_params.py" line="159"/>
         <source>The stars shown over the image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="164"/>
-        <location filename="../../engine/step_params.py" line="208"/>
-        <location filename="../../engine/step_params.py" line="220"/>
+        <location filename="../../engine/step_params.py" line="166"/>
+        <location filename="../../engine/step_params.py" line="210"/>
+        <location filename="../../engine/step_params.py" line="222"/>
         <source>Faintest magnitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="165"/>
-        <location filename="../../engine/step_params.py" line="209"/>
+        <location filename="../../engine/step_params.py" line="167"/>
+        <location filename="../../engine/step_params.py" line="211"/>
         <source>Fainter stars are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="174"/>
+        <location filename="../../engine/step_params.py" line="176"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="175"/>
+        <location filename="../../engine/step_params.py" line="177"/>
         <source>png, jpg or tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="181"/>
+        <location filename="../../engine/step_params.py" line="183"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="182"/>
+        <location filename="../../engine/step_params.py" line="184"/>
         <source>How the black and white points are chosen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="188"/>
-        <location filename="../../engine/step_params.py" line="231"/>
+        <location filename="../../engine/step_params.py" line="190"/>
+        <location filename="../../engine/step_params.py" line="233"/>
         <source>Stretch</source>
         <translation>Estiramiento</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="189"/>
+        <location filename="../../engine/step_params.py" line="191"/>
         <source>linear, log, sqrt, asinh…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="200"/>
+        <location filename="../../engine/step_params.py" line="202"/>
         <source>Field of view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="201"/>
+        <location filename="../../engine/step_params.py" line="203"/>
         <source>Width of the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="215"/>
+        <location filename="../../engine/step_params.py" line="217"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="216"/>
+        <location filename="../../engine/step_params.py" line="218"/>
         <source>Above the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="221"/>
+        <location filename="../../engine/step_params.py" line="223"/>
         <source>Fainter bodies are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="222"/>
+        <location filename="../../engine/step_params.py" line="224"/>
         <source>Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="223"/>
+        <location filename="../../engine/step_params.py" line="225"/>
         <source>The operation&apos;s own settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="232"/>
+        <location filename="../../engine/step_params.py" line="234"/>
         <source>Lupton&apos;s stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="239"/>
+        <location filename="../../engine/step_params.py" line="241"/>
         <source>Softening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="240"/>
+        <location filename="../../engine/step_params.py" line="242"/>
         <source>Lupton&apos;s Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="247"/>
+        <location filename="../../engine/step_params.py" line="249"/>
         <source>The three images are aligned on their stars first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="256"/>
+        <location filename="../../engine/step_params.py" line="258"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="257"/>
+        <location filename="../../engine/step_params.py" line="259"/>
         <source>An existing file of that name is replaced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="263"/>
+        <location filename="../../engine/step_params.py" line="265"/>
         <source>Header cards to set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="264"/>
+        <location filename="../../engine/step_params.py" line="266"/>
         <source>Keyword: value pairs written into the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="270"/>
+        <location filename="../../engine/step_params.py" line="272"/>
         <source>Header cards to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="271"/>
+        <location filename="../../engine/step_params.py" line="273"/>
         <source>Keywords taken out of the header</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15925,7 +15930,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="157"/>
-        <location filename="../../engine/step_params.py" line="246"/>
+        <location filename="../../engine/step_params.py" line="248"/>
         <source>Align</source>
         <translation>Alinear</translation>
     </message>

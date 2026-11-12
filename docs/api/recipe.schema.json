@@ -507,7 +507,7 @@
            "description": "Limb darkening, star 2: Quadratic coefficients u1, u2"
           },
           "mcmc_steps": {
-           "description": "MCMC steps: Length of the Markov chain for the errors; 0: none",
+           "description": "MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none",
            "type": [
             "integer",
             "null"
@@ -2176,7 +2176,7 @@
            "minimum": 0.0
           },
           "mcmc_steps": {
-           "description": "MCMC steps: Length of the Markov chain for the errors; 0: none",
+           "description": "MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none",
            "type": [
             "integer",
             "null"

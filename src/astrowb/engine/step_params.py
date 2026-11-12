@@ -103,7 +103,9 @@ describe(
         max=1_000_000,
         label=QT_TRANSLATE_NOOP("Steps", "MCMC steps"),
         advanced=True,
-        help=QT_TRANSLATE_NOOP("Steps", "Length of the Markov chain for the errors; 0: none"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none"
+        ),
     ),
     P(
         "export_format",

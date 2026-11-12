@@ -398,6 +398,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "a log-uniform prior needs a positive lower limit"),
     QT_TRANSLATE_NOOP("Messages", "the width of a Gaussian prior must be positive"),
     QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
+    # timeseries/frequency.py (PER-6)
+    QT_TRANSLATE_NOOP("Messages", "{child} is related to {parent}, which is itself related"),
     # models/spots.py (MOD-8)
     QT_TRANSLATE_NOOP("Messages", "at most {MAX_SPOTS} spots per star"),
     QT_TRANSLATE_NOOP("Messages", "unknown spot overlap rule: {rule}"),

@@ -132,6 +132,12 @@ def test_posterior_summary_rounding_and_storage(tmp_path):
     assert "c" in s and abs(post.correlation()[0, 1]) < 0.02
     assert rounded(1.23456, 0.0123, 0.0456) == ("1.235", "0.012", "0.046")
     post.save(tmp_path / "p.npz")
+    for name in ("s.ecsv", "s.fits"):
+        post.export(tmp_path / name)
+        from astropy.table import Table
+
+        t = Table.read(tmp_path / name)
+        assert list(t["name"]) == ["a", "b", "c"] and t["median"][0] == pytest.approx(s["a"]["median"])
     back = Posterior.load(tmp_path / "p.npz")
     assert np.array_equal(back.samples, post.samples) and np.allclose(back.column("c"), post.column("c"))
 

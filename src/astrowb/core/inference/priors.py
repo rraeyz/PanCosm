@@ -44,6 +44,22 @@ class LogUniform(Uniform):
         return f"log-uniform between {self.lo:g} and {self.hi:g}"
 
 
+class Flat:
+    """Constant inside the limits (which may be infinite): improper, so not for nested sampling."""
+
+    def __init__(self, lo=-np.inf, hi=np.inf):
+        if not hi > lo:
+            raise ValueError("the upper limit must be above the lower one")
+        self.lo, self.hi = float(lo), float(hi)
+
+    def logpdf(self, x):
+        x = np.asarray(x, float)
+        return np.where((x > self.lo) & (x < self.hi), 0.0, -np.inf)
+
+    def describe(self):
+        return f"flat between {self.lo:g} and {self.hi:g}"
+
+
 class Gaussian:
     def __init__(self, mu, sigma):
         if not sigma > 0:

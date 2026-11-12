@@ -13,9 +13,9 @@ so primary and secondary O-C swing in opposite directions over the apsidal perio
 shortcut: first order in e; for e > ~0.1 the higher-order terms (and the inclination) matter.
 
 Both are fitted by searching the slow period on a grid (for a fixed period the model is linear in the rest,
-or nearly) and refining every parameter with least squares. On request (mcmc_steps > 0) an emcee chain around the
-least-squares solution gives 68 % intervals of every parameter, e and omega included (as OCFit does); the
-least-squares errors come from a linearised covariance and miss how the parameters depend on each other.
+or nearly) and refining every parameter with least squares. On request (mcmc_steps > 0) the inference engine's
+chains around the least-squares solution give 68 % intervals of every parameter, e and omega included (as OCFit
+does); the least-squares errors come from a linearised covariance and miss how the parameters depend on each other.
 """
 
 from dataclasses import dataclass
@@ -131,10 +131,10 @@ def _covariance(sol, resid):
 
 
 def _posterior(resid, x0, err, chi2r, physical, steps, seed=1, ctx=None):
-    """{name: (median, minus, plus)} (16th / 84th percentiles) of physical(x) over an emcee chain started around
-    the least-squares x0 (Goodman & Weare 2010). Flat priors on the fitted parameters; chi2 is divided by
-    chi2r > 1 as the least-squares errors are scaled."""
-    import emcee
+    """{name: (median, minus, plus)} (16th / 84th percentiles) of physical(x) over the shared inference engine's
+    chains started around the least-squares x0 (at most `steps` generations; earlier when converged). Flat priors
+    on the fitted parameters; chi2 is divided by chi2r > 1 as the least-squares errors are scaled."""
+    from ..core.inference import mcmc as engine
 
     s = max(chi2r, 1.0)
 
@@ -143,16 +143,11 @@ def _posterior(resid, x0, err, chi2r, physical, steps, seed=1, ctx=None):
         v = -0.5 * float(r @ r) / s
         return v if np.isfinite(v) else -np.inf
 
-    ndim = len(x0)
-    walkers = max(24, 4 * ndim)
-    rng = np.random.default_rng(seed)
     scale = np.where(np.isfinite(err) & (err > 0), err, 1e-6 * np.maximum(np.abs(x0), 1.0))
-    sampler = emcee.EnsembleSampler(walkers, ndim, log_prob)
-    for i, _ in enumerate(sampler.sample(x0 + 0.1 * scale * rng.normal(size=(walkers, ndim)), iterations=steps)):
-        if ctx and i % 50 == 0:  # a task: show progress, stop when cancelled
-            ctx.check()
-            ctx.progress(0.1 + 0.9 * i / steps, "MCMC")
-    chain = sampler.get_chain(discard=steps // 2, thin=5, flat=True)
+    post = engine.around(log_prob, x0, scale, [f"x{i}" for i in range(len(x0))], steps=steps, seed=seed, ctx=ctx,
+                         progress=(0.1, 1.0))  # fmt: skip
+    chain = post.samples[np.random.default_rng(seed).choice(len(post.samples), min(len(post.samples), 4000),
+                                                            replace=False)]  # fmt: skip
     best = physical(x0)
     values = {k: np.array([physical(x)[k] for x in chain]) for k in best}
     out = {}
@@ -161,7 +156,7 @@ def _posterior(resid, x0, err, chi2r, physical, steps, seed=1, ctx=None):
             v = best[k] + (v - best[k] + 180) % 360 - 180
         p16, p50, p84 = np.percentile(v, [16, 50, 84])
         out[k] = (float(p50), float(p50 - p16), float(p84 - p50))
-    return {"params": out, "acceptance": float(np.mean(sampler.acceptance_fraction))}
+    return {"params": out, "acceptance": post.acceptance, "converged": post.converged}
 
 
 def _use_posterior(fit, post):
