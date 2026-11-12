@@ -475,7 +475,7 @@ for the window concerned.
 - **Files:** `ui/kit/help.py`, `resources/guide/*`, the panels, tests.
 
 ### UI-8. Guided tasks  (P2)
-**partial** — done (2026-11-12): `kit/guided.py` (a bar at the top of the real area window: step n of m, the text, Show me marks the control for 3 s without covering it, Back / Next / Close) and scripts in `resources/guided/*.toml` (widget = an attribute of the area's page; texts per language, English as fallback); Help → Guided tasks lists them. Task (5) "minima to O−C and a third body" on the practice minima, English and Turkish; a test walks every task's Show me. Left: tasks (1)–(4), (6), (7), which follow the windows of UI-16.
+**partial** — done (2026-11-12): `kit/guided.py` (a bar at the top of the real area window: step n of m, the text, Show me marks the control for 3 s without covering it, Back / Next / Close) and scripts in `resources/guided/*.toml` (widget = an attribute of the area's page; texts per language, English as fallback); Help → Guided tasks lists them. Tasks (5) "minima to O−C and a third body" and (6) "frequencies of a pulsating star" on the practice data, English and Turkish (Show me brings the tab holding the control forward); a test walks every task's Show me. Left: tasks (1)–(4), (7), which follow the windows of UI-16.
 - **Why:** "easier than all of them": a newcomer wants "a light curve from my night", not eleven windows.
 - **Build:** Help → "Guided tasks": (1) calibrate a night and measure a light curve of an eclipsing binary; (2) an
   exoplanet transit from raw frames to an ExoClock / AAVSO report; (3) a long-slit spectrum from raw to wavelength
