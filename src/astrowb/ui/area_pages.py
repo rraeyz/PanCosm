@@ -306,6 +306,7 @@ def make_lightcurve_page(main):
 
 def make_image_page(main):
     page = ImagePage(main)
+    page.owner = main  # the page moves into the Images window; the files stay opened by the main window
     page.header_save_requested.connect(main.save_header_changes)
     page.image_chosen.connect(lambda p: main.open_fits(Path(p)))
     page.viewer.context_requested.connect(lambda x, y, pos: main.image_menu(x, y).exec(pos))
