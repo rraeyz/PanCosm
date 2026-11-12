@@ -382,7 +382,10 @@ campaign check, the interface (items 1–2, 6), the native DFT (item 8).
 - **Files:** `timeseries/timefreq.py`, `compute/wwz.py`, `ui/lightcurves/panels/timefreq.py`, `tests/test_timefreq.py`
 
 ### PER-10. Shapes and classes: Fourier parameters and a suggested type  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/shape.py`: the Fourier decomposition of the folded curve (sine series,
+order by BIC), R_k1 and φ_k1 with errors propagated from the covariance (inside 1σ in 60–76 % of 200 realisations),
+the rise time and the skewness of the fitted curve. Left: the class boundaries with citations and the suggestion
+(classify.py), the colour–magnitude position, the RRab metallicity with its validity check, the 30 stored curves.
 - **Ours now:** `fourier.fourier_fit`, `fourier.times_of_maximum`; no Fourier parameters (R21, φ21) and no class suggestion.
 - **Read first:** Simon & Lee 1981 (ApJ 248, 291: R21, φ21, …); Deb & Singh 2009 (A&A 507, 1729); Jurcsik & Kovács
   1996 ([Fe/H] from φ31, with its validity conditions); Gaia DR3 variability classification papers (Rimoldini et
