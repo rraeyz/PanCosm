@@ -287,7 +287,14 @@ comparison (MOD-9), normalisation options and magnitudes, outputs for the views.
 - **Files:** `models/roche/reflection.py`, `tests/test_roche_reflection.py`
 
 ### MOD-5. Orbit and timing terms  (P1)
-**open**
+**partial** — done (2026-11-12): `models/orbit_terms.py`: `conjunction_phases` (secondary minimum and periastron
+after the primary, exact through the eccentric anomaly), `cycle` / `phase` on T = T0 + P E + ½ (dP/dE) E²,
+`pseudo_synchronous` (Hut 1981 eq. 42), `integrate_exposure` (midpoint rule, n doubled until the answer is within
+the tolerance), `boosting` (Loeb & Gaudi 2003). Tests: e = 0.3, ω = 60°: the minima and periastron phases equal
+the conjunctions found by root-finding to 1e-9; the quadratic ephemeris round-trips to 1e-8 cycles; a 30-minute
+exposure of a short eclipse within 1e-6 of a 2001-point sum. Left: dω/dt, the instantaneous separation with volume
+conservation, asynchronous rotation in the Roche model, light time across the system and from a third body in
+the model, the PHOEBE comparison.
 - **Read first:** Wilson 1979; Wilson & Van Hamme 2014 (ephemeris with dP/dt and dω/dt; third-body light-time in
   the light-curve model); Kipping 2010 (MNRAS 408, 1758: binning of the model over the exposure); Loeb & Gaudi 2003.
 - **Build:** `models/roche/orbit.py`: time → phase with P, T0 (of primary minimum **or** periastron — both
