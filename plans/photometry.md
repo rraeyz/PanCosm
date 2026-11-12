@@ -340,7 +340,11 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
   photometry came with the same release.
 
 ### PHO-23. Nearby-eclipsing-binary check  (P1)
-**open**
+**partial** — done (2026-11-12), the rules: `photometry/neb.py`: the required depth with the 0.5 mag buffer, the
+clipped RMS, the dispositions in AstroImageJ's order, the best of several apertures, candidate selection from
+catalogue Δmag and separation. Test: a quiet star 3 mag fainter cleared, an eclipsing one not, a very faint one
+"too faint", an empty aperture "flux too low". Left: measuring the candidates on every frame (PHO-18), the box fit
+at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
 - **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in
