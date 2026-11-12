@@ -102,3 +102,36 @@ def omega_for_volume_radius(r_vol, q, d=1.0, f=1.0):
     """The potential whose surface has this volume-equivalent radius (inside the Roche lobe)."""
     om_in = critical(q, d, f)[0]
     return float(brentq(lambda om: volume_radius(om, q, d, f) - r_vol, om_in * (1 + 1e-9), 1 / max(r_vol, 1e-6) * 50))
+
+
+def gradient(x, y, z, q, d=1.0, f=1.0):
+    """∇Ω at Cartesian points (star 1 at the origin, star 2 at x = d): three arrays."""
+    r3 = (x * x + y * y + z * z) ** 1.5
+    p3 = ((x - d) ** 2 + y * y + z * z) ** 1.5
+    w = f * f * (1 + q)
+    return (-x / r3 - q * ((x - d) / p3 + 1 / d**2) + w * x, -y / r3 - q * y / p3 + w * y, -z / r3 - q * z / p3)
+
+
+def surface(om, q, n_theta=40, d=1.0, f=1.0):
+    """Star 1's surface Ω as a grid: θ rows of equal width, longitudes ∝ sin θ per row (as WD's N1), whole sphere.
+    Returns {"xyz" (n, 3), "normal" (outward unit vectors), "gravity" |∇Ω|, "area" of each element, "total_area",
+    "volume"}; the area element is r² dω / (r̂ · n̂)."""
+    theta_edges = np.linspace(0, np.pi, n_theta + 1)
+    pts, weights = [], []
+    for a, b in zip(theta_edges[:-1], theta_edges[1:], strict=True):
+        th = 0.5 * (a + b)
+        n_phi = max(4, int(round(2 * n_theta * np.sin(th))))
+        dw = (np.cos(a) - np.cos(b)) * 2 * np.pi / n_phi  # solid angle of each element
+        for ph in (np.arange(n_phi) + 0.5) * 2 * np.pi / n_phi:
+            pts.append((np.sin(th) * np.cos(ph), np.sin(th) * np.sin(ph), np.cos(th)))
+            weights.append(dw)
+    u = np.array(pts)
+    dw = np.array(weights)
+    r = np.array([radius(om, q, lam, nu, d, f) for lam, _m, nu in u])
+    xyz = u * r[:, None]
+    gx, gy, gz = gradient(xyz[:, 0], xyz[:, 1], xyz[:, 2], q, d, f)
+    g = np.sqrt(gx * gx + gy * gy + gz * gz)
+    normal = -np.column_stack([gx, gy, gz]) / g[:, None]  # Ω falls outwards
+    area = r * r * dw / np.clip(np.sum(u * normal, axis=1), 1e-6, None)
+    return {"xyz": xyz, "normal": normal, "gravity": g, "area": area, "total_area": float(area.sum()),
+            "volume": float(np.sum(r**3 * dw) / 3)}  # fmt: skip
