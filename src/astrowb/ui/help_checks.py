@@ -93,6 +93,9 @@ def start_guided(win, task):
     """A guided task (UI-8): its area's window opens with the task's bar at the top."""
     from .kit.guided import GuidedBar
 
-    win.show_workspace(task["area"])
-    window = win.area_windows.get(task["area"], win)
-    return GuidedBar(window, getattr(win, win.PAGES[task["area"]]), task)
+    def resolve(area):
+        win.show_workspace(area)
+        return win.area_windows.get(area, win), getattr(win, win.PAGES[area])
+
+    window, page = resolve(task["area"])
+    return GuidedBar(window, page, task, resolve)

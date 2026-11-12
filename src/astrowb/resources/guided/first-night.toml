@@ -1,0 +1,43 @@
+# A guided task (plans/interface.md UI-8): the practice night (Help → Practice data) from raw frames to a light
+# curve and a time of minimum, across the Calibration and Photometry windows.
+area = "calibrate"
+title.en = "A night of an eclipsing binary: raw frames to a time of minimum"
+title.tr = "Bir örten çiftin gecesi: ham karelerden minimum zamanına"
+
+[[step]]
+widget = "folder"
+text.en = "Choose the folder of the practice night (Help → Practice data for a first night): bias, dark, flat and light frames together."
+text.tr = "Alıştırma gecesinin klasörünü seçin (Yardım → İlk gece için alıştırma verisi): bias, dark, flat ve bilim kareleri bir arada."
+
+[[step]]
+widget = "scan_button"
+text.en = "Scan: the frames are sorted by their headers and matched (which dark and flat go with which light)."
+text.tr = "Tara: kareler başlıklarına göre ayrılır ve eşleşir (hangi dark ve flat hangi bilim karesine)."
+
+[[step]]
+widget = "run_button"
+text.en = "Calibrate: the masters are made and every light frame is corrected."
+text.tr = "3. Kalibre et: ana kareler yapılır ve her bilim karesi düzeltilir."
+
+[[step]]
+widget = "photometry_button"
+text.en = "Send the calibrated frames to the Photometry window."
+text.tr = "4. Fotometri penceresinde ölç → ile kalibre edilmiş kareleri Fotometri penceresine gönderin."
+
+[[step]]
+area = "photometry"
+widget = "suggest_button"
+text.en = "Click the variable on the image, then Suggest comparison stars."
+text.tr = "Görüntüde değişen yıldıza tıklayın, sonra Karşılaştırma yıldızı öner'e basın."
+
+[[step]]
+area = "photometry"
+widget = "measure_button"
+text.en = "Measure the light curve."
+text.tr = "Işık eğrisini ölç'e basın."
+
+[[step]]
+area = "photometry"
+widget = "minimum_button"
+text.en = "Time of minimum: the eclipse in the middle of the night; truth.json in the practice folder has the real time to compare."
+text.tr = "Minimum zamanı: gecenin ortasındaki tutulma; alıştırma klasöründeki truth.json gerçek zamanı verir, karşılaştırın."
