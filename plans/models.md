@@ -518,7 +518,12 @@ Left: per-iteration sub-rows, live feedback, residual diagnostics, the 40-system
 - **Files:** `models/fitting.py`, `models/history.py`, step `models.fit` (old `models.eb_fit` kept as a wrapper), `tests/test_model_fitting.py`
 
 ### MOD-13. The q-search and other scans  (P1)
-**open**
+**partial** — done (2026-11-12): `models/scan.py` on MOD-12's fitting: `scan` (one parameter on a grid, the other
+free ones fitted at each value warm-started, the minimum by a parabola, the 1σ range where χ² rises by χ²ᵣ, a
+sharp / shallow verdict from the depth and the width) and `scan2` (a χ² map of two). Tests: the inclination's
+minimum within 0.1° and sharp; a curve without its eclipses leaves the surface-brightness ratio shallow; the 2-D
+map's minimum at the truth. Left: the q-search on Roche contact models (the totally / partially eclipsing pair),
+adaptive refinement, parallel grid points, the W UMa set, the verdict's wording about total eclipses.
 - **Read first:** Terrell & Wilson 2005 (Ap&SS 296, 221) and Hambálek & Pribulla 2013 (CoSka 43, 27) on the
   reliability of photometric mass ratios; any classical W UMa paper's q-search figure.
 - **Build:** `models/scan.py`: q fixed on a grid (default 0.05–1.0 and, on request, the inverse range for W-type
