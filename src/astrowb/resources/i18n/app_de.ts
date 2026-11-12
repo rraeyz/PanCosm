@@ -15008,14 +15008,186 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="15"/>
+        <source>Camera clock − UTC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="16"/>
+        <source>For camera raw files and pictures without a UTC time (DSLR)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="27"/>
+        <source>Rejection limit of the masters in standard deviations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="35"/>
+        <source>Temperature tolerance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="36"/>
+        <source>A dark is used for a light within this sensor temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="42"/>
+        <source>Remove cosmic rays</source>
+        <translation type="unfinished">Kosmische Strahlen entfernen</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="43"/>
+        <source>L.A.Cosmic (astroscrappy) on every light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="51"/>
+        <source>Read noise</source>
+        <translation type="unfinished">Ausleserauschen</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="52"/>
+        <source>For the cosmic-ray search when the header does not give it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="58"/>
+        <source>Scale the dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="59"/>
+        <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="65"/>
+        <source>Mend bad pixels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="66"/>
+        <source>Hot and cold pixels found in the masters are replaced by their neighbours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="72"/>
+        <source>Divide by the flat</source>
+        <translation type="unfinished">Durch das Flat teilen</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="73"/>
+        <source>Off: bias and dark only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="79"/>
+        <source>Split colour frames</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="80"/>
+        <source>A colour camera&apos;s frames become one file per colour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="86"/>
+        <source>Linearity correction</source>
+        <translation type="unfinished">Linearitätskorrektur</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="87"/>
+        <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="106"/>
+        <source>Combine</source>
+        <translation type="unfinished">Kombinieren</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="107"/>
         <location filename="../../spectroscopy/step_params.py" line="75"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="114"/>
         <location filename="../../spectroscopy/step_params.py" line="82"/>
         <source>Rejection</source>
         <translation type="unfinished">Verwerfung</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="115"/>
+        <source>Pixels left out before combining (satellites, cosmic rays)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="122"/>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="124"/>
+        <source>Frames or percent dropped at the low end (min / max, percentile)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="131"/>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="133"/>
+        <source>Frames or percent dropped at the high end (min / max, percentile)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="140"/>
+        <source>Normalise</source>
+        <translation type="unfinished">Normieren</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="141"/>
+        <source>Each frame shifted or scaled to the first before combining</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="149"/>
+        <source>noise: 1/σ² weights</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="156"/>
+        <source>Align</source>
+        <translation type="unfinished">Ausrichten</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="157"/>
+        <source>Shift only, or star patterns (rotation and scale too)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="168"/>
+        <source>Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="169"/>
+        <source>The output pixels are this many times finer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="177"/>
+        <source>Drop size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="178"/>
+        <source>The share of each input pixel that is dropped (pixfrac)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../spectroscopy/step_params.py" line="83"/>
@@ -15023,11 +15195,14 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="26"/>
+        <location filename="../../calibration/step_params.py" line="98"/>
         <location filename="../../spectroscopy/step_params.py" line="90"/>
         <source>Sigma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="99"/>
         <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Rejection limit in standard deviations</source>
         <translation type="unfinished"></translation>
@@ -15043,6 +15218,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="148"/>
         <location filename="../../spectroscopy/step_params.py" line="106"/>
         <source>Weights</source>
         <translation type="unfinished">Gewichte</translation>
