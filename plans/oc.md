@@ -343,7 +343,14 @@ system's check, replacing oc_models.fit_apsidal in the O−C page.
 - **Files:** `timeseries/oc_models.py`, UI, tests.
 
 ### OC-8. Uncertainties and correlations  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/oc_uncertainty.py`: `bootstrap` (model + residuals drawn with
+replacement, refitted in threads), `jitter` / `with_jitter` (a term in quadrature fitted with the model until χ²ᵣ
+= 1), `correlation` (the matrix and the pairs with |ρ| > 0.9); the MCMC is the shared engine (ltte.posterior;
+oc_models through core/inference). Tests: the covariance intervals of the LTTE and apsidal fits contain the truth in
+62–74 % of 300 realisations for every parameter; the bootstrap's spreads agree with them; a 2× underestimate of the
+errors is found as the jitter. Found on the way: the apsidal fit compared absolute JDs, whose rounding drowned the
+Jacobian's finite differences (intervals 1.6× too narrow); it now works in relative time. Left: priors per
+parameter in the interface, the corner plot, saving chains with the session.
 - **Build:** for every model: errors from the covariance (scaled), bootstrap of residuals, and MCMC (the shared
   sampler, EXO-5: affine-invariant ensemble or differential-evolution MCMC, Gelman–Rubin R̂ < 1.01 and ≥ 1000
   effective samples before it stops, or a warning with the reached values); priors per parameter (uniform bounds,
