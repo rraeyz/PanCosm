@@ -331,7 +331,13 @@ the model, the PHOEBE comparison.
 - **Files:** `tools/build_passband_tables.py`, `models/passbands.py`, `core/datapacks.py` entries, tests.
 
 ### MOD-7. Radial velocities from the same model  (P1)
-**open**
+**partial** — done (2026-11-12): `models/roche_lc.velocities`: flux-weighted radial velocities of both stars from
+the light-curve grids (each visible element moving with its star about the barycentre and spinning at F times the
+orbital rate; circular orbit; the observer's turn in the rotating frame fixed to the orbit's sense). Tests: out
+of eclipse the mean velocity is the centre's Keplerian one to 1e-3 km/s; the Rossiter effect of a small dark body
+on a synchronous star equals the first-order formula (the hidden light's velocity missing from the mean) within
+0.1 % (3 % asked). Left: eccentric orbits, K from a, q, i, P, per-instrument offsets, the CCF note, the PHOEBE
+comparison.
 - **Read first:** Wilson & Sofia 1976 (proximity effects on velocities); Ohta, Taruya & Suto 2005 and Hirano et al.
   2011 (Rossiter–McLaughlin: what a CCF measures against a flux-weighted mean); the WD documentation on velocity
   curves.
