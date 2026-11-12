@@ -6,7 +6,7 @@ title.tr = "Zonklayan bir yıldızın frekansları"
 [[step]]
 widget = "period_page.load_button"
 text.en = "Load the light curve: choose pulsator.csv from the practice data (Help → Practice data)."
-text.tr = "Işık eğrisini yükleyin: alıştırma verisindeki pulsator.csv'yi seçin (Yardım → Alıştırma verisi)."
+text.tr = "Işık eğrisini yükleyin: alıştırma verisindeki pulsator.csv'yi seçin (Yardım → İlk gece için alıştırma verisi)."
 
 [[step]]
 widget = "frequency_page.button"
