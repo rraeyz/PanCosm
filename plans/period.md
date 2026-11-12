@@ -163,7 +163,17 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 - **Files:** `timeseries/clean.py`, UI clean panel, tests.
 
 ### PER-3. Every period-search method, one interface  (P1)
-**open**
+**partial** — done (2026-11-12): `timeseries/methods.py` with period.py's signature ((periods, power, best), higher
+is better): `gls` (floating mean, weights, n harmonics; Astropy), `aovmh` (Schwarzenberg-Czerny 1996, 8 harmonics
+by default), `conditional_entropy` (Graham et al. 2013, 10 × 5 grid), `string_length` (Lafler–Kinman); the fold
+statistics go through period.search's budget. `timeseries.period` takes them all, its help says which suits which
+light curve. Tests: each statistic's formula on noise-free data; with 250 points on 30 nights (7 h a night), 20
+realisations each, the advised methods find a sine, an RR Lyrae-like saw-tooth and an Algol-type binary in ≥ 95 %.
+**Found:** AoV with n harmonics and the string length score k · P as well as P (the cycles fold on top of each
+other; AoV's spare harmonics even fit some noise in gappy data and scored 9 % higher at 7 P): both take the
+shortest of the near-equal peaks (a true half period scored 0.01–0.1 of the period's own); conditional entropy
+picks half an Algol's period (not advised for it). Left: dcdft, pdm2, jurkevich, tls, falc, acf, multiband,
+cleanest; the grid of item 2; the chooser and "Compare methods" in the window; native and GPU kernels; budgets.
 - **Read first (the papers, not other programs' code):** Lomb 1976; Scargle 1982; Zechmeister & Kürster 2009 (A&A
   496, 577: generalised LS with floating mean and weights); Ferraz-Mello 1981 (AJ 86, 619: DCDFT); Deeming 1975;
   Schwarzenberg-Czerny 1989 (ANOVA) and 1996 (ApJ 460, L107: multi-harmonic AoV with orthogonal polynomials);
