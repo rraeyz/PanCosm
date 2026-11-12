@@ -55,6 +55,9 @@ class TaskActions:
         for win in AreaWindow.alive():  # the area window that started it shows it in its status bar
             win.task_update(task)
         if task.finished:
+            if task.id in self._finished:  # a second update of a finished task: its handlers already ran
+                return
+            self._finished.add(task.id)
             done = self._on_done.pop(task.id, None)
             fail = self._on_fail.pop(task.id, None)
             if done and task.state == "done":

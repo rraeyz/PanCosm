@@ -98,7 +98,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         self._dock("tasks", self.tr("Tasks"), self.tasks_list, Qt.BottomDockWidgetArea)
         self.taskUpdated.connect(self._on_task)
         self._task_items = {}
-        self._on_done, self._on_fail = {}, {}
+        self._on_done, self._on_fail, self._finished = {}, {}, set()
 
         self.pixel_label = QLabel(self)
         self.progress = QProgressBar(self)
