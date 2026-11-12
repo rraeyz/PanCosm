@@ -640,7 +640,8 @@ def test_automation_page_template_sequence_build_save_run(window, qtbot, fits_fi
     rows = {t.item(r, 0).data(0x0100)[1]: r for r in range(t.rowCount())}  # Qt.UserRole
     t.item(rows["source"], 1).setText("destination")
     t.item(rows["destination"], 1).setText("{second}")
-    t.item(rows["overwrite"], 1).setText("true")
+    assert "overwrite" not in rows  # a described setting is in the form made from the step (AUT-1 item 5)
+    page.step_form.rows["overwrite"].control.setChecked(True)
     assert page.auto["steps"][1] == {
         "step": "fits.save_as",
         "inputs": {"source": "destination", "destination": "{second}"},

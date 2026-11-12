@@ -257,7 +257,9 @@ class AutomationPage(QWidget):
             entry = self.auto["steps"][row]
             s = steps.get(entry["step"])
             rows = [("input", n, entry.get("inputs", {}).get(n, n)) for n in s.inputs + s.optional]
-            rows += [("param", k, json.dumps(entry.get("params", {}).get(k, v))) for k, v in s.defaults.items()]
+            described = {p.name for p in s.params}  # those are in the form; a plugin's others stay rows
+            rows += [("param", k, json.dumps(entry.get("params", {}).get(k, v))) for k, v in s.defaults.items()
+                     if k not in described]  # fmt: skip
             for kind, name, value in rows:
                 r = t.rowCount()
                 t.insertRow(r)
@@ -269,6 +271,31 @@ class AutomationPage(QWidget):
                 t.setItem(r, 0, label)
                 t.setItem(r, 1, QTableWidgetItem(value))
         t.blockSignals(False)
+        self._show_form(row)
+
+    def _show_form(self, row):
+        from .kit.stepform import StepForm
+
+        if getattr(self, "step_form", None) is not None:
+            self.step_form.deleteLater()
+        self.step_form = None
+        if not 0 <= row < len(self.auto["steps"]):
+            return
+        entry = self.auto["steps"][row]
+        s = steps.get(entry["step"])
+        if not s.params:
+            return
+        self.step_form = StepForm(s, self)
+        self.step_form.set_values(entry.get("params", {}))
+        self.step_form.changed.connect(lambda: self._form_changed(entry, s))
+        lay = self.settings_table.parentWidget().layout()  # the form goes under the table
+        lay.insertWidget(lay.indexOf(self.settings_table) + 1, self.step_form)
+
+    def _form_changed(self, entry, s):
+        """The form's values kept in the automation: those that differ from the step's defaults."""
+        params = {k: v for k, v in entry.get("params", {}).items() if k not in self.step_form.readers}
+        params |= {k: v for k, v in self.step_form.values().items() if v != s.defaults.get(k)}
+        entry["params"] = params
 
     def _setting_changed(self, item):
         entry = self.auto["steps"][self.steps.currentRow()]

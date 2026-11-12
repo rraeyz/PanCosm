@@ -1063,47 +1063,47 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation> — para cada {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="299"/>
+        <location filename="../../ui/automation_page.py" line="326"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Un valor, un archivo o una carpeta para esta entrada de la automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="304"/>
+        <location filename="../../ui/automation_page.py" line="331"/>
         <source>Choose in a dialog</source>
         <translation>Elegir en un diálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="312"/>
+        <location filename="../../ui/automation_page.py" line="339"/>
         <source>Choose a folder</source>
         <translation>Elegir una carpeta</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="314"/>
+        <location filename="../../ui/automation_page.py" line="341"/>
         <source>Choose a file</source>
         <translation>Elegir un archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="316"/>
+        <location filename="../../ui/automation_page.py" line="343"/>
         <source>Choose files</source>
         <translation>Elegir archivos</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="333"/>
+        <location filename="../../ui/automation_page.py" line="360"/>
         <source>Cannot run: {e}</source>
         <translation>No se puede ejecutar: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="341"/>
+        <location filename="../../ui/automation_page.py" line="368"/>
         <source>Running step {n}: {step}</source>
         <translation>Ejecutando el paso {n}: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="344"/>
+        <location filename="../../ui/automation_page.py" line="371"/>
         <source>Finished.</source>
         <translation>Terminado.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="348"/>
+        <location filename="../../ui/automation_page.py" line="375"/>
         <source>Stopped: {e}</source>
         <translation>Detenido: {e}</translation>
     </message>
@@ -13977,12 +13977,12 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>StepForm</name>
     <message>
-        <location filename="../../ui/kit/stepform.py" line="39"/>
+        <location filename="../../ui/kit/stepform.py" line="41"/>
         <source>automatic</source>
         <translation type="unfinished">automático</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/stepform.py" line="67"/>
+        <location filename="../../ui/kit/stepform.py" line="76"/>
         <source>More settings</source>
         <translation type="unfinished"></translation>
     </message>
