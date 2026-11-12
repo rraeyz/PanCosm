@@ -19,6 +19,7 @@ def test_steps_and_help():
     assert all(len(line) < 160 for line in out.splitlines())
     code, out, _ = run("help", "models.visual_orbit")
     assert code == 0 and "inputs:      measures" in out and "parallax_mas = null" in out
+    assert "measures  (object)  Measures of the visual binary" in out  # AUT-1: what each input is
     assert run("help", "no.such.step")[0] == cli.USAGE
     assert run("frobnicate")[0] == cli.USAGE
 

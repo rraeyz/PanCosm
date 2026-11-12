@@ -1,9 +1,10 @@
-"""The name a user reads for each engine step (the task list, the status bars, the Automation window), instead of
-its technical id ("photometry.suggest_comparisons"); the id stays in tooltips and in saved files."""
+"""The title a user reads for each engine step and task (the task list, the status bars, the Automation window,
+`astrowb-cli steps`), instead of its id ("photometry.suggest_comparisons"); the id stays in tooltips and saved
+files (AUT-1 item 4). Titles are translated in the "Steps" context."""
 
-from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
+from .params import QT_TRANSLATE_NOOP
 
-NAMES = {
+TITLES = {
     "app.check": QT_TRANSLATE_NOOP("Steps", "Check the installation"),
     "app.check_gpu": QT_TRANSLATE_NOOP("Steps", "Check the GPU"),
     "app.update_time_tables": QT_TRANSLATE_NOOP("Steps", "Update the Earth-rotation tables"),
@@ -56,11 +57,3 @@ NAMES = {
     "timeseries.period": QT_TRANSLATE_NOOP("Steps", "Period search"),
     "timeseries.survey_lc": QT_TRANSLATE_NOOP("Steps", "Download a survey light curve"),
 }
-
-
-def step_name(step_id):
-    """The step's name in the interface language; a step without one (a plugin's) keeps its id."""
-    base = str(step_id).split(" ")[0]  # a task name may carry more after the id
-    if base not in NAMES:
-        return str(step_id)
-    return QCoreApplication.translate("Steps", NAMES[base]) + str(step_id)[len(base) :]

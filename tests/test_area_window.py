@@ -239,7 +239,8 @@ def test_steps_are_shown_by_name_not_by_id():
     """The user reads 'Suggest comparison stars', not 'photometry.suggest_comparisons' (interface I4d); every
     built-in step has a name, a plugin's step keeps its id."""
     from astrowb.engine import steps
-    from astrowb.ui.step_names import NAMES, step_name
+    from astrowb.engine.titles import TITLES as NAMES
+    from astrowb.ui.names import step_name
 
     steps.get("fits.save_as")  # loads the built-in steps
     builtin = {s for s in steps.REGISTRY if not s.startswith("plugin")}
@@ -256,7 +257,7 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
 
     import astrowb
     from astrowb.engine import steps
-    from astrowb.ui.setting_names import setting_name
+    from astrowb.ui.names import setting_name
 
     unnamed = set()
     for path in (Path(astrowb.__file__).parent / "resources" / "automations").glob("*.json"):

@@ -250,7 +250,7 @@ class AreaWindow(Anatomy, QMainWindow):
         if task.id not in self._tasks:
             return
         from ..messages import translate
-        from ..step_names import step_name
+        from ..names import step_name
 
         name = step_name(task.name)
         self.task_chip.update_task(task)
@@ -552,7 +552,7 @@ class AreaWindow(Anatomy, QMainWindow):
         self.find_field.textEdited.connect(lambda text: (self.find_field.clear(), self.find_command(text)))
         self.find_field.returnPressed.connect(self.find_command)
         self.toolbar.addWidget(self.find_field)
-        from ..step_names import step_name
+        from ..names import step_name
         from .tasks import TaskChip
 
         self.task_chip = TaskChip(self.toolbar, step_name, self.report_problem)

@@ -5,12 +5,14 @@ Python: `from astrowb import api; api.fits.<step>(…)`; command line: `astrowb-
 ## fits.save_as
 
 ```text
-fits.save_as
+fits.save_as  (Save the image)
 
 A copy of a FITS file, with header cards set or deleted on the way.
 
 inputs:      source, destination
 outputs:     destination
+  source  (file)  File to copy
+  destination  (new_file)  Output file
 parameters (default):
   overwrite = false  (bool)  Overwrite: An existing file of that name is replaced
   set_cards = {}  (object)  Header cards to set: Keyword: value pairs written into the header
