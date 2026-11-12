@@ -256,17 +256,17 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
 
     import astrowb
     from astrowb.engine import steps
-    from astrowb.ui.setting_names import NAMES, setting_name
+    from astrowb.ui.setting_names import setting_name
 
     unnamed = set()
     for path in (Path(astrowb.__file__).parent / "resources" / "automations").glob("*.json"):
         for entry in json.loads(path.read_text())["steps"]:
             s = steps.get(entry["step"])
-            described = {p.name for p in s.params if p.label}  # AUT-1: a described setting names itself
-            for key in (*s.inputs, *s.optional, *s.defaults):
-                if f"{entry['step']}.{key}" not in NAMES and key not in NAMES and key not in described:
+            for key in (*s.inputs, *s.optional, *s.defaults):  # AUT-1: every setting and input names itself
+                if setting_name(entry["step"], key) == key.replace("_", " "):
                     unnamed.add(key)
     assert not unnamed, unnamed
+    assert setting_name("calibration.scan", "folder") == "Folder of the night's frames"  # an input, from engine.io
     assert setting_name("calibration.scan", "clock_utc_offset") == "Camera clock − UTC (h)"
     assert setting_name("stacking.stack", "method") == "Combine"  # from the step's own description
     assert setting_name("myplugin.thing", "my_value") == "my value"
