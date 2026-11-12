@@ -180,6 +180,25 @@ class Harness:
         self._act(f"click image at {x:.0f},{y:.0f}", lambda: QTest.mouseClick(viewer.viewport(), Qt.LeftButton,
                                                                              pos=pos), budget)  # fmt: skip
 
+    def click_plot(self, plot, ax, x, budget=BUDGET_S):
+        """A click on a PlotCanvas at data x, half-way up the axes, through the canvas as the mouse gives it."""
+        canvas = plot.canvas
+        px = ax.transData.transform((x, 0))[0]
+        py = ax.transAxes.transform((0, 0.5))[1]
+        ratio = canvas.device_pixel_ratio
+        pos = QPoint(round(px / ratio), round((canvas.figure.bbox.height - py) / ratio))
+        self._act(f"click plot at {x:g}", lambda: QTest.mouseClick(canvas, Qt.LeftButton, pos=pos), budget)
+
+    def keys(self, text, budget=BUDGET_S):
+        """Type into whatever has the focus (an editor a click opened), then Enter."""
+
+        def typing():
+            w = QApplication.focusWidget()
+            QTest.keyClicks(w, text)
+            QTest.keyClick(w, Qt.Key_Return)
+
+        self._act(f"keys {text}", typing, budget)
+
     # waiting and collecting
     def settle(self):
         for _ in range(3):
