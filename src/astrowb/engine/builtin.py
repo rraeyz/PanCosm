@@ -303,3 +303,6 @@ def sample_night(inputs, params, ctx):
     transit = sampledata.make(Path(inputs["folder"]) / "transit", n_lights=120, transit=True)
     practice = sampledata.practice_sets(inputs["folder"])
     return {"truth": {**truth, "transit": transit, "practice": practice}}
+
+
+from . import step_params  # noqa: E402, F401  (every step registered: their settings described, AUT-1)

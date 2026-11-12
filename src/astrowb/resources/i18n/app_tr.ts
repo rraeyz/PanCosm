@@ -14825,6 +14825,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Lomb–Scargle, kutu en küçük kareler (geçişler), evre saçılması ya da ANOVA</translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="51"/>
         <location filename="../../photometry/steps.py" line="582"/>
         <source>Shortest period</source>
         <translation>En kısa periyot</translation>
@@ -14835,6 +14836,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Arama buradan başlar</translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="60"/>
         <location filename="../../photometry/steps.py" line="591"/>
         <source>Longest period</source>
         <translation>En uzun periyot</translation>
@@ -14940,14 +14942,287 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>PDCSAP: uzay aracı için düzeltilmiş; SAP: ölçüldüğü gibi</translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="16"/>
+        <source>Lowest altitude</source>
+        <translation>En düşük yükseklik</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="17"/>
+        <source>A target lower than this is not observable</source>
+        <translation>Bundan alçaktaki hedef gözlenemez</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="25"/>
+        <source>Time step</source>
+        <translation>Zaman adımı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="26"/>
+        <source>The night is computed at this spacing</source>
+        <translation>Gece bu aralıklarla hesaplanır</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="35"/>
+        <location filename="../../engine/step_params.py" line="155"/>
+        <source>Catalogue</source>
+        <translation>Katalog</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="36"/>
+        <source>auto: VSX for variable stars, the NASA Exoplanet Archive for planets</source>
+        <translation>auto: değişen yıldızlar için VSX, gezegenler için NASA Ötegezegen Arşivi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="39"/>
+        <source>Classes</source>
+        <translation>Sınıflar</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="40"/>
+        <source>How many k-means classes</source>
+        <translation>Kaç k-means sınıfı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="41"/>
+        <source>Components</source>
+        <translation>Bileşenler</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="42"/>
+        <source>How many principal components are kept</source>
+        <translation>Kaç temel bileşenin tutulacağı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="52"/>
+        <source>With the longest: the search stays inside; empty: free</source>
+        <translation>En uzunla birlikte: arama içinde kalır; boş: serbest</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="61"/>
+        <source>With the shortest: the search stays inside; empty: free</source>
+        <translation>En kısayla birlikte: arama içinde kalır; boş: serbest</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="69"/>
+        <source>Parallax</source>
+        <translation>Iraklık açısı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="70"/>
+        <source>Gives the total mass; empty: none</source>
+        <translation>Toplam kütleyi verir; boş: yok</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="79"/>
+        <source>Free parameters</source>
+        <translation>Serbest parametreler</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="81"/>
+        <source>The model&apos;s parameters that are fitted; empty: the usual set</source>
+        <translation>Modelin fit edilen parametreleri; boş: olağan küme</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="87"/>
+        <source>Limb darkening, star 1</source>
+        <translation>Kenar kararması, 1. yıldız</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="88"/>
+        <location filename="../../engine/step_params.py" line="95"/>
+        <source>Quadratic coefficients u1, u2</source>
+        <translation>İkinci dereceden katsayılar u1, u2</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="94"/>
+        <source>Limb darkening, star 2</source>
+        <translation>Kenar kararması, 2. yıldız</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="103"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation>MCMC adımları</translation>
     </message>
     <message>
+        <location filename="../../engine/step_params.py" line="105"/>
         <location filename="../../timeseries/steps.py" line="189"/>
         <source>Length of the Markov chain for the errors; 0: none</source>
         <translation>Hatalar için Markov zincirinin uzunluğu; 0: yok</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="112"/>
+        <source>Export for</source>
+        <translation>Dışa aktarma hedefi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="113"/>
+        <source>PHOEBE, Wilson–Devinney or a transit-fitting program</source>
+        <translation>PHOEBE, Wilson–Devinney ya da bir geçiş fit programı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="125"/>
+        <source>Search radius</source>
+        <translation>Arama yarıçapı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="126"/>
+        <source>Around the header&apos;s position</source>
+        <translation>Başlıktaki konumun çevresinde</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="132"/>
+        <source>Refine on Gaia</source>
+        <translation>Gaia ile iyileştir</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="133"/>
+        <source>The solution is fitted again on Gaia DR3 stars (higher-order distortion)</source>
+        <translation>Çözüm Gaia DR3 yıldızlarıyla yeniden fit edilir (yüksek dereceli bozulma)</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="145"/>
+        <source>Box</source>
+        <translation>Kutu</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="146"/>
+        <source>The object is looked for in a box this wide</source>
+        <translation>Cisim bu genişlikte bir kutuda aranır</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="156"/>
+        <source>The stars shown over the image</source>
+        <translation>Görüntünün üzerinde gösterilen yıldızlar</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="163"/>
+        <location filename="../../engine/step_params.py" line="207"/>
+        <location filename="../../engine/step_params.py" line="219"/>
+        <source>Faintest magnitude</source>
+        <translation>En sönük kadir</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="164"/>
+        <location filename="../../engine/step_params.py" line="208"/>
+        <source>Fainter stars are left out</source>
+        <translation>Daha sönük yıldızlar dışarıda bırakılır</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="173"/>
+        <source>Format</source>
+        <translation>Biçim</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="174"/>
+        <source>png, jpg or tif</source>
+        <translation>png, jpg ya da tif</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="180"/>
+        <source>Levels</source>
+        <translation>Düzeyler</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="181"/>
+        <source>How the black and white points are chosen</source>
+        <translation>Siyah ve beyaz noktaların nasıl seçildiği</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="187"/>
+        <location filename="../../engine/step_params.py" line="230"/>
+        <source>Stretch</source>
+        <translation>Germe</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="188"/>
+        <source>linear, log, sqrt, asinh…</source>
+        <translation>doğrusal, log, sqrt, asinh…</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="199"/>
+        <source>Field of view</source>
+        <translation>Görüş alanı</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="200"/>
+        <source>Width of the chart</source>
+        <translation>Haritanın genişliği</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="214"/>
+        <source>Title</source>
+        <translation>Başlık</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="215"/>
+        <source>Above the chart</source>
+        <translation>Haritanın üstünde</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="220"/>
+        <source>Fainter bodies are left out</source>
+        <translation>Daha sönük cisimler dışarıda bırakılır</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="221"/>
+        <source>Arguments</source>
+        <translation>Bağımsız değişkenler</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="222"/>
+        <source>The operation&apos;s own settings</source>
+        <translation>İşlemin kendi ayarları</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="231"/>
+        <source>Lupton&apos;s stretch</source>
+        <translation>Lupton germesi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="238"/>
+        <source>Softening</source>
+        <translation>Yumuşatma</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="239"/>
+        <source>Lupton&apos;s Q</source>
+        <translation>Lupton'un Q'su</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="246"/>
+        <source>The three images are aligned on their stars first</source>
+        <translation>Üç görüntü önce yıldızlarına göre hizalanır</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="255"/>
+        <source>Overwrite</source>
+        <translation>Üzerine yaz</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="256"/>
+        <source>An existing file of that name is replaced</source>
+        <translation>Aynı adlı dosya değiştirilir</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="262"/>
+        <source>Header cards to set</source>
+        <translation>Yazılacak başlık kartları</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="263"/>
+        <source>Keyword: value pairs written into the header</source>
+        <translation>Başlığa yazılan anahtar: değer çiftleri</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="269"/>
+        <source>Header cards to delete</source>
+        <translation>Silinecek başlık kartları</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="270"/>
+        <source>Keywords taken out of the header</source>
+        <translation>Başlıktan çıkarılan anahtar sözcükler</translation>
     </message>
     <message>
         <location filename="../../spectroscopy/step_params.py" line="14"/>
@@ -15062,7 +15337,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../calibration/step_params.py" line="59"/>
         <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
-        <translation>Dark, en çok gürültüyü giderecek şekilde ölçeklenir (PixInsight'ın eniyilemesi gibi)</translation>
+        <translation>Dark, en çok gürültüyü giderecek şekilde ölçeklenir (PixInsight&apos;ın eniyilemesi gibi)</translation>
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="65"/>
@@ -15077,7 +15352,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../calibration/step_params.py" line="72"/>
         <source>Divide by the flat</source>
-        <translation>Flat'e böl</translation>
+        <translation>Flat&apos;e böl</translation>
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="73"/>
@@ -15163,6 +15438,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="156"/>
+        <location filename="../../engine/step_params.py" line="245"/>
         <source>Align</source>
         <translation>Hizala</translation>
     </message>

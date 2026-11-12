@@ -12,7 +12,7 @@ Coordinates, period, epoch and duration from VSX or the NASA Exoplanet Archive.
 inputs:      name
 outputs:     target
 parameters (default):
-  catalogue = "auto"
+  catalogue = "auto"  (text)  Catalogue: auto: VSX for variable stars, the NASA Exoplanet Archive for planets
 ```
 
 ## planning.night
@@ -25,8 +25,8 @@ targets: [{name, ra, dec, [t0, period, duration, secondary]}]; times in JD (UTC)
 inputs:      site, date, targets
 outputs:     night
 parameters (default):
-  min_alt = 20.0
-  step_min = 5.0
+  min_alt = 20.0  (float, °, >= 0.0, <= 90.0)  Lowest altitude: A target lower than this is not observable
+  step_min = 5.0  (float, min, >= 0.1)  Time step: The night is computed at this spacing
 ```
 
 ## planning.resolve
