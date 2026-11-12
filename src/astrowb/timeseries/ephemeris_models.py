@@ -22,16 +22,19 @@ def weights_by_method(methods, table=None):
     return np.array([table.get(str(m).lower(), 1.0) for m in methods], float)
 
 
-def _design(e, order, breaks=(), secondary=None):
+def _design(e, order, breaks=(), secondary=None, cycles=(), e_abs=None):
     cols = [np.ones_like(e)] + [e**k for k in range(1, order + 1)]
     cols += [np.maximum(e - b, 0.0) for b in breaks]  # a change of period after each break, continuous O−C
     if secondary is not None:
         cols.append(secondary.astype(float))
+    for c in cycles:  # sinusoids of c cycles' period, phased on the caller's epochs (not moved with the middle)
+        cols += [np.sin(2 * np.pi * e_abs / c), np.cos(2 * np.pi * e_abs / c)]
     return np.column_stack(cols)
 
 
-def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robust=None, n_sigma=3.0):
-    """Weighted least squares of T(E) = Σ c_k E^k (+ Σ ΔP_j max(E − b_j, 0)) (+ δ for secondaries).
+def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robust=None, n_sigma=3.0, cycles=()):
+    """Weighted least squares of T(E) = Σ c_k E^k (+ Σ ΔP_j max(E − b_j, 0)) (+ δ for secondaries) (+ sinusoids
+    of the given periods in cycles: the quick cyclic model, OC-11).
     robust: None, "huber" (iteratively reweighted, c = 1.345 σ) or "clip" (iterative n_sigma rejection).
     Returns a dict: coef (caller's numbering: T0, P, Q, …, then ΔP_j, then δ), cov, residuals, used (mask),
     chi2, chi2r, n, k, bic, aic, and the names of the coefficients."""
@@ -40,7 +43,7 @@ def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robus
     mid = float(np.round(np.median(e)))
     t_mid = float(np.median(t))
     sec = (np.abs(e % 1 - 0.5) < 1e-6) if secondary_offset else None
-    a = _design(e - mid, order, [b - mid for b in breaks], sec)
+    a = _design(e - mid, order, [b - mid for b in breaks], sec, cycles, e)
     used = np.ones(len(t), bool)
     w = 1 / err
     for _ in range(50):
@@ -75,9 +78,11 @@ def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robus
     cov = m @ cov @ m.T
     names = ["T0", "P"] + [f"c{j}" for j in range(2, order + 1)] + [f"dP{j + 1}" for j in range(len(breaks))]
     names += ["delta"] if secondary_offset else []
+    names += [f"{kind}{j + 1}" for j in range(len(cycles)) for kind in ("sin", "cos")]
     return {"coef": coef, "cov": cov, "err": np.sqrt(np.diag(cov)), "names": names[:k], "residuals": r,
             "used": used, "epochs": e, "chi2": chi2, "chi2r": chi2r, "n": n, "k": k, "order": order,
-            "breaks": tuple(breaks), "bic": chi2 + k * np.log(n), "aic": chi2 + 2 * k}  # fmt: skip
+            "breaks": tuple(breaks), "cycles": tuple(cycles), "bic": chi2 + k * np.log(n),
+            "aic": chi2 + 2 * k}  # fmt: skip
 
 
 def _binom(n, k):
@@ -196,3 +201,40 @@ def updated(f, at="middle"):
     cov = jac @ f["cov"][:k, :k] @ jac.T
     t0, p = jac @ c
     return float(t0), float(np.sqrt(cov[0, 0])), float(p), float(np.sqrt(cov[1, 1])), s
+
+
+def dp_dt_days_per_myr(f):
+    """dP/dt of a quadratic fit in days per million years (pulsating stars' unit), with its error."""
+    rate, err, _ = dp_dt(f)
+    k = 1e6 / 86400.0  # s/yr → d/Myr
+    return rate * k, err * k
+
+
+def cyclic_terms(f):
+    """Each sinusoid's semi-amplitude (days) with its error and its phase (cycles of the term, 0 at E = 0)."""
+    out = []
+    for j, c in enumerate(f["cycles"]):
+        i = f["names"].index(f"sin{j + 1}")
+        s, co = f["coef"][i], f["coef"][i + 1]
+        v = f["cov"][i : i + 2, i : i + 2]
+        amp = float(np.hypot(s, co))
+        err = float(np.sqrt(max((s * s * v[0, 0] + co * co * v[1, 1] + 2 * s * co * v[0, 1]) / amp**2, 0.0)))
+        out.append({"cycles": c, "amplitude": amp, "amplitude_err": err,
+                    "phase": float(np.arctan2(co, s) / (2 * np.pi) % 1.0)})  # fmt: skip
+    return out
+
+
+def find_cycle(times, epochs, errors, order=1, n_grid=4000):
+    """The quick cyclic model with the best modulation period: the residuals' periodogram over 2 … 3 × span
+    cycles, then χ² minimised near its peak. Returns fit(..., cycles=(best,))."""
+    from scipy.optimize import minimize_scalar
+
+    e = np.asarray(epochs, float)
+    span = np.ptp(e)
+    grid = np.geomspace(max(2 * np.median(np.diff(np.sort(e))), span / 100), 3 * span, n_grid)
+    chi = [fit(times, epochs, errors, order, cycles=(c,))["chi2"] for c in grid]
+    k = int(np.argmin(chi))
+    lo, hi = grid[max(k - 1, 0)], grid[min(k + 1, len(grid) - 1)]
+    best = minimize_scalar(lambda c: fit(times, epochs, errors, order, cycles=(c,))["chi2"], bounds=(lo, hi),
+                           method="bounded", options={"xatol": 1e-6 * grid[k]})  # fmt: skip
+    return fit(times, epochs, errors, order, cycles=(best.x,))
