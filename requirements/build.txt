@@ -44,8 +44,6 @@ cryptography==48.0.1
     #   secretstorage
 cycler==0.12.1
     # via matplotlib
-emcee==3.1.6
-    # via astrowb
 enum-tools==0.13.0
     # via alpyca
 fonttools==4.68.0
@@ -95,7 +93,6 @@ numpy==2.4.6 ; python_full_version < '3.12'
     #   astroscrappy
     #   astrowb
     #   contourpy
-    #   emcee
     #   h5py
     #   imagecodecs
     #   matplotlib
@@ -113,7 +110,6 @@ numpy==2.5.4 ; python_full_version >= '3.12'
     #   astroscrappy
     #   astrowb
     #   contourpy
-    #   emcee
     #   h5py
     #   imagecodecs
     #   matplotlib
