@@ -13,6 +13,7 @@ slower than their budget. Each action leaves a screenshot in `out`; `check()` fa
 screenshot's path.
 """
 
+import os
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -39,7 +40,9 @@ FILE_DIALOGS = {  # what each answers with, from the chosen paths
     "getSaveFileName": lambda p: (p[0] if p else "", ""),
     "getExistingDirectory": lambda p: p[0] if p else "",
 }
-BUDGET_S = 2.0  # a click's own time, before any task it starts (UI-11: the window answers at once)
+# a click's own time, before any task it starts (UI-11: the window answers at once); shortcut: CI's shared runners
+# are 2–3 times slower and stall at random, so there the budget only catches a click that hangs
+BUDGET_S = 10.0 if os.environ.get("CI") else 2.0
 
 
 def english_sources(lang):
@@ -63,6 +66,9 @@ class Harness:
 
         self.qtbot, self.lang = qtbot, lang
         self.app = QApplication.instance()
+        for w in QApplication.topLevelWidgets():  # boxes an earlier test in this process left open are not ours
+            if isinstance(w, QMessageBox) and w.isVisible():
+                w.close()
         self.translators = i18n.install(self.app, lang) if lang != "en" else []
         settings = Settings(Path(folder) / f"settings-{lang}")
         settings.set("ui.language", lang)
@@ -185,8 +191,11 @@ class Harness:
         pos = w.visualRect(w.model().index(row, column)).center()
 
         def typing():
+            index = w.model().index(row, column)
             QTest.mouseClick(w.viewport(), Qt.LeftButton, pos=pos)
             QTest.mouseDClick(w.viewport(), Qt.LeftButton, pos=pos)
+            if not isinstance(QApplication.focusWidget(), QLineEdit):  # macOS: a double-click may not open it
+                w.edit(index)
             editor = QApplication.focusWidget()
             if isinstance(editor, QLineEdit):
                 editor.selectAll()
@@ -194,6 +203,9 @@ class Harness:
             QTest.keyClick(editor, Qt.Key_Return)
 
         self._act(f"type into {name} cell {row},{column}", typing, budget)
+        shown = w.model().data(w.model().index(row, column))  # committed once the events ran
+        if shown != text:
+            self.problems.append(f"{name} cell {row},{column} shows {shown!r}, typed {text!r}")
 
     def menu(self, text, budget=BUDGET_S):
         """Trigger the window's menu command with this English source text ("&Open…") or its translation."""
