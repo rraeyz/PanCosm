@@ -203,7 +203,7 @@ def test_steps_fail_fast_on_wrong_inputs(tmp_path):
     with pytest.raises(ValueError, match="folder not found"):
         execute("calibration.scan", {"folder": str(tmp_path / "nope")}, {}, Ctx())
     t = time.perf_counter()
-    with pytest.raises(OSError):  # the spectrum is read before the template library is fetched
+    with pytest.raises(ValueError, match="spectrum: there is no"):  # said before the template library is fetched
         execute(
             "spectroscopy.classify", {"spectrum": str(tmp_path / "x.fits"), "library": str(tmp_path / "l")}, {}, Ctx()
         )

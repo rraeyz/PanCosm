@@ -47,11 +47,11 @@ INPUTS = {
     "image_b": IO("file", QT_TRANSLATE_NOOP("Steps", "Image in the second filter")),
     "images": IO("files", QT_TRANSLATE_NOOP("Steps", "Images")),
     "last_xy": IO("xy", QT_TRANSLATE_NOOP("Steps", "Position in the last frame (x y)")),
-    "library": IO("folder", QT_TRANSLATE_NOOP("Steps", "Library of standard spectra")),
+    "library": IO("new_folder", QT_TRANSLATE_NOOP("Steps", "Library of standard spectra")),
     "light_curve": IO("file", QT_TRANSLATE_NOOP("Steps", "Light curve")),
     "light_ratio": IO("number", QT_TRANSLATE_NOOP("Steps", "Light ratio of the two stars")),
     "lights": IO("folder", QT_TRANSLATE_NOOP("Steps", "Folder of the lights")),
-    "measures": IO("file", QT_TRANSLATE_NOOP("Steps", "Measures of the visual binary")),
+    "measures": IO("object", QT_TRANSLATE_NOOP("Steps", "Measures of the visual binary")),
     "minima": IO("object", QT_TRANSLATE_NOOP("Steps", "Times of minimum")),
     "name": IO("text", QT_TRANSLATE_NOOP("Steps", "Name")),
     "o_xy": IO("positions", QT_TRANSLATE_NOOP("Steps", "Ordinary images (x y)")),
@@ -95,11 +95,18 @@ def check(step_id, inputs):
     """Raise ValueError naming the first file or folder input given as a path that does not exist."""
     from pathlib import Path
 
+    from ..io import tpf
+
     for name, value in inputs.items():
         io = describe(step_id, name)
         if io is None or io.kind not in EXISTING:
             continue
-        paths = value if isinstance(value, list | tuple) else [value]
-        for path in paths:
-            if isinstance(path, str | Path) and str(path) and not Path(path).exists():
+        if io.kind == "folder" and isinstance(value, str):
+            value = [f.strip() for f in value.split(";")]  # several folders, as the Calibration window gives them
+        for path in value if isinstance(value, list | tuple) else [value]:
+            if not isinstance(path, str | Path) or not str(path) or Path(path).exists():
+                continue
+            if io.kind == "folder":
+                raise ValueError(f"folder not found: {path}")
+            if not tpf.materialize(path):  # a frame of a pixel file is written when asked for
                 raise ValueError(f"{name}: there is no {path}")
