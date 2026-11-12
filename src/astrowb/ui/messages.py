@@ -383,6 +383,14 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "not in this light curve: {missing}"),
     QT_TRANSLATE_NOOP("Messages", "a colour needs images in two filters"),
     QT_TRANSLATE_NOOP("Messages", "join needs two nights or more"),
+    # timeseries/timing_methods.py, etv.py, minima_table.py (OC-1 … OC-3)
+    QT_TRANSLATE_NOOP("Messages", "too few points around the minimum for a polynomial"),
+    QT_TRANSLATE_NOOP("Messages", "the eclipse's branches are not covered between 20 % and 80 % of its depth"),
+    QT_TRANSLATE_NOOP("Messages", "unknown timing method {method}"),
+    QT_TRANSLATE_NOOP("Messages", "too few points around this kind of minimum to make its template"),
+    QT_TRANSLATE_NOOP("Messages", "the template does not match this eclipse"),
+    QT_TRANSLATE_NOOP("Messages", "no template for this kind of minimum"),
+    QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}"),
     # engine/io.py: a file or folder input that is not there (AUT-1)
     QT_TRANSLATE_NOOP("Messages", "{name}: there is no {path}"),
     # engine/params.py: a described setting out of its range or kind (AUT-1)
