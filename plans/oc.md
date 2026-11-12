@@ -363,7 +363,12 @@ parameter in the interface, the corner plot, saving chains with the session.
 - **Files:** `timeseries/oc_uncertainty.py`, `core/inference/` (EXO-5), `timeseries/oc_models.py` (old `_posterior` removed after migration), `tests/coverage/test_oc_coverage.py`
 
 ### OC-9. Magnetic cycles (Applegate) as a tested alternative  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/applegate.py` from Völschow et al. 2016: ΔP/P = 4π K / P_mod, E_sec =
+P_mod L, Tian et al. 2009's estimate and the two-zone energy (k₁ = 0.133, k₂ = 3.42) with the critical condition
+(the Applegate parameter A ≤ 1) and the verdict. Tests: HW Vir, NN Ser, QS Vir, UZ For, V471 Tau, BX Dra (Tian and
+two-zone within 5 %) and AW Her, HR 1099 (no solution) as in their tables. Their tables disagree with themselves for
+BX Dra (ΔP/P half of 4π K / P_mod), V471 Tau (E_sec not P_mod L) and RU Cnc / SZ Psc (table 4 not from table 1):
+the energies follow their printed inputs. Left: the damped / quasi-periodic sinusoid compared by BIC, the panel.
 - **Read first:** Applegate 1992; Lanza 2006 (MNRAS 369, 1773); Völschow et al. 2016 (the two-zone energy
   criterion and its fitting formulas).
 - **Build:** for a cyclic term of period P_mod and amplitude A: ΔP/P = 2π A / P_mod; with the active star's mass,
