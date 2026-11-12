@@ -422,7 +422,11 @@ two-panel figure, the observers' submission layouts, sending predictions to Plan
 - **Files:** `timeseries/oc_report.py`, `timeseries/minima_table.py` (writers), `resources/methods/oc_*.txt`, `tests/test_oc_report.py`
 
 ### OC-13. Exoplanet transit timing in the same window  (P2)
-**open**
+**partial** — done (2026-11-12): `timeseries/transit_timing.py` on ephemeris_models: `decay` (linear against
+quadratic: Ṗ in ms/yr, ΔBIC, the F-test), `drift` (the 1σ of future transits from T0, P and their covariance),
+`tidal_q` (Q′★ as Patra et al. 2017: WASP-12's parameters give 1.8 × 10⁵ as Yee et al. 2020); periodic TTVs use
+OC-11's `find_cycle`. Tests: a −30 ms/yr decay measured; a linear system gives a significant term in ≤ 4 % of 100.
+Left: WASP-12 b from the published mid-times list (the list is not stored yet), the ExoClock export, the mode.
 - **Build:** a "Transits" mode: mid-times (from PHO-26, EXO, ExoClock / ETD / literature lists) against a linear
   ephemeris; fit of a refined ephemeris with the covariance between T0 and P and the propagated uncertainty of
   future transits (the "ephemeris drift" plot); tests for a quadratic term (orbital decay: dP/dt in ms/yr with the
