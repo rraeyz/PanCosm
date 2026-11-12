@@ -1,0 +1,2337 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "Automation (recipe)",
+ "type": "object",
+ "required": [
+  "steps"
+ ],
+ "properties": {
+  "name": {},
+  "description": {},
+  "inputs": {
+   "type": "object"
+  },
+  "sequence": {
+   "type": "object"
+  },
+  "steps": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "step"
+    ],
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "app.check"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "app.check_gpu"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "app.update_time_tables"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "astrometry.moving"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "box": {
+           "description": "Box (px): The object is looked for in a box this wide",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 3,
+           "maximum": 101
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "astrometry.solve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "radius_deg": {
+           "description": "Search radius (°): Around the header's position",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 180.0
+          },
+          "refine_gaia": {
+           "description": "Refine on Gaia: The solution is fitted again on Gaia DR3 stars (higher-order distortion)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "calibration.run"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "sigma": {
+           "description": "Sigma: Rejection limit of the masters in standard deviations",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "temp_tol": {
+           "description": "Temperature tolerance (°C): A dark is used for a light within this sensor temperature",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "cosmic_rays": {
+           "description": "Remove cosmic rays: L.A.Cosmic (astroscrappy) on every light",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "read_noise": {
+           "description": "Read noise (e⁻): For the cosmic-ray search when the header does not give it",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "optimize_dark": {
+           "description": "Scale the dark: The dark is scaled to remove the most noise (as PixInsight's optimisation)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "fix_defects": {
+           "description": "Mend bad pixels: Hot and cold pixels found in the masters are replaced by their neighbours",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "divide_flat": {
+           "description": "Divide by the flat: Off: bias and dark only",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "split_colour": {
+           "description": "Split colour frames: A colour camera's frames become one file per colour",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "linearity": {
+           "description": "Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "calibration.scan"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "clock_utc_offset": {
+           "description": "Camera clock − UTC (h): For camera raw files and pictures without a UTC time (DSLR)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": -14.0,
+           "maximum": 14.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "fits.save_as"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "overwrite": {
+           "description": "Overwrite: An existing file of that name is replaced",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "set_cards": {
+           "description": "Header cards to set: Keyword: value pairs written into the header"
+          },
+          "delete": {
+           "description": "Header cards to delete: Keywords taken out of the header"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.catalogue"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "catalogue": {
+           "description": "Catalogue: The stars shown over the image",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "mag_limit": {
+           "description": "Faintest magnitude (mag): Fainter stars are left out",
+           "type": [
+            "number",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.convert"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "fmt": {
+           "description": "Format: png, jpg or tif",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "interval": {
+           "description": "Levels: How the black and white points are chosen",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "stretch": {
+           "description": "Stretch: linear, log, sqrt, asinh…",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.finder_chart"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "fov_deg": {
+           "description": "Field of view (°): Width of the chart",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "mag_limit": {
+           "description": "Faintest magnitude (mag): Fainter stars are left out",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "title": {
+           "description": "Title: Above the chart",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.minor_planets"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "mag_limit": {
+           "description": "Faintest magnitude (mag): Fainter bodies are left out",
+           "type": [
+            "number",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.process"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "args": {
+           "description": "Arguments: The operation's own settings"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "image.rgb"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "stretch": {
+           "description": "Stretch: Lupton's stretch",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "q": {
+           "description": "Softening: Lupton's Q",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "align": {
+           "description": "Align: The three images are aligned on their stars first",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "models.eb_fit"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "free": {
+           "description": "Free parameters: The model's parameters that are fitted; empty: the usual set"
+          },
+          "ld1": {
+           "description": "Limb darkening, star 1: Quadratic coefficients u1, u2"
+          },
+          "ld2": {
+           "description": "Limb darkening, star 2: Quadratic coefficients u1, u2"
+          },
+          "mcmc_steps": {
+           "description": "MCMC steps: Length of the Markov chain for the errors; 0: none",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 0,
+           "maximum": 1000000
+          },
+          "export_format": {
+           "description": "Export for: PHOEBE, Wilson–Devinney or a transit-fitting program",
+           "enum": [
+            "phoebe",
+            "wd",
+            "transit",
+            null
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "models.visual_orbit"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "p_min": {
+           "description": "Shortest period (yr): With the longest: the search stays inside; empty: free",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "p_max": {
+           "description": "Longest period (yr): With the shortest: the search stays inside; empty: free",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "parallax_mas": {
+           "description": "Parallax (mas): Gives the total mass; empty: none",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.apertures"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "rule": {
+           "description": "Rule: snr: the radius of the best signal-to-noise; aij: AstroImageJ's, from the FWHM",
+           "enum": [
+            "snr",
+            "aij",
+            null
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.catalog"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "filter": {
+           "description": "Band: The band of the standard magnitudes",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.identify_field"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.light_curve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "r_ap": {
+           "description": "Aperture radius (px): Light inside it is the star's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_in": {
+           "description": "Inner sky radius (px): The sky annulus starts here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_out": {
+           "description": "Outer sky radius (px): The sky annulus ends here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "gain": {
+           "description": "Gain (e⁻/ADU): Empty: from the header or the profile",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "auto_apertures": {
+           "description": "Radii from the profiles: The radii are chosen from the stars' own profiles",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "follow_seeing": {
+           "description": "Scale radii with seeing: Each frame's radii follow its FWHM",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "psf": {
+           "description": "PSF photometry: Stars fitted with the frame's PSF (crowded fields)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "aperture_m": {
+           "description": "Telescope aperture (m): For the scintillation noise (Young 1967); empty: left out",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "camera": {
+           "description": "Camera: Read noise, dark current and linearity when the header lacks them"
+          },
+          "sky_method": {
+           "description": "Sky: How the sky level is read",
+           "enum": [
+            "median",
+            "mode",
+            "mean",
+            "plane",
+            null
+           ]
+          },
+          "fixed": {
+           "description": "Fixed positions: Stars measured where marked, not re-centred"
+          },
+          "header_time": {
+           "description": "Header time marks: What the header's time marks: the start, middle or end of the exposure",
+           "enum": [
+            "auto",
+            "start",
+            "mid",
+            "end",
+            null
+           ]
+          },
+          "shutter_delay": {
+           "description": "Shutter delay (s): Added to the header time",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "apertures": {
+           "description": "Other radii: More aperture radii measured at the same time"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.multifilter"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "r_ap": {
+           "description": "Aperture radius (px): Light inside it is the star's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_in": {
+           "description": "Inner sky radius (px): The sky annulus starts here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_out": {
+           "description": "Outer sky radius (px): The sky annulus ends here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "gain": {
+           "description": "Gain (e⁻/ADU): Empty: from the header or the profile",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "auto_apertures": {
+           "description": "Radii from the profiles: The radii are chosen from the stars' own profiles",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "follow_seeing": {
+           "description": "Scale radii with seeing: Each frame's radii follow its FWHM",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "psf": {
+           "description": "PSF photometry: Stars fitted with the frame's PSF (crowded fields)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "aperture_m": {
+           "description": "Telescope aperture (m): For the scintillation noise (Young 1967); empty: left out",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "camera": {
+           "description": "Camera: Read noise, dark current and linearity when the header lacks them"
+          },
+          "sky_method": {
+           "description": "Sky: How the sky level is read",
+           "enum": [
+            "median",
+            "mode",
+            "mean",
+            "plane",
+            null
+           ]
+          },
+          "fixed": {
+           "description": "Fixed positions: Stars measured where marked, not re-centred"
+          },
+          "header_time": {
+           "description": "Header time marks: What the header's time marks: the start, middle or end of the exposure",
+           "enum": [
+            "auto",
+            "start",
+            "mid",
+            "end",
+            null
+           ]
+          },
+          "shutter_delay": {
+           "description": "Shutter delay (s): Added to the header time",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "apertures": {
+           "description": "Other radii: More aperture radii measured at the same time"
+          },
+          "t_ab": {
+           "description": "Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "comp_colour": {
+           "description": "Comparison colour (mag): The comparison ensemble's catalogue colour",
+           "type": [
+            "number",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.polarimetry"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "r_ap": {
+           "description": "Aperture radius (px): Light inside it is the star's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_in": {
+           "description": "Inner sky radius (px): The sky annulus starts here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_out": {
+           "description": "Outer sky radius (px): The sky annulus ends here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "angle_key": {
+           "description": "Angle keyword: The header keyword of the half-wave plate angle",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "zero_point": {
+           "description": "Angle zero point (°): Added to the measured position angle",
+           "type": [
+            "number",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.quality"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "fwhm_factor": {
+           "description": "FWHM limit: A frame whose FWHM exceeds this times the median is bad (focus, trails)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "star_fraction": {
+           "description": "Star fraction: A frame that finds fewer than this share of the stars is bad (clouds)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 1.0
+          },
+          "background_factor": {
+           "description": "Sky limit: A frame whose sky exceeds this times the median is bad (Moon, twilight)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.suggest_comparisons"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "r_out": {
+           "description": "Outer sky radius (px): No other star may fall inside it",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "n": {
+           "description": "Comparison stars: How many to suggest",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 50
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.transformation"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "band_a": {
+           "description": "First band: The filter of the first image",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "band_b": {
+           "description": "Second band: The filter of the second image",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "photometry.varfind"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "max_stars": {
+           "description": "Most stars: The brightest stars of the field that are measured",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1
+          },
+          "method": {
+           "description": "Method: Aperture photometry, or PSF fitting for crowded fields",
+           "enum": [
+            "aperture",
+            "psf",
+            null
+           ]
+          },
+          "threshold": {
+           "description": "Threshold: How many times its expected scatter a star must vary to be listed",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "planning.ephemeris"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "catalogue": {
+           "description": "Catalogue: auto: VSX for variable stars, the NASA Exoplanet Archive for planets",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "planning.night"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "min_alt": {
+           "description": "Lowest altitude (°): A target lower than this is not observable",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 90.0
+          },
+          "step_min": {
+           "description": "Time step (min): The night is computed at this spacing",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.1
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "planning.resolve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "rs.classify"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "k": {
+           "description": "Classes: How many k-means classes",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 2,
+           "maximum": 50
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "rs.expression"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "rs.pca"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "n": {
+           "description": "Components: How many principal components are kept",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 50
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "sample.night"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.atmosphere"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "resolution": {
+           "description": "Resolving power: R = λ/Δλ of the spectrograph; 0 or empty: from the spectrum",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "vacuum": {
+           "description": "Vacuum wavelengths: The spectrum's wavelengths are in vacuum, not air",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.classify"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "fwhm": {
+           "description": "Resolution FWHM (Å): The templates are smoothed to it; empty: measured from the spectrum",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.combine"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "method": {
+           "description": "Method: mean: the least noise; median: robust; sum: keeps the counts",
+           "enum": [
+            "mean",
+            "median",
+            "sum",
+            null
+           ]
+          },
+          "rejection": {
+           "description": "Rejection: Pixels left out before combining (cosmic rays, bad pixels)",
+           "enum": [
+            "none",
+            "sigma",
+            "minmax",
+            null
+           ]
+          },
+          "sigma": {
+           "description": "Sigma: Rejection limit in standard deviations",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "scale": {
+           "description": "Scaling: Each spectrum to the common level (median) or also to the common shape",
+           "enum": [
+            "none",
+            "median",
+            "shape",
+            null
+           ]
+          },
+          "weight": {
+           "description": "Weights: variance: 1/σ² weights in the mean",
+           "enum": [
+            "none",
+            "variance",
+            null
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.disentangle"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "iterations": {
+           "description": "Iterations: Rounds of shift-and-add (González & Levato 2006)",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 1000
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.echelle"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "first_order": {
+           "description": "First order number: The physical number of the first order; empty: found",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1
+          },
+          "order_step": {
+           "description": "Order step: +1 or −1: how the numbers run",
+           "type": [
+            "integer",
+            "null"
+           ]
+          },
+          "optimal": {
+           "description": "Optimal extraction: Horne (1986): each pixel counts by its signal-to-noise",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "gain": {
+           "description": "Gain (e⁻/ADU): Empty: from the header or the profile",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "read_noise": {
+           "description": "Read noise (e⁻): For the optimal weights",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "sky_lines": {
+           "description": "Night-sky lines: The wavelength zero point is checked on the sky's own lines",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "exclude": {
+           "description": "Lines left out: Arc lines kept out of the wavelength fit"
+          },
+          "line_list": {
+           "description": "Line list: The arc lamp's lines",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "deg_x": {
+           "description": "Degree along the order: Of the 2-D wavelength solution",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 9
+          },
+          "deg_m": {
+           "description": "Degree across the orders: Of the 2-D wavelength solution",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 9
+          },
+          "min_blaze": {
+           "description": "Lowest blaze: The order ends below this share of the peak are left out of the merge",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 1.0
+          },
+          "orientation": {
+           "description": "Dispersion along: The axis the spectrum runs along",
+           "enum": [
+            "x",
+            "y",
+            null
+           ]
+          },
+          "reverse": {
+           "description": "Reversed: Wavelength decreases along the axis",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "sky": {
+           "description": "Subtract the sky: From the gaps between the orders",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "scatter": {
+           "description": "Scattered light: A smooth scattered-light surface is subtracted first",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "rows": {
+           "description": "Order rows: Where the orders cross; empty: found on the flat"
+          },
+          "extracted": {
+           "description": "Extracted orders: Orders extracted elsewhere, for the wavelengths only"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.orbit"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "period": {
+           "description": "Period guess (d): Where the orbit fit starts (e.g. from the period search)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "fix_period": {
+           "description": "Keep the period: The period is not fitted (known better from photometry)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.orders"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "orientation": {
+           "description": "Dispersion along: The axis the spectrum runs along",
+           "enum": [
+            "x",
+            "y",
+            null
+           ]
+          },
+          "reverse": {
+           "description": "Reversed: Wavelength decreases along the axis",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "rows": {
+           "description": "Order rows: Where the orders cross; empty: found on the flat"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.reduce"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "guess_row": {
+           "description": "Spectrum row (px): Where the spectrum crosses; empty: the brightest",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "trace_row": {
+           "description": "Reference trace row (px): A brighter spectrum whose trace shape is used (IRAF apall)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "width": {
+           "description": "Width (px): Extraction width across the spectrum",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "sky_offset": {
+           "description": "Sky offset (px): Distance of the sky bands from the trace",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "sky_width": {
+           "description": "Sky width (px): Width of each sky band",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "optimal": {
+           "description": "Optimal extraction: Horne (1986): each pixel counts by its signal-to-noise",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "gain": {
+           "description": "Gain (e⁻/ADU): Empty: from the header or the profile",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "read_noise": {
+           "description": "Read noise (e⁻): For the optimal weights",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "sky_lines": {
+           "description": "Night-sky lines: The wavelength zero point is checked on the sky's own lines",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "exclude": {
+           "description": "Lines left out: Arc lines kept out of the wavelength fit"
+          },
+          "line_list": {
+           "description": "Line list: The arc lamp's lines",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "order": {
+           "description": "Highest degree: Of the wavelength solution; the lines choose up to it",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 9
+          },
+          "orientation": {
+           "description": "Dispersion along: The axis the spectrum runs along",
+           "enum": [
+            "x",
+            "y",
+            null
+           ]
+          },
+          "reverse": {
+           "description": "Reversed: Wavelength decreases along the axis",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.rv"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "v_min": {
+           "description": "Lowest velocity (km/s): The velocity range searched",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "v_max": {
+           "description": "Highest velocity (km/s): The velocity range searched",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "wave_min": {
+           "description": "From wavelength (Å): Only this window is used (avoid telluric bands); empty: all",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "wave_max": {
+           "description": "To wavelength (Å): Only this window is used (avoid telluric bands); empty: all",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "method": {
+           "description": "Method: Cross-correlation (TODCOR with a second template) or the broadening function",
+           "enum": [
+            "ccf",
+            "bf",
+            null
+           ]
+          },
+          "components": {
+           "description": "Stars: How many stars the broadening function looks for",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 2
+          },
+          "template_rv": {
+           "description": "Template velocity (km/s): The template's own radial velocity",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "template2_rv": {
+           "description": "Second template velocity (km/s): The second template's own radial velocity",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "template_vsini": {
+           "description": "Template v sin i (km/s): Broadens a sharp-lined template to a fast rotator",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "template2_vsini": {
+           "description": "Second template v sin i (km/s): Broadens the second template the same way",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "spectroscopy.telluric"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "stacking.drizzle"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "scale": {
+           "description": "Scale: The output pixels are this many times finer",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 4
+          },
+          "pixfrac": {
+           "description": "Drop size: The share of each input pixel that is dropped (pixfrac)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 1.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "stacking.stack"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "sigma": {
+           "description": "Sigma: Rejection limit in standard deviations",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "method": {
+           "description": "Combine: mean: the least noise; median: robust; sum: keeps the counts",
+           "enum": [
+            "mean",
+            "median",
+            "sum",
+            null
+           ]
+          },
+          "rejection": {
+           "description": "Rejection: Pixels left out before combining (satellites, cosmic rays)",
+           "enum": [
+            "none",
+            "sigma",
+            "mad",
+            "winsorized",
+            "minmax",
+            "percentile",
+            null
+           ]
+          },
+          "low": {
+           "description": "Low: Frames or percent dropped at the low end (min / max, percentile)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "high": {
+           "description": "High: Frames or percent dropped at the high end (min / max, percentile)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "normalize": {
+           "description": "Normalise: Each frame shifted or scaled to the first before combining",
+           "enum": [
+            "none",
+            "additive",
+            "multiplicative",
+            null
+           ]
+          },
+          "weighting": {
+           "description": "Weights: noise: 1/σ² weights",
+           "enum": [
+            "none",
+            "noise",
+            null
+           ]
+          },
+          "align": {
+           "description": "Align: Shift only, or star patterns (rotation and scale too)",
+           "enum": [
+            "translation",
+            "stars",
+            null
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.frequencies"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "f_max": {
+           "description": "Highest frequency (c/d): The spectrum is computed from 0 up to this frequency",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "n_max": {
+           "description": "Most frequencies: Prewhitening stops after this many frequencies",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1,
+           "maximum": 200
+          },
+          "snr_min": {
+           "description": "Smallest S/N: A peak below this signal-to-noise ends the prewhitening (Breger 1993: 4)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "magnitudes": {
+           "description": "Magnitudes: The values are magnitudes (brighter is smaller), for the times of maximum",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "clean": {
+           "description": "CLEAN spectrum: Also a spectrum with the aliases of the sampling removed (Roberts et al. 1987)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.minimum"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "method": {
+           "description": "Method: Kwee–van Woerden for eclipses, a trapezoid for transits",
+           "enum": [
+            "kvw",
+            "trapezoid",
+            null
+           ]
+          },
+          "t0": {
+           "description": "Reference T0 (d): With the period: every eclipse in the curve gets its own time",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "period": {
+           "description": "Period (d): Period of the ephemeris used to count the cycles",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "detrend_with": {
+           "description": "Detrend against: Airmass, sky, position… fitted with the transit (trapezoid only)"
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.mission_lc"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "mission": {
+           "description": "Mission: The space telescope whose light curves are fetched",
+           "enum": [
+            "TESS",
+            "Kepler",
+            "K2",
+            null
+           ]
+          },
+          "flux": {
+           "description": "Flux: PDCSAP: corrected for the spacecraft; SAP: as measured",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.oc_fit"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "model": {
+           "description": "Model: Third body (light-travel time) or apsidal motion",
+           "enum": [
+            "ltte",
+            "apsidal",
+            null
+           ]
+          },
+          "t0": {
+           "description": "Reference T0 (d): Epoch zero of the ephemeris",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "period": {
+           "description": "Period (d): Period of the ephemeris used to count the cycles",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "mcmc_steps": {
+           "description": "MCMC steps: Length of the Markov chain for the errors; 0: none",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 0,
+           "maximum": 1000000
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.period"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "method": {
+           "description": "Method: Lomb–Scargle, box least squares (transits), phase dispersion or ANOVA",
+           "enum": [
+            "lomb-scargle",
+            "bls",
+            "pdm",
+            "anova",
+            null
+           ]
+          },
+          "p_min": {
+           "description": "Shortest period (d): The search starts here",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "p_max": {
+           "description": "Longest period (d): Empty: half the time span",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.survey_lc"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "source": {
+           "description": "Archive: Where the light curve comes from",
+           "enum": [
+            "ZTF",
+            "AAVSO",
+            null
+           ]
+          },
+          "band": {
+           "description": "Band: One band of the archive; empty: the first",
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     }
+    ],
+    "properties": {
+     "step": {
+      "enum": [
+       "app.check",
+       "app.check_gpu",
+       "app.update_time_tables",
+       "astrometry.moving",
+       "astrometry.solve",
+       "calibration.run",
+       "calibration.scan",
+       "fits.save_as",
+       "image.catalogue",
+       "image.convert",
+       "image.finder_chart",
+       "image.minor_planets",
+       "image.process",
+       "image.rgb",
+       "models.eb_fit",
+       "models.visual_orbit",
+       "photometry.apertures",
+       "photometry.catalog",
+       "photometry.identify_field",
+       "photometry.light_curve",
+       "photometry.multifilter",
+       "photometry.polarimetry",
+       "photometry.quality",
+       "photometry.suggest_comparisons",
+       "photometry.transformation",
+       "photometry.varfind",
+       "planning.ephemeris",
+       "planning.night",
+       "planning.resolve",
+       "rs.classify",
+       "rs.expression",
+       "rs.pca",
+       "sample.night",
+       "spectroscopy.atmosphere",
+       "spectroscopy.classify",
+       "spectroscopy.combine",
+       "spectroscopy.disentangle",
+       "spectroscopy.echelle",
+       "spectroscopy.orbit",
+       "spectroscopy.orders",
+       "spectroscopy.reduce",
+       "spectroscopy.rv",
+       "spectroscopy.telluric",
+       "stacking.drizzle",
+       "stacking.stack",
+       "timeseries.frequencies",
+       "timeseries.minimum",
+       "timeseries.mission_lc",
+       "timeseries.oc_fit",
+       "timeseries.period",
+       "timeseries.survey_lc"
+      ]
+     },
+     "inputs": {
+      "type": "object"
+     },
+     "params": {
+      "type": "object"
+     },
+     "each": {
+      "type": "string"
+     }
+    }
+   }
+  }
+ }
+}
