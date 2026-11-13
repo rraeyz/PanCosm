@@ -455,7 +455,8 @@ class CalibratePage(Undoable, QWidget):
             self.folder.setText("; ".join(current + [folder]))
             if not self.output.text():
                 self.output.setText(str(Path(self._first(self.folder.text())) / "calibrated"))
-            self.scan_button.click()
+            if automatic.on("calibration.scan_on_folder"):
+                self.scan_button.click()
 
     def _edit_kind(self, row, col):
         """Double-click on a type: a list of the types; the choice is used for the calibration (the files are not
