@@ -506,7 +506,11 @@ MCMC, the eclipse variant, the Qatar-1 checks, sending the mid-time.
 - **Depends on:** EXO-1, EXO-3, EXO-5 (engines), PHO-W.
 
 ### PHO-27. Reports the community accepts  (P1)
-**open**
+**partial** — done (2026-11-13): `photometry/reports/aavso_exoplanet.py`: the AAVSO Exoplanet Database file
+(header keys in order, #TYPE=EXOPLANET first, BJD_TDB, up to four detrend columns named in the header, no blank
+line) and `validate` re-reading a file against those rules (tested on broken files too). The MEASUREMENT_TYPE codes
+follow EXOTIC's output until the users guide is read in a browser. Left: ExoClock, TFOP package, the observation
+summary, Save all, the Report stage's cards, moving the existing ETD / AAVSO Extended writers in.
 - **Reference:** AAVSO Extended File Format (exists); AAVSO Exoplanet Database (WebObs users guide,
   app.aavso.org/exosite/doc: header `#TYPE=EXOPLANET`, `#OBSCODE`, `#SOFTWARE`, `#DELIM`, `#DATE_TYPE=BJD_TDB`,
   `#OBSTYPE`, `#STAR_NAME`, `#EXOPLANET_NAME`, `#BINNING`, `#EXPOSURE_TIME`, `#FILTER`, `#DETREND_PARAMETERS`,
