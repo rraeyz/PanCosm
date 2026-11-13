@@ -876,7 +876,7 @@ and "Leave out the flagged points" takes them.
 - **Files:** `photometry/stacked.py`, `calibration/stacking.py` (in-memory combine), `tests/test_photometry_stacked.py`
 
 ### PHO-43. Advice for the next night  (P2)
-**partial** — done (2026-11-13): `photometry/advice.next_night` (exposure to bring the highest peak to 60 % of the
+**done** — done (2026-11-13): `photometry/advice.next_night` (exposure to bring the highest peak to 60 % of the
 limit, defocus when the brightest pixel holds > 15 % of the target's light, comparison stars missing and on which
 share of frames, cadence against a given ingress), worded with its reason under the Checks tab's verdict ("For next
 time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. The pointing
