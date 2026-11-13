@@ -649,3 +649,16 @@ def test_showing_a_control_in_a_tab_keeps_the_plots_beside_it_working(qtbot):
     GuidedBar._bring_forward(button)
     assert tabs.currentIndex() == 1
     plot.figure.clear()  # raised "Internal C++ object (QAction) already deleted"
+
+
+def test_a_saved_dialog_size_taller_than_the_screen_is_capped(qtbot, tmp_path):
+    """Settings before 0.3.12 could not shrink, so its saved height was the whole Profiles page: capped."""
+    from astrowb.settings import Settings
+    from astrowb.ui.kit.dialogs import Dialog
+
+    s = Settings(tmp_path)
+    s.set("dialog.tall.size", [700, 5000])
+    d = Dialog("tall", None, s, "tall")
+    qtbot.addWidget(d)
+    room = d.screen().availableGeometry()
+    assert d.width() == 700 and d.height() <= room.height() * 0.85
