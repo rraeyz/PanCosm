@@ -205,8 +205,9 @@ rule; a score by the lowest altitude, primaries first, with its reason in words)
 the same events as `planning.night` for the same stars; a 40 000-star table in ~5 s. The Exoplanet Archive's transiting
 planets and the window (2026-11-14): `ephemerides.transiting_planets` (asked on Fetch, kept a week),
 Targets → What can I observe tonight?… (a V limit, tonight's whole transits best first in local time, "Add as
-target" with the ephemeris; tests/test_finder.py with a recorded answer). Left: the VSX and ExoClock packs, the
-Moon / uncertainty / "not observed lately" filters, the ranking by expected S/N and priority, the stored-page
+target" with the ephemeris; tests/test_finder.py with a recorded answer). The Moon's distance at mid-event (`min_moon`, a
+column in the window). Left: the VSX and ExoClock packs, the
+uncertainty / "not observed lately" filters, the ranking by expected S/N and priority, the stored-page
 comparisons.
 - **Why:** the question every observer asks first; today answered by three web sites that do not know the
   observer's horizon or equipment.
