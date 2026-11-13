@@ -21,7 +21,9 @@ a = Analysis(
     hookspath=[str(Path(SPECPATH) / "hooks")],
     hiddenimports=["astrowb.engine.builtin", "astrowb.ui.plot.view", "astrowb.ui.plot.publish"]  # plots: ARC-6
     + collect_submodules("alpaca")  # device classes load by name
-    + [f"imagecodecs.{m}" for m in ("imagecodecs", "_jpeg2k", "_shared", "_shared_cython")],  # lazy codec imports
+    + [f"imagecodecs.{m}" for m in ("imagecodecs", "_jpeg2k", "_shared", "_shared_cython")]  # lazy codec imports
+    # matplotlib finds its file writers by name when a figure is saved: PDF, SVG and EPS failed without these
+    + [f"matplotlib.backends.backend_{b}" for b in ("pdf", "svg", "ps", "pgf", "agg")],
     excludes=["tkinter", "IPython", "pytest", "asdf", "asdf_astropy", "gwcs", "specutils", "specreduce", "ccdproc"],
 )
 pyz = PYZ(a.pure)

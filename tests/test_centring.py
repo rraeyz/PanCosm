@@ -51,3 +51,17 @@ def test_a_click_snaps_onto_the_nearest_star():
     assert np.hypot(*(got[0] - (20.3, 30.6))) < 0.1
     assert np.hypot(*(got[1] - (44.0, 30.0))) < 0.3  # the faint one, not its bright neighbour
     assert np.array_equal(got[2], [8.0, 8.0])
+
+
+@pytest.mark.parametrize("method", ["gauss", "moments", "auto"])
+def test_stars_at_and_off_the_edge_never_raise(method):
+    """User feedback UF-16: the 2-D Gaussian raised "points outside the input data" on the owner's night; a star 1 px
+    from the edge, one on pure noise and one off the frame are kept at their predictions, never an error."""
+    rng = np.random.default_rng(3)
+    data = rng.normal(100, 5, (60, 80))
+    yy, xx = np.mgrid[:60, :80]
+    data += 3000 * np.exp(-((xx - 1.0) ** 2 + (yy - 30) ** 2) / 4.5)  # at the left edge
+    xy = np.array([[1.0, 30.0], [40.0, 58.5], [85.0, 10.0], [79.0, 59.0]])
+    out, found = recenter(data, xy, box=11, found=True, method=method)
+    assert np.isfinite(out).all() and not found[2]
+    assert (out[:, 0] >= -0.5).all() and (out[:, 1] <= 59.5).all()

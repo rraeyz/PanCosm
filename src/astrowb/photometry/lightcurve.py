@@ -236,6 +236,7 @@ def light_curve(
         "peak": [p for p, _ in peaks],  # brightest pixel in each star's aperture (target, comparisons, extra stars)
         "flags": [f for _, f in peaks],  # per frame and star: C a spike (cosmic ray, hot pixel), E off the edge
         "saturation": saturation,
+        "exptime": [float(e) for e in exptimes],  # per frame: the cloud check compares counts per second
         "sky": [r[4].tolist() for r in rows],
         "xy": [r[5].tolist() for r in rows],
         "coord": sky.to_string("hmsdms") if sky is not None else None,

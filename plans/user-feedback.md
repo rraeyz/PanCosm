@@ -29,7 +29,8 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Exports (UF-7)
 
-- **UF-7 — Publication figure: PDF, SVG and EPS fail in the installed program** — **open, urgent**
+- **UF-7 — Publication figure: PDF, SVG and EPS fail in the installed program** — **done** (2026-11-13: the
+  backends bundled in packaging/app.spec; the installed program's smoke test saves PNG, PDF, SVG and EPS)
   `ModuleNotFoundError: matplotlib.backends.backend_pdf` (and `backend_svg`, `backend_ps`): the installer leaves
   matplotlib's file backends out; PNG works. Fix: bundle them (PyInstaller hidden imports) and make the installed
   program's smoke test save one figure in every format.
@@ -63,10 +64,13 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-15 — AAVSO sequence labels in the wrong places** — **open**
   Follows UF-13 (same solution); check the chart's stars land on stars.
 - **UF-16 — 2-D Gaussian centring crashes**: `ValueError: xpos, ypos values contain points outside the input
-  data` (photutils centroid_sources) — **open, urgent**
+  data` (photutils centroid_sources) — **done** (2026-11-13: a fit that runs off the frame goes back to the
+  prediction before the next pass; test_centring's edge test failed before the fix and passes after)
   Positions near or past the edge must be kept out of that call (the star is then "lost" on that frame, as with
   the other methods). Test: a star 2 px from the edge, and one off the frame, with centring "gauss".
-- **UF-17 — bad-frame flags are wrong on an eclipsing binary** — **open, urgent**
+- **UF-17 — bad-frame flags are wrong on an eclipsing binary** — **partial** (2026-11-13: the jump test follows
+  the comparison stars' median position and ignores the night's steady drift; the cloud test compares counts per
+  second, so a frame of another exposure is no cloud; test with a synthetic eclipse. Left: the owner's night)
   "Behind cloud" with no cloud; "field jumped" where the target is in its eclipse minimum. The cloud test must use
   the comparison stars only (never the target), and the jump test the stars' positions, not their fluxes. Test on
   a synthetic eclipse plus the owner's NY Vir night: no flag.
