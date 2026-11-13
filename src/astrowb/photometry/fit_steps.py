@@ -62,5 +62,5 @@ def transit_fit_step(inputs, params, ctx):
              "u2": params["u2"]}  # fmt: skip
     free = ("tc", "k", "a_rs", "b", "baseline") + (("u1", "u2") if params["fit_ld"] else ())
     out = fit(t, f, e, params["period"], start, free, detrend=detrend)
-    out["model"], out["residuals"] = out["model"].tolist(), out["residuals"].tolist()
+    out["model"], out["residuals"], out["trend"] = (out[k].tolist() for k in ("model", "residuals", "trend"))
     return {"transit": out}
