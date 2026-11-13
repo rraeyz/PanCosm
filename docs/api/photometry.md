@@ -206,6 +206,30 @@ parameters (default):
   band_b = "V"  (band)  Second band: The filter of the second image
 ```
 
+## photometry.transit_fit
+
+```text
+photometry.transit_fit  (Fit the transit)
+
+The exact transit (quadratic limb darkening) with the chosen detrending; values, errors, derived values and
+fit statistics (photometry.transitfit).
+
+inputs:      light_curve
+outputs:     transit
+  light_curve  (file)  Light curve
+  transit  (object)  Transit fit
+parameters (default):
+  period = 1.0  (float, d, >= 0.0)  Period: Fixed for a single transit
+  tc = 0.0  (float, d)  Mid-transit time (start): 0: the middle of the night
+  k = 0.1  (float, >= 0.0, <= 0.5)  Radius ratio (start): Rp/R★; the square root of the depth
+  a_rs = 8.0  (float, >= 1.0)  Scaled distance (start): a/R★
+  b = 0.3  (float, >= 0.0, <= 1.5)  Impact parameter (start): 0: across the centre of the star
+  u1 = 0.4  (float)  Limb darkening u1: Quadratic law; fixed unless chosen to fit
+  u2 = 0.2  (float)  Limb darkening u2: Quadratic law; fixed unless chosen to fit
+  detrend = "airmass"  (text)  Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)
+  fit_ld = false  (bool)  Fit the limb darkening: A single night rarely decides it: leave it fixed
+```
+
 ## photometry.varfind
 
 ```text

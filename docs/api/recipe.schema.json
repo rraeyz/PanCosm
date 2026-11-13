@@ -1067,6 +1067,94 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.transit_fit"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "period": {
+           "description": "Period (d): Fixed for a single transit",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "tc": {
+           "description": "Mid-transit time (start) (d): 0: the middle of the night",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "k": {
+           "description": "Radius ratio (start): Rp/R★; the square root of the depth",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 0.5
+          },
+          "a_rs": {
+           "description": "Scaled distance (start): a/R★",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "b": {
+           "description": "Impact parameter (start): 0: across the centre of the star",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 1.5
+          },
+          "u1": {
+           "description": "Limb darkening u1: Quadratic law; fixed unless chosen to fit",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "u2": {
+           "description": "Limb darkening u2: Quadratic law; fixed unless chosen to fit",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "detrend": {
+           "description": "Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "fit_ld": {
+           "description": "Fit the limb darkening: A single night rarely decides it: leave it fixed",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.varfind"
         }
        }
@@ -2305,6 +2393,7 @@
        "photometry.quality",
        "photometry.suggest_comparisons",
        "photometry.transformation",
+       "photometry.transit_fit",
        "photometry.varfind",
        "planning.ephemeris",
        "planning.night",
