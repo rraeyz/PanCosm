@@ -9,6 +9,7 @@ geocentre, and gets the archive's time back to well under a millisecond. Cadence
 archive; the frames hold electrons (times the exposure), so the photometry's noise is right with GAIN 1.
 """
 
+import functools
 import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -22,14 +23,36 @@ DEFAULT_BITMASK = 1 | 2 | 4 | 8 | 16 | 32 | 128 | 512 | 16384
 
 
 def is_tpf(path) -> bool:
+    return probe(path)["tpf"]
+
+
+def probe(path) -> dict:
+    """What kind of FITS file this is, from one opening, remembered while the file is unchanged (opening 142 frames
+    read every file four times): {"tpf": a TESS / Kepler pixel file, "cube": its image has more than two axes}."""
+    import os
+
+    try:
+        st = os.stat(path)
+    except OSError:
+        return {"tpf": False, "cube": False}
+    return _probe(str(path), st.st_mtime_ns, st.st_size)
+
+
+@functools.lru_cache(maxsize=8192)
+def _probe(path, _mtime, _size):
+    from .fits import find_image_hdu
+
+    out = {"tpf": False, "cube": False}
     try:
         with fits.open(path) as hdul:
-            if len(hdul) < 2 or not isinstance(hdul[1], fits.BinTableHDU):
-                return False
-            cols = hdul[1].columns
-            return "TIME" in cols.names and "FLUX" in cols.names and cols["FLUX"].dim is not None
-    except (OSError, ValueError):
-        return False
+            if len(hdul) > 1 and isinstance(hdul[1], fits.BinTableHDU):
+                cols = hdul[1].columns
+                out["tpf"] = "TIME" in cols.names and "FLUX" in cols.names and cols["FLUX"].dim is not None
+            if not out["tpf"]:
+                out["cube"] = int(hdul[find_image_hdu(hdul)].header.get("NAXIS", 2)) > 2
+    except (OSError, ValueError, IndexError):
+        pass
+    return out
 
 
 def _celestial(hdul):

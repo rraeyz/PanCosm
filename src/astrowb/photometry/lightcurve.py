@@ -17,7 +17,16 @@ from ..calibration.masters import load
 from ..hdr import get, number
 from ..io import tpf
 from ..io.inspect import saturation_level
-from .aperture import choose_apertures, frame_shift, measure, measure_cube, recenter, scintillation, seeing_fwhm
+from .aperture import (
+    choose_apertures,
+    frame_shift,
+    measure,
+    measure_cube,
+    recenter,
+    scintillation,
+    seeing_fwhm,
+    snap_to_star,
+)
 from .differential import ensemble
 from .psf import neighbours_setup
 
@@ -89,14 +98,14 @@ def light_curve(
     stars0 = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
     n_comp = len(comps_xy)
     ref, h0 = load(paths[0])
-    # clicks snap onto the stars once, within half the box (at 2.5 px a click 2.7 px off Qatar-1 was kept: LCO night)
-    # all night (light lost with the seeing, a transit moved by 20 min with radii following the seeing)
+    # clicks snap onto the brightest star within half the box (a click 2.7 px off Qatar-1 left the aperture off the
+    # star all night; one 6 px off on a frame shown at a quarter of its size lost 84 of 142 HAT-P-32 frames)
     if ref_path and str(ref_path) != paths[0]:
         marked = load(ref_path)[0]
-        stars0 = recenter(marked, stars0, box, max_move=box / 2)
+        stars0 = snap_to_star(marked, stars0, box / 2 + 1, box)
         stars0 = stars0 + frame_shift(marked, ref, 2 if ref.size > 4e6 else 1)
     clicked = stars0.copy()
-    stars0 = recenter(ref, stars0, box, max_move=box / 2)
+    stars0 = snap_to_star(ref, stars0, box / 2 + 1, box)
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),

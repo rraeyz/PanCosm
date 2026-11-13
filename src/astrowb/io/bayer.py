@@ -211,10 +211,9 @@ def is_fits(path):
 
 
 def _is_cube(path):
-    from .fits import find_image_hdu
+    from .tpf import probe
 
-    with fits.open(path) as hdul:
-        return int(hdul[find_image_hdu(hdul)].header.get("NAXIS", 2)) > 2
+    return probe(path)["cube"]
 
 
 CLOCK_UTC_OFFSET_H = 0.0  # camera clock - UTC for files opened in the interface (set from the user's settings)

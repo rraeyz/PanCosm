@@ -193,6 +193,27 @@ def _show_unexpected_errors(settings):
     sys.excepthook = hook
 
 
+WARM = ("astrowb.photometry.lightcurve", "astrowb.photometry.steps", "astrowb.timeseries.methods", "scipy.optimize",
+        "astropy.coordinates")  # fmt: skip
+
+
+def _warm_imports():
+    """The heavy libraries loaded in the background once the window is up: opening frames in Photometry the first
+    time waited about 2 s for photutils, scipy and the coordinates (an import takes the import lock, not the
+    window's)."""
+    import importlib
+    import threading
+
+    def load():
+        for name in WARM:
+            try:
+                importlib.import_module(name)
+            except Exception:  # noqa: BLE001 - a warm-up never stops the program; the real import reports it
+                pass
+
+    threading.Thread(target=load, name="warm-imports", daemon=True).start()
+
+
 def main(argv=None) -> int:
     multiprocessing.freeze_support()  # required for worker processes in frozen (installed) builds
     if getattr(sys, "frozen", False) and "SSL_CERT_FILE" not in os.environ:
@@ -332,6 +353,7 @@ def _app(argv) -> int:
 
     if not settings.get("ui.tour_done"):
         QTimer.singleShot(600, win.start_tour)  # once, after the first start
+    QTimer.singleShot(1500, _warm_imports)
     if settings.get("time.auto_refresh", True) and earth_orientation.due():  # weekly, quietly, when allowed
         QTimer.singleShot(8000, lambda: win.update_time_tables(quiet=True))
     return app.exec()

@@ -39,7 +39,7 @@ from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .photometry_method import add_method_boxes, method_params
-from .photometry_stars import add_star_buttons, suggestion_text
+from .photometry_stars import add_star_buttons, snap_click, suggestion_text
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -1227,7 +1227,7 @@ class PhotometryPage(Undoable, QWidget):
                 self._set_aperture(i)
 
     def _clicked(self, x, y):
-        self.edit(self.tr("mark or unmark a star"), self._mark, x, y)
+        self.edit(self.tr("mark or unmark a star"), self._mark, *snap_click(self, x, y))
 
     def _mark(self, x, y):
         if self._star_names() and self.ref not in (None, self.shown):
