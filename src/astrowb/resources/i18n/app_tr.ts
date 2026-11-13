@@ -2143,7 +2143,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/comparison_rules.py" line="49"/>
         <source>Leave out stars Gaia measured as noisy</source>
-        <translation>Gaia'nın gürültülü ölçtüğü yıldızları dışarıda bırak</translation>
+        <translation>Gaia&apos;nın gürültülü ölçtüğü yıldızları dışarıda bırak</translation>
     </message>
     <message>
         <location filename="../../ui/comparison_rules.py" line="53"/>
@@ -10049,167 +10049,183 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PhotometryChecks</name>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="16"/>
+        <location filename="../../ui/photometry_checks.py" line="17"/>
         <source>behind cloud</source>
         <translation>bulut arkasında</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="17"/>
+        <location filename="../../ui/photometry_checks.py" line="18"/>
         <source>bad seeing</source>
         <translation>kötü görüş</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="18"/>
+        <location filename="../../ui/photometry_checks.py" line="19"/>
         <source>the field jumped</source>
         <translation>alan sıçradı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="19"/>
+        <location filename="../../ui/photometry_checks.py" line="20"/>
         <source>near saturation</source>
         <translation>doymaya yakın</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="20"/>
+        <location filename="../../ui/photometry_checks.py" line="21"/>
         <source>cosmic ray or hot pixel in an aperture</source>
         <translation>açıklıkta kozmik ışın ya da sıcak piksel</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="27"/>
+        <location filename="../../ui/photometry_checks.py" line="28"/>
         <source>Expose {suggest:.0f} s instead of {now:.0f} s: the highest peak reached {peak:.0f} of the limit {limit:.0f}; this puts it at 60 %.</source>
         <translation>{now:.0f} s yerine {suggest:.0f} s poz verin: en yüksek tepe {limit:.0f} sınırının {peak:.0f} değerine ulaştı; bu onu %60&apos;a getirir.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="32"/>
+        <location filename="../../ui/photometry_checks.py" line="33"/>
         <source>Defocus a little: the brightest pixel holds {percent:.0f} % of the target&apos;s light, so flat-field errors weigh on every point.</source>
         <translation>Biraz odak dışına alın: en parlak piksel hedefin ışığının %{percent:.0f} kadarını tutuyor, bu yüzden düz alan hataları her noktayı etkiliyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="37"/>
+        <location filename="../../ui/photometry_checks.py" line="38"/>
         <source>Comparison {star} was missing on {percent:.0f} % of the frames: point so that it stays well inside the frame, or choose another.</source>
         <translation>Karşılaştırma yıldızı {star} karelerin %{percent:.0f} kadarında yoktu: kadrajın içinde kalacak şekilde yönlendirin ya da başka bir yıldız seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="42"/>
+        <location filename="../../ui/photometry_checks.py" line="43"/>
         <source>Only {points} points over the ingress at a {cadence_s:.0f} s cadence: shorter exposures resolve it.</source>
         <translation>{cadence_s:.0f} s kadansla girişte yalnızca {points} nokta var: daha kısa pozlar onu çözer.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="47"/>
+        <location filename="../../ui/photometry_checks.py" line="48"/>
         <source>{term} is {percent:.0f} % of the target&apos;s noise: {remedy}</source>
         <translation>{term}, hedefin gürültüsünün %{percent:.0f} kadarı: {remedy}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="49"/>
+        <location filename="../../ui/photometry_checks.py" line="50"/>
         <source>The sky</source>
         <translation>Gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="50"/>
+        <location filename="../../ui/photometry_checks.py" line="51"/>
         <source>a smaller aperture, a narrower filter or a darker sky lowers it.</source>
         <translation>daha küçük bir açıklık, daha dar bir filtre ya da daha karanlık bir gökyüzü onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="51"/>
+        <location filename="../../ui/photometry_checks.py" line="52"/>
         <source>Scintillation</source>
         <translation>Sintilasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="52"/>
+        <location filename="../../ui/photometry_checks.py" line="53"/>
         <source>longer exposures or a larger telescope lower it.</source>
         <translation>daha uzun pozlar ya da daha büyük bir teleskop onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="53"/>
+        <location filename="../../ui/photometry_checks.py" line="54"/>
         <source>Read noise</source>
         <translation>Okuma gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="54"/>
+        <location filename="../../ui/photometry_checks.py" line="55"/>
         <source>longer exposures or binning lower it.</source>
         <translation>daha uzun pozlar ya da birleştirme (binning) onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="55"/>
+        <location filename="../../ui/photometry_checks.py" line="56"/>
         <source>Dark current</source>
         <translation>Karanlık akım</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="56"/>
+        <location filename="../../ui/photometry_checks.py" line="57"/>
         <source>a colder camera lowers it.</source>
         <translation>daha soğuk bir kamera onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="73"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Measure the light curve to check the night.</source>
         <translation>Geceyi denetlemek için ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="75"/>
+        <location filename="../../ui/photometry_checks.py" line="76"/>
         <source>Leave out the flagged points</source>
         <translation>İşaretli noktaları dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="77"/>
+        <location filename="../../ui/photometry_checks.py" line="78"/>
         <source>Their points leave the light curve; Undo brings them back</source>
         <translation>Noktaları ışık eğrisinden çıkar; Geri al onları geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="89"/>
+        <location filename="../../ui/photometry_checks.py" line="90"/>
         <source>Reports and files then carry the scaled errors too (rel_flux_err_scaled); the formal ones stay</source>
         <translation>Raporlar ve dosyalar o zaman ölçeklenmiş hataları da taşır (rel_flux_err_scaled); biçimsel hatalar kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="126"/>
+        <location filename="../../ui/photometry_checks.py" line="131"/>
         <source>For next time:</source>
         <translation>Bir dahaki sefere:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="138"/>
+        <location filename="../../ui/photometry_checks.py" line="143"/>
         <source>Scatter from point to point: {r:.2f} × the predicted errors.</source>
         <translation>Noktadan noktaya saçılma: tahmin edilen hataların {r:.2f} katı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="141"/>
+        <location filename="../../ui/photometry_checks.py" line="146"/>
         <source> The errors are too small: scale them.</source>
         <translation> Hatalar çok küçük: ölçekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="149"/>
+        <location filename="../../ui/photometry_checks.py" line="154"/>
         <source>Use the formal errors</source>
         <translation>Biçimsel hataları kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="151"/>
+        <location filename="../../ui/photometry_checks.py" line="156"/>
         <source>Scale the errors by {f:.2f}</source>
         <translation>Hataları {f:.2f} ile ölçekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="175"/>
+        <location filename="../../ui/photometry_checks.py" line="184"/>
+        <source>Comparison counts</source>
+        <translation>Karşılaştırma sayımları</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="185"/>
+        <source>Sky</source>
+        <translation>Gökyüzü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="186"/>
+        <source>Airmass</source>
+        <translation>Hava kütlesi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="213"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="186"/>
+        <location filename="../../ui/photometry_checks.py" line="224"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="188"/>
+        <location filename="../../ui/photometry_checks.py" line="226"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="195"/>
+        <location filename="../../ui/photometry_checks.py" line="204"/>
+        <location filename="../../ui/photometry_checks.py" line="234"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="195"/>
+        <location filename="../../ui/photometry_checks.py" line="234"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="196"/>
+        <location filename="../../ui/photometry_checks.py" line="235"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>
@@ -15302,103 +15318,103 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüleri dönüştür</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="100"/>
+        <location filename="../../engine/io.py" line="101"/>
         <location filename="../../engine/titles.py" line="18"/>
         <source>Finder chart</source>
         <translation>Bulucu harita</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="101"/>
+        <location filename="../../engine/io.py" line="102"/>
         <source>Spectral classes</source>
         <translation>Tayf sınıfları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="102"/>
+        <location filename="../../engine/io.py" line="103"/>
         <source>Cleaned frequency spectrum</source>
         <translation>Temizlenmiş frekans tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="103"/>
+        <location filename="../../engine/io.py" line="104"/>
         <source>Colour curve</source>
         <translation>Renk eğrisi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="104"/>
+        <location filename="../../engine/io.py" line="105"/>
         <source>Combined spectrum</source>
         <translation>Birleştirilmiş tayf</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="105"/>
+        <location filename="../../engine/io.py" line="106"/>
         <source>Spectra of the components</source>
         <translation>Bileşenlerin tayfları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="106"/>
+        <location filename="../../engine/io.py" line="107"/>
         <source>Light curves</source>
         <translation>Işık eğrileri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="107"/>
+        <location filename="../../engine/io.py" line="108"/>
         <source>Dark scale factors</source>
         <translation>Dark ölçek çarpanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="108"/>
+        <location filename="../../engine/io.py" line="109"/>
         <source>Merged échelle spectrum</source>
         <translation>Birleştirilmiş eşel tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="109"/>
+        <location filename="../../engine/io.py" line="110"/>
         <source>Masters that could not be made</source>
         <translation>Yapılamayan master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="110"/>
+        <location filename="../../engine/io.py" line="111"/>
         <source>O−C fit</source>
         <translation>O−C uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="111"/>
+        <location filename="../../engine/io.py" line="112"/>
         <source>Frequencies</source>
         <translation>Frekanslar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="112"/>
+        <location filename="../../engine/io.py" line="113"/>
         <source>Good frames</source>
         <translation>İyi kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="113"/>
+        <location filename="../../engine/io.py" line="114"/>
         <source>Labelled objects</source>
         <translation>Etiketlenmiş cisimler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="114"/>
+        <location filename="../../engine/io.py" line="115"/>
         <source>Master frames</source>
         <translation>Master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="115"/>
+        <location filename="../../engine/io.py" line="116"/>
         <source>Times of maximum</source>
         <translation>Maksimum zamanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="117"/>
+        <location filename="../../engine/io.py" line="118"/>
         <source>Missing calibration frames</source>
         <translation>Eksik kalibrasyon kareleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="118"/>
+        <location filename="../../engine/io.py" line="119"/>
         <source>Model fit</source>
         <translation>Model uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="119"/>
+        <location filename="../../engine/io.py" line="120"/>
         <source>The night&apos;s plan</source>
         <translation>Gecenin planı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="120"/>
+        <location filename="../../engine/io.py" line="121"/>
         <location filename="../../engine/titles.py" line="19"/>
         <source>Minor planets in the field</source>
         <translation>Alandaki küçük gezegenler</translation>
@@ -15464,7 +15480,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Karşılaştırma yıldızı öner</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="146"/>
+        <location filename="../../engine/io.py" line="147"/>
         <location filename="../../engine/titles.py" line="33"/>
         <source>Transformation coefficients</source>
         <translation>Dönüşüm katsayıları</translation>
@@ -15580,7 +15596,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="116"/>
+        <location filename="../../engine/io.py" line="117"/>
         <location filename="../../engine/titles.py" line="55"/>
         <source>Time of minimum</source>
         <translation>Minimum zamanı</translation>
@@ -15828,6 +15844,38 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../photometry/fit_steps.py" line="43"/>
         <source>A single night rarely decides it: leave it fixed</source>
         <translation>Tek bir gece onu nadiren belirler: sabit bırakın</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="74"/>
+        <source>Transit depth</source>
+        <translation>Geçiş derinliği</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="75"/>
+        <source>The depth TESS saw on the target</source>
+        <translation>TESS&apos;in hedefte gördüğü derinlik</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="77"/>
+        <source>Stars this near the target are checked (TFOP: 2.5′)</source>
+        <translation>Hedefe bu kadar yakın yıldızlar denetlenir (TFOP: 2,5′)</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="79"/>
+        <location filename="../../photometry/fit_steps.py" line="81"/>
+        <location filename="../../photometry/fit_steps.py" line="83"/>
+        <source>As the light curve&apos;s</source>
+        <translation>Işık eğrisindeki gibi</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="80"/>
+        <source>Sky ring, inner radius</source>
+        <translation>Gök halkası, iç yarıçap</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="82"/>
+        <source>Sky ring, outer radius</source>
+        <translation>Gök halkası, dış yarıçap</translation>
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="572"/>
@@ -16198,7 +16246,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="68"/>
-        <location filename="../../engine/io.py" line="138"/>
+        <location filename="../../engine/io.py" line="139"/>
         <source>Radial velocities</source>
         <translation>Dikine hızlar</translation>
     </message>
@@ -16314,166 +16362,171 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="97"/>
+        <source>Nearby-eclipsing-binary check</source>
+        <translation>Yakın örten çift denetimi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/io.py" line="98"/>
         <source>Transit fit</source>
         <translation>Geçiş uydurması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="98"/>
+        <location filename="../../engine/io.py" line="99"/>
         <source>Catalogue magnitudes</source>
         <translation>Katalog kadirleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="99"/>
+        <location filename="../../engine/io.py" line="100"/>
         <source>Catalogue stars</source>
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="121"/>
+        <location filename="../../engine/io.py" line="122"/>
         <source>Échelle orders</source>
         <translation>Eşel düzenleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="122"/>
+        <location filename="../../engine/io.py" line="123"/>
         <source>Passed</source>
         <translation>Geçti</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="123"/>
+        <location filename="../../engine/io.py" line="124"/>
         <source>Path</source>
         <translation>Yol</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="124"/>
+        <location filename="../../engine/io.py" line="125"/>
         <source>Highest peaks and their aliases</source>
         <translation>En yüksek tepeler ve örtüşmeleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="125"/>
+        <location filename="../../engine/io.py" line="126"/>
         <source>False-alarm probability</source>
         <translation>Yanlış alarm olasılığı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="126"/>
+        <location filename="../../engine/io.py" line="127"/>
         <source>Periods</source>
         <translation>Periyotlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="127"/>
+        <location filename="../../engine/io.py" line="128"/>
         <source>Polarisation</source>
         <translation>Kutuplanma</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="128"/>
+        <location filename="../../engine/io.py" line="129"/>
         <source>Positions</source>
         <translation>Konumlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="129"/>
+        <location filename="../../engine/io.py" line="130"/>
         <source>Periodogram</source>
         <translation>Periyodogram</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="130"/>
+        <location filename="../../engine/io.py" line="131"/>
         <source>Problems found</source>
         <translation>Bulunan sorunlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="131"/>
+        <location filename="../../engine/io.py" line="132"/>
         <source>Product image</source>
         <translation>Ürün görüntüsü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="132"/>
+        <location filename="../../engine/io.py" line="133"/>
         <source>Frame quality</source>
         <translation>Kare kalitesi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="133"/>
+        <location filename="../../engine/io.py" line="134"/>
         <source>Camera raw files converted to FITS</source>
         <translation>FITS&apos;e çevrilen kamera ham dosyaları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="134"/>
+        <location filename="../../engine/io.py" line="135"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="135"/>
+        <location filename="../../engine/io.py" line="136"/>
         <source>Residual frequency spectrum</source>
         <translation>Artık frekans tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="136"/>
+        <location filename="../../engine/io.py" line="137"/>
         <source>Colour image</source>
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="137"/>
+        <location filename="../../engine/io.py" line="138"/>
         <source>Scatter of the residuals</source>
         <translation>Artıkların saçılması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="139"/>
+        <location filename="../../engine/io.py" line="140"/>
         <source>Spectra left out</source>
         <translation>Dışarıda bırakılan tayflar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="140"/>
+        <location filename="../../engine/io.py" line="141"/>
         <source>Plate-solved image</source>
         <translation>Plaka çözümü yapılmış görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="141"/>
+        <location filename="../../engine/io.py" line="142"/>
         <source>Stacked image</source>
         <translation>Yığılmış görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="143"/>
+        <location filename="../../engine/io.py" line="144"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="144"/>
+        <location filename="../../engine/io.py" line="145"/>
         <source>Reference time</source>
         <translation>Referans zamanı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="145"/>
+        <location filename="../../engine/io.py" line="146"/>
         <source>Telluric-corrected spectrum</source>
         <translation>Tellürik düzeltmesi yapılmış tayf</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="147"/>
+        <location filename="../../engine/io.py" line="148"/>
         <source>True values of the practice data</source>
         <translation>Alıştırma verisinin gerçek değerleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="148"/>
+        <location filename="../../engine/io.py" line="149"/>
         <source>Frames without a solution</source>
         <translation>Çözümü olmayan kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="149"/>
+        <location filename="../../engine/io.py" line="150"/>
         <source>Variability of the stars</source>
         <translation>Yıldızların değişkenliği</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="150"/>
+        <location filename="../../engine/io.py" line="151"/>
         <source>Warnings</source>
         <translation>Uyarılar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="151"/>
+        <location filename="../../engine/io.py" line="152"/>
         <source>Spectral window</source>
         <translation>Tayfsal pencere</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="152"/>
+        <location filename="../../engine/io.py" line="153"/>
         <source>Files written</source>
         <translation>Yazılan dosyalar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="153"/>
+        <location filename="../../engine/io.py" line="154"/>
         <source>Zero point</source>
         <translation>Sıfır noktası</translation>
     </message>
@@ -16508,6 +16561,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>PDCSAP: uzay aracı için düzeltilmiş; SAP: ölçüldüğü gibi</translation>
     </message>
     <message>
+        <location filename="../../photometry/fit_steps.py" line="78"/>
         <location filename="../../photometry/steps.py" line="735"/>
         <source>Aperture radius</source>
         <translation>Açıklık yarıçapı</translation>
@@ -16845,6 +16899,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="138"/>
+        <location filename="../../photometry/fit_steps.py" line="76"/>
         <source>Search radius</source>
         <translation>Arama yarıçapı</translation>
     </message>
@@ -17348,7 +17403,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Çapraz ilişki (ikinci şablonla TODCOR) ya da genişleme fonksiyonu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="142"/>
+        <location filename="../../engine/io.py" line="143"/>
         <location filename="../../spectroscopy/step_params.py" line="161"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>

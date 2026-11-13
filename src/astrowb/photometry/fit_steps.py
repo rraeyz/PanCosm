@@ -64,3 +64,30 @@ def transit_fit_step(inputs, params, ctx):
     out = fit(t, f, e, params["period"], start, free, detrend=detrend)
     out["model"], out["residuals"], out["trend"] = (out[k].tolist() for k in ("model", "residuals", "trend"))
     return {"transit": out}
+
+
+@step(
+    "photometry.neb_check",
+    inputs=("images", "target_xy", "comps_xy", "field"),
+    outputs=("neb",),
+    params=[
+        P("depth_ppt", "float", 5.0, unit="ppt", min=0.0, label=QT_TRANSLATE_NOOP("Steps", "Transit depth"),
+          help=QT_TRANSLATE_NOOP("Steps", "The depth TESS saw on the target")),
+        P("radius_arcsec", "float", 150.0, unit="″", min=0.0, label=QT_TRANSLATE_NOOP("Steps", "Search radius"),
+          help=QT_TRANSLATE_NOOP("Steps", "Stars this near the target are checked (TFOP: 2.5′)")),
+        P("r_ap", "float", 6.0, unit="px", min=0.5, label=QT_TRANSLATE_NOOP("Steps", "Aperture radius"),
+          help=QT_TRANSLATE_NOOP("Steps", "As the light curve's")),
+        P("r_in", "float", 10.0, unit="px", min=0.5, label=QT_TRANSLATE_NOOP("Steps", "Sky ring, inner radius"),
+          help=QT_TRANSLATE_NOOP("Steps", "As the light curve's")),
+        P("r_out", "float", 16.0, unit="px", min=0.5, label=QT_TRANSLATE_NOOP("Steps", "Sky ring, outer radius"),
+          help=QT_TRANSLATE_NOOP("Steps", "As the light curve's")),
+    ],
+)  # fmt: skip
+def neb_check_step(inputs, params, ctx):
+    """Nearby-eclipsing-binary check (TFOP): every Gaia star near the target that could make the depth, measured on
+    every frame, with its disposition (photometry.neb)."""
+    from . import neb
+
+    rows = neb.run(inputs["images"], inputs["target_xy"], inputs["comps_xy"], inputs["field"], params["depth_ppt"],
+                   params["r_ap"], params["r_in"], params["r_out"], params["radius_arcsec"], ctx)  # fmt: skip
+    return {"neb": rows}

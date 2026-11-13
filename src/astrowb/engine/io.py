@@ -94,6 +94,7 @@ OUTPUTS = {
     "atmosphere": IO("object", QT_TRANSLATE_NOOP("Steps", "Stellar parameters")),
     "best": IO("object", QT_TRANSLATE_NOOP("Steps", "Best period")),
     "calibrated": IO("files", QT_TRANSLATE_NOOP("Steps", "Calibrated frames")),
+    "neb": IO("object", QT_TRANSLATE_NOOP("Steps", "Nearby-eclipsing-binary check")),
     "transit": IO("object", QT_TRANSLATE_NOOP("Steps", "Transit fit")),
     "catalog": IO("object", QT_TRANSLATE_NOOP("Steps", "Catalogue magnitudes")),
     "catalogue": IO("object", QT_TRANSLATE_NOOP("Steps", "Catalogue stars")),
