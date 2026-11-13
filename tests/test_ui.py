@@ -1238,6 +1238,7 @@ def test_a_click_on_a_periodogram_peak_folds_at_once(qtbot):
     assert len(ax.lines) == 4  # the curve, the best period and its two aliases
     page._clicked(SimpleNamespace(inaxes=ax, xdata=2.33, ydata=0.5))  # a little off the second peak
     assert abs(page.best - 2.3) < 0.01 and "clicked peak" in page.result.text()
+    assert abs(page.step_peak(-1) - 0.7) < 0.01 and page.step_peak(-1) is None  # ← to the shorter peak, then none
 
 
 def test_every_page_fits_a_short_window(window):
