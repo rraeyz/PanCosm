@@ -27,6 +27,10 @@ def test_spikes_flagged_on_their_frames_only(tmp_path):
 
     cols, marks = measurements(lc)
     assert cols["Flags_T1"] == ["", "", "C", "C", "", ""] and marks[(2, "Flags_T1")] == "cosmic ray or hot pixel"
+    from astrowb.photometry.quality import lc_checks
+
+    flags, verdict = lc_checks(lc)  # the Checks tab lists them and "Leave out the flagged points" takes them
+    assert flags["spike"] == [2, 3] and verdict.startswith("2 frames with a spike in an aperture")
     back = lcfile.read(lcfile.write(lc, tmp_path / "n.lc.ecsv"))
     assert back["flags"] == lc["flags"]
 

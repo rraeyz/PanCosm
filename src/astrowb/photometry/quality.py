@@ -106,4 +106,10 @@ def lc_checks(lc):
     x = [r[0][0] for r in xy] if xy else None
     y = [r[0][1] for r in xy] if xy else None
     peak = [p[0] for p in lc["peak"]] if lc.get("peak") else None
-    return night_flags(ensemble, lc.get("fwhm"), x, y, peak, lc.get("saturation"))
+    flags, verdict = night_flags(ensemble, lc.get("fwhm"), x, y, peak, lc.get("saturation"))
+    n_comp = comp.reshape(len(comp), -1).shape[1] if comp.size else 0
+    spoiled = [i for i, r in enumerate(lc.get("flags") or []) if "C" in "".join(r[: 1 + n_comp])]  # PHO-36
+    if spoiled:  # a cosmic ray or hot pixel in the target's or a comparison star's aperture
+        flags["spike"] = spoiled
+        verdict = (f"{len(spoiled)} frames with a spike in an aperture; " + verdict).replace("; no frame flagged", "")
+    return flags, verdict
