@@ -14335,7 +14335,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/plan_tables.py" line="161"/>
         <source>Landolt (1992) UBVRI standard stars: the night&apos;s zero points and extinction</source>
-        <translation>Landolt (1992) UBVRI standart yıldızları: gecenin sıfır noktaları ve sönümü</translation>
+        <translation>Landolt (1992) UBVRI standart yıldızları: gecenin sıfır noktaları ve sönümlemesi</translation>
     </message>
     <message>
         <location filename="../../ui/plan_tables.py" line="152"/>
