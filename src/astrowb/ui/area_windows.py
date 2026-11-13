@@ -146,8 +146,18 @@ def _save_all(win, page, folder=None):
         stars = {"target": page.target, "comps": page.comps, "extras": page.extras, "wcs": wcs,
                  "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
     fit = (getattr(page, "transit_fit", None) or (None, None))[1]
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, aavso=_aavso_header(win, page))
-    page.result.setText(translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder))
+    aavso = _aavso_header(win, page)
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, aavso=aavso)
+    text = translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder)
+    names = {"OBSCODE": translate("MainWindow", "your AAVSO observer code (Settings → Profiles → Observer)"),
+             "STAR_NAME": translate("MainWindow", "the star's name (the files' OBJECT, or Look up in the Field)"),
+             "FILTER": translate("MainWindow", "the band (the FILTER keyword or a catalogue)")}  # fmt: skip
+    missing = [names[k] for k, v in aavso.items() if not v]
+    if missing and page.light_curve.get("time_scale") == "BJD_TDB":  # say what would let the AAVSO file be written
+        text += "\n" + translate("MainWindow", "No AAVSO exoplanet file: it needs {what}.").format(
+            what="; ".join(missing)
+        )
+    page.result.setText(text)
     return files
 
 
