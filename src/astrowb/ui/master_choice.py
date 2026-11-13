@@ -84,7 +84,7 @@ class MasterChoice(Dialog):
         return out
 
 
-def add_button(page, layout):
+def add_button(page, row, column):
     """'Choose the masters by hand…' beside Calibrate; the choice is kept on the page (page.master_choices)."""
     page.master_choices = {}
     page.masters_button = QPushButton(translate("MasterChoice", "Choose the masters by hand…"), page)
@@ -101,5 +101,5 @@ def add_button(page, layout):
             page.master_choices = dlg.choice()
 
     page.masters_button.clicked.connect(choose)
-    layout.addWidget(page.masters_button)
-    layout.addWidget(page.run_button)
+    column.addWidget(page.masters_button)  # its own line: beside Calibrate the page was wider than a small window
+    row.addWidget(page.run_button)
