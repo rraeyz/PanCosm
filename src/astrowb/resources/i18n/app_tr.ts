@@ -478,7 +478,7 @@
 <context>
     <name>App</name>
     <message>
-        <location filename="../../__main__.py" line="214"/>
+        <location filename="../../__main__.py" line="233"/>
         <source>Unexpected error</source>
         <translation>Beklenmeyen hata</translation>
     </message>
@@ -3261,22 +3261,32 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>GuidePage</name>
     <message>
-        <location filename="../../ui/guide_page.py" line="72"/>
+        <location filename="../../ui/guide_page.py" line="77"/>
+        <source>Start page</source>
+        <translation>Başlangıç sayfası</translation>
+    </message>
+    <message>
+        <location filename="../../ui/guide_page.py" line="78"/>
+        <source>Back to the start page (Alt+Home)</source>
+        <translation>Başlangıç sayfasına dön (Alt+Home)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/guide_page.py" line="82"/>
         <source>Guide</source>
         <translation>Kılavuz</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="74"/>
+        <location filename="../../ui/guide_page.py" line="84"/>
         <source>Search the guide…</source>
         <translation>Kılavuzda ara…</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="76"/>
+        <location filename="../../ui/guide_page.py" line="86"/>
         <source>Shows only the guide sections that contain these words</source>
         <translation>Yalnızca bu sözcükleri içeren kılavuz bölümlerini gösterir</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="138"/>
+        <location filename="../../ui/guide_page.py" line="148"/>
         <source>{n} topics found</source>
         <translation>{n} konu bulundu</translation>
     </message>

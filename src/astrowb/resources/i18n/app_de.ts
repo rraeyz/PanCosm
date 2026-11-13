@@ -478,7 +478,7 @@
 <context>
     <name>App</name>
     <message>
-        <location filename="../../__main__.py" line="214"/>
+        <location filename="../../__main__.py" line="233"/>
         <source>Unexpected error</source>
         <translation>Unerwarteter Fehler</translation>
     </message>
@@ -3261,22 +3261,32 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>GuidePage</name>
     <message>
-        <location filename="../../ui/guide_page.py" line="72"/>
+        <location filename="../../ui/guide_page.py" line="77"/>
+        <source>Start page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/guide_page.py" line="78"/>
+        <source>Back to the start page (Alt+Home)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/guide_page.py" line="82"/>
         <source>Guide</source>
         <translation>Anleitung</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="74"/>
+        <location filename="../../ui/guide_page.py" line="84"/>
         <source>Search the guide…</source>
         <translation>Anleitung durchsuchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="76"/>
+        <location filename="../../ui/guide_page.py" line="86"/>
         <source>Shows only the guide sections that contain these words</source>
         <translation>Zeigt nur die Abschnitte der Anleitung, die diese Wörter enthalten</translation>
     </message>
     <message>
-        <location filename="../../ui/guide_page.py" line="138"/>
+        <location filename="../../ui/guide_page.py" line="148"/>
         <source>{n} topics found</source>
         <translation>{n} Themen gefunden</translation>
     </message>

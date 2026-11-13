@@ -37,7 +37,7 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Windows and layout (UF-8 … UF-11)
 
-- **UF-8 — the Guide has no way back to the start page** — **open**
+- **UF-8 — the Guide has no way back to the start page** — **done** (2026-11-13: "← Start page", Alt+Home; test)
   A Home / Start page button (and Alt+Home) in the Guide.
 - **UF-9 — Calibration, windowed: opening "Stacking options" pushes the right column out of the window** — **open**
   Every collapsible section must fit the window's width (wrap, or scroll vertically only). Check every window's
