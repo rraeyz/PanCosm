@@ -633,9 +633,10 @@
            ]
           },
           "source": {
-           "description": "Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; aavso: the field's AAVSO sequence",
+           "description": "Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field's AAVSO sequence",
            "enum": [
             "auto",
+            "apass",
             "aavso",
             null
            ]

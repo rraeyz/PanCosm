@@ -100,22 +100,27 @@ def _sky(t):
     return SkyCoord(np.asarray(t["_RAJ2000"], float) * u.deg, np.asarray(t["_DEJ2000"], float) * u.deg)
 
 
-def star_magnitude(entry, filt):
-    """{mag, err, colour, source} of one star in the band of filt, or None."""
+def star_magnitude(entry, filt, apass_first=False):
+    """{mag, err, colour, source} of one star in the band of filt, or None. apass_first: APASS before GSPC (for a
+    series already tied to APASS)."""
     band = BAND_OF_FILTER.get(filt, filt)
-    apass, gaia = entry.get("apass"), entry.get("gaia")
+    apass, gaia, gspc = entry.get("apass"), entry.get("gaia"), entry.get("gspc")
     colour = None
     if apass and apass.get("Bmag") is not None and apass.get("Vmag") is not None:
         colour = apass["Bmag"] - apass["Vmag"]
-    gspc = entry.get("gspc")
+    elif gspc and gspc.get("b_jkc_mag") is not None and gspc.get("v_jkc_mag") is not None:
+        colour = gspc["b_jkc_mag"] - gspc["v_jkc_mag"]
     col = GSPC_BANDS.get(band)
+    from_gspc = None
     if gspc and col and gspc.get(col) is not None and gspc.get(col.replace("_mag", "_flag")) == 1:
-        if colour is None and gspc.get("b_jkc_mag") is not None and gspc.get("v_jkc_mag") is not None:
-            colour = gspc["b_jkc_mag"] - gspc["v_jkc_mag"]
-        return {"mag": gspc[col], "err": GSPC_ERR, "colour": colour, "source": "Gaia DR3 GSPC"}
+        from_gspc = {"mag": gspc[col], "err": GSPC_ERR, "colour": colour, "source": "Gaia DR3 GSPC"}
+    from_apass = None
     if apass and band in APASS_BANDS and apass.get(APASS_BANDS[band]) is not None:
         err = apass.get("e_" + APASS_BANDS[band]) or 0.03
-        return {"mag": apass[APASS_BANDS[band]], "err": err, "colour": colour, "source": "APASS DR9"}
+        from_apass = {"mag": apass[APASS_BANDS[band]], "err": err, "colour": colour, "source": "APASS DR9"}
+    first = (from_apass or from_gspc) if apass_first else (from_gspc or from_apass)
+    if first:
+        return first
     if gaia and gaia.get("Gmag") is not None and gaia.get("BPmag") is not None and gaia.get("RPmag") is not None:
         bp_rp = gaia["BPmag"] - gaia["RPmag"]
         colour = colour if colour is not None else bp_rp

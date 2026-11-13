@@ -12101,21 +12101,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/photometry_standard.py" line="18"/>
+        <source>APASS / Gaia GSPC / Gaia</source>
+        <translation>APASS / Gaia GSPC / Gaia</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_standard.py" line="19"/>
         <source>AAVSO sequence</source>
         <translation>AAVSO dizisi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_standard.py" line="20"/>
+        <location filename="../../ui/photometry_standard.py" line="21"/>
         <source>Where the comparison magnitudes come from: the catalogues (Gaia&apos;s synthetic Johnson-Cousins photometry, else APASS, else Gaia&apos;s colours), or the field&apos;s AAVSO chart, as AAVSO reports ask</source>
         <translation>Karşılaştırma kadirlerinin kaynağı: kataloglar (Gaia&apos;nın sentetik Johnson-Cousins fotometrisi, yoksa APASS, yoksa Gaia renkleri) ya da AAVSO raporlarının istediği gibi alanın AAVSO haritası</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_standard.py" line="26"/>
+        <location filename="../../ui/photometry_standard.py" line="27"/>
         <source>Standard magnitudes</source>
         <translation>Standart kadirler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_standard.py" line="28"/>
+        <location filename="../../ui/photometry_standard.py" line="29"/>
         <source>Looks up the comparison stars (needs the internet once and a plate-solved first image) and turns the light curve into magnitudes in the standard system</source>
         <translation>Karşılaştırma yıldızlarını arar (bir kez internet ve plaka çözümü yapılmış ilk görüntü gerekir) ve ışık eğrisini standart sistemde kadirlere çevirir</translation>
     </message>
@@ -15772,7 +15777,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="624"/>
-        <location filename="../../photometry/steps.py" line="751"/>
+        <location filename="../../photometry/steps.py" line="753"/>
         <source>Outer sky radius</source>
         <translation>Dış gök yarıçapı</translation>
     </message>
@@ -15847,12 +15852,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Standart kadirlerin bandı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="714"/>
+        <location filename="../../photometry/steps.py" line="704"/>
+        <source>auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field&apos;s AAVSO sequence</source>
+        <translation>auto: Gaia GSPC, APASS, Gaia renkleri; apass: önce APASS; aavso: alanın AAVSO dizisi</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="716"/>
         <source>Mission</source>
         <translation>Görev</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="715"/>
+        <location filename="../../photometry/steps.py" line="717"/>
         <source>The space telescope whose light curves are fetched</source>
         <translation>Işık eğrileri alınan uzay teleskobu</translation>
     </message>
@@ -15959,7 +15969,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="40"/>
-        <location filename="../../photometry/steps.py" line="721"/>
+        <location filename="../../photometry/steps.py" line="723"/>
         <source>Flux</source>
         <translation>Akı</translation>
     </message>
@@ -16400,199 +16410,194 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Kadirlerin kaynağı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="704"/>
-        <source>auto: Gaia GSPC, APASS, Gaia colours; aavso: the field&apos;s AAVSO sequence</source>
-        <translation>auto: Gaia GSPC, APASS, Gaia renkleri; aavso: alanın AAVSO dizisi</translation>
-    </message>
-    <message>
-        <location filename="../../photometry/steps.py" line="722"/>
+        <location filename="../../photometry/steps.py" line="724"/>
         <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation>PDCSAP: uzay aracı için düzeltilmiş; SAP: ölçüldüğü gibi</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="733"/>
+        <location filename="../../photometry/steps.py" line="735"/>
         <source>Aperture radius</source>
         <translation>Açıklık yarıçapı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="734"/>
+        <location filename="../../photometry/steps.py" line="736"/>
         <source>Light inside it is the star&apos;s</source>
         <translation>İçindeki ışık yıldızındır</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="742"/>
+        <location filename="../../photometry/steps.py" line="744"/>
         <source>Inner sky radius</source>
         <translation>İç gök yarıçapı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="743"/>
+        <location filename="../../photometry/steps.py" line="745"/>
         <source>The sky annulus starts here</source>
         <translation>Gök halkası burada başlar</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="752"/>
+        <location filename="../../photometry/steps.py" line="754"/>
         <source>The sky annulus ends here</source>
         <translation>Gök halkası burada biter</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="760"/>
+        <location filename="../../photometry/steps.py" line="762"/>
         <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
         <translation>Kazanç</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="761"/>
+        <location filename="../../photometry/steps.py" line="763"/>
         <location filename="../../spectroscopy/step_params.py" line="232"/>
         <source>Empty: from the header or the profile</source>
         <translation>Boş: başlıktan ya da profilden</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="767"/>
+        <location filename="../../photometry/steps.py" line="769"/>
         <source>Radii from the profiles</source>
         <translation>Yarıçaplar profillerden</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="768"/>
+        <location filename="../../photometry/steps.py" line="770"/>
         <source>The radii are chosen from the stars&apos; own profiles</source>
         <translation>Yarıçaplar yıldızların kendi profillerinden seçilir</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="774"/>
+        <location filename="../../photometry/steps.py" line="776"/>
         <source>Scale radii with seeing</source>
         <translation>Yarıçapları görüşe göre ölçekle</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="775"/>
+        <location filename="../../photometry/steps.py" line="777"/>
         <source>Each frame&apos;s radii follow its FWHM</source>
         <translation>Her karenin yarıçapları kendi FWHM&apos;sini izler</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="781"/>
+        <location filename="../../photometry/steps.py" line="783"/>
         <source>PSF photometry</source>
         <translation>PSF fotometrisi</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="782"/>
+        <location filename="../../photometry/steps.py" line="784"/>
         <source>Stars fitted with the frame&apos;s PSF (crowded fields)</source>
         <translation>Yıldızlar karenin PSF&apos;siyle fit edilir (kalabalık alanlar)</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="788"/>
+        <location filename="../../photometry/steps.py" line="790"/>
         <source>Stars that place the frames</source>
         <translation>Kareleri yerleştiren yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="789"/>
+        <location filename="../../photometry/steps.py" line="791"/>
         <source>Picked on the first frame; empty: the frames are placed automatically</source>
         <translation>İlk karede seçilir; boş: kareler otomatik yerleştirilir</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="796"/>
+        <location filename="../../photometry/steps.py" line="798"/>
         <source>Centring</source>
         <translation>Merkezleme</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="797"/>
+        <location filename="../../photometry/steps.py" line="799"/>
         <source>How each star is centred on every frame</source>
         <translation>Her yıldızın her karede nasıl merkezlendiği</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="803"/>
+        <location filename="../../photometry/steps.py" line="805"/>
         <source>Remove neighbours</source>
         <translation>Komşuları çıkar</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="804"/>
+        <location filename="../../photometry/steps.py" line="806"/>
         <source>Stars near the measured ones are fitted and subtracted before the apertures</source>
         <translation>Ölçülen yıldızların yakınındaki yıldızlar açıklıklardan önce uydurulup çıkarılır</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="812"/>
+        <location filename="../../photometry/steps.py" line="814"/>
         <source>Telescope aperture</source>
         <translation>Teleskop açıklığı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="813"/>
+        <location filename="../../photometry/steps.py" line="815"/>
         <source>For the scintillation noise (Young 1967); empty: left out</source>
         <translation>Sintilasyon gürültüsü için (Young 1967); boş: dışarıda bırakılır</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="820"/>
+        <location filename="../../photometry/steps.py" line="822"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="822"/>
+        <location filename="../../photometry/steps.py" line="824"/>
         <source>Read noise, dark current and linearity when the header lacks them</source>
         <translation>Başlıkta yoksa okuma gürültüsü, karanlık akım ve doğrusallık</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="829"/>
+        <location filename="../../photometry/steps.py" line="831"/>
         <source>Sky</source>
         <translation>Gök</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="830"/>
+        <location filename="../../photometry/steps.py" line="832"/>
         <source>How the sky level is read</source>
         <translation>Gök düzeyinin nasıl okunduğu</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="836"/>
+        <location filename="../../photometry/steps.py" line="838"/>
         <source>Fixed positions</source>
         <translation>Sabit konumlar</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="838"/>
+        <location filename="../../photometry/steps.py" line="840"/>
         <source>Stars measured where marked, not re-centred</source>
         <translation>Yıldızlar işaretlendikleri yerde ölçülür, yeniden ortalanmaz</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="845"/>
+        <location filename="../../photometry/steps.py" line="847"/>
         <source>Header time marks</source>
         <translation>Başlık zamanı neyi gösterir</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="846"/>
+        <location filename="../../photometry/steps.py" line="848"/>
         <source>What the header&apos;s time marks: the start, middle or end of the exposure</source>
         <translation>Başlıktaki zamanın gösterdiği an: pozun başı, ortası ya da sonu</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="853"/>
+        <location filename="../../photometry/steps.py" line="855"/>
         <source>Shutter delay</source>
         <translation>Deklanşör gecikmesi</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="855"/>
+        <location filename="../../photometry/steps.py" line="857"/>
         <source>Added to the header time</source>
         <translation>Başlık zamanına eklenir</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="861"/>
+        <location filename="../../photometry/steps.py" line="863"/>
         <source>Other radii</source>
         <translation>Diğer yarıçaplar</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="863"/>
+        <location filename="../../photometry/steps.py" line="865"/>
         <source>More aperture radii measured at the same time</source>
         <translation>Aynı anda ölçülen başka açıklık yarıçapları</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="874"/>
+        <location filename="../../photometry/steps.py" line="876"/>
         <source>Colour coefficient</source>
         <translation>Renk katsayısı</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="875"/>
+        <location filename="../../photometry/steps.py" line="877"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
         <translation>Dönüşümün T_ab&apos;si; karşılaştırma rengiyle standart bir renk verir</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="882"/>
+        <location filename="../../photometry/steps.py" line="884"/>
         <source>Comparison colour</source>
         <translation>Karşılaştırma rengi</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="883"/>
+        <location filename="../../photometry/steps.py" line="885"/>
         <source>The comparison ensemble&apos;s catalogue colour</source>
         <translation>Karşılaştırma topluluğunun katalog rengi</translation>
     </message>

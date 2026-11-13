@@ -35,6 +35,7 @@ def test_gspc_comes_first_when_flagged_good():
     assert v == {"mag": 11.348, "err": catalog.GSPC_ERR, "colour": pytest.approx(1.3), "source": "Gaia DR3 GSPC"}
     assert catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": None}, "CV")["mag"] == 11.348
     assert catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": gaia}, "R")["source"] == "Gaia DR3 → JC"
+    assert catalog.star_magnitude({"gspc": gspc, "apass": apass, "gaia": gaia}, "V", apass_first=True)["mag"] == 11.30
     b = catalog.star_magnitude({"gspc": gspc, "apass": None, "gaia": None}, "B")
     assert b["colour"] == pytest.approx(12.602 - 11.348)  # no APASS: the colour from GSPC's own B − V
 
