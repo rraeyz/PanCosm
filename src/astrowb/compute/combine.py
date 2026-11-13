@@ -168,8 +168,10 @@ def clipped_mean(stack: np.ndarray, sigma: float = 3.0, maxiters: int = 5, use_g
     """stack: (n_frames, ny, nx). Returns (combined float32 image, kept-count int32 image, 'cpu'|'gpu')."""
     stack = np.asarray(stack)
     shape = stack.shape[1:]
-    if use_gpu is None:
-        use_gpu = stack.size >= GPU_MIN_VALUES
+    if use_gpu is None:  # automatic: the compiled routine beats the GPU here (owner's RTX 4050: 0.13 s vs 0.26 s)
+        from .. import native
+
+        use_gpu = stack.size >= GPU_MIN_VALUES and native.use("clipped_mean") is None
     if use_gpu and stack.shape[0] <= MAX_GPU_FRAMES and device() is not None:
         try:
             mean, cnt = _gpu(stack, sigma, maxiters)

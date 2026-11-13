@@ -141,5 +141,8 @@ def report(found=None):
         yield (f"  {name}: CPU {t_cpu:.2f} s, GPU {t_gpu:.2f} s ({t_cpu / t_gpu:.1f}x), {verdict}")
     yield (f"{worked} of {len(jobs)} GPU jobs work.")
     if not software:
-        yield ("'Automatic' uses the GPU for these jobs when they are large enough.")
+        yield (
+            "'Automatic' uses the GPU for these jobs when they are large enough, except the sigma-clipped mean,"
+            " which the compiled routines do faster on the CPU."
+        )
     set_mode("auto")

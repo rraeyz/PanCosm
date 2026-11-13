@@ -101,6 +101,7 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-21 — Check the installation: CDS hips2fits 404, AAVSO International Database 403** — **open**
   The owner says the French (CDS) servers are having trouble; check our URLs anyway (hips2fits endpoint, AAVSO
   needs a user agent or a new address) and say "the service is down" rather than an HTTP code.
-- **UF-22 — GPU check: the sigma-clipped mean is slower on the GPU (0.5×)** — **open**
+- **UF-22 — GPU check: the sigma-clipped mean is slower on the GPU (0.5×)** — **done** (2026-11-13: Automatic
+  keeps it on the compiled CPU routine; the GPU check says so; test)
   "Automatic" must keep that job on the CPU (RTX 4050 laptop, the owner's numbers); the other five jobs gain
   1.8–97×.
