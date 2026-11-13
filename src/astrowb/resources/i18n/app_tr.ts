@@ -9363,177 +9363,182 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>Overlays</name>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="13"/>
+        <location filename="../../ui/overlay_actions.py" line="14"/>
         <source>&amp;Overlays</source>
         <translation>&amp;Kaplamalar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="14"/>
+        <location filename="../../ui/overlay_actions.py" line="15"/>
         <source>Contours…</source>
         <translation>Konturlar…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="15"/>
+        <location filename="../../ui/overlay_actions.py" line="16"/>
         <source>Coordinate grid</source>
         <translation>Koordinat ızgarası</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="17"/>
+        <location filename="../../ui/overlay_actions.py" line="18"/>
         <source>Catalogue stars (Gaia DR3)…</source>
         <translation>Katalog yıldızları (Gaia DR3)…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="20"/>
+        <location filename="../../ui/overlay_actions.py" line="21"/>
         <source>Variable stars (VSX)</source>
         <translation>Değişen yıldızlar (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="23"/>
+        <location filename="../../ui/overlay_actions.py" line="25"/>
+        <source>AAVSO comparison stars (VSP)</source>
+        <translation>AAVSO karşılaştırma yıldızları (VSP)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="29"/>
         <source>Asteroids and comets (SkyBoT)</source>
         <translation>Asteroitler ve kuyruklu yıldızlar (SkyBoT)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="25"/>
+        <location filename="../../ui/overlay_actions.py" line="31"/>
         <source>Finder chart…</source>
         <translation>Bulucu harita…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="27"/>
+        <location filename="../../ui/overlay_actions.py" line="33"/>
         <source>Load DS9 regions…</source>
         <translation>DS9 bölgelerini yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="28"/>
+        <location filename="../../ui/overlay_actions.py" line="34"/>
         <source>Save markers as DS9 regions…</source>
         <translation>İşaretleri DS9 bölgesi olarak kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="31"/>
+        <location filename="../../ui/overlay_actions.py" line="37"/>
         <source>Clear overlays</source>
         <translation>Kaplamaları temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="35"/>
+        <location filename="../../ui/overlay_actions.py" line="41"/>
         <source>&amp;Magnifier</source>
         <translation>&amp;Büyüteç</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="38"/>
+        <location filename="../../ui/overlay_actions.py" line="44"/>
         <source>&amp;Layers</source>
         <translation>&amp;Katmanlar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="49"/>
+        <location filename="../../ui/overlay_actions.py" line="55"/>
         <source>No overlays on this image</source>
         <translation>Bu görüntüde kaplama yok</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <location filename="../../ui/overlay_actions.py" line="65"/>
         <source>Orien&amp;tation</source>
         <translation>&amp;Yönlendirme</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="66"/>
+        <location filename="../../ui/overlay_actions.py" line="72"/>
         <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
         <translation>Kuzeyin yukarıda olması için gök koordinatları gerekir: önce görüntüyü plaka çözümleyin (Görüntü menüsü)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="75"/>
+        <location filename="../../ui/overlay_actions.py" line="81"/>
         <source>&amp;North up, East left</source>
         <translation>&amp;Kuzey yukarıda, Doğu solda</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="76"/>
+        <location filename="../../ui/overlay_actions.py" line="82"/>
         <source>Turn 90° &amp;clockwise</source>
         <translation>Saat yönünde 90° &amp;döndür</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="77"/>
+        <location filename="../../ui/overlay_actions.py" line="83"/>
         <source>&amp;Mirror left–right</source>
         <translation>Sol–sağ &amp;aynala</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="78"/>
+        <location filename="../../ui/overlay_actions.py" line="84"/>
         <source>&amp;Original orientation</source>
         <translation>Ö&amp;zgün yönlendirme</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="81"/>
+        <location filename="../../ui/overlay_actions.py" line="87"/>
         <source>&amp;Compass and scale bar</source>
         <translation>&amp;Pusula ve ölçek çubuğu</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="108"/>
+        <location filename="../../ui/overlay_actions.py" line="114"/>
         <source>Contours</source>
         <translation>Konturlar</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="109"/>
+        <location filename="../../ui/overlay_actions.py" line="115"/>
         <source>Number of levels:</source>
         <translation>Düzey sayısı:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="128"/>
-        <location filename="../../ui/overlay_actions.py" line="145"/>
-        <location filename="../../ui/overlay_actions.py" line="213"/>
+        <location filename="../../ui/overlay_actions.py" line="134"/>
+        <location filename="../../ui/overlay_actions.py" line="151"/>
+        <location filename="../../ui/overlay_actions.py" line="219"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Görüntüde gök koordinatı yok: önce plaka çözün (Görüntü menüsü).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="153"/>
+        <location filename="../../ui/overlay_actions.py" line="159"/>
         <source>Catalogue stars</source>
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="154"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
         <source>Faintest magnitude:</source>
         <translation>En sönük kadir:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="162"/>
-        <location filename="../../ui/overlay_actions.py" line="218"/>
+        <location filename="../../ui/overlay_actions.py" line="168"/>
+        <location filename="../../ui/overlay_actions.py" line="224"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="183"/>
-        <location filename="../../ui/overlay_actions.py" line="197"/>
+        <location filename="../../ui/overlay_actions.py" line="189"/>
+        <location filename="../../ui/overlay_actions.py" line="203"/>
         <source>Finder chart</source>
         <translation>Bulucu harita</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="184"/>
+        <location filename="../../ui/overlay_actions.py" line="190"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Hedef koordinatları (RA Dec), ör. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="190"/>
+        <location filename="../../ui/overlay_actions.py" line="196"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinatlar anlaşılamadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="202"/>
+        <location filename="../../ui/overlay_actions.py" line="208"/>
         <source>Making the finder chart…</source>
         <translation>Bulucu harita hazırlanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="237"/>
+        <location filename="../../ui/overlay_actions.py" line="244"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} katalog yıldızı gösterildi: etiketini görmek için fareyi bir halkanın üzerine getirin.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="242"/>
+        <location filename="../../ui/overlay_actions.py" line="249"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} katalog yıldızı gösterildi.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="251"/>
-        <location filename="../../ui/overlay_actions.py" line="285"/>
+        <location filename="../../ui/overlay_actions.py" line="258"/>
+        <location filename="../../ui/overlay_actions.py" line="292"/>
         <source>DS9 regions</source>
         <translation>DS9 bölgeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="277"/>
+        <location filename="../../ui/overlay_actions.py" line="284"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Görüntüde işaret yok (Fotometri penceresinde seçilen yıldızlar işarettir).</translation>
     </message>
@@ -16678,135 +16683,135 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="159"/>
-        <source>The stars shown over the image</source>
-        <translation>Görüntünün üzerinde gösterilen yıldızlar</translation>
+        <source>The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)</source>
+        <translation>Görüntünün üzerinde gösterilen yıldızlar: gaia, vsx ya da aavso (AAVSO karşılaştırma dizisi)</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="166"/>
-        <location filename="../../engine/step_params.py" line="210"/>
-        <location filename="../../engine/step_params.py" line="222"/>
+        <location filename="../../engine/step_params.py" line="168"/>
+        <location filename="../../engine/step_params.py" line="212"/>
+        <location filename="../../engine/step_params.py" line="224"/>
         <source>Faintest magnitude</source>
         <translation>En sönük kadir</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="167"/>
-        <location filename="../../engine/step_params.py" line="211"/>
+        <location filename="../../engine/step_params.py" line="169"/>
+        <location filename="../../engine/step_params.py" line="213"/>
         <source>Fainter stars are left out</source>
         <translation>Daha sönük yıldızlar dışarıda bırakılır</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="176"/>
+        <location filename="../../engine/step_params.py" line="178"/>
         <source>Format</source>
         <translation>Biçim</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="177"/>
+        <location filename="../../engine/step_params.py" line="179"/>
         <source>png, jpg or tif</source>
         <translation>png, jpg ya da tif</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="183"/>
+        <location filename="../../engine/step_params.py" line="185"/>
         <source>Levels</source>
         <translation>Düzeyler</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="184"/>
+        <location filename="../../engine/step_params.py" line="186"/>
         <source>How the black and white points are chosen</source>
         <translation>Siyah ve beyaz noktaların nasıl seçildiği</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="190"/>
-        <location filename="../../engine/step_params.py" line="233"/>
+        <location filename="../../engine/step_params.py" line="192"/>
+        <location filename="../../engine/step_params.py" line="235"/>
         <source>Stretch</source>
         <translation>Germe</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="191"/>
+        <location filename="../../engine/step_params.py" line="193"/>
         <source>linear, log, sqrt, asinh…</source>
         <translation>doğrusal, log, sqrt, asinh…</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="202"/>
+        <location filename="../../engine/step_params.py" line="204"/>
         <source>Field of view</source>
         <translation>Görüş alanı</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="203"/>
+        <location filename="../../engine/step_params.py" line="205"/>
         <source>Width of the chart</source>
         <translation>Haritanın genişliği</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="217"/>
+        <location filename="../../engine/step_params.py" line="219"/>
         <source>Title</source>
         <translation>Başlık</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="218"/>
+        <location filename="../../engine/step_params.py" line="220"/>
         <source>Above the chart</source>
         <translation>Haritanın üstünde</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="223"/>
+        <location filename="../../engine/step_params.py" line="225"/>
         <source>Fainter bodies are left out</source>
         <translation>Daha sönük cisimler dışarıda bırakılır</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="224"/>
+        <location filename="../../engine/step_params.py" line="226"/>
         <source>Arguments</source>
         <translation>Bağımsız değişkenler</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="225"/>
+        <location filename="../../engine/step_params.py" line="227"/>
         <source>The operation&apos;s own settings</source>
         <translation>İşlemin kendi ayarları</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="234"/>
+        <location filename="../../engine/step_params.py" line="236"/>
         <source>Lupton&apos;s stretch</source>
         <translation>Lupton germesi</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="241"/>
+        <location filename="../../engine/step_params.py" line="243"/>
         <source>Softening</source>
         <translation>Yumuşatma</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="242"/>
+        <location filename="../../engine/step_params.py" line="244"/>
         <source>Lupton&apos;s Q</source>
         <translation>Lupton&apos;un Q&apos;su</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="249"/>
+        <location filename="../../engine/step_params.py" line="251"/>
         <source>The three images are aligned on their stars first</source>
         <translation>Üç görüntü önce yıldızlarına göre hizalanır</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="258"/>
+        <location filename="../../engine/step_params.py" line="260"/>
         <source>Overwrite</source>
         <translation>Üzerine yaz</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="259"/>
+        <location filename="../../engine/step_params.py" line="261"/>
         <source>An existing file of that name is replaced</source>
         <translation>Aynı adlı dosya değiştirilir</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="265"/>
+        <location filename="../../engine/step_params.py" line="267"/>
         <source>Header cards to set</source>
         <translation>Yazılacak başlık kartları</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="266"/>
+        <location filename="../../engine/step_params.py" line="268"/>
         <source>Keyword: value pairs written into the header</source>
         <translation>Başlığa yazılan anahtar: değer çiftleri</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="272"/>
+        <location filename="../../engine/step_params.py" line="274"/>
         <source>Header cards to delete</source>
         <translation>Silinecek başlık kartları</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="273"/>
+        <location filename="../../engine/step_params.py" line="275"/>
         <source>Keywords taken out of the header</source>
         <translation>Başlıktan çıkarılan anahtar sözcükler</translation>
     </message>
@@ -17035,7 +17040,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="167"/>
-        <location filename="../../engine/step_params.py" line="248"/>
+        <location filename="../../engine/step_params.py" line="250"/>
         <source>Align</source>
         <translation>Hizala</translation>
     </message>

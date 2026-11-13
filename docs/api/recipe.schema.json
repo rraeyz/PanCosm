@@ -297,7 +297,7 @@
          "type": "object",
          "properties": {
           "catalogue": {
-           "description": "Catalogue: The stars shown over the image",
+           "description": "Catalogue: The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)",
            "type": [
             "string",
             "null"

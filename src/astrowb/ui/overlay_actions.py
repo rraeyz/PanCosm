@@ -7,6 +7,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QInputDialog
 
 from .. import overlays
+from .kit.tokens import DARK
 
 
 def add_menu(win, menu):
@@ -18,6 +19,11 @@ def add_menu(win, menu):
     )
     win._action(
         sub, QCoreApplication.translate("Overlays", "Variable stars (VSX)"), lambda: catalogue(win, "vsx", 30.0)
+    )
+    win._action(
+        sub,
+        QCoreApplication.translate("Overlays", "AAVSO comparison stars (VSP)"),
+        lambda: catalogue(win, "aavso", 17.0),
     )
     win._action(
         sub, QCoreApplication.translate("Overlays", "Asteroids and comets (SkyBoT)"), lambda: minor_planets(win)
@@ -225,8 +231,9 @@ def minor_planets(win):
 
 
 def show_catalogue(win, which, stars):
-    colour = {"vsx": "#ff4fd8", "minor": "#ffb000"}.get(which, "#4fc3ff")
-    if which in ("vsx", "minor"):
+    on_dark = {"vsx": "#ff4fd8", "minor": "#ffb000", "aavso": DARK["ok"]}  # the image is dark in either theme
+    colour = on_dark.get(which, "#4fc3ff")
+    if which in ("vsx", "minor", "aavso"):
         label = lambda s: s["name"]  # noqa: E731
     else:
         label = lambda s: f"{s['mag']:.1f}" if s["mag"] is not None else ""  # noqa: E731

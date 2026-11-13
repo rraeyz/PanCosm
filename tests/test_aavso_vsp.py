@@ -74,3 +74,31 @@ def test_report_dialog_takes_the_sequence_for_the_marked_stars(qtbot, tmp_path, 
     page.field = None
     d.sequence_button.click()
     assert "Identify the field" in d.sequence_note.text()
+
+
+def test_the_sequence_drawn_over_a_solved_image(tmp_path, monkeypatch):
+    """Images window → Overlays → AAVSO comparison stars: the sequence inside the frame at its pixels, labelled."""
+    import numpy as np
+    from astropy.io import fits
+    from astropy.wcs import WCS
+
+    from astrowb.engine.steps import execute
+
+    w = WCS(naxis=2)
+    w.wcs.ctype, w.wcs.crval, w.wcs.crpix = ["RA---TAN", "DEC--TAN"], [303.0, 65.06], [200, 200]
+    w.wcs.cdelt = [-3 / 3600, 3 / 3600]
+    fits.PrimaryHDU(np.zeros((400, 400), np.float32), w.to_header()).writeto(tmp_path / "f.fits")
+    asked = []
+    monkeypatch.setattr(
+        aavso_vsp, "sequence", lambda ra, dec, fov, maglimit: asked.append(fov) or aavso_vsp.parse(ANSWER)
+    )
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    stars = execute("image.catalogue", {"image": str(tmp_path / "f.fits")}, {"catalogue": "aavso"}, Ctx())["stars"]
+    assert [s["name"] for s in stars] == ["113"] and stars[0]["mag"] == 11.333  # 116 and 117 lie outside
+    x, y = w.world_to_pixel_values(stars[0]["ra"], stars[0]["dec"])
+    assert (stars[0]["x"], stars[0]["y"]) == pytest.approx((float(x), float(y)), abs=0.01)
+    assert 25 < asked[0] < 32  # the frame's diagonal, 20′ × 20′

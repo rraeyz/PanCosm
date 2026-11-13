@@ -70,7 +70,8 @@ def image_process(inputs, params, ctx):
 
 @step("image.catalogue", inputs=("image",), outputs=("stars",), catalogue="gaia", mag_limit=16.0)
 def catalogue_step(inputs, params, ctx):
-    """Catalogue stars (Gaia DR3 or VSX, from VizieR) inside a plate-solved image, with their pixel positions."""
+    """Catalogue stars (Gaia DR3 or VSX from VizieR, or the AAVSO comparison sequence) inside a plate-solved image,
+    with their pixel positions."""
     from astropy.wcs import WCS
 
     from .. import overlays
@@ -83,9 +84,17 @@ def catalogue_step(inputs, params, ctx):
     centre = wcs.pixel_to_world((nx - 1) / 2, (ny - 1) / 2)
     corner = wcs.pixel_to_world(0, 0)
     ctx.progress(0.1, "catalogue")
-    stars = overlays.query_catalogue(
-        centre.ra.deg, centre.dec.deg, centre.separation(corner).deg * 1.05, params["catalogue"], params["mag_limit"]
-    )
+    radius = centre.separation(corner).deg * 1.05
+    if params["catalogue"] == "aavso":  # the chart's labels: V × 10 without the point, as on the AAVSO chart
+        from ..services import aavso_vsp
+
+        seq = aavso_vsp.sequence(centre.ra.deg, centre.dec.deg, fov=2 * 60 * radius, maglimit=params["mag_limit"])
+        stars = [{"name": s["label"], "ra": s["ra"], "dec": s["dec"], "mag": (s["bands"].get("V") or (None,))[0]}
+                 for s in seq["stars"]]  # fmt: skip
+    else:
+        stars = overlays.query_catalogue(
+            centre.ra.deg, centre.dec.deg, radius, params["catalogue"], params["mag_limit"]
+        )
     return {"stars": overlays.to_pixels(wcs, data.shape, stars)}
 
 

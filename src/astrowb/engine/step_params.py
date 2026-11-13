@@ -156,7 +156,9 @@ describe(
         "text",
         "gaia",
         label=QT_TRANSLATE_NOOP("Steps", "Catalogue"),
-        help=QT_TRANSLATE_NOOP("Steps", "The stars shown over the image"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)"
+        ),
     ),
     P(
         "mag_limit",
