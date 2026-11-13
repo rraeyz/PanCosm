@@ -9,14 +9,18 @@ def write(path, data, target, comps, r_ap, scale_arcsec=None, extras=()):
     import matplotlib
 
     matplotlib.use("Agg", force=False)
-    from astropy.visualization import ImageNormalize, ZScaleInterval
+    from astropy.visualization import ZScaleInterval
+    from matplotlib.colors import Normalize
     from matplotlib.figure import Figure
     from matplotlib.patches import Circle
 
     data = np.asarray(data, float)
     fig = Figure(figsize=(7, 7 * data.shape[0] / max(data.shape[1], 1)), layout="constrained")
     ax = fig.add_subplot()
-    ax.imshow(data, origin="lower", cmap="gray_r", norm=ImageNormalize(data, interval=ZScaleInterval()))
+    lo, hi = ZScaleInterval().get_limits(data)
+    if not lo < hi:  # a noiseless frame (zscale's line fit gave them crossed on Windows): the whole range
+        lo, hi = float(np.nanmin(data)), float(np.nanmax(data)) + 1e-9
+    ax.imshow(data, origin="lower", cmap="gray_r", norm=Normalize(lo, hi, clip=True))
     rings = [(target, "T1", "tab:green"), *((c, f"C{i + 2}", "tab:red") for i, c in enumerate(comps))]
     rings += [(xy, f"X{i + 1}", "tab:blue") for i, (xy, _role) in enumerate(extras)]
     for (x, y), label, colour in rings:
