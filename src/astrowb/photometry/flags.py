@@ -31,7 +31,7 @@ def _spike(a, inside, sigma):
 
 def aperture_flags(data, xy, r_ap):
     """One string per star: the letters of what spoils its aperture ("" when clean)."""
-    data = np.asarray(data, float)
+    data = np.asarray(data)  # the stamps are made float, not the frame: copying a 4k frame was 90 % of the time
     ny, nx = data.shape
     m = int(np.ceil(r_ap)) + 2
     out = []
@@ -46,7 +46,7 @@ def aperture_flags(data, xy, r_ap):
         if y1 <= y0 or x1 <= x0:  # off this frame (or the part of it that was read)
             out.append(flags or "E")
             continue
-        stamp = data[y0:y1, x0:x1]
+        stamp = np.asarray(data[y0:y1, x0:x1], float)
         if stamp.size >= 49 and np.isfinite(stamp).all():
             yy, xx = np.mgrid[y0:y1, x0:x1]
             inside = (xx - x) ** 2 + (yy - y) ** 2 <= r_ap * r_ap
