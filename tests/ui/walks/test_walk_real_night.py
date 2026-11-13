@@ -231,3 +231,35 @@ def test_plan_the_qatar1_night_and_meet_the_measured_transit(walk):
     mids = [e["mid"] for e in page.result["targets"][0]["events"]]
     assert mids and min(abs(m - 2461347.61121) for m in mids) < 12 / 1440, mids
     h.check()
+
+
+@pytest.mark.skipif(not AIDRA.is_file(), reason="python tools/fetch_data.py photometry/ai-dra-tess")
+def test_ai_dra_modelled_in_the_models_window(walk, tmp_path):
+    """AI Dra's TESS light curve fitted in the Models window as a user does it: the file chosen, VSX's period and the
+    deepest minimum typed in, a starting inclination, Fit. AI Dra is semi-detached (its secondary fills its Roche
+    lobe): the window must fit the eclipses and warn that the spheres model does not hold, pointing to PHOEBE / WD."""
+    import numpy as np
+
+    from astrowb.io.bayer import fits_paths
+    from astrowb.photometry.lightcurve import light_curve
+
+    lc = light_curve(fits_paths([AIDRA]), (10, 10), [], 2.5, 6, 9)
+    t, f = np.asarray(lc["time"]), np.asarray(lc["target_flux"])
+    ok = np.isfinite(t) & np.isfinite(f)
+    t, f = t[ok], f[ok] / np.nanmedian(f[ok])
+    path = tmp_path / "ai_dra.csv"
+    path.write_text("BJD_TDB,rel_flux,rel_flux_err\n" + "\n".join(f"{a},{b},0.002" for a, b in zip(t, f, strict=True)))
+    h = walk("en")
+    h.area("orbits")
+    page = h.page
+    h.answer(path)
+    h.click("file.browse_button")
+    h.cell("table", 0, 1, "1.19881")
+    h.cell("table", 1, 1, f"{t[np.argmin(f)]:.5f}")
+    h.cell("table", 4, 1, "84")
+    h.click("fit_button", budget=60.0)
+    h.wait(lambda: page.result is not None, 120.0)
+    h.check()
+    res = page.result
+    assert abs(res["params"]["t0"] - t[np.argmin(f)]) < 0.01 and res["rms"] < 0.02
+    assert res["roche"]["level"] == "contact" and "Roche lobe" in page.status.text()
