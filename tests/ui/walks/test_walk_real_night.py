@@ -143,3 +143,30 @@ def test_eros_positions_match_jpl(tmp_path):
         ra, dec = (float(v) for v in row.split()[-2:])
         sep = np.hypot((p["ra"] - ra) * np.cos(np.radians(dec)), p["dec"] - dec) * 3600
         assert sep < 1.5, (p["time"], sep)  # astrometric RA / Dec within 1.5″ (pixels of 0.57″, a fast NEO)
+
+
+FLOYDS = DATA_ROOT / "spectroscopy" / "floyds-lco"
+
+
+@pytest.mark.skipif(
+    not list(FLOYDS.glob("*0003-a00.fits.fz")), reason="python tools/fetch_data.py spectroscopy/floyds-lco"
+)
+def test_floyds_spectrum_extracted_in_the_window(walk):
+    """LCO FLOYDS (2 m, cross-dispersed, curved orders), BD+28 4211: the frame and its HgAr arc typed into
+    Spectroscopy and extracted; the trace follows the curved order on the frame, the star's S/N is that of a 300 s
+    spectrum of a V 10.5 star on a 2 m telescope, and the arc's lines are found for the wavelength step."""
+    import numpy as np
+
+    h = walk("en")
+    h.area("spectroscopy")
+    tab = h.page.reduce_tab
+    h.type("reduce_tab.science.edit", str(next(FLOYDS.glob("*0001-e00.fits.fz"))))
+    h.type("reduce_tab.arc.edit", str(next(FLOYDS.glob("*0003-a00.fits.fz"))))
+    h.click("reduce_tab.extract_button", budget=30.0)
+    h.wait(lambda: tab.result is not None)
+    flux, err = np.asarray(tab.result["flux"], float), np.asarray(tab.result["error"], float)
+    rows = np.polyval(np.asarray(tab.result["trace"], float), np.arange(flux.size))  # the trace's polynomial
+    assert flux.size == 2048 and np.nanmedian(flux / err) > 50
+    assert np.mean((rows > 2) & (rows < 510)) > 0.8  # the curved order stays on the 512-row frame
+    assert len(tab.result["arc_peaks"]) >= 15
+    h.check()
