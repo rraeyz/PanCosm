@@ -13,8 +13,9 @@ from ..measurements import measurements
 from ..starlist import save_star_list
 
 
-def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None):
-    """stars: {"target", "comps", "extras", "radii", "wcs"} (starlist.save_star_list); fit: the transit fit's dict."""
+def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aavso=None):
+    """stars: {"target", "comps", "extras", "radii", "wcs"} (starlist.save_star_list); fit: the transit fit's dict;
+    aavso: the AAVSO exoplanet header values (OBSCODE, STAR_NAME, FILTER, …): the file is written when they suffice."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     out = [lcfile.write(lc, folder / "light_curve.lc.ecsv", provenance)]
@@ -40,6 +41,20 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None):
         out.append(exoclock.write(lc, folder / "ExoClock.txt", fit))
         (folder / "ExoClock_form.txt").write_text(exoclock.form(lc, fit) + "\n", encoding="utf-8")
         out.append(folder / "ExoClock_form.txt")
+    if lc.get("time_scale") == "BJD_TDB" and aavso:  # the AAVSO Exoplanet Database file, normalised flux
+        from . import aavso_exoplanet
+
+        f, e = np.asarray(lc["rel_flux"], float), np.asarray(lc["rel_flux_err"], float)
+        m = np.nanmedian(f)
+        from ... import __version__
+        from ...brand import BRAND
+
+        header = {"SOFTWARE": f"{BRAND.display_name} {__version__}", "OBSTYPE": "CCD", "MEASUREMENT_TYPE": "Rnflux"}
+        header |= aavso
+        try:
+            out.append(aavso_exoplanet.write(folder / "AAVSO_exoplanet.txt", lc["time"], f / m, e / m, header))
+        except ValueError:  # a required value is missing (observer code, star, filter): the other files still go
+            pass
     from .methods import methods
     from .summary import summary_page
 

@@ -533,7 +533,7 @@ times of minimum do.
 line) and `validate` re-reading a file against those rules (tested on broken files too). The MEASUREMENT_TYPE codes
 follow EXOTIC's output until the users guide is read in a browser. Done: Save all (`reports/save_all.py`, File →
 Export → "Save all into a folder…": light curve ECSV, measurements CSV, star list, transit fit JSON, plot PNG and
-PDF; also the one-page observation summary, summary.pdf: the night's numbers, the curve with the fit, the
+PDF; the AAVSO exoplanet file when the observer code, the star and the band are known; also the one-page observation summary, summary.pdf: the night's numbers, the curve with the fit, the
 comparison stars' counts and scatter — PHO-27 item 4). Done: ExoClock (`reports/exoclock.py`: BJD_TDB, flux divided by the fit's baseline × trend, error; `validate`;
 `form` with the values to paste; written by Save all when the times are BJD_TDB; test: out of transit flat at 1
 within 5e-4 after the airmass trend). Left: TFOP package, the observation summary, the session in Save all, the Report stage's cards, moving the existing ETD / AAVSO Extended writers in.

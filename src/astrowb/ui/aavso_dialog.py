@@ -52,19 +52,7 @@ class AavsoDialog(QDialog):
         form.addRow(buttons)
 
     def band_of(self, images):
-        """The AAVSO band of the first image's FILTER (ARC-16: the profile's table, then the usual names); None
-        when it cannot be told."""
-        if not images:
-            return None
-        from astropy.io import fits
-
-        from ..io.fits import readable
-
-        try:
-            name = fits.getheader(readable(images[0])).get("FILTER")
-        except (OSError, ValueError):
-            return None
-        return profiles.aavso_band(self.settings, name)
+        return band_of(self.settings, images)
 
     def accept(self):
         profiles.update(self.settings, "observer", aavso_code=self.obscode.text().strip().upper())
@@ -80,3 +68,19 @@ class AavsoDialog(QDialog):
             "chart": self.chart.text().strip() or "na",
             "notes": self.notes.text().strip().replace(",", ";") or "na",
         }
+
+
+def band_of(settings, images):
+    """The AAVSO band of the first image's FILTER (ARC-16: the profile's table, then the usual names); None
+    when it cannot be told."""
+    if not images:
+        return None
+    from astropy.io import fits
+
+    from ..io.fits import readable
+
+    try:
+        name = fits.getheader(readable(images[0])).get("FILTER")
+    except (OSError, ValueError):
+        return None
+    return profiles.aavso_band(settings, name)
