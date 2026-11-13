@@ -30,9 +30,9 @@ from .messages import translate
 from .spectro_page import _FileRow
 from .undo import Undoable, track_typing
 
-START = {
-    "period": 1.0,
-    "t0": 0.0,
+START = {  # the period and T0 have no default: a fit from P = 1 d and T0 = 0 was useless (user-feedback UF-20)
+    "period": None,
+    "t0": None,
     "r_sum": 0.2,
     "k": 0.8,
     "incl": 88.0,
@@ -45,6 +45,7 @@ START = {
 
 class ModelsPage(Undoable, QWidget):
     fit_requested = Signal(dict, dict)
+    ephemeris_source = None  # () -> (period, T0, where from) or None; set by the main window
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -108,7 +109,7 @@ class ModelsPage(Undoable, QWidget):
             item = QTableWidgetItem(labels[name])
             item.setFlags(item.flags() & ~Qt.ItemIsEditable)
             self.table.setItem(r, 0, item)
-            self.table.setItem(r, 1, QTableWidgetItem(f"{START[name]:g}"))
+            self.table.setItem(r, 1, QTableWidgetItem("" if START[name] is None else f"{START[name]:g}"))
             box = QCheckBox(self.table)
             box.setChecked(name in DEFAULT_FREE)
             box.setToolTip(self.tr("Ticked: fitted; empty: kept at the value in the table"))
@@ -252,6 +253,18 @@ class ModelsPage(Undoable, QWidget):
     def _start(self):
         out = {}
         for r, name in enumerate(NAMES):
+            if name in ("period", "t0") and not self.table.item(r, 1).text().strip():
+                known = self.ephemeris_source() if self.ephemeris_source else None
+                if known is None:
+                    raise ValueError(
+                        self.tr(
+                            "Give the period and the time of primary minimum: type them, or find the period in "
+                            "Light curves (Period search) or the minima in O−C first."
+                        )
+                    )
+                self.table.item(0, 1).setText(repr(known[0]))
+                self.table.item(1, 1).setText(repr(known[1]))
+                self.status.setText(self.tr("Period and T0 from {source}.").format(source=known[2]))
             try:
                 out[name] = float(self.table.item(r, 1).text())
             except (AttributeError, ValueError):

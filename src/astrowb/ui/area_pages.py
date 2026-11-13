@@ -121,10 +121,34 @@ def make_spectro_page(main):
     return page
 
 
+def _known_ephemeris(main):
+    """(period, T0, where from) the program already knows: the O−C window's ephemeris, else Light curves' period
+    search (T0 its deepest point), else the Photometry window's Timing fields; None when none is there."""
+
+    def number(edit):
+        try:
+            return float(edit.text().replace(",", "."))
+        except (ValueError, AttributeError):
+            return None
+
+    oc = main.__dict__.get("oc_page")
+    if oc is not None and number(oc.period) and number(oc.t0):
+        return number(oc.period), number(oc.t0), "O−C"
+    lc = main.__dict__.get("lightcurve_page")  # the period search lives there (main.period_page reads it)
+    pp = lc.period_page if lc is not None else None
+    if pp is not None and pp.best and pp.time:
+        return float(pp.best), float(pp._t0()), "Light curves"
+    ph = main.__dict__.get("photometry_page")
+    if ph is not None and number(ph.period) and number(ph.t0):
+        return number(ph.period), number(ph.t0), "Photometry"
+    return None
+
+
 def make_models_page(main):
     from .models_page import ModelsPage  # imported with its page: start-up stays fast
 
     page = ModelsPage(main)
+    page.ephemeris_source = lambda: _known_ephemeris(main)  # user-feedback UF-20: never a fit from P = 1 d, T0 = 0
     page.fit_requested.connect(
         lambda inputs, params: main.run_step_for(
             "orbits",

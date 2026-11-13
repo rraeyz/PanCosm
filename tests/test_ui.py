@@ -2445,3 +2445,21 @@ def test_the_guide_leads_back_to_the_start_page(window):
     assert window.current_workspace() == "guide"
     window.guide_page.home_button.click()
     assert window.current_workspace() == "start"
+
+
+def test_models_never_fit_from_an_invented_period(window, tmp_path):
+    """User feedback UF-20: the fit started from P = 1 d, T0 = 0 and drew nonsense. Now the period and T0 are empty;
+    with none known the fit is refused with what to do; with Light curves' period search done it takes that."""
+    page = window.models_page
+    path = tmp_path / "lc.csv"
+    path.write_text("time,rel_flux\n" + "\n".join(f"{2459000 + i / 100},{1 - 0.3 * (i % 10 == 0)}" for i in range(200)))
+    page.file.edit.setText(str(path))
+    assert page.table.item(0, 1).text() == "" and page.table.item(1, 1).text() == ""
+    asked = []
+    page.fit_requested.connect(lambda inputs, params: asked.append(inputs))
+    page.fit_button.click()
+    assert not asked and "Give the period" in page.status.text()
+    pp = window.period_page
+    pp.time, pp.flux, pp.best, pp.magnitudes = [2459000.0, 2459000.05, 2459000.1], [1.0, 0.7, 1.0], 0.1, False
+    page.fit_button.click()
+    assert asked and asked[0]["start"]["period"] == 0.1 and asked[0]["start"]["t0"] == 2459000.05

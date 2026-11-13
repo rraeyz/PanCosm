@@ -430,47 +430,47 @@
 <context>
     <name>Anatomy</name>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="60"/>
+        <location filename="../../ui/kit/anatomy.py" line="62"/>
         <source>Stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="61"/>
+        <location filename="../../ui/kit/anatomy.py" line="63"/>
         <source>Show or hide the stage panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="67"/>
+        <location filename="../../ui/kit/anatomy.py" line="69"/>
         <source>Run the stage&apos;s main action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="88"/>
+        <location filename="../../ui/kit/anatomy.py" line="90"/>
         <source>This stage has no main action to run now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="99"/>
+        <location filename="../../ui/kit/anatomy.py" line="101"/>
         <source>Inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="100"/>
+        <location filename="../../ui/kit/anatomy.py" line="102"/>
         <source>Show or hide the inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="109"/>
+        <location filename="../../ui/kit/anatomy.py" line="111"/>
         <source>Show or hide the results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="110"/>
+        <location filename="../../ui/kit/anatomy.py" line="112"/>
         <source>Next result tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="120"/>
+        <location filename="../../ui/kit/anatomy.py" line="122"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4997,7 +4997,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Haga clic en el objetivo en la primera imagen en el tiempo, mostrada en la ventana Fotometría.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_pages.py" line="233"/>
+        <location filename="../../ui/area_pages.py" line="257"/>
         <source>Cannot fit: {error}</source>
         <translation>No se puede ajustar: {error}</translation>
     </message>
@@ -7636,393 +7636,403 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>ModelsPage</name>
     <message>
-        <location filename="../../ui/models_page.py" line="89"/>
+        <location filename="../../ui/models_page.py" line="90"/>
         <source>Light curve</source>
         <translation>Curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="93"/>
+        <location filename="../../ui/models_page.py" line="94"/>
         <source>Period (d)</source>
         <translation>Período (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="94"/>
+        <location filename="../../ui/models_page.py" line="95"/>
         <source>Primary minimum (BJD)</source>
         <translation>Mínimo primario (BJD)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="95"/>
+        <location filename="../../ui/models_page.py" line="96"/>
         <source>r1 + r2 (fraction of a)</source>
         <translation>r1 + r2 (fracción de a)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="96"/>
+        <location filename="../../ui/models_page.py" line="97"/>
         <source>k = r2 / r1</source>
         <translation>k = r2 / r1</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="97"/>
+        <location filename="../../ui/models_page.py" line="98"/>
         <source>Inclination (°)</source>
         <translation>Inclinación (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="98"/>
+        <location filename="../../ui/models_page.py" line="99"/>
         <source>Surface brightness ratio J</source>
         <translation>Cociente de brillo superficial J</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="101"/>
+        <location filename="../../ui/models_page.py" line="102"/>
         <source>Third light</source>
         <translation>Tercera luz</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="104"/>
+        <location filename="../../ui/models_page.py" line="105"/>
         <source>Parameter</source>
         <translation>Parámetro</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="104"/>
+        <location filename="../../ui/models_page.py" line="105"/>
         <source>Start / result</source>
         <translation>Inicio / resultado</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="104"/>
-        <location filename="../../ui/models_page.py" line="169"/>
+        <location filename="../../ui/models_page.py" line="105"/>
+        <location filename="../../ui/models_page.py" line="170"/>
         <source>Fit</source>
         <translation>Ajustar</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="114"/>
+        <location filename="../../ui/models_page.py" line="115"/>
         <source>Ticked: fitted; empty: kept at the value in the table</source>
         <translation>Marcado: se ajusta; vacío: se mantiene en el valor de la tabla</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="120"/>
+        <location filename="../../ui/models_page.py" line="121"/>
         <source>Star 1</source>
         <translation>Estrella 1</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="120"/>
+        <location filename="../../ui/models_page.py" line="121"/>
         <source>Star 2</source>
         <translation>Estrella 2</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="121"/>
+        <location filename="../../ui/models_page.py" line="122"/>
         <source>{star} limb darkening u1, u2</source>
         <translation>{star} oscurecimiento al limbo u1, u2</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="129"/>
+        <location filename="../../ui/models_page.py" line="130"/>
         <source>limb darkening</source>
         <translation>oscurecimiento al limbo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="132"/>
+        <location filename="../../ui/models_page.py" line="133"/>
         <source>Quadratic limb darkening, e.g. from Claret&apos;s tables for the star&apos;s temperature and the filter</source>
         <translation>Oscurecimiento al limbo cuadrático, p. ej. de las tablas de Claret para la temperatura de la estrella y el filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="231"/>
+        <location filename="../../ui/models_page.py" line="232"/>
         <source>Exposure time</source>
         <translation type="unfinished">Tiempo de exposición</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="235"/>
+        <location filename="../../ui/models_page.py" line="236"/>
         <source> s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="236"/>
+        <location filename="../../ui/models_page.py" line="237"/>
         <source>short (none)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="239"/>
+        <location filename="../../ui/models_page.py" line="240"/>
         <source>Long exposures smear the eclipses: the model is averaged over each one (TESS full frames 1800 s or 600 s, Kepler long cadence 1765 s). Leave at none for exposures of a few minutes or less.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="139"/>
+        <location filename="../../ui/models_page.py" line="140"/>
         <source>type a value</source>
         <translation>escribir un valor</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="141"/>
+        <location filename="../../ui/models_page.py" line="142"/>
         <source>free or fixed</source>
         <translation>libre o fijo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="142"/>
+        <location filename="../../ui/models_page.py" line="143"/>
         <source>Absolute dimensions with the double-lined orbit from Spectroscopy</source>
         <translation>Dimensiones absolutas con la órbita de doble línea de Espectroscopía</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="152"/>
+        <location filename="../../ui/models_page.py" line="153"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>Incertidumbres MCMC (más lento, para parámetros correlacionados)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="155"/>
+        <location filename="../../ui/models_page.py" line="156"/>
         <source>After the fit, a Markov chain explores the parameters: honest errors when they depend on each other (e.g. radii and inclination in partial eclipses). Slower.</source>
         <translation>Tras el ajuste, una cadena de Markov explora los parámetros: errores honestos cuando dependen unos de otros (p. ej. radios e inclinación en eclipses parciales). Más lento.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="163"/>
+        <location filename="../../ui/models_page.py" line="164"/>
         <source> steps</source>
         <translation> pasos</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="173"/>
+        <location filename="../../ui/models_page.py" line="174"/>
         <source>Fits two limb-darkened spheres on a Keplerian orbit (as EBOP / JKTEBOP) to the light curve; the ticked parameters are free, the others fixed at their values</source>
         <translation>Ajusta a la curva de luz dos esferas con oscurecimiento al limbo en una órbita kepleriana (como EBOP / JKTEBOP); los parámetros marcados son libres, los demás fijos en su valor</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="177"/>
+        <location filename="../../ui/models_page.py" line="178"/>
         <source>Fit and export for PHOEBE…</source>
         <translation>Ajustar y exportar para PHOEBE…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="181"/>
+        <location filename="../../ui/models_page.py" line="182"/>
         <source>Fits, then writes the light curve and the fitted values as starting values for a full model in PHOEBE</source>
         <translation>Ajusta y luego escribe la curva de luz y los valores ajustados como valores iniciales para un modelo completo en PHOEBE</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="184"/>
+        <location filename="../../ui/models_page.py" line="185"/>
         <source>Fit and export for WD…</source>
         <translation>Ajustar y exportar para WD…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="185"/>
+        <location filename="../../ui/models_page.py" line="186"/>
         <source>Observations in WD&apos;s columns and the starting values under WD&apos;s names</source>
         <translation>Observaciones en las columnas de WD y valores iniciales con los nombres de WD</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="187"/>
+        <location filename="../../ui/models_page.py" line="188"/>
         <source>Fit and export for ExoClock / ETD…</source>
         <translation>Ajustar y exportar para ExoClock / ETD…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="189"/>
+        <location filename="../../ui/models_page.py" line="190"/>
         <source>Upload files for the ExoClock and Exoplanet Transit Database projects, and the transit&apos;s mid-time</source>
         <translation>Archivos para ExoClock y la Exoplanet Transit Database, y el tiempo central del tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="192"/>
+        <location filename="../../ui/models_page.py" line="193"/>
         <source>Compare with a model curve…</source>
         <translation>Comparar con una curva modelo…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="193"/>
+        <location filename="../../ui/models_page.py" line="194"/>
         <source>Two columns: phase (or time) and flux, e.g. computed in PHOEBE</source>
         <translation>Dos columnas: fase (o tiempo) y flujo, p. ej. calculado en PHOEBE</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="195"/>
+        <location filename="../../ui/models_page.py" line="196"/>
         <source>Posterior…</source>
         <translation>Posterior…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="199"/>
+        <location filename="../../ui/models_page.py" line="200"/>
         <source>The MCMC samples: each parameter&apos;s distribution and how the parameters depend on each other (corner plot)</source>
         <translation>Las muestras MCMC: la distribución de cada parámetro y cómo dependen unos de otros (gráfico de esquinas)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="224"/>
+        <location filename="../../ui/models_page.py" line="225"/>
         <source>Eclipsing binary / transit</source>
         <translation>Binaria eclipsante / tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="226"/>
+        <location filename="../../ui/models_page.py" line="227"/>
         <source>Visual binary orbit</source>
         <translation>Órbita de binaria visual</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="259"/>
+        <location filename="../../ui/models_page.py" line="272"/>
         <source>Value of {p} not understood.</source>
         <translation>Valor de {p} no entendido.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="265"/>
+        <location filename="../../ui/models_page.py" line="278"/>
         <source>Choose a light-curve file.</source>
         <translation>Elija un archivo de curva de luz.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="288"/>
+        <location filename="../../ui/models_page.py" line="301"/>
         <source>Fitting…</source>
         <translation>Ajustando…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="294"/>
+        <location filename="../../ui/models_page.py" line="307"/>
         <source>Folder for the transit report</source>
         <translation>Carpeta para el informe del tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="295"/>
+        <location filename="../../ui/models_page.py" line="308"/>
         <source>Folder for the PHOEBE files</source>
         <translation>Carpeta para los archivos de PHOEBE</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="293"/>
+        <location filename="../../ui/models_page.py" line="306"/>
         <source>Folder for the WD files</source>
         <translation>Carpeta para los archivos de WD</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="62"/>
+        <location filename="../../ui/models_page.py" line="63"/>
         <source>A light curve: measured here (Photometry) or downloaded (Light curves)</source>
         <translation>Una curva de luz: medida aquí (Fotometría) o descargada (Curvas de luz)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="64"/>
+        <location filename="../../ui/models_page.py" line="65"/>
         <source>Choose the light curve (CSV from the Photometry or Light curves window: Export CSV / Save light curve).</source>
         <translation>Elija la curva de luz (CSV de la ventana Fotometría o Curvas de luz: Exportar CSV… / Guardar curva de luz (CSV)…).</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="69"/>
+        <location filename="../../ui/models_page.py" line="70"/>
         <source>Starting values: period and time of minimum (the ephemeris)</source>
         <translation>Valores iniciales: período y tiempo de mínimo (la efeméride)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="71"/>
+        <location filename="../../ui/models_page.py" line="72"/>
         <source>Type the period and the time of a primary minimum (from the O−C window or the literature).</source>
         <translation>Escriba el período y el tiempo de un mínimo primario (de la ventana O−C o de la literatura).</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="75"/>
+        <location filename="../../ui/models_page.py" line="76"/>
         <source>Fit, and look at the residuals and the warnings</source>
         <translation>Ajuste y mire los residuos y los avisos</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="77"/>
+        <location filename="../../ui/models_page.py" line="78"/>
         <source>Press Fit. Look at the residuals under the curve and read the warnings: a star that fills its Roche lobe (W UMa type) needs PHOEBE or Wilson–Devinney (the export buttons).</source>
         <translation>Pulse Ajustar. Mire los residuos bajo la curva y lea los avisos: una estrella que llena su lóbulo de Roche (tipo W UMa) necesita PHOEBE o Wilson–Devinney (los botones de exportación).</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="82"/>
+        <location filename="../../ui/models_page.py" line="83"/>
         <source>Errors and the table for the paper</source>
         <translation>Errores y la tabla para el artículo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="83"/>
+        <location filename="../../ui/models_page.py" line="84"/>
         <source>Posterior… shows the MCMC errors; Export results (CSV / LaTeX) writes the table.</source>
         <translation>Posterior… muestra los errores MCMC; Exportar resultados (CSV / LaTeX)… escribe la tabla.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="146"/>
+        <location filename="../../ui/models_page.py" line="147"/>
         <source>With the velocities&apos; K1, K2 and the light curve&apos;s radii and inclination: masses and radii of both stars in solar units (needs a double-lined orbit fitted in the Spectroscopy window)</source>
         <translation>Con K1, K2 de las velocidades y los radios y la inclinación de la curva de luz: masas y radios de ambas estrellas en unidades solares (necesita una órbita de doble línea ajustada en la ventana Espectroscopía)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="164"/>
+        <location filename="../../ui/models_page.py" line="165"/>
         <source>The most steps of the Markov chains; they stop earlier once converged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="215"/>
+        <location filename="../../ui/models_page.py" line="216"/>
         <source>Two spheres on a Keplerian orbit: detached binaries and transits. Contact binaries: PHOEBE or WD.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="273"/>
+        <location filename="../../ui/models_page.py" line="261"/>
+        <source>Give the period and the time of primary minimum: type them, or find the period in Light curves (Period search) or the minima in O−C first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="267"/>
+        <source>Period and T0 from {source}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="286"/>
         <source>Give the period and the time of primary minimum (O-C tab).</source>
         <translation>Indique el período y el instante del mínimo primario (pestaña O-C).</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="316"/>
+        <location filename="../../ui/models_page.py" line="329"/>
         <source>Model curve</source>
         <translation>Curva del modelo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="354"/>
+        <location filename="../../ui/models_page.py" line="367"/>
         <source>fitted values</source>
         <translation>valores ajustados</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="357"/>
+        <location filename="../../ui/models_page.py" line="370"/>
         <source>i = {i:.3f} ± {ie:.3f}°, r1 = {r1:.5f} ± {r1e:.5f}, r2 = {r2:.5f} ± {r2e:.5f}, L2/L1 = {lr:.4f} ± {lre:.4f}, e = {ecc:.4f} ± {ee:.4f}, rms = {rms:.5f}, χ²ᵣ = {chi:.2f} ({n} points)</source>
         <translation>i = {i:.3f} ± {ie:.3f}°, r1 = {r1:.5f} ± {r1e:.5f}, r2 = {r2:.5f} ± {r2e:.5f}, L2/L1 = {lr:.4f} ± {lre:.4f}, e = {ecc:.4f} ± {ee:.4f}, rms = {rms:.5f}, χ²ᵣ = {chi:.2f} ({n} puntos)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="377"/>
+        <location filename="../../ui/models_page.py" line="390"/>
         <source>⚠ A star fills {f:.0f} % of its Roche lobe (lobe radius {l1:.3f} and {l2:.3f} for q = {q:.2f}): a semi-detached or contact (W UMa-type) binary. This model treats the stars as spheres and does not hold for it: the radii and the inclination are not reliable. Export the PHOEBE or Wilson–Devinney files and fit a Roche model there. Times of minimum and O−C are not affected.</source>
         <translation>⚠ Una estrella llena el {f:.0f} % de su lóbulo de Roche (radio del lóbulo {l1:.3f} y {l2:.3f} para q = {q:.2f}): una binaria semiseparada o de contacto (tipo W UMa). Este modelo trata las estrellas como esferas y no vale para ella: los radios y la inclinación no son fiables. Exporte los ficheros de PHOEBE o Wilson–Devinney y ajuste allí un modelo de Roche. Los tiempos de mínimo y el O−C no se ven afectados.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="384"/>
+        <location filename="../../ui/models_page.py" line="397"/>
         <source>Note: a radius above 0.25 of the separation: the stars are tidally flattened by a few per cent and the spheres model is only approximate (its errors are too small). Check the result with PHOEBE.</source>
         <translation>Nota: un radio mayor que 0,25 de la separación: las estrellas están achatadas por las mareas unos pocos por ciento y el modelo de esferas es solo aproximado (sus errores son demasiado pequeños). Compruebe el resultado con PHOEBE.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="390"/>
+        <location filename="../../ui/models_page.py" line="403"/>
         <source>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</source>
         <translation>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="409"/>
+        <location filename="../../ui/models_page.py" line="422"/>
         <source>Transit: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (epoch {n}), depth {d:.5f}, T14 {h:.3f} h</source>
         <translation>Tránsito: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (época {n}), profundidad {d:.5f}, T14 {h:.3f} h</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="412"/>
+        <location filename="../../ui/models_page.py" line="425"/>
         <source>Files written: {f}</source>
         <translation>Archivos escritos: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="415"/>
+        <location filename="../../ui/models_page.py" line="428"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (aceptación {a:.2f}): </translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="427"/>
+        <location filename="../../ui/models_page.py" line="440"/>
         <source>Fit the light curve first.</source>
         <translation>Ajuste primero la curva de luz.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="458"/>
+        <location filename="../../ui/models_page.py" line="471"/>
         <source>medians and 68 % intervals of the MCMC posterior (the larger side)</source>
         <translation>medianas e intervalos del 68 % de la distribución posterior MCMC (el lado mayor)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="460"/>
+        <location filename="../../ui/models_page.py" line="473"/>
         <source>1σ errors from the covariance matrix, derived quantities from its draws</source>
         <translation>errores 1σ de la matriz de covarianza, magnitudes derivadas de muestras de ella</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="463"/>
+        <location filename="../../ui/models_page.py" line="476"/>
         <source>Light-curve fit to {n} points: two limb-darkened spheres on a Keplerian orbit (EBOP / JKTEBOP approximation), least squares; {errors}.</source>
         <translation>Ajuste de la curva de luz a {n} puntos: dos esferas con oscurecimiento al limbo en una órbita kepleriana (aproximación EBOP / JKTEBOP), mínimos cuadrados; {errors}.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="474"/>
+        <location filename="../../ui/models_page.py" line="487"/>
         <source>No posterior yet: tick MCMC uncertainties and press Fit.</source>
         <translation>Aún no hay distribución posterior: marque Incertidumbres MCMC y pulse Ajustar.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="479"/>
+        <location filename="../../ui/models_page.py" line="492"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="512"/>
+        <location filename="../../ui/models_page.py" line="525"/>
         <source>model</source>
         <translation>modelo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="514"/>
+        <location filename="../../ui/models_page.py" line="527"/>
         <source>external model</source>
         <translation>modelo externo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="516"/>
+        <location filename="../../ui/models_page.py" line="529"/>
         <source>Relative flux</source>
         <translation>Flujo relativo</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="519"/>
+        <location filename="../../ui/models_page.py" line="532"/>
         <source>Phase</source>
         <translation>Fase</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="520"/>
+        <location filename="../../ui/models_page.py" line="533"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
