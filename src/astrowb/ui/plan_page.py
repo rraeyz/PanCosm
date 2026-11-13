@@ -75,7 +75,8 @@ class PlanPage(Undoable, QWidget):
             self,
         )
         lay.addWidget(self.guide)
-
+        self._left, self.stage_boxes = lay, {}
+        lay = self._box("site")
         site = profiles.section(self.settings, "site")
         grid = QGridLayout()
         self.site_name = QLineEdit(site["name"], self)
@@ -117,10 +118,6 @@ class PlanPage(Undoable, QWidget):
                 "Targets below this altitude count as not observable (trees, buildings, thick air near the horizon)"
             )
         )
-        self.date.setToolTip(self.tr("The evening on which the night begins (local date)"))
-        self.height.setToolTip(self.tr("Height above sea level in metres"))
-        self.lon.setToolTip(self.tr("Longitude of the site in degrees, east positive (west of Greenwich is negative)"))
-        self.lat.setToolTip(self.tr("Latitude of the site in degrees, north positive"))
         grid.addWidget(self.min_alt, 5, 1)
         self.utc_offset = self._spin(self.settings.get("plan.utc_offset", AUTO), AUTO, 14, 1)
         self.utc_offset.setSingleStep(0.5)
@@ -137,6 +134,7 @@ class PlanPage(Undoable, QWidget):
         self._site_extras(grid)
         lay.addLayout(grid)
 
+        lay = self._box("targets")
         lay.addWidget(QLabel(self.tr("Targets: name (looked up in SIMBAD), coordinates, or a planet / the Moon"), self))
         row = QHBoxLayout()
         self.target_input = QLineEdit(self)
@@ -201,6 +199,7 @@ class PlanPage(Undoable, QWidget):
         for w in (remove, exposure, converter_button(self)):
             row.addWidget(w)
         lay.addLayout(row)
+        lay = self._box("night")
         self.plan_button = QPushButton(self.tr("Plan the night"), self)
         self.plan_button.clicked.connect(self._plan)
         self.plan_button.setToolTip(
@@ -210,6 +209,7 @@ class PlanPage(Undoable, QWidget):
             )
         )
         lay.addWidget(self.plan_button)
+        lay = self._box("schedule")
         row = QHBoxLayout()
         self.schedule_button = QPushButton(self.tr("Make a schedule"), self)
         self.schedule_button.setToolTip(
@@ -466,8 +466,21 @@ class PlanPage(Undoable, QWidget):
         self.status.setText(self.tr("{n} targets from the list {name}.").format(n=len(added), name=name))
         return added
 
+    def _box(self, key):
+        """A part of the left column (site, targets, night, schedule) that the Planning window shows as a stage
+        (UI-16.8); its layout is returned."""
+        box = self.stage_boxes[key] = QWidget(self)
+        lay = QVBoxLayout(box)
+        lay.setContentsMargins(0, 0, 0, 0)
+        self._left.addWidget(box, 1 if key == "targets" else 0)  # the target table takes the height
+        return lay
+
     def _site_extras(self, grid):
         """Below the site: the horizon profile button and the night's almanac line (UI-16.8 stage 1)."""
+        self.date.setToolTip(self.tr("The evening on which the night begins (local date)"))
+        self.height.setToolTip(self.tr("Height above sea level in metres"))
+        self.lon.setToolTip(self.tr("Longitude of the site in degrees, east positive (west of Greenwich is negative)"))
+        self.lat.setToolTip(self.tr("Latitude of the site in degrees, north positive"))
         grid.addWidget(self._horizon_button(), 7, 0, 1, 2)
         grid.addWidget(almanac_label(self), 8, 0, 1, 2)
 

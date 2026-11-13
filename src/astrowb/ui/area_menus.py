@@ -289,6 +289,9 @@ def plan(main, page, win):
             send: "send",
         }
     )
+    from .plan_window import plan_stages
+
+    plan_stages(win, page)  # UI-16.8: the left column as stages
 
 
 def observe(main, page, win):
