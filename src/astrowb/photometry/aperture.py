@@ -30,10 +30,11 @@ def bin_frame(a, binning):
     return sum(a[i::binning, j::binning] for i in range(binning) for j in range(binning)) / np.float32(binning**2)
 
 
-def sample(a, n=250_000):
-    """Every k-th pixel in both directions, about n of them: the sky level and noise of a frame from a quarter of a
-    million pixels are those of all of them (16 MP frames: 2.7 of 6.1 s of a light curve went to clipping 1 MP)."""
-    k = max(1, int(np.sqrt(a.size / n)))
+def sample(a, k_min, n=250_000):
+    """Every k-th pixel in both directions (k at least k_min, the stride used before), about n of them on large
+    frames: the sky level and noise of a frame from a quarter of a million pixels are those of all of them (16 MP
+    frames: 2.7 of 6.1 s of a light curve went to clipping 1 MP); small frames are sampled exactly as before."""
+    k = max(k_min, int(np.sqrt(a.size / n)))
     return a[::k, ::k]
 
 
@@ -51,7 +52,7 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
         if binning > 1:
             a = bin_frame(a, binning)
         a = despike(a)  # hot pixels are fixed on the chip and would pull the peak to zero shift
-        _, med, std = sigma_clipped_stats(sample(a))
+        _, med, std = sigma_clipped_stats(sample(a, 2))
         stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
         return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
@@ -229,7 +230,7 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
 
     def frame_sky():
         if not sky:
-            _, med, std = sigma_clipped_stats(sample(clean))
+            _, med, std = sigma_clipped_stats(sample(clean, 4))
             sky.extend([float(med), float(std)])
         return sky
 
