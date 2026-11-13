@@ -335,7 +335,41 @@ def star_rows(page, x, y):
         (translate("MainWindow", "Net counts"), f"{s['net_counts']:.0f} ± {s['net_counts_err']:.0f}", "ADU"),
         (translate("MainWindow", "Signal-to-noise"), round(s["snr"], 1)),
         ("FWHM", round(s["fwhm"], 2), "px"),
+        *_noise_rows(page, s),
     ]
+
+
+def _noise_rows(page, s):
+    """PHO-34: where the star's noise comes from (photon, sky, dark, read; errors.budget), with the camera of the
+    profile (gain 1 and no read noise when it is not filled in), per exposure."""
+    import numpy as np
+
+    from ..core import profiles
+    from ..photometry.errors import budget
+    from . import automatic
+
+    cam = profiles.section(automatic._settings(None), "camera")
+    gain = cam.get("gain") or 1.0
+    exptime = 0.0
+    try:
+        from ..calibration.masters import load
+        from ..hdr import get
+
+        exptime = float(get(load(page.images[page.shown])[1], "EXPTIME", "EXPOSURE", default=0.0) or 0.0)
+    except (OSError, ValueError, IndexError, TypeError, AttributeError):
+        pass
+    pixels = np.pi * page.r_ap.value() ** 2
+    if s["net_counts"] <= 0:
+        return []
+    dark = (cam.get("dark_current") or 0.0) * exptime
+    sky = max(s["background"], 0.0) * gain
+    parts, rel = budget(s["net_counts"] * gain, sky, dark, cam.get("read_noise") or 0.0, pixels, 0.0)
+    total = sum(parts.values())
+    names = {"photon": translate("MainWindow", "star"), "sky": translate("MainWindow", "sky"),
+             "dark": translate("MainWindow", "dark"), "read": translate("MainWindow", "read")}  # fmt: skip
+    shares = ", ".join(f"{names[k]} {100 * v / total:.0f} %" for k, v in parts.items() if k in names and v > 0)
+    return [(translate("MainWindow", "Noise from"), shares), (translate("MainWindow", "Predicted error"),
+             round(1000 * rel, 2), "ppt")]  # fmt: skip
 
 
 def _photometry_inspector(win, page):
