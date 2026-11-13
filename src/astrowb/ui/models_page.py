@@ -135,7 +135,7 @@ class ModelsPage(Undoable, QWidget):
                 grid.addWidget(s, r, c + 1)
                 pair.append(s)
             self.ld.append(pair)
-        lay.addLayout(grid)
+        self._add_exposure(lay, grid)
         track_typing(self, self.table, self.tr("type a value"))
         for box in self.checks.values():
             box.toggled.connect(lambda _on: self.record(self.tr("free or fixed"), self._typed_from))
@@ -226,6 +226,23 @@ class ModelsPage(Undoable, QWidget):
         self.tabs.addTab(self.visual_tab, self.tr("Visual binary orbit"))
         QVBoxLayout(self).addWidget(self.tabs)
 
+    def _add_exposure(self, lay, grid):
+        """The exposure time the model is averaged over (models.fit.model), under the limb darkening; then the grid."""
+        grid.addWidget(QLabel(self.tr("Exposure time"), self), 2, 0)
+        self.exposure = QDoubleSpinBox(self)
+        self.exposure.setRange(0, 7200)
+        self.exposure.setDecimals(1)
+        self.exposure.setSuffix(self.tr(" s"))
+        self.exposure.setSpecialValueText(self.tr("short (none)"))
+        self.exposure.setToolTip(
+            self.tr(
+                "Long exposures smear the eclipses: the model is averaged over each one (TESS full frames 1800 s "
+                "or 600 s, Kepler long cadence 1765 s). Leave at none for exposures of a few minutes or less."
+            )
+        )
+        grid.addWidget(self.exposure, 2, 1)
+        lay.addLayout(grid)
+
     def set_orbit(self, orbit):
         """The latest orbit fitted in the Spectroscopy window; only double-lined orbits give dimensions."""
         self.orbit = orbit if orbit and "k2" in orbit else None
@@ -266,6 +283,7 @@ class ModelsPage(Undoable, QWidget):
             "ld2": [s.value() for s in self.ld[1]],
             "mcmc_steps": self.mcmc_steps.value() if self.use_mcmc.isChecked() else 0,
             "export_format": getattr(self, "export_format", "phoebe"),
+            "exposure": self.exposure.value(),
         }
         self.status.setText(self.tr("Fitting…"))
         self.fit_requested.emit(inputs, params)

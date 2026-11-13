@@ -18,13 +18,15 @@ from . import data, fit
     ld2=(0.0, 0.0),
     mcmc_steps=0,
     export_format="phoebe",
+    exposure=0.0,
 )
 def eb_fit_step(inputs, params, ctx):
     """Fit the detached-binary / transit model to a light-curve file; absolute dimensions when a
     double-lined orbit is given; PHOEBE start files when export_dir is given."""
     t, flux, err, info = data.read_light_curve(inputs["light_curve"])
     ctx.progress(0.2, "fit")
-    r = fit.fit_light_curve(t, flux, err, inputs["start"], params["free"], params["ld1"], params["ld2"])
+    start = inputs["start"] | {"exposure": params["exposure"]}  # seconds; 0: the flux at each time
+    r = fit.fit_light_curve(t, flux, err, start, params["free"], params["ld1"], params["ld2"])
     p = r["params"]
     phase = ((t - p["t0"]) / p["period"] + 0.25) % 1 - 0.25
     grid = np.linspace(-0.25, 0.75, 1500)

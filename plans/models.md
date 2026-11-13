@@ -298,7 +298,10 @@ after the primary, exact through the eccentric anomaly), `cycle` / `phase` on T 
 `pseudo_synchronous` (Hut 1981 eq. 42), `integrate_exposure` (midpoint rule, n doubled until the answer is within
 the tolerance), `boosting` (Loeb & Gaudi 2003). Tests: e = 0.3, ω = 60°: the minima and periastron phases equal
 the conjunctions found by root-finding to 1e-9; the quadratic ephemeris round-trips to 1e-8 cycles; a 30-minute
-exposure of a short eclipse within 1e-6 of a 2001-point sum. Left: dω/dt, the instantaneous separation with volume
+exposure of a short eclipse within 1e-6 of a 2001-point sum. (2026-11-13) The spheres fit uses it: `fit.model`
+averages over `p["exposure"]` (seconds; Models window "Exposure time", step parameter `exposure`); a 30-min
+transit fitted without it biased r₁+r₂ several times more than with it (test_eb_model); AI Dra's TESS walk sets
+1800 s. Left: dω/dt, the instantaneous separation with volume
 conservation, asynchronous rotation in the Roche model, light time across the system and from a third body in
 the model, the PHOEBE comparison.
 - **Read first:** Wilson 1979; Wilson & Van Hamme 2014 (ephemeris with dP/dt and dω/dt; third-body light-time in

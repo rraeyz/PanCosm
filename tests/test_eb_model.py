@@ -274,3 +274,23 @@ def test_roche_check_flags_contact_and_distorted_binaries():
     assert fit.roche_check(0.27, 0.12)["level"] == "distorted"
     semi = fit.roche_check(0.22, 0.27, q=0.3)  # the light secondary fills its small lobe (0.281)
     assert semi["level"] == "contact" and semi["lobe2"] == pytest.approx(0.2810, abs=1e-3)
+
+
+def test_long_exposures_are_modelled_by_averaging_over_each():
+    """A transit recorded with 30-min exposures (TESS full frames): fitted without the exposure the inclination and
+    the radii are biased (the smeared ingress looks grazing); with it they come back (Kipping 2010)."""
+    from astrowb.models import fit
+    from astrowb.models.orbit_terms import integrate_exposure
+
+    truth = {"period": 2.15, "t0": 2459100.2, "r_sum": 0.165, "k": 0.1, "incl": 88.9, "j": 0.0, "ecosw": 0.0,
+             "esinw": 0.0, "l3": 0.0}  # fmt: skip
+    t = truth["t0"] + np.arange(-0.25, 0.25, 1800 / 86400) + 0.003
+    t = np.concatenate([t + k * (truth["period"] + 0.0071) for k in range(12)])  # cadences fall on every phase
+    smeared = integrate_exposure(lambda x: fit.model(x, truth, (0.4, 0.25)), t, 1800 / 86400, n=101)
+    assert np.allclose(fit.model(t, truth | {"exposure": 1800}, (0.4, 0.25)), smeared, atol=2e-5)
+    start = truth | {"r_sum": 0.15, "k": 0.11, "incl": 87.5}
+    free = {"r_sum", "k", "incl"}
+    plain = fit.fit_light_curve(t, smeared, None, start, free, (0.4, 0.25))
+    long = fit.fit_light_curve(t, smeared, None, start | {"exposure": 1800}, free, (0.4, 0.25))
+    assert abs(long["params"]["r_sum"] - 0.165) < 0.002 and abs(long["params"]["incl"] - 88.9) < 0.3
+    assert abs(plain["params"]["r_sum"] - 0.165) > 5 * abs(long["params"]["r_sum"] - 0.165)
