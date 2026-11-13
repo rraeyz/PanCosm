@@ -251,6 +251,15 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     page.period.setText("0.5")
     page.transit_button.click()
     qtbot.waitUntil(lambda: page.transit_result.text().startswith("Mid-transit"), timeout=60000)
+    assert page.transit_details.isEnabled()  # the parameter table and the model over the curve
+    from astrowb.ui.kit.table_view import DataTable
+    from astrowb.ui.photometry_transit import details_dialog
+
+    dlg = details_dialog(page, *page.transit_fit)
+    view = dlg.findChild(DataTable).table
+    names = [view.item(r, 0).text() for r in range(view.rowCount())]
+    assert {"tc", "k", "a_rs", "b", "depth_ppt", "t14_h", "chi2r", "beta"} <= set(names)
+    dlg.close()
     # File → Export → Light-curve file (PHO-48): the measured dict comes back whole
     from unittest.mock import patch
 

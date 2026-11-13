@@ -11838,32 +11838,92 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Geçiş ortası {tc} BJD; derinlik {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} sa, T23 {t23:.2f} sa; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. İndirgenmiş χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="39"/>
+        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <source>Transit fit</source>
+        <translation>Geçiş uydurması</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="46"/>
+        <source>fixed</source>
+        <translation>sabit</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <source>Parameter</source>
+        <translation>Parametre</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="49"/>
+        <source>Value</source>
+        <translation>Değer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="50"/>
+        <source>Error</source>
+        <translation>Hata</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>measured</source>
+        <translation>ölçülen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <source>model</source>
+        <translation>model</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <source>Relative flux</source>
+        <translation>Göreli akı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <source>O − C (ppt)</source>
+        <translation>O − C (ppt)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="63"/>
+        <source>Days from {t0:.5f}</source>
+        <translation>{t0:.5f} tarihinden gün</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <source>Close</source>
+        <translation>Kapat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
         <source>Exact transit model</source>
         <translation>Kesin geçiş modeli</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="41"/>
+        <location filename="../../ui/photometry_transit.py" line="76"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <location filename="../../ui/photometry_transit.py" line="78"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation>Hava kütlesinde eğilimli, kenar kararmalı geçiş ölçülen eğriye uydurulur; periyodu ister</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <location filename="../../ui/photometry_transit.py" line="86"/>
+        <source>Parameters and plot…</source>
+        <translation>Parametreler ve grafik…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="100"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <location filename="../../ui/photometry_transit.py" line="105"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="66"/>
+        <location filename="../../ui/photometry_transit.py" line="109"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>
