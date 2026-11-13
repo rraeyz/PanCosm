@@ -13,8 +13,9 @@ import numpy as np
 from .. import timing
 from ..calibration.frames import classify
 from ..calibration.masters import calibrate, load
+from ..calibration.stacking import follow_stars
 from ..hdr import get
-from .aperture import frame_shift, recenter
+from .aperture import frame_shift, recenter, snap_to_star
 from .lightcurve import _measure_frame, target_coord
 from .psf import neighbours_setup
 
@@ -50,7 +51,8 @@ def load_masters(paths):
 
 class LiveLightCurve:
     def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None, **method):
-        """method: psf, remove_neighbours, sky_method, centring — light_curve's own per-frame code (PHO-19)."""
+        """method: psf, remove_neighbours, sky_method, centring, track_stars — light_curve's own per-frame code
+        (PHO-19); track_stars: stars picked on the first frame that place every frame (stacking.follow_stars)."""
         self.xy = np.array([target_xy, *comps_xy], dtype=float)
         self.psf = bool(method.get("psf"))
         self.remove_neighbours = bool(method.get("remove_neighbours")) and not self.psf
@@ -59,6 +61,9 @@ class LiveLightCurve:
             "fixed": (),
             "centring": method.get("centring", "auto"),
         }
+        track = method.get("track_stars")
+        self.track = np.asarray([] if track is None else track, float).reshape(-1, 2)
+        self.place = (np.eye(2), np.zeros(2))
         self.r = (r_ap, r_in, r_out)
         self.coord, self.gain, self.box = coord, gain, box
         self.masters = masters or {}
@@ -96,9 +101,13 @@ class LiveLightCurve:
                 self.ref, self.ref_path = data, str(path)
                 if self.remove_neighbours:
                     self.opts["neighbours"] = neighbours_setup(data, self.xy, len(self.xy) - 1, self.r[2])
+                if len(self.track):
+                    self.track = snap_to_star(data, self.track, radius=5.0)
+            elif len(self.track):  # placed by the stars the user picked, from where the last frame had them
+                self.place = follow_stars(data, self.track, *self.place)
             else:  # against the first frame, as light_curve does: one bad frame does not carry on to the rest
                 shift = frame_shift(self.ref, data)
-            pred = self.xy + shift
+            pred = self.xy @ self.place[0].T + self.place[1] if len(self.track) else self.xy + shift
             xy, flux, err, *_, lost = _measure_frame(
                 data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.ref_path,
                 opts=self.opts,

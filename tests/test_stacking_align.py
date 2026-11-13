@@ -103,3 +103,9 @@ def test_photometry_follows_a_turning_field_on_picked_stars(tmp_path):
     lc = light_curve(paths, stars[0], stars[1:3], 5, 10, 14, track_stars=stars[2:5])
     assert len(lc["time"]) == 6 and not lc["lost"]
     assert np.allclose(lc["rel_flux"], 0.5, rtol=0.02)
+    from astrowb.photometry.live import LiveLightCurve  # the live light curve places the frames the same way
+
+    live = LiveLightCurve(stars[0], stars[1:3], 5, 10, 14, track_stars=stars[2:5])
+    for p in paths:
+        live.add(p)
+    assert live.light_curve()["rel_flux"] == pytest.approx(lc["rel_flux"], rel=1e-9)

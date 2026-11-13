@@ -853,7 +853,8 @@ within three screen pixels, then 2-D Gaussians) puts every click on its star in 
 mark move: all 142 frames, the transit on the ephemeris. The measurement itself keeps its half-box centring: snapping
 there moved a faint target 6 px onto its bright neighbour. Also (the owner's request): `light_curve(track_stars=…)`
 places every frame on stars the user picked (one: the shift, two or more: rotation too), for frames the automatic
-shift cannot place; the Measure options' "Place the frames on" with Pick stars….
+shift cannot place; the Measure options' "Place the frames on" with Pick stars…; the live light curve too (equal to
+the night run to 1e-9 on a field turning 4° a frame).
 **partial** — done (2026-11-13): `recenter(method=auto | moments | gauss | none)`; moments (pixels > 2σ above the
 box's median) and gauss iterate three times (IRAF's cmaxiter); the step's `centring`, the live path, and a Centring
 choice under the Measure options. Measured on 40 synthetic stars at S/N 50 (`tests/test_centring.py`): gauss bias
