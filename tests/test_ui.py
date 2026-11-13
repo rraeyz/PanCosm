@@ -575,7 +575,7 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     mcmc = {"params": {"incl": (86.0, 0.2, 0.2), "r_sum": (0.3, 0.01, 0.01)}, "names": ["incl", "r_sum"]}
     mcmc["params"]["t0"] = (2459500.251234, 3e-5, 3e-5)
     page.show_fit(page.result | {"mcmc": mcmc | {"samples": samples, "acceptance": 0.4}})
-    assert "MCMC (acceptance 0.40)" in page.status.text() and page.posterior_button.isVisibleTo(page)
+    assert "MCMC (acceptance 0.40)" in page.status.text() and not page.posterior_button.isHidden()
     assert "t0 = 2459500.251234" in page.status.text()
     rows, caption = page.fit_table()  # MCMC values where sampled, the covariance elsewhere, fixed ones marked
     names = {r[0]: r for r in rows}
@@ -2653,4 +2653,24 @@ def test_the_calibration_window_has_stages(window):
     assert not any(p.isAncestorOf(page.table) for p in win.stage_panels.values())  # the list stays the view
     page.guide.set_state(2, "done")
     assert win.rail.states["calibrate"] == "done" and page.guide.states[2] == "done"
+    win.close()
+
+
+def test_the_models_window_has_stages(window):
+    """UI-16.6: Data, Parameters, Fit as stages beside the light curve and its model; hidden on the visual-binary
+    tab, where they do not apply."""
+    win = window.open_area("orbits")
+    page = window.models_page
+    assert list(win.stage_panels) == ["data", "parameters", "fit"]
+    assert win.stage_panels["data"].isAncestorOf(page.file)
+    assert win.stage_panels["parameters"].isAncestorOf(page.table)
+    assert win.stage_panels["parameters"].isAncestorOf(page.use_orbit)
+    assert win.stage_panels["fit"].isAncestorOf(page.fit_button) and win.stage_panels["fit"].isAncestorOf(page.status)
+    assert not any(p.isAncestorOf(page.plot) for p in win.stage_panels.values())
+    page.guide.set_state(1, "done")
+    assert win.rail.states["parameters"] == "done"
+    page.tabs.setCurrentIndex(1)
+    assert not win.docks["stages"].isVisibleTo(win)
+    page.tabs.setCurrentIndex(0)
+    assert win.docks["stages"].isVisibleTo(win)
     win.close()

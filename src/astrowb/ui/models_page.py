@@ -10,7 +10,6 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QFileDialog,
     QGridLayout,
-    QHBoxLayout,
     QHeaderView,
     QLabel,
     QPushButton,
@@ -149,7 +148,6 @@ class ModelsPage(Undoable, QWidget):
             )
         )
         lay.addWidget(self.use_orbit)
-        row = QHBoxLayout()
         self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
         self.use_mcmc.setToolTip(
             self.tr(
@@ -163,10 +161,8 @@ class ModelsPage(Undoable, QWidget):
         self.mcmc_steps.setValue(2000)
         self.mcmc_steps.setSuffix(self.tr(" steps"))
         self.mcmc_steps.setToolTip(self.tr("The most steps of the Markov chains; they stop earlier once converged"))
-        row.addWidget(self.use_mcmc, 1)
-        row.addWidget(self.mcmc_steps)
-        lay.addLayout(row)
-        row = QHBoxLayout()
+        lay.addWidget(self.use_mcmc)  # the steps on a line of their own: the Fit stage beside the curve is narrow
+        lay.addWidget(self.mcmc_steps, 0, Qt.AlignLeft)
         self.fit_button = QPushButton(self.tr("Fit"), self)
         self.fit_button.clicked.connect(lambda: self._run(None))
         self.fit_button.setToolTip(

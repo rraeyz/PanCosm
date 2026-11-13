@@ -479,6 +479,9 @@ def orbits(main, page, win):
             export: "export",
         }
     )
+    from .stage_boxes import models_stages
+
+    models_stages(win, page)  # UI-16.6: the column of the eclipsing-binary tab as stages
 
 
 def spectroscopy(main, page, win):

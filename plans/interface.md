@@ -682,7 +682,8 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 - **Files:** `ui/lightcurves/` (see PER-W)
 
 #### UI-16.5 O−C
-**open** — 2026-11-14: "Minima table…" after a fit (`ui/oc_minima.py`: time, error, kind, source, epoch, O−C, residual; sortable, copyable; test_oc_models). The editable table replacing the text box is left.
+**partial** — the window has the stages Minima, Ephemeris, Model, Fit and report beside the O−C diagram
+(0.3.19, test_the_oc_window_has_stages). 2026-11-14: "Minima table…" after a fit (`ui/oc_minima.py`: time, error, kind, source, epoch, O−C, residual; sortable, copyable; test_oc_models). The editable table replacing the text box is left.
 ```
 1 Minima  ●     Times of minimum               ?       ┌ O−C diagram (epoch and year axes; symbols by ───┐
 2 Ephemeris     [Open…] [Paste] [From databases…]      │ kind: primary ●, secondary ○; by method: colour)│
@@ -695,7 +696,9 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 - **Files:** `ui/oc/` (see OC-W)
 
 #### UI-16.6 Models (binary stars)
-**open**
+**partial** (2026-11-20: the eclipsing-binary tab's column as the stages Data, Parameters, Fit beside the
+curve and its model, the buttons one per row; the stage dock hides on the Visual binary tab;
+test_the_models_window_has_stages. Left: the System / Stars / Extras / Uncertainty split and the Parameters tab)
 ```
 1 Data   ●      Light and velocity curves      ?       ┌ light curves + model, residuals below ──┬ view ─┐
 2 System        ☑ V   1 204 pts  σ 0.006               │ (phase or time; one colour per filter)  │ 3-D   │
