@@ -111,6 +111,8 @@ def test_the_night_in_numbers():
     assert hat[0] == "HAT-P-32 b" and hat[6].endswith("°")
     (std,) = standard_rows(n, hours, 3.0)  # Saturn has no fixed place: only HAT-P-32 b gets a telluric standard
     assert std[0] == "HAT-P-32 b" and std[1].startswith("HIP ") and abs(float(std[3]) - float(std[4])) <= 0.1
+    (lan,) = standard_rows(n, hours, 3.0, "landolt1992")  # a Landolt standard at the same airmass (PLN-9)
+    assert lan[0] == "HAT-P-32 b" and lan[1] != "—" and abs(float(lan[3]) - float(lan[4])) <= 0.1
 
 
 def test_the_weather_tab(qtbot):

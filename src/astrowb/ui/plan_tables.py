@@ -74,7 +74,7 @@ def target_rows(n, hours, offset, min_alt):
     return rows
 
 
-def standard_rows(n, hours, offset):
+def standard_rows(n, hours, offset, kind="telluric"):
     """(target, telluric standard, local time, its airmass, the target's, separation) at each fixed target's highest
     point in the dark: the nearest standard within 0.1 airmass (PLN-9)."""
     import astropy.units as u
@@ -85,7 +85,7 @@ def standard_rows(n, hours, offset):
     from ..planning.visibility import Site
 
     site = Site(**{k: n["site"][k] for k in ("name", "lat", "lon", "height")})
-    rows, out = standards.load("telluric"), []
+    rows, out = standards.load(kind), []
     dark = np.asarray(n["sun_alt"], float) < -12
     for t in n["targets"]:
         if "ra" not in t or not dark.any():
@@ -149,23 +149,21 @@ def tables_page(n, hours, offset, min_alt, parent=None):
         target_rows(n, hours, offset, min_alt),
     )
     lay.addWidget(page.targets)
-    title = translate("PlanTables", "Telluric standards")
     note = translate("PlanTables", "nearest at the same airmass, at the target’s highest point")
-    lay.addWidget(QLabel(f"<b>{title}</b>  ({note})", page))
-    page.standards = _table(
-        page,
-        [
-            translate("PlanTables", "Target"),
-            translate("PlanTables", "Standard"),
-            translate("PlanTables", "At"),
-            translate("PlanTables", "Its airmass"),
-            translate("PlanTables", "Target airmass"),
-            translate("PlanTables", "Distance"),
-        ],
-        standard_rows(n, hours, offset),
-    )
-    page.standards.setToolTip(translate("PlanTables", "Hot bright stars from Hipparcos (van Leeuwen 2007) to "
-                                        "remove the atmosphere's lines from a spectrum"))  # fmt: skip
-    lay.addWidget(page.standards)
+    heads = [translate("PlanTables", "Target"), translate("PlanTables", "Standard"), translate("PlanTables", "At"),
+             translate("PlanTables", "Its airmass"), translate("PlanTables", "Target airmass"),
+             translate("PlanTables", "Distance")]  # fmt: skip
+    for attr, kind, title, tip in (
+        ("standards", "telluric", translate("PlanTables", "Telluric standards"),
+         translate("PlanTables", "Hot bright stars from Hipparcos (van Leeuwen 2007) to remove the atmosphere's "
+                   "lines from a spectrum")),
+        ("photometric", "landolt1992", translate("PlanTables", "Photometric standards"),
+         translate("PlanTables", "Landolt (1992) UBVRI standard stars: the night's zero points and extinction")),
+    ):  # fmt: skip
+        lay.addWidget(QLabel(f"<b>{title}</b>  ({note})", page))
+        table = _table(page, heads, standard_rows(n, hours, offset, kind))
+        table.setToolTip(tip)
+        setattr(page, attr, table)
+        lay.addWidget(table)
     lay.addStretch(1)
     return page
