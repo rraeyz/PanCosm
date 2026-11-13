@@ -43,7 +43,25 @@ def advice_lines(items):
             "Only {points} points over the ingress at a {cadence_s:.0f} s cadence: shorter exposures resolve it.",
         ),
     }
-    return [words[a["kind"]].format(**a, percent=100 * a.get("share", 0)) for a in items if a["kind"] in words]
+    words["noise"] = translate("PhotometryChecks", "{term} is {percent:.0f} % of the target's noise: {remedy}")
+    terms = {
+        "sky": (translate("PhotometryChecks", "The sky"),
+                translate("PhotometryChecks", "a smaller aperture, a narrower filter or a darker sky lowers it.")),
+        "scintillation": (translate("PhotometryChecks", "Scintillation"),
+                          translate("PhotometryChecks", "longer exposures or a larger telescope lower it.")),
+        "read": (translate("PhotometryChecks", "Read noise"),
+                 translate("PhotometryChecks", "longer exposures or binning lower it.")),
+        "dark": (translate("PhotometryChecks", "Dark current"),
+                 translate("PhotometryChecks", "a colder camera lowers it.")),
+    }  # fmt: skip
+    out = []
+    for a in items:
+        if a["kind"] == "noise":
+            term, remedy = terms.get(a["term"], (a["term"], ""))
+            out.append(words["noise"].format(term=term, percent=100 * a["share"], remedy=remedy))
+        elif a["kind"] in words:
+            out.append(words[a["kind"]].format(**a, percent=100 * a.get("share", 0)))
+    return out
 
 
 class ChecksTab(QWidget):
@@ -80,17 +98,17 @@ class ChecksTab(QWidget):
         from ..hdr import get
         from ..photometry.advice import next_night
 
-        exptime = None
+        exptime, gain = None, 1.0
         try:
-            exptime = (
-                get(load(self.page.images[0])[1], "EXPTIME", "EXPOSURE", default=None) if self.page.images else None
-            )
+            h = load(self.page.images[0])[1] if self.page.images else {}
+            exptime = get(h, "EXPTIME", "EXPOSURE", default=None)
+            gain = float(get(h, "EGAIN", "GAIN", default=1.0) or 1.0)
         except (OSError, ValueError, IndexError):  # no frame to read: the advice that needs no exposure time
             pass
         fit = getattr(self.page, "transit_fit", None)  # the ingress from the fitted transit, when there is one
         d = fit[1]["derived"] if fit else {}
         ingress = (d["t14_h"] - d["t23_h"]) / 2 / 24 if d.get("t14_h", 0) > d.get("t23_h", 0) else None
-        lines = advice_lines(next_night(lc, exptime=exptime, ingress_days=ingress))
+        lines = advice_lines(next_night(lc, exptime=exptime, ingress_days=ingress, gain=gain))
         title = translate("PhotometryChecks", "For next time:")
         return "\n".join([title, *("• " + x for x in lines)]) if lines else ""
 

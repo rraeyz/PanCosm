@@ -43,3 +43,20 @@ def test_advice_in_words():
     lines = advice_lines(next_night(night(), exptime=60.0, linearity=50000.0, ingress_days=5 * 60 / 86400))
     assert len(lines) == 5 and lines[0].startswith("Expose 25 s instead of 60 s")
     assert "22 %" in lines[1] and "Comparison 2 was missing on 10 %" in lines[3] and "Only 5.0 points" in lines[4]
+
+
+def test_the_largest_noise_term():
+    lc = night() | {"radii": [[8.0, 15.0, 20.0]] * 100, "target_flux": np.full(100, 2e4).tolist()}
+    noise = [a for a in next_night(lc, gain=1.0) if a["kind"] == "noise"]
+    # sky 1000 e/px over 201 px = 2.0e5 against 2e4 photons: the sky is 91 % of the variance
+    assert noise == [{"kind": "noise", "term": "sky", "share": pytest.approx(0.91, abs=0.005)}]
+    bright = lc | {"target_flux": np.full(100, 1e7).tolist(), "scintillation": [0.002] * 100}
+    assert [a["term"] for a in next_night(bright) if a["kind"] == "noise"] == ["scintillation"]
+
+
+def test_noise_advice_in_words():
+    from astrowb.ui.photometry_checks import advice_lines
+
+    assert advice_lines([{"kind": "noise", "term": "sky", "share": 0.91}]) == [
+        "The sky is 91 % of the target's noise: a smaller aperture, a narrower filter or a darker sky lowers it."
+    ]

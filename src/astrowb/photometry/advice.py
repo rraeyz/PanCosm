@@ -6,7 +6,9 @@ Each item is a dict with a "kind" and the numbers behind it; the window words it
 - "defocus": the brightest pixel holds more than 15 % of a star's light, so flat-field errors and pixel-to-pixel
   sensitivity weigh on every measurement; spreading the light lowers that term;
 - "lost": stars missing on some frames (off the frame or not found), with the share of frames;
-- "cadence": fewer than 10 points over the event's ingress at the night's cadence.
+- "cadence": fewer than 10 points over the event's ingress at the night's cadence;
+- "noise": the largest term of the target's noise budget (photon, sky, scintillation; errors.budget) when it is not
+  the photon noise, with its share of the variance.
 """
 
 import numpy as np
@@ -15,8 +17,8 @@ PEAK_TARGET = 0.6
 PEAK_FRACTION = 0.15
 
 
-def next_night(lc, exptime=None, linearity=None, ingress_days=None):
-    out = []
+def next_night(lc, exptime=None, linearity=None, ingress_days=None, gain=1.0):
+    out = _noise(lc, gain)
     peak = np.asarray(lc.get("peak") or [], float)
     sky = np.asarray(lc.get("sky") or [], float)
     limit = linearity or lc.get("saturation")
@@ -52,3 +54,18 @@ def next_night(lc, exptime=None, linearity=None, ingress_days=None):
         if cadence > 0 and ingress_days / cadence < 10:
             out.append({"kind": "cadence", "points": round(ingress_days / cadence, 1), "cadence_s": cadence * 86400})
     return out
+
+
+def _noise(lc, gain):
+    from .errors import budget
+
+    flux, sky = np.asarray(lc.get("target_flux") or [], float), np.asarray(lc.get("sky") or [], float)
+    radii = lc.get("radii") or []
+    if not flux.size or sky.ndim != 2 or not radii:
+        return []
+    scint = np.nanmedian(lc["scintillation"]) if lc.get("scintillation") else 0.0
+    pixels = np.pi * float(np.median([r[0] for r in radii])) ** 2
+    parts, _ = budget(np.nanmedian(flux) * gain, np.nanmedian(sky[:, 0]) * gain, 0.0, 0.0, pixels, scint)
+    worst = max(parts, key=parts.get)
+    share = parts[worst] / sum(parts.values())
+    return [] if worst == "photon" else [{"kind": "noise", "term": worst, "share": round(float(share), 3)}]

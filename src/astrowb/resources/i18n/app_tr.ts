@@ -9730,52 +9730,97 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>{cadence_s:.0f} s kadansla girişte yalnızca {points} nokta var: daha kısa pozlar onu çözer.</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_checks.py" line="46"/>
+        <source>{term} is {percent:.0f} % of the target&apos;s noise: {remedy}</source>
+        <translation>{term}, hedefin gürültüsünün %{percent:.0f} kadarı: {remedy}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="48"/>
+        <source>The sky</source>
+        <translation>Gökyüzü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="49"/>
+        <source>a smaller aperture, a narrower filter or a darker sky lowers it.</source>
+        <translation>daha küçük bir açıklık, daha dar bir filtre ya da daha karanlık bir gökyüzü onu azaltır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="50"/>
+        <source>Scintillation</source>
+        <translation>Sintilasyon</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="51"/>
+        <source>longer exposures or a larger telescope lower it.</source>
+        <translation>daha uzun pozlar ya da daha büyük bir teleskop onu azaltır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="52"/>
+        <source>Read noise</source>
+        <translation>Okuma gürültüsü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="53"/>
+        <source>longer exposures or binning lower it.</source>
+        <translation>daha uzun pozlar ya da birleştirme (binning) onu azaltır.</translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_checks.py" line="54"/>
+        <source>Dark current</source>
+        <translation>Karanlık akım</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="55"/>
+        <source>a colder camera lowers it.</source>
+        <translation>daha soğuk bir kamera onu azaltır.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="72"/>
         <source>Measure the light curve to check the night.</source>
         <translation>Geceyi denetlemek için ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="56"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Leave out the flagged points</source>
         <translation>İşaretli noktaları dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="58"/>
+        <location filename="../../ui/photometry_checks.py" line="76"/>
         <source>Their points leave the light curve; Undo brings them back</source>
         <translation>Noktaları ışık eğrisinden çıkar; Geri al onları geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="91"/>
+        <location filename="../../ui/photometry_checks.py" line="112"/>
         <source>For next time:</source>
         <translation>Bir dahaki sefere:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="100"/>
+        <location filename="../../ui/photometry_checks.py" line="121"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="111"/>
+        <location filename="../../ui/photometry_checks.py" line="132"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="113"/>
+        <location filename="../../ui/photometry_checks.py" line="134"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="119"/>
+        <location filename="../../ui/photometry_checks.py" line="140"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="119"/>
+        <location filename="../../ui/photometry_checks.py" line="140"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="120"/>
+        <location filename="../../ui/photometry_checks.py" line="141"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>
@@ -11913,17 +11958,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Parametreler ve grafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="100"/>
+        <location filename="../../ui/photometry_transit.py" line="106"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="105"/>
+        <location filename="../../ui/photometry_transit.py" line="111"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="109"/>
+        <location filename="../../ui/photometry_transit.py" line="115"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>

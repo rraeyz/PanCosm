@@ -9728,52 +9728,97 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_checks.py" line="46"/>
+        <source>{term} is {percent:.0f} % of the target&apos;s noise: {remedy}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="48"/>
+        <source>The sky</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="49"/>
+        <source>a smaller aperture, a narrower filter or a darker sky lowers it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="50"/>
+        <source>Scintillation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="51"/>
+        <source>longer exposures or a larger telescope lower it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="52"/>
+        <source>Read noise</source>
+        <translation type="unfinished">Ruido de lectura</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="53"/>
+        <source>longer exposures or binning lower it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_checks.py" line="54"/>
+        <source>Dark current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="55"/>
+        <source>a colder camera lowers it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="72"/>
         <source>Measure the light curve to check the night.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="56"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="58"/>
+        <location filename="../../ui/photometry_checks.py" line="76"/>
         <source>Their points leave the light curve; Undo brings them back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="91"/>
+        <location filename="../../ui/photometry_checks.py" line="112"/>
         <source>For next time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="100"/>
+        <location filename="../../ui/photometry_checks.py" line="121"/>
         <source>leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="111"/>
+        <location filename="../../ui/photometry_checks.py" line="132"/>
         <source>Flagged frames: {list}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="113"/>
+        <location filename="../../ui/photometry_checks.py" line="134"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="119"/>
+        <location filename="../../ui/photometry_checks.py" line="140"/>
         <source>Frame</source>
         <translation type="unfinished">Imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="119"/>
+        <location filename="../../ui/photometry_checks.py" line="140"/>
         <source>File</source>
         <translation type="unfinished">Archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="120"/>
+        <location filename="../../ui/photometry_checks.py" line="141"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11911,17 +11956,17 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="100"/>
+        <location filename="../../ui/photometry_transit.py" line="106"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="105"/>
+        <location filename="../../ui/photometry_transit.py" line="111"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="109"/>
+        <location filename="../../ui/photometry_transit.py" line="115"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>
