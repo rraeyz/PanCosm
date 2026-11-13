@@ -98,3 +98,26 @@ def add_align_row(page, layout, grid):
     row.addWidget(page.align_stars, 1)
     row.addWidget(pick)
     layout.addLayout(row)
+
+
+def choose_alignment(parent, first_image):
+    """Asked before the Images window stacks: how the frames are aligned. Returns stacking parameters ({"align",
+    "align_stars"}) or None when cancelled."""
+    from PySide6.QtWidgets import QInputDialog
+
+    choices = [("translation", translate("StarPicker", "shift only (automatic)")),
+               ("stars", translate("StarPicker", "star patterns: rotation and scale too (automatic)")),
+               ("none", translate("StarPicker", "none (the frames are aligned already)")),
+               ("picked", translate("StarPicker", "on stars I pick"))]  # fmt: skip
+    text, ok = QInputDialog.getItem(parent, translate("StarPicker", "Align the images"),
+                                    translate("StarPicker", "How are the images aligned before stacking?"),
+                                    [t for _, t in choices], 0, False)  # fmt: skip
+    if not ok:
+        return None
+    align = next(k for k, t in choices if t == text)
+    if align != "picked":
+        return {"align": align}
+    dlg = StarPicker(first_image, (), parent)
+    if not dlg.exec() or not dlg.stars:
+        return None
+    return {"align": "picked", "align_stars": [list(s) for s in dlg.stars]}

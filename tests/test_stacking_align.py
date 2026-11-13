@@ -45,3 +45,15 @@ def test_stars_picked_on_the_first_frame(tmp_path, qapp):
     dlg.close()
     with pytest.raises(ValueError):
         parse("1 2 3")
+
+
+def test_images_window_asks_how_to_align(tmp_path, qapp, monkeypatch):
+    from PySide6.QtWidgets import QInputDialog
+
+    from astrowb.ui import star_picker
+
+    paths = frames(tmp_path, [(0, 0)])
+    monkeypatch.setattr(QInputDialog, "getItem", lambda *a, **k: (a[3][2], True))  # "none"
+    assert star_picker.choose_alignment(None, paths[0]) == {"align": "none"}
+    monkeypatch.setattr(QInputDialog, "getItem", lambda *a, **k: (a[3][0], False))  # cancelled
+    assert star_picker.choose_alignment(None, paths[0]) is None
