@@ -88,3 +88,19 @@ def test_exoclock_file_is_detrended_and_valid(tmp_path):
                                                        "row 3: flux 3.0 or error 0.001 out of range"]  # fmt: skip
     with pytest.raises(ValueError, match="BJD_TDB"):
         exoclock.write(lc | {"time_scale": "JD_UTC"}, tmp_path / "x.txt")
+
+
+def test_mcmc_posterior_brackets_the_least_squares_answer():
+    """PHO-26 MCMC: the posterior medians sit on the least-squares values, Tc's width near its formal error; b and
+    a/R★ (correlated in a grazing-ish transit) get their own, wider, one-sided intervals."""
+    import time
+
+    t, f, e, am = night(2)
+    start = {"tc": TC + 0.004, "k": 0.13, "a_rs": 6.0, "b": 0.4, "u1": 0.45, "u2": 0.2}
+    began = time.perf_counter()
+    got = tf.fit(t, f, e, P, start, detrend={"airmass": am}, mcmc_steps=3000)
+    took = time.perf_counter() - began
+    post, v, s = got["mcmc"]["params"], got["values"], got["errors"]
+    assert abs(post["tc"][0] - v["tc"]) < 0.5 * s["tc"] and 0.6 < (post["tc"][1] + post["tc"][2]) / (2 * s["tc"]) < 1.6
+    assert abs(post["k"][0] - K) < 3 * max(post["k"][1:]) and set(post) >= {"tc", "k", "a_rs", "b", "airmass"}
+    assert 0.1 < got["mcmc"]["acceptance"] < 0.8 and took < 60

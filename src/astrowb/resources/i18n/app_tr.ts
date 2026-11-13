@@ -4076,13 +4076,13 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Resim olarak kaydet (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="533"/>
+        <location filename="../../ui/area_windows.py" line="547"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="529"/>
+        <location filename="../../ui/area_windows.py" line="543"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Görüntüyü &amp;kapat</translation>
@@ -4115,8 +4115,8 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="140"/>
-        <location filename="../../ui/area_windows.py" line="174"/>
-        <location filename="../../ui/area_windows.py" line="216"/>
+        <location filename="../../ui/area_windows.py" line="177"/>
+        <location filename="../../ui/area_windows.py" line="230"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
@@ -4126,38 +4126,38 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Hepsi için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="153"/>
+        <location filename="../../ui/area_windows.py" line="156"/>
         <source>Saved {n} files in {folder}</source>
         <translation>{folder} içine {n} dosya kaydedildi</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="154"/>
+        <location filename="../../ui/area_windows.py" line="157"/>
         <source>your AAVSO observer code (Settings → Profiles → Observer)</source>
         <translation>AAVSO gözlemci kodunuz (Ayarlar → Profiller → Gözlemci)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="155"/>
+        <location filename="../../ui/area_windows.py" line="158"/>
         <source>the star&apos;s name (the files&apos; OBJECT, or Look up in the Field)</source>
         <translation>yıldızın adı (dosyaların OBJECT değeri ya da Alan&apos;da Ara)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="156"/>
+        <location filename="../../ui/area_windows.py" line="159"/>
         <source>the band (the FILTER keyword or a catalogue)</source>
         <translation>bant (FILTER anahtar sözcüğü ya da bir katalog)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="159"/>
+        <location filename="../../ui/area_windows.py" line="162"/>
         <source>No AAVSO exoplanet file: it needs {what}.</source>
         <translation>AAVSO ötegezegen dosyası yazılmadı: {what} gerekli.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="218"/>
+        <location filename="../../ui/area_windows.py" line="232"/>
         <source>Light-curve file</source>
         <translation>Işık eğrisi dosyası</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="185"/>
-        <location filename="../../ui/area_windows.py" line="222"/>
+        <location filename="../../ui/area_windows.py" line="188"/>
+        <location filename="../../ui/area_windows.py" line="236"/>
         <source>Saved {name}</source>
         <translation>Kaydedildi: {name}</translation>
     </message>
@@ -4167,147 +4167,147 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Komut satırı için tarif (.json)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="176"/>
+        <location filename="../../ui/area_windows.py" line="179"/>
         <source>Recipe</source>
         <translation>Tarif</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="244"/>
+        <location filename="../../ui/area_windows.py" line="258"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="244"/>
+        <location filename="../../ui/area_windows.py" line="258"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="245"/>
+        <location filename="../../ui/area_windows.py" line="259"/>
         <source>Apertures</source>
         <translation>Açıklıklar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="265"/>
+        <location filename="../../ui/area_windows.py" line="279"/>
         <source>Other tools</source>
         <translation>Diğer araçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="270"/>
+        <location filename="../../ui/area_windows.py" line="284"/>
         <source>Light curve</source>
         <translation>Işık eğrisi</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="274"/>
+        <location filename="../../ui/area_windows.py" line="288"/>
         <source>Timing</source>
         <translation>Zamanlama</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="275"/>
+        <location filename="../../ui/area_windows.py" line="289"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="321"/>
+        <location filename="../../ui/area_windows.py" line="335"/>
         <source>Frames</source>
         <translation>Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="325"/>
+        <location filename="../../ui/area_windows.py" line="339"/>
         <source>Checks</source>
         <translation>Denetimler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="346"/>
+        <location filename="../../ui/area_windows.py" line="360"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="346"/>
+        <location filename="../../ui/area_windows.py" line="360"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="347"/>
+        <location filename="../../ui/area_windows.py" line="361"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="349"/>
+        <location filename="../../ui/area_windows.py" line="363"/>
         <source>not marked</source>
         <translation>işaretli değil</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="350"/>
+        <location filename="../../ui/area_windows.py" line="364"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="352"/>
+        <location filename="../../ui/area_windows.py" line="366"/>
         <source>Role</source>
         <translation>Rol</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="353"/>
+        <location filename="../../ui/area_windows.py" line="367"/>
         <source>x, y (FITS pixels)</source>
         <translation>x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="354"/>
+        <location filename="../../ui/area_windows.py" line="368"/>
         <source>Peak</source>
         <translation>Tepe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="355"/>
+        <location filename="../../ui/area_windows.py" line="369"/>
         <source>Sky per pixel</source>
         <translation>Piksel başına gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="356"/>
+        <location filename="../../ui/area_windows.py" line="370"/>
         <source>Net counts</source>
         <translation>Net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="357"/>
+        <location filename="../../ui/area_windows.py" line="371"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="403"/>
         <source>star</source>
         <translation>yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="403"/>
         <source>sky</source>
         <translation>gök</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="390"/>
+        <location filename="../../ui/area_windows.py" line="404"/>
         <source>dark</source>
         <translation>karanlık</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="390"/>
+        <location filename="../../ui/area_windows.py" line="404"/>
         <source>read</source>
         <translation>okuma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="406"/>
         <source>Noise from</source>
         <translation>Gürültü kaynağı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="406"/>
         <source>Predicted error</source>
         <translation>Tahmini hata</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="400"/>
+        <location filename="../../ui/area_windows.py" line="414"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="531"/>
+        <location filename="../../ui/area_windows.py" line="545"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Tüm görüntüleri kapat</translation>
@@ -4476,7 +4476,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="43"/>
-        <location filename="../../ui/area_windows.py" line="245"/>
+        <location filename="../../ui/area_windows.py" line="259"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
@@ -4493,7 +4493,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="622"/>
+        <location filename="../../ui/area_windows.py" line="636"/>
         <source>&amp;Measure</source>
         <translation>Ö&amp;lç</translation>
     </message>
@@ -4514,69 +4514,69 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="81"/>
-        <location filename="../../ui/area_windows.py" line="594"/>
+        <location filename="../../ui/area_windows.py" line="608"/>
         <source>F&amp;rames</source>
         <translation>&amp;Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="608"/>
+        <location filename="../../ui/area_windows.py" line="622"/>
         <source>&amp;Stars</source>
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="375"/>
-        <location filename="../../ui/area_windows.py" line="503"/>
-        <location filename="../../ui/area_windows.py" line="635"/>
+        <location filename="../../ui/area_windows.py" line="517"/>
+        <location filename="../../ui/area_windows.py" line="649"/>
         <source>&amp;Analyse</source>
         <translation>&amp;Analiz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="481"/>
+        <location filename="../../ui/area_windows.py" line="495"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Renk kanallarına ayır (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="483"/>
+        <location filename="../../ui/area_windows.py" line="497"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Renkli kameranın ham görüntüsü, her renk için bir tane olmak üzere yarı boyutta üç görüntü olarak (ara değerleme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="489"/>
+        <location filename="../../ui/area_windows.py" line="503"/>
         <source>Stack the open images…</source>
         <translation>Açık görüntüleri üst üste ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="491"/>
+        <location filename="../../ui/area_windows.py" line="505"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Açık görüntüler yıldızlarına göre hizalanır, aykırı değerler atılarak ortalaması alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="494"/>
+        <location filename="../../ui/area_windows.py" line="508"/>
         <source>Drizzle the open images…</source>
         <translation>Açık görüntüleri drizzle ile birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="496"/>
+        <location filename="../../ui/area_windows.py" line="510"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Kaydırılarak çekilmiş görüntüler iki kat ince bir ızgaraya (az örneklenmiş yıldızlar için daha keskin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="507"/>
+        <location filename="../../ui/area_windows.py" line="521"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="508"/>
+        <location filename="../../ui/area_windows.py" line="522"/>
         <source>&amp;Colour</source>
         <translation>&amp;Renk</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="509"/>
+        <location filename="../../ui/area_windows.py" line="523"/>
         <source>S&amp;tack</source>
         <translation>&amp;Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="519"/>
+        <location filename="../../ui/area_windows.py" line="533"/>
         <source>Copy the header</source>
         <translation>Başlığı kopyala</translation>
     </message>
@@ -4962,7 +4962,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Tayfı farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="442"/>
+        <location filename="../../ui/area_windows.py" line="456"/>
         <source>&amp;Job</source>
         <translation>&amp;İş</translation>
     </message>
@@ -10279,7 +10279,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/photometry_neb.py" line="30"/>
-        <location filename="../../ui/photometry_neb.py" line="76"/>
+        <location filename="../../ui/photometry_neb.py" line="77"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation>Yakın örten çift denetimi</translation>
     </message>
@@ -10304,67 +10304,67 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Komşular her karede ölçülüyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="62"/>
+        <location filename="../../ui/photometry_neb.py" line="63"/>
         <source>No star near enough and bright enough to make a {d:g} ppt dip.</source>
         <translation>{d:g} ppt&apos;lik bir düşüş yapabilecek kadar yakın ve parlak yıldız yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="65"/>
+        <location filename="../../ui/photometry_neb.py" line="66"/>
         <source>Cleared</source>
         <translation>Aklandı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="66"/>
+        <location filename="../../ui/photometry_neb.py" line="67"/>
         <source>Likely cleared</source>
         <translation>Büyük olasılıkla aklandı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="67"/>
+        <location filename="../../ui/photometry_neb.py" line="68"/>
         <source>Cleared - too faint</source>
         <translation>Aklandı - çok sönük</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="68"/>
+        <location filename="../../ui/photometry_neb.py" line="69"/>
         <source>Not cleared</source>
         <translation>Aklanmadı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="69"/>
+        <location filename="../../ui/photometry_neb.py" line="70"/>
         <source>Not cleared - flux too low</source>
         <translation>Aklanmadı - akı çok düşük</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="72"/>
+        <location filename="../../ui/photometry_neb.py" line="73"/>
         <source>{c} of {n} neighbours cleared for a {d:g} ppt dip.</source>
         <translation>{d:g} ppt&apos;lik düşüş için {n} komşudan {c} tanesi aklandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
         <source>Disposition</source>
         <translation>Karar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="78"/>
+        <location filename="../../ui/photometry_neb.py" line="79"/>
         <source>Distance (″)</source>
         <translation>Uzaklık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <location filename="../../ui/photometry_neb.py" line="80"/>
         <source>Depth needed (ppt)</source>
         <translation>Gereken derinlik (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="79"/>
+        <location filename="../../ui/photometry_neb.py" line="80"/>
         <source>RMS (ppt)</source>
         <translation>RMS (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="80"/>
+        <location filename="../../ui/photometry_neb.py" line="81"/>
         <source>Depth / RMS</source>
         <translation>Derinlik / RMS</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="87"/>
+        <location filename="../../ui/photometry_neb.py" line="88"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -12575,107 +12575,127 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Geçiş ortası {tc} BJD; derinlik {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} sa, T23 {t23:.2f} sa; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. İndirgenmiş χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="45"/>
+        <location filename="../../ui/photometry_transit.py" line="47"/>
+        <source>(not converged: more steps)</source>
+        <translation>(yakınsamadı: daha çok adım)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="48"/>
+        <source>MCMC: {values}.</source>
+        <translation>MCMC: {values}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="54"/>
+        <source>MCMC uncertainties (slower)</source>
+        <translation>MCMC belirsizlikleri (daha yavaş)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>After the fit, Markov chains give each parameter&apos;s 68 % interval; correlated parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.</source>
+        <translation>Uydurmadan sonra Markov zincirleri her parametrenin %68 aralığını verir; ilişkili parametreler (a/R★ ve b) gerçekçi, tek yanlı hatalar alır. Hatalar çok küçükse önce ölçekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="68"/>
         <source>Transit fit</source>
         <translation>Geçiş uydurması</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="48"/>
+        <location filename="../../ui/photometry_transit.py" line="71"/>
         <source>fixed</source>
         <translation>sabit</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="51"/>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
         <source>Parameter</source>
         <translation>Parametre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="51"/>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="52"/>
+        <location filename="../../ui/photometry_transit.py" line="75"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <location filename="../../ui/photometry_transit.py" line="81"/>
         <source>measured</source>
         <translation>ölçülen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="59"/>
+        <location filename="../../ui/photometry_transit.py" line="82"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="60"/>
+        <location filename="../../ui/photometry_transit.py" line="83"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="64"/>
+        <location filename="../../ui/photometry_transit.py" line="87"/>
         <source>O − C (ppt)</source>
         <translation>O − C (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="65"/>
+        <location filename="../../ui/photometry_transit.py" line="88"/>
         <source>Days from {t0:.5f}</source>
         <translation>{t0:.5f} tarihinden gün</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="69"/>
+        <location filename="../../ui/photometry_transit.py" line="92"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="76"/>
+        <location filename="../../ui/photometry_transit.py" line="99"/>
         <source>Exact transit model</source>
         <translation>Kesin geçiş modeli</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="78"/>
+        <location filename="../../ui/photometry_transit.py" line="101"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="80"/>
+        <location filename="../../ui/photometry_transit.py" line="103"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation>Hava kütlesinde eğilimli, kenar kararmalı geçiş ölçülen eğriye uydurulur; periyodu ister</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="88"/>
+        <location filename="../../ui/photometry_transit.py" line="111"/>
         <source>Parameters and plot…</source>
         <translation>Parametreler ve grafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="110"/>
+        <location filename="../../ui/photometry_transit.py" line="134"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="115"/>
+        <location filename="../../ui/photometry_transit.py" line="139"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="119"/>
+        <location filename="../../ui/photometry_transit.py" line="144"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="127"/>
+        <location filename="../../ui/photometry_transit.py" line="152"/>
         <source>Add the times to the O−C list</source>
         <translation>Zamanları O−C listesine ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="129"/>
+        <location filename="../../ui/photometry_transit.py" line="154"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation>Burada ölçülen minimum zamanları ve geçiş ortası, O−C&apos;ye</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="141"/>
+        <location filename="../../ui/photometry_transit.py" line="166"/>
         <source>{n} times added to the O−C list.</source>
         <translation>O−C listesine {n} zaman eklendi.</translation>
     </message>
@@ -15620,143 +15640,143 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="148"/>
-        <location filename="../../engine/titles.py" line="33"/>
+        <location filename="../../engine/titles.py" line="34"/>
         <source>Transformation coefficients</source>
         <translation>Dönüşüm katsayıları</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="32"/>
+        <location filename="../../engine/titles.py" line="33"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="34"/>
+        <location filename="../../engine/titles.py" line="35"/>
         <source>Search for variable stars</source>
         <translation>Değişen yıldız ara</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="35"/>
+        <location filename="../../engine/titles.py" line="36"/>
         <source>Look up the ephemeris</source>
         <translation>Efemerisi bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="36"/>
+        <location filename="../../engine/titles.py" line="37"/>
         <source>Plan the night</source>
         <translation>Geceyi planla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="37"/>
+        <location filename="../../engine/titles.py" line="38"/>
         <source>Find the target</source>
         <translation>Hedefi bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="38"/>
+        <location filename="../../engine/titles.py" line="39"/>
         <source>Classify (k-means)</source>
         <translation>Sınıflandır (k-ortalamalar)</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="39"/>
+        <location filename="../../engine/titles.py" line="40"/>
         <source>Compute a band formula</source>
         <translation>Bant formülü hesapla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="40"/>
+        <location filename="../../engine/titles.py" line="41"/>
         <source>Principal components</source>
         <translation>Temel bileşenler</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="41"/>
+        <location filename="../../engine/titles.py" line="42"/>
         <source>Make practice data</source>
         <translation>Alıştırma verisi hazırla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="42"/>
+        <location filename="../../engine/titles.py" line="43"/>
         <source>Stellar parameters (Teff, log g, [Fe/H])</source>
         <translation>Yıldız parametreleri (Teff, log g, [Fe/H])</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="43"/>
+        <location filename="../../engine/titles.py" line="44"/>
         <source>Combine the exposures</source>
         <translation>Pozları birleştir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="44"/>
+        <location filename="../../engine/titles.py" line="45"/>
         <source>Spectral type</source>
         <translation>Tayf türü</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="45"/>
+        <location filename="../../engine/titles.py" line="46"/>
         <source>Disentangle the spectra</source>
         <translation>Tayfları ayrıştır</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="46"/>
+        <location filename="../../engine/titles.py" line="47"/>
         <source>Reduce the echelle spectrum</source>
         <translation>Eşel tayfını indirge</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="47"/>
+        <location filename="../../engine/titles.py" line="48"/>
         <source>Fit the spectroscopic orbit</source>
         <translation>Tayfsal yörüngeyi uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="48"/>
+        <location filename="../../engine/titles.py" line="49"/>
         <source>Find the echelle orders</source>
         <translation>Eşel mertebelerini bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="49"/>
+        <location filename="../../engine/titles.py" line="50"/>
         <source>Reduce the long-slit spectrum</source>
         <translation>Uzun yarık tayfını indirge</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="50"/>
+        <location filename="../../engine/titles.py" line="51"/>
         <source>Measure radial velocities</source>
         <translation>Dikine hızları ölç</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="51"/>
+        <location filename="../../engine/titles.py" line="52"/>
         <source>Telluric correction</source>
         <translation>Tellürik düzeltme</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="52"/>
+        <location filename="../../engine/titles.py" line="53"/>
         <source>Drizzle the frames</source>
         <translation>Kareleri drizzle ile birleştir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="53"/>
+        <location filename="../../engine/titles.py" line="54"/>
         <source>Stack the frames</source>
         <translation>Kareleri üst üste ekle</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="54"/>
+        <location filename="../../engine/titles.py" line="55"/>
         <source>Frequency analysis</source>
         <translation>Frekans analizi</translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="118"/>
-        <location filename="../../engine/titles.py" line="55"/>
+        <location filename="../../engine/titles.py" line="56"/>
         <source>Time of minimum</source>
         <translation>Minimum zamanı</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="56"/>
+        <location filename="../../engine/titles.py" line="57"/>
         <source>Download a mission light curve</source>
         <translation>Uzay görevi ışık eğrisi indir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="57"/>
+        <location filename="../../engine/titles.py" line="58"/>
         <source>Fit the O−C diagram</source>
         <translation>O−C diyagramını uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="58"/>
+        <location filename="../../engine/titles.py" line="59"/>
         <source>Period search</source>
         <translation>Periyot arama</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="59"/>
+        <location filename="../../engine/titles.py" line="60"/>
         <source>Download a survey light curve</source>
         <translation>Tarama ışık eğrisi indir</translation>
     </message>
@@ -15985,34 +16005,39 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Tek bir gece onu nadiren belirler: sabit bırakın</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="74"/>
+        <location filename="../../photometry/fit_steps.py" line="45"/>
+        <source>Posterior errors after the fit (the chains stop earlier once converged); 0: none</source>
+        <translation>Uydurmadan sonra sonsal hatalar (zincirler yakınsayınca daha erken durur); 0: yok</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="77"/>
         <source>Transit depth</source>
         <translation>Geçiş derinliği</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="75"/>
+        <location filename="../../photometry/fit_steps.py" line="78"/>
         <source>The depth TESS saw on the target</source>
         <translation>TESS&apos;in hedefte gördüğü derinlik</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="77"/>
+        <location filename="../../photometry/fit_steps.py" line="80"/>
         <source>Stars this near the target are checked (TFOP: 2.5′)</source>
         <translation>Hedefe bu kadar yakın yıldızlar denetlenir (TFOP: 2,5′)</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="79"/>
-        <location filename="../../photometry/fit_steps.py" line="81"/>
-        <location filename="../../photometry/fit_steps.py" line="83"/>
+        <location filename="../../photometry/fit_steps.py" line="82"/>
+        <location filename="../../photometry/fit_steps.py" line="84"/>
+        <location filename="../../photometry/fit_steps.py" line="86"/>
         <source>As the light curve&apos;s</source>
         <translation>Işık eğrisindeki gibi</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="80"/>
+        <location filename="../../photometry/fit_steps.py" line="83"/>
         <source>Sky ring, inner radius</source>
         <translation>Gök halkası, iç yarıçap</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="82"/>
+        <location filename="../../photometry/fit_steps.py" line="85"/>
         <source>Sky ring, outer radius</source>
         <translation>Gök halkası, dış yarıçap</translation>
     </message>
@@ -16506,6 +16531,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="98"/>
+        <location filename="../../engine/titles.py" line="32"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation>Yakın örten çift denetimi</translation>
     </message>
@@ -16705,7 +16731,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>PDCSAP: uzay aracı için düzeltilmiş; SAP: ölçüldüğü gibi</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="78"/>
+        <location filename="../../photometry/fit_steps.py" line="81"/>
         <location filename="../../photometry/steps.py" line="738"/>
         <source>Aperture radius</source>
         <translation>Açıklık yarıçapı</translation>
@@ -17011,6 +17037,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="104"/>
+        <location filename="../../photometry/fit_steps.py" line="44"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation>MCMC adımları</translation>
@@ -17043,7 +17070,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="138"/>
-        <location filename="../../photometry/fit_steps.py" line="76"/>
+        <location filename="../../photometry/fit_steps.py" line="79"/>
         <source>Search radius</source>
         <translation>Arama yarıçapı</translation>
     </message>

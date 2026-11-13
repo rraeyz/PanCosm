@@ -2403,3 +2403,19 @@ def test_oc_says_when_hjd_has_no_time_scale(window, tmp_path):
     path.write_text("# HJD error type source\n2459000.5123 0.0004 I Paper 2020\n2459010.5100 0.0004 I Paper 2020\n")
     window.oc_page._load(str(path))
     assert "taken as UTC" in window.oc_page.result.text() and "69 s" in window.oc_page.result.text()
+
+
+def test_transit_mcmc_choice_and_its_text(window):
+    """PHO-26 MCMC: the box sends the steps with the fit; the result says the posterior intervals."""
+    from astrowb.ui.photometry_transit import result_text
+
+    page = window.photometry_page
+    assert not page.transit_mcmc.isChecked()
+    out = {"values": {"tc": 2461347.6112, "a_rs": 6.3, "b": 0.6}, "errors": {"tc": 5e-4, "a_rs": 0.5, "b": 0.07},
+           "derived": {"depth_ppt": 21.9, "depth_mmag": 24.1, "t14_h": 1.64, "t23_h": 0.96, "inc": 84.1,
+                       "rho_star": 2.4}, "chi2r": 1.06, "rms_ppt": 4.0, "beta": 1.0,
+           "mcmc": {"params": {"tc": (2461347.61121, 4.8e-4, 5.1e-4), "b": (0.61, 0.12, 0.07)}, "acceptance": 0.3,
+                    "converged": False}}  # fmt: skip
+    text = result_text(out)
+    assert "MCMC: tc 2461347.611210 −0.000480 +0.000510; b 0.6100 −0.1200 +0.0700." in text
+    assert "not converged" in text

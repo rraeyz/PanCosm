@@ -43,6 +43,8 @@ def transit(t, period, tc, k, a_rs, inc, law="quadratic", coeffs=(0.0, 0.0), e=0
     tt = (t[:, None] + offsets[None, :]).ravel()
     z, front = separation(tt, period, tc, a_rs, inc, e, w)
     star = 1 - np.where(front, occulted_fraction(z, k, law, coeffs), 0.0)
-    planet = occultation * (1 - np.where(~front, occulted_fraction(z / k, 1 / k, "uniform", ()), 0.0))
+    planet = 0.0  # no planet light asked for: its occultation is not computed (half of every transit evaluation)
+    if occultation:
+        planet = occultation * (1 - np.where(~front, occulted_fraction(z / k, 1 / k, "uniform", ()), 0.0))
     flux = ((star + planet) / (1 + occultation)).reshape(len(t), n).mean(axis=1)
     return (1 - third_light) * flux + third_light

@@ -137,7 +137,7 @@ parameters (default):
 ## photometry.neb_check
 
 ```text
-photometry.neb_check
+photometry.neb_check  (Nearby-eclipsing-binary check)
 
 Nearby-eclipsing-binary check (TFOP): every Gaia star near the target that could make the depth, measured on
 every frame, with its disposition (photometry.neb).
@@ -260,6 +260,7 @@ parameters (default):
   u2 = 0.2  (float)  Limb darkening u2: Quadratic law; fixed unless chosen to fit
   detrend = "airmass"  (text)  Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)
   fit_ld = false  (bool)  Fit the limb darkening: A single night rarely decides it: leave it fixed
+  mcmc_steps = 0  (int, >= 0, <= 100000)  MCMC steps: Posterior errors after the fit (the chains stop earlier once converged); 0: none
 ```
 
 ## photometry.varfind
