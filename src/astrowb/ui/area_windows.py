@@ -292,6 +292,9 @@ def _stage_parts(page):
         ("timing", translate("MainWindow", "Timing"), page.minimum_button, "photometry-time-minimum"),
         ("report", translate("MainWindow", "Report"), page.export_button, "photometry-exporting"),
     )
+    from .photometry_field import field_stage
+
+    out.insert(1, ("field", translate("MainWindow", "Field"), field_stage(page), "photometry-choosing-images-stars"))
     for key, title, inside, anchor in later:
         tabs = page.res_tabs
         i = next(i for i in range(tabs.count()) if tabs.widget(i).isAncestorOf(inside))
@@ -311,7 +314,9 @@ def _photometry_stages(win, page):
 
     parts = _stage_parts(page)
     win.set_stages([Stage(key, title, widget, anchor) for key, title, widget, anchor in parts])
-    keys = [key for key, *_ in parts]
+    keys = [key for key, *_ in parts if key != "field"]  # the page's own steps; the Field stage is outside them
+    shown = page.show_field
+    page.show_field = lambda field: (shown(field), win.set_stage_state("field", "done"))[0]
 
     last = [page._step_now]
 
