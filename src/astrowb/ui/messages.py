@@ -406,6 +406,8 @@ TEMPLATES = (
     # timeseries/lightcurve.py (PER-1)
     QT_TRANSLATE_NOOP("Messages", "append curves in the same unit and time standard"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting: {kind}"),
+    # photometry/lcfile.py (PHO-48)
+    QT_TRANSLATE_NOOP("Messages", "not a light-curve file of this version: {version}"),
     # photometry/reports/aavso_exoplanet.py (PHO-27)
     QT_TRANSLATE_NOOP("Messages", "the AAVSO exoplanet file takes at most four detrending columns"),
     QT_TRANSLATE_NOOP("Messages", "the first line must be #TYPE=EXOPLANET"),

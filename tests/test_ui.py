@@ -251,6 +251,19 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     page.period.setText("0.5")
     page.transit_button.click()
     qtbot.waitUntil(lambda: page.transit_result.text().startswith("Mid-transit"), timeout=60000)
+    # File → Export → Light-curve file (PHO-48): the measured dict comes back whole
+    from unittest.mock import patch
+
+    from PySide6.QtWidgets import QFileDialog
+
+    from astrowb.photometry import lcfile
+
+    win = window.area_windows["photometry"]
+    act = next(a for m in win.file_menu.actions() if m.menu() for a in m.menu().actions() if ".lc.ecsv" in a.text())
+    target = tmp_path / "n.lc.ecsv"
+    with patch.object(QFileDialog, "getSaveFileName", return_value=(str(target), "")):
+        act.trigger()
+    assert lcfile.read(target)["rel_flux"] == page.light_curve["rel_flux"]
     out = tmp_path / "lc.csv"
     from astrowb.ui.photometry_page import export_csv
 

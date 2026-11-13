@@ -75,11 +75,7 @@ def photometry_window(main, page):
         file_filter=images_filter(),
         parent=main,
     )
-    from PySide6.QtWidgets import QMenu
-
-    exports = QMenu(translate("MainWindow", "&Export"), win)  # File → Export, just before Close window
-    win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
-    exports.addActions([export, mirror(page.aavso_button), mirror(page.etd_button)])
+    _exports_menu(win, page, [export, mirror(page.aavso_button), mirror(page.etd_button)])
     win.set_icons(kinds)  # icons, the names in the tooltips (View → Toolbar text shows them too)
     _photometry_stages(win, page)
     page.setParent(win)  # the page keeps the state and the logic, unseen
@@ -91,6 +87,33 @@ def photometry_window(main, page):
     win.help_requested.connect(main._help_for)
     main.area_windows["photometry"] = win
     main._complete_menus(win)
+
+
+def _exports_menu(win, page, actions):
+    """File → Export, just before Close window."""
+    from PySide6.QtWidgets import QMenu
+
+    exports = QMenu(translate("MainWindow", "&Export"), win)
+    win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
+    exports.addActions(actions)
+    exports.addAction(translate("MainWindow", "Light-curve file, nothing left out (.lc.ecsv)…"),
+                      lambda: _save_lc_file(win, page))  # fmt: skip
+
+
+def _save_lc_file(win, page):
+    """PHO-48: the measured light curve whole, readable back by every window."""
+    from PySide6.QtWidgets import QFileDialog
+
+    from ..photometry import lcfile
+
+    if page.light_curve is None:
+        page.result.setText(translate("MainWindow", "Measure the light curve first."))
+        return
+    path, _ = QFileDialog.getSaveFileName(win, translate("MainWindow", "Light-curve file"), "light_curve.lc.ecsv",
+                                          "ECSV (*.ecsv)")  # fmt: skip
+    if path:
+        lcfile.write(page.light_curve, path)
+        page.result.setText(translate("MainWindow", "Saved {name}").format(name=path))
 
 
 def _stage_parts(page):
