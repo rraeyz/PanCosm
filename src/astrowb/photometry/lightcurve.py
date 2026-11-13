@@ -380,6 +380,24 @@ def _lost(out, n_comp):
     return ()
 
 
+JUMP_PX = 1.5
+
+
+def _off_the_field(xy, pred, found):
+    """A star whose centroid moved more than JUMP_PX away from the move the other stars took (a faint target pulled
+    onto a noise peak: a running stack of PHO-42 lost 60 % of its light that way) follows the field instead."""
+    move = xy - pred
+    ok = np.flatnonzero(found)
+    if len(ok) < 3:
+        return xy
+    field = np.median(move[ok], axis=0)
+    off = np.hypot(*(move - field).T) > JUMP_PX
+    if off.any() and (~off[ok]).sum() >= 2:
+        xy = xy.copy()
+        xy[off] = pred[off] + field
+    return xy
+
+
 def _rank(lost):
     """Lower is better: a good frame, then one comparison star missing, then the target, then not placed."""
     return {(): 0, "comparison": 1, "target": 2, "aligned": 3}[lost[0] if lost else ()]
@@ -392,6 +410,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
     xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"))
+    xy = _off_the_field(xy, pred, found)
     fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
     if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars
         free = [k for k in range(len(xy)) if k not in fixed and found[k]]

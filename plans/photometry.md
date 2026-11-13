@@ -868,7 +868,14 @@ and "Leave out the flagged points" takes them.
 - **Files:** `tests/validation/test_aij_owner.py`, `tests/validation/data/` (reduced table only if public)
 
 ### PHO-42. Faint targets: measuring on running stacks  (P2)
-**open**
+**partial** — done (2026-11-13): `photometry/stacked.py` (`running_stacks`: groups of N frames in time order
+aligned and combined by calibration.stacking, written with the summed counts so the gain still holds, EXPTIME the
+sum, DATE-AVG the mean mid-time; a short last group joins the one before), the step parameter `combine` and the
+window's "Combine frames" (measure options; the live light curve measures frame by frame). Test: 96 frames of a
+S/N ≈ 10 target in groups of 4: the scatter falls to 0.58 (√4: 0.5), the predicted errors to half, the first time is
+the group's mean mid-time. It found a faint target's centroid jumping 2.4 px onto noise in one stack: a star whose
+centring moves more than 1.5 px off the other stars' move now follows the field (`lightcurve._off_the_field`, for
+every measurement). Left: the moving-object variant.
 - **Build:** "Combine frames before measuring": groups of N consecutive frames (or of T minutes) aligned on the
   stars and averaged with rejection (CAL stacking engine, in memory), measured as one frame with mid-time = the
   flux-weighted mean of the group's mid-times and exposure = the sum; moving-object variant aligned on the track.
