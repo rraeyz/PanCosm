@@ -57,6 +57,11 @@ def test_save_all_writes_the_whole_night(tmp_path):
     text = (tmp_path / "aavso" / "AAVSO_exoplanet.txt").read_text(encoding="utf-8")
     assert "AAVSO_exoplanet.txt" in {p.name for p in aavso} and aavso_exoplanet.validate(text) == []
     assert "AAVSO_exoplanet.txt" not in {p.name for p in save_all(tmp_path / "x", lc, aavso={"STAR_NAME": "Q"})}
+    row = {"disposition": "Cleared", "gmag": 13.1, "separation": 41.0, "dmag": 3.2, "required_ppt": 95.0,
+           "rms_ppt": 9.0, "ratio": 10.6, "x": 60.0, "y": 30.0}  # fmt: skip
+    save_all(tmp_path / "neb", lc, neb=[row])
+    lines = (tmp_path / "neb" / "NEB_check.csv").read_text(encoding="utf-8").splitlines()
+    assert lines[0].startswith("disposition,gmag") and lines[1].startswith("Cleared,13.1,41.0")
     names = sorted(p.name for p in files)
     assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",
                      "measurements.csv", "methods.txt", "references.bib", "stars.json", "summary.pdf",
