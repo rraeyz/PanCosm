@@ -39,11 +39,14 @@ Newest report first. Read this file before choosing the next work: these come be
 
 - **UF-8 — the Guide has no way back to the start page** — **done** (2026-11-13: "← Start page", Alt+Home; test)
   A Home / Start page button (and Alt+Home) in the Guide.
-- **UF-9 — Calibration, windowed: opening "Stacking options" pushes the right column out of the window** — **open**
+- **UF-9 — Calibration, windowed: opening "Stacking options" pushes the right column out of the window** — **done**
+  (2026-11-13: the options' choices take ten characters' width; `tests/test_overflow.py` opens every fold of
+  every window, every stage, at 1366 × 768 in English, Turkish and German and finds nothing wider than its place)
   Every collapsible section must fit the window's width (wrap, or scroll vertically only). Check every window's
   collapsible sections at 1366 × 768 windowed, in four languages (the gallery test opens them).
 - **UF-10 — Photometry, Measure stage: "Other measurement options" overflows to the right, even full screen** —
-  **open**. Same rule as UF-9; the stage panel must wrap its rows.
+  **done** (2026-11-13: `ui/kit/fit.py` on every stage panel — narrow choices, long check-box texts wrapping
+  beside their box, too-wide rows flowing onto the next line; the Measure stage needed 586–698 px in 474)
 - **UF-11 — Photometry, stage 5: squeezed with a scroll bar while there is free space below** — **open**
   Stage panels take the height the dock offers; no fixed heights.
 
