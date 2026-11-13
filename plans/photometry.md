@@ -879,8 +879,9 @@ and "Leave out the flagged points" takes them.
 **partial** — done (2026-11-13): `photometry/advice.next_night` (exposure to bring the highest peak to 60 % of the
 limit, defocus when the brightest pixel holds > 15 % of the target's light, comparison stars missing and on which
 share of frames, cadence against a given ingress), worded with its reason under the Checks tab's verdict ("For next
-time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. Left: the noise
-pointing offset, flats' contribution. Done: the noise budget's largest term when it is not the photon noise (sky,
+time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. The pointing
+(2026-11-13): stars lost or within the sky ring of the edge give the shift that centres every star's path over the
+night, or "choose nearer stars" when the paths are wider than the frame. Left: flats' contribution. Done: the noise budget's largest term when it is not the photon noise (sky,
 scintillation; the gain from the header), with what lowers it; the ingress from the fitted transit (T14 − T23) / 2 judges the cadence.
 - **Why:** beyond every reference program: the program has the numbers to say how to observe better.
 - **Build:** after a measurement, a "For next time" card: exposure time that would bring the target's peak to 60 %

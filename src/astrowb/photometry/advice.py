@@ -8,7 +8,9 @@ Each item is a dict with a "kind" and the numbers behind it; the window words it
 - "lost": stars missing on some frames (off the frame or not found), with the share of frames;
 - "cadence": fewer than 10 points over the event's ingress at the night's cadence;
 - "noise": the largest term of the target's noise budget (photon, sky, scintillation; errors.budget) when it is not
-  the photon noise, with its share of the variance.
+  the photon noise, with its share of the variance;
+- "pointing": stars lost or within the sky ring of the edge: the shift of the pointing (dx, dy in pixels, + to the
+  right and up on the frame) that centres every star's path over the night, when the field fits.
 """
 
 import numpy as np
@@ -17,8 +19,8 @@ PEAK_TARGET = 0.6
 PEAK_FRACTION = 0.15
 
 
-def next_night(lc, exptime=None, linearity=None, ingress_days=None, gain=1.0):
-    out = _noise(lc, gain)
+def next_night(lc, exptime=None, linearity=None, ingress_days=None, gain=1.0, shape=None):
+    out = _noise(lc, gain) + _pointing(lc, shape)
     peak = np.asarray(lc.get("peak") or [], float)
     sky = np.asarray(lc.get("sky") or [], float)
     limit = linearity or lc.get("saturation")
@@ -69,3 +71,22 @@ def _noise(lc, gain):
     worst = max(parts, key=parts.get)
     share = parts[worst] / sum(parts.values())
     return [] if worst == "photon" else [{"kind": "noise", "term": worst, "share": round(float(share), 3)}]
+
+
+def _pointing(lc, shape):
+    xy = np.asarray(lc.get("xy") or [], float)
+    if shape is None or xy.ndim != 3 or not xy.size:
+        return []
+    ny, nx = shape
+    margin = float(np.median([r[2] for r in lc["radii"]])) if lc.get("radii") else 15.0
+    lo, hi = np.nanmin(xy, axis=(0, 1)), np.nanmax(xy, axis=(0, 1))
+    near = (lo < margin).any() or (hi > np.array([nx - 1, ny - 1]) - margin).any()
+    if not (near or lc.get("lost") or lc.get("partial")):
+        return []
+    span = hi - lo
+    if (span + 2 * margin > np.array([nx, ny])).any():
+        return [{"kind": "pointing", "fits": False}]
+    dx, dy = np.array([nx - 1, ny - 1]) / 2 - (lo + hi) / 2
+    if max(abs(dx), abs(dy)) < 0.05 * min(nx, ny):
+        return []
+    return [{"kind": "pointing", "fits": True, "dx": round(float(dx)), "dy": round(float(dy))}]

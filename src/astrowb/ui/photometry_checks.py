@@ -46,6 +46,15 @@ def advice_lines(items):
         ),
     }
     words["noise"] = translate("PhotometryChecks", "{term} is {percent:.0f} % of the target's noise: {remedy}")
+    words["pointing"] = translate(
+        "PhotometryChecks",
+        "Point {dx:+d} px in x and {dy:+d} px in y on the frame: every star's path over the night then stays inside "
+        "it with its sky ring.",
+    )
+    words["pointing_wide"] = translate(
+        "PhotometryChecks",
+        "The stars spread wider than the frame over the night: choose comparison stars nearer the target.",
+    )
     terms = {
         "sky": (translate("PhotometryChecks", "The sky"),
                 translate("PhotometryChecks", "a smaller aperture, a narrower filter or a darker sky lowers it.")),
@@ -61,6 +70,8 @@ def advice_lines(items):
         if a["kind"] == "noise":
             term, remedy = terms.get(a["term"], (a["term"], ""))
             out.append(words["noise"].format(term=term, percent=100 * a["share"], remedy=remedy))
+        elif a["kind"] == "pointing":
+            out.append(words["pointing"].format(**a) if a["fits"] else words["pointing_wide"])
         elif a["kind"] in words:
             out.append(words[a["kind"]].format(**a, percent=100 * a.get("share", 0)))
     return out
@@ -117,7 +128,7 @@ class ChecksTab(QWidget):
         from ..hdr import get
         from ..photometry.advice import next_night
 
-        exptime, gain = None, 1.0
+        exptime, gain, h = None, 1.0, None
         try:
             h = load(self.page.images[0])[1] if self.page.images else {}
             exptime = get(h, "EXPTIME", "EXPOSURE", default=None)
@@ -127,7 +138,8 @@ class ChecksTab(QWidget):
         fit = getattr(self.page, "transit_fit", None)  # the ingress from the fitted transit, when there is one
         d = fit[1]["derived"] if fit else {}
         ingress = (d["t14_h"] - d["t23_h"]) / 2 / 24 if d.get("t14_h", 0) > d.get("t23_h", 0) else None
-        lines = advice_lines(next_night(lc, exptime=exptime, ingress_days=ingress, gain=gain))
+        shape = (h.get("NAXIS2"), h.get("NAXIS1")) if h and h.get("NAXIS1") else None
+        lines = advice_lines(next_night(lc, exptime=exptime, ingress_days=ingress, gain=gain, shape=shape))
         title = translate("PhotometryChecks", "For next time:")
         return "\n".join([title, *("• " + x for x in lines)]) if lines else ""
 
