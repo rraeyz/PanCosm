@@ -40,6 +40,14 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None):
         out.append(exoclock.write(lc, folder / "ExoClock.txt", fit))
         (folder / "ExoClock_form.txt").write_text(exoclock.form(lc, fit) + "\n", encoding="utf-8")
         out.append(folder / "ExoClock_form.txt")
+    from .methods import methods
+
+    text, bib = methods(lc, fit)  # the paragraph for a paper and what it cites
+    (folder / "methods.txt").write_text(text + "\n", encoding="utf-8")
+    out.append(folder / "methods.txt")
+    if bib:
+        (folder / "references.bib").write_text(bib, encoding="utf-8")
+        out.append(folder / "references.bib")
     if figure is not None:
         for ext in ("png", "pdf"):
             figure.savefig(folder / f"light_curve.{ext}", dpi=200)
