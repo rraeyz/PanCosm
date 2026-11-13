@@ -113,7 +113,8 @@ Newest report first. Read this file before choosing the next work: these come be
   hour and the calibrated frames have a bright rim (the chip's shadowed border, 5-40 % in the flat,
   divided up) that held 69 % of the signal the frame shift correlates: the
   shift came out as 0 for every frame, the marked stars were carried to the first frame by that 0 and every frame
-  was predicted from wrong positions. The rim (2 % of the frame) is now left out of the correlation: all 20 frames
+  was predicted from wrong positions. The rim (2 % of the frame) is now left out of the correlation when it
+  is one (3 times the inside's signal per pixel; clean frames keep their shifts, the IRAF check stays exact): all 20 frames
   are points and the eclipse shows, 0.72 mag deep (tests/validation/test_owner_cases.py, which fails without the
   fix; test_frame_shift_ignores_a_bright_rim). 2026-11-14: the summary says "N of the M frames in the list became
   points; the others are named below")
