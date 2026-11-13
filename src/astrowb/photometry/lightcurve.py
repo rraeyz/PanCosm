@@ -253,10 +253,8 @@ def light_curve(
     }
     if chosen:
         out["apertures"] = chosen
-    multi = [r[9] if len(r) > 9 else None for r in rows]
-    if opts["apertures"] and all(m is not None for m in multi):  # item 10: choose the radius later, no measuring
-        out["by_aperture"] = {"radii": list(opts["apertures"]), "flux": [m[0].tolist() for m in multi],
-                              "err": [m[1].tolist() for m in multi]}  # fmt: skip
+    if (by := _by_aperture(opts, [r[9] if len(r) > 9 else None for r in rows], scint)) is not None:
+        out["by_aperture"] = by  # item 10: choose the radius later, no measuring
     if fwhms:
         out["fwhm"] = fwhms
     if len(extra_xy):
@@ -265,6 +263,16 @@ def light_curve(
     if airmass is not None:
         out["airmass"] = airmass
     return out
+
+
+def _by_aperture(opts, multi, scint):
+    """The several radii's fluxes and errors, the scintillation added to every radius as to the main aperture."""
+    if not opts["apertures"] or any(m is None for m in multi):
+        return None
+    if scint is not None:
+        multi = [np.array([m[0], np.sqrt(m[1] ** 2 + (s * m[0]) ** 2)]) for m, s in zip(multi, scint, strict=True)]
+    return {"radii": list(opts["apertures"]), "flux": [m[0].tolist() for m in multi],
+            "err": [m[1].tolist() for m in multi]}  # fmt: skip
 
 
 def _frame(job):

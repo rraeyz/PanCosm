@@ -482,3 +482,15 @@ def test_switching_the_aperture_after_measuring_equals_measuring_with_it(tmp_pat
     cog = aperture_correction(lc)
     assert cog["share"][-1] == pytest.approx(1.0) and cog["share"][0] < cog["share"][1] < cog["share"][2]
     assert cog["correction_mag"][0] > 0.1  # a 3 px aperture (1.5 sigma) holds much less light
+
+
+def test_every_radius_carries_the_scintillation():
+    """PHO-34: the several radii's errors get the scintillation as the main aperture's do (it was left out there)."""
+    from astrowb.photometry.lightcurve import _by_aperture
+
+    flux, err = np.full((4, 2), 1e5), np.full((4, 2), 100.0)  # (radius, star)
+    multi = [np.array([flux, err])] * 3
+    by = _by_aperture({"apertures": (3, 5, 7, 9)}, multi, np.array([0.002, 0.002, 0.004]))
+    assert np.allclose(by["err"][0], np.hypot(100.0, 200.0)) and np.allclose(by["err"][2], np.hypot(100.0, 400.0))
+    assert np.allclose(_by_aperture({"apertures": (3, 5, 7, 9)}, multi, None)["err"][0], 100.0)
+    assert _by_aperture({"apertures": ()}, multi, None) is None
