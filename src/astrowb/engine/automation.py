@@ -22,7 +22,7 @@ from ..settings import config_dir
 from . import steps
 
 TEMPLATES = Path(__file__).resolve().parents[1] / "resources" / "automations"
-KINDS = ("folder", "file", "files", "xy", "pairs", "site", "number", "text")
+KINDS = ("folder", "file", "files", "xy", "pairs", "site", "number", "text", "object")
 
 
 def user_dir() -> Path:
@@ -171,4 +171,6 @@ def parse(kind, value):
         return {"name": "site", "lat": numbers[0], "lon": numbers[1], "height": numbers[2] if len(numbers) > 2 else 0.0}
     if kind == "number":
         return float(value)
+    if kind == "object":  # JSON, as a recipe writes it (photometry.recipe: the stars by the sky)
+        return json.loads(value)
     return value

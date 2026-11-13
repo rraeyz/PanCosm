@@ -63,7 +63,7 @@ Differential aperture photometry of the target against the comparison stars on e
 and its table.
 
 inputs:      images, target_xy, comps_xy
-optional:    coord, extra_xy, ref_image
+optional:    coord, extra_xy, ref_image, stars_sky
 outputs:     light_curve
   images  (files)  Images
   target_xy  (xy)  Target position in the first frame (x y)
@@ -71,6 +71,7 @@ outputs:     light_curve
   coord  (sky)  Sky position of the target
   extra_xy  (positions)  Check stars and other targets (x y)
   ref_image  (file)  Frame the stars were marked on
+  stars_sky  (object)  The stars by the sky (RA, Dec)
   light_curve  (file)  Light curve
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's

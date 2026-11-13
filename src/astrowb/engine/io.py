@@ -33,6 +33,7 @@ INPUTS = {
     "error2": IO("object", QT_TRANSLATE_NOOP("Steps", "Velocity errors, second star")),
     "export_dir": IO("new_folder", QT_TRANSLATE_NOOP("Steps", "Folder for the exported files")),
     "expression": IO("text", QT_TRANSLATE_NOOP("Steps", "Band formula")),
+    "stars_sky": IO("object", QT_TRANSLATE_NOOP("Steps", "The stars by the sky (RA, Dec)")),
     "extra_xy": IO("positions", QT_TRANSLATE_NOOP("Steps", "Check stars and other targets (x y)")),
     "field": IO("object", QT_TRANSLATE_NOOP("Steps", "Identified field")),
     "first_xy": IO("xy", QT_TRANSLATE_NOOP("Steps", "Position in the first frame (x y)")),

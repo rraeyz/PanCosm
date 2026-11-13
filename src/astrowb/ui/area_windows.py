@@ -180,9 +180,30 @@ def _save_recipe(win, page, path=None):
     images, target, comps, coord, params = run
     params = dict(params)
     extra, ref = params.pop("extra_xy", ()), params.pop("ref_image", None)
-    save(light_curve_recipe(images, target, comps, params, coord, extra, ref), path)
+    sky = _stars_sky(page, ref or images[0], target, comps, extra)
+    save(light_curve_recipe(images, target, comps, params, coord, extra, ref, stars_sky=sky), path)
     page.result.setText(translate("MainWindow", "Saved {name}").format(name=path))
     return path
+
+
+def _stars_sky(page, ref, target, comps, extra):
+    """The stars' RA, Dec through the identified field's solution or the marked frame's own WCS (PHO-20: a recipe
+    then finds them on another night's solved frames); None without either."""
+    from astropy.wcs import WCS
+
+    from ..calibration.masters import load
+
+    try:
+        wcs = page._field_wcs() if page.field and page.ref in (None, 0) else WCS(load(ref)[1]).celestial
+    except (OSError, ValueError, KeyError):
+        return None
+    if wcs is None or not wcs.has_celestial:
+        return None
+
+    def sky(xy):
+        return [float(v) for v in wcs.pixel_to_world_values(float(xy[0]), float(xy[1]))]
+
+    return {"target": sky(target), "comps": [sky(c) for c in comps], "extra": [sky(c) for c in extra]}
 
 
 def _save_lc_file(win, page):

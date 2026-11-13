@@ -315,7 +315,11 @@ as an automation file (`photometry/recipe.py`: the step photometry.light_curve w
 frames, stars, position and reference frame carried as the inputs' values — automations now take an input's
 `value` as its default, `engine/automation.defaults`); `astrowb-cli recipe night.json [--set images=[…]]` runs it.
 Test: the command line gives the window's relative fluxes to 1e-12; three frames given with --set replace the
-recipe's; `api.photometry.light_curve` was already there (ARC-12). Left: star list by RA / Dec in the recipe, exports in it, the guide's example.
+recipe's; `api.photometry.light_curve` was already there (ARC-12). The stars by RA / Dec (2026-11-13): the recipe
+carries `stars_sky` (through the identified field or the marked frame's WCS); run on another night's frames
+(ref_image not among them) the stars are placed by the sky on their solved first frame (`recipe.placed_by_sky`;
+test: frames 15 px and −9 px off give the light curve measured at the moved pixels; the night it was made on keeps
+its pixels exactly). Left: exports in it, the guide's example.
 - **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
   option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
   documented with an example notebook-style script in the guide.
