@@ -668,7 +668,9 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 - **Files:** `ui/spectroscopy/` (see SPE-W)
 
 #### UI-16.4 Light curves and period
-**open** — 2026-11-14: a click on a periodogram peak folds at the highest peak there; the ×2 and ÷2 aliases are drawn dotted; ← → step to the neighbouring peaks (test_ui). The shared selections are left.
+**partial** — 2026-11-20: the Period search tab's column as the stages Data, Clean, Search beside the three
+plots (the stage dock hides on the Frequency and Variable-search tabs; the load button's text shortened to fit in
+every language; test_the_light_curves_window_has_stages). 2026-11-14: a click on a periodogram peak folds at the highest peak there; the ×2 and ÷2 aliases are drawn dotted; ← → step to the neighbouring peaks (test_ui). The shared selections are left.
 ```
 1 Data   ●      Light curves                   ?       ┌ light curve (time) ─────────────────────────────┐
 2 Clean         ☑ TESS s14  18 512 pts  120 s          ├ periodogram (frequency or period axis, window)──┤

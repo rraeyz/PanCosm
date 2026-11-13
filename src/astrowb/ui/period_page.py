@@ -77,7 +77,7 @@ class PeriodPage(Undoable, QWidget):
         )
         self.source.setWordWrap(True)
         lay.addWidget(self.source)
-        load = self.load_button = QPushButton(self.tr("Load CSV (time, flux; or AAVSO / ZTF / ASAS-SN files)…"), self)
+        load = self.load_button = QPushButton(self.tr("Load CSV / AAVSO / ZTF / ASAS-SN…"), self)
         load.setToolTip(
             self.tr(
                 "Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and"

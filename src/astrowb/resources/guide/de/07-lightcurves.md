@@ -6,7 +6,7 @@ Zwei Fenster. **Lichtkurven und Periode** hat die Reiter **Periodensuche**, **Fr
 ![Das Fenster O−C](images/de/window-oc.jpg)
 
 ## Periodensuche {#lightcurves-period-search}
-Die im Fenster Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV laden (Zeit, Fluss)…**.
+Die im Fenster Photometrie gemessene Lichtkurve wird automatisch verwendet; oder **CSV / AAVSO / ZTF / ASAS-SN laden…** (eine Tabelle aus Zeit und Helligkeit).
 
 - **Lomb–Scargle** — passt bei jeder Testperiode eine Sinuswelle an und wählt die, die den größten Teil der Änderung erklärt. Für sinusförmige Änderungen: pulsierende Sterne, Rotation und Flecken.
 - **BLS** (Box Least Squares) — passt bei jeder Testperiode einen kurzen, kastenförmigen Einbruch an. Für Planetentransits und Bedeckungen vom Algol-Typ.

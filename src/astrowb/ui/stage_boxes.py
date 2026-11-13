@@ -154,3 +154,27 @@ def models_stages(win, page):
                "fit": "orbits-models-mcmc-uncertainties"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "parameters", 2: "fit", 3: "fit"})
     page.tabs.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
+
+
+def period_stages(win, light_curves):
+    """The Light curves window (UI-16.4), Period search tab: Data (the curve: Photometry, a file, an archive), Clean
+    (outliers, binning, points, units), Search (method, range, Search, the result) beside the three plots; the stage
+    dock hides on the other tabs."""
+    from PySide6.QtWidgets import QVBoxLayout, QWidget
+
+    page = light_curves.period_page
+    lay = page.guide.parentWidget().layout()
+    parts = boxes_from_column(lay, [("data", page.source), ("settings", page.method), ("clean", page.clip_button),
+                                    ("run", page.search_button)])  # fmt: skip
+    search = QWidget()
+    both = QVBoxLayout(search)
+    both.setContentsMargins(0, 0, 0, 0)
+    both.addWidget(parts["settings"])
+    both.addWidget(parts["run"], 1)
+    page.stage_boxes = {"data": parts["data"], "clean": parts["clean"], "search": search}
+    titles = {"data": translate("PeriodWindow", "Data"), "clean": translate("PeriodWindow", "Clean"),
+              "search": translate("PeriodWindow", "Search")}  # fmt: skip
+    anchors = {"data": "lightcurves-period-search", "clean": "lightcurves-period-search",
+               "search": "methods-period-search"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "clean", 2: "search", 3: "search"})
+    light_curves.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))

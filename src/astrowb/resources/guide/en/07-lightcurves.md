@@ -6,7 +6,7 @@ Two windows. **Light curves and period** has the tabs **Period search**, **Frequ
 ![The O−C window](images/en/window-oc.jpg)
 
 ## Period search {#lightcurves-period-search}
-The light curve measured in the Photometry window is used automatically; or **Load CSV (time, flux)…**.
+The light curve measured in the Photometry window is used automatically; or **Load CSV / AAVSO / ZTF / ASAS-SN…** (a table of time and brightness).
 
 - **Lomb–Scargle** — fits a sine wave at every trial period and keeps the one that explains most of the variation. For sine-like variations: pulsating stars, rotation and spots.
 - **BLS** (box least squares) — fits a short, box-shaped dip at every trial period. For transits of planets and Algol-type eclipses.

@@ -2674,3 +2674,27 @@ def test_the_models_window_has_stages(window):
     page.tabs.setCurrentIndex(0)
     assert win.docks["stages"].isVisibleTo(win)
     win.close()
+
+
+def test_the_light_curves_window_has_stages(window):
+    """UI-16.4: Data, Clean, Search as stages beside the period-search plots; hidden on the other tabs."""
+    win = window.open_area("timeseries")
+    page = window.lightcurve_page.period_page
+    assert list(win.stage_panels) == ["data", "clean", "search"]
+    assert win.stage_panels["data"].isAncestorOf(page.source) and win.stage_panels["data"].isAncestorOf(
+        page.fetch_button
+    )
+    assert win.stage_panels["clean"].isAncestorOf(page.clip_button) and win.stage_panels["clean"].isAncestorOf(
+        page.units_button
+    )
+    assert win.stage_panels["search"].isAncestorOf(page.method) and win.stage_panels["search"].isAncestorOf(
+        page.search_button
+    )
+    assert not any(p.isAncestorOf(page.plot) for p in win.stage_panels.values())
+    page.guide.set_state(1, "done")
+    assert win.rail.states["clean"] == "done"
+    window.lightcurve_page.setCurrentIndex(1)
+    assert not win.docks["stages"].isVisibleTo(win)
+    window.lightcurve_page.setCurrentIndex(0)
+    assert win.docks["stages"].isVisibleTo(win)
+    win.close()

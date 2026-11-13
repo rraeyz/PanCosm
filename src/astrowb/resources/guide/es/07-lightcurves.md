@@ -6,7 +6,7 @@ Dos ventanas. **Curvas de luz y período** tiene las pestañas **Búsqueda de pe
 ![La ventana O−C](images/es/window-oc.jpg)
 
 ## Búsqueda de períodos {#lightcurves-period-search}
-La curva de luz medida en la ventana Fotometría se usa automáticamente; o bien **Cargar CSV (tiempo, flujo)…**.
+La curva de luz medida en la ventana Fotometría se usa automáticamente; o bien **Cargar CSV / AAVSO / ZTF / ASAS-SN…** (una tabla de tiempo y brillo).
 
 - **Lomb–Scargle** — ajusta una onda sinusoidal en cada período de prueba y elige la que explica la mayor parte de la variación. Para variaciones sinusoidales: estrellas pulsantes, rotación y manchas.
 - **BLS** (mínimos cuadrados con caja) — ajusta una caída corta en forma de caja en cada período de prueba. Para tránsitos de planetas y eclipses de tipo Algol.

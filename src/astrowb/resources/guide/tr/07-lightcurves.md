@@ -6,7 +6,7 @@
 ![O−C penceresi](images/tr/window-oc.jpg)
 
 ## Periyot arama {#lightcurves-period-search}
-Fotometri penceresinde ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV yükle (zaman, akı)…**.
+Fotometri penceresinde ölçülen ışık eğrisi kendiliğinden kullanılır; ya da **CSV / AAVSO / ZTF / ASAS-SN yükle…** (zaman ve parlaklık tablosu).
 
 - **Lomb–Scargle** — her deneme periyodunda bir sinüs dalgası uydurur ve değişimin en büyük kısmını açıklayanı seçer. Sinüs biçimli değişimler için: zonklayan yıldızlar, dönme ve lekeler.
 - **BLS** (kutu en küçük kareler) — her deneme periyodunda kısa, kutu biçimli bir düşüş uydurur. Gezegen geçişleri ve Algol türü örtmeler için.
