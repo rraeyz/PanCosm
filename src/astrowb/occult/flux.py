@@ -29,6 +29,12 @@ def _theta(x, d, ra):
 def occulted_fraction(z, k, law="quadratic", coeffs=(0.0, 0.0)):
     """Fraction of the star's flux hidden at separations z (array) by a disc of radius ratio k."""
     z = np.atleast_1d(np.abs(np.asarray(z, float)))
+    if law == "quadratic" and z.ndim == 1:
+        from .. import native
+
+        fast = native.use("occulted_quadratic")  # the same quadrature compiled (the MCMC's inner loop)
+        if fast is not None:
+            return fast(np.ascontiguousarray(z), float(k), float(coeffs[0]), float(coeffs[1]), _NODES, _WEIGHTS)
     out = np.zeros(z.shape)
     hit = z < k + 1
     if not hit.any() or k <= 0:

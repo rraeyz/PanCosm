@@ -136,6 +136,76 @@ fn clipped_mean<'py>(
     }
 }
 
+fn theta(x: f64, d: f64, ra: f64) -> f64 {
+    // occult/flux.py's _theta: the half-angle of the circle of radius x behind the occulter
+    if d == 0.0 {
+        return if x < ra { std::f64::consts::PI } else { 0.0 };
+    }
+    if x >= d + ra || d >= x + ra {
+        return 0.0;
+    }
+    if x + d <= ra {
+        return std::f64::consts::PI;
+    }
+    let c = (x * x + d * d - ra * ra) / (2.0 * x * d);
+    c.clamp(-1.0, 1.0).acos()
+}
+
+/// z (separations), k, quadratic u1 u2, Gauss-Legendre nodes and weights -> the occulted fraction of the flux,
+/// the same quadrature as occult/flux.py's occulted_fraction (its NumPy twin).
+#[pyfunction]
+fn occulted_quadratic<'py>(
+    py: Python<'py>,
+    z: PyReadonlyArray1<'py, f64>,
+    k: f64,
+    u1: f64,
+    u2: f64,
+    nodes: PyReadonlyArray1<'py, f64>,
+    weights: PyReadonlyArray1<'py, f64>,
+) -> PyResult<Bound<'py, PyArray1<f64>>> {
+    let z = z.as_slice()?;
+    let (nodes, weights) = (nodes.as_slice()?, weights.as_slice()?);
+    let half_pi = 0.5 * std::f64::consts::PI;
+    let norm = std::f64::consts::PI * (1.0 - u1 / 3.0 - u2 / 6.0);
+    // the nodes' angles are the same for every z: their cosine and sine once (the twin's arithmetic, in its order)
+    let trig: Vec<(f64, f64, f64)> = nodes
+        .iter()
+        .zip(weights.iter())
+        .map(|(n, w)| {
+            let phi = half_pi * (n + 1.0);
+            (phi.cos(), phi.sin(), *w)
+        })
+        .collect();
+    let out: Vec<f64> = z
+        .iter()
+        .map(|&zz| {
+            let d = zz.abs();
+            if !(d < k + 1.0) || k <= 0.0 {
+                return 0.0;
+            }
+            let mut edges = [0.0, (d - k).abs().clamp(0.0, 1.0), (d + k).clamp(0.0, 1.0), 1.0];
+            edges.sort_by(|a, b| a.partial_cmp(b).unwrap());
+            let mut total = 0.0;
+            for j in 0..3 {
+                let (a, b) = (edges[j], edges[j + 1]);
+                let mut part = 0.0;
+                if b <= a {
+                    continue; // an empty piece adds nothing
+                }
+                for &(cos_phi, sin_phi, w) in trig.iter() {
+                    let x = a + 0.5 * (b - a) * (1.0 - cos_phi);
+                    let mu = (1.0 - x * x).clamp(0.0, 1.0).sqrt();
+                    let i = 1.0 - u1 * (1.0 - mu) - u2 * (1.0 - mu) * (1.0 - mu);
+                    part += i * 2.0 * x * theta(x, d, k) * 0.5 * (b - a) * sin_phi * w;
+                }
+                total += part * half_pi;
+            }
+            total / norm
+        })
+        .collect();
+    Ok(PyArray1::from_vec(py, out))
+}
+
 #[pyfunction]
 fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")
@@ -145,6 +215,7 @@ fn version() -> &'static str {
 fn _native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(kepler_e, m)?)?;
     m.add_function(wrap_pyfunction!(clipped_mean, m)?)?;
+    m.add_function(wrap_pyfunction!(occulted_quadratic, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     Ok(())
 }
