@@ -417,6 +417,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "line {n}: {expected} columns expected"),
     # photometry/reports/exoclock.py (PHO-27)
     QT_TRANSLATE_NOOP("Messages", "ExoClock needs BJD_TDB times: give the target's position when measuring"),
+    # photometry/moving.py
+    QT_TRANSLATE_NOOP(
+        "Messages", "no object found near x={x0} y={y0} on {name}: mark it on the first and the last frame"
+    ),
     # calibration/stacking.py (stars picked to align on)
     QT_TRANSLATE_NOOP("Messages", "pick at least one star on the first frame to align on"),
     # photometry/fit_steps.py (PHO-26)

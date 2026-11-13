@@ -9,6 +9,8 @@ The report is ADES PSV (the MPC's current format, version 2017): observatory cod
 and one line per position.
 """
 
+from pathlib import Path
+
 import numpy as np
 
 
@@ -31,7 +33,10 @@ def track(paths, first_xy, last_xy, box=11):
             raise ValueError("the image has no sky coordinates: plate-solve it first (Image menu)")
         f = (t - times[0]) / span if span > 0 else 0.0
         guess = np.asarray(first_xy, float) + f * (np.asarray(last_xy, float) - np.asarray(first_xy, float))
-        x, y = recenter(data, [guess], box, max_move=box / 2)[0]
+        (x, y), found = (v[0] for v in recenter(data, [guess], box, max_move=box / 2, found=True))
+        if not found:  # nothing there: an empty spot measured would look like a position (Eros 19″ off the pointing)
+            x0, y0, name = round(guess[0]), round(guess[1]), Path(p).name
+            raise ValueError(f"no object found near x={x0} y={y0} on {name}: mark it on the first and the last frame")
         sky = wcs.pixel_to_world(x, y)
         rows.append(
             {
