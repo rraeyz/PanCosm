@@ -114,6 +114,26 @@ class _Orientation(QWidget):
         self.reverse.setChecked(bool(st.get("reverse", False)))
 
 
+def _by_stat(fn):
+    """fn(path) remembered while the file is unchanged: the file rows ask on every typed character, and each header
+    read of a compressed frame cost tens of ms (typing an arc path froze the window for a second)."""
+    import functools
+    import os
+
+    remembered = functools.lru_cache(maxsize=256)(lambda path, _mtime, _size: fn(path))
+
+    @functools.wraps(fn)
+    def wrapper(path):
+        try:
+            st = os.stat(path)
+        except (OSError, TypeError, ValueError):
+            return fn(path)
+        return remembered(str(path), st.st_mtime_ns, st.st_size)
+
+    return wrapper
+
+
+@_by_stat
 def calibrated(path):
     """True when a frame's header says bias / dark were taken off (this program's Calibrate page: CALB / CALD; IRAF
     ccdproc: ZEROCOR / DARKCOR / CCDPROC); False for a raw frame; None when it cannot be read."""
@@ -190,6 +210,7 @@ def _say_calibration(tab, chosen, cal):
         tab.status.setText("\n".join(lines))
 
 
+@_by_stat
 def extracted(path):
     """True when the file is already extracted (a 1-D spectrum, IRAF apall output, a pipeline's e2ds): only the
     wavelength calibration is left to do."""
