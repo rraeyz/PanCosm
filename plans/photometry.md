@@ -852,7 +852,11 @@ choice under the Measure options. Measured on 40 synthetic stars at S/N 50 (`tes
 0.004 px, RMS 0.027 px from any start; moments 0.007 / 0.042; **auto (today's default, one pass of 1-D Gaussians)
 keeps about a quarter of the starting offset — 0.1 px bias from 0.3 px, 0.2 px from 0.8 px — and its RMS is 0.09 px
 from the right place.** The default is unchanged (the owner's results stay as they are); making gauss or an
-iterated auto the default is for the owner to decide. Left: `Centring_Method` in the provenance, box and max_move
+iterated auto the default is for the owner to decide. Real nights (2026-11-13, transit fit with airmass): HAT-P-32
+(EXOTIC, 142 frames, 6-inch): RMS auto 6.77, gauss 6.58, moments 6.57 ppt; Tc within 24 s (error ±5 min); positions
+differ by 0.25 px median. Qatar-1 (LCO 0.4 m, 265 frames): RMS 5.12 / 5.13 / 5.14 ppt, Tc within 2 s (±0.7 min),
+positions 0.04 px apart: on a well-sampled night with good shifts the three agree; on undersampled stars gauss and
+moments scatter about 3 % less. Asked the owner (2026-11-13) whether gauss becomes the default. Left: `Centring_Method` in the provenance, box and max_move
 in the window.
 - **Reference:** IRAF `centerpars.calgorithm` = centroid | gauss | ofilter | none with `cbox`, `cthreshold`,
   `minsnratio`, `cmaxiter`, `maxshift`; AstroImageJ Howell centroid.
