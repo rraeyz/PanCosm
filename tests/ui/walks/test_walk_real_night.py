@@ -44,6 +44,11 @@ def test_hatp32_night_as_a_user(walk, tmp_path):
 
     saved = {p.name for p in _save_all(h.window, phot, str(tmp_path / "all"))}
     assert {"light_curve.lc.ecsv", "measurements.csv", "summary.pdf", "ExoClock.txt", "methods.txt"} <= saved
+    from astropy.table import Table
+
+    made = Table.read(tmp_path / "all" / "light_curve.lc.ecsv").meta["provenance"]  # how it was measured (ARC-11)
+    assert made["step"] == "photometry.light_curve" and len(made["inputs"]["images"]) == 142
+    assert made["inputs"]["images"][0]["size"] > 0 and made["params"]["target_xy"]  # many frames: sizes, no sums
     h.check()
 
 

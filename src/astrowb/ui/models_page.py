@@ -86,7 +86,7 @@ class ModelsPage(Undoable, QWidget):
             self,
         )
         lay.addWidget(self.guide)
-        self.file = _FileRow(self.tr("Light curve"), self, "Tables (*.csv *.txt *.dat);;All files (*)")
+        self.file = _FileRow(self.tr("Light curve"), self, "Tables (*.csv *.txt *.dat *.lc.ecsv);;All files (*)")
         lay.addWidget(self.file)
         self.file.edit.textChanged.connect(lambda t: self.guide.set_state(0, "done" if t.strip() else None))
         labels = {
