@@ -254,6 +254,9 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     qtbot.waitUntil(lambda: page.transit_result.text().startswith("Mid-transit"), timeout=60000)
     assert page.transit_details.isEnabled()  # the parameter table and the model over the curve
     assert "this work (transit fit)" in window.oc_page.text.toPlainText()  # the mid-time is ready for O−C
+    window.oc_page.text.clear()  # by hand too: the button adds the times however Automatic steps is set
+    page.to_oc_button.click()
+    assert "this work (transit fit)" in window.oc_page.text.toPlainText()
     from astrowb.ui.area_windows import _save_all
 
     saved = _save_all(window.area_windows["photometry"], page, str(tmp_path / "all"))  # File → Export → Save all

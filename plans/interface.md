@@ -1008,6 +1008,26 @@ Before 2026-11-09 (agent2; details and commits in `docs/history/interface-plan-2
 - I7 names, Basic / Expert reach, window screenshots in the guide, guide read against the windows.
 
 ### UI-20. Automatic steps the user controls  (P1)
+**The rule (the owner, 2026-11-13):** an automatic step switched off never blocks the work: each has a manual way in
+which the user decides what it uses. The table as it stands:
+
+| Automatic | Switch (Settings → Automatic steps) | By hand |
+|---|---|---|
+| Scan when a folder is chosen | calibration.scan_on_folder | Scan; frame types changed by a double click |
+| Masters matched to the lights | (always offered) | Choose the masters by hand…: per filter the bias, dark, flat group or none |
+| Stacking alignment (shift / star patterns) | Align choice | none (aligned already); on stars I pick: one star and two or three around it, rotation included |
+| Images window stack | asked every time | the same four ways |
+| Field identification on opening | photometry.identify_field | Identify the field; or the target's RA Dec typed |
+| Comparison stars after the target | photometry.suggest_comparisons | click them; Suggest comparison stars; Why these stars? |
+| Radii after the comparisons | photometry.choose_radii | the three radii typed; Choose the radii |
+| Frames placed by the whole frame's shift | (empty field: automatic) | Place the frames on: stars picked on the first frame |
+| Centring | Centring choice | 1-D, 2-D Gaussian, centre of light, or none (positions follow the field) |
+| Next stage opens | photometry.next_stage | click the stage |
+| Light curve sent to Light curves | timeseries.take_light_curve | Period search → |
+| Times to O−C | oc.take_minima | Add the times to the O−C list; the O−C list is text to edit |
+| Spectra to Velocities | spectroscopy.take_spectra | Add… in Velocities |
+| Échelle orders found on the flat | (shown to check) | click a wrong trace to remove it |
+
 **partial** — done (2026-11-13, the owner: "her şey otomatik olsun gibi bir niyetim yok"): `ui/automatic.py` lists
 the steps the program takes without a press; Settings → Automatic steps turns each off; every one keeps its button.
 Defaults are today's. The list: calibration — scan a folder as soon as it is chosen (button Scan); photometry —

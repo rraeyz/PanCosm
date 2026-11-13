@@ -119,6 +119,36 @@ def make_plan(frames: list[Frame], temp_tol=TEMP_TOL) -> Plan:
     return plan
 
 
+def apply_choices(plan, frames, use):
+    """The masters the user chose by hand, over the automatic matches: use = {filter or "*": {kind: a file of the
+    wanted group, or "none"}}; a light takes its filter's choice, else "*"'s. Returns the lights whose choice named
+    no group (a file not among the frames)."""
+    if not use:
+        return []
+    use = {k if k == "*" else _norm_filter(k) or "": v for k, v in use.items()}  # "R" and "r" are one filter
+    by_path = {f.path: f for f in frames}
+    key_of = {}
+    for key, paths in plan.groups.items():
+        for p in paths:
+            key_of[p] = key
+    unknown = []
+    for entry in plan.lights:
+        light = by_path[entry["light"]]
+        chosen = use.get(_norm_filter(light.filter) or "", None) or use.get("*", {})
+        for kind, pick in chosen.items():
+            if pick in (None, "", "auto"):
+                continue
+            if pick == "none":
+                entry[kind] = None
+            elif pick in key_of and key_of[pick][0] == kind:
+                entry[kind] = key_of[pick]
+            else:
+                unknown.append((entry["light"], kind, pick))
+    plan.missing = [m for m in plan.missing if (m[0], m[1]) not in {(e["light"], k) for e in plan.lights
+                    for k in ("bias", "dark", "flat") if e.get(k)}]  # fmt: skip
+    return unknown
+
+
 def _why(light, temp_tol):
     """What the missing frame would have to match (the UI turns this into a translated sentence)."""
     return {

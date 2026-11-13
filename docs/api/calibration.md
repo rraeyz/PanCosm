@@ -30,6 +30,7 @@ parameters (default):
   divide_flat = true  (bool)  Divide by the flat: Off: bias and dark only
   split_colour = true  (bool)  Split colour frames: A colour camera's frames become one file per colour
   linearity = []  (table)  Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none
+  use = {}  (object)  Masters chosen by hand: {filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched
 ```
 
 ## calibration.scan

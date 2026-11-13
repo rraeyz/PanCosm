@@ -146,6 +146,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the airmass hardly changed during the series: no extinction from it"),
     # photometry/fieldstars.py
     QT_TRANSLATE_NOOP("Messages", "fewer than 5 stars found on the first frame"),
+    # calibration/steps.py (masters chosen by hand)
+    QT_TRANSLATE_NOOP("Messages", "{pick} is not a {kind} frame of this night: choose another"),
     # photometry/moving.py
     QT_TRANSLATE_NOOP("Messages", "designation, observatory code and observer names are required"),
     # planning/ephemerides.py
