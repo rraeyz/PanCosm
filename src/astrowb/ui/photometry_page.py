@@ -1968,6 +1968,11 @@ class PhotometryPage(Undoable, QWidget):
             else self.tr("Comparison {i}: not in the catalogues").format(i=i + 1)
             for i, c in enumerate(cat["comps"])
         ]
+        sources = sorted({c["source"] for c in cat["comps"] if c})
+        if len(sources) > 1:  # never mixed silently (PHO-25): their zero points differ by a few hundredths
+            lines.insert(0, self.tr("⚠ The comparison magnitudes come from different catalogues ({names}): their "
+                                    "zero points can differ by a few hundredths of a magnitude.").format(
+                names=", ".join(sources)))  # fmt: skip
         self.star_table.blockSignals(True)
         for i, c in enumerate(cat["comps"]):
             row = 1 + i  # T1 is the first row, then C1, C2…
