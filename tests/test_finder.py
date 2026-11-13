@@ -61,3 +61,52 @@ def test_a_vsx_sized_table_in_seconds():
     assert len(found) > 100 and took < 15
     assert found[0]["score"] >= found[-1]["score"]
     assert all(8 <= e["mag"] <= 15 for e in found)
+
+
+def _exo_sample():
+    from pathlib import Path
+
+    return (Path(__file__).parent / "data" / "exoplanet_archive_sample.csv").read_text(encoding="utf-8")
+
+
+def test_transiting_planets_from_a_recorded_archive_answer():
+    """PLN-5: the Exoplanet Archive's transiting planets (a recorded answer, V < 11) in the finder's table; tonight's
+    transits from Ankara come out whole, above the limit and in the dark."""
+    from astrowb.planning.ephemerides import transiting_planets
+    from astrowb.planning.finder import tonight_events
+    from astrowb.planning.visibility import Site, night
+
+    table = transiting_planets(fetch=lambda url: _exo_sample())
+    assert len(table["name"]) > 500 and set(table["kind"]) == {"transit"}
+    assert np.nanmax(table["duration"]) < 2 and np.nanmin(table["mag"]) > 0  # days, magnitudes
+    site = Site("Ankara", 39.84, 32.78, 1250.0)
+    events = tonight_events(table, site, "2026-11-14", min_alt=30, mag_range=(-5, 11))
+    dusk, dawn = night(site, "2026-11-14")
+    assert events and all(dusk.jd <= e["start"] and e["end"] <= dawn.jd for e in events)
+    assert all(min(e["alt_start"], e["alt_mid"], e["alt_end"]) >= 30 for e in events)
+
+
+def test_the_finder_window_adds_a_planet_with_its_ephemeris(qtbot):
+    from PySide6.QtCore import QDate
+
+    from astrowb.settings import Settings
+    from astrowb.ui.plan_page import PlanPage
+
+    page = PlanPage(Settings())
+    qtbot.addWidget(page)
+    page.site_name.setText("Ankara")
+    page.lat.setValue(39.84)
+    page.lon.setValue(32.78)
+    page.min_alt.setValue(30)
+    page.date.setDate(QDate(2026, 11, 14))
+    asked = []
+    dlg = page.finder_dialog(fetch=lambda url: asked.append(url) or _exo_sample())
+    assert asked == []  # nothing asked until Fetch
+    dlg.mag.setValue(11)
+    dlg.fetch_button.click()
+    qtbot.waitUntil(lambda: bool(dlg.events), timeout=30000)
+    assert dlg.view.table.rowCount() == len(dlg.events)
+    dlg.chosen = [0]
+    (added,) = dlg.add_chosen()
+    targets = page.targets()
+    assert targets[-1]["name"] == added["name"] and abs(targets[-1]["period"] - added["period"]) < 1e-9

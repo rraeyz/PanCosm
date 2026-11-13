@@ -147,3 +147,35 @@ def lookup(name, catalogue="auto", fetch=_get):
         except (TargetError, OSError, ValueError, KeyError) as e:
             errors.append(str(e))
     raise TargetError("; ".join(errors))
+
+
+def transiting_planets(fetch=None):
+    """Every transiting planet of the Exoplanet Archive (Planetary Systems Composite) with an ephemeris, as the
+    table planning.finder.tonight_events reads: name, ra, dec, mag (V), period, t0 (BJD_TDB), duration (days),
+    depth (mag), kind "transit". Asked only when the user presses for it; kept a week (services.cache)."""
+    import csv
+    import io
+
+    import numpy as np
+
+    from ..services.cache import cached
+
+    query = ("select pl_name,ra,dec,pl_orbper,pl_tranmid,pl_trandur,sy_vmag,pl_trandep from pscomppars "
+             "where tran_flag=1 and pl_orbper is not null and pl_tranmid is not null")  # fmt: skip
+    url = EXO_URL + "?" + urllib.parse.urlencode({"query": query, "format": "csv"})
+
+    def now():
+        if fetch:
+            return fetch(url)
+        with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (a fixed https catalogue URL)
+            return r.read().decode("utf-8")
+
+    rows = list(csv.DictReader(io.StringIO(cached("ephemerides", url, now))))
+
+    def col(key, scale=1.0):
+        return np.array([float(r[key]) * scale if r.get(key) not in (None, "") else np.nan for r in rows])
+
+    depth = -2.5 * np.log10(1 - np.clip(col("pl_trandep"), 0, 99) / 100)  # the archive's depth in per cent
+    return {"name": np.array([r["pl_name"] for r in rows]), "ra": col("ra"), "dec": col("dec"), "mag": col("sy_vmag"),
+            "period": col("pl_orbper"), "t0": col("pl_tranmid"), "duration": col("pl_trandur", 1 / 24),
+            "depth": depth, "kind": np.full(len(rows), "transit")}  # fmt: skip

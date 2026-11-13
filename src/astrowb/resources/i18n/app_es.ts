@@ -3236,6 +3236,84 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
 </context>
 <context>
+    <name>FinderDialog</name>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="23"/>
+        <source>What can I observe tonight?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="25"/>
+        <source>Transits of known planets that fall whole in tonight&apos;s dark hours, above the altitude limit. Nothing is asked of the internet until you press Fetch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="32"/>
+        <source>V brighter than </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="36"/>
+        <source>Fetch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="38"/>
+        <source>Add as target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="45"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="51"/>
+        <source>Asking the NASA Exoplanet Archive…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="83"/>
+        <source>{n} transits tonight, best first (local time UTC{off:+g}).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="89"/>
+        <source>Planet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="89"/>
+        <source>Start</source>
+        <translation type="unfinished">Inicio</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="89"/>
+        <source>Middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="89"/>
+        <source>End</source>
+        <translation type="unfinished">Fin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="89"/>
+        <source>V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="90"/>
+        <source>Depth (mmag)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="90"/>
+        <source>Why</source>
+        <translation type="unfinished">Motivo</translation>
+    </message>
+</context>
+<context>
     <name>FormRow</name>
     <message>
         <location filename="../../ui/kit/forms.py" line="45"/>
@@ -4871,7 +4949,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="225"/>
-        <location filename="../../ui/area_menus.py" line="446"/>
+        <location filename="../../ui/area_menus.py" line="447"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportar</translation>
@@ -4908,7 +4986,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>E&amp;strellas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="419"/>
+        <location filename="../../ui/area_menus.py" line="420"/>
         <location filename="../../ui/area_windows.py" line="521"/>
         <location filename="../../ui/area_windows.py" line="653"/>
         <source>&amp;Analyse</source>
@@ -4966,8 +5044,8 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="237"/>
-        <location filename="../../ui/area_menus.py" line="458"/>
-        <location filename="../../ui/area_menus.py" line="512"/>
+        <location filename="../../ui/area_menus.py" line="459"/>
+        <location filename="../../ui/area_menus.py" line="513"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>E&amp;xportar</translation>
@@ -5086,7 +5164,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="224"/>
-        <location filename="../../ui/area_menus.py" line="442"/>
+        <location filename="../../ui/area_menus.py" line="443"/>
         <source>Fit</source>
         <translation>Ajustar</translation>
     </message>
@@ -5132,246 +5210,251 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="267"/>
+        <source>What can I observe tonight?…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="268"/>
         <source>Gaia alerts tonight…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="274"/>
+        <location filename="../../ui/area_menus.py" line="275"/>
         <source>&amp;Targets</source>
         <translation>&amp;Objetos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="277"/>
+        <location filename="../../ui/area_menus.py" line="278"/>
         <source>&amp;Night</source>
         <translation>&amp;Noche</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="306"/>
+        <location filename="../../ui/area_menus.py" line="307"/>
         <source>Cooler off</source>
         <translation>Apagar la refrigeración</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="307"/>
+        <location filename="../../ui/area_menus.py" line="308"/>
         <source>Move the focuser</source>
         <translation>Mover el enfocador</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="308"/>
+        <location filename="../../ui/area_menus.py" line="309"/>
         <source>Change the filter</source>
         <translation>Cambiar el filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="309"/>
+        <location filename="../../ui/area_menus.py" line="310"/>
         <source>Cool the camera</source>
         <translation>Enfriar la cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="315"/>
+        <location filename="../../ui/area_menus.py" line="316"/>
         <source>&amp;Devices</source>
         <translation>&amp;Dispositivos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="317"/>
+        <location filename="../../ui/area_menus.py" line="318"/>
         <source>&amp;Telescope</source>
         <translation>Telesc&amp;opio</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="321"/>
+        <location filename="../../ui/area_menus.py" line="322"/>
         <source>&amp;Camera</source>
         <translation>&amp;Cámara</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="324"/>
+        <location filename="../../ui/area_menus.py" line="325"/>
         <source>F&amp;ocus</source>
         <translation>E&amp;nfoque</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="325"/>
+        <location filename="../../ui/area_menus.py" line="326"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="327"/>
+        <location filename="../../ui/area_menus.py" line="328"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Secuencia</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="370"/>
+        <location filename="../../ui/area_menus.py" line="371"/>
         <source>New automation</source>
         <translation>Nueva automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="371"/>
+        <location filename="../../ui/area_menus.py" line="372"/>
         <source>New</source>
         <translation>Nuevo</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="375"/>
+        <location filename="../../ui/area_menus.py" line="376"/>
         <source>Save the automation as…</source>
         <translation>Guardar la automatización como…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="376"/>
+        <location filename="../../ui/area_menus.py" line="377"/>
         <source>Save as</source>
         <translation>Guardar como</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="384"/>
+        <location filename="../../ui/area_menus.py" line="385"/>
         <source>Remove the step</source>
         <translation>Quitar el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="385"/>
+        <location filename="../../ui/area_menus.py" line="386"/>
         <source>Move the step up</source>
         <translation>Subir el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="386"/>
+        <location filename="../../ui/area_menus.py" line="387"/>
         <source>Move the step down</source>
         <translation>Bajar el paso</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="393"/>
+        <location filename="../../ui/area_menus.py" line="394"/>
         <source>Run the automation</source>
         <translation>Ejecutar la automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="394"/>
+        <location filename="../../ui/area_menus.py" line="395"/>
         <source>Run</source>
         <translation>Ejecutar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="397"/>
+        <location filename="../../ui/area_menus.py" line="398"/>
         <source>To Observing</source>
         <translation>A Observación</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="401"/>
+        <location filename="../../ui/area_menus.py" line="402"/>
         <source>&amp;Steps</source>
         <translation>&amp;Pasos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="402"/>
+        <location filename="../../ui/area_menus.py" line="403"/>
         <source>&amp;Run</source>
         <translation>E&amp;jecutar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="414"/>
+        <location filename="../../ui/area_menus.py" line="415"/>
         <source>Compute</source>
         <translation>Calcular</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="415"/>
+        <location filename="../../ui/area_menus.py" line="416"/>
         <source>Compute the band formula</source>
         <translation>Calcular la fórmula de bandas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="416"/>
+        <location filename="../../ui/area_menus.py" line="417"/>
         <source>Classify</source>
         <translation>Clasificar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="417"/>
+        <location filename="../../ui/area_menus.py" line="418"/>
         <source>Components</source>
         <translation>Componentes</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="441"/>
+        <location filename="../../ui/area_menus.py" line="442"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Ajustar el modelo de eclipse o tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="444"/>
+        <location filename="../../ui/area_menus.py" line="445"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="445"/>
+        <location filename="../../ui/area_menus.py" line="446"/>
         <source>Visual orbit</source>
         <translation>Órbita visual</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="450"/>
+        <location filename="../../ui/area_menus.py" line="451"/>
         <source>F&amp;it</source>
         <translation>A&amp;justar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="526"/>
+        <location filename="../../ui/area_menus.py" line="527"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reducir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="529"/>
+        <location filename="../../ui/area_menus.py" line="530"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Extraer el espectro de rendija larga</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="535"/>
+        <location filename="../../ui/area_menus.py" line="536"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Encontrar los órdenes echelle en el flat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="537"/>
+        <location filename="../../ui/area_menus.py" line="538"/>
         <source>Extract the échelle orders</source>
         <translation>Extraer los órdenes echelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="542"/>
+        <location filename="../../ui/area_menus.py" line="543"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Guardar el espectro de la región del cubo…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="547"/>
+        <location filename="../../ui/area_menus.py" line="548"/>
         <source>&amp;Lines</source>
         <translation>&amp;Líneas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="552"/>
+        <location filename="../../ui/area_menus.py" line="553"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Ajustar las longitudes de onda (rendija larga)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="556"/>
+        <location filename="../../ui/area_menus.py" line="557"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Ajustar las longitudes de onda, unir los órdenes (echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="570"/>
+        <location filename="../../ui/area_menus.py" line="571"/>
         <source>S&amp;pectrum</source>
         <translation>Es&amp;pectro</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="584"/>
+        <location filename="../../ui/area_menus.py" line="585"/>
         <source>Telluric correction</source>
         <translation>Corrección telúrica</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="586"/>
+        <location filename="../../ui/area_menus.py" line="587"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Aritmética con el espectro B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="590"/>
+        <location filename="../../ui/area_menus.py" line="591"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="592"/>
+        <location filename="../../ui/area_menus.py" line="593"/>
         <source>Measure a line</source>
         <translation>Medir una línea</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="616"/>
+        <location filename="../../ui/area_menus.py" line="617"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="617"/>
+        <location filename="../../ui/area_menus.py" line="618"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="516"/>
+        <location filename="../../ui/area_menus.py" line="517"/>
         <source>Save the spectrum as…</source>
         <translation>Guardar el espectro como…</translation>
     </message>
@@ -6035,12 +6118,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>E&amp;femérides</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="453"/>
+        <location filename="../../ui/area_menus.py" line="454"/>
         <source>Visual &amp;orbit</source>
         <translation>Ó&amp;rbita visual</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="601"/>
+        <location filename="../../ui/area_menus.py" line="602"/>
         <source>Velo&amp;city</source>
         <translation>Velocida&amp;d</translation>
     </message>
@@ -13784,12 +13867,12 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Altura de cada objetivo a lo largo de la noche con el crepúsculo y la Luna, y los mínimos / tránsitos que caen en las horas oscuras</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="575"/>
+        <location filename="../../ui/plan_page.py" line="583"/>
         <source>More charts…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="577"/>
+        <location filename="../../ui/plan_page.py" line="585"/>
         <source>The Moon&apos;s distance from each target and the sky at any hour of the night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13974,32 +14057,32 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="555"/>
+        <location filename="../../ui/plan_page.py" line="563"/>
         <source>eclipse / transit</source>
         <translation>eclipse / tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="555"/>
+        <location filename="../../ui/plan_page.py" line="563"/>
         <source>highest target</source>
         <translation>objeto más alto</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="556"/>
+        <location filename="../../ui/plan_page.py" line="564"/>
         <source>slew, settle, centring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="569"/>
+        <location filename="../../ui/plan_page.py" line="577"/>
         <source>No target is high enough during the dark hours.</source>
         <translation>Ningún objeto está lo bastante alto durante las horas oscuras.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="641"/>
+        <location filename="../../ui/plan_page.py" line="649"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Noche astronómica: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} eventos.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="618"/>
+        <location filename="../../ui/plan_page.py" line="626"/>
         <source>minimum I / transit</source>
         <translation>mínimo I / tránsito</translation>
     </message>
@@ -14019,22 +14102,22 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>El plan pasa a ser el plan de la noche de la ventana Observación; allí lo revisa y lo inicia usted</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="618"/>
+        <location filename="../../ui/plan_page.py" line="626"/>
         <source>minimum II</source>
         <translation>mínimo II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="635"/>
+        <location filename="../../ui/plan_page.py" line="643"/>
         <source>yes</source>
         <translation>sí</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="635"/>
+        <location filename="../../ui/plan_page.py" line="643"/>
         <source>partly</source>
         <translation>en parte</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="639"/>
+        <location filename="../../ui/plan_page.py" line="647"/>
         <source>no astronomical night</source>
         <translation>sin noche astronómica</translation>
     </message>

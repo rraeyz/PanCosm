@@ -202,9 +202,12 @@ prediction-service comparisons.
 magnitude, period, kind, depth and the declinations the site can reach before any astronomy; every event of the
 night at once, primary and secondary; altitudes at start, middle and end in one call; whole-event or mid-event
 rule; a score by the lowest altitude, primaries first, with its reason in words). Tests (tests/test_finder.py):
-the same events as `planning.night` for the same stars; a 40 000-star table in ~5 s. Left: the VSX / Exoplanet
-Archive / ExoClock packs (item 1), the Moon / uncertainty / "not observed lately" filters, the ranking by
-expected S/N and priority, the results table and "Add to tonight's list", the stored-page comparisons.
+the same events as `planning.night` for the same stars; a 40 000-star table in ~5 s. The Exoplanet Archive's transiting
+planets and the window (2026-11-14): `ephemerides.transiting_planets` (asked on Fetch, kept a week),
+Targets → What can I observe tonight?… (a V limit, tonight's whole transits best first in local time, "Add as
+target" with the ephemeris; tests/test_finder.py with a recorded answer). Left: the VSX and ExoClock packs, the
+Moon / uncertainty / "not observed lately" filters, the ranking by expected S/N and priority, the stored-page
+comparisons.
 - **Why:** the question every observer asks first; today answered by three web sites that do not know the
   observer's horizon or equipment.
 - **Read first:** the Transit Finder's filter list; the prediction services' filters (type, magnitude, declination,
