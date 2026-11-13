@@ -14,10 +14,12 @@ import numpy as np
 
 from .. import timing
 from ..calibration.masters import load
+from ..core.citations import cites
 from ..hdr import get
 from .aperture import choose_apertures, despike, measure, recenter, seeing_fwhm
 
 
+@cites("stetson1987")
 def psf_measure(data, xy, fwhm, r_in, r_out, gain=1.0):
     """Like aperture.measure: (flux, error, sky per pixel) for each (x, y), from PSF fits."""
     from astropy.table import QTable
