@@ -93,6 +93,10 @@ def attach(main, page):
         page.transit_fit = (page.light_curve, out["transit"])
         page.transit_result.setText(result_text(out["transit"]))
         page.transit_details.setEnabled(True)
+        oc = getattr(main, "oc_page", None)
+        if oc is not None:  # ready for the O−C diagram, as the times of minimum are
+            fit = out["transit"]
+            oc.add_minimum(fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I")
 
     def run():
         lc = page.light_curve
