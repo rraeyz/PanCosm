@@ -13,12 +13,15 @@ mag: (stars, frames) magnitudes (or relative fluxes in magnitudes); each star's 
 
 import numpy as np
 
+from ..core.citations import cites
+
 
 def _centred(mag):
     mag = np.asarray(mag, float)
     return mag - np.nanmedian(mag, axis=1, keepdims=True)
 
 
+@cites("tamuz2005")
 def sysrem(mag, err=None, n_terms=2, iterations=20):
     """(corrected mag, [(c, a)] per term): each term is the outer product c_i a_j that best fits the residuals
     with weights 1/err², removed in turn. Missing points (NaN) keep their NaN and take no part."""
@@ -79,6 +82,7 @@ def bic_terms(y, basis, err=None, max_terms=None):
     return best_k
 
 
+@cites("kovacs2005")
 def tfa(target, templates, err=None, fixed=None):
     """The target with the shared trends of the template stars removed (Kovács et al. 2005). templates: (k, n)
     curves of field stars; fixed: the target's known signal (a fitted transit or a folded light curve) in the same

@@ -16,11 +16,20 @@ def methods(lc, fit=None):
              if r is not None else "")  # fmt: skip
     parts.append(f"Differential aperture photometry of {n} frames was made{radii}, against an ensemble of {n_comp} "
                  f"comparison star{'s' if n_comp != 1 else ''}.")  # fmt: skip
+    if lc.get("partial"):  # frames missing a comparison star kept (differential.ensemble)
+        keys.append("honeycutt1992")
+        parts.append(f"Frames on which a comparison star was missing were kept, the ensemble scaled by the stars' "
+                     f"usual share of its sum ({short('honeycutt1992')}).")  # fmt: skip
+    if lc.get("airmass"):
+        keys.append("young1994")
+        parts.append(f"Airmass was computed from the true altitude with the formula of {short('young1994')}.")
     if lc.get("time_scale") == "BJD_TDB":
         keys.append("eastman2010")
         parts.append(f"Mid-exposure times were converted to BJD_TDB following {short('eastman2010')}.")
     if lc.get("scintillation"):
-        parts.append(f"Flux errors include scintillation noise for a {lc.get('aperture_m') or 0:.2f} m aperture.")
+        keys.append("osborn2015")
+        parts.append(f"Flux errors include scintillation noise for a {lc.get('aperture_m') or 0:.2f} m aperture "
+                     f"({short('osborn2015')}).")  # fmt: skip
     if fit:
         keys += ["mandel2002", "winn2008"]
         v, e, d = fit["values"], fit["errors"], fit["derived"]
@@ -30,6 +39,7 @@ def methods(lc, fit=None):
             + (f" times an exponential trend in {', '.join(trend)}" if trend else "")
             + f"; the mid-transit time is {v['tc']:.5f} ± {e.get('tc', float('nan')):.5f} BJD_TDB and the depth "
             f"{d['depth_ppt']:.2f} ppt. The time-correlated noise was judged by the β factor of {short('winn2008')} "
-            f"(β = {fit.get('beta', float('nan')):.2f})."
+            f"(β = {fit.get('beta', float('nan')):.2f})"
+            + ("; the parameter errors were multiplied by β." if fit.get("red_noise_scale") else ".")
         )
     return " ".join(parts), bibtex(keys) if keys else ""

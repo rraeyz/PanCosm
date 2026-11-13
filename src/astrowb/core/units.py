@@ -13,6 +13,8 @@ written beside every airmass column (AIRMASS_NOTE).
 
 import numpy as np
 
+from .citations import cites
+
 AIRMASS_FORMULAS = ("young1994", "secz", "hardie1962", "kastenyoung1989", "pickering2002")
 AIRMASS_NOTE = {
     "young1994": "Young (1994, Appl. Opt. 33, 1108)",
@@ -23,6 +25,7 @@ AIRMASS_NOTE = {
 }
 
 
+@cites("young1994")
 def airmass(altitude_deg, formula="young1994"):
     """Air mass at the true altitude (degrees, scalar or array); NaN at or below the horizon."""
     h = np.asarray(altitude_deg, float)
