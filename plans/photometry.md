@@ -451,7 +451,9 @@ the chart id from the marked stars' positions on the solved first frame, and nam
 flagged good (0.02 mag), then APASS DR9, then the Gaia polynomials; Qatar-1's star 113: GSPC V 11.348, the AAVSO
 chart 11.333. A warning when the comparison stars' magnitudes come from different catalogues. The Images window's
 Overlays → AAVSO comparison stars (VSP) draws the sequence with its chart labels (step image.catalogue, catalogue
-"aavso"). Left: items 1 (other catalogues), 2 (the order as a setting), 3 (Stars-stage source choice and overlay), 4, 6.
+"aavso"). Photometry: the source of the standard magnitudes chosen beside the filter (catalogues or the AAVSO
+sequence; the chart id then goes into the AAVSO report), and "Show the AAVSO sequence" draws the chart's stars on
+the first frame (looked up off the window's thread). Left: items 1 (other catalogues), 2 (the order as a setting), 3 (Stars-stage source choice and overlay), 4, 6.
 - **Why:** differential magnitudes need comparison magnitudes; APASS DR9 stops near V = 16 and has known zero-point
   errors; Gaia → V polynomials scatter by 0.03 mag; AAVSO reports should use the AAVSO sequence of the field.
 - **Reference:** Gaia Synthetic Photometry Catalogue (Gaia Collaboration, Montegriffo et al. 2023, A&A 674, A33):

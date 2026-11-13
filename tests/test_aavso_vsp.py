@@ -133,3 +133,28 @@ def test_comparison_magnitudes_from_the_sequence(tmp_path, monkeypatch):
     assert cat["chart"] == "X43370AGGP" and cat["comps"][1] is None
     c = cat["comps"][0]
     assert c["mag"] == 11.333 and c["colour"] == pytest.approx(12.038 - 11.333) and c["source"].endswith("113")
+
+
+def test_photometry_shows_the_sequence_on_the_first_frame(qtbot, monkeypatch):
+    import numpy as np
+    from astropy.wcs import WCS
+
+    from astrowb.ui.photometry_page import PhotometryPage
+
+    w = WCS(naxis=2)
+    w.wcs.ctype, w.wcs.crval, w.wcs.crpix = ["RA---TAN", "DEC--TAN"], [303.0, 65.06], [200, 200]
+    w.wcs.cdelt = [-3 / 3600, 3 / 3600]
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.sequence_button.click()
+    assert "Identify the field first" in page.field_label.text()
+    page.viewer.set_image(np.zeros((400, 400), np.float32))
+    page.field = {"header": w.to_header().tostring()}
+    asked = []
+    monkeypatch.setattr(
+        aavso_vsp, "sequence", lambda ra, dec, fov, maglimit: asked.append((ra, dec, fov)) or aavso_vsp.parse(ANSWER)
+    )
+    page.sequence_button.click()
+    qtbot.waitUntil(lambda: "aavso" in page.viewer.overlay_names(), timeout=5000)
+    assert "X43370AGGP: 1 sequence star(s)" in page.field_label.text()
+    assert asked[0][:2] == pytest.approx((303.0, 65.06), abs=0.01) and 25 < asked[0][2] < 32

@@ -11124,7 +11124,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Elegir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="123"/>
+        <location filename="../../ui/photometry_stars.py" line="186"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Identificando el campo (Gaia, VSX)…</translation>
     </message>
@@ -12251,7 +12251,32 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="119"/>
+        <location filename="../../ui/photometry_stars.py" line="105"/>
+        <source>Show the AAVSO sequence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="107"/>
+        <source>The AAVSO chart&apos;s comparison stars on the first frame, with their labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="129"/>
+        <source>Identify the field first: the sequence is placed by it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="138"/>
+        <source>Looking up the AAVSO sequence…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="167"/>
+        <source>AAVSO chart {chart}: {n} sequence star(s) on the frame (green, labelled).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="182"/>
         <source>The field is identified when you press Identify the field.</source>
         <translation type="unfinished"></translation>
     </message>
