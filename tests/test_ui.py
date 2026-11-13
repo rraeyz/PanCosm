@@ -245,6 +245,12 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     assert len(page.light_curve["rel_flux"]) == 28
     page.undo_stack.undo()
     assert len(page.light_curve["rel_flux"]) == 30
+    # the exact transit (PHO-26): without a period it asks for one, with one the fit's sentence comes back
+    page.transit_button.click()
+    assert "period" in page.transit_result.text()
+    page.period.setText("0.5")
+    page.transit_button.click()
+    qtbot.waitUntil(lambda: page.transit_result.text().startswith("Mid-transit"), timeout=60000)
     out = tmp_path / "lc.csv"
     from astrowb.ui.photometry_page import export_csv
 

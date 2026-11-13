@@ -3895,13 +3895,13 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Resim olarak kaydet (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="352"/>
+        <location filename="../../ui/area_windows.py" line="355"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="348"/>
+        <location filename="../../ui/area_windows.py" line="351"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Görüntüyü &amp;kapat</translation>
@@ -3957,67 +3957,67 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Denetimler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="199"/>
+        <location filename="../../ui/area_windows.py" line="202"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="199"/>
+        <location filename="../../ui/area_windows.py" line="202"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="200"/>
+        <location filename="../../ui/area_windows.py" line="203"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="202"/>
+        <location filename="../../ui/area_windows.py" line="205"/>
         <source>not marked</source>
         <translation>işaretli değil</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="203"/>
+        <location filename="../../ui/area_windows.py" line="206"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="205"/>
+        <location filename="../../ui/area_windows.py" line="208"/>
         <source>Role</source>
         <translation>Rol</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="206"/>
+        <location filename="../../ui/area_windows.py" line="209"/>
         <source>x, y (FITS pixels)</source>
         <translation>x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="207"/>
+        <location filename="../../ui/area_windows.py" line="210"/>
         <source>Peak</source>
         <translation>Tepe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="208"/>
+        <location filename="../../ui/area_windows.py" line="211"/>
         <source>Sky per pixel</source>
         <translation>Piksel başına gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="209"/>
+        <location filename="../../ui/area_windows.py" line="212"/>
         <source>Net counts</source>
         <translation>Net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="210"/>
+        <location filename="../../ui/area_windows.py" line="213"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="219"/>
+        <location filename="../../ui/area_windows.py" line="222"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="350"/>
+        <location filename="../../ui/area_windows.py" line="353"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Tüm görüntüleri kapat</translation>
@@ -4203,7 +4203,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="441"/>
+        <location filename="../../ui/area_windows.py" line="444"/>
         <source>&amp;Measure</source>
         <translation>Ö&amp;lç</translation>
     </message>
@@ -4224,69 +4224,69 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="81"/>
-        <location filename="../../ui/area_windows.py" line="413"/>
+        <location filename="../../ui/area_windows.py" line="416"/>
         <source>F&amp;rames</source>
         <translation>&amp;Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="427"/>
+        <location filename="../../ui/area_windows.py" line="430"/>
         <source>&amp;Stars</source>
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="375"/>
-        <location filename="../../ui/area_windows.py" line="322"/>
-        <location filename="../../ui/area_windows.py" line="453"/>
+        <location filename="../../ui/area_windows.py" line="325"/>
+        <location filename="../../ui/area_windows.py" line="456"/>
         <source>&amp;Analyse</source>
         <translation>&amp;Analiz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="300"/>
+        <location filename="../../ui/area_windows.py" line="303"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Renk kanallarına ayır (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="302"/>
+        <location filename="../../ui/area_windows.py" line="305"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Renkli kameranın ham görüntüsü, her renk için bir tane olmak üzere yarı boyutta üç görüntü olarak (ara değerleme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="308"/>
+        <location filename="../../ui/area_windows.py" line="311"/>
         <source>Stack the open images…</source>
         <translation>Açık görüntüleri üst üste ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="310"/>
+        <location filename="../../ui/area_windows.py" line="313"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Açık görüntüler yıldızlarına göre hizalanır, aykırı değerler atılarak ortalaması alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="313"/>
+        <location filename="../../ui/area_windows.py" line="316"/>
         <source>Drizzle the open images…</source>
         <translation>Açık görüntüleri drizzle ile birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="315"/>
+        <location filename="../../ui/area_windows.py" line="318"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Kaydırılarak çekilmiş görüntüler iki kat ince bir ızgaraya (az örneklenmiş yıldızlar için daha keskin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="326"/>
+        <location filename="../../ui/area_windows.py" line="329"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="327"/>
+        <location filename="../../ui/area_windows.py" line="330"/>
         <source>&amp;Colour</source>
         <translation>&amp;Renk</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="328"/>
+        <location filename="../../ui/area_windows.py" line="331"/>
         <source>S&amp;tack</source>
         <translation>&amp;Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="338"/>
+        <location filename="../../ui/area_windows.py" line="341"/>
         <source>Copy the header</source>
         <translation>Başlığı kopyala</translation>
     </message>
@@ -4672,7 +4672,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Tayfı farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="261"/>
+        <location filename="../../ui/area_windows.py" line="264"/>
         <source>&amp;Job</source>
         <translation>&amp;İş</translation>
     </message>
@@ -11728,6 +11728,44 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/photometry_stars.py" line="95"/>
         <source>Every catalogue star near the target&apos;s brightness, with its reason</source>
         <translation>Hedefin parlaklığına yakın her katalog yıldızı, gerekçesiyle</translation>
+    </message>
+</context>
+<context>
+    <name>PhotometryTransit</name>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="28"/>
+        <source>Mid-transit {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} h, T23 {t23:.2f} h; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</source>
+        <translation>Geçiş ortası {tc} BJD; derinlik {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} sa, T23 {t23:.2f} sa; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. İndirgenmiş χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="39"/>
+        <source>Exact transit model</source>
+        <translation>Kesin geçiş modeli</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="41"/>
+        <source>Fit the transit</source>
+        <translation>Geçişi uydur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
+        <translation>Hava kütlesinde eğilimli, kenar kararmalı geçiş ölçülen eğriye uydurulur; periyodu ister</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <source>Measure the light curve first.</source>
+        <translation>Önce ışık eğrisini ölçün.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="62"/>
+        <source>Type the period (d) above first.</source>
+        <translation>Önce yukarıya periyodu (gün) yazın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="66"/>
+        <source>Fitting the transit…</source>
+        <translation>Geçiş uyduruluyor…</translation>
     </message>
 </context>
 <context>
