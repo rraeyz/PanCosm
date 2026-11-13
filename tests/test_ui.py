@@ -258,6 +258,11 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     saved = _save_all(window.area_windows["photometry"], page, str(tmp_path / "all"))  # File → Export → Save all
     assert page.save_all_button.parentWidget() is page.export_button.parentWidget()  # in the Report stage
     assert "No AAVSO exoplanet file: it needs your AAVSO observer code" in page.result.text()  # what is missing
+    from astrowb.engine import automation
+    from astrowb.ui.area_windows import _save_recipe
+
+    recipe = automation.load(_save_recipe(window.area_windows["photometry"], page, str(tmp_path / "r.json")))
+    assert recipe["steps"][0]["step"] == "photometry.light_curve" and len(recipe["inputs"]["images"]["value"]) == 30
     assert {p.name for p in saved} >= {"light_curve.lc.ecsv", "measurements.csv", "stars.json", "transit_fit.json"}
     from astrowb.ui.kit.table_view import DataTable
     from astrowb.ui.photometry_transit import details_dialog
