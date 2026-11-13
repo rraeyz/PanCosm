@@ -9,24 +9,30 @@ from .aperture import despike
 
 
 def _spike(a, inside, sigma):
-    """A pixel above the mean of its four neighbours by more than a star of the stamp's own core width can be (a
-    Gaussian of width s: at most the pixel times 1 - exp(-1.2 / (2 s^2)), its centre off the pixel's included; s from
-    the half-maximum area of the median-filtered stamp
-    or the second moment, whichever is narrower) and by 5 sigma (sky and photons, gain about 1)."""
+    """A pixel above the mean of its four neighbours by more than a star of the stamp's own core can be and by 5
+    sigma (sky and photons, gain about 1). The star is a Gaussian of the stamp's own shape: the covariance of its
+    second moments (elongation and angle) scaled to the narrower of two sizes, the half-maximum area of the
+    median-filtered stamp or the moments' (a Moffat's sharp core). Its peak pixel, wherever the centre falls in it,
+    is at most 1 - (exp(-Cxx / 2) + exp(-Cyy / 2)) / 2 of itself above the mean of its four neighbours (C the inverse
+    covariance; 1.2 times C's diagonal kept as a margin). A round star of the mean width was assumed before: an
+    elongated star of the owner's T100 night (58 % down on one side, 11 % on the other) was taken for a cosmic ray."""
     smooth = despike(np.clip(a, 0, None))[inside]  # the star without the spike
-    if smooth.max() <= 0:
+    if not smooth.size or smooth.max() <= 0:  # no pixel of the aperture in the stamp (a star off the frame's edge)
         return False
     area = np.count_nonzero(smooth >= smooth.max() / 2)  # the half-maximum area: a Moffat's sharp core
     w = np.clip(a, 0, None) * inside
     yy, xx = np.indices(a.shape)
     cx, cy = (w * xx).sum() / w.sum(), (w * yy).sum() / w.sum()
-    moment = (w * ((xx - cx) ** 2 + (yy - cy) ** 2)).sum() / w.sum() / 2  # a sharp Gaussian the median filter widens
-    s2 = max(min(4 * area / np.pi / 5.545, moment), 0.25)  # the narrower: a core is never taken for a spike
+    dx, dy = xx - cx, yy - cy
+    cov = np.array([[(w * dx * dx).sum(), (w * dx * dy).sum()], [(w * dx * dy).sum(), (w * dy * dy).sum()]]) / w.sum()
+    size = np.sqrt(max(np.linalg.det(cov), 1e-6))  # the moments' s^2 (sx * sy), wings included
+    s2 = max(min(4 * area / np.pi / 5.545, size), 0.25)  # the narrower: a core is never taken for a spike
+    inv = np.linalg.inv(cov * s2 / size + 1e-9 * np.eye(2))
+    drop = 1 - (np.exp(-0.5 * 1.2 * inv[0, 0]) + np.exp(-0.5 * 1.2 * inv[1, 1])) / 2
     p = np.pad(a, 1, mode="edge")
     lap = a - (p[:-2, 1:-1] + p[2:, 1:-1] + p[1:-1, :-2] + p[1:-1, 2:]) / 4
-    bound = np.clip(a, 0, None) * (1 - np.exp(-1.2 / (2 * s2)))
     noise = np.sqrt(sigma**2 + np.clip(a, 0, None))
-    return bool(np.any(inside & (lap > bound + 5 * noise)))
+    return bool(np.any(inside & (lap > np.clip(a, 0, None) * drop + 5 * noise)))
 
 
 def aperture_flags(data, xy, r_ap):

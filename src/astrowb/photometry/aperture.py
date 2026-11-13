@@ -54,6 +54,11 @@ def frame_shift(ref: np.ndarray, img: np.ndarray, binning: int = 1) -> tuple[flo
         a = despike(a)  # hot pixels are fixed on the chip and would pull the peak to zero shift
         _, med, std = sigma_clipped_stats(sample(a, 2))
         stars = np.clip(a - med - 3 * std, 0, 50 * std).astype(np.float64)  # no gradients, no saturated cores
+        # the frame's rim is fixed on the chip and pulled the peak to zero shift: on the owner's T100 frames a
+        # shadowed border the flat divides up (5-40 % response) held 69 % of the signal and shifts of 11-163 px
+        # came out as 0 (UF-18); overscan and bright edges do the same
+        m = max(4, int(0.02 * max(a.shape)))  # 2 % of the (binned) frame: the T100 rim is about 10 px of 2048
+        stars[:m], stars[-m:], stars[:, :m], stars[:, -m:] = 0, 0, 0, 0
         return sfft.rfft2(stars, workers=-1)  # real input: half the work of fft2, on every core; same correlation
 
     # transforms are kept for the last two images: frame to frame (this frame is the next call's reference) and

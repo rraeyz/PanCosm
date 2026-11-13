@@ -49,3 +49,17 @@ def test_no_false_spikes_on_clean_stars():
             assert aperture_flags(field(fwhm, seed=seed), xy, 2.5 * fwhm) == [""] * len(xy), (fwhm, seed)
     for seed in range(3):  # Moffat wings too
         assert aperture_flags(field(4.0, beta=2.5, seed=seed), xy, 8.0) == [""] * len(xy)
+
+
+def test_elongated_core_is_not_a_spike():
+    """A star of the owner's T100 night, elongated (from its peak 58 % down on one side, 11 % on the other), was
+    flagged as a cosmic ray against the mean of its four neighbours; a real single-pixel spike still is."""
+    yy, xx = np.mgrid[:40, :40]
+    for cx, cy in ((20.0, 20.0), (20.3, 19.6), (19.5, 20.5)):
+        for sx, sy in ((0.9, 2.0), (2.2, 1.0), (1.2, 1.6)):
+            r2 = (xx - cx) ** 2 / (2 * sx**2) + (yy - cy) ** 2 / (2 * sy**2)
+            img = 500 + 4e5 / (2 * np.pi * sx * sy) * np.exp(-r2)
+            img = np.random.default_rng(2).poisson(img).astype(float)
+            assert aperture_flags(img, [(cx, cy)], 5.0) == [""], (cx, cy, sx, sy)
+            img[int(cy) - 3, int(cx) + 2] += 8000.0  # a cosmic ray in the same aperture
+            assert aperture_flags(img, [(cx, cy)], 5.0) == ["C"], (cx, cy, sx, sy)
