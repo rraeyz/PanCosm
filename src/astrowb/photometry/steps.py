@@ -695,6 +695,14 @@ describe(
         label=QT_TRANSLATE_NOOP("Steps", "Band"),
         help=QT_TRANSLATE_NOOP("Steps", "The band of the standard magnitudes"),
     ),
+    P(
+        "source",
+        "choice",
+        "auto",
+        choices=("auto", "aavso"),
+        label=QT_TRANSLATE_NOOP("Steps", "Magnitudes from"),
+        help=QT_TRANSLATE_NOOP("Steps", "auto: Gaia GSPC, APASS, Gaia colours; aavso: the field's AAVSO sequence"),
+    ),
 )
 describe(
     "timeseries.mission_lc",

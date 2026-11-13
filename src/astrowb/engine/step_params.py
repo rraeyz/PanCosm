@@ -115,6 +115,16 @@ describe(
         label=QT_TRANSLATE_NOOP("Steps", "Export for"),
         help=QT_TRANSLATE_NOOP("Steps", "PHOEBE, Wilson–Devinney or a transit-fitting program"),
     ),
+    P(
+        "exposure",
+        "float",
+        0.0,
+        unit="s",
+        min=0.0,
+        max=7200.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Exposure time"),
+        help=QT_TRANSLATE_NOOP("Steps", "The model is averaged over each exposure; 0: short exposures"),
+    ),
 )
 describe(
     "astrometry.solve",

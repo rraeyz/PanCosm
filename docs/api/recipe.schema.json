@@ -526,6 +526,15 @@
             "transit",
             null
            ]
+          },
+          "exposure": {
+           "description": "Exposure time (s): The model is averaged over each exposure; 0: short exposures",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 7200.0
           }
          },
          "additionalProperties": false
@@ -621,6 +630,14 @@
            "type": [
             "string",
             "null"
+           ]
+          },
+          "source": {
+           "description": "Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; aavso: the field's AAVSO sequence",
+           "enum": [
+            "auto",
+            "aavso",
+            null
            ]
           }
          },

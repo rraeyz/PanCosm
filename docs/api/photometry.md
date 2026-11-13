@@ -37,7 +37,7 @@ outputs:     catalog
   catalog  (object)  Catalogue magnitudes
 parameters (default):
   filter = "V"  (band)  Band: The band of the standard magnitudes
-  source = "auto"
+  source = "auto"  (choice, one of auto, aavso)  Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; aavso: the field's AAVSO sequence
 ```
 
 ## photometry.identify_field

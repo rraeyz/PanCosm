@@ -15739,7 +15739,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../photometry/steps.py" line="624"/>
-        <location filename="../../photometry/steps.py" line="743"/>
+        <location filename="../../photometry/steps.py" line="751"/>
         <source>Outer sky radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15814,12 +15814,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="706"/>
+        <location filename="../../photometry/steps.py" line="714"/>
         <source>Mission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="707"/>
+        <location filename="../../photometry/steps.py" line="715"/>
         <source>The space telescope whose light curves are fetched</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15926,7 +15926,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/io.py" line="40"/>
-        <location filename="../../photometry/steps.py" line="713"/>
+        <location filename="../../photometry/steps.py" line="721"/>
         <source>Flux</source>
         <translation>Fluss</translation>
     </message>
@@ -16362,194 +16362,204 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="714"/>
+        <location filename="../../photometry/steps.py" line="703"/>
+        <source>Magnitudes from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="704"/>
+        <source>auto: Gaia GSPC, APASS, Gaia colours; aavso: the field&apos;s AAVSO sequence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/steps.py" line="722"/>
         <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="725"/>
+        <location filename="../../photometry/steps.py" line="733"/>
         <source>Aperture radius</source>
         <translation>Aperturradius</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="726"/>
+        <location filename="../../photometry/steps.py" line="734"/>
         <source>Light inside it is the star&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="734"/>
+        <location filename="../../photometry/steps.py" line="742"/>
         <source>Inner sky radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="735"/>
+        <location filename="../../photometry/steps.py" line="743"/>
         <source>The sky annulus starts here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="744"/>
+        <location filename="../../photometry/steps.py" line="752"/>
         <source>The sky annulus ends here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="752"/>
+        <location filename="../../photometry/steps.py" line="760"/>
         <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
         <translation>Verstärkung (Gain)</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="753"/>
+        <location filename="../../photometry/steps.py" line="761"/>
         <location filename="../../spectroscopy/step_params.py" line="232"/>
         <source>Empty: from the header or the profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="759"/>
+        <location filename="../../photometry/steps.py" line="767"/>
         <source>Radii from the profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="760"/>
+        <location filename="../../photometry/steps.py" line="768"/>
         <source>The radii are chosen from the stars&apos; own profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="766"/>
+        <location filename="../../photometry/steps.py" line="774"/>
         <source>Scale radii with seeing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="767"/>
+        <location filename="../../photometry/steps.py" line="775"/>
         <source>Each frame&apos;s radii follow its FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="773"/>
+        <location filename="../../photometry/steps.py" line="781"/>
         <source>PSF photometry</source>
         <translation type="unfinished">PSF-Photometrie</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="774"/>
+        <location filename="../../photometry/steps.py" line="782"/>
         <source>Stars fitted with the frame&apos;s PSF (crowded fields)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="780"/>
+        <location filename="../../photometry/steps.py" line="788"/>
         <source>Stars that place the frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="781"/>
+        <location filename="../../photometry/steps.py" line="789"/>
         <source>Picked on the first frame; empty: the frames are placed automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="788"/>
+        <location filename="../../photometry/steps.py" line="796"/>
         <source>Centring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="789"/>
+        <location filename="../../photometry/steps.py" line="797"/>
         <source>How each star is centred on every frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="795"/>
+        <location filename="../../photometry/steps.py" line="803"/>
         <source>Remove neighbours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="796"/>
+        <location filename="../../photometry/steps.py" line="804"/>
         <source>Stars near the measured ones are fitted and subtracted before the apertures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="804"/>
+        <location filename="../../photometry/steps.py" line="812"/>
         <source>Telescope aperture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="805"/>
+        <location filename="../../photometry/steps.py" line="813"/>
         <source>For the scintillation noise (Young 1967); empty: left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="812"/>
+        <location filename="../../photometry/steps.py" line="820"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="814"/>
+        <location filename="../../photometry/steps.py" line="822"/>
         <source>Read noise, dark current and linearity when the header lacks them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="821"/>
+        <location filename="../../photometry/steps.py" line="829"/>
         <source>Sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="822"/>
+        <location filename="../../photometry/steps.py" line="830"/>
         <source>How the sky level is read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="828"/>
+        <location filename="../../photometry/steps.py" line="836"/>
         <source>Fixed positions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="830"/>
+        <location filename="../../photometry/steps.py" line="838"/>
         <source>Stars measured where marked, not re-centred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="837"/>
+        <location filename="../../photometry/steps.py" line="845"/>
         <source>Header time marks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="838"/>
+        <location filename="../../photometry/steps.py" line="846"/>
         <source>What the header&apos;s time marks: the start, middle or end of the exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="845"/>
+        <location filename="../../photometry/steps.py" line="853"/>
         <source>Shutter delay</source>
         <translation>Verschlussverzögerung</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="847"/>
+        <location filename="../../photometry/steps.py" line="855"/>
         <source>Added to the header time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="853"/>
+        <location filename="../../photometry/steps.py" line="861"/>
         <source>Other radii</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="855"/>
+        <location filename="../../photometry/steps.py" line="863"/>
         <source>More aperture radii measured at the same time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="866"/>
+        <location filename="../../photometry/steps.py" line="874"/>
         <source>Colour coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="867"/>
+        <location filename="../../photometry/steps.py" line="875"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="874"/>
+        <location filename="../../photometry/steps.py" line="882"/>
         <source>Comparison colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="875"/>
+        <location filename="../../photometry/steps.py" line="883"/>
         <source>The comparison ensemble&apos;s catalogue colour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16595,7 +16605,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="36"/>
-        <location filename="../../engine/step_params.py" line="158"/>
+        <location filename="../../engine/step_params.py" line="168"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
@@ -16693,166 +16703,176 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="128"/>
+        <location filename="../../engine/step_params.py" line="125"/>
+        <source>Exposure time</source>
+        <translation type="unfinished">Belichtungszeit</translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="126"/>
+        <source>The model is averaged over each exposure; 0: short exposures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/step_params.py" line="138"/>
         <source>Search radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="129"/>
+        <location filename="../../engine/step_params.py" line="139"/>
         <source>Around the header&apos;s position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="135"/>
+        <location filename="../../engine/step_params.py" line="145"/>
         <source>Refine on Gaia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="136"/>
+        <location filename="../../engine/step_params.py" line="146"/>
         <source>The solution is fitted again on Gaia DR3 stars (higher-order distortion)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="148"/>
+        <location filename="../../engine/step_params.py" line="158"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="149"/>
+        <location filename="../../engine/step_params.py" line="159"/>
         <source>The object is looked for in a box this wide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="159"/>
+        <location filename="../../engine/step_params.py" line="169"/>
         <source>The stars shown over the image: gaia, vsx or aavso (the AAVSO comparison sequence)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="168"/>
-        <location filename="../../engine/step_params.py" line="212"/>
-        <location filename="../../engine/step_params.py" line="224"/>
+        <location filename="../../engine/step_params.py" line="178"/>
+        <location filename="../../engine/step_params.py" line="222"/>
+        <location filename="../../engine/step_params.py" line="234"/>
         <source>Faintest magnitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="169"/>
-        <location filename="../../engine/step_params.py" line="213"/>
+        <location filename="../../engine/step_params.py" line="179"/>
+        <location filename="../../engine/step_params.py" line="223"/>
         <source>Fainter stars are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="178"/>
+        <location filename="../../engine/step_params.py" line="188"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="179"/>
+        <location filename="../../engine/step_params.py" line="189"/>
         <source>png, jpg or tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="185"/>
+        <location filename="../../engine/step_params.py" line="195"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="186"/>
+        <location filename="../../engine/step_params.py" line="196"/>
         <source>How the black and white points are chosen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="192"/>
-        <location filename="../../engine/step_params.py" line="235"/>
+        <location filename="../../engine/step_params.py" line="202"/>
+        <location filename="../../engine/step_params.py" line="245"/>
         <source>Stretch</source>
         <translation>Streckung</translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="193"/>
+        <location filename="../../engine/step_params.py" line="203"/>
         <source>linear, log, sqrt, asinh…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="204"/>
+        <location filename="../../engine/step_params.py" line="214"/>
         <source>Field of view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="205"/>
+        <location filename="../../engine/step_params.py" line="215"/>
         <source>Width of the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="219"/>
+        <location filename="../../engine/step_params.py" line="229"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="220"/>
+        <location filename="../../engine/step_params.py" line="230"/>
         <source>Above the chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="225"/>
+        <location filename="../../engine/step_params.py" line="235"/>
         <source>Fainter bodies are left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="226"/>
+        <location filename="../../engine/step_params.py" line="236"/>
         <source>Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="227"/>
+        <location filename="../../engine/step_params.py" line="237"/>
         <source>The operation&apos;s own settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="236"/>
+        <location filename="../../engine/step_params.py" line="246"/>
         <source>Lupton&apos;s stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="243"/>
+        <location filename="../../engine/step_params.py" line="253"/>
         <source>Softening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="244"/>
+        <location filename="../../engine/step_params.py" line="254"/>
         <source>Lupton&apos;s Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="251"/>
+        <location filename="../../engine/step_params.py" line="261"/>
         <source>The three images are aligned on their stars first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="260"/>
+        <location filename="../../engine/step_params.py" line="270"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="261"/>
+        <location filename="../../engine/step_params.py" line="271"/>
         <source>An existing file of that name is replaced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="267"/>
+        <location filename="../../engine/step_params.py" line="277"/>
         <source>Header cards to set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="268"/>
+        <location filename="../../engine/step_params.py" line="278"/>
         <source>Keyword: value pairs written into the header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="274"/>
+        <location filename="../../engine/step_params.py" line="284"/>
         <source>Header cards to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/step_params.py" line="275"/>
+        <location filename="../../engine/step_params.py" line="285"/>
         <source>Keywords taken out of the header</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17081,7 +17101,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="167"/>
-        <location filename="../../engine/step_params.py" line="250"/>
+        <location filename="../../engine/step_params.py" line="260"/>
         <source>Align</source>
         <translation>Ausrichten</translation>
     </message>
