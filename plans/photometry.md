@@ -441,7 +441,13 @@ at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 - **Files:** `images/inspect.py` (`pair_measure`), `ui/image/tools.py` (ruler), `tests/test_pair_measure.py`
 
 ### PHO-25. Catalogue magnitudes: more catalogues, AAVSO sequences, one model  (P1)
-**open**
+**partial** — done (2026-11-13), the AAVSO sequence: `services/aavso_vsp.py` (`sequence`: VSP's chart id and its
+stars with AUID, label, position and per-band magnitudes, cached so a field keeps one chart id and works offline;
+`sequence_magnitudes`: a star within 5″ in the report's band, AAVSO R / I / CV → Rc / Ic / V). The AAVSO report
+dialog's "Take them from the AAVSO chart (VSP)" fills the comparison magnitudes, the check star's label (KNAME) and
+the chart id from the marked stars' positions on the solved first frame, and names the stars not in the sequence
+(nothing guessed; typing stays). Tests: a recorded Qatar-1 answer parsed, matched, kept offline; the dialog. Left:
+items 1 (other catalogues), 2, 3 (Stars-stage source choice and overlay), 4, 6.
 - **Why:** differential magnitudes need comparison magnitudes; APASS DR9 stops near V = 16 and has known zero-point
   errors; Gaia → V polynomials scatter by 0.03 mag; AAVSO reports should use the AAVSO sequence of the field.
 - **Reference:** Gaia Synthetic Photometry Catalogue (Gaia Collaboration, Montegriffo et al. 2023, A&A 674, A33):

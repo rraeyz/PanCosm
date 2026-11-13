@@ -92,6 +92,7 @@ TEMPLATES = (
     ),
     # services/cache.py
     QT_TRANSLATE_NOOP("Messages", "working offline: the answer of {service} is not in the cache"),
+    QT_TRANSLATE_NOOP("Messages", "the AAVSO has no comparison sequence for this field"),
     # selfcheck.py
     QT_TRANSLATE_NOOP("Messages", "the compiled routines are missing from this installation"),
     # core/table.py
