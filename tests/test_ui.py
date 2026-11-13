@@ -2340,3 +2340,29 @@ def test_automatic_steps_can_be_turned_off(window, qtbot, tmp_path):
     page.identify_button.click()
     page.suggest_button.click()
     assert asked == ["field", "suggest"]
+
+
+def test_comparison_rules_set_by_the_user(window, qtbot):
+    """PHO-17 rules section: the user's window, distance and count go with every Suggest; defaults restore."""
+    from astrowb.ui import comparison_rules
+
+    page = window.photometry_page
+    page.rules_button.click()
+    d = page.rules_dialog
+    d.widgets["brighter_by_max"].setValue(0.5)
+    d.widgets["max_distance_arcmin"].setValue(5)
+    d.widgets["count"].setValue(3)
+    d.accept()
+    r = comparison_rules.rules()
+    assert r["brighter_by_max"] == 0.5 and r["max_distance_arcmin"] == 5 and r["count"] == 3
+    page.images, page.target, page.comps = ["a.fits"], (10.0, 10.0), []
+    page._series = lambda: ["a.fits"]
+    with qtbot.waitSignal(page.suggest_requested) as sent:
+        page._suggest(auto=False)
+    assert sent.args[2]["rules"]["count"] == 3
+    page.rules_button.click()
+    d = page.rules_dialog
+    assert d.widgets["count"].value() == 3
+    next(b for b in d.findChildren(type(page.rules_button)) if "defaults" in b.text()).click()
+    d.accept()
+    assert comparison_rules.rules()["count"] == 8 and comparison_rules.rules()["max_distance_arcmin"] is None
