@@ -429,7 +429,7 @@ the suite is green after each.
 - **Depends on:** ARC-4 for the area being migrated.
 
 ### ARC-6. Plot layer: fast interactive plots, publication export from the same description  (P1)
-**agent3 claimed (2026-11-10 21:30 UTC) — do not touch**
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the layer is built and used, left: item 6 toolbar, item 8 moving the windows' plots onto PlotView)
 - **Progress (agent3):** items 0, 1, 2, 3, 5, 7 done — `ui/plot/spec.py` (spec, Okabe–Ito colours, time offsets,
   decimation), `ui/plot/view.py` (`PlotView`: every interaction of item 2, driven by QTests in
   `tests/test_plot_view.py`), `ui/plot/publish.py` (AAS / A&A / MNRAS / screen styles, fonts embedded, ECSV data and
@@ -501,7 +501,7 @@ the suite is green after each.
 - **Depends on:** ARC-4.7.
 
 ### ARC-7. Image layer: one viewer for every window  (P1)
-**agent3 claimed (2026-11-10 21:45 UTC) — do not touch**
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the viewer is shared and fast, left: the rest of items 3 and 6)
 - **Progress (agent3):** speed part of the Accept met without item 1's tile pyramid. Measured first (Qt software
   raster, 4 cores, 1400 × 900 view): the old viewer already panned and zoomed in 2–7 ms a frame (Qt scales one
   pixmap); only the first view (9576 × 6388: 1.1 s) and a level change (0.7 s) were slow, both from converting
@@ -558,7 +558,7 @@ the suite is green after each.
 - **Depends on:** ARC-4.7.
 
 ### ARC-8. Table layer: one table for every window  (P1)
-**agent3 claimed (2026-11-10 22:00 UTC) — do not touch**
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: the layer is done, left: item 5, moving the old tables onto TableView)
 - **Progress (agent3):** items 1 and 2 done. `core/table.py`: `select()` (column names, arithmetic, chained
   comparisons, and / or / not, abs / isnan / log10 / sqrt — parsed with `ast`, nothing else can run), `write()`
   to CSV, ECSV, VOTable, HTML (Astropy's writers), AASTeX deluxetable and Markdown with "value ± error" rounded by
@@ -594,7 +594,7 @@ the suite is green after each.
 - **Files:** `core/table.py`, `ui/kit/{table,link}.py`, windows' panels, tests.
 
 ### ARC-9. Native kernels (Rust) with NumPy twins  (P1)
-**agent3 claimed (2026-11-10 22:15 UTC) — do not touch** (done when the installers of all five targets carry it)
+**done** (2026-11-13: the installers of all five targets carry it — CI's package jobs build it and their smoke tests pass; claim released). Kernels: kepler_e, clipped_mean (calibration masters, bit-exact), occulted_quadratic (transit model, 1e-15)
 - **Progress (agent3):** items 1, 3–7 done; item 2 changed. `native/` (pyo3 0.30 abi3, numpy, rayon; Rust pinned
   1.97.0; `Cargo.lock` committed), `tools/build_native.py`, `src/astrowb/native.py` (`available`, `use`,
   `describe`, `ASTROWB_NATIVE=off`), `kepler_e` behind `spectroscopy/orbit.eccentric_anomaly` with its twin kept,
