@@ -2396,3 +2396,10 @@ def test_nearby_eclipsing_binary_check_in_the_window(window, monkeypatch):
     kw["on_done"]({"neb": [row, row | {"disposition": "Cleared", "x": 60.0, "y": 90.0}]})
     assert "1 of 2 neighbours cleared" in page.transit_result.text()
     assert page.neb_dialog.findChild(photometry_neb.DataTable).table.rowCount() == 2
+
+
+def test_oc_says_when_hjd_has_no_time_scale(window, tmp_path):
+    path = tmp_path / "minima.txt"
+    path.write_text("# HJD error type source\n2459000.5123 0.0004 I Paper 2020\n2459010.5100 0.0004 I Paper 2020\n")
+    window.oc_page._load(str(path))
+    assert "taken as UTC" in window.oc_page.result.text() and "69 s" in window.oc_page.result.text()

@@ -66,3 +66,14 @@ def test_errors_scaled_when_scatter_exceeds_stated_errors():
     honest = fit([Minimum(m.time, 0.002) for m in minima], T0, P)
     assert f.chi2r > 10
     assert abs(f.period_err / honest.period_err - 1) < 0.3
+
+
+def test_hjd_without_a_time_scale_is_named():
+    """ARC-15 item 4: HJD with no scale gives TT − UTC of the latest time (69.184 s since 2017); a named scale none."""
+    from astrowb.timeseries.ephemeris import hjd_scale_unknown
+
+    assert hjd_scale_unknown("# HJD   error  type\n2459000.5 0.001 I", [2459000.5]) == pytest.approx(69.184, abs=0.01)
+    assert hjd_scale_unknown("# HJD\n2451000.5", [2451000.5]) == pytest.approx(63.184, abs=0.01)  # 1998: 31 leap s
+    assert hjd_scale_unknown("# HJD_UTC\n2459000.5", [2459000.5]) is None
+    assert hjd_scale_unknown("# HJD (TT)\n2459000.5", [2459000.5]) is None
+    assert hjd_scale_unknown("# BJD_TDB\n2459000.5", [2459000.5]) is None
