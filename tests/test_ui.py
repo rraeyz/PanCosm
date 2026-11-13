@@ -2250,6 +2250,26 @@ def test_why_these_stars(window):
     assert not page.why_button.isEnabled()
 
 
+def test_a_star_left_out_can_be_used_anyway(window):
+    """PHO-17 "Use anyway": the user's choice beats the rules; a star already used cannot be added twice."""
+    from astrowb.ui.photometry_stars import why_dialog
+
+    page = window.photometry_page
+    page.target, page._radii_set = (10.0, 10.0), True
+    row = {"index": 1, "mag": 12.1, "colour": 0.8, "distance": 36.0, "peak": 9000.0, "snr": 300.0}
+    table = [row | {"x": 40.0, "y": 30.0, "verdict": "chosen"}, row | {"x": 70.0, "y": 50.0, "verdict": "neighbour"}]
+    page.set_comparisons([(40.0, 30.0)], {"colour": 0.7, "same_colour": True, "table": table})
+    d = why_dialog(page, page.judged_stars)
+    from astrowb.ui.kit.table_view import DataTable
+
+    view = d.findChild(DataTable)
+    view.row_chosen.emit((40.0, 30.0))
+    assert not d.use_button.isEnabled()
+    view.row_chosen.emit((70.0, 50.0))
+    d.use_button.click()
+    assert page.comps == [(40.0, 30.0), (70.0, 50.0)] and not d.use_button.isEnabled()
+
+
 def test_the_checks_tab(window):
     """PHO-33: the Photometry window's Checks tab lists the frames behind cloud."""
     window.show_workspace("photometry")

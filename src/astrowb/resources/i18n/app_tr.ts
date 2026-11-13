@@ -11152,7 +11152,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="186"/>
+        <location filename="../../ui/photometry_stars.py" line="205"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Alan tanınıyor (Gaia, VSX)…</translation>
     </message>
@@ -12224,7 +12224,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/photometry_stars.py" line="57"/>
-        <location filename="../../ui/photometry_stars.py" line="92"/>
+        <location filename="../../ui/photometry_stars.py" line="111"/>
         <source>Why these stars?</source>
         <translation>Neden bu yıldızlar?</translation>
     </message>
@@ -12259,62 +12259,77 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>S/N</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_stars.py" line="75"/>
+        <source>Use this star anyway</source>
+        <translation>Bu yıldızı yine de kullan</translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_stars.py" line="76"/>
+        <source>The chosen star becomes a comparison star, whatever its verdict</source>
+        <translation>Seçilen yıldız, kararı ne olursa olsun karşılaştırma yıldızı olur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="87"/>
+        <source>use a star anyway</source>
+        <translation>bir yıldızı yine de kullan</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="95"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="84"/>
+        <location filename="../../ui/photometry_stars.py" line="103"/>
         <source>Suggest comparison stars</source>
         <translation>Karşılaştırma yıldızı öner</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="87"/>
+        <location filename="../../ui/photometry_stars.py" line="106"/>
         <source>Similar brightness, not saturated, no bright neighbour, inside the frame in every image</source>
         <translation>Benzer parlaklıkta, doymamış, parlak komşusu olmayan ve her görüntüde alan içinde kalan yıldızlar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="95"/>
+        <location filename="../../ui/photometry_stars.py" line="114"/>
         <source>Every catalogue star near the target&apos;s brightness, with its reason</source>
         <translation>Hedefin parlaklığına yakın her katalog yıldızı, gerekçesiyle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="100"/>
+        <location filename="../../ui/photometry_stars.py" line="119"/>
         <source>Identify the field</source>
         <translation>Alanı tanı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="102"/>
+        <location filename="../../ui/photometry_stars.py" line="121"/>
         <source>Plate solution of the first frame, its Gaia stars and the VSX variables in it</source>
         <translation>İlk karenin plaka çözümü, Gaia yıldızları ve içindeki VSX değişenleri</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="105"/>
+        <location filename="../../ui/photometry_stars.py" line="124"/>
         <source>Show the AAVSO sequence</source>
         <translation>AAVSO dizisini göster</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="107"/>
+        <location filename="../../ui/photometry_stars.py" line="126"/>
         <source>The AAVSO chart&apos;s comparison stars on the first frame, with their labels</source>
         <translation>AAVSO haritasının karşılaştırma yıldızları ilk karede, etiketleriyle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="129"/>
+        <location filename="../../ui/photometry_stars.py" line="148"/>
         <source>Identify the field first: the sequence is placed by it.</source>
         <translation>Önce alanı tanımlayın: dizi onunla yerleştirilir.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="138"/>
+        <location filename="../../ui/photometry_stars.py" line="157"/>
         <source>Looking up the AAVSO sequence…</source>
         <translation>AAVSO dizisine bakılıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="167"/>
+        <location filename="../../ui/photometry_stars.py" line="186"/>
         <source>AAVSO chart {chart}: {n} sequence star(s) on the frame (green, labelled).</source>
         <translation>AAVSO haritası {chart}: karede {n} dizi yıldızı (yeşil, etiketli).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="182"/>
+        <location filename="../../ui/photometry_stars.py" line="201"/>
         <source>The field is identified when you press Identify the field.</source>
         <translation>Alan, Alanı tanı düğmesine bastığınızda tanınır.</translation>
     </message>

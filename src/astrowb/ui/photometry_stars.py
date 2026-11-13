@@ -72,6 +72,25 @@ def why_dialog(page, table, show_star=None):
     view.set_data(header, rows, keys=[(r["x"], r["y"]) for r in table])
     if show_star is not None:
         view.row_chosen.connect(lambda key: key is not None and show_star(key))
+    use = d.use_button = QPushButton(translate("PhotometryStars", "Use this star anyway"), d)
+    use.setToolTip(translate("PhotometryStars", "The chosen star becomes a comparison star, whatever its verdict"))
+    use.setEnabled(False)
+    chosen = []
+
+    def choose(key):
+        chosen[:] = [key] if key is not None else []
+        use.setEnabled(key is not None and tuple(key) not in {tuple(c) for c in page.comps})
+
+    def use_it():
+        if chosen:
+            page.edit(
+                translate("PhotometryStars", "use a star anyway"), page._set_comps, [*page.comps, tuple(chosen[0])]
+            )
+            use.setEnabled(False)
+
+    view.row_chosen.connect(choose)
+    use.clicked.connect(use_it)
+    d.button_row.addWidget(use)
     d.body.addWidget(view)
     close = d.add_buttons(translate("PhotometryStars", "Close"))
     close.setDefault(True)

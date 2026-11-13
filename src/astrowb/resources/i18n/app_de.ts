@@ -11150,7 +11150,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="186"/>
+        <location filename="../../ui/photometry_stars.py" line="205"/>
         <source>Identifying the field (Gaia, VSX)…</source>
         <translation>Feld wird erkannt (Gaia, VSX)…</translation>
     </message>
@@ -12222,7 +12222,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/photometry_stars.py" line="57"/>
-        <location filename="../../ui/photometry_stars.py" line="92"/>
+        <location filename="../../ui/photometry_stars.py" line="111"/>
         <source>Why these stars?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12257,62 +12257,77 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished">S/N</translation>
     </message>
     <message>
+        <location filename="../../ui/photometry_stars.py" line="75"/>
+        <source>Use this star anyway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/photometry_stars.py" line="76"/>
+        <source>The chosen star becomes a comparison star, whatever its verdict</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="87"/>
+        <source>use a star anyway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_stars.py" line="95"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="84"/>
+        <location filename="../../ui/photometry_stars.py" line="103"/>
         <source>Suggest comparison stars</source>
         <translation type="unfinished">Vergleichssterne vorschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="87"/>
+        <location filename="../../ui/photometry_stars.py" line="106"/>
         <source>Similar brightness, not saturated, no bright neighbour, inside the frame in every image</source>
         <translation type="unfinished">Ähnliche Helligkeit, nicht gesättigt, kein heller Nachbar, in jedem Bild im Feld</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="95"/>
+        <location filename="../../ui/photometry_stars.py" line="114"/>
         <source>Every catalogue star near the target&apos;s brightness, with its reason</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="100"/>
+        <location filename="../../ui/photometry_stars.py" line="119"/>
         <source>Identify the field</source>
         <translation type="unfinished">Feld identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="102"/>
+        <location filename="../../ui/photometry_stars.py" line="121"/>
         <source>Plate solution of the first frame, its Gaia stars and the VSX variables in it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="105"/>
+        <location filename="../../ui/photometry_stars.py" line="124"/>
         <source>Show the AAVSO sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="107"/>
+        <location filename="../../ui/photometry_stars.py" line="126"/>
         <source>The AAVSO chart&apos;s comparison stars on the first frame, with their labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="129"/>
+        <location filename="../../ui/photometry_stars.py" line="148"/>
         <source>Identify the field first: the sequence is placed by it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="138"/>
+        <location filename="../../ui/photometry_stars.py" line="157"/>
         <source>Looking up the AAVSO sequence…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="167"/>
+        <location filename="../../ui/photometry_stars.py" line="186"/>
         <source>AAVSO chart {chart}: {n} sequence star(s) on the frame (green, labelled).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_stars.py" line="182"/>
+        <location filename="../../ui/photometry_stars.py" line="201"/>
         <source>The field is identified when you press Identify the field.</source>
         <translation type="unfinished"></translation>
     </message>
