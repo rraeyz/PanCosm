@@ -4543,7 +4543,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/area_windows.py" line="105"/>
         <source>Recipe for the command line (.json)…</source>
-        <translation type="unfinished"></translation>
+        <translation>Receta para la línea de comandos (.json)…</translation>
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="183"/>

@@ -34,6 +34,31 @@ Gözlem sekansı olan şablonlarda **Gözlem penceresine** vardır: hedefi, baş
 
 Otomasyonlar düz JSON dosyalarıdır; paylaşılabilir: dosyayı başka bir kullanıcının `automations` klasörüne kopyalayın.
 
+## Betik ve komut satırı {#automation-plugins-scripting}
+Programın her adımı pencere açılmadan da çalışır: her gece aynı biçimde işlenen gözlemler ya da daha büyük bir
+çalışma için.
+
+**Komut satırı.** `astrowb-cli steps` bütün adımları listeler, `astrowb-cli help photometry.light_curve` bir adımın
+girdilerini, ayarlarını ve çıktılarını gösterir. Fotometri penceresinde **Dosya → Dışa aktar → Komut satırı için
+tarif (.json)…** son ölçümü kaydeder; bu tarif pencere olmadan yeniden çalışır, başka bir gecenin karelerinde de
+(ilk kare plaka çözümlüyse yıldızlar gökteki konumlarıyla bulunur) ve ışık eğrisi dosyasını yazar:
+
+```
+astrowb-cli recipe gece.json --set images='["g2/f001.fits", "g2/f002.fits"]' output=g2.lc.ecsv
+```
+
+**Python.** Her adım `astrowb.api` içinde bir fonksiyondur, yardımı `help()` ile görülür; sonuçlar tablo olarak
+okunabilir:
+
+```python
+from astrowb import api
+
+lc = api.photometry.light_curve(images=kareler, target_xy=[512, 300], comps_xy=[[400, 280]])["light_curve"]
+out = api.timeseries.period(time=lc["time"], flux=lc["rel_flux"], p_min=0.1, p_max=2.0)
+print(out["best"])
+periyodogram = out.to_table()          # periyotlar ve güç, bir astropy Table olarak
+```
+
 ## Eklentiler {#automation-plugins-plugins}
 **Nedir:** eklenti, uygulamaya kendinizin eklediği küçük bir araçtır — uygulamada olmayan bir hesap ya da yalnızca grubunuzun ihtiyaç duyduğu bir iş için. Tek bir Python dosyasıdır. Eklentiler klasörüne konunca **Eklentiler** menüsünde görünür, girdileri için küçük bir form açar, yerleşik her adım gibi çalışır (arka planda, ilerleme ve İptal ile, projeye kaydedilerek) ve bir otomasyonun adımı olarak da kullanılabilir.
 
