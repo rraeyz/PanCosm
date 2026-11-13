@@ -40,3 +40,22 @@ def test_switched_off_the_twin_runs(monkeypatch):
     monkeypatch.setenv(native.ENV, "auto")
     if native.available():
         assert np.allclose(orbit.eccentric_anomaly(m, 0.3), e_anomaly, atol=1e-12)
+
+
+@needs_native
+def test_clipped_mean_equals_its_numpy_twin_to_the_bit():
+    """The compiled clipped mean (calibration masters) gives the NumPy block's numbers exactly: NaN and inf pixels,
+    outliers, all-equal columns, empty columns."""
+    from astrowb.compute.combine import _cpu_block
+
+    rng = np.random.default_rng(4)
+    x = rng.normal(1000, 20, (7, 50_000)).astype(np.float32)
+    x[2, ::97] += 5000  # cosmic rays
+    x[:, 5] = 3.0  # all equal
+    x[:, 6] = np.nan  # nothing at all
+    x[1, 7], x[3, 8] = np.inf, -np.inf
+    x[:3, 9] = np.nan
+    want_mean, want_cnt = _cpu_block(x, 3.0, 5)
+    got_mean, got_cnt = native._native.clipped_mean(np.ascontiguousarray(x), np.float32(3.0), 5)
+    assert np.array_equal(got_cnt, want_cnt)
+    assert np.array_equal(got_mean, want_mean, equal_nan=True)
