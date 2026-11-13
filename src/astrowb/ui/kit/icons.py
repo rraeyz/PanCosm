@@ -50,7 +50,7 @@ ICONS = {
     "radii": "own/radii",
     "measure": "own/measure",
     "minimum": "own/minimum",
-    "leave_out": "lucide/circle-x",
+    "leave_out": "lucide/eraser",
     # calibration
     "scan": "lucide/scan-search",
     "calibrate": "own/calibrate",

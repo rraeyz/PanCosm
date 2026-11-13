@@ -415,6 +415,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "line {n}: unknown header key {key}"),
     QT_TRANSLATE_NOOP("Messages", "the header needs #{key}"),
     QT_TRANSLATE_NOOP("Messages", "line {n}: {expected} columns expected"),
+    # photometry/reports/exoclock.py (PHO-27)
+    QT_TRANSLATE_NOOP("Messages", "ExoClock needs BJD_TDB times: give the target's position when measuring"),
     # photometry/fit_steps.py (PHO-26)
     QT_TRANSLATE_NOOP("Messages", "unknown detrending series: {name}"),
     # photometry/steps.py (PHO-17)

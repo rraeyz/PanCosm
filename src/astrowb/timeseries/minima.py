@@ -17,6 +17,8 @@ is above 1. Best for flat-bottomed transits, where KvW's S(T) is shallow and noi
 
 import numpy as np
 
+from ..core.citations import cites
+
 
 def _s_curves(t, ys, trials, half_width, n_grid):
     """S(T) for every trial time and every light curve ys (m, n) on the same times t: the mean squared difference
@@ -32,6 +34,7 @@ def _s_curves(t, ys, trials, half_width, n_grid):
     return np.mean((v[..., :n_grid] - v[..., n_grid:]) ** 2, axis=-1)
 
 
+@cites("kwee1956")
 def kwee_van_woerden(t, y, n_trials=61, bootstrap=200, seed=0):
     """Return (t_min, sigma_kvw, sigma_bootstrap). t must cover both branches of the minimum.
 
