@@ -170,3 +170,39 @@ def test_floyds_spectrum_extracted_in_the_window(walk):
     assert np.mean((rows > 2) & (rows < 510)) > 0.8  # the curved order stays on the 512-row frame
     assert len(tab.result["arc_peaks"]) >= 15
     h.check()
+
+
+SOLVER = __import__("shutil").which("solve-field") or __import__("shutil").which("astap_cli")
+
+
+@pytest.mark.skipif(not SOLVER or len(EROS) < 3, reason="a plate solver (astrometry.net or ASTAP) and the Eros frames")
+def test_plate_solve_in_the_images_window(walk, tmp_path):
+    """An LCO frame of 433 Eros with its sky coordinates taken off, opened in the Images window and solved from the
+    Astrometry menu: the solution matches LCO's own pipeline solution within 1″ over the whole frame."""
+    import numpy as np
+    from astropy.io import fits
+    from astropy.wcs import WCS
+
+    from astrowb.calibration.masters import load
+
+    data, header = load(EROS[0])
+    lco = WCS(header)
+    bare = header.copy()
+    wcs_keys = ("CTYPE", "CRVAL", "CRPIX", "CD", "CDELT", "PC", "CUNIT", "PV", "WCS", "A_", "B_", "AP_", "BP_",
+                "LONPOLE", "LATPOLE")  # fmt: skip
+    for key in [k for k in bare if k.startswith(wcs_keys)]:
+        del bare[key]
+    frame = tmp_path / "eros_no_wcs.fits"
+    fits.PrimaryHDU(data.astype(np.float32), bare).writeto(frame)
+    h = walk("en")
+    h.area("image")
+    h.answer(frame)
+    h.menu("&Open…")
+    h.wait(lambda: h.main.viewer.data is not None)
+    assert h.main.wcs is None
+    h.menu("&Plate solve (ASTAP / astrometry.net)", budget=120.0)
+    h.wait(lambda: h.main.wcs is not None, timeout=300.0)
+    xs, ys = np.meshgrid(np.linspace(100, 2300, 5), np.linspace(100, 2300, 5))
+    ours, theirs = h.main.wcs.pixel_to_world(xs, ys), lco.pixel_to_world(xs, ys)
+    assert np.max(ours.separation(theirs).arcsec) < 1.0
+    h.check()
