@@ -20,6 +20,32 @@ def kinds():
     }
 
 
+def advice_lines(items):
+    """The next-night advice (photometry.advice) in words, each with its reason."""
+    words = {
+        "exposure": translate(
+            "PhotometryChecks",
+            "Expose {suggest:.0f} s instead of {now:.0f} s: the highest peak reached {peak:.0f} of the limit "
+            "{limit:.0f}; this puts it at 60 %.",
+        ),
+        "defocus": translate(
+            "PhotometryChecks",
+            "Defocus a little: the brightest pixel holds {percent:.0f} % of the target's light, so flat-field errors "
+            "weigh on every point.",
+        ),
+        "lost": translate(
+            "PhotometryChecks",
+            "Comparison {star} was missing on {percent:.0f} % of the frames: point so that it stays well inside the "
+            "frame, or choose another.",
+        ),
+        "cadence": translate(
+            "PhotometryChecks",
+            "Only {points} points over the ingress at a {cadence_s:.0f} s cadence: shorter exposures resolve it.",
+        ),
+    }
+    return [words[a["kind"]].format(**a, percent=100 * a.get("share", 0)) for a in items if a["kind"] in words]
+
+
 class ChecksTab(QWidget):
     def __init__(self, page):
         super().__init__(page)
@@ -35,7 +61,10 @@ class ChecksTab(QWidget):
         self.leave_out.clicked.connect(self.leave_out_flagged)
         self.table = DataTable(self)
         self.table.row_chosen.connect(self._show)
+        self.advice = QLabel(self)
+        self.advice.setWordWrap(True)
         lay.addWidget(self.verdict)
+        lay.addWidget(self.advice)
         lay.addWidget(self.leave_out)
         lay.addWidget(self.table, 1)
 
@@ -45,6 +74,22 @@ class ChecksTab(QWidget):
         index = next((k for k, p in enumerate(self.page.images) if Path(p).name == name), None)
         if index is not None:
             self.page.show_frame(index)
+
+    def _advice(self, lc):
+        from ..calibration.masters import load
+        from ..hdr import get
+        from ..photometry.advice import next_night
+
+        exptime = None
+        try:
+            exptime = (
+                get(load(self.page.images[0])[1], "EXPTIME", "EXPOSURE", default=None) if self.page.images else None
+            )
+        except (OSError, ValueError, IndexError):  # no frame to read: the advice that needs no exposure time
+            pass
+        lines = advice_lines(next_night(lc, exptime=exptime))
+        title = translate("PhotometryChecks", "For next time:")
+        return "\n".join([title, *("• " + x for x in lines)]) if lines else ""
 
     def leave_out_flagged(self):
         """Through the page's undoable exclusion, as its saturated-points command."""
@@ -67,6 +112,7 @@ class ChecksTab(QWidget):
             if counts
             else translate("PhotometryChecks", "No frame flagged: no cloud, seeing jump, field jump or saturation.")
         )
+        self.advice.setText(self._advice(lc))
         files = self.files = list(lc.get("file") or [""] * len(lc.get("rel_flux", [])))
         rows = sorted({i for v in flags.values() for i in v})
         self.table.set_data(
