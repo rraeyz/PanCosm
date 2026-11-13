@@ -54,3 +54,15 @@ def read(path):
     out = {key: t[key].tolist() for key in t.meta["columns"]}
     out |= dict(t.meta["lc"])
     return out
+
+
+def is_lcfile(path):
+    return str(path).lower().endswith(".ecsv")
+
+
+def series(path):
+    """(time, rel_flux, rel_flux_err or None, the whole dict) of a light-curve file: what Light curves and Models
+    read from it."""
+    lc = read(path)
+    err = lc.get("rel_flux_err")
+    return np.asarray(lc["time"], float), np.asarray(lc["rel_flux"], float), err and np.asarray(err, float), lc

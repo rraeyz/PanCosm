@@ -2026,7 +2026,9 @@ class PhotometryPage(Undoable, QWidget):
         if self.lc_raw is None:
             return None
         if paths is None:
-            paths, _ = QFileDialog.getOpenFileNames(self, self.tr("Add other nights"), "", "CSV (*.csv)")
+            paths, _ = QFileDialog.getOpenFileNames(
+                self, self.tr("Add other nights"), "", self.tr("Light curves (*.lc.ecsv *.csv)")
+            )
         if not paths:
             return None
         try:

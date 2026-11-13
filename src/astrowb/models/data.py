@@ -1,7 +1,8 @@
 """Light-curve files in, model files out.
 
-read_light_curve: our own CSV export (time column first, rel_flux, rel_flux_err), AAVSO-like or plain
-text tables (time, value[, error]); magnitudes are converted to relative flux.
+read_light_curve: the Photometry window's light-curve file (.lc.ecsv), our own CSV export (time column first,
+rel_flux, rel_flux_err), AAVSO-like or plain text tables (time, value[, error]);
+magnitudes are converted to relative flux.
 export_for_phoebe: data files and starting values for PHOEBE 2 (or any other modelling program); the
 user runs PHOEBE (GPL-3) in their own Python, nothing of it is bundled. read_model_curve brings a
 computed model curve (two columns: time or phase, flux) back for comparison.
@@ -19,6 +20,17 @@ MAG_NAMES = ("mag", "magnitude", "rel_mag", "dmag", "delta_mag")
 def read_light_curve(path):
     """Return (time, flux, error or None, info) with flux normalised to a median of 1."""
     from astropy.table import Table
+
+    from ..photometry import lcfile
+
+    if lcfile.is_lcfile(path):  # the Photometry window's light-curve file: the relative flux and its errors
+        t, flux, err, _ = lcfile.series(path)
+        ok = np.isfinite(t) & np.isfinite(flux) & (np.isfinite(err) & (err > 0) if err is not None else True)
+        order = np.argsort(t[ok])
+        med = np.nanmedian(flux[ok])
+        e = None if err is None else err[ok][order] / med
+        return t[ok][order], flux[ok][order] / med, e, {"time_column": "time", "value_column": "rel_flux",
+                                                        "magnitudes": False}  # fmt: skip
 
     tab = Table.read(path, format="ascii")
     names = [n.lower() for n in tab.colnames]

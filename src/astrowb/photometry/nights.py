@@ -56,9 +56,15 @@ def mixed_standards(curves):
 
 
 def read_export(path):
-    """A light curve written by the Photometry window's CSV export (time column first, target_flux, comp<i>_flux,
-    rel_flux, rel_flux_err), back as a light curve for join_nights."""
+    """A light curve written by the Photometry window: the light-curve file (.lc.ecsv, whole, with every star's own
+    errors) or the CSV export (time column first, target_flux, comp<i>_flux, rel_flux, rel_flux_err), back as a light
+    curve for join_nights."""
     from astropy.table import Table
+
+    from . import lcfile
+
+    if lcfile.is_lcfile(path):
+        return lcfile.read(path)
 
     t = Table.read(path, format="csv")
     cols = t.colnames

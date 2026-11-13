@@ -354,10 +354,23 @@ class PeriodPage(Undoable, QWidget):
     def _load(self, path=None):
         """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
         if not isinstance(path, str):
-            path, _ = QFileDialog.getOpenFileName(self, self.tr("Load light curve"), "", "CSV (*.csv *.txt *.dat)")
+            path, _ = QFileDialog.getOpenFileName(
+                self, self.tr("Load light curve"), "", "CSV (*.csv *.txt *.dat);;Light-curve file (*.lc.ecsv *.ecsv)"
+            )
         if not path:
             return
+        from ..photometry import lcfile
         from ..timeseries import surveys
+
+        if lcfile.is_lcfile(path):
+            try:
+                t, flux, err, _ = lcfile.series(path)
+            except (OSError, ValueError, KeyError) as e:
+                self.source.setText(
+                    self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e))
+                )
+                return
+            return self.set_light_curve(t, flux, Path(path).name, err=err)
 
         try:
             rows = surveys.parse(Path(path).read_text(encoding="utf-8", errors="replace"))
