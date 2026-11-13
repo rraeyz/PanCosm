@@ -222,13 +222,16 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", AstropyUserWarning)  # a star wider than the box: handled below
             x, y = xy[inside, 0], xy[inside, 1]
+            ran_off = np.zeros(len(x), bool)
             for _ in range(1 if method == "auto" else 3):  # the box moved onto the star: IRAF's cmaxiter
                 x, y = centroid_sources(clean, x, y, box_size=box, centroid_func=CENTROIDS[method])
                 # a fit that ran off (a 2-D Gaussian on noise can land outside the frame; the next pass then
-                # raised "points outside the input data", user-feedback UF-16): back to the prediction
+                # raised "points outside the input data", user-feedback UF-16): searched from the prediction
+                # again, and in the end not found
                 ok = np.isfinite(x) & np.isfinite(y) & (x >= 0) & (x <= nx - 1) & (y >= 0) & (y <= ny - 1)
+                ran_off |= ~ok
                 x, y = np.where(ok, x, xy[inside, 0]), np.where(ok, y, xy[inside, 1])
-        out[inside] = np.column_stack([x, y])
+        out[inside] = np.column_stack([np.where(ran_off, np.nan, x), np.where(ran_off, np.nan, y)])
     sky = []  # the frame's sky level and noise, measured only if a star looks wider than the box
 
     def frame_sky():
