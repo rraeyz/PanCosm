@@ -165,12 +165,36 @@ def _unspike(stamp):
     return np.where((stamp - med > 2 * (hi - med)) | (stamp < lo), med, stamp)
 
 
-def recenter(data, xy, box=11, max_move=2.5, found=False):
+def _moments(data, mask=None):
+    """Centre of light of the pixels more than 2 sigma above the box's median (IRAF's centroid with cthreshold):
+    the noise of the sky pixels, clipped at zero, would otherwise pull the centre to the box's middle."""
+    from photutils.centroids import centroid_com
+
+    d = np.asarray(data, float) - np.median(data)
+    sigma = 1.4826 * np.median(np.abs(d))
+    return centroid_com(np.where(d > 2 * sigma, d, 0.0), mask=mask)
+
+
+def _gauss2d(data, mask=None, error=None):
+    from photutils.centroids import centroid_2dg
+
+    d = np.asarray(data, float)
+    return centroid_2dg(d - np.median(d), mask=mask)
+
+
+CENTROIDS = {"auto": centroid_1dg, "moments": _moments, "gauss": _gauss2d}
+
+
+def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
     """Centroids near the predicted (x, y) positions (0-based pixels). A centroid that fails or lands
     more than max_move pixels from the prediction (a neighbour, a defect) is replaced by the
     prediction. Centroids are found on a copy without single hot pixels so one cannot capture them.
-    found: also return which positions are centroids (True) rather than the prediction kept (False)."""
+    found: also return which positions are centroids (True) rather than the prediction kept (False).
+    method (PHO-44, IRAF's calgorithm): "auto" (1-D Gaussians, centre of light for stars wider than the box),
+    "moments" (centre of light above the box's median), "gauss" (a 2-D Gaussian), "none" (the prediction)."""
     xy = np.asarray(xy, dtype=float)
+    if method == "none":
+        return (xy.copy(), np.isfinite(xy).all(axis=1)) if found else xy.copy()
     clean = np.nan_to_num(np.asarray(data, dtype=np.float32))
     ny, nx = clean.shape
     h = box // 2 + 2
@@ -186,7 +210,10 @@ def recenter(data, xy, box=11, max_move=2.5, found=False):
     if inside.any():
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", AstropyUserWarning)  # a star wider than the box: handled below
-            x, y = centroid_sources(clean, xy[inside, 0], xy[inside, 1], box_size=box, centroid_func=centroid_1dg)
+            x, y = xy[inside, 0], xy[inside, 1]
+            for _ in range(1 if method == "auto" else 3):  # the box moved onto the star: IRAF's cmaxiter
+                x, y = centroid_sources(clean, x, y, box_size=box, centroid_func=CENTROIDS[method])
+                x, y = np.where(np.isfinite(x), x, xy[inside, 0]), np.where(np.isfinite(y), y, xy[inside, 1])
         out[inside] = np.column_stack([x, y])
     sky = []  # the frame's sky level and noise, measured only if a star looks wider than the box
 
@@ -196,7 +223,7 @@ def recenter(data, xy, box=11, max_move=2.5, found=False):
             sky.extend([float(med), float(std)])
         return sky
 
-    for i, (px, py) in enumerate(xy):  # defocused stars wider than the box: centre of light in a box that fits
+    for i, (px, py) in enumerate(xy if method == "auto" else ()):  # defocused stars: centre of light, a box that fits
         wide = _wide_centroid(clean, px, py, box, frame_sky) if inside[i] else None
         if wide is not None:
             out[i] = wide

@@ -86,6 +86,7 @@ parameters (default):
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
+  centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
 ```
 
 ## photometry.multifilter
@@ -123,6 +124,7 @@ parameters (default):
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
+  centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
   t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```

@@ -2,7 +2,7 @@
 after the neighbours are fitted and subtracted. Two check boxes that exclude each other."""
 
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QCheckBox, QComboBox, QHBoxLayout, QLabel
 
 translate = QCoreApplication.translate  # the strings keep the PhotometryPage context they had there
 
@@ -28,6 +28,19 @@ def add_method_boxes(page, body):
     for box, other in ((page.psf, page.remove_neighbours), (page.remove_neighbours, page.psf)):
         box.toggled.connect(lambda on, other=other: on and other.setChecked(False))
         body.addWidget(box)
+    row = QHBoxLayout()  # PHO-44
+    row.addWidget(QLabel(translate("PhotometryPage", "Centring"), page))
+    page.centring = QComboBox(page)
+    for key, text in (("auto", translate("PhotometryPage", "1-D Gaussians (default)")),
+                      ("gauss", translate("PhotometryPage", "2-D Gaussian (most precise)")),
+                      ("moments", translate("PhotometryPage", "centre of light (IRAF centroid)")),
+                      ("none", translate("PhotometryPage", "none: the positions follow the field"))):  # fmt: skip
+        page.centring.addItem(text, key)
+    page.centring.setToolTip(
+        translate("PhotometryPage", "How each star is found on every frame from where the field's shift puts it")
+    )
+    row.addWidget(page.centring, 1)
+    body.addLayout(row)
 
 
 def method_params(page):
@@ -36,4 +49,5 @@ def method_params(page):
         "psf": page.psf.isChecked(),
         "remove_neighbours": page.remove_neighbours.isChecked(),
         "sky_method": page.sky_method.currentData(),
+        "centring": page.centring.currentData(),
     }

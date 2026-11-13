@@ -710,6 +710,16 @@
             "null"
            ]
           },
+          "centring": {
+           "description": "Centring: How each star is centred on every frame",
+           "enum": [
+            "auto",
+            "moments",
+            "gauss",
+            "none",
+            null
+           ]
+          },
           "remove_neighbours": {
            "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",
            "type": [
@@ -832,6 +842,16 @@
            "type": [
             "boolean",
             "null"
+           ]
+          },
+          "centring": {
+           "description": "Centring: How each star is centred on every frame",
+           "enum": [
+            "auto",
+            "moments",
+            "gauss",
+            "none",
+            null
            ]
           },
           "remove_neighbours": {

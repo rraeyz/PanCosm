@@ -312,7 +312,7 @@ as an automation file (`photometry/recipe.py`: the step photometry.light_curve w
 frames, stars, position and reference frame carried as the inputs' values — automations now take an input's
 `value` as its default, `engine/automation.defaults`); `astrowb-cli recipe night.json [--set images=[…]]` runs it.
 Test: the command line gives the window's relative fluxes to 1e-12; three frames given with --set replace the
-recipe's. Left: star list by RA / Dec in the recipe, exports in it, `api.light_curve`, the guide's example.
+recipe's; `api.photometry.light_curve` was already there (ARC-12). Left: star list by RA / Dec in the recipe, exports in it, the guide's example.
 - **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
   option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
   documented with an example notebook-style script in the guide.
@@ -846,7 +846,14 @@ scintillation; the gain from the header), with what lowers it; the ingress from 
 - **Files:** `photometry/advice.py`, `ui/photometry/panels/lightcurve.py` (card), `tests/test_advice.py`
 
 ### PHO-44. Centring algorithm choice  (P3)
-**open**
+**partial** — done (2026-11-13): `recenter(method=auto | moments | gauss | none)`; moments (pixels > 2σ above the
+box's median) and gauss iterate three times (IRAF's cmaxiter); the step's `centring`, the live path, and a Centring
+choice under the Measure options. Measured on 40 synthetic stars at S/N 50 (`tests/test_centring.py`): gauss bias
+0.004 px, RMS 0.027 px from any start; moments 0.007 / 0.042; **auto (today's default, one pass of 1-D Gaussians)
+keeps about a quarter of the starting offset — 0.1 px bias from 0.3 px, 0.2 px from 0.8 px — and its RMS is 0.09 px
+from the right place.** The default is unchanged (the owner's results stay as they are); making gauss or an
+iterated auto the default is for the owner to decide. Left: `Centring_Method` in the provenance, box and max_move
+in the window.
 - **Reference:** IRAF `centerpars.calgorithm` = centroid | gauss | ofilter | none with `cbox`, `cthreshold`,
   `minsnratio`, `cmaxiter`, `maxshift`; AstroImageJ Howell centroid.
 - **Build:** `recenter(method = auto (today's) | moments | gauss | none)` exposed under More options with `box` and
