@@ -234,7 +234,8 @@ def light_curve(
         "target_flux_err": err[:, 0].tolist(),
         "comp_flux": cf.tolist(),
         "comp_flux_err": ce.tolist(),
-        "peak": peaks,  # brightest pixel in each star's aperture (target, comparisons, extra stars)
+        "peak": [p for p, _ in peaks],  # brightest pixel in each star's aperture (target, comparisons, extra stars)
+        "flags": [f for _, f in peaks],  # per frame and star: C a spike (cosmic ray, hot pixel), E off the edge
         "saturation": saturation,
         "sky": [r[4].tolist() for r in rows],
         "xy": [r[5].tolist() for r in rows],
@@ -434,14 +435,17 @@ def _pixel_file_rows(src, paths, stars0, radii, gain, box):
     xy = recenter(still, stars0, box)
     flux, err, sky, peak = measure_cube(data, xy, *radii, gain, noise)
     rows = [(p, None, flux[i], err[i], sky[i], xy, exptime, ()) for i, p in enumerate(paths)]
-    return rows, peak.tolist(), [list(radii)] * len(paths), (bjd, utc)
+    return rows, [(p, [""] * len(p)) for p in peak.tolist()], [list(radii)] * len(paths), (bjd, utc)
 
 
 def _peaks(data, xy, r_ap):
-    """Brightest pixel inside each aperture (for saturation warnings)."""
+    """(brightest pixel inside each aperture, for saturation warnings; the letters of what spoils it, flags.py)."""
     from photutils.aperture import ApertureStats, CircularAperture
 
-    return np.atleast_1d(ApertureStats(np.asarray(data, float), CircularAperture(xy, r=r_ap)).max).tolist()
+    from .flags import aperture_flags
+
+    peak = np.atleast_1d(ApertureStats(np.asarray(data, float), CircularAperture(xy, r=r_ap)).max).tolist()
+    return peak, aperture_flags(data, xy, r_ap)
 
 
 def normalise(rel, mask=None):

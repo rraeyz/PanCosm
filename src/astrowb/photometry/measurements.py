@@ -92,8 +92,8 @@ def measurements(lc):
         if level and k < peak.shape[1]:  # saturation over non-linearity in the same cell
             for row in np.nonzero(peak[:, k] >= level)[0]:
                 flags[(int(row), f"Peak_{name}")] = f"saturated: peak {peak[row, k]:.0f} ≥ {level:.0f}"
-    cols["rel_flux_T1"] = list(lc["rel_flux"])
-    cols["rel_flux_err_T1"] = list(lc["rel_flux_err"])
+    _spoiled(cols, flags, per_frame("flags", None), names)
+    cols["rel_flux_T1"], cols["rel_flux_err_T1"] = list(lc["rel_flux"]), list(lc["rel_flux_err"])
     with np.errstate(divide="ignore", invalid="ignore"):
         cols["rel_flux_SNR_T1"] = (np.asarray(lc["rel_flux"]) / np.asarray(lc["rel_flux_err"])).tolist()
     cols["tot_C_cnts"] = flux[:, 1 : 1 + n_comp].sum(axis=1).tolist()
@@ -102,6 +102,18 @@ def measurements(lc):
         name = names[1 + n_comp + i]
         cols[f"rel_flux_{name}"], cols[f"rel_flux_err_{name}"] = list(x["rel_flux"]), list(x["rel_flux_err"])
     return cols, flags
+
+
+def _spoiled(cols, marks, flags, names):
+    """PHO-36: the Flags_<star> columns (C a spike in the aperture, E off the edge), each flagged cell explained."""
+    words = {"C": "cosmic ray or hot pixel", "E": "off the edge"}
+    for k, name in enumerate(names):
+        if flags is None or not all(k < len(r) for r in flags):
+            continue
+        cols[f"Flags_{name}"] = [r[k] for r in flags]
+        for row, r in enumerate(flags):
+            if r[k]:
+                marks[(row, f"Flags_{name}")] = "; ".join(words.get(c, c) for c in r[k])
 
 
 def filter_rows(cols, expression):
