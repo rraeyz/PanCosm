@@ -1037,6 +1037,7 @@ stage); light curves — each measured curve sent there, replacing the open one 
 it); O−C — each time of minimum and transit mid-time added to the list; spectroscopy — each reduced spectrum added to
 Velocities (Add…). Stacking: alignment "none (the frames are aligned already)" and "on stars I pick" (a picker on
 the first frame; each click snaps onto its star; the stars followed frame to frame, shift only) beside shift and
-star patterns. Test: with every switch off nothing starts by itself and the buttons still work. Left: the same audit
-in Planning, Observing, Images, Astrometry, Models and Remote sensing as their windows are rebuilt; the Images
-window's Stack (done: it now asks how to align, the four ways); rotation from two or more picked stars.
+star patterns. Test: with every switch off nothing starts by itself and the buttons still work. The audit in
+Planning, Observing, Images, Models and Remote sensing (2026-11-13): no step starts there without a press (Observing
+connects by itself only to the observatory the user has just started); repeat it as those windows are rebuilt; the Images
+window's Stack (done: it now asks how to align, the four ways); rotation from two or more picked stars (done: stacking.follow_stars fits a similarity).
