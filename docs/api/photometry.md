@@ -87,6 +87,7 @@ parameters (default):
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
+  track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
 ```
 
 ## photometry.multifilter
@@ -125,6 +126,7 @@ parameters (default):
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
+  track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
   t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```

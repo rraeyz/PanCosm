@@ -74,7 +74,10 @@ def add_align_row(page, layout, grid):
     page.align_stars = QLineEdit(page)
     page.align_stars.setPlaceholderText(translate("StarPicker", "x y; x y … on the first frame"))
     page.align_stars.setToolTip(
-        translate("StarPicker", "The stars every frame is aligned on, followed from frame to frame (shift only)")
+        translate(
+            "StarPicker",
+            "The stars every frame is aligned on, followed from frame to frame; two or more give the rotation too",
+        )
     )
     pick = page.pick_align_stars = QPushButton(translate("StarPicker", "Pick on the first frame…"), page)
 

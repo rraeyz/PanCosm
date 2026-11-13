@@ -710,6 +710,9 @@
             "null"
            ]
           },
+          "track_stars": {
+           "description": "Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically"
+          },
           "centring": {
            "description": "Centring: How each star is centred on every frame",
            "enum": [
@@ -843,6 +846,9 @@
             "boolean",
             "null"
            ]
+          },
+          "track_stars": {
+           "description": "Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically"
           },
           "centring": {
            "description": "Centring: How each star is centred on every frame",
