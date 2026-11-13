@@ -8,6 +8,8 @@ for pre-main-sequence stars)."""
 
 import numpy as np
 
+from ..core.citations import cites
+
 A = (1.5689, 1.3787, 0.4243, 1.139, -0.1425, 0.01969, 0.1010)
 B = (2.4427, 0.6679, 0.1771, 0.705, -0.21415, 0.02306, 0.04173)
 SCATTER = (0.027, 0.014)
@@ -18,6 +20,7 @@ def _poly(c, teff, logg, feh):
     return c[0] + c[1] * x + c[2] * x**2 + c[3] * x**3 + c[4] * logg**2 + c[5] * logg**3 + c[6] * feh
 
 
+@cites("torres2010")
 def torres(teff, logg, feh, errors=(0.0, 0.0, 0.0), n=20000, seed=1):
     """(M, σ_M, R, σ_R) in solar units: the inputs' errors drawn and the calibration's scatter added."""
     rng = np.random.default_rng(seed)

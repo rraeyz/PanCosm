@@ -9,6 +9,8 @@ w = (1 − u²)², u = (y − loc) / (c · MAD) (|u| < 1), loc = Σ w y / Σ w, 
 
 import numpy as np
 
+from ..core.citations import cites
+
 
 def segments(t, gap_factor=5.0, gap=None):
     """Segment number of every point: a gap longer than gap_factor × the median cadence (or than gap, in the
@@ -52,6 +54,7 @@ def _windowed(t, y, keep, window, reduce):
     return out
 
 
+@cites("hippke2019")
 def trend(t, y, method="biweight", window=0.5, mask=None, gap_factor=5.0, gap=None, **options):
     """The trend at every point, computed per segment from the points outside mask. methods: "biweight",
     "median" (sliding, window in days), "savgol" (window in points, options order), "polynomial" (order by BIC up
