@@ -74,3 +74,16 @@ def test_bad_frame_is_reported_not_fatal(tmp_path):
     assert session.add(paths[0]) is not None
     assert session.add(str(tmp_path / "broken.fits")) is None and "broken.fits" in next(iter(session.failed))
     assert session.add(paths[1]) is not None and len(session.points) == 2
+
+
+def test_a_frame_without_a_comparison_star_is_left_out_with_why(tmp_path):
+    """PHO-19: as in the night run, a frame where a comparison star is not found is left out and the reason kept."""
+    paths = write_frames(tmp_path, 3)
+    data = fits.getdata(paths[2]).astype(float)
+    y, x = np.mgrid[:60, :80]
+    sx, sy, f = STARS[2]
+    data -= f / (2 * np.pi * 1.5**2) * np.exp(-((x - sx - 0.6) ** 2 + (y - sy + 0.4) ** 2) / (2 * 1.5**2))
+    fits.PrimaryHDU(data.astype(np.float32), fits.getheader(paths[2])).writeto(paths[2], overwrite=True)
+    session = live.LiveLightCurve(STARS[0][:2], [s[:2] for s in STARS[1:]], 4, 10, 16)
+    assert session.add(paths[0]) is not None and session.add(paths[1]) is not None
+    assert session.add(paths[2]) is None and session.failed[paths[2]] == "comparison 2"

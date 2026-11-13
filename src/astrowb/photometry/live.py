@@ -15,7 +15,7 @@ from ..calibration.frames import classify
 from ..calibration.masters import calibrate, load
 from ..hdr import get
 from .aperture import frame_shift, recenter
-from .lightcurve import _measure_at, target_coord
+from .lightcurve import _measure_frame, target_coord
 from .psf import neighbours_setup
 
 FITS_SUFFIXES = (".fits", ".fit", ".fts")
@@ -89,15 +89,19 @@ class LiveLightCurve:
                 self.gain = float(g)
                 shift = (0.0, 0.0)
                 self.xy = recenter(data, self.xy, self.box, max_move=self.box / 2)  # snap the clicks onto the stars
-                self.ref = data
+                self.ref, self.ref_path = data, str(path)
                 if self.remove_neighbours:
                     self.opts["neighbours"] = neighbours_setup(data, self.xy, len(self.xy) - 1, self.r[2])
             else:  # against the first frame, as light_curve does: one bad frame does not carry on to the rest
                 shift = frame_shift(self.ref, data)
             pred = self.xy + shift
-            xy, flux, err, *_ = _measure_at(
-                data, h, pred, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.opts
-            )
+            xy, flux, err, *_, lost = _measure_frame(
+                data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, len(pred) - 1, self.ref_path,
+                opts=self.opts,
+            )  # fmt: skip
+            if lost:  # as the night run: a frame without its target or a comparison star is left out, with why
+                self.failed[str(path)] = " ".join(str(x) for x in lost)
+                return None
             t = timing.mid_time(h)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"
