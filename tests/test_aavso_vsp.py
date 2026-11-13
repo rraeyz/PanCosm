@@ -102,3 +102,34 @@ def test_the_sequence_drawn_over_a_solved_image(tmp_path, monkeypatch):
     x, y = w.world_to_pixel_values(stars[0]["ra"], stars[0]["dec"])
     assert (stars[0]["x"], stars[0]["y"]) == pytest.approx((float(x), float(y)), abs=0.01)
     assert 25 < asked[0] < 32  # the frame's diagonal, 20′ × 20′
+
+
+def test_comparison_magnitudes_from_the_sequence(tmp_path, monkeypatch):
+    """Photometry's standard magnitudes with "AAVSO sequence": each comparison star's magnitude in the filter, its
+    B − V for the colour term, the chart id kept for the report; a star outside the sequence gets none."""
+    import numpy as np
+    from astropy.io import fits
+    from astropy.wcs import WCS
+
+    from astrowb.engine.steps import execute
+
+    w = WCS(naxis=2)
+    w.wcs.ctype, w.wcs.crval, w.wcs.crpix = ["RA---TAN", "DEC--TAN"], [303.0, 65.06], [200, 200]
+    w.wcs.cdelt = [-3 / 3600, 3 / 3600]
+    fits.PrimaryHDU(np.zeros((400, 400), np.float32), w.to_header()).writeto(tmp_path / "f.fits")
+    monkeypatch.setattr(aavso_vsp, "sequence", lambda ra, dec, fov, maglimit: aavso_vsp.parse(ANSWER))
+    s113 = aavso_vsp.parse(ANSWER)["stars"][0]
+    comp = [float(v) for v in w.world_to_pixel_values(s113["ra"], s113["dec"])]
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+        def check(self):
+            pass
+
+    inputs = {"image": str(tmp_path / "f.fits"), "target_xy": [200, 200], "comps_xy": [comp, [20, 20]]}
+    cat = execute("photometry.catalog", inputs, {"filter": "V", "source": "aavso"}, Ctx())["catalog"]
+    assert cat["chart"] == "X43370AGGP" and cat["comps"][1] is None
+    c = cat["comps"][0]
+    assert c["mag"] == 11.333 and c["colour"] == pytest.approx(12.038 - 11.333) and c["source"].endswith("113")

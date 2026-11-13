@@ -393,9 +393,10 @@ def quality_step(inputs, params, ctx):
     return {"quality": rows, "good": [r["file"] for r in rows if r["good"]]}
 
 
-@step("photometry.catalog", inputs=("image", "comps_xy", "target_xy"), outputs=("catalog",), filter="V")
+@step("photometry.catalog", inputs=("image", "comps_xy", "target_xy"), outputs=("catalog",), filter="V", source="auto")
 def catalog_step(inputs, params, ctx):
-    """Catalogue magnitudes (APASS / Gaia) of the comparison stars and the target, found by the image's WCS."""
+    """Catalogue magnitudes of the comparison stars and the target, found by the image's WCS: source "auto" (Gaia
+    GSPC, APASS, the Gaia polynomials; catalog.star_magnitude) or "aavso" (the field's AAVSO sequence and chart)."""
     from astropy.wcs import WCS
 
     from ..calibration.masters import load
@@ -406,6 +407,8 @@ def catalog_step(inputs, params, ctx):
     if not wcs.has_celestial:
         raise ValueError("the first image has no sky coordinates: plate-solve it first (Image menu)")
     stars = [inputs["target_xy"], *inputs["comps_xy"]]
+    if params["source"] == "aavso":
+        return {"catalog": _aavso_catalog(wcs, stars, params["filter"])}
     found = []
     for i, (x, y) in enumerate(stars):
         ctx.check()
@@ -413,6 +416,24 @@ def catalog_step(inputs, params, ctx):
         entry = catalog.vizier_fetch(wcs.pixel_to_world(x, y))
         found.append(catalog.star_magnitude(entry, params["filter"]))
     return {"catalog": {"target": found[0], "comps": found[1:], "filter": params["filter"]}}
+
+
+def _aavso_catalog(wcs, stars, filt):
+    """The sequence stars at the marked stars (None where the sequence has none in the band), with the chart id."""
+    import numpy as np
+
+    from ..services import aavso_vsp
+
+    xy = np.asarray(stars, float)
+    ra, dec = wcs.celestial.pixel_to_world_values(xy[:, 0], xy[:, 1])
+    reach = 60 * np.max(np.hypot((ra - ra[0]) * np.cos(np.radians(dec[0])), dec - dec[0]))
+    seq = aavso_vsp.sequence(float(ra[0]), float(dec[0]), fov=max(10.0, 2.2 * reach + 2), maglimit=17.0)
+    points = list(zip(ra, dec, strict=True))
+    found, b, v = (aavso_vsp.sequence_magnitudes(seq, points, band) for band in (filt, "B", "V"))
+    out = [f and {"mag": f["mag"], "err": f["err"] or 0.03, "source": f"AAVSO {seq['chart']} {f['label']}",
+                  "colour": bi["mag"] - vi["mag"] if bi and vi else None}
+           for f, bi, vi in zip(found, b, v, strict=True)]  # fmt: skip
+    return {"target": None, "comps": out[1:], "filter": filt, "chart": seq["chart"]}
 
 
 @step("timeseries.mission_lc", inputs=("target", "folder"), outputs=("light_curve",), mission="TESS", flux="PDCSAP")
