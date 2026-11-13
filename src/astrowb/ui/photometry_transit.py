@@ -48,6 +48,71 @@ def _mcmc_text(out):
     return "\n" + translate("PhotometryTransit", "MCMC: {values}.").format(values="; ".join(parts)) + note
 
 
+def add_archive_button(main, page, layout):
+    """PHO-26 archive fill: the planet's period, T0 and the fit's starting k, a/R★, b from the NASA Exoplanet
+    Archive (step planning.ephemeris); the name asked, the files' OBJECT offered."""
+    from PySide6.QtWidgets import QInputDialog
+
+    page.archive_button = QPushButton(translate("PhotometryTransit", "Fill from the NASA Exoplanet Archive…"), page)
+    page.archive_button.setToolTip(
+        translate("PhotometryTransit", "Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit's start")
+    )
+
+    def ask():
+        obj = ((page.field or {}).get("object") or {}).get("name", "")
+        title = translate("PhotometryTransit", "NASA Exoplanet Archive")
+        name, ok = QInputDialog.getText(
+            page, title, translate("PhotometryTransit", "Planet, e.g. Qatar-1 b:"), text=obj
+        )
+        if ok and name.strip():
+            page.transit_result.setText(translate("PhotometryTransit", "Asking the NASA Exoplanet Archive…"))
+            main.run_step_for("photometry", "planning.ephemeris", {"name": name.strip()}, {"catalogue": "exoplanet"},
+                              on_done=lambda out: fill(page, out["target"]),
+                              on_fail=lambda msg: page.transit_result.setText(message(msg)))  # fmt: skip
+
+    from .messages import translate as message
+
+    page.archive_button.clicked.connect(ask)
+    layout.addWidget(page.archive_button)
+
+
+def fill(page, target):
+    page.archive = target
+    if target.get("period"):
+        page.period.setText(repr(float(target["period"])))
+    if target.get("t0"):
+        page.t0.setText(repr(float(target["t0"])))
+    known = ", ".join(f"{n} {target[k]:g}" for k, n in (("k", "Rp/R★"), ("a_rs", "a/R★"), ("b", "b")) if k in target)
+    page.transit_result.setText(
+        translate("PhotometryTransit", "{name}: period and T0 filled; the fit starts from {known}.").format(
+            name=target.get("name", ""), known=known or "—"
+        )
+    )
+
+
+def add_oc_button(main, page, box, lay):
+    """ "Add the times to the O−C list": the times of minimum and the transit mid-time, by hand (UI-20)."""
+    page.to_oc_button = QPushButton(translate("PhotometryTransit", "Add the times to the O−C list"), box)
+    page.to_oc_button.setToolTip(
+        translate("PhotometryTransit", "The times of minimum and the transit mid-time measured here, into O−C")
+    )
+
+    def to_oc():
+        oc = getattr(main, "oc_page", None)
+        rows = [(x["time"], x["error"], "this work", x.get("kind", "I")) for x in getattr(page, "last_minima", [])]
+        if getattr(page, "transit_fit", None):
+            fit = page.transit_fit[1]
+            rows.append((fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I"))
+        for row in rows if oc is not None else ():
+            oc.add_minimum(*row)
+        page.transit_result.setText(
+            translate("PhotometryTransit", "{n} times added to the O−C list.").format(n=len(rows))
+        )
+
+    page.to_oc_button.clicked.connect(to_oc)
+    lay.addWidget(page.to_oc_button)
+
+
 def add_mcmc_box(page, layout):
     from PySide6.QtWidgets import QCheckBox
 
@@ -110,6 +175,7 @@ def attach(main, page):
     page.transit_result.setTextInteractionFlags(Qt.TextSelectableByMouse)
     page.transit_details = QPushButton(translate("PhotometryTransit", "Parameters and plot…"), box)
     page.transit_details.setEnabled(False)
+    add_archive_button(main, page, lay)
     lay.addWidget(page.transit_button)
     add_mcmc_box(page, lay)
     lay.addWidget(page.transit_result)
@@ -139,8 +205,10 @@ def attach(main, page):
             page.transit_result.setText(translate("PhotometryTransit", "Type the period (d) above first."))
             return
         tc, k = starts(lc)
-        params = {"period": period, "tc": tc, "k": k, "detrend": "airmass" if lc.get("airmass") else "",
+        known = getattr(page, "archive", None) or {}
+        params = {"period": period, "tc": tc, "k": known.get("k", k), "detrend": "airmass" if lc.get("airmass") else "",
                   "mcmc_steps": 5000 if page.transit_mcmc.isChecked() else 0}  # fmt: skip
+        params |= {n: known[n] for n in ("a_rs", "b") if n in known}  # the archive's values as the start
         page.transit_result.setText(translate("PhotometryTransit", "Fitting the transit…"))
         main.run_step_for("photometry", "photometry.transit_fit", {"light_curve": lc}, params,
                           on_done=done,
@@ -149,25 +217,7 @@ def attach(main, page):
     from .messages import translate as message
 
     page.transit_button.clicked.connect(run)
-    page.to_oc_button = QPushButton(translate("PhotometryTransit", "Add the times to the O−C list"), box)
-    page.to_oc_button.setToolTip(
-        translate("PhotometryTransit", "The times of minimum and the transit mid-time measured here, into O−C")
-    )
-
-    def to_oc():
-        oc = getattr(main, "oc_page", None)
-        rows = [(x["time"], x["error"], "this work", x.get("kind", "I")) for x in getattr(page, "last_minima", [])]
-        if getattr(page, "transit_fit", None):
-            fit = page.transit_fit[1]
-            rows.append((fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I"))
-        for row in rows if oc is not None else ():
-            oc.add_minimum(*row)
-        page.transit_result.setText(
-            translate("PhotometryTransit", "{n} times added to the O−C list.").format(n=len(rows))
-        )
-
-    page.to_oc_button.clicked.connect(to_oc)
-    lay.addWidget(page.to_oc_button)
+    add_oc_button(main, page, box, lay)
     photometry_neb.add(main, page, lay)
     page.transit_details.clicked.connect(lambda: details_dialog(page, *page.transit_fit).exec())
     page.minimum_button.parentWidget().layout().insertWidget(
