@@ -83,3 +83,15 @@ def test_night_flags():
     assert verdict.startswith("6 frames behind cloud")
     quiet, line = night_flags(1e6 * (1 + 0.01 * rng.normal(size=n)))
     assert quiet["cloud"] == [] and line == "no frame flagged"
+
+
+def test_checks_from_a_light_curve():
+    from astrowb.photometry.quality import lc_checks
+
+    n = 60
+    comp = np.full((n, 3), 1e5)
+    comp[20:25] *= 0.5
+    lc = {"comp_flux": comp.tolist(), "fwhm": [3.0] * n, "xy": [[[100.0, 100.0], [50.0, 50.0]]] * n,
+          "peak": [[20000.0, 1.0]] * n, "saturation": 60000.0}  # fmt: skip
+    flags, verdict = lc_checks(lc)
+    assert flags["cloud"] == list(range(20, 25)) and not flags["jump"] and not flags["near_saturation"]

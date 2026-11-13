@@ -95,3 +95,15 @@ def night_flags(ensemble=None, fwhm=None, x=None, y=None, peak=None, linearity=N
              "near_saturation": "near saturation"}  # fmt: skip
     verdict = "; ".join(f"{len(v)} frames {words[k]}" for k, v in flags.items() if v) or "no frame flagged"
     return flags, verdict
+
+
+def lc_checks(lc):
+    """night_flags from a measured light curve (photometry.lightcurve's dict): the comparison stars' summed counts,
+    the FWHM, the target's position and its peak against the saturation level."""
+    comp = np.asarray(lc.get("comp_flux", []), float)
+    ensemble = np.nansum(comp.reshape(len(comp), -1), axis=1) if comp.size else None
+    xy = lc.get("xy") or []
+    x = [r[0][0] for r in xy] if xy else None
+    y = [r[0][1] for r in xy] if xy else None
+    peak = [p[0] for p in lc["peak"]] if lc.get("peak") else None
+    return night_flags(ensemble, lc.get("fwhm"), x, y, peak, lc.get("saturation"))

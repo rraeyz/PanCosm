@@ -561,7 +561,7 @@ red-noise inflation, storing the chain.
   within 0.5 % and errors comparable to the published benchmark (± a factor 1.5); 50 000 samples with the native
   kernel < 20 min on 4 cores.
 - **Depends on:** MOD-12, EXO-5.
-- **Files:** `models/uncertainty.py`, `core/inference/` (EXO-5), `models/fit.py` (old `mcmc` becomes a wrapper), `tests/test_model_uncertainty.py`, `tests/coverage/test_binary_coverage.py`
+- **Files:** `models/uncertainty.py`, `core/inference/` (EXO-5), `models/fit.py` (old `mcmc` becomes a wrapper), `tests/test_model_uncertainty.py`, `tests/errorbars/test_binary_coverage.py`
 
 ### MOD-15. Absolute dimensions, distance, where the stars sit  (P1)
 **partial** — done (2026-11-12): `models/absolute.py` with the IAU 2015 nominal values (tested: the Sun's L = 1,

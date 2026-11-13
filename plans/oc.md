@@ -360,7 +360,7 @@ parameter in the interface, the corner plot, saving chains with the session.
   the session (compressed) so that plots reopen without resampling.
 - **Accept:** on synthetic data the 68 % intervals contain the truth in 62–74 % of 300 realisations for each
   parameter of the LTTE and the apsidal model; a non-converged run says so and does not print intervals as final.
-- **Files:** `timeseries/oc_uncertainty.py`, `core/inference/` (EXO-5), `timeseries/oc_models.py` (old `_posterior` removed after migration), `tests/coverage/test_oc_coverage.py`
+- **Files:** `timeseries/oc_uncertainty.py`, `core/inference/` (EXO-5), `timeseries/oc_models.py` (old `_posterior` removed after migration), `tests/errorbars/test_oc_coverage.py`
 
 ### OC-9. Magnetic cycles (Applegate) as a tested alternative  (P2)
 **partial** — done (2026-11-12): `timeseries/applegate.py` from Völschow et al. 2016: ΔP/P = 4π K / P_mod, E_sec =

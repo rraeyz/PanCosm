@@ -146,8 +146,9 @@ brightness closeness scaled by their tolerances, then nearness), `most_common_re
 `photometry.suggest_comparisons` takes `rules` (a dict of those fields) and returns the table in "catalogue";
 none passing raises the message naming the three rules that removed most stars. Tests: a synthetic field with one
 star per reason gets each reason; a star saturating only late is caught where the first frame alone misses it; the
-step on a solved frame. Left: GCVS, the interface (suggested rings, the rules section, "Why these stars?", "Use
-anyway"), the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
+step on a solved frame. The window: "Why these stars?" under the Suggest button opens the table with the verdicts in words, a
+row centres its star (`ui/photometry_stars.py`; the page asks with the default rules). Left: GCVS, suggested
+rings, the rules section, "Use anyway", the pixel-only table, the guide, the NY Vir / Qatar-1 checks, the 4k timing.
 - **Why:** the choice of comparison stars decides the light curve; today the rules are fixed in code and a star left
   out is left out silently.
 - **Reference:** Siril `findcompstars` (`src/algos/comparison_stars.c`): ΔV ≤ 3 mag, Δ(B−V) ≤ 0.5, catalogue error ≤
@@ -646,8 +647,10 @@ at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
 ### PHO-33. Night diagnostics ("Checks" tab)  (P1)
 **partial** — done (2026-11-12), the flags: `quality.night_flags` (cloud below the running upper envelope of the
 comparison counts, bad seeing, a jump of the field, near saturation; frame indices per kind and the one-line
-verdict): a 6-frame cloud, a focus drift and a flip each flagged on their frames, a quiet night unflagged. Left:
-the series from the light-curve run, the Checks tab's panels, "Leave out flagged frames", the Qatar-1 check.
+verdict): a 6-frame cloud, a focus drift and a flip each flagged on their frames, a quiet night unflagged;
+`lc_checks` takes them from a measured light curve; the Photometry window's **Checks** results tab
+(`ui/photometry_checks.py`) shows the verdict and the flagged frames after every measurement. Left: the stacked
+plots, "Leave out flagged frames", the Qatar-1 check.
 - **Ours now:** `photometry/quality.py` (`measure_run`, `measure`, `judge`: FWHM, star count, sky per frame; bad frames marked with reasons) and the Frames table — extend these, do not write a second quality module.
 - **Why:** users must see at a glance whether a dip is real or a cloud; AstroImageJ users plot airmass, sky, FWHM,
   X / Y by hand.
