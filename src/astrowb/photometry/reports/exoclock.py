@@ -9,7 +9,7 @@ def write(lc, path, fit=None):
     if lc.get("time_scale") != "BJD_TDB":
         raise ValueError("ExoClock needs BJD_TDB times: give the target's position when measuring")
     t = np.asarray(lc["time"], float)
-    f, e = np.asarray(lc["rel_flux"], float), np.asarray(lc["rel_flux_err"], float)
+    f, e = np.asarray(lc["rel_flux"], float), np.asarray(lc.get("rel_flux_err_scaled") or lc["rel_flux_err"], float)
     ok = np.isfinite(t) & np.isfinite(f) & np.isfinite(e)
     if fit and fit.get("trend") is not None and len(fit["trend"]) == len(t):
         norm = np.asarray(fit["trend"], float)  # the baseline times the detrending the fit found

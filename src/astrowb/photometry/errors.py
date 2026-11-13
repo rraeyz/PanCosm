@@ -15,6 +15,22 @@ def scatter_ratio(residuals, errors):
     return ratio, (round(ratio, 2) if ratio > 1.2 else None)
 
 
+def point_to_point_ratio(flux, errors):
+    """scatter_ratio on the differences of successive points (σ of a difference is √2 σ): no model needed, and a
+    transit or a slow trend barely counts. The median absolute difference keeps one bad point from ruling it."""
+    f, e = np.asarray(flux, float), np.asarray(errors, float)
+    if f.shape != e.shape:  # a curve without its errors
+        return None, None
+    ok = np.isfinite(f) & np.isfinite(e) & (e > 0)
+    f, e = f[ok], e[ok]
+    if len(f) < 10:
+        return None, None
+    d = np.diff(f)
+    observed = 1.4826 * np.median(np.abs(d - np.median(d))) / np.sqrt(2)
+    ratio = float(observed / np.sqrt(np.mean(e * e)))
+    return ratio, (round(ratio, 2) if ratio > 1.2 else None)
+
+
 def rms_vs_bin(residuals, sizes):
     """[(bin size, RMS of the binned residuals, white-noise expectation σ₁ / √N · √(M / (M − 1)))]."""
     r = np.asarray(residuals, float)

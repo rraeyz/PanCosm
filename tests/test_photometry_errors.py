@@ -26,3 +26,14 @@ def test_budget():
     parts, rel = errors.budget(1e5, 50, 1, 8, 80, 0.001)
     assert parts["photon"] == 1e5 and parts["read"] == 80 * 64
     assert rel == pytest.approx(np.sqrt(1e5 + 4000 + 80 + 5120 + 1e4) / 1e5)
+
+
+def test_point_to_point_ratio_ignores_a_transit():
+    rng = np.random.default_rng(1)
+    t = np.linspace(0, 1, 600)
+    f = 1 + rng.normal(0, 0.003, t.size) - 0.02 * (np.abs(t - 0.5) < 0.1)  # a 2 % transit
+    ratio, factor = errors.point_to_point_ratio(f, np.full(t.size, 0.003))
+    assert ratio == pytest.approx(1.0, abs=0.08) and factor is None
+    ratio, factor = errors.point_to_point_ratio(f, np.full(t.size, 0.002))
+    assert factor == pytest.approx(1.5, abs=0.12)
+    assert errors.point_to_point_ratio([1.0] * 5, [0.1] * 5) == (None, None)

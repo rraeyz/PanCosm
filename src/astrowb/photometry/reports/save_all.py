@@ -44,7 +44,7 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aav
     if lc.get("time_scale") == "BJD_TDB" and aavso:  # the AAVSO Exoplanet Database file, normalised flux
         from . import aavso_exoplanet
 
-        f, e = np.asarray(lc["rel_flux"], float), np.asarray(lc["rel_flux_err"], float)
+        f, e = np.asarray(lc["rel_flux"], float), np.asarray(lc.get("rel_flux_err_scaled") or lc["rel_flux_err"], float)
         m = np.nanmedian(f)
         from ... import __version__
         from ...brand import BRAND

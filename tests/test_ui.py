@@ -2265,6 +2265,28 @@ def test_the_checks_tab(window):
     assert page.checks.table.table.item(0, 1).text() == "f10.fits"
 
 
+def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):
+    """PHO-34: scatter 2× the stated errors: the tab says so and scales them beside the formal ones (undone by a
+    second press); the AAVSO magnitudes' errors follow."""
+    from astrowb.photometry.export import ensemble_magnitudes
+
+    window.show_workspace("photometry")
+    page = window.photometry_page
+    n = 200
+    rel = 1 + np.random.default_rng(4).normal(0, 0.002, n)
+    lc = {"time": list(range(n)), "comp_flux": [[1e5, 1e5]] * n, "rel_flux": rel.tolist(),
+          "rel_flux_err": [0.001] * n, "file": [""] * n}  # fmt: skip
+    page.light_curve = lc
+    page.checks.show_checks(lc)
+    assert "too small" in page.checks.noise.text() and page.checks.scale_button.isVisible() is not None
+    page.checks.scale_button.click()
+    f = lc["error_scale"]
+    assert 1.8 < f < 2.2 and np.allclose(lc["rel_flux_err_scaled"], 0.001 * f) and lc["rel_flux_err"][0] == 0.001
+    assert np.allclose(ensemble_magnitudes(lc, [10.0, 10.0])[1], 1.0857 * 0.001 * f / rel, rtol=1e-3)
+    page.checks.scale_button.click()
+    assert "error_scale" not in lc and "rel_flux_err_scaled" not in lc
+
+
 def test_automatic_steps_can_be_turned_off(window, qtbot, tmp_path):
     """Settings → Automatic steps: with the switches off, opening frames and clicking the target start nothing by
     themselves; the buttons still do it (the owner, 2026-11-13)."""
