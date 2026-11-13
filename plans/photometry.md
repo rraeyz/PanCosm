@@ -881,7 +881,7 @@ limit, defocus when the brightest pixel holds > 15 % of the target's light, comp
 share of frames, cadence against a given ingress), worded with its reason under the Checks tab's verdict ("For next
 time:"). Tests: a night that saturates late gets the exposure that puts the late peak at 60 %. The pointing
 (2026-11-13): stars lost or within the sky ring of the edge give the shift that centres every star's path over the
-night, or "choose nearer stars" when the paths are wider than the frame. Left: flats' contribution. Done: the noise budget's largest term when it is not the photon noise (sky,
+night, or "choose nearer stars" when the paths are wider than the frame; a target that moved more than 5 px brings the flats in (guide better or flats of the same night). PHO-43 done. Done: the noise budget's largest term when it is not the photon noise (sky,
 scintillation; the gain from the header), with what lowers it; the ingress from the fitted transit (T14 − T23) / 2 judges the cadence.
 - **Why:** beyond every reference program: the program has the numbers to say how to observe better.
 - **Build:** after a measurement, a "For next time" card: exposure time that would bring the target's peak to 60 %

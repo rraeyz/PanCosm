@@ -79,3 +79,15 @@ def test_pointing_that_keeps_every_star_in():
     assert not wide["fits"] and "nearer the target" in advice_lines([wide])[0]
     quiet = {"xy": [[[150.0, 100.0]]] * n, "radii": [[4, 10, 15]] * n}
     assert not [a for a in next_night(quiet, shape=(200, 300)) if a["kind"] == "pointing"]
+
+
+def test_a_drifting_target_brings_the_flats_in():
+    from astrowb.photometry.advice import next_night
+    from astrowb.ui.photometry_checks import advice_lines
+
+    n = 20
+    moving = {"xy": [[[100 + d, 100.0]] for d in np.linspace(0, 12, n)], "radii": [[4, 10, 15]] * n}
+    got = [a for a in next_night(moving) if a["kind"] == "drift"]
+    assert got and 11 < got[0]["px"] < 13 and "flat-field" in advice_lines(got)[0]
+    still = {"xy": [[[100.0, 100.0]]] * n}
+    assert not [a for a in next_night(still) if a["kind"] == "drift"]
