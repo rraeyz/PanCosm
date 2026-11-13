@@ -100,6 +100,19 @@ def _exports_menu(win, page, actions):
     exports.addAction(translate("MainWindow", "Light-curve file, nothing left out (.lc.ecsv)…"),
                       lambda: _save_lc_file(win, page))  # fmt: skip
     exports.addAction(translate("MainWindow", "Save all into a folder…"), lambda: _save_all(win, page))
+    from PySide6.QtWidgets import QPushButton
+
+    box = page.export_button.parentWidget().layout()  # the Report stage: everything at once, first
+    page.save_all_button = QPushButton(translate("MainWindow", "Save all into a folder…"), page)
+    page.save_all_button.setToolTip(
+        translate(
+            "MainWindow",
+            "Light curve, measurements, star list, fit, plots, summary page, methods text and "
+            "references, and the ExoClock files when the times are BJD_TDB",
+        )  # fmt: skip
+    )
+    page.save_all_button.clicked.connect(lambda: _save_all(win, page))
+    box.insertWidget(box.indexOf(page.export_button), page.save_all_button)
 
 
 def _save_all(win, page, folder=None):
