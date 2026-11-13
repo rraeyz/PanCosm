@@ -582,7 +582,7 @@ class PhotometryPage(Undoable, QWidget):
         plot_tab = QWidget(self)
         pl = QVBoxLayout(plot_tab)
         self.show_what = QComboBox(self)
-        self.show_what.setPlaceholderText(self.tr("Measure a light curve to choose what to plot"))
+        self.show_what.setPlaceholderText(self.tr("Measure first"))
         self.show_what.setEnabled(False)
         self.show_what.currentIndexChanged.connect(lambda *_: self._plot_current())
         self.show_what.setToolTip(

@@ -1942,9 +1942,9 @@ def test_photometry_stages_follow_the_steps(window, fits_file):
     page = window.photometry_page
     window.show_workspace("photometry")
     win = window.area_windows["photometry"]
-    assert win.current_stage() == "images" and win.rail.buttons["images"].text().startswith("1 ●")
+    assert win.current_stage() == "images" and win.rail.buttons["images"].isChecked()
     page.set_images([str(fits_file)])
-    assert win.rail.buttons["images"].text().startswith("1 ✓") and win.current_stage() == "stars"
+    assert win.rail.buttons["images"].text().endswith("✓") and win.current_stage() == "stars"
     win.show_stage("images")  # the user goes back: the rail does not pull them forward again
     page._step_titles()
     assert win.current_stage() == "images"

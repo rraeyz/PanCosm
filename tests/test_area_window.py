@@ -319,7 +319,7 @@ def test_area_window_anatomy(qtbot, tmp_path):
     qtbot.keyClick(win, Qt.Key_2, Qt.ControlModifier)
     assert win.current_stage() == "stars" and win.rail.buttons["stars"].isChecked()
     win.set_stage_state("images", "done")
-    assert win.rail.buttons["images"].text().startswith("1 ✓")
+    assert win.rail.buttons["images"].text().endswith("✓")
     for key, dock in ((Qt.Key_F9, "stages"), (Qt.Key_F10, "inspector")):
         qtbot.keyClick(win, key)
         assert not win.docks[dock].isVisible()

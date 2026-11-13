@@ -430,47 +430,47 @@
 <context>
     <name>Anatomy</name>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="62"/>
+        <location filename="../../ui/kit/anatomy.py" line="68"/>
         <source>Stages</source>
         <translation>Aşamalar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="63"/>
+        <location filename="../../ui/kit/anatomy.py" line="69"/>
         <source>Show or hide the stage panel</source>
         <translation>Aşama panelini göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="69"/>
+        <location filename="../../ui/kit/anatomy.py" line="75"/>
         <source>Run the stage&apos;s main action</source>
         <translation>Aşamanın ana işlemini çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="90"/>
+        <location filename="../../ui/kit/anatomy.py" line="96"/>
         <source>This stage has no main action to run now</source>
         <translation>Bu aşamanın şu an çalıştırılacak ana işlemi yok</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="101"/>
+        <location filename="../../ui/kit/anatomy.py" line="107"/>
         <source>Inspector</source>
         <translation>Ayrıntılar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="102"/>
+        <location filename="../../ui/kit/anatomy.py" line="108"/>
         <source>Show or hide the inspector</source>
         <translation>Ayrıntılar panelini göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="111"/>
+        <location filename="../../ui/kit/anatomy.py" line="117"/>
         <source>Show or hide the results</source>
         <translation>Sonuçları göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="112"/>
+        <location filename="../../ui/kit/anatomy.py" line="118"/>
         <source>Next result tab</source>
         <translation>Sonraki sonuç sekmesi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="122"/>
+        <location filename="../../ui/kit/anatomy.py" line="128"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
@@ -10907,11 +10907,6 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Her karşılaştırma yıldızı diğerlerine göre ölçülür; gürültülü ya da değişenler daha az sayılır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_page.py" line="585"/>
-        <source>Measure a light curve to choose what to plot</source>
-        <translation>Neyin çizileceğini seçmek için önce bir ışık eğrisi ölçün</translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_page.py" line="590"/>
         <source>Which curve to draw: the target against the comparison stars, the checks, the comparison stars against each other, sky, FWHM, airmass…</source>
         <translation>Hangi eğrinin çizileceği: hedefin karşılaştırma yıldızlarına göre eğrisi, kontrol yıldızları, karşılaştırma yıldızlarının birbirine göre eğrileri, gökyüzü, FWHM, airmass/hava kütlesi…</translation>
@@ -11075,6 +11070,11 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/photometry_page.py" line="575"/>
         <source>The best sets with the median scatter of their stars; choose one to use it</source>
         <translation>En iyi kümeler, yıldızlarının ortanca saçılmasıyla; kullanmak için birini seçin</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_page.py" line="585"/>
+        <source>Measure first</source>
+        <translation>Önce ölçün</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_page.py" line="596"/>
@@ -12635,11 +12635,6 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>MCMC: {values}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
-        <source>Fill from the NASA Exoplanet Archive…</source>
-        <translation>NASA Ötegezegen Arşivinden doldur…</translation>
-    </message>
-    <message>
         <location filename="../../ui/photometry_transit.py" line="58"/>
         <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
         <translation>Periyot ve T0 zamanlama alanlarına; Rp/R★, a/R★ ve b uydurmanın başlangıcı olarak</translation>
@@ -12768,6 +12763,11 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/photometry_transit.py" line="95"/>
         <source>Add the times to the O−C list</source>
         <translation>Zamanları O−C listesine ekle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <source>From the NASA archive…</source>
+        <translation>NASA arşivinden…</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_transit.py" line="97"/>
@@ -15264,7 +15264,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>StagePanel</name>
     <message>
-        <location filename="../../ui/kit/rail.py" line="109"/>
+        <location filename="../../ui/kit/rail.py" line="111"/>
         <source>Help on this stage</source>
         <translation>Bu aşamayla ilgili yardım</translation>
     </message>
@@ -15272,7 +15272,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>StageRail</name>
     <message>
-        <location filename="../../ui/kit/rail.py" line="58"/>
+        <location filename="../../ui/kit/rail.py" line="60"/>
         <source>Keep the names shown</source>
         <translation>Adlar açık kalsın</translation>
     </message>

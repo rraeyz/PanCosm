@@ -42,7 +42,7 @@ class Anatomy:
                 panel.add(s.panel)
             if s.help:
                 panel.help_requested.connect(self.help_requested.emit)  # the stage's guide anchor
-            fit_width(panel, 420)  # a stage never pushes past its dock (user-feedback UF-9, UF-10)
+            fit_width(panel, 360)  # a stage never pushes past its dock (user-feedback UF-9, UF-10)
             self.stage_panels[s.key] = panel
             self.stage_stack.addWidget(panel)
         holder = QWidget(self)
@@ -51,7 +51,7 @@ class Anatomy:
         row.setSpacing(0)
         row.addWidget(self.rail)
         row.addWidget(self.stage_stack, 1)
-        self.stage_stack.setMinimumWidth(280)
+        self.stage_stack.setMinimumWidth(440)  # the rows fit (fit_width) without scrolling sideways
         self.rail.stage_chosen.connect(self.show_stage)
         frame = QScrollArea(self)  # the stage panels scroll themselves; a frame as the pages have (a viewport)
         frame.setWidget(holder)
@@ -59,6 +59,12 @@ class Anatomy:
         frame.setFrameShape(QScrollArea.NoFrame)
         frame.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         frame.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        def fit_frame(_pinned=None):  # the dock keeps the rail and the stage's width: the rows never go under it
+            frame.setMinimumWidth(self.rail.width() + self.stage_stack.minimumWidth() + 4)
+
+        fit_frame()
+        self.rail.pinned_changed.connect(fit_frame)
         dock = self._dock("stages", self.tr("Stages"), frame, Qt.LeftDockWidgetArea)
         self._key_action(self.tr("Show or hide the stage panel"), "F9", lambda: dock.setVisible(not dock.isVisible()))
         from .rail import NARROW, WIDE

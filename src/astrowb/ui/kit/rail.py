@@ -5,8 +5,9 @@
     panel = StagePanel(self.tr("Stars"), help="photometry-choosing-images-stars")
     panel.add(...); panel.set_primary(Button(self.tr("Measure"), "primary")); panel.set_status("…")
 
-The rail is 48 px wide with numbers and a state mark (○ empty, ● current, ✓ done, ! attention), the names in the
-tooltips; pinned, it is 180 px with the names (widening on hover squeezed the stage's controls under the mouse).
+The rail shows the stages' names (no numbers: "1 ✓ 2 ○" read as a child's guide, user-feedback UF-19), a done
+stage with a quiet ✓ and one needing attention with "!" after its name, the current one highlighted. Unpinned, it is
+48 px wide with only those marks and the names in the tooltips (widening on hover squeezed the stage's controls).
 The panel's content scrolls; its status line and primary action stay in sight at the bottom.
 """
 
@@ -24,8 +25,9 @@ from PySide6.QtWidgets import (
 
 from .icons import icon
 
-NARROW, WIDE = 48, 180
-MARKS = {"empty": "○", "current": "●", "done": "✓", "attention": "!"}
+NARROW, WIDE = 48, 150
+MARKS = {"empty": "", "current": "", "done": "✓", "attention": "!"}
+NARROW_MARKS = {"empty": "○", "current": "●", "done": "✓", "attention": "!"}
 
 
 class StageRail(QWidget):
@@ -38,7 +40,7 @@ class StageRail(QWidget):
         lay.setContentsMargins(4, 4, 4, 4)
         lay.setSpacing(2)
         self.buttons, self.names, self.states, self.current = {}, {}, {}, None
-        self.pinned = False
+        self.pinned = True  # the names shown from the start
         for i, (key, name) in enumerate(stages, 1):
             b = QToolButton(self)
             b.setCheckable(True)
@@ -58,7 +60,8 @@ class StageRail(QWidget):
         self.pin.setToolTip(self.tr("Keep the names shown"))
         self.pin.toggled.connect(self.set_pinned)
         lay.addWidget(self.pin)
-        self._expanded = False
+        self.pin.setChecked(True)
+        self._expanded = True
         self._show()
 
     def choose(self, key):
@@ -84,10 +87,9 @@ class StageRail(QWidget):
     def _show(self):
         self.setFixedWidth(WIDE if self._expanded else NARROW)
         for key, b in self.buttons.items():
-            number, name = self.names[key]
+            _number, name = self.names[key]
             state = "current" if key == self.current and self.states[key] == "empty" else self.states[key]
-            text = f"{number} {MARKS[state]}"
-            b.setText(f"{text}  {name}" if self._expanded else text)
+            b.setText(f"{name}  {MARKS[state]}".rstrip() if self._expanded else NARROW_MARKS[state])
             b.setChecked(key == self.current)
 
 

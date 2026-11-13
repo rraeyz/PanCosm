@@ -322,15 +322,15 @@ def test_stage_rail_and_panel(qtbot):
     r.stage_chosen.connect(chosen.append)
     r.set_state("images", "done")
     r.buttons["stars"].click()
-    assert chosen == ["stars"] and r.width() == R.NARROW and r.buttons["images"].text() == "1 ✓"
-    assert r.buttons["stars"].text() == "2 ●" and r.buttons["stars"].isChecked()
-    QApplication.sendEvent(r, QEvent(QEvent.Enter))
-    assert r.width() == R.NARROW and r.buttons["measure"].toolTip() == "Measure"  # hover: names in the tooltips
+    # the names from the start, no numbers (user-feedback UF-19); done: a quiet tick after the name
+    assert chosen == ["stars"] and r.width() == R.WIDE and r.buttons["images"].text() == "Images  ✓"
+    assert r.buttons["stars"].text() == "Stars" and r.buttons["stars"].isChecked()
     pinned = []
     r.pinned_changed.connect(pinned.append)
-    r.pin.click()
-    QApplication.sendEvent(r, QEvent(QEvent.Leave))
-    assert r.width() == R.WIDE and r.buttons["measure"].text().endswith("Measure") and pinned == [True]
+    r.pin.click()  # unpinned: narrow, the marks only, the names in the tooltips
+    QApplication.sendEvent(r, QEvent(QEvent.Enter))
+    assert r.width() == R.NARROW and r.buttons["images"].text() == "✓" and r.buttons["stars"].text() == "●"
+    assert r.buttons["measure"].toolTip() == "Measure" and pinned == [False]
     p = R.StagePanel("Stars", help="photometry-choosing-images-stars")
     qtbot.addWidget(p)
     p.add(QLabel("a row"))
