@@ -50,6 +50,8 @@ def test_refresh_installs_a_downloaded_table_and_keeps_the_old_one_on_bad_data(t
     import astropy_iers_data as data
 
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    # the installed tables' date: astropy-iers-data released today made today's download "not newer" (latest-deps)
+    monkeypatch.setattr(earth_orientation, "_bundled_date", lambda: dt.date.today() - dt.timedelta(days=30))
     good = {
         data.IERS_A_URL: open(data.IERS_A_FILE, "rb").read(),  # noqa: SIM115
         data.IERS_LEAP_SECOND_URL: open(data.IERS_LEAP_SECOND_FILE, "rb").read(),  # noqa: SIM115
