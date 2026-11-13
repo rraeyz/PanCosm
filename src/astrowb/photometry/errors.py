@@ -17,7 +17,8 @@ def scatter_ratio(residuals, errors):
 
 def point_to_point_ratio(flux, errors):
     """scatter_ratio on the differences of successive points (σ of a difference is √2 σ): no model needed, and a
-    transit or a slow trend barely counts. The median absolute difference keeps one bad point from ruling it."""
+    transit or a slow trend barely counts. The standard deviation after one 5σ clip (σ from the MAD): what a χ² sees,
+    without one bad point ruling it (the MAD alone left Qatar-1's χ²_r at 1.36 after scaling)."""
     f, e = np.asarray(flux, float), np.asarray(errors, float)
     if f.shape != e.shape:  # a curve without its errors
         return None, None
@@ -26,7 +27,8 @@ def point_to_point_ratio(flux, errors):
     if len(f) < 10:
         return None, None
     d = np.diff(f)
-    observed = 1.4826 * np.median(np.abs(d - np.median(d))) / np.sqrt(2)
+    mad = 1.4826 * np.median(np.abs(d - np.median(d)))
+    observed = np.std(d[np.abs(d - np.median(d)) <= 5 * mad]) / np.sqrt(2)
     ratio = float(observed / np.sqrt(np.mean(e * e)))
     return ratio, (round(ratio, 2) if ratio > 1.2 else None)
 
