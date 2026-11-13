@@ -13,10 +13,11 @@ from ..measurements import measurements
 from ..starlist import save_star_list
 
 
-def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aavso=None, neb=None):
+def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aavso=None, neb=None, image=None):
     """stars: {"target", "comps", "extras", "radii", "wcs"} (starlist.save_star_list); fit: the transit fit's dict;
     aavso: the AAVSO exoplanet header values (OBSCODE, STAR_NAME, FILTER, …): the file is written when they suffice;
-    neb: the nearby-eclipsing-binary check's rows (neb.run), written as NEB_check.csv for the TFOP report."""
+    neb: the nearby-eclipsing-binary check's rows (neb.run), written as NEB_check.csv for the TFOP report; image:
+    the frame the stars were marked on (field.png with the apertures, field_image.write) with stars["scale"]."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     out = [lcfile.write(lc, folder / "light_curve.lc.ecsv", provenance)]
@@ -56,6 +57,13 @@ def save_all(folder, lc, stars=None, fit=None, figure=None, provenance=None, aav
             out.append(aavso_exoplanet.write(folder / "AAVSO_exoplanet.txt", lc["time"], f / m, e / m, header))
         except ValueError:  # a required value is missing (observer code, star, filter): the other files still go
             pass
+    if image is not None and stars and stars.get("target") is not None:
+        from .field_image import write as field_png
+
+        r_ap = (stars.get("radii") or (5,))[0]
+        path = field_png(folder / "field.png", image, stars["target"], stars.get("comps", ()), r_ap,
+                         stars.get("scale"), stars.get("extras", ()))  # fmt: skip
+        out.append(Path(path))
     if neb:
         path = folder / "NEB_check.csv"
         cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
