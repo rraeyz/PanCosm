@@ -271,6 +271,17 @@ def _grouped_median(values):
     return med - 0.5 + (v.size / 2 - below) / inside
 
 
+def star_mask(shape, xy, radius):
+    """True within radius of each (x, y): the stars to leave out of the sky rings (measure's sky_mask)."""
+    out = np.zeros(shape, bool)
+    for x, y in np.asarray(xy, float).reshape(-1, 2):
+        y0, y1 = max(int(y - radius), 0), min(int(y + radius) + 2, shape[0])
+        x0, x1 = max(int(x - radius), 0), min(int(x + radius) + 2, shape[1])
+        yy, xx = np.mgrid[y0:y1, x0:x1]
+        out[y0:y1, x0:x1] |= (xx - x) ** 2 + (yy - y) ** 2 <= radius * radius
+    return out
+
+
 def _sky_medians(data, an, sky):
     """sky.median, corrected for integer-valued data (_grouped_median) on the same clipped ring pixels."""
     med = np.atleast_1d(np.asarray(sky.median, float)).copy()
@@ -363,25 +374,27 @@ def _histogram_centroid(v, khist=3.0, binsize=0.1, reject=3.0, maxiter=10):
     return centre, sd, int(keep.sum())
 
 
-def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median"):
+def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median", sky_mask=None):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
     sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus.
     camera (read noise e-, dark e- per pixel over the exposure): the sky noise from the camera's numbers and each
-    star's sky level instead (camera_pixel_noise), as AstroImageJ does (plans/photometry.md item 2)."""
+    star's sky level instead (camera_pixel_noise), as AstroImageJ does (plans/photometry.md item 2).
+    sky_mask: pixels (True) left out of every sky ring — other stars, whose faint wings clipping keeps (PHO-45)."""
     data = np.asarray(data, dtype=np.float64)
     ap = CircularAperture(xy, r=r_ap)
     an = CircularAnnulus(xy, r_in=r_in, r_out=r_out)
-    sky = ApertureStats(data, an, sigma_clip=_CLIP)
+    ring = data if sky_mask is None else np.where(sky_mask, np.nan, data)
+    sky = ApertureStats(data, an, sigma_clip=_CLIP, mask=sky_mask)
     raw = aperture_photometry(data, ap)
     n_ap = ap.area_overlap(data)
     n_sky = np.asarray(sky.sum_aper_area.value)
-    median = _sky_medians(data, an, sky)
+    median = _sky_medians(ring, an, sky)
     std = np.asarray(sky.std, float)
     if sky_method != "median":  # the other estimators work on the ring's pixels and their places
         median, std, n_sky = (np.atleast_1d(np.array(a, float)).copy() for a in (median, std, n_sky))
         for i, (x, y) in enumerate(np.atleast_2d(np.asarray(xy, float))):
             mask = CircularAnnulus((x, y), r_in=r_in, r_out=r_out).to_mask(method="center")
-            vals = mask.get_values(data)
+            vals = mask.get_values(ring)
             yy, xx = np.mgrid[mask.bbox.iymin : mask.bbox.iymax, mask.bbox.ixmin : mask.bbox.ixmax]
             inside = mask.data > 0
             cut = mask.get_overlap_slices(data.shape)[1]
