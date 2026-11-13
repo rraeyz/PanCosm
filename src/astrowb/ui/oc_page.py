@@ -84,6 +84,8 @@ class OCPage(QWidget):
             self,
         )
         lay.addWidget(self.guide)
+        self._left, self.stage_boxes = lay, {}
+        lay = self._box("minima")
         lay.addWidget(QLabel(self.tr("Minimum times, one per line: time [error] [I/II] [source]"), self))
         self.text = QPlainTextEdit(self)
         self.text.textChanged.connect(
@@ -100,6 +102,7 @@ class OCPage(QWidget):
         )
         row.addStretch(1)
         lay.addLayout(row)
+        lay = self._box("ephemeris")
         grid = QGridLayout()
         self.star = QLineEdit(self)
         self.star.setPlaceholderText("NY Vir")
@@ -123,6 +126,7 @@ class OCPage(QWidget):
         grid.addWidget(QLabel(self.tr("Period (d)"), self), 1, 0)
         grid.addWidget(self.period, 1, 1)
         lay.addLayout(grid)
+        lay = self._box("model")
         self.linear = QRadioButton(self.tr("Linear ephemeris"), self)
         self.linear.setToolTip(self.tr("A constant period: O−C on a straight line (corrects T0 and the period)"))
         self.quadratic = QRadioButton(self.tr("Quadratic (period change)"), self)
@@ -146,32 +150,8 @@ class OCPage(QWidget):
         self.linear.setChecked(True)
         for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
             lay.addWidget(b)
-        row = QHBoxLayout()
-        self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
-        self.use_mcmc.setToolTip(
-            self.tr(
-                "After the fit, Markov chains explore the third-body or apsidal parameters: 68 % "
-                "intervals of every parameter, e and ω included, when they depend on each other. A linear or "
-                "quadratic ephemeris is a linear problem: its least-squares errors are already exact."
-            )
-        )
-        self.mcmc_steps = QSpinBox(self)
-        self.mcmc_steps.setRange(200, 20000)
-        self.mcmc_steps.setSingleStep(500)
-        self.mcmc_steps.setValue(2000)
-        self.mcmc_steps.setSuffix(self.tr(" steps"))
-        self.mcmc_steps.setToolTip(self.tr("The most steps of the Markov chains; they stop earlier once converged"))
-        row.addWidget(self.use_mcmc, 1)
-        row.addWidget(self.mcmc_steps)
-        lay.addLayout(row)
-
-        def mcmc_allowed():
-            self.use_mcmc.setEnabled(self.ltte.isChecked() or self.apsidal.isChecked())
-            self.mcmc_steps.setEnabled(self.use_mcmc.isEnabled())
-
-        for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
-            b.toggled.connect(mcmc_allowed)
-        mcmc_allowed()
+        self._mcmc_controls(lay)
+        lay = self._box("report")
         self.fit_button = QPushButton(self.tr("Fit and draw O-C"), self)
         self.fit_button.clicked.connect(self.run_fit)
         self.fit_button.setToolTip(
@@ -238,6 +218,44 @@ class OCPage(QWidget):
                 name=target.get("name", ""), source=target.get("source", "VSX")
             )
         )
+
+    def _box(self, key):
+        """A part of the left column (minima, ephemeris, model, report) that the O−C window shows as a stage
+        (UI-16.5); its layout is returned."""
+        box = self.stage_boxes[key] = QWidget(self)
+        lay = QVBoxLayout(box)
+        lay.setContentsMargins(0, 0, 0, 0)
+        self._left.addWidget(box, 1 if key == "minima" else 0)  # the minima's text takes the height
+        return lay
+
+    def _mcmc_controls(self, lay):
+        """MCMC uncertainties for the third-body and apsidal models (a linear problem needs none)."""
+        row = QHBoxLayout()
+        self.use_mcmc = QCheckBox(self.tr("MCMC uncertainties (slower, for correlated parameters)"), self)
+        self.use_mcmc.setToolTip(
+            self.tr(
+                "After the fit, Markov chains explore the third-body or apsidal parameters: 68 % "
+                "intervals of every parameter, e and ω included, when they depend on each other. A linear or "
+                "quadratic ephemeris is a linear problem: its least-squares errors are already exact."
+            )
+        )
+        self.mcmc_steps = QSpinBox(self)
+        self.mcmc_steps.setRange(200, 20000)
+        self.mcmc_steps.setSingleStep(500)
+        self.mcmc_steps.setValue(2000)
+        self.mcmc_steps.setSuffix(self.tr(" steps"))
+        self.mcmc_steps.setToolTip(self.tr("The most steps of the Markov chains; they stop earlier once converged"))
+        row.addWidget(self.use_mcmc, 1)
+        row.addWidget(self.mcmc_steps)
+        lay.addLayout(row)
+
+        def mcmc_allowed():
+            self.use_mcmc.setEnabled(self.ltte.isChecked() or self.apsidal.isChecked())
+            self.mcmc_steps.setEnabled(self.use_mcmc.isEnabled())
+
+        for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
+            b.toggled.connect(mcmc_allowed)
+        mcmc_allowed()
 
     def add_minimum(self, time, error, source="", kind="I"):
         self.text.appendPlainText(f"{time:.6f} {error:.6f} {kind} {source}".rstrip())

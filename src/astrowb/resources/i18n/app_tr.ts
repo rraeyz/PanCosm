@@ -4959,7 +4959,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="225"/>
-        <location filename="../../ui/area_menus.py" line="450"/>
+        <location filename="../../ui/area_menus.py" line="453"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
@@ -4996,7 +4996,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="423"/>
+        <location filename="../../ui/area_menus.py" line="426"/>
         <location filename="../../ui/area_windows.py" line="526"/>
         <location filename="../../ui/area_windows.py" line="658"/>
         <source>&amp;Analyse</source>
@@ -5054,8 +5054,8 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="237"/>
-        <location filename="../../ui/area_menus.py" line="462"/>
-        <location filename="../../ui/area_menus.py" line="516"/>
+        <location filename="../../ui/area_menus.py" line="465"/>
+        <location filename="../../ui/area_menus.py" line="519"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>Dışa a&amp;ktar</translation>
@@ -5174,7 +5174,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="224"/>
-        <location filename="../../ui/area_menus.py" line="446"/>
+        <location filename="../../ui/area_menus.py" line="449"/>
         <source>Fit</source>
         <translation>Fit et</translation>
     </message>
@@ -5184,287 +5184,287 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Modeller</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="252"/>
+        <location filename="../../ui/area_menus.py" line="255"/>
         <source>Add target</source>
         <translation>Hedef ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="255"/>
+        <location filename="../../ui/area_menus.py" line="258"/>
         <source>Add target with ephemeris</source>
         <translation>Hedefi efemerisle ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="256"/>
+        <location filename="../../ui/area_menus.py" line="259"/>
         <source>With ephemeris</source>
         <translation>Efemerisle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="260"/>
+        <location filename="../../ui/area_menus.py" line="263"/>
         <source>Send</source>
         <translation>Gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="264"/>
+        <location filename="../../ui/area_menus.py" line="267"/>
         <source>Import targets from CSV…</source>
         <translation>CSV&apos;den hedef al…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="265"/>
+        <location filename="../../ui/area_menus.py" line="268"/>
         <source>Save the list…</source>
         <translation>Listeyi kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="266"/>
+        <location filename="../../ui/area_menus.py" line="269"/>
         <source>Open a saved list…</source>
         <translation>Kayıtlı bir listeyi aç…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="267"/>
+        <location filename="../../ui/area_menus.py" line="270"/>
         <source>What can I observe tonight?…</source>
         <translation>Bu gece ne gözleyebilirim?…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="268"/>
+        <location filename="../../ui/area_menus.py" line="271"/>
         <source>Gaia alerts tonight…</source>
         <translation>Bu gecenin Gaia uyarıları…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="275"/>
+        <location filename="../../ui/area_menus.py" line="278"/>
         <source>&amp;Targets</source>
         <translation>&amp;Hedefler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="278"/>
+        <location filename="../../ui/area_menus.py" line="281"/>
         <source>&amp;Night</source>
         <translation>Ge&amp;ce</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="310"/>
+        <location filename="../../ui/area_menus.py" line="313"/>
         <source>Cooler off</source>
         <translation>Soğutucuyu kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="311"/>
+        <location filename="../../ui/area_menus.py" line="314"/>
         <source>Move the focuser</source>
         <translation>Odaklayıcıyı hareket ettir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="312"/>
+        <location filename="../../ui/area_menus.py" line="315"/>
         <source>Change the filter</source>
         <translation>Filtreyi değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="313"/>
+        <location filename="../../ui/area_menus.py" line="316"/>
         <source>Cool the camera</source>
         <translation>Kamerayı soğut</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="319"/>
+        <location filename="../../ui/area_menus.py" line="322"/>
         <source>&amp;Devices</source>
         <translation>&amp;Aygıtlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="321"/>
+        <location filename="../../ui/area_menus.py" line="324"/>
         <source>&amp;Telescope</source>
         <translation>&amp;Teleskop</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="325"/>
+        <location filename="../../ui/area_menus.py" line="328"/>
         <source>&amp;Camera</source>
         <translation>&amp;Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="328"/>
+        <location filename="../../ui/area_menus.py" line="331"/>
         <source>F&amp;ocus</source>
         <translation>&amp;Odak</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="329"/>
+        <location filename="../../ui/area_menus.py" line="332"/>
         <source>F&amp;lats</source>
         <translation>&amp;Flatlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="331"/>
+        <location filename="../../ui/area_menus.py" line="334"/>
         <source>&amp;Sequence</source>
         <translation>Çekim &amp;sırası</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="374"/>
+        <location filename="../../ui/area_menus.py" line="377"/>
         <source>New automation</source>
         <translation>Yeni otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="375"/>
+        <location filename="../../ui/area_menus.py" line="378"/>
         <source>New</source>
         <translation>Yeni</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="379"/>
+        <location filename="../../ui/area_menus.py" line="382"/>
         <source>Save the automation as…</source>
         <translation>Otomasyonu farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="380"/>
+        <location filename="../../ui/area_menus.py" line="383"/>
         <source>Save as</source>
         <translation>Farklı kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="388"/>
+        <location filename="../../ui/area_menus.py" line="391"/>
         <source>Remove the step</source>
         <translation>Adımı kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="389"/>
+        <location filename="../../ui/area_menus.py" line="392"/>
         <source>Move the step up</source>
         <translation>Adımı yukarı taşı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="390"/>
+        <location filename="../../ui/area_menus.py" line="393"/>
         <source>Move the step down</source>
         <translation>Adımı aşağı taşı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="397"/>
+        <location filename="../../ui/area_menus.py" line="400"/>
         <source>Run the automation</source>
         <translation>Otomasyonu çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="398"/>
+        <location filename="../../ui/area_menus.py" line="401"/>
         <source>Run</source>
         <translation>Çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="401"/>
+        <location filename="../../ui/area_menus.py" line="404"/>
         <source>To Observing</source>
         <translation>Gözleme</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="405"/>
+        <location filename="../../ui/area_menus.py" line="408"/>
         <source>&amp;Steps</source>
         <translation>&amp;Adımlar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="406"/>
+        <location filename="../../ui/area_menus.py" line="409"/>
         <source>&amp;Run</source>
         <translation>Çalış&amp;tır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="418"/>
+        <location filename="../../ui/area_menus.py" line="421"/>
         <source>Compute</source>
         <translation>Hesapla</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="419"/>
+        <location filename="../../ui/area_menus.py" line="422"/>
         <source>Compute the band formula</source>
         <translation>Bant formülünü hesapla</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="420"/>
+        <location filename="../../ui/area_menus.py" line="423"/>
         <source>Classify</source>
         <translation>Sınıflandır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="421"/>
+        <location filename="../../ui/area_menus.py" line="424"/>
         <source>Components</source>
         <translation>Bileşenler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="445"/>
+        <location filename="../../ui/area_menus.py" line="448"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Örtme ya da geçiş modelini fit et</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="448"/>
+        <location filename="../../ui/area_menus.py" line="451"/>
         <source>Posterior</source>
         <translation>Sonsal dağılım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="449"/>
+        <location filename="../../ui/area_menus.py" line="452"/>
         <source>Visual orbit</source>
         <translation>Görsel yörünge</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="454"/>
+        <location filename="../../ui/area_menus.py" line="457"/>
         <source>F&amp;it</source>
         <translation>&amp;Fit</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="530"/>
+        <location filename="../../ui/area_menus.py" line="533"/>
         <source>&amp;Reduce</source>
         <translation>İndirge&amp;me</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="533"/>
+        <location filename="../../ui/area_menus.py" line="536"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Uzun yarık tayfını çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="539"/>
+        <location filename="../../ui/area_menus.py" line="542"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Eşel mertebelerini düz alanda bul</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="541"/>
+        <location filename="../../ui/area_menus.py" line="544"/>
         <source>Extract the échelle orders</source>
         <translation>Eşel mertebelerini çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="546"/>
+        <location filename="../../ui/area_menus.py" line="549"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Küp bölgesinin tayfını kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="551"/>
+        <location filename="../../ui/area_menus.py" line="554"/>
         <source>&amp;Lines</source>
         <translation>&amp;Çizgiler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="556"/>
+        <location filename="../../ui/area_menus.py" line="559"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Dalga boylarını fit et (uzun yarık)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="560"/>
+        <location filename="../../ui/area_menus.py" line="563"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Dalga boylarını fit et, mertebeleri birleştir (eşel)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="574"/>
+        <location filename="../../ui/area_menus.py" line="577"/>
         <source>S&amp;pectrum</source>
         <translation>&amp;Tayf</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="588"/>
+        <location filename="../../ui/area_menus.py" line="591"/>
         <source>Telluric correction</source>
         <translation>Tellürik düzeltme</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="590"/>
+        <location filename="../../ui/area_menus.py" line="593"/>
         <source>Arithmetic with spectrum B</source>
         <translation>B tayfıyla aritmetik</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="594"/>
+        <location filename="../../ui/area_menus.py" line="597"/>
         <source>Mea&amp;sure</source>
         <translation>Ö&amp;lç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="596"/>
+        <location filename="../../ui/area_menus.py" line="599"/>
         <source>Measure a line</source>
         <translation>Bir çizgiyi ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="620"/>
+        <location filename="../../ui/area_menus.py" line="623"/>
         <source>Open a velocity table…</source>
         <translation>Bir hız tablosu aç…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="621"/>
+        <location filename="../../ui/area_menus.py" line="624"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation>Yörünge fiti için zamanlar ve hızlar (CSV ya da metin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="520"/>
+        <location filename="../../ui/area_menus.py" line="523"/>
         <source>Save the spectrum as…</source>
         <translation>Tayfı farklı kaydet…</translation>
     </message>
@@ -6128,12 +6128,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="457"/>
+        <location filename="../../ui/area_menus.py" line="460"/>
         <source>Visual &amp;orbit</source>
         <translation>Görsel yö&amp;rünge</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="605"/>
+        <location filename="../../ui/area_menus.py" line="608"/>
         <source>Velo&amp;city</source>
         <translation>&amp;Hız</translation>
     </message>
@@ -8997,287 +8997,287 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Üçüncü cisim ya da apsidal hareket için MCMC belirsizliklerini işaretleyip yeniden fit edin; sonra Sonuçları dışa aktar (CSV / LaTeX).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="87"/>
+        <location filename="../../ui/oc_page.py" line="89"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimum zamanları, her satıra bir tane: zaman [hata] [I/II] [kaynak]</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="95"/>
+        <location filename="../../ui/oc_page.py" line="97"/>
         <source>Load file…</source>
         <translation>Dosya yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="99"/>
+        <location filename="../../ui/oc_page.py" line="101"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Minimum ya da maksimum zamanlarının metin dosyası: zaman, hata, tür (I / II), kaynak; her satıra bir tane</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="106"/>
+        <location filename="../../ui/oc_page.py" line="109"/>
         <source>The star&apos;s name: Look up fills T0 and the period from AAVSO VSX</source>
         <translation>Yıldızın adı: Bul, T0&apos;ı ve periyodu AAVSO VSX&apos;ten doldurur</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="107"/>
+        <location filename="../../ui/oc_page.py" line="110"/>
         <source>Look up</source>
         <translation>Bul</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="108"/>
+        <location filename="../../ui/oc_page.py" line="111"/>
         <source>T0 and the period of the star from AAVSO VSX (needs the internet)</source>
         <translation>Yıldızın T0&apos;ı ve periyodu AAVSO VSX&apos;ten (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="111"/>
+        <location filename="../../ui/oc_page.py" line="114"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="119"/>
+        <location filename="../../ui/oc_page.py" line="122"/>
         <source>Reference T0</source>
         <translation>Referans T0</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="120"/>
+        <location filename="../../ui/oc_page.py" line="123"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Çevrimleri saymak için kullanılan efemerik periyodu; fit onu iyileştirir</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="121"/>
+        <location filename="../../ui/oc_page.py" line="124"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Efemeriğin sıfır anı (zamanlarla aynı biçimde BJD ya da HJD); boşsa ilk minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="123"/>
+        <location filename="../../ui/oc_page.py" line="126"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="126"/>
+        <location filename="../../ui/oc_page.py" line="130"/>
         <source>Linear ephemeris</source>
         <translation>Doğrusal efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="127"/>
+        <location filename="../../ui/oc_page.py" line="131"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Sabit periyot: O−C bir doğru üzerinde (T0 ve periyodu düzeltir)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="128"/>
+        <location filename="../../ui/oc_page.py" line="132"/>
         <source>Quadratic (period change)</source>
         <translation>İkinci derece (periyot değişimi)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="130"/>
+        <location filename="../../ui/oc_page.py" line="134"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Düzenli değişen periyot (kütle aktarımı, kütle kaybı): O−C bir parabol üzerinde; dP/dt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="132"/>
+        <location filename="../../ui/oc_page.py" line="136"/>
         <source>Third body (light-travel time)</source>
         <translation>Üçüncü cisim (ışık-zaman etkisi)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="135"/>
+        <location filename="../../ui/oc_page.py" line="139"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Üçüncü bir yıldız çifti dolandırır: O−C üçüncü cismin yörüngesiyle dalgalanır (Irwin 1952); dalganın birden fazla çevrimini kapsayan minimumlar gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="139"/>
+        <location filename="../../ui/oc_page.py" line="143"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidal hareket (dış merkezli yörünge, birincil ve ikincil)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="142"/>
+        <location filename="../../ui/oc_page.py" line="146"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Basık bir yörünge döner: birincil ve ikincil minimumlar zıt yönlerde kayar; iki tür minimum da gerekir (tür I ve II)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="150"/>
+        <location filename="../../ui/oc_page.py" line="234"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC belirsizlikleri (daha yavaş, ilişkili parametreler için)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="153"/>
+        <location filename="../../ui/oc_page.py" line="237"/>
         <source>After the fit, Markov chains explore the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation>Fitten sonra Markov zincirleri üçüncü cisim ya da apsidal parametreleri tarar: parametreler birbirine bağlı olduğunda e ve ω dahil her parametrenin %68 aralıkları. Doğrusal ya da ikinci dereceden bir efemeris doğrusal bir problemdir: en küçük kareler hataları zaten kesindir.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="163"/>
+        <location filename="../../ui/oc_page.py" line="247"/>
         <source>The most steps of the Markov chains; they stop earlier once converged</source>
         <translation>Markov zincirlerinin en fazla adım sayısı; yakınsayınca daha erken dururlar</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="218"/>
+        <location filename="../../ui/oc_page.py" line="198"/>
         <source>The times are HJD without a time scale: taken as UTC. If they are TT, every O−C here is {s:.0f} s too late; write UTC or TT in the file when you know it.</source>
         <translation>Zamanlar zaman ölçeği belirtilmemiş HJD: UTC kabul edildi. TT iseler buradaki her O−C {s:.0f} s fazla geç; biliyorsanız dosyaya UTC ya da TT yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="285"/>
+        <location filename="../../ui/oc_page.py" line="303"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).</source>
         <translation>Hatalar: MCMC %68 aralıklarının büyük yanı (en fazla {s} adım).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="162"/>
+        <location filename="../../ui/oc_page.py" line="246"/>
         <source> steps</source>
         <translation> adım</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="175"/>
+        <location filename="../../ui/oc_page.py" line="155"/>
         <source>Fit and draw O-C</source>
         <translation>Fit et ve O-C çiz</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="178"/>
+        <location filename="../../ui/oc_page.py" line="158"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Seçilen modeli zamanlara fit eder ve O−C&apos;yi (gözlenen eksi hesaplanan) çevrim numarasına karşı çizer</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="201"/>
+        <location filename="../../ui/oc_page.py" line="181"/>
         <source>Load minimum times</source>
         <translation>Minimum zamanlarını yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="201"/>
+        <location filename="../../ui/oc_page.py" line="181"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Metin (*.txt *.csv *.dat);;Tümü (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="225"/>
+        <location filename="../../ui/oc_page.py" line="205"/>
         <source>Asking VSX…</source>
         <translation>VSX&apos;e soruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="231"/>
+        <location filename="../../ui/oc_page.py" line="211"/>
         <source>{name}: no period in VSX; type it.</source>
         <translation>{name}: VSX&apos;te periyot yok; elle yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="237"/>
+        <location filename="../../ui/oc_page.py" line="217"/>
         <source>{name}: T0 and period from {source}. Press Fit and draw O-C.</source>
         <translation>{name}: T0 ve periyot {source} kaynağından. Fit et ve O-C çiz&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="249"/>
+        <location filename="../../ui/oc_page.py" line="267"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Önce O−C diyagramını uydurun.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="264"/>
+        <location filename="../../ui/oc_page.py" line="282"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>üçüncü cisim yörüngesinde ışık-zaman etkisi (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="274"/>
+        <location filename="../../ui/oc_page.py" line="292"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>dış merkezli yörüngenin apsidal hareketi</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="279"/>
+        <location filename="../../ui/oc_page.py" line="297"/>
         <source>quadratic ephemeris</source>
         <translation>kuadratik ışık öğeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="279"/>
+        <location filename="../../ui/oc_page.py" line="297"/>
         <source>linear ephemeris</source>
         <translation>doğrusal ışık öğeleri</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="282"/>
+        <location filename="../../ui/oc_page.py" line="300"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>{n} minimum zamanına O−C uydurması: {model}; ağırlıklı en küçük kareler, 1σ hatalar (χ²ᵣ &gt; 1 ise √χ²ᵣ ile ölçeklenmiş).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="298"/>
+        <location filename="../../ui/oc_page.py" line="316"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Periyodu gün olarak yazın ya da yıldızın adını yazıp Bul&apos;a basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="309"/>
+        <location filename="../../ui/oc_page.py" line="327"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Uydurma yapılıyor, ardından MCMC ({s} adım) arka planda görev olarak çalışıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="319"/>
+        <location filename="../../ui/oc_page.py" line="337"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="334"/>
+        <location filename="../../ui/oc_page.py" line="352"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="335"/>
+        <location filename="../../ui/oc_page.py" line="353"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="339"/>
+        <location filename="../../ui/oc_page.py" line="357"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} gün, dP/dt = {dp:.3g} ± {dpe:.2g} sn/yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="343"/>
+        <location filename="../../ui/oc_page.py" line="361"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="349"/>
-        <location filename="../../ui/oc_page.py" line="427"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="445"/>
         <source>primary</source>
         <translation>birincil</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="349"/>
-        <location filename="../../ui/oc_page.py" line="427"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="445"/>
         <source>secondary</source>
         <translation>ikincil</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="354"/>
-        <location filename="../../ui/oc_page.py" line="431"/>
+        <location filename="../../ui/oc_page.py" line="372"/>
+        <location filename="../../ui/oc_page.py" line="449"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="358"/>
-        <location filename="../../ui/oc_page.py" line="435"/>
+        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="453"/>
         <source>Epoch</source>
         <translation>Çevrim (E)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="359"/>
-        <location filename="../../ui/oc_page.py" line="436"/>
+        <location filename="../../ui/oc_page.py" line="377"/>
+        <location filename="../../ui/oc_page.py" line="454"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="385"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Üçüncü cisim: P3 = {p:.2f} ± {pe:.2f} yıl, A = {a:.2f} ± {ae:.2f} dk, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="394"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="391"/>
+        <location filename="../../ui/oc_page.py" line="409"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation>⚠ Üçüncü yıldız yakın: dinamik gecikmesi ({dyn:.1f} dk), ışık-zamanı etkisinin ({lt:.1f} dk, M1 + M2 = 2 M☉ için) {r:.0%} kadarı: yalnız ışık-zamanı modeli onu açıklamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="399"/>
+        <location filename="../../ui/oc_page.py" line="417"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidal hareket: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/çevrim, U = {u:.1f} yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="401"/>
+        <location filename="../../ui/oc_page.py" line="419"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="414"/>
+        <location filename="../../ui/oc_page.py" line="432"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
@@ -10272,6 +10272,29 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/oc_minima.py" line="41"/>
         <source>Every minimum of the last fit with its epoch, O−C and residual</source>
         <translation>Son uyumdaki her minimum; epoğu, O−C&apos;si ve artığıyla</translation>
+    </message>
+</context>
+<context>
+    <name>OcWindow</name>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <source>Minima</source>
+        <translation>Minimumlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <source>Ephemeris</source>
+        <translation>Efemeris</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <source>Model</source>
+        <translation>Model</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <source>Fit and report</source>
+        <translation>Uyum ve rapor</translation>
     </message>
 </context>
 <context>
@@ -14404,22 +14427,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PlanWindow</name>
     <message>
-        <location filename="../../ui/plan_window.py" line="16"/>
+        <location filename="../../ui/stage_boxes.py" line="41"/>
         <source>Site and night</source>
         <translation>Yer ve gece</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="16"/>
+        <location filename="../../ui/stage_boxes.py" line="41"/>
         <source>Targets</source>
         <translation>Hedefler</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="17"/>
+        <location filename="../../ui/stage_boxes.py" line="42"/>
         <source>Night</source>
         <translation>Gece</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="18"/>
+        <location filename="../../ui/stage_boxes.py" line="42"/>
         <source>Schedule</source>
         <translation>Program</translation>
     </message>

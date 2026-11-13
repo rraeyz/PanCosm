@@ -4959,7 +4959,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="225"/>
-        <location filename="../../ui/area_menus.py" line="450"/>
+        <location filename="../../ui/area_menus.py" line="453"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportieren</translation>
@@ -4996,7 +4996,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="423"/>
+        <location filename="../../ui/area_menus.py" line="426"/>
         <location filename="../../ui/area_windows.py" line="526"/>
         <location filename="../../ui/area_windows.py" line="658"/>
         <source>&amp;Analyse</source>
@@ -5054,8 +5054,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="237"/>
-        <location filename="../../ui/area_menus.py" line="462"/>
-        <location filename="../../ui/area_menus.py" line="516"/>
+        <location filename="../../ui/area_menus.py" line="465"/>
+        <location filename="../../ui/area_menus.py" line="519"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>&amp;Exportieren</translation>
@@ -5174,7 +5174,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="224"/>
-        <location filename="../../ui/area_menus.py" line="446"/>
+        <location filename="../../ui/area_menus.py" line="449"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
@@ -5184,287 +5184,287 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="252"/>
+        <location filename="../../ui/area_menus.py" line="255"/>
         <source>Add target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="255"/>
+        <location filename="../../ui/area_menus.py" line="258"/>
         <source>Add target with ephemeris</source>
         <translation>Ziel mit Ephemeride hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="256"/>
+        <location filename="../../ui/area_menus.py" line="259"/>
         <source>With ephemeris</source>
         <translation>Mit Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="260"/>
+        <location filename="../../ui/area_menus.py" line="263"/>
         <source>Send</source>
         <translation>Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="264"/>
+        <location filename="../../ui/area_menus.py" line="267"/>
         <source>Import targets from CSV…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="265"/>
+        <location filename="../../ui/area_menus.py" line="268"/>
         <source>Save the list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="266"/>
+        <location filename="../../ui/area_menus.py" line="269"/>
         <source>Open a saved list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="267"/>
+        <location filename="../../ui/area_menus.py" line="270"/>
         <source>What can I observe tonight?…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="268"/>
+        <location filename="../../ui/area_menus.py" line="271"/>
         <source>Gaia alerts tonight…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="275"/>
+        <location filename="../../ui/area_menus.py" line="278"/>
         <source>&amp;Targets</source>
         <translation>&amp;Ziele</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="278"/>
+        <location filename="../../ui/area_menus.py" line="281"/>
         <source>&amp;Night</source>
         <translation>&amp;Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="310"/>
+        <location filename="../../ui/area_menus.py" line="313"/>
         <source>Cooler off</source>
         <translation>Kühlung aus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="311"/>
+        <location filename="../../ui/area_menus.py" line="314"/>
         <source>Move the focuser</source>
         <translation>Fokussierer bewegen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="312"/>
+        <location filename="../../ui/area_menus.py" line="315"/>
         <source>Change the filter</source>
         <translation>Filter wechseln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="313"/>
+        <location filename="../../ui/area_menus.py" line="316"/>
         <source>Cool the camera</source>
         <translation>Kamera kühlen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="319"/>
+        <location filename="../../ui/area_menus.py" line="322"/>
         <source>&amp;Devices</source>
         <translation>&amp;Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="321"/>
+        <location filename="../../ui/area_menus.py" line="324"/>
         <source>&amp;Telescope</source>
         <translation>&amp;Teleskop</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="325"/>
+        <location filename="../../ui/area_menus.py" line="328"/>
         <source>&amp;Camera</source>
         <translation>&amp;Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="328"/>
+        <location filename="../../ui/area_menus.py" line="331"/>
         <source>F&amp;ocus</source>
         <translation>F&amp;okus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="329"/>
+        <location filename="../../ui/area_menus.py" line="332"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="331"/>
+        <location filename="../../ui/area_menus.py" line="334"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Sequenz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="374"/>
+        <location filename="../../ui/area_menus.py" line="377"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="375"/>
+        <location filename="../../ui/area_menus.py" line="378"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="379"/>
+        <location filename="../../ui/area_menus.py" line="382"/>
         <source>Save the automation as…</source>
         <translation>Automatisierung speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="380"/>
+        <location filename="../../ui/area_menus.py" line="383"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="388"/>
+        <location filename="../../ui/area_menus.py" line="391"/>
         <source>Remove the step</source>
         <translation>Schritt entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="389"/>
+        <location filename="../../ui/area_menus.py" line="392"/>
         <source>Move the step up</source>
         <translation>Schritt nach oben</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="390"/>
+        <location filename="../../ui/area_menus.py" line="393"/>
         <source>Move the step down</source>
         <translation>Schritt nach unten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="397"/>
+        <location filename="../../ui/area_menus.py" line="400"/>
         <source>Run the automation</source>
         <translation>Automatisierung ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="398"/>
+        <location filename="../../ui/area_menus.py" line="401"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="401"/>
+        <location filename="../../ui/area_menus.py" line="404"/>
         <source>To Observing</source>
         <translation>Zum Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="405"/>
+        <location filename="../../ui/area_menus.py" line="408"/>
         <source>&amp;Steps</source>
         <translation>&amp;Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="406"/>
+        <location filename="../../ui/area_menus.py" line="409"/>
         <source>&amp;Run</source>
         <translation>A&amp;usführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="418"/>
+        <location filename="../../ui/area_menus.py" line="421"/>
         <source>Compute</source>
         <translation>Berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="419"/>
+        <location filename="../../ui/area_menus.py" line="422"/>
         <source>Compute the band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="420"/>
+        <location filename="../../ui/area_menus.py" line="423"/>
         <source>Classify</source>
         <translation>Klassifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="421"/>
+        <location filename="../../ui/area_menus.py" line="424"/>
         <source>Components</source>
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="445"/>
+        <location filename="../../ui/area_menus.py" line="448"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Das Bedeckungs- oder Transitmodell anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="448"/>
+        <location filename="../../ui/area_menus.py" line="451"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="449"/>
+        <location filename="../../ui/area_menus.py" line="452"/>
         <source>Visual orbit</source>
         <translation>Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="454"/>
+        <location filename="../../ui/area_menus.py" line="457"/>
         <source>F&amp;it</source>
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="530"/>
+        <location filename="../../ui/area_menus.py" line="533"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="533"/>
+        <location filename="../../ui/area_menus.py" line="536"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Das Langspaltspektrum extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="539"/>
+        <location filename="../../ui/area_menus.py" line="542"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Die Echelle-Ordnungen auf dem Flat finden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="541"/>
+        <location filename="../../ui/area_menus.py" line="544"/>
         <source>Extract the échelle orders</source>
         <translation>Die Echelle-Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="546"/>
+        <location filename="../../ui/area_menus.py" line="549"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Das Spektrum des Würfelbereichs speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="551"/>
+        <location filename="../../ui/area_menus.py" line="554"/>
         <source>&amp;Lines</source>
         <translation>&amp;Linien</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="556"/>
+        <location filename="../../ui/area_menus.py" line="559"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Die Wellenlängen anpassen (Langspalt)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="560"/>
+        <location filename="../../ui/area_menus.py" line="563"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Die Wellenlängen anpassen, die Ordnungen zusammenfügen (Echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="574"/>
+        <location filename="../../ui/area_menus.py" line="577"/>
         <source>S&amp;pectrum</source>
         <translation>S&amp;pektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="588"/>
+        <location filename="../../ui/area_menus.py" line="591"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="590"/>
+        <location filename="../../ui/area_menus.py" line="593"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Arithmetik mit Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="594"/>
+        <location filename="../../ui/area_menus.py" line="597"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="596"/>
+        <location filename="../../ui/area_menus.py" line="599"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="620"/>
+        <location filename="../../ui/area_menus.py" line="623"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="621"/>
+        <location filename="../../ui/area_menus.py" line="624"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="520"/>
+        <location filename="../../ui/area_menus.py" line="523"/>
         <source>Save the spectrum as…</source>
         <translation>Das Spektrum speichern unter…</translation>
     </message>
@@ -6128,12 +6128,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="457"/>
+        <location filename="../../ui/area_menus.py" line="460"/>
         <source>Visual &amp;orbit</source>
         <translation>&amp;Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="605"/>
+        <location filename="../../ui/area_menus.py" line="608"/>
         <source>Velo&amp;city</source>
         <translation>Ges&amp;chwindigkeit</translation>
     </message>
@@ -8995,287 +8995,287 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Für einen dritten Körper oder Apsidendrehung MCMC-Unsicherheiten ankreuzen und erneut anpassen; dann Ergebnisse exportieren (CSV / LaTeX).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="87"/>
+        <location filename="../../ui/oc_page.py" line="89"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimumszeiten, eine pro Zeile: Zeit [Fehler] [I/II] [Quelle]</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="95"/>
+        <location filename="../../ui/oc_page.py" line="97"/>
         <source>Load file…</source>
         <translation>Datei laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="99"/>
+        <location filename="../../ui/oc_page.py" line="101"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Eine Textdatei mit Minimums- oder Maximumszeiten: Zeit, Fehler, Art (I / II), Quelle; eine pro Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="106"/>
+        <location filename="../../ui/oc_page.py" line="109"/>
         <source>The star&apos;s name: Look up fills T0 and the period from AAVSO VSX</source>
         <translation>Name des Sterns: Nachschlagen füllt T0 und die Periode aus AAVSO VSX</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="107"/>
+        <location filename="../../ui/oc_page.py" line="110"/>
         <source>Look up</source>
         <translation>Nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="108"/>
+        <location filename="../../ui/oc_page.py" line="111"/>
         <source>T0 and the period of the star from AAVSO VSX (needs the internet)</source>
         <translation>T0 und Periode des Sterns aus AAVSO VSX (braucht das Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="111"/>
+        <location filename="../../ui/oc_page.py" line="114"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="119"/>
+        <location filename="../../ui/oc_page.py" line="122"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="120"/>
+        <location filename="../../ui/oc_page.py" line="123"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Periode der Ephemeride zum Zählen der Epochen; die Anpassung verbessert sie</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="121"/>
+        <location filename="../../ui/oc_page.py" line="124"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Nullepoche der Ephemeride (BJD oder HJD, wie die Zeiten); leer: das erste Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="123"/>
+        <location filename="../../ui/oc_page.py" line="126"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="126"/>
+        <location filename="../../ui/oc_page.py" line="130"/>
         <source>Linear ephemeris</source>
         <translation>Lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="127"/>
+        <location filename="../../ui/oc_page.py" line="131"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Konstante Periode: O−C auf einer Geraden (korrigiert T0 und Periode)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="128"/>
+        <location filename="../../ui/oc_page.py" line="132"/>
         <source>Quadratic (period change)</source>
         <translation>Quadratisch (Periodenänderung)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="130"/>
+        <location filename="../../ui/oc_page.py" line="134"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Gleichmäßig sich ändernde Periode (Massenaustausch, Massenverlust): O−C auf einer Parabel; liefert dP/dt</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="132"/>
+        <location filename="../../ui/oc_page.py" line="136"/>
         <source>Third body (light-travel time)</source>
         <translation>Dritter Körper (Lichtlaufzeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="135"/>
+        <location filename="../../ui/oc_page.py" line="139"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Ein dritter Stern bewegt das Paar: O−C schwankt mit der Bahn des dritten Körpers (Irwin 1952); braucht Minima über mehr als einen Zyklus der Welle</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="139"/>
+        <location filename="../../ui/oc_page.py" line="143"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidendrehung (exzentrische Bahn, Haupt- und Nebenminima)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="142"/>
+        <location filename="../../ui/oc_page.py" line="146"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Eine exzentrische Bahn dreht sich: Haupt- und Nebenminima wandern gegenläufig; braucht beide Arten von Minima (Typ I und II)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="150"/>
+        <location filename="../../ui/oc_page.py" line="234"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC-Unsicherheiten (langsamer, für korrelierte Parameter)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="153"/>
+        <location filename="../../ui/oc_page.py" line="237"/>
         <source>After the fit, Markov chains explore the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="163"/>
+        <location filename="../../ui/oc_page.py" line="247"/>
         <source>The most steps of the Markov chains; they stop earlier once converged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="218"/>
+        <location filename="../../ui/oc_page.py" line="198"/>
         <source>The times are HJD without a time scale: taken as UTC. If they are TT, every O−C here is {s:.0f} s too late; write UTC or TT in the file when you know it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="285"/>
+        <location filename="../../ui/oc_page.py" line="303"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="162"/>
+        <location filename="../../ui/oc_page.py" line="246"/>
         <source> steps</source>
         <translation> Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="175"/>
+        <location filename="../../ui/oc_page.py" line="155"/>
         <source>Fit and draw O-C</source>
         <translation>Anpassen und O-C zeichnen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="178"/>
+        <location filename="../../ui/oc_page.py" line="158"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Passt das gewählte Modell an die Zeiten an und zeichnet O−C (beobachtet minus berechnet) gegen die Epochennummer</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="201"/>
+        <location filename="../../ui/oc_page.py" line="181"/>
         <source>Load minimum times</source>
         <translation>Minimumszeiten laden</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="201"/>
+        <location filename="../../ui/oc_page.py" line="181"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Text (*.txt *.csv *.dat);;Alle (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="225"/>
+        <location filename="../../ui/oc_page.py" line="205"/>
         <source>Asking VSX…</source>
         <translation>VSX wird gefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="231"/>
+        <location filename="../../ui/oc_page.py" line="211"/>
         <source>{name}: no period in VSX; type it.</source>
         <translation>{name}: keine Periode in VSX; bitte eingeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="237"/>
+        <location filename="../../ui/oc_page.py" line="217"/>
         <source>{name}: T0 and period from {source}. Press Fit and draw O-C.</source>
         <translation>{name}: T0 und Periode aus {source}. Drücken Sie Anpassen und O-C zeichnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="249"/>
+        <location filename="../../ui/oc_page.py" line="267"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Zuerst das O−C-Diagramm anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="264"/>
+        <location filename="../../ui/oc_page.py" line="282"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>Lichtlaufzeiteffekt in einer Drittkörperbahn (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="274"/>
+        <location filename="../../ui/oc_page.py" line="292"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>Apsidendrehung einer exzentrischen Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="279"/>
+        <location filename="../../ui/oc_page.py" line="297"/>
         <source>quadratic ephemeris</source>
         <translation>quadratische Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="279"/>
+        <location filename="../../ui/oc_page.py" line="297"/>
         <source>linear ephemeris</source>
         <translation>lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="282"/>
+        <location filename="../../ui/oc_page.py" line="300"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>O−C-Anpassung an {n} Minimumszeiten: {model}; gewichtete kleinste Quadrate, 1σ-Fehler (mit √χ²ᵣ skaliert, wenn χ²ᵣ &gt; 1).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="298"/>
+        <location filename="../../ui/oc_page.py" line="316"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Geben Sie die Periode in Tagen ein, oder den Namen des Sterns und Nachschlagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="309"/>
+        <location filename="../../ui/oc_page.py" line="327"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Anpassung, danach läuft die MCMC ({s} Schritte) als Aufgabe…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="319"/>
+        <location filename="../../ui/oc_page.py" line="337"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="334"/>
+        <location filename="../../ui/oc_page.py" line="352"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="335"/>
+        <location filename="../../ui/oc_page.py" line="353"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="339"/>
+        <location filename="../../ui/oc_page.py" line="357"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="343"/>
+        <location filename="../../ui/oc_page.py" line="361"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="349"/>
-        <location filename="../../ui/oc_page.py" line="427"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="445"/>
         <source>primary</source>
         <translation>Hauptminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="349"/>
-        <location filename="../../ui/oc_page.py" line="427"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="445"/>
         <source>secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="354"/>
-        <location filename="../../ui/oc_page.py" line="431"/>
+        <location filename="../../ui/oc_page.py" line="372"/>
+        <location filename="../../ui/oc_page.py" line="449"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="358"/>
-        <location filename="../../ui/oc_page.py" line="435"/>
+        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="453"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="359"/>
-        <location filename="../../ui/oc_page.py" line="436"/>
+        <location filename="../../ui/oc_page.py" line="377"/>
+        <location filename="../../ui/oc_page.py" line="454"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="367"/>
+        <location filename="../../ui/oc_page.py" line="385"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Dritter Körper: P3 = {p:.2f} ± {pe:.2f} a, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="394"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="391"/>
+        <location filename="../../ui/oc_page.py" line="409"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="399"/>
+        <location filename="../../ui/oc_page.py" line="417"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidendrehung: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/Zyklus, U = {u:.1f} a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="401"/>
+        <location filename="../../ui/oc_page.py" line="419"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="414"/>
+        <location filename="../../ui/oc_page.py" line="432"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (Akzeptanz {a:.2f}): </translation>
     </message>
@@ -10269,6 +10269,29 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/oc_minima.py" line="41"/>
         <source>Every minimum of the last fit with its epoch, O−C and residual</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OcWindow</name>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <source>Minima</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <source>Ephemeris</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <source>Fit and report</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14402,22 +14425,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PlanWindow</name>
     <message>
-        <location filename="../../ui/plan_window.py" line="16"/>
+        <location filename="../../ui/stage_boxes.py" line="41"/>
         <source>Site and night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="16"/>
+        <location filename="../../ui/stage_boxes.py" line="41"/>
         <source>Targets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="17"/>
+        <location filename="../../ui/stage_boxes.py" line="42"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_window.py" line="18"/>
+        <location filename="../../ui/stage_boxes.py" line="42"/>
         <source>Schedule</source>
         <translation type="unfinished"></translation>
     </message>
