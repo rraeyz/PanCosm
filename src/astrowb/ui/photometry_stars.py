@@ -216,6 +216,8 @@ def identify_field(page, automatic=False):
         )
         page.field_label.show()
         return
+    if not automatic and page.field:  # pressed again on an identified field: no saved answers (user-feedback UF-14)
+        page.identify_fresh = True
     page.field_label.setText(translate("PhotometryPage", "Identifying the field (Gaia, VSX)…"))
     page.field_label.show()
     page.field_requested.emit(page.images[0])

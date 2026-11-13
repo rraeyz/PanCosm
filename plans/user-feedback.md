@@ -62,7 +62,8 @@ Newest report first. Read this file before choosing the next work: these come be
   After Identify the field, NY Vir was right but other VSX circles sat on blank sky. Either the solution is off
   away from the centre (distortion, wrong scale on a 2×2 frame) or VSX positions are not moved to the epoch. Check
   on the owner's frames: residuals of the solution across the frame, and the VSX stars' pixel positions.
-- **UF-14 — "Identify the field" again only reads the cache** — **open**
+- **UF-14 — "Identify the field" again only reads the cache** — **done** (2026-11-13: pressed on an identified
+  field it asks the catalogues again — step parameter `fresh`; tests)
   A second press (or Shift-click / a menu item "Identify again, ignore the saved answer") must solve again.
 - **UF-15 — AAVSO sequence labels in the wrong places** — **open**
   Follows UF-13 (same solution); check the chart's stars land on stars.

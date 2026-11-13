@@ -227,6 +227,7 @@ def make_photometry_page(main):
         lambda image: main.run_step(
             "photometry.identify_field",
             {"image": image},
+            {"fresh": page.__dict__.pop("identify_fresh", False)},  # a second press asks the catalogues again
             on_done=lambda out: page.show_field(out["field"]),
             on_fail=page.field_failed,
             area="photometry",

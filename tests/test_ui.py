@@ -2463,3 +2463,35 @@ def test_models_never_fit_from_an_invented_period(window, tmp_path):
     pp.time, pp.flux, pp.best, pp.magnitudes = [2459000.0, 2459000.05, 2459000.1], [1.0, 0.7, 1.0], 0.1, False
     page.fit_button.click()
     assert asked and asked[0]["start"]["period"] == 0.1 and asked[0]["start"]["t0"] == 2459000.05
+
+
+def test_identify_again_asks_the_catalogues(window, monkeypatch):
+    """User feedback UF-14: a second "Identify the field" read the saved answer; it now asks again (fresh)."""
+    from astrowb.ui.photometry_stars import identify_field
+
+    page = window.photometry_page
+    asked = []
+    monkeypatch.setattr(window, "run_step", lambda step, inputs, params=None, **k: asked.append((step, params)))
+    page.images = ["a.fits"]
+    identify_field(page)
+    page.field = {"header": ""}
+    identify_field(page)
+    assert asked[0][1] == {"fresh": False} and asked[1][1] == {"fresh": True}
+
+
+def test_the_fresh_identification_bypasses_the_cache(monkeypatch, tmp_path):
+    from astrowb.engine.steps import execute
+    from astrowb.photometry import field
+    from astrowb.services import cache
+
+    seen = []
+    monkeypatch.setattr(field, "identify", lambda path, ctx: seen.append(cache._fresh[0]) or {"stars": {}})
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    (tmp_path / "a.fits").write_bytes(b"")
+    execute("photometry.identify_field", {"image": str(tmp_path / "a.fits")}, {"fresh": True}, Ctx())
+    execute("photometry.identify_field", {"image": str(tmp_path / "a.fits")}, {}, Ctx())
+    assert seen == [True, False]
