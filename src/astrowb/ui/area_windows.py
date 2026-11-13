@@ -99,6 +99,30 @@ def _exports_menu(win, page, actions):
     exports.addActions(actions)
     exports.addAction(translate("MainWindow", "Light-curve file, nothing left out (.lc.ecsv)…"),
                       lambda: _save_lc_file(win, page))  # fmt: skip
+    exports.addAction(translate("MainWindow", "Save all into a folder…"), lambda: _save_all(win, page))
+
+
+def _save_all(win, page, folder=None):
+    """PHO-27 item 5: the light curve, the measurements table, the star list, the transit fit and the plot."""
+    from PySide6.QtWidgets import QFileDialog
+
+    from ..photometry.reports.save_all import save_all
+
+    if page.light_curve is None:
+        page.result.setText(translate("MainWindow", "Measure the light curve first."))
+        return None
+    folder = folder or QFileDialog.getExistingDirectory(win, translate("MainWindow", "Folder for everything"))
+    if not folder:
+        return None
+    stars = None
+    if page.target is not None:
+        wcs = page._field_wcs() if page.ref in (None, 0) else None
+        stars = {"target": page.target, "comps": page.comps, "extras": page.extras, "wcs": wcs,
+                 "radii": (page.r_ap.value(), page.r_in.value(), page.r_out.value())}  # fmt: skip
+    fit = (getattr(page, "transit_fit", None) or (None, None))[1]
+    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure)
+    page.result.setText(translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder))
+    return files
 
 
 def _save_lc_file(win, page):
