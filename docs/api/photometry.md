@@ -80,11 +80,12 @@ parameters (default):
   psf = false  (bool)  PSF photometry: Stars fitted with the frame's PSF (crowded fields)
   aperture_m = null  (float, m, >= 0.0)  Telescope aperture: For the scintillation noise (Young 1967); empty: left out
   camera = null  (object)  Camera: Read noise, dark current and linearity when the header lacks them
-  sky_method = "median"  (choice, one of median, mode, mean, plane)  Sky: How the sky level is read
+  sky_method = "median"  (choice, one of median, mode, mean, plane, centroid)  Sky: How the sky level is read
   fixed = []  (table)  Fixed positions: Stars measured where marked, not re-centred
   header_time = "auto"  (choice, one of auto, start, mid, end)  Header time marks: What the header's time marks: the start, middle or end of the exposure
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
+  remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
 ```
 
 ## photometry.multifilter
@@ -116,11 +117,12 @@ parameters (default):
   psf = false  (bool)  PSF photometry: Stars fitted with the frame's PSF (crowded fields)
   aperture_m = null  (float, m, >= 0.0)  Telescope aperture: For the scintillation noise (Young 1967); empty: left out
   camera = null  (object)  Camera: Read noise, dark current and linearity when the header lacks them
-  sky_method = "median"  (choice, one of median, mode, mean, plane)  Sky: How the sky level is read
+  sky_method = "median"  (choice, one of median, mode, mean, plane, centroid)  Sky: How the sky level is read
   fixed = []  (table)  Fixed positions: Stars measured where marked, not re-centred
   header_time = "auto"  (choice, one of auto, start, mid, end)  Header time marks: What the header's time marks: the start, middle or end of the exposure
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
+  remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
   t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```

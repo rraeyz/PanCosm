@@ -1464,6 +1464,10 @@ def test_photometry_window_menus_mirror_its_buttons(window):
     assert page.psf.isChecked() == psf.isChecked()
     page.psf.setChecked(not page.psf.isChecked())
     assert psf.isChecked() == page.psf.isChecked()
+    page.psf.setChecked(True)
+    clean = next(a for a in menus["&Measure"].actions() if a.text() == page.remove_neighbours.text())
+    clean.trigger()  # the two methods exclude each other, in the menu too
+    assert page.remove_neighbours.isChecked() and not page.psf.isChecked() and not psf.isChecked()
     assert any("Polarimetry" in text for text, _ in win.commands())
 
 

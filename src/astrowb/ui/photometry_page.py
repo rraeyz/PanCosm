@@ -38,6 +38,7 @@ from .aavso_dialog import AavsoDialog
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
+from .photometry_method import add_method_boxes
 from .photometry_stars import add_star_buttons, suggestion_text
 from .undo import Undoable
 from .viewer import ImageViewer
@@ -371,14 +372,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.measure_options = Collapsible(self.tr("More measuring options: seeing, PSF, scintillation"), self)
         self.measure_options.body.addWidget(self.follow_seeing)
-        self.psf = QCheckBox(self.tr("PSF photometry (crowded fields: blended stars fitted together)"), self)
-        self.psf.setToolTip(
-            self.tr(
-                "For crowded fields: stars that overlap are fitted together with the image's star profile "
-                "instead of being added up in a circle. Slower; for isolated stars the aperture is as good."
-            )
-        )
-        self.measure_options.body.addWidget(self.psf)
+        add_method_boxes(self, self.measure_options.body)
         self.sections[3].body.addWidget(QLabel(self.tr("Target RA Dec (for BJD), e.g. 02:04:10.3 +46:41:16"), self))
         self.coord = QLineEdit(self)
         self.coord.setToolTip(
@@ -440,6 +434,7 @@ class PhotometryPage(Undoable, QWidget):
             ("mode", self.tr("mode, 3 median − 2 mean (IRAF)")),
             ("mean", self.tr("mean within ±2σ (AstroImageJ)")),
             ("plane", self.tr("plane fit (a gradient: Moon, twilight)")),
+            ("centroid", self.tr("histogram centroid (IRAF)")),
         ):
             self.sky_method.addItem(text, key)
         self.sky_method.setToolTip(
@@ -1821,7 +1816,7 @@ class PhotometryPage(Undoable, QWidget):
         params["follow_seeing"] = self.follow_seeing.isChecked()
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
-        params["psf"] = self.psf.isChecked()
+        params |= {"psf": self.psf.isChecked(), "remove_neighbours": self.remove_neighbours.isChecked()}
         params["sky_method"] = self.sky_method.currentData()
         params["header_time"] = self.header_time.currentData()
         if self.more_apertures.isChecked():

@@ -219,9 +219,15 @@ fallback), `measure` (forced positions or within ± max_move, groups at 2.5 FWHM
 flux errors), `subtract` (the fitted neighbours removed for "aperture after removing neighbours"). Test: a pair
 1.5 FWHM apart (1 : 3): PSF within 1 %, apertures after removal within 1.5 %, a plain aperture off by more than 10 %,
 all as ratios to an isolated star (the ePSF's own normalisation is about 2 % off and cancels; PSF stars need
-sub-pixel positions — on a grid of whole pixels the ePSF came out 2 % wrong). Left: method in light_curve and
-the live path, the catalogue neighbours, the measurements-table columns, the Measure stage choice and banner, the
-PSF tab, the eclipse-of-the-fainter-star test, error codes.
+sub-pixel positions — on a grid of whole pixels the ePSF came out 2 % wrong). Done (2026-11-13), "aperture after
+removing neighbours" in `light_curve(remove_neighbours=True)` and the step: neighbours found on the reference frame
+and in its residual after the measured stars are fitted (DAOPHOT's way; a detection closer than 1 FWHM to a measured
+star is that star's own residual), on every frame fitted with a Gaussian of the frame's FWHM from the predicted
+positions (a centroid is pulled by the neighbour: 1.4 px on the test) and subtracted, the stars re-centred on the
+cleaned frame; the Measure options hold it as a check box that excludes "PSF photometry", mirrored in the menu.
+Test: a variable neighbour 1.5 FWHM away (1 : 6 brightness change) moves plain apertures by > 20 %, the cleaned
+curve stays within 1.5 %. Left: the ePSF per frame in that path, the live path, catalogue neighbours, the
+measurements-table columns, the banner, the PSF tab, the eclipse-of-the-fainter-star test, error codes.
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
@@ -819,7 +825,10 @@ scaled-error column, scintillation on every aperture radius, the Inspector's bar
 - **Files:** `photometry/aperture.py` (`recenter`), `photometry/options.py`, `tests/test_centring.py`
 
 ### PHO-45. Sky ring: catalogue star mask and IRAF's histogram centroid  (P2)
-**open**
+**partial** — done (2026-11-13): `sky_method = "centroid"` (`aperture._histogram_centroid`: ± 3σ around the median,
+bins of 0.1σ, 3σ rejection, 10 iterations at most), in the step's choices and the Sky combo; test: a ring with a
+neighbour's wing in 7 % of the pixels gives the sky within 0.2σ where the mean is 1.6σ off. Left: the star mask,
+the rejected-pixel counts in the table, the IRAF reference run (no IRAF here).
 - **Build:** stars known from the catalogue (Gaia to G + 7 of the target) are masked in every sky ring by position
   (radius 1.5 FWHM scaled with brightness) before any statistic — better than rejection alone because faint wings
   are removed too; `sky_method = "centroid"` (IRAF's `salgorithm = centroid`: histogram of the ring within ± 3σ in bins of 0.1σ,

@@ -397,7 +397,7 @@ def test_light_curve_with_the_other_sky_estimates(tmp_path):
         paths.append(tmp_path / f"f{i}.fits")
     stars = [s[:2] for s in STARS]
     ref = light_curve(paths, stars[0], stars[1:], 6, 18, 24)
-    for method in ("mode", "mean", "plane"):
+    for method in ("mode", "mean", "plane", "centroid"):
         lc = light_curve(paths, stars[0], stars[1:], 6, 18, 24, sky_method=method, camera={"read_noise": 8.0})
         d = np.asarray(lc["rel_flux"]) - np.asarray(ref["rel_flux"])
         assert np.all(np.abs(d) < 3 * np.asarray(ref["rel_flux_err"])), method

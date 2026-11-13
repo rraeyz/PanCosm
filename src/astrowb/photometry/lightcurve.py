@@ -5,6 +5,7 @@ rel_flux = F_target / sum(F_comp);  relative error from the propagated flux erro
 Times are mid-exposure; BJD_TDB when the target's sky position is known, else JD_UTC.
 """
 
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import astropy.units as u
@@ -14,9 +15,11 @@ from astropy.coordinates import SkyCoord
 from .. import timing
 from ..calibration.masters import load
 from ..hdr import get, number
+from ..io import tpf
 from ..io.inspect import saturation_level
 from .aperture import choose_apertures, frame_shift, measure, measure_cube, recenter, scintillation, seeing_fwhm
 from .differential import ensemble
+from .psf import neighbours_setup
 
 
 def target_coord(header, given: str | None = None) -> SkyCoord | None:
@@ -58,12 +61,14 @@ def light_curve(
     header_time="auto",
     shutter_delay=0.0,
     apertures=(),
+    remove_neighbours=False,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
     follow_seeing: on every frame the radii are scaled by that frame's FWHM over the first frame's, so the
     aperture holds the same part of the light when the seeing changes (a "variable aperture").
     extra_xy: further stars (other targets, check stars) measured against the same comparison ensemble.
+    remove_neighbours: stars near the measured ones are fitted and subtracted before the apertures (psf.py).
     psf: fluxes from PSF fits of each frame's FWHM (crowded fields, fieldstars.psf_measure) instead of apertures.
     aperture_m: telescope aperture (m) for the scintillation noise added to every flux error (aperture.scintillation);
     by default from APTDIA (mm) in the header. Without an aperture, the site or the target position no
@@ -108,13 +113,10 @@ def light_curve(
         r_ap, r_in, r_out = chosen["r_ap"], chosen["r_in"], chosen["r_out"]
         opts["apertures"] = tuple(r for r in opts["apertures"] if r < r_in)
     fwhm0 = seeing_fwhm(ref, recenter(ref, stars0, box)) if follow_seeing else None
+    opts["neighbours"] = neighbours_setup(ref, stars0, n_comp, r_out) if remove_neighbours and not psf else None
     radii, fwhms, peaks = [], [], []
     saturation = saturation_level(h0, ref)
-    from concurrent.futures import ThreadPoolExecutor
-
-    from ..io import tpf
-
-    src = None if psf or follow_seeing else tpf.source(paths)
+    src = None if psf or follow_seeing or remove_neighbours else tpf.source(paths)
     if src is not None:  # the cadences of a TESS / Kepler pixel file: measured at once, the stars do not move
         rows, peaks, radii, src_times = _pixel_file_rows(src, paths, stars0, (r_ap, r_in, r_out), g, box)
     binning = 2 if ref.size > 4e6 else 1  # large frames: the shift from 2x2-binned frames, then re-centred anyway
@@ -398,6 +400,12 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         f_psf = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
         flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
     else:
+        if opts.get("neighbours") is not None:
+            from .psf import remove_neighbours
+
+            f_now = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
+            data = remove_neighbours(data, pred, f_now, *opts["neighbours"])  # a centroid is pulled by the neighbour
+            xy[~np.isin(np.arange(len(xy)), fixed)] = recenter(data, pred, box)[~np.isin(np.arange(len(xy)), fixed)]
         cam = None
         if camera:  # dark current over this frame's exposure
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0

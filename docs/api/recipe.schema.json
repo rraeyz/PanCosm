@@ -710,6 +710,13 @@
             "null"
            ]
           },
+          "remove_neighbours": {
+           "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "aperture_m": {
            "description": "Telescope aperture (m): For the scintillation noise (Young 1967); empty: left out",
            "type": [
@@ -728,6 +735,7 @@
             "mode",
             "mean",
             "plane",
+            "centroid",
             null
            ]
           },
@@ -826,6 +834,13 @@
             "null"
            ]
           },
+          "remove_neighbours": {
+           "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "aperture_m": {
            "description": "Telescope aperture (m): For the scintillation noise (Young 1967); empty: left out",
            "type": [
@@ -844,6 +859,7 @@
             "mode",
             "mean",
             "plane",
+            "centroid",
             null
            ]
           },
