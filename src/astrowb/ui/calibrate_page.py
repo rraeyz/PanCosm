@@ -362,19 +362,19 @@ class CalibratePage(Undoable, QWidget):
                 box.addItem(text, value)
             self.stack_opts[key] = box
             box.setToolTip(tips[key])
-            opts.addWidget(QLabel(label, self), i // 2, 2 * (i % 2))
-            opts.addWidget(box, i // 2, 2 * (i % 2) + 1)
+            opts.addWidget(QLabel(label, self), i, 0)  # one choice per row: the stage beside the list is narrow
+            opts.addWidget(box, i, 1)
         self.clip_low, self.clip_high = QDoubleSpinBox(self), QDoubleSpinBox(self)
         for w, v in ((self.clip_low, 1), (self.clip_high, 1)):
             w.setRange(0, 50)
             w.setDecimals(2)
             w.setValue(v)
             w.setToolTip(self.tr("min / max: how many values to drop; percentile: the fraction of the median"))
-        opts.addWidget(QLabel(self.tr("Low / high"), self), 2, 2)
+        opts.addWidget(QLabel(self.tr("Low / high"), self), len(choices), 0)
         lh = QHBoxLayout()
         lh.addWidget(self.clip_low)
         lh.addWidget(self.clip_high)
-        opts.addLayout(lh, 2, 3)
+        opts.addLayout(lh, len(choices), 1)
         self.stack_options = Collapsible(self.tr("Stacking options"), self)
         add_align_row(self, self.stack_options.body, opts)  # the options' grid, then the stars to align on
         self.drizzle = QCheckBox(self.tr("Drizzle onto a 2× finer grid (undersampled, dithered frames)"), self)

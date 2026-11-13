@@ -1087,7 +1087,8 @@ def test_settings_naming_old_side_panels_still_open(window, qtbot):
     qtbot.addWidget(again)
     again.show()
     docks = [d.objectName() for d in again.findChildren(QDockWidget)]  # the background-tasks dock stays
-    assert not hasattr(again, "dock_page") and not [n for n in docks if n.startswith("panel_")]
+    old = [n for n in docks if n.startswith("panel_") and n != "panel_stages"]  # the stage rail is no page panel
+    assert not hasattr(again, "dock_page") and not old
     assert "Panels beside the image" not in [a.text() for a in again.view_menu.actions()]
     again.engine.shutdown()
 
@@ -1267,7 +1268,7 @@ def test_basic_and_expert_mode(window):
     window.start_page.expert.setChecked(True)
     assert window.settings.get("ui.mode") == "expert" and window.expert_action.isChecked()
     assert phot.measure_options.content.isVisibleTo(phot.measure_options)  # inside the folded step 4
-    assert window.calibrate_page.more_options.content.isVisibleTo(window.calibrate_page)
+    assert window.calibrate_page.more_options.content.isVisibleTo(window.calibrate_page.more_options)
     window.expert_action.setChecked(False)
     assert window.settings.get("ui.mode") == "basic" and window.start_page.basic.isChecked()
 
@@ -2633,4 +2634,23 @@ def test_the_oc_window_has_stages(window):
     assert win.stage_panels["report"].isAncestorOf(page.fit_button)
     page.text.setPlainText("2455867.40274 0.00005 I")
     assert win.rail.states["minima"] == "done"
+    win.close()
+
+
+def test_the_calibration_window_has_stages(window):
+    """UI-16.2: Frames, Calibrate, Continue as stages beside the list of frames and its problems; a step done marks
+    its stage on the rail."""
+    win = window.open_area("calibrate")
+    page = window.calibrate_page
+    assert list(win.stage_panels) == ["frames", "calibrate", "continue"]
+    assert win.stage_panels["frames"].isAncestorOf(page.lights) and win.stage_panels["frames"].isAncestorOf(page.folder)
+    assert win.stage_panels["calibrate"].isAncestorOf(page.output) and win.stage_panels["calibrate"].isAncestorOf(
+        page.run_button
+    )
+    assert win.stage_panels["calibrate"].isAncestorOf(page.result)
+    assert win.stage_panels["continue"].isAncestorOf(page.photometry_button)
+    assert win.stage_panels["continue"].isAncestorOf(page.stack_options)
+    assert not any(p.isAncestorOf(page.table) for p in win.stage_panels.values())  # the list stays the view
+    page.guide.set_state(2, "done")
+    assert win.rail.states["calibrate"] == "done" and page.guide.states[2] == "done"
     win.close()

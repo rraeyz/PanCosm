@@ -138,6 +138,9 @@ def calibrate(main, page, win):
         toolbar=[lights, scan, None, run, stack, None, send],
     )
     win.set_icons({lights: "open_folder", scan: "scan", run: "calibrate", stack: "stack", send: "send"})
+    from .stage_boxes import calibration_stages
+
+    calibration_stages(win, page)  # UI-16.2: the columns as stages beside the list of frames
 
 
 def timeseries(main, page, win):
