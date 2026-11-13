@@ -7,6 +7,8 @@ import numpy as np
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QGroupBox, QLabel, QPushButton, QVBoxLayout
 
+from . import photometry_neb
+
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("PhotometryTransit", "…") calls
 
 
@@ -141,6 +143,7 @@ def attach(main, page):
 
     page.to_oc_button.clicked.connect(to_oc)
     lay.addWidget(page.to_oc_button)
+    photometry_neb.add(main, page, lay)
     page.transit_details.clicked.connect(lambda: details_dialog(page, *page.transit_fit).exec())
     page.minimum_button.parentWidget().layout().insertWidget(
         page.minimum_button.parentWidget().layout().indexOf(page.minimum_button) + 1, box
