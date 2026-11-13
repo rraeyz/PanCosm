@@ -66,7 +66,10 @@ class Autosave:
 
     def __init__(self, store, project, name="last"):
         self.store, self.project, self.name = store, project, name
-        self.timer = QTimer(singleShot=True, interval=AUTOSAVE_MS, timeout=self.flush)
+        self.timer = QTimer()  # no property keywords: the packaged PySide6 refused them (0.3.11, "not a Qt property")
+        self.timer.setSingleShot(True)
+        self.timer.setInterval(AUTOSAVE_MS)
+        self.timer.timeout.connect(self.flush)
         store.subscribe(lambda _paths: self.timer.start())
 
     def flush(self):

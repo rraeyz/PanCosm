@@ -26,7 +26,9 @@ class Button(QPushButton):
 
             self.setIcon(kit_icon(icon, self, 16))
         self._text, self._turn = text, 0
-        self._timer = QTimer(self, interval=150, timeout=self._spin)
+        self._timer = QTimer(self)  # no property keywords: the packaged PySide6 refused them
+        self._timer.setInterval(150)
+        self._timer.timeout.connect(self._spin)
 
     def set_busy(self, busy):
         if busy and not self._timer.isActive():
