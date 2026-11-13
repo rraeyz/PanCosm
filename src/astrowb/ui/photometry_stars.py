@@ -97,8 +97,32 @@ def add_star_buttons(page, layout):
     page.why_button.clicked.connect(
         lambda: why_dialog(page, page.judged_stars, lambda xy: page.viewer.centerOn(*xy)).open()
     )
+    page.identify_button = QPushButton(translate("PhotometryStars", "Identify the field"), page)
+    page.identify_button.setToolTip(
+        translate("PhotometryStars", "Plate solution of the first frame, its Gaia stars and the VSX variables in it")
+    )
+    page.identify_button.clicked.connect(lambda: identify_field(page))
     layout.addWidget(page.suggest_button)
     layout.addWidget(page.why_button)
+    layout.addWidget(page.identify_button)
+
+
+def identify_field(page, automatic=False):
+    """The first frame solved and its stars named (photometry.identify_field); when the frames are opened only if
+    Settings → Automatic steps allows it (ui/automatic.py)."""
+    from . import automatic as steps
+
+    if not page.images:
+        return
+    if automatic and not steps.on("photometry.identify_field"):
+        page.field_label.setText(
+            translate("PhotometryStars", "The field is identified when you press Identify the field.")
+        )
+        page.field_label.show()
+        return
+    page.field_label.setText(translate("PhotometryPage", "Identifying the field (Gaia, VSX)…"))
+    page.field_label.show()
+    page.field_requested.emit(page.images[0])
 
 
 def snap_click(page, x, y):

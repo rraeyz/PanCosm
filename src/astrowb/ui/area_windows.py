@@ -251,6 +251,8 @@ def _stage_parts(page):
 
 
 def _photometry_stages(win, page):
+    from . import automatic
+
     """The steps as stages (plans/interface.md UI-16.1): the rail on the left names them with their state, the
     stage's controls beside it; the page's own step logic (which step is next, which are done) moves the rail."""
     from .kit.anatomy import Stage
@@ -264,7 +266,7 @@ def _photometry_stages(win, page):
     def follow(now, done):
         for k, ok in enumerate(done):
             win.set_stage_state(keys[k], "done" if ok else "empty")
-        if now > last[0]:  # the page went on to a next step: it opens by itself, as the sections did
+        if now > last[0] and automatic.on("photometry.next_stage"):  # the page went on: the next stage opens
             win.show_stage(keys[now])
         last[0] = now  # a stage the user went back to stays shown
 

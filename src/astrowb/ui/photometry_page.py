@@ -34,12 +34,13 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..settings import Settings
+from . import automatic
 from .aavso_dialog import AavsoDialog
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
 from .photometry_method import add_method_boxes, method_params
-from .photometry_stars import add_star_buttons, snap_click, suggestion_text
+from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -1176,9 +1177,7 @@ class PhotometryPage(Undoable, QWidget):
         if "TPFSKIP" in header or sky is None:  # a pixel file, or no pointing to solve from: nothing to identify
             self.field_label.hide()
         else:
-            self.field_label.setText(self.tr("Identifying the field (Gaia, VSX)…"))
-            self.field_label.show()
-            self.field_requested.emit(self.images[0])
+            identify_field(self, automatic=True)
         self._step_now = 0
         self._advance(1)
         text = self.tr("{n} images, first: {name}").format(n=len(self.images), name=Path(self.images[0]).name)
@@ -1263,7 +1262,7 @@ class PhotometryPage(Undoable, QWidget):
                     SkyCoord(float(ra), float(dec), unit="deg").to_string("hmsdms", sep=":", precision=1)
                 )
             self._draw_markers()
-            self._suggest()
+            automatic.on("photometry.suggest_comparisons") and self._suggest()
             return
         else:
             self.comps.append((x, y))
@@ -1796,7 +1795,7 @@ class PhotometryPage(Undoable, QWidget):
         self.why_button.setEnabled(bool(self.judged_stars))
         if comps and catalogue:
             self.result.setText(suggestion_text(len(comps), catalogue))
-        if comps and not self._radii_set:
+        if comps and not self._radii_set and automatic.on("photometry.choose_radii"):
             self._choose_radii()
 
     def _set_comps(self, comps):

@@ -156,6 +156,7 @@ class SettingsWindow(Dialog):
         self._general()
         self._profiles()
         self._processing()
+        self._automatic()
         self._time()
         self._online()
         self._shortcuts()
@@ -289,6 +290,18 @@ class SettingsWindow(Dialog):
                               ("gpu", self.tr("GPU"))], compute.mode(), self)  # fmt: skip
         device.currentIndexChanged.connect(lambda _i: self.main.set_compute(device.value()))
         self._row(c, self.tr("Processing device"), device, self.tr("Where the heavy computations run"), default="auto")
+
+    def _automatic(self):
+        """What the program does without a press (ui/automatic.py): each step on or off; its button stays."""
+        from . import automatic
+
+        c = self._category(self.tr("Automatic steps"))
+        for key, label, note in automatic.STEPS:
+            box = Toggle("", automatic.on(key, self.settings), self)
+            box.toggled.connect(lambda on, key=key: automatic.set_on(key, on, self.settings))
+            box.setObjectName(f"auto_{key}")
+            self._row(c, QCoreApplication.translate("Automatic", label), box,
+                      QCoreApplication.translate("Automatic", note), default=True)  # fmt: skip
 
     def _time(self):
         c = self._category(self.tr("Time"))
