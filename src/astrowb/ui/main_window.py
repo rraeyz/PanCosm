@@ -473,7 +473,10 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         return page
 
     def _make_calibrate_page(self):
+        from .kit.fit import fit_width
+
         page = CalibratePage(self)
+        fit_width(page.stack_options, 380)  # opened, the options pushed the right column out (user-feedback UF-9)
         from ..io import bayer
 
         page.clock_offset.setValue(bayer.CLOCK_UTC_OFFSET_H)
