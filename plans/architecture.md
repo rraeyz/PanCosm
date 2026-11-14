@@ -501,7 +501,7 @@ the suite is green after each.
 - **Depends on:** ARC-4.7.
 
 ### ARC-7. Image layer: one viewer for every window  (P1)
-**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the viewer is shared and fast, left: the rest of items 3 and 6)
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the viewer is shared and fast, left: the rest of items 3 and 6) (2026-11-20) item 3: plain layer specs (`ui/image/layers.py`: Circle, Annulus, Ellipse, Box, Polyline, Text, Cross; `fixed` keeps screen size) through `ImageViewer.set_items` into the Layers menu; item 6: the navigator (`ui/image/navigator.py`, View → Navigator) and pixel values printed past 40 screen px a pixel (`magnifier.print_values`); `test_layer_specs_become_items`, `test_navigator_moves_the_view_and_values_print`. Left: what a pick on a layer item returns, the magnifier's 8–32× scale, the navigator following North-up / rotation, moving the engine overlays onto the specs
 - **Progress (agent3):** speed part of the Accept met without item 1's tile pyramid. Measured first (Qt software
   raster, 4 cores, 1400 × 900 view): the old viewer already panned and zoomed in 2–7 ms a frame (Qt scales one
   pixmap); only the first view (9576 × 6388: 1.1 s) and a level change (0.7 s) were slow, both from converting

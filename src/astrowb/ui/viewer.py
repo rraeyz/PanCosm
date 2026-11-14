@@ -55,6 +55,7 @@ class ImageViewer(QGraphicsView):
         self._generation = 0
         self.wcs, self.show_compass, self.orientation = None, True, (0.0, False, False)
         self.show_magnifier, self.cursor_pixel, self._magnifier_limits = False, None, None
+        self.show_navigator, self._nav_drag = False, False
         self._rendered.connect(self._full_rendered)
         self.empty_hint = ""  # said in the middle while no image is shown (a black view told a newcomer nothing)
 
@@ -144,6 +145,15 @@ class ImageViewer(QGraphicsView):
             painter.save()
             painter.resetTransform()
             magnifier.draw(painter, self)
+            painter.restore()
+        if self.data is not None:
+            from .image import magnifier, navigator
+
+            painter.save()
+            painter.resetTransform()
+            magnifier.print_values(painter, self)
+            if self.show_navigator:
+                navigator.draw(painter, self)
             painter.restore()
         if self.data is None and self.empty_hint:
             painter.save()
@@ -368,6 +378,18 @@ class ImageViewer(QGraphicsView):
         if items:
             self._overlays[name] = items
 
+    def set_items(self, name, specs):
+        """Draw a named layer from plain specs (`ui/image/layers.py`), replacing the old one; empty removes it."""
+        from .image import layers
+
+        for item in self._overlays.pop(name, []):
+            self.scene().removeItem(item)
+        items = layers.build(specs, self._to_scene) if self.data is not None else []
+        for item in items:
+            self.scene().addItem(item)
+        if items:
+            self._overlays[name] = items
+
     def overlay_names(self):
         return sorted(self._overlays)
 
@@ -472,6 +494,12 @@ class ImageViewer(QGraphicsView):
             self.context_requested.emit(x, y, event.globalPos())
 
     def mousePressEvent(self, event):
+        from .image import navigator
+
+        if event.button() == Qt.LeftButton and navigator.hit(self, event.position()):
+            self._nav_drag = True
+            navigator.go_to(self, event.position())
+            return
         self._press = event.position()
         if self.tool in ("area", "line") and self.data is not None and event.button() == Qt.LeftButton:
             self._drag_start = self._array_xy(event.position())
@@ -479,6 +507,9 @@ class ImageViewer(QGraphicsView):
         super().mousePressEvent(event)
 
     def mouseReleaseEvent(self, event):
+        if self._nav_drag:
+            self._nav_drag = False
+            return
         if self._drag_start is not None:
             x0, y0 = self._drag_start
             x1, y1 = self._array_xy(event.position())
@@ -537,6 +568,11 @@ class ImageViewer(QGraphicsView):
         return None
 
     def mouseMoveEvent(self, event):
+        if self._nav_drag:
+            from .image import navigator
+
+            navigator.go_to(self, event.position())
+            return
         super().mouseMoveEvent(event)
         if self.data is None:
             return

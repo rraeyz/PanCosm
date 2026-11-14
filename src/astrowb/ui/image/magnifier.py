@@ -44,3 +44,24 @@ def draw(painter, viewer):
     painter.setBrush(Qt.NoBrush)
     painter.drawRect(target)
     painter.drawRect(QRectF(target.x() + HALF * SCALE, target.y() + HALF * SCALE, SCALE, SCALE))  # the cursor's pixel
+
+
+PRINT_ABOVE = 40  # screen pixels per image pixel from which the values are printed on the pixels themselves
+
+
+def print_values(painter, viewer):
+    """Each visible pixel's value written on it when the view is zoomed in past PRINT_ABOVE screen pixels."""
+    from PySide6.QtCore import QRectF, Qt
+    from PySide6.QtGui import QColor
+
+    t = viewer.transform()
+    zoom = abs(t.m11() * t.m22() - t.m12() * t.m21()) ** 0.5
+    if zoom < PRINT_ABOVE:
+        return
+    h, w = viewer.data.shape[:2]
+    seen = viewer.mapToScene(viewer.viewport().rect()).boundingRect()
+    painter.setPen(QColor("#ffffff"))
+    for r in range(max(int(seen.top()), 0), min(int(seen.bottom()) + 1, h)):
+        for c in range(max(int(seen.left()), 0), min(int(seen.right()) + 1, w)):
+            cell = viewer.mapFromScene(QRectF(c, r, 1, 1)).boundingRect()
+            painter.drawText(cell, int(Qt.AlignCenter), f"{viewer.data[h - 1 - r, c]:.6g}")
