@@ -1129,202 +1129,202 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AutomationPage</name>
     <message>
-        <location filename="../../ui/automation_page.py" line="61"/>
+        <location filename="../../ui/automation_page.py" line="69"/>
         <source>Automation</source>
         <translation>Otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="69"/>
+        <location filename="../../ui/automation_page.py" line="77"/>
         <source>New</source>
         <translation>Yeni</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="71"/>
+        <location filename="../../ui/automation_page.py" line="79"/>
         <source>An empty automation to fill with steps</source>
         <translation>Adımlarla doldurulacak boş bir otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="72"/>
+        <location filename="../../ui/automation_page.py" line="80"/>
         <source>Save as…</source>
         <translation>Farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="74"/>
+        <location filename="../../ui/automation_page.py" line="82"/>
         <source>Saves the automation under a name, to run it again on other data</source>
         <translation>Otomasyonu bir adla kaydeder, başka verilerde yeniden çalıştırmak için</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="86"/>
+        <location filename="../../ui/automation_page.py" line="94"/>
         <source>Steps, in order</source>
         <translation>Adımlar, sırayla</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="100"/>
+        <location filename="../../ui/automation_page.py" line="108"/>
         <source>Every task of the application as a step (calibrate, stack, photometry, period search…)</source>
         <translation>Uygulamanın her işi bir adım olarak (kalibrasyon, yığma, fotometri, periyot arama…)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="102"/>
+        <location filename="../../ui/automation_page.py" line="110"/>
         <source>Add step</source>
         <translation>Adım ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="104"/>
+        <location filename="../../ui/automation_page.py" line="112"/>
         <source>Adds the chosen step at the end; its settings appear below</source>
         <translation>Seçilen adımı sona ekler; ayarları aşağıda görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="110"/>
+        <location filename="../../ui/automation_page.py" line="118"/>
         <source>Remove</source>
         <translation>Kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="110"/>
+        <location filename="../../ui/automation_page.py" line="118"/>
         <source>Removes the selected step</source>
         <translation>Seçili adımı siler</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="111"/>
+        <location filename="../../ui/automation_page.py" line="119"/>
         <source>Up</source>
         <translation>Yukarı</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="111"/>
+        <location filename="../../ui/automation_page.py" line="119"/>
         <source>Moves the selected step one place earlier</source>
         <translation>Seçili adımı bir sıra öne alır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="112"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Down</source>
         <translation>Aşağı</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="112"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Moves the selected step one place later</source>
         <translation>Seçili adımı bir sıra geriye alır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="132"/>
         <source>Settings of the selected step (input ← data name, or a value)</source>
         <translation>Seçili adımın ayarları (girdi ← veri adı ya da bir değer)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="124"/>
+        <location filename="../../ui/automation_page.py" line="136"/>
         <source>Setting</source>
         <translation>Ayar</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="124"/>
+        <location filename="../../ui/automation_page.py" line="136"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="133"/>
+        <location filename="../../ui/automation_page.py" line="141"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="137"/>
+        <location filename="../../ui/automation_page.py" line="145"/>
         <source>Run</source>
         <translation>Çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="141"/>
+        <location filename="../../ui/automation_page.py" line="149"/>
         <source>Runs the steps one after the other with these inputs; each step&apos;s result is kept in the project</source>
         <translation>Adımları bu girdilerle birbiri ardına çalıştırır; her adımın sonucu projede saklanır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="143"/>
+        <location filename="../../ui/automation_page.py" line="151"/>
         <source>To the Observing window</source>
         <translation>Gözlem penceresine</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="144"/>
+        <location filename="../../ui/automation_page.py" line="152"/>
         <source>Send sequence to the Observing window</source>
         <translation>Sekansı Gözlem penceresine gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="148"/>
+        <location filename="../../ui/automation_page.py" line="156"/>
         <source>Process after the sequence</source>
         <translation>Sekanstan sonra işle</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="150"/>
+        <location filename="../../ui/automation_page.py" line="158"/>
         <source>Run the processing when this sequence has finished.</source>
         <translation>Sekans bitince işlemeyi kendiliğinden çalıştırır.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="152"/>
+        <location filename="../../ui/automation_page.py" line="160"/>
         <source>Frames of a remote observatory are copied to this computer first.</source>
         <translation>Uzaktaki gözlemevinin kareleri önce bu bilgisayara kopyalanır.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="173"/>
+        <location filename="../../ui/automation_page.py" line="181"/>
         <source>{name} (template)</source>
         <translation>{name} (şablon)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="184"/>
+        <location filename="../../ui/automation_page.py" line="192"/>
         <source>New automation</source>
         <translation>Yeni otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="209"/>
+        <location filename="../../ui/automation_page.py" line="217"/>
         <source>Save automation</source>
         <translation>Otomasyonu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="209"/>
+        <location filename="../../ui/automation_page.py" line="217"/>
         <source>Name:</source>
         <translation>Ad:</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="228"/>
+        <location filename="../../ui/automation_page.py" line="236"/>
         <source> — for each {name}</source>
         <translation> — her {name} için</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="326"/>
+        <location filename="../../ui/automation_page.py" line="335"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Otomasyonun bu girdisi için bir değer, dosya ya da klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="331"/>
+        <location filename="../../ui/automation_page.py" line="340"/>
         <source>Choose in a dialog</source>
         <translation>Bir pencereden seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="339"/>
+        <location filename="../../ui/automation_page.py" line="348"/>
         <source>Choose a folder</source>
         <translation>Klasör seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="341"/>
+        <location filename="../../ui/automation_page.py" line="350"/>
         <source>Choose a file</source>
         <translation>Dosya seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="343"/>
+        <location filename="../../ui/automation_page.py" line="352"/>
         <source>Choose files</source>
         <translation>Dosyaları seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="360"/>
+        <location filename="../../ui/automation_page.py" line="369"/>
         <source>Cannot run: {e}</source>
         <translation>Çalıştırılamıyor: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="368"/>
+        <location filename="../../ui/automation_page.py" line="377"/>
         <source>Running step {n}: {step}</source>
         <translation>{n}. adım çalışıyor: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="371"/>
+        <location filename="../../ui/automation_page.py" line="380"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="375"/>
+        <location filename="../../ui/automation_page.py" line="384"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
     </message>
@@ -9646,113 +9646,113 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>ObservePage</name>
     <message>
-        <location filename="../../ui/observe_page.py" line="99"/>
+        <location filename="../../ui/observe_page.py" line="100"/>
         <source>The password shown when the observatory program starts; without it nobody else can move the telescope</source>
         <translation>Gözlemevi programı başlarken gösterilen parola; o olmadan başka kimse teleskobu hareket ettiremez</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="104"/>
+        <location filename="../../ui/observe_page.py" line="105"/>
         <source>Address of the observatory program: on this computer http://127.0.0.1:11112, otherwise the observatory computer&apos;s address</source>
         <translation>Gözlemevi programının adresi: bu bilgisayarda http://127.0.0.1:11112, değilse gözlemevi bilgisayarının adresi</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="108"/>
+        <location filename="../../ui/observe_page.py" line="109"/>
         <source>Observatory address</source>
         <translation>Gözlemevi adresi</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="110"/>
+        <location filename="../../ui/observe_page.py" line="111"/>
         <source>Token</source>
         <translation>Erişim anahtarı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="113"/>
+        <location filename="../../ui/observe_page.py" line="114"/>
         <source>only for https: shown when the observatory starts</source>
         <translation>yalnızca https için: gözlemevi başlarken gösterilir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="114"/>
+        <location filename="../../ui/observe_page.py" line="115"/>
         <source>Certificate fingerprint</source>
         <translation>Sertifika parmak izi</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="118"/>
+        <location filename="../../ui/observe_page.py" line="119"/>
         <source>Checks that the https connection really goes to your observatory; copy it from the observatory computer</source>
         <translation>https bağlantısının gerçekten sizin gözlemevinize gittiğini denetler; gözlemevi bilgisayarından kopyalayın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="125"/>
+        <location filename="../../ui/observe_page.py" line="126"/>
         <location filename="../../ui/stage_boxes.py" line="243"/>
         <source>Connect</source>
         <translation>Bağlan</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="128"/>
+        <location filename="../../ui/observe_page.py" line="129"/>
         <source>Connects to the observatory program at this address and shows its status every two seconds</source>
         <translation>Bu adresteki gözlemevi programına bağlanır ve durumunu iki saniyede bir gösterir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="130"/>
+        <location filename="../../ui/observe_page.py" line="131"/>
         <source>Start observatory on this computer…</source>
         <translation>Gözlemevini bu bilgisayarda başlat…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="134"/>
+        <location filename="../../ui/observe_page.py" line="135"/>
         <source>Starts the observatory program here with a saved configuration file (devices connected to this computer)</source>
         <translation>Gözlemevi programını kaydedilmiş bir yapılandırma dosyasıyla burada başlatır (bu bilgisayara bağlı cihazlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="138"/>
+        <location filename="../../ui/observe_page.py" line="139"/>
         <source>Set up observatory…</source>
         <translation>Gözlemevini kur…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="140"/>
+        <location filename="../../ui/observe_page.py" line="141"/>
         <source>Site, devices (ASCOM Alpaca or INDI) and safety limits, step by step</source>
         <translation>Konum, cihazlar (ASCOM Alpaca ya da INDI) ve güvenlik sınırları, adım adım</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="147"/>
+        <location filename="../../ui/observe_page.py" line="148"/>
         <source>Not connected</source>
         <translation>Bağlı değil</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="155"/>
+        <location filename="../../ui/observe_page.py" line="156"/>
         <source>RA Dec, e.g. 02:04:10 +46:41:16</source>
         <translation>RA Dec, örn. 02:04:10 +46:41:16</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="156"/>
+        <location filename="../../ui/observe_page.py" line="157"/>
         <source>Where to point the telescope (J2000)</source>
         <translation>Teleskobun yöneltileceği yer (J2000)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="157"/>
+        <location filename="../../ui/observe_page.py" line="158"/>
         <source>Slew</source>
         <translation>Yönel</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="160"/>
+        <location filename="../../ui/observe_page.py" line="161"/>
         <source>Moves the telescope to these coordinates; refused below the altitude limit or while unsafe</source>
         <translation>Teleskobu bu koordinatlara götürür; yükseklik sınırının altında ya da güvenli değilken reddedilir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="162"/>
+        <location filename="../../ui/observe_page.py" line="163"/>
         <source>Centre</source>
         <translation>Ortala</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="164"/>
+        <location filename="../../ui/observe_page.py" line="165"/>
         <source>Slew, take a frame, plate-solve it, correct the mount and repeat until the target is centred</source>
         <translation>Yönel, kare çek, plaka çöz, kundağı düzelt; hedef ortalanana kadar tekrarla</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="167"/>
+        <location filename="../../ui/observe_page.py" line="168"/>
         <source>Polar alignment</source>
         <translation>Kutup hizalama</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="170"/>
+        <location filename="../../ui/observe_page.py" line="171"/>
         <source>Point near the pole (declination 60-80°), then press: three solved frames while the RA axis turns give the error of the polar axis</source>
         <translation>Kutba yakın bir yere yönelin (dik açıklık 60-80°), sonra basın: RA ekseni dönerken çözülen üç kare kutup ekseninin hatasını verir</translation>
     </message>
@@ -9797,249 +9797,249 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Şimdiki konumun çevresinde dokuz odaklayıcı konumunda kare alınır; yıldız boyutunun (HFR) konuma göre değişimi fit edilir ve odaklayıcı en iyi konuma götürülür</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="189"/>
+        <location filename="../../ui/observe_page.py" line="190"/>
         <source>Log</source>
         <translation>Günlük</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="198"/>
+        <location filename="../../ui/observe_page.py" line="199"/>
         <location filename="../../ui/stage_boxes.py" line="244"/>
         <source>Sequence</source>
         <translation>Çekim sırası</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="201"/>
+        <location filename="../../ui/observe_page.py" line="202"/>
         <source>empty for darks/bias (no slew)</source>
         <translation>dark/bias için boş bırakın (yönelme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="206"/>
+        <location filename="../../ui/observe_page.py" line="207"/>
         <source>Moves the telescope a few pixels through the guider (PHD2) every N frames, so hot pixels and noise patterns do not stay on the stars; 0: never</source>
         <translation>Teleskobu her N karede bir rehber (PHD2) aracılığıyla birkaç piksel kaydırır; böylece sıcak pikseller ve gürültü desenleri yıldızların üstünde kalmaz; 0: hiç</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="212"/>
+        <location filename="../../ui/observe_page.py" line="213"/>
         <source>now; or dusk, or a UTC time 2026-11-15T21:30</source>
         <translation>şimdi; ya da dusk (akşam karanlığı) veya UTC zamanı 2026-11-15T21:30</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="213"/>
+        <location filename="../../ui/observe_page.py" line="214"/>
         <source>after the counts; or dawn, or a UTC time (repeats until then)</source>
         <translation>sayılar bitince; ya da dawn (şafak) veya UTC zamanı (o zamana kadar tekrarlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="215"/>
+        <location filename="../../ui/observe_page.py" line="216"/>
         <source>empty: leave the rotator where it is</source>
         <translation>boş: rotator olduğu yerde kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="216"/>
+        <location filename="../../ui/observe_page.py" line="217"/>
         <source>Sky position angle for the camera rotator in degrees, if there is one</source>
         <translation>Varsa kamera döndürücüsü için gökyüzü konum açısı, derece</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="219"/>
+        <location filename="../../ui/observe_page.py" line="220"/>
         <source>When the sequence ends: after the counts of the rows, or it repeats the rows until dawn or a UTC time</source>
         <translation>Dizinin ne zaman biteceği: satırlardaki sayılar bitince, ya da şafağa veya bir UTC zamanına kadar satırları tekrarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="223"/>
+        <location filename="../../ui/observe_page.py" line="224"/>
         <source>When the sequence begins: now, at dusk (the Sun below the observatory&apos;s limit) or at a UTC time</source>
         <translation>Dizinin ne zaman başlayacağı: şimdi, akşam karanlığında (Güneş gözlemevinin sınırının altında) ya da bir UTC zamanında</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="226"/>
+        <location filename="../../ui/observe_page.py" line="227"/>
         <source>Coordinates of the target (J2000); the telescope slews there before the first frame</source>
         <translation>Hedefin koordinatları (J2000); teleskop ilk kareden önce oraya gider</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="228"/>
+        <location filename="../../ui/observe_page.py" line="229"/>
         <source>Written into the frames&apos; OBJECT keyword and their file names</source>
         <translation>Karelerin OBJECT anahtar sözcüğüne ve dosya adlarına yazılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="230"/>
+        <location filename="../../ui/observe_page.py" line="231"/>
         <source>Folder on the observatory computer where the frames are written; they are copied here afterwards</source>
         <translation>Karelerin yazılacağı gözlemevi bilgisayarındaki klasör; sonra buraya kopyalanırlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="234"/>
+        <location filename="../../ui/observe_page.py" line="235"/>
         <source>Target name</source>
         <translation>Hedef adı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="235"/>
+        <location filename="../../ui/observe_page.py" line="236"/>
         <source>RA Dec</source>
         <translation>RA Dec</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="236"/>
+        <location filename="../../ui/observe_page.py" line="237"/>
         <source>Dither every N frames (PHD2)</source>
         <translation>Her N karede dither (PHD2)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="237"/>
+        <location filename="../../ui/observe_page.py" line="238"/>
         <source>Start</source>
         <translation>Başlangıç</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="238"/>
+        <location filename="../../ui/observe_page.py" line="239"/>
         <source>End</source>
         <translation>Bitiş</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="239"/>
+        <location filename="../../ui/observe_page.py" line="240"/>
         <source>Rotator angle (°)</source>
         <translation>Rotator açısı (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="240"/>
+        <location filename="../../ui/observe_page.py" line="241"/>
         <source>Save to (folder on the observatory computer)</source>
         <translation>Kayıt yeri (gözlemevi bilgisayarındaki klasör)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="250"/>
+        <location filename="../../ui/observe_page.py" line="251"/>
         <source>Night plan (from the Planning window): every target gets the exposure rows below</source>
         <translation>Gece programı (Planlama penceresinden): her hedef aşağıdaki poz satırlarını kullanır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="257"/>
+        <location filename="../../ui/observe_page.py" line="258"/>
         <source>Forgets the night plan sent from the Planning window; the exposure rows stay</source>
         <translation>Planlama penceresinden gönderilen gece planını unutur; poz satırları kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="379"/>
+        <location filename="../../ui/observe_page.py" line="378"/>
         <source>One frame with this exposure, shown in the Images window (to check pointing and focus)</source>
         <translation>Bu poz süresiyle tek kare; Görüntüler penceresinde gösterilir (yönelimi ve odağı kontrol etmek için)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="255"/>
+        <location filename="../../ui/observe_page.py" line="256"/>
         <source>Clear the night plan</source>
         <translation>Gece programını temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="92"/>
+        <location filename="../../ui/observe_page.py" line="93"/>
         <source>Observing</source>
         <translation>Gözlem</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="265"/>
+        <location filename="../../ui/observe_page.py" line="266"/>
         <source>Type</source>
         <translation>Tür</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="266"/>
-        <location filename="../../ui/observe_page.py" line="409"/>
+        <location filename="../../ui/observe_page.py" line="267"/>
+        <location filename="../../ui/observe_page.py" line="408"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="267"/>
+        <location filename="../../ui/observe_page.py" line="268"/>
         <source>Exposure (s)</source>
         <translation>Poz (sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="268"/>
+        <location filename="../../ui/observe_page.py" line="269"/>
         <source>Count</source>
         <translation>Adet</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="269"/>
+        <location filename="../../ui/observe_page.py" line="270"/>
         <source>Binning</source>
         <translation>Binning</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="270"/>
+        <location filename="../../ui/observe_page.py" line="271"/>
         <source>Gain</source>
         <translation>Kazanç (gain)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="271"/>
+        <location filename="../../ui/observe_page.py" line="272"/>
         <source>Offset</source>
         <translation>Ofset</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="272"/>
+        <location filename="../../ui/observe_page.py" line="273"/>
         <source>Read-out mode</source>
         <translation>Okuma modu</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="273"/>
+        <location filename="../../ui/observe_page.py" line="274"/>
         <source>Sub-frame x, y, w, h</source>
         <translation>Alt kare x, y, g, y</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="278"/>
+        <location filename="../../ui/observe_page.py" line="279"/>
         <source>Gain, offset, read-out mode (number in the camera&apos;s list) and sub-frame (binned pixels): empty keeps the camera&apos;s setting and the full frame</source>
         <translation>Kazanç, ofset, okuma modu (kameranın listesindeki sıra) ve alt kare (birleştirilmiş piksel): boş bırakılırsa kameranın ayarı ve tam kare kullanılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="286"/>
+        <location filename="../../ui/observe_page.py" line="287"/>
         <source>Add exposure row</source>
         <translation>Poz satırı ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="287"/>
+        <location filename="../../ui/observe_page.py" line="288"/>
         <source>add an exposure row</source>
         <translation>poz satırı ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="289"/>
+        <location filename="../../ui/observe_page.py" line="290"/>
         <source>A new row: type, filter, exposure time, count, binning (gain, offset and the rest may stay empty)</source>
         <translation>Yeni bir satır: tür, filtre, poz süresi, sayı, binning (kazanç, ofset ve diğerleri boş kalabilir)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="291"/>
+        <location filename="../../ui/observe_page.py" line="292"/>
         <source>Remove row</source>
         <translation>Satırı kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="293"/>
+        <location filename="../../ui/observe_page.py" line="294"/>
         <source>remove an exposure row</source>
         <translation>poz satırını sil</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="295"/>
+        <location filename="../../ui/observe_page.py" line="296"/>
         <source>Removes the selected exposure row</source>
         <translation>Seçili poz satırını siler</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="296"/>
+        <location filename="../../ui/observe_page.py" line="297"/>
         <source>Start sequence</source>
         <translation>Çekim sırasını başlat</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="299"/>
+        <location filename="../../ui/observe_page.py" line="300"/>
         <source>Sends the sequence to the observatory, which runs it on its own; Abort stops it</source>
         <translation>Diziyi gözlemevine gönderir, gözlemevi onu kendi başına yürütür; Durdur onu durdurur</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="301"/>
+        <location filename="../../ui/observe_page.py" line="302"/>
         <source>Sky flats</source>
         <translation>Gökyüzü flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="304"/>
+        <location filename="../../ui/observe_page.py" line="305"/>
         <source>Twilight flats with the filter and count of the selected row; exposure times follow the sky brightness. Point the telescope at the flat spot first, tracking off.</source>
         <translation>Seçili satırın filtresi ve sayısıyla alacakaranlık flatları; poz süreleri gökyüzü parlaklığını izler. Önce teleskopu flat noktasına çevirin, izleme kapalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="309"/>
+        <location filename="../../ui/observe_page.py" line="310"/>
         <source>Panel flats</source>
         <translation>Panel flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="312"/>
+        <location filename="../../ui/observe_page.py" line="313"/>
         <source>Flats on the flat panel (cover closed, panel lit, exposure adjusted to the target level), with the filter and count of the selected row; the panel is switched off afterwards</source>
         <translation>Düz alan panelinde flatlar (kapak kapalı, panel yanık, poz hedef düzeye göre ayarlanır), seçili satırın filtresi ve sayısıyla; sonra panel kapatılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="329"/>
+        <location filename="../../ui/observe_page.py" line="330"/>
         <source>type a value</source>
         <translation>değer yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="334"/>
+        <location filename="../../ui/observe_page.py" line="335"/>
         <source>Copying the frames failed: {e}</source>
         <translation>Kareler kopyalanamadı: {e}</translation>
     </message>
@@ -10064,248 +10064,248 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Filtre tekerleğindeki filtre, adıyla</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="374"/>
+        <location filename="../../ui/observe_page.py" line="373"/>
         <source>Preview</source>
         <translation>Önizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="377"/>
+        <location filename="../../ui/observe_page.py" line="376"/>
         <source>Take preview</source>
         <translation>Önizleme çek</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="385"/>
+        <location filename="../../ui/observe_page.py" line="384"/>
         <source>Cooler</source>
         <translation>Soğutucu</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="388"/>
+        <location filename="../../ui/observe_page.py" line="387"/>
         <source>Cool to</source>
         <translation>Soğut</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="388"/>
+        <location filename="../../ui/observe_page.py" line="387"/>
         <source>Switches the cooler on and sets this temperature</source>
         <translation>Soğutucuyu açar ve bu sıcaklığı ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="391"/>
+        <location filename="../../ui/observe_page.py" line="390"/>
         <source>Off</source>
         <translation>Kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="393"/>
+        <location filename="../../ui/observe_page.py" line="392"/>
         <source>Switches the cooler off (do it slowly at the end of the night)</source>
         <translation>Soğutucuyu kapatır (gece sonunda yavaşça yapın)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="398"/>
+        <location filename="../../ui/observe_page.py" line="397"/>
         <source>Focuser</source>
         <translation>Odaklayıcı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="401"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Move</source>
         <translation>Taşı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="403"/>
+        <location filename="../../ui/observe_page.py" line="402"/>
         <source>Moves the focuser to this position</source>
         <translation>Odaklayıcıyı bu konuma götürür</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="412"/>
+        <location filename="../../ui/observe_page.py" line="411"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="414"/>
+        <location filename="../../ui/observe_page.py" line="413"/>
         <source>Turns the filter wheel to this filter</source>
         <translation>Filtre tekerleğini bu filtreye çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="451"/>
+        <location filename="../../ui/observe_page.py" line="450"/>
         <source>on</source>
         <translation>açık</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="451"/>
+        <location filename="../../ui/observe_page.py" line="450"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="452"/>
+        <location filename="../../ui/observe_page.py" line="451"/>
         <source>Camera {t:.1f} °C, cooler {on}</source>
         <translation>Kamera {t:.1f} °C, soğutucu {on}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="454"/>
+        <location filename="../../ui/observe_page.py" line="453"/>
         <source>focuser at {p}</source>
         <translation>odaklayıcı {p} konumunda</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="460"/>
+        <location filename="../../ui/observe_page.py" line="459"/>
         <source>filter {f}</source>
         <translation>filtre {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="489"/>
+        <location filename="../../ui/observe_page.py" line="488"/>
         <source>Copying {n} frames to {f}…</source>
         <translation>{n} kare {f} klasörüne kopyalanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="519"/>
-        <location filename="../../ui/observe_page.py" line="530"/>
+        <location filename="../../ui/observe_page.py" line="518"/>
+        <location filename="../../ui/observe_page.py" line="529"/>
         <source>Observatory configuration</source>
         <translation>Gözlemevi yapılandırması</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="556"/>
+        <location filename="../../ui/observe_page.py" line="555"/>
         <source>No connection to the observatory: {e}</source>
         <translation>Gözlemeviyle bağlantı yok: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="561"/>
+        <location filename="../../ui/observe_page.py" line="560"/>
         <source>NOT SAFE: the safety supervisor has not checked for {s:.0f} s — restart the observatory</source>
         <translation>GÜVENLİ DEĞİL: güvenlik denetçisi {s:.0f} sn&apos;dir denetim yapmadı — gözlemevini yeniden başlatın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="565"/>
+        <location filename="../../ui/observe_page.py" line="564"/>
         <source>Safe</source>
         <translation>Güvenli</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="568"/>
+        <location filename="../../ui/observe_page.py" line="567"/>
         <source>aborted — press Resume when ready</source>
         <translation>durduruldu — hazır olunca Devam et&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="569"/>
+        <location filename="../../ui/observe_page.py" line="568"/>
         <source>NOT SAFE: {r}</source>
         <translation>GÜVENLİ DEĞİL: {r}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="574"/>
+        <location filename="../../ui/observe_page.py" line="573"/>
         <source>Mount: alt {alt:.1f}°, az {az:.1f}°, {state}</source>
         <translation>Kundak: irtifa {alt:.1f}°, azimut {az:.1f}°, {state}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="577"/>
+        <location filename="../../ui/observe_page.py" line="576"/>
         <source>parked</source>
         <translation>park hâlinde</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="579"/>
+        <location filename="../../ui/observe_page.py" line="578"/>
         <source>tracking</source>
         <translation>izliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="579"/>
+        <location filename="../../ui/observe_page.py" line="578"/>
         <source>not tracking</source>
         <translation>izlemiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="587"/>
+        <location filename="../../ui/observe_page.py" line="586"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="592"/>
+        <location filename="../../ui/observe_page.py" line="591"/>
         <source>Finished, {n} frames.</source>
         <translation>Bitti, {n} kare.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="592"/>
+        <location filename="../../ui/observe_page.py" line="591"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="599"/>
+        <location filename="../../ui/observe_page.py" line="598"/>
         <source>Connect first.</source>
         <translation>Önce bağlanın.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="606"/>
+        <location filename="../../ui/observe_page.py" line="605"/>
         <source>Refused: {e}</source>
         <translation>Reddedildi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="614"/>
+        <location filename="../../ui/observe_page.py" line="613"/>
         <source>Coordinates not understood: {t}</source>
         <translation>Koordinat anlaşılamadı: {t}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="633"/>
+        <location filename="../../ui/observe_page.py" line="632"/>
         <source>Centred to {e:.0f} arcsec after {n} frames.</source>
         <translation>{n} karede {e:.0f} yay saniyesine kadar ortalandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="635"/>
+        <location filename="../../ui/observe_page.py" line="634"/>
         <source>lower the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ indirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="635"/>
+        <location filename="../../ui/observe_page.py" line="634"/>
         <source>raise the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ yükseltin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="635"/>
         <source>turn it west by {v:.1f}′</source>
         <translation>{v:.1f}′ batıya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="635"/>
         <source>turn it east by {v:.1f}′</source>
         <translation>{v:.1f}′ doğuya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="637"/>
+        <location filename="../../ui/observe_page.py" line="636"/>
         <source>Polar axis off by {t:.1f}′: {alt}, {az}.</source>
         <translation>Kutup ekseni {t:.1f}′ kaymış: {alt}, {az}.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="657"/>
+        <location filename="../../ui/observe_page.py" line="656"/>
         <source>light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, shutter closed; flat: an evenly lit field</source>
         <translation>light: gökyüzü; dark: örtücü kapalı, light&apos;lar kadar uzun; bias: en kısa poz, örtücü kapalı; flat: düzgün aydınlatılmış alan</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="668"/>
+        <location filename="../../ui/observe_page.py" line="667"/>
         <source>Exposure time of each frame in seconds</source>
         <translation>Her karenin poz süresi, saniye</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="676"/>
+        <location filename="../../ui/observe_page.py" line="675"/>
         <source>How many frames</source>
         <translation>Kaç kare</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="676"/>
+        <location filename="../../ui/observe_page.py" line="675"/>
         <source>Binning: 1 is full resolution, 2 adds 2×2 pixels</source>
         <translation>Binning: 1 tam çözünürlük, 2 ise 2×2 pikseli toplar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="712"/>
+        <location filename="../../ui/observe_page.py" line="711"/>
         <source>change an exposure row</source>
         <translation>poz satırını değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="722"/>
+        <location filename="../../ui/observe_page.py" line="721"/>
         <source>Row {row}: gain, offset and read-out mode are whole numbers</source>
         <translation>Satır {row}: kazanç, ofset ve okuma modu tam sayıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="729"/>
+        <location filename="../../ui/observe_page.py" line="728"/>
         <source>Row {row}: sub-frame is x, y, width, height in pixels</source>
         <translation>Satır {row}: alt kare piksel cinsinden x, y, genişlik, yükseklik olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="762"/>
+        <location filename="../../ui/observe_page.py" line="761"/>
         <source>The rotator angle must be a number of degrees.</source>
         <translation>Rotator açısı derece cinsinden bir sayı olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="798"/>
+        <location filename="../../ui/observe_page.py" line="797"/>
         <source>load a sequence</source>
         <translation>dizi yükle</translation>
     </message>
@@ -14847,93 +14847,113 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>ProjectPage</name>
     <message>
-        <location filename="../../ui/project_page.py" line="31"/>
+        <location filename="../../ui/project_page.py" line="35"/>
         <source>Files</source>
         <translation>Dosyalar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="38"/>
         <source>History</source>
         <translation>Geçmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="37"/>
+        <location filename="../../ui/project_page.py" line="42"/>
         <source>Step</source>
         <translation>Adım</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="37"/>
+        <location filename="../../ui/project_page.py" line="42"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="37"/>
+        <location filename="../../ui/project_page.py" line="42"/>
         <source>Started</source>
         <translation>Başlangıç zamanı</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="37"/>
-        <location filename="../../ui/project_page.py" line="99"/>
+        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="128"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="51"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Aynı girdi ve ayarlarla yeniden çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="49"/>
+        <location filename="../../ui/project_page.py" line="54"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Seçilen adımı tam önceki gibi yeniden çalıştırır, örneğin girdi dosyaları değiştikten sonra</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="53"/>
+        <location filename="../../ui/project_page.py" line="58"/>
         <source>Copy as Python</source>
         <translation>Python olarak kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="55"/>
+        <location filename="../../ui/project_page.py" line="60"/>
         <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation>Seçili adım, bir Python betiğinin satırı olarak (astrowb.api), kopyalanmak üzere</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="63"/>
         <source>Save as recipe…</source>
         <translation>Tarif olarak kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="61"/>
+        <location filename="../../ui/project_page.py" line="66"/>
         <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation>Seçili adım ayarlarıyla bir otomasyon olarak: Otomasyon onu başka dosyalarda çalıştırır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="69"/>
+        <location filename="../../ui/project_page.py" line="74"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Girdilerini, ayarlarını, sonuçlarını ve sürümleri görmek için bir çalıştırma seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="98"/>
+        <location filename="../../ui/project_page.py" line="83"/>
+        <source>Run steps and the methods paragraph appears here.</source>
+        <translation>Adımları çalıştırın; yöntem paragrafı burada görünür.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="85"/>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="86"/>
+        <source>Copies the methods text to the clipboard</source>
+        <translation>Yöntem metnini panoya kopyalar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="90"/>
+        <source>Methods text</source>
+        <translation>Yöntem metni</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="127"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="100"/>
+        <location filename="../../ui/project_page.py" line="129"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="101"/>
+        <location filename="../../ui/project_page.py" line="130"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="102"/>
+        <location filename="../../ui/project_page.py" line="131"/>
         <source>Versions</source>
         <translation>Sürümler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="120"/>
+        <location filename="../../ui/project_page.py" line="149"/>
         <source>Save as recipe</source>
         <translation>Tarif olarak kaydet</translation>
     </message>

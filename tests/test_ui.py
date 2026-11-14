@@ -2767,3 +2767,42 @@ def test_the_observing_window_has_stages(window):
     assert panels["sequence"].isAncestorOf(page.start_button) and panels["night"].isAncestorOf(page.log)
     assert not any(p.isAncestorOf(page.exposures) for p in panels.values())
     win.close()
+
+
+def test_the_project_window_has_tabs(window, tmp_path):
+    """UI-16.14: Files, History and Methods text as tabs; the methods text comes from the successful runs and can
+    be copied."""
+    from PySide6.QtWidgets import QApplication
+
+    window.open_project(tmp_path / "p.astroproj")
+    page = window.project_page
+    assert [page.tabs.tabText(i) for i in range(page.tabs.count())] == ["Files", "History", "Methods text"]
+    assert page.tabs.widget(0) is page.files_list and page.tabs.widget(1).isAncestorOf(page.runs_table)
+    project = window.engine.project
+    run = project.start_run("stacking.stack", {}, {"align": "stars", "method": "median", "rejection": "sigma clip"})
+    project.finish_run(run, "done", {})
+    page.tabs.setCurrentIndex(2)
+    assert "aligned by stars and combined by their median with sigma clip rejection" in page.methods_text.toPlainText()
+    page.methods_button.click()
+    assert QApplication.clipboard().text() == page.methods_text.toPlainText()
+
+
+def test_the_automation_window_chain_of_cards(window):
+    """UI-16.12 (smallest form): the steps are a chain of cards with a one-line summary; selecting a card selects
+    the step and shows its settings in the inspector on the right; Add / Up / Remove work on the chain."""
+    page = window.automation_page
+    page.new()
+    assert page.steps.count() == 0
+    page.add_step("calibration.scan")
+    page.add_step("fits.save_as")
+    assert page.steps.count() == 2 and page.steps.currentRow() == 1
+    page.settings_table.item(0, 1).setText("scan.folder")  # an input link shows on the card
+    cards = page.steps._group.buttons()
+    assert "scan.folder" in cards[1].text() and cards[1].text().startswith("2. ")
+    page.steps.setCurrentRow(0)
+    assert page.settings_table.rowCount() > 0  # the inspector shows the selected step
+    page.step_buttons[2].click()  # Down: the first step moves under the second
+    assert [e["step"] for e in page.auto["steps"]] == ["fits.save_as", "calibration.scan"]
+    assert page.steps.currentRow() == 1 and page.steps.count() == 2
+    page.step_buttons[0].click()  # Remove
+    assert [e["step"] for e in page.auto["steps"]] == ["fits.save_as"] and page.steps.count() == 1

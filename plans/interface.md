@@ -856,7 +856,7 @@ rail          stage panel (example: 3 Find)                 main: image with bli
 - **Files:** `ui/astrometry/` (see AST-W)
 
 #### UI-16.12 Automation
-**open**
+**partial** — done (2026-11-20): the library on the left, the steps as a chain of cards (`ui/step_chain.StepChain`: title and a one-line summary of its settings), the selected step's settings as the inspector; `test_the_automation_window_chain_of_cards`. Left: drag from the library and to reorder, container cards, the run plan, Run from here, Stop, Schedule, Save as template, missing-input badges, "on error".
 ```
 ┌ toolbar: [New][Open][Save] │ [▶ Run][■ Stop][Run from here] │ [Schedule…][Save as template] ──────────────────────────┐
 │ library (search)      │ chain                                                  │ selected step: Light curve          │
@@ -897,7 +897,7 @@ rail           stage panel (example: 3 Indices)            main: the map        
 - **Files:** `ui/remotesensing/` (see RS-W)
 
 #### UI-16.14 Project
-**open**
+**partial** — done (2026-11-20): tabs Files, History, Methods text (`core.methods`, Copy); `test_the_project_window_has_tabs`. Left: Products, Sessions, Tasks (no record marks a product yet).
 ```
 ┌ Project: NY Vir 2026 — /data/nyvir/nyvir.astroproj ─────────────────────────────────────────────────────────────────┐
 │ [Files][History][Products][Sessions][Tasks][Methods text]                                              [🔍 filter]  │
