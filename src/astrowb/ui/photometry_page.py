@@ -44,6 +44,8 @@ from .photometry_stars import add_star_buttons, identify_field, snap_click, sugg
 from .undo import Undoable
 from .viewer import ImageViewer
 
+FAINT_VARIABLE = 16.5  # VSX stars fainter than this (their maximum) are listed but not ringed on the frame
+
 
 class PhotometryPage(Undoable, QWidget):
     """Pick target and comparison stars on the first image, measure, plot, time the minimum."""
@@ -1637,8 +1639,19 @@ class PhotometryPage(Undoable, QWidget):
             # named only when chosen in the list (40 names hid the field, I6b (1)); the others on hover
             chosen = (self.variables.currentData() or {}).get("name")
             for v in self.field["variables"][:30]:
+                if v["name"] != chosen and (v.get("mag") is None or v["mag"] > FAINT_VARIABLE):
+                    continue  # too faint to be seen: a ring on blank sky misleads (user-feedback UF-13); listed only
+                mag = "" if v.get("mag") is None else f" ({v['mag']:.1f} mag)"
                 marks.append(
-                    (v["x"], v["y"], 2 * r_out, "cyan", v["name"], "dash", *([] if v["name"] == chosen else ["quiet"]))
+                    (
+                        v["x"],
+                        v["y"],
+                        2 * r_out,
+                        "cyan",
+                        v["name"] + mag,
+                        "dash",
+                        *([] if v["name"] == chosen else ["quiet"]),
+                    )  # fmt: skip
                 )
         self.viewer.set_markers(marks)
         role = self.click_role.currentData()
@@ -1705,11 +1718,15 @@ class PhotometryPage(Undoable, QWidget):
         self.variables.clear()
         for v in variables:
             mag = f" ({v['mag']:.1f} mag)" if v.get("mag") is not None else ""
-            self.variables.addItem(f"{v['name']}{mag}", v)
+            faint = " — " + self.tr("too faint to see") if v.get("mag") is None or v["mag"] > FAINT_VARIABLE else ""
+            self.variables.addItem(f"{v['name']}{mag}{faint}", v)
         if variables:
-            lines.append(self.tr("{n} known variable star(s) in the field (marked in cyan on the first frame).").format(
-                n=len(variables)
-            ))  # fmt: skip
+            lines.append(
+                self.tr(
+                    "{n} known variable star(s) in the field (the visible ones ringed in cyan on the first frame; "
+                    "the fainter ones are in the list)."
+                ).format(n=len(variables))
+            )
         else:
             lines.append(self.tr("No known variable star (AAVSO VSX) in the field."))
         self.field_label.setText("\n".join(lines))

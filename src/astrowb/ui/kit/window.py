@@ -70,6 +70,9 @@ class AreaWindow(Anatomy, QMainWindow):
         self.setWindowTitle(title)
         self.setCentralWidget(central)
         self.setDockNestingEnabled(True)
+        # the left panels run down the whole window, beside the results below the view: a stage panel was squeezed
+        # to a scroll bar while the bottom dock held the room (user-feedback UF-11)
+        self.setCorner(Qt.BottomLeftCorner, Qt.LeftDockWidgetArea)
         self.docks = {}
         if steps is not None:
             self._dock("steps", self.tr("Steps"), steps, Qt.LeftDockWidgetArea)
