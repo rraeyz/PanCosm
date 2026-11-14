@@ -73,3 +73,18 @@ En la pestaña **Cabecera** (o en el menú **Editar**), **Añadir o cambiar pala
 **Apilar → Apilar las imágenes abiertas…** alinea las imágenes abiertas en la lista sobre sus estrellas y las promedia rechazando a 3 σ los valores atípicos (satélites, rayos cósmicos); **Combinar las imágenes abiertas con drizzle…** lleva imágenes desplazadas y submuestreadas a una rejilla el doble de fina. El resultado se escribe donde usted elija y se abre. Ambos usan los ajustes habituales; la ventana **Calibración** tiene todas las opciones de apilado.
 
 **Apilar → Parpadear imágenes…** muestra las tomas elegidas una tras otra con los mismos niveles de visualización y alineadas sobre las estrellas, como un comparador de parpadeo: asteroides, cometas, novas y variables saltan a la vista. **Reproducir** / **Pausa**, las flechas y el deslizador recorren las tomas; **Intervalo** fija la velocidad.
+
+## Ventana Astrometría: Imágenes {#astrometry-images}
+La ventana **Astrometría** mide la posición de un objeto en movimiento (asteroide o cometa) en una serie de imágenes y escribe el informe para el MPC; los pasos son los mismos que en *Asteroides y cometas* más arriba, aquí como etapas en la barra de la izquierda: Imágenes, Resolver, Buscar, Medir, Informe. A la derecha se ve la imagen y debajo las posiciones medidas. **Elegir imágenes con solución astrométrica…** toma al menos dos imágenes calibradas, tomadas durante una hora o más para que el objeto se mueva; se ordenan en el tiempo y se muestra la primera. La línea bajo el botón dice cuántas imágenes hay y cuántas no tienen solución astrométrica.
+
+## Ventana Astrometría: Resolver {#astrometry-solve}
+**Resolver las imágenes** resuelve astrométricamente cada imagen elegida que aún no tenga solución (debe estar instalado ASTAP o astrometry.net). Cada copia resuelta sustituye a su imagen en la lista; el archivo original no cambia. Medir también resuelve las imágenes aún sin resolver y deja fuera las que el resolutor no puede resolver; la ventana dice cuántas son.
+
+## Ventana Astrometría: Buscar {#astrometry-find}
+Pulse sobre el objeto en la primera imagen; la ventana muestra entonces la última imagen y pulsa allí sobre el objeto. Las dos posiciones se marcan con 1 (verde) y 2 (rojo). Dan el movimiento que predice el lugar del objeto en cada imagen intermedia.
+
+## Ventana Astrometría: Medir {#astrometry-measure}
+**Medir posiciones** (tras los dos clics) mide el objeto en cada imagen en el lugar predicho, recentrado, y da su RA / Dec a partir de la solución astrométrica de la imagen para el UTC de la mitad de la exposición. La tabla lista UTC, RA, Dec y el **residuo** respecto a un movimiento rectilíneo; la línea sobre la imagen da el mayor residuo. Más de unos 1″ significa una estrella mezclada o una solución pobre en esa imagen.
+
+## Ventana Astrometría: Informe {#astrometry-report}
+Rellene el **objeto** (designación provisional, número o un nombre propio para un objeto nuevo), el **código de observatorio** (del Minor Planet Center) y los **observadores**; después **Escribir informe MPC (ADES)…** escribe las posiciones en el formato ADES del MPC, listas para enviar (obs@minorplanetcenter.net o el formulario web). **Catálogo** es el catálogo de estrellas en que se basan las soluciones astrométricas (ADES astCat); se rellena desde las imágenes cuando el resolutor lo anotó, y la ventana avisa si las imágenes se resolvieron con catálogos distintos. El código, los observadores y el catálogo se recuerdan para el siguiente informe.

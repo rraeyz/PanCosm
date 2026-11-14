@@ -76,3 +76,18 @@ In the **Header** tab (or the **Edit** menu), **Add or change keyword…** sets 
 **Stack → Stack the open images…** aligns the images open in the list on their stars and averages them with outliers (satellites, cosmic rays) rejected at 3 σ; **Drizzle the open images…** puts dithered, undersampled images onto a grid twice as fine. The result is written where you choose and opens. These use the usual settings; the **Calibration** window has every stacking option.
 
 **Stack → Blink images…** shows the chosen frames one after the other with the same display levels, aligned on the stars, like a blink comparator: asteroids, comets, novae and variables catch the eye. **Play** / **Pause**, the arrows and the slider move through the frames; **Interval** sets the speed.
+
+## Astrometry window: Images {#astrometry-images}
+The **Astrometry** window measures the position of a moving object (asteroid or comet) on a series of frames and writes the MPC report; the steps are the same as in *Asteroids and comets* above, here as stages down the left rail: Images, Solve, Find, Measure, Report. The frame is shown on the right, the measured positions below it. **Choose plate-solved frames…** takes at least two calibrated frames, taken over an hour or more so that the object moves; they are put in time order and the first is shown. The line under the button says how many frames there are and how many have no plate solution.
+
+## Astrometry window: Solve {#astrometry-solve}
+**Solve the frames** plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net must be installed). Each solved copy replaces its frame in the list; the original file is not changed. Measuring also solves the frames that are still unsolved, and leaves out those the solver cannot solve; the window says how many.
+
+## Astrometry window: Find {#astrometry-find}
+Click the object on the first frame; the window then shows the last frame, and you click the object there. The two positions are marked 1 (green) and 2 (red). They give the motion that predicts the object's place on every frame in between.
+
+## Astrometry window: Measure {#astrometry-measure}
+**Measure positions** (after both clicks) measures the object on every frame at the predicted place, re-centred, and gives its RA / Dec from the frame's plate solution at mid-exposure UTC. The table lists UTC, RA, Dec and the **Residual** from a straight-line motion; the line over the frame gives the largest residual. More than about 1″ means a blended star or a poor solution in that frame.
+
+## Astrometry window: Report {#astrometry-report}
+Fill in the **Object** (provisional designation, number, or your own name for a new object), your **Observatory code** (from the Minor Planet Center) and the **Observers**, then **Write MPC report (ADES)…** writes the positions in the MPC's ADES format, ready to send (obs@minorplanetcenter.net or the web form). **Catalogue** is the star catalogue the plate solutions rest on (ADES astCat); it is filled in from the frames when the solver recorded it, and the window warns when the frames were solved against different catalogues. The code, observers and catalogue are remembered for the next report.

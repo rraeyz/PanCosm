@@ -75,3 +75,18 @@ Plaka çözümü olmayan kareler önce çözülür (ASTAP ya da astrometry.net k
 **Birleştir → Açık görüntüleri üst üste ekle…** listede açık görüntüleri yıldızlarına göre hizalar ve aykırı değerleri (uydular, kozmik ışınlar) 3 σ'da atarak ortalamasını alır; **Açık görüntüleri drizzle ile birleştir…** kaydırılarak çekilmiş, az örneklenmiş görüntüleri iki kat ince bir ızgaraya yerleştirir. Sonuç seçtiğiniz yere yazılır ve açılır. Bunlar olağan ayarları kullanır; üst üste eklemenin bütün seçenekleri **Kalibrasyon** penceresindedir.
 
 **Birleştir → Görüntüleri yanıp söndür…** seçilen kareleri aynı görüntü düzeyleriyle, yıldızlara göre hizalı olarak art arda gösterir; bir blink karşılaştırıcısı gibi: asteroitler, kuyruklu yıldızlar, novalar ve değişenler göze çarpar. **Oynat** / **Duraklat**, oklar ve kaydırıcı kareler arasında gezdirir; **Aralık** hızı ayarlar.
+
+## Astrometri penceresi: Görüntüler {#astrometry-images}
+**Astrometri** penceresi hareketli bir cismin (asteroit ya da kuyruklu yıldız) konumunu bir dizi karede ölçer ve MPC raporunu yazar; adımlar yukarıdaki *Asteroitler ve kuyruklu yıldızlar* ile aynıdır, burada sol rayda aşamalar olarak sıralanır: Görüntüler, Çöz, Bul, Ölç, Rapor. Kare sağda, ölçülen konumlar altında görünür. **Plaka çözümlü kareleri seç…** cismin hareket etmesi için bir saat ya da daha uzun sürede çekilmiş, en az iki kalibre kareyi alır; kareler zaman sırasına dizilir ve ilki gösterilir. Düğmenin altındaki satır kaç kare olduğunu ve kaçının plaka çözümü olmadığını söyler.
+
+## Astrometri penceresi: Çöz {#astrometry-solve}
+**Kareleri çöz** henüz çözümü olmayan her seçili kareyi plaka çözümler (ASTAP ya da astrometry.net kurulu olmalı). Çözülen her kopya listede karenin yerini alır; özgün dosya değişmez. Ölçmek de hâlâ çözülmemiş kareleri çözer, çözücünün çözemediklerini dışarıda bırakır; pencere kaç tane olduğunu söyler.
+
+## Astrometri penceresi: Bul {#astrometry-find}
+Cismi ilk karede tıklayın; pencere sonra son kareyi gösterir ve cismi orada tıklarsınız. İki konum 1 (yeşil) ve 2 (kırmızı) ile işaretlenir. Aradaki her karede cismin yerini tahmin eden hareketi verirler.
+
+## Astrometri penceresi: Ölç {#astrometry-measure}
+**Konumları ölç** (iki tıklamadan sonra) cismi her karede tahmin edilen yerde, yeniden ortalayarak ölçer ve RA / Dec değerini karenin plaka çözümünden, pozlama ortası UTC için verir. Tablo UTC, RA, Dec ve düz çizgi hareketinden **Artık** değerini listeler; karenin üstündeki satır en büyük artığı verir. Yaklaşık 1″'den fazlası o karede karışmış bir yıldız ya da zayıf bir çözüm demektir.
+
+## Astrometri penceresi: Rapor {#astrometry-report}
+**Cisim** (geçici tanım, numara ya da yeni bir cisim için kendi adınız), **Gözlemevi kodu** (Küçük Gezegen Merkezi'nden) ve **Gözlemciler** alanlarını doldurun, sonra **MPC raporu yaz (ADES)…** konumları MPC'nin ADES biçiminde, göndermeye hazır yazar (obs@minorplanetcenter.net ya da web formu). **Katalog** plaka çözümlerinin dayandığı yıldız kataloğudur (ADES astCat); çözücü kaydettiyse kareler üzerinden doldurulur, kareler farklı kataloglara karşı çözüldüyse pencere uyarır. Kod, gözlemciler ve katalog bir sonraki rapor için hatırlanır.

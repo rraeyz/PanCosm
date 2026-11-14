@@ -73,3 +73,18 @@ Im Reiter **Header** (oder im Menü **Bearbeiten**) setzt **Schlüsselwort hinzu
 **Stapeln → Geöffnete Bilder stapeln…** richtet die in der Liste geöffneten Bilder an ihren Sternen aus und mittelt sie, wobei Ausreißer (Satelliten, kosmische Strahlen) bei 3 σ verworfen werden; **Geöffnete Bilder drizzeln…** bringt versetzt aufgenommene, unterabgetastete Bilder auf ein doppelt so feines Raster. Das Ergebnis wird an den gewählten Ort geschrieben und geöffnet. Beides nutzt die üblichen Einstellungen; alle Stapeloptionen hat das Fenster **Kalibrierung**.
 
 **Stapeln → Bilder blinken…** zeigt die gewählten Aufnahmen nacheinander mit denselben Anzeigestufen und an den Sternen ausgerichtet, wie ein Blinkkomparator: Asteroiden, Kometen, Novae und Veränderliche fallen auf. **Abspielen** / **Pause**, die Pfeile und der Schieberegler wechseln die Aufnahmen; **Intervall** bestimmt das Tempo.
+
+## Fenster Astrometrie: Bilder {#astrometry-images}
+Das Fenster **Astrometrie** misst die Position eines bewegten Objekts (Asteroid oder Komet) auf einer Reihe von Bildern und schreibt den MPC-Bericht; die Schritte sind dieselben wie oben in *Asteroiden und Kometen*, hier als Phasen in der linken Leiste: Bilder, Lösen, Finden, Messen, Bericht. Rechts steht das Bild, darunter die gemessenen Positionen. **Astrometrisch gelöste Bilder wählen…** nimmt mindestens zwei kalibrierte Bilder, aufgenommen über eine Stunde oder länger, damit sich das Objekt bewegt; sie werden zeitlich geordnet und das erste wird gezeigt. Die Zeile unter der Schaltfläche nennt die Zahl der Bilder und wie viele keine astrometrische Lösung haben.
+
+## Fenster Astrometrie: Lösen {#astrometry-solve}
+**Bilder lösen** löst jedes gewählte Bild ohne Lösung astrometrisch (ASTAP oder astrometry.net muss installiert sein). Jede gelöste Kopie ersetzt ihr Bild in der Liste; die Originaldatei bleibt unverändert. Auch das Messen löst noch ungelöste Bilder und lässt jene aus, die der Löser nicht lösen kann; das Fenster nennt ihre Zahl.
+
+## Fenster Astrometrie: Finden {#astrometry-find}
+Klicken Sie das Objekt im ersten Bild an; das Fenster zeigt dann das letzte Bild, und Sie klicken das Objekt dort an. Die beiden Positionen sind mit 1 (grün) und 2 (rot) markiert. Sie ergeben die Bewegung, die den Ort des Objekts in jedem Bild dazwischen vorhersagt.
+
+## Fenster Astrometrie: Messen {#astrometry-measure}
+**Positionen messen** (nach beiden Klicks) misst das Objekt in jedem Bild am vorhergesagten Ort, neu zentriert, und gibt RA / Dec aus der astrometrischen Lösung des Bildes für die UTC der Belichtungsmitte an. Die Tabelle listet UTC, RA, Dec und das **Residuum** gegenüber einer geradlinigen Bewegung; die Zeile über dem Bild nennt das größte Residuum. Mehr als etwa 1″ bedeutet einen überlagerten Stern oder eine schlechte Lösung in diesem Bild.
+
+## Fenster Astrometrie: Bericht {#astrometry-report}
+Füllen Sie **Objekt** (vorläufige Bezeichnung, Nummer oder ein eigener Name für ein neues Objekt), **Observatoriumscode** (vom Minor Planet Center) und **Beobachter** aus; dann schreibt **MPC-Bericht schreiben (ADES)…** die Positionen im ADES-Format des MPC, versandfertig (obs@minorplanetcenter.net oder das Webformular). **Katalog** ist der Sternkatalog, auf dem die astrometrischen Lösungen beruhen (ADES astCat); er wird aus den Bildern ausgefüllt, wenn der Löser ihn vermerkt hat, und das Fenster warnt, wenn die Bilder gegen verschiedene Kataloge gelöst wurden. Code, Beobachter und Katalog werden für den nächsten Bericht gemerkt.
