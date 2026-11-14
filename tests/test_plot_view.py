@@ -231,3 +231,28 @@ def test_time_axis_as_ut_hours_and_phase(view):
     assert view.items[0]["x"][0] == pytest.approx(12.0) and view.plots[0].getAxis("bottom").labelText == "UT [h]"
     view.set_time_mode("bjd")
     assert view.offsets[id(view.plots[0].getViewBox())] == 2460000
+
+
+def test_toolbar_modes_show_all_exports_and_pop_out(view, tmp_path):
+    from astrowb.ui.plot.toolbar import PlotToolbar
+
+    bar = PlotToolbar(view)
+    zoom, rng = bar.modes.buttons()[1], bar.modes.buttons()[2]
+    zoom.click()
+    assert view.mode == view.base_mode == "zoom"
+    QTest.keyPress(view, Qt.Key_R)
+    assert view.mode == "range"
+    QTest.keyRelease(view, Qt.Key_R)
+    assert view.mode == "zoom"  # a released key returns to the toolbar's mode
+    rng.click()
+    assert view.mode == "range" and not zoom.isChecked()
+    bar.modes.buttons()[0].click()
+    assert view.mode == "pan"
+    view.plots[0].getViewBox().setRange(xRange=(0.1, 0.2))
+    bar.findChildren(type(zoom))[3].click()  # Show all
+    assert view.plots[0].getViewBox().viewRange()[0][1] > 0.25
+    assert bar.export_data(tmp_path / "d.ecsv") and (tmp_path / "d.ecsv").exists()
+    assert bar.export_publication(str(tmp_path / "f.pdf")).endswith("f.pdf") and (tmp_path / "f.pdf").exists()
+    window = bar.pop_out()
+    assert window.isVisible() and len(window.findChildren(type(view))) == 1
+    window.close()
