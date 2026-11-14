@@ -11,10 +11,13 @@ from astrowb.settings import Settings
 def main(qtbot, tmp_path, request):
     from PySide6.QtWidgets import QApplication
 
-    from astrowb.ui import i18n
+    from astrowb.ui import i18n, theme
     from astrowb.ui.main_window import MainWindow
 
-    translators = i18n.install(QApplication.instance(), request.param) if request.param != "en" else []
+    app = QApplication.instance()
+    was = app.font()
+    theme.apply(app)  # the program's own style and bundled font, as it starts: the same letters on every system
+    translators = i18n.install(app, request.param) if request.param != "en" else []
     settings = Settings(tmp_path)
     settings.set("ui.language", request.param)
     win = MainWindow(settings)
@@ -23,7 +26,8 @@ def main(qtbot, tmp_path, request):
     yield win
     win.engine.shutdown()
     for t in translators:
-        QApplication.instance().removeTranslator(t)
+        app.removeTranslator(t)
+    app.setFont(was)
 
 
 def test_opened_folds_fit_the_window(main):
