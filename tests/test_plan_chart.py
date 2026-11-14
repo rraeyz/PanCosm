@@ -45,7 +45,8 @@ def test_the_chart_has_what_an_astronomer_reads():
     assert ax.xaxis.get_major_ticks()[1].gridline.get_visible() and ax.xaxis.get_minor_ticks()[1].gridline.get_visible()
     every = [ax, *ax.child_axes]
     labels = [a.get_xlabel() for a in every] + [a.get_ylabel() for a in every]
-    assert "UTC (hours)" in labels and any(x.startswith("Local time (UTC+3") for x in labels)
+    tags = [t.get_text() for t in every[0].texts]
+    assert "◄ UTC" in tags and any(x.startswith("◄ Local (UTC+3") for x in tags)
     assert "Local sidereal time" in labels and "Airmass" in labels
     assert "TUBITAK National Observatory" in ax.get_title() and "2026-11-13" in ax.get_title()
     legend = " ".join(t.get_text() for t in ax.get_legend().get_texts())
