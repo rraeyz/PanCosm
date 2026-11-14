@@ -2024,6 +2024,10 @@ def test_photometry_inspector_shows_the_clicked_star(window):
     # PHO-34: where the noise comes from; gain 1, no read noise: star and sky only, the error near 1 / S/N
     assert rows["Noise from"].startswith("star ") and "sky" in rows["Noise from"] and "read" not in rows["Noise from"]
     assert rows["Predicted error"] > 0
+    from PySide6.QtWidgets import QLabel
+
+    segments = [w for w in win.docks["inspector"].widget().findChildren(QLabel) if w.toolTip().endswith(" %")]
+    assert len(segments) == 2  # the drawn bar: one segment for the star, one for the sky
 
 
 def test_settings_profile_filled_from_a_header(window, tmp_path):

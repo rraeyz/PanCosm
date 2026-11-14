@@ -412,7 +412,11 @@ def _noise_rows(page, s):
     names = {"photon": translate("MainWindow", "star"), "sky": translate("MainWindow", "sky"),
              "dark": translate("MainWindow", "dark"), "read": translate("MainWindow", "read")}  # fmt: skip
     shares = ", ".join(f"{names[k]} {100 * v / total:.0f} %" for k, v in parts.items() if k in names and v > 0)
-    return [(translate("MainWindow", "Noise from"), shares), (translate("MainWindow", "Predicted error"),
+    from .kit.tokens import role
+
+    colours = {"photon": role("target"), "sky": role("non_linear"), "dark": role("rejected"), "read": role("check")}
+    bar = [(names[k], v / total, colours[k]) for k, v in parts.items() if k in names and v > 0]
+    return [(translate("MainWindow", "Noise from"), shares, "", bar), (translate("MainWindow", "Predicted error"),
              round(1000 * rel, 2), "ppt")]  # fmt: skip
 
 
