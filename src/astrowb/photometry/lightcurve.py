@@ -413,7 +413,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     opts = opts or {}
     camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
-    xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"))
+    xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"), in_place=True)
     xy, found = _off_the_field(xy, pred, found)
     fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
     if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars

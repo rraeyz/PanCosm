@@ -68,6 +68,28 @@ def night(folder, size, n, rng):
     return comps
 
 
+def scale_set(folder, size, total, n_stars, rng, distinct=3):
+    """total frame paths of one field of n_stars drifting stars: `distinct` files written, the rest symlinks to them
+    (the disk of a CI machine holds no 1000 x 4k^2 frames; reading and measuring a link costs what a file does).
+    Returns the paths and the first 10 stars' (x, y) on the first frame."""
+    folder.mkdir()
+    files = []
+    for i in range(min(distinct, total)):
+        img, _ = stars_image(rng, size, shift=(0.7 * i, -0.4 * i), n=n_stars)
+        h = fits.Header({"IMAGETYP": "Light", "EXPTIME": 60.0, "CCD-TEMP": -10.0, "FILTER": "V"})
+        h["DATE-OBS"] = f"2026-11-15T20:{i:02d}:00"
+        files.append(folder / f"f{i:04d}.fits")
+        fits.PrimaryHDU(img.astype(np.uint16), h).writeto(files[-1])
+    paths = [str(f) for f in files]
+    for i in range(len(files), total):
+        link = folder / f"f{i:04d}.fits"
+        link.symlink_to(files[i % len(files)])
+        paths.append(str(link))
+    r2 = np.random.default_rng(99)  # stars_image's field: x then y then flux of the n stars
+    xs, ys = r2.uniform(40, size - 40, n_stars), r2.uniform(40, size - 40, n_stars)
+    return paths, list(zip(xs[:10], ys[:10], strict=True))
+
+
 def cases(tmp, ci):
     """[(name, budget row, function, repeats[, set-up])] in the order they run (later cases use earlier results); a
     set-up runs before every call, untimed."""
@@ -94,6 +116,27 @@ def cases(tmp, ci):
         execute(
             "photometry.light_curve", {"images": keep["lights"], "target_xy": comps[0], "comps_xy": comps[1:]}, {}, ctx
         )
+
+    # PHO-37: the sizes of the budget rows scaled down (the disk and the time of a shared machine); the case names
+    # state what is run. Local: 100 of the 1000 frames and 30 of the 300; CI: small frames
+    n_lc, n_field, n_cad = (20, 20, 3000) if ci else (100, 30, 18_000)
+    lc_set = scale_set(Path(tmp) / "scale_lc", size, n_lc, 300, rng)
+    field = scale_set(Path(tmp) / "scale_field", size, n_field, 300 if ci else 2000, rng)
+    cube = rng.normal(500, 20, (n_cad, 11, 11)).astype(np.float32)
+    cube[:, 5, 5] += 3000
+
+    def light_curve_10():
+        paths, xy = lc_set
+        execute("photometry.light_curve", {"images": paths, "target_xy": xy[0], "comps_xy": xy[1:]}, {}, ctx)
+
+    def field_stars():
+        params = {"images": field[0], "max_stars": 300 if ci else 2000, "method": "aperture", "threshold": 3.0}
+        execute("photometry.varfind", params, {}, ctx)
+
+    def pixel_file():  # a TESS / Kepler pixel file's cadences, all stars at fixed apertures
+        from astrowb.photometry.aperture import measure_cube
+
+        measure_cube(cube, [(5.0, 5.0), (3.2, 7.1)], 2.5, 4.0, 5.0, 1.0, np.full(n_cad, 20.0))
 
     def display():
         from astrowb import display as d
@@ -208,6 +251,9 @@ def cases(tmp, ci):
         (f"calibrate: 3 masters of 5 + {n} lights", "Calibrate", calibrate, 1),
         (f"stack {n} lights (sigma clip)", "Calibrate", stack, 1),
         (f"light curve, {n} frames, 4 stars", "Light curve", light_curve, 1),
+        (f"light curve, {n_lc} frames, 10 stars", "Light curve", light_curve_10, 1),
+        (f"field photometry, {n_field} frames, {300 if ci else 2000} stars", "Light curve", field_stars, 1),
+        (f"pixel file, {n_cad} cadences", "Light curve", pixel_file, 3),
         (f"period search, {t.size} points (Lomb-Scargle)", "Period search", period, 1),
         (f"frequency analysis, {t.size} points", "Period search", frequencies, 1),
         ("improve all: 50 frequencies, 10^5 points", "Period search", improve_all, 1),

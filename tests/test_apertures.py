@@ -531,3 +531,25 @@ def test_every_radius_carries_the_scintillation():
     assert np.allclose(by["err"][0], np.hypot(100.0, 200.0)) and np.allclose(by["err"][2], np.hypot(100.0, 400.0))
     assert np.allclose(_by_aperture({"apertures": (3, 5, 7, 9)}, multi, None)["err"][0], 100.0)
     assert _by_aperture({"apertures": ()}, multi, None) is None
+
+
+def test_in_place_recentre_and_stamped_measure_equal_the_whole_frame_path(monkeypatch):
+    from astrowb.photometry import aperture
+
+    rng = np.random.default_rng(4)
+    img = rng.normal(500, 8, (1100, 1100)).astype(np.float32)
+    yy, xx = np.mgrid[0:1100, 0:1100]
+    xy = np.array([[300.3, 400.6], [800.1, 200.8]])
+    for x, y in xy:
+        img += (5000 * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / 4.5)).astype(np.float32)
+    img[400, 302] = 60000  # a hot pixel beside a star
+    img[10, 10] = np.nan
+    before = img.copy()
+    a = aperture.recenter(img, xy + 0.4, 11)
+    b = aperture.recenter(img, xy + 0.4, 11, in_place=True)
+    assert np.array_equal(img, before, equal_nan=True)  # put back as it was
+    assert np.array_equal(a, b)
+    stamped = aperture.measure(img, xy, 5, 9, 14)  # 1.2 MP: tiles around the stars
+    monkeypatch.setattr(aperture, "_stamps", lambda *args: None)
+    for u, v in zip(stamped, aperture.measure(img, xy, 5, 9, 14), strict=True):
+        assert np.allclose(u, v, rtol=1e-10, equal_nan=True)
