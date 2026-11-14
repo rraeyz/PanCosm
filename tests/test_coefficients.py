@@ -81,6 +81,7 @@ def test_coefficients_dialog(qtbot):
     qtbot.addWidget(dlg)
     k = dlg.compute_extinction()
     assert abs(k["k"] - 0.3) < 0.01 and "k = 0.3" in dlg.ext_result.text()
+    assert [s.name for s in dlg.plot.figure.panels[0].series][-1] == "Fit" and dlg.plot.figure.panels[0].y.invert
     V = rng.uniform(10, 13, 20)
     BV = rng.uniform(0, 1.5, 20)
     stars = {"cat_a": (V + BV).tolist(), "cat_b": V.tolist(), "inst_a": (V + BV / 1.05 - 20).tolist()}
@@ -91,5 +92,5 @@ def test_coefficients_dialog(qtbot):
         )
     }
     dlg.show_transformation(out | {"stars": stars})
-    assert "Tbv = 1.05" in dlg.tr_result.text()
+    assert "Tbv = 1.05" in dlg.tr_result.text() and len(dlg.plot.figure.panels[0].series[0].x) == 20
     assert not CoefficientsDialog(None).ext_button.isEnabled()

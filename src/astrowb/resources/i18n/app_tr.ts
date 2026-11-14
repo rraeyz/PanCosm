@@ -826,89 +826,89 @@
         <translation> · önbellekten, alındığı tarih {date}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="314"/>
+        <location filename="../../ui/kit/window.py" line="315"/>
         <source>Working: {task}</source>
         <translation>Çalışıyor: {task}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="319"/>
+        <location filename="../../ui/kit/window.py" line="320"/>
         <source>Stopping…</source>
         <translation>Durduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="336"/>
+        <location filename="../../ui/kit/window.py" line="337"/>
         <source>(none yet)</source>
         <translation>(henüz yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="340"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="370"/>
+        <location filename="../../ui/kit/window.py" line="371"/>
         <source>Session saved: {path}</source>
         <translation>Oturum kaydedildi: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="379"/>
+        <location filename="../../ui/kit/window.py" line="380"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} bir oturum dosyası değil ya da bozuk.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="382"/>
+        <location filename="../../ui/kit/window.py" line="383"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} başka bir pencerenin ({area}) oturumu: onu orada açın.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="387"/>
+        <location filename="../../ui/kit/window.py" line="388"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} uygulamanın daha yeni bir sürümüyle kaydedilmiş: bu oturumu açmak için uygulamayı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="391"/>
+        <location filename="../../ui/kit/window.py" line="392"/>
         <source>Session opened: {path}</source>
         <translation>Oturum açıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="393"/>
-        <location filename="../../ui/kit/window.py" line="404"/>
+        <location filename="../../ui/kit/window.py" line="394"/>
+        <location filename="../../ui/kit/window.py" line="405"/>
         <source>Open session</source>
         <translation>Oturum aç</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
         <source>Save session</source>
         <translation>Oturumu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
-        <location filename="../../ui/kit/window.py" line="404"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
+        <location filename="../../ui/kit/window.py" line="405"/>
         <source>Session (*.session.json)</source>
         <translation>Oturum (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="414"/>
+        <location filename="../../ui/kit/window.py" line="415"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Yazı boyutu: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="488"/>
+        <location filename="../../ui/kit/window.py" line="489"/>
         <source>Main window</source>
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="552"/>
+        <location filename="../../ui/kit/window.py" line="553"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="694"/>
+        <location filename="../../ui/kit/window.py" line="695"/>
         <source>Tile side by side</source>
         <translation>Yan yana diz</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="695"/>
+        <location filename="../../ui/kit/window.py" line="696"/>
         <source>Bring all windows to this screen</source>
         <translation>Bütün pencereleri bu ekrana getir</translation>
     </message>
@@ -2216,94 +2216,110 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CoefficientsDialog</name>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="29"/>
+        <location filename="../../ui/coefficients_dialog.py" line="32"/>
         <source>Photometric coefficients</source>
         <translation>Fotometrik katsayılar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="33"/>
+        <location filename="../../ui/coefficients_dialog.py" line="36"/>
         <source>Extinction of the night</source>
         <translation>Gecenin sönümlemesi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="35"/>
+        <location filename="../../ui/coefficients_dialog.py" line="38"/>
         <source>From the comparison stars of the measured light curve</source>
         <translation>Ölçülen ışık eğrisinin karşılaştırma yıldızlarından</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="40"/>
+        <location filename="../../ui/coefficients_dialog.py" line="43"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
         <translation>Önce kareleri gök konumunu (airmass/hava kütlesi) veren bir ışık eğrisi ölçün</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="47"/>
+        <location filename="../../ui/coefficients_dialog.py" line="50"/>
         <source>Transformation coefficients from a standard field</source>
         <translation>Standart alandan dönüşüm katsayıları</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="50"/>
+        <location filename="../../ui/coefficients_dialog.py" line="53"/>
         <source>no image</source>
         <translation>görüntü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="54"/>
+        <location filename="../../ui/coefficients_dialog.py" line="57"/>
         <source>Filter of this image of the standard field</source>
         <translation>Standart alanın bu görüntüsünün filtresi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="55"/>
+        <location filename="../../ui/coefficients_dialog.py" line="58"/>
         <source>Plate-solved image…</source>
         <translation>Plaka çözülmüş görüntü…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="59"/>
+        <location filename="../../ui/coefficients_dialog.py" line="62"/>
         <source>Filter {n}</source>
         <translation>Filtre {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="64"/>
+        <location filename="../../ui/coefficients_dialog.py" line="67"/>
         <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
         <translation>Bu filtreden çekilmiş, başlığında plaka çözümü olan bir standart alan görüntüsü (örneğin Landolt)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="69"/>
+        <location filename="../../ui/coefficients_dialog.py" line="72"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Hesapla (katalog kadirleri VizieR&apos;den)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="74"/>
+        <location filename="../../ui/coefficients_dialog.py" line="77"/>
         <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
         <translation>İki görüntüdeki yıldızları ölçer, katalog kadirlerini bulur ve standart sisteme dönüşümün renk terimlerini fit eder (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="99"/>
+        <location filename="../../ui/coefficients_dialog.py" line="103"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} kadir / hava kütlesi ({n} ölçüm, rms {r:.3f} kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="112"/>
+        <location filename="../../ui/coefficients_dialog.py" line="111"/>
+        <source>Comparison star {n}</source>
+        <translation>Karşılaştırma yıldızı {n}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="115"/>
+        <location filename="../../ui/coefficients_dialog.py" line="162"/>
+        <source>Fit</source>
+        <translation>Uyum</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="117"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="113"/>
+        <location filename="../../ui/coefficients_dialog.py" line="117"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Aletsel kadir − ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="130"/>
+        <location filename="../../ui/coefficients_dialog.py" line="134"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Ölçülüyor ve katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="138"/>
+        <location filename="../../ui/coefficients_dialog.py" line="142"/>
         <source>{n} standard stars</source>
         <translation>{n} standart yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="146"/>
+        <location filename="../../ui/coefficients_dialog.py" line="150"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (sıfır noktası {z:.3f}, rms {r:.3f}, {u} yıldız)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="160"/>
+        <source>Stars</source>
+        <translation>Yıldızlar</translation>
     </message>
 </context>
 <context>
@@ -2317,12 +2333,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="647"/>
+        <location filename="../../ui/kit/window.py" line="648"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="648"/>
+        <location filename="../../ui/kit/window.py" line="649"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -6089,52 +6105,52 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="203"/>
+        <location filename="../../ui/file_actions.py" line="194"/>
         <source>No plugins installed</source>
         <translation>Kurulu eklenti yok</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="196"/>
         <source>Failed to load: {f}</source>
         <translation>Yüklenemedi: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="208"/>
+        <location filename="../../ui/file_actions.py" line="199"/>
         <source>Plugin error</source>
         <translation>Eklenti hatası</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="211"/>
+        <location filename="../../ui/file_actions.py" line="202"/>
         <source>Allow {f}…</source>
         <translation>{f} için izin ver…</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="216"/>
+        <location filename="../../ui/file_actions.py" line="207"/>
         <source>Open plugins folder</source>
         <translation>Eklenti klasörünü aç</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="22"/>
+        <location filename="../../ui/file_actions.py" line="21"/>
         <source>New project</source>
         <translation>Yeni proje</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="27"/>
+        <location filename="../../ui/file_actions.py" line="26"/>
         <source>Open project</source>
         <translation>Proje aç</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="74"/>
+        <location filename="../../ui/file_actions.py" line="65"/>
         <source>Open FITS</source>
         <translation>FITS aç</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="135"/>
+        <location filename="../../ui/file_actions.py" line="126"/>
         <source>Cannot open file</source>
         <translation>Dosya açılamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="180"/>
+        <location filename="../../ui/file_actions.py" line="171"/>
         <location filename="../../ui/image_actions.py" line="91"/>
         <location filename="../../ui/image_actions.py" line="442"/>
         <source>Save FITS as</source>
@@ -6161,17 +6177,17 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>görüntü işlemi</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="215"/>
+        <location filename="../../ui/file_actions.py" line="206"/>
         <source>Install the example plugins</source>
         <translation>Örnek eklentileri kur</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="217"/>
+        <location filename="../../ui/file_actions.py" line="208"/>
         <source>What are plugins?</source>
         <translation>Eklenti nedir?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="223"/>
+        <location filename="../../ui/file_actions.py" line="214"/>
         <source>{path}
 
 This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
@@ -6180,32 +6196,32 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
 Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkilerinizle çalışır: yalnızca kendiniz yazdıysanız ya da nereden geldiğini biliyorsanız izin verin.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="229"/>
+        <location filename="../../ui/file_actions.py" line="220"/>
         <source>Allow a plugin</source>
         <translation>Bir eklentiye izin ver</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="243"/>
+        <location filename="../../ui/file_actions.py" line="234"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Kuruldu: {names}. Artık Eklentiler menüsündeler.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="247"/>
+        <location filename="../../ui/file_actions.py" line="238"/>
         <source>The example plugins are already installed.</source>
         <translation>Örnek eklentiler zaten kurulu.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="36"/>
+        <location filename="../../ui/file_actions.py" line="35"/>
         <source>Cannot open project</source>
         <translation>Proje açılamıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="122"/>
+        <location filename="../../ui/file_actions.py" line="113"/>
         <source>Image extension</source>
         <translation>Görüntü uzantısı</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="123"/>
+        <location filename="../../ui/file_actions.py" line="114"/>
         <source>This file holds several images:</source>
         <translation>Bu dosyada birden çok görüntü var:</translation>
     </message>
@@ -14632,11 +14648,13 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="230"/>
+        <location filename="../../ui/plot/view.py" line="130"/>
         <source>Nothing to show yet: the plot appears here once there are results</source>
         <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="287"/>
+        <location filename="../../ui/plot/view.py" line="157"/>
         <source>This plot could not be drawn: {error}</source>
         <translation>Bu grafik çizilemedi: {error}</translation>
     </message>
@@ -14652,11 +14670,13 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="385"/>
+        <location filename="../../ui/plot/view.py" line="225"/>
         <source>Copy picture</source>
         <translation>Resmi kopyala</translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="386"/>
+        <location filename="../../ui/plot/view.py" line="226"/>
         <source>Copy data</source>
         <translation>Veriyi kopyala</translation>
     </message>
@@ -14724,7 +14744,8 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Yayın şekli</translation>
     </message>
     <message>
-        <location filename="../../ui/plot/toolbar.py" line="71"/>
+        <location filename="../../ui/plot/toolbar.py" line="72"/>
+        <location filename="../../ui/plot/toolbar.py" line="80"/>
         <source>Plot</source>
         <translation>Grafik</translation>
     </message>
@@ -14788,93 +14809,93 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>ProjectPage</name>
     <message>
-        <location filename="../../ui/project_page.py" line="28"/>
+        <location filename="../../ui/project_page.py" line="31"/>
         <source>Files</source>
         <translation>Dosyalar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="31"/>
+        <location filename="../../ui/project_page.py" line="34"/>
         <source>History</source>
         <translation>Geçmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Step</source>
         <translation>Adım</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Started</source>
         <translation>Başlangıç zamanı</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="89"/>
+        <location filename="../../ui/project_page.py" line="37"/>
+        <location filename="../../ui/project_page.py" line="99"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="43"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Aynı girdi ve ayarlarla yeniden çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="49"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Seçilen adımı tam önceki gibi yeniden çalıştırır, örneğin girdi dosyaları değiştikten sonra</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="50"/>
+        <location filename="../../ui/project_page.py" line="53"/>
         <source>Copy as Python</source>
         <translation>Python olarak kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="52"/>
+        <location filename="../../ui/project_page.py" line="55"/>
         <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation>Seçili adım, bir Python betiğinin satırı olarak (astrowb.api), kopyalanmak üzere</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="55"/>
+        <location filename="../../ui/project_page.py" line="58"/>
         <source>Save as recipe…</source>
         <translation>Tarif olarak kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="61"/>
         <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation>Seçili adım ayarlarıyla bir otomasyon olarak: Otomasyon onu başka dosyalarda çalıştırır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="66"/>
+        <location filename="../../ui/project_page.py" line="69"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Girdilerini, ayarlarını, sonuçlarını ve sürümleri görmek için bir çalıştırma seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="88"/>
+        <location filename="../../ui/project_page.py" line="98"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="90"/>
+        <location filename="../../ui/project_page.py" line="100"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="91"/>
+        <location filename="../../ui/project_page.py" line="101"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="92"/>
+        <location filename="../../ui/project_page.py" line="102"/>
         <source>Versions</source>
         <translation>Sürümler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="110"/>
+        <location filename="../../ui/project_page.py" line="120"/>
         <source>Save as recipe</source>
         <translation>Tarif olarak kaydet</translation>
     </message>

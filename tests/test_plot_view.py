@@ -256,3 +256,38 @@ def test_toolbar_modes_show_all_exports_and_pop_out(view, tmp_path):
     window = bar.pop_out()
     assert window.isVisible() and len(window.findChildren(type(view))) == 1
     window.close()
+
+
+def test_plot_view_says_why_it_is_empty_busy_or_failed(qapp, monkeypatch):
+    from astrowb.ui.plot.view import PlotView
+
+    v = PlotView()
+    v.resize(500, 300)
+    v.show()
+    assert v.is_empty() and v.hint.isVisible() and v.hint.text()
+    v.set_empty_hint("Choose a star to see its light curve")
+    v.set_busy("Working: x")
+    assert v.hint.text() == "Working: x"
+    v.set_busy(None)
+    assert v.hint.text().startswith("Choose a star")
+    v.set_figure(light_curve())
+    assert not v.is_empty() and not v.hint.isVisible()
+    monkeypatch.setattr(v, "_draw_figure", lambda *a: (_ for _ in ()).throw(ValueError("bad axis limits")))
+    v.set_figure(light_curve())
+    assert v.hint.isVisible() and "bad axis limits" in v.hint.text() and v.failed
+    monkeypatch.undo()
+    v.set_figure(light_curve())
+    assert not v.hint.isVisible() and v.failed is None
+    v.close()
+
+
+def test_plot_view_copy_picture_and_copy_data(view):
+    from PySide6.QtWidgets import QApplication
+
+    assert view.copy_data() == 2000 * 2 + 2000 and QApplication.clipboard().text().splitlines()[1].startswith(
+        "Δmag\tV\t"
+    )
+    view.copy_picture()
+    assert not QApplication.clipboard().pixmap().isNull()
+    names = [a.text() for a in view.plots[0].getViewBox().menu.actions()]
+    assert "Copy picture" in names and "Copy data" in names

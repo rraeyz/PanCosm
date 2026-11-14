@@ -826,89 +826,89 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="314"/>
+        <location filename="../../ui/kit/window.py" line="315"/>
         <source>Working: {task}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="319"/>
+        <location filename="../../ui/kit/window.py" line="320"/>
         <source>Stopping…</source>
         <translation>Wird angehalten…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="336"/>
+        <location filename="../../ui/kit/window.py" line="337"/>
         <source>(none yet)</source>
         <translation>(noch keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="339"/>
+        <location filename="../../ui/kit/window.py" line="340"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="370"/>
+        <location filename="../../ui/kit/window.py" line="371"/>
         <source>Session saved: {path}</source>
         <translation>Sitzung gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="379"/>
+        <location filename="../../ui/kit/window.py" line="380"/>
         <source>{file} is not a session file, or it is damaged.</source>
         <translation>{file} ist keine Sitzungsdatei oder beschädigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="382"/>
+        <location filename="../../ui/kit/window.py" line="383"/>
         <source>{file} is a session of another window ({area}): open it there.</source>
         <translation>{file} ist eine Sitzung eines anderen Fensters ({area}): öffnen Sie sie dort.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="387"/>
+        <location filename="../../ui/kit/window.py" line="388"/>
         <source>{file} was saved by a newer version of the application: update it to open this session.</source>
         <translation>{file} wurde mit einer neueren Version der Anwendung gespeichert: aktualisieren Sie sie, um diese Sitzung zu öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="391"/>
+        <location filename="../../ui/kit/window.py" line="392"/>
         <source>Session opened: {path}</source>
         <translation>Sitzung geöffnet: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="393"/>
-        <location filename="../../ui/kit/window.py" line="404"/>
+        <location filename="../../ui/kit/window.py" line="394"/>
+        <location filename="../../ui/kit/window.py" line="405"/>
         <source>Open session</source>
         <translation>Sitzung öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
         <source>Save session</source>
         <translation>Sitzung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="398"/>
-        <location filename="../../ui/kit/window.py" line="404"/>
+        <location filename="../../ui/kit/window.py" line="399"/>
+        <location filename="../../ui/kit/window.py" line="405"/>
         <source>Session (*.session.json)</source>
         <translation>Sitzung (*.session.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="414"/>
+        <location filename="../../ui/kit/window.py" line="415"/>
         <source>Text size: {pt:g} pt</source>
         <translation>Textgröße: {pt:g} pt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="488"/>
+        <location filename="../../ui/kit/window.py" line="489"/>
         <source>Main window</source>
         <translation>Hauptfenster</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="552"/>
+        <location filename="../../ui/kit/window.py" line="553"/>
         <source>Find an action (Ctrl+K)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="694"/>
+        <location filename="../../ui/kit/window.py" line="695"/>
         <source>Tile side by side</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="695"/>
+        <location filename="../../ui/kit/window.py" line="696"/>
         <source>Bring all windows to this screen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2216,94 +2216,110 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CoefficientsDialog</name>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="29"/>
+        <location filename="../../ui/coefficients_dialog.py" line="32"/>
         <source>Photometric coefficients</source>
         <translation>Photometrische Koeffizienten</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="33"/>
+        <location filename="../../ui/coefficients_dialog.py" line="36"/>
         <source>Extinction of the night</source>
         <translation>Extinktion der Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="35"/>
+        <location filename="../../ui/coefficients_dialog.py" line="38"/>
         <source>From the comparison stars of the measured light curve</source>
         <translation>Aus den Vergleichssternen der gemessenen Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="40"/>
+        <location filename="../../ui/coefficients_dialog.py" line="43"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
         <translation>Messen Sie zuerst eine Lichtkurve, deren Bilder die Himmelsposition (Luftmasse) angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="47"/>
+        <location filename="../../ui/coefficients_dialog.py" line="50"/>
         <source>Transformation coefficients from a standard field</source>
         <translation>Transformationskoeffizienten aus einem Standardfeld</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="50"/>
+        <location filename="../../ui/coefficients_dialog.py" line="53"/>
         <source>no image</source>
         <translation>kein Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="54"/>
+        <location filename="../../ui/coefficients_dialog.py" line="57"/>
         <source>Filter of this image of the standard field</source>
         <translation>Filter dieses Bildes des Standardfeldes</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="55"/>
+        <location filename="../../ui/coefficients_dialog.py" line="58"/>
         <source>Plate-solved image…</source>
         <translation>Astrometrisch gelöstes Bild…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="59"/>
+        <location filename="../../ui/coefficients_dialog.py" line="62"/>
         <source>Filter {n}</source>
         <translation>Filter {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="64"/>
+        <location filename="../../ui/coefficients_dialog.py" line="67"/>
         <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
         <translation>Ein Bild eines Standardfeldes (z. B. Landolt) durch diesen Filter, mit Astrometrie im Header</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="69"/>
+        <location filename="../../ui/coefficients_dialog.py" line="72"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Berechnen (Katalogwerte aus VizieR)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="74"/>
+        <location filename="../../ui/coefficients_dialog.py" line="77"/>
         <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
         <translation>Misst die Sterne beider Bilder, sucht ihre Katalogwerte und passt die Farbterme der Transformation ins Standardsystem an (braucht Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="99"/>
+        <location filename="../../ui/coefficients_dialog.py" line="103"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} mag pro Luftmasse ({n} Messungen, rms {r:.3f} mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="112"/>
+        <location filename="../../ui/coefficients_dialog.py" line="111"/>
+        <source>Comparison star {n}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="115"/>
+        <location filename="../../ui/coefficients_dialog.py" line="162"/>
+        <source>Fit</source>
+        <translation type="unfinished">Anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="117"/>
         <source>Airmass</source>
         <translation>Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="113"/>
+        <location filename="../../ui/coefficients_dialog.py" line="117"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Instrumentelle Helligkeit − Mittel</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="130"/>
+        <location filename="../../ui/coefficients_dialog.py" line="134"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Messen und Katalog abfragen…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="138"/>
+        <location filename="../../ui/coefficients_dialog.py" line="142"/>
         <source>{n} standard stars</source>
         <translation>{n} Standardsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="146"/>
+        <location filename="../../ui/coefficients_dialog.py" line="150"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (Nullpunkt {z:.3f}, rms {r:.3f}, {u} Sterne)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_dialog.py" line="160"/>
+        <source>Stars</source>
+        <translation type="unfinished">Sterne</translation>
     </message>
 </context>
 <context>
@@ -2317,12 +2333,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="647"/>
+        <location filename="../../ui/kit/window.py" line="648"/>
         <source>Type what you want to do…</source>
         <translation>Tippen Sie, was Sie tun möchten…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="648"/>
+        <location filename="../../ui/kit/window.py" line="649"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Wörter in beliebiger Reihenfolge; ↑ ↓ wählen, Enter führt aus, Esc schließt</translation>
     </message>
@@ -6089,52 +6105,52 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Farbbild</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="203"/>
+        <location filename="../../ui/file_actions.py" line="194"/>
         <source>No plugins installed</source>
         <translation>Keine Plugins installiert</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="205"/>
+        <location filename="../../ui/file_actions.py" line="196"/>
         <source>Failed to load: {f}</source>
         <translation>Laden fehlgeschlagen: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="208"/>
+        <location filename="../../ui/file_actions.py" line="199"/>
         <source>Plugin error</source>
         <translation>Plugin-Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="211"/>
+        <location filename="../../ui/file_actions.py" line="202"/>
         <source>Allow {f}…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="216"/>
+        <location filename="../../ui/file_actions.py" line="207"/>
         <source>Open plugins folder</source>
         <translation>Plugin-Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="22"/>
+        <location filename="../../ui/file_actions.py" line="21"/>
         <source>New project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="27"/>
+        <location filename="../../ui/file_actions.py" line="26"/>
         <source>Open project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="74"/>
+        <location filename="../../ui/file_actions.py" line="65"/>
         <source>Open FITS</source>
         <translation>FITS öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="135"/>
+        <location filename="../../ui/file_actions.py" line="126"/>
         <source>Cannot open file</source>
         <translation>Datei kann nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="180"/>
+        <location filename="../../ui/file_actions.py" line="171"/>
         <location filename="../../ui/image_actions.py" line="91"/>
         <location filename="../../ui/image_actions.py" line="442"/>
         <source>Save FITS as</source>
@@ -6161,49 +6177,49 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Bildoperation</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="215"/>
+        <location filename="../../ui/file_actions.py" line="206"/>
         <source>Install the example plugins</source>
         <translation>Beispiel-Plugins installieren</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="217"/>
+        <location filename="../../ui/file_actions.py" line="208"/>
         <source>What are plugins?</source>
         <translation>Was sind Plugins?</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="223"/>
+        <location filename="../../ui/file_actions.py" line="214"/>
         <source>{path}
 
 This plugin is new or has changed. A plugin runs with your rights, like any program: allow it only if you wrote it or know where it comes from.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="229"/>
+        <location filename="../../ui/file_actions.py" line="220"/>
         <source>Allow a plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="243"/>
+        <location filename="../../ui/file_actions.py" line="234"/>
         <source>Installed: {names}. They are now in the Plugins menu.</source>
         <translation>Installiert: {names}. Sie stehen jetzt im Menü Plugins.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="247"/>
+        <location filename="../../ui/file_actions.py" line="238"/>
         <source>The example plugins are already installed.</source>
         <translation>Die Beispiel-Plugins sind bereits installiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="36"/>
+        <location filename="../../ui/file_actions.py" line="35"/>
         <source>Cannot open project</source>
         <translation>Projekt kann nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="122"/>
+        <location filename="../../ui/file_actions.py" line="113"/>
         <source>Image extension</source>
         <translation>Bilderweiterung</translation>
     </message>
     <message>
-        <location filename="../../ui/file_actions.py" line="123"/>
+        <location filename="../../ui/file_actions.py" line="114"/>
         <source>This file holds several images:</source>
         <translation>Diese Datei enthält mehrere Bilder:</translation>
     </message>
@@ -14630,11 +14646,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="230"/>
+        <location filename="../../ui/plot/view.py" line="130"/>
         <source>Nothing to show yet: the plot appears here once there are results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="287"/>
+        <location filename="../../ui/plot/view.py" line="157"/>
         <source>This plot could not be drawn: {error}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14650,11 +14668,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="385"/>
+        <location filename="../../ui/plot/view.py" line="225"/>
         <source>Copy picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="386"/>
+        <location filename="../../ui/plot/view.py" line="226"/>
         <source>Copy data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14722,7 +14742,8 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished">Publikationsgrafik</translation>
     </message>
     <message>
-        <location filename="../../ui/plot/toolbar.py" line="71"/>
+        <location filename="../../ui/plot/toolbar.py" line="72"/>
+        <location filename="../../ui/plot/toolbar.py" line="80"/>
         <source>Plot</source>
         <translation type="unfinished">Diagramm</translation>
     </message>
@@ -14786,93 +14807,93 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ProjectPage</name>
     <message>
-        <location filename="../../ui/project_page.py" line="28"/>
+        <location filename="../../ui/project_page.py" line="31"/>
         <source>Files</source>
         <translation>Dateien</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="31"/>
+        <location filename="../../ui/project_page.py" line="34"/>
         <source>History</source>
         <translation>Verlauf</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Step</source>
         <translation>Schritt</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
+        <location filename="../../ui/project_page.py" line="37"/>
         <source>Started</source>
         <translation>Gestartet</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="34"/>
-        <location filename="../../ui/project_page.py" line="89"/>
+        <location filename="../../ui/project_page.py" line="37"/>
+        <location filename="../../ui/project_page.py" line="99"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="43"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Mit denselben Eingaben und Einstellungen erneut ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="49"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Führt den gewählten Schritt genau wie zuvor erneut aus, z. B. nachdem sich die Eingabedateien geändert haben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="50"/>
+        <location filename="../../ui/project_page.py" line="53"/>
         <source>Copy as Python</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="52"/>
+        <location filename="../../ui/project_page.py" line="55"/>
         <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="55"/>
+        <location filename="../../ui/project_page.py" line="58"/>
         <source>Save as recipe…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="61"/>
         <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="66"/>
+        <location filename="../../ui/project_page.py" line="69"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Einen Lauf wählen, um Eingaben, Einstellungen, Ergebnisse und Versionen zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="88"/>
+        <location filename="../../ui/project_page.py" line="98"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="90"/>
+        <location filename="../../ui/project_page.py" line="100"/>
         <source>Results</source>
         <translation>Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="91"/>
+        <location filename="../../ui/project_page.py" line="101"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="92"/>
+        <location filename="../../ui/project_page.py" line="102"/>
         <source>Versions</source>
         <translation>Versionen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="110"/>
+        <location filename="../../ui/project_page.py" line="120"/>
         <source>Save as recipe</source>
         <translation type="unfinished"></translation>
     </message>
