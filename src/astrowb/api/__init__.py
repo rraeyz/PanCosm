@@ -129,6 +129,29 @@ def calibrate_night(folder, output_dir, **params):
     return sorted(out["calibrated"])
 
 
+def light_curve(files, target, comps, **params):
+    """Differential photometry of target [x, y] against comps [[x, y], ...] on the frames `files`: the light-curve
+    dict (time, rel_flux, rel_flux_err, ...) of photometry.light_curve. Keywords are that step's other inputs and
+    parameters."""
+    return run("photometry.light_curve", images=[str(f) for f in files], target_xy=list(target),
+               comps_xy=[list(c) for c in comps], **params)["light_curve"]  # fmt: skip
+
+
+def period_search(lc, method="lomb-scargle", **params):
+    """A period search of a light curve: lc is the dict light_curve() returns, a .lc.ecsv path, or a table with
+    time and rel_flux (and rel_flux_err) columns. Returns a Result (periods, power, best, ...; .to_table())."""
+    if isinstance(lc, (str, bytes)) or hasattr(lc, "__fspath__"):
+        from ..photometry import lcfile
+
+        lc = lcfile.read(lc)
+    cols = {k: list(map(float, lc[k])) for k in ("time", "rel_flux") if k in lc}
+    if len(cols) < 2:
+        raise ValueError("a light curve needs time and rel_flux columns")
+    err = lc.get("rel_flux_err")
+    return run("timeseries.period", time=cols["time"], flux=cols["rel_flux"], method=method,
+               **({"err": list(map(float, err))} if err is not None else {}), **params)  # fmt: skip
+
+
 def __getattr__(name):
     if name.startswith("_") or not any(s.startswith(name + ".") for s in steps()):
         raise AttributeError(name)

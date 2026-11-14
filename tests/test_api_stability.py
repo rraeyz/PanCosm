@@ -78,3 +78,15 @@ def test_results_as_tables():
     assert list(rows.to_table()["name"]) == ["a", "b"] and list(rows.to_table("stars")["mag"]) == [12.1, 13.4]
     with pytest.raises(TypeError):
         rows.to_table("n")
+
+
+def test_period_search_helper_takes_a_light_curve():
+    """ARC-12 item 1: period_search accepts the light-curve dict (or a .lc.ecsv path) and returns a Result."""
+    import numpy as np
+
+    t = np.linspace(0, 20, 400)
+    lc = {"time": t.tolist(), "rel_flux": (1 + 0.1 * np.sin(2 * np.pi * t / 1.7)).tolist()}
+    out = api.period_search(lc, p_min=0.5, p_max=5.0)
+    assert abs(out["best"] - 1.7) < 0.02 if np.isscalar(out["best"]) else abs(out["best"][0] - 1.7) < 0.02
+    with pytest.raises(ValueError, match="rel_flux"):
+        api.period_search({"time": [1, 2, 3]})

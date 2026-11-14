@@ -152,3 +152,51 @@ def test_several_profiles(tmp_path):
         profiles.save_as(s, "Default")
     profiles.remove(s, "Default")
     assert profiles.names(s) == ["Empty", "La Palma"]
+
+
+def test_a_profile_is_exported_and_imported(tmp_path):
+    """ARC-16 item 2: a profile file moves a profile to another computer; unknown fields are dropped."""
+    import json
+
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+
+    a = Settings(tmp_path / "a")
+    profiles.update(a, "site", name="Ankara", lat=39.8)
+    profiles.update(a, "spectrograph", kind="long-slit", grating=600.0)
+    profiles.update(a, "filters", zero_points={"V": 21.3}, focus_offsets={"V": -12})
+    profiles.export_profile(a, tmp_path / "p.json")
+    b = Settings(tmp_path / "b")
+    with pytest.raises(ValueError, match="exists already"):  # the file's own name is taken on b
+        profiles.import_profile(b, tmp_path / "p.json")
+    doc = json.loads((tmp_path / "p.json").read_text())
+    doc["name"], doc["site"]["bogus"], doc["alien"] = "Copy", 1, {"x": 1}
+    (tmp_path / "q.json").write_text(json.dumps(doc))
+    assert profiles.import_profile(b, tmp_path / "q.json") == "Copy" and profiles.active(b) == "Default"
+    profiles.switch(b, "Copy")
+    assert profiles.section(b, "site")["name"] == "Ankara" and "bogus" not in profiles.section(b, "site")
+    assert profiles.section(b, "spectrograph")["grating"] == 600.0
+    assert profiles.section(b, "filters")["zero_points"] == {"V": 21.3}
+    with pytest.raises(ValueError, match="exists already"):
+        profiles.import_profile(b, tmp_path / "q.json")
+    (tmp_path / "bad.json").write_text("[1]")
+    with pytest.raises(ValueError, match="not a profile file"):
+        profiles.import_profile(b, tmp_path / "bad.json")
+
+
+def test_the_chooser_exports_and_imports(qtbot, tmp_path):
+    from PySide6.QtWidgets import QWidget
+
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+    from astrowb.ui.profile_chooser import ProfileChooser
+
+    host = QWidget()
+    qtbot.addWidget(host)
+    host.settings, host.profile_controls, host._show_scale = Settings(tmp_path), {}, lambda: None
+    chooser = ProfileChooser(host)
+    profiles.update(host.settings, "site", name="Ankara")
+    chooser.export(str(tmp_path / "p.json"))
+    (tmp_path / "p.json").write_text((tmp_path / "p.json").read_text().replace('"Default"', '"Copy"'))
+    assert chooser.import_file(str(tmp_path / "p.json")) == "Copy"
+    assert profiles.names(host.settings) == ["Default", "Copy"]
