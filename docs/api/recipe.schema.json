@@ -1305,6 +1305,13 @@
             "null"
            ]
           },
+          "red_noise": {
+           "description": "Account for red noise: The errors multiplied by β, the time-averaging factor of the residuals",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "mcmc_steps": {
            "description": "MCMC steps: Posterior errors after the fit (the chains stop earlier once converged); 0: none",
            "type": [

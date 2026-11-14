@@ -13212,157 +13212,172 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Geçiş ortası {tc} BJD; derinlik {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} sa, T23 {t23:.2f} sa; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. İndirgenmiş χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="47"/>
+        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <source>Errors × {beta:.2f} for red noise.</source>
+        <translation>Kırmızı gürültü için hatalar × {beta:.2f}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="56"/>
         <source>(not converged: more steps)</source>
         <translation>(yakınsamadı: daha çok adım)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="48"/>
+        <location filename="../../ui/photometry_transit.py" line="57"/>
         <source>MCMC: {values}.</source>
         <translation>MCMC: {values}.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="58"/>
+        <location filename="../../ui/photometry_transit.py" line="67"/>
         <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
         <translation>Periyot ve T0 zamanlama alanlarına; Rp/R★, a/R★ ve b uydurmanın başlangıcı olarak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="63"/>
+        <location filename="../../ui/photometry_transit.py" line="72"/>
         <source>NASA Exoplanet Archive</source>
         <translation>NASA Ötegezegen Arşivi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="65"/>
+        <location filename="../../ui/photometry_transit.py" line="74"/>
         <source>Planet, e.g. Qatar-1 b:</source>
         <translation>Gezegen, ör. Qatar-1 b:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="68"/>
+        <location filename="../../ui/photometry_transit.py" line="77"/>
         <source>Asking the NASA Exoplanet Archive…</source>
         <translation>NASA Ötegezegen Arşivine soruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="87"/>
+        <location filename="../../ui/photometry_transit.py" line="96"/>
         <source>{name}: period and T0 filled; the fit starts from {known}.</source>
         <translation>{name}: periyot ve T0 dolduruldu; uydurma {known} değerlerinden başlar.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="119"/>
+        <location filename="../../ui/photometry_transit.py" line="128"/>
         <source>MCMC uncertainties (slower)</source>
         <translation>MCMC belirsizlikleri (daha yavaş)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="121"/>
+        <location filename="../../ui/photometry_transit.py" line="130"/>
         <source>After the fit, Markov chains give each parameter&apos;s 68 % interval; correlated parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.</source>
         <translation>Uydurmadan sonra Markov zincirleri her parametrenin %68 aralığını verir; ilişkili parametreler (a/R★ ve b) gerçekçi, tek yanlı hatalar alır. Hatalar çok küçükse önce ölçekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="133"/>
+        <location filename="../../ui/photometry_transit.py" line="134"/>
+        <source>Account for red noise (errors × β)</source>
+        <translation>Kırmızı gürültüyü hesaba kat (hatalar × β)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="136"/>
+        <source>Residuals that drift together (β above 1, see the Checks tab) carry less information than their errors say: the parameter errors are multiplied by β</source>
+        <translation>Birlikte kayan artıklar (β 1'in üstünde, Kontroller sekmesine bakın) hatalarının söylediğinden az bilgi taşır: parametre hataları β ile çarpılır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="148"/>
         <source>Transit fit</source>
         <translation>Geçiş uydurması</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="136"/>
+        <location filename="../../ui/photometry_transit.py" line="151"/>
         <source>fixed</source>
         <translation>sabit</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
+        <location filename="../../ui/photometry_transit.py" line="154"/>
         <source>Parameter</source>
         <translation>Parametre</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="139"/>
+        <location filename="../../ui/photometry_transit.py" line="154"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="140"/>
+        <location filename="../../ui/photometry_transit.py" line="155"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="146"/>
+        <location filename="../../ui/photometry_transit.py" line="161"/>
         <source>measured</source>
         <translation>ölçülen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="147"/>
+        <location filename="../../ui/photometry_transit.py" line="162"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="148"/>
+        <location filename="../../ui/photometry_transit.py" line="163"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="152"/>
+        <location filename="../../ui/photometry_transit.py" line="167"/>
         <source>O − C (ppt)</source>
         <translation>O − C (ppt)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="153"/>
+        <location filename="../../ui/photometry_transit.py" line="168"/>
         <source>Days from {t0:.5f}</source>
         <translation>{t0:.5f} tarihinden gün</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="157"/>
+        <location filename="../../ui/photometry_transit.py" line="172"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="164"/>
+        <location filename="../../ui/photometry_transit.py" line="179"/>
         <source>Exact transit model</source>
         <translation>Kesin geçiş modeli</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="166"/>
+        <location filename="../../ui/photometry_transit.py" line="181"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="168"/>
+        <location filename="../../ui/photometry_transit.py" line="183"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation>Hava kütlesinde eğilimli, kenar kararmalı geçiş ölçülen eğriye uydurulur; periyodu ister</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="176"/>
+        <location filename="../../ui/photometry_transit.py" line="191"/>
         <source>Parameters and plot…</source>
         <translation>Parametreler ve grafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="200"/>
+        <location filename="../../ui/photometry_transit.py" line="215"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="205"/>
+        <location filename="../../ui/photometry_transit.py" line="220"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="212"/>
+        <location filename="../../ui/photometry_transit.py" line="228"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="95"/>
+        <location filename="../../ui/photometry_transit.py" line="104"/>
         <source>Add the times to the O−C list</source>
         <translation>Zamanları O−C listesine ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <location filename="../../ui/photometry_transit.py" line="65"/>
         <source>From the NASA archive…</source>
         <translation>NASA arşivinden…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="97"/>
+        <location filename="../../ui/photometry_transit.py" line="106"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation>Burada ölçülen minimum zamanları ve geçiş ortası, O−C&apos;ye</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="109"/>
+        <location filename="../../ui/photometry_transit.py" line="118"/>
         <source>{n} times added to the O−C list.</source>
         <translation>O−C listesine {n} zaman eklendi.</translation>
     </message>
@@ -16976,39 +16991,49 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Tek bir gece onu nadiren belirler: sabit bırakın</translation>
     </message>
     <message>
+        <location filename="../../photometry/fit_steps.py" line="45"/>
+        <source>Account for red noise</source>
+        <translation>Kırmızı gürültüyü hesaba kat</translation>
+    </message>
+    <message>
         <location filename="../../photometry/fit_steps.py" line="46"/>
+        <source>The errors multiplied by β, the time-averaging factor of the residuals</source>
+        <translation>Hatalar, artıkların zaman ortalaması çarpanı β ile çarpılır</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="48"/>
         <source>Posterior errors after the fit (the chains stop earlier once converged); 0: none</source>
         <translation>Uydurmadan sonra sonsal hatalar (zincirler yakınsayınca daha erken durur); 0: yok</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="77"/>
+        <location filename="../../photometry/fit_steps.py" line="90"/>
         <source>Transit depth</source>
         <translation>Geçiş derinliği</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="78"/>
+        <location filename="../../photometry/fit_steps.py" line="91"/>
         <source>The depth TESS saw on the target</source>
         <translation>TESS&apos;in hedefte gördüğü derinlik</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="80"/>
+        <location filename="../../photometry/fit_steps.py" line="93"/>
         <source>Stars this near the target are checked (TFOP: 2.5′)</source>
         <translation>Hedefe bu kadar yakın yıldızlar denetlenir (TFOP: 2,5′)</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="82"/>
-        <location filename="../../photometry/fit_steps.py" line="84"/>
-        <location filename="../../photometry/fit_steps.py" line="86"/>
+        <location filename="../../photometry/fit_steps.py" line="95"/>
+        <location filename="../../photometry/fit_steps.py" line="97"/>
+        <location filename="../../photometry/fit_steps.py" line="99"/>
         <source>As the light curve&apos;s</source>
         <translation>Işık eğrisindeki gibi</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="83"/>
+        <location filename="../../photometry/fit_steps.py" line="96"/>
         <source>Sky ring, inner radius</source>
         <translation>Gök halkası, iç yarıçap</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="85"/>
+        <location filename="../../photometry/fit_steps.py" line="98"/>
         <source>Sky ring, outer radius</source>
         <translation>Gök halkası, dış yarıçap</translation>
     </message>
@@ -17712,7 +17737,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>PDCSAP: uzay aracı için düzeltilmiş; SAP: ölçüldüğü gibi</translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="81"/>
+        <location filename="../../photometry/fit_steps.py" line="94"/>
         <location filename="../../photometry/measure_params.py" line="13"/>
         <source>Aperture radius</source>
         <translation>Açıklık yarıçapı</translation>
@@ -18038,7 +18063,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="104"/>
-        <location filename="../../photometry/fit_steps.py" line="45"/>
+        <location filename="../../photometry/fit_steps.py" line="47"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation>MCMC adımları</translation>
@@ -18071,7 +18096,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="138"/>
-        <location filename="../../photometry/fit_steps.py" line="79"/>
+        <location filename="../../photometry/fit_steps.py" line="92"/>
         <source>Search radius</source>
         <translation>Arama yarıçapı</translation>
     </message>

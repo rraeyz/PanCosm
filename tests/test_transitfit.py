@@ -67,6 +67,15 @@ def test_the_step_on_a_light_curve():
     assert out["values"]["tc"] == pytest.approx(TC, abs=4 * out["errors"]["tc"])
     with pytest.raises(ValueError, match="unknown detrending"):
         execute("photometry.transit_fit", {"light_curve": lc}, {"period": P, "detrend": "humidity"}, Ctx())
+    # PHO-34: red noise added (a slow wander in the residuals): with "account for red noise" the errors grow by β
+    wander = f * (1 + 0.002 * np.sin((t - t[0]) * 2 * np.pi / 0.08))
+    lc_red = lc | {"rel_flux": wander.tolist()}
+    plain = execute("photometry.transit_fit", {"light_curve": lc_red}, {"period": P, "k": 0.13, "a_rs": 6.0, "b": 0.4},
+                    Ctx())["transit"]  # fmt: skip
+    red = execute("photometry.transit_fit", {"light_curve": lc_red}, {"period": P, "k": 0.13, "a_rs": 6.0, "b": 0.4,
+                  "red_noise": True}, Ctx())["transit"]  # fmt: skip
+    assert plain["beta"] > 1.3 and red["red_noise_scale"] == pytest.approx(plain["beta"])
+    assert red["errors"]["tc"] == pytest.approx(plain["errors"]["tc"] * plain["beta"], rel=1e-6)
 
 
 def test_exoclock_file_is_detrended_and_valid(tmp_path):

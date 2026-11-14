@@ -266,6 +266,7 @@ parameters (default):
   u2 = 0.2  (float)  Limb darkening u2: Quadratic law; fixed unless chosen to fit
   detrend = "airmass"  (text)  Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)
   fit_ld = false  (bool)  Fit the limb darkening: A single night rarely decides it: leave it fixed
+  red_noise = false  (bool)  Account for red noise: The errors multiplied by β, the time-averaging factor of the residuals
   mcmc_steps = 0  (int, >= 0, <= 100000)  MCMC steps: Posterior errors after the fit (the chains stop earlier once converged); 0: none
 ```
 
