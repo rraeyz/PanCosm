@@ -1032,14 +1032,14 @@ class PhotometryPage(Undoable, QWidget):
             self.result.setText(self.tr("Click the target and comparison stars on the first frame, then start Live."))
             self.live_button.setChecked(False)
             return False
+        radii = (self.r_ap.value(), self.r_in.value(), self.r_out.value())
         self.live = live.LiveLightCurve(
             self.target,
             self.comps,
-            self.r_ap.value(),
-            self.r_in.value(),
-            self.r_out.value(),
+            *radii,
             self.coord.text().strip() or None,
             masters=live.load_masters(masters),
+            extra_xy=[xy for xy, _role in self.extras],  # check stars and further targets, as the night run
             # shortcut: live frames are measured one by one (no running stacks); stack them live when asked for
             **{k: v for k, v in method_params(self).items() if k != "combine"},
         )
