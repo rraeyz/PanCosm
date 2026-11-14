@@ -34,7 +34,9 @@ def almanac_label(page):
     label = QLabel(page)
     label.setWordWrap(True)
     label.setToolTip(translate("PlanAlmanac", "The chosen night at this site, in local time; dark: the Sun below −18°"))
-    timer = QTimer(page, singleShot=True, interval=300)
+    timer = QTimer(page)
+    timer.setSingleShot(True)
+    timer.setInterval(300)
     timer.timeout.connect(lambda: refresh(page, label))
     for w in (page.lat, page.lon, page.height, page.utc_offset):
         w.valueChanged.connect(timer.start)
