@@ -3,8 +3,9 @@
 Sources, in this order for U B V R I: the Gaia Synthetic Photometry Catalogue (GSPC, Gaia Collaboration, Montegriffo
 et al. 2023, A&A 674, A33: Johnson-Cousins magnitudes from the Gaia spectra, flagged good, ~0.02 mag; ESA archive),
 APASS DR9 (B, V, g', r', i'; VizieR, or the ESA archive's copy when VizieR is down), Pan-STARRS1 DR1 for the Sloan
-bands APASS lacks (g r i z, from the ESA archive's copy), and Gaia DR3 (G, BP, RP) with the polynomials of Riello
-et al. 2021 (A&A 649, A3, table C.2; scatter ~0.03 mag), so every star of the Gaia sky has a comparison magnitude.
+bands APASS lacks (g r i z, from the ESA archive's copy; SkyMapper DR2 south of −30°), and Gaia DR3 (G, BP, RP)
+with the polynomials of Riello et al. 2021 (A&A 649, A3, table C.2; scatter ~0.03 mag), so every star of the Gaia
+sky has a comparison magnitude.
 
 Calibration (ensemble zero point with a colour term): for every frame
     m_cat - m_inst = ZP(frame) + k * colour
@@ -74,10 +75,12 @@ def _vizier_fetch(coord, radius_arcsec):
             t = t[np.argsort(coord.separation(_sky(t)).arcsec)] if len(t) else None  # nearest first
         row = None if t is None else t[0]
         out[key] = None if row is None else {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
+    out["ps1"] = out["skymapper"] = None  # the Sloan bands: Pan-STARRS north of −30°, SkyMapper south of it
+    key, fetch = ("ps1", ps1) if coord.dec.deg > -30 else ("skymapper", skymapper)
     try:
-        out["ps1"] = ps1(coord.ra.deg, coord.dec.deg, radius_arcsec)
-    except Exception:  # noqa: BLE001 - Pan-STARRS only adds the Sloan bands: the rest stands without it
-        out["ps1"] = None
+        out[key] = fetch(coord.ra.deg, coord.dec.deg, radius_arcsec)
+    except Exception:  # noqa: BLE001 - they only add the Sloan bands: the rest stands without them
+        pass
     try:
         out["gspc"] = gspc(coord.ra.deg, coord.dec.deg, radius_arcsec)
     except Exception as e:  # noqa: BLE001 - the ESA archive did not answer: APASS and the Gaia polynomials remain
@@ -142,6 +145,16 @@ def ps1(ra, dec, radius_arcsec):
     return _cone("gaiadr2.panstarrs1_original_valid", "ra", "dec", cols, ra, dec, radius_arcsec)
 
 
+SKYMAPPER_BANDS = {"SG": "g_psf", "SR": "r_psf", "SI": "i_psf", "SZ": "z_psf"}
+
+
+def skymapper(ra, dec, radius_arcsec):
+    """The nearest SkyMapper DR2 star's PSF magnitudes g r i z (SkyMapper system; Onken et al. 2019), the southern
+    sky Pan-STARRS does not reach, from the ESA Gaia archive's copy (external.skymapperdr2_master)."""
+    cols = [c for b in SKYMAPPER_BANDS.values() for c in (b, "e_" + b)]
+    return _cone("external.skymapperdr2_master", "raj2000", "dej2000", cols, ra, dec, radius_arcsec)
+
+
 def _sky(t):
     import astropy.units as u
     from astropy.coordinates import SkyCoord
@@ -174,6 +187,10 @@ def star_magnitude(entry, filt, apass_first=False):
     if p and band in PS1_BANDS and p.get(PS1_BANDS[band]) is not None:  # Sloan bands where APASS has none (fainter)
         err = p.get(PS1_BANDS[band] + "_error") or 0.02
         return {"mag": p[PS1_BANDS[band]], "err": max(err, 0.01), "colour": colour, "source": "Pan-STARRS1 DR1"}
+    sm = entry.get("skymapper")
+    if sm and band in SKYMAPPER_BANDS and sm.get(SKYMAPPER_BANDS[band]) is not None:
+        err = sm.get("e_" + SKYMAPPER_BANDS[band]) or 0.02
+        return {"mag": sm[SKYMAPPER_BANDS[band]], "err": max(err, 0.01), "colour": colour, "source": "SkyMapper DR2"}
     if gaia and gaia.get("Gmag") is not None and gaia.get("BPmag") is not None and gaia.get("RPmag") is not None:
         bp_rp = gaia["BPmag"] - gaia["RPmag"]
         colour = colour if colour is not None else bp_rp

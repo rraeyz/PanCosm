@@ -235,3 +235,29 @@ def test_apass_from_the_esa_archive_and_pan_starrs_for_the_sloan_bands(monkeypat
     r = catalog.star_magnitude(entry, "SR")
     assert r["source"] == "Pan-STARRS1 DR1" and r["mag"] == 13.70  # APASS has no r' for it
     assert catalog.star_magnitude(entry, "SG")["source"] == "APASS DR9"  # APASS first where it has the band
+
+
+def test_skymapper_for_the_southern_sky(monkeypatch):
+    """South of −30° the Sloan bands come from SkyMapper DR2 (Pan-STARRS does not reach there)."""
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+    from astropy.table import Table
+
+    from astrowb import gaia, mirrors
+
+    monkeypatch.setattr(mirrors, "cds", lambda *a, **k: (_ for _ in ()).throw(ConnectionError("down")))
+    monkeypatch.setattr(gaia, "photometry", lambda *a, **k: Table({"_RAJ2000": [], "_DEJ2000": []}))
+    asked = []
+
+    def run(query):
+        asked.append(query)
+        if "skymapper" in query:
+            mags = {"g": 15.2, "r": 14.8, "i": 14.6, "z": 14.5}
+            return Table({"raj2000": [83.82], "dej2000": [-75.0]} | {f"{b}_psf": [m] for b, m in mags.items()}
+                         | {f"e_{b}_psf": [0.01] for b in mags})  # fmt: skip
+        raise ConnectionError("not this one")
+
+    monkeypatch.setattr(gaia, "_run", run)
+    entry = catalog.vizier_fetch(SkyCoord(83.82 * u.deg, -75.0 * u.deg))
+    assert not any("panstarrs" in q for q in asked) and entry["ps1"] is None
+    assert catalog.star_magnitude(entry, "SR") == {"mag": 14.8, "err": 0.01, "colour": None, "source": "SkyMapper DR2"}
