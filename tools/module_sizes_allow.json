@@ -23,7 +23,6 @@
   "ui/frequency_page.py:FrequencyPage.__init__": 120,
   "ui/image_page.py:ImagePage.__init__": 166,
   "ui/models_page.py:ModelsPage.__init__": 179,
-  "ui/moving_dialog.py:MovingObjectDialog.__init__": 83,
   "ui/observatory_dialog.py:ObservatoryDialog.__init__": 116,
   "ui/observe_page.py:ObservePage.__init__": 274,
   "ui/observe_page.py:ObservePage._device_controls": 95,

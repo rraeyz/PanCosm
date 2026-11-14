@@ -269,6 +269,24 @@ def make_oc_page(main):
     return oc
 
 
+def make_exoplanets_page(main):
+    from .exoplanets_page import ExoplanetsPage
+    from .messages import translate
+
+    page = ExoplanetsPage(main)
+    page.fit_requested.connect(
+        lambda inputs, params: main.run_step_for(
+            "exoplanets",
+            "photometry.transit_fit",
+            inputs,
+            params,
+            on_done=page.show_fit,
+            on_fail=lambda msg: page.result.setText(translate(msg)),
+        )
+    )
+    return page
+
+
 def make_lightcurve_page(main):
     page = LightCurvePage(main)
     page.period_page.search_requested.connect(main.search_period)

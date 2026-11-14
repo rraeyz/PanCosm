@@ -2819,3 +2819,16 @@ def test_the_automation_window_chain_of_cards(window):
     assert page.steps.currentRow() == 1 and page.steps.count() == 2
     page.step_buttons[0].click()  # Remove
     assert [e["step"] for e in page.auto["steps"]] == ["fits.save_as"] and page.steps.count() == 1
+
+
+def test_the_astrometry_window_has_stages(window):
+    """UI-16.11: Images, Solve, Find, Measure, Report as stages beside the frame and the positions."""
+    win = window.open_area("astrometry")
+    page = window.astrometry_page
+    assert list(win.stage_panels) == ["images", "solve", "find", "measure", "report"]
+    panels = win.stage_panels
+    assert panels["images"].isAncestorOf(page.choose_button) and panels["solve"].isAncestorOf(page.solve_button)
+    assert panels["find"].isAncestorOf(page.find_info) and panels["measure"].isAncestorOf(page.measure_button)
+    assert panels["report"].isAncestorOf(page.designation) and panels["report"].isAncestorOf(page.export_button)
+    assert not any(p.isAncestorOf(page.viewer) or p.isAncestorOf(page.table) for p in panels.values())
+    win.close()
