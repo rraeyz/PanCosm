@@ -18126,196 +18126,216 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="28"/>
+        <location filename="../../calibration/step_params.py" line="23"/>
+        <source>Header rules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="24"/>
+        <source>Your own rules over the usual names, e.g. [{&quot;key&quot;: &quot;OBSTYPE&quot;, &quot;value&quot;: &quot;SKY&quot;, &quot;kind&quot;: &quot;flat&quot;}]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="33"/>
+        <source>Filter names alike</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="34"/>
+        <source>Names that mean one filter, e.g. {&quot;Clear&quot;: &quot;L&quot;, &quot;Lum&quot;: &quot;L&quot;}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="46"/>
         <source>Rejection limit of the masters in standard deviations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="36"/>
+        <location filename="../../calibration/step_params.py" line="54"/>
         <source>Temperature tolerance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="37"/>
+        <location filename="../../calibration/step_params.py" line="55"/>
         <source>A dark is used for a light within this sensor temperature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="43"/>
+        <location filename="../../calibration/step_params.py" line="61"/>
         <source>Remove cosmic rays</source>
         <translation type="unfinished">Eliminar rayos cósmicos</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="44"/>
+        <location filename="../../calibration/step_params.py" line="62"/>
         <source>L.A.Cosmic (astroscrappy) on every light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="52"/>
+        <location filename="../../calibration/step_params.py" line="70"/>
         <location filename="../../spectroscopy/step_params.py" line="240"/>
         <source>Read noise</source>
         <translation>Ruido de lectura</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="53"/>
+        <location filename="../../calibration/step_params.py" line="71"/>
         <source>For the cosmic-ray search when the header does not give it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="59"/>
+        <location filename="../../calibration/step_params.py" line="77"/>
         <source>Scale the dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="60"/>
+        <location filename="../../calibration/step_params.py" line="78"/>
         <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="66"/>
+        <location filename="../../calibration/step_params.py" line="84"/>
         <source>Mend bad pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="67"/>
+        <location filename="../../calibration/step_params.py" line="85"/>
         <source>Hot and cold pixels found in the masters are replaced by their neighbours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="73"/>
+        <location filename="../../calibration/step_params.py" line="91"/>
         <source>Divide by the flat</source>
         <translation type="unfinished">Dividir por el flat</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="74"/>
+        <location filename="../../calibration/step_params.py" line="92"/>
         <source>Off: bias and dark only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="80"/>
+        <location filename="../../calibration/step_params.py" line="98"/>
         <source>Split colour frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="81"/>
+        <location filename="../../calibration/step_params.py" line="99"/>
         <source>A colour camera&apos;s frames become one file per colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="87"/>
+        <location filename="../../calibration/step_params.py" line="105"/>
         <source>Linearity correction</source>
         <translation type="unfinished">Corrección de linealidad</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="88"/>
+        <location filename="../../calibration/step_params.py" line="106"/>
         <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="95"/>
+        <location filename="../../calibration/step_params.py" line="113"/>
         <source>Masters chosen by hand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="96"/>
+        <location filename="../../calibration/step_params.py" line="114"/>
         <source>{filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="117"/>
+        <location filename="../../calibration/step_params.py" line="135"/>
         <source>Combine</source>
         <translation>Combinar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="118"/>
+        <location filename="../../calibration/step_params.py" line="136"/>
         <location filename="../../spectroscopy/step_params.py" line="76"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="125"/>
+        <location filename="../../calibration/step_params.py" line="143"/>
         <location filename="../../spectroscopy/step_params.py" line="83"/>
         <source>Rejection</source>
         <translation type="unfinished">Rechazo</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="126"/>
+        <location filename="../../calibration/step_params.py" line="144"/>
         <source>Pixels left out before combining (satellites, cosmic rays)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="133"/>
+        <location filename="../../calibration/step_params.py" line="151"/>
         <source>Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="135"/>
+        <location filename="../../calibration/step_params.py" line="153"/>
         <source>Frames or percent dropped at the low end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="142"/>
+        <location filename="../../calibration/step_params.py" line="160"/>
         <source>High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="144"/>
+        <location filename="../../calibration/step_params.py" line="162"/>
         <source>Frames or percent dropped at the high end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="151"/>
+        <location filename="../../calibration/step_params.py" line="169"/>
         <source>Normalise</source>
         <translation>Normalizar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="152"/>
+        <location filename="../../calibration/step_params.py" line="170"/>
         <source>Each frame shifted or scaled to the first before combining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="160"/>
+        <location filename="../../calibration/step_params.py" line="178"/>
         <source>noise: 1/σ² weights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="167"/>
+        <location filename="../../calibration/step_params.py" line="185"/>
         <location filename="../../engine/step_params.py" line="260"/>
         <source>Align</source>
         <translation>Alinear</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="168"/>
+        <location filename="../../calibration/step_params.py" line="186"/>
         <source>Shift only, star patterns, none (aligned already) or on the stars picked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="174"/>
+        <location filename="../../calibration/step_params.py" line="192"/>
         <source>Stars to align on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="175"/>
+        <location filename="../../calibration/step_params.py" line="193"/>
         <source>Positions on the first frame (x y) for the picked alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="186"/>
+        <location filename="../../calibration/step_params.py" line="204"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="187"/>
+        <location filename="../../calibration/step_params.py" line="205"/>
         <source>The output pixels are this many times finer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="195"/>
+        <location filename="../../calibration/step_params.py" line="213"/>
         <source>Drop size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="196"/>
+        <location filename="../../calibration/step_params.py" line="214"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18325,14 +18345,14 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="27"/>
-        <location filename="../../calibration/step_params.py" line="109"/>
+        <location filename="../../calibration/step_params.py" line="45"/>
+        <location filename="../../calibration/step_params.py" line="127"/>
         <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Sigma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="110"/>
+        <location filename="../../calibration/step_params.py" line="128"/>
         <location filename="../../spectroscopy/step_params.py" line="92"/>
         <source>Rejection limit in standard deviations</source>
         <translation type="unfinished"></translation>
@@ -18348,7 +18368,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="159"/>
+        <location filename="../../calibration/step_params.py" line="177"/>
         <location filename="../../spectroscopy/step_params.py" line="107"/>
         <source>Weights</source>
         <translation>Pesos</translation>

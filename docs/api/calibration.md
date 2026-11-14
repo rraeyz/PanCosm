@@ -53,4 +53,6 @@ outputs:     frames, problems, raw_converted
   raw_converted  (files)  Camera raw files converted to FITS
 parameters (default):
   clock_utc_offset = 0.0  (float, h, >= -14.0, <= 14.0)  Camera clock − UTC: For camera raw files and pictures without a UTC time (DSLR)
+  rules = []  (object)  Header rules: Your own rules over the usual names, e.g. [{"key": "OBSTYPE", "value": "SKY", "kind": "flat"}]
+  filter_aliases = {}  (object)  Filter names alike: Names that mean one filter, e.g. {"Clear": "L", "Lum": "L"}
 ```

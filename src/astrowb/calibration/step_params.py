@@ -16,6 +16,24 @@ describe(
         label=QT_TRANSLATE_NOOP("Steps", "Camera clock − UTC"),
         help=QT_TRANSLATE_NOOP("Steps", "For camera raw files and pictures without a UTC time (DSLR)"),
     ),
+    P(
+        "rules",
+        "object",
+        (),
+        label=QT_TRANSLATE_NOOP("Steps", "Header rules"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", 'Your own rules over the usual names, e.g. [{"key": "OBSTYPE", "value": "SKY", "kind": "flat"}]'
+        ),
+        advanced=True,
+    ),
+    P(
+        "filter_aliases",
+        "object",
+        {},
+        label=QT_TRANSLATE_NOOP("Steps", "Filter names alike"),
+        help=QT_TRANSLATE_NOOP("Steps", 'Names that mean one filter, e.g. {"Clear": "L", "Lum": "L"}'),
+        advanced=True,
+    ),
 )
 describe(
     "calibration.run",

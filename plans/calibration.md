@@ -139,7 +139,11 @@ P3: 18, 20.
 - **Files:** `calibration/groups.py`, `calibration/steps.py`, UI frames panel, tests.
 
 ### CAL-2. Header conventions as data, and the user's own rules  (P1)
-**open**
+**partial** — done (2026-11-14), items 3 and 4's engine: `calibration.scan` takes `rules` ([{key, value, kind}],
+over the built-in conventions) and `filter_aliases` (names that mean one filter); `frames.why` says in words what
+decided a frame's kind (a user rule, a keyword, the file name, no exposure, nothing). Test
+(tests/test_header_rules.py). Left: the conventions table as data with stored headers of every program, the
+Settings → Files "Header rules" panel kept in the equipment profile, "Why is this frame a …?" in the Inspector.
 - **Reference:** IRAF `setinstrument` translation files (`subsets`, `imagetyp` mapping per instrument); ccdproc
   keyword filters; N.I.N.A., SharpCap, KStars / Ekos, MaxIm DL, SGP, Voyager, APT, ASIAIR, CCDCiel, Prism, TheSkyX
   header habits; ESO, LCO, NOT, TUG observatory conventions.

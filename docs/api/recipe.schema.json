@@ -244,6 +244,12 @@
            ],
            "minimum": -14.0,
            "maximum": 14.0
+          },
+          "rules": {
+           "description": "Header rules: Your own rules over the usual names, e.g. [{\"key\": \"OBSTYPE\", \"value\": \"SKY\", \"kind\": \"flat\"}]"
+          },
+          "filter_aliases": {
+           "description": "Filter names alike: Names that mean one filter, e.g. {\"Clear\": \"L\", \"Lum\": \"L\"}"
           }
          },
          "additionalProperties": false
