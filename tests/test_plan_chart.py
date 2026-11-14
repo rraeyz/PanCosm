@@ -139,6 +139,9 @@ def test_almanac_line_follows_the_site_and_date(qtbot, tmp_path):
 
     page = PlanPage(Settings(tmp_path))
     qtbot.addWidget(page)
+    qtbot.waitUntil(lambda: bool(page.almanac.text()), timeout=5000)
+    assert page.almanac.text().startswith("No site saved yet")  # PLN-W: a new user is told first
+    page.site_name.setText("Ankara")
     page.lat.setValue(39.84)
     page.lon.setValue(32.78)
     page.height.setValue(1250)
