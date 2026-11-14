@@ -662,3 +662,25 @@ def test_a_saved_dialog_size_taller_than_the_screen_is_capped(qtbot, tmp_path):
     qtbot.addWidget(d)
     room = d.screen().availableGeometry()
     assert d.width() == 700 and d.height() <= room.height() * 0.85
+
+
+def test_a_stage_that_scrolls_itself_takes_the_whole_height(qapp):
+    """UF-11: a page wrapped in its own scroll area kept its hint's height and scrolled with room free below."""
+    from PySide6.QtWidgets import QLabel, QScrollArea, QVBoxLayout, QWidget
+
+    from astrowb.ui.kit.rail import StagePanel
+
+    page = QScrollArea()
+    page.setWidgetResizable(True)
+    inner = QWidget()
+    rows = QVBoxLayout(inner)
+    for i in range(25):
+        rows.addWidget(QLabel(f"row {i}"))
+    page.setWidget(inner)
+    panel = StagePanel("Light curve")
+    panel.add(page)
+    panel.resize(400, 1000)
+    panel.show()
+    qapp.processEvents()
+    assert page.height() >= inner.sizeHint().height()  # all its rows in view
+    assert not page.verticalScrollBar().isVisible()
