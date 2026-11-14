@@ -70,6 +70,27 @@ def draw_sky(fig, n, hours, k):
     return ax
 
 
+def draw_year(fig, dates, hours, sun, chosen):
+    """The nights of a year: date across, local solar time (noon … noon) up, the twilights shaded as in the night
+    chart; the chosen night marked. Local solar time follows the site's longitude (no zone, no summer time)."""
+    import matplotlib.dates as mdates
+
+    fig.clear()
+    ax = fig.add_subplot()
+    x = mdates.date2num(np.array(dates, dtype="datetime64[D]").astype(object))
+    ax.contourf(x, 12 + hours, np.asarray(sun).T, levels=[-90, -18, -12, -6, 0, 90],
+                colors=["#050a3c", "#0b1a78", "#2a4cc0", "#7f9be0", "#ffffff"], alpha=0.9)  # fmt: skip
+    ax.axvline(mdates.date2num(np.datetime64(chosen, "D").astype(object)), color=role("saturated"), lw=1)
+    ax.set_yticks(range(12, 37, 2), [f"{h % 24:02d}" for h in range(12, 37, 2)], fontsize=7)
+    ax.xaxis.set_major_locator(mdates.MonthLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b"))
+    ax.grid(color=role("rejected"), alpha=0.3, lw=0.5)
+    ax.set_ylabel("Local solar time (h)", fontsize=8)
+    ax.set_title("Night length through the year (dark blue: astronomical night; lighter: nautical, civil twilight)",
+                 fontsize=9)  # fmt: skip
+    return ax
+
+
 class MoreCharts(QDialog):
     def __init__(self, n, hours, offset, parent=None):
         super().__init__(parent)
@@ -96,6 +117,9 @@ class MoreCharts(QDialog):
         row.addWidget(self.when)
         lay.addLayout(row)
         tabs.addTab(sky, self.tr("Sky at an hour"))
+        self.year = PlotCanvas(self)
+        tabs.addTab(self.year, self.tr("Through the year"))
+        tabs.currentChanged.connect(lambda i: i == 2 and self._year())  # computed when first looked at
         QVBoxLayout(self).addWidget(tabs)
         self.resize(760, 560)
         self._sky(self.slider.value())
@@ -104,3 +128,13 @@ class MoreCharts(QDialog):
         draw_sky(self.sky.figure, self.n, self.hours, k)
         self.sky.draw()
         self.when.setText(f"{clock(self.hours[k])} UTC / {clock(self.hours[k] + self.offset)}")
+
+    def _year(self):
+        if self.year.figure.axes:
+            return
+        from ..planning.visibility import Site, year_nights
+
+        site, date = self.n["site"], self.n["date"]
+        dates, h, sun = year_nights(Site(site["name"], site["lat"], site["lon"], site["height"]), date)
+        draw_year(self.year.figure, dates, h, sun, date)
+        self.year.draw()

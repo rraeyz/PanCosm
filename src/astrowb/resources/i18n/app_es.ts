@@ -8045,23 +8045,28 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>MoreCharts</name>
     <message>
-        <location filename="../../ui/plan_more.py" line="76"/>
+        <location filename="../../ui/plan_more.py" line="97"/>
         <source>More charts of the night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="81"/>
+        <location filename="../../ui/plan_more.py" line="102"/>
         <source>Moon distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="94"/>
+        <location filename="../../ui/plan_more.py" line="115"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_more.py" line="98"/>
+        <location filename="../../ui/plan_more.py" line="119"/>
         <source>Sky at an hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="121"/>
+        <source>Through the year</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

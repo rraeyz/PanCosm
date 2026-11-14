@@ -82,3 +82,14 @@ def test_auto_local_time_follows_the_site(qapp, tmp_path):
     page.utc_offset.setValue(AUTO)
     page.lon.setValue(-120.0)  # nowhere near any computer's zone that is within 2 h of it... unless it is Pacific
     assert abs(page.local_offset(2461000.0) - (-8)) <= 1
+
+
+def test_year_chart(qapp):
+    from astrowb.ui.plan_more import MoreCharts
+
+    n = night()
+    hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
+    win = MoreCharts(n, hours, 3.0)
+    win._year()
+    ax = win.year.figure.axes[0]
+    assert "Night length" in ax.get_title() and ax.get_ylim()[1] >= 36
