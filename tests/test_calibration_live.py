@@ -1,5 +1,7 @@
 """CAL-22: a night replayed frame by frame gives the same calibrated data as the batch run, bit for bit."""
 
+from pathlib import Path
+
 import numpy as np
 from astropy.io import fits
 
@@ -40,6 +42,6 @@ def test_a_replayed_night_equals_the_batch(tmp_path):
     assert len(done) == 4 and live.poll(lights) == []  # the second look finds nothing new
     for path in done:
         ours = fits.getdata(path)
-        theirs = fits.getdata(next(p for p in batch["calibrated"] if p.endswith(path.split("/")[-1])))
+        theirs = fits.getdata(next(p for p in batch["calibrated"] if Path(p).name == Path(path).name))
         assert np.array_equal(ours, theirs)
     assert fits.getheader(done[0])["CALF"].startswith("master_flat")

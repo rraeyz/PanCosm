@@ -109,18 +109,20 @@ def apply(paths, rules, out_dir=None, in_place=False):
         target = Path(p) if in_place else Path(out_dir) / Path(p).name
         if not in_place:
             target.parent.mkdir(parents=True, exist_ok=True)
-        with fits.open(p) as hdul:
-            h = hdul[0].header
-            changed = new_values(h, rules)
-            for key, value in changed.items():
-                if value is None:
-                    h.remove(key, ignore_missing=True, remove_all=True)
-                elif isinstance(value, float) and not np.isfinite(value):
-                    continue
-                else:
-                    h[key] = value
-            if changed:
-                h.add_history(f"keywords edited: {', '.join(sorted(changed))[:60]}")
-            hdul.writeto(target, overwrite=True)
+        with fits.open(p, memmap=False) as hdul:  # read whole, closed before writing (Windows locks open files)
+            for hdu in hdul:
+                _ = hdu.data
+        h = hdul[0].header
+        changed = new_values(h, rules)
+        for key, value in changed.items():
+            if value is None:
+                h.remove(key, ignore_missing=True, remove_all=True)
+            elif isinstance(value, float) and not np.isfinite(value):
+                continue
+            else:
+                h[key] = value
+        if changed:
+            h.add_history(f"keywords edited: {', '.join(sorted(changed))[:60]}")
+        hdul.writeto(target, overwrite=True)
         written.append(str(target))
     return written
