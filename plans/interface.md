@@ -905,7 +905,7 @@ rail           stage panel (example: 3 Indices)            main: the map        
 - **Files:** `ui/shell/project/{window,files,history,products,sessions,tasks,methods}.py`, `engine/project.py`, `tests/ui/walks/project.py`, guide 01
 
 ### UI-17. Polish  (P3)
-**open**
+**open** — 2026-11-14: the splash (`__main__._splash`: the icon and "Starting …" at once, before the long imports, closed when the main window shows; tests/test_splash.py). About with version, licences and the privacy text was there already.
 - **Build:** a splash that appears in < 300 ms and shows what is loading; About with version, licences
   (generated), the privacy statement; consistent window icons; hover and pressed states everywhere; drag feedback;
   cursor shapes for tools; smooth splitter moves; no layout jump when a banner appears (space reserved or

@@ -16229,6 +16229,14 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>Splash</name>
+    <message>
+        <location filename="../../__main__.py" line="308"/>
+        <source>Starting {app}…</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StagePanel</name>
     <message>
         <location filename="../../ui/kit/rail.py" line="111"/>

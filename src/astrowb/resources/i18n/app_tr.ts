@@ -16231,6 +16231,14 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>Splash</name>
+    <message>
+        <location filename="../../__main__.py" line="308"/>
+        <source>Starting {app}…</source>
+        <translation>{app} başlatılıyor…</translation>
+    </message>
+</context>
+<context>
     <name>StagePanel</name>
     <message>
         <location filename="../../ui/kit/rail.py" line="111"/>
