@@ -328,7 +328,13 @@ with the footprints, guider footprint, bright-star warnings, guide stars, the pa
   allows redistribution — decide and write the source here.
 
 ### PLN-11. Weather and sky conditions  (P2)
-**open**
+**partial** — done (2026-11-14): the service chosen is **Open-Meteo** (free for non-commercial use, data CC BY 4.0;
+attribution "Weather data by Open-Meteo.com (CC BY 4.0)" shown with every forecast). `services/forecast.py` (hourly
+total / low / middle / high cloud, humidity, dew point, wind, temperature for the site; cached one hour; offline
+gives the last answer; `during` reads a block's mean cloud); "More charts…" → Weather: "Get the forecast" (off the
+window's thread) draws the clouds and humidity over the night's twilight shading with the fetch time and the
+attribution. Tests (tests/test_forecast.py, test_plan_chart). Left: the bands under the main chart, the
+scheduler's "cloud < x %" per block, seeing / transparency classes.
 - **Read first:** the terms of use of free forecast services (Open-Meteo, 7Timer! astronomy forecast) — use only
   one whose terms allow this application; write the choice and its attribution here.
 - **Build:** `services/forecast.py`: hourly cloud cover (low / mid / high), humidity, dew point, wind, temperature,
