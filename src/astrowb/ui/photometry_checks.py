@@ -132,6 +132,11 @@ class ChecksTab(QWidget):
         self.rms.hide()
         lay.addWidget(self.rms, 1)
         lay.addWidget(self.table, 1)
+        self.line = QLabel(self)  # the same verdict in the Light curve stage (stage_line)
+        self.line.setWordWrap(True)
+        self.line.hide()
+        refill = page._fill_frames  # the Frames table is rebuilt now and then: its marks come back with it
+        page._fill_frames = lambda: (refill(), self.mark_frames())
 
     def _show(self, i):
         """The chosen point's frame on the image (the light curve may hold fewer frames than the list)."""
@@ -280,6 +285,35 @@ class ChecksTab(QWidget):
         self.rms.draw()
         return beta
 
+    def stage_line(self, panel):
+        """Put the verdict in the Light curve stage's panel."""
+        panel.add(self.line)
+
+    def mark_frames(self):
+        """The flagged frames in the Frames table: the reasons as tooltip, amber where the row is not already red or
+        orange for a frame the measurement left out."""
+        from PySide6.QtGui import QColor
+
+        from .kit.tokens import role
+
+        lc, names, table = getattr(self, "judged", None), kinds(), self.page.frame_table
+        if lc is None:
+            return
+        files = list(lc.get("file") or [])
+        why = {}
+        for k, v in self.flags.items():
+            for i in v:
+                if i < len(files):
+                    why.setdefault(Path(str(files[i])).name, []).append(names[k])
+        for r, path in enumerate(self.page.images[: table.rowCount()]):
+            reasons = why.get(Path(path).name)
+            for c in range(table.columnCount()):
+                item = table.item(r, c)
+                if reasons and item is not None:
+                    if not item.toolTip():
+                        item.setForeground(QColor(role("non_linear")))
+                    item.setToolTip(", ".join(filter(None, [item.toolTip(), *reasons])))
+
     def mark(self, ax, x, y, lc):
         """The flagged frames (cloud, spikes …) crossed on the light curve, once this tab has judged this very
         curve."""
@@ -323,6 +357,8 @@ class ChecksTab(QWidget):
             if counts
             else translate("PhotometryChecks", "No frame flagged: no cloud, seeing jump, field jump or saturation.")
         )
+        self.line.setText(self.verdict.text())
+        self.line.show()
         self.advice.setText(self._advice(lc))
         self._show_noise(lc)
         self._draw_panels(lc, flags)
@@ -336,6 +372,7 @@ class ChecksTab(QWidget):
               ", ".join(names[k] for k, v in flags.items() if i in v)] for i in rows],
             keys=rows,
         )  # fmt: skip
+        self.page._fill_frames()  # rebuilt with the marks (mark_frames), so none pile up
         if replot and self.page.light_curve is lc and hasattr(self.page, "_plot_current"):
             self.page._plot_current()  # the light curve drawn before the checks: now with its flagged points
         return flags
