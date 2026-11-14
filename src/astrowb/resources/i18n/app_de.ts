@@ -15595,6 +15595,24 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>Sequence</name>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="51"/>
+        <source>Play</source>
+        <translation type="unfinished">Abspielen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="56"/>
+        <source> frames/s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="57"/>
+        <source>Same levels for all frames</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsWindow</name>
     <message>
         <location filename="../../ui/settings_window.py" line="35"/>
