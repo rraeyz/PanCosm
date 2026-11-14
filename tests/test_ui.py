@@ -489,7 +489,8 @@ def test_plan_page_resolve_and_plan(window, qtbot):
     # the chart is in English (for papers) with the local time under the UTC axis
     ax = page.plot.figure.axes[0]
     labels = [a.get_xlabel() for a in [ax, *ax.child_axes]] + [ax.get_ylabel()]
-    assert "UTC (hours)" in labels and "Local time (UTC+3)" in labels and "Altitude (°)" in labels
+    tags = [t.get_text() for t in ax.texts]
+    assert "◄ UTC" in tags and "◄ Local (UTC+3)" in tags and "Altitude (°)" in labels
     assert ax.get_ylim() == (0, 90)  # the whole sky above the horizon, not from the lowest altitude
     dlg = page.plot.open_window()  # its axis formatters cannot be pickled: it opened nothing before
     assert dlg is not None and dlg.isVisible()
