@@ -2313,6 +2313,12 @@ def test_the_checks_tab(window):
     axes = page.checks.panels.figure.axes  # counts, FWHM, x, y: the series this curve has
     assert [a.get_ylabel() for a in axes] == ["Comparison counts", "FWHM", "x", "y"]
     assert len(axes[0].lines) == 2 and list(axes[0].lines[1].get_xdata()) == [10, 11, 12]  # the cloud marked
+    from matplotlib.figure import Figure
+
+    ax = Figure().add_subplot()
+    page.checks.mark(ax, np.arange(n), np.ones(n), lc)  # PHO-36: crossed on the light curve it judged
+    page.checks.mark(ax, np.arange(n), np.ones(n), dict(lc))  # not on another curve
+    assert len(ax.lines) == 1 and list(ax.lines[0].get_xdata()) == [10, 11, 12]
     lc["flags"] = [["C" if i == 30 else "", ""] for i in range(n)]  # a cosmic ray in the target's aperture
     flags = page.checks.show_checks(lc)
     menu = page.checks.leave_kind.menu()

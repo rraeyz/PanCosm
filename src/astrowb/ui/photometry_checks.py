@@ -272,6 +272,19 @@ class ChecksTab(QWidget):
         self.rms.draw()
         return beta
 
+    def mark(self, ax, x, y, lc):
+        """The flagged frames (cloud, spikes …) crossed on the light curve, once this tab has judged this very
+        curve."""
+        import numpy as np
+
+        from .kit.tokens import role
+
+        if getattr(self, "judged", None) is not lc:
+            return
+        idx = sorted({i for v in self.flags.values() for i in v if i < len(x)})
+        if idx:
+            ax.plot(np.asarray(x)[idx], np.asarray(y)[idx], "x", color=role("saturated"), ms=6)
+
     def leave_out_flagged(self, kind=None):
         """Through the page's undoable exclusion, as its saturated-points command: every flagged frame, or only those
         of one kind ("cloud", "spike" …)."""
@@ -285,7 +298,8 @@ class ChecksTab(QWidget):
         from ..photometry.quality import lc_checks
 
         flags, _line = lc_checks(lc)
-        self.flags = flags
+        self.flags, replot = flags, getattr(self, "judged", None) is not lc and any(flags.values())
+        self.judged = lc
         self.leave_out.setEnabled(any(flags.values()))
         names = kinds()
         menu = self.leave_kind.menu()
@@ -314,4 +328,6 @@ class ChecksTab(QWidget):
               ", ".join(names[k] for k, v in flags.items() if i in v)] for i in rows],
             keys=rows,
         )  # fmt: skip
+        if replot and self.page.light_curve is lc and hasattr(self.page, "_plot_current"):
+            self.page._plot_current()  # the light curve drawn before the checks: now with its flagged points
         return flags
