@@ -452,12 +452,19 @@ def _histogram_centroid(v, khist=3.0, binsize=0.1, reject=3.0, maxiter=10):
     return centre, sd, int(keep.sum())
 
 
-def measure(data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median", sky_mask=None):
+def measure(
+    data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median", sky_mask=None, shape=None
+):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
     sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus.
     camera (read noise e-, dark e- per pixel over the exposure): the sky noise from the camera's numbers and each
     star's sky level instead (camera_pixel_noise), as AstroImageJ does (plans/photometry.md item 2).
-    sky_mask: pixels (True) left out of every sky ring — other stars, whose faint wings clipping keeps (PHO-45)."""
+    sky_mask: pixels (True) left out of every sky ring — other stars, whose faint wings clipping keeps (PHO-45).
+    shape: an ellipse, a racetrack for a trailed star, or painted pixels (photometry/shapes.py, PHO-22)."""
+    if shape is not None and shape.get("kind", "circle") != "circle":
+        from .shapes import measure_shaped
+
+        return measure_shaped(data, xy, shape, r_ap, r_in, r_out, gain)
     data = np.asarray(data, dtype=np.float64)
     ap = CircularAperture(xy, r=r_ap)
     an = CircularAnnulus(xy, r_in=r_in, r_out=r_out)
