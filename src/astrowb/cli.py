@@ -144,7 +144,12 @@ def main(argv, out=None, err=None):
         p = sub.add_parser(name, help="run one step" if name == "run" else "run an automation file")
         p.add_argument("step" if name == "run" else "file")
         p.add_argument("values", nargs="*", metavar="key=value") if name == "run" else p.add_argument(
-            "--set", nargs="*", default=[], metavar="key=value", help="the automation's inputs"
+            "--set",
+            nargs="*",
+            action="extend",
+            default=[],
+            metavar="key=value",
+            help="the automation's inputs (--set a=1 b=2, or --set given again)",
         )
         p.add_argument("--project", help="record the run in this project file (.astroproj)")
         p.add_argument("--json", action="store_true", help="print the outputs as JSON")

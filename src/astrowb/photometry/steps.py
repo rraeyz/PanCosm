@@ -27,6 +27,15 @@ def _check_positions(image, target, comps=()):
             raise ValueError(f"comparison star {i} at {xy[0]:g}, {xy[1]:g} is outside the image ({nx} × {ny} px)")
 
 
+@step("photometry.save_light_curve", inputs=("light_curve", "output"), outputs=("file",))
+def save_light_curve_step(inputs, params, ctx):
+    """The light curve written as a .lc.ecsv file (photometry/lcfile.py: every series and value kept), as File →
+    Export in the window writes it; a recipe's last step (PHO-20)."""
+    from .lcfile import write
+
+    return {"file": str(write(inputs["light_curve"], inputs["output"]))}
+
+
 @step(
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),

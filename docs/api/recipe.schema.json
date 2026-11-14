@@ -1170,6 +1170,24 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.save_light_curve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.suggest_comparisons"
         }
        }
@@ -2588,6 +2606,7 @@
        "photometry.neb_check",
        "photometry.polarimetry",
        "photometry.quality",
+       "photometry.save_light_curve",
        "photometry.suggest_comparisons",
        "photometry.transformation",
        "photometry.transit_fit",
