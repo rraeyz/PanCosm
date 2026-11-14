@@ -126,3 +126,29 @@ def test_aavso_dialog_transforms_with_a_colour_term(qapp, tmp_path):
     d.target_colour.setText("-0.4")
     t = d.values()["transform"]
     assert t["coefficient"] == 0.085 and t["colour_c"] == [0.62, 0.71] and t["colour_t"] == -0.4
+
+
+def test_several_profiles(tmp_path):
+    """ARC-16: a second site and camera beside the first; switching brings each back whole, readers of "site" follow."""
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+
+    s = Settings(tmp_path)
+    profiles.update(s, "site", name="Ankara", lat=39.8, lon=32.8)
+    profiles.update(s, "camera", gain=1.2)
+    profiles.save_as(s, "La Palma")
+    assert profiles.active(s) == "La Palma" and profiles.section(s, "camera")["gain"] == 1.2  # a copy
+    profiles.update(s, "site", name="ORM", lat=28.76, lon=-17.88)
+    assert profiles.names(s) == ["La Palma", "Default"] and s.get("site")["name"] == "ORM"
+    profiles.switch(s, "Default")
+    assert profiles.section(s, "site")["name"] == "Ankara" and Settings(tmp_path).get("site")["lat"] == 39.8
+    profiles.switch(s, "La Palma")
+    assert profiles.section(s, "site")["lat"] == 28.76
+    profiles.switch(s, "Empty")
+    assert not profiles.has(s, "site") and profiles.section(s, "camera")["gain"] == 0.0
+    with pytest.raises(ValueError):
+        profiles.remove(s, "Empty")
+    with pytest.raises(ValueError):
+        profiles.save_as(s, "Default")
+    profiles.remove(s, "Default")
+    assert profiles.names(s) == ["Empty", "La Palma"]

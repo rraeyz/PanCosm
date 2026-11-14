@@ -5,7 +5,12 @@ Plan page, "mpc" of the asteroid report) move into it the first time it is read.
     site = profiles.section(settings, "site")              # {"name", "lat", "lon", "height"}
     profiles.update(settings, "observer", aavso_code="XYZ")
 
-shortcut: one profile ("Default"); several sites and cameras with a chooser come with Settings → Profiles (UI-13).
+Several profiles (another site, another camera): the active one stays under "profile", so every reader above is
+unchanged; the others wait under "profiles" by name until switch() brings one in.
+
+    profiles.names(settings)            ["Default", "Remote site"]
+    profiles.switch(settings, "Remote site")
+    profiles.save_as(settings, "Travel")   a copy of the active profile under a new name, made active
 """
 
 DEFAULTS = {
@@ -40,6 +45,47 @@ def _profile(settings):
             profile["observer"] = observer
         settings.set("profile", profile)
     return profile
+
+
+def active(settings):
+    return _profile(settings).get("name") or "Default"
+
+
+def names(settings):
+    """The active profile's name first, then the others in order."""
+    return [active(settings), *sorted(n for n in (settings.get("profiles") or {}) if n != active(settings))]
+
+
+def switch(settings, name):
+    """Make the named profile the active one (a new, empty one when there is none of that name); the one active
+    until now is kept under its name."""
+    current = _profile(settings)
+    stored = dict(settings.get("profiles") or {})
+    stored[active(settings)] = current
+    chosen = dict(stored.pop(name, None) or {}) | {"name": name}
+    settings.set("profiles", stored)
+    settings.set("profile", chosen)
+    settings.set("site", section(settings, "site"))  # shortcut of update(): windows that read "site" follow
+
+
+def save_as(settings, name):
+    """The active profile copied under a new name, which becomes the active one."""
+    if name in names(settings):
+        raise ValueError(f"a profile named {name} exists already")
+    copy = {k: dict(v) if isinstance(v, dict) else v for k, v in _profile(settings).items()}
+    stored = dict(settings.get("profiles") or {})
+    stored[active(settings)] = _profile(settings)
+    settings.set("profiles", stored)
+    settings.set("profile", copy | {"name": name})
+
+
+def remove(settings, name):
+    """Forget a profile that is not the active one."""
+    if name == active(settings):
+        raise ValueError("the active profile cannot be removed: switch to another first")
+    stored = dict(settings.get("profiles") or {})
+    stored.pop(name, None)
+    settings.set("profiles", stored)
 
 
 def has(settings, part):
