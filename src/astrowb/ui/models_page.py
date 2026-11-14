@@ -273,6 +273,28 @@ class ModelsPage(Undoable, QWidget):
                 ) from None
         return out
 
+    def _estimated(self, start):
+        """r1 + r2 and J still at the table's defaults: taken from the folded curve instead (shown in the table)."""
+        from ..models import data
+        from ..models.estimate import start_from_curve
+
+        untouched = [n for n in ("r_sum", "j") if start[n] == START[n]]
+        if not untouched:
+            return start
+        try:
+            t, flux, _e, _i = data.read_light_curve(self.file.text())
+            guess = start_from_curve(t, flux, start["period"], start["t0"])
+        except (OSError, ValueError, KeyError):
+            return start
+        got = {n: guess[n] for n in untouched if n in guess}
+        if got:
+            for r, name in enumerate(NAMES):
+                if name in got:
+                    self.table.item(r, 1).setText(f"{got[name]:.4g}")
+            self.status.setText(self.tr("Start values from the light curve: {values}.").format(
+                values=", ".join(f"{n} = {v:.3g}" for n, v in got.items())))  # fmt: skip
+        return start | got
+
     def _run(self, export_dir):
         if not self.file.text():
             self.status.setText(self.tr("Choose a light-curve file."))
@@ -285,6 +307,7 @@ class ModelsPage(Undoable, QWidget):
         if start["period"] <= 0:
             self.status.setText(self.tr("Give the period and the time of primary minimum (O-C tab)."))
             return
+        start = self._estimated(start)
         inputs = {"light_curve": self.file.text(), "start": start}
         if self.use_orbit.isChecked() and self.orbit:
             inputs["orbit"] = self.orbit

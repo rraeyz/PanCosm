@@ -84,3 +84,25 @@ def oconnell(phase, flux, mu1):
     diff = np.mean(flux[a]) - np.mean(flux[b])
     err = np.hypot(np.std(flux[a]) / np.sqrt(a.sum()), np.std(flux[b]) / np.sqrt(b.sum()))
     return float(diff), float(err), bool(abs(diff) > 3 * err)
+
+
+def start_from_curve(t, flux, period, t0):
+    """Starting r1 + r2 and the surface-brightness ratio J for a fit, from the light curve folded on the ephemeris
+    (estimate: the two Gaussians); {} when the curve gives no sensible guess (user-feedback UF-20: the fit started
+    from the table's defaults whatever the curve was)."""
+    t, flux = np.asarray(t, float), np.asarray(flux, float)
+    ok = np.isfinite(t) & np.isfinite(flux)
+    if ok.sum() < 20 or not period or period <= 0:
+        return {}
+    phase = ((t[ok] - t0) / period) % 1.0
+    try:
+        got = estimate(phase, flux[ok] / np.nanmedian(flux[ok]))
+    except (RuntimeError, ValueError):
+        return {}
+    r_sum, j = got["r_sum"][0], got["j"][0]
+    out = {}
+    if np.isfinite(r_sum) and 0.02 < r_sum < 0.8:
+        out["r_sum"] = float(r_sum)
+    if np.isfinite(j) and 0.05 < j < 3:
+        out["j"] = float(j)
+    return out

@@ -7844,27 +7844,27 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>{p} değeri anlaşılamadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="278"/>
+        <location filename="../../ui/models_page.py" line="300"/>
         <source>Choose a light-curve file.</source>
         <translation>Bir ışık eğrisi dosyası seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="301"/>
+        <location filename="../../ui/models_page.py" line="324"/>
         <source>Fitting…</source>
         <translation>Fit ediliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="307"/>
+        <location filename="../../ui/models_page.py" line="330"/>
         <source>Folder for the transit report</source>
         <translation>Geçiş raporu klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="308"/>
+        <location filename="../../ui/models_page.py" line="331"/>
         <source>Folder for the PHOEBE files</source>
         <translation>PHOEBE dosyaları için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="306"/>
+        <location filename="../../ui/models_page.py" line="329"/>
         <source>Folder for the WD files</source>
         <translation>WD dosyaları için klasör</translation>
     </message>
@@ -7934,107 +7934,112 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Periyot ve T0 şuradan: {source}.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="286"/>
+        <location filename="../../ui/models_page.py" line="294"/>
+        <source>Start values from the light curve: {values}.</source>
+        <translation>Başlangıç değerleri ışık eğrisinden: {values}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/models_page.py" line="308"/>
         <source>Give the period and the time of primary minimum (O-C tab).</source>
         <translation>Periyodu ve birincil minimum zamanını girin (O-C sekmesi).</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="329"/>
+        <location filename="../../ui/models_page.py" line="352"/>
         <source>Model curve</source>
         <translation>Model eğrisi</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="367"/>
+        <location filename="../../ui/models_page.py" line="390"/>
         <source>fitted values</source>
         <translation>fit değerleri</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="370"/>
+        <location filename="../../ui/models_page.py" line="393"/>
         <source>i = {i:.3f} ± {ie:.3f}°, r1 = {r1:.5f} ± {r1e:.5f}, r2 = {r2:.5f} ± {r2e:.5f}, L2/L1 = {lr:.4f} ± {lre:.4f}, e = {ecc:.4f} ± {ee:.4f}, rms = {rms:.5f}, χ²ᵣ = {chi:.2f} ({n} points)</source>
         <translation>i = {i:.3f} ± {ie:.3f}°, r1 = {r1:.5f} ± {r1e:.5f}, r2 = {r2:.5f} ± {r2e:.5f}, L2/L1 = {lr:.4f} ± {lre:.4f}, e = {ecc:.4f} ± {ee:.4f}, rms = {rms:.5f}, χ²ᵣ = {chi:.2f} ({n} nokta)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="390"/>
+        <location filename="../../ui/models_page.py" line="413"/>
         <source>⚠ A star fills {f:.0f} % of its Roche lobe (lobe radius {l1:.3f} and {l2:.3f} for q = {q:.2f}): a semi-detached or contact (W UMa-type) binary. This model treats the stars as spheres and does not hold for it: the radii and the inclination are not reliable. Export the PHOEBE or Wilson–Devinney files and fit a Roche model there. Times of minimum and O−C are not affected.</source>
         <translation>⚠ Bir yıldız Roche lobunun %{f:.0f}&apos;ini dolduruyor (q = {q:.2f} için lob yarıçapları {l1:.3f} ve {l2:.3f}): yarı-ayrık ya da değen (W UMa türü) bir çift. Bu model yıldızları küre kabul eder ve bu sistem için geçerli değildir: yarıçaplar ve eğiklik güvenilir değildir. PHOEBE ya da Wilson–Devinney dosyalarını dışa aktarıp Roche modelini orada uydurun. Minimum zamanları ve O−C bundan etkilenmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="397"/>
+        <location filename="../../ui/models_page.py" line="420"/>
         <source>Note: a radius above 0.25 of the separation: the stars are tidally flattened by a few per cent and the spheres model is only approximate (its errors are too small). Check the result with PHOEBE.</source>
         <translation>Not: yarıçap, yıldızlar arası uzaklığın 0,25&apos;inden büyük: yıldızlar gelgitle yüzde birkaç basıklaşır, küre modeli yalnızca yaklaşıktır (hataları gerçekte daha büyüktür). Sonucu PHOEBE ile kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="403"/>
+        <location filename="../../ui/models_page.py" line="426"/>
         <source>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</source>
         <translation>M1 = {m1:.3f} ± {m1e:.3f} M☉, M2 = {m2:.3f} ± {m2e:.3f} M☉, R1 = {r1:.3f} ± {r1e:.3f} R☉, R2 = {r2:.3f} ± {r2e:.3f} R☉, a = {a:.3f} ± {ae:.3f} R☉, log g1 = {g1:.3f}, log g2 = {g2:.3f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="422"/>
+        <location filename="../../ui/models_page.py" line="445"/>
         <source>Transit: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (epoch {n}), depth {d:.5f}, T14 {h:.3f} h</source>
         <translation>Geçiş: Tc = {tc:.6f} ± {e:.6f} BJD_TDB (çevrim {n}), derinlik {d:.5f}, T14 {h:.3f} sa</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="425"/>
+        <location filename="../../ui/models_page.py" line="448"/>
         <source>Files written: {f}</source>
         <translation>Dosyalar yazıldı: {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="428"/>
+        <location filename="../../ui/models_page.py" line="451"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="440"/>
+        <location filename="../../ui/models_page.py" line="463"/>
         <source>Fit the light curve first.</source>
         <translation>Önce ışık eğrisini uydurun.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="471"/>
+        <location filename="../../ui/models_page.py" line="494"/>
         <source>medians and 68 % intervals of the MCMC posterior (the larger side)</source>
         <translation>MCMC sonsal dağılımının medyanları ve %68 aralıkları (büyük olan taraf)</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="473"/>
+        <location filename="../../ui/models_page.py" line="496"/>
         <source>1σ errors from the covariance matrix, derived quantities from its draws</source>
         <translation>1σ hatalar kovaryans matrisinden, türetilen büyüklükler ondan çekilen örneklerden</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="476"/>
+        <location filename="../../ui/models_page.py" line="499"/>
         <source>Light-curve fit to {n} points: two limb-darkened spheres on a Keplerian orbit (EBOP / JKTEBOP approximation), least squares; {errors}.</source>
         <translation>{n} noktaya ışık eğrisi uydurması: Kepler yörüngesinde kenar kararmalı iki küre (EBOP / JKTEBOP yaklaşımı), en küçük kareler; {errors}.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="487"/>
+        <location filename="../../ui/models_page.py" line="510"/>
         <source>No posterior yet: tick MCMC uncertainties and press Fit.</source>
         <translation>Henüz sonsal dağılım yok: MCMC belirsizliklerini işaretleyip Fit et&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="492"/>
+        <location filename="../../ui/models_page.py" line="515"/>
         <source>Posterior</source>
         <translation>Sonsal dağılım</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="525"/>
+        <location filename="../../ui/models_page.py" line="548"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="527"/>
+        <location filename="../../ui/models_page.py" line="550"/>
         <source>external model</source>
         <translation>dış model</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="529"/>
+        <location filename="../../ui/models_page.py" line="552"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="532"/>
+        <location filename="../../ui/models_page.py" line="555"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/models_page.py" line="533"/>
+        <location filename="../../ui/models_page.py" line="556"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>

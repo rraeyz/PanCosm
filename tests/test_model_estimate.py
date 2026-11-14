@@ -33,3 +33,16 @@ def test_a_contact_system_and_a_spot():
     assert d["morphology"][0] == "contact"
     _diff, _err, spotted = es.oconnell(ph, f, d["model"][3])
     assert spotted
+
+
+def test_start_values_from_a_curve_folded_on_the_ephemeris():
+    """UF-20: r1 + r2 and J start from the folded curve, not from the table's defaults; an empty or too short curve
+    gives nothing."""
+    rng = np.random.default_rng(2)
+    t = np.sort(rng.uniform(2459500, 2459506, 900))
+    f = eb.light_curve(
+        ((t - 2459500.25) / 1.7) % 1.0, 1.0, 0.0, 0.14, 0.1, 88.0, 0.6, 0.0, 90.0, (0.4, 0.2), (0.4, 0.2)
+    )
+    got = es.start_from_curve(t, f + rng.normal(0, 0.003, t.size), 1.7, 2459500.25)
+    assert got["r_sum"] == pytest.approx(0.24, rel=0.4) and 0.2 < got["j"] < 1.5
+    assert es.start_from_curve(t[:5], f[:5], 1.7, 2459500.25) == {} and es.start_from_curve(t, f, None, 0.0) == {}
