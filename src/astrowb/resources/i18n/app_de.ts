@@ -2216,108 +2216,108 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CoefficientsDialog</name>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="32"/>
+        <location filename="../../ui/coefficients_dialog.py" line="33"/>
         <source>Photometric coefficients</source>
         <translation>Photometrische Koeffizienten</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="36"/>
+        <location filename="../../ui/coefficients_dialog.py" line="37"/>
         <source>Extinction of the night</source>
         <translation>Extinktion der Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="38"/>
+        <location filename="../../ui/coefficients_dialog.py" line="39"/>
         <source>From the comparison stars of the measured light curve</source>
         <translation>Aus den Vergleichssternen der gemessenen Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="43"/>
+        <location filename="../../ui/coefficients_dialog.py" line="44"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
         <translation>Messen Sie zuerst eine Lichtkurve, deren Bilder die Himmelsposition (Luftmasse) angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="50"/>
+        <location filename="../../ui/coefficients_dialog.py" line="51"/>
         <source>Transformation coefficients from a standard field</source>
         <translation>Transformationskoeffizienten aus einem Standardfeld</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="53"/>
+        <location filename="../../ui/coefficients_dialog.py" line="54"/>
         <source>no image</source>
         <translation>kein Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="57"/>
+        <location filename="../../ui/coefficients_dialog.py" line="58"/>
         <source>Filter of this image of the standard field</source>
         <translation>Filter dieses Bildes des Standardfeldes</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="58"/>
+        <location filename="../../ui/coefficients_dialog.py" line="59"/>
         <source>Plate-solved image…</source>
         <translation>Astrometrisch gelöstes Bild…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="62"/>
+        <location filename="../../ui/coefficients_dialog.py" line="63"/>
         <source>Filter {n}</source>
         <translation>Filter {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="67"/>
+        <location filename="../../ui/coefficients_dialog.py" line="68"/>
         <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
         <translation>Ein Bild eines Standardfeldes (z. B. Landolt) durch diesen Filter, mit Astrometrie im Header</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="72"/>
+        <location filename="../../ui/coefficients_dialog.py" line="73"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Berechnen (Katalogwerte aus VizieR)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="77"/>
+        <location filename="../../ui/coefficients_dialog.py" line="78"/>
         <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
         <translation>Misst die Sterne beider Bilder, sucht ihre Katalogwerte und passt die Farbterme der Transformation ins Standardsystem an (braucht Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="103"/>
+        <location filename="../../ui/coefficients_dialog.py" line="104"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} mag pro Luftmasse ({n} Messungen, rms {r:.3f} mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="111"/>
+        <location filename="../../ui/coefficients_dialog.py" line="112"/>
         <source>Comparison star {n}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="115"/>
-        <location filename="../../ui/coefficients_dialog.py" line="162"/>
+        <location filename="../../ui/coefficients_dialog.py" line="116"/>
+        <location filename="../../ui/coefficients_dialog.py" line="163"/>
         <source>Fit</source>
         <translation type="unfinished">Anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="118"/>
         <source>Airmass</source>
         <translation>Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="118"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Instrumentelle Helligkeit − Mittel</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="134"/>
+        <location filename="../../ui/coefficients_dialog.py" line="135"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Messen und Katalog abfragen…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="142"/>
+        <location filename="../../ui/coefficients_dialog.py" line="143"/>
         <source>{n} standard stars</source>
         <translation>{n} Standardsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="150"/>
+        <location filename="../../ui/coefficients_dialog.py" line="151"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (Nullpunkt {z:.3f}, rms {r:.3f}, {u} Sterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="160"/>
+        <location filename="../../ui/coefficients_dialog.py" line="161"/>
         <source>Stars</source>
         <translation type="unfinished">Sterne</translation>
     </message>
@@ -9007,342 +9007,345 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/oc_page.py" line="43"/>
+        <location filename="../../ui/oc_page.py" line="48"/>
         <source>O−C diagram</source>
         <translation>O−C-Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="47"/>
+        <location filename="../../ui/oc_page.py" line="52"/>
         <source>Times of minimum: measured (Minimum tab) and from the literature</source>
         <translation>Minimumszeiten: gemessen (Reiter Minimum) und aus der Literatur</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="49"/>
+        <location filename="../../ui/oc_page.py" line="54"/>
         <source>Put the times of minimum below, one per line: your own from the Minimum tab (Light curves or Photometry window) and the published ones (Load file…; e.g. from the O−C gateway or the papers), all in the same time scale (BJD_TDB preferably).</source>
         <translation>Tragen Sie die Minimumszeiten unten ein, eine pro Zeile: Ihre eigenen aus dem Reiter Minimum (Fenster Lichtkurven oder Photometrie) und die veröffentlichten (Datei laden…; z. B. aus dem O−C-Gateway oder Veröffentlichungen), alle in derselben Zeitskala (am besten BJD_TDB).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="55"/>
+        <location filename="../../ui/oc_page.py" line="60"/>
         <source>The ephemeris: reference T0 and period (VSX, GCVS or a paper)</source>
         <translation>Die Ephemeride: Referenz-T0 und Periode (VSX, GCVS oder eine Veröffentlichung)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="57"/>
+        <location filename="../../ui/oc_page.py" line="62"/>
         <source>Type the star&apos;s name and press Look up (VSX), or type the period (and T0) of a published ephemeris; it counts the cycles.</source>
         <translation>Geben Sie den Namen des Sterns ein und drücken Sie Nachschlagen (VSX), oder geben Sie die Periode (und T0) einer veröffentlichten Ephemeride ein; sie zählt die Zyklen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="62"/>
+        <location filename="../../ui/oc_page.py" line="67"/>
         <source>Linear ephemeris first: look at the O−C diagram</source>
         <translation>Zuerst lineare Ephemeride: das O−C-Diagramm ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="64"/>
+        <location filename="../../ui/oc_page.py" line="69"/>
         <source>Keep Linear ephemeris and press Fit and draw O-C. Look at the diagram: a straight scatter means a constant period; a parabola, a wave or diverging I and II minima tell you the next model.</source>
         <translation>Lineare Ephemeride lassen und Anpassen und O-C zeichnen drücken. Sehen Sie das Diagramm an: eine gerade Streuung bedeutet eine konstante Periode; eine Parabel, eine Welle oder auseinanderlaufende I- und II-Minima nennen das nächste Modell.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="70"/>
+        <location filename="../../ui/oc_page.py" line="75"/>
         <source>The model the O−C shape asks for</source>
         <translation>Das Modell, das die Form des O−C verlangt</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="72"/>
+        <location filename="../../ui/oc_page.py" line="77"/>
         <source>Parabola: Quadratic (period change). Wave: Third body (light-travel time). Primary and secondary minima drifting apart: Apsidal motion. Fit again.</source>
         <translation>Parabel: Quadratisch (Periodenänderung). Welle: Dritter Körper (Lichtlaufzeit). Auseinanderlaufende Haupt- und Nebenminima: Apsidendrehung. Erneut anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="77"/>
+        <location filename="../../ui/oc_page.py" line="82"/>
         <source>Errors and the table for the paper</source>
         <translation>Fehler und die Tabelle für die Veröffentlichung</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="79"/>
+        <location filename="../../ui/oc_page.py" line="84"/>
         <source>For a third body or apsidal motion tick MCMC uncertainties and fit again; then Export results (CSV / LaTeX).</source>
         <translation>Für einen dritten Körper oder Apsidendrehung MCMC-Unsicherheiten ankreuzen und erneut anpassen; dann Ergebnisse exportieren (CSV / LaTeX).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="89"/>
+        <location filename="../../ui/oc_page.py" line="94"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimumszeiten, eine pro Zeile: Zeit [Fehler] [I/II] [Quelle]</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="97"/>
+        <location filename="../../ui/oc_page.py" line="102"/>
         <source>Load file…</source>
         <translation>Datei laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="101"/>
+        <location filename="../../ui/oc_page.py" line="106"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Eine Textdatei mit Minimums- oder Maximumszeiten: Zeit, Fehler, Art (I / II), Quelle; eine pro Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="109"/>
+        <location filename="../../ui/oc_page.py" line="114"/>
         <source>The star&apos;s name: Look up fills T0 and the period from AAVSO VSX</source>
         <translation>Name des Sterns: Nachschlagen füllt T0 und die Periode aus AAVSO VSX</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="110"/>
+        <location filename="../../ui/oc_page.py" line="115"/>
         <source>Look up</source>
         <translation>Nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="111"/>
+        <location filename="../../ui/oc_page.py" line="116"/>
         <source>T0 and the period of the star from AAVSO VSX (needs the internet)</source>
         <translation>T0 und Periode des Sterns aus AAVSO VSX (braucht das Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="114"/>
+        <location filename="../../ui/oc_page.py" line="119"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="122"/>
+        <location filename="../../ui/oc_page.py" line="127"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="123"/>
+        <location filename="../../ui/oc_page.py" line="128"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Periode der Ephemeride zum Zählen der Epochen; die Anpassung verbessert sie</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="124"/>
+        <location filename="../../ui/oc_page.py" line="129"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Nullepoche der Ephemeride (BJD oder HJD, wie die Zeiten); leer: das erste Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="126"/>
+        <location filename="../../ui/oc_page.py" line="131"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="130"/>
+        <location filename="../../ui/oc_page.py" line="135"/>
         <source>Linear ephemeris</source>
         <translation>Lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="131"/>
+        <location filename="../../ui/oc_page.py" line="136"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Konstante Periode: O−C auf einer Geraden (korrigiert T0 und Periode)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="132"/>
+        <location filename="../../ui/oc_page.py" line="137"/>
         <source>Quadratic (period change)</source>
         <translation>Quadratisch (Periodenänderung)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="134"/>
+        <location filename="../../ui/oc_page.py" line="139"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Gleichmäßig sich ändernde Periode (Massenaustausch, Massenverlust): O−C auf einer Parabel; liefert dP/dt</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="136"/>
+        <location filename="../../ui/oc_page.py" line="141"/>
         <source>Third body (light-travel time)</source>
         <translation>Dritter Körper (Lichtlaufzeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="139"/>
+        <location filename="../../ui/oc_page.py" line="144"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Ein dritter Stern bewegt das Paar: O−C schwankt mit der Bahn des dritten Körpers (Irwin 1952); braucht Minima über mehr als einen Zyklus der Welle</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="143"/>
+        <location filename="../../ui/oc_page.py" line="148"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidendrehung (exzentrische Bahn, Haupt- und Nebenminima)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="146"/>
+        <location filename="../../ui/oc_page.py" line="151"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Eine exzentrische Bahn dreht sich: Haupt- und Nebenminima wandern gegenläufig; braucht beide Arten von Minima (Typ I und II)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="234"/>
+        <location filename="../../ui/oc_page.py" line="244"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC-Unsicherheiten (langsamer, für korrelierte Parameter)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="237"/>
+        <location filename="../../ui/oc_page.py" line="247"/>
         <source>After the fit, Markov chains explore the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="247"/>
+        <location filename="../../ui/oc_page.py" line="257"/>
         <source>The most steps of the Markov chains; they stop earlier once converged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="198"/>
+        <location filename="../../ui/oc_page.py" line="208"/>
         <source>The times are HJD without a time scale: taken as UTC. If they are TT, every O−C here is {s:.0f} s too late; write UTC or TT in the file when you know it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="303"/>
+        <location filename="../../ui/oc_page.py" line="313"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="246"/>
+        <location filename="../../ui/oc_page.py" line="256"/>
         <source> steps</source>
         <translation> Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="155"/>
+        <location filename="../../ui/oc_page.py" line="160"/>
         <source>Fit and draw O-C</source>
         <translation>Anpassen und O-C zeichnen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="158"/>
+        <location filename="../../ui/oc_page.py" line="163"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Passt das gewählte Modell an die Zeiten an und zeichnet O−C (beobachtet minus berechnet) gegen die Epochennummer</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="181"/>
+        <location filename="../../ui/oc_page.py" line="191"/>
         <source>Load minimum times</source>
         <translation>Minimumszeiten laden</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="181"/>
+        <location filename="../../ui/oc_page.py" line="191"/>
         <source>Text (*.txt *.csv *.dat);;All (*)</source>
         <translation>Text (*.txt *.csv *.dat);;Alle (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="205"/>
+        <location filename="../../ui/oc_page.py" line="215"/>
         <source>Asking VSX…</source>
         <translation>VSX wird gefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="211"/>
+        <location filename="../../ui/oc_page.py" line="221"/>
         <source>{name}: no period in VSX; type it.</source>
         <translation>{name}: keine Periode in VSX; bitte eingeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="217"/>
+        <location filename="../../ui/oc_page.py" line="227"/>
         <source>{name}: T0 and period from {source}. Press Fit and draw O-C.</source>
         <translation>{name}: T0 und Periode aus {source}. Drücken Sie Anpassen und O-C zeichnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="267"/>
+        <location filename="../../ui/oc_page.py" line="277"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Zuerst das O−C-Diagramm anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="282"/>
+        <location filename="../../ui/oc_page.py" line="292"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>Lichtlaufzeiteffekt in einer Drittkörperbahn (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="292"/>
+        <location filename="../../ui/oc_page.py" line="302"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>Apsidendrehung einer exzentrischen Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="297"/>
+        <location filename="../../ui/oc_page.py" line="307"/>
         <source>quadratic ephemeris</source>
         <translation>quadratische Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="297"/>
+        <location filename="../../ui/oc_page.py" line="307"/>
         <source>linear ephemeris</source>
         <translation>lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="300"/>
+        <location filename="../../ui/oc_page.py" line="310"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>O−C-Anpassung an {n} Minimumszeiten: {model}; gewichtete kleinste Quadrate, 1σ-Fehler (mit √χ²ᵣ skaliert, wenn χ²ᵣ &gt; 1).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="316"/>
+        <location filename="../../ui/oc_page.py" line="326"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Geben Sie die Periode in Tagen ein, oder den Namen des Sterns und Nachschlagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="327"/>
+        <location filename="../../ui/oc_page.py" line="337"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Anpassung, danach läuft die MCMC ({s} Schritte) als Aufgabe…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="337"/>
+        <location filename="../../ui/oc_page.py" line="347"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="352"/>
+        <location filename="../../ui/oc_page.py" line="362"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="353"/>
+        <location filename="../../ui/oc_page.py" line="363"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="357"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="361"/>
+        <location filename="../../ui/oc_page.py" line="371"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="367"/>
-        <location filename="../../ui/oc_page.py" line="445"/>
+        <location filename="../../ui/oc_page.py" line="376"/>
+        <source>model</source>
+        <translation type="unfinished">Modell</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_page.py" line="385"/>
+        <location filename="../../ui/oc_page.py" line="462"/>
         <source>primary</source>
         <translation>Hauptminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="367"/>
-        <location filename="../../ui/oc_page.py" line="445"/>
+        <location filename="../../ui/oc_page.py" line="385"/>
+        <location filename="../../ui/oc_page.py" line="462"/>
         <source>secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="372"/>
-        <location filename="../../ui/oc_page.py" line="449"/>
+        <location filename="../../ui/oc_page.py" line="393"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="376"/>
-        <location filename="../../ui/oc_page.py" line="453"/>
+        <location filename="../../ui/oc_page.py" line="395"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="377"/>
-        <location filename="../../ui/oc_page.py" line="454"/>
+        <location filename="../../ui/oc_page.py" line="390"/>
+        <location filename="../../ui/oc_page.py" line="395"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="385"/>
+        <location filename="../../ui/oc_page.py" line="402"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Dritter Körper: P3 = {p:.2f} ± {pe:.2f} a, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="394"/>
+        <location filename="../../ui/oc_page.py" line="411"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="426"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="417"/>
+        <location filename="../../ui/oc_page.py" line="434"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidendrehung: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/Zyklus, U = {u:.1f} a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="419"/>
+        <location filename="../../ui/oc_page.py" line="436"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="432"/>
+        <location filename="../../ui/oc_page.py" line="449"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (Akzeptanz {a:.2f}): </translation>
     </message>

@@ -77,7 +77,7 @@ class PlotToolbar(QWidget):
         from .view import PlotView
 
         window = QWidget()
-        window.setWindowTitle(self.view.figure.title or translate("PlotToolbar", "Plot"))
+        window.setWindowTitle(getattr(self.view.figure, "title", None) or translate("PlotToolbar", "Plot"))
         column = QVBoxLayout(window)
         copy = PlotView(self.view.figure, window)
         column.addWidget(PlotToolbar(copy, window))

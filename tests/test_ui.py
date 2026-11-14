@@ -325,7 +325,7 @@ def test_oc_page_fit_and_errors(window):
     page.period.setText(str(p))
     f = page.run_fit()
     assert f is not None and abs(f.period - p) < 3 * f.period_err
-    assert "P = 2.150008" in page.result.text() and len(page.plot.figure.axes) == 2
+    assert "P = 2.150008" in page.result.text() and len(page.plot.figure.panels) == 2
     page.period.setText("abc")
     assert page.run_fit() is None and page.result.text().startswith("Give the period in days")
 

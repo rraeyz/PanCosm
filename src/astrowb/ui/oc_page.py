@@ -20,8 +20,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .kit.widgets import PlotCanvas, StepGuide, _title
+from .kit import tokens
+from .kit.widgets import StepGuide, _title
 from .oc_minima import add_result_buttons
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 
 def _decimals(err):
@@ -35,6 +37,9 @@ class OCPage(QWidget):
     ephemeris_requested = Signal(str)  # a star's name: its T0 and period from VSX (planning.ephemeris)
 
     def __init__(self, parent=None):
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
+
         super().__init__(parent)
         self.fit_result = None
         split = QSplitter(Qt.Horizontal, self)
@@ -169,8 +174,13 @@ class OCPage(QWidget):
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.result)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        split.addWidget(self.plot)
+        right = QWidget(self)
+        rl = QVBoxLayout(right)
+        rl.setContentsMargins(0, 0, 0, 0)
+        self.plot = PlotView(FigureSpec([]), parent=self)  # an empty figure: the toolbar's pop-out needs one
+        rl.addWidget(PlotToolbar(self.plot, self))
+        rl.addWidget(self.plot, 1)
+        split.addWidget(right)
         split.setSizes([380, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -361,22 +371,29 @@ class OCPage(QWidget):
         lines.append(self.tr("χ²ᵣ = {c:.2f}, {n} minima").format(c=f.chi2r, n=len(minima)))
         self.result.setText("\n".join(lines))
         errs = np.array([m.error or np.nan for m in minima])
-        self.plot.figure.clear()
-        ax, ax2 = self.plot.figure.subplots(2, 1, sharex=True, height_ratios=[3, 1])
         prim = np.array([m.kind == "I" for m in minima])
-        for sel, label, mk in ((prim, self.tr("primary"), "o"), (~prim, self.tr("secondary"), "s")):
-            if sel.any():
-                ax.errorbar(f.epochs[sel], f.o_minus_c[sel] * 1440, errs[sel] * 1440, fmt=mk, ms=4, label=label)
         e_line = np.linspace(f.epochs.min(), f.epochs.max(), 200)
-        ax.plot(e_line, f.model_o_minus_c(e_line) * 1440, "r-", lw=1)
-        ax.set_ylabel(self.tr("O−C (min)"))
-        ax.legend(fontsize="small")
-        ax2.errorbar(f.epochs, f.residuals * 1440, errs * 1440, fmt=".", ms=3)
-        ax2.axhline(0, color="r", lw=1)
-        ax2.set_xlabel(self.tr("Epoch"))
-        ax2.set_ylabel(self.tr("Residual (min)"))
-        self.plot.draw()
+        self._draw_oc(f, errs, prim, [(self.tr("model"), e_line, f.model_o_minus_c(e_line), tokens.role("saturated"))])
         return f
+
+    def _draw_oc(self, f, errs, prim, lines):
+        """O-C (min) of the primary and secondary minima with the model curves `lines` [(name, epochs, O-C days,
+        colour)], residuals below."""
+        errs = np.nan_to_num(errs * 1440)  # a minimum without an error: no bar
+        series = [
+            SeriesSpec(label, f.epochs[sel], f.o_minus_c[sel] * 1440, yerr=errs[sel], symbol=mk)
+            for sel, label, mk in ((prim, self.tr("primary"), "o"), (~prim, self.tr("secondary"), "s"))
+            if sel.any()
+        ]
+        series += [SeriesSpec(n, e, y * 1440, kind="line", colour=c) for n, e, y, c in lines]
+        res = [
+            SeriesSpec(self.tr("Residual (min)"), f.epochs, f.residuals * 1440, yerr=errs, size=3),
+            SeriesSpec("0", [0.0], kind="hline", colour=tokens.role("saturated")),
+        ]
+        top = PanelSpec(AxisSpec(""), AxisSpec(self.tr("O−C (min)")), series, height_ratio=3)
+        self.plot.set_figure(
+            FigureSpec([top, PanelSpec(AxisSpec(self.tr("Epoch")), AxisSpec(self.tr("Residual (min)")), res)])
+        )
 
     def _oc_model_text(self, f, n):
         if hasattr(f, "p3"):
@@ -439,18 +456,11 @@ class OCPage(QWidget):
         self.result.setText("\n".join(lines))
         errs = np.array([m.error or np.nan for m in minima])
         prim = np.array([m.kind == "I" for m in minima])
-        self.plot.figure.clear()
-        ax, ax2 = self.plot.figure.subplots(2, 1, sharex=True, height_ratios=[3, 1])
         e_line = np.linspace(f.epochs.min(), f.epochs.max(), 600)
-        for sel, label, mk, kind in ((prim, self.tr("primary"), "o", "I"), (~prim, self.tr("secondary"), "s", "II")):
-            if sel.any():
-                ax.errorbar(f.epochs[sel], f.o_minus_c[sel] * 1440, errs[sel] * 1440, fmt=mk, ms=4, label=label)
-                ax.plot(e_line, f.model_o_minus_c(e_line, kind) * 1440, lw=1)
-        ax.set_ylabel(self.tr("O−C (min)"))
-        ax.legend(fontsize="small")
-        ax2.errorbar(f.epochs, f.residuals * 1440, errs * 1440, fmt=".", ms=3)
-        ax2.axhline(0, color="r", lw=1)
-        ax2.set_xlabel(self.tr("Epoch"))
-        ax2.set_ylabel(self.tr("Residual (min)"))
-        self.plot.draw()
+        lines = [
+            (f"{self.tr('model')} {label}", e_line, f.model_o_minus_c(e_line, kind), None)
+            for sel, label, kind in ((prim, self.tr("primary"), "I"), (~prim, self.tr("secondary"), "II"))
+            if sel.any()
+        ]
+        self._draw_oc(f, errs, prim, lines)
         return f
