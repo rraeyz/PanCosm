@@ -275,7 +275,12 @@ the Moon's sky, the noise budget, defocus) and its real-night checks.
 - **Files:** `planning/scheduler.py` (from `schedule.py`, re-exported), `planning/export_{nina,acp}.py`, `ui/planning/panels/schedule.py`, `tests/test_scheduler.py`
 
 ### PLN-8. Phase coverage over many nights  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `planning/phase_coverage.py` (`covered`: the phase bins the data hold;
+`windows`: each dark, high-enough stretch of the next N nights with the share of the missing bins it covers, best
+first; `commensurability`: weeks until a period near a whole day drifts round). Tests
+(tests/test_phase_coverage.py): history over 0–0.4 → only stretches reaching 0.4–1.0, ordered by the share;
+P = 1.0003 d flagged (hundreds of weeks). Left: the phases read from the project's light curves and velocities,
+the phase wheel and bar, "Add the best three windows", the RV quadratures and Fisher score, both minima and maxima.
 - **Why:** an orbit or a full light curve needs all phases; nobody plans that for the observer.
 - **Build:** for a periodic target: the phases already covered, read from the project's light curves and velocity
   tables (or typed), drawn as a phase wheel and a bar; the gaps; for the next N nights at the site the times when
