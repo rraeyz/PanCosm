@@ -35,7 +35,8 @@ def methods(lc, fit=None):
         v, e, d = fit["values"], fit["errors"], fit["derived"]
         trend = [k for k in v if k not in ("tc", "k", "a_rs", "b", "u1", "u2", "baseline")]
         parts.append(
-            f"The transit was fitted with a quadratically limb-darkened model ({short('mandel2002')})"
+            f"The transit was fitted with the quadratically limb-darkened model of {short('mandel2002')}, the hidden "
+            "flux integrated numerically over the stellar disc"
             + (f" times an exponential trend in {', '.join(trend)}" if trend else "")
             + f"; the mid-transit time is {v['tc']:.5f} ± {e.get('tc', float('nan')):.5f} BJD_TDB and the depth "
             f"{d['depth_ppt']:.2f} ppt. The time-correlated noise was judged by the β factor of {short('winn2008')} "
