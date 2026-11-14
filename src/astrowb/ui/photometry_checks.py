@@ -216,6 +216,14 @@ class ChecksTab(QWidget):
         for key, label in names.items():
             values = _series(lc, key)
             series[label] = np.asarray([np.nan if v is None else v for v in values], float) if values else None
+        peak, sat = lc.get("peak") or [], lc.get("saturation")
+        if sat and len(peak) == n:  # the target's brightest pixel as a share of the linearity limit
+            series[translate("PhotometryChecks", "Target peak / limit")] = np.array(
+                [np.nan if p[0] is None else p[0] / sat for p in peak], float)  # fmt: skip
+        check = next((e for e in lc.get("extra") or [] if e.get("role") == "check"), None)
+        if check and len(check.get("rel_flux") or []) == n:  # comparison ensemble against the check star (mag)
+            c = np.asarray(check["rel_flux"], float)
+            series[translate("PhotometryChecks", "Comparison − check (mag)")] = -2.5 * np.log10(c / np.nanmedian(c))
         shown = {k: v for k, v in series.items() if v is not None and len(v) == n and np.isfinite(v).any()}
         self.panels.setVisible(bool(shown))
         fig = self.panels.figure
