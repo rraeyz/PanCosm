@@ -231,3 +231,72 @@ def test_navigator_moves_the_view_and_values_print(qapp):
     v.scale(45, 45)  # past 40 screen pixels per pixel: the values are printed
     v.grab()
     v.close()
+
+
+def _wcs(scale=1.0, crval=(150.0, 20.0)):
+    from astropy.wcs import WCS
+
+    w = WCS(naxis=2)
+    w.wcs.ctype = ["RA---TAN", "DEC--TAN"]
+    w.wcs.crval, w.wcs.crpix, w.wcs.cdelt = crval, (50, 40), (-scale / 3600, scale / 3600)
+    return w
+
+
+def test_readout_degrees_match_astropy():
+    from astrowb.ui.image.readout import sky_text
+
+    w = _wcs()
+    text = sky_text(w, 49, 39)  # the reference pixel (0-based)
+    assert "150.00000°" in text and "+20.00000°" in text and "10h00m00.0s" in text
+
+
+def test_linked_views_follow_by_pixel_and_by_wcs(qapp):
+    from astrowb.ui.image.linking import link
+    from astrowb.ui.viewer import ImageViewer
+
+    a, b = ImageViewer(), ImageViewer()
+    for v in (a, b):
+        v.resize(300, 200)
+    a.set_image(np.zeros((80, 100), np.float32), wcs=_wcs(1.0))
+    b.set_image(np.zeros((80, 100), np.float32), wcs=_wcs(2.0))  # twice the pixel scale: half the zoom
+    unlink = link(a, b, "pixel")
+    a.zoom(4)
+    za, zb = a.transform().m11(), b.transform().m11()
+    assert abs(za - zb) < 1e-9
+    unlink()
+    a.zoom(2)
+    assert abs(b.transform().m11() - zb) < 1e-9
+    unlink = link(a, b, "wcs")
+    assert abs(b.transform().m11() / (a.transform().m11() / 2) - 1) < 1e-6
+    ca, cb = a.mapToScene(a.viewport().rect().center()), b.mapToScene(b.viewport().rect().center())
+    assert abs(ca.x() - cb.x()) < 1 and abs(ca.y() - cb.y()) < 1  # same sky centre, same pixel grid here
+    unlink()
+    a.close()
+    b.close()
+
+
+def test_sequence_steps_plays_and_fixes_levels(qapp):
+    from astrowb.ui.image.sequence import SequenceBar
+    from astrowb.ui.viewer import ImageViewer
+
+    loaded = []
+
+    def loader(path):
+        loaded.append(path)
+        return np.full((30, 40), float(path), np.float32) + np.arange(40, dtype=np.float32), None
+
+    v = ImageViewer()
+    bar = SequenceBar(v, [1, 2, 3], loader)
+    assert bar.index == 0 and v.data[0, 0] == 1.0
+    bar.same_levels.setChecked(True)
+    fixed = v.limits
+    bar.step(1)
+    assert bar.index == 1 and v.data[0, 0] == 2.0 and v.limits == fixed
+    bar.step(1)
+    bar.step(1, wrap=True)  # play wraps round to the first frame
+    assert bar.index == 0
+    bar.same_levels.setChecked(False)
+    assert v.limits is None
+    assert 2 in loaded and 3 in loaded  # the neighbours were read ahead
+    bar.frames.close()
+    v.close()
