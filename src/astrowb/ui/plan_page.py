@@ -385,6 +385,22 @@ class PlanPage(Undoable, QWidget):
             site, self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
         )
 
+    def _schedule_summary(self, out):
+        """Hours per target, the idle time, and the events the schedule had to leave out (PLN-7)."""
+        t = out["totals"]
+        hours = ", ".join(f"{k} {v:.1f} h" for k, v in t.items() if k not in ("idle", "overhead"))
+        text = self.tr("On target: {hours}; overheads {over:.1f} h; idle {idle:.1f} h.").format(
+            hours=hours, over=t.get("overhead", 0.0), idle=t.get("idle", 0.0)
+        )
+        lost = [c for c in out["conflicts"] if c["lost_to"] and c["lost_to"] != "overhead"]
+        if lost:
+            text += " " + self.tr("Left out: {events}.").format(
+                events=", ".join(
+                    self.tr("{name}'s event (held by {other})").format(name=c["name"], other=c["lost_to"]) for c in lost
+                )  # fmt: skip
+            )
+        return text
+
     def _horizon_button(self):
         """The site's horizon profile (PLN-1): a file of azimuth–altitude pairs, kept in the settings."""
         self.horizon = [tuple(p) for p in self.settings.get("plan.horizon", [])]
@@ -453,12 +469,15 @@ class PlanPage(Undoable, QWidget):
     def make_schedule(self):
         from astropy.time import Time
 
-        from ..planning.schedule import schedule
+        from ..planning.schedule import plan
 
-        self.blocks = schedule(self.result, self._planned, min_alt=max(self.min_alt.value(), 0.0))
-        why = {"event": self.tr("eclipse / transit"), "best altitude": self.tr("highest target")}
-        self.schedule_table.setRowCount(len(self.blocks))
-        for r, b in enumerate(self.blocks):
+        # PLN-7: two minutes at each change of target (slew, settle, centring) until the equipment profile says
+        out = plan(self.result, self._planned, min_alt=max(self.min_alt.value(), 0.0), overheads={"change": 120})
+        self.blocks = [b for b in out["blocks"] if b["why"] != "overhead"]  # what Observing runs
+        why = {"event": self.tr("eclipse / transit"), "best altitude": self.tr("highest target"),
+               "overhead": self.tr("slew, settle, centring")}  # fmt: skip
+        self.schedule_table.setRowCount(len(out["blocks"]))
+        for r, b in enumerate(out["blocks"]):
             cells = (
                 b["name"],
                 Time(b["start"], format="jd").iso[:16],
@@ -470,6 +489,8 @@ class PlanPage(Undoable, QWidget):
         self.send_button.setEnabled(bool(self.blocks))
         if not self.blocks:
             self.status.setText(self.tr("No target is high enough during the dark hours."))
+        else:
+            self.status.setText(self._schedule_summary(out))
         return self.blocks
 
     def _more_button(self):
