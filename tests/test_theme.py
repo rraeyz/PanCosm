@@ -79,3 +79,28 @@ def test_quick_tour(qtbot, tmp_path):
         assert tour.finished
     finally:
         win.engine.shutdown()
+
+
+def test_tour_of_an_area_window(qtbot, tmp_path):
+    """UI-19: Help → Tour of this window walks the Photometry window's own parts, every stop on something visible
+    and its text on screen."""
+    from astrowb.ui import tour as tours
+    from astrowb.ui.main_window import MainWindow
+
+    main = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(main)
+    win = main.open_area("photometry")
+    win.resize(1366, 768)
+    win.show()
+    qtbot.waitExposed(win)
+    act = next(a for a in win.help_menu.actions() if a.text() == "Tour of this window")
+    act.trigger()
+    t = win.tour
+    assert len(t.steps) >= 5
+    for _stop in t.steps:
+        assert t._rect() is not None and t.bubble.geometry().intersects(t.rect()) and t.text.text()
+        t.advance()
+    assert t.finished
+    assert tours.start_area(win) is not None
+    win.close()
+    main.engine.shutdown()

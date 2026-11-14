@@ -56,7 +56,7 @@ from astrowb import api
 lc = api.photometry.light_curve(images=frames, target_xy=[512, 300], comps_xy=[[400, 280]])["light_curve"]
 out = api.timeseries.period(time=lc["time"], flux=lc["rel_flux"], p_min=0.1, p_max=2.0)
 print(out["best"])
-periodogram = out.to_table()          # periods and power as an astropy Table
+periodogram = out.to_table()  # periods and power as an astropy Table
 ```
 
 ## Plugins {#automation-plugins-plugins}

@@ -258,3 +258,32 @@ def _later_steps(main, rect_of, dock):
             ),
         ),
     ]
+
+
+def start_area(win):
+    """The tour of an area window's own anatomy (UI-19): stages, the stage's controls, the main view, the results,
+    the toolbar and the keys. Stops whose part the window does not have are left out."""
+    from PySide6.QtWidgets import QDockWidget
+
+    def dock(name):
+        d = win.findChild(QDockWidget, name)
+        return d if d is not None and d.isVisible() else None
+
+    parts = [
+        (getattr(win, "rail", None), translate("MainWindow", "The stages of the work, in order. A stage done gets ✓ "
+                                               "and the next opens by itself; Ctrl+1…9 jumps to one.")),
+        (getattr(win, "stage_stack", None), translate("MainWindow", "The chosen stage's controls. Its ? opens the "
+                                                      "guide's page for it; F5 runs its main action.")),
+        (win.centralWidget(), translate("MainWindow", "The main view: the image, the chart or the table you work "
+                                        "on.")),
+        (dock("results"), translate("MainWindow", "Results: what the work produced, in tabs; a row or point shows "
+                                    "its frame or star.")),
+        (win.toolbar, translate("MainWindow", "The toolbar: the window's main actions. View → Toolbar text writes "
+                                "their names beside the icons.")),
+        (win.menuBar(), translate("MainWindow", "Every action is also in the menus; Ctrl+K finds any of them by name "
+                                  "and Ctrl+/ lists every key.")),
+    ]  # fmt: skip
+    steps = [(lambda w=w: rect_of(w, win), text) for w, text in parts if w is not None and w.isVisible()]
+    win.tour = TourOverlay(win, steps)
+    win.tour.start()
+    return win.tour

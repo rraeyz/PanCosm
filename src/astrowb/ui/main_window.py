@@ -327,6 +327,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         win.edit_menu.addMenu(self.settings_menu)  # language, look, processing device, text size
         win.help_menu.addSeparator()
         win._action(win.help_menu, self.tour_action.text(), lambda: (_raise_window(self), self.start_tour()))
+        win._action(win.help_menu, self.tr("Tour of this window"), lambda: tour.start_area(win))  # UI-19
         win.help_menu.addAction(self.update_action)
         win.help_menu.addAction(self.about_action)
 
