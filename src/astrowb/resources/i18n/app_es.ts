@@ -3312,6 +3312,11 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <source>Why</source>
         <translation type="unfinished">Motivo</translation>
     </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="90"/>
+        <source>Moon (°)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FormRow</name>

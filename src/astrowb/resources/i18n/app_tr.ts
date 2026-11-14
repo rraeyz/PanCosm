@@ -3245,7 +3245,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/plan_finder.py" line="25"/>
         <source>Transits of known planets that fall whole in tonight&apos;s dark hours, above the altitude limit. Nothing is asked of the internet until you press Fetch.</source>
-        <translation>Bilinen gezegenlerin bu gecenin karanlık saatlerine tam sığan, yükseklik sınırının üstündeki geçişleri. Getir'e basana kadar internete bir şey sorulmaz.</translation>
+        <translation>Bilinen gezegenlerin bu gecenin karanlık saatlerine tam sığan, yükseklik sınırının üstündeki geçişleri. Getir&apos;e basana kadar internete bir şey sorulmaz.</translation>
     </message>
     <message>
         <location filename="../../ui/plan_finder.py" line="32"/>
@@ -3270,7 +3270,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/plan_finder.py" line="51"/>
         <source>Asking the NASA Exoplanet Archive…</source>
-        <translation>NASA Ötegezegen Arşivi'ne soruluyor…</translation>
+        <translation>NASA Ötegezegen Arşivi&apos;ne soruluyor…</translation>
     </message>
     <message>
         <location filename="../../ui/plan_finder.py" line="83"/>
@@ -3311,6 +3311,11 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/plan_finder.py" line="90"/>
         <source>Why</source>
         <translation>Neden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="90"/>
+        <source>Moon (°)</source>
+        <translation>Ay (°)</translation>
     </message>
 </context>
 <context>

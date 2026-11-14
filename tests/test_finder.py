@@ -84,6 +84,20 @@ def test_transiting_planets_from_a_recorded_archive_answer():
     dusk, dawn = night(site, "2026-11-14")
     assert events and all(dusk.jd <= e["start"] and e["end"] <= dawn.jd for e in events)
     assert all(min(e["alt_start"], e["alt_mid"], e["alt_end"]) >= 30 for e in events)
+    # the Moon's distance at mid-event, as planning.visibility.moon gives it; a limit leaves the nearer ones out
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+    from astropy.time import Time
+
+    from astrowb.planning.visibility import moon
+
+    e = events[0]
+    k = int(np.flatnonzero(table["name"] == e["name"])[0])
+    ref = moon(Time([e["mid"]], format="jd"), site, SkyCoord(table["ra"][k] * u.deg, table["dec"][k] * u.deg))
+    assert abs(e["moon"] - float(ref["separation"][0])) < 1.0
+    far = tonight_events(table, site, "2026-11-14", min_alt=30, mag_range=(-5, 11), min_moon=e["moon"] + 0.1)
+    assert e["name"] not in [f["name"] for f in far] or len(far) < len(events)
+    assert all(f["moon"] >= e["moon"] + 0.1 for f in far)
 
 
 def test_the_finder_window_adds_a_planet_with_its_ephemeris(qtbot):

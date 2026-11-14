@@ -87,9 +87,9 @@ class FinderDialog(Dialog):
             return clock((t - np.floor(t - 0.5) - 0.5) * 24 + offset)
 
         header = [self.tr("Planet"), self.tr("Start"), self.tr("Middle"), self.tr("End"), self.tr("V"),
-                  self.tr("Depth (mmag)"), self.tr("Why")]  # fmt: skip
+                  self.tr("Depth (mmag)"), self.tr("Moon (°)"), self.tr("Why")]  # fmt: skip
         rows = [[e["name"], local(e["start"]), local(e["mid"]), local(e["end"]), round(e["mag"], 2),
-                 round(1000 * e["depth"], 1), e["why"]] for e in self.events]  # fmt: skip
+                 round(1000 * e["depth"], 1), round(e["moon"]), e["why"]] for e in self.events]  # fmt: skip
         self.view.set_data(header, rows, keys=list(range(len(self.events))))
 
     def add_chosen(self):

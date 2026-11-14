@@ -24,10 +24,11 @@ def _arrays(table):
 
 
 def tonight_events(table, site: Site, date, min_alt=30.0, mag_range=(-5.0, 99.0), period_range=(0.0, 1e9),
-                   kinds=None, min_depth=0.0, whole=True, secondary=True, max_events=500):  # fmt: skip
+                   kinds=None, min_depth=0.0, whole=True, secondary=True, max_events=500, min_moon=0.0):  # fmt: skip
     """[{name, kind, which (primary / secondary), mid, start, end (JD UTC), alt_mid, alt_start, alt_end, mag, depth,
-    period, score, why}] best first. whole: the event from start to end in darkness and above min_alt (when the
-    duration is known); else only the middle has to be."""
+    period, moon (° from the Moon at mid-event), score, why}] best first. whole: the event from start to end in
+    darkness and above min_alt (when the duration is known); else only the middle has to be. min_moon: events
+    nearer the Moon than this (degrees) are left out."""
     import astropy.units as u
     from astropy.coordinates import AltAz, SkyCoord
     from astropy.time import Time
@@ -68,7 +69,16 @@ def tonight_events(table, site: Site, date, min_alt=30.0, mag_range=(-5.0, 99.0)
     alt = coords.transform_to(AltAz(obstime=times, location=site.location)).alt.deg.reshape(3, -1)
     inside = (mid - half >= lo) & (mid + half <= hi) if whole else (mid >= lo) & (mid <= hi)
     high = (alt.min(axis=0) >= min_alt) if whole else (alt[1] >= min_alt)
+    from astropy.coordinates import get_body
+
     ok = inside & high
+    sep = np.full(len(mid), np.nan)
+    if ok.any():  # the Moon at mid-event, seen from the site: only for the events still in
+        at = np.flatnonzero(ok)
+        moon = get_body("moon", Time(mid[at], format="jd", scale="utc"), site.location)
+        star = SkyCoord(c["ra"][j[at]].astype(float) * u.deg, dec[j[at]] * u.deg)
+        sep[at] = moon.separation(star.transform_to(moon)).deg
+        ok &= ~(sep < min_moon)
     out = []
     for r in np.flatnonzero(ok):
         jj = j[r]
@@ -78,7 +88,7 @@ def tonight_events(table, site: Site, date, min_alt=30.0, mag_range=(-5.0, 99.0)
                     "start": float(mid[r] - half[r]) if half[r] else None,
                     "end": float(mid[r] + half[r]) if half[r] else None, "alt_mid": float(alt[1, r]),
                     "alt_start": float(alt[0, r]), "alt_end": float(alt[2, r]), "mag": float(mag[jj]),
-                    "depth": float(c["depth"][jj]), "period": float(period[jj]), "score": score,
+                    "depth": float(c["depth"][jj]), "period": float(period[jj]), "moon": float(sep[r]), "score": score,
                     "why": f"lowest {alt[:, r].min():.0f}° during the event"})  # fmt: skip
     out.sort(key=lambda e: (-e["score"], e["mid"]))
     return out[:max_events]

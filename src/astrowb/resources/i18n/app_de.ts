@@ -3312,6 +3312,11 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <source>Why</source>
         <translation type="unfinished">Warum</translation>
     </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="90"/>
+        <source>Moon (°)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FormRow</name>
