@@ -20,6 +20,7 @@ from ..kit import tokens
 from . import spec as S
 
 translate = QCoreApplication.translate  # the texts of PlotCanvas ("PlotCanvas" context), so one translation serves both
+PICK_PX = 6  # a click this near a point of a pickable series picks it
 _SYMBOLS = {"o": "o", "s": "s", "^": "t1", "v": "t", "d": "d", "+": "+", "x": "x", "*": "star"}
 
 
@@ -44,6 +45,9 @@ class _ViewBox(pg.ViewBox):
         if ev.button() == Qt.LeftButton and ev.double():
             ev.accept()
             self.view.show_all()
+            return
+        if ev.button() == Qt.LeftButton and self.view._pick(self, ev.scenePos()):
+            ev.accept()
             return
         super().mouseClickEvent(ev)
 
@@ -286,7 +290,7 @@ class PlotView(QWidget):
         entry = {"spec": s, "vb": vb, "x": x, "y": y, "ids": ids, "ok": ok, "errors": None}
         if s.kind == "points" or s.kind == "errorbars":
             entry["item"] = pg.ScatterPlotItem(pen=None, brush=brush, size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"))
-            entry["item"].sigClicked.connect(lambda _i, pts, ev, name=s.name: self._clicked(name, pts, ev))
+            entry["item"].sigClicked.connect(lambda _i, _pts, ev, vb=vb: self._pick(vb, ev.scenePos()))  # on a dot
             if s.yerr is not None or s.xerr is not None:
                 entry["errors"] = pg.ErrorBarItem(pen=pen)
                 plot.addItem(entry["errors"])
@@ -413,16 +417,33 @@ class PlotView(QWidget):
         else:
             super().keyReleaseEvent(ev)
 
-    def _clicked(self, name, points, ev):
-        """Symbols overlap in dense data: report the one nearest to the click, not the topmost."""
+    def _pick(self, vb, pos, tol=PICK_PX):
+        """Emit point_clicked for the pickable point nearest to the scene position `pos` within `tol` px;
+        screen distance, so log axes and zoom behave. True when a point was hit."""
+        tr, best = vb.childGroup.sceneTransform(), None  # child (log-mapped data) to scene px
         for e in self.items:
-            if e["spec"].name == name and e["spec"].pickable and len(points):
-                vb, p = e["vb"], ev.pos()
-                x0, x1, y0, y1 = self._view_rect(vb)
-                sx, sy = vb.width() / ((x1 - x0) or 1), vb.height() / ((y1 - y0) or 1)
-                best = min(points, key=lambda q: ((q.pos().x() - p.x()) * sx) ** 2 + ((q.pos().y() - p.y()) * sy) ** 2)
-                self.point_clicked.emit(name, _plain(best.data()))
-                return
+            index = e.get("shown")
+            if (
+                e["vb"] is not vb
+                or not e["spec"].pickable
+                or index is None
+                or not len(index)
+                or not e["item"].isVisible()
+            ):
+                continue
+            lx, ly = (
+                np.log10(np.clip(v[index], 1e-300, None)) if m else v[index]
+                for v, m in zip((e["x"], e["y"]), vb.state["logMode"], strict=True)
+            )
+            px = tr.m11() * lx + tr.m21() * ly + tr.dx()
+            py = tr.m12() * lx + tr.m22() * ly + tr.dy()
+            d = np.hypot(px - pos.x(), py - pos.y())
+            k = int(np.argmin(d))
+            if d[k] <= tol and (best is None or d[k] < best[0]):
+                best = (d[k], e["spec"].name, _plain(e["ids"][index[k]]))
+        if best:
+            self.point_clicked.emit(best[1], best[2])
+        return best is not None
 
     def _lasso_done(self, vb, path):
         for e in self.items:
