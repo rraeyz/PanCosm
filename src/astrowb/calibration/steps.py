@@ -113,7 +113,29 @@ def run_step(inputs, params, ctx):
     """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
     linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty."""
     with masters.linearity(params["linearity"]):
-        return _run(inputs, params, ctx)
+        out = _run(inputs, params, ctx)
+    out["scaled_glow"] = _scaled_glow(out, inputs["frames"])
+    return out
+
+
+def _scaled_glow(out, frames):
+    """CAL-3: master darks with amplifier glow whose exposure differs from the lights' — scaling them leaves the glow
+    wrong (it does not grow in proportion to time). [{dark, dark_exptime, light_exptimes}]."""
+    from astropy.io import fits
+
+    light_times = sorted(
+        {round(float(f["exptime"]), 3) for f in frames if f.get("kind") == "light" and f.get("exptime")}
+    )
+    warn = []
+    for path in out.get("masters") or []:
+        name = Path(path).name
+        if (out.get("quality", {}).get(name, {}).get("amp_glow") or {}).get("ok", True):
+            continue
+        t = float(fits.getheader(path).get("EXPTIME", 0.0) or 0.0)
+        others = [x for x in light_times if abs(x - t) > 0.1 * max(x, t)]
+        if others:
+            warn.append({"dark": name, "dark_exptime": t, "light_exptimes": others})
+    return warn
 
 
 def _chosen(plan, frames, use):
