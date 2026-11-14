@@ -166,6 +166,7 @@ def test_gaia_from_the_esa_archive_when_no_vizier_server_answers(monkeypatch):
 
     monkeypatch.setattr(mirrors, "cds", down)
     monkeypatch.setattr(gaia, "photometry", esa)
+    monkeypatch.setattr(gaia, "_run", lambda query: down("gaia", query))  # the archive's APASS, PS1, GSPC: down too
     entry = catalog.vizier_fetch(SkyCoord(10.0101 * u.deg, 20.0 * u.deg))
     assert entry["apass"] is None and entry["gaia"]["Gmag"] == 13.0  # the nearer star, not the brighter
     assert catalog.star_magnitude(entry, "V")["source"] == "Gaia DR3 → JC"
@@ -197,3 +198,40 @@ def test_no_colour_term_from_scatter_over_a_narrow_colour_range():
     flux = 10 ** (-0.4 * (mags - 0.3 * colours - 23.6))
     out = catalog.calibrate(lc | {"comp_flux": [flux.tolist()] * 3}, comps, target_colour=0.12)
     assert out["colour_term"] == pytest.approx(0.3, abs=0.01)
+
+
+def test_apass_from_the_esa_archive_and_pan_starrs_for_the_sloan_bands(monkeypatch):
+    """PHO-25: VizieR down, APASS comes from the ESA archive's copy (recorded answer, external.apassdr9); a star
+    APASS lacks in r' gets its Pan-STARRS1 magnitude (gaiadr2.panstarrs1_original_valid), named as such."""
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+    from astropy.table import Table
+
+    from astrowb import gaia, mirrors
+
+    def down(service, query, patience=15.0):
+        raise ConnectionError("tunnel closed")
+
+    apass = Table({"raj2000": [306.776731], "dej2000": [56.533173], "bmag": [14.885], "e_bmag": [0.01],
+                   "vmag": [13.938], "e_vmag": [0.021], "g_mag": [14.362], "r_mag": [np.nan],
+                   "i_mag": [13.546]})  # fmt: skip
+    mags = {"g": (14.30, 0.004), "r": (13.70, 0.003), "i": (13.50, 0.003), "z": (13.40, 0.004)}
+    ps1 = Table({"ra": [306.776731], "dec": [56.533173]}
+                | {f"{b}_mean_psf_mag": [m] for b, (m, _e) in mags.items()}
+                | {f"{b}_mean_psf_mag_error": [e] for b, (_m, e) in mags.items()})  # fmt: skip
+
+    def run(query):
+        if "apassdr9" in query:
+            return apass
+        if "panstarrs1" in query:
+            return ps1
+        raise ConnectionError("no GSPC here")
+
+    monkeypatch.setattr(mirrors, "cds", down)
+    monkeypatch.setattr(gaia, "photometry", lambda *a, **k: Table({"_RAJ2000": [], "_DEJ2000": []}))
+    monkeypatch.setattr(gaia, "_run", run)
+    entry = catalog.vizier_fetch(SkyCoord(306.77674 * u.deg, 56.53317 * u.deg))
+    assert entry["apass"]["Vmag"] == 13.938 and catalog.star_magnitude(entry, "V")["source"] == "APASS DR9"
+    r = catalog.star_magnitude(entry, "SR")
+    assert r["source"] == "Pan-STARRS1 DR1" and r["mag"] == 13.70  # APASS has no r' for it
+    assert catalog.star_magnitude(entry, "SG")["source"] == "APASS DR9"  # APASS first where it has the band

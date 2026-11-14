@@ -2,8 +2,9 @@
 
 Sources, in this order for U B V R I: the Gaia Synthetic Photometry Catalogue (GSPC, Gaia Collaboration, Montegriffo
 et al. 2023, A&A 674, A33: Johnson-Cousins magnitudes from the Gaia spectra, flagged good, ~0.02 mag; ESA archive),
-APASS DR9 (B, V, g', r', i'; VizieR), and Gaia DR3 (G, BP, RP) with the polynomials of Riello et al. 2021 (A&A 649,
-A3, table C.2; scatter ~0.03 mag), so every star of the Gaia sky has a comparison magnitude.
+APASS DR9 (B, V, g', r', i'; VizieR, or the ESA archive's copy when VizieR is down), Pan-STARRS1 DR1 for the Sloan
+bands APASS lacks (g r i z, from the ESA archive's copy), and Gaia DR3 (G, BP, RP) with the polynomials of Riello
+et al. 2021 (A&A 649, A3, table C.2; scatter ~0.03 mag), so every star of the Gaia sky has a comparison magnitude.
 
 Calibration (ensemble zero point with a colour term): for every frame
     m_cat - m_inst = ZP(frame) + k * colour
@@ -60,6 +61,12 @@ def _vizier_fetch(coord, radius_arcsec):
         except Exception as e:  # noqa: BLE001 - no VizieR server answered: Gaia from the ESA archive below
             tables, error = [], e
         t = tables[0] if len(tables) and len(tables[0]) else None
+        if t is None and key == "apass" and error is not None:  # VizieR down: APASS DR9 from the ESA archive's copy
+            try:
+                out["apass"] = apass_esa(coord.ra.deg, coord.dec.deg, radius_arcsec)
+                continue
+            except Exception:  # noqa: BLE001 - neither answered: the error above stands
+                pass
         if t is None and key == "gaia":
             from ..gaia import photometry
 
@@ -67,6 +74,10 @@ def _vizier_fetch(coord, radius_arcsec):
             t = t[np.argsort(coord.separation(_sky(t)).arcsec)] if len(t) else None  # nearest first
         row = None if t is None else t[0]
         out[key] = None if row is None else {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
+    try:
+        out["ps1"] = ps1(coord.ra.deg, coord.dec.deg, radius_arcsec)
+    except Exception:  # noqa: BLE001 - Pan-STARRS only adds the Sloan bands: the rest stands without it
+        out["ps1"] = None
     try:
         out["gspc"] = gspc(coord.ra.deg, coord.dec.deg, radius_arcsec)
     except Exception as e:  # noqa: BLE001 - the ESA archive did not answer: APASS and the Gaia polynomials remain
@@ -91,6 +102,44 @@ def gspc(ra, dec, radius_arcsec):
     d = np.hypot((np.asarray(t["ra"], float) - ra) * np.cos(np.radians(dec)), np.asarray(t["dec"], float) - dec)
     row = t[int(np.argmin(d))]
     return {c: (None if np.ma.is_masked(row[c]) else float(row[c])) for c in cols}
+
+
+def _nearest(table, ra, dec, ra_col, dec_col):
+    if not len(table):
+        return None
+    d = np.hypot((np.asarray(table[ra_col], float) - ra) * np.cos(np.radians(dec)),
+                 np.asarray(table[dec_col], float) - dec)  # fmt: skip
+    return table[int(np.argmin(d))]
+
+
+def _cone(table, ra_col, dec_col, cols, ra, dec, radius_arcsec):
+    from ..gaia import _run
+
+    t = _run(f"SELECT TOP 10 {ra_col}, {dec_col}, {', '.join(cols)} FROM {table} WHERE 1=CONTAINS(POINT('ICRS', "
+             f"{ra_col}, {dec_col}), CIRCLE('ICRS', {float(ra)}, {float(dec)}, {radius_arcsec / 3600}))")  # fmt: skip
+    row = _nearest(t, ra, dec, ra_col, dec_col)
+    if row is None:
+        return None
+    values = {c: None if np.ma.is_masked(row[c]) else float(row[c]) for c in cols}
+    return {c: v if v is not None and np.isfinite(v) else None for c, v in values.items()}  # a NaN: not measured
+
+
+def apass_esa(ra, dec, radius_arcsec):
+    """The nearest APASS DR9 star from the ESA Gaia archive's copy (external.apassdr9), with VizieR's column names."""
+    names = {"bmag": "Bmag", "e_bmag": "e_Bmag", "vmag": "Vmag", "e_vmag": "e_Vmag", "g_mag": "g'mag",
+             "r_mag": "r'mag", "i_mag": "i'mag"}  # fmt: skip
+    row = _cone("external.apassdr9", "raj2000", "dej2000", list(names), ra, dec, radius_arcsec)
+    return None if row is None else {names[k]: v for k, v in row.items() if k in names}
+
+
+PS1_BANDS = {"SG": "g_mean_psf_mag", "SR": "r_mean_psf_mag", "SI": "i_mean_psf_mag", "SZ": "z_mean_psf_mag"}
+
+
+def ps1(ra, dec, radius_arcsec):
+    """The nearest Pan-STARRS1 DR1 star's mean PSF magnitudes g r i z (PS1 system; Chambers et al. 2016) from the ESA
+    Gaia archive's copy; stars brighter than about 13.5 are saturated there and come back empty."""
+    cols = [c for b in PS1_BANDS.values() for c in (b, b + "_error")]
+    return _cone("gaiadr2.panstarrs1_original_valid", "ra", "dec", cols, ra, dec, radius_arcsec)
 
 
 def _sky(t):
@@ -121,6 +170,10 @@ def star_magnitude(entry, filt, apass_first=False):
     first = (from_apass or from_gspc) if apass_first else (from_gspc or from_apass)
     if first:
         return first
+    p = entry.get("ps1")
+    if p and band in PS1_BANDS and p.get(PS1_BANDS[band]) is not None:  # Sloan bands where APASS has none (fainter)
+        err = p.get(PS1_BANDS[band] + "_error") or 0.02
+        return {"mag": p[PS1_BANDS[band]], "err": max(err, 0.01), "colour": colour, "source": "Pan-STARRS1 DR1"}
     if gaia and gaia.get("Gmag") is not None and gaia.get("BPmag") is not None and gaia.get("RPmag") is not None:
         bp_rp = gaia["BPmag"] - gaia["RPmag"]
         colour = colour if colour is not None else bp_rp
