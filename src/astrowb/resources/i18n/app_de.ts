@@ -8043,6 +8043,29 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>MoreCharts</name>
+    <message>
+        <location filename="../../ui/plan_more.py" line="70"/>
+        <source>More charts of the night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="75"/>
+        <source>Moon distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="88"/>
+        <source>Hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="92"/>
+        <source>Sky at an hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MovingObjectDialog</name>
     <message>
         <location filename="../../ui/moving_dialog.py" line="31"/>
@@ -13036,6 +13059,16 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Höhe jedes Ziels über die Nacht mit Dämmerung und Mond, und die Minima / Transits, die in die dunklen Stunden fallen</translation>
     </message>
     <message>
+        <location filename="../../ui/plan_page.py" line="430"/>
+        <source>More charts…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="432"/>
+        <source>The Moon&apos;s distance from each target and the sky at any hour of the night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/plan_page.py" line="213"/>
         <source>Make a schedule</source>
         <translation>Zeitplan erstellen</translation>
@@ -13140,12 +13173,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Kein Ziel steht in den dunklen Stunden hoch genug.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="476"/>
+        <location filename="../../ui/plan_page.py" line="493"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Astronomische Nacht: {dusk} – {dawn} UTC ({ldusk} – {ldawn} Ortszeit, UTC{off}); {n} Ereignisse.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum I / transit</source>
         <translation>Minimum I / Transit</translation>
     </message>
@@ -13165,22 +13198,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Der Zeitplan wird zum Nachtplan des Fensters Beobachten; Sie prüfen und starten ihn dort selbst</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum II</source>
         <translation>Minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>yes</source>
         <translation>ja</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>partly</source>
         <translation>teilweise</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="474"/>
+        <location filename="../../ui/plan_page.py" line="491"/>
         <source>no astronomical night</source>
         <translation>keine astronomische Nacht</translation>
     </message>

@@ -223,7 +223,7 @@ class PlanPage(Undoable, QWidget):
                 "The schedule becomes the night plan of the Observing window; you still check it and start it there"
             )
         )
-        for b in (self.schedule_button, self.send_button):
+        for b in (self.schedule_button, self.send_button, self._more_button()):
             b.setEnabled(False)
             row.addWidget(b)
         lay.addLayout(row)
@@ -426,6 +426,22 @@ class PlanPage(Undoable, QWidget):
             self.status.setText(self.tr("No target is high enough during the dark hours."))
         return self.blocks
 
+    def _more_button(self):
+        self.more_button = QPushButton(self.tr("More charts…"), self)
+        self.more_button.setToolTip(
+            self.tr("The Moon's distance from each target and the sky at any hour of the night")
+        )
+        self.more_button.clicked.connect(self.more_charts)
+        return self.more_button
+
+    def more_charts(self):
+        from .plan_more import MoreCharts
+
+        jd = np.asarray(self.result["jd"])
+        hours = (jd - (np.floor(jd[0] + 0.5) - 0.5)) * 24
+        self.more = MoreCharts(self.result, hours, self.local_offset(jd[len(jd) // 2]), self)
+        self.more.show()
+
     def local_offset(self, jd):
         """Hours from UTC to the local time: the typed offset, or this computer's on that date (Auto)."""
         if self.utc_offset.value() > AUTO:
@@ -438,6 +454,7 @@ class PlanPage(Undoable, QWidget):
 
         self.result = n
         self.schedule_button.setEnabled(True)
+        self.more_button.setEnabled(True)
         self.guide.set_state(2, "done")
         jd = np.asarray(n["jd"])
         midnight = np.floor(jd[0] + 0.5) - 0.5  # 00:00 UTC of the first date (JD days start at noon)

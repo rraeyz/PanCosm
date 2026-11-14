@@ -8043,6 +8043,29 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>MoreCharts</name>
+    <message>
+        <location filename="../../ui/plan_more.py" line="70"/>
+        <source>More charts of the night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="75"/>
+        <source>Moon distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="88"/>
+        <source>Hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="92"/>
+        <source>Sky at an hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MovingObjectDialog</name>
     <message>
         <location filename="../../ui/moving_dialog.py" line="31"/>
@@ -13036,6 +13059,16 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Altura de cada objetivo a lo largo de la noche con el crepúsculo y la Luna, y los mínimos / tránsitos que caen en las horas oscuras</translation>
     </message>
     <message>
+        <location filename="../../ui/plan_page.py" line="430"/>
+        <source>More charts…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_page.py" line="432"/>
+        <source>The Moon&apos;s distance from each target and the sky at any hour of the night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ui/plan_page.py" line="213"/>
         <source>Make a schedule</source>
         <translation>Crear un programa</translation>
@@ -13140,12 +13173,12 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Ningún objeto está lo bastante alto durante las horas oscuras.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="476"/>
+        <location filename="../../ui/plan_page.py" line="493"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Noche astronómica: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} eventos.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum I / transit</source>
         <translation>mínimo I / tránsito</translation>
     </message>
@@ -13165,22 +13198,22 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>El plan pasa a ser el plan de la noche de la ventana Observación; allí lo revisa y lo inicia usted</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="453"/>
+        <location filename="../../ui/plan_page.py" line="470"/>
         <source>minimum II</source>
         <translation>mínimo II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>yes</source>
         <translation>sí</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="470"/>
+        <location filename="../../ui/plan_page.py" line="487"/>
         <source>partly</source>
         <translation>en parte</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="474"/>
+        <location filename="../../ui/plan_page.py" line="491"/>
         <source>no astronomical night</source>
         <translation>sin noche astronómica</translation>
     </message>

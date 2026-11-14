@@ -7,7 +7,7 @@ from astropy.coordinates import get_body
 
 from ..engine.steps import step
 from .targets import Resolver, Target, body_of
-from .visibility import Site, airmass, altitudes, events, moon, night, night_grid, sun_altitude
+from .visibility import Site, airmass, altitudes, azimuths, events, moon, night, night_grid, sun_altitude
 
 
 @step("planning.resolve", inputs=("name", "cache_file"), outputs=("target",))
@@ -28,6 +28,7 @@ def night_step(inputs, params, ctx):
         "jd": times.jd.tolist(),
         "sun_alt": sun_altitude(times, site).tolist(),
         "moon_alt": m["alt"].tolist(),
+        "moon_az": m["az"].tolist(),
         "moon_illumination": float(np.mean(m["illumination"])),
         "dusk": dusk.jd if dusk else None,
         "dawn": dawn.jd if dawn else None,
@@ -45,6 +46,7 @@ def night_step(inputs, params, ctx):
         entry = {
             "name": t["name"],
             "alt": alt.tolist(),
+            "az": azimuths(coord, times, site).tolist(),
             "moon_sep": sep.tolist(),  # the chart writes it along the curve
             "airmass": np.nan_to_num(airmass(alt), nan=-1).tolist(),
             "moon_sep_min": float(np.min(sep)),
