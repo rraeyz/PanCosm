@@ -50,6 +50,20 @@ def _follow_enabled(button, action):
     action._watch = watch
 
 
+def _camera_action(main, win):
+    """Masters → Measure the camera… (CAL-9): gain and read noise from two flats and two biases."""
+    act = QAction(QCoreApplication.translate("MainWindow", "Measure the camera…"), win)
+
+    def show():
+        from .camera_dialog import CameraDialog
+
+        win.camera_dialog = CameraDialog(main.settings, win)
+        win.camera_dialog.show()
+
+    act.triggered.connect(show)
+    return act
+
+
 def calibrate(main, page, win):
     """Calibration: Frames, Masters, Process, Send (interface I6c.4), from the page's own controls."""
 
@@ -99,6 +113,8 @@ def calibrate(main, page, win):
                     _mirror(page.fix_defects),
                     _mirror(page.split_colour),
                     _mirror(page.spectra),
+                    None,
+                    _camera_action(main, win),
                 ],
             ),
             (QCoreApplication.translate("MainWindow", "&Process"), [run, None, stack, _mirror(page.drizzle)]),

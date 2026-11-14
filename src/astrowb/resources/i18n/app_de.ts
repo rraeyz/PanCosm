@@ -2060,6 +2060,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>CameraDialog</name>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="14"/>
+        <source>Measure the camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="19"/>
+        <source>Flat 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="19"/>
+        <source>Flat 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="19"/>
+        <source>Bias 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="20"/>
+        <source>Bias 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="25"/>
+        <source>Browse…</source>
+        <translation type="unfinished">Durchsuchen…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="32"/>
+        <source>Two flats of the same level (a third to two thirds of full well) and two biases, all of the same binning; the frames as the camera gave them, not calibrated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="39"/>
+        <source>Measure</source>
+        <translation type="unfinished">Messen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="43"/>
+        <source>Save to the camera profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="50"/>
+        <source>Choose a frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="68"/>
+        <source>Gain {g:.3f} ± {ge:.3f} e⁻/ADU, read noise {rn:.2f} ± {rne:.2f} e⁻ (from {n} boxes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/camera_dialog.py" line="79"/>
+        <source>Saved to the camera profile.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoefficientsDialog</name>
     <message>
         <location filename="../../ui/coefficients_dialog.py" line="29"/>
@@ -4051,12 +4114,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="68"/>
+        <location filename="../../ui/area_menus.py" line="82"/>
         <source>Calibrate</source>
         <translation>Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="77"/>
+        <location filename="../../ui/area_menus.py" line="91"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
     </message>
@@ -4596,8 +4659,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="194"/>
-        <location filename="../../ui/area_menus.py" line="413"/>
+        <location filename="../../ui/area_menus.py" line="210"/>
+        <location filename="../../ui/area_menus.py" line="429"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportieren</translation>
@@ -4623,7 +4686,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Die nächsten Klicks ins Bild markieren Prüfsterne (K1, K2…)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="82"/>
+        <location filename="../../ui/area_menus.py" line="96"/>
         <location filename="../../ui/area_windows.py" line="612"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
@@ -4634,7 +4697,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="386"/>
+        <location filename="../../ui/area_menus.py" line="402"/>
         <location filename="../../ui/area_windows.py" line="521"/>
         <location filename="../../ui/area_windows.py" line="653"/>
         <source>&amp;Analyse</source>
@@ -4691,398 +4754,403 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Header kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="206"/>
-        <location filename="../../ui/area_menus.py" line="425"/>
-        <location filename="../../ui/area_menus.py" line="479"/>
+        <location filename="../../ui/area_menus.py" line="222"/>
+        <location filename="../../ui/area_menus.py" line="441"/>
+        <location filename="../../ui/area_menus.py" line="495"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>&amp;Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="63"/>
+        <location filename="../../ui/area_menus.py" line="77"/>
         <source>Lights folder…</source>
         <translation>Ordner der Lights…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="64"/>
+        <location filename="../../ui/area_menus.py" line="55"/>
+        <source>Measure the camera…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="78"/>
         <source>Lights</source>
         <translation>Lights</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="66"/>
+        <location filename="../../ui/area_menus.py" line="80"/>
         <source>Calibration frames folder…</source>
         <translation>Ordner der Kalibrierbilder…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="71"/>
+        <location filename="../../ui/area_menus.py" line="85"/>
         <source>Stack into one deep picture</source>
         <translation>Zu einem tiefen Bild stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="72"/>
+        <location filename="../../ui/area_menus.py" line="86"/>
         <source>Stack</source>
         <translation>Stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="76"/>
+        <location filename="../../ui/area_menus.py" line="90"/>
         <source>Send to Photometry →</source>
         <translation>An die Photometrie senden →</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="95"/>
+        <location filename="../../ui/area_menus.py" line="109"/>
         <source>&amp;Masters</source>
         <translation>&amp;Master</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="104"/>
+        <location filename="../../ui/area_menus.py" line="120"/>
         <source>&amp;Process</source>
         <translation>&amp;Verarbeiten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="105"/>
-        <location filename="../../ui/area_menus.py" line="151"/>
+        <location filename="../../ui/area_menus.py" line="121"/>
+        <location filename="../../ui/area_menus.py" line="167"/>
         <source>Se&amp;nd</source>
         <translation>&amp;Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="126"/>
-        <location filename="../../ui/area_menus.py" line="186"/>
+        <location filename="../../ui/area_menus.py" line="142"/>
+        <location filename="../../ui/area_menus.py" line="202"/>
         <source>Load</source>
         <translation>Laden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="130"/>
+        <location filename="../../ui/area_menus.py" line="146"/>
         <source>Download a light curve (TESS, Kepler, ZTF, AAVSO)</source>
         <translation>Eine Lichtkurve herunterladen (TESS, Kepler, ZTF, AAVSO)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="131"/>
+        <location filename="../../ui/area_menus.py" line="147"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="133"/>
+        <location filename="../../ui/area_menus.py" line="149"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="134"/>
+        <location filename="../../ui/area_menus.py" line="150"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="140"/>
+        <location filename="../../ui/area_menus.py" line="156"/>
         <source>&amp;Data</source>
         <translation>Da&amp;ten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="150"/>
+        <location filename="../../ui/area_menus.py" line="166"/>
         <source>Se&amp;arch</source>
         <translation>Su&amp;che</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="156"/>
+        <location filename="../../ui/area_menus.py" line="172"/>
         <source>&amp;Light curve</source>
         <translation>&amp;Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="185"/>
+        <location filename="../../ui/area_menus.py" line="201"/>
         <source>Load minimum times…</source>
         <translation>Minimumszeiten laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="190"/>
+        <location filename="../../ui/area_menus.py" line="206"/>
         <source>Look up the ephemeris (VSX)</source>
         <translation>Die Ephemeride nachschlagen (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="191"/>
+        <location filename="../../ui/area_menus.py" line="207"/>
         <source>Look up</source>
         <translation>Nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="193"/>
-        <location filename="../../ui/area_menus.py" line="409"/>
+        <location filename="../../ui/area_menus.py" line="209"/>
+        <location filename="../../ui/area_menus.py" line="425"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="202"/>
+        <location filename="../../ui/area_menus.py" line="218"/>
         <source>&amp;Models</source>
         <translation>&amp;Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="221"/>
+        <location filename="../../ui/area_menus.py" line="237"/>
         <source>Add target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="224"/>
+        <location filename="../../ui/area_menus.py" line="240"/>
         <source>Add target with ephemeris</source>
         <translation>Ziel mit Ephemeride hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="225"/>
+        <location filename="../../ui/area_menus.py" line="241"/>
         <source>With ephemeris</source>
         <translation>Mit Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="229"/>
+        <location filename="../../ui/area_menus.py" line="245"/>
         <source>Send</source>
         <translation>Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="232"/>
+        <location filename="../../ui/area_menus.py" line="248"/>
         <source>Import targets from CSV…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="233"/>
+        <location filename="../../ui/area_menus.py" line="249"/>
         <source>Save the list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="234"/>
+        <location filename="../../ui/area_menus.py" line="250"/>
         <source>Open a saved list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="241"/>
+        <location filename="../../ui/area_menus.py" line="257"/>
         <source>&amp;Targets</source>
         <translation>&amp;Ziele</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="244"/>
+        <location filename="../../ui/area_menus.py" line="260"/>
         <source>&amp;Night</source>
         <translation>&amp;Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="273"/>
+        <location filename="../../ui/area_menus.py" line="289"/>
         <source>Cooler off</source>
         <translation>Kühlung aus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="274"/>
+        <location filename="../../ui/area_menus.py" line="290"/>
         <source>Move the focuser</source>
         <translation>Fokussierer bewegen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="275"/>
+        <location filename="../../ui/area_menus.py" line="291"/>
         <source>Change the filter</source>
         <translation>Filter wechseln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="276"/>
+        <location filename="../../ui/area_menus.py" line="292"/>
         <source>Cool the camera</source>
         <translation>Kamera kühlen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="282"/>
+        <location filename="../../ui/area_menus.py" line="298"/>
         <source>&amp;Devices</source>
         <translation>&amp;Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="284"/>
+        <location filename="../../ui/area_menus.py" line="300"/>
         <source>&amp;Telescope</source>
         <translation>&amp;Teleskop</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="288"/>
+        <location filename="../../ui/area_menus.py" line="304"/>
         <source>&amp;Camera</source>
         <translation>&amp;Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="291"/>
+        <location filename="../../ui/area_menus.py" line="307"/>
         <source>F&amp;ocus</source>
         <translation>F&amp;okus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="292"/>
+        <location filename="../../ui/area_menus.py" line="308"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="294"/>
+        <location filename="../../ui/area_menus.py" line="310"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Sequenz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="337"/>
+        <location filename="../../ui/area_menus.py" line="353"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="338"/>
+        <location filename="../../ui/area_menus.py" line="354"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="342"/>
+        <location filename="../../ui/area_menus.py" line="358"/>
         <source>Save the automation as…</source>
         <translation>Automatisierung speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="343"/>
+        <location filename="../../ui/area_menus.py" line="359"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="351"/>
+        <location filename="../../ui/area_menus.py" line="367"/>
         <source>Remove the step</source>
         <translation>Schritt entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="352"/>
+        <location filename="../../ui/area_menus.py" line="368"/>
         <source>Move the step up</source>
         <translation>Schritt nach oben</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="353"/>
+        <location filename="../../ui/area_menus.py" line="369"/>
         <source>Move the step down</source>
         <translation>Schritt nach unten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="360"/>
+        <location filename="../../ui/area_menus.py" line="376"/>
         <source>Run the automation</source>
         <translation>Automatisierung ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="361"/>
+        <location filename="../../ui/area_menus.py" line="377"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="364"/>
+        <location filename="../../ui/area_menus.py" line="380"/>
         <source>To Observing</source>
         <translation>Zum Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="368"/>
+        <location filename="../../ui/area_menus.py" line="384"/>
         <source>&amp;Steps</source>
         <translation>&amp;Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="369"/>
+        <location filename="../../ui/area_menus.py" line="385"/>
         <source>&amp;Run</source>
         <translation>A&amp;usführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="381"/>
+        <location filename="../../ui/area_menus.py" line="397"/>
         <source>Compute</source>
         <translation>Berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="382"/>
+        <location filename="../../ui/area_menus.py" line="398"/>
         <source>Compute the band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="383"/>
+        <location filename="../../ui/area_menus.py" line="399"/>
         <source>Classify</source>
         <translation>Klassifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="384"/>
+        <location filename="../../ui/area_menus.py" line="400"/>
         <source>Components</source>
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="408"/>
+        <location filename="../../ui/area_menus.py" line="424"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Das Bedeckungs- oder Transitmodell anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="411"/>
+        <location filename="../../ui/area_menus.py" line="427"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="412"/>
+        <location filename="../../ui/area_menus.py" line="428"/>
         <source>Visual orbit</source>
         <translation>Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="417"/>
+        <location filename="../../ui/area_menus.py" line="433"/>
         <source>F&amp;it</source>
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="493"/>
+        <location filename="../../ui/area_menus.py" line="509"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="496"/>
+        <location filename="../../ui/area_menus.py" line="512"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Das Langspaltspektrum extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="502"/>
+        <location filename="../../ui/area_menus.py" line="518"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Die Echelle-Ordnungen auf dem Flat finden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="504"/>
+        <location filename="../../ui/area_menus.py" line="520"/>
         <source>Extract the échelle orders</source>
         <translation>Die Echelle-Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="509"/>
+        <location filename="../../ui/area_menus.py" line="525"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Das Spektrum des Würfelbereichs speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="514"/>
+        <location filename="../../ui/area_menus.py" line="530"/>
         <source>&amp;Lines</source>
         <translation>&amp;Linien</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="519"/>
+        <location filename="../../ui/area_menus.py" line="535"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Die Wellenlängen anpassen (Langspalt)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="523"/>
+        <location filename="../../ui/area_menus.py" line="539"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Die Wellenlängen anpassen, die Ordnungen zusammenfügen (Echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="537"/>
+        <location filename="../../ui/area_menus.py" line="553"/>
         <source>S&amp;pectrum</source>
         <translation>S&amp;pektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="551"/>
+        <location filename="../../ui/area_menus.py" line="567"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="553"/>
+        <location filename="../../ui/area_menus.py" line="569"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Arithmetik mit Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="557"/>
+        <location filename="../../ui/area_menus.py" line="573"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="559"/>
+        <location filename="../../ui/area_menus.py" line="575"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="583"/>
+        <location filename="../../ui/area_menus.py" line="599"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="584"/>
+        <location filename="../../ui/area_menus.py" line="600"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="483"/>
+        <location filename="../../ui/area_menus.py" line="499"/>
         <source>Save the spectrum as…</source>
         <translation>Das Spektrum speichern unter…</translation>
     </message>
@@ -5711,17 +5779,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>FITS speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="201"/>
+        <location filename="../../ui/area_menus.py" line="217"/>
         <source>E&amp;phemeris</source>
         <translation>&amp;Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="420"/>
+        <location filename="../../ui/area_menus.py" line="436"/>
         <source>Visual &amp;orbit</source>
         <translation>&amp;Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="568"/>
+        <location filename="../../ui/area_menus.py" line="584"/>
         <source>Velo&amp;city</source>
         <translation>Ges&amp;chwindigkeit</translation>
     </message>

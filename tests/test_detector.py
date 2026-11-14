@@ -46,3 +46,26 @@ def test_linearity_and_the_shutter():
     assert lin["limit_1pct"] == pytest.approx(35355, rel=0.06)
     short = np.array([0.05, 0.1, 0.2, 0.5, 1.0])
     assert detector.shutter_offset(short, rate * (short + 0.012)) == pytest.approx(0.012, abs=0.002)
+
+
+def test_the_dialog_measures_and_saves_to_the_profile(qapp, tmp_path):
+    from astropy.io import fits
+
+    from astrowb.core import profiles
+    from astrowb.settings import Settings
+    from astrowb.ui.camera_dialog import CameraDialog
+
+    rng = np.random.default_rng(5)
+    for name, level in (("f1", 20000), ("f2", 20000), ("b1", 0), ("b2", 0)):
+        fits.PrimaryHDU(expose(rng, level).astype(np.float32)).writeto(tmp_path / f"{name}.fits")
+    settings = Settings(tmp_path)
+    d = CameraDialog(settings)
+    for key, name in (("flat1", "f1"), ("flat2", "f2"), ("bias1", "b1"), ("bias2", "b2")):
+        d.paths[key].setText(str(tmp_path / f"{name}.fits"))
+    r = d.measure()
+    assert r["gain"] == pytest.approx(GAIN, rel=0.03) and d.save_button.isEnabled()
+    d.save()
+    cam = profiles.section(settings, "camera")
+    assert cam["gain"] == pytest.approx(GAIN, rel=0.03) and cam["read_noise"] == pytest.approx(RN, rel=0.05)
+    d.paths["flat1"].setText(str(tmp_path / "missing.fits"))
+    assert d.measure() is None and not d.save_button.isEnabled()
