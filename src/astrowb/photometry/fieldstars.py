@@ -149,7 +149,13 @@ def variability(mag, err, threshold=3.0, iterations=3):
     spread = 1.4826 * np.nanmedian(np.abs(rms[good_star] - typical[good_star]))
     index = rms / np.maximum(typical, 1e-9)
     candidate = good_star & (rms - typical > threshold * max(spread, 1e-4)) & (rms > 2 * expected)
+    from .varindex import search  # PHO-30: six indices; a star flagged by two of them is a candidate too
+
+    found = search(m, e)
+    candidate = candidate | (good_star & found["candidate"])
     return {
+        "indices": {k: np.asarray(v, float).tolist() for k, v in found["indices"].items()},
+        "flags": np.asarray(found["count"]).tolist(),
         "corrected": corrected.tolist(),
         "mean": mean.tolist(),
         "rms": rms.tolist(),

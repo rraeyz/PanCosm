@@ -104,10 +104,8 @@ class VarFindPage(QWidget):
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        self.table = QTableWidget(0, 5, self)
-        self.table.setHorizontalHeaderLabels(
-            [self.tr("x"), self.tr("y"), self.tr("Magnitude"), self.tr("rms (mag)"), self.tr("Index")]
-        )
+        self.table = QTableWidget(0, 6, self)
+        self._table_headers()
         self.table.cellClicked.connect(lambda r, _c: self.show_star(int(self.table.item(r, 0).data(Qt.UserRole))))
         lay.addWidget(self.table, 1)
         self.send = QPushButton(self.tr("Send this star to Period search"), self)
@@ -121,6 +119,14 @@ class VarFindPage(QWidget):
         split.addWidget(self.plot)
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
+
+    def _table_headers(self):
+        self.table.setHorizontalHeaderLabels(
+            [self.tr("x"), self.tr("y"), self.tr("Magnitude"), self.tr("rms (mag)"), self.tr("Index"), self.tr("Flags")]
+        )
+        self.table.horizontalHeaderItem(5).setToolTip(
+            self.tr("How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart")
+        )
 
     def set_images(self, paths):
         from ..io.bayer import fits_paths
@@ -147,10 +153,11 @@ class VarFindPage(QWidget):
         v = out["variability"]
         xy = np.asarray(out["field"]["xy"])
         cand = np.flatnonzero(v["candidate"])
-        order = cand[np.argsort(-np.asarray(v["index"])[cand])]
+        flags = np.asarray(v.get("flags") or np.zeros(len(xy)))
+        order = cand[np.lexsort((-np.asarray(v["index"])[cand], -flags[cand]))]  # most indices first
         self.table.setRowCount(len(order))
         for r, j in enumerate(order):
-            for c, value in enumerate((xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j])):
+            for c, value in enumerate((xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j])):
                 item = QTableWidgetItem(f"{value:.4g}")
                 item.setData(Qt.UserRole, int(j))
                 self.table.setItem(r, c, item)

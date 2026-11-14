@@ -676,7 +676,14 @@ detrending, depth, Tc, T14, on time against the Timing stage's ephemeris, the NE
 - **Depends on:** PHO-18.
 
 ### PHO-30. Whole-field time series and the search for variables  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `photometry/varindex.py`: `ensemble` (Honeycutt: frame zero points and
+star means with weights, variables left out of the zero points), `indices` (weighted σ, MAD, IQR, 1/η, Stetson J
+and K, χ²_ν), `candidates` (beyond 5 robust σ of the stars of the same brightness in at least two indices),
+`search`. Test (tests/test_varindex.py): 2000 stars × 300 frames with 10 variables of 2–5 × their noise — ≥ 9 found,
+≤ 5 false, the frames' zero points to 1 mmag, in 0.6 s. The Variable search window adds the two-index candidates
+and a "Flags" column (how many indices set the star apart), most-flagged first. Left: catalogue stars measured
+(not only those detected), the quick period search per candidate, the VSX / GCVS / Gaia cross-match, the
+small-multiples page, the exports, and the real crowded-field check.
 - **Reference:** Muniwin "find variables" (magnitude–deviation diagram); Honeycutt 1992 full inhomogeneous ensemble
   solution; Welch & Stetson 1993 / Stetson 1996 indices J, K, L; von Neumann ratio; Sokolovsky et al. 2017 (MNRAS
   464, 274: comparison of 18 variability indices; best: IQR, 1/η, MAD, weighted σ); VaST software (description).

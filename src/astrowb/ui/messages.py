@@ -83,6 +83,7 @@ TEMPLATES = (
         "Messages", "the downloaded Earth-orientation table is too short: the server did not send the whole file"
     ),
     # core/units.py
+    QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
     QT_TRANSLATE_NOOP("Messages", "unknown airmass formula {formula}"),
     QT_TRANSLATE_NOOP("Messages", "unknown time standard {standard}; known: {known}"),
     QT_TRANSLATE_NOOP("Messages", "unknown velocity frame {frame}; known: {known}"),
