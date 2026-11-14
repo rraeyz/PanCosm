@@ -521,6 +521,14 @@ class PlanPage(Undoable, QWidget):
                 box.setValue(value)
         return where
 
+    def finder_dialog(self, fetch=None):
+        """What can I observe tonight? (PLN-5): transits of known planets in tonight's dark hours; fetch: for tests."""
+        from .plan_finder import FinderDialog
+
+        dlg = FinderDialog(self, fetch)
+        dlg.show()
+        return dlg
+
     def alerts_dialog(self, fetch=None):
         """Gaia Science Alerts observable tonight (PLN-12); fetch: for tests."""
         from .plan_alerts import AlertsDialog

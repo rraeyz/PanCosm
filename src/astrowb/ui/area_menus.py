@@ -264,6 +264,7 @@ def plan(main, page, win):
     for text, slot in ((translate("MainWindow", "Import targets from CSV…"), page.import_targets),
                        (translate("MainWindow", "Save the list…"), page.save_list),
                        (translate("MainWindow", "Open a saved list…"), page.open_list),
+                       (translate("MainWindow", "What can I observe tonight?…"), page.finder_dialog),
                        (translate("MainWindow", "Gaia alerts tonight…"), page.alerts_dialog)):  # fmt: skip
         act = QAction(text, win)
         act.triggered.connect(lambda _on=False, f=slot: f())
