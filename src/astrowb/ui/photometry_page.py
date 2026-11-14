@@ -39,6 +39,7 @@ from .aavso_dialog import AavsoDialog, from_sequence
 from .kit.help import help_line
 from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
 from .messages import translate
+from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_method import add_method_boxes, method_params
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
@@ -662,6 +663,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.multi_series.itemChanged.connect(lambda *_: self._plot_current())
         self.multi_series.itemDoubleClicked.connect(self._choose_series_colour)
+        with_detrend_menu(self)
         ml.addWidget(self.multi_series, 0, 0, 1, 4)
         ml.addWidget(QLabel(self.tr("Bin"), self), 1, 0)
         self.bin_n = QSpinBox(self)
@@ -2631,8 +2633,7 @@ class PhotometryPage(Undoable, QWidget):
             self._plot_current()
 
     def _multi_rows(self):
-        items = [self.multi_series.item(i) for i in range(self.multi_series.count())]
-        return [{"key": it.text(), "colour": it.data(Qt.UserRole)} for it in items if it.checkState() == Qt.Checked]
+        return multi_rows(self.multi_series)
 
     def _norm_range(self):
         """The normalisation range in the light curve's own time, from the two boxes (plot time); None: the night."""
@@ -2652,6 +2653,7 @@ class PhotometryPage(Undoable, QWidget):
         binned = self.bin_n.value() > 1 or self.bin_minutes.value() > 0
         for i, row in enumerate(self._multi_rows()):
             y, e = series(lc, row["key"])
+            y = detrended(self, lc, row, y)  # PHO-46: the row's own detrending
             if row["key"] in QUANTITIES:  # not a flux: drawn to the scatter of the fluxes, around 1
                 span = np.nanmax(y) - np.nanmin(y) or 1.0
                 y, e = 1 + (y - np.nanmean(y)) / span * 4 * max(gap, 0.01), None
@@ -2744,6 +2746,7 @@ class PhotometryPage(Undoable, QWidget):
             self.norm_from.clear()
             self.norm_to.clear()
         self._fill_multi_series([r["key"] for r in rows], {r["key"]: r.get("colour") for r in rows})
+        restore_detrend(self.multi_series, rows)
         missing = [r["key"] for r in rows if not self.multi_series.findItems(r["key"], Qt.MatchExactly)]
         i = self.show_what.findData("multi")
         if i >= 0:

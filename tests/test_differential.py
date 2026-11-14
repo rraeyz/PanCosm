@@ -505,6 +505,8 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     page.click_role.setCurrentIndex(page.click_role.findData("target"))
     page._clicked(20.0, 20.0)
     lc = synthetic_lc()
+    k1 = np.exp(0.3 * (np.asarray(lc["airmass"]) - np.mean(lc["airmass"])))  # the check star follows the airmass
+    lc["extra_flux"] = [[a * k, b] for (a, b), k in zip(lc["extra_flux"], k1, strict=True)]
     lc["extra"] = [
         {"name": "K1", "role": "check", "rel_flux": [1.0] * 60, "rel_flux_err": [0.01] * 60},
         {"name": "T2", "role": "target", "rel_flux": [1.0] * 60, "rel_flux_err": [0.01] * 60},
@@ -520,15 +522,30 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     assert page._plotted is None  # binned points are not frames: no clicking away
     lines = [ln for ln in page.plot.figure.axes[0].get_lines() if ln.get_label() == "airmass"]
     assert len(lines[0].get_xdata()) == 10
+    page.bin_n.setValue(0)
+    from astrowb.photometry.multiplot import series
+    from astrowb.ui.multiplot_rows import DETREND, detrend_menu, detrended
+
+    check = page.multi_series.findItems("rel_flux_T4", Qt.MatchExactly)[0]
+    menu = detrend_menu(page, page.multi_series.visualItemRect(check).center())
+    next(a for a in menu.actions() if a.text() == "airmass").trigger()  # PHO-46: the check star's own set
+    row = next(r for r in page._multi_rows() if r["key"] == "rel_flux_T4")
+    assert row["detrend"] == ["airmass"] and "airmass" in check.toolTip()
+    raw = series(page.light_curve, "rel_flux_T4")[0]  # against the page's ensemble: the comparison stars' noise too
+    y = detrended(page, page.light_curve, row, raw)
+    assert np.std(y / np.median(y)) < 0.5 * np.std(raw / np.median(raw))
+    page.bin_n.setValue(6)
     page.norm_from.setText("0.30")
     page.norm_to.setText("0.35")
     saved = page.save_plot_template(tmp_path / "a.plot.json")
+    check.setData(DETREND, None)
     page.bin_n.setValue(0)
     page.multi_series.item(0).setCheckState(Qt.Unchecked)
     page.show_what.setCurrentIndex(0)
     doc = page.open_plot_template(saved)
     assert doc["bin_n"] == 6 and page.show_what.currentData() == "multi" and page.bin_n.value() == 6
     assert [r["key"] for r in page._multi_rows()] == ticked and float(page.norm_from.text()) == pytest.approx(0.30)
+    assert page.multi_series.findItems("rel_flux_T4", Qt.MatchExactly)[0].data(DETREND) == ["airmass"]
     rows = page.leave_each_comparison_out()
     assert {r[0] for r in rows} == {None, 0, 1} and "without C1" in page.result.text()
     bad = tmp_path / "bad.json"

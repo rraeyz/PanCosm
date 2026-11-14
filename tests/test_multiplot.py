@@ -55,3 +55,24 @@ def test_template_round_trip(tmp_path):
     (tmp_path / "b.json").write_text("[1, 2]")
     with pytest.raises(ValueError):
         mp.load_template(tmp_path / "b.json")
+
+
+def test_each_row_its_own_detrending(tmp_path):
+    """PHO-46: a check star detrended with airmass alone while the target uses airmass + FWHM; kept in the template."""
+    lc = _lc()
+    n = len(lc["time"])
+    x = np.asarray(lc["airmass"])
+    fwhm = 2.5 + np.sin(np.arange(n) / 9.0)
+    lc["fwhm"] = fwhm.tolist()
+    check = np.exp(0.03 * (x - x.mean())) * (1 + np.random.default_rng(2).normal(0, 3e-4, n))
+    lc["extra"][0]["rel_flux"] = check.tolist()
+    y, _ = mp.series(lc, "rel_flux_T5")
+    flat = mp.detrend_row(lc, y, ["airmass"])
+    assert np.std(flat / np.median(flat)) < 5e-4 < np.std(y / np.median(y))
+    target = np.exp(0.03 * (x - x.mean()) + 0.01 * (fwhm - fwhm.mean()))
+    both = mp.detrend_row(lc, target, "target", ["airmass", "fwhm"])
+    assert np.std(both / np.median(both)) < 1e-9
+    assert np.array_equal(mp.detrend_row(lc, y, None), y) and np.array_equal(mp.detrend_row(lc, y, ["sky"]), y)
+    rows = [{"key": "rel_flux_T1", "colour": None, "detrend": "target"},
+            {"key": "rel_flux_T5", "colour": None, "detrend": ["airmass"]}]  # fmt: skip
+    assert mp.load_template(mp.save_template(tmp_path / "d.plot.json", rows))["rows"] == rows

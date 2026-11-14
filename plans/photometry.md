@@ -1016,7 +1016,7 @@ field), radius scaled with brightness, the rejected-pixel counts in the table, t
   (`apt` IRAF 2.17) before writing the test: defaults differ between releases.
 
 ### PHO-46. Detrending of every plotted series  (P3)
-**open**
+**done** — 2026-11-14: right-click a series in the multi-plot list → no detrending, as the target, or its own ticked quantities (`ui/multiplot_rows.py`, `photometry/multiplot.detrend_row`); kept in the plot template; tests: test_multiplot (check star by airmass, target by airmass + FWHM, template round trip) and test_differential's multi-plot walk.
 - **Build:** multi-plot rows get their own detrend choice (none / the target's set / own set), as AstroImageJ's
   Y-data rows, for check stars and further targets.
 - **Accept:** a check star's curve detrended with airmass alone while the target uses airmass + FWHM, saved in and
