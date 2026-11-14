@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QSlider, QTabWidget,
 
 from .kit.tokens import SERIES, role
 from .kit.widgets import PlotCanvas
-from .plan_chart import clock
+from .plan_chart import SHADES, clock
 
 
 def _name(t):
@@ -78,8 +78,8 @@ def draw_year(fig, dates, hours, sun, chosen):
     fig.clear()
     ax = fig.add_subplot()
     x = mdates.date2num(np.array(dates, dtype="datetime64[D]").astype(object))
-    ax.contourf(x, 12 + hours, np.asarray(sun).T, levels=[-90, -18, -12, -6, 0, 90],
-                colors=["#050a3c", "#0b1a78", "#2a4cc0", "#7f9be0", "#ffffff"], alpha=0.9)  # fmt: skip
+    for level, shade in SHADES:  # darker as the Sun goes down, as in the night chart
+        ax.contourf(x, 12 + hours, np.asarray(sun).T, levels=[-90, level], colors="navy", alpha=shade)
     ax.axvline(mdates.date2num(np.datetime64(chosen, "D").astype(object)), color=role("saturated"), lw=1)
     ax.set_yticks(range(12, 37, 2), [f"{h % 24:02d}" for h in range(12, 37, 2)], fontsize=7)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
