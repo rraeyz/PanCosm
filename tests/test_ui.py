@@ -809,7 +809,9 @@ def test_night_schedule_goes_to_the_observe_page(window):
     page = window.plan_page
     page.result, page._planned = night(target("A", JD[30]), target("B", JD[100])), TARGETS[:2]
     blocks = page.make_schedule()
-    assert [b["name"] for b in blocks] == ["A", "B"] and page.schedule_table.rowCount() == 2
+    assert [b["name"] for b in blocks] == ["A", "B"]  # what Observing runs: no overhead rows (PLN-7)
+    rows = [page.schedule_table.item(r, 3).text() for r in range(page.schedule_table.rowCount())]
+    assert rows.count("slew, settle, centring") == 1 and len(rows) == 3  # the table shows the change of target
     page.send_button.click()
     obs = window.observe_page
     assert window.current_workspace() == "observe" and obs.plan_list.count() == 2
