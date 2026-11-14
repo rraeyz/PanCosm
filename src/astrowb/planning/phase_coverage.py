@@ -10,6 +10,7 @@ A period near a whole number of days (1.0003 d) shows nearly the same phases nig
 how many weeks the gaps take to close.
 """
 
+import astropy.units as u
 import numpy as np
 
 from .visibility import Site, altitudes, night_grid, sun_altitude
@@ -43,7 +44,7 @@ def windows(site: Site, start, nights, coord, t0, period, have, min_alt=30.0, st
     missing = ~np.asarray(have, bool)
     out = []
     for k in range(nights):
-        date = (Time(f"{start}T12:00:00") + k).iso[:10]
+        date = (Time(f"{start}T12:00:00") + k * u.day).iso[:10]
         t = night_grid(Site(site.name, site.lat, site.lon, site.height), date, step_min)
         ok = (sun_altitude(t, site) < sun_limit) & (altitudes(coord, t, site) >= min_alt)
         if not ok.any():

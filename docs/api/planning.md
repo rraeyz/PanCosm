@@ -22,7 +22,8 @@ parameters (default):
 ```text
 planning.night  (Plan the night)
 
-targets: [{name, ra, dec, [t0, period, duration, secondary]}]; times in JD (UTC).
+targets: [{name, ra, dec, [t0, period, duration, secondary, t0_err, period_err or t0_text, period_text]}];
+times in JD (UTC); each event carries its σ in minutes when the ephemeris' errors are known (planning/events).
 
 inputs:      site, date, targets
 outputs:     night

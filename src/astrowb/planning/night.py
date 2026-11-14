@@ -8,6 +8,7 @@ every observability computation uses, and a month of nights to choose from.
     month(site, "2026-11-01", 30)    per night: dark hours, the Moon's illumination and its hours up in the dark
 """
 
+import astropy.units as u
 import numpy as np
 
 from .visibility import Site, moon, night_grid, sun_altitude
@@ -83,7 +84,7 @@ def summary(site: Site, date: str, step_min=2.0):
 def _lst(site, date, hours):
     from astropy.time import Time
 
-    t = Time(f"{date}T00:00:00") + hours / 24
+    t = Time(f"{date}T00:00:00") + hours / 24 * u.day
     return float(t.sidereal_time("mean", longitude=site.lon).hour)
 
 
@@ -93,7 +94,7 @@ def month(site: Site, start: str, nights=30):
 
     out = []
     for k in range(nights):
-        date = (Time(f"{start}T12:00:00") + k).iso[:10]
+        date = (Time(f"{start}T12:00:00") + k * u.day).iso[:10]
         s = summary(site, date, step_min=10.0)
         out.append({key: s[key] for key in ("date", "dark_hours", "moon_illumination", "moon_up_in_dark_hours")})
     return out
