@@ -116,7 +116,7 @@ def light_curve(
             "shape": shape}  # fmt: skip
     sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
-    rows, chosen = [], None
+    rows, chosen, time_rules = [], None, {}  # time_rules: frame -> the rule its mid-time came from (ARC-15)
     # a small stamp (a TESS pixel file is 11 x 11 px) holds no ring of the default radii: every flux came out NaN
     too_big = r_in >= 0.5 * min(ref.shape[-2:])
     if auto or too_big:
@@ -173,7 +173,7 @@ def light_curve(
         radii.append(r)
         peaks.append(_peaks(data, xy, r[0]))
         try:
-            t = timing.mid_time(h, *opts["time"])
+            t, time_rules[p] = timing.mid_time_and_rule(h, *opts["time"])
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
             t = None
         moved = np.hypot(*(xy - pred).T)  # how far centring moved each star from where the frame's placing put it
@@ -225,6 +225,7 @@ def light_curve(
         "file": [Path(r[0]).name for r in rows],
         "time": tvals.tolist(),
         "time_scale": scale,
+        "time_rule": [time_rules.get(r[0], "archive" if src is not None else "frame order") for r in rows],
         "jd_utc": times.utc.jd.tolist() if times is not None else [float("nan")] * len(rows),  # AAVSO wants JD UTC
         # HJD (UTC): much of the eclipsing-binary O−C literature (item 14)
         "hjd_utc": timing.hjd(times, sky, where).jd.tolist() if times is not None and sky is not None else None,

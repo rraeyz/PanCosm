@@ -35,6 +35,9 @@ def test_mid_exposure_from_the_best_keywords():
     assert (timing.mid_time(other) - start).to_value("sec") == pytest.approx(30)
     avg = header(**{"MJD-AVG": 60370.9170, "TIMESYS": "UTC"})
     assert timing.mid_time(avg).mjd == pytest.approx(60370.9170)
+    rules = [timing.mid_time_and_rule(h)[1] for h in (header(), dead, other, avg)]  # recorded per frame (ARC-15)
+    assert rules == ["DATE-OBS + EXPTIME/2", "DATE-OBS…DATE-END", "DATE-OBS + EXPTIME/2", "MJD-AVG"]
+    assert timing.mid_time_and_rule(header(), "end", 0.5)[1] == "DATE-OBS as end + delay"
 
 
 def test_airmass_formulas_agree_high_and_young_is_the_default():
