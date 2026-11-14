@@ -137,7 +137,37 @@
     <message>
         <location filename="../../ui/plan_tables.py" line="98"/>
         <source>Moon closest</source>
-        <translation>Ay'a en yakın</translation>
+        <translation>Ay&apos;a en yakın</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="24"/>
+        <source>Pair: separation (px)</source>
+        <translation>Çift: ayrılık (px)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="25"/>
+        <source>Pair: flux ratio f2/f1</source>
+        <translation>Çift: akı oranı f2/f1</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="26"/>
+        <source>Pair: Δmag (m2 − m1)</source>
+        <translation>Çift: Δkadir (m2 − m1)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="27"/>
+        <source>Pair: aperture, sky ring (px)</source>
+        <translation>Çift: açıklık, gökyüzü halkası (px)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="31"/>
+        <source>Pair: separation (″)</source>
+        <translation>Çift: ayrılık (″)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair.py" line="32"/>
+        <source>Pair: position angle (°, N through E)</source>
+        <translation>Çift: konum açısı (°, K'den D'ya)</translation>
     </message>
 </context>
 <context>
@@ -3877,7 +3907,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/image_page.py" line="612"/>
         <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="672"/>
+        <location filename="../../ui/image_page.py" line="675"/>
         <source>Counts</source>
         <translation>Sayım</translation>
     </message>
@@ -3944,12 +3974,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Çizgi boyunca ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="672"/>
+        <location filename="../../ui/image_page.py" line="675"/>
         <source>Distance along the line (px)</source>
         <translation>Çizgi boyunca uzaklık (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="684"/>
+        <location filename="../../ui/image_page.py" line="687"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
