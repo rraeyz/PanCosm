@@ -84,6 +84,8 @@ TEMPLATES = (
     ),
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown repair: {mode}"),
+    QT_TRANSLATE_NOOP("Messages", "the mask is {a} × {b} px, the frames {c} × {d}"),
     QT_TRANSLATE_NOOP("Messages", "give a folder for the copies, or allow writing into the files themselves"),
     QT_TRANSLATE_NOOP("Messages", "the flats are no brighter than the biases: the gain cannot be measured"),
     QT_TRANSLATE_NOOP("Messages", "the file needs columns for the name, the right ascension and the declination"),
