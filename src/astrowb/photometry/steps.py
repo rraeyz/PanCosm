@@ -50,6 +50,7 @@ def _check_positions(image, target, comps=()):
     centring="auto",
     track_stars=(),
     combine=1,
+    aperture_shape=None,
 )
 def light_curve_step(inputs, params, ctx):
     """Differential aperture photometry of the target against the comparison stars on every frame: the light curve
@@ -85,6 +86,7 @@ def light_curve_step(inputs, params, ctx):
         remove_neighbours=bool(params.get("remove_neighbours")),
         centring=params.get("centring", "auto"),
         track_stars=params.get("track_stars") or (),
+        shape=params.get("aperture_shape"),
     )
     return {"light_curve": lc}
 

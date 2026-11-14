@@ -88,6 +88,18 @@ MEASURE = (  # the light-curve settings shared by the single- and multi-filter m
         help=QT_TRANSLATE_NOOP("Steps", "How each star is centred on every frame"),
     ),
     P(
+        "aperture_shape",
+        "object",
+        None,
+        label=QT_TRANSLATE_NOOP("Steps", "Aperture shape"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps",
+            'Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for '
+            "stretched or trailed stars",
+        ),
+        advanced=True,
+    ),
+    P(
         "remove_neighbours",
         "bool",
         False,
