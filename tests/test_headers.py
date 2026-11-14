@@ -65,7 +65,7 @@ def test_the_dialog_previews_and_writes_copies(tmp_path, qapp):
     d.ra.setText("13:38:48.1")
     d.dec.setText("-02:01:49")
     rows = d.preview()
-    assert any(r["key"] == "OBJECT" and r["new"] == "NY Vir" for r in rows) and d.table.rowCount() == len(rows)
+    assert any(r["key"] == "OBJECT" and r["new"] == "NY Vir" for r in rows) and d.table.model.rowCount() == len(rows)
     out = d.write(out_dir=tmp_path / "copies")
     h = fits.getheader(out[0])
     assert h["OBJECT"] == "NY Vir" and h["RA"] == pytest.approx(204.70042, abs=1e-4) and "BJD_TDB" in h
