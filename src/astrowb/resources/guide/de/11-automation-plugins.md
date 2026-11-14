@@ -34,6 +34,32 @@ Vorlagen mit einer Beobachtungssequenz haben **Zum Fenster Beobachten**: Das tr�
 
 Automatisierungen sind einfache JSON-Dateien und lassen sich daher weitergeben: Kopieren Sie die Datei in den Ordner `automations` eines anderen Benutzers.
 
+## Skripte und Kommandozeile {#automation-plugins-scripting}
+Jeder Schritt des Programms läuft auch ohne Fenster — für Nächte, die jedes Mal gleich verarbeitet werden, oder für
+eine größere Untersuchung.
+
+**Kommandozeile.** `astrowb-cli steps` listet alle Schritte, `astrowb-cli help photometry.light_curve` zeigt
+Eingaben, Einstellungen und Ausgaben eines Schritts. Im Photometrie-Fenster speichert **Datei → Exportieren →
+Rezept für die Kommandozeile (.json)…** die letzte Messung; sie läuft ohne Fenster erneut, auch mit den Aufnahmen
+einer anderen Nacht (die Sterne werden über ihre Himmelsposition auf der ersten, astrometrisch gelösten Aufnahme
+gefunden), und schreibt die Lichtkurvendatei:
+
+```
+astrowb-cli recipe nacht.json --set images='["n2/f001.fits", "n2/f002.fits"]' output=n2.lc.ecsv
+```
+
+**Python.** Jeder Schritt ist eine Funktion in `astrowb.api`, mit Hilfe über `help()`; die Ergebnisse lassen sich
+als Tabellen lesen:
+
+```python
+from astrowb import api
+
+lc = api.photometry.light_curve(images=aufnahmen, target_xy=[512, 300], comps_xy=[[400, 280]])["light_curve"]
+out = api.timeseries.period(time=lc["time"], flux=lc["rel_flux"], p_min=0.1, p_max=2.0)
+print(out["best"])
+periodogramm = out.to_table()          # Perioden und Leistung als astropy-Table
+```
+
 ## Plugins {#automation-plugins-plugins}
 **Was sie sind:** Ein Plugin ist ein kleines Zusatzwerkzeug, das Sie selbst zur Anwendung hinzufügen — für eine Rechnung, die die Anwendung nicht hat, oder die nur Ihre Gruppe braucht. Es ist eine einzige Python-Datei. Liegt sie im Plugin-Ordner, erscheint sie im Menü **Plugins**, öffnet ein kleines Formular für ihre Eingaben, läuft wie jeder eingebaute Schritt (im Hintergrund, mit Fortschritt und Abbrechen, im Projekt protokolliert) und kann als Schritt einer Automatisierung dienen.
 

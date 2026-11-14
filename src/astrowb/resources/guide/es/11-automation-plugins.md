@@ -34,6 +34,32 @@ Las plantillas con una secuencia de observación tienen **A la ventana Observaci
 
 Las automatizaciones son archivos JSON sencillos, así que pueden compartirse: copie el archivo en la carpeta `automations` de otro usuario.
 
+## Scripts y línea de comandos {#automation-plugins-scripting}
+Cada paso del programa funciona también sin la ventana: para noches que se procesan siempre igual o para un estudio
+más amplio.
+
+**Línea de comandos.** `astrowb-cli steps` lista todos los pasos y `astrowb-cli help photometry.light_curve` muestra
+las entradas, los ajustes y las salidas de un paso. En la ventana de Fotometría, **Archivo → Exportar → Receta para
+la línea de comandos (.json)…** guarda la última medición; se vuelve a ejecutar sin la ventana, también con las
+imágenes de otra noche (las estrellas se encuentran por su posición en el cielo en la primera imagen, si tiene
+solución astrométrica), y escribe el archivo de la curva de luz:
+
+```
+astrowb-cli recipe noche.json --set images='["n2/f001.fits", "n2/f002.fits"]' output=n2.lc.ecsv
+```
+
+**Python.** Cada paso es una función de `astrowb.api`, con su ayuda en `help()`; los resultados se pueden leer como
+tablas:
+
+```python
+from astrowb import api
+
+lc = api.photometry.light_curve(images=imagenes, target_xy=[512, 300], comps_xy=[[400, 280]])["light_curve"]
+out = api.timeseries.period(time=lc["time"], flux=lc["rel_flux"], p_min=0.1, p_max=2.0)
+print(out["best"])
+periodograma = out.to_table()          # periodos y potencia como una astropy Table
+```
+
 ## Complementos {#automation-plugins-plugins}
 **Qué son:** un complemento es una pequeña herramienta que usted mismo añade a la aplicación — para un cálculo que la aplicación no tiene o que solo necesita su grupo. Es un único archivo Python. Cuando está en la carpeta de complementos aparece en el menú **Complementos**, abre un pequeño formulario para sus entradas, se ejecuta como cualquier paso integrado (en segundo plano, con progreso y Cancelar, registrado en el proyecto) y puede usarse como paso de una automatización.
 

@@ -34,6 +34,31 @@ Templates with an observing sequence have **To the Observing window**: it fills 
 
 Automations are plain JSON files, so they can be shared: copy the file into another user's `automations` folder.
 
+## Scripting and the command line {#automation-plugins-scripting}
+Every step of the program can run without the window — for a night processed the same way each time, or for a
+larger study.
+
+**Command line.** `astrowb-cli steps` lists every step, `astrowb-cli help photometry.light_curve` shows its inputs,
+settings and outputs. In the Photometry window, **File → Export → Recipe for the command line (.json)…** saves the
+last measurement; it runs again without the window, also on another night's frames (the stars are found by their
+sky position on the first frame when it is plate-solved), and writes the light-curve file:
+
+```
+astrowb-cli recipe night.json --set images='["n2/f001.fits", "n2/f002.fits"]' output=n2.lc.ecsv
+```
+
+**Python.** Every step is a function of `astrowb.api`, with its help from `help()`; the results can be read as
+tables:
+
+```python
+from astrowb import api
+
+lc = api.photometry.light_curve(images=frames, target_xy=[512, 300], comps_xy=[[400, 280]])["light_curve"]
+out = api.timeseries.period(time=lc["time"], flux=lc["rel_flux"], p_min=0.1, p_max=2.0)
+print(out["best"])
+periodogram = out.to_table()          # periods and power as an astropy Table
+```
+
 ## Plugins {#automation-plugins-plugins}
 **What they are:** a plugin is a small extra tool you add to the application yourself — for a calculation the application does not have, or one only your group needs. It is one Python file. Once it is in the plugins folder it appears in the **Plugins** menu, opens a small form for its inputs, runs like every built-in step (in the background, with progress and Cancel, recorded in the project) and can be used as a step of an automation.
 

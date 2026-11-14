@@ -4543,7 +4543,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/area_windows.py" line="105"/>
         <source>Recipe for the command line (.json)…</source>
-        <translation type="unfinished"></translation>
+        <translation>Rezept für die Kommandozeile (.json)…</translation>
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="183"/>

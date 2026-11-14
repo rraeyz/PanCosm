@@ -208,7 +208,7 @@ parameters (default):
 ## photometry.save_light_curve
 
 ```text
-photometry.save_light_curve
+photometry.save_light_curve  (Save the light-curve file)
 
 The light curve written as a .lc.ecsv file (photometry/lcfile.py: every series and value kept), as File →
 Export in the window writes it; a recipe's last step (PHO-20).
