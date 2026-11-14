@@ -27,9 +27,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from . import spectrum_keys
-from .kit.widgets import PlotCanvas
+from . import spectro_figures, spectrum_keys
 from .messages import translate
+from .plot.toolbar import plot_box
 from .undo import Undoable
 
 SPECTRA = "Spectra (*.fits *.fit *.fts *.txt *.dat *.csv *.asc)"
@@ -320,9 +320,9 @@ class SpectrumToolsTab(Undoable, QWidget):
         split.addWidget(scroll)
 
         right = QSplitter(Qt.Vertical, self)
-        self.plot = PlotCanvas(self)
+        box, self.plot = plot_box(self)
         spectrum_keys.connect(self)  # clicks, and the splot keys w m f c d
-        right.addWidget(self.plot)
+        right.addWidget(box)
         self.table = QTableWidget(0, len(LINE_COLUMNS), self)
         self.table.setHorizontalHeaderLabels(
             [
@@ -380,14 +380,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             text += " " + self.tr("The fit stopped at the edge of the model grid.")
         text += " " + self.tr("So far checked on the Sun only; see the guide before publishing.")
         self.status.setText(text)
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        p = o["plot"]
-        ax.plot(p["wave"], p["flux"], lw=0.6, color="k", label=self.tr("observed"))
-        ax.plot(p["wave"], p["model"], lw=0.6, color="C3", label=self.tr("model"))
-        ax.set_xlabel(self.tr("Wavelength (Å)"))
-        ax.legend(fontsize=8)
-        self.plot.draw()
+        self.plot.set_figure(spectro_figures.atmosphere_figure(o["plot"]))
 
     # --- data ----------------------------------------------------------------
     def _read(self, path):
@@ -485,46 +478,16 @@ class SpectrumToolsTab(Undoable, QWidget):
 
     # --- plot ----------------------------------------------------------------
     def _plot(self):
-        from matplotlib.widgets import SpanSelector
-
         from ..spectroscopy.analysis import C_KMS, LINES
 
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        self.ax = ax
-        if self.wave is not None:
-            ax.plot(self.wave, self.flux, lw=0.7)
-            if self.last:
-                ax.plot(self.last["wave"], self.last["continuum"], "--", lw=0.8, color="C2")
-                ax.plot(self.last["wave"], self.last["model"], lw=0.9, color="C3")
-            for p in self.points:
-                ax.axvline(p, color="C1", lw=0.6, ls=":")
-            if self.markers.isChecked():
-                shift = 1 + self.marker_rv.value() / C_KMS
-                lo, hi = self.wave.min(), self.wave.max()
-                for name, lam in LINES.items():
-                    if lo <= lam * shift <= hi:
-                        ax.axvline(lam * shift, color="gray", lw=0.5, alpha=0.7)
-                        ax.text(
-                            lam * shift,
-                            1.0,
-                            name,
-                            rotation=90,
-                            va="top",
-                            ha="right",
-                            fontsize=7,
-                            transform=ax.get_xaxis_transform(),
-                            color="gray",
-                        )
-        ax.set_xlabel(self.tr("Wavelength (Å)"))
-        ax.set_ylabel(self.tr("Flux"))
-        self._span = SpanSelector(
-            ax, self._selected, "horizontal", useblit=True, minspan=0.1, props={"alpha": 0.2, "facecolor": "C1"}
-        )
-        self.plot.draw()
+        markers = {}
+        if self.wave is not None and self.markers.isChecked():
+            shift = 1 + self.marker_rv.value() / C_KMS
+            markers = {n: lam * shift for n, lam in LINES.items() if self.wave.min() <= lam * shift <= self.wave.max()}
+        self.plot.set_figure(spectro_figures.spectrum_figure(self.wave, self.flux, self.last, self.points, markers))
 
     def _selected(self, a, b):
-        if not self.pick.isChecked():
+        if not self.pick.isChecked() and abs(b - a) >= 0.1:  # a click is not a window
             self.lo.setValue(min(a, b))
             self.hi.setValue(max(a, b))
 

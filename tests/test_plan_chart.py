@@ -125,8 +125,12 @@ def test_the_weather_tab(qtbot):
     win = MoreCharts(n, hours, 3.0)
     qtbot.addWidget(win)
     win.fetch_weather(fetch=lambda url: ANSWER)
-    qtbot.waitUntil(lambda: bool(win.weather.figure.axes), timeout=20000)
-    assert "Open-Meteo" in win.weather.figure.axes[0].get_title() and "Open-Meteo" in win.weather_note.text()
+    qtbot.waitUntil(lambda: win.weather.figure is not None, timeout=20000)
+    spec = win.weather.figure
+    kinds = {s.name: s.kind for s in spec.panels[0].series}
+    assert "Open-Meteo" in spec.title and "Open-Meteo" in win.weather_note.text()
+    assert kinds["Humidity (%)"] == "line" and kinds["Cloud total (%)"] == "line"
+    assert "span" in kinds.values()  # the night shaded as bands behind the curves
 
 
 def test_almanac_line_follows_the_site_and_date(qtbot, tmp_path):

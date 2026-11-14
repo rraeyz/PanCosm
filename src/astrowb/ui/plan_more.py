@@ -9,6 +9,8 @@ from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QSlider, QTabWidget,
 from .kit.tokens import SERIES, role
 from .kit.widgets import PlotCanvas
 from .plan_chart import SHADES, clock
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 
 
 def _name(t):
@@ -91,31 +93,36 @@ def draw_year(fig, dates, hours, sun, chosen):
     return ax
 
 
-def draw_weather(fig, f, hours0_jd, sun_hours=None, sun_alt=None):
+def _dark_spans(hours, sun, level):
+    """[(from hour, to hour)] where the Sun is below `level`, one per stretch."""
+    below = np.concatenate([[False], np.asarray(sun) < level, [False]])
+    edges = np.flatnonzero(below[1:] != below[:-1])
+    return [(float(hours[i]), float(hours[j - 1])) for i, j in zip(edges[::2], edges[1::2], strict=True)]
+
+
+def weather_figure(f, hours0_jd, sun_hours=None, sun_alt=None):
     """Cloud cover (total, low, middle, high) and humidity through the forecast hours, in UTC hours of the night's
     grid (hours0_jd: the JD of its 00:00 UTC); the night shaded when the Sun's altitude is given."""
-    fig.clear()
-    ax = fig.add_subplot()
     h = (np.asarray(f["time"], float) - hours0_jd) * 24
+    series = []
     if sun_hours is not None:
         for level, shade in SHADES:
-            ax.fill_between(sun_hours, 0, 100, where=np.asarray(sun_alt) < level, color="navy", alpha=shade, lw=0)
+            spans = _dark_spans(sun_hours, sun_alt, level)
+            if spans:
+                series.append(
+                    SeriesSpec(f"Sun below {level:g}°", *np.array(spans).T, kind="span", colour="#000080", alpha=shade)
+                )
     for key, label, colour, width in (
         ("cloud", "total", role("rejected"), 2.4),
         ("cloud_low", "low", SERIES[0], 1.2),
         ("cloud_mid", "middle", SERIES[1], 1.2),
         ("cloud_high", "high", SERIES[2], 1.2),
     ):
-        ax.plot(h, f[key], color=colour, lw=width, label=f"Cloud {label} (%)")  # fmt: skip
-    ax.plot(h, f["humidity"], ":", color=SERIES[5], lw=1.2, label="Humidity (%)")
-    ax.set_ylim(0, 100)
-    ax.set_xlim(sun_hours[0], sun_hours[-1]) if sun_hours is not None else None
-    ax.set_xlabel("UTC (hours)", fontsize=8)
-    ax.set_ylabel("%", fontsize=8)
-    ax.grid(color=role("rejected"), alpha=0.3, lw=0.5)
-    ax.legend(fontsize=7, loc="upper right")
-    ax.set_title(f"Forecast — {f['source']}", fontsize=8)
-    return ax
+        series.append(SeriesSpec(f"Cloud {label} (%)", h, f[key], kind="line", colour=colour, width=width))
+    series.append(SeriesSpec("Humidity (%)", h, f["humidity"], kind="line", colour=SERIES[5], width=1.2, dash="dot"))
+    x = AxisSpec("UTC (hours)", limits=(sun_hours[0], sun_hours[-1]) if sun_hours is not None else None)
+    panel = PanelSpec(x, AxisSpec("%", limits=(0, 100)), series, grid=True)
+    return FigureSpec([panel], title=f"Forecast — {f['source']}")
 
 
 class _Relay(QObject):
@@ -161,10 +168,10 @@ class MoreCharts(QDialog):
         self.weather_button.clicked.connect(self.fetch_weather)
         self.weather_note = QLabel(weather)
         self.weather_note.setWordWrap(True)
-        self.weather = PlotCanvas(self)
+        box, self.weather = plot_box(self)
         wl.addWidget(self.weather_button)
         wl.addWidget(self.weather_note)
-        wl.addWidget(self.weather, 1)
+        wl.addWidget(box, 1)
         tabs.addTab(weather, self.tr("Weather"))
 
         from .plan_tables import tables_page
@@ -223,8 +230,7 @@ class MoreCharts(QDialog):
             self.weather_note.setText(translate(answer))
             return
         zero = float(np.floor(self.n["jd"][0] + 0.5) - 0.5)
-        draw_weather(self.weather.figure, answer, zero, self.hours, self.n["sun_alt"])
-        self.weather.draw()
+        self.weather.set_figure(weather_figure(answer, zero, self.hours, self.n["sun_alt"]))
         from astropy.time import Time
 
         issued = Time(answer["issued"], format="jd").iso[:16] if answer.get("issued") else "—"

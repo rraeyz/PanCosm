@@ -49,6 +49,8 @@ class _ViewBox(pg.ViewBox):
         if ev.button() == Qt.LeftButton and self.view._pick(self, ev.scenePos()):
             ev.accept()
             return
+        if ev.button() == Qt.LeftButton:
+            self.view._clicked(self, ev.scenePos())
         super().mouseClickEvent(ev)
 
     def mouseDragEvent(self, ev, axis=None):
@@ -115,6 +117,8 @@ class PlotView(QWidget):
     point_clicked = Signal(str, object)
     points_selected = Signal(str, list)
     cursor_moved = Signal(str)
+    plot_clicked = Signal(int, float, float)  # panel, x, y of a click that hit no pickable point
+    key_pressed = Signal(str, object)  # a letter key the view does not use itself, and the cursor's x (None: outside)
 
     def __init__(self, figure=None, parent=None):
         super().__init__(parent)
@@ -129,6 +133,7 @@ class PlotView(QWidget):
         self.base_mode = "pan"  # what a released key goes back to; the toolbar sets it
         self.mode = "pan"  # "range", "lasso", "zoom" while their key is held, or set by the toolbar
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
+        self.cursor_x = None
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
         # said over the empty plot (UI-6: no blank rectangle without words), as PlotCanvas does
         self._empty_text = translate("PlotCanvas", "Nothing to show yet: the plot appears here once there are results")
@@ -198,7 +203,7 @@ class PlotView(QWidget):
         lines = ["axis\tseries\tx\ty"]
         for a, panel in enumerate(self.figure.panels if self.figure else [], 1):
             for s in panel.series:
-                if s.y is not None and s.kind not in ("vline", "hline"):
+                if s.y is not None and s.kind not in S.NO_LEGEND:
                     lines += [
                         f"{panel.y.title() or f'axis {a}'}\t{s.name}\t{x}\t{y}" for x, y in zip(s.x, s.y, strict=False)
                     ]
@@ -235,7 +240,7 @@ class PlotView(QWidget):
                 if axis_spec.ticks:
                     plot.getAxis(side).setTicks([[(v - shift, t) for v, t in axis_spec.ticks]])
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
-            legend = plot.addLegend() if len(panel.series) > 1 else None
+            legend = plot.addLegend() if sum(s.kind not in S.NO_LEGEND for s in panel.series) > 1 else None
             for s in panel.series:
                 self.items.append(self._add_series(plot, vb, s, colours[s.name], offset, legend))
             vb.disableAutoRange()  # its items hold only the decimated points in view: show_all() uses all the data
@@ -255,6 +260,9 @@ class PlotView(QWidget):
                 continue
             if s.kind == "hline":
                 ys.append(s.x)
+                continue
+            if s.kind == "span":
+                xs += [e["x"][e["ok"]], s.y[e["ok"]] - off]
                 continue
             xs.append(e["x"][e["ok"]])
             if s.y is not None and s.kind != "vline":
@@ -286,7 +294,8 @@ class PlotView(QWidget):
         ids = s.ids if s.ids is not None else np.arange(len(s.x))
         colour = pg.mkColor(colour)
         colour.setAlphaF(s.alpha)
-        pen, brush = pg.mkPen(colour, width=s.width), pg.mkBrush(colour)
+        dash = {"dash": Qt.DashLine, "dot": Qt.DotLine}.get(s.dash, Qt.SolidLine)
+        pen, brush = pg.mkPen(colour, width=s.width, style=dash), pg.mkBrush(colour)
         entry = {"spec": s, "vb": vb, "x": x, "y": y, "ids": ids, "ok": ok, "errors": None}
         if s.kind == "points" or s.kind == "errorbars":
             entry["item"] = pg.ScatterPlotItem(pen=None, brush=brush, size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"))
@@ -303,6 +312,23 @@ class PlotView(QWidget):
             band = pg.mkColor(colour)
             band.setAlphaF(0.25 * s.alpha)
             entry["item"] = pg.FillBetweenItem(lo, hi, brush=pg.mkBrush(band))
+        elif s.kind == "span":  # shaded x ranges over the panel's whole height
+            entry["item"] = pg.ItemGroup()
+            entry["lines"] = [
+                pg.LinearRegionItem((a, b - offset), movable=False, brush=brush, pen=pg.mkPen(None))
+                for a, b in zip(x[ok], s.y[ok], strict=True)
+            ]
+            for region in entry["lines"]:
+                plot.addItem(region, ignoreBounds=True)
+        elif s.kind == "text":  # one label per point, at an angle
+            entry["item"] = pg.ItemGroup()
+            entry["lines"] = []
+            for xi, yi, text in zip(x, y, s.labels or [], strict=False):
+                if np.isfinite(xi) and np.isfinite(yi):
+                    label = pg.TextItem(text, color=colour, anchor=(0.5, 0.0), angle=-s.angle)
+                    label.setPos(xi, yi)
+                    entry["lines"].append(label)
+                    plot.addItem(label, ignoreBounds=True)
         else:  # vline, hline: one infinite line per value
             angle = 90 if s.kind == "vline" else 0
             entry["item"] = pg.ItemGroup()
@@ -315,9 +341,7 @@ class PlotView(QWidget):
         entry["item"].setZValue(s.z)
         plot.addItem(entry["item"])
         if (
-            legend is not None
-            and s.kind not in ("vline", "hline")
-            and not any(e["spec"].name == s.name for e in self.items)
+            legend is not None and s.kind not in S.NO_LEGEND and not any(e["spec"].name == s.name for e in self.items)
         ):  # series sharing a name (pieces of one curve) get one legend entry
             legend.addItem(entry["item"], s.name)
         entry["item"].setVisible(s.visible)
@@ -341,7 +365,7 @@ class PlotView(QWidget):
         x0, x1, y0, y1 = self._view_rect(vb)
         width, height = max(int(vb.width()), 100), max(int(vb.height()), 100)
         for e in self.items:
-            if e["vb"] is not vb or e["spec"].kind in ("band", "vline", "hline", "histogram"):
+            if e["vb"] is not vb or e["spec"].kind in ("band", "vline", "hline", "histogram", "text", "span"):
                 continue
             s, x, y, ok = e["spec"], e["x"], e["y"], e["ok"]
             if s.kind in ("line", "steps"):
@@ -408,6 +432,8 @@ class PlotView(QWidget):
             self.show_all()
         elif key in (Qt.Key_R, Qt.Key_L, Qt.Key_Z) and not ev.isAutoRepeat():
             self.mode = {Qt.Key_R: "range", Qt.Key_L: "lasso", Qt.Key_Z: "zoom"}[key]
+        elif ev.text().isalpha() and not ev.isAutoRepeat():
+            self.key_pressed.emit(ev.text().lower(), self.cursor_x)
         else:
             super().keyPressEvent(ev)
 
@@ -467,12 +493,20 @@ class PlotView(QWidget):
                 best = (d[k], e["spec"].name, _plain(e["ids"][i]), e["x"][i], e["y"][i])
         return None if best is None or best[0] > 20 else best[1:]
 
+    def _clicked(self, vb, pos):
+        p = vb.mapSceneToView(pos)
+        x, y = (10**v if m else v for v, m in zip((p.x(), p.y()), vb.state["logMode"], strict=True))
+        panel = next(i for i, plot in enumerate(self.plots) if plot.getViewBox() is vb)
+        self.plot_clicked.emit(panel, x + self.offsets.get(id(vb), 0.0), y)
+
     def _mouse_moved(self, pos):
+        self.cursor_x = None
         for plot in self.plots:
             vb = plot.getViewBox()
             if vb.sceneBoundingRect().contains(pos):
                 p = vb.mapSceneToView(pos)
                 off = self.offsets.get(id(vb), 0.0)
+                self.cursor_x = p.x() + off
                 text = f"x = {p.x() + off:.6g}   y = {p.y():.6g}"
                 hit = self.nearest(vb, p.x(), p.y())
                 if hit is not None:

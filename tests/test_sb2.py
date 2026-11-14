@@ -152,11 +152,12 @@ def test_velocity_tab_shows_sb2(qtbot, tmp_path):
     _, v2, e2 = (np.asarray(a, float) for a in tab._series(2))
     tab.show_orbit(orbit.fit_sb2(tt, v1, tt, v2, e1, e2, period=3.0))
     assert "K2" in tab.status.text()
-    ax, res = tab.plot.figure.axes  # velocities with both orbits, and the residuals panel below
-    assert res.get_ylabel() == "O−C (km/s)" and len(ax.get_lines()) >= 3
-    from astrowb.ui.plot.export import save_publication
+    top, res = tab.plot.figure.panels  # velocities with both orbits, and the residuals panel below
+    assert res.y.label == "O−C (km/s)" and sum(s.kind == "line" for s in top.series) == 2
+    assert {s.name for s in top.series} >= {"primary", "secondary", "γ"}
+    from astrowb.ui.plot.publish import publish
 
-    out = save_publication(tab.plot.figure, tmp_path / "orbit.pdf")
+    out = str(publish(tab.plot.figure, tmp_path / "orbit.pdf"))  # the same description, drawn for print
     assert out.endswith("orbit.pdf") and (tmp_path / "orbit.pdf").stat().st_size > 1000
 
 

@@ -374,3 +374,41 @@ def test_points_on_a_log_axis_are_drawn_and_clickable_where_they_are(view):
     view.set_figure(spec)
     item = next(e for e in view.items)["item"]
     assert list(item.getData()[0]) == pytest.approx([0.0, 1.0, 2.0])  # log10 of the periods
+
+
+def test_text_span_dash_clicks_and_keys_in_both_outputs(view, tmp_path):
+    """Rotated labels, shaded x ranges and dotted lines draw on screen and in the publication figure; a click that
+    hits no point and a letter key report the data position."""
+    from astrowb.ui.plot import publish as P
+
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("x"),
+                AxisSpec("y"),
+                [
+                    SeriesSpec("a", [0, 10], [0, 1], kind="line", dash="dash"),
+                    SeriesSpec("night", [2, 6], [3, 8], kind="span", alpha=0.2, colour="#000080"),
+                    SeriesSpec("names", [4, 5], [1, 1], kind="text", labels=["Hα", "Hβ"], angle=90),
+                    SeriesSpec("ref", [5.0], kind="vline", dash="dot"),
+                ],
+            )
+        ]
+    )
+    view.set_figure(spec)
+    assert view.failed is None and view.plots[0].legend is None  # one real series: no legend
+    kinds = {e["spec"].name: len(e["lines"]) for e in view.items if "lines" in e}
+    assert kinds == {"night": 2, "names": 2, "ref": 1}
+    assert view._full_range(view.plots[0].getViewBox(), spec.panels[0])[0] == (0, 10)  # spans count for the range
+    ax = P.figure(spec).axes[0]
+    assert [t.get_text() for t in ax.texts] == ["Hα", "Hβ"] and ax.texts[0].get_rotation() == 90
+    assert len(ax.patches) == 2 and ax.get_legend() is None
+    assert ax.get_lines()[0].get_linestyle() == "--"
+    got, keys = [], []
+    view.plot_clicked.connect(lambda *a: got.append(a))
+    view.key_pressed.connect(lambda k, x: keys.append((k, x)))
+    QTest.mouseClick(view.graphics.viewport(), Qt.LeftButton, Qt.NoModifier, screen_of(view, 0, 3.0, 0.5))
+    assert got and got[-1][0] == 0 and got[-1][1] == pytest.approx(3.0, abs=0.2)
+    QTest.mouseMove(view.graphics.viewport(), screen_of(view, 0, 7.0, 0.5))
+    QTest.keyClick(view, Qt.Key_W)
+    assert keys == [("w", pytest.approx(7.0, abs=0.2))]

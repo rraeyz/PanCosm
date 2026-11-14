@@ -13,7 +13,8 @@ import numpy as np
 
 from ..kit import tokens
 
-KINDS = ("points", "line", "steps", "errorbars", "band", "vline", "hline", "histogram")
+KINDS = ("points", "line", "steps", "errorbars", "band", "vline", "hline", "histogram", "text", "span")
+NO_LEGEND = ("vline", "hline", "text", "span")  # drawn, but not entries of the legend
 # Okabe & Ito (2008) colour-blind-safe palette, in the order series take them
 OKABE_ITO = (*tokens.SERIES, tokens.LIGHT["text"])  # the design system's series palette (kit/tokens.py)
 MAX_POINTS = 50_000  # per series in view; above this the view decimates
@@ -57,6 +58,10 @@ class SeriesSpec:
     pickable: bool = False
     ids: np.ndarray | None = None  # what point_clicked reports; default: the index
     visible: bool = True
+    dash: str = ""  # "" solid, "dash" or "dot" (lines, vlines, hlines)
+    labels: list | None = None  # kind "text": one label per (x, y), written at angle degrees (90 = reading upward)
+    angle: float = 0.0
+    # kind "span": x = left edges, y = right edges of x ranges shaded over the panel's whole height (alpha = opacity)
 
     def __post_init__(self):
         if self.kind not in KINDS:

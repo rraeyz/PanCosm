@@ -22,6 +22,7 @@ STYLES = {
     "screen": {"single": 6.0, "double": 10.0, "font": 11, "line": 1.2, "marker": 3.0},
 }
 RASTER_ABOVE = 20_000  # points of one series; more are rasterised inside the vector file (journals' size limits)
+_DASH = {"": "-", "dash": "--", "dot": ":"}
 _MARKERS = {"o": "o", "s": "s", "^": "^", "v": "v", "d": "D", "+": "+", "x": "x", "*": "*"}
 
 
@@ -66,18 +67,25 @@ def _panel(ax, panel, colours, st):
                             alpha=s.alpha, zorder=s.z + 1, rasterized=many)  # fmt: skip
             ax.plot(x, s.y, ls="none", marker=_MARKERS.get(s.symbol, "o"), ms=size, mew=0, rasterized=many, **kw)
         elif s.kind in ("line", "steps"):
-            ax.plot(x, s.y, lw=st["line"] * s.width, drawstyle="steps-post" if s.kind == "steps" else "default",
-                    rasterized=many, **kw)  # fmt: skip
+            style = "steps-post" if s.kind == "steps" else "default"
+            ax.plot(x, s.y, lw=st["line"] * s.width, ls=_DASH[s.dash], drawstyle=style, rasterized=many, **kw)
         elif s.kind == "histogram":
             ax.stairs(s.y, s.x - offset, fill=True, **kw)
         elif s.kind == "band":
             ax.fill_between(x, s.y - s.yerr, s.y + s.yerr, lw=0, **{**kw, "alpha": 0.25 * s.alpha})
         elif s.kind == "vline":
             for v in x:
-                ax.axvline(v, lw=st["line"] * s.width, **{**kw, "label": None})
+                ax.axvline(v, lw=st["line"] * s.width, ls=_DASH[s.dash], **{**kw, "label": None})
         elif s.kind == "hline":
             for v in s.x:
-                ax.axhline(v, lw=st["line"] * s.width, **{**kw, "label": None})
+                ax.axhline(v, lw=st["line"] * s.width, ls=_DASH[s.dash], **{**kw, "label": None})
+        elif s.kind == "span":
+            for a, b in zip(x, s.y - offset, strict=True):
+                ax.axvspan(a, b, lw=0, **{**kw, "label": None})
+        elif s.kind == "text":
+            for xi, yi, text in zip(x, s.y, s.labels or [], strict=False):
+                ax.text(xi, yi, text, rotation=s.angle, ha="center", va="top", fontsize=st["font"] * 0.75,
+                        color=c, alpha=s.alpha, clip_on=True)  # fmt: skip
     ax.set_xlabel(panel.x.title(offset))
     ax.set_ylabel(panel.y.title())
     ax.set_xscale(panel.x.scale)
@@ -99,7 +107,7 @@ def _panel(ax, panel, colours, st):
     ax.minorticks_on()
     if panel.grid:
         ax.grid(alpha=0.3, lw=st["line"] * 0.5)
-    if sum(1 for s in panel.series if s.visible and s.kind not in ("vline", "hline")) > 1:
+    if sum(1 for s in panel.series if s.visible and s.kind not in S.NO_LEGEND) > 1:
         ax.legend(frameon=False)
 
 
@@ -161,6 +169,8 @@ def script(spec, path, data_file):
             sel = f"t[(t['panel'] == {i}) & (t['series'] == {s.name!r})]"
             style = "'-'" if s.kind in ("line", "steps") else "'o', ms=2"
             lines.append(f"d = {sel}")
+            if s.kind in ("text", "span"):
+                continue
             if s.kind in ("vline", "hline"):
                 fn = "axvline" if s.kind == "vline" else "axhline"
                 lines.append(f"for v in d['x']: ax.{fn}(v, color={colours[s.name]!r})")
