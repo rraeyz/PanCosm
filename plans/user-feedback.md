@@ -121,7 +121,11 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-21 — Check the installation: CDS hips2fits 404, AAVSO International Database 403** — **partial**
   (2026-11-13: CDS answered "Page unavailable" from here too — our address is right, CDS was down; the AAVSO data
   API also answers 403 here. The check now says "the service is down or moved now" / "the service refused the
-  program" instead of the HTTP error. Left: find whether the AAVSO has a new address for the data API)
+  program" instead of the HTTP error. 2026-11-14, read from the AAVSO forums (no probing of the AAVSO): the documented
+  address is still www.aavso.org/vsx/index.php?view=api.delim; VSX now runs on vsx.aavso.org with rate limiting
+  against automated traffic, the AAVSO announced a VSX rewrite without a promise of the old API, and a March 2026
+  thread reports 403 on every request from one server's address (a ban by address). Left: the owner tries the
+  address from his own computer; if vsx.aavso.org answers there, it becomes the first address)
   The owner says the French (CDS) servers are having trouble; check our URLs anyway (hips2fits endpoint, AAVSO
   needs a user agent or a new address) and say "the service is down" rather than an HTTP code.
 - **UF-22 — GPU check: the sigma-clipped mean is slower on the GPU (0.5×)** — **done** (2026-11-13: Automatic
