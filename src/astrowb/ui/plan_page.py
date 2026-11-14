@@ -401,6 +401,70 @@ class PlanPage(Undoable, QWidget):
             )
         return text
 
+    def import_targets(self, path=None):
+        """Targets from a CSV file, its columns found by their names (PLN-2); a star already in the table is not
+        added twice."""
+        from pathlib import Path
+
+        from PySide6.QtWidgets import QFileDialog
+
+        from ..planning.target_lists import from_csv
+
+        path = path or QFileDialog.getOpenFileName(self, self.tr("Import targets"), "", "CSV (*.csv *.txt)")[0]
+        if not path:
+            return []
+        try:
+            rows, skipped = from_csv(Path(path).read_text(encoding="utf-8", errors="replace"))
+        except (OSError, ValueError) as e:
+            self.status.setText(translate(e))
+            return []
+        added = self._add_list(rows)
+        note = self.tr("{n} targets imported.").format(n=len(added))
+        if skipped:
+            note += " " + self.tr("Rows without a name or position: {rows}.").format(rows=", ".join(map(str, skipped)))
+        self.status.setText(note)
+        return added
+
+    def _add_list(self, rows):
+        from ..planning.target_lists import merge
+
+        try:
+            have = self.targets()
+        except ValueError:  # a row being typed: compare with the rest by position only
+            have = []
+        new = merge(have, rows)[len(have) :]  # only the stars not in the table yet
+        for t in new:
+            self._add_target(t | {"source": "list"})
+        return new
+
+    def save_list(self, name=None):
+        from PySide6.QtWidgets import QInputDialog
+
+        from ..planning.target_lists import save
+
+        if name is None:
+            name, ok = QInputDialog.getText(self, self.tr("Save the target list"), self.tr("Name of the list"))
+            if not ok or not name.strip():
+                return None
+        return save(name.strip(), self.targets())
+
+    def open_list(self, name=None):
+        from PySide6.QtWidgets import QInputDialog
+
+        from ..planning.target_lists import load, names
+
+        if name is None:
+            known = names()
+            if not known:
+                self.status.setText(self.tr("No saved target list yet: Targets → Save the list…"))
+                return []
+            name, ok = QInputDialog.getItem(self, self.tr("Open a target list"), self.tr("List"), known, 0, False)
+            if not ok:
+                return []
+        added = self._add_list(load(name))
+        self.status.setText(self.tr("{n} targets from the list {name}.").format(n=len(added), name=name))
+        return added
+
     def _horizon_button(self):
         """The site's horizon profile (PLN-1): a file of azimuth–altitude pairs, kept in the settings."""
         self.horizon = [tuple(p) for p in self.settings.get("plan.horizon", [])]

@@ -228,9 +228,19 @@ def plan(main, page, win):
     schedule = named(page.schedule_button)
     send = named(page.send_button, short=QCoreApplication.translate("MainWindow", "Send"))
     exposure = named(page.exposure_button)
+    lists = []  # PLN-2: lists kept between sessions, CSV import
+    for text, slot in ((QCoreApplication.translate("MainWindow", "Import targets from CSV…"), page.import_targets),
+                       (QCoreApplication.translate("MainWindow", "Save the list…"), page.save_list),
+                       (QCoreApplication.translate("MainWindow", "Open a saved list…"), page.open_list)):  # fmt: skip
+        act = QAction(text, win)
+        act.triggered.connect(lambda _on=False, f=slot: f())
+        lists.append(act)
     win.add_menus(
         [
-            (QCoreApplication.translate("MainWindow", "&Targets"), [add, ephemeris, None, named(page.remove_button)]),
+            (
+                QCoreApplication.translate("MainWindow", "&Targets"),
+                [add, ephemeris, None, named(page.remove_button), None, *lists],
+            ),  # fmt: skip
             (QCoreApplication.translate("MainWindow", "&Night"), [plan, exposure, None, schedule, send]),
         ],
         toolbar=[add, ephemeris, None, plan, exposure, None, schedule, send],

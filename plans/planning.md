@@ -123,7 +123,13 @@ window, the four-site comparison with JPL Horizons.
 - **Files:** `planning/night.py`, `visibility.py`, UI, tests.
 
 ### PLN-2. Target lists that remember  (P1)
-**open**
+**partial** — done (2026-11-14): `planning/target_lists.py` (named lists kept in the user's folder: `save`, `load`,
+`names`, `delete`; `from_csv` finds the name / position / T0 / period / duration / priority / notes columns by
+their header names, degrees or sexagesimal, rows without a position listed; `merge` keeps a star given twice within
+5″ once). The Planning window's Targets menu: "Import targets from CSV…", "Save the list…", "Open a saved list…";
+a star already in the table is not added twice. Tests (tests/test_target_lists.py). Left: aliases, magnitudes,
+per-target constraints and exposure plans, "last observed" (PLN-13), the project's own copy, the AAVSO Target Tool
+and planetarium formats, pasted names resolved, minor planets from Horizons, proper motion to the date.
 - **Ours now:** `planning/targets.py` (`Resolver` with a local cache, SIMBAD, solar-system bodies), the Planning window's target table.
 - **Build:** the target table (kit `TableView`): name, aliases, coordinates (ICRS; proper motion applied to the
   date), type, magnitudes (band, source), ephemeris (period, epoch, standard, uncertainty, source), event duration
