@@ -305,7 +305,11 @@ the phase wheel and bar, "Add the best three windows", the RV quadratures and Fi
 - **Files:** `planning/standards.py`, `resources/data/standards/*.ecsv` (with references), `tests/test_standards.py`
 
 ### PLN-10. Finder charts, field preview, mosaics  (P2)
-**open**
+**partial** — done (2026-11-14): `planning/framing.mosaic` (rows × columns on one tangent plane about the centre,
+the chosen overlap and rotation, each panel's camera angle turned by the plane's north there) and `_unplane`.
+Test (tests/test_framing.py): a 2 × 3 mosaic at declinations 10° and 85° overlaps by 15 % within 1 % between every
+pair of neighbours in their own planes, not slid sideways; near the pole the panels turn. Left: the survey image
+with the footprints, guider footprint, bright-star warnings, guide stars, the panels as targets, printable charts.
 - **Build:** the Inspector's field view: survey image with the sensor footprint (and guider / off-axis-guider
   footprint from the profile), rotation handle, bright-star warnings (glare, diffraction, saturation trails for the
   camera), guide-star availability; mosaic panels for large objects (rows × columns, overlap, rotation) each

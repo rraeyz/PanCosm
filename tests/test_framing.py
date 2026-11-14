@@ -33,3 +33,24 @@ def test_turning_the_camera_helps_a_line_of_stars():
 def test_a_target_that_cannot_fit():
     with pytest.raises(ValueError):
         framing.suggest(NYVIR, [], fov=(2.0, 2.0), margin=1.5)
+
+
+@pytest.mark.parametrize("dec", [10.0, 85.0])
+def test_a_mosaic_overlaps_as_asked_even_near_the_pole(dec):
+    w, h = 30.0, 20.0
+    panels = framing.mosaic((120.0, dec), 2, 3, (w, h), overlap=0.15)
+    assert len(panels) == 6
+    turns = max(abs(p["angle"]) for p in panels)
+    assert (turns > 1.0) if dec > 80 else (turns < 0.2)  # near the pole the camera turns panel by panel
+    by = {(p["row"], p["col"]): p for p in panels}
+    for (r, c), p in by.items():
+        for dr, dc, along, size in ((0, 1, 0, w), (1, 0, 1, h)):
+            q = by.get((r + dr, c + dc))
+            if q is None:
+                continue
+            x, y = framing._plane(q["ra"], q["dec"], p["ra"], p["dec"])  # the neighbour in this panel's own plane
+            a = np.radians(p["angle"])
+            u, v = x * np.cos(a) + y * np.sin(a), -x * np.sin(a) + y * np.cos(a)
+            step = (u, v)[along]
+            assert step == pytest.approx(size * 0.85, rel=0.01)  # 15 % overlap within 1 %
+            assert abs((v, u)[along]) < 0.01 * size  # and not slid sideways
