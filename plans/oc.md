@@ -381,7 +381,12 @@ the energies follow their printed inputs. Left: the damped / quasi-periodic sinu
 - **Files:** `timeseries/applegate.py`, `ui/oc/panels/models.py`, `tests/test_applegate.py`
 
 ### OC-10. Short-period triples: dynamical delays  (P3)
-**open**
+**partial** — done (2026-11-14): `timeseries/oc_dynamical.py` (`amplitudes`: the quadrupole dynamical amplitude
+(1/2π)(m_C/m_ABC)(P₁²/P₂)(1−e₂²)^−3/2 and the light-time amplitude; `check`; `for_ltte_fit`: the third mass from the
+fit's mass function with M₁ + M₂ = 2 M☉); the O−C window's third-body result adds a warning when the dynamical delay
+reaches a tenth of the light-time one. Tests (tests/test_oc_dynamical.py): the warning fires for P₂/P₁ = 30, not
+for 3000; amplitudes by hand. Left: the full dynamical term with the mutual inclination added to the LTTE model,
+and its check against a published compact triple.
 - **Read first:** Borkovits et al. 2015 (MNRAS 448, 946) and 2016 (MNRAS 455, 4136): the analytic dynamical term
   for hierarchical triples, its amplitude ∝ P₁²/P₂.
 - **Build:** the quadrupole-order dynamical delay added to LTTE for P₂ / P₁ < ~100 with the mutual inclination as a

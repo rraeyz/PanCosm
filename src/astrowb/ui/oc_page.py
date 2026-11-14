@@ -375,7 +375,24 @@ class OCPage(QWidget):
                 self.tr("f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima").format(
                     fm=f.mass_function, t0=f.t0, p=f.period, c=f.chi2r, n=n
                 ),
-            ]
+            ] + self._dynamical_line(f)
+        return self._apsidal_text(f, n)
+
+    def _dynamical_line(self, f):
+        """OC-10: a third star this close also changes the period itself; LTTE alone then misfits."""
+        from ..timeseries.oc_dynamical import for_ltte_fit
+
+        d = for_ltte_fit(f)
+        if not d["warn"]:
+            return []
+        return [
+            self.tr(
+                "⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one "
+                "({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it"
+            ).format(dyn=d["a_dyn"] * 1440, r=d["ratio"], lt=d["a_ltte"] * 1440)
+        ]
+
+    def _apsidal_text(self, f, n):
         return [
             self.tr(
                 "Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr"

@@ -4804,7 +4804,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="232"/>
         <source>Import targets from CSV…</source>
-        <translation>CSV'den hedef al…</translation>
+        <translation>CSV&apos;den hedef al…</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="233"/>
@@ -8673,31 +8673,31 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="348"/>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="426"/>
         <source>primary</source>
         <translation>birincil</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="348"/>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="426"/>
         <source>secondary</source>
         <translation>ikincil</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="353"/>
-        <location filename="../../ui/oc_page.py" line="413"/>
+        <location filename="../../ui/oc_page.py" line="430"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="357"/>
-        <location filename="../../ui/oc_page.py" line="417"/>
+        <location filename="../../ui/oc_page.py" line="434"/>
         <source>Epoch</source>
         <translation>Çevrim (E)</translation>
     </message>
     <message>
         <location filename="../../ui/oc_page.py" line="358"/>
-        <location filename="../../ui/oc_page.py" line="418"/>
+        <location filename="../../ui/oc_page.py" line="435"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
@@ -8712,17 +8712,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="381"/>
+        <location filename="../../ui/oc_page.py" line="390"/>
+        <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
+        <translation>⚠ Üçüncü yıldız yakın: dinamik gecikmesi ({dyn:.1f} dk), ışık-zamanı etkisinin ({lt:.1f} dk, M1 + M2 = 2 M☉ için) {r:.0%} kadarı: yalnız ışık-zamanı modeli onu açıklamaz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_page.py" line="398"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidal hareket: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/çevrim, U = {u:.1f} yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="383"/>
+        <location filename="../../ui/oc_page.py" line="400"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="396"/>
+        <location filename="../../ui/oc_page.py" line="413"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
