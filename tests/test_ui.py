@@ -1219,6 +1219,27 @@ def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbo
     assert "700 d apart" in text and "0.333441 or 0.333759" in text
 
 
+def test_a_click_on_a_periodogram_peak_folds_at_once(qtbot):
+    """UI-16.4: clicking near a peak folds at the highest peak there; ×2 and ÷2 aliases are marked."""
+    from types import SimpleNamespace
+
+    from astrowb.ui.period_page import PeriodPage
+
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    t = np.linspace(0, 20, 600)
+    page.set_light_curve(t, 1 + 0.01 * np.sin(2 * np.pi * t / 0.7) + 0.005 * np.sin(2 * np.pi * t / 2.3), "test")
+    periods = np.geomspace(0.2, 5, 4000)
+    power = np.exp(-0.5 * (np.log(periods / 0.7) / 0.002) ** 2) + 0.6 * np.exp(
+        -0.5 * (np.log(periods / 2.3) / 0.002) ** 2
+    )
+    page.show_result({"best": 0.7, "periods": periods.tolist(), "power": power.tolist()})
+    ax = next(a for a in page.plot.figure.axes if getattr(a, "_kind", "") == "periodogram")
+    assert len(ax.lines) == 4  # the curve, the best period and its two aliases
+    page._clicked(SimpleNamespace(inaxes=ax, xdata=2.33, ydata=0.5))  # a little off the second peak
+    assert abs(page.best - 2.3) < 0.01 and "clicked peak" in page.result.text()
+
+
 def test_every_page_fits_a_short_window(window):
     """A 1100 x 600 window (a laptop at 125 % scaling): no page is taller than its area, so no button or plot is below
     the fold (the owner's Photometry and Plan pages were; Observe, Calibrate, Light curves, Spectroscopy too)."""

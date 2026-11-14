@@ -313,6 +313,8 @@ class PeriodPage(Undoable, QWidget):
             self.set_light_curve(t, y, self.label, True, e)
 
     def _clicked(self, event):
+        if getattr(event.inaxes, "_kind", "") == "periodogram" and event.xdata and not self.delete_mode.isChecked():
+            return self.fold_at(event.xdata)  # UI-16.4: a click on a peak folds at once
         if not (self.delete_mode.isChecked() and self.time and event.inaxes is not None and event.xdata is not None):
             return
         ax = event.inaxes
@@ -328,6 +330,17 @@ class PeriodPage(Undoable, QWidget):
             self.edit(
                 self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted"), e
             )
+
+    def fold_at(self, period):
+        """Fold at the highest peak within 3 % of the period clicked on."""
+        p, power = np.asarray(self.periodogram["periods"], float), np.asarray(self.periodogram["power"], float)
+        near = np.abs(np.log(p / period)) < 0.03
+        if not near.any():
+            return None
+        self.best = float(p[near][np.argmax(power[near])])
+        self.result.setText(self.tr("Folded at {p:.6f} d (clicked peak).").format(p=self.best))
+        self._plot_phase()
+        return self.best
 
     def _t0(self):
         t, f = np.asarray(self.time), np.asarray(self.flux)
@@ -451,8 +464,11 @@ class PeriodPage(Undoable, QWidget):
         out = self.periodogram
         self.plot.figure.clear()
         ax, ax2 = self.plot.figure.subplots(2, 1)
+        ax._kind = "periodogram"
         ax.plot(out["periods"], out["power"], lw=0.7)
         ax.axvline(self.best, color="r", lw=0.8)
+        for k in (0.5, 2.0):  # the aliases an eclipsing binary or a pulsator is most often mistaken for
+            ax.axvline(self.best * k, color="r", lw=0.6, ls=":", alpha=0.6)
         ax.set_xscale("log")
         ax.set_xlabel(self.tr("Period (d)"))
         ax.set_ylabel(self.tr("Power"))

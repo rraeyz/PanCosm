@@ -10797,90 +10797,95 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="329"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>points deleted</source>
         <translation>Punkte gelöscht</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="329"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>delete a point</source>
         <translation>Punkt löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="348"/>
+        <location filename="../../ui/period_page.py" line="341"/>
+        <source>Folded at {p:.6f} d (clicked peak).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="361"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zeit − {t:.0f} (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="348"/>
+        <location filename="../../ui/period_page.py" line="361"/>
         <source>Time (d)</source>
         <translation>Zeit (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="471"/>
+        <location filename="../../ui/period_page.py" line="362"/>
+        <location filename="../../ui/period_page.py" line="487"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="358"/>
+        <location filename="../../ui/period_page.py" line="371"/>
         <source>Load light curve</source>
         <translation>Lichtkurve laden</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="370"/>
-        <location filename="../../ui/period_page.py" line="397"/>
+        <location filename="../../ui/period_page.py" line="383"/>
+        <location filename="../../ui/period_page.py" line="410"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="411"/>
+        <location filename="../../ui/period_page.py" line="424"/>
         <source>No light curve to save yet.</source>
         <translation>Noch keine Lichtkurve zum Speichern.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="414"/>
+        <location filename="../../ui/period_page.py" line="427"/>
         <source>Save light curve</source>
         <translation>Lichtkurve speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="417"/>
+        <location filename="../../ui/period_page.py" line="430"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} Punkte in {file} gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="420"/>
+        <location filename="../../ui/period_page.py" line="433"/>
         <source>Searching…</source>
         <translation>Suche…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="431"/>
+        <location filename="../../ui/period_page.py" line="444"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Beste Periode: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="441"/>
+        <location filename="../../ui/period_page.py" line="454"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Die Daten bestehen aus Abschnitten im Abstand von {g:.0f} d: ein Zyklus mehr oder weniger über die Lücke ({p1:.6f} oder {p2:.6f} d) passt fast ebenso gut. Prüfen Sie mit den Minimumszeiten (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="457"/>
+        <location filename="../../ui/period_page.py" line="473"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="458"/>
+        <location filename="../../ui/period_page.py" line="474"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="470"/>
+        <location filename="../../ui/period_page.py" line="486"/>
         <source>Phase</source>
         <translation>Phase</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="471"/>
+        <location filename="../../ui/period_page.py" line="362"/>
+        <location filename="../../ui/period_page.py" line="487"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>

@@ -10266,7 +10266,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/oc_minima.py" line="41"/>
         <source>Every minimum of the last fit with its epoch, O−C and residual</source>
-        <translation>Son uyumdaki her minimum; epoğu, O−C'si ve artığıyla</translation>
+        <translation>Son uyumdaki her minimum; epoğu, O−C&apos;si ve artığıyla</translation>
     </message>
 </context>
 <context>
@@ -10799,90 +10799,95 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>akı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="329"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>points deleted</source>
         <translation>noktalar silindi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="329"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="348"/>
+        <location filename="../../ui/period_page.py" line="341"/>
+        <source>Folded at {p:.6f} d (clicked peak).</source>
+        <translation>{p:.6f} günde katlandı (tıklanan tepe).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="361"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zaman − {t:.0f} (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="348"/>
+        <location filename="../../ui/period_page.py" line="361"/>
         <source>Time (d)</source>
         <translation>Zaman (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="471"/>
+        <location filename="../../ui/period_page.py" line="362"/>
+        <location filename="../../ui/period_page.py" line="487"/>
         <source>Magnitude</source>
         <translation>Kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="358"/>
+        <location filename="../../ui/period_page.py" line="371"/>
         <source>Load light curve</source>
         <translation>Işık eğrisi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="370"/>
-        <location filename="../../ui/period_page.py" line="397"/>
+        <location filename="../../ui/period_page.py" line="383"/>
+        <location filename="../../ui/period_page.py" line="410"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="411"/>
+        <location filename="../../ui/period_page.py" line="424"/>
         <source>No light curve to save yet.</source>
         <translation>Henüz kaydedilecek ışık eğrisi yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="414"/>
+        <location filename="../../ui/period_page.py" line="427"/>
         <source>Save light curve</source>
         <translation>Işık eğrisini kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="417"/>
+        <location filename="../../ui/period_page.py" line="430"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} nokta {file} dosyasına kaydedildi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="420"/>
+        <location filename="../../ui/period_page.py" line="433"/>
         <source>Searching…</source>
         <translation>Aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="431"/>
+        <location filename="../../ui/period_page.py" line="444"/>
         <source>Best period: {p:.6f} d</source>
         <translation>En iyi periyot: {p:.6f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="441"/>
+        <location filename="../../ui/period_page.py" line="454"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Veri birbirinden {g:.0f} gün uzak parçalardan oluşuyor: boşluk boyunca bir döngü fazla ya da eksik sayan periyotlar ({p1:.6f} ya da {p2:.6f} gün) neredeyse aynı iyilikte uyar. Minimum zamanlarıyla (O−C) kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="457"/>
+        <location filename="../../ui/period_page.py" line="473"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="458"/>
+        <location filename="../../ui/period_page.py" line="474"/>
         <source>Power</source>
         <translation>Güç</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="470"/>
+        <location filename="../../ui/period_page.py" line="486"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="349"/>
-        <location filename="../../ui/period_page.py" line="471"/>
+        <location filename="../../ui/period_page.py" line="362"/>
+        <location filename="../../ui/period_page.py" line="487"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>
