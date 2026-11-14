@@ -516,7 +516,13 @@ listing them in the Problems, the real frame with a trail.
 - **Files:** `calibration/live.py`, `photometry/live.py` (`load_masters` moved here), `calibration/steps.py`, UI calibrate panel, `tests/test_calibration_live.py`
 
 ### CAL-23. Header tools  (P1)
-**open**
+**partial** — done (2026-11-14): `calibration/headers.py` (`new_values`, `preview`, `apply`: set / rename / delete,
+the computed DATE-AVG, JD_UTC, HJD_UTC, BJD_TDB, AIRMASS, ALT, AZ from the time (with a clock correction), the
+target and the site; copies by default, HISTORY noted) and Calibration → Process → "Edit the headers of many
+files…" (object, position, clock, the keywords to compute, a preview table, copies or — after a question naming
+the count — the files themselves). Tests (tests/test_headers.py): 48 frames with the wrong OBJECT get the right
+one and BJD_TDB within 1 ms of `timing`, the originals untouched; rename, delete, the clock, the guard, the dialog.
+Left: resolving a name, the time-convention fixes (start / end), plate-solving many files, the project step, undo.
 - **Ours now:** header editing of one file in the Images window (`io/fits.save_as` with set / delete cards); nothing for many files.
 - **Reference:** IRAF `ccdhedit`, `hedit`, `asthedit`, `setairmass`, `setjd`; AstroImageJ DP "FITS header updates"
   (target coordinates, observatory, airmass, JD, HJD, BJD written to the header); MaxIm DL batch header edit.
