@@ -309,7 +309,7 @@ two biases in 100 px boxes, median and scatter; `photon_transfer`: the gain from
 well where the variance turns over; `linearity`: the correction in masters.linearity's form and the 1 % limit;
 `shutter_offset`). Tests (tests/test_detector.py): a synthetic camera — gain 1.8 and read noise 6.5 within 3 %,
 full well within 6 %, the 2 % non-linearity at 50 000 ADU corrected within 0.3 %, the shutter's 12 ms within 2 ms.
-Calibration → Masters → "Measure the camera…" (two flats, two biases → gain and read noise → "Save to the camera
+Calibration → Process → "Measure the camera…" (two flats, two biases → gain and read noise → "Save to the camera
 profile"; test). Left: the photon-transfer and linearity plots in that tool, dark current against
 temperature, the shutter map, amplifiers, the real flat series.
 - **Reference:** IRAF `findgain` (Janesick's two-flats-two-biases method: `g = [(F̄1 + F̄2) − (B̄1 + B̄2)] /
