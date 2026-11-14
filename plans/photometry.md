@@ -403,8 +403,10 @@ catalogue Δmag and separation. Test: a quiet star 3 mag fainter cleared, an ecl
 "too faint", an empty aperture "flux too low". (2026-11-13) `neb.run` / step `photometry.neb_check`: the field's
 Gaia stars within the radius that could make the depth are measured on every frame against the same ensemble and
 judged (a synthetic night: the dimming neighbour not cleared, the quiet one cleared); the Photometry window's
-"Nearby-eclipsing-binary check…" (depth from the transit fit) shows the table, a row shows its star. Left: the box
-fit at the predicted window, the plots and folder, ExoFOP, the public TFOP night.
+"Nearby-eclipsing-binary check…" (depth from the transit fit) shows the table, a row shows its star. The box fit at the predicted window
+(2026-11-14: `neb.box`, from the transit fit's Tc and T14; the table's "Box at the transit" column; the dimming
+neighbour's 30 % found, the quiet one's box zero within its error). Left: the plots and folder, ExoFOP, the public
+TFOP night.
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
 - **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in

@@ -33,6 +33,19 @@ def _depth(page):
     return depth if ok else None
 
 
+def _window(page):
+    """The fitted transit's mid-time (in JD UTC, as the neighbours' curves are timed) and T14: a box is then fitted
+    there on every neighbour."""
+    import numpy as np
+
+    fit, lc = getattr(page, "transit_fit", None), page.light_curve
+    if not fit or not lc or not lc.get("jd_utc"):
+        return {}
+    tc, t = fit[1]["values"]["tc"], np.asarray(lc["time"], float)
+    k = int(np.argmin(np.abs(t - tc)))
+    return {"tc": float(tc - (t[k] - float(lc["jd_utc"][k]))), "duration_h": float(fit[1]["derived"]["t14_h"])}
+
+
 def run(main, page, depth=None):
     if not (page.images and page.target is not None and page.comps):
         page.transit_result.setText(translate("PhotometryNeb", "Mark the target and the comparison stars first."))
@@ -48,12 +61,18 @@ def run(main, page, depth=None):
     inputs = {"images": page._series(), "target_xy": list(page.target), "comps_xy": [list(c) for c in page.comps],
               "field": page.field}  # fmt: skip
     params = {"depth_ppt": depth, "r_ap": page.r_ap.value(), "r_in": page.r_in.value(), "r_out": page.r_out.value()}
+    params |= _window(page)
     page.transit_result.setText(translate("PhotometryNeb", "Measuring the neighbours on every frame…"))
     from .messages import translate as message
 
     main.run_step_for("photometry", "photometry.neb_check", inputs, params,
                       on_done=lambda out: show(page, out["neb"], depth),
                       on_fail=lambda msg: page.transit_result.setText(message(msg)))  # fmt: skip
+
+
+def _box(row):
+    d, e = row.get("box_ppt"), row.get("box_err_ppt")
+    return "—" if d is None or d != d else f"{d:.1f} ± {e:.1f}"
 
 
 def show(page, rows, depth):
@@ -78,10 +97,11 @@ def show(page, rows, depth):
     view = DataTable(d)
     header = [translate("PhotometryNeb", "Disposition"), "G", translate("PhotometryNeb", "Distance (″)"),
               "Δmag", translate("PhotometryNeb", "Depth needed (ppt)"), translate("PhotometryNeb", "RMS (ppt)"),
-              translate("PhotometryNeb", "Depth / RMS"), "x", "y"]  # fmt: skip
+              translate("PhotometryNeb", "Depth / RMS"), translate("PhotometryNeb", "Box at the transit (ppt)"),
+              "x", "y"]  # fmt: skip
     data = [[words.get(r["disposition"], r["disposition"]), round(r["gmag"], 2), round(r["separation"]),
              round(r["dmag"], 2), round(r["required_ppt"], 1), round(r["rms_ppt"], 1), round(r["ratio"], 1),
-             round(r["x"], 1), round(r["y"], 1)] for r in rows]  # fmt: skip
+             _box(r), round(r["x"], 1), round(r["y"], 1)] for r in rows]  # fmt: skip
     view.set_data(header, data, keys=[(r["x"], r["y"]) for r in rows])
     view.row_chosen.connect(lambda key: key is not None and page.viewer.centerOn(*key))
     d.body.addWidget(view)

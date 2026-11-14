@@ -1043,6 +1043,21 @@
             "null"
            ],
            "minimum": 0.5
+          },
+          "tc": {
+           "description": "Predicted mid-transit (d): JD (UTC); 0: no box fit",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "duration_h": {
+           "description": "Transit duration (h): T14; with the mid-transit time, a box is fitted there on every star",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
           }
          },
          "additionalProperties": false
