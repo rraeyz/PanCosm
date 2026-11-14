@@ -65,7 +65,7 @@ def test_save_all_writes_the_whole_night(tmp_path):
     assert "field.png" in {p.name for p in save_all(tmp_path / "neb", lc, star_list, neb=[row], image=image)}
     assert (tmp_path / "neb" / "field.png").read_bytes()[:4] == b"\x89PNG"
     assert (tmp_path / "neb" / "seeing_profile.png").is_file()
-    lines = (tmp_path / "neb" / "NEB_check.csv").read_text(encoding="utf-8").splitlines()
+    lines = (tmp_path / "neb" / "NEB" / "NEB_check.csv").read_text(encoding="utf-8").splitlines()
     assert lines[0].startswith("disposition,gmag") and lines[1].startswith("Cleared,13.1,41.0")
     names = sorted(p.name for p in files)
     assert names == ["ExoClock.txt", "ExoClock_form.txt", "light_curve.lc.ecsv", "light_curve.pdf", "light_curve.png",

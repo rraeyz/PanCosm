@@ -416,7 +416,7 @@ judged (a synthetic night: the dimming neighbour not cleared, the quiet one clea
 neighbour's 30 % found, the quiet one's box zero within its error). (2026-11-20: the plots and folder: `neb.run` rows carry
 their time, normalised flux and window; `reports/neb_plots.write` puts `NEB/star_NN.png` (curve, depth needed
 dashed, predicted window shaded), `NEB/dmag_vs_rms.png` and `NEB/field_neb.png` (candidates numbered, coloured by
-disposition) beside NEB_check.csv, called from `tfop_files`. Test: `test_neb_plots_and_folder`.) Left: ExoFOP, the
+disposition) with NEB_check.csv in the same NEB/ folder, called from `tfop_files`. Test: `test_neb_plots_and_folder`.) Left: ExoFOP, the
 public TFOP night.
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
@@ -606,7 +606,7 @@ Export → "Save all into a folder…": light curve ECSV, measurements CSV, star
 PDF; the AAVSO exoplanet file when the observer code, the star and the band are known; also the one-page observation summary, summary.pdf: the night's numbers, the curve with the fit, the
 comparison stars' counts and scatter — PHO-27 item 4). Done: ExoClock (`reports/exoclock.py`: BJD_TDB, flux divided by the fit's baseline × trend, error; `validate`;
 `form` with the values to paste; written by Save all when the times are BJD_TDB; test: out of transit flat at 1
-within 5e-4 after the airmass trend). Save all also writes NEB_check.csv after the nearby-eclipsing-binary check
+within 5e-4 after the airmass trend). Save all also writes NEB/NEB_check.csv after the nearby-eclipsing-binary check
 and field.png (the marked frame, zscale, the labelled apertures and the 2.5′ circle; `reports/field_image.py`;
 2026-11-13), and notes.txt (`reports/tfop.notes`: aperture in px and ″, pixel scale, FWHM, frames and time scale,
 detrending, depth, Tc, T14, on time against the Timing stage's ephemeris, the NEB summary). Done (2026-11-20): the ETD / VarAstro and AAVSO Extended writers moved in (`reports/etd.py` `etd_text`, `reports/aavso_extended.py` `aavso_extended`; `photometry/export.py` keeps `ensemble_magnitudes`; tests: `test_etd_text_and_the_csv_the_models_page_reads`, `test_transform.py`). Done (2026-11-20: validators for the ETD and AAVSO Extended files — `etd.validate`, `aavso_extended.validate`, run by the writers before they return; tests `test_etd_validator_rereads_its_file`, `test_aavso_extended_validator_rereads_its_file`). Left: TFOP package
