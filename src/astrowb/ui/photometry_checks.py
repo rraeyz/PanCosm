@@ -4,7 +4,7 @@ cloud, bad seeing, a jump of the field, near saturation — with the one-line ve
 from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QMenu, QPushButton, QVBoxLayout, QWidget
 
 from .kit.table_view import DataTable
 from .kit.widgets import PlotCanvas
@@ -94,7 +94,11 @@ class ChecksTab(QWidget):
             translate("PhotometryChecks", "Their points leave the light curve; Undo brings them back")
         )
         self.leave_out.setEnabled(False)
-        self.leave_out.clicked.connect(self.leave_out_flagged)
+        self.leave_out.clicked.connect(lambda: self.leave_out_flagged())
+        self.leave_kind = QPushButton(translate("PhotometryChecks", "Leave out only…"), self)
+        self.leave_kind.setToolTip(translate("PhotometryChecks", "The frames of one kind of flag, the others kept"))
+        self.leave_kind.setMenu(QMenu(self.leave_kind))
+        self.leave_kind.setEnabled(False)
         self.table = DataTable(self)
         self.table.row_chosen.connect(self._show)
         self.advice = QLabel(self)
@@ -114,7 +118,11 @@ class ChecksTab(QWidget):
         lay.addWidget(self.noise)
         lay.addWidget(self.scale_button)
         lay.addWidget(self.advice)
-        lay.addWidget(self.leave_out)
+        row = QHBoxLayout()
+        row.addWidget(self.leave_out)
+        row.addWidget(self.leave_kind)
+        row.addStretch(1)
+        lay.addLayout(row)
         self.panels = PlotCanvas(self)
         self.panels.setMinimumHeight(260)
         self.panels.hide()
@@ -221,10 +229,11 @@ class ChecksTab(QWidget):
         np.atleast_1d(axes)[-1].set_xlabel(translate("PhotometryChecks", "Frame"), fontsize=7)
         self.panels.draw()
 
-    def leave_out_flagged(self):
-        """Through the page's undoable exclusion, as its saturated-points command."""
+    def leave_out_flagged(self, kind=None):
+        """Through the page's undoable exclusion, as its saturated-points command: every flagged frame, or only those
+        of one kind ("cloud", "spike" …)."""
         page = self.page
-        frames = sorted({i for v in self.flags.values() for i in v})
+        frames = sorted({i for k, v in self.flags.items() if kind in (None, k) for i in v})
         ids = {page._frame_ids[i] for i in frames if i < len(page._frame_ids)}
         if ids:
             page.edit(translate("PhotometryChecks", "leave out the flagged points"), page._exclude, page.excluded | ids)
@@ -236,6 +245,13 @@ class ChecksTab(QWidget):
         self.flags = flags
         self.leave_out.setEnabled(any(flags.values()))
         names = kinds()
+        menu = self.leave_kind.menu()
+        menu.clear()
+        for k, v in flags.items():
+            if v:
+                label = translate("PhotometryChecks", "{kind} ({n})").format(kind=names[k], n=len(v))
+                menu.addAction(label).triggered.connect(lambda _=False, k=k: self.leave_out_flagged(k))
+        self.leave_kind.setEnabled(sum(bool(v) for v in flags.values()) > 1)  # one kind: the first button does it
         counts = [f"{len(v)} × {names[k]}" for k, v in flags.items() if v]
         self.verdict.setText(
             translate("PhotometryChecks", "Flagged frames: {list}").format(list=", ".join(counts))
