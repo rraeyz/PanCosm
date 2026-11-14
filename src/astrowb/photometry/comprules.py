@@ -131,7 +131,8 @@ def suggest(images, offsets, inputs, params, data, header):
     frames = [data if k == 0 else load(images[k])[0] for k in pick]
     shifts = [tuple(offsets[k]) if len(offsets) else (0.0, 0.0) for k in pick]
     rows = judge(st, i_t, frames, shifts, rules, field.get("scale"),
-                 [(v["x"], v["y"]) for v in field.get("variables", [])])  # fmt: skip
+                 [(v["x"], v["y"]) for v in field.get("variables", [])],
+                 [(v["x"], v["y"]) for v in field.get("gcvs", [])])  # fmt: skip
     chosen = [r for r in rows if r["verdict"] == "chosen"]
     if not chosen and not params["rules"]:  # the defaults found none: the older, looser choice, with the table
         from .field import comparison_stars

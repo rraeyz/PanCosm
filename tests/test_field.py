@@ -76,9 +76,12 @@ def test_the_field_names_its_variable_and_says_the_object_is_elsewhere(tmp_path)
     img, _, x, y = _frame(cat)
     fits.PrimaryHDU(img.astype(np.float32), _header()).writeto(tmp_path / "f.fits")
     ny_vir = {"name": "NY Vir", "ra": float(cat["ra"][0]), "dec": float(cat["dec"][0]), "mag": 13.3}
-    out = field.identify(tmp_path / "f.fits", catalogue=cat, variables=[ny_vir], resolve=lambda name: (233.456, 37.991))
+    out = field.identify(
+        tmp_path / "f.fits", catalogue=cat, variables=[ny_vir], gcvs=[ny_vir], resolve=lambda name: (233.456, 37.991)
+    )
     (v,) = out["variables"]
     assert v["name"] == "NY Vir" and abs(v["x"] - x[0]) < 0.3 and abs(v["y"] - y[0]) < 0.3
+    assert out["gcvs"][0]["name"] == "NY Vir"  # the GCVS list is kept with pixels beside VSX's (PHO-17 item 6)
     assert out["object"]["name"] == "NSVS07826147" and not out["object"]["in_field"]
     assert out["object"]["distance_deg"] == pytest.approx(48.0, abs=0.5)
     picks = field.comparison_stars(out, (v["x"], v["y"]), img, saturation=65535, n=4)
@@ -104,7 +107,9 @@ def test_photometry_page_shows_the_field_and_makes_a_variable_the_target(qtbot, 
     img, w, x, y = _frame(cat)
     fits.PrimaryHDU(img.astype(np.float32), _header()).writeto(tmp_path / "f.fits")
     ny_vir = {"name": "NY Vir", "ra": float(cat["ra"][0]), "dec": float(cat["dec"][0]), "mag": 13.3}
-    out = field.identify(tmp_path / "f.fits", catalogue=cat, variables=[ny_vir], resolve=lambda name: (233.456, 37.991))
+    out = field.identify(
+        tmp_path / "f.fits", catalogue=cat, variables=[ny_vir], gcvs=[ny_vir], resolve=lambda name: (233.456, 37.991)
+    )
     page = PhotometryPage()
     qtbot.addWidget(page)
     with qtbot.waitSignal(page.field_requested) as asked:
@@ -179,7 +184,7 @@ def test_the_suggest_step_with_rules_gives_a_reason_for_every_star(tmp_path):
     path = tmp_path / "f.fits"
     fits.PrimaryHDU(img.astype(np.float32), _header()).writeto(path)
     ny_vir = {"name": "NY Vir", "ra": float(cat["ra"][0]), "dec": float(cat["dec"][0]), "mag": 13.3}
-    out = field.identify(path, catalogue=cat, variables=[ny_vir], resolve=lambda name: (233.456, 37.991))
+    out = field.identify(path, catalogue=cat, variables=[ny_vir], gcvs=[ny_vir], resolve=lambda name: (233.456, 37.991))
     inputs = {"images": [str(path)], "target_xy": [float(x[0]), float(y[0])], "field": out}
     got = execute("photometry.suggest_comparisons", inputs, {"n": 3, "rules": {"min_snr": 20}}, _Ctx())
     table = got["catalogue"]["table"]
