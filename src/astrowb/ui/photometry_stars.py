@@ -2,6 +2,8 @@
 and the "Why these stars?" table — every catalogue star with the rule that left it out (photometry.comprules),
 sortable, a row's star shown on the image when chosen."""
 
+from math import isnan
+
 from PySide6.QtCore import QCoreApplication, QObject, Signal
 from PySide6.QtWidgets import QPushButton
 
@@ -33,7 +35,13 @@ def verdicts():
 
 
 def suggestion_text(n, catalogue):
-    """The sentence shown after a suggestion from Gaia."""
+    """The sentence shown after a suggestion from Gaia, or from the image alone (catalogue["pixels"])."""
+    if catalogue.get("pixels"):
+        return translate(
+            "PhotometryStars",
+            "{n} comparison stars chosen from the image: 0.5–2 times the target's brightness, alone, unsaturated, "
+            "inside every frame. “Why these stars?” shows every star with the reason it was left out.",
+        ).format(n=n)
     text = translate(
         "PhotometryStars",
         "{n} comparison stars chosen from Gaia: about as bright as the target, not variable, alone, unsaturated, "
@@ -59,7 +67,9 @@ def why_dialog(page, table, show_star=None):
     names = verdicts()
     header = [
         translate("PhotometryStars", "Verdict"),
-        translate("PhotometryStars", "Magnitude (G)"),
+        translate("PhotometryStars", "Magnitude (instrumental)")
+        if table and isnan(table[0].get("colour", 0.0))  # stars found on the image alone
+        else translate("PhotometryStars", "Magnitude (G)"),
         translate("PhotometryStars", "BP−RP"),
         translate("PhotometryStars", "Distance (px)"),
         translate("PhotometryStars", "Peak"),
@@ -67,7 +77,11 @@ def why_dialog(page, table, show_star=None):
         "x",
         "y",
     ]
-    rows = [[names.get(r["verdict"], r["verdict"]), round(r["mag"], 2), round(r["colour"], 2), round(r["distance"]),
+
+    def colour(r):
+        return "—" if isnan(r["colour"]) else round(r["colour"], 2)
+
+    rows = [[names.get(r["verdict"], r["verdict"]), round(r["mag"], 2), colour(r), round(r["distance"]),
              round(r["peak"]), round(r["snr"]), round(r["x"], 1), round(r["y"], 1)] for r in table]  # fmt: skip
     view.set_data(header, rows, keys=[(r["x"], r["y"]) for r in table])
     if show_star is not None:

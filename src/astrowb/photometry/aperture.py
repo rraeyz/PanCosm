@@ -541,6 +541,16 @@ def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None,
     series, given the frame offsets relative to this one. Best match first: similar brightness and near the
     target (as AstroImageJ users are advised: the star image changes across a wide field, and comparisons at the
     frame's edge followed the seeing unlike the target on a real LCO night, shifting a transit by 20 min)."""
+    rows = judge_pixels(data, target_xy, r_out, n, saturation, r_in, offsets)
+    return [(r["x"], r["y"]) for r in rows if r["verdict"] == "chosen"]
+
+
+def judge_pixels(data, target_xy, r_out, n=5, saturation=None, r_in=None, offsets=((0.0, 0.0),)):
+    """Every star found on the image with its verdict, best match first (plans/photometry.md PHO-17, the table
+    without a plate solution): "chosen", "not_needed" (passed, enough stars already) or the first rule it failed —
+    "edge" (leaves the frame on some image), "too_bright" / "too_faint" (outside 0.5–2× the target), "saturated",
+    "neighbour" (something in its sky ring). Each row: verdict, x, y, mag (instrumental, −2.5 log flux), colour
+    (NaN: no colour from one image), distance (px), peak, snr."""
     from photutils.detection import DAOStarFinder
 
     clean = despike(data)
@@ -557,23 +567,37 @@ def suggest_comparisons(data, target_xy, r_out, n=5, saturation=None, r_in=None,
     off = np.asarray(offsets, float)
     margin = r_out + 2
     r_in = r_in or r_out / 2
-    yy, xx = np.mgrid[:ny, :nx]
-    picks = []
+    rows, chosen = [], 0
     score = np.abs(np.log(np.clip(flux / flux[t], 1e-12, None))) + np.hypot(x - x[t], y - y[t]) / np.hypot(nx, ny) * 2
     for i in np.argsort(score):  # similar brightness and close to the target first
-        px, py = x[i] + off[:, 0], y[i] + off[:, 1]
-        inside = np.all((px >= margin) & (px < nx - margin) & (py >= margin) & (py < ny - margin))
-        if not inside:
+        if i == t:
             continue
-        # isolated: no neighbour in the sky annulus brighter than 20 % of the star's peak (fainter ones are
-        # removed by the sigma-clipped sky). Tested on pixels, not on the star list: blends hide.
-        r = np.hypot(xx - x[i], yy - y[i])
-        isolated = np.max(clean[(r > r_in) & (r < r_out)]) - med < max(0.2 * (peak[i] - med), 5 * raw_std)
-        if i != t and 0.5 <= flux[i] / flux[t] <= 2 and peak[i] < saturation and isolated and inside:
-            picks.append((float(x[i]), float(y[i])))
-        if len(picks) == n:
-            break
-    return picks
+        px, py = x[i] + off[:, 0], y[i] + off[:, 1]
+        if not np.all((px >= margin) & (px < nx - margin) & (py >= margin) & (py < ny - margin)):
+            verdict = "edge"
+        elif flux[i] / flux[t] > 2:
+            verdict = "too_bright"
+        elif flux[i] / flux[t] < 0.5:
+            verdict = "too_faint"
+        elif peak[i] >= saturation:
+            verdict = "saturated"
+        else:
+            # isolated: no neighbour in the sky annulus brighter than 20 % of the star's peak (fainter ones are
+            # removed by the sigma-clipped sky). Tested on pixels, not on the star list: blends hide.
+            x0, x1 = max(int(x[i] - r_out) - 1, 0), min(int(x[i] + r_out) + 2, nx)
+            y0, y1 = max(int(y[i] - r_out) - 1, 0), min(int(y[i] + r_out) + 2, ny)
+            yy, xx = np.mgrid[y0:y1, x0:x1]
+            r = np.hypot(xx - x[i], yy - y[i])
+            ring = clean[y0:y1, x0:x1][(r > r_in) & (r < r_out)]
+            isolated = np.max(ring) - med < max(0.2 * (peak[i] - med), 5 * raw_std)
+            verdict = "neighbour" if not isolated else "chosen" if chosen < n else "not_needed"
+            chosen += verdict == "chosen"
+        noise = np.sqrt(max(flux[i], 0) + np.pi * 9 * raw_std**2)  # photons and the sky in a 3 px aperture
+        rows.append({"verdict": verdict, "x": float(x[i]), "y": float(y[i]),
+                     "mag": float(-2.5 * np.log10(max(flux[i], 1e-12))), "colour": float("nan"),
+                     "distance": float(np.hypot(x[i] - x[t], y[i] - y[t])), "peak": float(peak[i]),
+                     "snr": float(flux[i] / noise) if noise > 0 else 0.0})  # fmt: skip
+    return rows
 
 
 # --- choosing the three radii from the stars themselves --------------------------------------------------------

@@ -466,6 +466,14 @@ def test_suggest_comparisons():
     picks = suggest_comparisons(img, (80, 60), r_out=16)
     assert len(picks) == 1 and abs(picks[0][0] - 40) < 1 and abs(picks[0][1] - 30) < 1
     assert suggest_comparisons(img, (80, 60), r_out=16, offsets=[(0, 0), (-30, 0)]) == []  # drifts off the edge
+    from astrowb.photometry.aperture import judge_pixels
+
+    rows = judge_pixels(img, (80, 60), r_out=16)  # PHO-17 without a solution: every star with its reason
+    verdict = {name: next((r["verdict"] for r in rows if np.hypot(r["x"] - sx, r["y"] - sy) < 4), None)
+               for name, (sx, sy, _f) in stars.items() if name != "target"}  # fmt: skip
+    assert verdict["good"] == "chosen" and verdict["faint"] == "too_faint" and verdict["edge"] == "edge"
+    assert "neighbour" in (verdict["close_pair"], verdict["neighbour"])  # the pair is found as one star at least
+    assert verdict["saturated"] in ("saturated", "too_bright")  # clipped at the limit: brighter than 2× too
 
 
 def test_plan_page_resolve_and_plan(window, qtbot):

@@ -116,7 +116,7 @@ def light_curve(
             "shape": shape}  # fmt: skip
     sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
-    rows, chosen, time_rules = [], None, {}  # time_rules: frame -> the rule its mid-time came from (ARC-15)
+    rows, chosen, time_rules, radii, fwhms, peaks = [], None, {}, [], [], []  # time_rules: ARC-15, per frame
     # a small stamp (a TESS pixel file is 11 x 11 px) holds no ring of the default radii: every flux came out NaN
     too_big = r_in >= 0.5 * min(ref.shape[-2:])
     if auto or too_big:
@@ -125,7 +125,6 @@ def light_curve(
         opts["apertures"] = tuple(r for r in opts["apertures"] if r < r_in)
     fwhm0 = seeing_fwhm(ref, recenter(ref, stars0, box)) if follow_seeing else None
     opts["neighbours"] = neighbours_setup(ref, stars0, n_comp, r_out) if remove_neighbours and not psf else None
-    radii, fwhms, peaks = [], [], []
     saturation = saturation_level(h0, ref)
     src = None if psf or follow_seeing or remove_neighbours or shape else tpf.source(paths)
     if src is not None:  # the cadences of a TESS / Kepler pixel file: measured at once, the stars do not move
