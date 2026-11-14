@@ -2605,3 +2605,17 @@ def test_faint_variable_stars_are_listed_not_ringed(window):
     assert "too faint to see" in page.variables.itemText(1) and "too faint" not in page.variables.itemText(0)
     page.variables.setCurrentIndex(1)
     assert [m[4] for m in page.viewer.marker_list][-1].startswith("Faint 1")
+
+
+def test_the_planning_window_has_stages(window):
+    """UI-16.8: Site and night, Targets, Night, Schedule and send as stages beside the chart; a step done marks its
+    stage on the rail."""
+    win = window.open_area("plan")
+    page = window.plan_page
+    assert list(win.stage_panels) == ["site", "targets", "night", "schedule"]
+    assert win.stage_panels["site"].isAncestorOf(page.lat) and win.stage_panels["targets"].isAncestorOf(page.table)
+    assert win.stage_panels["night"].isAncestorOf(page.plan_button)
+    assert win.stage_panels["schedule"].isAncestorOf(page.send_button)
+    page.guide.set_state(1, "done")
+    assert win.rail.states["targets"] == "done" and page.guide.states[1] == "done"
+    win.close()
