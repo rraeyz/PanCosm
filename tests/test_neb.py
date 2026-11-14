@@ -79,3 +79,20 @@ def test_a_night_checked_star_by_star(tmp_path):
     neb_box, quiet = got[(60, 30)], got[(60, 90)]
     assert abs(neb_box["box_ppt"] - 300) < 5 * neb_box["box_err_ppt"] + 10 and neb_box["box_ppt"] > 250
     assert abs(quiet["box_ppt"]) < 4 * quiet["box_err_ppt"]
+
+
+def test_neb_plots_and_folder(tmp_path):
+    """The TFOP files with the check's rows write NEB/: a curve per neighbour, the Δmag-vs-RMS plot, the field."""
+    from astrowb.photometry.reports.tfop import tfop_files
+
+    t = 2460000 + np.arange(40) / 100
+    flux = np.ones(40)
+    flux[15:25] = 0.7
+    rows = [{"name": f"{k}: G13.0 @ 40″", "disposition": d, "gmag": 13.0, "separation": 40.0, "dmag": 3.0,
+             "required_ppt": 50.0, "rms_ppt": 5.0, "ratio": 10.0, "x": 30.0 + 20 * k, "y": 40.0, "time": t,
+             "flux": flux if k == 1 else np.ones(40), "window": (t[15], t[24])}
+            for k, d in ((1, "Not cleared"), (2, "Cleared"))]  # fmt: skip
+    image = np.random.default_rng(0).normal(100, 5, (80, 120))
+    files = {p.name for p in tfop_files(tmp_path, {"time": t}, None, {"target": (10, 40)}, rows, image)}
+    assert {"star_01.png", "star_02.png", "dmag_vs_rms.png", "field_neb.png"} <= files
+    assert all((tmp_path / "NEB" / n).read_bytes()[:4] == b"\x89PNG" for n in ("star_01.png", "field_neb.png"))

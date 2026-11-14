@@ -63,4 +63,7 @@ def tfop_files(folder, lc, fit, stars, neb, image):
             w.writerow(cols)
             w.writerows([r[c] for c in cols] for r in neb)
         out.append(path)
+        from .neb_plots import write as neb_plots
+
+        out += neb_plots(folder / "NEB", neb, image, st.get("target"))
     return [Path(p) for p in out]
