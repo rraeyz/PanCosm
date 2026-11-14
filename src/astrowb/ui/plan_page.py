@@ -355,7 +355,12 @@ class PlanPage(Undoable, QWidget):
             t = {"name": self._cell(r, 0), "ra": float(self._cell(r, 1)), "dec": float(self._cell(r, 2))}
             try:
                 if self._cell(r, 3) and self._cell(r, 4):
-                    t |= {"t0": float(self._cell(r, 3)), "period": float(self._cell(r, 4))}
+                    t |= {
+                        "t0": float(self._cell(r, 3)),
+                        "period": float(self._cell(r, 4)),
+                        "t0_text": self._cell(r, 3),
+                        "period_text": self._cell(r, 4),
+                    }  # σ from the digits (PLN-4)
                     if self._cell(r, 5):
                         t["duration"] = float(self._cell(r, 5))
                     t["secondary"] = self.table.cellWidget(r, 6).isChecked()
@@ -525,7 +530,7 @@ class PlanPage(Undoable, QWidget):
                     name,
                     kinds[e["kind"]],
                     fmt(e["start"]),
-                    fmt(e["mid"]),
+                    fmt(e["mid"]) + _uncertainty(e),
                     local(e["mid"]),
                     fmt(e["end"]),
                     self.tr("yes") if e["full"] else self.tr("partly"),
@@ -543,3 +548,11 @@ class PlanPage(Undoable, QWidget):
                 n=len(rows),
             )
         )
+
+
+def _uncertainty(event):
+    """ " ± 3 min" when the event's time is known that well (PLN-4); "≈" when estimated from the catalogue's digits."""
+    s = event.get("sigma_min")
+    if s is None:
+        return ""
+    return f" ±{'≈' if event.get('sigma_estimated') else ''}{s:.1f} min" if s < 10 else f" ±{s:.0f} min"

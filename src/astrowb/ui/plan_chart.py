@@ -106,6 +106,9 @@ def _targets(ax, n, hours, sun, min_alt):
         for e in t["events"]:
             h = (e["mid"] - np.floor(n["jd"][0] + 0.5) + 0.5) * 24
             ax.plot([h], [e["alt_mid"]], "v", color=role("saturated"), ms=7, zorder=6)
+            if e.get("sigma_min"):  # how well its time is known (PLN-4): ±1σ
+                ax.errorbar([h], [e["alt_mid"]], xerr=[e["sigma_min"] / 60], fmt="none", ecolor=role("saturated"),
+                            elinewidth=1.2, capsize=3, zorder=6)  # fmt: skip
     if not any(t.get("body") == "moon" for t in n["targets"]):
         ax.plot(hours, n["moon_alt"], "--", color=role("rejected"), lw=1.1, zorder=2,
                 label=f"Moon ({100 * n['moon_illumination']:.0f} %)")  # fmt: skip
