@@ -150,7 +150,7 @@ def test_every_engine_error_has_a_template():
     import re
     from pathlib import Path
 
-    from astrowb.ui.messages import _patterns
+    from astrowb.ui.messages import TEMPLATES, _patterns
 
     src = Path(__file__).parents[1] / "src" / "astrowb"
     skip = {"engine/steps.py", "engine/plugins.py", "cli.py", "api/__init__.py"}  # scripting: English only
@@ -166,6 +166,10 @@ def test_every_engine_error_has_a_template():
             if kind in ("NotImplementedError", "AssertionError", "KeyError", "TypeError", "SystemExit"):
                 continue
             arg = node.exc.args[0]
+            if kind == "AppError":  # core/errors.py: the template itself, word for word
+                if not (isinstance(arg, ast.Constant) and arg.value in TEMPLATES):
+                    untranslated.append(f"{rel}:{node.lineno}: AppError without a known template")
+                continue
             if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                 text = arg.value
             elif isinstance(arg, ast.JoinedStr):
@@ -220,3 +224,15 @@ def test_the_failure_dialog_gets_the_advice_of_a_worker_error():
     )
     assert for_trace(trace).startswith("\n\nCheck the spelling")
     assert for_trace("Traceback ...\nValueError: nothing known\n") == ""
+
+
+def test_app_error_is_its_filled_template(turkish):
+    from astrowb.core.errors import AppError
+    from astrowb.engine.steps import execute
+
+    with pytest.raises(AppError) as e:
+        execute("photometry.transit_fit", {"light_curve": {"time": [0.0, 1.0], "rel_flux": [1.0, 1.0],
+                "rel_flux_err": [0.1, 0.1]}}, {"detrend": "humidity", "period": 1.0}, None)  # fmt: skip
+    assert isinstance(e.value, ValueError) and str(e.value) == "unknown detrending series: humidity"
+    assert e.value.template == "unknown detrending series: {name}" and e.value.values == {"name": "humidity"}
+    assert translate(str(e.value)) != str(e.value) and "humidity" in translate(str(e.value))  # shown in Turkish

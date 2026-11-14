@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from ..core.errors import AppError
 from ..engine.params import QT_TRANSLATE_NOOP, P
 from ..engine.steps import step
 
@@ -57,8 +58,7 @@ def transit_fit_step(inputs, params, ctx):
     names = [n.strip() for n in params["detrend"].split(",") if n.strip()]
     unknown = [n for n in names if n not in DETRENDS]
     if unknown:
-        name = unknown[0]
-        raise ValueError(f"unknown detrending series: {name}")
+        raise AppError("unknown detrending series: {name}", name=unknown[0])
     detrend = {n: s for n in names if (s := _series(lc, n)) is not None}
     tc = params["tc"] or float(np.median(t))
     start = {"tc": tc, "k": params["k"], "a_rs": params["a_rs"], "b": params["b"], "u1": params["u1"],
