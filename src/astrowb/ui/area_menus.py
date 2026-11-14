@@ -367,6 +367,9 @@ def observe(main, page, win):
             a["abort"]: "abort",
         }
     )
+    from .stage_boxes import observing_stages
+
+    observing_stages(win, page)  # UI-16.9: the controls as stages beside the exposure rows
 
 
 def automation(main, page, win):

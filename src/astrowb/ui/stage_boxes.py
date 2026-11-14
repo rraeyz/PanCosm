@@ -21,13 +21,18 @@ def stages_from_boxes(win, page, titles, anchors, step_stage, keep_column=False)
         lay.addWidget(box, 1)
         stages.append(Stage(key, titles[key], holder, anchors[key]))
     win.set_stages(stages)
-    column = page.guide.parentWidget()  # the left column keeps only the title and the guide: the rail says it now
+    guide = getattr(page, "guide", None)  # Observing has no step guide: its left column goes whole
+    column = page.left if guide is None else guide.parentWidget()  # the column keeps only the title and the guide
     while column.parentWidget() is not None and not isinstance(column.parentWidget(), QSplitter):
         column = column.parentWidget()  # up to the splitter's left side (a scroll area on the Plan page)
     if not keep_column:
         column.hide()
-    page.guide.hide()
-    set_state = page.guide.set_state
+    if guide is None:
+        win.restoreDockWidget(win.docks["stages"])
+        _refit_columns(page)
+        return
+    guide.hide()
+    set_state = guide.set_state
 
     def follow(i, state="done"):
         set_state(i, state)
@@ -226,3 +231,19 @@ def rs_stages(win, page):
         "classes": "remote-sensing-classification-principal-components",
     }
     stages_from_boxes(win, page, titles, anchors, {0: "scene", 1: "display", 2: "indices", 3: "classes"}, True)
+
+
+def observing_stages(win, page):
+    """The Observing window (UI-16.9): Connect, Point, Focus, Sequence, Night; the exposure rows stay the main view."""
+    left, right = page.left.layout(), page.right.layout()
+    box = boxes_from_column(left, [("connect", page.url), ("point", page.mount), ("focus", page.focus_pos),
+                                   ("night", page.buttons["abort"])])  # fmt: skip
+    box["sequence"] = boxes_from_column(right, [("sequence", page.start_button)])["sequence"]
+    page.stage_boxes = {k: box[k] for k in ("connect", "point", "focus", "sequence", "night")}
+    titles = {"connect": translate("ObservePage", "Connect"), "point": translate("ObservePage", "Point"),
+              "focus": translate("ObservePage", "Focus"), "sequence": translate("ObservePage", "Sequence"),
+              "night": translate("ObservePage", "Night")}  # fmt: skip
+    anchors = {"connect": "observing-starting-connecting", "point": "observing-moving-telescope",
+               "focus": "observing-autofocus", "sequence": "observing-sequences",
+               "night": "observing-safety-supervisor"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {})
