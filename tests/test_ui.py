@@ -1358,8 +1358,18 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     win = window.area_windows["photometry"]
     assert isinstance(win, AreaWindow) and win.isVisible() and window.current_workspace() == "photometry"
     assert win.centralWidget() is window.photometry_page.viewer  # the image in the middle (I5)
-    stages = ["images", "stars", "apertures", "measure", "lightcurve", "timing", "report", "tools"]
+    stages = ["images", "field", "stars", "apertures", "measure", "lightcurve", "timing", "report", "tools"]
     assert list(win.stage_panels) == stages and "results" in win.docks
+    page = window.photometry_page  # the Field stage: identify, the answer, the variables, what is drawn (UI-16.1)
+    for w in (page.identify_button, page.sequence_button, page.field_label, page.variables, page.show_gaia):
+        assert win.stage_panels["field"].isAncestorOf(w)
+    page.field = {"stars": {"x": [10.0, 20.0], "y": [5.0, 6.0], "gmag": [12.0, 11.0]}, "variables": []}
+    page.shown = 0
+    page.show_gaia.setChecked(True)
+    assert len(page.field_marks()) == 2 and page.field_marks()[0][:2] == (20.0, 6.0)  # brightest first
+    page.show_gaia.setChecked(False)
+    assert page.field_marks() == [] and page.variables_on()
+    page.field = None
     assert win.stage_panels["timing"].isAncestorOf(window.photometry_page.minimum_button)
     assert win.stage_panels["images"].isAncestorOf(window.photometry_page.load_button)  # the steps as stages
     assert window.pages.currentWidget() is not window._frames[window.photometry_page]  # not in the main window

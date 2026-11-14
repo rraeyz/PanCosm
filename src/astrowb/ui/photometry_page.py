@@ -1638,7 +1638,7 @@ class PhotometryPage(Undoable, QWidget):
         here = self.ref is None or self.ref == self.shown
         for xy, colour, label in stars if here else ():
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
-        if self.field and self.shown == 0:  # the known variable stars, where the solution of the first frame puts them
+        if self.field and self.shown == 0 and getattr(self, "variables_on", lambda: True)():  # the known variables
             # named only when chosen in the list (40 names hid the field, I6b (1)); the others on hover
             chosen = (self.variables.currentData() or {}).get("name")
             for v in self.field["variables"][:30]:
@@ -1656,7 +1656,7 @@ class PhotometryPage(Undoable, QWidget):
                         *([] if v["name"] == chosen else ["quiet"]),
                     )  # fmt: skip
                 )
-        self.viewer.set_markers(marks)
+        self.viewer.set_markers(marks + getattr(self, "field_marks", list)())  # the Field stage's Gaia rings
         role = self.click_role.currentData()
         nxt = "target" if self.target is None or role == "target" else "check" if role == "check" else "comparison"
         # the rings of the next click follow the mouse, in the colour of the star it will mark
