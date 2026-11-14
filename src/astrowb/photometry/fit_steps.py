@@ -10,7 +10,7 @@ DETRENDS = ("airmass", "fwhm", "sky", "x", "y")
 
 
 def _series(lc, name):
-    if name in ("airmass", "fwhm"):
+    if name in ("airmass", "fwhm", "ellipticity"):
         return lc.get(name)
     if name == "sky":
         return [s[0] for s in lc["sky"]] if lc.get("sky") else None
