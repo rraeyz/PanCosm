@@ -32,6 +32,8 @@ def night_step(inputs, params, ctx):
         "dusk": dusk.jd if dusk else None,
         "dawn": dawn.jd if dawn else None,
         "nautical": [t.jd if t else None for t in nautical],
+        "site": {"name": site.name, "lat": site.lat, "lon": site.lon, "height": site.height},
+        "date": inputs["date"],
         "targets": [],
     }
     for i, t in enumerate(inputs["targets"]):
@@ -43,6 +45,7 @@ def night_step(inputs, params, ctx):
         entry = {
             "name": t["name"],
             "alt": alt.tolist(),
+            "moon_sep": sep.tolist(),  # the chart writes it along the curve
             "airmass": np.nan_to_num(airmass(alt), nan=-1).tolist(),
             "moon_sep_min": float(np.min(sep)),
             "events": [],

@@ -267,7 +267,7 @@ class PlanPage(Undoable, QWidget):
         self.schedule_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.schedule_table.setEditTriggers(QTableWidget.NoEditTriggers)
         right.addWidget(self.schedule_table)
-        right.setSizes([480, 160, 160])
+        right.setSizes([700, 120, 100])
         right.setStretchFactor(0, 1)  # the chart takes what the window gives; the tables keep their share
         self.blocks = []
         split.addWidget(right)
@@ -442,40 +442,10 @@ class PlanPage(Undoable, QWidget):
         jd = np.asarray(n["jd"])
         midnight = np.floor(jd[0] + 0.5) - 0.5  # 00:00 UTC of the first date (JD days start at noon)
         hours = (jd - midnight) * 24
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        sun = np.asarray(n["sun_alt"])
-        for level, shade in ((-0.8, 0.08), (-6, 0.15), (-12, 0.22), (-18, 0.3)):
-            ax.fill_between(hours, 0, 90, where=sun < level, color="navy", alpha=shade, lw=0)
+        from .plan_chart import draw_night
+
         off = self.local_offset(jd[len(jd) // 2])
-        # the chart is in English whatever the interface language: it goes into papers and reports
-        for t in n["targets"]:
-            ax.plot(hours, t["alt"], label=t["body"].capitalize() if t.get("body") else t["name"])
-            for e in t["events"]:
-                h = (e["mid"] - midnight) * 24
-                ax.plot([h], [e["alt_mid"]], "v", color="red", ms=8)
-        if not any(t.get("body") == "moon" for t in n["targets"]):  # typed: drawn above as a target
-            ax.plot(
-                hours,
-                n["moon_alt"],
-                "--",
-                color="gray",
-                lw=1,
-                label=f"Moon ({100 * n['moon_illumination']:.0f} %)",
-            )
-        ax.axhline(self.min_alt.value(), color="red", lw=0.6, ls=":")
-        ax.set_ylim(0, 90)
-        ax.set_xlim(hours[0], hours[-1])
-        ax.xaxis.set_major_formatter(lambda h, _pos: f"{h % 24:g}")  # 25 h is 1 h UTC the next day
-        ax.set_xlabel("UTC (hours)")
-        ax.set_ylabel("Altitude (°)")
-        top = ax.secondary_xaxis("top", functions=(lambda h: h + off, lambda h: h - off))
-        top.xaxis.set_major_formatter(lambda h, _pos: f"{h % 24:g}")
-        top.set_xlabel(f"Local time (UTC{off:+g}, hours)")
-        secax = ax.secondary_yaxis("right", functions=(_alt_to_airmass, _airmass_to_alt))
-        secax.set_ticks([1.0, 1.2, 1.5, 2.0, 3.0])
-        secax.set_ylabel("Airmass")
-        ax.legend(fontsize="small", loc="upper right")
+        draw_night(self.plot.figure, n, hours, off, self.min_alt.value(), self.plot.width())
         self.plot.draw()
 
         rows = [(t["name"], e) for t in n["targets"] for e in t["events"]]
@@ -512,13 +482,3 @@ class PlanPage(Undoable, QWidget):
                 n=len(rows),
             )
         )
-
-
-def _alt_to_airmass(alt):
-    with np.errstate(divide="ignore", invalid="ignore"):
-        return 1 / np.sin(np.radians(np.clip(alt, 1, 90)))
-
-
-def _airmass_to_alt(x):
-    with np.errstate(divide="ignore", invalid="ignore"):
-        return np.degrees(np.arcsin(1 / np.clip(x, 1, 60)))
