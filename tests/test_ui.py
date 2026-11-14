@@ -270,8 +270,10 @@ def test_photometry_page_click_measure_minimum(window, qtbot, tmp_path):
     assert {p.name for p in saved} >= {"light_curve.lc.ecsv", "measurements.csv", "stars.json", "transit_fit.json"}
     from astrowb.ui.kit.table_view import DataTable
     from astrowb.ui.photometry_transit import details_dialog
+    from astrowb.ui.plot.view import PlotView
 
     dlg = details_dialog(page, *page.transit_fit)
+    assert len(dlg.findChild(PlotView).figure.panels) == 2 and dlg.findChild(PlotView).failed is None
     view = dlg.findChild(DataTable).table
     names = [view.item(r, 0).text() for r in range(view.rowCount())]
     assert {"tc", "k", "a_rs", "b", "depth_ppt", "t14_h", "chi2r", "beta"} <= set(names)
@@ -372,7 +374,7 @@ def test_period_search_tab(window, qtbot):
     assert abs(page.best - 0.731) < 0.002
     assert window.lightcurve_page.count() == 3  # O−C has its own window (interface I6d (4))
     page.phase_bins.setValue(20)  # binned mean curve drawn over the folded points
-    assert len(window.period_page.plot.figure.axes[1].containers) == 1
+    assert [x.name for x in window.period_page.plot.figure.panels[1].series][-1] == "binned mean"
 
     rng = np.random.default_rng(3)  # an eclipsing binary: with the period known, outliers are judged in phase
     t = np.sort(np.concatenate([n * 1.7 + rng.uniform(0, 0.3, 120) for n in range(25)]))
@@ -389,7 +391,7 @@ def test_period_search_tab(window, qtbot):
     page.set_light_curve(t, y, "binary with errors", err=e)
     page.best = None
     page._plot_light_curve()
-    assert len(page.plot.figure.axes[0].containers) == 1  # error bars drawn
+    assert page.plot.figure.panels[0].series[0].yerr is not None  # error bars drawn
     page._clip()
     assert len(page.err) == len(page.time)
     flux_before, err_before = np.asarray(page.flux), np.asarray(page.err)
@@ -536,6 +538,7 @@ def test_echelle_tab_identifies_lines_with_order_numbers(window):
 
 def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     from astrowb.models import fit
+    from astrowb.ui.kit.widgets import PlotCanvas
 
     truth = {
         "period": 1.7,
@@ -582,7 +585,7 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     assert names["incl"][1:3] == (86.0, 0.2) and names["t0"][1] == 2459500.251234 and "MCMC" in caption
     assert names["l3 (fixed)"][2] is None and "800 points" in caption and "r1" in names
     dlg = page.show_posterior()
-    assert len(dlg.findChildren(type(page.plot))[0].figure.axes) == 4
+    assert len(dlg.findChildren(PlotCanvas)[0].figure.axes) == 4
     dlg.close()
     path.write_text("not a light curve\n")  # a failed fit says why on the page, not "Fitting…" for ever
     page.fit_button.click()
@@ -660,7 +663,7 @@ def test_remote_sensing_page(window, qtbot, tmp_path):
     page._hover(1, page.raster.shape[0], 0.0)  # viewer pixel (1, ny) in FITS convention = image (0, 0)
     assert "pixel 0, 0" in page.readout.text() and "X 500015.00" in page.readout.text()
     page._clicked(70.0, page.raster.shape[0] - 1 - 10.0)
-    assert len(page.plot.figure.axes) == 1
+    assert len(page.plot.figure.panels) == 1
     page.expression.setText("os.system('x')")
     page._compute()
     assert "not allowed" in page.status.text()
@@ -1224,7 +1227,7 @@ def test_light_curve_page_saves_for_the_models_page_and_warns_about_aliases(qtbo
 
 def test_a_click_on_a_periodogram_peak_folds_at_once(qtbot):
     """UI-16.4: clicking near a peak folds at the highest peak there; ×2 and ÷2 aliases are marked."""
-    from types import SimpleNamespace
+    from PySide6.QtTest import QTest
 
     from astrowb.ui.period_page import PeriodPage
 
@@ -1237,11 +1240,13 @@ def test_a_click_on_a_periodogram_peak_folds_at_once(qtbot):
         -0.5 * (np.log(periods / 2.3) / 0.002) ** 2
     )
     page.show_result({"best": 0.7, "periods": periods.tolist(), "power": power.tolist()})
-    ax = next(a for a in page.plot.figure.axes if getattr(a, "_kind", "") == "periodogram")
-    assert len(ax.lines) == 4  # the curve, the best period and its two aliases
-    page._clicked(SimpleNamespace(inaxes=ax, xdata=2.33, ydata=0.5))  # a little off the second peak
-    assert abs(page.best - 2.3) < 0.01 and "clicked peak" in page.result.text()
-    assert abs(page.step_peak(-1) - 0.7) < 0.01 and page.step_peak(-1) is None  # ← to the shorter peak, then none
+    top = page.plot.figure.panels[0]
+    assert [x.kind for x in top.series] == ["line", "points", "vline", "vline"] and top.x.scale == "log"
+    pick = next(e for e in page.plot.items if e["spec"].pickable and e["spec"].name == "Power")
+    page._picked("Power", int(np.argmin(np.abs(periods - 2.33))))  # a little off the second peak
+    assert abs(page.best - 2.3) < 0.01 and "clicked peak" in page.result.text() and pick
+    QTest.keyClick(page.plot, Qt.Key_Left)  # ← folds at the next shorter peak
+    assert abs(page.best - 0.7) < 0.01 and page.step_peak(-1) is None
 
 
 def test_every_page_fits_a_short_window(window):
@@ -2374,6 +2379,27 @@ def test_the_checks_tab(window):
     menu.actions()[1].trigger()
     del page.checks.leave_out_flagged  # the class's own again
     assert left == ["spike"]
+
+
+from astrowb.ui.kit.tokens import role  # noqa: E402
+
+
+def test_the_checks_marks_frames_and_the_stage_line(window, tmp_path):
+    """PHO-33: flagged frames carry the reason in the Frames table (once, however often judged); the Light curve
+    stage shows the verdict."""
+    window.show_workspace("photometry")
+    page = window.photometry_page
+    n = 6
+    page.images = [str(tmp_path / f"f{i}.fits") for i in range(n)]
+    comp = np.full((n, 2), 1e5)
+    comp[2:4] *= 0.5
+    lc = {"comp_flux": comp.tolist(), "file": [f"f{i}.fits" for i in range(n)], "rel_flux": [1.0] * n}
+    page.checks.show_checks(lc)
+    page.checks.show_checks(lc)
+    assert page.frame_table.item(2, 0).toolTip() == "behind cloud" and page.frame_table.item(0, 0).toolTip() == ""
+    assert page.frame_table.item(3, 1).foreground().color().name() == role("non_linear")
+    assert "behind cloud" in page.checks.line.text()
+    assert window.area_windows["photometry"].stage_panels["lightcurve"].isAncestorOf(page.checks.line)
 
 
 def test_the_checks_tab_shows_red_noise(window):

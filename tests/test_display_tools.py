@@ -75,6 +75,12 @@ def test_header_tab_and_menus(qtbot, tmp_path, fits_file):
         dlg.white.setValue(1100.0)
         dlg.cmap.setCurrentIndex(dlg.cmap.findData("heat"))
         assert win.viewer.limits == (990.0, 1100.0) and win.viewer.cmap == "heat"
+        white = next(e for e in dlg.plot.items if e["spec"].kind == "vline" and e["spec"].x[0] == 1100.0)
+        assert (
+            white["lines"][0].value() == 1100.0
+            and dlg.plot.failed is None
+            and dlg.plot.figure.panels[0].y.scale == "log"
+        )  # the line followed
         dlg.automatic()
         assert win.viewer.limits is None
         assert win.save_picture_dialog(tmp_path / "shown.png").exists()

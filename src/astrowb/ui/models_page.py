@@ -23,9 +23,12 @@ from PySide6.QtWidgets import (
 )
 
 from ..models.fit import DEFAULT_FREE, NAMES
+from .kit import tokens
 from .kit.help import help_line
 from .kit.widgets import PlotCanvas
 from .messages import translate
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 from .spectro_page import _FileRow
 from .undo import Undoable, track_typing
 
@@ -212,8 +215,8 @@ class ModelsPage(Undoable, QWidget):
         lay.addWidget(help_line(self.tr("Two spheres on a Keplerian orbit: detached binaries and transits. Contact "
                                         "binaries: PHOEBE or WD."), "orbits-models-model", self))  # fmt: skip
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        split.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        split.addWidget(box)
         split.setSizes([430, 770])
         from .visual_orbit_tab import VisualOrbitTab
 
@@ -536,18 +539,25 @@ class ModelsPage(Undoable, QWidget):
 
     def _draw(self):
         r = self.result
-        self.plot.figure.clear()
         if not r:
-            return
-        ax, res = self.plot.figure.subplots(2, 1, sharex=True, gridspec_kw={"height_ratios": [3, 1]})
-        ax.plot(r["phase"], r["flux"], ".", ms=2, color="tab:blue")
-        ax.plot(r["model_phase"], r["model_flux"], "r-", lw=1, label=self.tr("model"))
+            return self.plot.set_figure(FigureSpec([]))
+        red, green = tokens.role("saturated"), tokens.role("target")
+        series = [
+            SeriesSpec(self.tr("measured"), r["phase"], r["flux"], size=3),
+            SeriesSpec(
+                self.tr("model"), r["model_phase"], r["model_flux"], kind="line", colour=tokens.role("saturated")
+            ),
+        ]
         if self.overlay is not None:
-            ax.plot(*self.overlay, "-", color="tab:green", lw=1, label=self.tr("external model"))
-        ax.legend(loc="lower right")
-        ax.set_ylabel(self.tr("Relative flux"))
-        res.plot(r["phase"], r["residual"], ".", ms=2, color="gray")
-        res.axhline(0, color="r", lw=0.8)
-        res.set_xlabel(self.tr("Phase"))
-        res.set_ylabel(self.tr("O−C"))
-        self.plot.draw()
+            series.append(SeriesSpec(self.tr("external model"), *self.overlay, kind="line", colour=green))
+        x = AxisSpec(self.tr("Phase"))
+        zero = SeriesSpec("0", [0.0], kind="hline", colour=red)
+        residual = SeriesSpec(self.tr("O−C"), r["phase"], r["residual"], size=3, colour=tokens.role("rejected"))
+        self.plot.set_figure(
+            FigureSpec(
+                [
+                    PanelSpec(x, AxisSpec(self.tr("Relative flux")), series, height_ratio=3),
+                    PanelSpec(x, AxisSpec(self.tr("O−C")), [residual, zero]),
+                ]
+            )
+        )

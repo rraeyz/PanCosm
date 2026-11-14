@@ -40,6 +40,10 @@ def write(lc, path, provenance=None):
     if "time" in t.colnames:
         t["time"].unit = "d"
         t["time"].description = f"mid-exposure time, {lc.get('time_scale', 'unknown scale')}"
+    if "airmass" in t.colnames:  # the formula's name beside the column (ARC-15 item 6; default formula)
+        from ..core.units import AIRMASS_NOTE
+
+        t["airmass"].description = f"airmass, {AIRMASS_NOTE['young1994']}"
     t.meta.update({"version": VERSION, "lc": meta, "columns": list(columns), "provenance": provenance or {}})
     t.write(path, format="ascii.ecsv", overwrite=True)
     return path

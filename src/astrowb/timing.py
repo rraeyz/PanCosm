@@ -9,6 +9,7 @@ uses astropy's built-in solar-system ephemeris. Observatory position changes BJD
 import re
 
 import astropy.units as u
+import numpy as np
 from astropy.coordinates import AltAz, EarthLocation, SkyCoord
 from astropy.time import Time, TimeDelta
 
@@ -281,6 +282,18 @@ def airmass(t: Time, target: SkyCoord, where: EarthLocation, formula="young1994"
     from .core.units import airmass as of_altitude
 
     return of_altitude(float(target.transform_to(AltAz(obstime=t, location=where)).alt.deg), formula)
+
+
+def series_flags(times, factor=3.0):
+    """Frame indices whose time stamp repeats, runs backwards or steps more than factor × the median cadence beyond the
+    previous frame (ARC-15 item 5 d): {"repeat": [...], "backwards": [...], "gap": [...]}; times in any one unit."""
+    d = np.diff(np.asarray(times, float))
+    cadence = float(np.median(d[d > 0])) if (d > 0).any() else 0.0
+    return {
+        "repeat": (np.flatnonzero(d == 0) + 1).tolist(),
+        "backwards": (np.flatnonzero(d < 0) + 1).tolist(),
+        "gap": (np.flatnonzero(d > factor * cadence) + 1).tolist() if cadence else [],
+    }
 
 
 def chronological(paths, times=None) -> list[str]:

@@ -86,3 +86,15 @@ class PlotToolbar(QWidget):
         window.show()
         self.windows.append(window)
         return window
+
+
+def plot_box(parent):
+    """(a widget holding a PlotToolbar above a PlotView, the PlotView): what a page puts where its plot goes."""
+    from .view import PlotView
+
+    box, view = QWidget(parent), PlotView(parent=parent)
+    lay = QVBoxLayout(box)
+    lay.setContentsMargins(0, 0, 0, 0)
+    lay.addWidget(PlotToolbar(view, box))
+    lay.addWidget(view, 1)
+    return box, view

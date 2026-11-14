@@ -317,3 +317,47 @@ def test_named_ticks_equal_aspect_and_pieces_of_one_curve(qapp, tmp_path):
     assert plot.getViewBox().state["aspectLocked"]
     assert plot.getAxis("bottom")._tickLevels[0] == [(1, "B"), (2, "V")]
     assert len(plot.legend.items) == 2
+
+
+def test_move_vline_moves_the_line_not_the_figure(view):
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("x"), AxisSpec("y"), [SeriesSpec("a", [0, 10], [0, 1]), SeriesSpec("level", [3], kind="vline")]
+            )
+        ]
+    )
+    view.set_figure(spec)
+    view.move_vline("level", 7.0)
+    line = next(e for e in view.items if e["spec"].name == "level")["lines"][0]
+    assert line.value() == 7.0 and view.figure.panels[0].series[1].x[0] == 7.0
+
+
+def test_vlines_sit_right_on_a_log_axis(view):
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("P", scale="log"),
+                AxisSpec("y"),
+                [SeriesSpec("a", [1, 100], [0, 1]), SeriesSpec("p", [10], kind="vline")],
+            )
+        ]
+    )
+    view.set_figure(spec)
+    line = next(e for e in view.items if e["spec"].name == "p")["lines"][0]
+    assert line.value() == pytest.approx(1.0)  # log10(10)
+    view.move_vline("p", 100.0)
+    assert line.value() == pytest.approx(2.0)
+
+
+def test_points_on_a_log_axis_are_drawn_and_clickable_where_they_are(view):
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("P", scale="log"), AxisSpec("y"), [SeriesSpec("p", [1, 10, 100], [1, 2, 3], pickable=True)]
+            )
+        ]
+    )
+    view.set_figure(spec)
+    item = next(e for e in view.items)["item"]
+    assert list(item.getData()[0]) == pytest.approx([0.0, 1.0, 2.0])  # log10 of the periods
