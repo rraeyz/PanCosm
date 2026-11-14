@@ -85,6 +85,7 @@ TEMPLATES = (
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
     QT_TRANSLATE_NOOP("Messages", "unknown repair: {mode}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown rejection {method}"),
     QT_TRANSLATE_NOOP("Messages", "at least five dithered frames are needed for a flat from the sky"),
     QT_TRANSLATE_NOOP(
         "Messages",
