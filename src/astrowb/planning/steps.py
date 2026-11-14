@@ -62,6 +62,8 @@ def night_step(inputs, params, ctx):
             "events": [],
             "body": body,
         }
+        if not body:
+            entry["ra"], entry["dec"] = float(t["ra"]), float(t["dec"])  # for its standards (PLN-9)
         if site.horizon:  # the lowest usable altitude towards the target at each time (PLN-1)
             from .night import limit
 

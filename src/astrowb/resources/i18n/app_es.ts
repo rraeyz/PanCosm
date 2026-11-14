@@ -13838,69 +13838,110 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="93"/>
+        <location filename="../../ui/plan_tables.py" line="124"/>
         <source>Local (UTC{off})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="95"/>
+        <location filename="../../ui/plan_tables.py" line="126"/>
         <source>Sun</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="96"/>
+        <location filename="../../ui/plan_tables.py" line="127"/>
         <source>Moon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="97"/>
+        <location filename="../../ui/plan_tables.py" line="128"/>
         <source>Targets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="98"/>
+        <location filename="../../ui/plan_tables.py" line="129"/>
         <source>local time; above {alt:g}°</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="101"/>
-        <location filename="../../ui/plan_tables.py" line="104"/>
+        <location filename="../../ui/plan_tables.py" line="132"/>
+        <location filename="../../ui/plan_tables.py" line="135"/>
         <source>Event</source>
         <translation type="unfinished">Evento</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="110"/>
+        <location filename="../../ui/plan_tables.py" line="141"/>
+        <location filename="../../ui/plan_tables.py" line="158"/>
         <source>Target</source>
         <translation type="unfinished">Objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="111"/>
+        <location filename="../../ui/plan_tables.py" line="142"/>
         <source>Rises</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="112"/>
+        <location filename="../../ui/plan_tables.py" line="143"/>
         <source>Sets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="113"/>
+        <location filename="../../ui/plan_tables.py" line="144"/>
         <source>Highest at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="114"/>
+        <location filename="../../ui/plan_tables.py" line="145"/>
         <source>Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="115"/>
+        <location filename="../../ui/plan_tables.py" line="146"/>
         <source>Airmass</source>
         <translation type="unfinished">Masa de aire</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="116"/>
+        <location filename="../../ui/plan_tables.py" line="147"/>
         <source>Moon closest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="152"/>
+        <source>Telluric standards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="153"/>
+        <source>nearest at the same airmass, at the target’s highest point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="159"/>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="160"/>
+        <source>At</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="161"/>
+        <source>Its airmass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="162"/>
+        <source>Target airmass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="163"/>
+        <source>Distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="167"/>
+        <source>Hot bright stars from Hipparcos (van Leeuwen 2007) to remove the atmosphere&apos;s lines from a spectrum</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

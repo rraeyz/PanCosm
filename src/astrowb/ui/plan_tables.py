@@ -74,6 +74,37 @@ def target_rows(n, hours, offset, min_alt):
     return rows
 
 
+def standard_rows(n, hours, offset):
+    """(target, telluric standard, local time, its airmass, the target's, separation) at each fixed target's highest
+    point in the dark: the nearest standard within 0.1 airmass (PLN-9)."""
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord
+    from astropy.time import Time
+
+    from ..planning import standards
+    from ..planning.visibility import Site
+
+    site = Site(**{k: n["site"][k] for k in ("name", "lat", "lon", "height")})
+    rows, out = standards.load("telluric"), []
+    dark = np.asarray(n["sun_alt"], float) < -12
+    for t in n["targets"]:
+        if "ra" not in t or not dark.any():
+            continue
+        alt = np.where(dark, np.asarray(t["alt"], float), -90)
+        k = int(np.argmax(alt))
+        if alt[k] <= 20:
+            continue
+        found = standards.matching(SkyCoord(t["ra"] * u.deg, t["dec"] * u.deg), Time(n["jd"][k], format="jd"),
+                                   site, rows, limit=1)  # fmt: skip
+        if found:
+            s = found[0]
+            out.append((t["name"], s["name"], clock(hours[k] + offset), f"{s['airmass']:.2f}",
+                        f"{s['target_airmass']:.2f}", f"{s['separation']:.0f}°"))  # fmt: skip
+        else:
+            out.append((t["name"], "—", clock(hours[k] + offset), "—", f"{float(airmass_of(alt[k])):.2f}", "—"))
+    return out
+
+
 def _table(parent, headers, rows):
     table = QTableWidget(len(rows), len(headers), parent)
     table.setHorizontalHeaderLabels(headers)
@@ -118,5 +149,23 @@ def tables_page(n, hours, offset, min_alt, parent=None):
         target_rows(n, hours, offset, min_alt),
     )
     lay.addWidget(page.targets)
+    title = translate("PlanTables", "Telluric standards")
+    note = translate("PlanTables", "nearest at the same airmass, at the target’s highest point")
+    lay.addWidget(QLabel(f"<b>{title}</b>  ({note})", page))
+    page.standards = _table(
+        page,
+        [
+            translate("PlanTables", "Target"),
+            translate("PlanTables", "Standard"),
+            translate("PlanTables", "At"),
+            translate("PlanTables", "Its airmass"),
+            translate("PlanTables", "Target airmass"),
+            translate("PlanTables", "Distance"),
+        ],
+        standard_rows(n, hours, offset),
+    )
+    page.standards.setToolTip(translate("PlanTables", "Hot bright stars from Hipparcos (van Leeuwen 2007) to "
+                                        "remove the atmosphere's lines from a spectrum"))  # fmt: skip
+    lay.addWidget(page.standards)
     lay.addStretch(1)
     return page
