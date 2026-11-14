@@ -63,3 +63,18 @@ def test_calibrate_night_in_one_call(tmp_path):
     sampledata.make(tmp_path / "raw", n_lights=4)
     lights = api.calibrate_night(tmp_path / "raw", tmp_path / "cal")
     assert len(lights) == 4 and all(str(tmp_path / "cal") in p for p in lights)
+
+
+def test_results_as_tables():
+    import numpy as np
+
+    t = np.linspace(0, 20, 400)
+    f = 1 + 0.1 * np.sin(2 * np.pi * t / 1.7)
+    out = api.timeseries.period(time=t.tolist(), flux=f.tolist(), p_min=0.5, p_max=5.0)
+    table = out.to_table()
+    assert {"periods", "power"} <= set(table.colnames) and len(table) == len(out["periods"])
+    assert abs(table["periods"][np.argmax(table["power"])] - 1.7) < 0.02
+    rows = api.Result({"stars": [{"name": "a", "mag": 12.1}, {"name": "b", "mag": 13.4}], "n": 2})
+    assert list(rows.to_table()["name"]) == ["a", "b"] and list(rows.to_table("stars")["mag"]) == [12.1, 13.4]
+    with pytest.raises(TypeError):
+        rows.to_table("n")

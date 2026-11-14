@@ -3,6 +3,7 @@
     from astrowb import api
     out = api.photometry.light_curve(images=[...], target_xy=[512, 300], comps_xy=[[400, 280]])
     api.run("timeseries.period", time=t, flux=f, method="bls")
+    api.run(...).to_table()                       # the result's columns as an astropy Table
     api.steps()                                   # every step id
     help(api.models.visual_orbit)                 # its inputs, parameters and defaults
     lights = api.calibrate_night("raw/", "cal/")  # the hand-written helpers chain several steps
@@ -22,6 +23,52 @@ class _Ctx:
         pass
 
 
+class Result(dict):
+    """A step's outputs (a dict) that can also give its columns as an astropy Table."""
+
+    def to_table(self, key=None):
+        """The columns of output `key` (a dict of columns or a list of rows) as a Table; without a key, the
+        outputs that are columns of one length (e.g. periods and power), else the first output that is a table."""
+        from astropy.table import Table
+
+        def columns(d):
+            cols = {k: v for k, v in d.items() if _is_column(v)}
+            if not cols:
+                return None
+            n = max({len(v) for v in cols.values()}, key=[len(v) for v in cols.values()].count)
+            return Table({k: v for k, v in cols.items() if len(v) == n})
+
+        def as_table(v):
+            if isinstance(v, dict):
+                return columns(v)
+            if isinstance(v, list) and v and all(isinstance(r, dict) for r in v):
+                return Table(rows=v)
+            return None
+
+        if key is not None:
+            t = as_table(self[key])
+            if t is None:
+                raise TypeError(f"output {key!r} is not a table")
+            return t
+        t = columns(self)
+        if t is not None and len(t.colnames) > 1:
+            return t
+        for v in self.values():
+            t = as_table(v)
+            if t is not None:
+                return t
+        raise TypeError(f"no output is a table (outputs: {', '.join(self)})")
+
+
+def _is_column(v):
+    import numpy as np
+
+    if isinstance(v, (str, bytes, dict)) or not hasattr(v, "__len__") or len(v) < 2:
+        return False
+    a = np.asarray(v, dtype=object)
+    return a.ndim == 1 and not any(isinstance(x, (dict, list)) for x in a)
+
+
 def steps():
     from ..engine import steps as registry
 
@@ -37,7 +84,7 @@ def run(step_id, **values):
         inputs, params = _split(step_id, values)
     except UsageError as e:
         raise TypeError(str(e)) from None
-    return execute(step_id, inputs, params, _Ctx())
+    return Result(execute(step_id, inputs, params, _Ctx()))
 
 
 def _function(step_id):
