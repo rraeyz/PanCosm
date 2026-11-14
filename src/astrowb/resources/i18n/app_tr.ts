@@ -1598,6 +1598,11 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Light karelerden kozmik ışınları temizle</translation>
     </message>
     <message>
+        <location filename="../../ui/calibrate_page.py" line="226"/>
+        <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights: switch it off for a quick pass.</source>
+        <translation>Her ışık karesindeki kozmik ışın vuruşlarını keskin kenarlarından bulur (L.A.Cosmic, astroscrappy) ve değiştirir. Uzun pozlar ve tayflar için yararlıdır; çok kare reddetmeyle yığılıyorsa gerekmez. Işık karelerinin kalibrasyonunda en yavaş kısımdır: hızlı geçiş için kapatın.</translation>
+    </message>
+    <message>
         <location filename="../../ui/calibrate_page.py" line="231"/>
         <source>Scale the dark to each light (dark optimisation)</source>
         <translation>Dark&apos;ı her ışık karesine ölçekle (dark optimizasyonu)</translation>
@@ -1676,11 +1681,6 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/calibrate_page.py" line="187"/>
         <source>The type comes from the header, else from the file name; double-click a type to change it.</source>
         <translation>Tür başlıktan, yoksa dosya adından bulunur; değiştirmek için türe çift tıklayın.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/calibrate_page.py" line="226"/>
-        <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights (about 3× the rest): switch it off for a quick pass.</source>
-        <translation>Her ışık karesindeki kozmik ışın vuruşlarını keskin kenarlarından bulur (L.A.Cosmic, astroscrappy) ve değiştirir. Uzun pozlar ve tayflar için yararlıdır; çok kare reddetmeyle yığılıyorsa gerekmez. Işık karelerinin kalibrasyonunda en yavaş kısımdır (geri kalanın yaklaşık 3 katı): hızlı geçiş için kapatın.</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="245"/>

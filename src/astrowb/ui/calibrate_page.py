@@ -225,7 +225,7 @@ class CalibratePage(Undoable, QWidget):
             self.tr(
                 "Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them."
                 " Useful for long exposures and spectra; not needed when many frames are stacked with rejection. "
-                "The slowest part of calibrating the lights (about 3× the rest): switch it off for a quick pass."
+                "The slowest part of calibrating the lights: switch it off for a quick pass."
             )
         )
         self.optimize_dark = QCheckBox(self.tr("Scale the dark to each light (dark optimisation)"), self)

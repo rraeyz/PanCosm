@@ -241,11 +241,12 @@ def _run(inputs, params, ctx):
 
 
 def _remove_cosmic_rays(data, header, read_noise):
-    import astroscrappy
     import numpy as np
 
+    from .cosmics import detect_cosmics  # astroscrappy's answer, its later passes only where they can differ
+
     gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
-    mask, clean = astroscrappy.detect_cosmics(np.nan_to_num(data), gain=gain, readnoise=read_noise)
+    mask, clean = detect_cosmics(np.nan_to_num(data), gain=gain, readnoise=read_noise)
     header["CRCLEAN"] = (int(mask.sum()), "pixels replaced by astroscrappy")
     return np.where(np.isnan(data), np.nan, clean).astype(np.float32)
 
