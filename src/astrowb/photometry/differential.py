@@ -14,6 +14,8 @@ the eclipse / transit, divided out of all points.
 
 import numpy as np
 
+from ..core.citations import cites
+
 LN10 = np.log(10.0)
 
 
@@ -58,6 +60,7 @@ def scatter_weights(comp_flux, iterations=10):
     return w
 
 
+@cites("honeycutt1992")
 def ensemble(flux_t, err_t, comp_flux, comp_err, weights=None):
     """Relative flux of a star against the (weighted) sum of the comparison stars, with its error. A comparison
     flux that is NaN (the star off the frame, behind a cloud) leaves the frame in: its ensemble is the sum of the stars

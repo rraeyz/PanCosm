@@ -763,6 +763,7 @@ SCINT_C_Y = 1.5
 SCINT_H = 8000.0
 
 
+@cites("osborn2015")
 def scintillation(diameter_m, exptime_s, airmass, height_m=0.0, c_y=SCINT_C_Y):
     """Relative scintillation noise (sigma of flux / flux) of one exposure."""
     d, t, x = float(diameter_m), float(exptime_s), np.asarray(airmass, float)

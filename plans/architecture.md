@@ -683,7 +683,7 @@ the suite is green after each.
   listing writers — one place covers every present and future step. ECSV products carry it too (in their meta, by the same engine pass;
   CSV is left as it is: no place for it that every reader skips). Item 3 started (2026-11-13): `core/citations.py`
   (`@cites(keys)` beside the code, `entries`, `short` — "Kwee & van Woerden (1956)", `bibtex`) and
-  `resources/citations/citations.bib` (ten entries); marked so far: Kwee–van Woerden, GLS, BJD_TDB, β, the camera
+  `resources/citations/citations.bib` (ten entries); marked so far (2026-11-14 also Honeycutt's inhomogeneous ensemble, Young's airmass, Osborn's scintillation, SysRem, TFA; the methods text names the first three and the β scaling when used): Kwee–van Woerden, GLS, BJD_TDB, β, the camera
   noise model, ePSF and PSF fitting; a test fails for a cited key without its entry. Item 4, photometry part:
   `photometry/reports/methods.py` writes the paragraph (frames, radii, ensemble, BJD_TDB, scintillation, the transit
   fit with its mid-time, depth and β) and its BibTeX, into Save all's folder (methods.txt, references.bib).
