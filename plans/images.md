@@ -343,7 +343,8 @@ survey cut-outs (hips2fits), PSF matching, blink in the main view and its animat
 - **Files:** `images/compare.py`, `services/hips2fits.py`, `ui/images/panels/compare.py`, `tests/test_image_compare.py`
 
 ### IMG-14. Mosaics and cut-outs  (P2)
-**open**
+**partial** — engine done: `io/cutout.py` (cutout by sky position and size, north-up resampling at the
+frame's own scale, counts kept; tests/test_cutout.py). The mosaic dialog is still open.
 - **Build:** the interface to CAL-16's mosaic engine (choose frames, preview footprints on a sky grid, background
   matching, output grid and projection); cut-outs by coordinates and size from one or many images; reprojection to
   north-up.
