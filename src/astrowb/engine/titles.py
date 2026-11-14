@@ -30,6 +30,7 @@ TITLES = {
     "photometry.quality": QT_TRANSLATE_NOOP("Steps", "Find the bad frames"),
     "photometry.suggest_comparisons": QT_TRANSLATE_NOOP("Steps", "Suggest comparison stars"),
     "photometry.neb_check": QT_TRANSLATE_NOOP("Steps", "Nearby-eclipsing-binary check"),
+    "photometry.save_light_curve": QT_TRANSLATE_NOOP("Steps", "Save the light-curve file"),
     "photometry.transit_fit": QT_TRANSLATE_NOOP("Steps", "Fit the transit"),
     "photometry.transformation": QT_TRANSLATE_NOOP("Steps", "Transformation coefficients"),
     "photometry.varfind": QT_TRANSLATE_NOOP("Steps", "Search for variable stars"),

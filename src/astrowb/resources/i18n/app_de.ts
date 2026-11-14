@@ -16768,143 +16768,148 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/io.py" line="149"/>
-        <location filename="../../engine/titles.py" line="34"/>
+        <location filename="../../engine/titles.py" line="35"/>
         <source>Transformation coefficients</source>
         <translation>Transformationskoeffizienten</translation>
     </message>
     <message>
         <location filename="../../engine/titles.py" line="33"/>
+        <source>Save the light-curve file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/titles.py" line="34"/>
         <source>Fit the transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="35"/>
+        <location filename="../../engine/titles.py" line="36"/>
         <source>Search for variable stars</source>
         <translation>Veränderliche suchen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="36"/>
+        <location filename="../../engine/titles.py" line="37"/>
         <source>Look up the ephemeris</source>
         <translation>Ephemeride nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="37"/>
+        <location filename="../../engine/titles.py" line="38"/>
         <source>Plan the night</source>
         <translation>Die Nacht planen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="38"/>
+        <location filename="../../engine/titles.py" line="39"/>
         <source>Find the target</source>
         <translation>Ziel finden</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="39"/>
+        <location filename="../../engine/titles.py" line="40"/>
         <source>Classify (k-means)</source>
         <translation>Klassifizieren (k-Means)</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="40"/>
+        <location filename="../../engine/titles.py" line="41"/>
         <source>Compute a band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="41"/>
+        <location filename="../../engine/titles.py" line="42"/>
         <source>Principal components</source>
         <translation>Hauptkomponenten</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="42"/>
+        <location filename="../../engine/titles.py" line="43"/>
         <source>Make practice data</source>
         <translation>Übungsdaten erzeugen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="43"/>
+        <location filename="../../engine/titles.py" line="44"/>
         <source>Stellar parameters (Teff, log g, [Fe/H])</source>
         <translation>Sternparameter (Teff, log g, [Fe/H])</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="44"/>
+        <location filename="../../engine/titles.py" line="45"/>
         <source>Combine the exposures</source>
         <translation>Aufnahmen kombinieren</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="45"/>
+        <location filename="../../engine/titles.py" line="46"/>
         <source>Spectral type</source>
         <translation>Spektraltyp</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="46"/>
+        <location filename="../../engine/titles.py" line="47"/>
         <source>Disentangle the spectra</source>
         <translation>Spektren entflechten</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="47"/>
+        <location filename="../../engine/titles.py" line="48"/>
         <source>Reduce the echelle spectrum</source>
         <translation>Echelle-Spektrum reduzieren</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="48"/>
+        <location filename="../../engine/titles.py" line="49"/>
         <source>Fit the spectroscopic orbit</source>
         <translation>Spektroskopische Bahn anpassen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="49"/>
+        <location filename="../../engine/titles.py" line="50"/>
         <source>Find the echelle orders</source>
         <translation>Echelle-Ordnungen finden</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="50"/>
+        <location filename="../../engine/titles.py" line="51"/>
         <source>Reduce the long-slit spectrum</source>
         <translation>Langspaltspektrum reduzieren</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="51"/>
+        <location filename="../../engine/titles.py" line="52"/>
         <source>Measure radial velocities</source>
         <translation>Radialgeschwindigkeiten messen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="52"/>
+        <location filename="../../engine/titles.py" line="53"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="53"/>
+        <location filename="../../engine/titles.py" line="54"/>
         <source>Drizzle the frames</source>
         <translation>Aufnahmen drizzeln</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="54"/>
+        <location filename="../../engine/titles.py" line="55"/>
         <source>Stack the frames</source>
         <translation>Aufnahmen stapeln</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="55"/>
+        <location filename="../../engine/titles.py" line="56"/>
         <source>Frequency analysis</source>
         <translation>Frequenzanalyse</translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="118"/>
-        <location filename="../../engine/titles.py" line="56"/>
+        <location filename="../../engine/titles.py" line="57"/>
         <source>Time of minimum</source>
         <translation>Minimumszeit</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="57"/>
+        <location filename="../../engine/titles.py" line="58"/>
         <source>Download a mission light curve</source>
         <translation>Lichtkurve einer Mission herunterladen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="58"/>
+        <location filename="../../engine/titles.py" line="59"/>
         <source>Fit the O−C diagram</source>
         <translation>O−C-Diagramm anpassen</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="59"/>
+        <location filename="../../engine/titles.py" line="60"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="60"/>
+        <location filename="../../engine/titles.py" line="61"/>
         <source>Download a survey light curve</source>
         <translation>Lichtkurve einer Durchmusterung herunterladen</translation>
     </message>
