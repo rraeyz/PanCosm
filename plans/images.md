@@ -323,7 +323,13 @@ residual plots, the SA 98 check.
 - **Files:** `core/samp.py`, `ui/shell/tools/samp.py`, `tests/test_samp.py`
 
 ### IMG-13. Blink, difference, "is this new?"  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `io/compare.py` (`difference`: the older frame moved onto the new one by
+cross-correlation with a sub-pixel peak, its sky removed, scaled by the bright pixels' ratio, subtracted;
+`new_sources`: what stands out in the smoothed difference; `what_is`: catalogue rows within a radius, nearest first).
+Test (tests/test_image_compare.py): a magnitude-16 "nova" in a frame shifted by (2.3, −1.6) px under thinner cloud is
+the first thing found, the shift and scale recovered; nothing known at its place, a neighbour named. Left: the
+survey cut-outs (hips2fits), PSF matching, blink in the main view and its animation, the live catalogue look-ups
+(SIMBAD, VSX, minor planets, TNS), the Images window's panel.
 - **Ours now:** `ui/blink_dialog.py` (blink of the open images), previous / next in the Images window.
 - **Build:** blink of N frames aligned by WCS or stars (have) inside the main view with keys; an animation export
   (GIF / PNG sequence); **difference**: A − s·B after alignment and flux scaling, optionally with PSF matching
