@@ -151,3 +151,26 @@ def test_oc_page_needs_only_the_minima_and_the_star_name(qtbot):
     assert page.period.text() == "2.5" and page.t0.text() == ""
     f = page.run_fit()
     assert f.period == pytest.approx(2.5001, abs=1e-6) and f.t0 == pytest.approx(T0, abs=1e-3)
+
+
+def test_the_minima_table_after_a_fit(qtbot):
+    """UI-16.5: every minimum of the last fit in a table with its epoch, O−C and residual (minutes)."""
+    from astrowb.ui.oc_minima import minima_dialog
+    from astrowb.ui.oc_page import OCPage
+
+    page = OCPage()
+    qtbot.addWidget(page)
+    ps = 2.5
+    times = [T0 + e * ps + d for e, d in ((0, 0.0), (100, 0.001), (200, -0.0005), (300.5, 0.0))]
+    kinds = ["I", "I", "I", "II"]
+    page.text.setPlainText("\n".join(f"{t:.6f} 0.0002 {k} lit" for t, k in zip(times, kinds, strict=True)))
+    page.t0.setText(str(T0))
+    page.period.setText(str(ps))
+    page.linear.setChecked(True)
+    f = page.run_fit()
+    assert f is not None and page.minima_button.isEnabled()
+    d = minima_dialog(page)
+    qtbot.addWidget(d)
+    table = d.view.table
+    assert table.rowCount() == 4 and table.item(1, 4).text() == "100" and table.item(3, 2).text() == "II"
+    assert float(table.item(1, 5).text()) == pytest.approx(f.o_minus_c[1] * 1440, abs=1e-3)

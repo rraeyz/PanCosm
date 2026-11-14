@@ -679,7 +679,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 - **Files:** `ui/lightcurves/` (see PER-W)
 
 #### UI-16.5 O−C
-**open**
+**open** — 2026-11-14: "Minima table…" after a fit (`ui/oc_minima.py`: time, error, kind, source, epoch, O−C, residual; sortable, copyable; test_oc_models). The editable table replacing the text box is left.
 ```
 1 Minima  ●     Times of minimum               ?       ┌ O−C diagram (epoch and year axes; symbols by ───┐
 2 Ephemeris     [Open…] [Paste] [From databases…]      │ kind: primary ●, secondary ○; by method: colour)│

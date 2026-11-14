@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 )
 
 from .kit.widgets import PlotCanvas, StepGuide, _title
+from .oc_minima import add_result_buttons
 
 
 def _decimals(err):
@@ -182,7 +183,7 @@ class OCPage(QWidget):
         self.fit_result = None
         self.background = None  # set by the main window: runs the MCMC as a task
         self.results_button = results_button(self, self.fit_table)
-        lay.addWidget(self.results_button)
+        add_result_buttons(self, lay, self.results_button)  # with the minima table (UI-16.5)
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
@@ -321,7 +322,7 @@ class OCPage(QWidget):
 
     def show_fit(self, f, minima):
         """Draw a fit (also the result of the background task) and write its numbers."""
-        self.fit_result = f
+        self.fit_result, self.fit_minima = f, minima
         self.guide.set_state(2, "done")
         if getattr(f, "order", 2) != 1:  # a model beyond the straight line
             self.guide.set_state(3, "done")
