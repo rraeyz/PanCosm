@@ -74,7 +74,7 @@ def test_no_time_in_the_files(tmp_path):
     lc = execute("photometry.light_curve", {"images": paths, "target_xy": [30, 20], "comps_xy": [[60, 45]]}, {}, Ctx())
     lc = lc["light_curve"]
     assert lc["time_scale"] == "frame number" and lc["time"] == [0.0, 1.0, 2.0]
-    from astrowb.photometry.export import aavso_extended
+    from astrowb.photometry.reports.aavso_extended import aavso_extended
 
     text = aavso_extended(lc, star_name="X", obscode="ABC", filt="V", comp_mags=[12.0])
     assert not [line for line in text.splitlines() if not line.startswith("#")]

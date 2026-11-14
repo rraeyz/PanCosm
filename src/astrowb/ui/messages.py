@@ -322,6 +322,7 @@ TEMPLATES = (
     ),
     # photometry/export.py
     QT_TRANSLATE_NOOP("Messages", "give one catalogue magnitude per comparison star"),
+    # photometry/reports/aavso_extended.py
     QT_TRANSLATE_NOOP("Messages", "star name, observer code and filter are required"),
     # photometry/polarimetry.py
     QT_TRANSLATE_NOOP("Messages", "need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)"),

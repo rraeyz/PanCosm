@@ -4,7 +4,8 @@ the untransformed ones off by several hundredths."""
 import numpy as np
 
 from astrowb.photometry import transform
-from astrowb.photometry.export import aavso_extended, ensemble_magnitudes
+from astrowb.photometry.export import ensemble_magnitudes
+from astrowb.photometry.reports.aavso_extended import aavso_extended
 
 TB, TV = 0.05, 0.10  # (B − b) = TB (B − V) + Zb ; (V − v) = TV (B − V) + Zv
 
