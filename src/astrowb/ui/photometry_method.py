@@ -107,6 +107,12 @@ def method_params(page):
         "centring": page.centring.currentData(),
         "track_stars": _track(page),
         "combine": page.combine.value(),
+        "header_time": page.header_time.currentData(),
+        "shutter_delay": page.shutter_delay.value(),
+        # the camera's noise model, when ticked (PHO-19: the live light curve gets it too)
+        "camera": {"read_noise": page.read_noise.value(), "dark": page.dark_current.value()}
+        if page.camera_noise.isChecked()
+        else None,
     }
 
 

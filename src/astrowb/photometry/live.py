@@ -60,7 +60,8 @@ def _ensemble(pts):
 class LiveLightCurve:
     def __init__(self, target_xy, comps_xy, r_ap, r_in, r_out, coord=None, gain=None, box=11, masters=None,
                  extra_xy=(), **method):  # fmt: skip
-        """method: psf, remove_neighbours, sky_method, centring, track_stars — light_curve's own per-frame code
+        """method: psf, remove_neighbours, sky_method, centring, track_stars, camera, header_time, shutter_delay —
+        light_curve's own per-frame code
         (PHO-19); track_stars: stars picked on the first frame that place every frame (stacking.follow_stars);
         extra_xy: check stars and further targets, measured against the same comparison stars (as the night run)."""
         self.xy = np.array([target_xy, *comps_xy, *extra_xy], dtype=float)
@@ -71,7 +72,9 @@ class LiveLightCurve:
             "sky_method": method.get("sky_method", "median"),
             "fixed": (),
             "centring": method.get("centring", "auto"),
+            "camera": method.get("camera"),  # read noise and dark current, as the night run (PHO-19)
         }
+        self.time_rule = (method.get("header_time", "auto"), method.get("shutter_delay", 0.0))
         track = method.get("track_stars")
         self.track = np.asarray([] if track is None else track, float).reshape(-1, 2)
         self.place = (np.eye(2), np.zeros(2))
@@ -130,7 +133,7 @@ class LiveLightCurve:
                 return None
             flux, err = np.asarray(flux, float).copy(), np.asarray(err, float).copy()
             flux[1:k][~seen], err[1:k][~seen] = np.nan, np.nan  # measured against the comparison stars it has
-            t = timing.mid_time(h)
+            t = timing.mid_time(h, *self.time_rule)
         except Exception as e:  # a bad frame (clouds, truncated file) must not stop the night
             self.failed[str(path)] = f"{type(e).__name__}: {e}"
             return None

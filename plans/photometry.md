@@ -292,7 +292,8 @@ by the field offset and the star pattern): a live frame without its target or a 
 the reason, as in the night run. Measuring against the comparisons a frame has (2026-11-14): a live frame missing
 some comparison stars is kept, measured with differential.ensemble as the night run does (its "partial" list the
 same; test: equal to the night run to 1e-6). Star lists: check stars and further targets
-measured live as the night run's extra stars (equal to 1e-9). Left: the camera noise model, the shared result table.
+measured live as the night run's extra stars (equal to 1e-9). The camera noise model and the header-time
+rule reach it through `method_params` (errors and times equal to the night run's). Left: the shared result table.
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the

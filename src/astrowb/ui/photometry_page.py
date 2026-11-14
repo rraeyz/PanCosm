@@ -1824,14 +1824,11 @@ class PhotometryPage(Undoable, QWidget):
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
         params |= method_params(self)
-        params["header_time"] = self.header_time.currentData()
         if self.more_apertures.isChecked():
             params["apertures"] = [round(self.r_ap.value() * k, 2) for k in (0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
-        params["shutter_delay"] = self.shutter_delay.value()
         if self.target_follows.isChecked():
             params["fixed"] = [0]  # item 5: the target (star 0) follows the field
-        if self.camera_noise.isChecked():
-            params["camera"] = {"read_noise": self.read_noise.value(), "dark": self.dark_current.value()}
+        if self.camera_noise.isChecked():  # the noise model is in method_params; the profile remembers it
             profiles.update(
                 Settings(), "camera", read_noise=self.read_noise.value(), dark_current=self.dark_current.value()
             )

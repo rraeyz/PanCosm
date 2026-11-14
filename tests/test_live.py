@@ -108,3 +108,20 @@ def test_live_measures_the_check_stars_as_the_night_run(tmp_path):
     batch = light_curve(paths, target, comps, 4, 10, 16, extra_xy=check)
     assert np.allclose(lc["extra_flux"], batch["extra_flux"], rtol=1e-9)
     assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=1e-9)
+
+
+def test_live_uses_the_camera_noise_model_and_the_time_rule(tmp_path):
+    """PHO-19: the camera's read noise and dark current and the header-time rule reach the live light curve as they
+    reach the night run: the same errors and the same times."""
+    paths = write_frames(tmp_path, 4)
+    target, comps = STARS[0][:2], [s[:2] for s in STARS[1:]]
+    camera = {"read_noise": 12.0, "dark": 0.5}
+    session = live.LiveLightCurve(target, comps, 4, 10, 16, camera=camera, header_time="end", shutter_delay=0.2)
+    for p in paths:
+        session.add(p)
+    lc = session.light_curve()
+    batch = light_curve(paths, target, comps, 4, 10, 16, camera=camera, header_time="end", shutter_delay=0.2)
+    assert np.allclose(lc["rel_flux_err"], batch["rel_flux_err"], rtol=1e-9)
+    assert np.allclose(lc["jd_utc"], batch["jd_utc"], rtol=0, atol=1e-9)
+    plain = light_curve(paths, target, comps, 4, 10, 16)
+    assert not np.allclose(lc["rel_flux_err"], plain["rel_flux_err"], rtol=1e-6)  # the camera made a difference
