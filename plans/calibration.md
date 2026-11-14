@@ -356,7 +356,11 @@ temperature, the shutter map, amplifiers, the real flat series.
 - **Files:** `calibration/fringe.py`, plan and steps, UI, tests.
 
 ### CAL-11. Illumination correction and flats from the night sky  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/skyflat.py` (`check_dithers` refuses with advice when the
+frames moved less than twice a star's size; `super_sky`: the median of the dithered lights, each over its sky, stars
+cut out; `illumination`: the smooth sky / flat ratio). Test (tests/test_skyflat.py): a dome flat lighting one side
+3 % more leaves a star walking across the field 1.2 % off; corrected with the night sky, within 0.3 %. Left: the step
+and the plan's column, twilight flats with star rejection, the check picture.
 - **Reference:** IRAF `mkskyflat`, `mkillumflat`, `mkskycor`, `mkillumcor` (large-scale difference between dome /
   twilight flats and the dark-sky response); super-sky flats from dithered science frames; twilight flats with
   changing level and stars (scale by mode, reject high).
