@@ -192,7 +192,11 @@ and 4 (sensor kind and its defaults, flat-darks, the matching score shown, a nig
 - **Files:** `calibration/matching.py`, `masters.py`, `resources/cameras.toml`, UI plan tab, messages, tests.
 
 ### CAL-4. Several amplifiers and multi-extension mosaics  (P1)
-**open**
+**partial** — done (2026-11-14), the amplifiers: `calibration/amplifiers.py` (`layout` from DATASECn / BIASSECn /
+DETSECn / GAINn; `join`: each amplifier's own overscan fit removed, scaled to the first's gain, placed by DETSEC).
+Test (tests/test_amplifiers.py): two amplifiers with different bias levels and gains join with a step below 0.1σ.
+Left: reading the frames through it in the run, multi-extension files processed per extension and written back,
+the Palomar LFC reference, crosstalk.
 - **Reference:** IRAF `mscred` (`ccdproc` per extension, `AMPSEC`, `DETSEC`, `CCDSEC`, crosstalk), ccdproc examples
   for multi-amp frames, ESO and LCO multi-amp headers, Palomar LFC (six chips).
 - **Ours now:** one BIASSEC / TRIMSEC per frame; the first image HDU is used.
