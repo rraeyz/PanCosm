@@ -13,6 +13,132 @@
         <source>{n} frame(s) without some comparison stars, kept against the others (orange in the frame list).</source>
         <translation>{n} karede bazı karşılaştırma yıldızları yok, diğerlerine göre tutuldu (kare listesinde turuncu).</translation>
     </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="24"/>
+        <source>Sunset</source>
+        <translation>Gün batımı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="24"/>
+        <source>Sunrise</source>
+        <translation>Gün doğumu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="25"/>
+        <source>Civil dusk (−6°)</source>
+        <translation>Sivil alacakaranlık başı (−6°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="25"/>
+        <source>Civil dawn (−6°)</source>
+        <translation>Sivil şafak (−6°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="26"/>
+        <source>Nautical dusk (−12°)</source>
+        <translation>Denizci alacakaranlığı başı (−12°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="26"/>
+        <source>Nautical dawn (−12°)</source>
+        <translation>Denizci şafağı (−12°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="27"/>
+        <source>Astronomical dusk (−18°)</source>
+        <translation>Astronomik gece başı (−18°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="27"/>
+        <source>Astronomical dawn (−18°)</source>
+        <translation>Astronomik gece sonu (−18°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="41"/>
+        <source>Moonrise</source>
+        <translation>Ay doğuşu</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="42"/>
+        <source>Moonset</source>
+        <translation>Ay batışı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="43"/>
+        <source>Highest ({alt:.0f}°)</source>
+        <translation>En yüksek ({alt:.0f}°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="44"/>
+        <source>Illuminated</source>
+        <translation>Aydınlık</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="87"/>
+        <source>Local (UTC{off})</source>
+        <translation>Yerel (UTC{off})</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Sun</source>
+        <translation>Güneş</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Moon</source>
+        <translation>Ay</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Targets</source>
+        <translation>Hedefler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>local time; above {alt:g}°</source>
+        <translation>yerel saat; {alt:g}° üstünde</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="90"/>
+        <location filename="../../ui/plan_tables.py" line="93"/>
+        <source>Event</source>
+        <translation>Olay</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Target</source>
+        <translation>Hedef</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Rises</source>
+        <translation>Doğar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Sets</source>
+        <translation>Batar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Highest at</source>
+        <translation>En yüksekte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Altitude</source>
+        <translation>Yükseklik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Airmass</source>
+        <translation>Hava kütlesi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Moon closest</source>
+        <translation>Ay'a en yakın</translation>
+    </message>
 </context>
 <context>
     <name>AavsoDialog</name>
@@ -8083,6 +8209,11 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/plan_more.py" line="121"/>
         <source>Through the year</source>
         <translation>Yıl boyunca</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="131"/>
+        <source>Tables</source>
+        <translation>Tablolar</translation>
     </message>
 </context>
 <context>

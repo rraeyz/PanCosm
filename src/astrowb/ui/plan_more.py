@@ -92,7 +92,7 @@ def draw_year(fig, dates, hours, sun, chosen):
 
 
 class MoreCharts(QDialog):
-    def __init__(self, n, hours, offset, parent=None):
+    def __init__(self, n, hours, offset, parent=None, min_alt=20.0):
         super().__init__(parent)
         self.setWindowTitle(self.tr("More charts of the night"))
         self.n, self.hours, self.offset = n, np.asarray(hours, float), offset
@@ -120,6 +120,15 @@ class MoreCharts(QDialog):
         self.year = PlotCanvas(self)
         tabs.addTab(self.year, self.tr("Through the year"))
         tabs.currentChanged.connect(lambda i: i == 2 and self._year())  # computed when first looked at
+        from PySide6.QtWidgets import QScrollArea
+
+        from .plan_tables import tables_page
+
+        self.tables = tables_page(n, self.hours, offset, min_alt)
+        scroll = QScrollArea(self)
+        scroll.setWidget(self.tables)
+        scroll.setWidgetResizable(True)
+        tabs.addTab(scroll, self.tr("Tables"))
         QVBoxLayout(self).addWidget(tabs)
         self.resize(760, 560)
         self._sky(self.slider.value())

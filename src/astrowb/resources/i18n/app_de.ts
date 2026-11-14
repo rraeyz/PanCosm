@@ -13,6 +13,132 @@
         <source>{n} frame(s) without some comparison stars, kept against the others (orange in the frame list).</source>
         <translation type="unfinished">{n} Aufnahme(n) ohne einige Vergleichssterne, gegen die übrigen behalten (orange in der Bilderliste).</translation>
     </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="24"/>
+        <source>Sunset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="24"/>
+        <source>Sunrise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="25"/>
+        <source>Civil dusk (−6°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="25"/>
+        <source>Civil dawn (−6°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="26"/>
+        <source>Nautical dusk (−12°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="26"/>
+        <source>Nautical dawn (−12°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="27"/>
+        <source>Astronomical dusk (−18°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="27"/>
+        <source>Astronomical dawn (−18°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="41"/>
+        <source>Moonrise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="42"/>
+        <source>Moonset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="43"/>
+        <source>Highest ({alt:.0f}°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="44"/>
+        <source>Illuminated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="87"/>
+        <source>Local (UTC{off})</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Sun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Moon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>Targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="88"/>
+        <source>local time; above {alt:g}°</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="90"/>
+        <location filename="../../ui/plan_tables.py" line="93"/>
+        <source>Event</source>
+        <translation type="unfinished">Ereignis</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Target</source>
+        <translation type="unfinished">Ziel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Rises</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Sets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Highest at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Altitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Airmass</source>
+        <translation type="unfinished">Luftmasse</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="98"/>
+        <source>Moon closest</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AavsoDialog</name>
@@ -8080,6 +8206,11 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/plan_more.py" line="121"/>
         <source>Through the year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_more.py" line="131"/>
+        <source>Tables</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

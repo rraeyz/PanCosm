@@ -82,7 +82,8 @@ def solve(data, header, catalogue=None):
         raise ValueError("the stars of the frame do not match the Gaia stars around its pointing")
     m, t, _, _, flip = best
     # every star that agrees, from more stars of the frame and the catalogue, fitted with a TAN solution
-    stars = detect_stars(data, max_stars=200)
+    every = detect_stars(data, max_stars=600)  # brightest first; the distortion fit uses them all
+    stars = every[:200]
     px = np.c_[flip * x, y] @ m.T + t
     from scipy.spatial import cKDTree
 
@@ -102,6 +103,7 @@ def solve(data, header, catalogue=None):
         wcs = fit_wcs_from_points((xy[:, 0], xy[:, 1]), sky, projection="TAN")
     res = np.hypot(*(np.array(wcs.world_to_pixel(sky)) - xy.T))
     rms = float(np.sqrt(np.mean(res**2)))
+    wcs, xy, rms = _distortion(wcs, every, cat, xy, rms)
     if len(xy) < MIN_MATCHED or rms > MAX_RMS_PX:
         raise ValueError("the stars of the frame do not match the Gaia stars around its pointing")
     cd = wcs.pixel_scale_matrix * 3600
@@ -113,6 +115,35 @@ def solve(data, header, catalogue=None):
         "rotation": float(np.degrees(np.arctan2(cd[1, 0], cd[1, 1]))),
         "flipped": bool(np.linalg.det(cd) > 0),  # north up and east left on the sky is a negative determinant
     }
+
+
+def _distortion(wcs, stars, cat, xy, rms):
+    """The optics' distortion (a SIP polynomial) fitted over the whole frame (user feedback UF-13, UF-15): the
+    first solution, matched near the centre, put stars pixels off towards the corners. Every star of the frame is
+    matched again through the solution, which grows outwards pass by pass; the polynomial (degree 2, 3 with 60
+    stars) is kept only when it fits better. Returns (wcs, matched pixels, rms)."""
+    from astropy.coordinates import SkyCoord
+    from astropy.wcs.utils import fit_wcs_from_points
+    from scipy.spatial import cKDTree
+
+    sky_all = SkyCoord(cat["ra"], cat["dec"], unit="deg")
+    for _ in range(2):
+        px = np.c_[wcs.world_to_pixel(sky_all)]
+        ok_cat = np.all(np.isfinite(px), axis=1)
+        dist, idx = cKDTree(px[ok_cat]).query(stars)
+        near = dist < 2.0
+        if near.sum() < 20:
+            break
+        sky = sky_all[np.flatnonzero(ok_cat)[idx[near]]]
+        found = stars[near]
+        trial = fit_wcs_from_points((found[:, 0], found[:, 1]), sky, projection="TAN",
+                                    sip_degree=3 if near.sum() >= 60 else 2)  # fmt: skip
+        res = np.hypot(*(np.array(trial.world_to_pixel(sky)) - found.T))
+        trial_rms = float(np.sqrt(np.mean(res**2)))
+        if trial_rms > rms * 1.05 and len(found) <= len(xy):
+            break  # no better: the plain solution stays
+        wcs, xy, rms = trial, found, trial_rms
+    return wcs, xy, rms
 
 
 def _plane(ra, dec, ra0, dec0, scale):
@@ -172,7 +203,7 @@ def identify(path, ctx=None, catalogue=None, variables=None, resolve=None, gcvs=
     found, found_gcvs = (_in_frame(wcs, v, nx, ny) for v in (variables, gcvs))
     obj = _object(header, wcs, (nx, ny), resolve)
     return {
-        "header": wcs.to_header().tostring(),
+        "header": wcs.to_header(relax=True).tostring(),  # relax: the SIP distortion goes with it
         "matched": sol["matched"],
         "rms_px": sol["rms_px"],
         "scale": sol["scale"],
