@@ -304,7 +304,13 @@ header keywords), the input flats' levels in the run, the real LCO masters.
 - **Files:** `calibration/badpix.py`, `masters.py`, steps, UI masters panel, tests.
 
 ### CAL-9. Measure the camera: gain, read noise, linearity, full well, dark current, shutter  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/detector.py` (`gain_read_noise`: Janesick's two flats and
+two biases in 100 px boxes, median and scatter; `photon_transfer`: the gain from the straight part and the full
+well where the variance turns over; `linearity`: the correction in masters.linearity's form and the 1 % limit;
+`shutter_offset`). Tests (tests/test_detector.py): a synthetic camera — gain 1.8 and read noise 6.5 within 3 %,
+full well within 6 %, the 2 % non-linearity at 50 000 ADU corrected within 0.3 %, the shutter's 12 ms within 2 ms.
+Left: Tools → "Measure the camera…" with its plots and "Save to the camera profile", dark current against
+temperature, the shutter map, amplifiers, the real flat series.
 - **Reference:** IRAF `findgain` (Janesick's two-flats-two-biases method: `g = [(F̄1 + F̄2) − (B̄1 + B̄2)] /
   [σ²(F1 − F2) − σ²(B1 − B2)]`, `RN = g σ(B1 − B2) / √2`); the photon-transfer curve (variance against mean over a
   series of flat pairs; Janesick 2007); linearity from an exposure series with a monitor of lamp stability;
