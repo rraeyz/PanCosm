@@ -226,7 +226,13 @@ expected S/N and priority, the results table and "Add to tonight's list", the st
 - **Files:** `planning/finder.py`, `tools/build_vsx_pack.py`, `core/datapacks.py` entry, UI, tests, guide 02.
 
 ### PLN-6. Exposure, precision and framing for photometry  (P1)
-**open**
+**partial** — done (2026-11-14), the framing engine: `planning/framing.py` `suggest` (the pointing offset and, when
+the camera turns, the angle that keep the target well inside and the most comparison-star weight inside the
+frame's margins; the target nearer the middle breaks ties) and `inside`. Tests (tests/test_framing.py): eight good
+stars east of NY Vir — centred keeps fewer than 6, the suggestion keeps ≥ 6 and moves east; a north–south line of
+stars needs the camera turned. Left: the comparison stars from PHO-17's rules on the field, the survey image, the
+bad columns, writing the pointing into the target's plan; the exposure part (zero points from the user's frames,
+the Moon's sky, the noise budget, defocus) and its real-night checks.
 - **Read first:** Howell 2006 ch. 4; Young 1967 and Osborn et al. 2015 (scintillation); Southworth et al. 2009
   (defocused photometry: why and how much); Collins et al. 2017 §appendix (what limits ground-based precision).
 - **Ours now:** `planning/exposure.py` (S/N and exposure from a typed zero point), a dialog.
