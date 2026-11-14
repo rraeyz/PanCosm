@@ -746,7 +746,13 @@ not. Left: the Light curve stage's "Remove trends shared with the field stars" (
 - **Files:** `photometry/systematics.py`, UI, tests.
 
 ### PHO-32. Space-mission pixel tools  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `photometry/pixels.py`: `threshold_mask`, `background` (the faintest
+pixels outside the mask, per cadence), `sap`, `pld` (principal components of the pixel fractions, second-order
+products, the signal's frames left out of the fit), `centroids`, `centroid_shift` (in − out of transit, with its
+error). Tests (tests/test_pixels.py): on a jittering 15 × 15 stamp the drifting sky is followed, PLD brings a tight
+aperture down to its photon noise and keeps a 1 % transit; a neighbour's eclipse moves the centroid at > 5σ, a quiet
+stamp does not. Left: MAST / TESScut look-up and download, the mask editor and Gaia overlay with contamination,
+scattered-light flags, quality bitmasks, sector stitching, the real WASP-12 / AI Dra checks and the speed target.
 - **Reference:** lightkurve (MIT; may be read freely and its algorithms reimplemented or the ideas used):
   `TargetPixelFile.interact`, custom and threshold aperture masks, `estimate_background`, `PLDCorrector`, `flatten`
   (Savitzky–Golay), `remove_outliers`, `stitch`; `tpfplotter` (Gaia stars over the stamp, contamination); TESScut;
