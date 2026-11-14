@@ -2619,3 +2619,18 @@ def test_the_planning_window_has_stages(window):
     page.guide.set_state(1, "done")
     assert win.rail.states["targets"] == "done" and page.guide.states[1] == "done"
     win.close()
+
+
+def test_the_oc_window_has_stages(window):
+    """UI-16.5: Minima, Ephemeris, Model, Fit and report as stages beside the O−C diagram."""
+    win = window.open_area("oc")
+    page = window.oc_page
+    assert list(win.stage_panels) == ["minima", "ephemeris", "model", "report"]
+    assert win.stage_panels["minima"].isAncestorOf(page.text) and win.stage_panels["ephemeris"].isAncestorOf(page.t0)
+    assert win.stage_panels["model"].isAncestorOf(page.apsidal) and win.stage_panels["model"].isAncestorOf(
+        page.use_mcmc
+    )
+    assert win.stage_panels["report"].isAncestorOf(page.fit_button)
+    page.text.setPlainText("2455867.40274 0.00005 I")
+    assert win.rail.states["minima"] == "done"
+    win.close()
