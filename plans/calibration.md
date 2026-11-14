@@ -114,7 +114,13 @@ P3: 18, 20.
 - **Files:** `ui/calibration/{window,controller,state,menus}.py`, `ui/calibration/panels/{frames,check,masters,calibrate,review,continue_,plan,report}.py`, `tests/ui/walks/calibration.py`, guide 04
 
 ### CAL-1. Frames stage: groups, previews, any folder layout  (P1)
-**open**
+**partial** — done (2026-11-14), items 1 and 3's engine: `calibration/groups.py` (`group`: by type, filter,
+exposure, binning, read-out, temperature within the tolerance and night; `stats`: the central 512 × 512's median,
+noise, extremes and saturated share, cached by path and time; `outliers`: level or noise off the group, a flat
+outside 20–80 % of saturation, each with its reason). Tests (tests/test_frame_groups.py): a flat folder and typed
+sub-folders give the same groups; a 95 % flat and an odd bias are marked; two nights give two nights of groups.
+Left: the groups tree with previews and histograms, "Leave out" / "Change type" as session edits, the threaded
+statistics after the headers, the speed target.
 - **Reference:** MaxIm DL's calibration groups (type, filter, exposure, binning, temperature, count, auto-generated);
   ccdproc `ImageFileCollection.summary`; IRAF `ccdlist`, `ccdgroups`.
 - **Ours now:** `calibration.scan` returns frames and problems; a flat table of files.
