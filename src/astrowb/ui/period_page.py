@@ -342,6 +342,26 @@ class PeriodPage(Undoable, QWidget):
         self._plot_phase()
         return self.best
 
+    def _key(self, event):
+        if event.key in ("left", "right") and self.best and getattr(self, "periodogram", None):
+            self.step_peak(1 if event.key == "right" else -1)
+
+    def step_peak(self, direction):
+        """Fold at the next peak of the periodogram towards longer (+1) or shorter (−1) periods."""
+        p, power = np.asarray(self.periodogram["periods"], float), np.asarray(self.periodogram["power"], float)
+        if len(p) < 3:
+            return None
+        order = np.argsort(p)
+        p, power = p[order], power[order]
+        peaks = np.flatnonzero((power[1:-1] > power[:-2]) & (power[1:-1] >= power[2:])) + 1
+        side = peaks[p[peaks] > self.best * 1.0001] if direction > 0 else peaks[p[peaks] < self.best / 1.0001][::-1]
+        if not len(side):
+            return None
+        self.best = float(p[side[0]])
+        self.result.setText(self.tr("Folded at {p:.6f} d (clicked peak).").format(p=self.best))
+        self._plot_phase()
+        return self.best
+
     def _t0(self):
         t, f = np.asarray(self.time), np.asarray(self.flux)
         return t[np.argmax(f) if self.magnitudes else np.argmin(f)]
@@ -465,6 +485,8 @@ class PeriodPage(Undoable, QWidget):
         self.plot.figure.clear()
         ax, ax2 = self.plot.figure.subplots(2, 1)
         ax._kind = "periodogram"
+        if not getattr(self, "_keys_on", False):  # ← → step to the neighbouring peaks (once a periodogram is shown)
+            self._keys_on = self.plot.canvas.mpl_connect("key_press_event", self._key) is not None
         ax.plot(out["periods"], out["power"], lw=0.7)
         ax.axvline(self.best, color="r", lw=0.8)
         for k in (0.5, 2.0):  # the aliases an eclipsing binary or a pulsator is most often mistaken for
