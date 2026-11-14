@@ -2030,13 +2030,14 @@ class PhotometryPage(Undoable, QWidget):
             path, _ = QFileDialog.getSaveFileName(self, self.tr("Export for ETD / VarAstro"), "etd.txt", "Text (*.txt)")
         if not path:
             return None
-        text, scale, unit = etd_text(self.light_curve)
+        try:
+            text, scale, unit = etd_text(self.light_curve)
+        except ValueError as e:  # the file failed its own validator (PHO-27): said, nothing written
+            QMessageBox.warning(self, self.tr("Export for ETD / VarAstro"), translate(e))
+            return None
         Path(path).write_text(text, encoding="utf-8")
-        self.result.setText(
-            self.tr("Saved {path}. In the upload form choose the time standard {scale} and the unit {unit}.").format(
-                path=path, scale=scale, unit=unit
-            )
-        )
+        text = self.tr("Saved {path}. In the upload form choose the time standard {scale} and the unit {unit}.")
+        self.result.setText(text.format(path=path, scale=scale, unit=unit))
         return path
 
     def add_nights(self, paths=None):

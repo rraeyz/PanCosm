@@ -20,4 +20,25 @@ def etd_text(lc):
     t = np.asarray(lc["time"], float)
     ok = np.isfinite(t) & np.isfinite(m) & np.isfinite(e)
     lines = [f"{ti:.6f} {mi:.5f} {ei:.5f}" for ti, mi, ei in zip(t[ok], m[ok], e[ok], strict=True)]
-    return "\n".join(lines) + "\n", lc.get("time_scale", ""), unit.strip()
+    text = "\n".join(lines) + "\n"
+    problems = validate(text)
+    if problems:
+        raise ValueError(problems[0])
+    return text, lc.get("time_scale", ""), unit.strip()
+
+
+def validate(text):
+    """The format's rules, re-read from the file: a list of problems (empty when it would be accepted): every line
+    has three whitespace-separated numbers (date, brightness, error)."""
+    out = []
+    for n, line in enumerate(text.splitlines(), 1):
+        fields = line.split()
+        if len(fields) != 3:
+            out.append(f"line {n}: 3 columns expected")
+            continue
+        for x in fields:
+            try:
+                float(x)
+            except ValueError:
+                out.append(f"line {n}: {x} is not a number")
+    return out
