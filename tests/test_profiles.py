@@ -109,3 +109,20 @@ def test_a_plate_solution_that_disagrees_with_the_profile_is_found(tmp_path):
     mine, got = profiles.scale_differs(settings, solved)
     assert abs(mine - 0.388) < 0.001 and abs(got - 0.62) < 1e-6
     assert profiles.scale_differs(settings, fits.Header()) is None
+
+
+def test_aavso_dialog_transforms_with_a_colour_term(qapp, tmp_path):
+    from astrowb.ui.aavso_dialog import AavsoDialog
+
+    d = AavsoDialog(2, settings=Settings(tmp_path))
+    d.star.setText("NY Vir")
+    d.obscode.setText("abc")
+    d.mags.setText("11.20, 11.85")
+    assert "transform" not in d.values()  # empty: untransformed
+    d.coefficient.setText("0,085")
+    d.comp_colours.setText("0.62, 0.71")
+    with pytest.raises(ValueError, match="colour"):
+        d.values()  # the variable's colour missing
+    d.target_colour.setText("-0.4")
+    t = d.values()["transform"]
+    assert t["coefficient"] == 0.085 and t["colour_c"] == [0.62, 0.71] and t["colour_t"] == -0.4

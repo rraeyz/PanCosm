@@ -62,10 +62,35 @@ class AavsoDialog(QDialog):
         form.addRow(self.tr("Check star (KNAME)"), self.check)
         form.addRow(self.tr("Chart ID"), self.chart)
         form.addRow(self.tr("Notes"), self.notes)
+        self._transform_rows(form, n_comps)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         form.addRow(buttons)
+
+    def _transform_rows(self, form, n_comps):
+        """The colour term (PHO-35): with it the magnitudes are transformed and the report says TRANS=YES."""
+        self.coefficient, self.comp_colours, self.target_colour = QLineEdit(self), QLineEdit(self), QLineEdit(self)
+        self.coefficient.setPlaceholderText(self.tr("empty: untransformed, e.g. 0.085"))
+        self.coefficient.setToolTip(
+            self.tr("The filter's colour term on your system (e.g. Tv_bv from a standard field); empty: TRANS=NO")
+        )
+        self.comp_colours.setPlaceholderText(self.tr("{n} values, e.g. 0.62, 0.71").format(n=n_comps))
+        self.comp_colours.setToolTip(self.tr("The comparison stars' colours (B−V) from the chart, in their order"))
+        self.target_colour.setToolTip(self.tr("The variable's colour (B−V) on this night"))
+        form.addRow(self.tr("Colour term (transformation)"), self.coefficient)
+        form.addRow(self.tr("Colours of the comparison stars"), self.comp_colours)
+        form.addRow(self.tr("Colour of the variable"), self.target_colour)
+
+    def _transform(self, n_comps):
+        text = self.coefficient.text().strip().replace(",", ".")
+        if not text:
+            return {}
+        colours = [float(v) for v in self.comp_colours.text().replace(";", ",").split(",") if v.strip()]
+        if len(colours) != n_comps or not self.target_colour.text().strip():
+            raise ValueError("give one colour per comparison star and the variable's colour to transform")
+        return {"transform": {"coefficient": float(text), "colour_c": colours, "name": "T",
+                              "colour_t": float(self.target_colour.text().replace(",", "."))}}  # fmt: skip
 
     def _take_sequence(self, sequence):
         try:
@@ -110,7 +135,7 @@ class AavsoDialog(QDialog):
             "comp_mags": mags,
             "chart": self.chart.text().strip() or "na",
             "notes": self.notes.text().strip().replace(",", ";") or "na",
-        }
+        } | self._transform(len(mags))
 
 
 def band_of(settings, images):
