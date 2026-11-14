@@ -942,7 +942,7 @@ def test_image_panel_in_its_own_window_and_photometry_other_tools(window, fits_f
     assert page.floating and page.tabs.count() == 1  # results go to small tool windows; the header stays in its tab
     page.measure_star(41.5, 31.5)  # the "star" of the test frame: as clicking it with the Star tool
     info, graph = page.tool_windows["info"], page.tool_windows["graph"]
-    assert info.isVisible() and graph.isVisible() and page.info.rowCount() > 5
+    assert info.isVisible() and graph.isVisible() and page.info.model.rowCount() > 5
     assert info.windowFlags() & Qt.Tool and info.width() < 600  # small, over the main window, as in MaxIm DL
     info.close()  # closing only hides it: the next measurement brings it back
     page.measure_line(5, 5, 60, 40)
@@ -1021,7 +1021,7 @@ def test_image_right_click_menu(window, tmp_path):
     comp = next(a for a in menu.actions() if a.text() == "Photometry: add as a comparison star")
     assert not comp.isEnabled()  # no target yet
     next(a for a in menu.actions() if a.text() == "Measure this star").trigger()
-    assert window.image_page.info.rowCount() > 3
+    assert window.image_page.info.model.rowCount() > 3
     assert window.photometry_from_image(30.0, 20.0)
     phot = window.photometry_page
     assert phot.images == paths and phot.target == (30.0, 20.0) and window.current_workspace() == "photometry"

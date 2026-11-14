@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -28,6 +29,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit.table import TableView
 from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable
@@ -125,12 +127,12 @@ class ImagePage(Undoable, QWidget):
         self.header_table.setToolTip(
             self.tr("Double-click a keyword to change it; drag a column's edge to widen it; right-click to copy")
         )
-        self.info = QTableWidget(0, 2, self)
-        self.info.setHorizontalHeaderLabels([self.tr("Quantity"), self.tr("Value")])
-        self.info.horizontalHeader().setStretchLastSection(True)
-        self.info.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        self.info.verticalHeader().hide()
-        self.info.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.info_names = (self.tr("Quantity"), self.tr("Value"))
+        self.info = TableView(self)
+        self.info.set_table(Table(names=self.info_names, dtype=(str, str)))
+        self.info.view.horizontalHeader().setStretchLastSection(True)
+        self.info.view.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.info.view.verticalHeader().hide()
         self.graph_tab = QWidget(self)
         gl = QVBoxLayout(self.graph_tab)
         row = QHBoxLayout()
@@ -458,10 +460,9 @@ class ImagePage(Undoable, QWidget):
         return float(np.mean(proj_plane_pixel_scales(self.wcs.celestial)) * 3600)
 
     def _show_rows(self, rows):
-        self.info.setRowCount(len(rows))
-        for i, (name, value) in enumerate(rows):
-            self.info.setItem(i, 0, QTableWidgetItem(name))
-            self.info.setItem(i, 1, QTableWidgetItem(value))
+        self.info.set_table(
+            Table(rows=rows, names=self.info_names) if rows else Table(names=self.info_names, dtype=(str, str))
+        )
         self._show_tool("info")
 
     def _canvas(self):
