@@ -72,3 +72,13 @@ def test_more_charts(qapp):
     win.slider.setValue(10)
     assert win.sky.figure.axes[0].get_title().startswith("Sky at")
     assert len(win.sky.figure.axes[0].lines) >= len(n["targets"])
+
+
+def test_auto_local_time_follows_the_site(qapp, tmp_path):
+    from astrowb.settings import Settings
+    from astrowb.ui.plan_page import AUTO, PlanPage
+
+    page = PlanPage(Settings(tmp_path))
+    page.utc_offset.setValue(AUTO)
+    page.lon.setValue(-120.0)  # nowhere near any computer's zone that is within 2 h of it... unless it is Pacific
+    assert abs(page.local_offset(2461000.0) - (-8)) <= 1

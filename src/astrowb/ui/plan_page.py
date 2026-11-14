@@ -128,8 +128,8 @@ class PlanPage(Undoable, QWidget):
         self.utc_offset.setToolTip(
             self.tr(
                 "Hours to add to UTC for the local time shown above the chart and in the events (Turkey: 3). Auto: "
-                "this computer's time zone on the night's date, summer time included; type the offset for an "
-                "observatory in another time zone"
+                "this computer's time zone on the night's date, summer time included, when it fits the site; for a "
+                "site far from it, the hour nearest to its longitude. Type the offset when you know it"
             )
         )
         grid.addWidget(QLabel(self.tr("Local time (hours from UTC)"), self), 6, 0)
@@ -447,7 +447,10 @@ class PlanPage(Undoable, QWidget):
         if self.utc_offset.value() > AUTO:
             return self.utc_offset.value()
         when = datetime.fromtimestamp((jd - 2440587.5) * 86400, UTC).astimezone()
-        return when.utcoffset().total_seconds() / 3600
+        own = when.utcoffset().total_seconds() / 3600
+        # this computer's zone only when it fits the site (within ~2 h of its solar time); else the site's own
+        # nearest hour by longitude — summer time of a far site is then not known, type the offset there
+        return own if abs(self.lon.value() / 15 - own) <= 2 else float(round(self.lon.value() / 15))
 
     def show_night(self, n):
         from astropy.time import Time

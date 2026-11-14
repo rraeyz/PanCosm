@@ -56,9 +56,15 @@ def draw_sky(fig, n, hours, k):
         ax.plot(np.radians(t["az"]), t["alt"], color=colour, lw=0.6, alpha=0.35)  # the night's track
         if alt > 0:
             ax.plot([az], [alt], "o", color=colour, ms=8, label=f"{_name(t)}  {alt:.0f}°")
-    if n["moon_alt"][k] > 0:
-        ax.plot([np.radians(n["moon_az"][k])], [n["moon_alt"][k]], "o", mfc="none", mec=role("rejected"), ms=12,
-                label=f"Moon  {n['moon_alt'][k]:.0f}°")  # fmt: skip
+    moon_az, moon_alt = np.asarray(n["moon_az"], float), np.asarray(n["moon_alt"], float)
+    up = np.where(moon_alt > 0, moon_alt, np.nan)  # the Moon's track while it is above the horizon
+    ax.plot(np.radians(moon_az), up, "--", color=role("rejected"), lw=0.8)
+    lit = f"{100 * n['moon_illumination']:.0f} %"
+    if moon_alt[k] > 0:
+        ax.plot([np.radians(moon_az[k])], [moon_alt[k]], "o", mfc="none", mec=role("rejected"), ms=14, mew=2,
+                label=f"Moon ({lit})  {moon_alt[k]:.0f}°")  # fmt: skip
+    else:
+        ax.plot([], [], "o", mfc="none", mec=role("rejected"), label=f"Moon ({lit}) below the horizon")
     ax.set_title(f"Sky at {clock(hours[k])} UTC   (Sun {n['sun_alt'][k]:.0f}°)", fontsize=9, pad=14)
     ax.legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.02, 1.0))
     return ax
