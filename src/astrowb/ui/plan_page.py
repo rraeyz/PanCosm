@@ -521,6 +521,14 @@ class PlanPage(Undoable, QWidget):
                 box.setValue(value)
         return where
 
+    def alerts_dialog(self, fetch=None):
+        """Gaia Science Alerts observable tonight (PLN-12); fetch: for tests."""
+        from .plan_alerts import AlertsDialog
+
+        dlg = AlertsDialog(self, fetch)
+        dlg.show()
+        return dlg
+
     def converter_dialog(self):
         from .converter_dialog import ConverterDialog
 

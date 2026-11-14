@@ -23,6 +23,7 @@ DAY = 86400.0
 AGES = {
     "ephemerides": 7 * DAY,
     "lightcurves": DAY,
+    "alerts": DAY,  # Gaia Science Alerts (PLN-12)
     "updates": DAY,
     "forecast": DAY / 24,
 }  # services not listed: answers never age
