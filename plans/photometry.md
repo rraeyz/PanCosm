@@ -289,8 +289,9 @@ per-frame code, so the PSF path, "remove neighbours" (set up on the first frame)
 light curve; the window passes the same method settings to both (`ui/photometry_method.method_params`). Test: the
 variable-neighbour night measured live equals the night run to 1e-9. Also `_measure_frame` (the night run's search
 by the field offset and the star pattern): a live frame without its target or a comparison star is left out with
-the reason, as in the night run. Left: the camera noise model, measuring against the comparisons a frame has, star
-lists, the shared result table.
+the reason, as in the night run. Measuring against the comparisons a frame has (2026-11-14): a live frame missing
+some comparison stars is kept, measured with differential.ensemble as the night run does (its "partial" list the
+same; test: equal to the night run to 1e-6). Left: the camera noise model, star lists, the shared result table.
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the

@@ -76,8 +76,10 @@ def test_bad_frame_is_reported_not_fatal(tmp_path):
     assert session.add(paths[1]) is not None and len(session.points) == 2
 
 
-def test_a_frame_without_a_comparison_star_is_left_out_with_why(tmp_path):
-    """PHO-19: as in the night run, a frame where a comparison star is not found is left out and the reason kept."""
+def test_a_frame_without_a_comparison_star_is_measured_against_the_others(tmp_path):
+    """PHO-19: as in the night run, a frame where one comparison star is not found is measured against the ones it
+    has (the missing star's share from the full frames), and it is named; without any comparison star it is left
+    out with why."""
     paths = write_frames(tmp_path, 3)
     data = fits.getdata(paths[2]).astype(float)
     y, x = np.mgrid[:60, :80]
@@ -86,4 +88,9 @@ def test_a_frame_without_a_comparison_star_is_left_out_with_why(tmp_path):
     fits.PrimaryHDU(data.astype(np.float32), fits.getheader(paths[2])).writeto(paths[2], overwrite=True)
     session = live.LiveLightCurve(STARS[0][:2], [s[:2] for s in STARS[1:]], 4, 10, 16)
     assert session.add(paths[0]) is not None and session.add(paths[1]) is not None
-    assert session.add(paths[2]) is None and session.failed[paths[2]] == "comparison 2"
+    point = session.add(paths[2])
+    assert point is not None and point["missing"] == [2] and not session.failed
+    lc = session.light_curve()
+    assert lc["partial"] == {"f02.fits": [2]} and abs(lc["rel_flux"][2] / lc["rel_flux"][0] - 1) < 0.01  # no jump
+    batch = light_curve(paths, STARS[0][:2], [s[:2] for s in STARS[1:]], 4, 10, 16)
+    assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=1e-6) and batch["partial"] == lc["partial"]
