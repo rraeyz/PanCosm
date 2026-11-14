@@ -103,6 +103,8 @@ class AavsoDialog(QDialog):
         missing = [str(i + 1) for i, c in enumerate(comps) if c is None]
         if not missing:
             self.mags.setText(", ".join(f"{c['mag']:.3f}" for c in comps))
+            if all("bv" in c for c in comps):
+                self.comp_colours.setText(", ".join(f"{c['bv']:.3f}" for c in comps))
         self.chart.setText(chart)
         if check:
             self.check.setText(check["label"])
@@ -176,6 +178,11 @@ def from_sequence(page, filt):
     ra0, dec0 = float(ra[-1]), float(dec[-1])
     reach = 60 * np.max(np.hypot((ra - ra0) * np.cos(np.radians(dec0)), dec - dec0))
     seq = aavso_vsp.sequence(ra0, dec0, fov=max(10.0, 2.2 * reach + 2), maglimit=17.0)
-    found = aavso_vsp.sequence_magnitudes(seq, list(zip(ra[:-1], dec[:-1], strict=True)), filt)
+    places = list(zip(ra[:-1], dec[:-1], strict=True))
+    found = aavso_vsp.sequence_magnitudes(seq, places, filt)
+    b, v = (aavso_vsp.sequence_magnitudes(seq, places, band) for band in ("B", "V"))
+    for star, sb, sv in zip(found, b, v, strict=True):  # B − V for the transformation (PHO-35)
+        if star and sb and sv:
+            star["bv"] = sb["mag"] - sv["mag"]
     n = len(page.comps)
     return seq["chart"], found[:n], (found[n] if checks else None)
