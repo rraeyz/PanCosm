@@ -10808,84 +10808,85 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/period_page.py" line="341"/>
+        <location filename="../../ui/period_page.py" line="361"/>
         <source>Folded at {p:.6f} d (clicked peak).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="361"/>
+        <location filename="../../ui/period_page.py" line="381"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zeit − {t:.0f} (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="361"/>
+        <location filename="../../ui/period_page.py" line="381"/>
         <source>Time (d)</source>
         <translation>Zeit (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="362"/>
-        <location filename="../../ui/period_page.py" line="487"/>
+        <location filename="../../ui/period_page.py" line="382"/>
+        <location filename="../../ui/period_page.py" line="509"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="371"/>
+        <location filename="../../ui/period_page.py" line="391"/>
         <source>Load light curve</source>
         <translation>Lichtkurve laden</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="383"/>
-        <location filename="../../ui/period_page.py" line="410"/>
+        <location filename="../../ui/period_page.py" line="403"/>
+        <location filename="../../ui/period_page.py" line="430"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="424"/>
+        <location filename="../../ui/period_page.py" line="444"/>
         <source>No light curve to save yet.</source>
         <translation>Noch keine Lichtkurve zum Speichern.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="427"/>
+        <location filename="../../ui/period_page.py" line="447"/>
         <source>Save light curve</source>
         <translation>Lichtkurve speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="430"/>
+        <location filename="../../ui/period_page.py" line="450"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} Punkte in {file} gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="433"/>
+        <location filename="../../ui/period_page.py" line="453"/>
         <source>Searching…</source>
         <translation>Suche…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="444"/>
+        <location filename="../../ui/period_page.py" line="464"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Beste Periode: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="454"/>
+        <location filename="../../ui/period_page.py" line="474"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Die Daten bestehen aus Abschnitten im Abstand von {g:.0f} d: ein Zyklus mehr oder weniger über die Lücke ({p1:.6f} oder {p2:.6f} d) passt fast ebenso gut. Prüfen Sie mit den Minimumszeiten (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="473"/>
+        <location filename="../../ui/period_page.py" line="495"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="474"/>
+        <location filename="../../ui/period_page.py" line="496"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="486"/>
+        <location filename="../../ui/period_page.py" line="508"/>
         <source>Phase</source>
         <translation>Phase</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="362"/>
-        <location filename="../../ui/period_page.py" line="487"/>
+        <location filename="../../ui/period_page.py" line="382"/>
+        <location filename="../../ui/period_page.py" line="509"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>
@@ -14285,7 +14286,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/plan_tables.py" line="141"/>
-        <location filename="../../ui/plan_tables.py" line="158"/>
+        <location filename="../../ui/plan_tables.py" line="153"/>
         <source>Target</source>
         <translation type="unfinished">Ziel</translation>
     </message>
@@ -14320,42 +14321,52 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="152"/>
+        <location filename="../../ui/plan_tables.py" line="157"/>
         <source>Telluric standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="153"/>
-        <source>nearest at the same airmass, at the target’s highest point</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/plan_tables.py" line="159"/>
-        <source>Standard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../ui/plan_tables.py" line="160"/>
-        <source>At</source>
+        <source>Photometric standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/plan_tables.py" line="161"/>
+        <source>Landolt (1992) UBVRI standard stars: the night&apos;s zero points and extinction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="152"/>
+        <source>nearest at the same airmass, at the target’s highest point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="153"/>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="153"/>
+        <source>At</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_tables.py" line="154"/>
         <source>Its airmass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="162"/>
+        <location filename="../../ui/plan_tables.py" line="154"/>
         <source>Target airmass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="163"/>
+        <location filename="../../ui/plan_tables.py" line="155"/>
         <source>Distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="167"/>
+        <location filename="../../ui/plan_tables.py" line="158"/>
         <source>Hot bright stars from Hipparcos (van Leeuwen 2007) to remove the atmosphere&apos;s lines from a spectrum</source>
         <translation type="unfinished"></translation>
     </message>

@@ -1,0 +1,7 @@
+{
+ "program": "ESA Gaia archive (gaiadr3.synthetic_photometry_gspc)",
+ "date": "2026-11-14",
+ "command": "python tests/validation/scripts/gspc/sa98.py",
+ "inputs": "SELECT g.source_id, g.ra, g.dec, g.phot_g_mean_mag, s.b_jkc_mag, s.b_jkc_flag, s.v_jkc_mag, s.v_jkc_flag, s.r_jkc_mag, s.r_jkc_flag, s.i_jkc_mag, s.i_jkc_flag FROM gaiadr3.gaia_source AS g JOIN gaiadr3.synthetic_photometry_gspc AS s ON s.source_id = g.source_id WHERE g.ra BETWEEN 102.80 AND 103.23 AND g.dec BETWEEN -0.52 AND -0.12",
+ "output_sha256": "8b5678d9365a5a5311110e0a034fdb3ca3ab2ba94d3bd6c6e6de50252ceaaf82"
+}
