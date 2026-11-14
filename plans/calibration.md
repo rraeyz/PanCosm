@@ -455,7 +455,13 @@ checksums, atomic writes and resuming, the estimate shown before the run.
 - **Files:** `calibration/output.py`, `calibration/masters.py` (`save`), `calibration/steps.py`, `ui/shell/settings/files.py`, `tests/test_calibration_output.py`
 
 ### CAL-15. Registration: more than shifts  (P2)
-**open**
+**partial** — done (2026-11-14), the engine: `calibration/registration.py` (`fit`: shift, similarity, affine,
+homography, poly2, poly3 from matched stars — "auto" takes the simplest within 10 % of the best residual;
+`resample`: nearest / bilinear / bicubic / clamped Lanczos-3, times the transform's Jacobian so that a star keeps its
+counts; outside the frame NaN). Tests (tests/test_registration.py): a frame turned 0.7°, scaled 1.002 and with barrel
+distortion registers with its isolated stars within 0.05 px and their flux within 0.2 % (bicubic and Lanczos); a
+pure shift is fitted as one. Left: WCS reprojection, aligning on a moving object, the DQ edges, the registration
+table shared with Photometry, a meridian-flipped night, wiring it into the stacks.
 - **Reference:** IRAF `imalign` / `geomap` / `geotran` (polynomial transforms), Siril registration (global star
   alignment with homography, 1–2–3 star, image pattern, comet), AstroImageJ Stack Aligner (apertures or WCS),
   `astroalign` (MIT; triangle matching — the method we already have), `reproject` (BSD) for WCS resampling; kernels
