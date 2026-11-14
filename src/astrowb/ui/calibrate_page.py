@@ -581,6 +581,20 @@ class CalibratePage(Undoable, QWidget):
             )
         return self.tr("no bias ({size}); will be calibrated without bias").format(size=size)
 
+    def _quality_lines(self, qc):
+        """One line per master with a check in amber (calibration/quality.py)."""
+        names = {"excess_noise": self.tr("noise beyond what averaging leaves ({v:.2f} ADU)"),
+                 "banding": self.tr("row or column banding ({v:.2f} ADU)"),
+                 "hot_pixels": self.tr("{v:.0f} hot pixels"),
+                 "flat_levels": self.tr("an input flat at {v:.0%} of full well (20–80 % advised)"),
+                 "dust": self.tr("a dust shadow {v:.1%} deep")}  # fmt: skip
+        lines = []
+        for master, checks in qc.items():
+            bad = [names[k].format(v=c["value"]) for k, c in checks.items() if not c["ok"] and k in names]
+            if bad:
+                lines.append(self.tr("{master}: {what}.").format(master=master, what="; ".join(bad)))
+        return lines
+
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))
         params = {"sigma": self.sigma.value(), "cosmic_rays": self.cosmics.isChecked()}
@@ -640,3 +654,6 @@ class CalibratePage(Undoable, QWidget):
                 for f in failed
             ]
             self.warnings.setPlainText("\n".join(lines + [self.warnings.toPlainText()]).strip())
+        amber = self._quality_lines(out.get("quality") or {})
+        if amber:  # CAL-6: a master that works but is not as good as it should be
+            self.warnings.setPlainText("\n".join([self.warnings.toPlainText(), *amber]).strip())
