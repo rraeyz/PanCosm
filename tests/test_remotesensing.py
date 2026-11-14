@@ -98,6 +98,9 @@ def test_band_files_of_one_scene_open_as_one_image(tmp_path, qtbot):
     page.open(both)
     roles = {k: c.currentText() for k, c in page.roles.items()}
     assert roles == {"BLUE": "", "GREEN": "", "RED": "B04", "NIR": "B08", "SWIR": ""}
+    page._clicked(4.0, 5.0)  # a pixel's spectrum: one point per band, labelled with the band names
+    panel = page.plot.figure.panels[0]
+    assert panel.x.ticks == [(1, "B04"), (2, "B08")] and list(panel.series[0].y) == [1000, 3000]
     page._preset(page.index.findText("NDVI"))
     assert page.expression.text() == "(B08 - B04) / (B08 + B04)"
     assert analysis.evaluate(page.expression.text(), {"B04": r.band(0), "B08": r.band(1)})[0, 0] == pytest.approx(0.5)

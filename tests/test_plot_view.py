@@ -291,3 +291,29 @@ def test_plot_view_copy_picture_and_copy_data(view):
     assert not QApplication.clipboard().pixmap().isNull()
     names = [a.text() for a in view.plots[0].getViewBox().menu.actions()]
     assert "Copy picture" in names and "Copy data" in names
+
+
+def test_named_ticks_equal_aspect_and_pieces_of_one_curve(qapp, tmp_path):
+    from astrowb.ui.plot import publish as P
+    from astrowb.ui.plot.view import PlotView
+
+    pieces = [SeriesSpec("curve", [i, i + 1], [0, 1], kind="line") for i in range(3)]
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("Band", ticks=[(1, "B"), (2, "V")]),
+                AxisSpec("y"),
+                [SeriesSpec("p", [1, 2], [1, 2]), *pieces],
+                equal=True,
+            )
+        ]
+    )
+    fig = P.figure(spec)
+    ax = fig.axes[0]
+    assert [t.get_text() for t in ax.get_xticklabels()] == ["B", "V"] and ax.get_aspect() == 1.0
+    assert [t.get_text() for t in ax.get_legend().get_texts()] == ["p", "curve"]
+    view = PlotView(spec)
+    plot = view.plots[0]
+    assert plot.getViewBox().state["aspectLocked"]
+    assert plot.getAxis("bottom")._tickLevels[0] == [(1, "B"), (2, "V")]
+    assert len(plot.legend.items) == 2

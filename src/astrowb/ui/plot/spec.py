@@ -30,6 +30,7 @@ class AxisSpec:
     limits: tuple | None = None  # (low, high), None = fit the data
     period: float | None = None  # with epoch, a time axis can also be shown as phase
     epoch: float = 0.0
+    ticks: list | None = None  # [(value, text)]: named ticks (bands, categories) instead of numbers
 
     def title(self, offset=0.0):
         """Axis title with the unit and, for times, the offset subtracted from the numbers."""
@@ -73,6 +74,7 @@ class PanelSpec:
     series: list = field(default_factory=list)
     height_ratio: float = 1.0
     grid: bool = False
+    equal: bool = False  # one unit as long on x as on y (an orbit on the sky)
 
 
 @dataclass

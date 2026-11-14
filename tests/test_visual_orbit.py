@@ -81,4 +81,8 @@ def test_step_and_tab(qtbot):
         page.visual_tab.fit_button.click()
     assert sig.args[1] == {"parallax_mas": 50.0}
     page.visual_tab.show_orbit(o)
-    assert page.visual_tab.table.rowCount() == 10 and page.visual_tab.plot.figure.axes
+    assert (
+        page.visual_tab.table.rowCount() == 10
+        and len(page.visual_tab.plot.figure.panels[0].series) == 3 + 25
+        and page.visual_tab.plot.figure.panels[0].equal
+    )
