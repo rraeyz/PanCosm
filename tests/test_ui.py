@@ -150,8 +150,8 @@ def test_opening_fits_switches_to_images_and_project_history(window, fits_file, 
     window.save_as(tmp_path / "c.fits").result(60)
     time.sleep(0.2)  # the run is recorded on the task monitor thread
     window._refresh_files()
-    assert window.project_page.runs_table.rowCount() == 1
-    assert window.project_page.runs_table.item(0, 0).text() == "fits.save_as"
+    assert window.project_page.runs_table.model.rowCount() == 1
+    assert window.project_page.runs_table.model.index(0, 0).data() == "fits.save_as"
 
 
 def test_compute_setting_saved(window):
@@ -838,15 +838,17 @@ def test_project_history_details_and_run_again(window, qtbot, fits_file, tmp_pat
     )
     page = window.project_page
     qtbot.waitUntil(
-        lambda: page.runs_table.rowCount() == 1 and page.runs_table.item(0, 1).text() == "done", timeout=60000
+        lambda: page.runs_table.model.rowCount() == 1 and page.runs_table.model.index(0, 1).data() == "done",
+        timeout=60000,
     )
-    page.runs_table.selectRow(0)
+    page.runs_table.view.selectRow(0)
     text = page.details.toPlainText()
     assert "fits.save_as — done" in text and "copy.fits" in text and "astropy" in text  # inputs, outputs, versions
     (tmp_path / "copy.fits").unlink()
     page.rerun_button.click()
     qtbot.waitUntil(
-        lambda: page.runs_table.rowCount() == 2 and page.runs_table.item(1, 1).text() == "done", timeout=60000
+        lambda: page.runs_table.model.rowCount() == 2 and page.runs_table.model.index(1, 1).data() == "done",
+        timeout=60000,
     )
     assert (tmp_path / "copy.fits").exists() and window.engine.project.runs(full=False)[1]["params"] == {
         "overwrite": True
