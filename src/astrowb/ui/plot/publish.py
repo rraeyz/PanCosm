@@ -103,6 +103,14 @@ def _panel(ax, panel, colours, st):
     for axis_spec, shift, put in ((panel.x, offset, ax.set_xticks), (panel.y, 0.0, ax.set_yticks)):
         if axis_spec.ticks:
             put([v - shift for v, _ in axis_spec.ticks], [t for _, t in axis_spec.ticks])
+    if panel.top:
+        top = ax.secondary_xaxis("top", functions=(lambda v: v, lambda v: v))  # same positions, its own labels
+        top.set_xticks([v - offset for v, _ in panel.top.ticks or []], [t for _, t in panel.top.ticks or []])
+        top.set_xlabel(panel.top.title())
+    if panel.right:
+        right = ax.secondary_yaxis("right", functions=(lambda v: v, lambda v: v))
+        right.set_yticks([v for v, _ in panel.right.ticks or []], [t for _, t in panel.right.ticks or []])
+        right.set_ylabel(panel.right.title())
     ax.tick_params(direction="in", top=True, right=True, which="both", width=st["line"] * 0.8)
     ax.minorticks_on()
     if panel.grid:

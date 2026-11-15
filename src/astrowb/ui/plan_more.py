@@ -9,38 +9,9 @@ from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QSlider, QTabWidget,
 from .kit.tokens import SERIES, role
 from .kit.widgets import PlotCanvas
 from .plan_chart import SHADES, clock
+from .plan_figures import dark_spans, moon_figure, name_of, year_figure
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
-
-
-def _name(t):
-    return t["body"].capitalize() if t.get("body") else t["name"]
-
-
-def draw_moon_distance(fig, n, hours, offset):
-    """The Moon's angular distance from every target against the hour, where the Sun is below the horizon."""
-    fig.clear()
-    ax = fig.add_subplot()
-    dark = np.asarray(n["sun_alt"], float) < -0.8
-    for i, t in enumerate(n["targets"]):
-        sep = np.where(dark, np.asarray(t["moon_sep"], float), np.nan)
-        ax.plot(hours, sep, color=SERIES[i % len(SERIES)], lw=2, label=_name(t))
-    ax.axhline(30, color=role("saturated"), lw=0.7, ls=":")
-    ax.text(hours[0] + 0.1, 31, "30°: closer is usually too bright", fontsize=6, color=role("saturated"))
-    ax.set_xlim(hours[0], hours[-1])
-    ax.set_ylim(0, 180)
-    ax.set_yticks(range(0, 181, 30))
-    ticks = np.arange(np.ceil(hours[0]), hours[-1] + 0.01, 1.0)
-    ax.set_xticks(ticks, [f"{int(h) % 24:02d}" for h in ticks], fontsize=7)
-    ax.secondary_xaxis(-0.1, functions=(lambda h: h + offset, lambda h: h - offset)).set_xlabel(
-        f"Local time (UTC{offset:+g})", fontsize=8
-    )
-    ax.grid(color=role("rejected"), alpha=0.3, lw=0.5)
-    ax.set_xlabel("UTC (hours)", fontsize=8)
-    ax.set_ylabel("Distance from the Moon (°)", fontsize=8)
-    ax.set_title(f"Moon distance, {100 * n['moon_illumination']:.0f} % illuminated", fontsize=9)
-    ax.legend(fontsize=7, loc="upper right")
-    return ax
 
 
 def draw_sky(fig, n, hours, k):
@@ -57,7 +28,7 @@ def draw_sky(fig, n, hours, k):
         colour = SERIES[i % len(SERIES)]
         ax.plot(np.radians(t["az"]), t["alt"], color=colour, lw=0.6, alpha=0.35)  # the night's track
         if alt > 0:
-            ax.plot([az], [alt], "o", color=colour, ms=8, label=f"{_name(t)}  {alt:.0f}°")
+            ax.plot([az], [alt], "o", color=colour, ms=8, label=f"{name_of(t)}  {alt:.0f}°")
     moon_az, moon_alt = np.asarray(n["moon_az"], float), np.asarray(n["moon_alt"], float)
     up = np.where(moon_alt > 0, moon_alt, np.nan)  # the Moon's track while it is above the horizon
     ax.plot(np.radians(moon_az), up, "--", color=role("rejected"), lw=0.8)
@@ -72,34 +43,6 @@ def draw_sky(fig, n, hours, k):
     return ax
 
 
-def draw_year(fig, dates, hours, sun, chosen):
-    """The nights of a year: date across, local solar time (noon … noon) up, the twilights shaded as in the night
-    chart; the chosen night marked. Local solar time follows the site's longitude (no zone, no summer time)."""
-    import matplotlib.dates as mdates
-
-    fig.clear()
-    ax = fig.add_subplot()
-    x = mdates.date2num(np.array(dates, dtype="datetime64[D]").astype(object))
-    for level, shade in SHADES:  # darker as the Sun goes down, as in the night chart
-        ax.contourf(x, 12 + hours, np.asarray(sun).T, levels=[-90, level], colors="navy", alpha=shade)
-    ax.axvline(mdates.date2num(np.datetime64(chosen, "D").astype(object)), color=role("saturated"), lw=1)
-    ax.set_yticks(range(12, 37, 2), [f"{h % 24:02d}" for h in range(12, 37, 2)], fontsize=7)
-    ax.xaxis.set_major_locator(mdates.MonthLocator())
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b"))
-    ax.grid(color=role("rejected"), alpha=0.3, lw=0.5)
-    ax.set_ylabel("Local solar time (h)", fontsize=8)
-    ax.set_title("Night length through the year (dark blue: astronomical night; lighter: nautical, civil twilight)",
-                 fontsize=9)  # fmt: skip
-    return ax
-
-
-def _dark_spans(hours, sun, level):
-    """[(from hour, to hour)] where the Sun is below `level`, one per stretch."""
-    below = np.concatenate([[False], np.asarray(sun) < level, [False]])
-    edges = np.flatnonzero(below[1:] != below[:-1])
-    return [(float(hours[i]), float(hours[j - 1])) for i, j in zip(edges[::2], edges[1::2], strict=True)]
-
-
 def weather_figure(f, hours0_jd, sun_hours=None, sun_alt=None):
     """Cloud cover (total, low, middle, high) and humidity through the forecast hours, in UTC hours of the night's
     grid (hours0_jd: the JD of its 00:00 UTC); the night shaded when the Sun's altitude is given."""
@@ -107,7 +50,7 @@ def weather_figure(f, hours0_jd, sun_hours=None, sun_alt=None):
     series = []
     if sun_hours is not None:
         for level, shade in SHADES:
-            spans = _dark_spans(sun_hours, sun_alt, level)
+            spans = dark_spans(sun_hours, sun_alt, level)
             if spans:
                 series.append(
                     SeriesSpec(f"Sun below {level:g}°", *np.array(spans).T, kind="span", colour=SERIES[0], alpha=shade)
@@ -135,9 +78,9 @@ class MoreCharts(QDialog):
         self.setWindowTitle(self.tr("More charts of the night"))
         self.n, self.hours, self.offset = n, np.asarray(hours, float), offset
         tabs = QTabWidget(self)
-        self.moon = PlotCanvas(self)
-        draw_moon_distance(self.moon.figure, n, self.hours, offset)
-        tabs.addTab(self.moon, self.tr("Moon distance"))
+        moon_box, self.moon = plot_box(self)
+        self.moon.set_figure(moon_figure(n, self.hours, offset))
+        tabs.addTab(moon_box, self.tr("Moon distance"))
         sky = QWidget(self)
         lay = QVBoxLayout(sky)
         self.sky = PlotCanvas(self)
@@ -155,8 +98,8 @@ class MoreCharts(QDialog):
         row.addWidget(self.when)
         lay.addLayout(row)
         tabs.addTab(sky, self.tr("Sky at an hour"))
-        self.year = PlotCanvas(self)
-        tabs.addTab(self.year, self.tr("Through the year"))
+        year_box, self.year = plot_box(self)
+        tabs.addTab(year_box, self.tr("Through the year"))
         tabs.currentChanged.connect(lambda i: i == 2 and self._year())  # computed when first looked at
         from PySide6.QtWidgets import QPushButton, QScrollArea
 
@@ -191,14 +134,13 @@ class MoreCharts(QDialog):
         self.when.setText(f"{clock(self.hours[k])} UTC / {clock(self.hours[k] + self.offset)}")
 
     def _year(self):
-        if self.year.figure.axes:
+        if self.year.figure is not None:
             return
         from ..planning.visibility import Site, year_nights
 
         site, date = self.n["site"], self.n["date"]
         dates, h, sun = year_nights(Site(site["name"], site["lat"], site["lon"], site["height"]), date)
-        draw_year(self.year.figure, dates, h, sun, date)
-        self.year.draw()
+        self.year.set_figure(year_figure(dates, h, sun, date))
 
     def fetch_weather(self, fetch=None):
         """The forecast looked up off the window's thread (PLN-11); fetch: for tests."""

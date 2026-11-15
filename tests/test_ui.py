@@ -497,12 +497,16 @@ def test_plan_page_resolve_and_plan(window, qtbot):
     assert page.result["dusk"] and len(page.result["targets"][0]["alt"]) > 200
     assert window.settings.get("site")["lat"] == 36.82 and window.settings.get("plan.utc_offset") == 3.0
     # the chart is in English (for papers) with the local time under the UTC axis
-    ax = page.plot.figure.axes[0]
-    labels = [a.get_xlabel() for a in [ax, *ax.child_axes]] + [ax.get_ylabel()]
-    tags = [t.get_text() for t in ax.texts]
-    assert "◄ UTC" in tags and "◄ Local (UTC+3)" in tags and "Altitude (°)" in labels
-    assert ax.get_ylim() == (0, 90)  # the whole sky above the horizon, not from the lowest altitude
-    dlg = page.plot.open_window()  # its axis formatters cannot be pickled: it opened nothing before
+    panel = page.plot.figure.panels[0]
+    assert (
+        panel.x.label == "UTC (hours)"
+        and panel.top.label.startswith("Local time (UTC+3)")
+        and panel.y.label == "Altitude (°)"
+    )
+    assert panel.y.limits == (0, 90)  # the whole sky above the horizon, not from the lowest altitude
+    from astrowb.ui.plot.toolbar import PlotToolbar
+
+    dlg = page.findChild(PlotToolbar).pop_out()
     assert dlg is not None and dlg.isVisible()
     dlg.close()
     assert page.minimumSizeHint().height() < 300  # the fields scroll; the chart is never cut on a short window
@@ -1204,7 +1208,9 @@ def test_minimum_method_is_a_visible_choice_with_kvw_first(window):
     assert not page.kvw.isChecked()
     page._minimum()
     assert sent == ["kvw", "trapezoid"]
-    page.plot.figure.clear()  # a result arriving when nothing is plotted (an intermittent CI failure)
+    from astrowb.ui.plot.spec import FigureSpec
+
+    page.plot.set_figure(FigureSpec([]))  # a result arriving when nothing is plotted (an intermittent CI failure)
     page.show_minimum({"time": 0.5, "error": 0.001, "time_scale": "BJD_TDB", "method": "kvw"})
     assert "Minimum: 0.500000" in page.result.text()
 
@@ -2361,12 +2367,9 @@ def test_the_checks_tab(window):
     assert np.allclose(panels[5].series[0].y, 1 / 3) and np.allclose(panels[6].series[0].y, 0)
     marked = panels[0].series[1]  # the cloud marked on every panel
     assert marked.name == "Flagged" and list(marked.x) == [10, 11, 12] and all(len(p.series) == 2 for p in panels)
-    from matplotlib.figure import Figure
-
-    ax = Figure().add_subplot()
-    page.checks.mark(ax, np.arange(n), np.ones(n), lc)  # PHO-36: crossed on the light curve it judged
-    page.checks.mark(ax, np.arange(n), np.ones(n), dict(lc))  # not on another curve
-    assert len(ax.lines) == 1 and list(ax.lines[0].get_xdata()) == [10, 11, 12]
+    crossed = page.checks.mark(np.arange(n), np.ones(n), lc)  # PHO-36: crossed on the light curve it judged
+    assert page.checks.mark(np.arange(n), np.ones(n), dict(lc)) == []  # not on another curve
+    assert len(crossed) == 1 and list(crossed[0].x) == [10, 11, 12]
     lc["flags"] = [["C" if i == 30 else "", ""] for i in range(n)]  # a cosmic ray in the target's aperture
     flags = page.checks.show_checks(lc)
     menu = page.checks.leave_kind.menu()

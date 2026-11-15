@@ -85,14 +85,14 @@ def test_images_page_tools(qtbot, tmp_path):
     page.viewer.clicked.emit(60.0, 71.0)
     names = list(page.info.model.table.columns[0])
     assert "Net counts in the aperture" in names and "Net electrons" in names and "FWHM (px)" in names
-    assert page.graph is not None and page.graph.figure.axes
+    assert page.graph is not None and page.graph.figure.panels[0].series
     page.set_tool("area")
     page.viewer.region_selected.emit(10.0, 10.0, 29.0, 19.0)
     values = dict(zip(*page.info.model.table.columns.values(), strict=True))
     assert values["Pixels"] == "200" and values["Size (px)"] == "20 × 10"
     for i in range(page.graph_kind.count()):  # histogram, row and column profiles, 3-D surface
         page.graph_kind.setCurrentIndex(i)
-        assert page.graph.figure.axes
+        assert page._surface.figure.axes if page.graph_kind.currentData() == "surface" else page.graph.figure.panels
     page.graph_kind.setCurrentIndex(1)
     out = page.export_graph(tmp_path / "row.csv")
     assert (tmp_path / "row.csv").read_text(encoding="utf-8").splitlines()[0].startswith("x (FITS pixels)") and out

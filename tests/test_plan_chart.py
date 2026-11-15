@@ -4,10 +4,11 @@ on the right, the Moon's distance along each curve, rise and set in the legend, 
 
 import numpy as np
 import pytest
-from matplotlib.figure import Figure
 
 from astrowb.engine.steps import execute
-from astrowb.ui.plan_chart import crossing_hours, draw_night
+from astrowb.ui.plan_chart import crossing_hours
+from astrowb.ui.plan_figures import night_figure
+from astrowb.ui.plot import publish
 
 SITE = {"name": "TUBITAK National Observatory", "lat": 36.8242, "lon": 30.3356, "height": 2500.0}
 
@@ -35,26 +36,25 @@ def test_the_chart_has_what_an_astronomer_reads():
     n = night()
     jd = np.asarray(n["jd"])
     hours = (jd - (np.floor(jd[0] + 0.5) - 0.5)) * 24
-    fig = Figure(figsize=(14, 7), layout="constrained")
-    ax = draw_night(fig, n, hours, 3.0, 20.0, 1400)
-    fig.canvas.draw()
-    major = [t for t in ax.get_xticks() if hours[0] <= t <= hours[-1]]
-    assert np.allclose(np.diff(major), 1.0)  # a tick every hour
-    minor = ax.xaxis.get_minorticklocs()
-    assert np.isclose(np.min(np.diff(minor)), 1 / 6)  # every ten minutes between
-    assert np.allclose(np.diff(ax.get_yticks()), 10) and 5.0 in ax.yaxis.get_minorticklocs()
-    assert ax.xaxis.get_major_ticks()[1].gridline.get_visible() and ax.xaxis.get_minor_ticks()[1].gridline.get_visible()
-    every = [ax, *ax.child_axes]
-    labels = [a.get_xlabel() for a in every] + [a.get_ylabel() for a in every]
-    tags = [t.get_text() for t in every[0].texts]
-    assert "◄ UTC" in tags and any(x.startswith("◄ Local (UTC+3") for x in tags)
-    assert "Local sidereal time" in labels and "Airmass" in labels
-    assert "TUBITAK National Observatory" in ax.get_title() and "2026-11-13" in ax.get_title()
-    legend = " ".join(t.get_text() for t in ax.get_legend().get_texts())
-    assert "Saturn   ↑" in legend and "Moon (" in legend
-    texts = [t.get_text() for t in ax.texts]
+    spec = night_figure(n, hours, 3.0, 20.0)
+    (panel,) = spec.panels
+    assert np.allclose(np.diff([v for v, _ in panel.x.ticks]), 1.0)  # a tick every hour
+    assert (
+        panel.top.label.startswith("Local time (UTC+3")
+        and panel.top.ticks[0][1].split("\n")[0] == f"{int(np.ceil(hours[0] + 3)) % 24:02d}"
+    )
+    assert np.allclose(np.diff([v for v, _ in panel.y.ticks]), 10) and panel.y.limits == (0, 90)
+    assert "TUBITAK National Observatory" in spec.title and "2026-11-13" in spec.title
+    names = [s.name for s in panel.series]
+    assert any(t.startswith("Saturn   ↑") for t in names) and any(t.startswith("Moon (") for t in names)
+    kinds = {s.name: s.kind for s in panel.series}
+    assert "span" in kinds.values() and kinds["Twilight edges"] == "vline" and kinds["Events"] == "points"
+    texts = [t for s in panel.series if s.kind == "text" for t in s.labels]
     assert any(t.startswith("astro") for t in texts) and any(t.startswith("Sunset") for t in texts)
     assert any(t.endswith("°") and t[:-1].isdigit() for t in texts)  # the Moon's distance along a curve
+    assert "\n" in panel.top.ticks[0][1] and "sidereal" in panel.top.label  # local time over sidereal time
+    assert panel.right.label == "Airmass" and panel.right.ticks[0] == (90.0, "1")  # altitude 90° is airmass 1
+    publish.figure(spec).canvas.draw()  # and the same description prints
 
 
 def test_crossings_and_twilight_bands():
@@ -69,7 +69,7 @@ def test_more_charts(qapp):
     n = night()
     hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
     win = MoreCharts(n, hours, 3.0)
-    assert "Moon distance" in win.moon.figure.axes[0].get_title()
+    assert "Moon distance" in win.moon.figure.title and win.moon.figure.panels[0].top is not None
     win.slider.setValue(10)
     assert win.sky.figure.axes[0].get_title().startswith("Sky at")
     assert len(win.sky.figure.axes[0].lines) >= len(n["targets"])
@@ -92,8 +92,11 @@ def test_year_chart(qapp):
     hours = (np.asarray(n["jd"]) - (np.floor(n["jd"][0] + 0.5) - 0.5)) * 24
     win = MoreCharts(n, hours, 3.0)
     win._year()
-    ax = win.year.figure.axes[0]
-    assert "Night length" in ax.get_title() and ax.get_ylim()[1] >= 36
+    spec = win.year.figure
+    panel = spec.panels[0]
+    assert "Night length" in spec.title and panel.y.limits[1] >= 36 and len(panel.x.ticks) >= 11
+    night_band = next(s for s in panel.series if s.name == "Sun below -18°")
+    assert np.isfinite(night_band.y).any()
 
 
 def test_the_night_in_numbers():
@@ -164,3 +167,26 @@ def test_almanac_line_follows_the_site_and_date(qtbot, tmp_path):
     assert "% lit" in text
     page.date.setDate(QDate(2026, 6, 21))
     qtbot.waitUntil(lambda: page.almanac.text() != text, timeout=5000)
+
+
+def test_year_bands_cover_exactly_the_hours_of_their_level_and_nest():
+    from astrowb.ui.plan_figures import year_figure
+
+    hours = np.linspace(0, 24, 97)  # noon to noon
+    dates = [f"2026-01-{d:02d}" for d in range(1, 11)]
+    depth = np.linspace(-25, -5, len(dates))[:, None]  # the Sun's lowest altitude each night
+    sun = depth * np.cos(2 * np.pi * (hours - 12) / 24 + np.pi)[None, :] * -1 - 3  # lowest at 12 h after noon
+    spec = year_figure(dates, hours, sun, "2026-01-05")
+    bands = [s for s in spec.panels[0].series if s.kind == "band"]
+    last = None
+    for s, level in zip(bands, (0.0, -6.0, -12.0, -18.0), strict=True):
+        for i, row in enumerate(sun):
+            dark = np.flatnonzero(row < level)
+            if not len(dark):
+                assert np.isnan(s.y[i])
+                continue
+            lo, hi = 12 + s.y[i] - 12 - s.yerr[i], 12 + s.y[i] - 12 + s.yerr[i]
+            assert (lo, hi) == pytest.approx((12 + hours[dark[0]], 12 + hours[dark[-1]]))
+            if last is not None and np.isfinite(last[0][i]):
+                assert last[0][i] - last[1][i] <= lo + 1e-9 and hi <= last[0][i] + last[1][i] + 1e-9  # nested
+        last = (s.y, s.yerr)

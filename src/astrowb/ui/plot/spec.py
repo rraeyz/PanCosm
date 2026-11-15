@@ -80,6 +80,8 @@ class PanelSpec:
     height_ratio: float = 1.0
     grid: bool = False
     equal: bool = False  # one unit as long on x as on y (an orbit on the sky)
+    top: AxisSpec | None = None  # a second x axis along the top: its `ticks` sit at positions in x's units
+    right: AxisSpec | None = None  # a second y axis on the right: its `ticks` sit at positions in y's units
 
 
 @dataclass

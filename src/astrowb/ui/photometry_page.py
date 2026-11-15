@@ -34,15 +34,18 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..settings import Settings
-from . import automatic, comparison_rules, photometry_standard
+from . import automatic, comparison_rules, photometry_figures, photometry_standard
 from .aavso_dialog import AavsoDialog, from_sequence
+from .kit import tokens
 from .kit.help import help_line
-from .kit.widgets import Collapsible, PlotCanvas, StepGuide, _title
+from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_method import add_method_boxes, method_params
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -532,11 +535,11 @@ class PhotometryPage(Undoable, QWidget):
 
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
-        self.plot = PlotCanvas(bottom)
-        for name in ("button_press_event", "key_press_event"):  # a click in delete mode, or the Delete key
-            self.plot.canvas.mpl_connect(name, self._plot_clicked)
+        self.plot_box, self.plot = plot_box(bottom)
+        self.plot.point_clicked.connect(self._plot_clicked)  # a click in delete mode
+        self.plot.key_pressed.connect(self._plot_key)  # or the Delete key
         left = QVBoxLayout()  # the plot and, under it, what was measured (scatter, warnings)
-        left.addWidget(self.plot, 1)
+        left.addWidget(self.plot_box, 1)
         b_lay.addLayout(left, 1)
         res = QVBoxLayout()
         self.res_tabs = QTabWidget(self)
@@ -1851,20 +1854,7 @@ class PhotometryPage(Undoable, QWidget):
             w.setValue(a[key])
         self._radii_set = True
         self._advance(3)
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        ax.axvspan(0, a["r_ap"], color="#46a758", alpha=0.18, lw=0, label=self.tr("aperture"))
-        ax.axvspan(a["r_in"], a["r_out"], color="#3e63dd", alpha=0.18, lw=0, label=self.tr("sky annulus"))
-        ax.plot(a["profile_r"], a["profile"], ".-", lw=0.8, ms=4, label=self.tr("star profile (peak = 1)"))
-        ax.axhline(0, color="grey", lw=0.5)
-        ax.axhline(0.5, color="grey", lw=0.5, ls=":")
-        for r in (a["r_ap"], a["r_in"], a["r_out"]):
-            ax.axvline(r, color="grey", lw=0.8, ls="--")
-        ax.set_xlim(0, a["r_out"] * 1.15)
-        ax.set_xlabel(self.tr("Radius (px)"))
-        ax.set_ylabel(self.tr("Relative brightness"))
-        ax.legend(fontsize=8)
-        self.plot.draw()
+        self.plot.set_figure(photometry_figures.aperture_figure(a))
         self.result.setText(
             self.tr(
                 "FWHM {f:.2f} px. Aperture {a:.2f} px ({af:.1f} FWHM; best S/N at {b:.2f} px; holds {ee:.1f} % of the "
@@ -1918,22 +1908,8 @@ class PhotometryPage(Undoable, QWidget):
         self.quality = rows
         self._show_lower(True)  # the plot is in the lower panel
         self._fill_frames()
-        n = np.arange(len(rows))
-        bad = np.array([not r["good"] for r in rows])
-        self.plot.figure.clear()
-        axes = self.plot.figure.subplots(3, 1, sharex=True)
-        for ax, key, label in zip(
-            axes,
-            ("fwhm", "stars", "background"),
-            (self.tr("FWHM (px)"), self.tr("Stars"), self.tr("Sky (ADU)")),
-            strict=True,
-        ):
-            y = np.array([np.nan if r[key] is None else r[key] for r in rows], float)
-            ax.plot(n, y, ".-", lw=0.6, ms=4)
-            ax.plot(n[bad], y[bad], "o", color="#e5484d", ms=6)
-            ax.set_ylabel(label)
-        axes[-1].set_xlabel(self.tr("Frame"))
-        self.plot.draw()
+        labels = (self.tr("FWHM (px)"), self.tr("Stars"), self.tr("Sky (ADU)"))
+        self.plot.set_figure(photometry_figures.quality_figure(rows, labels))
         reasons = [
             f"{r['file'].replace(chr(92), '/').split('/')[-1]}: {', '.join(translate(w) for w in r['why'])}"
             for r in rows
@@ -2505,71 +2481,44 @@ class PhotometryPage(Undoable, QWidget):
         t = np.asarray(lc["time"], float)
         t_ref = np.floor(t.min())
         x = t - t_ref
-        sat = self._saturated_frames(lc)
-        self.plot.figure.clear()
-        self._plotted = None
-        ax = self.plot.figure.add_subplot()
+        sat, lin, invert, self._plotted = self._saturated_frames(lc), self._nonlinear_frames(lc), False, None
+        gap = self.spacing.value()
         if what == "diff":
-            label = self._plot_differential(ax, lc, x, sat)
+            series, label = self._plot_differential(lc, x, sat, lin)
+            invert = True
         elif what in ("rel", "dmag", "mag") or what.startswith("extra"):
             src = lc if not what.startswith("extra") else lc["extra"][int(what[5:])]
             f, e = np.asarray(src["rel_flux"], float), np.asarray(src["rel_flux_err"], float)
             if what == "mag" and "mag" in lc:
-                y, ye, label = (
-                    np.asarray(lc["mag"], float),
-                    np.asarray(lc["mag_err"], float),
-                    self.tr("Magnitude ({band})").format(band=lc["mag_band"]),
-                )
-                ax.invert_yaxis()
+                y, ye = np.asarray(lc["mag"], float), np.asarray(lc["mag_err"], float)
+                label, invert = self.tr("Magnitude ({band})").format(band=lc["mag_band"]), True
             elif what in ("dmag", "mag"):
-                y, ye = d.delta_mag(f, e)
-                label = self.tr("Δm (target − comparison)")
-                ax.invert_yaxis()
+                (y, ye), label, invert = d.delta_mag(f, e), self.tr("Δm (target − comparison)"), True
             else:
                 med = np.nanmedian(f)
                 y, ye, label = f / med, e / med, self.tr("Relative flux")
-            ax.errorbar(x, y, ye, fmt=".", ms=3, lw=0.5, alpha=0.8)
-            self._plotted = (ax, x, y)
-            if sat.any():
-                ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
-            lin = self._nonlinear_frames(lc)
-            if lin.any():
-                ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)  # orange: non-linear (item 4)
-            getattr(self, "checks", None) and self.checks.mark(ax, x, y, lc)  # flagged frames crossed (PHO-36)
+            self._plotted = label
+            flagged = self.checks.mark(x, y, lc) if getattr(self, "checks", None) else []  # PHO-36
+            series = photometry_figures.light_curve_points(label, x, y, ye, sat, lin, flagged)
         elif what == "multi":
-            label = self._plot_multi(ax, lc, t, t_ref)
+            series, label = self._plot_multi(lc, t, t_ref)
         elif what == "colour" and getattr(self, "colour", None):
-            label = self._plot_colour(ax, t_ref)
+            series, label, invert = self._plot_colour(t_ref)
         elif what == "comps":
             curves, scatter = d.comps_against_others(lc["comp_flux"], lc.get("weights"))
-            for i, (c, s_) in enumerate(zip(curves, scatter, strict=True)):
-                ax.plot(
-                    x,
-                    np.asarray(c) - self.spacing.value() * i,
-                    ".",
-                    ms=3,
-                    label=f"C{i + 1} ({1000 * 1.0857 * s_:.1f} mmag)",
-                )
-            label = self.tr("Relative flux (offset)")
-            ax.legend(fontsize=7)
+            named = [
+                (f"C{i + 1} ({1000 * 1.0857 * s_:.1f} mmag)", c)
+                for i, (c, s_) in enumerate(zip(curves, scatter, strict=True))
+            ]
+            series, label = photometry_figures.offset_curves(x, named, gap), self.tr("Relative flux (offset)")
         elif what == "all":
             curves = [("T1", lc["rel_flux"])] + [(xx["name"], xx["rel_flux"]) for xx in lc["extra"]]
-            for i, (name, c) in enumerate(curves):
-                c = np.asarray(c, float)
-                ax.plot(x, c / np.nanmedian(c) - self.spacing.value() * i, ".", ms=3, label=name)
-            label = self.tr("Relative flux (offset)")
-            ax.legend(fontsize=7)
+            named = [(n, np.asarray(c, float) / np.nanmedian(c)) for n, c in curves]
+            series, label = photometry_figures.offset_curves(x, named, gap), self.tr("Relative flux (offset)")
         else:
-            cov = d.covariates(lc)
-            for key in ("airmass", "sky", "fwhm", "x", "y"):
-                if key in cov:
-                    v = np.asarray(cov[key], float)
-                    ax.plot(x, (v - np.nanmean(v)) / (np.nanstd(v) or 1), ".", ms=2, label=key)
-            label = self.tr("Normalised value")
-            ax.legend(fontsize=7)
-        ax.set_xlabel(f"{lc['time_scale']} − {t_ref:.0f}")
-        ax.set_ylabel(label)
-        self.plot.draw()
+            series, label = photometry_figures.covariate_curves(x, d.covariates(lc)), self.tr("Normalised value")
+        axes = AxisSpec(f"{lc['time_scale']} − {t_ref:.0f}"), AxisSpec(label, invert=invert)
+        self.plot.set_figure(FigureSpec([PanelSpec(*axes, series)]))
 
     def show_colour(self, colour, curves):
         """The colour-index curve of a night in several filters (item 11), shown at once."""
@@ -2583,16 +2532,17 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.result.setText(text + "\n" + self.result.text())
 
-    def _plot_colour(self, ax, t_ref):
+    def _plot_colour(self, t_ref):
         col = self.colour
         a, b = col["filters"]
-        y = np.asarray(col["standard"] if col.get("standard") else col["colour"], float)
-        ax.errorbar(np.asarray(col["time"]) - t_ref, y, col["colour_err"], fmt=".", ms=3, lw=0.5)
-        ax.invert_yaxis()
-        self._plotted = None
-        if col.get("standard"):
-            return self.tr("{a} − {b} (standard, mag)").format(a=a, b=b)
-        return self.tr("Δ({a} − {b}) (mag)").format(a=a, b=b)
+        std = col.get("standard")
+        y = np.asarray(std if std else col["colour"], float)
+        label = self.tr("{a} − {b} (standard, mag)") if std else self.tr("Δ({a} − {b}) (mag)")
+        label = label.format(a=a, b=b)
+        series = [
+            photometry_figures.points(label, np.asarray(col["time"]) - t_ref, y, col["colour_err"], pickable=False)
+        ]
+        return series, label, True
 
     def _fill_multi_series(self, ticked=None, colours=None):
         """The series of this light curve in the multi-plot list (photometry/multiplot.py), ticked as before, or as
@@ -2641,7 +2591,7 @@ class PhotometryPage(Undoable, QWidget):
             return None
         return (min(a, b), max(a, b))
 
-    def _plot_multi(self, ax, lc, t, t_ref):
+    def _plot_multi(self, lc, t, t_ref):
         """The ticked series, each divided by its median (fluxes) or scaled to its range (airmass, sky …), binned,
         one below the other. Points can be clicked away on an unbinned T1 drawn first."""
         from ..photometry.multiplot import QUANTITIES, prepare, series
@@ -2649,6 +2599,7 @@ class PhotometryPage(Undoable, QWidget):
         norm = self._norm_range()
         gap = self.spacing.value() or 0.0
         binned = self.bin_n.value() > 1 or self.bin_minutes.value() > 0
+        out = []
         for i, row in enumerate(self._multi_rows()):
             y, e = series(lc, row["key"])
             y = detrended(self, lc, row, y)  # PHO-46: the row's own detrending
@@ -2658,19 +2609,25 @@ class PhotometryPage(Undoable, QWidget):
                 tb, yb, eb = prepare(t, y, None, False, self.bin_n.value(), self.bin_minutes.value())
             else:
                 tb, yb, eb = prepare(t, y, e, norm, self.bin_n.value(), self.bin_minutes.value())
-            yb = yb - gap * i
-            kw = {"color": row["colour"]} if row["colour"] else {}
-            if eb is not None:
-                ax.errorbar(tb - t_ref, yb, eb, fmt=".", ms=3, lw=0.5, label=row["key"], **kw)
-            else:
-                ax.plot(tb - t_ref, yb, ".", ms=3, label=row["key"], **kw)
-            if i == 0 and row["key"] == "rel_flux_T1" and not binned and len(tb) == len(t):
-                self._plotted = (ax, t - t_ref, yb)
+            pick = i == 0 and row["key"] == "rel_flux_T1" and not binned and len(tb) == len(t)
+            out.append(
+                SeriesSpec(
+                    row["key"], tb - t_ref, yb - gap * i, yerr=eb, size=4, colour=row["colour"] or None, pickable=pick
+                )
+            )
+            self._plotted = row["key"] if pick else self._plotted
         if norm is not None:
-            ax.axvspan(norm[0] - t_ref, norm[1] - t_ref, color="#8e8e93", alpha=0.12, lw=0)
-        if self._multi_rows():
-            ax.legend(fontsize=7)
-        return self.tr("Normalised flux (offset)")
+            out.append(
+                SeriesSpec(
+                    "norm",
+                    [norm[0] - t_ref],
+                    [norm[1] - t_ref],
+                    kind="span",
+                    alpha=0.12,
+                    colour=tokens.role("rejected"),
+                )
+            )
+        return out, self.tr("Normalised flux (offset)")
 
     def leave_each_comparison_out(self):
         """AstroImageJ's "cycle the comparison stars less one": T1's scatter with every ensemble less one star."""
@@ -2754,7 +2711,7 @@ class PhotometryPage(Undoable, QWidget):
             self.result.setText(self.tr("Not in this light curve: {names}").format(names=", ".join(missing)))
         return doc
 
-    def _plot_differential(self, ax, lc, x, sat):
+    def _plot_differential(self, lc, x, sat, lin):
         """The classic differential plot: Δm of the target against the comparison (ensemble) and, offset from it,
         the check star against the same comparison — or C1 − C2 when there is no check star. A flat check curve
         says the comparison is constant; its scatter (mmag) is the precision the target can be trusted to."""
@@ -2763,8 +2720,7 @@ class PhotometryPage(Undoable, QWidget):
         rel = np.asarray(lc["rel_flux"], float)
         y, ye = d.delta_mag(rel, np.asarray(lc["rel_flux_err"], float))
         y = y - np.nanmedian(y)
-        ax.errorbar(x, y, ye, fmt=".", ms=3, lw=0.5, alpha=0.8, label=self.tr("T1 − comparison"))
-        bad = np.flatnonzero(np.isfinite(rel) & (rel <= 0))
+        bad, note = np.flatnonzero(np.isfinite(rel) & (rel <= 0)), None
         if len(bad):
             files = [Path(f).name for f in lc.get("file") or []]
             names = ", ".join(files[i] for i in bad[:4] if i < len(files)) + (", …" if len(bad) > 4 else "")
@@ -2772,15 +2728,9 @@ class PhotometryPage(Undoable, QWidget):
                 "{n} frame(s) without a positive flux for T1 ({frames}), no magnitude: is the star on those "
                 "frames, or a brighter star in its sky ring? Leave them out with “Use this frame”."
             ).format(n=len(bad), frames=names)
-            ax.text(0.01, 0.01, note, transform=ax.transAxes, fontsize=7, color="#e5484d", va="bottom")
-        self._plotted = (ax, x, y)
-        if sat.any():
-            ax.plot(x[sat], y[sat], "o", mfc="none", color="#e5484d", ms=7)
-        lin = self._nonlinear_frames(lc)
-        if lin.any():
-            ax.plot(x[lin], y[lin], "o", mfc="none", color="#f76b15", ms=7)
         check = next((e for e in lc.get("extra", []) if e.get("role") == "check"), None)
         comp = np.asarray(lc.get("comp_flux") or [[]], float)
+        k = name = None
         if check is not None:
             k, _ = d.delta_mag(np.asarray(check["rel_flux"], float), np.asarray(check["rel_flux_err"], float))
             name = self.tr("{k} (check) − comparison").format(k=check["name"])
@@ -2788,30 +2738,25 @@ class PhotometryPage(Undoable, QWidget):
             with np.errstate(divide="ignore", invalid="ignore"):
                 k = -2.5 * np.log10(comp[:, 0] / comp[:, 1])
             name = "C1 − C2"
-        else:
-            k = None
+        gap = 0.0
         if k is not None:
             k = k - np.nanmedian(k)
-            rms = 1000 * np.nanstd(k)
+            name = f"{name}: {1000 * np.nanstd(k):.1f} mmag"
             gap = max(self.spacing.value(), 4 * np.nanstd(y), 4 * np.nanstd(k), 0.02)
-            ax.plot(x, k - gap, ".", ms=3, color="#8e8e93", label=f"{name}: {rms:.1f} mmag")  # above: axis inverted
-        ax.invert_yaxis()
-        ax.legend(fontsize=7, loc="best")
-        return self.tr("Δm (mag)")
+        series = photometry_figures.differential(lc, x, y, ye, sat, lin, k, name, gap, note)
+        self._plotted = series[0].name
+        return series, self.tr("Δm (mag)")
 
-    def _plot_clicked(self, event):
-        """In delete mode a click, or the Delete key at any time: the point nearest (within 10 px) is left out."""
-        keyed = getattr(event, "name", "") == "key_press_event"
-        if not (event.key == "delete" if keyed else self.delete_mode.isChecked()):
-            return
-        if not (self._plotted and event.inaxes is self._plotted[0]):
-            return
-        ax, x, y = self._plotted
-        pix = ax.transData.transform(np.column_stack([x, y]))
-        dist = np.hypot(pix[:, 0] - event.x, pix[:, 1] - event.y)
-        i = int(np.nanargmin(dist)) if np.isfinite(dist).any() else -1
-        if i >= 0 and dist[i] < 10:
+    def _plot_clicked(self, name, i):
+        """In delete mode a click on a point of the light curve leaves it out."""
+        if self.delete_mode.isChecked() and name == self._plotted:
             self.delete_point(i)
+
+    def _plot_key(self, key, _x):
+        """The Delete key at any time: the point under the cursor is left out."""
+        hit = self.plot.hit
+        if key == "delete" and hit and hit[0] == self._plotted:
+            self.delete_point(hit[1])
 
     def delete_point(self, i):
         """Leave out the i-th point of the light curve now shown (and its frame from every result)."""
@@ -2989,13 +2934,7 @@ class PhotometryPage(Undoable, QWidget):
                     n=m["skipped"]
                 )
             self.result.setText(text + "\n" + self.tr("All of them are in the O-C tab."))
-            if not self.plot.figure.axes or not self.light_curve:  # the plot was cleared meanwhile: nothing to mark
-                return
-            ax = self.plot.figure.axes[0]
-            t_ref = np.floor(min(self.light_curve["time"]))
-            for x in ms:
-                ax.axvline(x["time"] - t_ref, color="red" if x["kind"] == "I" else "orange", lw=0.8)
-            self.plot.draw()
+            self._mark_minima(ms)
             return
         text = self.tr("Minimum: {t:.6f} ± {e:.6f} {scale} ({e_min:.1f} min), {method}").format(
             t=m["time"], e=m["error"], scale=m["time_scale"], e_min=m["error"] * 1440, method=methods[m["method"]]
@@ -3012,12 +2951,15 @@ class PhotometryPage(Undoable, QWidget):
         if "o_minus_c" in m:
             text += "\n" + self.tr("Epoch {n}, O−C = {oc:+.2f} min").format(n=m["epoch"], oc=m["o_minus_c"] * 1440)
         self.result.setText(text)
-        if not self.plot.figure.axes or not self.light_curve:  # (an intermittent CI failure)
+        self._mark_minima([{"time": m["time"], "kind": "I"}])
+
+    def _mark_minima(self, minima):
+        """Vertical lines at the timed minima on the light curve now drawn (nothing when it was cleared meanwhile)."""
+        figure = self.plot.figure
+        if not (figure and figure.panels) or not self.light_curve:
             return
-        ax = self.plot.figure.axes[0]
-        t_ref = np.floor(min(self.light_curve["time"]))
-        ax.axvline(m["time"] - t_ref, color="red", lw=1)
-        self.plot.draw()
+        figure.panels[0].series += photometry_figures.minima_marks(minima, np.floor(min(self.light_curve["time"])))
+        self.plot.set_figure(figure)
 
     def _export_aavso(self):
         self.guide.set_state(5, "done")

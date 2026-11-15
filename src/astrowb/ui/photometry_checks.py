@@ -308,18 +308,24 @@ class ChecksTab(QWidget):
                         item.setForeground(QColor(role("non_linear")))
                     item.setToolTip(", ".join(filter(None, [item.toolTip(), *reasons])))
 
-    def mark(self, ax, x, y, lc):
+    def mark(self, x, y, lc):
         """The flagged frames (cloud, spikes …) crossed on the light curve, once this tab has judged this very
-        curve."""
+        curve: [SeriesSpec] to draw with it."""
         import numpy as np
 
         from .kit.tokens import role
 
         if getattr(self, "judged", None) is not lc:
-            return
-        idx = sorted({i for v in self.flags.values() for i in v if i < len(x)})
-        if idx:
-            ax.plot(np.asarray(x)[idx], np.asarray(y)[idx], "x", color=role("saturated"), ms=6)
+            return []
+        idx = np.array(sorted({i for v in self.flags.values() for i in v if i < len(x)}), int)
+        if not len(idx):
+            return []
+        name = translate("PhotometryChecks", "Flagged")
+        return [
+            SeriesSpec(
+                name, np.asarray(x)[idx], np.asarray(y)[idx], symbol="x", colour=role("saturated"), size=8, ids=idx, z=1
+            )
+        ]
 
     def leave_out_flagged(self, kind=None):
         """Through the page's undoable exclusion, as its saturated-points command: every flagged frame, or only those

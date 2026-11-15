@@ -249,6 +249,19 @@ class PlotView(QWidget):
             for side, axis_spec, shift in (("bottom", panel.x, offset), ("left", panel.y, 0.0)):
                 if axis_spec.ticks:
                     plot.getAxis(side).setTicks([[(v - shift, t) for v, t in axis_spec.ticks]])
+            if panel.top:
+                plot.showAxis("top")
+                plot.setLabel("top", panel.top.title())
+                top = plot.getAxis("top")
+                top.setPen(self._muted)
+                top.setTextPen(self._ink)
+                top.setTicks([[(v - offset, t) for v, t in panel.top.ticks or []]])
+            if panel.right:
+                plot.showAxis("right")
+                plot.setLabel("right", panel.right.title())
+                plot.getAxis("right").setPen(self._muted)
+                plot.getAxis("right").setTextPen(self._ink)
+                plot.getAxis("right").setTicks([[(v, t) for v, t in panel.right.ticks or []]])
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
             legend = plot.addLegend() if sum(s.kind not in S.NO_LEGEND for s in panel.series) > 1 else None
             for s in panel.series:

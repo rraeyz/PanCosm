@@ -434,3 +434,21 @@ def test_measure_two_clicks_and_the_delete_key(view):
     assert view.mode == view.base_mode
     QTest.keyClick(view, Qt.Key_Delete)
     assert keys == ["delete"]
+
+
+def test_a_second_x_axis_along_the_top_in_both_outputs(qapp):
+    from astrowb.ui.plot import publish as P
+    from astrowb.ui.plot.view import PlotView
+
+    top = AxisSpec("Local time", ticks=[(1.5, "a"), (2.5, "b")])
+    right = AxisSpec("Airmass", ticks=[(1.2, "3"), (1.8, "2")])
+    spec = FigureSpec(
+        [PanelSpec(AxisSpec("UT"), AxisSpec("y"), [SeriesSpec("s", [1, 3], [1, 2])], top=top, right=right)]
+    )
+    ax = P.figure(spec).axes[0]
+    sec, sec_y = ax.child_axes
+    assert [t.get_text() for t in sec.get_xticklabels()] == ["a", "b"] and sec.get_xlabel() == "Local time"
+    assert [t.get_text() for t in sec_y.get_yticklabels()] == ["3", "2"] and sec_y.get_ylabel() == "Airmass"
+    plot = PlotView(spec).plots[0]
+    assert plot.getAxis("top").isVisible() and plot.getAxis("top")._tickLevels[0] == [(1.5, "a"), (2.5, "b")]
+    assert plot.getAxis("right").isVisible() and plot.getAxis("right")._tickLevels[0] == [(1.2, "3"), (1.8, "2")]
