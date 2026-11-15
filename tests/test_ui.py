@@ -2011,7 +2011,7 @@ def test_photometry_stages_follow_the_steps(window, fits_file):
     window.set_ui_mode("basic")
     assert not page.measure_options.button.isChecked()
     tabs = [page.res_tabs.tabText(i) for i in range(page.res_tabs.count())]
-    assert "Frames" in tabs and page.res_tabs.widget(tabs.index("Frames")) is page.frame_table  # a results tab
+    assert "Frames" in tabs and page.res_tabs.widget(tabs.index("Frames")) is page.frame_table.parent()  # a results tab
     assert page.frame_table.rowCount() == 1
 
 

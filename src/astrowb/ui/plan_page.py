@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (
 from ..core import profiles
 from .converter_dialog import converter_button
 from .kit.help import help_line
+from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
 from .plan_almanac import almanac_label
@@ -32,6 +33,15 @@ from .undo import Undoable, track_typing
 
 AUTO = -13.0  # the UTC offset box's lowest value, shown as "Auto": this computer's time zone
 TARGET_COLUMNS = ("name", "ra", "dec", "t0", "period", "duration", "secondary")
+
+
+def _read_only(parent, header):
+    """A DataTable of cells the page fills itself, not editable; returns it and its inner table."""
+    frame = DataTable(parent)
+    frame.prepare(header)
+    frame.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+    frame.table.setEditTriggers(QTableWidget.NoEditTriggers)
+    return frame, frame.table
 
 
 class PlanPage(Undoable, QWidget):
@@ -172,8 +182,8 @@ class PlanPage(Undoable, QWidget):
         hint = help_line(self.tr("Add: position only. Add with ephemeris: also the times of its eclipses or "
                                  "transits."), "planning-adding-targets", self)  # fmt: skip
         lay.addWidget(hint)
-        self.table = QTableWidget(0, len(TARGET_COLUMNS), self)
-        self.table.setHorizontalHeaderLabels(
+        frame = DataTable(self)
+        frame.prepare(
             [
                 self.tr("Name"),
                 "RA (°)",
@@ -184,9 +194,10 @@ class PlanPage(Undoable, QWidget):
                 self.tr("Secondary"),
             ]
         )
+        self.table = frame.table
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.setToolTip(self.tr("Enter T0 and period to list minima / transits of the night."))
-        lay.addWidget(self.table, 1)
+        lay.addWidget(frame, 1)
         track_typing(self, self.table, self.tr("type a value"))
         self.remove_button = remove = QPushButton(self.tr("Remove selected"), self)
         remove.clicked.connect(
@@ -247,28 +258,17 @@ class PlanPage(Undoable, QWidget):
         right = QSplitter(Qt.Vertical, self)
         box, self.plot = plot_box(self)
         right.addWidget(box)
-        self.events = QTableWidget(0, 7, self)
-        self.events.setHorizontalHeaderLabels(
-            [
-                self.tr("Target"),
-                self.tr("Event"),
-                self.tr("Start (UTC)"),
-                self.tr("Middle (UTC)"),
-                self.tr("Middle (local)"),
-                self.tr("End (UTC)"),
-                self.tr("Observable"),
-            ]
+        events, self.events = _read_only(
+            self,
+            [self.tr("Target"), self.tr("Event"), self.tr("Start (UTC)"), self.tr("Middle (UTC)"),
+             self.tr("Middle (local)"), self.tr("End (UTC)"), self.tr("Observable")],
+        )  # fmt: skip
+        right.addWidget(events)
+        schedule, self.schedule_table = _read_only(
+            self, [self.tr("Target"), self.tr("Start (UTC)"), self.tr("End (UTC)"), self.tr("Why")]
         )
-        self.events.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.events.setEditTriggers(QTableWidget.NoEditTriggers)
-        right.addWidget(self.events)
-        self.schedule_table = QTableWidget(0, 4, self)
-        self.schedule_table.setHorizontalHeaderLabels(
-            [self.tr("Target"), self.tr("Start (UTC)"), self.tr("End (UTC)"), self.tr("Why")]
-        )
-        self.schedule_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.schedule_table.setEditTriggers(QTableWidget.NoEditTriggers)
-        right.addWidget(self.schedule_table)
+        schedule.filter.hide()  # a handful of blocks; the window must stay short enough to scroll its fields
+        right.addWidget(schedule)
         right.setSizes([700, 120, 100])
         right.setStretchFactor(0, 1)  # the chart takes what the window gives; the tables keep their share
         self.blocks = []
