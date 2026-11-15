@@ -60,7 +60,7 @@ def print_values(painter, viewer):
         return
     h, w = viewer.data.shape[:2]
     seen = viewer.mapToScene(viewer.viewport().rect()).boundingRect()
-    painter.setPen(QColor("#ffffff"))
+    painter.setPen(QColor("white"))
     for r in range(max(int(seen.top()), 0), min(int(seen.bottom()) + 1, h)):
         for c in range(max(int(seen.left()), 0), min(int(seen.right()) + 1, w)):
             cell = viewer.mapFromScene(QRectF(c, r, 1, 1)).boundingRect()

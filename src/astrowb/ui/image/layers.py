@@ -4,10 +4,12 @@ screen pixels when `fixed` (a marker that keeps its size at any zoom)."""
 
 from dataclasses import dataclass
 
+from ..kit.tokens import role
+
 
 @dataclass
 class Item:
-    colour: str = "#00e5ff"
+    colour: str = role("check")
     width: float = 1.0
     label: str = ""
     id: str = ""
