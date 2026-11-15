@@ -684,3 +684,44 @@ def test_a_stage_that_scrolls_itself_takes_the_whole_height(qapp):
     qapp.processEvents()
     assert page.height() >= inner.sizeHint().height()  # all its rows in view
     assert not page.verticalScrollBar().isVisible()
+
+
+def test_axis_limits_are_read_and_applied_and_keep_an_inverted_axis(qtbot, monkeypatch):
+    """UI-10: Axis limits… in the plot's menu: "a, b" text; a magnitude axis stays upside down."""
+    import pytest
+    from PySide6.QtWidgets import QInputDialog
+
+    from astrowb.ui.kit.widgets import PlotCanvas
+    from astrowb.ui.plot.limits import parse_limits
+
+    assert parse_limits("0.2, 0.8") == (0.2, 0.8) and parse_limits("1 2") == (1, 2)
+    for bad in ("1", "2, 1", "a, b"):
+        with pytest.raises(ValueError):
+            parse_limits(bad)
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    ax = plot.figure.add_subplot()
+    ax.plot([1, 2, 3], [3, 1, 2])
+    ax.invert_yaxis()
+    answers = iter([("0, 10", True), ("5, 20", True)])
+    monkeypatch.setattr(QInputDialog, "getText", lambda *a, **k: next(answers))
+    plot.axis_limits()
+    assert ax.get_xlim() == (0, 10) and ax.get_ylim() == (20, 5)
+    assert "Axis limits…" in [a.text() for a in plot.context_menu().actions()]
+
+
+def test_help_panel_searches_the_guide_and_lists_related_topics(qtbot):
+    """UI-7 item 2: the Help panel has a search box over the guide and links to the topics of the same chapter."""
+    from astrowb.ui.kit.help import HelpPanel
+
+    panel = HelpPanel("en")
+    qtbot.addWidget(panel)
+    assert panel.show_anchor("photometry-apertures")
+    related = panel.find("")
+    assert related and "photometry-apertures" not in related and panel.links.count() == len(related) <= 6
+    hits = panel.find("aperture")
+    assert hits and all(isinstance(a, str) for a in hits)
+    assert panel.find("zzzqqqxx") == [] and panel.links.isHidden()
+    panel.search.setText("aperture")
+    panel.links.itemClicked.emit(panel.links.item(0))
+    assert panel.anchor == panel.links.item(0).data(256)

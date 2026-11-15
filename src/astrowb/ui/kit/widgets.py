@@ -387,7 +387,15 @@ class PlotCanvas(QWidget):
         # lambdas: the action's "checked" flag must not arrive as the file name
         menu.addAction(self.tr("Save data…"), lambda: self.export_data()).setEnabled(not self.is_empty())
         menu.addAction(self.tr("Publication figure…"), lambda: self.export_publication())
+        menu.addAction(self.tr("Axis limits…"), self.axis_limits).setEnabled(bool(self.figure.axes))
         return menu
+
+    def axis_limits(self):
+        """The first plot's x and y range typed by hand (UI-10)."""
+        from ..plot.limits import ask_limits
+
+        if ask_limits(self, self.figure.axes[0]):
+            self.canvas.draw_idle()
 
     def show_all(self):
         """Every axis back to its data's full range (after zooming)."""

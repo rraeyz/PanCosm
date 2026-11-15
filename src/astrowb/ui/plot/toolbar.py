@@ -1,5 +1,6 @@
-"""The toolbar of a PlotView (ARC-6 item 6): show all, box zoom, select range, pick, export…, publication figure…,
-open in a window. Its mode buttons set PlotView.base_mode, the same modes the Z / R keys give while held."""
+"""The toolbar of a PlotView (ARC-6 item 6): show all, box zoom, select range, measure, pick, export…,
+publication figure…, open in a window. Its mode buttons set PlotView.base_mode, the same modes the Z / R keys
+give while held."""
 
 from pathlib import Path
 
@@ -26,6 +27,7 @@ class PlotToolbar(QWidget):
             ("pan", "centre", translate("PlotToolbar", "Pick")),
             ("zoom", "zoom_in", translate("PlotToolbar", "Box zoom")),
             ("range", "measure", translate("PlotToolbar", "Select range")),
+            ("measure", "radii", translate("PlotToolbar", "Measure (Δx, Δy between two clicks)")),
         ):
             button = ToolButton(kind, text, checkable=True, parent=self)
             button.setChecked(mode == "pan")

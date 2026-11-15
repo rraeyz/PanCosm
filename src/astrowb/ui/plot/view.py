@@ -3,6 +3,8 @@
     wheel            zoom at the cursor (Ctrl: x only, Shift: y only)
     drag             pan                      right-drag or Z + drag   box zoom
     A / double-click show all                 R + drag                 select an x range  -> range_selected(x0, x1)
+    X + click, click  measure: measured(dx, dy) between two clicks (also the toolbar's Measure)
+    Delete            key_pressed("delete", x): a page's "leave out" of what it selected
     click a point    point_clicked(series, id) (pickable series)       L + drag   lasso -> points_selected(series, ids)
     legend entry     shows / hides its series  mouse move               cursor_moved(text) for the status bar
 
@@ -21,6 +23,7 @@ from . import spec as S
 
 translate = QCoreApplication.translate  # the texts of PlotCanvas ("PlotCanvas" context), so one translation serves both
 PICK_PX = 6  # a click this near a point of a pickable series picks it
+HELD = {Qt.Key_R: "range", Qt.Key_L: "lasso", Qt.Key_Z: "zoom", Qt.Key_X: "measure"}  # modes while their key is held
 _SYMBOLS = {"o": "o", "s": "s", "^": "t1", "v": "t", "d": "d", "+": "+", "x": "x", "*": "star"}
 
 
@@ -45,6 +48,10 @@ class _ViewBox(pg.ViewBox):
         if ev.button() == Qt.LeftButton and ev.double():
             ev.accept()
             self.view.show_all()
+            return
+        if ev.button() == Qt.LeftButton and self.view.mode == "measure":
+            ev.accept()
+            self.view._measure(self, ev.scenePos())
             return
         if ev.button() == Qt.LeftButton and self.view._pick(self, ev.scenePos()):
             ev.accept()
@@ -117,6 +124,7 @@ class PlotView(QWidget):
     point_clicked = Signal(str, object)
     points_selected = Signal(str, list)
     cursor_moved = Signal(str)
+    measured = Signal(float, float)  # Δx, Δy between two clicks in "measure" mode (UI-10)
     plot_clicked = Signal(int, float, float)  # panel, x, y of a click that hit no pickable point
     key_pressed = Signal(str, object)  # a letter key the view does not use itself, and the cursor's x (None: outside)
 
@@ -134,6 +142,7 @@ class PlotView(QWidget):
         self.mode = "pan"  # "range", "lasso", "zoom" while their key is held, or set by the toolbar
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
         self.cursor_x = None
+        self._measure_from = None
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
         # said over the empty plot (UI-6: no blank rectangle without words), as PlotCanvas does
         self._empty_text = translate("PlotCanvas", "Nothing to show yet: the plot appears here once there are results")
@@ -430,16 +439,19 @@ class PlotView(QWidget):
         key = ev.key()
         if key == Qt.Key_A:
             self.show_all()
-        elif key in (Qt.Key_R, Qt.Key_L, Qt.Key_Z) and not ev.isAutoRepeat():
-            self.mode = {Qt.Key_R: "range", Qt.Key_L: "lasso", Qt.Key_Z: "zoom"}[key]
+        elif key in HELD and not ev.isAutoRepeat():
+            self.mode = HELD[key]
+        elif key == Qt.Key_Delete:
+            self.key_pressed.emit("delete", self.cursor_x)
         elif ev.text().isalpha() and not ev.isAutoRepeat():
             self.key_pressed.emit(ev.text().lower(), self.cursor_x)
         else:
             super().keyPressEvent(ev)
 
     def keyReleaseEvent(self, ev):
-        if ev.key() in (Qt.Key_R, Qt.Key_L, Qt.Key_Z) and not ev.isAutoRepeat():
+        if ev.key() in HELD and not ev.isAutoRepeat():
             self.mode = self.base_mode
+            self._measure_from = None
         else:
             super().keyReleaseEvent(ev)
 
@@ -498,6 +510,18 @@ class PlotView(QWidget):
         x, y = (10**v if m else v for v, m in zip((p.x(), p.y()), vb.state["logMode"], strict=True))
         panel = next(i for i, plot in enumerate(self.plots) if plot.getViewBox() is vb)
         self.plot_clicked.emit(panel, x + self.offsets.get(id(vb), 0.0), y)
+
+    def _measure(self, vb, pos):
+        """The first click sets the start, the second reports the difference (x in the axis' own units, y as drawn)."""
+        p = vb.mapSceneToView(pos)
+        here = (p.x(), p.y())
+        if self._measure_from is None:
+            self._measure_from = here
+            return
+        dx, dy = here[0] - self._measure_from[0], here[1] - self._measure_from[1]
+        self._measure_from = None
+        self.measured.emit(dx, dy)
+        self.cursor_moved.emit(translate("PlotCanvas", "Δx = {dx:.6g}   Δy = {dy:.6g}").format(dx=dx, dy=dy))
 
     def _mouse_moved(self, pos):
         self.cursor_x = None
