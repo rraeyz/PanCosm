@@ -96,3 +96,80 @@ def test_neb_plots_and_folder(tmp_path):
     files = {p.name for p in tfop_files(tmp_path, {"time": t}, None, {"target": (10, 40)}, rows, image)}
     assert {"star_01.png", "star_02.png", "dmag_vs_rms.png", "field_neb.png"} <= files
     assert all((tmp_path / "NEB" / n).read_bytes()[:4] == b"\x89PNG" for n in ("star_01.png", "field_neb.png"))
+
+
+def test_dmag_vs_rms_boundary_lines(tmp_path):
+    """The summary plot carries the 5 and 3 boundary lines, drawn from the target depth the rows imply."""
+    import matplotlib.pyplot as plt
+
+    from astrowb.photometry import neb
+    from astrowb.photometry.reports import neb_plots
+
+    seen = []
+    orig = neb_plots._save
+    neb_plots._save = lambda fig, path: seen.append(fig) or orig(fig, path)
+    try:
+        row = {
+            "name": "1",
+            "disposition": "Cleared",
+            "dmag": 3.0,
+            "required_ppt": neb.required_depth_ppt(10.0, 3.0),
+            "rms_ppt": 1.0,
+        }
+        neb_plots.write(tmp_path, [row])
+    finally:
+        neb_plots._save = orig
+    ax = seen[-1].axes[0]
+    line = next(ln for ln in ax.get_lines() if ln.get_label() == "depth needed / RMS = 5")
+    x, y = line.get_data()
+    assert np.allclose(y, neb.required_depth_ppt(10.0, x) / 5)
+    plt.close("all")
+
+
+def _stars():
+    # target, a pair 6 px apart (3 ″ at 0.5 ″/px... scale 2 below), a lone star
+    return {"x": [10.0, 60.0, 66.0, 60.0], "y": [10.0, 60.0, 60.0, 20.0], "gmag": [10.0, 12.0, 12.5, 12.0]}
+
+
+def test_neighbours_of_a_star():
+    from astrowb.photometry.neb import _neighbours
+
+    st = {k: np.asarray(v) for k, v in _stars().items()}
+    a = _neighbours(st["x"], st["y"], st["gmag"], 1.0, 1, 0)
+    assert a["nearest_px"] == 6.0 and a["close"] == ["G12.5 @ 6.0″"]
+    b = _neighbours(st["x"], st["y"], st["gmag"], 1.0, 3, 0)
+    assert b["nearest_px"] == 40.0 and b["close"] == []
+
+
+def test_run_rows_carry_neighbours_and_crowded_label_is_red(tmp_path, monkeypatch):
+    from astrowb.photometry import neb
+    from astrowb.photometry.reports import neb_plots
+
+    n = 20
+    flux = {"target_flux": np.full(n, 1e6), "jd_utc": 2460000 + np.arange(n) / 100.0,
+            "extra_flux": np.full((n, 3), 4e4)}  # fmt: skip
+    monkeypatch.setattr("astrowb.photometry.lightcurve.light_curve", lambda *a, **k: flux)
+    field = {"scale": 1.0, "stars": _stars()}
+    rows = neb.run([], (10, 10), [], field, 5.0, 3.0, 5.0, 8.0, 100.0)
+    crowded = next(r for r in rows if r["x"] == 60.0 and r["y"] == 60.0)
+    assert crowded["r_ap"] == 3.0 and crowded["nearest_px"] <= 3 * crowded["r_ap"]
+    assert next(r for r in rows if r["y"] == 20.0)["nearest_px"] > 9
+    import json
+
+    json.dumps(rows)
+    seen = []
+    monkeypatch.setattr(neb_plots, "_save", lambda fig, path: seen.append(fig))
+    neb_plots._field(tmp_path / "f.png", rows, np.ones((80, 80)), (10, 10))
+    colours = {t.get_text(): t.get_color() for t in seen[-1].axes[0].texts}
+    assert colours["2"] == "red" and colours["1"] != "red"  # numbered nearest first: the lone star is 1
+
+
+def test_best_aperture_wins(monkeypatch):
+    from astrowb.photometry import neb
+
+    row = lambda d, r: {"x": 1.0, "y": 2.0, "disposition": d, "r_ap": r, "separation": 5.0}  # noqa: E731
+    calls = iter([[row("Not cleared", 3.0)], [row("Cleared", 6.0)]])
+    monkeypatch.setattr(neb, "run", lambda *a, **k: next(calls))
+    out = neb.run_apertures([], (0, 0), [], {}, 5.0, [(3.0, 5.0, 8.0), (6.0, 9.0, 12.0)])
+    assert len(out) == 1 and out[0]["disposition"] == "Cleared" and out[0]["r_ap"] == 6.0
+    assert [a["disposition"] for a in out[0]["apertures"]] == ["Not cleared", "Cleared"]
