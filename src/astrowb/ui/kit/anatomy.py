@@ -11,10 +11,11 @@ Keys: F9 the stage panel, F10 the inspector, F11 the results, Ctrl+1 … Ctrl+9 
 
 from dataclasses import dataclass
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QHBoxLayout, QScrollArea, QStackedWidget, QWidget
 
+from . import layout_memory
 from .fit import fit_width
 from .rail import StagePanel, StageRail
 
@@ -25,6 +26,7 @@ class Stage:
     title: str
     panel: object  # a StagePanel, or any widget (wrapped in one)
     help: str | None = None
+    hint: str | None = None  # a coach mark the first time the stage is opened (kit/help.coach_mark)
 
 
 class Anatomy:
@@ -77,11 +79,15 @@ class Anatomy:
             self._key_action(s.title, f"Ctrl+{i}", lambda _on=False, k=s.key: self.show_stage(k))
         if stages:
             self.show_stage(stages[0].key)
+        self._docks_added()
 
     def show_stage(self, key):
         self.rail.set_current(key)
         self.stage_stack.setCurrentWidget(self.stage_panels[key])
         self.docks["stages"].show()
+        from .help import coach_mark
+
+        coach_mark(self, self.stages[key])
 
     def run_stage(self):
         """F5 (UI-12): the stage's main button (the kit's "primary" one) is pressed, if it can be now."""
@@ -106,6 +112,7 @@ class Anatomy:
     def set_inspector(self, widget):
         dock = self._dock("inspector", self.tr("Inspector"), widget, Qt.RightDockWidgetArea)
         self._key_action(self.tr("Show or hide the inspector"), "F10", lambda: dock.setVisible(not dock.isVisible()))
+        self._docks_added()
         return dock
 
     def add_result_tab(self, key, title, widget):
@@ -116,7 +123,60 @@ class Anatomy:
         if first:
             self._key_action(self.tr("Show or hide the results"), "F11", self._toggle_results)
             self._key_action(self.tr("Next result tab"), "Ctrl+Tab", self._next_result)
+        self._docks_added()
         return dock
+
+    def set_result_stale(self, key, stale=True):
+        """Results of an older run stay visible, marked "out of date" in the tab's title, while their inputs have
+        changed (shortcut: a title suffix, not a Badge: a dock title takes no widget beside its text)."""
+        dock = self.docks[f"result_{key}"]
+        base = dock.property("base_title") or dock.windowTitle()
+        dock.setProperty("base_title", base)
+        dock.setWindowTitle(self.tr("{title} (out of date)").format(title=base) if stale else base)
+
+    def _docks_added(self):
+        """The docks made after the window was built are part of "Reset layout" and get the saved layout, once
+        the area has made them all (the first layout is what Reset goes back to, so it is taken before)."""
+        self._first_state = self.saveState()
+        if not getattr(self, "_restore_due", False):
+            self._restore_due = True
+            QTimer.singleShot(0, self._restore_docks)
+
+    def _restore_docks(self):
+        self._restore_due = False
+        layout_memory.restore(self)
+
+    def set_main(self, widget):
+        """The main view (an image, a spectrum, a plot); replaces the one before it."""
+        self._main_stack().setCurrentWidget(self._put(widget, "main"))
+
+    def set_empty_state(self, widget=None):
+        """A view for no data (EmptyState) in place of the main view; None brings the main view back."""
+        stack = self._main_stack()
+        if widget is None:
+            stack.setCurrentWidget(self._main) if getattr(self, "_main", None) else None
+        else:
+            stack.setCurrentWidget(self._put(widget, "empty"))
+
+    def _main_stack(self):
+        if not hasattr(self, "_stack"):
+            self._stack = QStackedWidget(self)
+            first = self.takeCentralWidget()
+            self.setCentralWidget(self._stack)
+            self._stack.show()
+            if first is not None:
+                self._stack.addWidget(first)
+                self._main = first
+        return self._stack
+
+    def _put(self, widget, role):
+        old = getattr(self, "_" + role, None)
+        if old is not None and old is not widget:
+            self._stack.removeWidget(old)
+            old.deleteLater()
+        setattr(self, "_" + role, widget)
+        self._stack.addWidget(widget)
+        return widget
 
     def show_help(self, anchor):
         """The Help panel at the right (UI-7) with the guide's topic; False when the anchor names none."""

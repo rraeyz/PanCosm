@@ -18,7 +18,7 @@ from ..brand import BRAND
 from ..engine.core import Engine
 from ..engine.project import EXTENSION
 from ..settings import Settings
-from . import area_menus, area_pages, area_windows, automatic, main_menus, tour
+from . import area_menus, area_pages, area_windows, automatic, main_menus, start_search, tour
 from .area_actions import AreaActions
 from .area_menus import _undo_source
 from .calibrate_page import CalibratePage
@@ -351,6 +351,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.action.connect(self._start_action)
         page.resume.connect(self._resume)
         page.mode_chosen.connect(self.set_ui_mode)
+        page.search_requested.connect(lambda text: start_search.open_palette(self, text))
         page.show_tonight(self.settings)
         return page
 

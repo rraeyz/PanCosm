@@ -9,7 +9,7 @@ back to the first layout (NINA users break their docked layouts and need "Reset 
 import json
 from pathlib import Path
 
-from PySide6.QtCore import QByteArray, QEvent, Qt, Signal
+from PySide6.QtCore import QEvent, Qt, Signal
 from PySide6.QtGui import QAction, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (
     QApplication,
@@ -30,6 +30,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from . import layout_memory
 from .anatomy import Anatomy
 from .shortcuts import own_keys
 from .tasks import hold
@@ -245,7 +246,7 @@ class AreaWindow(Anatomy, QMainWindow):
     def track(self, task):
         """Show a task started for this window (engine task: name, state, progress, message) in its status bar."""
         self._tasks[task.id] = task
-        self._held[task.id] = hold(QApplication.focusWidget())  # the main button that started it (UI-9)
+        self._held[task.id] = hold(QApplication.focusWidget(), task.cancel)  # the main button that started it (UI-9)
         self.task_update(task)
 
     def task_update(self, task):
@@ -514,17 +515,10 @@ class AreaWindow(Anatomy, QMainWindow):
 
     # --- layout -------------------------------------------------------------
     def _restore(self):
-        geometry = self.settings.get(f"area.{self.key}.geometry")
-        state = self.settings.get(f"area.{self.key}.state")
-        if geometry:
-            self.restoreGeometry(QByteArray.fromBase64(geometry.encode()))
-            on_screen(self)
-        if state:
-            self.restoreState(QByteArray.fromBase64(state.encode()))
+        layout_memory.restore(self, geometry=True)
 
     def save_layout(self):
-        self.settings.set(f"area.{self.key}.geometry", bytes(self.saveGeometry().toBase64()).decode())
-        self.settings.set(f"area.{self.key}.state", bytes(self.saveState().toBase64()).decode())
+        layout_memory.save(self)
 
     def add_menus(self, menus, toolbar=()):
         """The area's own menus [(title, [QAction or None])], placed before Window, and toolbar actions, for windows

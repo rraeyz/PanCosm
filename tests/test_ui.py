@@ -1925,11 +1925,11 @@ def test_settings_in_one_window(window, qtbot):
     win = window.show_settings()
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
-    assert names == ["General", "Profiles", "Processing", "Automatic steps", "Time", "Online services", "Shortcuts",
-                     "Plugins", "Advanced"]  # fmt: skip
+    assert names == ["General", "Profiles", "Processing", "Files", "Automatic steps", "Time", "Online services",
+                     "Shortcuts", "Plugins", "Advanced"]  # fmt: skip
     assert win.filter("offline") == 1
     assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [
-        5
+        6
     ]  # Online services, after Automatic steps
     win.filter("")
     toggle = next(row.control for c, row, _n, _w in win.rows if row.label.text() == "Work offline")
@@ -2832,3 +2832,91 @@ def test_the_astrometry_window_has_stages(window):
     assert panels["report"].isAncestorOf(page.designation) and panels["report"].isAncestorOf(page.export_button)
     assert not any(p.isAncestorOf(page.viewer) or p.isAncestorOf(page.table) for p in panels.values())
     win.close()
+
+
+def test_settings_files_folder_and_profile_reset(window):
+    """UI-13: Files holds the download folder; numeric profile fields have a dot that puts "unknown" back."""
+    win = window.show_settings()
+    try:
+        rows = {r.label.text(): r for _c, r, _n, _w in win.rows}
+        folder = rows["Download folder"].control
+        folder.changed.emit(["/data/nights"])
+        assert window.settings.get("observatory.download_dir") == "/data/nights"
+        gain = rows["Gain"]
+        gain.control.setValue(1.6)
+        assert gain.is_changed() and window.settings.get("profile")["camera"]["gain"] == 1.6
+        gain.dot.click()
+        assert gain.control.value() == 0 and window.settings.get("profile")["camera"]["gain"] == 0
+        assert rows["Observer"].dot is None  # text fields keep no reset
+    finally:
+        win.close()
+
+
+def test_start_window_empty_state_all_sessions_card_menu_and_search(window, qtbot, tmp_path):
+    """UI-5: with no work the left column is an empty state; more than six pieces of work add "All sessions…"; an
+    area card's menu opens its guide chapter; "Find anything" lists areas, files, guide topics and settings."""
+    from astrowb.ui import start_search
+
+    page = window.start_page
+    page.set_recent([])
+    assert page.empty.isVisibleTo(page) and not page.continue_list.isVisibleTo(page)
+    assert not page.all_sessions.isVisibleTo(page)
+    files = []
+    for i in range(8):
+        f = tmp_path / f"n{i}.fits"
+        f.write_text("x")
+        files.append(("photometry", str(f)))
+    page.set_recent(files)
+    assert not page.empty.isVisibleTo(page) and page.continue_list.count() == 6
+    assert page.all_sessions.isVisibleTo(page)
+    asked = []
+    page.action.connect(asked.append)
+    menu = page._card_menu("photometry", page.blocks[0], page.blocks[0].rect().center())
+    next(a for a in menu.actions() if a.text() == "Open the guide chapter").trigger()
+    menu.close()
+    assert asked == ["guide:photometry"]
+    window._start_action("guide:photometry")  # the guide opens, filtered to the area
+    assert window.guide_page.search.text() == "Photometry"
+    lines = [t for t, _a in start_search.commands(window)]
+    assert any(t.startswith("Areas › Photometry") for t in lines)
+    assert any(t.startswith("Guide › ") for t in lines) and any(t.startswith("Settings › General › ") for t in lines)
+    assert any("All settings" in t for t in lines)
+    seen = []
+    page.search_requested.connect(seen.append)
+    page.find.textEdited.emit("pho")
+    assert seen == ["pho"] and page.find.text() == ""
+    dialog = start_search.open_palette(window, "Areas")
+    qtbot.addWidget(dialog)
+    assert dialog.list.count() >= 10
+    dialog.close()
+
+
+def test_start_window_strip_has_time_tables_and_tasks(window):
+    """UI-5 item 5: the strip shows whether the time tables are up to date, and a tasks chip."""
+    assert window.time_chip.text() in ("● Time tables up to date", "● Time tables out of date")
+    assert window.task_chip.text() == "" and not window.task_chip.isEnabled()
+
+
+def test_delete_over_the_period_plot_leaves_out_lassoed_or_hovered_points_undoably(qtbot):
+    """UI-12: Delete over the plot removes the lassoed points, else the point under the cursor (one undo step)."""
+    from PySide6.QtCore import Qt
+    from PySide6.QtTest import QTest
+
+    from astrowb.ui.period_page import PeriodPage
+
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    t = np.linspace(0, 10, 50)
+    page.set_light_curve(t, 1 + 0.01 * np.sin(t), "test")
+    name = page._data_name()
+    page.plot.points_selected.emit(name, [3, 4, 5])  # a lasso
+    QTest.keyClick(page.plot, Qt.Key_Delete)
+    assert len(page.time) == 47 and t[3] not in page.time
+    page.undo_stack.undo()
+    assert len(page.time) == 50
+    page.plot.hit = (name, 10, 0.0, 0.0)  # no lasso: the point under the cursor
+    QTest.keyClick(page.plot, Qt.Key_Delete)
+    assert len(page.time) == 49 and t[10] not in page.time
+    page.plot.hit = None
+    QTest.keyClick(page.plot, Qt.Key_Delete)  # nothing under the cursor: nothing happens
+    assert len(page.time) == 49

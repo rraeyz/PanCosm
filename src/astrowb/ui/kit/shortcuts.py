@@ -48,6 +48,21 @@ def duplicates(window):
     return {key: sorted(p for p, _ in acts) for key, acts in by_key.items() if len(acts) > 1}
 
 
+def plot_keys():
+    """The keys of a plot (PlotView) as sheet rows: they belong to the plot under the cursor, not to an action."""
+    return [
+        (translate("ShortcutSheet", "Plot: {what}").format(what=what), keys, None)
+        for what, keys in (
+            (translate("ShortcutSheet", "show all"), "A"),
+            (translate("ShortcutSheet", "select a range (hold, then drag)"), "R"),
+            (translate("ShortcutSheet", "lasso points (hold, then drag)"), "L"),
+            (translate("ShortcutSheet", "box zoom (hold, then drag)"), "Z"),
+            (translate("ShortcutSheet", "measure Δx, Δy (hold, click twice)"), "X"),
+            (translate("ShortcutSheet", "leave out the points under the cursor"), "Delete"),
+        )
+    ]
+
+
 class ShortcutSheet(Dialog):
     def __init__(self, window):
         super().__init__(
@@ -61,7 +76,7 @@ class ShortcutSheet(Dialog):
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
-        rows = sorted(shortcuts_of(window), key=lambda r: r[0].casefold())
+        rows = sorted([*shortcuts_of(window), *plot_keys()], key=lambda r: r[0].casefold())
         self.table.setRowCount(len(rows))
         for i, (path, keys, _act) in enumerate(rows):
             self.table.setItem(i, 0, QTableWidgetItem(path))

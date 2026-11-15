@@ -24,10 +24,13 @@ def test_first_run_once(qapp, qtbot, tmp_path):
             self.language.setCurrentIndex(self.language.findData("tr"))
             self.device.setCurrentIndex(self.device.findData("cpu"))
             self.look.setCurrentIndex(self.look.findData("light"))
+            self.setup_now.setChecked(True)
             return 1
 
     chosen = first_run(qapp, settings, Auto)
-    assert chosen == {"ui.language": "tr", "compute.device": "cpu", "ui.theme": "light", "time.auto_refresh": True}
+    assert chosen == {"ui.language": "tr", "compute.device": "cpu", "ui.theme": "light", "time.auto_refresh": True,
+                      "_setup_now": True}  # fmt: skip
+    assert Settings(tmp_path).get("_setup_now") is None  # asked for once, not a setting
     assert Settings(tmp_path).get("ui.first_run_done") is True
     assert first_run(qapp, settings, Auto) is None  # never again
     dlg = WelcomeDialog()

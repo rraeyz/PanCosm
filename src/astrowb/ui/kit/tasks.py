@@ -6,7 +6,7 @@ each task with its state, progress, elapsed and estimated time, and Cancel.
 
 import time
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QEvent, QObject, Qt
 from PySide6.QtWidgets import QMenu, QToolButton
 
 from .icons import icon
@@ -96,25 +96,40 @@ class TaskChip(QToolButton):
             menu.addAction(self.tr("No task running")).setEnabled(False)
 
 
-class HeldButton:
-    """A stage's main button while the work it started runs (UI-9): disabled, so the work is not started twice,
-    and showing the progress; back as it was when the work ends. Esc or Cancel stop the work."""
+class HeldButton(QObject):
+    """A stage's main button while the work it started runs (UI-9): it shows "Stop — 40 %" and a click (or Space /
+    Enter) stops the work instead of starting it again; back as it was when the work ends. Esc stops it too."""
 
-    def __init__(self, button):
-        self.button, self.text = button, button.text()
-        button.setEnabled(False)
+    def __init__(self, button, cancel=lambda: None):
+        super().__init__(button)
+        self.button, self.text, self.cancel = button, button.text(), cancel
+        button.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        kind = event.type()
+        keys = (Qt.Key_Space, Qt.Key_Return, Qt.Key_Enter)
+        if kind in (QEvent.MouseButtonPress, QEvent.MouseButtonDblClick, QEvent.MouseButtonRelease):
+            if kind == QEvent.MouseButtonRelease:
+                self.cancel()
+            return True  # the click never reaches the button, so its own action is not started twice
+        if kind in (QEvent.KeyPress, QEvent.KeyRelease) and event.key() in keys:
+            if kind == QEvent.KeyRelease and not event.isAutoRepeat():
+                self.cancel()
+            return True
+        return False
 
     def show(self, task):
         if task.finished:
+            self.button.removeEventFilter(self)
             self.button.setText(self.text)
-            self.button.setEnabled(True)
         else:
-            self.button.setText(f"{self.text} — {int(task.progress * 100)} %")
+            stop = self.tr("Stop")
+            self.button.setText(f"{stop} — {int(task.progress * 100)} %")
 
 
-def hold(widget):
+def hold(widget, cancel=lambda: None):
     """The HeldButton for the widget that started a task when it is a stage's main (primary) button, else None
     (a click gives a push button the focus, so the focus names the button)."""
     from PySide6.QtWidgets import QPushButton
 
-    return HeldButton(widget) if isinstance(widget, QPushButton) and widget.property("primary") else None
+    return HeldButton(widget, cancel) if isinstance(widget, QPushButton) and widget.property("primary") else None

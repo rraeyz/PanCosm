@@ -154,11 +154,16 @@ def _tr(text):
 
 
 # keys of the settings file that are not choices of the user (state, memory of windows, older names)
-INTERNAL = ("recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.first_run_done", "site",
-            "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator", "plan.utc_offset",
-            "plan.horizon", "profiles")  # fmt: skip
-SHOWN = ("shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "profile",
-         "compute.device", "services.offline", "time.auto_refresh", "camera.clock_utc_offset")  # fmt: skip
+INTERNAL = (
+    "recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.hints_seen",
+    "ui.first_run_done", "site", "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator",
+    "plan.utc_offset", "plan.horizon", "profiles",
+)  # fmt: skip
+SHOWN = (
+    "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
+    "profile", "compute.device", "observatory.download_dir", "services.offline", "time.auto_refresh",
+    "camera.clock_utc_offset",
+)  # fmt: skip
 
 
 class SettingsWindow(Dialog):
@@ -182,6 +187,7 @@ class SettingsWindow(Dialog):
         self._general()
         self._profiles()
         self._processing()
+        self._files()
         self._automatic()
         self._time()
         self._online()
@@ -248,6 +254,10 @@ class SettingsWindow(Dialog):
         tell.toggled.connect(lambda _on: self.settings.set("ui.notify", tell.isChecked()))
         note = self.tr("A desktop notification when work longer than a minute ends while the program is not in front")
         self._row(c, self.tr("Notifications"), tell, note, default=True)
+        hints = Toggle("", bool(self.settings.get("ui.hints", True)), self)
+        hints.toggled.connect(lambda _on: self.settings.set("ui.hints", hints.isChecked()))
+        self._row(c, self.tr("Hints"), hints, self.tr("A short hint the first time a stage of a window is opened"),
+                  default=True)  # fmt: skip
         expert = self.tr("Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)")
         self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert, default=False)
 
@@ -282,7 +292,8 @@ class SettingsWindow(Dialog):
                 low, high, decimals = kind
                 control = NumberField(float(value or 0), low, high, 1, decimals, parent=self)
                 control.valueChanged.connect(lambda v, p=part, f=field: profiles.update(self.settings, p, **{f: v}))
-            self._row(c, _tr(label), control, _tr(description), unit or None)
+            reset = None if kind == "text" or part == "site" else profiles.DEFAULTS[part][field]  # "unknown", 0
+            self._row(c, _tr(label), control, _tr(description), unit or None, default=reset)
             self.profile_controls[(part, field)] = control
         self.scale = QLabel(self)
         self._row(c, self.tr("Pixel scale"), self.scale, self.tr("From the pixel size and the focal length"))
@@ -324,6 +335,19 @@ class SettingsWindow(Dialog):
                               ("gpu", self.tr("GPU"))], compute.mode(), self)  # fmt: skip
         device.currentIndexChanged.connect(lambda _i: self.main.set_compute(device.value()))
         self._row(c, self.tr("Processing device"), device, self.tr("Where the heavy computations run"), default="auto")
+
+    def _files(self):
+        from pathlib import Path
+
+        from .kit.fields import PathField
+
+        c = self._category(self.tr("Files"))
+        home = str(Path.home() / "observations")
+        folder = PathField("folder", parent=self)
+        folder.set_paths([self.settings.get("observatory.download_dir", home)])
+        folder.changed.connect(lambda paths: self.settings.set("observatory.download_dir", paths[0] if paths else home))
+        note = self.tr("Where frames fetched from the observatory's computer are kept, one folder per night")
+        self._row(c, self.tr("Download folder"), folder, note)
 
     def _automatic(self):
         """What the program does without a press (ui/automatic.py): each step on or off; its button stays."""
