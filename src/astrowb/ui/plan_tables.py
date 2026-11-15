@@ -3,8 +3,9 @@ and every target's rise, set, highest point, best airmass and closest approach t
 
 import numpy as np
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QHeaderView, QLabel, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
+from .kit.table_view import DataTable
 from .plan_chart import airmass_of, clock, crossing_hours
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Ctx", "…") calls
@@ -106,16 +107,11 @@ def standard_rows(n, hours, offset, kind="telluric"):
 
 
 def _table(parent, headers, rows):
-    table = QTableWidget(len(rows), len(headers), parent)
-    table.setHorizontalHeaderLabels(headers)
-    table.verticalHeader().hide()
-    table.setEditTriggers(QTableWidget.NoEditTriggers)
-    table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-    for r, row in enumerate(rows):
-        for c, v in enumerate(row):
-            table.setItem(r, c, QTableWidgetItem(str(v)))
-    table.setMinimumHeight(table.horizontalHeader().height() + sum(table.rowHeight(r) for r in range(len(rows))) + 4)
-    return table
+    view = DataTable(parent)  # filter, sort, column menu, copy and export (UI-11)
+    view.set_data(headers, rows)
+    t = view.table
+    t.setMinimumHeight(t.horizontalHeader().height() + sum(t.rowHeight(r) for r in range(len(rows))) + 4)
+    return view
 
 
 def tables_page(n, hours, offset, min_alt, parent=None):
