@@ -66,19 +66,13 @@ def stars(ra, dec, radius_deg, mag_limit=17.0, row_limit=4000):
 def _vizier(ra, dec, radius_deg, mag_limit, row_limit):
     import astropy.units as u
     from astropy.coordinates import SkyCoord
-    from astroquery.vizier import Vizier
 
-    from .mirrors import cds
+    from .services import vizier
 
-    def ask(server):
-        cols = ["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "+Gmag", "BP-RP", "VarFlag"]  # bright first: a cone cut at
-        # row_limit keeps the brightest stars of the whole cone, not a strip of it in declination (Qatar-1, 2026-11-07)
-        v = Vizier(columns=cols, row_limit=row_limit, vizier_server=server)
-        v.column_filters = {"Gmag": f"<{mag_limit}"}
-        t = v.query_region(SkyCoord(ra * u.deg, dec * u.deg), radius=radius_deg * u.deg, catalog="I/355/gaiadr3")
-        return t[0] if len(t) else []
-
-    t = cds("vizier", ask)
+    cols = ["RA_ICRS", "DE_ICRS", "pmRA", "pmDE", "+Gmag", "BP-RP", "VarFlag"]  # bright first: a cone cut at
+    # row_limit keeps the brightest stars of the whole cone, not a strip of it in declination (Qatar-1, 2026-11-07)
+    t = vizier.region(SkyCoord(ra * u.deg, dec * u.deg), radius_deg * u.deg, "I/355/gaiadr3", cols, row_limit,
+                           {"Gmag": f"<{mag_limit}"}, first=True)  # fmt: skip
     if len(t) == 0:
         return None
     return {
@@ -119,22 +113,10 @@ def _flag(column):
 
 def _run(query):
     """An ADQL query on the ESA Gaia archive (kept in the cache: services/cache.py)."""
+    from .services import gaia_tap
     from .services.cache import cached
 
-    return cached("gaia", query, lambda: _run_now(query))
-
-
-def _run_now(query):
-    """The query now: synchronous, or through the archive's asynchronous queue when the synchronous queue is full
-    (HTTP 503 "server overloaded", seen from the agent's network on 2026-11-06)."""
-    from astroquery.gaia import Gaia
-
-    try:
-        return Gaia.launch_job(query).get_results()
-    except Exception as e:  # noqa: BLE001 - the queue is full or the answer timed out: the asynchronous queue
-        if "503" not in str(e) and "overloaded" not in str(e).lower() and "timed out" not in str(e).lower():
-            raise
-        return Gaia.launch_job_async(query).get_results()
+    return cached("gaia", query, lambda: gaia_tap.run(query))
 
 
 def photometry(ra, dec, radius_deg, row_limit=5000):

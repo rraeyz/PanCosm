@@ -9,8 +9,6 @@ position (barycentric correction and TDB-UTC), so they can be joined with TESS o
 
 import csv
 import io
-import urllib.parse
-import urllib.request
 
 import numpy as np
 
@@ -19,12 +17,11 @@ AAVSO_URL = "https://www.aavso.org/vsx/index.php"
 
 
 def _get_text(url, params, timeout=60):
+    from ..services import http
     from ..services.cache import cached
 
     def now():
-        req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https archive URLs)
-            return r.read().decode("utf-8", errors="replace")
+        return http.get(url, params, timeout, agent="Mozilla/5.0").decode("utf-8", errors="replace")
 
     return cached("lightcurves", (url, params), now)
 

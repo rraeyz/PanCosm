@@ -117,24 +117,18 @@ def catalogue_magnitudes(sky, bands, match_arcsec=2.0):
     where APASS has none). One region query per catalogue (needs the internet)."""
     import astropy.units as u
     from astropy.coordinates import SkyCoord
-    from astroquery.vizier import Vizier
 
     from .catalog import APASS_BANDS, from_gaia
 
     centre = SkyCoord(np.mean(sky.ra.deg) * u.deg, np.mean(sky.dec.deg) * u.deg)
     radius = centre.separation(sky).max() + 5 * u.arcsec
     out = {b: np.full(len(sky), np.nan) for b in bands}
-    from ..mirrors import cds
+    from ..services import vizier
 
     error = None
     for cat in ("II/336/apass9", "I/355/gaiadr3"):
         try:
-            tables = cds(
-                "vizier",
-                lambda server, cat=cat: Vizier(
-                    columns=["*", "_RAJ2000", "_DEJ2000"], row_limit=-1, vizier_server=server
-                ).query_region(centre, radius=radius, catalog=cat),
-            )
+            tables = vizier.region(centre, radius, cat, ["*", "_RAJ2000", "_DEJ2000"], -1)
         except Exception as e:  # noqa: BLE001 - no VizieR server answered: Gaia from the ESA archive below
             tables, error = [], e
         if not len(tables) and cat.startswith("I/355"):
