@@ -2431,7 +2431,11 @@ def test_the_checks_tab_shows_red_noise(window):
     start = perf_counter()
     page.checks._draw_panels(lc, {"cloud": list(range(0, n, 7))})
     page.checks._draw_rms(lc)
-    assert perf_counter() - start < 0.5  # 50-60 ms here (the accept is 150 ms); slow, loaded CI runners need room
+    took = perf_counter() - start
+    import sys
+
+    if sys.gettrace() is None:  # coverage (the Linux CI job) traces every line and makes this 10x slower
+        assert took < 0.5  # 50-60 ms here (the accept is 150 ms); slow, loaded CI runners need room
 
 
 def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):
