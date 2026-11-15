@@ -6,6 +6,7 @@ from PySide6.QtGui import QFont, QKeySequence
 from PySide6.QtWidgets import QMessageBox
 
 from ..brand import BRAND
+from . import tour_full
 from .kit.widgets import bar_menu
 
 
@@ -19,7 +20,7 @@ def add_menu(win):
         QKeySequence.HelpContents,
     )
     win.tour_action = win._action(h, QCoreApplication.translate("MainWindow", "Quick &tour"), win.start_tour)
-    win._action(h, QCoreApplication.translate("MainWindow", "&Full tour"), win.start_full_tour)
+    win._action(h, QCoreApplication.translate("MainWindow", "&Full tour"), lambda: tour_full.start_full(win))
     win._action(h, QCoreApplication.translate("MainWindow", "&Practice data for a first night…"), win.practice_data)
     guided_menu = h.addMenu(QCoreApplication.translate("MainWindow", "Guided tasks"))
     from .kit import guided
