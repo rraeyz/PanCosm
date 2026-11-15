@@ -103,7 +103,7 @@ class SettingsActions:
 
         return self.run_step("app.update_time_tables", {}, {}, on_done=done, on_fail=failed)
 
-    def practice_data(self, folder=None):
+    def practice_data(self, folder=None, then=None):
         """Simulated raw frames of an eclipsing binary night, for the Guide's first-night exercise."""
         folder = folder or QFileDialog.getExistingDirectory(
             self, translate("MainWindow", "Folder for the practice data")
@@ -112,6 +112,8 @@ class SettingsActions:
             return None
 
         def done(out):
+            if then:  # the tour's offer: straight into the guided task
+                return then()
             self.show_workspace("guide")
             self.guide_page.search.setText(translate("MainWindow", "practice"))
             self.statusBar().showMessage(

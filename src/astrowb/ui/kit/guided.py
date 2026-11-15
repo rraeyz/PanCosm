@@ -7,7 +7,7 @@ now, "Show me" marks the control — and the user works in the window itself; th
 import tomllib
 from pathlib import Path
 
-from PySide6.QtCore import QRect, Qt, QTimer
+from PySide6.QtCore import QCoreApplication, QEvent, QRect, Qt, QTimer
 from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QToolBar
 
 FOLDER = Path(__file__).resolve().parents[2] / "resources" / "guided"
@@ -104,6 +104,7 @@ class GuidedBar(QToolBar):
         window.raise_()
         w = self.widget()
         self._bring_forward(w)
+        QCoreApplication.sendPostedEvents(None, QEvent.LayoutRequest)  # the new stage's layout, before we measure
         if not w.isVisible():
             window.statusBar().showMessage(self.tr("That control is folded away: open its section first"), 6000)
             return False

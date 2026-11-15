@@ -4,14 +4,15 @@ Help → Quick tour shows it again."""
 
 from PySide6.QtCore import QCoreApplication, QRect, Qt
 from PySide6.QtGui import QColor, QPainter, QPainterPath
-from PySide6.QtWidgets import QDockWidget, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 
 class TourOverlay(QWidget):
-    def __init__(self, window, steps):
-        """steps: [(callable returning a QRect in window coordinates (or None), text), ...]"""
+    def __init__(self, window, steps, offer=None):
+        """steps: [(callable returning a QRect in window coordinates (or None), text), ...];
+        offer: (label, callback) shown as a button on the last step, which ends the tour and calls back."""
         super().__init__(window)
-        self.window_, self.steps, self.index = window, steps, 0
+        self.window_, self.steps, self.index, self.offer = window, steps, 0, offer
         self.setAttribute(Qt.WA_NoSystemBackground)
         self.bubble = QWidget(self)
         self.bubble.setObjectName("tourBubble")
@@ -34,6 +35,9 @@ class TourOverlay(QWidget):
         self.next.clicked.connect(self.advance)
         row.addWidget(self.skip)
         row.addStretch(1)
+        self.offer_button = QPushButton(offer[0] if offer else "", self.bubble)
+        self.offer_button.clicked.connect(self._take_offer)
+        row.addWidget(self.offer_button)
         row.addWidget(self.next)
         lay.addLayout(row)
         self.finished = False
@@ -62,6 +66,7 @@ class TourOverlay(QWidget):
         self.text.setText(text)
         last = self.index == len(self.steps) - 1
         self.next.setText(self.tr("Done") if last else self.tr("Next"))
+        self.offer_button.setVisible(last and self.offer is not None)
         self._place()
         self.update()
 
@@ -100,6 +105,10 @@ class TourOverlay(QWidget):
         self.index += 1
         self._show_step()
 
+    def _take_offer(self):
+        self.finish()
+        self.offer[1]()
+
     def finish(self):
         self.finished = True
         self.window_.removeEventFilter(self)
@@ -118,152 +127,59 @@ translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainW
 
 
 def start(main):
-    """Short guided tour of the pages and the main controls."""
+    """The quick tour (UI-19): six stops on the start window, the last one offering the practice night."""
     from .tour import TourOverlay, rect_of
 
-    steps = _steps(main, rect_of)
-    main.tour = TourOverlay(main, steps)
+    offer = (translate("MainWindow", "Practice night in five minutes"), lambda: _practice_night(main))
+    main.tour = TourOverlay(main, _steps(main, rect_of), offer)
     main.tour.start()
     main.settings.set("ui.tour_done", True)
     return main.tour
 
 
+def _practice_night(main):
+    """Make the practice data, then open guided task 1 (first-night.toml) on it."""
+    from . import help_checks
+    from .kit import guided
+
+    def begin():
+        task = next(t for t in guided.available(main.settings.get("ui.language", "en")) if "first-night" in t["path"])
+        help_checks.start_guided(main, task)
+
+    main.practice_data(then=begin)
+
+
 def _steps(main, rect_of):
-    """The tour's stops: (where, text)."""
+    """The tour's six stops: (where, text)."""
     from PySide6.QtWidgets import QToolButton
 
-    def item(key):  # the area's block on the start page
-        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
+    def photometry():  # an area's block: opening one gives the window the next three stops talk about
+        return rect_of(main.start_page.findChild(QToolButton, "start_photometry"), main)
 
     def blocks():
         shown = [rect_of(b, main) for b in main.start_page.blocks]
         shown = [r for r in shown if r is not None]
         return shown[0].united(shown[-1]) if shown else None
 
+    def menus():  # Help is in the menu bar
+        return rect_of(main.menuBar(), main)
+
     main.show_workspace("start")
-    dock = main.findChild(QDockWidget, "tasks")
     return [
-        (
-            None,
-            translate(
-                "MainWindow", "Welcome! This one-minute tour shows where things are. Press Next, or Skip at any time."
-            ),
-        ),
-        (
-            blocks,
-            translate(
-                "MainWindow", "The areas, in the order of an observing night. Click one to open it in its window."
-            ),
-        ),
-        (
-            lambda: rect_of(main.start_page, main),
-            translate(
-                "MainWindow",
-                "Start here: pick what you have — raw frames, images, spectra, a list of minima — and its window opens.",  # noqa: E501
-            ),
-        ),
-        (
-            item("plan"),
-            translate(
-                "MainWindow",
-                "Planning: when your targets are visible, airmass, the Moon, predicted eclipses and transits.",
-            ),
-        ),
-        (
-            item("observe"),
-            translate(
-                "MainWindow",
-                "Observing: connect the telescope and camera, run sequences and whole nights. The safety supervisor parks the telescope when something is wrong.",  # noqa: E501
-            ),
-        ),
-        (
-            item("calibrate"),
-            translate(
-                "MainWindow",
-                "Calibration: bias, dark and flat frames are matched and applied automatically; frames can be aligned and stacked.",  # noqa: E501
-            ),
-        ),
-        (
-            item("photometry"),
-            translate(
-                "MainWindow",
-                "Photometry, then Light curves and period and O−C: measure stars, get light curves, periods, minima and O−C diagrams.",  # noqa: E501
-            ),
-        ),
-    ] + _later_steps(main, rect_of, dock)
-
-
-def _later_steps(main, rect_of, dock):
-    """The second half of the tour's stops."""
-
-    def item(key):  # the area's block on the start page
-        from PySide6.QtWidgets import QToolButton
-
-        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
-
-    return [
-        (
-            item("astrometry"),
-            translate(
-                "MainWindow", "Astrometry: positions of an asteroid or comet on plate-solved frames, the MPC report."
-            ),
-        ),
-        (
-            item("spectroscopy"),
-            translate(
-                "MainWindow",
-                "Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.",
-            ),
-        ),
-        (
-            item("orbits"),
-            translate(
-                "MainWindow",
-                "Models: eclipsing-binary and transit light-curve models, absolute dimensions and visual orbits.",
-            ),
-        ),
-        (
-            item("remotesensing"),
-            translate(
-                "MainWindow",
-                "Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.",
-            ),
-        ),
-        (
-            item("automation"),
-            translate(
-                "MainWindow",
-                "Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.",  # noqa: E501
-            ),
-        ),
-        (
-            lambda: rect_of(main.menuBar(), main),  # the guide has no block: Help → Training guide opens it
-            translate(
-                "MainWindow",
-                "Guide: every window explained step by step, by category, with search. Help → Training guide opens it; F1 in a window opens its own page.",  # noqa: E501
-            ),
-        ),
-        (
-            lambda: rect_of(dock, main),
-            translate(
-                "MainWindow", "Tasks: long jobs run here in the background with their progress; you can keep working."
-            ),
-        ),
-        (
-            lambda: rect_of(main.menuBar(), main),
-            translate(
-                "MainWindow",
-                "Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area's window has its own menus and toolbar.",  # noqa: E501
-            ),
-        ),
-        (
-            lambda: rect_of(main.menuBar(), main),  # Help → Practice data is there
-            translate(
-                "MainWindow",
-                "In every area window: the stages on the left (Ctrl+1…9), F5 runs the stage's main action, F1 or Shift+F1 opens help, Ctrl+K finds any action, Ctrl+/ lists every key. To try it all, Help → Practice data for a first night gives data with known answers.",  # noqa: E501
-            ),
-        ),
-    ]
+        (blocks, translate("MainWindow", "The areas, in the order of an observing night. Click one to open it in its "
+                           "own window.")),
+        (photometry, translate("MainWindow", "In an area's window the stages of the work are on the left, in order. A "
+                               "stage done gets ✓ and the next opens by itself; Ctrl+1…9 jumps to one.")),
+        (photometry, translate("MainWindow", "Each stage has one main button: F5 presses it, and while it works the "
+                               "button shows its progress and becomes Stop (Esc).")),
+        (photometry, translate("MainWindow", "What the work produces appears in the results panel, in tabs; a row or a "
+                               "point shows its frame or star.")),
+        (menus, translate("MainWindow", "F1 opens the help page of the stage you are in; Help → Training guide has "
+                          "every window explained.")),
+        (menus, translate("MainWindow", "Ctrl+K finds any action by its name, in every window; Ctrl+/ lists every "
+                          "key. To try it all, take the practice night: data with known answers, ready in five "
+                          "minutes.")),
+    ]  # fmt: skip
 
 
 def start_area(win):

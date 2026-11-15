@@ -76,10 +76,30 @@ def test_quick_tour(qtbot, tmp_path):
             assert tour.text.text()
             if i < len(tour.steps) - 1:
                 tour.advance()
-        assert rects[0] is None and all(r is not None for r in rects[1:])  # every later step highlights something
+        assert len(tour.steps) == 6 and all(r is not None for r in rects)  # UI-19: six stops, each on something
+        assert tour.offer_button.isVisible()  # the last one offers the practice night
         assert tour.next.text() in ("Done", "Bitti")
         tour.advance()
         assert tour.finished
+    finally:
+        win.engine.shutdown()
+
+
+def test_full_tour_keeps_the_old_stops(qtbot, tmp_path):
+    """The 16-stop tour stays beside the six-stop quick one (Help → Full tour)."""
+    from astrowb.ui.main_window import MainWindow
+
+    win = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(win)
+    win.resize(1200, 800)
+    win.show()
+    try:
+        tour = win.start_full_tour()
+        assert len(tour.steps) == 16 and tour._rect() is None  # the welcome has no highlight
+        for _ in tour.steps[:-1]:
+            assert tour.bubble.geometry().intersects(tour.rect()) and tour.text.text()
+            tour.advance()
+        assert tour.next.text() in ("Done", "Bitti") and not tour.offer_button.isVisible()
     finally:
         win.engine.shutdown()
 
