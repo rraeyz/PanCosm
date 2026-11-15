@@ -2,6 +2,7 @@
 magnitude-scatter diagram with the candidates marked, and any star's light curve one click away."""
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtWidgets import (
     QComboBox,
@@ -12,8 +13,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
@@ -21,6 +20,7 @@ from PySide6.QtWidgets import (
 from .files import images_filter
 from .kit import tokens
 from .kit.help import help_line
+from .kit.table import TableView
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
 
@@ -106,9 +106,10 @@ class VarFindPage(QWidget):
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        self.table = QTableWidget(0, 6, self)
-        self._table_headers()
-        self.table.cellClicked.connect(lambda r, _c: self.show_star(int(self.table.item(r, 0).data(Qt.UserRole))))
+        self.table = TableView(self)
+        self.stars = []  # the star index of every table row
+        self._set_stars([])
+        self.table.row_chosen.connect(lambda r: self.show_star(self.stars[r]))
         lay.addWidget(self.table, 1)
         self.send = QPushButton(self.tr("Send this star to Period search"), self)
         self.send.setEnabled(False)
@@ -122,13 +123,22 @@ class VarFindPage(QWidget):
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
 
-    def _table_headers(self):
-        self.table.setHorizontalHeaderLabels(
-            [self.tr("x"), self.tr("y"), self.tr("Magnitude"), self.tr("rms (mag)"), self.tr("Index"), self.tr("Flags")]
+    def _set_stars(self, rows):
+        names = (
+            self.tr("x"),
+            self.tr("y"),
+            self.tr("Magnitude"),
+            self.tr("rms (mag)"),
+            self.tr("Index"),
+            self.tr("Flags"),
         )
-        self.table.horizontalHeaderItem(5).setToolTip(
-            self.tr("How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart")
+        table = Table(list(np.asarray(rows, float).reshape(-1, 6).T), names=names)
+        for col in table.columns.values():
+            col.format = ".4g"
+        table[names[5]].description = self.tr(
+            "How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart"
         )
+        self.table.set_table(table)
 
     def set_images(self, paths):
         from ..io.bayer import fits_paths
@@ -157,12 +167,8 @@ class VarFindPage(QWidget):
         cand = np.flatnonzero(v["candidate"])
         flags = np.asarray(v.get("flags") or np.zeros(len(xy)))
         order = cand[np.lexsort((-np.asarray(v["index"])[cand], -flags[cand]))]  # most indices first
-        self.table.setRowCount(len(order))
-        for r, j in enumerate(order):
-            for c, value in enumerate((xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j])):
-                item = QTableWidgetItem(f"{value:.4g}")
-                item.setData(Qt.UserRole, int(j))
-                self.table.setItem(r, c, item)
+        self.stars = [int(j) for j in order]
+        self._set_stars([(xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j]) for j in order])
         self.status.setText(self.tr("{n} stars measured, {m} candidates.").format(n=len(xy), m=len(order)))
         self.show_star(int(order[0]) if len(order) else None)
 

@@ -111,7 +111,7 @@ def test_varfind_tab(qtbot, tmp_path):
     page.button.click()
     out = varfind_step({"images": paths}, got[0], Ctx())
     page.show_result(out)
-    assert page.table.rowCount() == 1 and page.star is not None
+    assert page.table.model.rowCount() == 1 and page.star is not None
     panels = page.plot.figure.panels
     assert panels[0].y.scale == "log" and panels[1].series and page.plot.failed is None
     sent = []

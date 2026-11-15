@@ -438,12 +438,12 @@ def test_frequency_analysis_and_light_curve_editing(window, qtbot):
     freq.clean.setChecked(True)
     freq.button.click()
     qtbot.waitUntil(lambda: freq.result is not None, timeout=60000)
-    found = sorted(float(freq.table.item(r, 0).text()) for r in range(freq.table.rowCount()))
+    found = sorted(float(v) for v in freq.table.model.table.columns[0])
     assert len(found) == 2 and abs(found[0] - 5.3) < 0.01 and abs(found[1] - 8.1) < 0.01
     assert len(freq.result["clean_spectrum"]) == len(freq.result["grid"])
-    assert freq.maxima.rowCount() >= 4
+    assert freq.maxima.model.rowCount() >= 4
     freq.to_oc.click()
-    assert window.oc_page.text.toPlainText().count("maximum") == freq.maxima.rowCount()
+    assert window.oc_page.text.toPlainText().count("maximum") == freq.maxima.model.rowCount()
     assert window.area_windows["oc"].isVisible()  # sent to the O−C window, opened to show them
 
 

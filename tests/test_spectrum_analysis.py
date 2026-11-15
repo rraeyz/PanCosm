@@ -101,7 +101,7 @@ def test_spectrum_tools_tab(qtbot, tmp_path):
     tab.lo.setValue(6545)
     tab.hi.setValue(6580)
     m = tab._measure()
-    assert m["ew"] < 0 and tab.table.rowCount() == 1
+    assert m["ew"] < 0 and tab.table.model.rowCount() == 1
     tab._normalise()
     vr = tab._vr()
     assert abs(vr["v_over_r"] - 1.5) < 0.1
@@ -121,7 +121,7 @@ def test_spectrum_tools_tab(qtbot, tmp_path):
     tab._normalise_points()
     assert abs(np.median(tab.flux) - 1) < 0.02
     rows = tab.measure_series([star, star])
-    assert len(rows) == 2 and rows[0][0].startswith("2026-11-02") and tab.table.rowCount() == 3
+    assert len(rows) == 2 and rows[0][0].startswith("2026-11-02") and tab.table.model.rowCount() == 3
     out = tab._bess(str(tmp_path / "b.fits"), {"object": "gam Cas"})
     assert fits.getheader(out)["OBJNAME"] == "gam Cas"
     assert spectrum_io.read(tab._save(str(tmp_path / "saved.fits")))[0].size == w.size
@@ -144,7 +144,7 @@ def test_spectrum_keys(qtbot, tmp_path):
     assert press("w", 6580) == "edge" and press("w", 6540) == "window"
     assert (tab.lo.value(), tab.hi.value()) == (6540, 6580)
     assert press("m", 6563) == "centre" and (tab.lo.value(), tab.hi.value()) == (6543, 6583)
-    assert press("f", None) == "measure" and tab.table.rowCount() == 1
+    assert press("f", None) == "measure" and tab.table.model.rowCount() == 1
     press("c", 6450)
     press("c", 6650)
     assert press("d", 6460) == "delete" and tab.points == [6650]
