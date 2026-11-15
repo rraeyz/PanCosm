@@ -2539,6 +2539,14 @@ def test_nearby_eclipsing_binary_check_in_the_window(window, monkeypatch):
     kw["on_done"]({"neb": [row, row | {"disposition": "Cleared", "x": 60.0, "y": 90.0}]})
     assert "1 of 2 neighbours cleared" in page.transit_result.text()
     assert page.neb_dialog.findChild(photometry_neb.DataTable).table.rowCount() == 2
+    assert "params" not in kw and "apertures" not in params  # one aperture: nothing passed
+    page.light_curve = {"by_aperture": {"radii": [3.0, 6.0]}}
+    photometry_neb.run(window, page, depth=4.0)
+    assert asked[1][0][3]["apertures"] == [[3.0, page.r_in.value(), page.r_out.value()],
+                                           [6.0, page.r_in.value(), page.r_out.value()]]  # fmt: skip
+    asked[1][1]["on_done"]({"neb": [row | {"r_ap": 6.0, "apertures": [{"r_ap": 6.0, "disposition": "Not cleared"}]}]})
+    table = page.neb_dialog.findChild(photometry_neb.DataTable).table
+    assert table.columnCount() == 11 and table.item(0, 10).text() == "6"
 
 
 def test_oc_says_when_hjd_has_no_time_scale(window, tmp_path):
