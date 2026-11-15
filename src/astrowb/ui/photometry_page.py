@@ -1641,7 +1641,15 @@ class PhotometryPage(Undoable, QWidget):
         self._fill_star_table()
         marks = []
         here = self.ref is None or self.ref == self.shown
+        pending = self.suggestion_pending()
         for xy, colour, label in stars if here else ():
+            if pending and xy in self.comps:  # suggested, not yet accepted: dotted rings
+                marks += [
+                    (*xy, r, colour, label, "dot"),
+                    (*xy, r_in, colour, "", "dot"),
+                    (*xy, r_out, colour, "", "dot"),
+                ]
+                continue
             marks += [(*xy, r, colour, label), (*xy, r_in, colour, "", "dash"), (*xy, r_out, colour, "", "dash")]
         if self.field and self.shown == 0 and getattr(self, "variables_on", lambda: True)():  # the known variables
             # named only when chosen in the list (40 names hid the field, I6b (1)); the others on hover
@@ -1675,6 +1683,15 @@ class PhotometryPage(Undoable, QWidget):
         self.measure_button.setEnabled(bool(self.images and self.target))  # no comparison: the target's own flux
         self.catalog_button.setEnabled(bool(self.images and self.target and self.comps))
         self.suggest_button.setEnabled(bool(self.images and self.target))
+        self.accept_button.setEnabled(pending)
+
+    def suggestion_pending(self):
+        """The marked comparison stars are still exactly the suggested ones; any edit (or undo of it) decides."""
+        return bool(self.comps) and tuple(self.comps) == getattr(self, "suggested", None)
+
+    def _accept_suggestion(self):
+        self.suggested = None
+        self._draw_markers()
 
     def _step_titles(self):
         """Numbered step titles; a step that is done gets a tick."""
@@ -1804,6 +1821,8 @@ class PhotometryPage(Undoable, QWidget):
             return  # the target changed, or stars were clicked, while the suggestion was on its way
         self.edit(self.tr("suggested comparison stars"), self._set_comps, [tuple(c) for c in comps])
         self.judged_stars = (catalogue or {}).get("table")
+        self.suggested = tuple(tuple(c) for c in comps)
+        self._draw_markers()
         self.why_button.setEnabled(bool(self.judged_stars))
         if comps and catalogue:
             self.result.setText(suggestion_text(len(comps), catalogue))

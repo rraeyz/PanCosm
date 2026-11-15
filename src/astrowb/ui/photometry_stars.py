@@ -122,6 +122,12 @@ def add_star_buttons(page, layout):
         )
     )
     page.suggest_button.clicked.connect(lambda: page._suggest(auto=False))
+    page.accept_button = QPushButton(translate("PhotometryStars", "Use these"), page)
+    page.accept_button.setEnabled(False)
+    page.accept_button.setToolTip(
+        translate("PhotometryStars", "Accept the suggested stars (dotted rings); clicking a star instead edits them")
+    )
+    page.accept_button.clicked.connect(page._accept_suggestion)
     page.why_button = QPushButton(translate("PhotometryStars", "Why these stars?"), page)
     page.why_button.setEnabled(False)
     page.why_button.setToolTip(
@@ -147,7 +153,14 @@ def add_star_buttons(page, layout):
         )
     )
     page.rules_button.clicked.connect(lambda: _edit_rules(page))
-    for w in (page.suggest_button, page.rules_button, page.why_button, page.identify_button, page.sequence_button):
+    for w in (
+        page.suggest_button,
+        page.accept_button,
+        page.rules_button,
+        page.why_button,
+        page.identify_button,
+        page.sequence_button,
+    ):
         layout.addWidget(w)
 
 

@@ -298,7 +298,8 @@ class ImageViewer(QGraphicsView):
 
     def set_markers(self, markers):
         """markers: [(x, y, radius, colour name, label, *styles)] in 0-based array coordinates; styles "dash" (a
-        dashed ring) and "quiet" (the label only when the mouse is on the ring: many names hid the stars)."""
+        dashed ring), "dot" (dotted: a suggestion not yet accepted) and "quiet" (the label only when the mouse is on
+        the ring: many names hid the stars)."""
         from PySide6.QtCore import Qt
         from PySide6.QtGui import QColor, QPen, QTransform
         from PySide6.QtWidgets import QGraphicsEllipseItem, QGraphicsSimpleTextItem
@@ -329,6 +330,8 @@ class ImageViewer(QGraphicsView):
             pen.setCosmetic(True)  # 1 screen pixel wide at any zoom
             if "dash" in style:
                 pen.setStyle(Qt.DashLine)
+            elif "dot" in style:
+                pen.setStyle(Qt.DotLine)  # a suggestion not yet accepted
             circle.setPen(pen)
             circle.setToolTip(label)
             items = [circle]
