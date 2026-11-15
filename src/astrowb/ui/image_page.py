@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
     QListWidget,
     QPushButton,
     QSplitter,
-    QTableWidget,
     QTableWidgetItem,
     QTabWidget,
     QToolBar,
@@ -30,6 +29,7 @@ from PySide6.QtWidgets import (
 )
 
 from . import image_figures
+from .image_header_table import header_frame
 from .kit.table import TableView
 from .messages import translate
 from .undo import Undoable
@@ -119,14 +119,8 @@ class ImagePage(Undoable, QWidget):
         self.viewer.region_selected.connect(self.measure_area)
         self.viewer.line_selected.connect(self.measure_line)
         self.viewer.star_key.connect(self.measure_star)  # the a key over a star (imexamine)
-        self.header_table = QTableWidget(0, 3, self)
-        self.header_table.setHorizontalHeaderLabels([self.tr("Keyword"), self.tr("Value"), self.tr("Comment")])
-        self.header_table.horizontalHeader().setStretchLastSection(True)
-        self.header_table.setEditTriggers(QTableWidget.NoEditTriggers)
-        self.header_table.cellDoubleClicked.connect(lambda _row, _col: self.edit_keyword_dialog())
-        self.header_table.setToolTip(
-            self.tr("Double-click a keyword to change it; drag a column's edge to widen it; right-click to copy")
-        )
+        self.header_frame = header_frame(self)
+        self.header_table = self.header_frame.table
         self.info_names = (self.tr("Quantity"), self.tr("Value"))
         self.info = TableView(self)
         self.info.set_table(Table(names=self.info_names, dtype=(str, str)))
@@ -158,7 +152,7 @@ class ImagePage(Undoable, QWidget):
         header_tab = QWidget(self)
         hl = QVBoxLayout(header_tab)
         hl.setContentsMargins(0, 0, 0, 0)
-        hl.addWidget(self.header_table, 1)
+        hl.addWidget(self.header_frame, 1)
         hrow = QVBoxLayout()  # one under the other: side by side the longer translations did not fit the panel
         self.keyword_buttons = []
         for text, slot in (

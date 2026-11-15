@@ -11,7 +11,7 @@ pytest.importorskip("PySide6")
 TOOL = Path(__file__).resolve().parents[1] / "tools" / "ui_gallery.py"
 # UI-11 still left: these windows hold plain QTableWidgets (their own export / copy menu, no count line, no header
 # menu); each is bound to its window's code (edits, clicks, per-cell marks) and moves to TableView one by one.
-PLAIN_TABLES = {"plan", "observe", "calibrate", "image", "astrometry", "photometry", "automation"}  # fmt: skip
+PLAIN_TABLES = {"plan", "photometry", "automation"}  # fmt: skip
 
 
 def _gallery():

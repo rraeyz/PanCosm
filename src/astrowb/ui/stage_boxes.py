@@ -167,13 +167,14 @@ def calibration_stages(win, page):
 
     index = _index
     start = index(lay_l, page.guide) + 1
-    _take(lay_l, start, index(lay_l, page.table), boxes["frames"].layout())
+    _take(lay_l, start, index(lay_l, page.table.parent()), boxes["frames"].layout())
     boxes["frames"].layout().addStretch(1)
     _take(lay_r, 0, index(lay_r, page.photometry_button), boxes["calibrate"].layout())
     boxes["calibrate"].layout().addStretch(1)
     _take(lay_r, 0, lay_r.count(), boxes["continue"].layout())
     boxes["continue"].layout().addStretch(1)
-    _take(lay_l, index(lay_l, page.table), lay_l.count(), lay_r)  # the list of frames and its problems: the view
+    # the list of frames and its problems: the view
+    _take(lay_l, index(lay_l, page.table.parent()), lay_l.count(), lay_r)
     page.stage_boxes = boxes
     titles = {"frames": translate("CalibrationWindow", "Frames"),
               "calibrate": translate("CalibrationWindow", "Calibrate"),
