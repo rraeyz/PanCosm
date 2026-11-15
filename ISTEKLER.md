@@ -66,6 +66,16 @@ Yapılanları "Bitti" altına taşıyacağım.
 - **Neden:** Plan bu akışı en çok 7 tıklama olarak istiyor (PHO-W). Örnek gecede 4 tıklama ölçtüm, ama Alan
   aşaması internet ve gerçek veri istediği için testte sayılamadı.
 
+### 12. Terimler sözlüğü için tanımlar
+- **Ne:** Kılavuza bir "Terimler" bölümü eklenecek (UI-7). Kısa tanım gereken terimlerin listesini hazırlayıp sana
+  göndereceğim; her biri için bir cümlelik Türkçe tanımı onaylaman ya da düzeltmen yeterli.
+- **Neden:** Tanımları uydurmamam gerekiyor; senin onayın olmadan yazılmayacak.
+
+### 13. İki ekranla deneme (bir sonraki sürümden sonra)
+- **Ne:** İki monitörlü bir bilgisayarda bir alan penceresini ve bir sonuç sekmesini ikinci ekrana taşı, programı
+  kapatıp aç: aynı yerlerde açılıyor mu? Sonra ikinci ekranı çıkarıp aç: pencereler görünen ekrana geliyor mu?
+- **Neden:** Bu davranışı ekledim (UI-14), ama burada tek sanal ekran var; gerçek iki ekranla denenmedi.
+
 ## Bitti
 
 (henüz yok)
