@@ -33,6 +33,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..devices.client import Client
+from .kit.focus import read_in_order
 from .kit.widgets import _title
 from .messages import translate
 from .observe_buttons import quick_buttons
@@ -243,6 +244,7 @@ class ObservePage(Undoable, QWidget):
         ):
             grid.addWidget(_wrapped(label, self), r, 0)
             grid.addWidget(w, r, 1)
+        read_in_order(*(grid.itemAtPosition(r, 1).widget() for r in range(grid.rowCount())))  # as the rows read
         rl.addLayout(grid)
         self.plan_box = QWidget(self)
         pl = QVBoxLayout(self.plan_box)

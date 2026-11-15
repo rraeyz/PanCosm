@@ -30,6 +30,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..engine import automation, steps
+from .kit.focus import read_in_order
 from .kit.widgets import _title
 from .messages import translate
 from .names import setting_name
@@ -239,6 +240,11 @@ class AutomationPage(QWidget):
         self.steps.setCurrentRow(min(row, self.steps.count() - 1))
         self._show_step(self.steps.currentRow())
         self._fill_inputs()
+        fields = [w for i in range(self.form.rowCount())
+                  for w in map(self.form.itemAt(i, QFormLayout.FieldRole).layout().itemAt, (0, 1)) if w]  # fmt: skip
+        read_in_order(self.steps, self.step_choice, self.add_button, *self.step_buttons, self.settings_table,
+                      *([self.step_form] if self.step_form else []), *(f.widget() for f in fields),
+                      self.run_button, self.sequence_button, self.after_night, self.result)  # fmt: skip
 
     def add_step(self, step_id):
         self.auto["steps"].append({"step": step_id})
@@ -284,6 +290,7 @@ class AutomationPage(QWidget):
         from .kit.stepform import StepForm
 
         if getattr(self, "step_form", None) is not None:
+            self.step_form.hide()  # still drawn until Qt deletes it
             self.step_form.deleteLater()
         self.step_form = None
         if not 0 <= row < len(self.auto["steps"]):

@@ -8,6 +8,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QButtonGroup, QFileDialog, QHBoxLayout, QMessageBox, QVBoxLayout, QWidget
 
 from ..kit.buttons import ToolButton
+from ..kit.focus import read_in_order
 from . import publish
 
 translate = QCoreApplication.translate
@@ -45,6 +46,7 @@ class PlotToolbar(QWidget):
             button.clicked.connect(action)
             row.addWidget(button)
         row.addStretch(1)
+        read_in_order(self, view)  # the plot is made before its toolbar: Tab would reach it first
 
     def set_mode(self, mode):
         self.view.base_mode = self.view.mode = mode

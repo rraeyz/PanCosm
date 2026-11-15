@@ -91,6 +91,36 @@ def unreachable(window):
             if c.isVisible() and c.isEnabled() and c.focusPolicy() & Qt.TabFocus and c not in chain]  # fmt: skip
 
 
+def out_of_order(window, tolerance=8):
+    """[(object name or class, "Tab goes back up")] of controls the Tab chain reaches up and to the left of the
+    control before it: reading order goes down a column, then right to the next column (or down and back to the left
+    for a new row); a step up-left is a chain that does not follow the screen (ARC-19). Containers that take focus
+    themselves (a scroll area, a tab widget) and a spin box's own line edit are not counted: their contents are."""
+    from PySide6.QtCore import QPoint, Qt
+
+    chain, w = [], window.nextInFocusChain()
+    while w is not window and w not in chain and len(chain) < 20000:
+        chain.append(w)
+        w = w.nextInFocusChain()
+    tabbable = [c for c in chain if c.isVisible() and c.isEnabled() and c.focusPolicy() & Qt.TabFocus and c.width() > 1
+                and not c.objectName().startswith("qt_")]  # fmt: skip
+    containers = set()
+    for c in tabbable:
+        p = c.parentWidget()
+        while p is not None:
+            containers.add(p)
+            p = p.parentWidget()
+    found, last = [], None
+    for c in tabbable:
+        if c in containers:
+            continue
+        here = c.mapTo(window, QPoint(0, 0))
+        if last is not None and here.y() + tolerance < last.y() and here.x() <= last.x() + tolerance:
+            found.append((c.objectName() or type(c).__name__, "Tab goes back up"))
+        last = here
+    return found
+
+
 def pseudo_translator():
     """A translator that lengthens every text by 40 % and accents its letters (ARC-18 item 3): the cuts a German or
     Spanish translation would cause show before any translator works. Placeholders and markup stay as they are."""
@@ -156,7 +186,12 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
                         win.show()
                         app.processEvents()
                         found[f"{key}-{lang}-{name}"] = (
-                            cut_texts(win) + sideways(win) + unnamed(win) + small_targets(win) + unreachable(win)
+                            cut_texts(win)
+                            + sideways(win)
+                            + unnamed(win)
+                            + small_targets(win)
+                            + unreachable(win)
+                            + out_of_order(win)
                         )
                         if out:
                             Path(out).mkdir(parents=True, exist_ok=True)

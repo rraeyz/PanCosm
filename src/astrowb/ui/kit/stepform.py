@@ -12,6 +12,7 @@ from PySide6.QtCore import QCoreApplication, Signal
 from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
 
 from .fields import ChoiceField, NumberField, Toggle
+from .focus import read_in_order
 from .forms import FormRow
 from .sections import Section
 
@@ -81,6 +82,7 @@ class StepForm(QWidget):
         if more is not None:
             lay.addWidget(more)
         lay.addStretch(1)
+        read_in_order(*(i.widget() for i in map(lay.itemAt, range(lay.count())) if i.widget()))  # "More" is made first
 
     def values(self):
         return {name: read() for name, read in self.readers.items()}

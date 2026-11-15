@@ -192,6 +192,7 @@ class SettingsWindow(Dialog):
         self._time()
         self._online()
         self._shortcuts()
+        self._data()
         self._plugins()
         self._advanced()
         self.categories.setCurrentRow(0)
@@ -405,6 +406,11 @@ class SettingsWindow(Dialog):
             )
             self._row(c, act.text().replace("&", ""), field, note, default=act.property("default_keys") or "")
         self.shortcut_fields = seen
+
+    def _data(self):
+        from . import settings_data
+
+        settings_data.build(self, self._category(self.tr("Data")))
 
     def _plugins(self):
         from ..engine import plugins
