@@ -99,7 +99,7 @@ def test_target_by_name_in_the_field_stage(window, monkeypatch, tmp_path):  # no
     page.target = None
     page.target_name.setText("Far")  # resolved, but off the frame: said, no target
     page.name_button.click()
-    for _ in range(100):
+    for _ in range(300):  # a loaded CI runner took over 10 s
         if "not on this field" in page.name_answer.text():
             break
         QTest.qWait(100)

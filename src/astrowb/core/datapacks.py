@@ -56,7 +56,7 @@ def packs(base):
 def remove(base, pack_id):
     """Delete the pack's files (nothing else in the folder); returns how many. An unknown id is a ValueError."""
     if pack_id not in PACKS:
-        raise ValueError(f"unknown data pack {pack_id!r}")
+        raise ValueError(f"unknown data pack {pack_id}")
     found = _files(base, pack_id)
     for p in found:
         p.unlink(missing_ok=True)

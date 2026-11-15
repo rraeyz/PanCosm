@@ -88,6 +88,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "unknown rejection {method}"),
     QT_TRANSLATE_NOOP("Messages", "too few matched stars for the transform"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting {by}"),
+    # core/datapacks.py
+    QT_TRANSLATE_NOOP("Messages", "unknown data pack {pack_id}"),
     QT_TRANSLATE_NOOP("Messages", "too few catalogue stars on the frame for a zero point"),
     QT_TRANSLATE_NOOP("Messages", "fewer than ten measurable stars on the frame"),
     QT_TRANSLATE_NOOP("Messages", "at least five dithered frames of the filter are needed for a fringe frame"),
