@@ -308,8 +308,6 @@ def test_already_extracted_orders_are_only_wavelength_calibrated(frames, tmp_pat
 
 
 def test_echelle_tab_leaves_out_clicked_lines(qtbot, tmp_path):
-    from types import SimpleNamespace
-
     from astrowb.ui.spectro_page import EchelleTab
 
     tab = EchelleTab()
@@ -328,10 +326,10 @@ def test_echelle_tab_leaves_out_clicked_lines(qtbot, tmp_path):
         "solution": {"rms": 0.0014, "n_lines": 30, "lines": lines},
     }
     tab.show_result(r)
-    tab.plot.canvas.draw()
-    ax = tab._resid_ax
-    px, py = ax.transData.transform((lines[7][1], lines[7][3] * 1000))
-    tab._plot_clicked(SimpleNamespace(inaxes=ax, x=px, y=py, xdata=None))
+    panel = tab.plot.figure.panels[-1]  # the residuals, coloured by order, with the colour bar
+    assert panel.colourbar == "Order" and list(panel.series[0].values) == [30.0] * 30
+    assert panel.series[1].name == "rejected (3σ)" and len(tab.plot.colourbars) == 1
+    tab.plot.point_clicked.emit(panel.series[0].name, 7)  # a click on a point of the residual plot
     assert tab.excluded_lines == [[30.0, lines[7][1]]] and "1 arc line" in tab.status.text()
     from PySide6.QtWidgets import QTableWidgetItem
 

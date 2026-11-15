@@ -65,7 +65,13 @@ def _panel(ax, panel, colours, st):
             if s.yerr is not None or s.xerr is not None:
                 ax.errorbar(x, s.y, yerr=s.yerr, xerr=s.xerr, fmt="none", ecolor=c, elinewidth=st["line"] * 0.5,
                             alpha=s.alpha, zorder=s.z + 1, rasterized=many)  # fmt: skip
-            ax.plot(x, s.y, ls="none", marker=_MARKERS.get(s.symbol, "o"), ms=size, mew=0, rasterized=many, **kw)
+            if s.values is not None and s.kind == "points":
+                coloured = ax.scatter(x, s.y, c=s.values, cmap="viridis", s=size**2, linewidths=0, rasterized=many,
+                                      alpha=s.alpha, zorder=s.z + 2, marker=_MARKERS.get(s.symbol, "o"))  # fmt: skip
+                if panel.colourbar:
+                    ax.figure.colorbar(coloured, ax=ax, label=panel.colourbar)
+            else:
+                ax.plot(x, s.y, ls="none", marker=_MARKERS.get(s.symbol, "o"), ms=size, mew=0, rasterized=many, **kw)
         elif s.kind in ("line", "steps"):
             style = "steps-post" if s.kind == "steps" else "default"
             ax.plot(x, s.y, lw=st["line"] * s.width, ls=_DASH[s.dash], drawstyle=style, rasterized=many, **kw)
@@ -143,14 +149,14 @@ def data_behind(spec, path):
     """The plotted numbers as an ECSV table: one row per point, the series and panel named in columns."""
     from astropy.table import Table
 
-    rows = {"panel": [], "series": [], "x": [], "y": [], "yerr": [], "xerr": []}
+    rows = {"panel": [], "series": [], "x": [], "y": [], "yerr": [], "xerr": [], "values": []}
     for i, panel in enumerate(spec.panels):
         for s in panel.series:
             n = len(s.x)
             rows["panel"] += [i] * n
             rows["series"] += [s.name] * n
             rows["x"] += list(s.x)
-            for key in ("y", "yerr", "xerr"):
+            for key in ("y", "yerr", "xerr", "values"):
                 v = getattr(s, key)
                 rows[key] += list(v) if v is not None and len(v) == n else [np.nan] * n
     table = Table(rows)
