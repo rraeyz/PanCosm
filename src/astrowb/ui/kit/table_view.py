@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
     QFileDialog,
+    QHeaderView,
     QLineEdit,
     QMenu,
     QTableWidget,
@@ -84,6 +85,19 @@ class DataTable(QWidget):
         t.setSortingEnabled(True)
         t.resizeColumnsToContents()
         self._apply_filter(self.filter.text())
+
+    def prepare(self, header, rows=0):
+        """Blank cells the window fills and edits itself (setItem, setCellWidget): no sorting, which would move
+        rows away from their cells and widgets; the columns share the width."""
+        t = self.table
+        self.set_data(header, [])
+        t.setRowCount(rows)
+        t.setSortingEnabled(False)
+        t.setEditTriggers(
+            QAbstractItemView.DoubleClicked | QAbstractItemView.EditKeyPressed | QAbstractItemView.AnyKeyPressed
+        )
+        t.horizontalHeader().setToolTip(self.tr("Right-click to choose which columns are shown"))
+        t.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def key(self, row):
         item = self.table.item(row, 0)

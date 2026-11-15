@@ -4,6 +4,7 @@ velocities against a template and a Keplerian orbit."""
 from pathlib import Path
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import QT_TRANSLATE_NOOP, Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -12,14 +13,12 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QGridLayout,
     QHBoxLayout,
-    QHeaderView,
     QLabel,
     QLineEdit,
     QListWidget,
     QPushButton,
     QSpinBox,
     QSplitter,
-    QTableWidget,
     QTableWidgetItem,
     QTabWidget,
     QVBoxLayout,
@@ -30,6 +29,8 @@ from ..spectroscopy.frame_state import calibrated, extracted
 from . import spectro_figures
 from .kit.focus import read_in_order
 from .kit.help import help_line
+from .kit.table import TableView
+from .kit.table_view import DataTable
 from .messages import translate
 from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
@@ -49,6 +50,11 @@ def _set_rows(table, rows):
         for c, text in enumerate(row):
             table.setItem(r, c, QTableWidgetItem(text))
     table.blockSignals(False)
+
+
+def _rv_table(cells, names):
+    """The RV table's rows as text columns (an astropy table the TableView shows)."""
+    return Table([[c[i] for c in cells] for i in range(len(names))], names=names, dtype=[str] * len(names))
 
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
@@ -344,12 +350,12 @@ class ReduceTab(Undoable, QWidget):
         )
         lay.addWidget(self.extract_button)
         lay.addWidget(QLabel(self.tr("4. Click arc lines in the arc plot, type their wavelengths (Å):"), self))
-        self.guesses = QTableWidget(0, 2, self)
-        self.guesses.setHorizontalHeaderLabels([self.tr("Pixel"), self.tr("Wavelength (Å)")])
-        self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        frame = DataTable(self)
+        frame.prepare([self.tr("Pixel"), self.tr("Wavelength (Å)")])
+        self.guesses = frame.table
         track_typing(self, self.guesses, self.tr("type a wavelength"))
         self.guesses.itemChanged.connect(lambda *_: self._lines_changed())
-        lay.addWidget(self.guesses, 1)
+        lay.addWidget(frame, 1)
         self.reference_button = QPushButton(self.tr("Lines from a reference arc / IRAF database…"), self)
         self.reference_button.setToolTip(
             self.tr(
@@ -842,13 +848,13 @@ class EchelleTab(Undoable, QWidget):
         lay.addWidget(
             QLabel(self.tr("5. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):"), self)
         )
-        self.guesses = QTableWidget(0, 3, self)
-        self.guesses.setHorizontalHeaderLabels([self.tr("Order"), self.tr("Pixel"), self.tr("Wavelength (Å)")])
-        self.guesses.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        frame = DataTable(self)
+        frame.prepare([self.tr("Order"), self.tr("Pixel"), self.tr("Wavelength (Å)")])
+        self.guesses = frame.table
         track_typing(self, self.guesses, self.tr("type a wavelength"))
         self.guesses.itemChanged.connect(lambda *_: self._lines_changed())
         self.first_order.valueChanged.connect(lambda *_: self._lines_changed())
-        lay.addWidget(self.guesses, 1)
+        lay.addWidget(frame, 1)
         self.database_button = QPushButton(self.tr("Lines from an IRAF ecidentify database…"), self)
         self.database_button.setToolTip(
             self.tr(
@@ -1535,24 +1541,12 @@ class VelocityTab(QWidget):
         lay.addWidget(self.status)
         split.addWidget(left)
         right = QSplitter(Qt.Vertical, self)
-        self.table = QTableWidget(0, 7, self)
-        self.table.setHorizontalHeaderLabels(
-            [
-                self.tr("File"),
-                "BJD_TDB",
-                self.tr("RV (km/s)"),
-                self.tr("Error"),
-                self.tr("RV 2 (km/s)"),
-                self.tr("Error 2"),
-                self.tr("Barycentric corr."),
-            ]
-        )
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table = TableView(self)
+        self.table.set_table(_rv_table([], self._rv_names()))
         self.table.setToolTip(
             self.tr("Click a row to see that spectrum's correlation peak and the velocity read from it")
         )
-        self.table.cellClicked.connect(lambda r, _c: self.show_profile(r))
+        self.table.row_chosen.connect(self.show_profile)
         right.addWidget(self.table)
         box, self.plot = plot_box(self)
         right.addWidget(box)
@@ -1741,11 +1735,15 @@ class VelocityTab(QWidget):
             ).format(v=c["separable_kms"], a=c["separable_a"])
         self.status.setText(text)
 
+    def _rv_names(self):
+        return [self.tr("File"), "BJD_TDB", self.tr("RV (km/s)"), self.tr("Error"), self.tr("RV 2 (km/s)"),
+                self.tr("Error 2"), self.tr("Barycentric corr.")]  # fmt: skip
+
     def show_rvs(self, rows, skipped=None):
         self.rvs = rows
         self.guide.set_state(2, "done" if rows else None)
-        self.table.setRowCount(len(rows))
-        for r, row in enumerate(rows):
+        cells = []
+        for row in rows:
             v = row["rv"] if row["rv"] is not None else row["rv_obs"]
             v2 = row.get("rv2") if row.get("rv2") is not None else row.get("rv2_obs")
             values = (
@@ -1757,8 +1755,8 @@ class VelocityTab(QWidget):
                 "—" if v2 is None else f"{row['rv2_err']:.3f}",
                 f"{row['v_corr']:.3f}" if row["v_corr"] is not None else self.tr("not applied"),
             )
-            for c, text in enumerate(values):
-                self.table.setItem(r, c, QTableWidgetItem(text))
+            cells.append(values)
+        self.table.set_table(_rv_table(cells, self._rv_names()))
         usable = [r for r in rows if r["bjd"]]
         self.orbit_button.setEnabled(len(usable) >= 6)
         self.separate_button.setEnabled(self._is_sb2() and len(rows) >= 4)

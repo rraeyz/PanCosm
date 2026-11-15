@@ -10,12 +10,10 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QFileDialog,
     QGridLayout,
-    QHeaderView,
     QLabel,
     QPushButton,
     QSpinBox,
     QSplitter,
-    QTableWidget,
     QTableWidgetItem,
     QTabWidget,
     QVBoxLayout,
@@ -25,6 +23,7 @@ from PySide6.QtWidgets import (
 from ..models.fit import DEFAULT_FREE, NAMES
 from .kit import tokens
 from .kit.help import help_line
+from .kit.table_view import DataTable
 from .kit.widgets import PlotCanvas
 from .messages import translate
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
@@ -103,9 +102,9 @@ class ModelsPage(Undoable, QWidget):
             "esinw": "e sin ω",
             "l3": self.tr("Third light"),
         }
-        self.table = QTableWidget(len(NAMES), 3, self)
-        self.table.setHorizontalHeaderLabels([self.tr("Parameter"), self.tr("Start / result"), self.tr("Fit")])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        frame = DataTable(self)
+        frame.prepare([self.tr("Parameter"), self.tr("Start / result"), self.tr("Fit")], len(NAMES))
+        self.table = frame.table
         self.checks = {}
         for r, name in enumerate(NAMES):
             item = QTableWidgetItem(labels[name])
@@ -117,7 +116,7 @@ class ModelsPage(Undoable, QWidget):
             box.setToolTip(self.tr("Ticked: fitted; empty: kept at the value in the table"))
             self.table.setCellWidget(r, 2, box)
             self.checks[name] = box
-        lay.addWidget(self.table, 1)
+        lay.addWidget(frame, 1)
         grid = QGridLayout()
         self.ld = []
         for r, star in enumerate((self.tr("Star 1"), self.tr("Star 2"))):
