@@ -1071,27 +1071,27 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <location filename="../../ui/stage_boxes.py" line="271"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <location filename="../../ui/stage_boxes.py" line="271"/>
         <source>Solve</source>
         <translation>Çöz</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Find</source>
         <translation>Bul</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="273"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
@@ -1182,204 +1182,227 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AutomationPage</name>
     <message>
-        <location filename="../../ui/automation_page.py" line="69"/>
+        <location filename="../../ui/automation_page.py" line="71"/>
         <source>Automation</source>
         <translation>Otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="77"/>
+        <location filename="../../ui/automation_page.py" line="79"/>
         <source>New</source>
         <translation>Yeni</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="79"/>
+        <location filename="../../ui/automation_page.py" line="81"/>
         <source>An empty automation to fill with steps</source>
         <translation>Adımlarla doldurulacak boş bir otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="80"/>
+        <location filename="../../ui/automation_page.py" line="82"/>
         <source>Save as…</source>
         <translation>Farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="82"/>
+        <location filename="../../ui/automation_page.py" line="84"/>
         <source>Saves the automation under a name, to run it again on other data</source>
         <translation>Otomasyonu bir adla kaydeder, başka verilerde yeniden çalıştırmak için</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="94"/>
+        <location filename="../../ui/automation_page.py" line="96"/>
         <source>Steps, in order</source>
         <translation>Adımlar, sırayla</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="108"/>
+        <location filename="../../ui/automation_page.py" line="110"/>
         <source>Every task of the application as a step (calibrate, stack, photometry, period search…)</source>
         <translation>Uygulamanın her işi bir adım olarak (kalibrasyon, yığma, fotometri, periyot arama…)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="110"/>
+        <location filename="../../ui/automation_page.py" line="112"/>
         <source>Add step</source>
         <translation>Adım ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="112"/>
+        <location filename="../../ui/automation_page.py" line="114"/>
         <source>Adds the chosen step at the end; its settings appear below</source>
         <translation>Seçilen adımı sona ekler; ayarları aşağıda görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="118"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Remove</source>
         <translation>Kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="118"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Removes the selected step</source>
         <translation>Seçili adımı siler</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="119"/>
+        <location filename="../../ui/automation_page.py" line="121"/>
         <source>Up</source>
         <translation>Yukarı</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="119"/>
+        <location filename="../../ui/automation_page.py" line="121"/>
         <source>Moves the selected step one place earlier</source>
         <translation>Seçili adımı bir sıra öne alır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="122"/>
         <source>Down</source>
         <translation>Aşağı</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="122"/>
         <source>Moves the selected step one place later</source>
         <translation>Seçili adımı bir sıra geriye alır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="132"/>
+        <location filename="../../ui/automation_page.py" line="134"/>
         <source>Settings of the selected step (input ← data name, or a value)</source>
         <translation>Seçili adımın ayarları (girdi ← veri adı ya da bir değer)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="136"/>
+        <location filename="../../ui/automation_page.py" line="138"/>
         <source>Setting</source>
         <translation>Ayar</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="136"/>
+        <location filename="../../ui/automation_page.py" line="138"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="141"/>
+        <location filename="../../ui/automation_page.py" line="143"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="145"/>
+        <location filename="../../ui/automation_page.py" line="147"/>
         <source>Run</source>
         <translation>Çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="149"/>
+        <location filename="../../ui/automation_page.py" line="151"/>
         <source>Runs the steps one after the other with these inputs; each step&apos;s result is kept in the project</source>
         <translation>Adımları bu girdilerle birbiri ardına çalıştırır; her adımın sonucu projede saklanır</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="151"/>
+        <location filename="../../ui/automation_page.py" line="153"/>
         <source>To the Observing window</source>
         <translation>Gözlem penceresine</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="152"/>
+        <location filename="../../ui/automation_page.py" line="154"/>
         <source>Send sequence to the Observing window</source>
         <translation>Sekansı Gözlem penceresine gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="156"/>
+        <location filename="../../ui/automation_page.py" line="158"/>
         <source>Process after the sequence</source>
         <translation>Sekanstan sonra işle</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="158"/>
+        <location filename="../../ui/automation_page.py" line="160"/>
         <source>Run the processing when this sequence has finished.</source>
         <translation>Sekans bitince işlemeyi kendiliğinden çalıştırır.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="160"/>
+        <location filename="../../ui/automation_page.py" line="162"/>
         <source>Frames of a remote observatory are copied to this computer first.</source>
         <translation>Uzaktaki gözlemevinin kareleri önce bu bilgisayara kopyalanır.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="181"/>
+        <location filename="../../ui/automation_page.py" line="183"/>
         <source>{name} (template)</source>
         <translation>{name} (şablon)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="192"/>
+        <location filename="../../ui/automation_page.py" line="194"/>
         <source>New automation</source>
         <translation>Yeni otomasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="217"/>
+        <location filename="../../ui/automation_page.py" line="219"/>
         <source>Save automation</source>
         <translation>Otomasyonu kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="217"/>
+        <location filename="../../ui/automation_page.py" line="219"/>
         <source>Name:</source>
         <translation>Ad:</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="236"/>
+        <location filename="../../ui/automation_page.py" line="238"/>
         <source> — for each {name}</source>
         <translation> — her {name} için</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="343"/>
+        <location filename="../../ui/automation_page.py" line="345"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Otomasyonun bu girdisi için bir değer, dosya ya da klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="348"/>
+        <location filename="../../ui/automation_page.py" line="350"/>
         <source>Choose in a dialog</source>
         <translation>Bir pencereden seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="356"/>
+        <location filename="../../ui/automation_page.py" line="363"/>
         <source>Choose a folder</source>
         <translation>Klasör seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="358"/>
+        <location filename="../../ui/automation_page.py" line="365"/>
         <source>Choose a file</source>
         <translation>Dosya seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="360"/>
+        <location filename="../../ui/automation_page.py" line="367"/>
         <source>Choose files</source>
         <translation>Dosyaları seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="377"/>
+        <location filename="../../ui/automation_page.py" line="392"/>
+        <source>Fill in what the earlier steps would give: {names}</source>
+        <translation>Önceki adımların vereceği değerleri girin: {names}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_page.py" line="397"/>
         <source>Cannot run: {e}</source>
         <translation>Çalıştırılamıyor: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="385"/>
+        <location filename="../../ui/automation_page.py" line="410"/>
         <source>Running step {n}: {step}</source>
         <translation>{n}. adım çalışıyor: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="388"/>
+        <location filename="../../ui/automation_page.py" line="414"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="392"/>
+        <location filename="../../ui/automation_page.py" line="419"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
+    </message>
+</context>
+<context>
+    <name>AutomationRun</name>
+    <message>
+        <location filename="../../ui/automation_run.py" line="30"/>
+        <source>needs {names}</source>
+        <translation>gerekli: {names}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_run.py" line="71"/>
+        <source>Stop</source>
+        <translation>Durdur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_run.py" line="81"/>
+        <source>Stopped.</source>
+        <translation>Durduruldu.</translation>
     </message>
 </context>
 <context>
@@ -5292,13 +5315,13 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Resim olarak kaydet (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="575"/>
+        <location filename="../../ui/area_windows.py" line="576"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Birçok görüntüyü dönüştür (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="571"/>
+        <location filename="../../ui/area_windows.py" line="572"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Görüntüyü &amp;kapat</translation>
@@ -5439,97 +5462,97 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Denetimler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="385"/>
+        <location filename="../../ui/area_windows.py" line="386"/>
         <source>target</source>
         <translation>hedef</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="385"/>
+        <location filename="../../ui/area_windows.py" line="386"/>
         <source>comparison</source>
         <translation>karşılaştırma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="386"/>
+        <location filename="../../ui/area_windows.py" line="387"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="388"/>
+        <location filename="../../ui/area_windows.py" line="389"/>
         <source>not marked</source>
         <translation>işaretli değil</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="390"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="391"/>
+        <location filename="../../ui/area_windows.py" line="392"/>
         <source>Role</source>
         <translation>Rol</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="393"/>
         <source>x, y (FITS pixels)</source>
         <translation>x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="393"/>
+        <location filename="../../ui/area_windows.py" line="394"/>
         <source>Peak</source>
         <translation>Tepe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="394"/>
+        <location filename="../../ui/area_windows.py" line="395"/>
         <source>Sky per pixel</source>
         <translation>Piksel başına gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="395"/>
+        <location filename="../../ui/area_windows.py" line="396"/>
         <source>Net counts</source>
         <translation>Net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="396"/>
+        <location filename="../../ui/area_windows.py" line="397"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="428"/>
+        <location filename="../../ui/area_windows.py" line="429"/>
         <source>star</source>
         <translation>yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="428"/>
+        <location filename="../../ui/area_windows.py" line="429"/>
         <source>sky</source>
         <translation>gök</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="429"/>
+        <location filename="../../ui/area_windows.py" line="430"/>
         <source>dark</source>
         <translation>karanlık</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="429"/>
+        <location filename="../../ui/area_windows.py" line="430"/>
         <source>read</source>
         <translation>okuma</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="436"/>
         <source>Noise from</source>
         <translation>Gürültü kaynağı</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="436"/>
         <source>Predicted error</source>
         <translation>Tahmini hata</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="443"/>
+        <location filename="../../ui/area_windows.py" line="444"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="573"/>
+        <location filename="../../ui/area_windows.py" line="574"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Tüm görüntüleri kapat</translation>
@@ -5718,7 +5741,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Dışa aktar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="664"/>
+        <location filename="../../ui/area_windows.py" line="665"/>
         <source>&amp;Measure</source>
         <translation>Ö&amp;lç</translation>
     </message>
@@ -5739,69 +5762,69 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="112"/>
-        <location filename="../../ui/area_windows.py" line="636"/>
+        <location filename="../../ui/area_windows.py" line="637"/>
         <source>F&amp;rames</source>
         <translation>&amp;Kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="650"/>
+        <location filename="../../ui/area_windows.py" line="651"/>
         <source>&amp;Stars</source>
         <translation>Yıldızla&amp;r</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="455"/>
-        <location filename="../../ui/area_windows.py" line="545"/>
-        <location filename="../../ui/area_windows.py" line="677"/>
+        <location filename="../../ui/area_windows.py" line="546"/>
+        <location filename="../../ui/area_windows.py" line="678"/>
         <source>&amp;Analyse</source>
         <translation>&amp;Analiz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="523"/>
+        <location filename="../../ui/area_windows.py" line="524"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Renk kanallarına ayır (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="525"/>
+        <location filename="../../ui/area_windows.py" line="526"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Renkli kameranın ham görüntüsü, her renk için bir tane olmak üzere yarı boyutta üç görüntü olarak (ara değerleme yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="531"/>
+        <location filename="../../ui/area_windows.py" line="532"/>
         <source>Stack the open images…</source>
         <translation>Açık görüntüleri üst üste ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="533"/>
+        <location filename="../../ui/area_windows.py" line="534"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Açık görüntüler yıldızlarına göre hizalanır, aykırı değerler atılarak ortalaması alınır</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="536"/>
+        <location filename="../../ui/area_windows.py" line="537"/>
         <source>Drizzle the open images…</source>
         <translation>Açık görüntüleri drizzle ile birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="538"/>
+        <location filename="../../ui/area_windows.py" line="539"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Kaydırılarak çekilmiş görüntüler iki kat ince bir ızgaraya (az örneklenmiş yıldızlar için daha keskin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="549"/>
+        <location filename="../../ui/area_windows.py" line="550"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometri</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="550"/>
+        <location filename="../../ui/area_windows.py" line="551"/>
         <source>&amp;Colour</source>
         <translation>&amp;Renk</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="551"/>
+        <location filename="../../ui/area_windows.py" line="552"/>
         <source>S&amp;tack</source>
         <translation>&amp;Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="561"/>
+        <location filename="../../ui/area_windows.py" line="562"/>
         <source>Copy the header</source>
         <translation>Başlığı kopyala</translation>
     </message>
@@ -6235,7 +6258,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Tayfı farklı kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="484"/>
+        <location filename="../../ui/area_windows.py" line="485"/>
         <source>&amp;Job</source>
         <translation>&amp;İş</translation>
     </message>
@@ -10511,6 +10534,94 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/observatory_dialog.py" line="291"/>
         <source>Saved: {p}</source>
         <translation>Kaydedildi: {p}</translation>
+    </message>
+</context>
+<context>
+    <name>ObserveChips</name>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="24"/>
+        <source>Mount</source>
+        <translation>Kundak</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="24"/>
+        <source>Camera</source>
+        <translation>Kamera</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="25"/>
+        <source>Focuser</source>
+        <translation>Odaklayıcı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="25"/>
+        <source>Filter wheel</source>
+        <translation>Filtre tekerleği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="26"/>
+        <source>Rotator</source>
+        <translation>Döndürücü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="27"/>
+        <source>Dome</source>
+        <translation>Kubbe</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="40"/>
+        <source>parked</source>
+        <translation>park edilmiş</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="43"/>
+        <source>tracking</source>
+        <translation>takip ediyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="45"/>
+        <source>not tracking</source>
+        <translation>takip etmiyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="55"/>
+        <source>Inspector</source>
+        <translation>Denetçi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="88"/>
+        <source>Last answer</source>
+        <translation>Son yanıt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="97"/>
+        <source>Kind</source>
+        <translation>Tür</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="98"/>
+        <source>Filter</source>
+        <translation>Filtre</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="99"/>
+        <source>Exposure</source>
+        <translation>Pozlama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="100"/>
+        <source>Count</source>
+        <translation>Adet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="101"/>
+        <source>Binning</source>
+        <translation>Binleme</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="102"/>
+        <source>Exposure row {n}</source>
+        <translation>Pozlama satırı {n}</translation>
     </message>
 </context>
 <context>
@@ -18636,6 +18747,14 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/kit/status.py" line="28"/>
         <source>Cancel</source>
         <translation>İptal</translation>
+    </message>
+</context>
+<context>
+    <name>StepChain</name>
+    <message>
+        <location filename="../../ui/step_chain.py" line="69"/>
+        <source>Run from here</source>
+        <translation>Buradan çalıştır</translation>
     </message>
 </context>
 <context>
