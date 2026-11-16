@@ -44,6 +44,8 @@ class CalibratePage(Undoable, QWidget):
     run_requested = Signal(list, str, dict)  # frames, output folder, params
     stack_requested = Signal(list, str, dict)  # calibrated images, output file, params
     photometry_requested = Signal(list)  # calibrated lights to measure
+    changed = Signal()  # the frame list was shown again (the Check, Masters stages and the Plan tab follow)
+    result_shown = Signal(dict)  # a run's result (the Review stage follows)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -559,6 +561,7 @@ class CalibratePage(Undoable, QWidget):
         self.warnings.setPlainText("\n".join(lines))
         self.run_button.setEnabled(counts["light"] + counts["arc"] > 0)
         self.run_button.setToolTip("" if counts["light"] else self.tr("Needs at least one light frame"))
+        self.changed.emit()
 
     def _missing_text(self, kind, w):
         size = f"{w['shape'][1]}×{w['shape'][0]}, bin {w['binning'][0]}×{w['binning'][1]}"
@@ -661,3 +664,4 @@ class CalibratePage(Undoable, QWidget):
         amber = self._quality_lines(out.get("quality") or {}) + self._glow_lines(out.get("scaled_glow") or [])
         if amber:  # CAL-6: a master that works but is not as good as it should be
             self.warnings.setPlainText("\n".join([self.warnings.toPlainText(), *amber]).strip())
+        self.result_shown.emit(out)
