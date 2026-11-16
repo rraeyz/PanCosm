@@ -18,14 +18,17 @@ def rows(fit, minima):
             for m, e, o, r in zip(minima, fit.epochs, oc, res, strict=True)]  # fmt: skip
 
 
+def header():
+    return [translate("OcMinima", "Time"), translate("OcMinima", "Error (d)"), translate("OcMinima", "Kind"),
+            translate("OcMinima", "Source"), translate("OcMinima", "Epoch"), translate("OcMinima", "O−C (min)"),
+            translate("OcMinima", "Residual (min)")]  # fmt: skip
+
+
 def minima_dialog(page):
     f, minima = page.fit_result, getattr(page, "fit_minima", None)
     d = Dialog(translate("OcMinima", "Times of minimum"), page, getattr(page, "settings", None), "oc_minima")
     view = DataTable(d)
-    header = [translate("OcMinima", "Time"), translate("OcMinima", "Error (d)"), translate("OcMinima", "Kind"),
-              translate("OcMinima", "Source"), translate("OcMinima", "Epoch"), translate("OcMinima", "O−C (min)"),
-              translate("OcMinima", "Residual (min)")]  # fmt: skip
-    view.set_data(header, rows(f, minima) if f is not None and minima else [])
+    view.set_data(header(), rows(f, minima) if f is not None and minima else [])
     d.body.addWidget(view)
     d.add_buttons(translate("OcMinima", "Close")).setDefault(True)
     d.resize(max(d.width(), 760), max(d.height(), 460))

@@ -155,7 +155,7 @@ class OCPage(QWidget):
         self.linear.setChecked(True)
         for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
             lay.addWidget(b)
-        self._mcmc_controls(lay)
+        self._mcmc_controls(self._box("uncertainty"))  # its own stage (UI-16.5)
         lay = self._box("report")
         self.fit_button = QPushButton(self.tr("Fit and draw O-C"), self)
         self.fit_button.clicked.connect(self.run_fit)
