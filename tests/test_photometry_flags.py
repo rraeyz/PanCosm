@@ -77,3 +77,26 @@ def test_ellipticity_round_and_elongated():
     assert ellipticity(star(2, 2), [[30, 30]], 10) < 0.05
     assert abs(ellipticity(star(1.5, 3), [[30, 30]], 10) - 0.5) < 0.05
     assert ellipticity(star(2, 2), [[np.nan, 5]], 10) is None
+
+
+def test_trail_flagged_on_its_frame_and_star_only(tmp_path):
+    """PHO-36 "T": a vertical trail through the target on frame 3 only; the comparison stars are 40 px or more away."""
+    paths, (_, xx) = [], np.mgrid[:200, :200]
+    for i in range(6):
+        img = field(4.0, seed=50 + i)
+        if i == 3:
+            img += 3000.0 * np.exp(-((xx - STARS[0][0]) ** 2) / (2 * 1.5**2))
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(img.astype(np.float32), h).writeto(tmp_path / f"t{i}.fits")
+        paths.append(tmp_path / f"t{i}.fits")
+    xy = [s[:2] for s in STARS]
+    lc = light_curve(paths, xy[0], xy[1:3], 6, 15, 20, trails=True)
+    assert [row[0] for row in lc["flags"]] == ["", "", "", "T", "", ""]
+    assert all("T" not in f for row in lc["flags"] for f in row[1:])
+    from astrowb.photometry.measurements import measurements
+    from astrowb.photometry.quality import lc_checks
+
+    cols, marks = measurements(lc)
+    assert marks[(3, "Flags_T1")] == "satellite or aircraft trail"
+    assert lc_checks(lc)[0]["trail"] == [3]
+    assert "trail" not in lc_checks(light_curve(paths, xy[0], xy[1:3], 6, 15, 20))[0]  # off unless asked for

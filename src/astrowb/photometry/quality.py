@@ -125,4 +125,10 @@ def lc_checks(lc):
     if spoiled:  # a cosmic ray or hot pixel in the target's or a comparison star's aperture
         flags["spike"] = spoiled
         verdict = (f"{len(spoiled)} frames with a spike in an aperture; " + verdict).replace("; no frame flagged", "")
+    trailed = [i for i, r in enumerate(lc.get("flags") or []) if "T" in "".join(r[: 1 + n_comp])]
+    if trailed:  # a satellite or aircraft trail across the target's or a comparison star's aperture
+        flags["trail"] = trailed
+        verdict = (f"{len(trailed)} frames with a trail across an aperture; " + verdict).replace(
+            "; no frame flagged", ""
+        )
     return flags, verdict

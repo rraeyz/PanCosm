@@ -73,6 +73,7 @@ def light_curve(
     centring="auto",
     track_stars=(),
     shape=None,
+    trails=False,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -113,7 +114,7 @@ def light_curve(
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
             "centring": centring, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in),
-            "shape": shape}  # fmt: skip
+            "shape": shape, "trails": trails}  # fmt: skip
     sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
     rows, chosen, time_rules, radii, fwhms, peaks = [], None, {}, [], [], []  # time_rules: ARC-15, per frame
@@ -170,7 +171,7 @@ def light_curve(
         if fwhm0:
             fwhms.append(f)
         radii.append(r)
-        peaks.append(_peaks(data, xy, r[0]))
+        peaks.append(_peaks(data, xy, r[0], trails))
         try:
             t, time_rules[p] = timing.mid_time_and_rule(h, *opts["time"])
         except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
@@ -235,7 +236,7 @@ def light_curve(
         "comp_flux": cf.tolist(),
         "comp_flux_err": ce.tolist(),
         "peak": [p[0] for p in peaks],  # brightest pixel in each star's aperture (target, comparisons, extra stars)
-        "flags": [p[1] for p in peaks],  # per frame and star: C a spike (cosmic ray, hot pixel), E off the edge
+        "flags": [p[1] for p in peaks],  # per frame and star: C spike, T trail, E off the edge
         "saturation": saturation,
         "exptime": [float(e) for e in exptimes],  # per frame: the cloud check compares counts per second
         "sky": [r[4].tolist() for r in rows],
@@ -281,7 +282,7 @@ def _frame(job):
     p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, opts = job
     asked = np.asarray(pred, float)  # where the frame's shift put the stars, before centring
     corner, partial = np.zeros(2), False
-    if psf or not np.isfinite(pred).all():
+    if psf or not np.isfinite(pred).all() or opts.get("trails"):  # a trail is looked for on the whole frame
         data, h = load(p)
     else:  # only the part of the frame around the stars is read: half the time of a 2400 x 2400 fpack frame
         # margin: the widest centroid box (301 px), the sky ring with radii following the seeing (up to 5x)
@@ -302,7 +303,7 @@ def _frame(job):
         t = None
     moved = np.hypot(*(xy + corner - asked).T)
     row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi)
-    return row, _peaks(data, xy, radii[0]), radii, f
+    return row, _peaks(data, xy, radii[0], opts.get("trails")), radii, f
 
 
 SNR_FOUND = 3.0  # a star whose flux is below 3 sigma of its noise is not there (empty sky, clouds)
@@ -475,15 +476,18 @@ def _shape_series(fwhms, peaks):
     return ({"fwhm": fwhms} if fwhms else {}) | ({"ellipticity": e} if any(v is not None for v in e) else {})
 
 
-def _peaks(data, xy, r_ap):
+def _peaks(data, xy, r_ap, trails=False):
     """(brightest pixel inside each aperture, for saturation warnings; the letters of what spoils it, flags.py; the
     median ellipticity of the stars)."""
     from photutils.aperture import ApertureStats, CircularAperture
 
-    from .flags import aperture_flags, ellipticity
+    from .flags import aperture_flags, ellipticity, trail_flags
 
     peak = np.atleast_1d(ApertureStats(np.asarray(data), CircularAperture(xy, r=r_ap)).max).tolist()  # no float copy
-    return peak, aperture_flags(data, xy, r_ap), ellipticity(data, xy, r_ap)
+    flags = aperture_flags(data, xy, r_ap)
+    if trails:  # PHO-36: a satellite or aircraft trail across an aperture (the search costs 2-3 s per 2k frame)
+        flags = [f + "T" * t for f, t in zip(flags, trail_flags(data, xy, r_ap), strict=True)]
+    return peak, flags, ellipticity(data, xy, r_ap)
 
 
 def normalise(rel, mask=None):

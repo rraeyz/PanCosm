@@ -60,6 +60,7 @@ def save_light_curve_step(inputs, params, ctx):
     track_stars=(),
     combine=1,
     aperture_shape=None,
+    trails=False,
 )
 def light_curve_step(inputs, params, ctx):
     """Differential aperture photometry of the target against the comparison stars on every frame: the light curve
@@ -96,6 +97,7 @@ def light_curve_step(inputs, params, ctx):
         centring=params.get("centring", "auto"),
         track_stars=params.get("track_stars") or (),
         shape=params.get("aperture_shape"),
+        trails=bool(params.get("trails")),
     )
     return {"light_curve": lc}
 
