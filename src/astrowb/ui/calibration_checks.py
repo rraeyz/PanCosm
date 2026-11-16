@@ -9,6 +9,7 @@ from PySide6.QtGui import QBrush, QColor
 from PySide6.QtWidgets import (
     QComboBox,
     QLabel,
+    QPlainTextEdit,
     QPushButton,
     QTableWidgetItem,
     QTreeWidget,
@@ -66,14 +67,22 @@ def make(page):
     page.groups_tree = QTreeWidget()
     page.groups_tree.setHeaderLabel(translate("CalibrationWindow", "Groups of frames"))
     page.frame_stats = _label()
+    from .calibration_preview import BeforeAfter, FramePreview
+
+    page.frame_preview = FramePreview()
     page.check_button.clicked.connect(lambda: check_frames(page))
     page.leave_button.clicked.connect(lambda: leave_out(page))
     page.groups_tree.currentItemChanged.connect(lambda item, _: show_stats(page, item))
-    boxes = {"check": _box(check, page.check_button, page.groups_tree, page.frame_stats, page.leave_button)}
+    boxes = {
+        "check": _box(
+            check, page.check_button, page.groups_tree, page.frame_stats, page.frame_preview, page.leave_button
+        )
+    }
     page.masters_text = _label()
     boxes["masters"] = _box(page.masters_text)
     page.review_status = _label(translate("CalibrationWindow", "Calibrate to see how good the masters are."))
     page.review_table = DataTable()
+    page.before_after = BeforeAfter()
     page.review_table.set_data(
         [
             translate("CalibrationWindow", "Master"),
@@ -83,8 +92,15 @@ def make(page):
         [],
     )
     page.left_out_text = _label()
-    boxes["review"] = _box(page.review_status, page.review_table, page.left_out_text)
+    boxes["review"] = _box(page.review_status, page.review_table, page.before_after, page.left_out_text)
     page.plan_table = DataTable()
+    page.problems_view = QPlainTextEdit()  # the Problems tab: the frames list's note box, mirrored
+    page.problems_view.setReadOnly(True)
+    # a tab behind the Plan has a stale geometry the Tab-order check reads as "goes back up"; the same text is in the
+    # frames list's note box, which keeps the focus
+    page.problems_view.setFocusPolicy(Qt.NoFocus)
+    page.warnings.textChanged.connect(lambda: page.problems_view.setPlainText(page.warnings.toPlainText()))
+    page.problems_view.setPlainText(page.warnings.toPlainText())
     page.changed.connect(lambda: refresh_frames(page))
     page.result_shown.connect(lambda out: refresh_review(page, out))
     return boxes
@@ -179,8 +195,10 @@ def show_stats(page, item):
     path = None if item is None else item.data(0, Qt.UserRole)
     if not path:
         page.frame_stats.setText("")
+        page.frame_preview.clear()
         return
     try:
+        page.frame_preview.show_path(path)
         s = stats(path)
     except (OSError, ValueError) as e:
         page.frame_stats.setText(message(e))
@@ -295,6 +313,9 @@ def refresh_review(page, out):
             page.review_table.mark(
                 r, 2, role("non_linear"), translate("CalibrationWindow", "not as good as it should be")
             )
+    from .calibration_preview import pair_of
+
+    page.before_after.set_pair(pair_of(page.frames, out.get("calibrated") or []))
     page.review_status.setText(
         translate("CalibrationWindow", "{n} checks, {m} in amber.").format(n=len(rows), m=sum(bad)) if rows else
         translate("CalibrationWindow", "No quality checks were made."))  # fmt: skip
