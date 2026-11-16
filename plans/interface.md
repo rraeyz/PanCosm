@@ -627,7 +627,15 @@ rail            stage panel (example: 3 Stars)          main: image             
 **partial** (2026-11-20: the window has the stages Frames (folders, Scan, the frames' summary), Calibrate
 (where to write, rejection, options, the result) and Continue (Photometry, stacking with its options one per row)
 beside the list of frames and its problems; the step guide moves the rail; test_the_calibration_window_has_stages.
-Left: the Check / Masters / Review stages of the sketch, the Plan tab, the preview beside the groups)
+(2026-11-21) The rail is now Frames, Check, Masters, Calibrate, Review, Continue (`ui/calibration_checks.py`): Check
+= the groups tree (`calibration/groups.group`), "Check the frames" marks the frames that stand apart (`outliers`),
+a click shows a frame's median, noise, min, max, saturated share, "Leave out the marked frames" is an undoable edit;
+Masters = the masters to make and "Choose the masters by hand…"; Review = the masters' quality table (CAL-6, amber
+where a check fails) and the frames left out with reasons; the Plan result tab: per filter and exposure of the lights
+the bias, dark and flat each gets (automatic shows the match, each cell a choice kept in `master_choices`, missing
+pieces in amber with what is done instead); test_the_calibration_check_masters_plan_and_review. Left: the image
+preview and histogram beside the groups, the before / after blink in Review, the Problems / Report / Log result
+tabs, threaded statistics, the Continue cards, the three-clicks walk on the practice night)
 ```
 1 Frames        Frames of the night            ?       ┌ groups ─────────────────────┬ preview ─────────┐
 2 Check  ●      [ Add folders… ] (drop here)           │ ▾ Bias  20  1×1  −10 °C     │  selected frame  │
@@ -813,7 +821,7 @@ rail            stage panel (example: 2 Targets)            main                
 - **Files:** `ui/observing/` (see OBS-W)
 
 #### UI-16.10 Images
-**open**
+**partial** — done (2026-11-21): the window on the anatomy, no rail (`ui/image_stages.py::image_anatomy`): the image with its tool rows is the main view, the open images are the file strip at the left (a dock, shown when more than one is open, F9-style hide), the header, Information and Graph tabs are the inspector at the right (F10), Tab follows the screen; every menu, toolbar button and option kept; `test_every_moved_area_opens_in_its_own_window`, `test_borders_drag_and_the_image_follows_the_window`, gallery clean in en/tr/de/es. Left: thumbnails-or-list switch, multi-selection, filter line and "Follow a folder" in the strip; the Levels, Layers and History inspector tabs (Levels, overlays and history are still their dialogs and menus); the table / Sources result tabs under the image; processing forms in the inspector (still dialogs); the empty state with "Open the practice night"; the guide chapter and screenshots.
 ```
 ┌ toolbar: [Open][Save] │ [◀][▶][Blink] │ [Fit][+][−][1:1] │ tools: [Pan][Star][Region ▾][Ruler][Cut] │ [Levels][Layers][N↑] ┐
 │ file strip        │ image (ImageView): tabs or 1–9 tiles, locked by pixel or sky     │ inspector tabs:              │

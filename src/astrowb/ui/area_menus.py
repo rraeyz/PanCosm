@@ -4,6 +4,8 @@ main_window.py (plans/architecture.md ARC-4.4). Texts keep the main window's tra
 from PySide6.QtCore import QCoreApplication, QObject
 from PySide6.QtGui import QAction, QUndoGroup
 
+from .image_stages import image  # noqa: F401  (the Images window builder, UI-16.10)
+
 
 def _mirror(widget, parent=None, short=None):
     """A menu / toolbar action that does what a page's button or check box does (interface I6c): the button's text
@@ -144,8 +146,7 @@ def calibrate(main, page, win):
 
 
 def timeseries(main, page, win):
-    """Light curves and period: Data, Search, Send and File → Load / Download / Save (interface I6c.6); each item
-    shows its tab first."""
+    """Light curves and period: Data, Search, Send, File → Load / Download / Save (I6c.6), each tab first."""
     from PySide6.QtWidgets import QMenu
 
     pp, fp, vf = page.period_page, page.frequency_page, page.varfind_page
@@ -461,8 +462,7 @@ def remotesensing(main, page, win):
 
 
 def astrometry(main, page, win):
-    """Astrometry: Solve, Measure, File → Write the MPC report (interface UI-16.11); the frames are chosen in the
-    page's first stage."""
+    """Astrometry: Solve, Measure, File → Write the MPC report (UI-16.11); frames are chosen in the first stage."""
     translate = QCoreApplication.translate
     solve = _mirror(page.solve_button, page, translate("MainWindow", "Solve"))
     measure = _mirror(page.measure_button, page, translate("MainWindow", "Measure"))
