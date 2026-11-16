@@ -2792,7 +2792,7 @@ def test_the_light_curves_window_has_stages(window):
     """UI-16.4: Data, Clean, Search beside the period-search plots, Frequencies and Variables for the other tabs."""
     win = window.open_area("timeseries")
     page = window.lightcurve_page.period_page
-    assert list(win.stage_panels) == ["data", "clean", "search", "frequencies", "variables"]
+    assert list(win.stage_panels) == ["data", "clean", "search", "fold", "frequencies", "variables", "report"]
     assert win.stage_panels["data"].isAncestorOf(page.source) and win.stage_panels["data"].isAncestorOf(
         page.fetch_button
     )
@@ -2878,7 +2878,7 @@ def test_the_project_window_has_tabs(window, tmp_path):
 
     window.open_project(tmp_path / "p.astroproj")
     page = window.project_page
-    assert [page.tabs.tabText(i) for i in range(page.tabs.count())] == ["Files", "History", "Methods text"]
+    assert [page.tabs.tabText(i) for i in range(page.tabs.count())] == ["Files", "History", "Methods text", "Tasks"]
     assert page.tabs.widget(0) is page.files_list and page.tabs.widget(1).isAncestorOf(page.runs_table)
     project = window.engine.project
     run = project.start_run("stacking.stack", {}, {"align": "stars", "method": "median", "rejection": "sigma clip"})
