@@ -202,9 +202,9 @@ def timeseries(main, page, win):
             var: "variable_search",
         }
     )
-    from .stage_boxes import period_stages
+    from .lightcurve_stages import light_curve_stages
 
-    period_stages(win, page)  # UI-16.4: the Period search tab's column as stages
+    light_curve_stages(win, page)  # UI-16.4: the Period search tab's column as stages, the other tabs' one each
 
 
 def oc(main, page, win):
@@ -521,7 +521,7 @@ def orbits(main, page, win):
             export: "export",
         }
     )
-    from .stage_boxes import models_stages
+    from .models_stages import models_stages
 
     models_stages(win, page)  # UI-16.6: the column of the eclipsing-binary tab as stages
 

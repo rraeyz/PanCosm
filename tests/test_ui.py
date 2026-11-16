@@ -586,6 +586,9 @@ def test_models_page_fits_a_light_curve(window, qtbot, tmp_path):
     names = {r[0]: r for r in rows}
     assert names["incl"][1:3] == (86.0, 0.2) and names["t0"][1] == 2459500.251234 and "MCMC" in caption
     assert names["l3 (fixed)"][2] is None and "800 points" in caption and "r1" in names
+    t = page.parameters_view.table  # the Parameters results tab: names in words, fixed ones marked
+    shown = {t.item(i, 0).text(): [t.item(i, c).text() for c in range(4)] for i in range(t.rowCount())}
+    assert "Period (d) (fixed)" in shown and "Third light (fixed)" in shown and shown["r1"][1] != ""
     dlg = page.show_posterior()
     assert len(dlg.findChildren(PlotCanvas)[0].figure.axes) == 4
     dlg.close()
@@ -1301,6 +1304,9 @@ def test_every_working_page_has_a_folded_workflow(window):
     sp = window.spectro_page  # the jobs' steps live in the Spectroscopy window's panel (plans/spectroscopy.md 1.1)
     for tab in (sp.reduce_tab, sp.echelle_tab, sp.telluric_tab, sp.velocity_tab, sp.tools_tab):
         if tab.guide in guides:
+            owners.add(type(tab).__name__)
+    for tab in (window.lightcurve_page.frequency_page, window.lightcurve_page.varfind_page):
+        if tab.guide in guides:  # their columns are stages of the Light curves window (UI-16.4)
             owners.add(type(tab).__name__)
     for page in ("CalibratePage", "PhotometryPage", "PeriodPage", "FrequencyPage", "VarFindPage", "OCPage",
                  "PlanPage", "RemoteSensingPage", "ReduceTab", "EchelleTab", "TelluricTab", "VelocityTab",
@@ -2739,18 +2745,23 @@ def test_the_calibration_window_has_stages(window):
 
 
 def test_the_models_window_has_stages(window):
-    """UI-16.6: Data, Parameters, Fit as stages beside the light curve and its model; hidden on the visual-binary
-    tab, where they do not apply."""
+    """UI-16.6: Data, System, Stars, Extras, Fit, Uncertainty as stages beside the light curve and its model; hidden
+    on the visual-binary tab; the fitted values come as a Parameters results tab."""
     win = window.open_area("orbits")
     page = window.models_page
-    assert list(win.stage_panels) == ["data", "parameters", "fit"]
-    assert win.stage_panels["data"].isAncestorOf(page.file)
-    assert win.stage_panels["parameters"].isAncestorOf(page.table)
-    assert win.stage_panels["parameters"].isAncestorOf(page.use_orbit)
-    assert win.stage_panels["fit"].isAncestorOf(page.fit_button) and win.stage_panels["fit"].isAncestorOf(page.status)
-    assert not any(p.isAncestorOf(page.plot) for p in win.stage_panels.values())
+    panels = win.stage_panels
+    assert list(panels) == ["data", "system", "stars", "extras", "fit", "uncertainty"]
+    assert panels["data"].isAncestorOf(page.file) and panels["system"].isAncestorOf(page.table)
+    assert panels["stars"].isAncestorOf(page.ld[1][1]) and panels["extras"].isAncestorOf(page.exposure)
+    assert panels["extras"].isAncestorOf(page.use_orbit) and panels["extras"].isAncestorOf(page.overlay_button)
+    assert panels["fit"].isAncestorOf(page.fit_button) and panels["fit"].isAncestorOf(page.status)
+    assert panels["fit"].isAncestorOf(page.results_button) and panels["fit"].isAncestorOf(page.wd_button)
+    assert panels["uncertainty"].isAncestorOf(page.use_mcmc) and panels["uncertainty"].isAncestorOf(page.mcmc_steps)
+    assert panels["uncertainty"].isAncestorOf(page.posterior_button)
+    assert not any(p.isAncestorOf(page.plot) for p in panels.values())
+    assert "result_parameters" in win.docks
     page.guide.set_state(1, "done")
-    assert win.rail.states["parameters"] == "done"
+    assert win.rail.states["system"] == "done"
     page.tabs.setCurrentIndex(1)
     assert not win.docks["stages"].isVisibleTo(win)
     page.tabs.setCurrentIndex(0)
@@ -2759,10 +2770,10 @@ def test_the_models_window_has_stages(window):
 
 
 def test_the_light_curves_window_has_stages(window):
-    """UI-16.4: Data, Clean, Search as stages beside the period-search plots; hidden on the other tabs."""
+    """UI-16.4: Data, Clean, Search beside the period-search plots, Frequencies and Variables for the other tabs."""
     win = window.open_area("timeseries")
     page = window.lightcurve_page.period_page
-    assert list(win.stage_panels) == ["data", "clean", "search"]
+    assert list(win.stage_panels) == ["data", "clean", "search", "frequencies", "variables"]
     assert win.stage_panels["data"].isAncestorOf(page.source) and win.stage_panels["data"].isAncestorOf(
         page.fetch_button
     )
@@ -2775,10 +2786,16 @@ def test_the_light_curves_window_has_stages(window):
     assert not any(p.isAncestorOf(page.plot) for p in win.stage_panels.values())
     page.guide.set_state(1, "done")
     assert win.rail.states["clean"] == "done"
+    fp, vf = window.lightcurve_page.frequency_page, window.lightcurve_page.varfind_page
+    assert win.stage_panels["frequencies"].isAncestorOf(fp.button) and win.stage_panels["variables"].isAncestorOf(
+        vf.button
+    )
+    win.show_stage("variables")  # a stage of another tab brings that tab forward
+    assert window.lightcurve_page.currentWidget() is vf
     window.lightcurve_page.setCurrentIndex(1)
-    assert not win.docks["stages"].isVisibleTo(win)
-    window.lightcurve_page.setCurrentIndex(0)
-    assert win.docks["stages"].isVisibleTo(win)
+    assert win.rail.current == "frequencies" and win.docks["stages"].isVisibleTo(win)
+    fp.guide.set_state(1, "done")
+    assert win.rail.states["frequencies"] == "done"
     win.close()
 
 
