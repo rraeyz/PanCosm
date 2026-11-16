@@ -5,6 +5,7 @@ tabs are the inspector at the right (F10). The page keeps the state and the logi
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QScrollArea, QSplitter
 
+from .image_inspector import add_inspector_tabs, empty_state, file_strip
 from .kit.focus import read_in_order
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("ImageWindow", "…") calls
@@ -19,12 +20,19 @@ def image_anatomy(main, win, page):
     page.open_list.setMaximumWidth(260)
     win.set_main(left)
     page.hide()
+    add_inspector_tabs(page)
     win.set_inspector(tabs)
-    dock = win._dock("files", translate("ImageWindow", "Open images"), page.open_list, Qt.LeftDockWidgetArea)
+    dock = win._dock("files", translate("ImageWindow", "Open images"), file_strip(page), Qt.LeftDockWidgetArea)
     dock.hide()
+    empty = empty_state(main)
 
-    def follow(_=None):  # one image needs no strip, as before
+    def follow(_=None):  # one image needs no strip, as before; no image shows what to do
         dock.setVisible(page.open_list.count() > 1)
+        win.set_empty_state(empty if page.viewer.data is None else None)
+        page.filter_line.textChanged.emit(page.filter_line.text())
+        page.refresh_inspector()
+
+    follow()
 
     for name in ("add_open", "remove_open"):
         method = getattr(page, name)
