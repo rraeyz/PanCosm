@@ -2592,6 +2592,11 @@ def test_transit_fit_filled_from_the_archive(window, monkeypatch):
     page.transit_button.click()
     params = asked[-1][3]
     assert (params["k"], params["a_rs"], params["b"]) == (0.14629, 6.247, 0.645) and params["mcmc_steps"] == 0
+    assert params["eclipse"] is False
+    page.transit_eclipse.setChecked(True)  # the shape stays the archive's; the eclipse is asked for
+    page.transit_button.click()
+    params = asked[-1][3]
+    assert params["eclipse"] is True and (params["k"], params["a_rs"], params["b"]) == (0.14629, 6.247, 0.645)
 
 
 def test_the_guide_leads_back_to_the_start_page(window):
@@ -2934,3 +2939,44 @@ def test_delete_over_the_period_plot_leaves_out_lassoed_or_hovered_points_undoab
     page.plot.hit = None
     QTest.keyClick(page.plot, Qt.Key_Delete)  # nothing under the cursor: nothing happens
     assert len(page.time) == 49
+
+
+def test_the_spectroscopy_window_has_stages_per_job(window):
+    """UI-16.3: one rail, each job showing its own stages; a stage of another job brings that job forward; the
+    controls stay in the page's buttons."""
+    win = window.open_area("spectroscopy")
+    page = window.spectro_page
+    shown = lambda: [k for k, b in win.rail.buttons.items() if not b.isHidden()]  # noqa: E731
+    assert shown() == ["overview", "slit_frames", "slit_extract", "slit_lines"]
+    panels = win.stage_panels
+    assert panels["slit_frames"].isAncestorOf(page.reduce_tab.science.edit)
+    assert panels["slit_extract"].isAncestorOf(page.reduce_tab.extract_button)
+    assert panels["slit_lines"].isAncestorOf(page.reduce_tab.solve_button) and panels["slit_lines"].isAncestorOf(
+        page.reduce_tab.status
+    )
+    assert panels["echelle_extract"].isAncestorOf(page.echelle_tab.find_button)
+    assert panels["overview"].isAncestorOf(page.profile)
+    assert panels["velocity"].isAncestorOf(page.velocity_tab.rv_button)
+    win.show_stage("echelle_lines")
+    assert page.tabs.currentWidget() is page.echelle_tab and win.current_stage() == "echelle_lines"
+    assert shown() == ["overview", "echelle_frames", "echelle_extract", "echelle_lines"]
+    page.tabs.setCurrentWidget(page.cube_tab)
+    assert shown() == ["overview", "cube"] and win.current_stage() == "cube"
+    page.reduce_tab.guide.set_state(2, "done")
+    assert win.rail.states["slit_extract"] == "done"
+    win.close()
+
+
+def test_transit_secondary_eclipse_choice_and_its_text(window):
+    """PHO-26 eclipse: the box is off by default; the eclipse result says Mid-eclipse with the depth, and the
+    details table shows occ."""
+    from astrowb.ui.photometry_transit import parameter_rows, result_text
+
+    page = window.photometry_page
+    assert not page.transit_eclipse.isChecked()
+    out = {"values": {"tc": 2461347.6112, "occ": 0.004}, "errors": {"tc": 5e-4, "occ": 4e-4}, "eclipse": True,
+           "derived": {"depth_ppt": 3.98, "depth_mmag": 4.3}, "chi2r": 1.0, "bic": 5.0, "rms_ppt": 0.4,
+           "beta": 1.0}  # fmt: skip
+    text = result_text(out)
+    assert text.startswith("Mid-eclipse") and "depth 3.98 ppt (4.3 mmag)" in text
+    assert "occ" in [r[0] for r in parameter_rows(out)]

@@ -5000,13 +5000,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Bild speichern (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="573"/>
+        <location filename="../../ui/area_windows.py" line="572"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Viele Bilder umwandeln (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="569"/>
+        <location filename="../../ui/area_windows.py" line="568"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Bild &amp;schließen</translation>
@@ -5237,7 +5237,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="571"/>
+        <location filename="../../ui/area_windows.py" line="570"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Alle Bilder schließen</translation>
@@ -5425,7 +5425,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="662"/>
+        <location filename="../../ui/area_windows.py" line="661"/>
         <source>&amp;Measure</source>
         <translation>&amp;Messen</translation>
     </message>
@@ -5446,69 +5446,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="110"/>
-        <location filename="../../ui/area_windows.py" line="634"/>
+        <location filename="../../ui/area_windows.py" line="633"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="648"/>
+        <location filename="../../ui/area_windows.py" line="647"/>
         <source>&amp;Stars</source>
         <translation>&amp;Sterne</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="454"/>
-        <location filename="../../ui/area_windows.py" line="543"/>
-        <location filename="../../ui/area_windows.py" line="675"/>
+        <location filename="../../ui/area_windows.py" line="542"/>
+        <location filename="../../ui/area_windows.py" line="674"/>
         <source>&amp;Analyse</source>
         <translation>Anal&amp;yse</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="521"/>
+        <location filename="../../ui/area_windows.py" line="520"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>In Farbkanäle zerlegen (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="523"/>
+        <location filename="../../ui/area_windows.py" line="522"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Das Rohbild einer Farbkamera als drei Bilder halber Größe, eines je Farbe (ohne Interpolation)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="529"/>
+        <location filename="../../ui/area_windows.py" line="528"/>
         <source>Stack the open images…</source>
         <translation>Geöffnete Bilder stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="531"/>
+        <location filename="../../ui/area_windows.py" line="530"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Die geöffneten Bilder an ihren Sternen ausgerichtet und unter Verwerfen von Ausreißern gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="534"/>
+        <location filename="../../ui/area_windows.py" line="533"/>
         <source>Drizzle the open images…</source>
         <translation>Geöffnete Bilder drizzeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="536"/>
+        <location filename="../../ui/area_windows.py" line="535"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Versetzt aufgenommene Bilder auf ein doppelt so feines Raster (schärfer bei unterabgetasteten Sternen)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="547"/>
+        <location filename="../../ui/area_windows.py" line="546"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="548"/>
+        <location filename="../../ui/area_windows.py" line="547"/>
         <source>&amp;Colour</source>
         <translation>Fa&amp;rbe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="549"/>
+        <location filename="../../ui/area_windows.py" line="548"/>
         <source>S&amp;tack</source>
         <translation>S&amp;tapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="559"/>
+        <location filename="../../ui/area_windows.py" line="558"/>
         <source>Copy the header</source>
         <translation>Header kopieren</translation>
     </message>
@@ -5862,77 +5862,77 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="581"/>
+        <location filename="../../ui/area_menus.py" line="584"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="584"/>
+        <location filename="../../ui/area_menus.py" line="587"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Das Langspaltspektrum extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="590"/>
+        <location filename="../../ui/area_menus.py" line="593"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Die Echelle-Ordnungen auf dem Flat finden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="592"/>
+        <location filename="../../ui/area_menus.py" line="595"/>
         <source>Extract the échelle orders</source>
         <translation>Die Echelle-Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="597"/>
+        <location filename="../../ui/area_menus.py" line="600"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Das Spektrum des Würfelbereichs speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="602"/>
+        <location filename="../../ui/area_menus.py" line="605"/>
         <source>&amp;Lines</source>
         <translation>&amp;Linien</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="607"/>
+        <location filename="../../ui/area_menus.py" line="610"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Die Wellenlängen anpassen (Langspalt)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="611"/>
+        <location filename="../../ui/area_menus.py" line="614"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Die Wellenlängen anpassen, die Ordnungen zusammenfügen (Echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="625"/>
+        <location filename="../../ui/area_menus.py" line="628"/>
         <source>S&amp;pectrum</source>
         <translation>S&amp;pektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="639"/>
+        <location filename="../../ui/area_menus.py" line="642"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="641"/>
+        <location filename="../../ui/area_menus.py" line="644"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Arithmetik mit Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="645"/>
+        <location filename="../../ui/area_menus.py" line="648"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="647"/>
+        <location filename="../../ui/area_menus.py" line="650"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="671"/>
+        <location filename="../../ui/area_menus.py" line="674"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="672"/>
+        <location filename="../../ui/area_menus.py" line="675"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5942,7 +5942,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Das Spektrum speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="482"/>
+        <location filename="../../ui/area_windows.py" line="481"/>
         <source>&amp;Job</source>
         <translation>Auf&amp;gabe</translation>
     </message>
@@ -6617,7 +6617,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="656"/>
+        <location filename="../../ui/area_menus.py" line="659"/>
         <source>Velo&amp;city</source>
         <translation>Ges&amp;chwindigkeit</translation>
     </message>
@@ -14375,152 +14375,167 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PhotometryTransit</name>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="30"/>
+        <location filename="../../ui/photometry_transit.py" line="38"/>
         <source>Mid-transit {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} h, T23 {t23:.2f} h; a/R★ {a}; b {b}; i {inc:.1f}°; ρ★ {rho:.2f} g/cm³. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="43"/>
+        <location filename="../../ui/photometry_transit.py" line="51"/>
         <source>Errors × {beta:.2f} for red noise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="56"/>
+        <location filename="../../ui/photometry_transit.py" line="64"/>
         <source>(not converged: more steps)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="57"/>
+        <location filename="../../ui/photometry_transit.py" line="65"/>
         <source>MCMC: {values}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="67"/>
+        <location filename="../../ui/photometry_transit.py" line="75"/>
         <source>Period and T0 into the Timing fields, Rp/R★, a/R★ and b as the fit&apos;s start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="72"/>
+        <location filename="../../ui/photometry_transit.py" line="80"/>
         <source>NASA Exoplanet Archive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="74"/>
+        <location filename="../../ui/photometry_transit.py" line="82"/>
         <source>Planet, e.g. Qatar-1 b:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="77"/>
+        <location filename="../../ui/photometry_transit.py" line="85"/>
         <source>Asking the NASA Exoplanet Archive…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="96"/>
+        <location filename="../../ui/photometry_transit.py" line="104"/>
         <source>{name}: period and T0 filled; the fit starts from {known}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="128"/>
+        <location filename="../../ui/photometry_transit.py" line="144"/>
         <source>MCMC uncertainties (slower)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="130"/>
+        <location filename="../../ui/photometry_transit.py" line="146"/>
         <source>After the fit, Markov chains give each parameter&apos;s 68 % interval; correlated parameters (a/R★ and b) get honest, one-sided errors. Scale the errors first if they are too small.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="134"/>
+        <location filename="../../ui/photometry_transit.py" line="150"/>
         <source>Account for red noise (errors × β)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="136"/>
+        <location filename="../../ui/photometry_transit.py" line="152"/>
         <source>Residuals that drift together (β above 1, see the Checks tab) carry less information than their errors say: the parameter errors are multiplied by β</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="181"/>
+        <location filename="../../ui/photometry_transit.py" line="156"/>
+        <source>Secondary eclipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="158"/>
+        <source>Fit the companion&apos;s eclipse behind the star (circular orbit, half a period after the transit) instead of the transit; the shape is the archive&apos;s, when filled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="203"/>
         <source>Transit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="170"/>
+        <location filename="../../ui/photometry_transit.py" line="192"/>
         <source>fixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="183"/>
+        <location filename="../../ui/photometry_transit.py" line="31"/>
+        <source>Mid-eclipse {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); companion light {occ}. Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_transit.py" line="205"/>
         <source>Parameter</source>
         <translation>Parameter</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="183"/>
+        <location filename="../../ui/photometry_transit.py" line="205"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="184"/>
+        <location filename="../../ui/photometry_transit.py" line="206"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="189"/>
+        <location filename="../../ui/photometry_transit.py" line="211"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="196"/>
+        <location filename="../../ui/photometry_transit.py" line="218"/>
         <source>Exact transit model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="198"/>
+        <location filename="../../ui/photometry_transit.py" line="220"/>
         <source>Fit the transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="200"/>
+        <location filename="../../ui/photometry_transit.py" line="222"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="208"/>
+        <location filename="../../ui/photometry_transit.py" line="230"/>
         <source>Parameters and plot…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="232"/>
+        <location filename="../../ui/photometry_transit.py" line="255"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="237"/>
+        <location filename="../../ui/photometry_transit.py" line="260"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="245"/>
+        <location filename="../../ui/photometry_transit.py" line="269"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="104"/>
+        <location filename="../../ui/photometry_transit.py" line="112"/>
         <source>Add the times to the O−C list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="65"/>
+        <location filename="../../ui/photometry_transit.py" line="73"/>
         <source>From the NASA archive…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="106"/>
+        <location filename="../../ui/photometry_transit.py" line="114"/>
         <source>The times of minimum and the transit mid-time measured here, into O−C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="118"/>
+        <location filename="../../ui/photometry_transit.py" line="134"/>
         <source>{n} times added to the O−C list.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16999,33 +17014,33 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Spektrenwerkzeuge</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2109"/>
-        <location filename="../../ui/spectro_page.py" line="2260"/>
+        <location filename="../../ui/spectro_page.py" line="2110"/>
+        <location filename="../../ui/spectro_page.py" line="2238"/>
         <source>Instrument profile</source>
         <translation>Instrumentprofil</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2115"/>
+        <location filename="../../ui/spectro_page.py" line="2116"/>
         <source>Saved settings of a spectrograph (orientation, widths, line list, order numbers…): choose one to fill the Reduce and Echelle tabs</source>
         <translation>Gespeicherte Einstellungen eines Spektrographen (Ausrichtung, Breiten, Linienliste, Ordnungsnummern…): eine wählen, um die Reiter Reduktion und Echelle zu füllen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2119"/>
+        <location filename="../../ui/spectro_page.py" line="2120"/>
         <source>Save as…</source>
         <translation>Speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2123"/>
+        <location filename="../../ui/spectro_page.py" line="2124"/>
         <source>Saves the present settings of the Reduce and Echelle tabs under a name, for the next night with this spectrograph</source>
         <translation>Speichert die jetzigen Einstellungen der Reiter Reduktion und Echelle unter einem Namen, für die nächste Nacht mit diesem Spektrographen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2127"/>
+        <location filename="../../ui/spectro_page.py" line="2128"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2129"/>
+        <location filename="../../ui/spectro_page.py" line="2130"/>
         <source>Deletes the chosen instrument profile</source>
         <translation>Löscht das gewählte Instrumentprofil</translation>
     </message>
@@ -17040,39 +17055,82 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>1. Rohbilder Ihres Spektrographen: &lt;b&gt;Reduktion&lt;/b&gt; (Langspalt: Bogenlampe → Spur → Extraktion → Wellenlängen) oder &lt;b&gt;Echelle&lt;/b&gt; (viele Ordnungen). Kalibrieren Sie die Bilder (Bias, Dark, Flat) zuerst im Fenster Kalibrierung.&lt;br&gt;2. Spektren, die schon Wellenlängen haben (ein Archiv, eine andere Pipeline): bei 3 beginnen.&lt;br&gt;3. &lt;b&gt;Tellurisch&lt;/b&gt; (freiwillig): dividiert die Erdatmosphäre heraus (O₂-, H₂O-Banden, meist im Roten) mit einem heißen Stern, der nahe dem Ziel beobachtet wurde.&lt;br&gt;4. &lt;b&gt;Radialgeschwindigkeit und Bahn&lt;/b&gt;: die Geschwindigkeit des Sterns in jedem Spektrum gegen eine Vorlage, zwei Sterne eines Doppelsterns (TODCOR, Verbreiterungsfunktion), die Bahn, der Spektraltyp (MK).&lt;br&gt;5. &lt;b&gt;Spektrenwerkzeuge&lt;/b&gt;: normieren, eine Linie messen (Äquivalentbreite, FWHM, V/R), glätten, Spektren addieren oder dividieren, Atmosphärenparameter (Teff, log g, [Fe/H]).&lt;br&gt;Die Methoden und ihre Formeln: Anleitung, Spektroskopie und Mathematik der Methoden.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2213"/>
+        <location filename="../../ui/spectro_page.py" line="2191"/>
         <source>Raw long-slit frames: arc lamp → trace → extraction → wavelengths</source>
         <translation>Rohe Langspalt-Aufnahmen: Bogenlampe → Spur → Extraktion → Wellenlängen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2214"/>
+        <location filename="../../ui/spectro_page.py" line="2192"/>
         <source>Raw échelle frames: orders traced and extracted, wavelengths from the ThAr</source>
         <translation>Rohe Echelle-Aufnahmen: Ordnungen verfolgt und extrahiert, Wellenlängen aus dem ThAr</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2217"/>
+        <location filename="../../ui/spectro_page.py" line="2195"/>
         <source>Optional: divides out the Earth&apos;s atmosphere with a hot star observed near the target</source>
         <translation>Optional: teilt die Erdatmosphäre mit einem heißen Stern heraus, der nahe dem Ziel beobachtet wurde</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2220"/>
+        <location filename="../../ui/spectro_page.py" line="2198"/>
         <source>Velocities against a template, the two stars of a binary, the orbit and the spectral type</source>
         <translation>Geschwindigkeiten gegen eine Vorlage, die zwei Sterne eines Doppelsterns, die Bahn und der Spektraltyp</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2224"/>
+        <location filename="../../ui/spectro_page.py" line="2202"/>
         <source>Integral-field data cubes: an image at each wavelength, spectra of regions</source>
         <translation>Integralfeld-Datenwürfel: ein Bild bei jeder Wellenlänge, Spektren von Bereichen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2227"/>
+        <location filename="../../ui/spectro_page.py" line="2205"/>
         <source>One spectrum: normalise, measure lines, smooth, add or divide, combine exposures, stellar parameters</source>
         <translation>Ein Spektrum: normieren, Linien messen, glätten, addieren oder teilen, Aufnahmen kombinieren, Sternparameter</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2260"/>
+        <location filename="../../ui/spectro_page.py" line="2238"/>
         <source>Name (e.g. telescope + spectrograph):</source>
         <translation>Name (z. B. Teleskop + Spektrograf):</translation>
+    </message>
+</context>
+<context>
+    <name>SpectroscopyWindow</name>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="94"/>
+        <source>Frames</source>
+        <translation type="unfinished">Bilder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="94"/>
+        <source>Extract</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="95"/>
+        <source>Wavelengths</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="97"/>
+        <source>Overview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="103"/>
+        <source>Telluric</source>
+        <translation type="unfinished">Tellurisch</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="105"/>
+        <source>Velocities</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="107"/>
+        <source>IFU cube</source>
+        <translation type="unfinished">IFU-Würfel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_stages.py" line="109"/>
+        <source>Spectrum tools</source>
+        <translation type="unfinished">Spektrenwerkzeuge</translation>
     </message>
 </context>
 <context>
@@ -18659,94 +18717,114 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="42"/>
-        <source>Comma-separated: airmass, fwhm, sky, x, y (empty: none)</source>
+        <location filename="../../photometry/fit_steps.py" line="41"/>
+        <source>Fit the eclipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="43"/>
-        <source>Fit the limb darkening</source>
+        <location filename="../../photometry/fit_steps.py" line="42"/>
+        <source>The secondary eclipse (circular orbit, half a period after the transit) instead of the transit; the shape stays as given</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="44"/>
-        <source>A single night rarely decides it: leave it fixed</source>
+        <source>Eclipse depth (start)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="45"/>
-        <source>Account for red noise</source>
+        <source>The companion&apos;s light as a fraction of the star&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="46"/>
-        <source>The errors multiplied by β, the time-averaging factor of the residuals</source>
+        <location filename="../../photometry/fit_steps.py" line="47"/>
+        <source>Comma-separated: airmass, fwhm, sky, x, y (empty: none)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="48"/>
+        <source>Fit the limb darkening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="49"/>
+        <source>A single night rarely decides it: leave it fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="50"/>
+        <source>Account for red noise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="51"/>
+        <source>The errors multiplied by β, the time-averaging factor of the residuals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="53"/>
         <source>Posterior errors after the fit (the chains stop earlier once converged); 0: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="90"/>
+        <location filename="../../photometry/fit_steps.py" line="98"/>
         <source>Transit depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="91"/>
+        <location filename="../../photometry/fit_steps.py" line="99"/>
         <source>The depth TESS saw on the target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="93"/>
+        <location filename="../../photometry/fit_steps.py" line="101"/>
         <source>Stars this near the target are checked (TFOP: 2.5′)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="95"/>
-        <location filename="../../photometry/fit_steps.py" line="97"/>
-        <location filename="../../photometry/fit_steps.py" line="99"/>
+        <location filename="../../photometry/fit_steps.py" line="103"/>
+        <location filename="../../photometry/fit_steps.py" line="105"/>
+        <location filename="../../photometry/fit_steps.py" line="107"/>
         <source>As the light curve&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="96"/>
+        <location filename="../../photometry/fit_steps.py" line="104"/>
         <source>Sky ring, inner radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="98"/>
+        <location filename="../../photometry/fit_steps.py" line="106"/>
         <source>Sky ring, outer radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="100"/>
+        <location filename="../../photometry/fit_steps.py" line="108"/>
         <source>Predicted mid-transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="101"/>
+        <location filename="../../photometry/fit_steps.py" line="109"/>
         <source>JD (UTC); 0: no box fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="102"/>
+        <location filename="../../photometry/fit_steps.py" line="110"/>
         <source>Transit duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="103"/>
+        <location filename="../../photometry/fit_steps.py" line="111"/>
         <source>T14; with the mid-transit time, a box is fitted there on every star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="104"/>
+        <location filename="../../photometry/fit_steps.py" line="112"/>
         <source>Several apertures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="105"/>
+        <location filename="../../photometry/fit_steps.py" line="113"/>
         <source>[radius, sky inner, sky outer] triples; each star keeps its best disposition. Empty: the one aperture above</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18757,7 +18835,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="41"/>
+        <location filename="../../photometry/fit_steps.py" line="46"/>
         <location filename="../../photometry/steps.py" line="611"/>
         <source>Detrend against</source>
         <translation type="unfinished"></translation>
@@ -19455,7 +19533,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/fit_steps.py" line="94"/>
+        <location filename="../../photometry/fit_steps.py" line="102"/>
         <location filename="../../photometry/measure_params.py" line="13"/>
         <source>Aperture radius</source>
         <translation>Aperturradius</translation>
@@ -19791,7 +19869,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="104"/>
-        <location filename="../../photometry/fit_steps.py" line="47"/>
+        <location filename="../../photometry/fit_steps.py" line="52"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>MCMC steps</source>
         <translation type="unfinished"></translation>
@@ -19824,7 +19902,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="138"/>
-        <location filename="../../photometry/fit_steps.py" line="92"/>
+        <location filename="../../photometry/fit_steps.py" line="100"/>
         <source>Search radius</source>
         <translation type="unfinished"></translation>
     </message>

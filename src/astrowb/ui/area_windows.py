@@ -478,7 +478,6 @@ def spectroscopy_window(main, page):
         name,
         main.settings,
         parts["view"],
-        steps=parts["steps"],
         menus=[(translate("MainWindow", "&Job"), actions)],
         toolbar=actions,
         undo_stack=_undo_source(page),
@@ -491,7 +490,7 @@ def spectroscopy_window(main, page):
     area_menus.spectroscopy(main, page, win)
     page.setParent(win)  # the page keeps the state and the logic, unseen
     page.hide()
-    main._frames[page] = parts["steps"]
+    main._frames[page] = win.docks["stages"].widget()  # Basic / Expert folds the sections inside the stages
     win.setWindowIcon(main.windowIcon())
     win.help_requested.connect(main._help_for)
     main.area_windows["spectroscopy"] = win
