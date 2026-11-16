@@ -3,6 +3,7 @@ text, no panel scrolls sideways, every button has a name a screen reader can say
 its screenshots are for looking at, this test for the measurements."""
 
 import importlib.util
+import os
 import sys
 from pathlib import Path
 
@@ -25,7 +26,8 @@ def _gallery():
 def test_no_cut_text_in_any_window(qapp, tmp_path):
     from astrowb.ui.i18n import LANGUAGES
 
-    found = _gallery().run(tuple(LANGUAGES), ("dark", "light"), settings_dir=tmp_path)
+    # GALLERY_OUT: CI sets it and uploads the screenshots and contact sheets as an artifact
+    found = _gallery().run(tuple(LANGUAGES), ("dark", "light"), os.environ.get("GALLERY_OUT"), tmp_path)
     assert found and all(key.count("-") >= 2 for key in found)
     cut = {k: v for k, v in found.items() if v}
     assert not cut, cut
@@ -109,3 +111,35 @@ def test_a_chain_that_goes_back_up_is_found_and_put_right(qtbot):
     assert gallery.out_of_order(page) == [("upper", "Tab goes back up")]
     read_in_order(upper, lower)
     assert gallery.out_of_order(page) == []
+
+
+def test_overlap_main_share_untranslated_and_contact_sheet(qtbot, tmp_path):
+    """UI-15: labels laid over each other, a main view under 55 %, a finished translation not shown and the contact
+    sheet are found / made."""
+    from PySide6.QtGui import QImage
+    from PySide6.QtWidgets import QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget
+
+    gallery = _gallery()
+    page = QWidget()
+    qtbot.addWidget(page)
+    QVBoxLayout(page)
+    a, b = QLabel("A", page), QLabel("B", page)
+    a.setObjectName("a")
+    a.setGeometry(0, 0, 40, 20)
+    b.setGeometry(10, 5, 40, 20)
+    page.show()
+    assert gallery.overlapping(page) == [("a", "overlaps QLabel")]
+    win = QMainWindow()
+    qtbot.addWidget(win)
+    win.setCentralWidget(QWidget())
+    win.resize(1000, 600)
+    win.centralWidget().setFixedWidth(500)
+    win.show()
+    assert gallery.small_main_view(win) == [("main view", "50% of the window")]
+    assert gallery._translations("tr").get("Images") == "Görüntüler"
+    button = QPushButton("Images", page)
+    button.show()
+    assert ("QPushButton", "Images") in gallery.untranslated(page, "tr")
+    shot = QImage(100, 60, QImage.Format_RGB32)
+    gallery.contact_sheet([shot, shot], tmp_path / "s.jpg")
+    assert QImage(str(tmp_path / "s.jpg")).size().toTuple() == (100, 30)

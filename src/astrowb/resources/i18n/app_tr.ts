@@ -5126,6 +5126,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Zamanlama ve uyum</translation>
     </message>
     <message>
+        <location filename="../../ui/area_menus.py" line="469"/>
         <location filename="../../ui/area_windows.py" line="297"/>
         <source>Report</source>
         <translation>Rapor</translation>
@@ -5404,6 +5405,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Yarıçaplar</translation>
     </message>
     <message>
+        <location filename="../../ui/area_menus.py" line="468"/>
         <location filename="../../ui/area_windows.py" line="45"/>
         <location filename="../../ui/area_windows.py" line="267"/>
         <source>Measure</source>
@@ -5417,7 +5419,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="231"/>
         <location filename="../../ui/area_menus.py" line="257"/>
-        <location filename="../../ui/area_menus.py" line="497"/>
+        <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
@@ -5513,8 +5515,8 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="243"/>
         <location filename="../../ui/area_menus.py" line="262"/>
-        <location filename="../../ui/area_menus.py" line="509"/>
-        <location filename="../../ui/area_menus.py" line="566"/>
+        <location filename="../../ui/area_menus.py" line="510"/>
+        <location filename="../../ui/area_menus.py" line="567"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>Dışa a&amp;ktar</translation>
@@ -5634,7 +5636,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/area_menus.py" line="230"/>
         <location filename="../../ui/area_menus.py" line="256"/>
-        <location filename="../../ui/area_menus.py" line="493"/>
+        <location filename="../../ui/area_menus.py" line="494"/>
         <source>Fit</source>
         <translation>Fit et</translation>
     </message>
@@ -5829,103 +5831,113 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Bileşenler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="492"/>
+        <location filename="../../ui/area_menus.py" line="467"/>
+        <source>Solve</source>
+        <translation>Çöz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="470"/>
+        <source>&amp;Astrometry</source>
+        <translation>&amp;Astrometri</translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="493"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Örtme ya da geçiş modelini fit et</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="495"/>
+        <location filename="../../ui/area_menus.py" line="496"/>
         <source>Posterior</source>
         <translation>Sonsal dağılım</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="496"/>
+        <location filename="../../ui/area_menus.py" line="497"/>
         <source>Visual orbit</source>
         <translation>Görsel yörünge</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="260"/>
-        <location filename="../../ui/area_menus.py" line="501"/>
+        <location filename="../../ui/area_menus.py" line="502"/>
         <source>F&amp;it</source>
         <translation>&amp;Fit</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="580"/>
+        <location filename="../../ui/area_menus.py" line="581"/>
         <source>&amp;Reduce</source>
         <translation>İndirge&amp;me</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="583"/>
+        <location filename="../../ui/area_menus.py" line="584"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Uzun yarık tayfını çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="589"/>
+        <location filename="../../ui/area_menus.py" line="590"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Eşel mertebelerini düz alanda bul</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="591"/>
+        <location filename="../../ui/area_menus.py" line="592"/>
         <source>Extract the échelle orders</source>
         <translation>Eşel mertebelerini çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="596"/>
+        <location filename="../../ui/area_menus.py" line="597"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Küp bölgesinin tayfını kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="601"/>
+        <location filename="../../ui/area_menus.py" line="602"/>
         <source>&amp;Lines</source>
         <translation>&amp;Çizgiler</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="606"/>
+        <location filename="../../ui/area_menus.py" line="607"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Dalga boylarını fit et (uzun yarık)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="610"/>
+        <location filename="../../ui/area_menus.py" line="611"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Dalga boylarını fit et, mertebeleri birleştir (eşel)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="624"/>
+        <location filename="../../ui/area_menus.py" line="625"/>
         <source>S&amp;pectrum</source>
         <translation>&amp;Tayf</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="638"/>
+        <location filename="../../ui/area_menus.py" line="639"/>
         <source>Telluric correction</source>
         <translation>Tellürik düzeltme</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="640"/>
+        <location filename="../../ui/area_menus.py" line="641"/>
         <source>Arithmetic with spectrum B</source>
         <translation>B tayfıyla aritmetik</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="644"/>
+        <location filename="../../ui/area_menus.py" line="645"/>
         <source>Mea&amp;sure</source>
         <translation>Ö&amp;lç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="646"/>
+        <location filename="../../ui/area_menus.py" line="647"/>
         <source>Measure a line</source>
         <translation>Bir çizgiyi ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="670"/>
+        <location filename="../../ui/area_menus.py" line="671"/>
         <source>Open a velocity table…</source>
         <translation>Bir hız tablosu aç…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="671"/>
+        <location filename="../../ui/area_menus.py" line="672"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation>Yörünge fiti için zamanlar ve hızlar (CSV ya da metin)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="570"/>
+        <location filename="../../ui/area_menus.py" line="571"/>
         <source>Save the spectrum as…</source>
         <translation>Tayfı farklı kaydet…</translation>
     </message>
@@ -6600,12 +6612,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;Efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="504"/>
+        <location filename="../../ui/area_menus.py" line="505"/>
         <source>Visual &amp;orbit</source>
         <translation>Görsel yö&amp;rünge</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="655"/>
+        <location filename="../../ui/area_menus.py" line="656"/>
         <source>Velo&amp;city</source>
         <translation>&amp;Hız</translation>
     </message>

@@ -463,11 +463,12 @@ def remotesensing(main, page, win):
 def astrometry(main, page, win):
     """Astrometry: Solve, Measure, File → Write the MPC report (interface UI-16.11); the frames are chosen in the
     page's first stage."""
-    t = QCoreApplication.translate
-    solve = _mirror(page.solve_button, page, t("MainWindow", "Solve"))
-    measure = _mirror(page.measure_button, page, t("MainWindow", "Measure"))
-    report = _mirror(page.export_button, page, t("MainWindow", "Report"))
-    win.add_menus([(t("MainWindow", "&Astrometry"), [solve, measure, None, report])], toolbar=[solve, measure, report])
+    translate = QCoreApplication.translate
+    solve = _mirror(page.solve_button, page, translate("MainWindow", "Solve"))
+    measure = _mirror(page.measure_button, page, translate("MainWindow", "Measure"))
+    report = _mirror(page.export_button, page, translate("MainWindow", "Report"))
+    menu = translate("MainWindow", "&Astrometry")
+    win.add_menus([(menu, [solve, measure, None, report])], toolbar=[solve, measure, report])
     from .stage_boxes import astrometry_stages
 
     astrometry_stages(win, page)

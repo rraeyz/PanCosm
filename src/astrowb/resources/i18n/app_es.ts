@@ -5126,6 +5126,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../ui/area_menus.py" line="469"/>
         <location filename="../../ui/area_windows.py" line="297"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
@@ -5404,6 +5405,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Radios</translation>
     </message>
     <message>
+        <location filename="../../ui/area_menus.py" line="468"/>
         <location filename="../../ui/area_windows.py" line="45"/>
         <location filename="../../ui/area_windows.py" line="267"/>
         <source>Measure</source>
@@ -5417,7 +5419,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/area_menus.py" line="231"/>
         <location filename="../../ui/area_menus.py" line="257"/>
-        <location filename="../../ui/area_menus.py" line="497"/>
+        <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportar</translation>
@@ -5513,8 +5515,8 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/area_menus.py" line="243"/>
         <location filename="../../ui/area_menus.py" line="262"/>
-        <location filename="../../ui/area_menus.py" line="509"/>
-        <location filename="../../ui/area_menus.py" line="566"/>
+        <location filename="../../ui/area_menus.py" line="510"/>
+        <location filename="../../ui/area_menus.py" line="567"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>E&amp;xportar</translation>
@@ -5634,7 +5636,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/area_menus.py" line="230"/>
         <location filename="../../ui/area_menus.py" line="256"/>
-        <location filename="../../ui/area_menus.py" line="493"/>
+        <location filename="../../ui/area_menus.py" line="494"/>
         <source>Fit</source>
         <translation>Ajustar</translation>
     </message>
@@ -5829,103 +5831,113 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Componentes</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="492"/>
+        <location filename="../../ui/area_menus.py" line="467"/>
+        <source>Solve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="470"/>
+        <source>&amp;Astrometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/area_menus.py" line="493"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Ajustar el modelo de eclipse o tránsito</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="495"/>
+        <location filename="../../ui/area_menus.py" line="496"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="496"/>
+        <location filename="../../ui/area_menus.py" line="497"/>
         <source>Visual orbit</source>
         <translation>Órbita visual</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="260"/>
-        <location filename="../../ui/area_menus.py" line="501"/>
+        <location filename="../../ui/area_menus.py" line="502"/>
         <source>F&amp;it</source>
         <translation>A&amp;justar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="580"/>
+        <location filename="../../ui/area_menus.py" line="581"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reducir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="583"/>
+        <location filename="../../ui/area_menus.py" line="584"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Extraer el espectro de rendija larga</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="589"/>
+        <location filename="../../ui/area_menus.py" line="590"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Encontrar los órdenes echelle en el flat</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="591"/>
+        <location filename="../../ui/area_menus.py" line="592"/>
         <source>Extract the échelle orders</source>
         <translation>Extraer los órdenes echelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="596"/>
+        <location filename="../../ui/area_menus.py" line="597"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Guardar el espectro de la región del cubo…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="601"/>
+        <location filename="../../ui/area_menus.py" line="602"/>
         <source>&amp;Lines</source>
         <translation>&amp;Líneas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="606"/>
+        <location filename="../../ui/area_menus.py" line="607"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Ajustar las longitudes de onda (rendija larga)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="610"/>
+        <location filename="../../ui/area_menus.py" line="611"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Ajustar las longitudes de onda, unir los órdenes (echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="624"/>
+        <location filename="../../ui/area_menus.py" line="625"/>
         <source>S&amp;pectrum</source>
         <translation>Es&amp;pectro</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="638"/>
+        <location filename="../../ui/area_menus.py" line="639"/>
         <source>Telluric correction</source>
         <translation>Corrección telúrica</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="640"/>
+        <location filename="../../ui/area_menus.py" line="641"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Aritmética con el espectro B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="644"/>
+        <location filename="../../ui/area_menus.py" line="645"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Medir</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="646"/>
+        <location filename="../../ui/area_menus.py" line="647"/>
         <source>Measure a line</source>
         <translation>Medir una línea</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="670"/>
+        <location filename="../../ui/area_menus.py" line="671"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="671"/>
+        <location filename="../../ui/area_menus.py" line="672"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="570"/>
+        <location filename="../../ui/area_menus.py" line="571"/>
         <source>Save the spectrum as…</source>
         <translation>Guardar el espectro como…</translation>
     </message>
@@ -6600,12 +6612,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>E&amp;femérides</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="504"/>
+        <location filename="../../ui/area_menus.py" line="505"/>
         <source>Visual &amp;orbit</source>
         <translation>Ó&amp;rbita visual</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="655"/>
+        <location filename="../../ui/area_menus.py" line="656"/>
         <source>Velo&amp;city</source>
         <translation>Velocida&amp;d</translation>
     </message>

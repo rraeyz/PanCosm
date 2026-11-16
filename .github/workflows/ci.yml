@@ -53,6 +53,8 @@ jobs:
         run: python tools/check_brand.py
       - name: Tests (every core; coverage on Linux)
         shell: bash
+        env:
+          GALLERY_OUT: ${{ github.workspace }}/gallery  # tests/test_gallery.py writes the UI-15 sheets there
         run: |
           # a test still running after 15 min prints where it hangs
           if [ "$RUNNER_OS" = "Linux" ]; then
@@ -66,6 +68,12 @@ jobs:
           else
             pytest -q -n auto --durations=10 -o faulthandler_timeout=900
           fi
+      - uses: actions/upload-artifact@v4
+        if: always() && runner.os == 'Linux'
+        with:
+          name: gallery
+          path: gallery/
+          if-no-files-found: ignore
 
   package:
     needs: test

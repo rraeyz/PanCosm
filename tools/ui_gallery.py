@@ -3,7 +3,8 @@
 
     python tools/ui_gallery.py [--langs en,tr,de,es] [--themes dark,light] [--out gallery]
 
-Writes gallery/<area>-<lang>-<theme>.png and gallery/measurements.json: per window, the labels and buttons whose
+Writes gallery/<area>-<lang>-<theme>.png, a contact sheet gallery/<area>-<lang>.jpg (both themes) and
+gallery/measurements.json: per window, the labels and buttons whose
 text does not fit (size hint wider than the widget, without word wrap) and the panels that scroll sideways. The
 language "pseudo" is English lengthened by 40 % and accented (ARC-18 item 3). tests/test_gallery.py runs the measuring
 part.
@@ -121,6 +122,81 @@ def out_of_order(window, tolerance=8):
     return found
 
 
+def overlapping(window, slack=2):
+    """[(object name or class, "overlaps <other>")] of visible labels, buttons and fields that share a layout and
+    cover each other by more than slack px both ways (a layout that failed). Parents without a layout are left out:
+    a badge over an image is drawn there on purpose."""
+    from PySide6.QtWidgets import QAbstractButton, QAbstractSpinBox, QComboBox, QLabel, QLineEdit, QWidget
+
+    kinds = (QAbstractButton, QLabel, QLineEdit, QComboBox, QAbstractSpinBox)
+    found = []
+    for parent in [window, *window.findChildren(QWidget)]:
+        if parent.layout() is None:
+            continue
+        kids = [c for c in parent.children() if isinstance(c, kinds) and c.isVisible() and c.width() > 1
+                and not c.objectName().startswith("qt_")]  # fmt: skip
+        for i, a in enumerate(kids):
+            for b in kids[i + 1 :]:
+                both = a.geometry().intersected(b.geometry())
+                if both.width() > slack and both.height() > slack:
+                    found.append((a.objectName() or type(a).__name__, f"overlaps {b.objectName() or type(b).__name__}"))
+    return found
+
+
+MAIN_SHARE = 0.55  # UI principle 1: the main view has at least 55 % of the window (width, as tests/ui/test_anatomy.py)
+
+
+def small_main_view(window):
+    """[("main view", "x % of the window")] when the central widget is narrower than MAIN_SHARE of the window."""
+    centre = window.centralWidget()
+    share = centre.width() / window.width() if centre is not None and window.width() else 1
+    return [("main view", f"{share:.0%} of the window")] if share < MAIN_SHARE else []
+
+
+def _translations(lang):
+    """{English source: translation} of every finished translation that differs from its source."""
+    import xml.etree.ElementTree as ET
+
+    from astrowb.ui.i18n import I18N_DIR
+
+    path = I18N_DIR / f"app_{lang}.ts"
+    if not path.exists():
+        return {}
+    pairs = {}
+    for m in ET.parse(path).iter("message"):
+        t = m.find("translation")
+        if t is not None and t.text and t.get("type") != "unfinished" and t.text != m.findtext("source"):
+            pairs[m.findtext("source")] = t.text
+    return pairs
+
+
+def untranslated(window, lang):
+    """[(object name or class, text)] of visible labels and buttons showing an English text while the translation
+    file holds a finished, different one for it: a string set around translate() (ARC-18)."""
+    from PySide6.QtWidgets import QAbstractButton, QLabel
+
+    pairs = _translations(lang)
+    shown = window.findChildren(QLabel) + window.findChildren(QAbstractButton)
+    return [(w.objectName() or type(w).__name__, w.text()) for w in shown if w.isVisible() and w.text() in pairs]
+
+
+def contact_sheet(shots, path):
+    """One JPEG of the screenshots (QImage) side by side, each at half size: the dark and the light window of one
+    area and language."""
+    from PySide6.QtCore import Qt
+    from PySide6.QtGui import QImage, QPainter
+
+    half = [i.scaledToWidth(i.width() // 2, Qt.SmoothTransformation) for i in shots]
+    sheet = QImage(sum(i.width() for i in half), max(i.height() for i in half), QImage.Format_RGB32)
+    sheet.fill(0)
+    painter, x = QPainter(sheet), 0
+    for i in half:
+        painter.drawImage(x, 0, i)
+        x += i.width()
+    painter.end()
+    sheet.save(str(path), "JPG", 80)
+
+
 def pseudo_translator():
     """A translator that lengthens every text by 40 % and accents its letters (ARC-18 item 3): the cuts a German or
     Spanish translation would cause show before any translator works. Placeholders and markup stay as they are."""
@@ -167,7 +243,7 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
     from astrowb.ui.main_window import MainWindow
 
     app = QApplication.instance() or QApplication([])
-    found = {}
+    found, shots = {}, {}
     for lang in langs:
         if lang == "pseudo":
             translators = [pseudo_translator()]
@@ -192,10 +268,15 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
                             + small_targets(win)
                             + unreachable(win)
                             + out_of_order(win)
+                            + overlapping(win)
+                            + (small_main_view(win) if hasattr(win, "stage_panels") else [])  # stages: UI-16
+                            + untranslated(win, lang)
                         )
                         if out:
                             Path(out).mkdir(parents=True, exist_ok=True)
-                            win.grab().save(str(Path(out) / f"{key}-{lang}-{name}.png"))
+                            shot = win.grab().toImage()
+                            shot.save(str(Path(out) / f"{key}-{lang}-{name}.png"))
+                            shots.setdefault(f"{key}-{lang}", []).append(shot)
                         win.close()
                 finally:
                     main.engine.shutdown()
@@ -203,6 +284,8 @@ def run(langs=("en",), themes=("dark",), out=None, settings_dir=None):
         finally:
             for t in translators:
                 app.removeTranslator(t)
+    for stem, images in shots.items():
+        contact_sheet(images, Path(out) / f"{stem}.jpg")
     if out:
         (Path(out) / "measurements.json").write_text(json.dumps(found, indent=1, ensure_ascii=False), "utf-8")
     return found
