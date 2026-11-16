@@ -1877,6 +1877,11 @@ class PhotometryPage(Undoable, QWidget):
         self._radii_set = True
         self._advance(3)
         self.plot.set_figure(photometry_figures.aperture_figure(a))
+        if not hasattr(self, "_aperture_lines"):
+            from .aperture_lines import ApertureLines
+
+            self._aperture_lines = ApertureLines(self.plot, (self.r_ap, self.r_in, self.r_out))
+        self._aperture_lines.show(a)
         self.result.setText(
             self.tr(
                 "FWHM {f:.2f} px. Aperture {a:.2f} px ({af:.1f} FWHM; best S/N at {b:.2f} px; holds {ee:.1f} % of the "
