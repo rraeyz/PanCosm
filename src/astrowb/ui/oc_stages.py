@@ -36,7 +36,8 @@ def oc_stages(win, page):
         for k in ("minima", "parameters"):
             win.set_result_stale(k, stale)
 
-    for signal in (page.text.textChanged, page.t0.textChanged, page.period.textChanged, page.use_mcmc.toggled,
+    for signal in (page.text.textChanged, page.minima_input.itemChanged, page.t0.textChanged,
+                   page.period.textChanged, page.use_mcmc.toggled,
                    *(b.toggled for b in (page.linear, page.quadratic, page.ltte, page.apsidal))):  # fmt: skip
         signal.connect(lambda *_: mark(page.fit_result is not None))
     show = page.show_fit

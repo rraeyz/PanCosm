@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
 from .kit import tokens
 from .kit.widgets import StepGuide, _title
 from .oc_minima import add_result_buttons
+from .oc_minima_table import add_minima_table, as_text, minima_for_fit
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 
@@ -99,6 +100,7 @@ class OCPage(QWidget):
         self.text.setPlaceholderText("2455867.40274 0.00005 I  literature\n2458107.71232 0.0033 I  this work")
         lay.addWidget(self.text, 1)
         row = QHBoxLayout()
+        row.addWidget(add_minima_table(self, lay))
         load = self.load_button = QPushButton(self.tr("Load file…"), self)
         load.clicked.connect(self._load)
         row.addWidget(load)
@@ -316,7 +318,7 @@ class OCPage(QWidget):
         return rows, caption
 
     def run_fit(self):
-        from ..timeseries.ephemeris import fit, parse_minima
+        from ..timeseries.ephemeris import fit
         from ..timeseries.oc_models import fit_apsidal, fit_ltte
         from .messages import translate
 
@@ -326,7 +328,7 @@ class OCPage(QWidget):
             self.result.setText(self.tr("Give the period in days, or the star's name and Look up."))
             return None
         try:
-            minima = parse_minima(self.text.toPlainText())
+            minima = minima_for_fit(self)
             try:
                 t0 = float(self.t0.text())
             except ValueError:  # empty: the first primary minimum, as the tooltip says
@@ -335,7 +337,7 @@ class OCPage(QWidget):
             model = "ltte" if self.ltte.isChecked() else "apsidal" if self.apsidal.isChecked() else None
             if steps and self.background:  # the chain runs as a task: the page stays usable, Tasks can cancel it
                 self.result.setText(self.tr("Fitting, then the MCMC ({s} steps) runs as a task…").format(s=steps))
-                self.background(model, self.text.toPlainText(), t0, period, steps, minima)
+                self.background(model, as_text(minima), t0, period, steps, minima)
                 return None
             if model == "ltte":
                 f = fit_ltte(minima, t0, period, mcmc_steps=steps)
