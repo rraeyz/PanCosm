@@ -1071,27 +1071,27 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
         <source>Solve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
         <source>Measure</source>
         <translation>Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="271"/>
+        <location filename="../../ui/stage_boxes.py" line="270"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2188,7 +2188,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CalibrationWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="187"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Frames</source>
         <translation>Bilder</translation>
     </message>
@@ -2231,7 +2231,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/calibration_checks.py" line="89"/>
         <location filename="../../ui/calibration_checks.py" line="306"/>
-        <location filename="../../ui/stage_boxes.py" line="187"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Check</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2362,32 +2362,32 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="188"/>
+        <location filename="../../ui/stage_boxes.py" line="179"/>
         <source>Masters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="189"/>
+        <location filename="../../ui/stage_boxes.py" line="180"/>
         <source>Calibrate</source>
         <translation>Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="190"/>
+        <location filename="../../ui/stage_boxes.py" line="181"/>
         <source>Review</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="191"/>
+        <location filename="../../ui/stage_boxes.py" line="182"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="197"/>
+        <location filename="../../ui/stage_boxes.py" line="188"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="196"/>
+        <location filename="../../ui/stage_boxes.py" line="187"/>
         <source>Problems</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3696,37 +3696,37 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>ExoplanetsWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="92"/>
+        <location filename="../../ui/stage_boxes.py" line="83"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="92"/>
+        <location filename="../../ui/stage_boxes.py" line="83"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="93"/>
+        <location filename="../../ui/stage_boxes.py" line="84"/>
         <source>Planets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="93"/>
+        <location filename="../../ui/stage_boxes.py" line="84"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="94"/>
+        <location filename="../../ui/stage_boxes.py" line="85"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="95"/>
+        <location filename="../../ui/stage_boxes.py" line="86"/>
         <source>Uncertainty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="96"/>
+        <location filename="../../ui/stage_boxes.py" line="87"/>
         <source>Results</source>
         <translation>Ergebnisse</translation>
     </message>
@@ -5713,6 +5713,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/area_menus.py" line="258"/>
         <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
+        <location filename="../../ui/stage_boxes.py" line="236"/>
         <source>Export</source>
         <translation>Exportieren</translation>
     </message>
@@ -10549,7 +10550,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="127"/>
-        <location filename="../../ui/stage_boxes.py" line="258"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -10670,7 +10671,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="200"/>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Sequence</source>
         <translation>Sequenz</translation>
     </message>
@@ -11177,17 +11178,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Folge laden</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="258"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="260"/>
+        <location filename="../../ui/stage_boxes.py" line="259"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11195,57 +11196,57 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>OcMinima</name>
     <message>
-        <location filename="../../ui/oc_minima.py" line="23"/>
+        <location filename="../../ui/oc_minima.py" line="29"/>
         <source>Times of minimum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Error (d)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Kind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="27"/>
+        <location filename="../../ui/oc_minima.py" line="24"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="30"/>
+        <location filename="../../ui/oc_minima.py" line="33"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="39"/>
+        <location filename="../../ui/oc_minima.py" line="42"/>
         <source>Minima table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="41"/>
+        <location filename="../../ui/oc_minima.py" line="44"/>
         <source>Every minimum of the last fit with its epoch, O−C and residual</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11253,23 +11254,54 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="80"/>
+        <location filename="../../ui/oc_stages.py" line="16"/>
+        <location filename="../../ui/oc_stages.py" line="32"/>
         <source>Minima</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="80"/>
+        <location filename="../../ui/oc_stages.py" line="16"/>
         <source>Ephemeris</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="81"/>
+        <location filename="../../ui/oc_stages.py" line="17"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="81"/>
+        <location filename="../../ui/oc_stages.py" line="17"/>
+        <source>Uncertainty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="18"/>
         <source>Fit and report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="33"/>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="48"/>
+        <source>Parameter</source>
+        <translation type="unfinished">Parameter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="48"/>
+        <source>Value</source>
+        <translation type="unfinished">Wert</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="49"/>
+        <source>Error</source>
+        <translation type="unfinished">Fehler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="49"/>
+        <source>Unit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -11921,17 +11953,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="219"/>
+        <location filename="../../ui/stage_boxes.py" line="210"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="219"/>
+        <location filename="../../ui/stage_boxes.py" line="210"/>
         <source>Clean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="220"/>
+        <location filename="../../ui/stage_boxes.py" line="211"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
@@ -16689,24 +16721,100 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="238"/>
+        <location filename="../../ui/stage_boxes.py" line="232"/>
         <source>Scene</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="239"/>
+        <location filename="../../ui/stage_boxes.py" line="233"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="240"/>
+        <location filename="../../ui/stage_boxes.py" line="234"/>
         <source>Indices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="241"/>
+        <location filename="../../ui/stage_boxes.py" line="235"/>
         <source>Classes</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="14"/>
+        <location filename="../../ui/rs_views.py" line="30"/>
+        <source>Pixels</source>
+        <translation type="unfinished">Pixel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="15"/>
+        <source>Minimum</source>
+        <translation type="unfinished">Minimum</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="16"/>
+        <source>Median</source>
+        <translation type="unfinished">Median</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="17"/>
+        <source>Maximum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="18"/>
+        <source>Mean</source>
+        <translation type="unfinished">Mittelwert</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="19"/>
+        <source>Standard deviation</source>
+        <translation type="unfinished">Standardabweichung</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="48"/>
+        <source>Products written (GeoTIFF, next to the image)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="50"/>
+        <source>Every result is saved as a georeferenced GeoTIFF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="52"/>
+        <source>Save the map as a picture…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="53"/>
+        <source>The map as it is on screen, as a PNG file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="62"/>
+        <source>Cannot write {path}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="73"/>
+        <source>Histogram</source>
+        <translation type="unfinished">Histogramm</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="74"/>
+        <source>Statistics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="86"/>
+        <source>Statistic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="86"/>
+        <source>Value</source>
+        <translation type="unfinished">Wert</translation>
     </message>
 </context>
 <context>

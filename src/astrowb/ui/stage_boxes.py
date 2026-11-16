@@ -76,15 +76,6 @@ def plan_stages(win, page):
     stages_from_boxes(win, page, titles, anchors, {0: "site", 1: "targets", 2: "night", 4: "schedule"})
 
 
-def oc_stages(win, page):
-    titles = {"minima": translate("OcWindow", "Minima"), "ephemeris": translate("OcWindow", "Ephemeris"),
-              "model": translate("OcWindow", "Model"), "report": translate("OcWindow", "Fit and report")}  # fmt: skip
-    anchors = {"minima": "lightcurves-o-c-diagram-o", "ephemeris": "methods-ephemeris-o-c",
-               "model": "lightcurves-third-body-apsidal-motion",
-               "report": "lightcurves-reading-o-c-diagram"}  # fmt: skip
-    stages_from_boxes(win, page, titles, anchors, {0: "minima", 1: "ephemeris", 3: "model", 4: "report"})
-
-
 def exoplanets_stages(win, page):
     """The Exoplanets window (UI-16.7): Data, Star, Planets, Model, Fit, Uncertainty, Results beside the transit."""
     from .exoplanets_page import STAGES
@@ -235,17 +226,25 @@ def rs_stages(win, page):
     page.open_button = lay.itemAt(_index(lay, page.guide) + 1).widget()  # Open image…, the column's first control
     starts = [("scene", page.open_button), ("display", page.show_combo), ("indices", page.index), ("classes", page.k)]
     page.stage_boxes = boxes_from_column(lay, starts, end=page.readout)
+    from .rs_views import export_stage
+
+    page.stage_boxes["export"] = export_stage(page)
     titles = {"scene": translate("RemoteSensingWindow", "Scene"),
               "display": translate("RemoteSensingWindow", "Display"),
               "indices": translate("RemoteSensingWindow", "Indices"),
-              "classes": translate("RemoteSensingWindow", "Classes")}  # fmt: skip
+              "classes": translate("RemoteSensingWindow", "Classes"),
+              "export": translate("MainWindow", "Export")}  # fmt: skip
     anchors = {
         "scene": "remote-sensing-opening-image",
         "display": "remote-sensing-band-roles-indices",
         "indices": "remote-sensing-band-math",
         "classes": "remote-sensing-classification-principal-components",
+        "export": "remote-sensing-opening-image",
     }
     stages_from_boxes(win, page, titles, anchors, {0: "scene", 1: "display", 2: "indices", 3: "classes"}, True)
+    from .rs_views import add_views
+
+    add_views(win, page)
 
 
 def observing_stages(win, page):
