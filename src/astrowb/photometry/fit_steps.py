@@ -38,6 +38,11 @@ def _series(lc, name):
           help=QT_TRANSLATE_NOOP("Steps", "Quadratic law; fixed unless chosen to fit")),
         P("u2", "float", 0.2, label=QT_TRANSLATE_NOOP("Steps", "Limb darkening u2"),
           help=QT_TRANSLATE_NOOP("Steps", "Quadratic law; fixed unless chosen to fit")),
+        P("eclipse", "bool", False, label=QT_TRANSLATE_NOOP("Steps", "Fit the eclipse"),
+          help=QT_TRANSLATE_NOOP("Steps", "The secondary eclipse (circular orbit, half a period after the transit) "
+                                 "instead of the transit; the shape stays as given")),
+        P("occ", "float", 0.001, min=0.0, max=5.0, label=QT_TRANSLATE_NOOP("Steps", "Eclipse depth (start)"),
+          help=QT_TRANSLATE_NOOP("Steps", "The companion's light as a fraction of the star's")),
         P("detrend", "text", "airmass", label=QT_TRANSLATE_NOOP("Steps", "Detrend against"),
           help=QT_TRANSLATE_NOOP("Steps", "Comma-separated: airmass, fwhm, sky, x, y (empty: none)")),
         P("fit_ld", "bool", False, label=QT_TRANSLATE_NOOP("Steps", "Fit the limb darkening"),
@@ -64,8 +69,10 @@ def transit_fit_step(inputs, params, ctx):
     detrend = {n: s for n in names if (s := _series(lc, n)) is not None}
     tc = params["tc"] or float(np.median(t))
     start = {"tc": tc, "k": params["k"], "a_rs": params["a_rs"], "b": params["b"], "u1": params["u1"],
-             "u2": params["u2"]}  # fmt: skip
+             "u2": params["u2"], "occ": params["occ"]}  # fmt: skip
     free = ("tc", "k", "a_rs", "b", "baseline") + (("u1", "u2") if params["fit_ld"] else ())
+    if params["eclipse"]:
+        free = ("tc", "occ", "baseline")
     out = fit(
         t,
         f,
@@ -77,6 +84,7 @@ def transit_fit_step(inputs, params, ctx):
         mcmc_steps=params.get("mcmc_steps", 0),
         ctx=ctx,
         red_noise=params.get("red_noise", False),
+        eclipse=params["eclipse"],
     )
     out["model"], out["residuals"], out["trend"] = (out[k].tolist() for k in ("model", "residuals", "trend"))
     return {"transit": out}

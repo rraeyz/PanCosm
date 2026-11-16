@@ -13,7 +13,7 @@ from ..exoplanets.derived import density_from_a, t14, t23
 from ..exoplanets.noise import beta_factor
 from ..occult.model import transit
 
-NAMES = ("tc", "k", "a_rs", "b", "u1", "u2", "baseline")
+NAMES = ("tc", "k", "a_rs", "b", "u1", "u2", "baseline", "occ")
 R_JUP, R_EARTH = 7.1492e7, 6.3781e6
 R_SUN = 6.957e8
 
@@ -23,31 +23,35 @@ def _inc(a_rs, b):
 
 
 def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), priors=None, detrend=None,
-        exposure=None, mcmc_steps=0, ctx=None, red_noise=False):  # fmt: skip
+        exposure=None, mcmc_steps=0, ctx=None, red_noise=False, eclipse=False):  # fmt: skip
     """start: {"tc", "k", "a_rs", "b", "u1", "u2", "baseline"} (tc absolute); priors: {name: (centre, width)};
     detrend: {name: series}. Returns values, errors, derived quantities and fit statistics; with mcmc_steps, "mcmc":
     {name: (median, minus, plus)} of the posterior around the least-squares answer (core.inference, flat priors in
     the bounds, the Gaussian priors kept; the errors as given — scale them first when they are too small).
-    red_noise: the errors multiplied by β (time-averaging, Winn et al. 2008), "red_noise_scale" says by how much."""
+    red_noise: the errors multiplied by β (time-averaging, Winn et al. 2008), "red_noise_scale" says by how much.
+    eclipse: fit the secondary eclipse (the companion's light, "occ" as a fraction of the star's, behind the star at
+    tc + P/2, circular orbit) instead of the transit: "tc" is then the eclipse's mid-time, put "occ" in free."""
     t, f, e = (np.asarray(v, float) for v in (t, flux, err))
     t0 = float(t[0])
     x = t - t0
     vals = {k: float(v) for k, v in start.items()} | {"baseline": float(start.get("baseline", np.median(f)))}
     vals.setdefault("u1", 0.4)
     vals.setdefault("u2", 0.2)
+    vals.setdefault("occ", 0.0)
     vals["tc"] -= t0
     names = [n for n in NAMES if n in free]
     z = {k: (np.asarray(v, float) - np.mean(v)) / (np.std(v) or 1.0) for k, v in (detrend or {}).items()}
     z_names = list(z)
     priors = priors or {}
-    lo = {"tc": x.min() - 1, "k": 1e-3, "a_rs": 1.01, "b": 0.0, "u1": -1.0, "u2": -1.0, "baseline": -np.inf}
-    hi = {"tc": x.max() + 1, "k": 0.5, "a_rs": 200.0, "b": 1.5, "u1": 2.0, "u2": 2.0, "baseline": np.inf}
+    lo = {"tc": x.min() - 1, "k": 1e-3, "a_rs": 1.01, "b": 0.0, "u1": -1.0, "u2": -1.0, "baseline": -np.inf, "occ": 0.0}
+    hi = {"tc": x.max() + 1, "k": 0.5, "a_rs": 200.0, "b": 1.5, "u1": 2.0, "u2": 2.0, "baseline": np.inf, "occ": 5.0}
 
     def model(p):
         v = vals | dict(zip(names, p[: len(names)], strict=True))
         trend = np.exp(sum(c * z[k] for c, k in zip(p[len(names) :], z_names, strict=True))) if z_names else 1.0
-        shape = transit(x, period, v["tc"], v["k"], v["a_rs"], _inc(v["a_rs"], v["b"]), "quadratic",
-                        (v["u1"], v["u2"]), exposure=exposure)  # fmt: skip
+        shape = transit(x, period, v["tc"] - (period / 2 if eclipse else 0.0), v["k"], v["a_rs"],
+                        _inc(v["a_rs"], v["b"]), "quadratic", (v["u1"], v["u2"]), exposure=exposure,
+                        occultation=v["occ"])  # fmt: skip
         return v["baseline"] * shape * trend, v
 
     def resid(p):
@@ -72,7 +76,7 @@ def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), 
                                                                       strict=True)), "errors": errs,
            "chi2": chi2, "chi2r": chi2r, "bic": chi2 + k * np.log(n), "dof": n - k,
            "rms_ppt": float(np.std(resid_rel) * 1000), "beta": beta_factor(resid_rel, [5, 10, 20]),
-           "model": m, "residuals": f - m}  # fmt: skip
+           "model": m, "residuals": f - m, "eclipse": bool(eclipse)}  # fmt: skip
     p_t = sol.x[len(names) :]
     out["trend"] = v["baseline"] * (np.exp(sum(c * z[k2] for c, k2 in zip(p_t, z_names, strict=True))) if z_names
                                     else np.ones(n))  # fmt: skip
@@ -80,6 +84,9 @@ def fit(t, flux, err, period, start, free=("tc", "k", "a_rs", "b", "baseline"), 
                       inc, v["k"]) * 24), "t23_h": float(t23(period, v["a_rs"], inc, v["k"]) * 24),
                       "rho_star": float(density_from_a(v["a_rs"], period))}  # fmt: skip
     out["derived"]["depth_mmag"] = float(-2.5 * np.log10(1 - v["k"] ** 2) * 1000)
+    if eclipse:  # the dip is the companion's light: occ / (1 + occ) of the total when it is fully hidden
+        out["derived"]["depth_ppt"] = float(v["occ"] / (1 + v["occ"]) * 1000)
+        out["derived"]["depth_mmag"] = float(2.5 * np.log10(1 + v["occ"]) * 1000)
     if red_noise and out["beta"] > 1:  # correlated residuals: every point counts for less than its error says
         out["errors"] = {k2: float(v2 * out["beta"]) for k2, v2 in errs.items()}
         out["red_noise_scale"] = out["beta"]

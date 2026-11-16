@@ -27,6 +27,14 @@ def result_text(out):
     v, e, d = out["values"], out["errors"], out["derived"]
     from ..timeseries.oc_report import paren
 
+    if out.get("eclipse"):
+        return translate(
+            "PhotometryTransit",
+            "Mid-eclipse {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); companion light {occ}. "
+            "Reduced χ² {chi2r:.2f}, RMS {rms:.2f} ppt, β {beta:.2f}.",
+        ).format(tc=paren(v["tc"], e.get("tc", 0)), depth=d["depth_ppt"], mmag=d["depth_mmag"],
+                 occ=paren(v["occ"], e.get("occ", 0)), chi2r=out["chi2r"], rms=out["rms_ppt"],
+                 beta=out["beta"]) + _red_text(out)  # fmt: skip
     return translate(
         "PhotometryTransit",
         "Mid-transit {tc} BJD; depth {depth:.2f} ppt ({mmag:.1f} mmag); T14 {t14:.2f} h, T23 {t23:.2f} h; "
@@ -111,7 +119,15 @@ def add_oc_button(main, page, box, lay):
         rows = [(x["time"], x["error"], "this work", x.get("kind", "I")) for x in getattr(page, "last_minima", [])]
         if getattr(page, "transit_fit", None):
             fit = page.transit_fit[1]
-            rows.append((fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I"))
+            ecl = fit.get("eclipse")
+            rows.append(
+                (
+                    fit["values"]["tc"],
+                    fit["errors"].get("tc", 0.0),
+                    "this work (eclipse fit)" if ecl else "this work (transit fit)",
+                    "II" if ecl else "I",
+                )
+            )
         for row in rows if oc is not None else ():
             oc.add_minimum(*row)
         page.transit_result.setText(
@@ -137,6 +153,12 @@ def add_mcmc_box(page, layout):
                   "information than their errors say: the parameter errors are multiplied by β")
     )  # fmt: skip
     layout.addWidget(page.transit_red)
+    page.transit_eclipse = QCheckBox(translate("PhotometryTransit", "Secondary eclipse"), page)
+    page.transit_eclipse.setToolTip(
+        translate("PhotometryTransit", "Fit the companion's eclipse behind the star (circular orbit, half a period "
+                  "after the transit) instead of the transit; the shape is the archive's, when filled")
+    )  # fmt: skip
+    layout.addWidget(page.transit_eclipse)
 
 
 def transit_figure(lc, out):
@@ -224,7 +246,8 @@ def attach(main, page):
         oc = getattr(main, "oc_page", None)
         if oc is not None and automatic.on("oc.take_minima"):  # ready for the O−C diagram, as the times of minimum
             fit = out["transit"]
-            oc.add_minimum(fit["values"]["tc"], fit["errors"].get("tc", 0.0), "this work (transit fit)", "I")
+            what = "this work (eclipse fit)" if fit.get("eclipse") else "this work (transit fit)"
+            oc.add_minimum(fit["values"]["tc"], fit["errors"].get("tc", 0.0), what, "II" if fit.get("eclipse") else "I")
 
     def run():
         lc = page.light_curve
@@ -240,7 +263,8 @@ def attach(main, page):
         known = getattr(page, "archive", None) or {}
         params = {"period": period, "tc": tc, "k": known.get("k", k), "detrend": "airmass" if lc.get("airmass") else "",
                   "mcmc_steps": 5000 if page.transit_mcmc.isChecked() else 0,
-                  "red_noise": page.transit_red.isChecked()}  # fmt: skip
+                  "red_noise": page.transit_red.isChecked(),
+                  "eclipse": page.transit_eclipse.isChecked(), "occ": k**2}  # fmt: skip
         params |= {n: known[n] for n in ("a_rs", "b") if n in known}  # the archive's values as the start
         page.transit_result.setText(translate("PhotometryTransit", "Fitting the transit…"))
         main.run_step_for("photometry", "photometry.transit_fit", {"light_curve": lc}, params,

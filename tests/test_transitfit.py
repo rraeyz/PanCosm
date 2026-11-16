@@ -113,3 +113,20 @@ def test_mcmc_posterior_brackets_the_least_squares_answer():
     assert abs(post["tc"][0] - v["tc"]) < 0.5 * s["tc"] and 0.6 < (post["tc"][1] + post["tc"][2]) / (2 * s["tc"]) < 1.6
     assert abs(post["k"][0] - K) < 3 * max(post["k"][1:]) and set(post) >= {"tc", "k", "a_rs", "b", "airmass"}
     assert 0.1 < got["mcmc"]["acceptance"] < 0.8 and took < 60
+
+
+def test_the_secondary_eclipse_is_fitted_for_its_mid_time_and_depth():
+    occ, tecl = 0.004, TC + P / 2
+    inc = np.degrees(np.arccos(B / A))
+    hits = 0
+    for seed in range(20):
+        rng = np.random.default_rng(seed)
+        t = np.linspace(tecl - 0.12, tecl + 0.12, 265)
+        f = 1.002 * transit(t - TC, P, 0.0, K, A, inc, "quadratic", (0.45, 0.2), occultation=occ)
+        f = f + rng.normal(0, 0.0004, t.size)
+        start = {"tc": tecl + 0.004, "k": K, "a_rs": A, "b": B, "u1": 0.45, "u2": 0.2, "occ": 0.002}
+        got = tf.fit(t, f, np.full(t.size, 0.0004), P, start, ("tc", "occ", "baseline"), eclipse=True)
+        z = abs(got["values"]["tc"] - tecl) / got["errors"]["tc"]
+        hits += z < 2.5 and abs(got["values"]["occ"] - occ) < 2.5 * got["errors"]["occ"]
+        assert got["derived"]["depth_ppt"] == pytest.approx(got["values"]["occ"] / (1 + got["values"]["occ"]) * 1000)
+    assert hits >= 18
