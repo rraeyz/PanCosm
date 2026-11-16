@@ -116,7 +116,11 @@ def test_mcmc_runs_as_a_task_and_reports_progress(qtbot):
     page.apsidal.setChecked(True)
     page.use_mcmc.setChecked(True)
     page.mcmc_steps.setValue(200)
-    assert page.run_fit() is None and calls[0][:2] == ("apsidal", text) and calls[0][4] == 200
+    assert page.run_fit() is None and calls[0][0] == "apsidal" and calls[0][4] == 200
+    from astrowb.timeseries.ephemeris import parse_minima
+
+    sent = parse_minima(calls[0][1])  # the table is the source now (UI-16.5): the same minima, written again
+    assert [(m.time, m.error, m.kind) for m in sent] == [(m.time, m.error, m.kind) for m in parse_minima(text)]
 
     class Ctx:
         seen = []

@@ -171,6 +171,7 @@ class TableView(QWidget):
         lay.setContentsMargins(0, 0, 0, 0)
         self.filter = QLineEdit(self)
         self.filter.setPlaceholderText(self.tr("Filter, e.g. flux_err < 0.01 and not isnan(airmass)"))
+        self.filter.setToolTip(self.filter.placeholderText())  # until a filter is applied and counts its rows
         self.filter.setClearButtonEnabled(True)
         self.filter.returnPressed.connect(self._apply)
         self.filter.textChanged.connect(lambda text: None if text else self._apply())

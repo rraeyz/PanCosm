@@ -85,4 +85,6 @@ def minima_for_fit(page):
 
 def as_text(minima):
     """The minima as the text the oc_fit step parses (the background fit takes text)."""
-    return "\n".join(f"{m.time!r} {'' if m.error is None else repr(m.error)} {m.kind} {m.source}" for m in minima)
+    return "\n".join(
+        f"{m.time!r} {'' if m.error is None else repr(m.error)} {m.kind} {m.source}".strip() for m in minima
+    )
