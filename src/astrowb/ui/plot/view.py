@@ -235,8 +235,13 @@ class PlotView(QWidget):
         if not keep:
             self.original = figure
         for old_plot in self.plots:  # pyqtgraph: clear() alone leaves widgets PySide may free twice
-            old_plot.vb.sigStateChanged.disconnect(old_plot.viewStateChanged)  # close() drops its buttons
+            vb = old_plot.vb
+            vb.sigStateChanged.disconnect(old_plot.viewStateChanged)  # close() drops its buttons
             old_plot.close()
+            # freed here, in the window's thread: left to the garbage collector they could go in a worker thread
+            for obj in (vb.menu, vb, old_plot):
+                obj.deleteLater()
+            vb.menu = None
         self.graphics.clear()
         self.figure, self.plots, self.items, self.offsets = figure, [], [], {}
         self.colourbars = []
