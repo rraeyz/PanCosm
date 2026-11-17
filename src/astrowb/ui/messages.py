@@ -94,6 +94,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "no square-well fit found in this light curve"),
     QT_TRANSLATE_NOOP("Messages", "the solar flux, the distances and the aperture radius must be positive"),
     QT_TRANSLATE_NOOP("Messages", "the sky annulus must lie outside the aperture"),
+    QT_TRANSLATE_NOOP("Messages", "the Afrho step needs {missing}"),
+    QT_TRANSLATE_NOOP("Messages", "no comet flux above the sky in the aperture"),
     QT_TRANSLATE_NOOP("Messages", "unknown rejection {method}"),
     QT_TRANSLATE_NOOP("Messages", "too few matched stars for the transform"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting {by}"),

@@ -2,6 +2,30 @@
 
 Python: `from astrowb import api; api.photometry.<step>(…)`; command line: `astrowb-cli run photometry.<step> key=value …`.
 
+## photometry.afrho
+
+```text
+photometry.afrho  (Comet Afρ)
+
+Afρ (A'Hearn et al. 1984) in cm from the comet's flux in a circle of physical radius ρ, the sky from a far
+ring; the band's solar magnitude and the image's zero point come from the user (none is bundled).
+
+inputs:      image, target_xy
+outputs:     afrho
+  image  (file)  Image
+  target_xy  (xy)  Target position in the first frame (x y)
+  afrho  (object)  Afρ of the comet
+parameters (default):
+  rho_km = 10000.0  (float, km, >= 1.0)  Aperture radius at the comet: Physical radius ρ of the measuring circle
+  sky_in_km = 50000.0  (float, km, >= 1.0)  Sky ring inner radius: At the comet; far enough to hold no coma
+  sky_out_km = 70000.0  (float, km, >= 1.0)  Sky ring outer radius: At the comet
+  delta_au = null  (float, au, >= 0.0)  Distance from the Earth (Δ): Geocentric distance of the comet at the time of the image
+  r_h_au = null  (float, au, >= 0.0)  Distance from the Sun (r): Heliocentric distance of the comet at the time of the image
+  pixel_scale = null  (float, ″/px, >= 0.0)  Pixel scale: Arcseconds per pixel of the image
+  zero_point = null  (float, mag)  Zero point: Magnitude of 1 ADU in this image and band
+  m_sun = null  (float, mag)  The Sun's magnitude at 1 au: Apparent magnitude of the Sun in the same band, from a published table
+```
+
 ## photometry.apertures
 
 ```text

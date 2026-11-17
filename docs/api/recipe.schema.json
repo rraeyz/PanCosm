@@ -601,6 +601,87 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.afrho"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "rho_km": {
+           "description": "Aperture radius at the comet (km): Physical radius ρ of the measuring circle",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "sky_in_km": {
+           "description": "Sky ring inner radius (km): At the comet; far enough to hold no coma",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "sky_out_km": {
+           "description": "Sky ring outer radius (km): At the comet",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "delta_au": {
+           "description": "Distance from the Earth (Δ) (au): Geocentric distance of the comet at the time of the image",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "r_h_au": {
+           "description": "Distance from the Sun (r) (au): Heliocentric distance of the comet at the time of the image",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "pixel_scale": {
+           "description": "Pixel scale (″/px): Arcseconds per pixel of the image",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "zero_point": {
+           "description": "Zero point (mag): Magnitude of 1 ADU in this image and band",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "m_sun": {
+           "description": "The Sun's magnitude at 1 au (mag): Apparent magnitude of the Sun in the same band, from a published table",
+           "type": [
+            "number",
+            "null"
+           ]
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.apertures"
         }
        }
@@ -2723,6 +2804,7 @@
        "image.rgb",
        "models.eb_fit",
        "models.visual_orbit",
+       "photometry.afrho",
        "photometry.apertures",
        "photometry.catalog",
        "photometry.identify_field",

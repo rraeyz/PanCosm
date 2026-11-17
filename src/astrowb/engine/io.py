@@ -112,6 +112,7 @@ OUTPUTS = {
     "fit": IO("object", QT_TRANSLATE_NOOP("Steps", "O−C fit")),
     "frequencies": IO("object", QT_TRANSLATE_NOOP("Steps", "Frequencies")),
     "good": IO("files", QT_TRANSLATE_NOOP("Steps", "Good frames")),
+    "afrho": IO("object", QT_TRANSLATE_NOOP("Steps", "Afρ of the comet")),
     "isophotes": IO("object", QT_TRANSLATE_NOOP("Steps", "Isophote profile")),
     "labelled": IO("object", QT_TRANSLATE_NOOP("Steps", "Labelled objects")),
     "masters": IO("files", QT_TRANSLATE_NOOP("Steps", "Master frames")),

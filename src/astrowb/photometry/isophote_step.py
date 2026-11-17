@@ -62,7 +62,7 @@ def isophotes_step(inputs, params, ctx):
 
     data, _, _ = fitsio.read_image(inputs["image"])
     x0, y0 = inputs["target_xy"]
-    ctx.progress(0.1, "isophotes")
+    ctx.progress(0.1, "fit")
     profile, _, _ = fit_isophotes(data, x0, y0, params["sma0"], params["eps"], params["pa_deg"])
     if params["zero_point"] is not None and params["pixel_scale"]:
         sb = surface_brightness(profile["intensity"], params["zero_point"], params["pixel_scale"])

@@ -784,4 +784,4 @@ describe(
     ),
 )
 
-from . import fit_steps, isophote_step, polarimetry_step  # noqa: E402, F401  (register .transit_fit, .isophotes, .polarimetry)
+from . import comet_step, fit_steps, isophote_step, polarimetry_step  # noqa: E402, F401  (register steps)

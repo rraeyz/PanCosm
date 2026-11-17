@@ -73,3 +73,30 @@ def test_isophotes_step_through_the_engine(tmp_path):
     i, sb = prof["intensity"][5], prof["surface_brightness"][5]
     assert sb == pytest.approx(25.0 - 2.5 * np.log10(i / 0.25))
     json.dumps(out)  # the project log stores step outputs as JSON
+
+
+def test_afrho_step_through_the_engine(tmp_path):
+    import json
+
+    from astropy.io import fits
+
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    n = 401
+    yy, xx = np.mgrid[:n, :n]
+    rho_px = np.hypot(xx - 200, yy - 200)
+    r_coma_px = aperture_px(40000, DELTA, 1.0)  # 1″/px; the coma ends inside the sky ring's inner edge
+    img = np.where(rho_px < r_coma_px, 50.0 / np.maximum(rho_px, 0.5), 0.0) + 10.0
+    path = tmp_path / "comet.fits"
+    fits.writeto(path, img.astype("float32"))
+    p = {"delta_au": DELTA, "r_h_au": RH, "pixel_scale": 1.0, "zero_point": 25.0, "m_sun": -26.74}
+    one = execute("photometry.afrho", {"image": str(path), "target_xy": [200, 200]}, {**p, "rho_km": 10000.0}, Ctx())
+    two = execute("photometry.afrho", {"image": str(path), "target_xy": [200, 200]}, {**p, "rho_km": 20000.0}, Ctx())
+    assert two["afrho"]["afrho_cm"] == pytest.approx(one["afrho"]["afrho_cm"], rel=0.03)  # 1/ρ coma: Afρ flat
+    json.dumps(one)
+    with pytest.raises(ValueError, match="m_sun"):
+        execute("photometry.afrho", {"image": str(path), "target_xy": [200, 200]}, {**p, "m_sun": None}, Ctx())
