@@ -24,7 +24,9 @@ class PluginDialog(QDialog):
         lay = QVBoxLayout(self)
         doc = (step.func.__doc__ or "").strip()
         if doc:
-            lay.addWidget(QLabel(doc, self, wordWrap=True))
+            label = QLabel(doc, self)
+            label.setWordWrap(True)  # setter: a property keyword fails in some PySide builds
+            lay.addWidget(label)
         form = QFormLayout()
         self.fields = {}
         for name in step.inputs + step.optional:
