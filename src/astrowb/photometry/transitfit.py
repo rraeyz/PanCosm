@@ -106,7 +106,9 @@ def _posterior(resid, x0, cov, names, bounds, steps, t0, ctx):
         p16, p50, p84 = np.percentile(post.samples[:, i], [16, 50, 84])
         shift = t0 if name == "tc" else 0.0
         out[name] = (float(p50 + shift), float(p50 - p16), float(p84 - p50))
-    return {"params": out, "acceptance": post.acceptance, "converged": post.converged}
+    from .transit_chains import chain_summary
+
+    return {"params": out, "acceptance": post.acceptance, "converged": post.converged, **chain_summary(post)}
 
 
 def planet_radius(k, r_star_sun):

@@ -88,6 +88,9 @@ def exoplanets_stages(win, page):
     anchors = {key: f"exoplanets-{key}" for key in STAGES}
     stages_from_boxes(win, page, titles, anchors, {}, keep_column=True)
     page.stage_done.connect(lambda key: win.set_stage_state(key, "done"))
+    from .exoplanets_docks import exoplanets_docks
+
+    exoplanets_docks(win, page)
 
 
 def _index(layout, widget):

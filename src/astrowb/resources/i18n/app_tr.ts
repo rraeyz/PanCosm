@@ -1071,27 +1071,27 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="273"/>
+        <location filename="../../ui/stage_boxes.py" line="276"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="273"/>
+        <location filename="../../ui/stage_boxes.py" line="276"/>
         <source>Solve</source>
         <translation>Çöz</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="274"/>
+        <location filename="../../ui/stage_boxes.py" line="277"/>
         <source>Find</source>
         <translation>Bul</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="274"/>
+        <location filename="../../ui/stage_boxes.py" line="277"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="275"/>
+        <location filename="../../ui/stage_boxes.py" line="278"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
@@ -2211,7 +2211,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CalibrationWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="178"/>
+        <location filename="../../ui/stage_boxes.py" line="181"/>
         <source>Frames</source>
         <translation>Kareler</translation>
     </message>
@@ -2254,7 +2254,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/calibration_checks.py" line="89"/>
         <location filename="../../ui/calibration_checks.py" line="311"/>
-        <location filename="../../ui/stage_boxes.py" line="178"/>
+        <location filename="../../ui/stage_boxes.py" line="181"/>
         <source>Check</source>
         <translation>Denetim</translation>
     </message>
@@ -2385,42 +2385,42 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kalite denetimi yapılmadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="179"/>
+        <location filename="../../ui/stage_boxes.py" line="182"/>
         <source>Masters</source>
         <translation>Ana kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="180"/>
+        <location filename="../../ui/stage_boxes.py" line="183"/>
         <source>Calibrate</source>
         <translation>Kalibre et</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="181"/>
+        <location filename="../../ui/stage_boxes.py" line="184"/>
         <source>Review</source>
         <translation>Gözden geçir</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="182"/>
+        <location filename="../../ui/stage_boxes.py" line="185"/>
         <source>Continue</source>
         <translation>Devam</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="188"/>
+        <location filename="../../ui/stage_boxes.py" line="191"/>
         <source>Plan</source>
         <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="189"/>
+        <location filename="../../ui/stage_boxes.py" line="192"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="190"/>
+        <location filename="../../ui/stage_boxes.py" line="193"/>
         <source>Log</source>
         <translation>Günlük</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="187"/>
+        <location filename="../../ui/stage_boxes.py" line="190"/>
         <source>Problems</source>
         <translation>Sorunlar</translation>
     </message>
@@ -3782,6 +3782,41 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/stage_boxes.py" line="87"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="21"/>
+        <source>{name}: R-hat {rhat:.3f}, ESS {ess:.0f}</source>
+        <translation>{name}: R-hat {rhat:.3f}, ESS {ess:.0f}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="25"/>
+        <source>Warning: not converged ({names}); R-hat &gt; 1.01 or ESS &lt; 400: run more MCMC steps.</source>
+        <translation>Uyarı: yakınsamadı ({names}); R-hat &gt; 1.01 veya ESS &lt; 400: daha fazla MCMC adımı çalıştırın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="38"/>
+        <source>Draw</source>
+        <translation>Örnek</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="76"/>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="85"/>
+        <source>Chains</source>
+        <translation>Zincirler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="86"/>
+        <source>Corner</source>
+        <translation>Köşe grafiği</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_docks.py" line="87"/>
+        <source>Report</source>
+        <translation>Rapor</translation>
     </message>
 </context>
 <context>
@@ -5787,7 +5822,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/area_menus.py" line="258"/>
         <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
-        <location filename="../../ui/stage_boxes.py" line="238"/>
+        <location filename="../../ui/stage_boxes.py" line="241"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
     </message>
@@ -10764,7 +10799,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="127"/>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="262"/>
         <source>Connect</source>
         <translation>Bağlan</translation>
     </message>
@@ -10885,7 +10920,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="200"/>
-        <location filename="../../ui/stage_boxes.py" line="260"/>
+        <location filename="../../ui/stage_boxes.py" line="263"/>
         <source>Sequence</source>
         <translation>Çekim sırası</translation>
     </message>
@@ -11392,17 +11427,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>dizi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="262"/>
         <source>Point</source>
         <translation>Yönelt</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="260"/>
+        <location filename="../../ui/stage_boxes.py" line="263"/>
         <source>Focus</source>
         <translation>Odak</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="261"/>
+        <location filename="../../ui/stage_boxes.py" line="264"/>
         <source>Night</source>
         <translation>Gece</translation>
     </message>
@@ -12185,17 +12220,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="212"/>
+        <location filename="../../ui/stage_boxes.py" line="215"/>
         <source>Data</source>
         <translation>Veri</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="212"/>
+        <location filename="../../ui/stage_boxes.py" line="215"/>
         <source>Clean</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="213"/>
+        <location filename="../../ui/stage_boxes.py" line="216"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
@@ -17046,22 +17081,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="234"/>
+        <location filename="../../ui/stage_boxes.py" line="237"/>
         <source>Scene</source>
         <translation>Sahne</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="235"/>
+        <location filename="../../ui/stage_boxes.py" line="238"/>
         <source>Display</source>
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="236"/>
+        <location filename="../../ui/stage_boxes.py" line="239"/>
         <source>Indices</source>
         <translation>İndisler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="237"/>
+        <location filename="../../ui/stage_boxes.py" line="240"/>
         <source>Classes</source>
         <translation>Sınıflar</translation>
     </message>

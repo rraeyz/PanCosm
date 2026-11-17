@@ -113,6 +113,10 @@ def test_mcmc_posterior_brackets_the_least_squares_answer():
     assert abs(post["tc"][0] - v["tc"]) < 0.5 * s["tc"] and 0.6 < (post["tc"][1] + post["tc"][2]) / (2 * s["tc"]) < 1.6
     assert abs(post["k"][0] - K) < 3 * max(post["k"][1:]) and set(post) >= {"tc", "k", "a_rs", "b", "airmass"}
     assert 0.1 < got["mcmc"]["acceptance"] < 0.8
+    m = got["mcmc"]
+    walkers = np.asarray(m["chains"])  # [walker][draw][param], at most 2000 draws kept in all
+    assert walkers.shape[2] == len(m["names"]) and walkers.shape[0] * walkers.shape[1] <= 2000
+    assert set(m["rhat"]) == set(m["ess_bulk"]) == set(m["names"]) and max(m["rhat"].values()) < 1.2
     import sys
 
     if sys.gettrace() is None:  # coverage (the Linux CI job) traces every line and makes this much slower
