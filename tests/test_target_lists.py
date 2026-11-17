@@ -60,3 +60,8 @@ def test_the_planning_window_imports_saves_and_opens_lists(window, tmp_path):
     win = window.area_windows["plan"]
     texts = [a.text() for m in win.menuBar().actions() if m.menu() for a in m.menu().actions()]
     assert "Open a saved list…" in texts and "Import targets from CSV…" in texts
+
+
+def test_from_csv_single_column_is_a_value_error():
+    with pytest.raises(ValueError):
+        tl.from_csv("onlyonecolumn\nM31\nM42\n")

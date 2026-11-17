@@ -75,7 +75,10 @@ def from_csv(text):
     """Targets from a CSV (comma, semicolon or tab), its columns found by their header names; rows without a name
     or position are skipped and returned as such: (targets, skipped row numbers)."""
     sample = text[:2000]
-    dialect = csv.Sniffer().sniff(sample, delimiters=",;\t") if sample.strip() else csv.excel
+    try:
+        dialect = csv.Sniffer().sniff(sample, delimiters=",;\t") if sample.strip() else csv.excel
+    except csv.Error:  # one column, no delimiter: the header check below says what is missing
+        dialect = csv.excel
     rows = list(csv.reader(io.StringIO(text), dialect))
     if not rows:
         return [], []

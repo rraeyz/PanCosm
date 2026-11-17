@@ -274,10 +274,13 @@ class StartPage(QWidget):
         def clock(t):
             return t.to_datetime(UTC).astimezone().strftime("%H:%M") if t is not None else "—"
 
-        tr = QCoreApplication.translate
-        return tr("StartPage", "Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %").format(
-            site=site["name"] or tr("StartPage", "your site"), dusk=clock(night["dusk"]), dawn=clock(night["dawn"]),
-            moon=round(100 * night["moon"]))  # fmt: skip
+        translate = QCoreApplication.translate
+        return translate("StartPage", "Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %").format(
+            site=site["name"] or translate("StartPage", "your site"),
+            dusk=clock(night["dusk"]),
+            dawn=clock(night["dawn"]),
+            moon=round(100 * night["moon"]),
+        )
 
     def set_recent(self, recent):
         """recent: [(kind, path)] — "project" or an area key — newest first; missing files are left out."""

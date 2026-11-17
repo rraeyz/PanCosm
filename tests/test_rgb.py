@@ -57,3 +57,24 @@ def test_colour_image_from_the_image_menu(qtbot, tmp_path):
         assert win.picture_dialog.windowTitle() == "c.png"
     finally:
         win.engine.shutdown()
+
+
+def test_unreadable_frames_only_say_so(qtbot, tmp_path, monkeypatch):
+    from PySide6.QtWidgets import QFileDialog
+
+    from astrowb.settings import Settings
+    from astrowb.ui.main_window import MainWindow
+
+    win = MainWindow(Settings(tmp_path))
+    qtbot.addWidget(win)
+    try:
+        bad = tmp_path / "bad.txt"
+        bad.write_text("not an image")
+        win.colour_dialog([str(bad)] * 3, str(tmp_path / "c.png"))
+        assert "Could not read" in win.statusBar().currentMessage()
+        win.statusBar().clearMessage()
+        monkeypatch.setattr(QFileDialog, "getOpenFileName", staticmethod(lambda *a, **k: (str(bad), "")))
+        win.process_dialog("histogram_match")
+        assert "Could not read" in win.statusBar().currentMessage()
+    finally:
+        win.engine.shutdown()

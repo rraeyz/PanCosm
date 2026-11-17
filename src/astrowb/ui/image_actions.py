@@ -143,7 +143,14 @@ class ImageActions:
             ref, _ = QFileDialog.getOpenFileName(self, translate("MainWindow", "Reference image"), "", images_filter())
             from ..io.bayer import fits_copy
 
-            return self.process_image("histogram_match", {"reference": str(fits_copy(ref))}) if ref else None
+            if not ref:
+                return None
+            try:
+                reference = str(fits_copy(ref))
+            except (OSError, ValueError):
+                self.statusBar().showMessage(translate("MainWindow", "Could not read the reference image."), 8000)
+                return None
+            return self.process_image("histogram_match", {"reference": reference})
         if op in ("kernel", "deconvolve"):
             return self._ask_kernel_or_deconvolve(op)
         prompts = {
@@ -243,7 +250,11 @@ class ImageActions:
                 return None
         from ..io.bayer import fits_paths
 
-        inputs = dict(zip(("red", "green", "blue"), fits_paths(paths), strict=True)) | {"output": output}
+        fits = fits_paths(paths)
+        if len(fits) != 3:  # fits_paths leaves out a file it cannot read
+            self.statusBar().showMessage(translate("MainWindow", "Could not read one of the three frames."), 8000)
+            return None
+        inputs = dict(zip(("red", "green", "blue"), fits, strict=True)) | {"output": output}
         return self.run_step("image.rgb", inputs, {}, on_done=lambda out: self.show_picture(out["rgb"]))
 
     def coefficients_dialog(self):
