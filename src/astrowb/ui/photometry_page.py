@@ -34,7 +34,7 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..settings import Settings
-from . import automatic, comparison_rules, photometry_figures, photometry_standard
+from . import automatic, comparison_rules, photometry_figures, photometry_standard, photometry_systematics
 from .aavso_dialog import AavsoDialog, from_sequence
 from .kit import tokens
 from .kit.help import help_line
@@ -813,6 +813,7 @@ class PhotometryPage(Undoable, QWidget):
         self.outlier_button.clicked.connect(self.leave_out_outliers)
         b_row.addWidget(self.outlier_button)
         pl.addLayout(b_row)
+        photometry_systematics.add_controls(self, pl)
         pl.addStretch(1)
         self.res_tabs.addTab(plot_tab, self.tr("Plot"))
         # minimum
@@ -1200,6 +1201,7 @@ class PhotometryPage(Undoable, QWidget):
             "extras": list(self.extras),
             "excluded": sorted(self.excluded),
             "detrend": self.detrend_cfg,
+            "field": self.field_cfg,
             "comp_off": sorted(self.comp_off),
             "aperture": getattr(self, "_aperture_i", None),
         }
@@ -1209,8 +1211,15 @@ class PhotometryPage(Undoable, QWidget):
         self.ref = st.get("ref")
         self._draw_markers()
         off = set(st.get("comp_off", ()))
-        if (set(st["excluded"]), st["detrend"], off) != (self.excluded, self.detrend_cfg, self.comp_off):
+        field = st.get("field")
+        if (set(st["excluded"]), st["detrend"], off, field) != (
+            self.excluded,
+            self.detrend_cfg,
+            self.comp_off,
+            self.field_cfg,
+        ):
             self.excluded, self.detrend_cfg, self.comp_off = set(st["excluded"]), st["detrend"], off
+            self.field_cfg = field
             self._fill_star_table()
             if self.lc_raw is not None:
                 self._recompute()
@@ -2160,7 +2169,7 @@ class PhotometryPage(Undoable, QWidget):
                 w = d.scatter_weights(raw["comp_flux"])
             rel, err = d.ensemble(raw["target_flux"], raw["target_flux_err"], raw["comp_flux"], raw["comp_flux_err"], w)
             lc |= {"rel_flux": rel.tolist(), "rel_flux_err": err.tolist()}
-        lc["weights"] = None if w is None else w.tolist()
+        lc |= {"weights": None if w is None else w.tolist(), "extra": []}
         self._rel_before_detrend = (lc["rel_flux"], lc.get("rel_flux_err"))
         if self.detrend_cfg:
             names, exclude, *rest = self.detrend_cfg
@@ -2181,7 +2190,7 @@ class PhotometryPage(Undoable, QWidget):
                 }
                 lc |= {"rel_flux": spl["rel_flux"]}
             lc |= {"detrend": out}
-        lc["extra"] = []
+        photometry_systematics.apply(self, lc, raw)
         extras = [n for n in self._star_names() if n[1] != "comparison" and n[0] != "T1"]
         for i, (name, role, _) in enumerate(extras):
             if "extra_flux" not in raw or i >= len(raw["extra_flux"][0]):

@@ -761,7 +761,12 @@ share of an injected dip's depth a blind correction keeps). Tests (tests/test_sy
 constant stars within 10 % of their white noise; with the transit model given the depth is kept within 5 %; a
 blind correction of a dip that overlaps the airmass trend loses ~25 % and `suppression` says exactly how much —
 so the window must pass the fitted model (Timing and fit stage) when there is one, and show the suppression when
-not. Left: the Light curve stage's "Remove trends shared with the field stars" (≥ 30 field stars measured).
+not. (2026-11-21) The Light curve stage: `ui/photometry_systematics.py` (`add_controls`, `apply`, called from
+`PhotometryPage._recompute`): "Remove trends shared with the field stars", enabled with ≥ 30 measured comparison and
+check stars; SysRem (default terms of `sysrem`, the target kept out of the fit of the terms) or PCA with BIC terms;
+undoable (`field` in the undo state), unticking restores the curve; the note shows what an injected 1 % dip would
+become. Test: tests/ui/test_photometry_systematics.py. Left: the TFA method and a given model (`fixed`) from the
+Timing and fit stage.
 - **Reference:** SysRem (Tamuz, Mazeh & Zucker 2005, MNRAS 356, 1466); TFA (Kovács, Bakos & Noyes 2005, MNRAS 356,
   557); cotrending basis vectors of Kepler / TESS (Smith et al. 2012); lightkurve `CBVCorrector`,
   `RegressionCorrector`, `PLDCorrector`.
