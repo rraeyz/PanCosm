@@ -340,6 +340,11 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "star name, observer code and filter are required"),
     # photometry/polarimetry.py
     QT_TRANSLATE_NOOP("Messages", "need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)"),
+    QT_TRANSLATE_NOOP("Messages", "polarisation error must be above zero"),
+    QT_TRANSLATE_NOOP("Messages", "standard-star lists differ in length"),
+    QT_TRANSLATE_NOOP("Messages", "need at least 2 standard stars"),
+    QT_TRANSLATE_NOOP("Messages", "no polarised standard star: the zero angle cannot be fitted"),
+    QT_TRANSLATE_NOOP("Messages", "standard stars do not fix the offset: add stars with different angles"),
     # planning/targets.py
     QT_TRANSLATE_NOOP("Messages", "SIMBAD does not know '{name}'"),
     QT_TRANSLATE_NOOP("Messages", "cannot reach SIMBAD and '{name}' is not in the local cache ({error})"),

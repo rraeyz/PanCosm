@@ -976,7 +976,11 @@ written in the repo), the IOTA report `reports/iota.py` (layout not written in t
 - **Files:** `photometry/comet.py`, `images/isophote.py`, `tests/test_extended.py`
 
 ### PHO-40. Polarimetry completed  (P3)
-**open**
+**partial** (2026-11-21) — engine done in `photometry/polarimetry.py`: `fit_standards` (instrumental q/u, zero angle,
+efficiency from caller-given standards), `correct`, `debias_wk` (Wardle & Kronberg 1974), `debias_mas` (Plaszczynski
+et al. 2014), `time_series`; tests `test_fit_standards_recovers_instrument_within_1_sigma_and_corrects`,
+`test_mas_unbiased_at_p_over_sigma_2_and_error_propagation`, `test_time_series_lists`. Left: the bundled standards
+table `polarimetric_standards.ecsv` (needs a sourced table from the owner), the q–u plot, the step and UI.
 - **Ours now:** `photometry/polarimetry.py` (dual- and single-beam Stokes q, u, P, θ) and a step.
 - **Build:** instrumental polarisation and zero angle from standard stars (polarised and unpolarised lists bundled
   with references); bias correction of P (Wardle & Kronberg 1974; Plaszczynski et al. 2014 MAS estimator); time

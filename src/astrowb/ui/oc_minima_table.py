@@ -2,13 +2,14 @@
 parse_minima into rows (Use, Time, Error, Type, Source, Weight); the fit reads the table, so a row can be left out or
 down-weighted without editing the text. The parser gives no method column, so none is shown."""
 
+import re
 from math import sqrt
 
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtWidgets import QPushButton, QTableWidgetItem
+from PySide6.QtWidgets import QLabel, QPushButton, QTableWidgetItem
 
-from ..timeseries.ephemeris import Minimum, parse_minima
+from ..timeseries.ephemeris import Minimum, hjd_scale_unknown, parse_minima
 from .kit.table_view import DataTable
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("OcMinimaTable", "…") calls
@@ -22,12 +23,53 @@ def add_minima_table(page, layout):
     frame.table.setObjectName("minima_input_table")
     page.minima_input = frame.table
     layout.addWidget(frame, 1)
+    page.minima_count, page.minima_standard = QLabel(page), QLabel(page)
+    page.minima_count.setObjectName("minima_count")
+    page.minima_standard.setObjectName("minima_standard")
+    layout.addWidget(page.minima_count)
+    layout.addWidget(page.minima_standard)
     paste = QPushButton(translate("OcMinimaTable", "Paste"), page)
     paste.setToolTip(translate("OcMinimaTable", "Replace the minima with the clipboard text, in any layout of the box"))
     paste.clicked.connect(lambda: page.text.setPlainText(QGuiApplication.clipboard().text()))
     page.paste_button = paste
     page.text.textChanged.connect(lambda: fill(page))
+    page.text.textChanged.connect(lambda: show_summary(page))
+    show_summary(page)
     return paste
+
+
+def show_summary(page):
+    """The count line and the time-standard line (ARC-15 item 4). A standard the text names is stated; HJD without a
+    scale is taken as UTC (`hjd_scale_unknown`); anything else is not stated. The last two carry the warning mark."""
+    text = page.text.toPlainText()
+    try:
+        minima = parse_minima(text)
+    except ValueError:
+        return
+    n2 = sum(m.kind == "II" for m in minima)
+    page.minima_count.setText(
+        translate("OcMinimaTable", "{n} minima · {a} primary · {b} secondary").format(
+            n=len(minima), a=len(minima) - n2, b=n2
+        )
+    )
+    named = re.search(r"\b(HJD|BJD|JD|MJD)[ _]?(UTC|TT|TDB|TDT|UT)\b|\b(UTC|UT|TT|TDB|TDT)\b", text.upper())
+    if named:
+        line, tip = translate("OcMinimaTable", "time standard: {s}").format(s=named.group(0).replace(" ", "_")), ""
+    elif hjd_scale_unknown(text, [m.time for m in minima]):
+        line = translate("OcMinimaTable", "time standard: HJD (UTC assumed) ⚠")
+        tip = translate(
+            "OcMinimaTable",
+            "The file says HJD without a time scale: taken as UTC. If the times are TT every O−C is later by "
+            "TT − UTC; write UTC or TT in the text to state it.",
+        )
+    else:
+        line = translate("OcMinimaTable", "time standard: not stated ⚠") if minima else ""
+        tip = translate(
+            "OcMinimaTable",
+            "The text names no time standard. Write it in the text (for example HJD_UTC, BJD_TDB) to state it.",
+        )
+    page.minima_standard.setText(line)
+    page.minima_standard.setToolTip(tip)
 
 
 def _cell(text, flags=None):

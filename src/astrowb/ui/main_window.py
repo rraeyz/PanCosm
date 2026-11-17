@@ -110,6 +110,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         self.statusBar().addWidget(self.pixel_label, 1)
         self.statusBar().addPermanentWidget(self.progress)
 
+        self.project_page.methods_open.clicked.connect(lambda: self.show_methods())
         self._build_menus()
         for win in self.__dict__.pop("_pending_menus", []):
             self._complete_menus(win)
@@ -117,6 +118,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         self._follow_undo()
         self.setAcceptDrops(True)  # files dropped on the window open (images, a project)
         area_windows.fill_image_toolbar(self)
+        self._update_methods(None)
         self._update_title()
 
     # --- construction -------------------------------------------------------

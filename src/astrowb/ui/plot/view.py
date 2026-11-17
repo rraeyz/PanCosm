@@ -234,6 +234,8 @@ class PlotView(QWidget):
     def _draw_figure(self, figure, keep):
         if not keep:
             self.original = figure
+        for old_plot in self.plots:  # pyqtgraph: clear() alone leaves widgets PySide may free twice
+            old_plot.close()
         self.graphics.clear()
         self.figure, self.plots, self.items, self.offsets = figure, [], [], {}
         self.colourbars = []

@@ -590,7 +590,7 @@ def fill_image_toolbar(main):
     """The most used image commands as small icons above the image: the same actions as in the menus."""
     from PySide6.QtWidgets import QToolButton
 
-    bar, main._glyphs = main.image_page.toolbar, []
+    bar, main._glyphs = main.image_page.toolbar, getattr(main, "_glyphs", [])  # File menu icons come first
     first = bar.actions()[0]  # the measuring tools stay at the end
     icons = (  # kinds of ui/icons.py: the same icon as in the other windows
         (main.open_action, "open"),
